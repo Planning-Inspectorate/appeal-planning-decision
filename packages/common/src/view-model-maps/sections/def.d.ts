@@ -1,5 +1,5 @@
 import type { Api } from 'appeals-service-api';
-import { AppealToUserRoles, LpaUserRole } from '@pins/common/src/constants';
+import { AppealToUserRoles, LpaUserRole } from '../../constants';
 
 export interface Section {
 	heading: string;
