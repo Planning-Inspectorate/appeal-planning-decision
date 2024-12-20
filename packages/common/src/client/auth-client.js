@@ -1,5 +1,5 @@
 const oidcClient = require('openid-client');
-const { AUTH } = require('@pins/common/src/constants');
+const { AUTH } = require('../constants');
 
 const trailingSlashRegex = /\/$/;
 
