@@ -32,7 +32,14 @@
 
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 			{% for representation in appeal.representations %}
-                {{renderComment(representation.value, loop.index, representation.rowLabel) }}
+                        {% if representation.documents %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">Supporting documents</dt>
+                <dd class="govuk-summary-list__value">
+                    {{comment.documents | safe}}
+                </dd>
+            </div>
+        {% endif %}
             {% endfor %}
 		</div>
 	</div>
