@@ -28,7 +28,6 @@
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {
-		"@azure/app-configuration": "*",
 		"@azure/identity": "*",
 		"@azure/service-bus": "*",
 		"@pins/business-rules": "file:../business-rules",
@@ -47,10 +46,8 @@
 		"express-oauth2-jwt-bearer": "*",
 		"express-openapi-validator": "*",
 		"express-validator": "7.0.1",
-		"joi": "*",
 		"jsonpath": "*",
 		"mongodb": "*",
-		"multer": "*",
 		"node-cron": "*",
 		"pino": "*",
 		"pino-http": "*",
