@@ -1,5 +1,4 @@
 const { rules, validation } = require('@pins/business-rules');
-const { VIEW } = require('../lib/views');
 const {
 	VIEW: {
 		FULL_APPEAL: { CANNOT_APPEAL: cannotAppealFP }
@@ -51,13 +50,6 @@ const checkDecisionDateDeadline = (req, res, next) => {
 				} else {
 					res.redirect(`/${cannotAppealFP}`);
 				}
-				return;
-			}
-		}
-
-		if (!appeal.appealType && !req.originalUrl.includes(VIEW.ELIGIBILITY.DECISION_DATE)) {
-			if (!isWithinExpiryPeriod(appeal)) {
-				res.redirect(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
 				return;
 			}
 		}

@@ -101,9 +101,4 @@ router.use(
 /// Local/Test only pages ///
 router.use('/debug', checkDebugAllowed, debug);
 
-/// Are these routes/controllers used? - believe we can potentially delete all subsequent logic ///
-router.use(require('./guidance-pages'));
-router.use('/your-planning-appeal', require('./your-planning-appeal'));
-router.use('/eligibility', checkDecisionDateDeadline, require('./eligibility'));
-
 module.exports = router;
