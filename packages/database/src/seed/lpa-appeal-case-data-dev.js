@@ -462,6 +462,7 @@ const lpaAppealCaseData = [
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnairePublishedDate: new Date(),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
@@ -472,9 +473,63 @@ const lpaAppealCaseData = [
 		},
 		caseDecisionPublishedDate: pickRandom(datesNMonthsAgo(1)),
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(1)),
+		// questionnaire details
+		// constraints
+		isCorrectAppealType: true,
+		scheduledMonument: false,
+		conservationArea: true,
+		protectedSpecies: false,
+		isGreenBelt: false,
+		areaOutstandingBeauty: false,
+		designatedSites: 'other',
+		otherDesignationDetails: 'test other',
+		treePreservationOrder: true,
+		gypsyTraveller: true,
+		publicRightOfWay: true,
+		// environmental
+		environmentalImpactSchedule: 'schedule-2',
+		sensitiveArea: true,
+		sensitiveAreaDetails: 'Example text',
+		columnTwoThreshold: false,
+		screeningOpinion: false,
+		requiresEnvironmentalStatement: false,
+		// notified
+		AppealCaseLpaNotificationMethod: {
+			create: {
+				lPANotificationMethodsKey: 'notice'
+			}
+		},
+		// consultations
+		statutoryConsultees: false,
+		consultationResponses: false,
+		otherPartyRepresentations: true,
+		// planning officer reports
+		emergingPlan: true,
+		supplementaryPlanningDocs: true,
+		infrastructureLevy: true,
+		infrastructureLevyAdopted: true,
+		infrastructureLevyAdoptedDate: new Date(Date.now()),
+		// site access
+		lpaSiteAccess: true,
+		lpaSiteAccessDetails: 'Site materials',
+		neighbouringSiteAccess: true,
+		neighbouringSiteAccessDetails: 'Example text',
+		addNeighbouringSiteAccess: true,
+		lpaSiteSafetyRisks: true,
+		lpaSiteSafetyRiskDetails: 'Example text',
+		// appeal process
+		lpaProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
+		lpaPreferInquiryDetails: 'Example preference',
+		lpaPreferInquiryDuration: '6',
+		changedDevelopmentDescription: true,
+		newConditionDetails: 'Example new conditions',
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		interestedPartyCommentsPublished: true,
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
+		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -936,8 +991,8 @@ const lpaAppealCaseData = [
 		requiresEnvironmentalStatement: false,
 		// notified
 		AppealCaseLpaNotificationMethod: {
-			createMany: {
-				data: [{ lPANotificationMethodsKey: 'notice' }, { lPANotificationMethodsKey: 'letter' }]
+			create: {
+				lPANotificationMethodsKey: 'notice'
 			}
 		},
 		// consultations
@@ -1029,8 +1084,8 @@ const lpaAppealCaseData = [
 		requiresEnvironmentalStatement: false,
 		// notified
 		AppealCaseLpaNotificationMethod: {
-			createMany: {
-				data: [{ lPANotificationMethodsKey: 'notice' }, { lPANotificationMethodsKey: 'letter' }]
+			create: {
+				lPANotificationMethodsKey: 'letter'
 			}
 		},
 		// consultations
@@ -1122,8 +1177,8 @@ const lpaAppealCaseData = [
 		requiresEnvironmentalStatement: false,
 		// notified
 		AppealCaseLpaNotificationMethod: {
-			createMany: {
-				data: [{ lPANotificationMethodsKey: 'notice' }, { lPANotificationMethodsKey: 'letter' }]
+			create: {
+				lPANotificationMethodsKey: 'notice'
 			}
 		},
 		// consultations
@@ -1218,8 +1273,8 @@ const lpaAppealCaseData = [
 		requiresEnvironmentalStatement: false,
 		// notified
 		AppealCaseLpaNotificationMethod: {
-			createMany: {
-				data: [{ lPANotificationMethodsKey: 'notice' }, { lPANotificationMethodsKey: 'letter' }]
+			create: {
+				lPANotificationMethodsKey: 'notice'
 			}
 		},
 		// consultations
