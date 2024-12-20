@@ -2,7 +2,7 @@ const { default: fetch } = require('node-fetch');
 const crypto = require('crypto');
 const { handleApiErrors, ApiClientError } = require('./api-client-error');
 const { buildQueryString } = require('./utils');
-const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const { JOURNEY_TYPES } = require('../dynamic-forms/journey-types');
 
 const parentLogger = require('../lib/logger');
 
