@@ -175,9 +175,14 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 /**
  * v2 appellant submission follow up
  * @param { AppealCase } appealCase
+ * @param { AppellantSubmission } appellantSubmission
  * @param { string } email
  */
-const sendSubmissionConfirmationEmailToAppellantV2 = async (appealCase, email) => {
+const sendSubmissionConfirmationEmailToAppellantV2 = async (
+	appealCase,
+	appellantSubmission,
+	email
+) => {
 	try {
 		const recipientEmail = email;
 		const formattedAddress = formatSubmissionAddress({
@@ -191,7 +196,8 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (appealCase, email) =
 		const variables = {
 			appeal_reference_number: appealCase.caseReference,
 			site_address: formattedAddress,
-			lpa_reference: appealCase.applicationReference
+			lpa_reference: appealCase.applicationReference,
+			pdf_link: `${config.apps.appeals.baseUrl}/appeal-document/${appellantSubmission.id}`
 		};
 
 		const reference = appealCase.id;
@@ -491,7 +497,7 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 	const lpaName = lpa.getName();
 
 	const formattedAddress = formatAddress(appealCase);
-	const formattedDate = format(caseStartedDate, 'dd MMMM yyyy');
+	const formattedDate = caseStartedDate ? format(caseStartedDate, 'dd MMMM yyyy') : '';
 
 	const url = `${config.apps.appeals.baseUrl}/lpa-questionnaire-document/${caseReference}`;
 

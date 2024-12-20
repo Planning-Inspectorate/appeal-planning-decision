@@ -1,0 +1,40 @@
+{% extends layoutTemplate %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "pins/components/appeal-sections-block.njk" import appealSectionsBlock %}
+{% from "../macros/expand-collapse-comment.njk" import renderComment%}
+
+{% set title=heading + " " + appeal.appealNumber + " - " + titleSuffix + " - GOV.UK" %}
+
+{% block pageTitle %}
+	{{ title }}
+{% endblock %}
+
+{% block content %}
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-full">
+            {% if errorSummary %}
+                {{ govukErrorSummary({
+                    titleText: "There is a problem",
+                    errorList: errorSummary
+                }) }}
+			{% endif %}
+
+            <span class="govuk-caption-xl">Appeal {{appeal.appealNumber}}</span>
+			<h1 class="govuk-heading-xl">{{heading}}</h1>
+
+			{{ govukSummaryList({
+				classes: "appeal-headlines govuk-summary-list--no-border",
+				rows: appeal.headlineData
+			}) }}
+
+			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+			{% for representation in appeal.representations %}
+                {{renderComment(representation.value, loop.index, "Statement text") }}
+            {% endfor %}
+		</div>
+	</div>
+	<script src="/public/javascripts/commentActions.bundle.js" defer></script>
+{% endblock %}

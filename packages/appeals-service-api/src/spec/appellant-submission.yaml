@@ -141,28 +141,40 @@ components:
 
         uploadOriginalApplicationForm:
           type: boolean
+          nullable: true
         uploadApplicationDecisionLetter:
           type: boolean
+          nullable: true
         uploadAppellantStatement:
           type: boolean
+          nullable: true
         uploadCostApplication:
           type: boolean
+          nullable: true
         uploadChangeOfDescriptionEvidence:
           type: boolean
+          nullable: true
         uploadOwnershipCertificate:
           type: boolean
+          nullable: true
         uploadStatementCommonGround:
           type: boolean
+          nullable: true
         uploadDesignAccessStatement:
           type: boolean
+          nullable: true
         uploadPlansDrawings:
           type: boolean
+          nullable: true
         uploadNewPlansDrawings:
           type: boolean
+          nullable: true
         uploadOtherNewDocuments:
           type: boolean
+          nullable: true
         uploadPlanningObligation:
           type: boolean
+          nullable: true
         SubmissionDocumentUpload:
           type: array
           items:

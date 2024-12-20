@@ -33,7 +33,7 @@ module.exports =
 		const currentPage = req.baseUrl + req.path;
 
 		// prevent document links being added to nav history
-		if (currentPage.includes('published-document')) {
+		if (currentPage.includes('published-document') || currentPage.includes('/download/')) {
 			next();
 			return;
 		}

@@ -141,7 +141,9 @@ module.exports = {
 				postcodeMinLength: process.env.POSTCODE_MIN_LENGTH || 0
 			},
 			appealFormV2: {
-				textInputMaxLength: 1000
+				textInputMaxLength: 1000,
+				textAreaMediumLength: 8000,
+				textAreaMaxLength: 32500
 			}
 		},
 		stringValidation: {

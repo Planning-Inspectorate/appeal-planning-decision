@@ -48,10 +48,12 @@ components:
           description: whether the proof of evidence has been submitted to BO
         uploadLpaProofOfEvidenceDocuments:
           type: boolean
+          nullable: true
         lpaWitnesses:
           type: boolean
         uploadLpaWitnessesEvidence:
           type: boolean
+          nullable: true
         SubmissionDocumentUpload:
           type: array
           items:

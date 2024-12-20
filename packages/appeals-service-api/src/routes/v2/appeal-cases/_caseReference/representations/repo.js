@@ -25,6 +25,7 @@ class RepresentationsRepository {
 					caseReference
 				},
 				select: {
+					caseReference: true,
 					LPACode: true,
 					applicationReference: true,
 					caseProcedure: true,
@@ -36,7 +37,11 @@ class RepresentationsRepository {
 					siteAddressPostcode: true,
 					Representations: {
 						include: {
-							RepresentationDocuments: true
+							RepresentationDocuments: {
+								include: {
+									Document: true
+								}
+							}
 						}
 					}
 				}
@@ -69,6 +74,7 @@ class RepresentationsRepository {
 				select: {
 					LPACode: true,
 					applicationReference: true,
+					caseReference: true,
 					caseProcedure: true,
 					appealTypeCode: true,
 					siteAddressLine1: true,
@@ -81,7 +87,11 @@ class RepresentationsRepository {
 							representationType: type
 						},
 						include: {
-							RepresentationDocuments: true
+							RepresentationDocuments: {
+								include: {
+									Document: true
+								}
+							}
 						}
 					}
 				}

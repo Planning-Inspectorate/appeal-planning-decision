@@ -635,7 +635,7 @@ export interface AppellantFinalCommentSubmission {
 	appellantFinalComment?: boolean;
 	appellantFinalCommentDetails?: string;
 	appellantFinalCommentDocuments?: boolean;
-	uploadAppellantFinalCommentDocuments?: boolean;
+	uploadAppellantFinalCommentDocuments?: boolean | null;
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
@@ -662,9 +662,9 @@ export interface AppellantProofOfEvidenceSubmission {
 	updatedAt?: string;
 	/** whether the proof of evidence has been submitted to BO */
 	submitted?: boolean;
-	uploadAppellantProofOfEvidenceDocuments?: boolean;
+	uploadAppellantProofOfEvidenceDocuments?: boolean | null;
 	appellantWitnesses?: boolean;
-	uploadAppellantWitnessesEvidence?: boolean;
+	uploadAppellantWitnessesEvidence?: boolean | null;
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
@@ -731,18 +731,18 @@ export interface AppellantSubmission {
 	appellantLinkedCaseAdd?: boolean;
 	appellantLinkedCase?: boolean;
 	SubmissionLinkedCase?: object[];
-	uploadOriginalApplicationForm?: boolean;
-	uploadApplicationDecisionLetter?: boolean;
-	uploadAppellantStatement?: boolean;
-	uploadCostApplication?: boolean;
-	uploadChangeOfDescriptionEvidence?: boolean;
-	uploadOwnershipCertificate?: boolean;
-	uploadStatementCommonGround?: boolean;
-	uploadDesignAccessStatement?: boolean;
-	uploadPlansDrawings?: boolean;
-	uploadNewPlansDrawings?: boolean;
-	uploadOtherNewDocuments?: boolean;
-	uploadPlanningObligation?: boolean;
+	uploadOriginalApplicationForm?: boolean | null;
+	uploadApplicationDecisionLetter?: boolean | null;
+	uploadAppellantStatement?: boolean | null;
+	uploadCostApplication?: boolean | null;
+	uploadChangeOfDescriptionEvidence?: boolean | null;
+	uploadOwnershipCertificate?: boolean | null;
+	uploadStatementCommonGround?: boolean | null;
+	uploadDesignAccessStatement?: boolean | null;
+	uploadPlansDrawings?: boolean | null;
+	uploadNewPlansDrawings?: boolean | null;
+	uploadOtherNewDocuments?: boolean | null;
+	uploadPlanningObligation?: boolean | null;
 	SubmissionDocumentUpload?: object[];
 	siteAddress?: boolean;
 	SubmissionAddress?: SubmissionAddress[];
@@ -1067,7 +1067,7 @@ export interface LPAFinalCommentSubmission {
 	lpaFinalComment?: boolean;
 	lpaFinalCommentDetails?: string;
 	lpaFinalCommentDocuments?: boolean;
-	uploadLPAFinalCommentDocuments?: boolean;
+	uploadLPAFinalCommentDocuments?: boolean | null;
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
@@ -1094,9 +1094,9 @@ export interface LPAProofOfEvidenceSubmission {
 	updatedAt?: string;
 	/** whether the proof of evidence has been submitted to BO */
 	submitted?: boolean;
-	uploadLpaProofOfEvidenceDocuments?: boolean;
+	uploadLpaProofOfEvidenceDocuments?: boolean | null;
 	lpaWitnesses?: boolean;
-	uploadLpaWitnessesEvidence?: boolean;
+	uploadLpaWitnessesEvidence?: boolean | null;
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
@@ -1120,19 +1120,19 @@ export interface LPAQuestionnaireSubmission {
 	changedListedBuildingNumber?: string;
 	addChangedListedBuilding?: boolean;
 	conservationArea?: boolean;
-	uploadConservation?: boolean;
+	uploadConservation?: boolean | null;
 	greenBelt?: boolean;
-	uploadWhoNotified?: boolean;
-	uploadLettersEmails?: boolean;
-	uploadPressAdvert?: boolean;
+	uploadWhoNotified?: boolean | null;
+	uploadLettersEmails?: boolean | null;
+	uploadPressAdvert?: boolean | null;
 	consultationResponses?: boolean;
-	uploadConsultationResponses?: boolean;
+	uploadConsultationResponses?: boolean | null;
 	notificationMethod?: string;
-	uploadSiteNotice?: boolean;
+	uploadSiteNotice?: boolean | null;
 	otherPartyRepresentations?: boolean;
-	uploadRepresentations?: boolean;
-	uploadPlanningOfficerReport?: boolean;
-	uploadPlansDrawings?: boolean;
+	uploadRepresentations?: boolean | null;
+	uploadPlanningOfficerReport?: boolean | null;
+	uploadPlansDrawings?: boolean | null;
 	lpaSiteAccess?: boolean;
 	lpaSiteAccessDetails?: string;
 	neighbourSiteAccess?: boolean;
@@ -1151,22 +1151,22 @@ export interface LPAQuestionnaireSubmission {
 	newConditions?: boolean;
 	newConditionDetails?: string;
 	emergingPlan?: boolean;
-	uploadEmergingPlan?: boolean;
-	uploadDevelopmentPlanPolicies?: boolean;
-	uploadOtherPolicies?: boolean;
+	uploadEmergingPlan?: boolean | null;
+	uploadDevelopmentPlanPolicies?: boolean | null;
+	uploadOtherPolicies?: boolean | null;
 	infrastructureLevy?: boolean;
-	uploadInfrastructureLevy?: boolean;
+	uploadInfrastructureLevy?: boolean | null;
 	infrastructureLevyAdopted?: boolean;
 	/** @format date-time */
 	infrastructureLevyAdoptedDate?: string;
 	/** @format date-time */
 	infrastructureLevyExpectedDate?: string;
-	uploadLettersInterestedParties?: boolean;
+	uploadLettersInterestedParties?: boolean | null;
 	treePreservationOrder?: boolean;
-	uploadTreePreservationOrder?: boolean;
-	uploadDefinitiveMapStatement?: boolean;
+	uploadTreePreservationOrder?: boolean | null;
+	uploadDefinitiveMapStatement?: boolean | null;
 	supplementaryPlanningDocs?: boolean;
-	uploadSupplementaryPlanningDocs?: boolean;
+	uploadSupplementaryPlanningDocs?: boolean | null;
 	affectsScheduledMonument?: boolean;
 	gypsyTraveller?: boolean;
 	statutoryConsultees?: boolean;
@@ -1179,12 +1179,12 @@ export interface LPAQuestionnaireSubmission {
 	screeningOpinion?: boolean;
 	environmentalStatement?: boolean;
 	environmentalImpactSchedule?: string;
-	uploadEnvironmentalStatement?: boolean;
+	uploadEnvironmentalStatement?: boolean | null;
 	columnTwoThreshold?: boolean;
 	sensitiveArea?: boolean;
 	sensitiveAreaDetails?: string;
-	uploadScreeningOpinion?: boolean;
-	uploadScreeningDirection?: boolean;
+	uploadScreeningOpinion?: boolean | null;
+	uploadScreeningDirection?: boolean | null;
 	developmentDescription?: string;
 	requiresEnvironmentalStatement?: boolean;
 	SubmissionAddress?: object[];
@@ -1213,7 +1213,7 @@ export interface LPAStatementSubmission {
 	submitted?: boolean;
 	lpaStatement?: string;
 	addtionalDocuments?: boolean;
-	uploadLpaStatementDocuments?: boolean;
+	uploadLpaStatementDocuments?: boolean | null;
 }
 
 /** The neighbouring address related to an appeal */
@@ -1406,9 +1406,9 @@ export interface Rule6ProofOfEvidenceSubmission {
 	updatedAt?: string;
 	/** whether the proof of evidence has been submitted to BO */
 	submitted?: boolean;
-	uploadRule6ProofOfEvidenceDocuments?: boolean;
+	uploadRule6ProofOfEvidenceDocuments?: boolean | null;
 	rule6Witnesses?: boolean;
-	uploadRule6WitnessesEvidence?: boolean;
+	uploadRule6WitnessesEvidence?: boolean | null;
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
@@ -1437,7 +1437,7 @@ export interface Rule6StatementSubmission {
 	submitted?: boolean;
 	rule6Statement?: string;
 	rule6AdditionalDocuments?: boolean;
-	uploadRule6StatementDocuments?: boolean;
+	uploadRule6StatementDocuments?: boolean | null;
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 

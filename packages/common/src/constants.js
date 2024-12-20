@@ -41,7 +41,7 @@ module.exports = {
 	/**
 	 * @type {Record<string, RepresentationTypes>}
 	 */
-	REPRESENTATIONS: {
+	REPRESENTATION_TYPES: {
 		STATEMENT: 'statement',
 		INTERESTED_PARTY_COMMENT: 'comment',
 		FINAL_COMMENT: 'final_comment',

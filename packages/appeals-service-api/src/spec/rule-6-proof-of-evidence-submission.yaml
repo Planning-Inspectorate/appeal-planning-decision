@@ -53,10 +53,12 @@ components:
           description: whether the proof of evidence has been submitted to BO
         uploadRule6ProofOfEvidenceDocuments:
           type: boolean
+          nullable: true
         rule6Witnesses:
           type: boolean
         uploadRule6WitnessesEvidence:
           type: boolean
+          nullable: true
         SubmissionDocumentUpload:
           type: array
           items:

@@ -394,7 +394,10 @@ exports.lpaQuestionnaireSubmissionInformation = async (req, res) => {
 
 	const summaryListData = buildSummaryListData(journey, journeyResponse);
 	const submissionDate = formatDateForDisplay(new Date(), { format: 'd MMMM yyyy' });
-	const appealInformationSection = formatQuestionnaireAppealInformationSection(appealData);
+	const appealInformationSection = formatQuestionnaireAppealInformationSection(
+		appealData,
+		LPA_USER_ROLE
+	);
 	summaryListData.sections.unshift(appealInformationSection);
 
 	const informationPageType = 'Questionnaire';
@@ -565,10 +568,12 @@ exports.lpaSubmitted = async (req, res) => {
 		return res.status(400).render('./error/not-found.njk');
 	}
 
+	const baseUrl = req.originalUrl.substring(
+		0,
+		req.originalUrl.lastIndexOf('/questionnaire-submitted')
+	);
 	const zipDownloadUrl =
-		req.originalUrl.substring(0, req.originalUrl.lastIndexOf('/')) +
-		`/download/submission/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`;
-
+		baseUrl + `/download/submission/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`;
 	return res.render('./dynamic-components/submission-screen/lpa', { zipDownloadUrl });
 };
 
