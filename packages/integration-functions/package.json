@@ -17,7 +17,6 @@
 	},
 	"devDependencies": {
 		"jest": "*",
-		"jest-junit": "*",
 		"pins-data-model": "*"
 	},
 	"dependencies": {
