@@ -123,21 +123,19 @@ const formatFinalCommentsHeading = (userType, submittingParty) => {
  * @returns {string}
  */
 const formatProofsOfEvidenceHeading = (userType, submittingParty) => {
-	// LPA_USER_ROLE
-	// 	LPA_USER_ROLE - 'Your proof of evidence and witnesses'
-	// 	"Appellant’s proof of evidence and witnesses"
-	// 	'Local planning authority proof of evidence and witnesses'
-	// 	'Proof of evidence and witnesses from other parties'
-	// switch (userType) {
-	// 	case LPA_USER_ROLE:
-	// 		return submittingParty == LPA_USER_ROLE ? 'Your statement' : 'Statements from other parties';
-	// 	case APPEAL_USER_ROLES.AGENT:
-	// 	case APPEAL_USER_ROLES.APPELLANT:
-	// 	case APPEAL_USER_ROLES.RULE_6_PARTY:
-	// 		return submittingParty == LPA_USER_ROLE ? 'Local planning authority statement' : 'Statements from other parties';
-	// 	default:
-	return `Appeal statement ${userType} ${submittingParty}`;
-	// }
+	if (userType == submittingParty) {
+		return 'Your proof of evidence and witnesses';
+	}
+
+	switch (submittingParty) {
+		case LPA_USER_ROLE:
+			return 'Local planning authority proof of evidence and witnesses';
+		case APPEAL_USER_ROLES.AGENT:
+		case APPEAL_USER_ROLES.APPELLANT:
+			return 'Appellant’s proof of evidence and witnesses';
+		default:
+			return 'Proof of evidence and witnesses from other parties';
+	}
 };
 
 /**
