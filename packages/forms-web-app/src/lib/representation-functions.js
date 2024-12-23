@@ -9,6 +9,7 @@ const escape = require('escape-html');
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.Representation} Representation
  * @typedef {import('appeals-service-api').Api.RepresentationDocument} RepresentationDocument
+ * @typedef {import('appeals-service-api').Api.Document} Document
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
  * @typedef {import('@pins/common/src/constants').LpaUserRole} LpaUserRole
  * @typedef {import('@pins/common/src/constants').RepresentationTypes} RepresentationTypes
@@ -149,12 +150,19 @@ const formatRepresentations = (representations) => {
 		const fullText = representation.redacted
 			? representation.redactedRepresentation
 			: representation.originalRepresentation;
-		const truncated = fullText.length > 150;
+		const truncated = fullText ? fullText.length > 150 : false;
 		const truncatedText = truncated ? fullText.substring(0, 150) + '...' : fullText;
 
 		const rowLabel = formatRowLabelAndKey(representation.representationType);
 
-		const documents = formatRepresentationDocumentsLinks(representation.RepresentationDocuments);
+		const documents =
+			representation.representationType === REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
+				? formatProofsOfEvidenceDocuments(representation.RepresentationDocuments)
+				: formatRepresentationDocumentsLinks(
+						representation.RepresentationDocuments,
+						'Supporting documents'
+				  );
+
 		return {
 			key: { text: `${rowLabel} ${index + 1}` },
 			rowLabel,
@@ -172,12 +180,59 @@ const formatRepresentations = (representations) => {
 
 /**
  * @param {RepresentationDocument[]} representationDocuments
+ * @param {string} documentsLabel
  */
-const formatRepresentationDocumentsLinks = (representationDocuments) => {
+const formatRepresentationDocumentsLinks = (representationDocuments, documentsLabel) => {
 	const documents = representationDocuments.map(
 		(representationDocument) => representationDocument.Document
 	);
-	return documents.length > 0 ? documents.map(formatDocumentLink).join('\n') : 'No documents';
+
+	const documentsLinks =
+		documents.length > 0 ? documents.map(formatDocumentLink).join('\n') : 'No documents';
+
+	return [
+		{
+			documentsLabel,
+			documentsLinks
+		}
+	];
+};
+
+/**
+ * @param {RepresentationDocument[]} representationDocuments
+ */
+const formatProofsOfEvidenceDocuments = (representationDocuments) => {
+	const documents = representationDocuments.map(
+		(representationDocument) => representationDocument.Document
+	);
+
+	const { proofs, witnesses } = documents.reduce(
+		(acc, document) => {
+			if (isProofsDocument(document)) {
+				acc.proofs.push(document);
+			} else {
+				acc.witnesses.push(document);
+			}
+			return acc;
+		},
+		{ proofs: [], witnesses: [] }
+	);
+
+	const proofsLinks =
+		proofs.length > 0 ? proofs.map(formatDocumentLink).join('\n') : 'No documents';
+	const witnessesLinks =
+		witnesses.length > 0 ? witnesses.map(formatDocumentLink).join('\n') : 'No documents';
+
+	return [
+		{
+			documentsLabel: 'Proof of evidence and summary',
+			documentsLinks: proofsLinks
+		},
+		{
+			documentsLabel: 'Witnesses and their evidence',
+			documentsLinks: witnessesLinks
+		}
+	];
 };
 
 /**
@@ -209,6 +264,21 @@ const formatRowLabelAndKey = (representationType) => {
 		default:
 			return 'Representation';
 	}
+};
+
+/**
+ * @param {Document} document
+ * @returns {boolean}
+ */
+
+const isProofsDocument = (document) => {
+	const { documentType } = document;
+
+	return (
+		documentType === 'lpaProofs' ||
+		documentType === 'appellantProofs' ||
+		documentType === 'rule6Proofs'
+	);
 };
 
 module.exports = {
