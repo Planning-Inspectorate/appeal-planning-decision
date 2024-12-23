@@ -83,88 +83,88 @@ const representationDocuments = [
 				id: 'a1b60dc2-2253-48eb-aaea-4ec665f15fbd'
 			}
 		}
-	}
-	//lpa poe
-	// {
-	// 	id: '319612c2-9cad-48b3-bfde-faeffba61543',
-	// 	Representation: {
-	// 		connect: {
-	// 			id: representationIds.representationSix
-	// 		}
-	// 	},
-	// 	Document: {
-	// 		connect: {
-	// 			id: '35880c82-7252-40a0-8dbd-30b740f22bce'
-	// 		}
-	// 	}
-	// },
-	// {
-	// 	id: '319612c2-9cad-48b3-bfde-faeffba61544',
-	// 	Representation: {
-	// 		connect: {
-	// 			id: representationIds.representationSix
-	// 		}
-	// 	},
-	// 	Document: {
-	// 		connect: {
-	// 			id: '35880c82-7252-40a0-8dbd-30b740f22bce'
-	// 		}
-	// 	}
-	// },
+	},
+	// lpa poe
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61543',
+		Representation: {
+			connect: {
+				id: representationIds.representationSix
+			}
+		},
+		Document: {
+			connect: {
+				id: '5b51fcb3-54ad-4e12-974e-a59ee2abcf31'
+			}
+		}
+	},
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61544',
+		Representation: {
+			connect: {
+				id: representationIds.representationSix
+			}
+		},
+		Document: {
+			connect: {
+				id: '5b51fcb3-54ad-4e12-974e-a59ee2abcf32'
+			}
+		}
+	},
 	// appellant poe
-	// {
-	// 	id: '319612c2-9cad-48b3-bfde-faeffba61545',
-	// 	Representation: {
-	// 		connect: {
-	// 			id: representationIds.representationSeven
-	// 		}
-	// 	},
-	// 	Document: {
-	// 		connect: {
-	// 			id: '35880c82-7252-40a0-8dbd-30b740f22bce'
-	// 		}
-	// 	}
-	// },
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61545',
+		Representation: {
+			connect: {
+				id: representationIds.representationSeven
+			}
+		},
+		Document: {
+			connect: {
+				id: '5b51fcb3-54ad-4e12-974e-a59ee2abcf33'
+			}
+		}
+	},
 	// r6 poes
-	// {
-	// 	id: '319612c2-9cad-48b3-bfde-faeffba61546',
-	// 	Representation: {
-	// 		connect: {
-	// 			id: representationIds.representationEight
-	// 		}
-	// 	},
-	// 	Document: {
-	// 		connect: {
-	// 			id: '35880c82-7252-40a0-8dbd-30b740f22bce'
-	// 		}
-	// 	}
-	// },
-	// {
-	// 	id: '319612c2-9cad-48b3-bfde-faeffba61547',
-	// 	Representation: {
-	// 		connect: {
-	// 			id: representationIds.representationEight
-	// 		}
-	// 	},
-	// 	Document: {
-	// 		connect: {
-	// 			id: '35880c82-7252-40a0-8dbd-30b740f22bce'
-	// 		}
-	// 	}
-	// },
-	// {
-	// 	id: '319612c2-9cad-48b3-bfde-faeffba61548',
-	// 	Representation: {
-	// 		connect: {
-	// 			id: representationIds.representationNine
-	// 		}
-	// 	},
-	// 	Document: {
-	// 		connect: {
-	// 			id: '35880c82-7252-40a0-8dbd-30b740f22bce'
-	// 		}
-	// 	}
-	// }
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61546',
+		Representation: {
+			connect: {
+				id: representationIds.representationEight
+			}
+		},
+		Document: {
+			connect: {
+				id: '5b51fcb3-54ad-4e12-974e-a59ee2abcf34'
+			}
+		}
+	},
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61547',
+		Representation: {
+			connect: {
+				id: representationIds.representationEight
+			}
+		},
+		Document: {
+			connect: {
+				id: '5b51fcb3-54ad-4e12-974e-a59ee2abcf35'
+			}
+		}
+	},
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61548',
+		Representation: {
+			connect: {
+				id: representationIds.representationNine
+			}
+		},
+		Document: {
+			connect: {
+				id: '5b51fcb3-54ad-4e12-974e-a59ee2abcf36'
+			}
+		}
+	}
 ];
 
 /**
