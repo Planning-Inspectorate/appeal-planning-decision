@@ -124,8 +124,10 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				decisionDocuments: filterDecisionDocuments(caseData.Documents),
 				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate),
 				statementDueDate: formatDateForNotification(caseData.statementDueDate),
+				rule6StatementDueDate: formatDateForNotification(caseData.rule6StatementDueDate),
 				finalCommentDueDate: formatDateForNotification(caseData.finalCommentsDueDate),
-				proofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate)
+				proofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate),
+				rule6ProofEvidenceDueDate: formatDateForNotification(caseData.rule6ProofEvidenceDueDate)
 			}
 		};
 

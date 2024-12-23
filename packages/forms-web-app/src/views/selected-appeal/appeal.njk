@@ -63,7 +63,7 @@
 			{% if shouldDisplayStatementsDueBannerRule6 %}
    				{% set html %}
 					<p class="govuk-notification-banner__heading">
-						You must submit this statement by {{appeal.statementDueDate}}.&nbsp
+						You must submit this statement by {{appeal.rule6StatementDueDate}}.&nbsp
 							<ul>
 								<li>
 									<a href="/rule-6/appeal-statement/{{appeal.appealNumber}}" class="govuk-link">
@@ -168,7 +168,7 @@
 			{% if shouldDisplayProofEvidenceDueBannerRule6 %}
 				{% set html %}
 					<p class="govuk-notification-banner__heading">
-						You must submit proof of evidence by {{appeal.proofEvidenceDueDate }}
+						You must submit proof of evidence by {{appeal.rule6ProofEvidenceDueDate }}
 							<ul>
 								<li>
 									<a href="/rule-6/proof-evidence/{{appeal.appealNumber}}" class="govuk-link">
