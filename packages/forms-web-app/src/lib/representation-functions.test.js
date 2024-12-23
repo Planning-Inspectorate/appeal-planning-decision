@@ -303,7 +303,7 @@ describe('lib/representation-functions', () => {
 						text: 'this is a statement',
 						truncatedText: 'this is a statement',
 						truncated: false,
-						documents: 'No documents'
+						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }]
 					}
 				},
 				{
@@ -315,7 +315,7 @@ describe('lib/representation-functions', () => {
 						text: 'this is a bleep statement',
 						truncatedText: 'this is a bleep statement',
 						truncated: false,
-						documents: 'No documents'
+						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }]
 					}
 				}
 			];
@@ -395,7 +395,7 @@ describe('lib/representation-functions', () => {
 						text: 'this is an earlier interested party comment',
 						truncatedText: 'this is an earlier interested party comment',
 						truncated: false,
-						documents: 'No documents'
+						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }]
 					}
 				},
 				{
@@ -407,7 +407,7 @@ describe('lib/representation-functions', () => {
 						text: 'this is an interested party comment',
 						truncatedText: 'this is an interested party comment',
 						truncated: false,
-						documents: 'No documents'
+						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }]
 					}
 				}
 			];
