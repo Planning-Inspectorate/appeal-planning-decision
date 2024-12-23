@@ -58,6 +58,9 @@ resources:
           include:
             - main
 
+variables:
+  - group: pipeline_secrets
+
 extends:
   template: stages/wrapper_cd.yml@templates
   parameters:
