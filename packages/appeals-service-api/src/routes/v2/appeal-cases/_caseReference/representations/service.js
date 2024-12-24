@@ -40,4 +40,22 @@ async function getAppealCaseWithRepresentationsByType(caseReference, type) {
 	return appealCaseWithApplicant;
 }
 
-module.exports = { getAppealCaseWithAllRepresentations, getAppealCaseWithRepresentationsByType };
+/**
+ *
+ * @param {AppealCase} caseData
+ * @param  {string} userId
+ * @param {'own' | 'otherParties'} rule6Parties
+ */
+async function filterRule6Representations(caseData, userId, rule6Parties) {
+	// if (rule6Parties === 'own') {
+
+	// }
+
+	return `${caseData.appealTypeCode} ${userId} ${rule6Parties}`;
+}
+
+module.exports = {
+	getAppealCaseWithAllRepresentations,
+	getAppealCaseWithRepresentationsByType,
+	filterRule6Representations
+};
