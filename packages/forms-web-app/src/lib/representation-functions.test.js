@@ -328,24 +328,26 @@ describe('lib/representation-functions', () => {
 			const expectedResult = [
 				{
 					key: {
-						text: `final_comment 1`
+						text: `Final comments 1`
 					},
+					rowLabel: 'Final comments',
 					value: {
 						text: 'this is a comment',
 						truncatedText: 'this is a comment',
 						truncated: false,
-						documents: 'No'
+						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }]
 					}
 				},
 				{
 					key: {
-						text: `final_comment 2`
+						text: `Final comments 2`
 					},
+					rowLabel: 'Final comments',
 					value: {
 						text: 'this is a bleep comment',
 						truncatedText: 'this is a bleep comment',
 						truncated: false,
-						documents: 'No'
+						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }]
 					}
 				}
 			];
