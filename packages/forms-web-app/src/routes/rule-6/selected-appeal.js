@@ -42,6 +42,18 @@ const interestedPartyParams = {
 	submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
 };
 
+const appellantProofsParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+	submittingParty: APPEAL_USER_ROLES.APPELLANT
+};
+
+const lpaProofsParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+	submittingParty: LPA_USER_ROLE
+};
+
 router.get('/:appealNumber', selectedAppealController.get());
 router.get('/:appealNumber/appeal-details', appealDetailsController.get());
 router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get());
@@ -58,6 +70,11 @@ router.get(
 	representationsController.get(interestedPartyParams)
 );
 router.get('/:appealNumber/lpa-statement', representationsController.get(lpaStatementParams));
+router.get(
+	'/:appealNumber/appellant-proof-evidence',
+	representationsController.get(appellantProofsParams)
+);
+router.get('/:appealNumber/lpa-proof-evidence', representationsController.get(lpaProofsParams));
 router.get('/:appealNumber/planning-obligation', planningObligationDetailsController.get());
 
 module.exports = router;
