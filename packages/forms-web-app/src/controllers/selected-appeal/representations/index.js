@@ -23,7 +23,7 @@ const {
 /**
  * @typedef {Object} RepresentationParams
  * @property {AppealToUserRoles|LpaUserRole} userType // the user
- * @property {RepresentationTypes} representationType //
+ * @property {RepresentationTypes} representationType // Statement, Final Comment, IP Comments, Proofs of Evidence
  * @property {AppealToUserRoles|LpaUserRole} submittingParty  // the party submitting the representation
  */
 
@@ -45,6 +45,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			representationType
 		);
 
+		// Don't need to filter by submitting party for IP comments as all submitted by IPs (who may not have a service user id)
 		const representationsForDisplay =
 			representationType == REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
 				? caseData.Representations

@@ -43,6 +43,18 @@ const lpaStatementParams = {
 	submittingParty: LPA_USER_ROLE
 };
 
+const appellantProofsParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+	submittingParty: APPEAL_USER_ROLES.APPELLANT
+};
+
+const lpaProofsParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+	submittingParty: LPA_USER_ROLE
+};
+
 router.get('/:appealNumber', selectedAppealController.get('layouts/lpa-dashboard/main.njk'));
 router.get(
 	'/:appealNumber/appeal-details',
@@ -71,6 +83,14 @@ router.get(
 router.get(
 	'/:appealNumber/statement',
 	representationsController.get(lpaStatementParams, 'layouts/lpa-dashboard/main.njk')
+);
+router.get(
+	'/:appealNumber/proof-evidence',
+	representationsController.get(lpaProofsParams, 'layouts/lpa-dashboard/main.njk')
+);
+router.get(
+	'/:appealNumber/appellant-proof-evidence',
+	representationsController.get(appellantProofsParams, 'layouts/lpa-dashboard/main.njk')
 );
 router.get(
 	'/:appealNumber/appellant-planning-obligation',
