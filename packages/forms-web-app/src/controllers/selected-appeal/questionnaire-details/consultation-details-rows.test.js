@@ -4,8 +4,13 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 describe('consultationRows', () => {
 	it('should create rows', () => {
-		const rows = consultationRows({}, APPEAL_USER_ROLES.AGENT);
+		const rows = consultationRows(
+			{ statutoryConsultees: true, consultationResponses: true },
+			APPEAL_USER_ROLES.AGENT
+		);
 		expect(rows.length).toEqual(5);
+		expect(rows[0].valueText).toEqual('Yes');
+		expect(rows[1].valueText).toEqual('Yes');
 	});
 
 	it('should show a document', () => {
