@@ -85,11 +85,45 @@ const interestedPartyComment2 = {
 	RepresentationDocuments: []
 };
 
+// const lpaProof1 = {
+// 	id: 'lpaProof1',
+// 	representationId: 'testLpaProof1',
+// 	caseReference: 'testReference1',
+// 	source: 'lpa',
+// 	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+// 	dateReceived: '2024-11-25 09:00:00.0000000',
+// 	RepresentationDocuments: []
+// };
+
+// const appellantProof1 = {
+// 	id: 'apellantProof1',
+// 	representationId: 'testAppellantProof1',
+// 	caseReference: 'testReference1',
+// 	source: 'citizen',
+// 	serviceUserId: 'testAppellantServiceUserId',
+// 	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+// 	dateReceived: '2024-11-25 09:00:00.0000000',
+// 	RepresentationDocuments: []
+// };
+
+// const rule6Proof1 = {
+// 	id: 'rule6Proof1',
+// 	representationId: 'testrule6Proof1',
+// 	caseReference: 'testReference1',
+// 	source: 'citizen',
+// 	serviceUserId: 'testR6ServiceUserId',
+// 	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+// 	dateReceived: '2024-11-25 09:00:00.0000000',
+// 	RepresentationDocuments: []
+// }
+
 const testStatements = [lpaStatement, r6Statement];
 
 const testFinalComments = [lpaFinalComment, appellantFinalComment];
 
 const testInterestedPartyComments = [interestedPartyComment1, interestedPartyComment2];
+
+// const testProofsOfEvidence = [lpaProof1, appellantProof1, rule6Proof1];
 
 const testUsers = [{ id: 'testAppellantServiceUserId' }, { id: 'testAgentServiceUserId' }];
 
@@ -215,6 +249,24 @@ describe('lib/representation-functions', () => {
 			expect(heading).toEqual('Statements from other parties');
 		});
 
+		it('returns the heading for an appellant viewing an appellant final comment', () => {
+			const heading = formatRepresentationHeading(
+				REPRESENTATION_TYPES.FINAL_COMMENT,
+				APPEAL_USER_ROLES.APPELLANT,
+				APPEAL_USER_ROLES.APPELLANT
+			);
+			expect(heading).toEqual('Your final comments');
+		});
+
+		it('returns the heading for an appellant viewing an lpa final comment', () => {
+			const heading = formatRepresentationHeading(
+				REPRESENTATION_TYPES.FINAL_COMMENT,
+				APPEAL_USER_ROLES.APPELLANT,
+				LPA_USER_ROLE
+			);
+			expect(heading).toEqual('Local planning authority final comments');
+		});
+
 		it('returns the heading for viewing interested party comments', () => {
 			const heading1 = formatRepresentationHeading(
 				REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
@@ -268,6 +320,66 @@ describe('lib/representation-functions', () => {
 
 			expect(formattedRepresentations).toEqual(expectedResult);
 		});
+
+		it('formats an array of final comments', () => {
+			const formattedRepresentations = formatRepresentations(testFinalComments);
+			const expectedResult = [
+				{
+					key: {
+						text: `final_comment 1`
+					},
+					value: {
+						text: 'this is a comment',
+						truncatedText: 'this is a comment',
+						truncated: false,
+						documents: 'No'
+					}
+				},
+				{
+					key: {
+						text: `final_comment 2`
+					},
+					value: {
+						text: 'this is a bleep comment',
+						truncatedText: 'this is a bleep comment',
+						truncated: false,
+						documents: 'No'
+					}
+				}
+			];
+
+			expect(formattedRepresentations).toEqual(expectedResult);
+		});
+
+		// it('formats an array of proofs of evidence', () => {
+		// 	const formattedRepresentations = formatRepresentations(testProofsOfEvidence);
+		// 	const expectedResult = [
+		// 		{
+		// 			key: {
+		// 				text: `statement 1`
+		// 			},
+		// 			value: {
+		// 				text: 'this is a statement',
+		// 				truncatedText: 'this is a statement',
+		// 				truncated: false,
+		// 				documents: 'No'
+		// 			}
+		// 		},
+		// 		{
+		// 			key: {
+		// 				text: `statement 2`
+		// 			},
+		// 			value: {
+		// 				text: 'this is a bleep statement',
+		// 				truncatedText: 'this is a bleep statement',
+		// 				truncated: false,
+		// 				documents: 'No'
+		// 			}
+		// 		}
+		// 	];
+
+		// 	expect(formattedRepresentations).toEqual(expectedResult);
+		// });
 
 		it('formats an array of interested party comments', () => {
 			const formattedRepresentations = formatRepresentations(testInterestedPartyComments);
