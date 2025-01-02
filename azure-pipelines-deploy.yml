@@ -97,7 +97,7 @@ extends:
                 parameters:
                   appName: appeals-api staging slot
                   appUrl: $(deploySlotOutputs.slotUrl)/health
-                  buildCommit: $(resources.pipeline.build.sourceCommit)
+                  buildCommit: $(Build.SourceVersion)
           - name: Stage Auth Server
             condition: eq(${{ parameters.deployAuthServer }}, 'true')
             steps:
@@ -111,7 +111,7 @@ extends:
                 parameters:
                   appName: auth-server staging slot
                   appUrl: $(deploySlotOutputs.slotUrl)/health
-                  buildCommit: $(resources.pipeline.build.sourceCommit)
+                  buildCommit: $(Build.SourceVersion)
           - name: Stage Documents API
             condition: eq(${{ parameters.deployDocumentsApi }}, 'true')
             steps:
@@ -125,7 +125,7 @@ extends:
                 parameters:
                   appName: documents-api staging slot
                   appUrl: $(deploySlotOutputs.slotUrl)/health
-                  buildCommit: $(resources.pipeline.build.sourceCommit)
+                  buildCommit: $(Build.SourceVersion)
           - name: Stage PDF API
             condition: eq(${{ parameters.deployPdfApi }}, 'true')
             steps:
@@ -139,7 +139,7 @@ extends:
                 parameters:
                   appName: pdf-api staging slot
                   appUrl: $(deploySlotOutputs.slotUrl)/health
-                  buildCommit: $(resources.pipeline.build.sourceCommit)
+                  buildCommit: $(Build.SourceVersion)
           - name: Stage Web
             condition: eq(${{ parameters.deployWeb }}, 'true')
             steps:
@@ -153,7 +153,7 @@ extends:
                 parameters:
                   appName: web staging slot
                   appUrl: $(deploySlotOutputs.slotUrl)/health
-                  buildCommit: $(resources.pipeline.build.sourceCommit)
+                  buildCommit: $(Build.SourceVersion)
       - name: Deploy
         dependsOn:
           - Stage
@@ -206,7 +206,7 @@ extends:
                 parameters:
                   appName: appeals-api
                   appUrl: https://pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health
-                  buildCommit: $(resources.pipeline.build.sourceCommit)
+                  buildCommit: $(Build.SourceVersion)
           - name: Deploy Auth Server
             dependsOn:
               - Migrate
@@ -222,7 +222,7 @@ extends:
                 parameters:
                   appName: auth-server
                   appUrl: https://pins-app-appeals-service-auth-server-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health
-                  buildCommit: $(resources.pipeline.build.sourceCommit)
+                  buildCommit: $(Build.SourceVersion)
           - name: Deploy Documents API
             dependsOn:
               - Migrate
@@ -238,7 +238,7 @@ extends:
                 parameters:
                   appName: documents-api
                   appUrl: https://pins-app-appeals-service-documents-api-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health
-                  buildCommit: $(resources.pipeline.build.sourceCommit)
+                  buildCommit: $(Build.SourceVersion)
           - name: Deploy Integration Functions
             dependsOn:
               - Migrate
@@ -267,7 +267,7 @@ extends:
                 parameters:
                   appName: pdf-api
                   appUrl: https://pins-app-appeals-service-pdf-api-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health
-                  buildCommit: $(resources.pipeline.build.sourceCommit)
+                  buildCommit: $(Build.SourceVersion)
           - name: Deploy Web
             dependsOn:
               - Migrate
@@ -283,6 +283,6 @@ extends:
                 parameters:
                   appName: web
                   appUrl: $(WEB_URL)/health
-                  buildCommit: $(resources.pipeline.build.sourceCommit)
+                  buildCommit: $(Build.SourceVersion)
     globalVariables:
       - template: azure-pipelines-variables.yml@self
