@@ -15,6 +15,7 @@ type QuestionTypes =
 	| 'site-address'
 	| 'unit-option'
 	| 'list-add-more'
+	| 'list-add-more-v2'
 	// strictly for add more sub question type
 	// todo refactor list add mores so there's no sub question
 	| 'case'
@@ -35,6 +36,7 @@ interface CommonQuestionProps {
 	html?: string;
 	hint?: string;
 	shouldDisplay?: (response: JourneyResponse) => boolean;
+	taskList?: boolean;
 }
 
 export type OptionWithoutDivider = {
@@ -183,6 +185,10 @@ type ListAddMoreQuestionProps = CommonQuestionProps & {
 	width?: string;
 };
 
+type ListAddMoreQuestionV2Props = CommonQuestionProps & {
+	type: 'list-add-more-v2';
+};
+
 export type QuestionProps =
 	| CheckboxQuestionProps
 	| MultiFileUploadQuestionProps
@@ -195,4 +201,5 @@ export type QuestionProps =
 	| NumberEntryQuestionProps
 	| SiteAddressQuestionProps
 	| UnitOptionEntryQuestionProps
-	| ListAddMoreQuestionProps;
+	| ListAddMoreQuestionProps
+	| ListAddMoreQuestionV2Props;

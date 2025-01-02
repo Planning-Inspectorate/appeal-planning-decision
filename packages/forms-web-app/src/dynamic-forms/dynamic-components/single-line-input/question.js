@@ -31,6 +31,7 @@ class SingleLineInputQuestion extends Question {
 	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {Record<string, string>} [params.inputAttributes] html attributes to add to the input
+	 * @param {boolean} [params.taskList]
 	 */
 	constructor(params) {
 		super({

@@ -89,6 +89,7 @@ class Question {
 	 * @param {string} [params.hint]
 	 * @param {string} [params.interfaceType]
 	 * @param {(response: JourneyResponse) => boolean} [params.shouldDisplay]
+	 * @param {boolean} [params.taskList]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
@@ -105,7 +106,8 @@ class Question {
 			html,
 			hint,
 			interfaceType,
-			shouldDisplay
+			shouldDisplay,
+			taskList
 		},
 		methodOverrides
 	) {
@@ -123,6 +125,7 @@ class Question {
 		this.description = description;
 		this.hint = hint;
 		this.interfaceType = interfaceType;
+		this.taskList = taskList ?? true;
 
 		if (shouldDisplay) {
 			this.shouldDisplay = shouldDisplay;

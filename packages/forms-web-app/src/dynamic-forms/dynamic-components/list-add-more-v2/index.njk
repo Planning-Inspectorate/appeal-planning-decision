@@ -1,0 +1,62 @@
+{% extends layoutTemplate %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "../macros/answer-list.njk" import answerList %}
+
+{% set title= question.pageTitle + " - " + journeyTitle + " - GOV.UK" %}
+{% set rowWidth= width %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="{{ rowWidth }}">
+      {# TODO update to persist main question header text #}
+      
+      <p class="govuk-heading-l">{{question.pageTitle}}</p>
+
+      {{answerList(addMoreAnswers)}}
+
+      <form method="POST" novalidate>
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
+        {{ govukRadios({
+          classes: "govuk-radios",
+          idPrefix: question.fieldName,
+          name: question.fieldName,
+          errorMessage: errors[question.fieldName] and {
+            text: errors[question.fieldName].msg
+          },
+          fieldset: {
+            legend: {
+              text: question.question,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              attributes: { "data-cy": "answer-yes" },
+              checked: answer == "yes"
+            },
+            {
+              value: "no",
+              text: "No",
+              attributes: { "data-cy": "answer-no" },
+              checked: answer == "no"
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          name: "add-more-question",
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

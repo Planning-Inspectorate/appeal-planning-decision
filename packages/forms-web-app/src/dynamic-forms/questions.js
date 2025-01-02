@@ -18,6 +18,7 @@ const NumberEntryQuestion = require('./dynamic-components/number-entry/question'
 const SiteAddressQuestion = require('./dynamic-components/site-address/question');
 const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
+const ListAddMoreQuestionV2 = require('./dynamic-components/list-add-more-v2/question');
 
 // validators
 const RequiredValidator = require('./validator/required-validator');
@@ -161,6 +162,31 @@ exports.questionProps = {
 			],
 			viewFolder: 'add-more'
 		}
+	},
+	affectedListedBuildingsList: {
+		type: 'list-add-more-v2',
+		title: 'Listed building or site added',
+		pageTitle: 'Listed building or site has been added to the case',
+		question: 'Add another building or site?',
+		// fieldName: 'add-listed-buildings',
+		fieldName: 'addAffectedListedBuilding',
+		url: 'affected-listed-buildings',
+		validators: [new RequiredValidator('Select yes to add another building or site')]
+	},
+	affectedListedBuildingNumber: {
+		type: 'single-line-input',
+		title: 'Tell us the list entry number',
+		question: 'Tell us the list entry number',
+		// fieldName: 'listed-building-number',
+		fieldName: 'affectedListedBuildingNumber',
+		html: 'resources/listed-building-number/content.html',
+		validators: [
+			new RequiredValidator('Enter a list entry number'),
+			new StringEntryValidator(listedBuildingNumberValidation)
+		],
+		viewFolder: 'add-more',
+		label: 'Listed Building',
+		taskList: false
 	},
 	conservationArea: {
 		type: 'boolean',
@@ -2444,7 +2470,8 @@ const questionClasses = {
 	number: NumberEntryQuestion,
 	'site-address': SiteAddressQuestion,
 	'unit-option': UnitOptionEntryQuestion,
-	'list-add-more': ListAddMoreQuestion
+	'list-add-more': ListAddMoreQuestion,
+	'list-add-more-v2': ListAddMoreQuestionV2
 };
 
 exports.questions = createQuestions(exports.questionProps, questionClasses, {

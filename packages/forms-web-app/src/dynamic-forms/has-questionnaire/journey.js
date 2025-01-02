@@ -16,21 +16,37 @@ const sections = [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
 		.addQuestion(questions.listedBuildingCheck)
-		.addQuestion(questions.affectedListedBuildings)
+		.addQuestion(questions.affectedListedBuildingNumber)
 		.withCondition(
 			(response) =>
-				response.answers && response.answers[questions.listedBuildingCheck.fieldName] == 'yes'
+				response.answers && response.answers[questions.listedBuildingCheck.fieldName] === 'yes'
 		)
+		.addQuestion(questions.affectedListedBuildingsList)
+		.withCondition(
+			(response) =>
+				response.answers && response.answers[questions.listedBuildingCheck.fieldName] === 'yes'
+		)
+		.withLoopBack((response) => {
+			console.log('🚀 ~ .withLoopBack ~ response.answers:', response.answers);
+			console.log(
+				'🚀 ~ response.answers[questions.affectedListedBuildingsList.fieldName]:',
+				response.answers[questions.affectedListedBuildingsList.fieldName]
+			);
+			return (
+				response.answers &&
+				response.answers[questions.affectedListedBuildingsList.fieldName] === 'yes'
+			);
+		})
 		.addQuestion(questions.conservationArea)
 		.addQuestion(questions.conservationAreaUpload)
 		.withCondition(
 			(response) =>
-				response.answers && response.answers[questions.conservationArea.fieldName] == 'yes'
-		),
-	// .addQuestion(questions.greenBelt)
+				response.answers && response.answers[questions.conservationArea.fieldName] === 'yes'
+		)
+		.addQuestion(questions.greenBelt),
 	new Section('Notifying relevant parties of the application', 'notified')
 		.addQuestion(questions.whoWasNotified)
-		// .addQuestion(questions.howYouNotifiedPeople)
+		.addQuestion(questions.howYouNotifiedPeople)
 		.addQuestion(questions.uploadSiteNotice)
 		.withCondition((response) =>
 			questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice')
@@ -48,7 +64,8 @@ const sections = [
 		.addQuestion(questions.representationUpload)
 		.withCondition(
 			(response) =>
-				response.answers && response.answers[questions.representationsFromOthers.fieldName] == 'yes'
+				response.answers &&
+				response.answers[questions.representationsFromOthers.fieldName] === 'yes'
 		),
 	new Section("Planning officer's report and supporting documents", 'planning-officer-report')
 		.addQuestion(questions.planningOfficersReportUpload)
@@ -68,32 +85,17 @@ const sections = [
 		.addQuestion(questions.neighbouringSitesToBeVisited)
 		.withCondition(
 			(response) =>
-				response.answers && response.answers[questions.neighbouringSite.fieldName] == 'yes'
+				response.answers && response.answers[questions.neighbouringSite.fieldName] === 'yes'
 		)
 		.addQuestion(questions.potentialSafetyRisks),
 	new Section('Appeal process', 'appeal-process')
-		// .addQuestion(questions.appealsNearSite)
+		.addQuestion(questions.appealsNearSite)
 		.addQuestion(questions.nearbyAppeals)
 		.withCondition(
 			(response) =>
-				response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes'
-		)
-		.addQuestion(questions.addNewConditions),
-
-	new Section('Test', 'test')
-		.addQuestion(questions.greenBelt)
-		.addQuestion(questions.howYouNotifiedPeople)
-		.withCondition(
-			(response) => response.answers && response.answers[questions.greenBelt.fieldName] === 'yes'
-		)
-		.addQuestion(questions.appealsNearSite)
-		.withCondition(
-			(response) => response.answers && response.answers[questions.greenBelt.fieldName] === 'yes'
-		)
-		.withLoopBack(
-			(response) =>
 				response.answers && response.answers[questions.appealsNearSite.fieldName] === 'yes'
 		)
+		.addQuestion(questions.addNewConditions)
 ];
 
 const baseHASUrl = '/manage-appeals/questionnaire';
