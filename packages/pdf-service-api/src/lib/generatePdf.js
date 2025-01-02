@@ -1,10 +1,15 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const logger = require('./logger');
 
+/**
+ * @param {*} html
+ * @returns {Promise<Uint8Array>}
+ */
 const generatePdf = async (html) => {
 	logger.info('Generating pdf');
 	try {
 		const browser = await puppeteer.launch({
+			executablePath: '/usr/bin/chromium-browser',
 			headless: true,
 			args: ['--disable-gpu', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-sandbox']
 		});
@@ -26,7 +31,7 @@ const generatePdf = async (html) => {
 
 		logger.info('Sucessfully generated pdf');
 
-		return pdfBuffer;
+		return Buffer.from(pdfBuffer);
 	} catch (err) {
 		logger.error({ err }, 'Failed to generate pdf');
 		throw new Error(err);
