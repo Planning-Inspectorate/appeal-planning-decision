@@ -37,7 +37,8 @@ const appealSearchNoResults = async (req, res) => {
 		paragraph,
 		linkToRelatedSearchPage,
 		searchQuery,
-		viewDecidedAppeals
+		viewDecidedAppeals,
+		typeOfSearch
 	});
 };
 
