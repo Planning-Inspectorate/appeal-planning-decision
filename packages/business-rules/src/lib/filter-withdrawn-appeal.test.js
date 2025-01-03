@@ -1,4 +1,4 @@
-const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdrawn-appeal');
+const { isNotWithdrawn } = require('./filter-withdrawn-appeal');
 
 const date1 = new Date('2024-05-06T00:00:00.000Z');
 const date2 = new Date('2024-05-04T00:00:00.000Z');
