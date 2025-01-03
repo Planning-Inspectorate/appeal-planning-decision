@@ -135,7 +135,8 @@ const appealIds = {
 	appealEight: '756d6bfb-dde8-4532-a041-86c226a23a08',
 	appealNine: 'd8290e68-bfbb-3bc8-b621-5a9590aa29fd',
 	appealTen: 'f933b0e0-1694-11ef-ab42-cbf3edc5e3fd',
-	appeal11: 'ee283ae8-7a92-4afe-a93f-405689b1f35b'
+	appeal11: 'ee283ae8-7a92-4afe-a93f-405689b1f35b',
+	appeal12: '7573b265-f529-4b0b-adf1-659cc70c180f'
 };
 
 const caseReferences = {
@@ -147,7 +148,8 @@ const caseReferences = {
 	caseReferenceSix: '1010106',
 	caseReferenceSeven: '1010107',
 	caseReferenceEight: '1010108',
-	caseReferenceNine: '1010109'
+	caseReferenceNine: '1010109',
+	caseReferenceTen: '1010110'
 };
 
 const appellantSubmissionIds = {
@@ -284,6 +286,7 @@ const appeals = [
 	{ id: appealIds.appealNine },
 	{ id: appealIds.appealTen },
 	{ id: appealIds.appeal11 },
+	{ id: appealIds.appeal12 },
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
@@ -597,6 +600,36 @@ const appealCases = [
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(4)),
 		CaseDecisionOutcome: {
 			connect: { key: APPEAL_CASE_DECISION_OUTCOME.DISMISSED }
+		}
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appeal12 }
+		},
+		LPACode: 'Q9999',
+		siteAddressLine1: '123 Fake Street',
+		siteAddressTown: 'Birmingham',
+		siteAddressCounty: 'West Midlands',
+		siteAddressPostcode: 'B44 0QS',
+		appellantCostsAppliedFor: false,
+		casePublishedDate: pickRandom(datesNMonthsAgo(2)),
+		caseCreatedDate: pickRandom(datesNMonthsAgo(2)),
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(2)),
+		CaseType: {
+			connect: { processCode: 'S78' }
+		},
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
+		},
+		caseReference: caseReferences.caseReferenceTen,
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323238/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
+		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(4)),
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
 		}
 	},
 	...lpaAppealCaseData
