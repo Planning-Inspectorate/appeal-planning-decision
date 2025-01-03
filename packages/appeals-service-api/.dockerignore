@@ -1,1 +1,11 @@
+.git
+.env
+Dockerfile*
+.dockerignore
+
+# tests
 **/*.spec.js
+**/*.test.js
+
+# node_modules will be reinstalled in the container
+node_modules
