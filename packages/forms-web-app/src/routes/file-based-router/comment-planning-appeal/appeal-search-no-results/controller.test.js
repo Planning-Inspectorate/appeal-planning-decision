@@ -12,7 +12,10 @@ describe('appealSearchNoResults Controller Tests', () => {
 
 	beforeEach(() => {
 		req = {
-			query: {}
+			query: {},
+			appealsApiClient: {
+				getPostcodeSearchResults: jest.fn()
+			}
 		};
 		res = {
 			render: jest.fn(),
@@ -34,6 +37,12 @@ describe('appealSearchNoResults Controller Tests', () => {
 			type: 'postcode'
 		};
 
+		const mockDecidedAppeals = [
+			{ id: '1', caseReference: '1234' },
+			{ id: '2', caseReference: '5678' }
+		];
+
+		req.appealsApiClient.getPostcodeSearchResults.mockResolvedValue(mockDecidedAppeals);
 		formatTitlePrefix.mockReturnValue('Title Prefix');
 		formatParagraphWording.mockReturnValue('Paragraph Wording');
 		formatLink.mockReturnValue('Link');
@@ -43,6 +52,10 @@ describe('appealSearchNoResults Controller Tests', () => {
 		expect(formatTitlePrefix).toHaveBeenCalledWith('postcode');
 		expect(formatParagraphWording).toHaveBeenCalledWith('postcode');
 		expect(formatLink).toHaveBeenCalledWith('postcode');
+		expect(req.appealsApiClient.getPostcodeSearchResults).toHaveBeenCalledWith({
+			postcode: 'test search',
+			'decided-only': true
+		});
 		expect(res.render).toHaveBeenCalledWith(
 			'comment-planning-appeal/appeal-search-no-results/index',
 			{
@@ -50,7 +63,9 @@ describe('appealSearchNoResults Controller Tests', () => {
 				pageHeading: 'Title Prefix',
 				paragraph: 'Paragraph Wording',
 				linkToRelatedSearchPage: 'Link',
-				searchQuery: 'test search'
+				searchQuery: 'test search',
+				viewDecidedAppeals: true,
+				typeOfSearch: 'postcode'
 			}
 		);
 	});
@@ -61,6 +76,9 @@ describe('appealSearchNoResults Controller Tests', () => {
 			type: ['not a string']
 		};
 
+		const mockDecidedAppeals = [];
+
+		req.appealsApiClient.getPostcodeSearchResults.mockResolvedValue(mockDecidedAppeals);
 		formatTitlePrefix.mockReturnValue('Title Prefix');
 		formatParagraphWording.mockReturnValue('Paragraph Wording');
 		formatLink.mockReturnValue('Link');
@@ -77,7 +95,9 @@ describe('appealSearchNoResults Controller Tests', () => {
 				pageHeading: 'Title Prefix',
 				paragraph: 'Paragraph Wording',
 				linkToRelatedSearchPage: 'Link',
-				searchQuery: 'test search'
+				searchQuery: 'test search',
+				viewDecidedAppeals: false,
+				typeOfSearch: 'postcode'
 			}
 		);
 	});
