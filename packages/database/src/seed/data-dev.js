@@ -1,6 +1,6 @@
 const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
 const { lpaAppealCaseData, lpaAppeals } = require('./lpa-appeal-case-data-dev');
-const { representations } = require('./representations-data-dev');
+const { representations, representationDocuments } = require('./representations-data-dev');
 const { appealDocuments } = require('./appeal-documents-dev');
 const {
 	APPEAL_CASE_DECISION_OUTCOME,
@@ -846,6 +846,22 @@ const serviceUsers = [
 		caseReference: '6666666',
 		firstName: 'Appellant',
 		lastName: 'One'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc23',
+		id: '123998',
+		serviceUserType: 'Rule6Party',
+		caseReference: '1000014',
+		firstName: 'Rule6Party',
+		lastName: 'One'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc24',
+		id: '123999',
+		serviceUserType: 'Rule6Party',
+		caseReference: '1000014',
+		firstName: 'Rule6Party',
+		lastName: 'Two'
 	}
 ];
 
@@ -1616,6 +1632,14 @@ async function seedDev(dbClient) {
 			create: representation,
 			update: representation,
 			where: { id: representation.id }
+		});
+	}
+
+	for (const representationDocument of representationDocuments) {
+		await dbClient.representationDocument.upsert({
+			create: representationDocument,
+			update: representationDocument,
+			where: { id: representationDocument.id }
 		});
 	}
 
