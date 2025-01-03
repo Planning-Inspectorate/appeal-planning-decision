@@ -1,6 +1,6 @@
 const { rules } = require('../../../../src/validators/interested-parties/add-comments');
 
-describe('validators/interested-parties/email-address', () => {
+describe('validators/interested-parties/add-comments', () => {
 	describe('rules', () => {
 		it(`has a rule for the interested parties comments`, () => {
 			const rule = rules()[0].builder.build();
