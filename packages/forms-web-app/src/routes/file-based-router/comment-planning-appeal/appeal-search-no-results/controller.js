@@ -21,12 +21,23 @@ const appealSearchNoResults = async (req, res) => {
 	const paragraph = formatParagraphWording(typeOfSearch);
 	const linkToRelatedSearchPage = formatLink(typeOfSearch);
 
+	const decidedAppeals =
+		typeOfSearch === 'postcode'
+			? await req.appealsApiClient.getPostcodeSearchResults({
+					postcode: searchQuery,
+					'decided-only': true
+			  })
+			: [];
+
+	const viewDecidedAppeals = decidedAppeals.length > 0 ? true : false;
+
 	res.render(`comment-planning-appeal/appeal-search-no-results/index`, {
 		pageTitle,
 		pageHeading,
 		paragraph,
 		linkToRelatedSearchPage,
-		searchQuery
+		searchQuery,
+		viewDecidedAppeals
 	});
 };
 
