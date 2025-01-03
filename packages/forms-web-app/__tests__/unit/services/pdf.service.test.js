@@ -1,9 +1,5 @@
 const fetch = require('node-fetch');
-const {
-	getHtml,
-	storePdfAppeal,
-	storeTextAsDocument
-} = require('../../../src/services/pdf.service');
+const { getHtml, storePdfAppeal } = require('../../../src/services/pdf.service');
 const { createDocument } = require('../../../src/lib/documents-api-wrapper');
 
 jest.mock('../../../src/lib/documents-api-wrapper');
@@ -29,17 +25,13 @@ describe('services/pdf.service', () => {
 	let url;
 	let sid;
 	let htmlContent;
-	let docType;
-	let plainText;
 
 	beforeEach(() => {
 		id = '123';
 		mockAppeal = { id };
 		url = '/mock/url';
 		sid = 'test';
-		docType = { displayName: 'test', name: 'test' };
 		htmlContent = '<html><h1>Simple html file</h1></html>';
-		plainText = 'simple plain text example';
 		fetch.resetMocks();
 	});
 
@@ -93,24 +85,6 @@ describe('services/pdf.service', () => {
 			await createDocument.mockResolvedValue({ data: [] });
 			fetch.mockResponse(htmlContent, { status: 200 });
 			expect(await storePdfAppeal({ appeal: mockAppeal })).toEqual({ data: [] });
-		});
-	});
-	describe('storeTextAsDocument', () => {
-		it('should throw if the create document API response is not ok', async () => {
-			fetch.mockResponse(plainText, { status: 200 });
-			createDocument.mockImplementation(() => Promise.reject(new Error()));
-			try {
-				await storeTextAsDocument(mockAppeal);
-				expect('to be').not.toBe('to be');
-			} catch (e) {
-				expect(e.message).toBe('Error during the pdf generation');
-			}
-		});
-
-		it('should return the expected response if no error were triggered fetch status is 200', async () => {
-			await createDocument.mockResolvedValue({ data: [] });
-			fetch.mockResponse(plainText, { status: 200 });
-			expect(await storeTextAsDocument(mockAppeal, plainText, docType)).toEqual({ data: [] });
 		});
 	});
 });
