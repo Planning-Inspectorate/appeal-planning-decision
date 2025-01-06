@@ -52,6 +52,33 @@ const filterRepresentationsBySubmittingParty = (caseData, submittingParty) => {
 };
 
 /**
+ * @param {AppealCaseDetailed} caseData
+ * @param {string} serviceUserId
+ * @param {boolean} rule6OwnRepresentations
+ * @returns {Representation[]}
+ */
+const filterRepresentationsForRule6ViewingRule6 = (
+	caseData,
+	serviceUserId,
+	rule6OwnRepresentations
+) => {
+	if (!serviceUserId) return [];
+
+	const unfilteredRepresentations = filterRepresentationsBySubmittingParty(
+		caseData,
+		APPEAL_USER_ROLES.RULE_6_PARTY
+	);
+
+	return rule6OwnRepresentations
+		? unfilteredRepresentations.filter(
+				(representation) => representation.serviceUserId == serviceUserId
+		  )
+		: unfilteredRepresentations.filter(
+				(representation) => representation.serviceUserId != serviceUserId
+		  );
+};
+
+/**
  * @param {RepresentationTypes} representationType
  * @param {AppealToUserRoles|LpaUserRole} userType
  * @param {AppealToUserRoles|LpaUserRole} submittingParty
@@ -281,6 +308,7 @@ const isProofsDocument = (document) => {
 
 module.exports = {
 	filterRepresentationsBySubmittingParty,
+	filterRepresentationsForRule6ViewingRule6,
 	formatRepresentationHeading,
 	formatRepresentations
 };
