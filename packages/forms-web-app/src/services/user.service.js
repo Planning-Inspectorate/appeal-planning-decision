@@ -142,6 +142,16 @@ const isRule6UserByEmail = async (req, email) => {
 	return req.appealsApiClient.isRule6User(email);
 };
 
+/**
+ * @param {import('express').Request} req
+ * @returns {Promise<string | undefined>}
+ */
+const getServiceUserId = async (req) => {
+	const { email } = getUserFromSession(req);
+	const appealUser = await req.appealsApiClient.getUserByEmailV2(email);
+	return appealUser.serviceUserId;
+};
+
 module.exports = {
 	createAppealUserSession,
 	getUserFromSession,
@@ -151,5 +161,6 @@ module.exports = {
 	setLPAUserStatus,
 	getLPAUser,
 	logoutUser,
-	isRule6UserByEmail
+	isRule6UserByEmail,
+	getServiceUserId
 };

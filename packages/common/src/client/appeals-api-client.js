@@ -501,21 +501,6 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {RepresentationTypes} type
-	 * @param {'own' | 'otherParties'} rule6Parties
-	 * @returns {Promise<AppealCase>}
-	 */
-	async getAppealCaseWithFilteredRule6Representations(caseReference, type, rule6Parties) {
-		const urlParams = new URLSearchParams();
-		urlParams.append('type', type);
-		urlParams.append('rule6Parties', rule6Parties);
-		const endpoint = `${v2}/appeal-cases/${caseReference}/representations?${urlParams.toString()}`;
-		const response = await this.#makeGetRequest(endpoint);
-		return response.json();
-	}
-
-	/**
-	 * @param {string} caseReference
 	 * @param {string} type
 	 * @returns {Promise<AppealStatement[]>}
 	 */

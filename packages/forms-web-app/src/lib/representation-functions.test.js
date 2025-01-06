@@ -1,5 +1,6 @@
 const {
 	filterRepresentationsBySubmittingParty,
+	filterRepresentationsForRule6ViewingRule6,
 	formatRepresentationHeading,
 	formatRepresentations
 } = require('./representation-functions');
@@ -22,16 +23,32 @@ const lpaStatement = {
 	RepresentationDocuments: []
 };
 
-const r6Statement = {
+const testR6ServiceUserId1 = 'testR6ServiceUserId1';
+const testR6ServiceUserId2 = 'testR6ServiceUserId2';
+
+const r6Statement1 = {
 	id: 'r6Statement1',
 	representationId: 'testStatement2',
 	caseReference: 'testReference1',
 	source: 'citizen',
-	serviceUserId: 'testR6ServiceUserId',
+	serviceUserId: testR6ServiceUserId1,
 	originalRepresentation: 'this is a statement',
 	redacted: false,
 	representationType: REPRESENTATION_TYPES.STATEMENT,
 	dateReceived: '2024-11-04 09:00:00.0000000',
+	RepresentationDocuments: []
+};
+
+const r6Statement2 = {
+	id: 'r6Statement2',
+	representationId: 'testStatement3',
+	caseReference: 'testReference1',
+	source: 'citizen',
+	serviceUserId: testR6ServiceUserId2,
+	originalRepresentation: 'this is a different r6 statement',
+	redacted: false,
+	representationType: REPRESENTATION_TYPES.STATEMENT,
+	dateReceived: '2024-11-05 09:00:00.0000000',
 	RepresentationDocuments: []
 };
 
@@ -117,7 +134,7 @@ const interestedPartyComment2 = {
 // 	RepresentationDocuments: []
 // }
 
-const testStatements = [lpaStatement, r6Statement];
+const testStatements = [lpaStatement, r6Statement1, r6Statement2];
 
 const testFinalComments = [lpaFinalComment, appellantFinalComment];
 
@@ -165,7 +182,7 @@ describe('lib/representation-functions', () => {
 				testCaseData,
 				APPEAL_USER_ROLES.RULE_6_PARTY
 			);
-			expect(result).toEqual([r6Statement]);
+			expect(result).toEqual([r6Statement1, r6Statement2]);
 		});
 
 		it('returns an empty array if there are no relevant representations', () => {
@@ -191,6 +208,49 @@ describe('lib/representation-functions', () => {
 			);
 			expect(result1).toEqual([]);
 			expect(result2).toEqual([]);
+		});
+	});
+
+	describe('filterRepresentationsForRule6ViewingRule6', () => {
+		it('returns rule 6 party representations submitted by the rule 6 party viewing them', () => {
+			const testCaseData = {
+				caseReference: 'testReference1',
+				users: testUsers,
+				Representations: testStatements
+			};
+
+			const result = filterRepresentationsForRule6ViewingRule6(
+				testCaseData,
+				testR6ServiceUserId1,
+				true
+			);
+			expect(result).toEqual([r6Statement1]);
+		});
+
+		it('returns rule 6 party representations submitted by other rule 6 parties', () => {
+			const testCaseData = {
+				caseReference: 'testReference1',
+				users: testUsers,
+				Representations: testStatements
+			};
+
+			const result = filterRepresentationsForRule6ViewingRule6(
+				testCaseData,
+				testR6ServiceUserId1,
+				false
+			);
+			expect(result).toEqual([r6Statement2]);
+		});
+
+		it('returns an empty array if no serviceUserId provided', () => {
+			const testCaseData = {
+				caseReference: 'testReference1',
+				users: testUsers,
+				Representations: testStatements
+			};
+
+			const result = filterRepresentationsForRule6ViewingRule6(testCaseData, undefined, true);
+			expect(result).toEqual([]);
 		});
 	});
 
