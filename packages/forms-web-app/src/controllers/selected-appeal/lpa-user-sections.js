@@ -32,7 +32,7 @@ exports.sections = [
 				condition: (appealCase) => !!appealCase.lpaStatementPublished
 			},
 			{
-				url: '/rule-6-statements',
+				url: '/other-party-statements',
 				text: 'View other party statements',
 				condition: (appealCase) => !!appealCase.rule6StatementPublished
 			}
@@ -77,17 +77,17 @@ exports.sections = [
 		heading: 'Proof of evidence and witnesses',
 		links: [
 			{
-				url: '/lpa-proof-of-evidences',
+				url: '/proof-evidence',
 				text: 'View your proof of evidence and witnesses',
 				condition: (appealCase) => !!appealCase.lpaProofEvidencePublished
 			},
 			{
-				url: '/proof-of-evidences',
+				url: '/appellant-proof-evidence',
 				text: "View the appellant's proof of evidence and witnesses",
 				condition: (appealCase) => !!appealCase.appellantProofEvidencePublished
 			},
 			{
-				url: '/rule-6-proof-of-evidences',
+				url: '/other-party-proof-evidence',
 				text: 'View proof of evidence and witnesses from other parties',
 				condition: (appealCase) => !!appealCase.rule6ProofsEvidencePublished
 			}

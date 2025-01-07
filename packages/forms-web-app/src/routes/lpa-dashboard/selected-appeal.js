@@ -49,16 +49,22 @@ const rule6StatementParams = {
 	submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
 };
 
-const appellantProofsParams = {
+const appellantProofParams = {
 	userType,
 	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
 	submittingParty: APPEAL_USER_ROLES.APPELLANT
 };
 
-const lpaProofsParams = {
+const lpaProofParams = {
 	userType,
 	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
 	submittingParty: LPA_USER_ROLE
+};
+
+const rule6ProofParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+	submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
 };
 
 router.get('/:appealNumber', selectedAppealController.get('layouts/lpa-dashboard/main.njk'));
@@ -94,18 +100,23 @@ router.get(
 );
 
 router.get(
+	'/:appealNumber/proof-evidence',
+	representationsController.get(lpaProofParams, 'layouts/lpa-dashboard/main.njk')
+);
+router.get(
+	'/:appealNumber/appellant-proof-evidence',
+	representationsController.get(appellantProofParams, 'layouts/lpa-dashboard/main.njk')
+);
+router.get(
+	'/:appealNumber/other-party-proof-evidence',
+	representationsController.get(rule6ProofParams, 'layouts/lpa-dashboard/main.njk')
+);
+
+router.get(
 	'/:appealNumber/interested-party-comments',
 	representationsController.get(interestedPartyParams, 'layouts/lpa-dashboard/main.njk')
 );
 
-router.get(
-	'/:appealNumber/proof-evidence',
-	representationsController.get(lpaProofsParams, 'layouts/lpa-dashboard/main.njk')
-);
-router.get(
-	'/:appealNumber/appellant-proof-evidence',
-	representationsController.get(appellantProofsParams, 'layouts/lpa-dashboard/main.njk')
-);
 router.get(
 	'/:appealNumber/appellant-planning-obligation',
 	planningObligationDetailsController.get('layouts/lpa-dashboard/main.njk')
