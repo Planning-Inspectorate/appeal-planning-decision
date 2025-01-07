@@ -65,11 +65,13 @@ const appellants = {
 const rule6Parties = {
 	r6One: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b11',
-		email: 'r6-1@planninginspectorate.gov.uk'
+		email: 'r6-1@planninginspectorate.gov.uk',
+		serviceUserId: '123998'
 	},
 	r6Two: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b12',
-		email: 'r6-2@planninginspectorate.gov.uk'
+		email: 'r6-2@planninginspectorate.gov.uk',
+		serviceUserId: '123999'
 	},
 	r6Three: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b13',

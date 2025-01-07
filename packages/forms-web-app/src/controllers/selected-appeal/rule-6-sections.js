@@ -29,7 +29,7 @@ exports.sections = [
 		heading: 'Statements',
 		links: [
 			{
-				url: '/your-statement',
+				url: '/statement',
 				text: 'View your statement',
 				condition: (appealCase, userEmail) => {
 					const currentRule6User = appealCase.Rule6Parties?.find(
@@ -58,6 +58,23 @@ exports.sections = [
 				url: '/interested-party-comments',
 				text: 'View interested party comments',
 				condition: (appealCase) => appealCase.interestedPartyCommentsPublished // schema matched ticket
+			}
+		]
+	},
+	{
+		heading: 'Final comments',
+		links: [
+			{
+				// tbc
+				url: '/appellant-final-comments',
+				text: "View appellant's final comments",
+				condition: (appealCase) => !!appealCase.appellantFinalCommentsSubmitted // appellantCommentsReceived on ticket?
+			},
+			{
+				// tbc
+				url: '/lpa-final-comments',
+				text: 'View local planning authority final comments',
+				condition: (appealCase) => !!appealCase.lpaFinalCommentsPublished // changed from lpaFinalCommentPublished
 			}
 		]
 	},

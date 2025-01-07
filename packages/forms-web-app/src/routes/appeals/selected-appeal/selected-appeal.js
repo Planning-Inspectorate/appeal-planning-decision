@@ -19,10 +19,16 @@ const router = express.Router({ mergeParams: true });
 
 const userType = APPEAL_USER_ROLES.APPELLANT;
 
-const interestedPartyParams = {
+const lpaStatementParams = {
 	userType,
-	representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
-	submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+	representationType: REPRESENTATION_TYPES.STATEMENT,
+	submittingParty: LPA_USER_ROLE
+};
+
+const rule6StatementParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.STATEMENT,
+	submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
 };
 
 const lpaFinalCommentParams = {
@@ -37,27 +43,40 @@ const appellantFinalCommentParams = {
 	submittingParty: APPEAL_USER_ROLES.APPELLANT
 };
 
-const lpaStatementParams = {
-	userType,
-	representationType: REPRESENTATION_TYPES.STATEMENT,
-	submittingParty: LPA_USER_ROLE
-};
-
-const appellantProofsParams = {
+const appellantProofParams = {
 	userType,
 	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
 	submittingParty: APPEAL_USER_ROLES.APPELLANT
 };
 
-const lpaProofsParams = {
+const lpaProofParams = {
 	userType,
 	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
 	submittingParty: LPA_USER_ROLE
 };
 
+const rule6ProofParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+	submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+};
+
+const interestedPartyParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+	submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+};
+
 router.get('/:appealNumber', selectedAppealController.get());
 router.get('/:appealNumber/appeal-details', appealDetailsController.get());
 router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get());
+
+router.get('/:appealNumber/lpa-statement', representationsController.get(lpaStatementParams));
+router.get(
+	'/:appealNumber/other-party-statements',
+	representationsController.get(rule6StatementParams)
+);
+
 router.get(
 	'/:appealNumber/final-comments',
 	representationsController.get(appellantFinalCommentParams)
@@ -66,13 +85,19 @@ router.get(
 	'/:appealNumber/lpa-final-comments',
 	representationsController.get(lpaFinalCommentParams)
 );
+
+router.get('/:appealNumber/proof-evidence', representationsController.get(appellantProofParams));
+router.get('/:appealNumber/lpa-proof-evidence', representationsController.get(lpaProofParams));
+router.get(
+	'/:appealNumber/other-party-proof-evidence',
+	representationsController.get(rule6ProofParams)
+);
+
 router.get(
 	'/:appealNumber/interested-party-comments',
 	representationsController.get(interestedPartyParams)
 );
-router.get('/:appealNumber/lpa-statement', representationsController.get(lpaStatementParams));
-router.get('/:appealNumber/proof-evidence', representationsController.get(appellantProofsParams));
-router.get('/:appealNumber/lpa-proof-evidence', representationsController.get(lpaProofsParams));
+
 router.get('/:appealNumber/planning-obligation', planningObligationDetailsController.get());
 
 module.exports = router;

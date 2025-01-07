@@ -35,7 +35,7 @@ exports.sections = [
 			},
 			{
 				// tbc
-				url: '/rule-6-statements',
+				url: '/other-party-statements',
 				text: 'View other party statements',
 				condition: (appealCase) => !!appealCase.rule6StatementPublished // changed from appealRule6PartyStatementsPublished
 			}
@@ -84,19 +84,19 @@ exports.sections = [
 		links: [
 			{
 				// tbc
-				url: '/proof-of-evidences',
+				url: '/proof-evidence',
 				text: 'View your proof of evidence and witnesses',
 				condition: (appealCase) => !!appealCase.appellantProofEvidencePublished // appellantsProofEvidenceReceived on ticket?
 			},
 			{
 				// tbc
-				url: '/lpa-proof-of-evidences',
+				url: '/lpa-proof-evidence',
 				text: 'View the local planning authority proof of evidence and witnesses',
 				condition: (appealCase) => !!appealCase.lpaProofEvidencePublished // schema matched ticket
 			},
 			{
 				// tbc
-				url: '/rule-6-proof-of-evidences',
+				url: '/other-party-proof-evidence',
 				text: 'View other party proof of evidence and witnesses',
 				condition: (appealCase) => !!appealCase.rule6ProofsEvidencePublished // appealRule6PartyProofsEvidencePublished on ticket?
 			}
