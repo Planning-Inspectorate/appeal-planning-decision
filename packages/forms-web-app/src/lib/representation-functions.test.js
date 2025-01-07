@@ -372,6 +372,18 @@ describe('lib/representation-functions', () => {
 					},
 					rowLabel: 'Statement',
 					value: {
+						text: 'this is a different r6 statement',
+						truncatedText: 'this is a different r6 statement',
+						truncated: false,
+						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }]
+					}
+				},
+				{
+					key: {
+						text: `Statement 3`
+					},
+					rowLabel: 'Statement',
+					value: {
 						text: 'this is a bleep statement',
 						truncatedText: 'this is a bleep statement',
 						truncated: false,
