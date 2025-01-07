@@ -1,9 +1,19 @@
+const {
+	VIEW: {
+		SELECTED_APPEAL: { APPEAL_OVERVIEW }
+	}
+} = require('../../lib/views');
 /**
  * @param {string} alreadySubmittedUrl
  * @returns {import('express').Handler}
  */
 module.exports = (alreadySubmittedUrl) => (req, res, next) => {
 	const journeyResponse = res?.locals?.journeyResponse;
+
+	alreadySubmittedUrl =
+		alreadySubmittedUrl === APPEAL_OVERVIEW
+			? `${alreadySubmittedUrl}/${journeyResponse.referenceId}`
+			: alreadySubmittedUrl;
 
 	if (
 		journeyResponse?.answers?.submitted === 'yes' ||

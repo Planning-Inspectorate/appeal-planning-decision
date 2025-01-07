@@ -169,6 +169,7 @@ const VIEW = {
 	},
 
 	SELECTED_APPEAL: {
+		APPEAL_OVERVIEW: '/appeals',
 		APPEAL: 'selected-appeal/appeal',
 		APPEAL_DETAILS: 'selected-appeal/appeal-details',
 		APPEAL_QUESTIONNAIRE: 'selected-appeal/questionnaire-details',

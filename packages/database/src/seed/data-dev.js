@@ -138,7 +138,9 @@ const appealIds = {
 	appealNine: 'd8290e68-bfbb-3bc8-b621-5a9590aa29fd',
 	appealTen: 'f933b0e0-1694-11ef-ab42-cbf3edc5e3fd',
 	appeal11: 'ee283ae8-7a92-4afe-a93f-405689b1f35b',
-	appeal12: '7573b265-f529-4b0b-adf1-659cc70c180f'
+	appeal12: '7573b265-f529-4b0b-adf1-659cc70c180f',
+	appeal13: '1f72d00c-03fa-48be-8ded-a9580e65f7a5',
+	appeal14: '437c4af5-7440-486d-98e9-b37a748be96c'
 };
 
 const caseReferences = {
@@ -151,7 +153,9 @@ const caseReferences = {
 	caseReferenceSeven: '1010107',
 	caseReferenceEight: '1010108',
 	caseReferenceNine: '1010109',
-	caseReferenceTen: '1010110'
+	caseReferenceTen: '1010110',
+	caseReference13: '2201010',
+	caseReference14: '2211010'
 };
 
 const appellantSubmissionIds = {
@@ -289,6 +293,8 @@ const appeals = [
 	{ id: appealIds.appealTen },
 	{ id: appealIds.appeal11 },
 	{ id: appealIds.appeal12 },
+	{ id: appealIds.appeal13 },
+	{ id: appealIds.appeal14 },
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
@@ -634,6 +640,66 @@ const appealCases = [
 			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
 		}
 	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appeal13 }
+		},
+		LPACode: 'Q9999',
+		siteAddressLine1: '124 Fake Street',
+		siteAddressTown: 'Bristol',
+		siteAddressCounty: 'Bristolshire',
+		siteAddressPostcode: 'BS1 6PN',
+		appellantCostsAppliedFor: false,
+		casePublishedDate: pickRandom(datesNMonthsAgo(1)),
+		caseCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		CaseType: {
+			connect: { processCode: 'S78' }
+		},
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+		},
+		ProcedureType: {
+			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
+		},
+		caseReference: caseReferences.caseReference13,
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323238/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2))
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appeal14 }
+		},
+		LPACode: 'Q9999',
+		siteAddressLine1: '124 Fake Street',
+		siteAddressTown: 'Bristol',
+		siteAddressCounty: 'Bristolshire',
+		siteAddressPostcode: 'BS1 6PN',
+		appellantCostsAppliedFor: false,
+		casePublishedDate: pickRandom(datesNMonthsAgo(1)),
+		caseCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		CaseType: {
+			connect: { processCode: 'S78' }
+		},
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.FINAL_COMMENTS }
+		},
+		appellantCommentsSubmitted: new Date(),
+		appellantFinalCommentsSubmitted: true,
+		ProcedureType: {
+			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
+		},
+		caseReference: caseReferences.caseReference14,
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323238/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2))
+	},
 	...lpaAppealCaseData
 ];
 
@@ -717,6 +783,16 @@ const appealToUsers = [
 	},
 	{
 		appealId: appealIds.appeal11,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
+	{
+		appealId: appealIds.appeal13,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
+	{
+		appealId: appealIds.appeal14,
 		userId: appellants.appellantOne.id,
 		role: APPEAL_USER_ROLES.APPELLANT
 	},
