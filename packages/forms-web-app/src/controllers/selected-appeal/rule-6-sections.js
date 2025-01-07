@@ -31,12 +31,7 @@ exports.sections = [
 			{
 				url: '/statement',
 				text: 'View your statement',
-				condition: (appealCase, userEmail) => {
-					const currentRule6User = appealCase.Rule6Parties?.find(
-						(party) => party.partyEmail === userEmail
-					);
-					return currentRule6User?.statementReceived;
-				}
+				condition: (appealCase) => appealCase.rule6StatementPublished
 			},
 			{
 				url: '/lpa-statement',
@@ -95,12 +90,7 @@ exports.sections = [
 				// tbc
 				url: '/proof-evidence',
 				text: 'View your proof of evidence and witnesses',
-				condition: (appealCase, userEmail) => {
-					const currentRule6User = appealCase.Rule6Parties?.find(
-						(party) => party.partyEmail === userEmail
-					);
-					return currentRule6User?.proofEvidenceReceived;
-				}
+				condition: (appealCase) => appealCase.rule6ProofsEvidencePublished
 			},
 			{
 				// tbc
