@@ -59,8 +59,6 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			submittingParty == APPEAL_USER_ROLES.RULE_6_PARTY
 		) {
 			const serviceUserId = await getServiceUserId(req);
-			console.log('oioioioio');
-			console.log(serviceUserId);
 			representationsForDisplay = filterRepresentationsForRule6ViewingRule6(
 				caseData,
 				serviceUserId,
