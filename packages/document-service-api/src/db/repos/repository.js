@@ -66,7 +66,7 @@ class DocumentsRepository {
 
 	/**
 	 * @param {string} lookup document lookup, id or uri
-	 * @return {Promise<import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string} }>}
+	 * @return {Promise<import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string, appealTypeCode: string} }>}
 	 */
 	async getDocumentWithAppeal(lookup) {
 		return await this.dbClient.document.findFirstOrThrow({
@@ -75,7 +75,8 @@ class DocumentsRepository {
 				AppealCase: {
 					select: {
 						LPACode: true,
-						appealId: true
+						appealId: true,
+						appealTypeCode: true
 					}
 				}
 			}

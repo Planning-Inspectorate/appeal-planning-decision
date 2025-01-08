@@ -10,6 +10,7 @@ const lpaOwner = 'LPAUser';
 const appellantOwner = 'Appellant';
 const pinsOwner = 'PINs';
 const rule6Owner = 'Rule6Party';
+const { CASE_TYPES } = require('./database/data-static');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
@@ -19,7 +20,7 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
  * @property {boolean} multiple if this is a multi-file or single-file upload
  * @property {string} [displayName] a user friendly name for the doc type, has been defined on all docs
  * @property {'LPA'|'Appellant'|''} involvement currently unsure what this is used for?
- * @property {'LPAUser'|'Appellant'|'PINs'|'Rule6Party'} owner who owns/uploads this document type
+ * @property {function(string): 'LPAUser'|'Appellant'|'PINs'|'Rule6Party'} owner who owns/uploads this document type
  * @property {boolean} publiclyAccessible if, when published, this document can be accessed without a user needing to log in
  * @property {string} horizonDocumentType name used in horizon
  * @property {string} horizonDocumentGroupType group type used in horizon
@@ -34,7 +35,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Planning application form',
 		involvement: 'LPA',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Application Form',
 		horizonDocumentGroupType: 'Evidence'
@@ -44,7 +45,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Decision notice',
 		involvement: 'Appellant',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'LPA Decision Notice',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -54,7 +55,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Appeal Statement',
 		involvement: 'LPA',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Evidence'
@@ -64,7 +65,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Supporting Documents',
 		involvement: 'Appellant',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -74,7 +75,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Design and access statement',
 		involvement: 'Appellant',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -84,7 +85,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Draft statement of common ground',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Statement of Common Ground',
 		horizonDocumentGroupType: 'Important Information'
@@ -94,7 +95,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Plans, drawings and supporting documents',
 		involvement: 'Appellant',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Application Plans',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -104,7 +105,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: '',
 		involvement: 'Appellant',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -114,7 +115,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Plans used to reach decision',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Plans Post LPA Decision',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -124,7 +125,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Planning Officers report',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -134,7 +135,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Application publicity',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -144,7 +145,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Representations',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -154,7 +155,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Application notification',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -164,7 +165,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -174,7 +175,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Details of planning history',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -184,7 +185,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Other relevant polices',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -194,7 +195,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Statutory development plan policy',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -204,7 +205,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Supplementary Planning Documents',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -214,7 +215,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -224,7 +225,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Original Decision Notice',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'LPA Decision Notice',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -234,7 +235,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Ownership certificate and agricultural land declaration',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Statement and Appendices',
 		horizonDocumentGroupType: 'Evidence'
@@ -245,7 +246,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Planning obligation',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Planning Obligation',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -255,7 +256,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Letter Confirming Application',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -265,7 +266,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Draft planning obligation',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Planning Obligation',
 		horizonDocumentGroupType: 'Initial Documents'
@@ -275,7 +276,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Upload documents',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Final Comments',
 		horizonDocumentGroupType: 'Evidence'
@@ -285,7 +286,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'final Comment',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appellant Final Comments',
 		horizonDocumentGroupType: 'Evidence'
@@ -296,7 +297,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: "Local Authority's Questionnaire",
 		horizonDocumentGroupType: 'Evidence'
@@ -307,7 +308,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: "Local Authority's Questionnaire",
 		horizonDocumentGroupType: 'Evidence'
@@ -318,7 +319,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'LPA Questionnaire Documents',
 		horizonDocumentGroupType: 'Evidence'
@@ -329,7 +330,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Consultation Responses',
 		horizonDocumentGroupType: 'Evidence'
@@ -340,7 +341,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'LPA Questionnaire Documents',
 		horizonDocumentGroupType: 'Evidence'
@@ -351,7 +352,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Consultation Responses',
 		horizonDocumentGroupType: 'Evidence'
@@ -362,7 +363,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'LPA Questionnaire Documents',
 		horizonDocumentGroupType: 'Evidence'
@@ -373,7 +374,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Emerging Plans',
 		horizonDocumentGroupType: 'Evidence'
@@ -384,7 +385,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'LPA Questionnaire Documents',
 		horizonDocumentGroupType: 'Evidence'
@@ -395,7 +396,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'LPA Questionnaire Documents',
 		horizonDocumentGroupType: 'Evidence'
@@ -406,7 +407,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -417,7 +418,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Appeal Notification Letter',
 		horizonDocumentGroupType: 'Evidence'
@@ -428,7 +429,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'LPA Questionnaire Documents',
 		horizonDocumentGroupType: 'Evidence'
@@ -439,7 +440,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'LPA Questionnaire Documents',
 		horizonDocumentGroupType: 'Evidence'
@@ -450,7 +451,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'Supplementary Guidance',
 		horizonDocumentGroupType: 'Evidence'
@@ -461,7 +462,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'LPA Questionnaire Documents',
 		horizonDocumentGroupType: 'Evidence'
@@ -472,7 +473,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: 'LPA Questionnaire Documents',
 		horizonDocumentGroupType: 'Evidence'
@@ -483,7 +484,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -494,7 +495,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -505,7 +506,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -516,7 +517,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -527,7 +528,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -538,7 +539,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -549,7 +550,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -560,7 +561,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -571,7 +572,10 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (appealTypeCode) => {
+			if (appealTypeCode === CASE_TYPES.HAS.processCode) return lpaOwner;
+			return appellantOwner;
+		},
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -582,7 +586,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -593,7 +597,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -604,7 +608,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -615,7 +619,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -626,7 +630,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -637,7 +641,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: rule6Owner,
+		owner: (_appealTypeCode) => rule6Owner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -648,7 +652,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -659,7 +663,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -670,7 +674,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: pinsOwner,
+		owner: (_appealTypeCode) => pinsOwner,
 		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -681,7 +685,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -692,7 +696,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appellantOwner,
+		owner: (_appealTypeCode) => appellantOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -703,7 +707,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -714,7 +718,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: rule6Owner,
+		owner: (_appealTypeCode) => rule6Owner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -725,7 +729,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -736,7 +740,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: rule6Owner,
+		owner: (_appealTypeCode) => rule6Owner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -747,7 +751,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: '',
 		involvement: 'LPA',
-		owner: lpaOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
