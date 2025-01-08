@@ -10,7 +10,7 @@ const {
 module.exports = (alreadySubmittedUrl) => (req, res, next) => {
 	const journeyResponse = res?.locals?.journeyResponse;
 
-	alreadySubmittedUrl =
+	const redirectPageUrl =
 		alreadySubmittedUrl === APPEAL_OVERVIEW
 			? `${alreadySubmittedUrl}/${journeyResponse.referenceId}`
 			: alreadySubmittedUrl;
@@ -19,7 +19,7 @@ module.exports = (alreadySubmittedUrl) => (req, res, next) => {
 		journeyResponse?.answers?.submitted === 'yes' ||
 		journeyResponse?.answers?.submitted === true
 	) {
-		return res.redirect(alreadySubmittedUrl);
+		return res.redirect(redirectPageUrl);
 	}
 
 	return next();
