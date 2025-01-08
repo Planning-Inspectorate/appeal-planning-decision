@@ -3,6 +3,7 @@ const asyncHandler = require('@pins/common/src/middleware/async-handler');
 const { AUTH } = require('@pins/common/src/constants');
 const config = require('../../../../../../configuration/config');
 const { getDocumentsByCaseReferenceAndCaseStage } = require('./controller');
+const checkCaseAccess = require('../../check-case-access');
 const { auth } = require('express-oauth2-jwt-bearer');
 const { validateToken } = require('@pins/common/src/middleware/validate-token');
 
@@ -19,10 +20,10 @@ router.use(
 		headerName: 'authentication',
 		reqPropertyName: 'id_token',
 		jwksUri: `${config.auth.authServerUrl}${AUTH.JWKS_ENDPOINT}`,
-		enforceToken: false
+		enforceToken: true
 	})
 );
 
-router.get('/', asyncHandler(getDocumentsByCaseReferenceAndCaseStage));
+router.get('/', checkCaseAccess, asyncHandler(getDocumentsByCaseReferenceAndCaseStage));
 
 module.exports = { router };

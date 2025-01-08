@@ -95,6 +95,23 @@ class DocumentsRepository {
 
 	/**
 	 * @param {Object} params
+	 * @param {string} params.caseReference
+	 * @returns {Promise<{ appealId: string, LPACode: string }|null>}
+	 */
+	async getAppealCase({ caseReference }) {
+		return await this.dbClient.appealCase.findFirst({
+			where: {
+				caseReference
+			},
+			select: {
+				appealId: true,
+				LPACode: true
+			}
+		});
+	}
+
+	/**
+	 * @param {Object} params
 	 * @param {string} params.appealId
 	 * @param {string} params.userId
 	 * @returns {Promise<import("@prisma/client").AppealToUser[]>}
