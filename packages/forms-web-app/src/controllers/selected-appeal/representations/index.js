@@ -27,7 +27,7 @@ const { getServiceUserId } = require('../../../services/user.service');
  * @property {AppealToUserRoles|LpaUserRole} userType // the user
  * @property {RepresentationTypes} representationType // Statement, Final Comment, IP Comments, Proofs of Evidence
  * @property {AppealToUserRoles|LpaUserRole} submittingParty  // the party submitting the representation
- * @property {boolean | null} [rule6OwnRepresentations] // optional param
+ * @property {boolean | null} [rule6OwnRepresentations] // optional param passed when a rule 6 party is viewing own (true) or other rule 6 party (false) reps
  */
 
 /**
