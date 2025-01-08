@@ -1244,6 +1244,9 @@ const lpaAppealCaseData = [
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		lpaProofEvidencePublished: true,
+		appellantProofEvidencePublished: true,
+		rule6ProofsEvidencePublished: true,
 		CaseDecisionOutcome: {
 			connect: { key: APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION }
 		},
