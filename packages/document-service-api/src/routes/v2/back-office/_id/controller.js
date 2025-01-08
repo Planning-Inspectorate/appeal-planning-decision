@@ -10,7 +10,7 @@ const { DocumentsRepository } = require('../../../../db/repos/repository');
 const repo = new DocumentsRepository();
 
 /**
- * @param {import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string} }} documentWithAppeal
+ * @param {import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string, appealTypeCode: string} }} documentWithAppeal
  * @param {import('express-oauth2-jwt-bearer').JWTPayload} access_token
  * @param {object} id_token
  */
