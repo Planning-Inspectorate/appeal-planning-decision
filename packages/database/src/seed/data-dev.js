@@ -140,7 +140,8 @@ const appealIds = {
 	appeal11: 'ee283ae8-7a92-4afe-a93f-405689b1f35b',
 	appeal12: '7573b265-f529-4b0b-adf1-659cc70c180f',
 	appeal13: '1f72d00c-03fa-48be-8ded-a9580e65f7a5',
-	appeal14: '437c4af5-7440-486d-98e9-b37a748be96c'
+	appeal14: '437c4af5-7440-486d-98e9-b37a748be96c',
+	appeal15: '5b769d3f-466c-427a-9d58-d9823239ee9b'
 };
 
 const caseReferences = {
@@ -155,7 +156,8 @@ const caseReferences = {
 	caseReferenceNine: '1010109',
 	caseReferenceTen: '1010110',
 	caseReference13: '2201010',
-	caseReference14: '2211010'
+	caseReference14: '2211010',
+	caseReference15: '2221010'
 };
 
 const appellantSubmissionIds = {
@@ -295,6 +297,7 @@ const appeals = [
 	{ id: appealIds.appeal12 },
 	{ id: appealIds.appeal13 },
 	{ id: appealIds.appeal14 },
+	{ id: appealIds.appeal15 },
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
@@ -700,6 +703,39 @@ const appealCases = [
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2))
 	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appeal15 }
+		},
+		LPACode: 'Q9999',
+		siteAddressLine1: '125 Fake Street',
+		siteAddressTown: 'Bristol',
+		siteAddressCounty: 'Bristolshire',
+		siteAddressPostcode: 'BS1 6PN',
+		appellantCostsAppliedFor: false,
+		casePublishedDate: pickRandom(datesNMonthsAgo(1)),
+		caseCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		CaseType: {
+			connect: { processCode: 'S78' }
+		},
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
+		},
+		appellantCommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		appellantFinalCommentsSubmitted: true,
+		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
+		appellantsProofsSubmitted: new Date(),
+		ProcedureType: {
+			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
+		},
+		caseReference: caseReferences.caseReference15,
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323238/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2))
+	},
 	...lpaAppealCaseData
 ];
 
@@ -793,6 +829,11 @@ const appealToUsers = [
 	},
 	{
 		appealId: appealIds.appeal14,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
+	{
+		appealId: appealIds.appeal15,
 		userId: appellants.appellantOne.id,
 		role: APPEAL_USER_ROLES.APPELLANT
 	},
@@ -1420,6 +1461,23 @@ const appealFinalComments = [
 		AppealCase: {
 			connect: {
 				caseReference: '1000014'
+			}
+		},
+		ServiceUser: {
+			connect: {
+				internalId: '19d01551-e0cb-414f-95d9-fd71422c9a89'
+			}
+		}
+	},
+	{
+		id: appealFinalCommentIds.appealFinalCommentFour,
+		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
+		comments:
+			'This is the appellant final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. ',
+		wantsFinalComment: true,
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceOne
 			}
 		},
 		ServiceUser: {

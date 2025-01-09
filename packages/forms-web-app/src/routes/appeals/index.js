@@ -20,6 +20,12 @@ router.use('/full-planning', dynamicSubmission);
 router.use('/final-comments', finalCommentsRouter);
 router.use('/proof-evidence', proofEvidenceRouter);
 
+//redirect away from non-existent journey
+router.use('/appeal-statement/:appealNumber', (req, res) => {
+	const appealNumber = req.params.appealNumber;
+	return res.redirect(`/appeals/${appealNumber}`);
+});
+
 // todo: leave at end or fix the urls defined in these routes, currently catches anything else as :appealNumber
 router.use('/', selectedAppealRouter);
 

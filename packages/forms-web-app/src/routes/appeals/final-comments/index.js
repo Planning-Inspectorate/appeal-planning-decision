@@ -30,7 +30,7 @@ const {
 		SELECTED_APPEAL: { APPEAL_OVERVIEW }
 	}
 } = require('../../../lib/views');
-const appealOverviewUrl = `${APPEAL_OVERVIEW}`;
+const appealOverviewUrl = APPEAL_OVERVIEW;
 
 const router = express.Router();
 
