@@ -31,9 +31,13 @@ describe('appeals Controller Tests', () => {
 		};
 	});
 
-	it('should redirect to no-results page if no search results are found', async () => {
+	it('should redirect to no-results page with correct navigation history if no search results are found', async () => {
 		req.query.search = 'AB12 3CD';
 		req.appealsApiClient.getPostcodeSearchResults.mockResolvedValue([]);
+		req.session.navigationHistory = [
+			'/comment-planning-appeal/appeals',
+			'/comment-planning-appeal/enter-postcode'
+		];
 
 		await appeals(req, res);
 
@@ -44,6 +48,7 @@ describe('appeals Controller Tests', () => {
 		expect(res.redirect).toHaveBeenCalledWith(
 			'appeal-search-no-results?search=AB12 3CD&type=postcode'
 		);
+		expect(req.session.navigationHistory).toEqual(['/comment-planning-appeal/enter-postcode']);
 	});
 
 	it('should render the appeals page with formatted data', async () => {
@@ -57,6 +62,10 @@ describe('appeals Controller Tests', () => {
 			}
 		];
 		req.appealsApiClient.getPostcodeSearchResults.mockResolvedValue(postcodeSearchResults);
+		req.session.navigationHistory = [
+			'/comment-planning-appeal/appeals',
+			'/comment-planning-appeal/enter-postcode'
+		];
 		formatAddress.mockReturnValue('Formatted Address');
 		getOpenAppeals.mockReturnValue(postcodeSearchResults);
 		getClosedAppeals.mockReturnValue([]);
@@ -77,5 +86,9 @@ describe('appeals Controller Tests', () => {
 			openAppeals: postcodeSearchResults,
 			closedAppeals: []
 		});
+		expect(req.session.navigationHistory).toEqual([
+			'/comment-planning-appeal/appeals',
+			'/comment-planning-appeal/enter-postcode'
+		]);
 	});
 });
