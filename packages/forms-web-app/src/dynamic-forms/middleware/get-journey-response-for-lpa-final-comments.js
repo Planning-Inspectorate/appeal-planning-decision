@@ -1,13 +1,20 @@
 const { JourneyResponse } = require('../journey-response');
 const { LPA_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
+const { APPEAL_CASE_STATUS } = require('pins-data-model');
 const logger = require('#lib/logger');
 const { getUserFromSession } = require('../../services/user.service');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+const {
+	VIEW: {
+		LPA_DASHBOARD: { APPEAL_OVERVIEW }
+	}
+} = require('../../lib/views');
 
 module.exports = () => async (req, res, next) => {
 	const referenceId = req.params.referenceId;
+	const appealOverviewUrl = `${APPEAL_OVERVIEW}/${referenceId}`;
 	let result;
 
 	const user = getUserFromSession(req);
@@ -17,6 +24,10 @@ module.exports = () => async (req, res, next) => {
 		userId: user.id,
 		role: LPA_USER_ROLE
 	});
+
+	if (appeal.caseStatus !== APPEAL_CASE_STATUS.FINAL_COMMENTS) {
+		return res.redirect(appealOverviewUrl);
+	}
 
 	let journeyType;
 
