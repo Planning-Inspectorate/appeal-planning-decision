@@ -44,7 +44,7 @@ exports.environmentalRows = (caseData) => {
 		{
 			keyText: 'Issued screening opinion',
 			valueText: formatYesOrNo(caseData, 'screeningOpinion'),
-			condition: () => caseData.screeningOpinion
+			condition: () => true
 		},
 		{
 			keyText: 'Uploaded screening opinion',
@@ -55,12 +55,12 @@ exports.environmentalRows = (caseData) => {
 		{
 			keyText: 'Screening opinion indicated environmental statement needed',
 			valueText: formatYesOrNo(caseData, 'requiresEnvironmentalStatement'),
-			condition: () => caseData.requiresEnvironmentalStatement
+			condition: () => caseData.screeningOpinion
 		},
 		{
 			keyText: 'Did Environmental statement',
 			valueText: formatYesOrNo(caseData, 'completedEnvironmentalStatement'),
-			condition: () => caseData.completedEnvironmentalStatement
+			condition: () => caseData.requiresEnvironmentalStatement
 		},
 		{
 			keyText: 'Uploaded environmental statement',
