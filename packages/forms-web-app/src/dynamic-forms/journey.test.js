@@ -11,7 +11,12 @@ const mockSections = [
 				prepQuestionForRendering: jest.fn(),
 				shouldDisplay: () => true
 			},
-			{ fieldName: 'question3', text: 'Question 3', shouldDisplay: () => true },
+			{
+				fieldName: 'question3',
+				text: 'Question 3',
+				shouldDisplay: () => true,
+				subQuestion: { fieldName: 'question3subquestion' }
+			},
 			{ fieldName: 'question4', text: 'Question 4', shouldDisplay: () => true }
 		]
 	},
@@ -445,6 +450,21 @@ describe('Journey class', () => {
 			const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
 
 			expect(nextQuestionUrl).toBe(`base/${section.segment}/${nextQuestionName}?id=1`);
+		});
+
+		it('should return previous question url if passed subquestion fieldname', () => {
+			const section = mockSections[0];
+			const name = section.questions[2].subQuestion.fieldName;
+			const prevQuestionName = section.questions[1].fieldName;
+
+			const journey = new Journey(constructorArgs);
+			journey.sections = mockSections;
+
+			const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
+
+			expect(nextQuestionUrl).toBe(
+				`${constructorArgs.makeBaseUrl()}/${section.segment}/${prevQuestionName}`
+			);
 		});
 	});
 
