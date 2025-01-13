@@ -43,6 +43,11 @@ exports.constraintsRows = (caseData) => {
 			valueText: formatYesOrNo(caseData, 'isCorrectAppealType'),
 			condition: () => isNotUndefinedOrNull(caseData.isCorrectAppealType)
 		},
+		// {
+		// 	keyText: 'Changes a listed building',
+		// 	valueText: formatYesOrNo(caseData, 'changesListedBuilding'),
+		// 	condition: () => caseData.changesListedBuilding
+		// },
 		{
 			keyText: 'Affects a listed building',
 			valueText: affectedListedBuildingText,
