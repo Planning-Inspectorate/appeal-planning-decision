@@ -28,7 +28,7 @@ const sections = [
 				response.answers && response.answers[questions.conservationArea.fieldName] == 'yes'
 		)
 		.addQuestion(questions.greenBelt),
-	new Section('Notifying relevant parties of the application', 'notified')
+	new Section('Notifying relevant parties', 'notified')
 		.addQuestion(questions.whoWasNotified)
 		.addQuestion(questions.howYouNotifiedPeople)
 		.addQuestion(questions.uploadSiteNotice)
