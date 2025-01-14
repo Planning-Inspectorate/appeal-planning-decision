@@ -3,8 +3,8 @@ const express = require('express');
 const selectedAppealController = require('../../../controllers/selected-appeal');
 const appealDetailsController = require('../../../controllers/selected-appeal/appeal-details');
 const questionnaireDetailsController = require('../../../controllers/selected-appeal/questionnaire-details');
-const finalCommentsController = require('../../../controllers/selected-appeal/final-comments-details');
-const interestedPartyDetailsController = require('../../../controllers/selected-appeal/ip-comment-details');
+// const finalCommentsController = require('../../../controllers/selected-appeal/final-comments-details');
+// const interestedPartyDetailsController = require('../../../controllers/selected-appeal/ip-comment-details');
 // const statementDetailsController = require('../../../controllers/selected-appeal/statements');
 const planningObligationDetailsController = require('../../../controllers/selected-appeal/planning-obligation-details');
 
@@ -25,13 +25,79 @@ const lpaStatementParams = {
 	submittingParty: LPA_USER_ROLE
 };
 
+const rule6StatementParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.STATEMENT,
+	submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+};
+
+const lpaFinalCommentParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+	submittingParty: LPA_USER_ROLE
+};
+
+const appellantFinalCommentParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+	submittingParty: APPEAL_USER_ROLES.APPELLANT
+};
+
+const appellantProofParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+	submittingParty: APPEAL_USER_ROLES.APPELLANT
+};
+
+const lpaProofParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+	submittingParty: LPA_USER_ROLE
+};
+
+const rule6ProofParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+	submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+};
+
+const interestedPartyParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+	submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+};
+
 router.get('/:appealNumber', selectedAppealController.get());
 router.get('/:appealNumber/appeal-details', appealDetailsController.get());
 router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get());
-router.get('/:appealNumber/final-comments', finalCommentsController.get());
-router.get('/:appealNumber/lpa-final-comments', finalCommentsController.get());
-router.get('/:appealNumber/interested-party-comments', interestedPartyDetailsController.get());
+
 router.get('/:appealNumber/lpa-statement', representationsController.get(lpaStatementParams));
+router.get(
+	'/:appealNumber/other-party-statements',
+	representationsController.get(rule6StatementParams)
+);
+
+router.get(
+	'/:appealNumber/final-comments',
+	representationsController.get(appellantFinalCommentParams)
+);
+router.get(
+	'/:appealNumber/lpa-final-comments',
+	representationsController.get(lpaFinalCommentParams)
+);
+
+router.get('/:appealNumber/proof-evidence', representationsController.get(appellantProofParams));
+router.get('/:appealNumber/lpa-proof-evidence', representationsController.get(lpaProofParams));
+router.get(
+	'/:appealNumber/other-party-proof-evidence',
+	representationsController.get(rule6ProofParams)
+);
+
+router.get(
+	'/:appealNumber/interested-party-comments',
+	representationsController.get(interestedPartyParams)
+);
+
 router.get('/:appealNumber/planning-obligation', planningObligationDetailsController.get());
 
 module.exports = router;

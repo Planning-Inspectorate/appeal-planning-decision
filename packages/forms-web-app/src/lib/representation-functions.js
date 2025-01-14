@@ -9,6 +9,7 @@ const escape = require('escape-html');
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.Representation} Representation
  * @typedef {import('appeals-service-api').Api.RepresentationDocument} RepresentationDocument
+ * @typedef {import('appeals-service-api').Api.Document} Document
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
  * @typedef {import('@pins/common/src/constants').LpaUserRole} LpaUserRole
  * @typedef {import('@pins/common/src/constants').RepresentationTypes} RepresentationTypes
@@ -48,6 +49,33 @@ const filterRepresentationsBySubmittingParty = (caseData, submittingParty) => {
 		default:
 			return [];
 	}
+};
+
+/**
+ * @param {AppealCaseDetailed} caseData
+ * @param {string} serviceUserId
+ * @param {boolean} rule6OwnRepresentations
+ * @returns {Representation[]}
+ */
+const filterRepresentationsForRule6ViewingRule6 = (
+	caseData,
+	serviceUserId,
+	rule6OwnRepresentations
+) => {
+	if (!serviceUserId) return [];
+
+	const unfilteredRepresentations = filterRepresentationsBySubmittingParty(
+		caseData,
+		APPEAL_USER_ROLES.RULE_6_PARTY
+	);
+
+	return rule6OwnRepresentations
+		? unfilteredRepresentations.filter(
+				(representation) => representation.serviceUserId == serviceUserId
+		  )
+		: unfilteredRepresentations.filter(
+				(representation) => representation.serviceUserId != serviceUserId
+		  );
 };
 
 /**
@@ -122,21 +150,19 @@ const formatFinalCommentsHeading = (userType, submittingParty) => {
  * @returns {string}
  */
 const formatProofsOfEvidenceHeading = (userType, submittingParty) => {
-	// LPA_USER_ROLE
-	// 	LPA_USER_ROLE - 'Your proof of evidence and witnesses'
-	// 	"Appellant’s proof of evidence and witnesses"
-	// 	'Local planning authority proof of evidence and witnesses'
-	// 	'Proof of evidence and witnesses from other parties'
-	// switch (userType) {
-	// 	case LPA_USER_ROLE:
-	// 		return submittingParty == LPA_USER_ROLE ? 'Your statement' : 'Statements from other parties';
-	// 	case APPEAL_USER_ROLES.AGENT:
-	// 	case APPEAL_USER_ROLES.APPELLANT:
-	// 	case APPEAL_USER_ROLES.RULE_6_PARTY:
-	// 		return submittingParty == LPA_USER_ROLE ? 'Local planning authority statement' : 'Statements from other parties';
-	// 	default:
-	return `Appeal statement ${userType} ${submittingParty}`;
-	// }
+	if (userType == submittingParty) {
+		return 'Your proof of evidence and witnesses';
+	}
+
+	switch (submittingParty) {
+		case LPA_USER_ROLE:
+			return 'Local planning authority proof of evidence and witnesses';
+		case APPEAL_USER_ROLES.AGENT:
+		case APPEAL_USER_ROLES.APPELLANT:
+			return 'Appellant’s proof of evidence and witnesses';
+		default:
+			return 'Proof of evidence and witnesses from other parties';
+	}
 };
 
 /**
@@ -149,12 +175,22 @@ const formatRepresentations = (representations) => {
 		const fullText = representation.redacted
 			? representation.redactedRepresentation
 			: representation.originalRepresentation;
-		const truncated = fullText.length > 150;
+		const truncated = fullText ? fullText.length > 150 : false;
 		const truncatedText = truncated ? fullText.substring(0, 150) + '...' : fullText;
 
-		const documents = formatRepresentationDocumentsLinks(representation.RepresentationDocuments);
+		const rowLabel = formatRowLabelAndKey(representation.representationType);
+
+		const documents =
+			representation.representationType === REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
+				? formatProofsOfEvidenceDocuments(representation.RepresentationDocuments)
+				: formatRepresentationDocumentsLinks(
+						representation.RepresentationDocuments,
+						'Supporting documents'
+				  );
+
 		return {
-			key: { text: `${representation.representationType} ${index + 1}` },
+			key: { text: `${rowLabel} ${index + 1}` },
+			rowLabel,
 			value: {
 				text: fullText,
 				truncatedText: truncatedText,
@@ -169,12 +205,59 @@ const formatRepresentations = (representations) => {
 
 /**
  * @param {RepresentationDocument[]} representationDocuments
+ * @param {string} documentsLabel
  */
-const formatRepresentationDocumentsLinks = (representationDocuments) => {
+const formatRepresentationDocumentsLinks = (representationDocuments, documentsLabel) => {
 	const documents = representationDocuments.map(
 		(representationDocument) => representationDocument.Document
 	);
-	return documents.length > 0 ? documents.map(formatDocumentLink).join('\n') : 'No';
+
+	const documentsLinks =
+		documents.length > 0 ? documents.map(formatDocumentLink).join('\n') : 'No documents';
+
+	return [
+		{
+			documentsLabel,
+			documentsLinks
+		}
+	];
+};
+
+/**
+ * @param {RepresentationDocument[]} representationDocuments
+ */
+const formatProofsOfEvidenceDocuments = (representationDocuments) => {
+	const documents = representationDocuments.map(
+		(representationDocument) => representationDocument.Document
+	);
+
+	const { proofs, witnesses } = documents.reduce(
+		(acc, document) => {
+			if (isProofsDocument(document)) {
+				acc.proofs.push(document);
+			} else {
+				acc.witnesses.push(document);
+			}
+			return acc;
+		},
+		{ proofs: [], witnesses: [] }
+	);
+
+	const proofsLinks =
+		proofs.length > 0 ? proofs.map(formatDocumentLink).join('\n') : 'No documents';
+	const witnessesLinks =
+		witnesses.length > 0 ? witnesses.map(formatDocumentLink).join('\n') : 'No documents';
+
+	return [
+		{
+			documentsLabel: 'Proof of evidence and summary',
+			documentsLinks: proofsLinks
+		},
+		{
+			documentsLabel: 'Witnesses and their evidence',
+			documentsLinks: witnessesLinks
+		}
+	];
 };
 
 /**
@@ -191,8 +274,41 @@ const formatDocumentLink = (document) => {
 	return escape(document.filename) + ' - awaiting review';
 };
 
+/**
+ * @param {RepresentationTypes} representationType
+ * @returns {string}
+ */
+const formatRowLabelAndKey = (representationType) => {
+	switch (representationType) {
+		case REPRESENTATION_TYPES.STATEMENT:
+			return 'Statement';
+		case REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT:
+			return 'Interested party';
+		case REPRESENTATION_TYPES.FINAL_COMMENT:
+			return 'Final comments';
+		default:
+			return 'Representation';
+	}
+};
+
+/**
+ * @param {Document} document
+ * @returns {boolean}
+ */
+
+const isProofsDocument = (document) => {
+	const { documentType } = document;
+
+	return (
+		documentType === 'lpaProofs' ||
+		documentType === 'appellantProofs' ||
+		documentType === 'rule6Proofs'
+	);
+};
+
 module.exports = {
 	filterRepresentationsBySubmittingParty,
+	filterRepresentationsForRule6ViewingRule6,
 	formatRepresentationHeading,
 	formatRepresentations
 };

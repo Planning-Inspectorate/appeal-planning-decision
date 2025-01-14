@@ -32,7 +32,7 @@
 
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 			{% for representation in appeal.representations %}
-                {{renderComment(representation.value, loop.index, "Statement text") }}
+                {{renderComment(representation.value, loop.index, representation.rowLabel) }}
             {% endfor %}
 		</div>
 	</div>

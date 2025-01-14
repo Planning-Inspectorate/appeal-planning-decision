@@ -1,5 +1,6 @@
 const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
 const { lpaAppealCaseData, lpaAppeals } = require('./lpa-appeal-case-data-dev');
+const { representations, representationDocuments } = require('./representations-data-dev');
 const { appealDocuments } = require('./appeal-documents-dev');
 const {
 	APPEAL_CASE_DECISION_OUTCOME,
@@ -64,11 +65,13 @@ const appellants = {
 const rule6Parties = {
 	r6One: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b11',
-		email: 'r6-1@planninginspectorate.gov.uk'
+		email: 'r6-1@planninginspectorate.gov.uk',
+		serviceUserId: '123998'
 	},
 	r6Two: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b12',
-		email: 'r6-2@planninginspectorate.gov.uk'
+		email: 'r6-2@planninginspectorate.gov.uk',
+		serviceUserId: '123999'
 	},
 	r6Three: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b13',
@@ -134,7 +137,11 @@ const appealIds = {
 	appealEight: '756d6bfb-dde8-4532-a041-86c226a23a08',
 	appealNine: 'd8290e68-bfbb-3bc8-b621-5a9590aa29fd',
 	appealTen: 'f933b0e0-1694-11ef-ab42-cbf3edc5e3fd',
-	appeal11: 'ee283ae8-7a92-4afe-a93f-405689b1f35b'
+	appeal11: 'ee283ae8-7a92-4afe-a93f-405689b1f35b',
+	appeal12: '7573b265-f529-4b0b-adf1-659cc70c180f',
+	appeal13: '1f72d00c-03fa-48be-8ded-a9580e65f7a5',
+	appeal14: '437c4af5-7440-486d-98e9-b37a748be96c',
+	appeal15: '5b769d3f-466c-427a-9d58-d9823239ee9b'
 };
 
 const caseReferences = {
@@ -146,7 +153,11 @@ const caseReferences = {
 	caseReferenceSix: '1010106',
 	caseReferenceSeven: '1010107',
 	caseReferenceEight: '1010108',
-	caseReferenceNine: '1010109'
+	caseReferenceNine: '1010109',
+	caseReferenceTen: '1010110',
+	caseReference13: '2201010',
+	caseReference14: '2211010',
+	caseReference15: '2221010'
 };
 
 const appellantSubmissionIds = {
@@ -160,12 +171,6 @@ const appealSubmissionDraft = {
 	// ID in Cosmos, see dev/data
 	id: '89aa8504-773c-42be-bb68-029716ad9756',
 	idTwo: 'ac3643e6-e680-4230-9c3c-66d90c3ecdfe'
-};
-
-const representationIds = {
-	representationOne: '4f7bb373-faee-47ab-9ddd-cd430c56b23e',
-	representationTwo: 'd24447a2-ad41-42b7-be86-7a222ae57439',
-	representationThree: 'd24247a2-ad41-42b7-be86-7a222ae57437'
 };
 
 const appealStatementIds = {
@@ -289,6 +294,10 @@ const appeals = [
 	{ id: appealIds.appealNine },
 	{ id: appealIds.appealTen },
 	{ id: appealIds.appeal11 },
+	{ id: appealIds.appeal12 },
+	{ id: appealIds.appeal13 },
+	{ id: appealIds.appeal14 },
+	{ id: appealIds.appeal15 },
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
@@ -604,6 +613,129 @@ const appealCases = [
 			connect: { key: APPEAL_CASE_DECISION_OUTCOME.DISMISSED }
 		}
 	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appeal12 }
+		},
+		LPACode: 'Q9999',
+		siteAddressLine1: '123 Fake Street',
+		siteAddressTown: 'Birmingham',
+		siteAddressCounty: 'West Midlands',
+		siteAddressPostcode: 'B44 0QS',
+		appellantCostsAppliedFor: false,
+		casePublishedDate: pickRandom(datesNMonthsAgo(2)),
+		caseCreatedDate: pickRandom(datesNMonthsAgo(2)),
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(2)),
+		CaseType: {
+			connect: { processCode: 'S78' }
+		},
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
+		},
+		caseReference: caseReferences.caseReferenceTen,
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323238/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
+		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(4)),
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
+		}
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appeal13 }
+		},
+		LPACode: 'Q9999',
+		siteAddressLine1: '124 Fake Street',
+		siteAddressTown: 'Bristol',
+		siteAddressCounty: 'Bristolshire',
+		siteAddressPostcode: 'BS1 6PN',
+		appellantCostsAppliedFor: false,
+		casePublishedDate: pickRandom(datesNMonthsAgo(1)),
+		caseCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		CaseType: {
+			connect: { processCode: 'S78' }
+		},
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+		},
+		ProcedureType: {
+			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
+		},
+		caseReference: caseReferences.caseReference13,
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323238/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2))
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appeal14 }
+		},
+		LPACode: 'Q9999',
+		siteAddressLine1: '124 Fake Street',
+		siteAddressTown: 'Bristol',
+		siteAddressCounty: 'Bristolshire',
+		siteAddressPostcode: 'BS1 6PN',
+		appellantCostsAppliedFor: false,
+		casePublishedDate: pickRandom(datesNMonthsAgo(1)),
+		caseCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		CaseType: {
+			connect: { processCode: 'S78' }
+		},
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.FINAL_COMMENTS }
+		},
+		appellantCommentsSubmitted: new Date(),
+		appellantFinalCommentsSubmitted: true,
+		ProcedureType: {
+			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
+		},
+		caseReference: caseReferences.caseReference14,
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323238/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2))
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appeal15 }
+		},
+		LPACode: 'Q9999',
+		siteAddressLine1: '125 Fake Street',
+		siteAddressTown: 'Bristol',
+		siteAddressCounty: 'Bristolshire',
+		siteAddressPostcode: 'BS1 6PN',
+		appellantCostsAppliedFor: false,
+		casePublishedDate: pickRandom(datesNMonthsAgo(1)),
+		caseCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		CaseType: {
+			connect: { processCode: 'S78' }
+		},
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
+		},
+		appellantCommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		appellantFinalCommentsSubmitted: true,
+		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
+		appellantsProofsSubmitted: new Date(),
+		ProcedureType: {
+			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
+		},
+		caseReference: caseReferences.caseReference15,
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323238/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2))
+	},
 	...lpaAppealCaseData
 ];
 
@@ -687,6 +819,21 @@ const appealToUsers = [
 	},
 	{
 		appealId: appealIds.appeal11,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
+	{
+		appealId: appealIds.appeal13,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
+	{
+		appealId: appealIds.appeal14,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
+	{
+		appealId: appealIds.appeal15,
 		userId: appellants.appellantOne.id,
 		role: APPEAL_USER_ROLES.APPELLANT
 	},
@@ -851,6 +998,22 @@ const serviceUsers = [
 		caseReference: '6666666',
 		firstName: 'Appellant',
 		lastName: 'One'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc23',
+		id: '123998',
+		serviceUserType: 'Rule6Party',
+		caseReference: '1000014',
+		firstName: 'Rule6Party',
+		lastName: 'One'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc24',
+		id: '123999',
+		serviceUserType: 'Rule6Party',
+		caseReference: '1000014',
+		firstName: 'Rule6Party',
+		lastName: 'Two'
 	}
 ];
 
@@ -1241,57 +1404,6 @@ const appealStatements = [
 ];
 
 /**
- * @type {import('@prisma/client').Prisma.RepresentationCreateInput[]}
- */
-const representations = [
-	{
-		id: representationIds.representationOne,
-		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471345',
-		AppealCase: {
-			connect: {
-				caseReference: '1000014'
-			}
-		},
-		status: 'published',
-		originalRepresentation:
-			'Statement Lorem ipsum dolor sit amet. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
-		source: 'lpa',
-		representationType: 'statement',
-		dateReceived: pickRandom(datesNMonthsAgo(0.5))
-	},
-	{
-		id: representationIds.representationTwo,
-		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471346',
-		AppealCase: {
-			connect: {
-				caseReference: caseReferences.caseReferenceOne
-			}
-		},
-		status: 'published',
-		originalRepresentation:
-			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
-		source: 'lpa',
-		representationType: 'statement',
-		dateReceived: pickRandom(datesNMonthsAgo(0.5))
-	},
-	{
-		id: representationIds.representationThree,
-		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471347',
-		AppealCase: {
-			connect: {
-				caseReference: '1000014'
-			}
-		},
-		status: 'published',
-		originalRepresentation:
-			'Comment Lorem ipsum dolor sit amet. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
-		source: 'lpa',
-		representationType: 'comment',
-		dateReceived: pickRandom(datesNMonthsAgo(0.5))
-	}
-];
-
-/**
  * @type {import('@prisma/client').Prisma.StatementDocumentCreateInput[]}
  */
 const statementDocuments = [
@@ -1672,6 +1784,14 @@ async function seedDev(dbClient) {
 			create: representation,
 			update: representation,
 			where: { id: representation.id }
+		});
+	}
+
+	for (const representationDocument of representationDocuments) {
+		await dbClient.representationDocument.upsert({
+			create: representationDocument,
+			update: representationDocument,
+			where: { id: representationDocument.id }
 		});
 	}
 

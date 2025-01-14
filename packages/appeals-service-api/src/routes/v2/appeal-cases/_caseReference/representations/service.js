@@ -40,4 +40,7 @@ async function getAppealCaseWithRepresentationsByType(caseReference, type) {
 	return appealCaseWithApplicant;
 }
 
-module.exports = { getAppealCaseWithAllRepresentations, getAppealCaseWithRepresentationsByType };
+module.exports = {
+	getAppealCaseWithAllRepresentations,
+	getAppealCaseWithRepresentationsByType
+};

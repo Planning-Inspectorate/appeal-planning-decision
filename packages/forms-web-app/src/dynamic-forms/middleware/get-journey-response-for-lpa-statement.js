@@ -3,6 +3,7 @@ const { LPA_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
 const { getUserFromSession } = require('../../services/user.service');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
+const { deadlineHasPassed } = require('../../lib/deadline-has-passed');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
@@ -21,7 +22,7 @@ module.exports = () => async (req, res, next) => {
 
 	let journeyType;
 
-	if (appeal.lpaQuestionnaireSubmittedDate) {
+	if (deadlineHasPassed(appeal.lpaQuestionnaireDueDate)) {
 		journeyType = LPA_JOURNEY_TYPES_FORMATTED.STATEMENT;
 	}
 

@@ -17,6 +17,8 @@ const appeals = async (req, res) => {
 	});
 
 	if (!postcodeSearchResults.length) {
+		// remove this page from navigation history to ensure back button functions correctly on redirect
+		req.session.navigationHistory.shift();
 		return res.redirect(`appeal-search-no-results?search=${postcode}&type=postcode`);
 	}
 

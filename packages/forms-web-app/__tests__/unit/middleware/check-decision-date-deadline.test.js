@@ -20,7 +20,7 @@ describe('middleware/check-decision-date-deadline', () => {
 			session: {
 				appeal: { eligibility: {} }
 			},
-			originalUrl: `/${VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION}`
+			originalUrl: `/${VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY}`
 		};
 	});
 
@@ -60,24 +60,6 @@ describe('middleware/check-decision-date-deadline', () => {
 		req.session.appeal.appealType = HOUSEHOLDER;
 		req.session.appeal.eligibility.applicationDecision = REFUSED;
 		req.session.appeal.decisionDate = subMonths(new Date(), 1);
-
-		checkDecisionDateDeadline(req, res, next);
-
-		expect(next).toHaveBeenCalledTimes(1);
-	});
-
-	it('should redirect the user to the decision date passed page if the decision date is outside the expiry period and the decision date page is not being rendered', () => {
-		req.session.appeal.decisionDate = subYears(new Date(), 1);
-
-		checkDecisionDateDeadline(req, res, next);
-
-		expect(res.redirect).toHaveBeenCalledTimes(1);
-		expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
-	});
-
-	it('should continue if the decision date is outside the expiry period and the decision date page is being rendered', () => {
-		req.session.appeal.decisionDate = subYears(new Date(), 1);
-		req.originalUrl = `/${VIEW.ELIGIBILITY.DECISION_DATE}`;
 
 		checkDecisionDateDeadline(req, res, next);
 

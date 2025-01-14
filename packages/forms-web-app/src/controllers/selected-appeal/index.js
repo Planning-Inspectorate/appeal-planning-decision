@@ -6,6 +6,16 @@ const {
 	isSection,
 	displayHeadlinesByUser
 } = require('@pins/common');
+const {
+	shouldDisplayQuestionnaireDueNotification,
+	shouldDisplayStatementsDueBannerLPA,
+	shouldDisplayStatementsDueBannerRule6,
+	shouldDisplayFinalCommentsDueBannerLPA,
+	shouldDisplayFinalCommentsDueBannerAppellant,
+	shouldDisplayProofEvidenceDueBannerAppellant,
+	shouldDisplayProofEvidenceDueBannerLPA,
+	shouldDisplayProofEvidenceDueBannerRule6
+} = require('./action-banners');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 const { VIEW } = require('../../lib/views');
 const { determineUser } = require('../../lib/determine-user');
@@ -17,7 +27,6 @@ const { getUserFromSession } = require('../../services/user.service');
 const { formatInTimeZone } = require('date-fns-tz');
 const targetTimezone = 'Europe/London';
 const { getDepartmentFromCode } = require('../../services/department.service');
-const { calculateDueInDays } = require('../../lib/calculate-due-in-days');
 const logger = require('#lib/logger');
 
 /** @type {import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict} */
@@ -79,12 +88,28 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				caseData,
 				userType
 			),
-			shouldDisplayStatementsDueBanner: shouldDisplayStatementsDueBanner(caseData, userType),
+			shouldDisplayStatementsDueBannerLPA: shouldDisplayStatementsDueBannerLPA(caseData, userType),
+			shouldDisplayStatementsDueBannerRule6: shouldDisplayStatementsDueBannerRule6(
+				caseData,
+				userType
+			),
 			shouldDisplayFinalCommentsDueBannerLPA: shouldDisplayFinalCommentsDueBannerLPA(
 				caseData,
 				userType
 			),
 			shouldDisplayFinalCommentsDueBannerAppellant: shouldDisplayFinalCommentsDueBannerAppellant(
+				caseData,
+				userType
+			),
+			shouldDisplayProofEvidenceDueBannerLPA: shouldDisplayProofEvidenceDueBannerLPA(
+				caseData,
+				userType
+			),
+			shouldDisplayProofEvidenceDueBannerAppellant: shouldDisplayProofEvidenceDueBannerAppellant(
+				caseData,
+				userType
+			),
+			shouldDisplayProofEvidenceDueBannerRule6: shouldDisplayProofEvidenceDueBannerRule6(
 				caseData,
 				userType
 			),
@@ -98,8 +123,11 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),
 				decisionDocuments: filterDecisionDocuments(caseData.Documents),
 				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate),
-				lpaStatementDueDate: formatDateForNotification(caseData.statementDueDate),
-				finalCommentDueDate: formatDateForNotification(caseData.finalCommentsDueDate)
+				statementDueDate: formatDateForNotification(caseData.statementDueDate),
+				rule6StatementDueDate: formatDateForNotification(caseData.rule6StatementDueDate),
+				finalCommentDueDate: formatDateForNotification(caseData.finalCommentsDueDate),
+				proofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate),
+				rule6ProofEvidenceDueDate: formatDateForNotification(caseData.rule6ProofEvidenceDueDate)
 			}
 		};
 
@@ -117,16 +145,6 @@ const formatTitleSuffix = (userType) => {
 	if (userType === LPA_USER_ROLE) return 'Manage your appeals';
 	return 'Appeal a planning decision';
 };
-
-/**
- * @param {import('@pins/common/src/client/appeals-api-client').AppealCaseWithRule6Parties} caseData
- * @param {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} userType
- * @returns {boolean}
- */
-const shouldDisplayQuestionnaireDueNotification = (caseData, userType) =>
-	userType === 'LPAUser' &&
-	!caseData.lpaQuestionnaireSubmittedDate &&
-	!!caseData.lpaQuestionnaireDueDate;
 
 /**
  * @param {import('appeals-service-api').Api.Document[]} documents
@@ -150,51 +168,4 @@ const formatDateForNotification = (dateStr) => {
 		targetTimezone,
 		'd LLLL yyyy'
 	)}`; // eg 11:59pm on 21 March 2024
-};
-
-/**
- * @param {import('@pins/common/src/client/appeals-api-client').AppealCaseWithRule6Parties} caseData
- * @param {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} userType
- * @returns {boolean}
- */
-const shouldDisplayStatementsDueBanner = (caseData, userType) => {
-	return (
-		userType === LPA_USER_ROLE &&
-		!caseData.LPAStatementSubmitted &&
-		!deadlineHasPassed(caseData.statementDueDate)
-	);
-};
-
-/**
- * @param {import('@pins/common/src/client/appeals-api-client').AppealCaseWithRule6Parties} caseData
- * @param {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} userType
- * @returns {boolean}
- */
-const shouldDisplayFinalCommentsDueBannerLPA = (caseData, userType) => {
-	return (
-		userType === LPA_USER_ROLE &&
-		deadlineHasPassed(caseData.statementDueDate) &&
-		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
-		!deadlineHasPassed(caseData.finalCommentsDueDate) &&
-		!caseData.lpaFinalCommentsPublished
-	);
-};
-
-/**
- * @param {import('@pins/common/src/client/appeals-api-client').AppealCaseWithRule6Parties} caseData
- * @param {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} userType
- * @returns {boolean}
- */
-const shouldDisplayFinalCommentsDueBannerAppellant = (caseData, userType) => {
-	return (
-		userType === APPEAL_USER_ROLES.APPELLANT &&
-		deadlineHasPassed(caseData.statementDueDate) &&
-		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
-		!deadlineHasPassed(caseData.finalCommentsDueDate) &&
-		!caseData.appellantFinalCommentsSubmitted
-	);
-};
-
-const deadlineHasPassed = (dueDate) => {
-	return calculateDueInDays(dueDate) < 0;
 };

@@ -2,16 +2,19 @@ const { canAccessBODocument, CLIENT_CREDS_ROLE } = require('./access-rules');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
 
-const { getDocType, documentTypes } = require('@pins/common/src/document-types');
-const lpaOwnedDoc = getDocType(LPA_USER_ROLE, 'owner');
-const appellantOwnedDoc = getDocType(APPEAL_USER_ROLES.APPELLANT, 'owner');
+const { documentTypes } = require('@pins/common/src/document-types');
+const lpaOwnedDoc = documentTypes.conservationMap;
+const appellantOwnedDoc = documentTypes.originalApplication;
 
 const validDoc = {
 	published: true,
 	redacted: true,
 	publiclyAccessible: true,
 	virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
-	documentType: appellantOwnedDoc.dataModelName
+	documentType: appellantOwnedDoc.dataModelName,
+	AppealCase: {
+		appealTypeCode: 'HAS'
+	}
 };
 
 describe('v2/back-office/access-rules', () => {

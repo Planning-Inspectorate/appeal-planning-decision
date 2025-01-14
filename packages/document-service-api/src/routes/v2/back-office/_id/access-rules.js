@@ -7,7 +7,7 @@ exports.CLIENT_CREDS_ROLE = 'client-credentials';
 
 /**
  * @typedef {import('@pins/common/src/document-types').DocType} DocType
- * @typedef {import('appeals-service-api/index').Schema.Document} DocMetaData
+ * @typedef {import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string, appealTypeCode: string} }} DocMetaData
  * @typedef {function(DocMetaData, DocType): boolean} PermissionsCheck
  */
 
@@ -22,15 +22,16 @@ const publicDocAccess = (docMetaData, docType) =>
  */
 const docTypeUserMapping = {
 	[LPA_USER_ROLE]: (docMetaData, docType) =>
-		(docMetaData.published && docMetaData.redacted) || docType.owner === LPA_USER_ROLE,
+		(docMetaData.published && docMetaData.redacted) ||
+		docType?.owner(docMetaData.AppealCase.appealTypeCode) === LPA_USER_ROLE,
 	[APPEAL_USER_ROLES.APPELLANT]: (docMetaData, docType) =>
 		(docMetaData.published && docMetaData.redacted) ||
-		docType?.owner === APPEAL_USER_ROLES.APPELLANT,
+		docType?.owner(docMetaData.AppealCase.appealTypeCode) === APPEAL_USER_ROLES.APPELLANT,
 	[APPEAL_USER_ROLES.AGENT]: (docMetaData, docType) =>
 		docTypeUserMapping[APPEAL_USER_ROLES.APPELLANT](docMetaData, docType), // same as appellant
 	[APPEAL_USER_ROLES.RULE_6_PARTY]: (docMetaData, docType) =>
 		(docMetaData.published && docMetaData.redacted) ||
-		docType.owner === APPEAL_USER_ROLES.RULE_6_PARTY,
+		docType?.owner(docMetaData.AppealCase.appealTypeCode) === APPEAL_USER_ROLES.RULE_6_PARTY,
 	[exports.CLIENT_CREDS_ROLE]: publicDocAccess // e.g. interested party
 };
 
