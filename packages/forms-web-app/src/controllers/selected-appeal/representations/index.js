@@ -82,7 +82,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			layoutTemplate,
 			titleSuffix: formatTitleSuffix(userType),
 			heading: formatRepresentationHeading(representationType, userType, submittingParty),
-
+			showLabel: formattedRepresentations.length > 1,
 			appeal: {
 				appealNumber,
 				headlineData,
