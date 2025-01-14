@@ -21,7 +21,7 @@
 		"express": "*",
 		"multer": "*",
 		"pino": "*",
-		"puppeteer": "*"
+		"puppeteer-core": "*"
 	},
 	"devDependencies": {
 		"jest": "*",
