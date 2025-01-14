@@ -112,7 +112,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Agricultural holding',
 			valueText: formatYesOrNo(caseData, 'agriculturalHolding'),
-			condition: () => true
+			condition: () => caseData.agriculturalHolding !== null
 		},
 		{
 			keyText: 'Tenant on agricultural holding',

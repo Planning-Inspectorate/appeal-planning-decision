@@ -56,4 +56,28 @@ describe('appeal-details-rows', () => {
 			expect(rows[contactIndex].valueText).toEqual('Appellant Test');
 		});
 	});
+
+	describe('Agricultural holding', () => {
+		const agriculturalIndex = 14;
+		it('should not display Agricultural holding if null', () => {
+			const test = structuredClone(caseWithAppellant);
+			test.agriculturalHolding = null;
+			const rows = detailsRows(test, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[agriculturalIndex].condition()).toEqual(false);
+			expect(rows[agriculturalIndex].keyText).toEqual('Agricultural holding');
+		});
+
+		it('should not display Agricultural holding if not null', () => {
+			const test = structuredClone(caseWithAppellant);
+			test.agriculturalHolding = false;
+			const rows = detailsRows(test, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[agriculturalIndex].condition()).toEqual(true);
+			expect(rows[agriculturalIndex].keyText).toEqual('Agricultural holding');
+			expect(rows[agriculturalIndex].valueText).toEqual('No');
+
+			test.agriculturalHolding = true;
+			const rows2 = detailsRows(test, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[agriculturalIndex].valueText).toEqual('Yes');
+		});
+	});
 });
