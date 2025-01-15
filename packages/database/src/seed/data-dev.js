@@ -141,7 +141,8 @@ const appealIds = {
 	appeal12: '7573b265-f529-4b0b-adf1-659cc70c180f',
 	appeal13: '1f72d00c-03fa-48be-8ded-a9580e65f7a5',
 	appeal14: '437c4af5-7440-486d-98e9-b37a748be96c',
-	appeal15: '5b769d3f-466c-427a-9d58-d9823239ee9b'
+	appeal15: '5b769d3f-466c-427a-9d58-d9823239ee9b',
+	appeal16: 'e2e772d4-e688-465f-802c-59a69e43a9ea'
 };
 
 const caseReferences = {
@@ -157,7 +158,8 @@ const caseReferences = {
 	caseReferenceTen: '1010110',
 	caseReference13: '2201010',
 	caseReference14: '2211010',
-	caseReference15: '2221010'
+	caseReference15: '2221010',
+	caseReference16: '2231010'
 };
 
 const appellantSubmissionIds = {
@@ -298,6 +300,7 @@ const appeals = [
 	{ id: appealIds.appeal13 },
 	{ id: appealIds.appeal14 },
 	{ id: appealIds.appeal15 },
+	{ id: appealIds.appeal16 },
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
@@ -691,6 +694,8 @@ const appealCases = [
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.FINAL_COMMENTS }
 		},
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantCommentsSubmitted: new Date(),
 		appellantFinalCommentsSubmitted: true,
 		ProcedureType: {
@@ -725,11 +730,53 @@ const appealCases = [
 		appellantCommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantFinalCommentsSubmitted: true,
 		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: new Date(),
+		lpaProofEvidenceSubmitted: true,
+		LPAProofsSubmitted: new Date(),
+		rule6ProofEvidenceSubmitted: true,
+		rule6ProofEvidenceSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		ProcedureType: {
 			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
 		},
 		caseReference: caseReferences.caseReference15,
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323238/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2))
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appeal16 }
+		},
+		LPACode: 'Q9999',
+		siteAddressLine1: '124 Fake Street',
+		siteAddressTown: 'Bristol',
+		siteAddressCounty: 'Bristolshire',
+		siteAddressPostcode: 'BS1 6PN',
+		appellantCostsAppliedFor: false,
+		casePublishedDate: pickRandom(datesNMonthsAgo(1)),
+		caseCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		CaseType: {
+			connect: { processCode: 'S78' }
+		},
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.STATEMENTS }
+		},
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		rule6StatementSubmitted: true,
+		rule6StatementSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		appellantCommentsSubmitted: new Date(),
+		appellantFinalCommentsSubmitted: true,
+		ProcedureType: {
+			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
+		},
+		caseReference: caseReferences.caseReference16,
 		applicationDecision: '',
 		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		applicationReference: '12/2323238/PLA',
@@ -882,6 +929,16 @@ const appealToUsers = [
 	{
 		appealId: appealIds.appealEight,
 		userId: rule6Parties.r6Eight.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appeal15,
+		userId: rule6Parties.r6One.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appeal16,
+		userId: rule6Parties.r6One.id,
 		role: APPEAL_USER_ROLES.RULE_6_PARTY
 	},
 	...linkedLpaR6Appeals

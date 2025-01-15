@@ -27,10 +27,10 @@ const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 const {
 	VIEW: {
-		APPEALS: { YOUR_APPEALS }
+		LPA_DASHBOARD: { APPEAL_OVERVIEW }
 	}
 } = require('../../lib/views');
-const dashboardUrl = `/${YOUR_APPEALS}`;
+const appealOverviewUrl = APPEAL_OVERVIEW;
 
 const router = express.Router();
 
@@ -59,7 +59,7 @@ router.get(
 	getJourneyResponse(),
 	getJourney(journeys),
 	redirectToUnansweredQuestion([lpaProofEvidenceSkipConditions]),
-	checkNotSubmitted(dashboardUrl),
+	checkNotSubmitted(appealOverviewUrl),
 	proofOfEvidenceTaskList
 );
 
@@ -68,7 +68,7 @@ router.post(
 	'/proof-evidence/:referenceId',
 	getJourneyResponse(),
 	getJourney(journeys),
-	checkNotSubmitted(dashboardUrl),
+	checkNotSubmitted(appealOverviewUrl),
 	validationErrorHandler,
 	submitLpaProofEvidence
 );
@@ -87,7 +87,7 @@ router.get(
 	setDefaultSection(),
 	getJourneyResponse(),
 	getJourney(journeys),
-	checkNotSubmitted(dashboardUrl),
+	checkNotSubmitted(appealOverviewUrl),
 	question
 );
 
@@ -97,7 +97,7 @@ router.post(
 	setDefaultSection(),
 	getJourneyResponse(),
 	getJourney(journeys),
-	checkNotSubmitted(dashboardUrl),
+	checkNotSubmitted(appealOverviewUrl),
 	dynamicReqFilesToReqBodyFiles(),
 	validate(),
 	validationErrorHandler,
