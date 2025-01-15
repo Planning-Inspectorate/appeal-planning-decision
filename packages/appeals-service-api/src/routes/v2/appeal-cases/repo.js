@@ -1,5 +1,8 @@
 const { createPrismaClient } = require('#db-client');
-const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
+const {
+	CASE_RELATION_TYPES,
+	LISTED_RELATION_TYPES
+} = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { subYears } = require('date-fns');
 const logger = require('#lib/logger');
@@ -185,7 +188,7 @@ class AppealCaseRepository {
 			},
 			include: {
 				Documents: DocumentsArgsPublishedOnly,
-				AffectedListedBuildings: true,
+				ListedBuildings: true,
 				AppealCaseLpaNotificationMethod: true,
 				NeighbouringAddresses: true,
 				Events: true
@@ -338,10 +341,15 @@ class AppealCaseRepository {
 				}
 			});
 
-			if (data.affectedListedBuildingNumbers?.length) {
+			const combinedListedBuildings = [
+				...(data.affectedListedBuildingNumbers || []),
+				...(data.changedListedBuildingNumbers || [])
+			];
+
+			if (combinedListedBuildings.length) {
 				// upsert any listed buildings in case they don't already exist
 				await Promise.all(
-					data.affectedListedBuildingNumbers.map((reference) => {
+					combinedListedBuildings.map((reference) => {
 						return tx.listedBuilding.upsert({
 							create: { reference },
 							update: {},
@@ -352,20 +360,27 @@ class AppealCaseRepository {
 					})
 				);
 
-				// delete existing listed buildings
-				await tx.appealCaseListedBuilding.deleteMany({
-					where: {
-						caseReference
-					}
-				});
+				if (data.affectedListedBuildingNumbers?.length) {
+					// add the links to affected listed buildings
+					await tx.appealCaseListedBuilding.createMany({
+						data: data.affectedListedBuildingNumbers.map((reference) => ({
+							caseReference: caseReference,
+							listedBuildingReference: reference,
+							type: LISTED_RELATION_TYPES.affected
+						}))
+					});
+				}
 
-				// add the links to the listed buildings
-				await tx.appealCaseListedBuilding.createMany({
-					data: data.affectedListedBuildingNumbers.map((reference) => ({
-						caseReference: caseReference,
-						listedBuildingReference: reference
-					}))
-				});
+				if (data.changedListedBuildingNumbers?.length) {
+					// add the links to changed listed buildings
+					await tx.appealCaseListedBuilding.createMany({
+						data: data.changedListedBuildingNumbers.map((reference) => ({
+							caseReference: caseReference,
+							listedBuildingReference: reference,
+							type: LISTED_RELATION_TYPES.changed
+						}))
+					});
+				}
 			}
 		});
 

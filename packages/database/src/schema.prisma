@@ -402,7 +402,7 @@ model AppealCase {
   AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission?
 
   Rule6Parties                    Rule6Party[]
-  AffectedListedBuildings         AppealCaseListedBuilding[]
+  ListedBuildings                 AppealCaseListedBuilding[]
   Documents                       Document[]
   NeighbouringAddresses           NeighbouringAddress[]
   Events                          Event[]
@@ -498,6 +498,8 @@ model AppealCaseListedBuilding {
 
   listedBuildingReference String
   ListedBuilding          ListedBuilding @relation(fields: [listedBuildingReference], references: [reference])
+
+  type String @default("affected")
 }
 
 /// possible notification methods.

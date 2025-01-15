@@ -4,6 +4,7 @@ const { buildQueryString } = require('@pins/common/src/client/utils');
 const app = require('../../../app');
 const { createPrismaClient } = require('../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
+const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
 const { blobMetaGetter } = require('../../../../src/services/object-store');
@@ -372,7 +373,7 @@ describe('appeal-cases', () => {
 			const appealCase = await sqlClient.appealCase.findFirst({
 				where: { caseReference: testCases[0].caseReference },
 				include: {
-					AffectedListedBuildings: true,
+					ListedBuildings: true,
 					AppealCaseLpaNotificationMethod: true,
 					NeighbouringAddresses: true,
 					CaseType: true,
@@ -380,7 +381,9 @@ describe('appeal-cases', () => {
 				}
 			});
 
-			expect(appealCase?.AffectedListedBuildings.length).toBe(3); // the number of listed buildings in example json
+			expect(
+				appealCase?.ListedBuildings.filter((x) => x.type === LISTED_RELATION_TYPES.affected).length
+			).toBe(3); // the number of listed buildings in example json
 			expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2); // the number of notification methods in example json
 			expect(appealCase?.NeighbouringAddresses.length).toBe(4); // the number of neighbouring addresses in example json
 			expect(appealCase?.CaseType?.processCode).toBe('HAS');

@@ -6,6 +6,7 @@ const {
 	boolToYesNo
 } = require('@pins/common');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 
@@ -19,37 +20,42 @@ exports.constraintsRows = (caseData) => {
 
 	const isHASAppeal = caseData.appealTypeCode === APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS;
 
-	const affectedListedBuildings = caseData.AffectedListedBuildings;
+	const affectedListedBuildings = caseData.ListedBuildings?.filter(
+		(x) => x.type === LISTED_RELATION_TYPES.affected
+	);
+	const changedListedBuildings = caseData.ListedBuildings?.filter(
+		(x) => x.type === LISTED_RELATION_TYPES.changed
+	);
 	const showAffectedListed = !!(affectedListedBuildings && affectedListedBuildings.length);
+	const showChangedListed = !!(changedListedBuildings && changedListedBuildings.length);
 	const affectedListedBuildingText = boolToYesNo(showAffectedListed);
+	const changedListedBuildingText = boolToYesNo(showChangedListed);
 
 	const hasConservationMap = documentExists(documents, APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP);
 	const conservationAreaText = boolToYesNo(hasConservationMap);
 
 	const rows = [
-		// todo: s78 needs a type on relation
-		// {
-		// 	keyText: 'Changes a listed building',
-		// 	valueText: formatYesOrNo(caseData, 'changesListedBuilding'),
-		// 	condition: () => caseData.changesListedBuilding
-		// },
-		// {
-		// 	keyText: 'Listed building details',
-		// 	valueText: '', // TODO data model will need adjusting for possible multiple buildings
-		// 	condition: () => (caseData.changedListedBuildingNumber ? true : undefined)
-		// },
 		{
 			keyText: 'Is this the correct type of appeal',
 			valueText: formatYesOrNo(caseData, 'isCorrectAppealType'),
 			condition: () => isNotUndefinedOrNull(caseData.isCorrectAppealType)
 		},
 		{
-			keyText: 'Affects a listed building',
-			valueText: affectedListedBuildingText,
-			condition: () => isNotUndefinedOrNull(caseData.AffectedListedBuildings)
+			keyText: 'Changes a listed building',
+			valueText: changedListedBuildingText,
+			condition: () => showChangedListed
 		},
 		{
-			// todo: bring in listed building details after move of listed building data to sql
+			keyText: 'Listed building details',
+			valueText: changedListedBuildings?.map((x) => x.listedBuildingReference).join('\n') || '',
+			condition: () => showChangedListed
+		},
+		{
+			keyText: 'Affects a listed building',
+			valueText: affectedListedBuildingText,
+			condition: () => showAffectedListed
+		},
+		{
 			keyText: 'Listed building details',
 			valueText: affectedListedBuildings?.map((x) => x.listedBuildingReference).join('\n') || '',
 			condition: () => showAffectedListed
