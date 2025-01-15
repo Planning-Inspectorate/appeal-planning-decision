@@ -29,11 +29,11 @@ const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 const {
 	VIEW: {
-		LPA_DASHBOARD: { DASHBOARD }
+		LPA_DASHBOARD: { APPEAL_OVERVIEW }
 	}
 } = require('#lib/views');
 
-const dashboardUrl = `/${DASHBOARD}`;
+const appealOverviewUrl = APPEAL_OVERVIEW;
 
 const router = express.Router();
 
@@ -68,7 +68,7 @@ router.get(
 	getJourneyResponse(),
 	getJourney(journeys),
 	redirectToUnansweredQuestion([lpaFinalCommentSkipConditions]),
-	checkNotSubmitted(dashboardUrl),
+	checkNotSubmitted(appealOverviewUrl),
 	lpaFinalCommentTaskList
 );
 
@@ -78,7 +78,7 @@ router.post(
 	setDefaultSection(),
 	getJourneyResponse(),
 	getJourney(journeys),
-	checkNotSubmitted(dashboardUrl),
+	checkNotSubmitted(appealOverviewUrl),
 	validationErrorHandler,
 	submitLpaFinalComment
 );
@@ -97,7 +97,7 @@ router.get(
 	setDefaultSection(),
 	getJourneyResponse(),
 	getJourney(journeys),
-	checkNotSubmitted(dashboardUrl),
+	checkNotSubmitted(appealOverviewUrl),
 	question
 );
 
@@ -107,7 +107,7 @@ router.post(
 	setDefaultSection(),
 	getJourneyResponse(),
 	getJourney(journeys),
-	checkNotSubmitted(dashboardUrl),
+	checkNotSubmitted(appealOverviewUrl),
 	dynamicReqFilesToReqBodyFiles(),
 	validate(),
 	validationErrorHandler,

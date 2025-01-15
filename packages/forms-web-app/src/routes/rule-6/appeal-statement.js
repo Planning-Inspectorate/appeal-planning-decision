@@ -25,10 +25,10 @@ const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-ty
 
 const {
 	VIEW: {
-		RULE_6: { DASHBOARD }
+		RULE_6: { APPEAL_OVERVIEW }
 	}
 } = require('../../lib/views');
-const dashboardUrl = `/${DASHBOARD}`;
+const appealOverviewUrl = APPEAL_OVERVIEW;
 
 const router = express.Router();
 
@@ -52,7 +52,7 @@ router.get(
 	getJourneyResponse(),
 	getJourney(journeys),
 	redirectToUnansweredQuestion([rule6StatementSkipConditions]),
-	checkNotSubmitted(dashboardUrl),
+	checkNotSubmitted(appealOverviewUrl),
 	statementTaskList
 );
 
@@ -61,7 +61,7 @@ router.post(
 	'/appeal-statement/:referenceId',
 	getJourneyResponse(),
 	getJourney(journeys),
-	checkNotSubmitted(dashboardUrl),
+	checkNotSubmitted(appealOverviewUrl),
 	validationErrorHandler,
 	submitRule6Statement
 );
@@ -80,7 +80,7 @@ router.get(
 	setDefaultSection(),
 	getJourneyResponse(),
 	getJourney(journeys),
-	checkNotSubmitted(dashboardUrl),
+	checkNotSubmitted(appealOverviewUrl),
 	question
 );
 
@@ -90,7 +90,7 @@ router.post(
 	setDefaultSection(),
 	getJourneyResponse(),
 	getJourney(journeys),
-	checkNotSubmitted(dashboardUrl),
+	checkNotSubmitted(appealOverviewUrl),
 	dynamicReqFilesToReqBodyFiles(),
 	validate(),
 	validationErrorHandler,
