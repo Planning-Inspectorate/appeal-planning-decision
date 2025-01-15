@@ -48,7 +48,7 @@ module.exports = class Repo {
 				},
 				include: {
 					Documents: DocumentsArgsPublishedOnly,
-					AffectedListedBuildings: true,
+					ListedBuildings: true,
 					AppealCaseLpaNotificationMethod: true,
 					NeighbouringAddresses: true,
 					ProcedureType: true,
@@ -86,7 +86,7 @@ module.exports = class Repo {
 					},
 					include: {
 						Documents: DocumentsArgsPublishedOnly,
-						AffectedListedBuildings: true,
+						ListedBuildings: true,
 						AppealCaseLpaNotificationMethod: true,
 						NeighbouringAddresses: true,
 						ProcedureType: true,

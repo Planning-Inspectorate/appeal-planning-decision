@@ -468,7 +468,7 @@ export interface AppealCase {
 	rule6ProofEvidenceSubmittedDate?: string;
 	interestedPartyCommentsPublished?: boolean;
 	Rule6Parties?: object[];
-	AffectedListedBuildings?: object[];
+	ListedBuildings?: object[];
 	Documents?: object[];
 	NeighbouringAddresses?: object[];
 	Events?: Event[];

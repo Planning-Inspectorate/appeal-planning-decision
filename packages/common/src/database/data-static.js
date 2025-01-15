@@ -134,6 +134,14 @@ const CASE_RELATION_TYPES = {
 	nearby: 'nearby'
 };
 
+/**
+ * @type {Object<string, 'affected'|'changed'>}
+ */
+const LISTED_RELATION_TYPES = {
+	affected: 'affected',
+	changed: 'changed'
+};
+
 module.exports = {
 	APPEAL_TO_USER_ROLES,
 	CASE_TYPES,
@@ -143,5 +151,6 @@ module.exports = {
 	CASE_OUTCOMES,
 	CASE_VALIDATION_OUTCOMES,
 	LPAQ_VALIDATION_OUTCOMES,
-	CASE_RELATION_TYPES
+	CASE_RELATION_TYPES,
+	LISTED_RELATION_TYPES
 };
