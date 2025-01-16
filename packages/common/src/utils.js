@@ -3,7 +3,9 @@
  */
 
 const testLPAONSCode = 'E69999999';
+const testLPAONSCode2 = 'E69999991';
 const testLPACode = 'Q9999';
+const testLPACode2 = 'Q1111';
 
 module.exports = {
 	/**
@@ -52,7 +54,12 @@ module.exports = {
 	 * @return {boolean}
 	 */
 	isTestLPA(lpaCode) {
-		return lpaCode === testLPACode || lpaCode === testLPAONSCode;
+		return (
+			lpaCode === testLPACode ||
+			lpaCode === testLPAONSCode ||
+			lpaCode === testLPACode2 ||
+			lpaCode === testLPAONSCode2
+		);
 	},
 	testLPACode,
 	testLPAONSCode,
