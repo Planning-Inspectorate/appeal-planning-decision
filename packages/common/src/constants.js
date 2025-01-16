@@ -12,8 +12,12 @@ module.exports = {
 		REMOVED: 'removed'
 	},
 	APPEALS_CASE_DATA: {
-		APPEAL_TYPE: { HAS: 'Householder (HAS) Appeal', S78: 'Full Planning (S78) Appeal' },
-		APPEAL_TYPE_CODE: { HAS: 'HAS', S78: 'S78' },
+		APPEAL_TYPE: {
+			HAS: 'Householder (HAS) Appeal',
+			S78: 'Full Planning (S78) Appeal',
+			S20: 'Listed Building (S20) Appeal'
+		},
+		APPEAL_TYPE_CODE: { HAS: 'HAS', S78: 'S78', S20: 'S20' },
 		VALIDITY: { IS_VALID: 'Valid' }
 	},
 	/**

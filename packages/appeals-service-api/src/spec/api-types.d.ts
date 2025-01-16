@@ -673,7 +673,7 @@ export interface AppellantSubmission {
 	/** @format uuid */
 	id?: string;
 	LPACode?: string;
-	appealTypeCode?: 'HAS' | 'S78';
+	appealTypeCode?: 'HAS' | 'S78' | 'S20';
 	/** @format date-time */
 	applicationDecisionDate?: string;
 	applicationDecision?: string;
