@@ -29,7 +29,7 @@ const appealSearchNoResults = async (req, res) => {
 			  })
 			: [];
 
-	const viewDecidedAppeals = decidedAppeals.length > 0 ? true : false;
+	const viewDecidedAppeals = !!decidedAppeals.length;
 
 	res.render(`comment-planning-appeal/appeal-search-no-results/index`, {
 		pageTitle,

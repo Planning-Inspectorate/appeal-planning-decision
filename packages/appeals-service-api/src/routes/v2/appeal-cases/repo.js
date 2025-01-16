@@ -4,6 +4,7 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { subYears } = require('date-fns');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
+const sanitizePostcode = require('#lib/sanitize-postcode');
 
 /**
  * @typedef {import("@prisma/client").Appeal} Appeal
@@ -146,7 +147,7 @@ const mapHASDataModelToAppealCase = (
 		}
 	},
 	siteAddressPostcode: siteAddressPostcode,
-	siteAddressPostcodeSanitized: siteAddressPostcode.replace(' ', '').toUpperCase(),
+	siteAddressPostcodeSanitized: sanitizePostcode(siteAddressPostcode),
 	LPACode: lpaCode,
 	caseSpecialisms: caseSpecialisms ? JSON.stringify(caseSpecialisms) : null,
 	caseValidationInvalidDetails: caseValidationInvalidDetails
@@ -320,9 +321,7 @@ class AppealCaseRepository {
 						townCity: address.neighbouringSiteAddressTown,
 						county: address.neighbouringSiteAddressCounty,
 						postcode: address.neighbouringSiteAddressPostcode,
-						postcodeSanitized: address.neighbouringSiteAddressPostcode
-							.replace(' ', '')
-							.toUpperCase(),
+						postcodeSanitized: sanitizePostcode(address.neighbouringSiteAddressPostcode),
 						siteAccessDetails: address.neighbouringSiteAccessDetails,
 						siteSafetyDetails: address.neighbouringSiteSafetyDetails
 					}))
@@ -454,14 +453,14 @@ class AppealCaseRepository {
 	 * List cases by postcode
 	 *
 	 * @param {Object} options
-	 * @param {string} options.postcode
+	 * @param {string} options.sanitizedPostcode
 	 * @param {boolean} options.decidedOnly - if true, only decided cases; else ONLY cases not decided
 	 * @returns {Promise<AppealCase[]>}
 	 */
-	async listByPostCode({ postcode, decidedOnly }) {
+	async listByPostCode({ sanitizedPostcode, decidedOnly }) {
 		/** @type {AppealCaseWhereInput[]}	*/
 		const AND = [
-			{ siteAddressPostcode: { startsWith: postcode } },
+			{ siteAddressPostcodeSanitized: { startsWith: sanitizedPostcode } },
 			{ casePublishedDate: { not: null } }
 		];
 		addDecidedClauseToQuery(AND, decidedOnly);
