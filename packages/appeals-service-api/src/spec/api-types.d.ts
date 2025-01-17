@@ -728,6 +728,7 @@ export interface AppellantSubmission {
 	appellantPreferInquiryWitnesses?: number;
 	siteArea?: number;
 	tenantAgriculturalHolding?: boolean;
+	section3aGrant?: boolean;
 	appellantLinkedCaseAdd?: boolean;
 	appellantLinkedCase?: boolean;
 	SubmissionLinkedCase?: object[];
