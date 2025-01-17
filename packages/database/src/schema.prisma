@@ -773,6 +773,7 @@ model AppellantSubmission {
   designAccessStatement              Boolean?
   planningObligation                 Boolean?
   tenantAgriculturalHolding          Boolean?
+  section3aGrant                     Boolean?
 
   // boolean text
   appellantSiteSafety                            String?
