@@ -49,7 +49,7 @@ __Initial setup__
 - stop the database container
 - `make serve`
 - `npm run documents:seed`
-- `npm run populate-db`
+- `npm run populate-db` (if required to populate local LPA list)
 
 For windows either use WSL or copy the command for the appropriate step from the Makefile
 
