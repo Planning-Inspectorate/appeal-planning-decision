@@ -81,7 +81,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 		const viewContext = {
 			layoutTemplate,
 			titleSuffix: formatTitleSuffix(userType),
-			heading: formatRepresentationHeading(representationType, userType, submittingParty),
+			heading: formatRepresentationHeading(representationParams),
 			showLabel: formattedRepresentations.length > 1,
 			appeal: {
 				appealNumber,
