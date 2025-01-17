@@ -65,7 +65,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const appealDetailsRows = detailsRows(caseData, userType);
 		const appealDetails = formatRows(appealDetailsRows, caseData);
 
-		const appealDocumentsRows = documentsRows(caseData, userType);
+		const appealDocumentsRows = documentsRows(caseData);
 		const appealDocuments = formatRows(appealDocumentsRows, caseData);
 
 		const viewContext = {

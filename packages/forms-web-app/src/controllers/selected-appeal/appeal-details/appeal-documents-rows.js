@@ -1,5 +1,5 @@
 const { formatDocumentDetails, formatNewDescription } = require('@pins/common');
-const { APPEALS_CASE_DATA, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
@@ -9,13 +9,10 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
  * @param {AppealCaseDetailed} caseData
- * @param {string} userType
  * @returns {Rows}
  */
-exports.documentsRows = (caseData, userType) => {
+exports.documentsRows = (caseData) => {
 	const documents = caseData.Documents || [];
-	const isAppellantOrAgent =
-		userType === APPEAL_USER_ROLES.APPELLANT || userType === APPEAL_USER_ROLES.AGENT;
 
 	return [
 		{
@@ -97,7 +94,7 @@ exports.documentsRows = (caseData, userType) => {
 		{
 			keyText: 'Costs application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION),
-			condition: (caseData) => isAppellantOrAgent && caseData.appellantCostsAppliedFor,
+			condition: (caseData) => caseData.appellantCostsAppliedFor,
 			isEscaped: true
 		}
 	];
