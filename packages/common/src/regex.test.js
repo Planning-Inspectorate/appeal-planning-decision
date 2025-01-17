@@ -52,10 +52,10 @@ const fullPostCodeTests = [
 		base: '11AAAA',
 		expected: false
 	},
-	// {
-	// 	base: '1A1 1AA',
-	// 	expected: false
-	// },
+	{
+		base: '1A1 1AA',
+		expected: false
+	},
 	{
 		base: 'AA1 AA',
 		expected: false
