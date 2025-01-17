@@ -256,93 +256,230 @@ describe('lib/representation-functions', () => {
 
 	describe('formatRepresentationHeading', () => {
 		it('returns the heading for an lpa user viewing an lpa statement', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.STATEMENT,
-				LPA_USER_ROLE,
-				LPA_USER_ROLE
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: LPA_USER_ROLE,
+				submittingParty: LPA_USER_ROLE
+			});
 			expect(heading).toEqual('Your statement');
 		});
 
 		it('returns the heading for an lpa user viewing an R6 statement', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.STATEMENT,
-				LPA_USER_ROLE,
-				APPEAL_USER_ROLES.RULE_6_PARTY
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: LPA_USER_ROLE,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
 			expect(heading).toEqual('Statements from other parties');
 		});
 
 		it('returns the heading for an lpa user viewing an lpa final comment', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.FINAL_COMMENT,
-				LPA_USER_ROLE,
-				LPA_USER_ROLE
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				userType: LPA_USER_ROLE,
+				submittingParty: LPA_USER_ROLE
+			});
 			expect(heading).toEqual('Your final comments');
 		});
 
 		it('returns the heading for an lpa user viewing an appellant final comment', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.FINAL_COMMENT,
-				LPA_USER_ROLE,
-				APPEAL_USER_ROLES.APPELLANT
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				userType: LPA_USER_ROLE,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			});
 			expect(heading).toEqual("Appellant's final comments");
 		});
 
+		it('returns the heading for an lpa user viewing an lpa proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: LPA_USER_ROLE,
+				submittingParty: LPA_USER_ROLE
+			});
+			expect(heading).toEqual('Your proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an lpa user viewing an appellant proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: LPA_USER_ROLE,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			});
+			expect(heading).toEqual('Appellant’s proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an lpa user viewing an R6 proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: LPA_USER_ROLE,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
+			expect(heading).toEqual('Proof of evidence and witnesses from other parties');
+		});
+
 		it('returns the heading for an appellant viewing an lpa statement', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.STATEMENT,
-				APPEAL_USER_ROLES.APPELLANT,
-				LPA_USER_ROLE
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: LPA_USER_ROLE
+			});
 			expect(heading).toEqual('Local planning authority statement');
 		});
 
 		it('returns the heading for an appellant viewing an R6 statement', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.STATEMENT,
-				APPEAL_USER_ROLES.APPELLANT,
-				APPEAL_USER_ROLES.RULE_6_PARTY
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
 			expect(heading).toEqual('Statements from other parties');
 		});
 
 		it('returns the heading for an appellant viewing an appellant final comment', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.FINAL_COMMENT,
-				APPEAL_USER_ROLES.APPELLANT,
-				APPEAL_USER_ROLES.APPELLANT
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			});
 			expect(heading).toEqual('Your final comments');
 		});
 
 		it('returns the heading for an appellant viewing an lpa final comment', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.FINAL_COMMENT,
-				APPEAL_USER_ROLES.APPELLANT,
-				LPA_USER_ROLE
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: LPA_USER_ROLE
+			});
 			expect(heading).toEqual('Local planning authority final comments');
 		});
 
+		it('returns the heading for an appellant viewing an lpa proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: LPA_USER_ROLE
+			});
+			expect(heading).toEqual('Local planning authority proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an appellant viewing an appellant proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			});
+			expect(heading).toEqual('Your proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an appellant user viewing an R6 proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
+			expect(heading).toEqual('Proof of evidence and witnesses from other parties');
+		});
+
+		it('returns the heading for an r6 user viewing an lpa statement', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: LPA_USER_ROLE
+			});
+			expect(heading).toEqual('Local planning authority statement');
+		});
+
+		it('returns the heading for an r6 user viewing own R6 statement', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY,
+				rule6OwnRepresentations: true
+			});
+			expect(heading).toEqual('Your statement');
+		});
+
+		it('returns the heading for an r6 user viewing other R6 statement', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
+			expect(heading).toEqual('Statements from other parties');
+		});
+
+		it('returns the heading for an r6 user viewing an appellant final comment', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			});
+			expect(heading).toEqual("Appellant's final comments");
+		});
+
+		it('returns the heading for an r6 user viewing an lpa final comment', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: LPA_USER_ROLE
+			});
+			expect(heading).toEqual('Local planning authority final comments');
+		});
+
+		it('returns the heading for an r6 user viewing an lpa proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: LPA_USER_ROLE
+			});
+			expect(heading).toEqual('Local planning authority proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an r6 user viewing an appellant proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			});
+			expect(heading).toEqual('Appellant’s proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an r6 user user viewing own R6 proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY,
+				rule6OwnRepresentations: true
+			});
+			expect(heading).toEqual('Your proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an r6 user user viewing other R6 proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
+			expect(heading).toEqual('Proof of evidence and witnesses from other parties');
+		});
+
 		it('returns the heading for viewing interested party comments', () => {
-			const heading1 = formatRepresentationHeading(
-				REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
-				APPEAL_USER_ROLES.APPELLANT,
-				APPEAL_USER_ROLES.INTERESTED_PARTY
-			);
-			const heading2 = formatRepresentationHeading(
-				REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
-				APPEAL_USER_ROLES.RULE_6_PARTY,
-				APPEAL_USER_ROLES.INTERESTED_PARTY
-			);
-			const heading3 = formatRepresentationHeading(
-				REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
-				LPA_USER_ROLE,
-				APPEAL_USER_ROLES.INTERESTED_PARTY
-			);
+			const heading1 = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+			});
+			const heading2 = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+			});
+			const heading3 = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+				userType: LPA_USER_ROLE,
+				submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+			});
 
 			expect(heading1).toEqual('Interested Party Comments');
 			expect(heading2).toEqual('Interested Party Comments');
