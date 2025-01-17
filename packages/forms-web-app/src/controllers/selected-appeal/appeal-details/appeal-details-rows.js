@@ -35,6 +35,10 @@ exports.detailsRows = (caseData, userType) => {
 	const linkedAppeals = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked);
 	const showLinked = linkedAppeals.length > 0;
 
+	const costApplicationKeyText = isAppellantOrAgent
+		? 'Do you need to apply for an award of appeal costs?'
+		: 'Did the appellant apply for an award of appeal costs?';
+
 	return [
 		{
 			keyText:
@@ -166,9 +170,9 @@ exports.detailsRows = (caseData, userType) => {
 			isEscaped: true
 		},
 		{
-			keyText: 'Do you need to apply for an award of appeal costs?',
+			keyText: costApplicationKeyText,
 			valueText: formatYesOrNo(caseData, 'appellantCostsAppliedFor'),
-			condition: () => isAppellantOrAgent
+			condition: () => true
 		}
 	];
 };
