@@ -27,7 +27,11 @@ module.exports = () => async (req, res, next) => {
 		role: LPA_USER_ROLE
 	});
 
-	if (appeal.caseStatus !== APPEAL_CASE_STATUS.STATEMENTS) {
+	if (
+		(appeal.caseStatus !== APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE ||
+			!deadlineHasPassed(appeal.lpaQuestionnaireDueDate)) &&
+		appeal.caseStatus !== APPEAL_CASE_STATUS.STATEMENTS
+	) {
 		return res.redirect(appealOverviewUrl);
 	}
 
