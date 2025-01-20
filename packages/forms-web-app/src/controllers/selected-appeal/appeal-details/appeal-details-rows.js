@@ -146,7 +146,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'What date did you submit your planning application?',
 			valueText: formatDateForDisplay(caseData.applicationDate),
-			condition: (caseData) => caseData.applicationDate !== null
+			condition: (caseData) => caseData.applicationDate != null
 		},
 		{
 			keyText: 'Enter the description of development',
@@ -156,7 +156,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Did the local planning authority change the description of development?',
 			valueText: formatYesOrNo(caseData, 'changedDevelopmentDescription'),
-			condition: (caseData) => caseData.changedDevelopmentDescription
+			condition: (caseData) => caseData.changedDevelopmentDescription != null
 		},
 		{
 			keyText: 'Preferred procedure',
@@ -171,7 +171,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: costApplicationKeyText,
-			valueText: formatYesOrNo(caseData, 'appellantCostsAppliedFor'),
+			valueText: caseData.appellantCostsAppliedFor ? 'Yes' : 'No',
 			condition: () => true
 		}
 	];
