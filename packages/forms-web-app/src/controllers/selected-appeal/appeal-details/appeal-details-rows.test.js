@@ -68,11 +68,13 @@ describe('appeal-details-rows', () => {
 
 		it("should display appellant's phone number if no agent on case", () => {
 			const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[phoneIndex].keyText).toEqual('Phone number');
 			expect(rows[phoneIndex].valueText).toEqual('12345');
 		});
 
 		it("should display agent's phone number if agent on case", () => {
 			const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[phoneIndex].keyText).toEqual('Phone number');
 			expect(rows[phoneIndex].valueText).toEqual('98765');
 		});
 	});
@@ -88,6 +90,7 @@ describe('appeal-details-rows', () => {
 
 			expect(rows[siteAddressIndex].condition(testCase)).toBeTruthy();
 			expect(rows[siteAddressIndex].valueText).toEqual('Test address\nTestville\nTS1 1TT');
+			expect(rows[siteAddressIndex].keyText).toEqual('Site address');
 		});
 	});
 
@@ -100,6 +103,7 @@ describe('appeal-details-rows', () => {
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 
 			expect(rows[siteAreaIndex].condition(testCase)).toEqual(true);
+			expect(rows[siteAreaIndex].keyText).toEqual('What is the area of the appeal site?');
 			expect(rows[siteAreaIndex].valueText).toEqual('1.5 m\u00B2');
 		});
 
@@ -120,6 +124,7 @@ describe('appeal-details-rows', () => {
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[greenBeltIndex].condition(testCase)).toEqual(true);
+			expect(rows[greenBeltIndex].keyText).toEqual('Is the site in a green belt');
 			expect(rows[greenBeltIndex].valueText).toEqual('Yes');
 
 			testCase.isGreenBelt = false;
@@ -148,6 +153,7 @@ describe('appeal-details-rows', () => {
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[fullyOwnedIndex].condition(testCase)).toEqual(true);
+			expect(rows[fullyOwnedIndex].keyText).toEqual('Site fully owned');
 			expect(rows[fullyOwnedIndex].valueText).toEqual('Yes');
 
 			testCase.ownsAllLand = false;
@@ -176,6 +182,7 @@ describe('appeal-details-rows', () => {
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[partlyOwnedIndex].condition(testCase)).toEqual(true);
+			expect(rows[partlyOwnedIndex].keyText).toEqual('Site partly owned');
 			expect(rows[partlyOwnedIndex].valueText).toEqual('Yes');
 
 			testCase.ownsSomeLand = false;
@@ -204,6 +211,7 @@ describe('appeal-details-rows', () => {
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[otherOwnersIndex].condition(testCase)).toEqual(true);
+			expect(rows[otherOwnersIndex].keyText).toEqual('Other owners known');
 			expect(rows[otherOwnersIndex].valueText).toEqual('Yes');
 
 			testCase.knowsOtherOwners = 'No';
@@ -236,8 +244,10 @@ describe('appeal-details-rows', () => {
 			testCase.advertisedAppeal = true;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[otherOwnersIdentifiedIndex].condition(testCase)).toEqual(true);
+			expect(rows[otherOwnersIdentifiedIndex].keyText).toEqual('Other owners identified');
 			expect(rows[otherOwnersIdentifiedIndex].valueText).toEqual('Yes');
 			expect(rows[advertisedAppealIndex].condition(testCase)).toEqual(true);
+			expect(rows[advertisedAppealIndex].keyText).toEqual('Advertised appeal');
 			expect(rows[advertisedAppealIndex].valueText).toEqual('Yes');
 		});
 
@@ -263,6 +273,7 @@ describe('appeal-details-rows', () => {
 			testCase.ownersInformed = true;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[otherOwnersInformedIndex].condition(testCase)).toEqual(true);
+			expect(rows[otherOwnersInformedIndex].keyText).toEqual('Other owners informed');
 			expect(rows[otherOwnersInformedIndex].valueText).toEqual('Yes');
 		});
 
@@ -285,6 +296,9 @@ describe('appeal-details-rows', () => {
 			const testCase = structuredClone(caseWithAppellant);
 			testCase.siteAccessDetails = ['Some details'];
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[inspectorAccessIndex].keyText).toEqual(
+				'Will an inspector need to access the land or property?'
+			);
 			expect(rows[inspectorAccessIndex].valueText).toEqual('Yes \n Some details');
 		});
 
@@ -300,219 +314,232 @@ describe('appeal-details-rows', () => {
 		});
 	});
 
-	// describe("Agricultural holding", () => {
-	// 	const nameIndex = 1;
-	// 	const contactIndex = 2;
+	describe('Agricultural holding', () => {
+		const agriculturalHoldingIndex = 14;
 
-	// 	it("should display Applicant's and Agent name if agent on case", () => {
-	// 		const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(true);
-	// 		expect(rows[nameIndex].valueText).toEqual('Appellant Test');
-	// 		expect(rows[contactIndex].valueText).toEqual('Agent Test');
-	// 	});
+		it('should show Agricultural Holding if not null', () => {
+			const testCase = structuredClone(caseWithAppellant);
 
-	// 	it("should display only Applicant's name if no agent on case", () => {
-	// 		const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(false);
-	// 		expect(rows[contactIndex].valueText).toEqual('Appellant Test');
-	// 	});
-	// });
+			testCase.agriculturalHolding = true;
 
-	// describe("Tenant on agricultural holding", () => {
-	// 	const nameIndex = 1;
-	// 	const contactIndex = 2;
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[agriculturalHoldingIndex].condition(testCase)).toEqual(true);
+			expect(rows[agriculturalHoldingIndex].keyText).toEqual('Agricultural holding');
+			expect(rows[agriculturalHoldingIndex].valueText).toEqual('Yes');
 
-	// 	it("should display Applicant's and Agent name if agent on case", () => {
-	// 		const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(true);
-	// 		expect(rows[nameIndex].valueText).toEqual('Appellant Test');
-	// 		expect(rows[contactIndex].valueText).toEqual('Agent Test');
-	// 	});
+			testCase.agriculturalHolding = false;
+			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[agriculturalHoldingIndex].condition(testCase)).toEqual(true);
+			expect(rows2[agriculturalHoldingIndex].valueText).toEqual('No');
+		});
 
-	// 	it("should display only Applicant's name if no agent on case", () => {
-	// 		const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(false);
-	// 		expect(rows[contactIndex].valueText).toEqual('Appellant Test');
-	// 	});
-	// });
+		it('should not show Agricultural Holding if null', () => {
+			const testCase = structuredClone(caseWithAppellant);
 
-	// describe("Other agricultural holding tenants", () => {
-	// 	const nameIndex = 1;
-	// 	const contactIndex = 2;
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 
-	// 	it("should display Applicant's and Agent name if agent on case", () => {
-	// 		const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(true);
-	// 		expect(rows[nameIndex].valueText).toEqual('Appellant Test');
-	// 		expect(rows[contactIndex].valueText).toEqual('Agent Test');
-	// 	});
+			expect(rows[agriculturalHoldingIndex].condition(testCase)).toEqual(false);
+			expect(rows[agriculturalHoldingIndex].valueText).toEqual('');
+		});
+	});
 
-	// 	it("should display only Applicant's name if no agent on case", () => {
-	// 		const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(false);
-	// 		expect(rows[contactIndex].valueText).toEqual('Appellant Test');
-	// 	});
-	// });
+	describe('Tenant on agricultural holding', () => {
+		const tenantAgriculturalIndex = 15;
 
-	// describe("Informed other agricultural holding tenants", () => {
-	// 	const nameIndex = 1;
-	// 	const contactIndex = 2;
+		it('should display tenant on agricultural holding if true', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.tenantAgriculturalHolding = true;
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[tenantAgriculturalIndex].condition(testCase)).toEqual(true);
+			expect(rows[tenantAgriculturalIndex].keyText).toEqual('Tenant on agricultural holding');
+			expect(rows[tenantAgriculturalIndex].valueText).toEqual('Yes');
+		});
 
-	// 	it("should display Applicant's and Agent name if agent on case", () => {
-	// 		const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(true);
-	// 		expect(rows[nameIndex].valueText).toEqual('Appellant Test');
-	// 		expect(rows[contactIndex].valueText).toEqual('Agent Test');
-	// 	});
+		it('should not display tenant on agricultural holding if not true', () => {
+			const testCase = structuredClone(caseWithAppellant);
 
-	// 	it("should display only Applicant's name if no agent on case", () => {
-	// 		const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(false);
-	// 		expect(rows[contactIndex].valueText).toEqual('Appellant Test');
-	// 	});
-	// });
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[tenantAgriculturalIndex].condition(testCase)).toBeFalsy();
 
-	// describe("Site health and safety issues", () => {
-	// 	const nameIndex = 1;
-	// 	const contactIndex = 2;
+			testCase.tenantAgriculturalHolding = false;
+			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[tenantAgriculturalIndex].condition(testCase)).toEqual(false);
+		});
+	});
 
-	// 	it("should display Applicant's and Agent name if agent on case", () => {
-	// 		const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(true);
-	// 		expect(rows[nameIndex].valueText).toEqual('Appellant Test');
-	// 		expect(rows[contactIndex].valueText).toEqual('Agent Test');
-	// 	});
+	describe('Other agricultural holding tenants', () => {
+		const otherAgriculturalTenantsIndex = 16;
 
-	// 	it("should display only Applicant's name if no agent on case", () => {
-	// 		const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(false);
-	// 		expect(rows[contactIndex].valueText).toEqual('Appellant Test');
-	// 	});
-	// });
+		it('should display Other agricultural holding tenants if true', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.otherTenantsAgriculturalHolding = true;
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[otherAgriculturalTenantsIndex].condition(testCase)).toEqual(true);
+			expect(rows[otherAgriculturalTenantsIndex].keyText).toEqual(
+				'Other agricultural holding tenants'
+			);
+			expect(rows[otherAgriculturalTenantsIndex].valueText).toEqual('Yes');
+		});
 
-	// describe("Application reference", () => {
-	// 	const nameIndex = 1;
-	// 	const contactIndex = 2;
+		it('should not display Other agricultural holding tenants if not true', () => {
+			const testCase = structuredClone(caseWithAppellant);
 
-	// 	it("should display Applicant's and Agent name if agent on case", () => {
-	// 		const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(true);
-	// 		expect(rows[nameIndex].valueText).toEqual('Appellant Test');
-	// 		expect(rows[contactIndex].valueText).toEqual('Agent Test');
-	// 	});
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[otherAgriculturalTenantsIndex].condition(testCase)).toBeFalsy();
 
-	// 	it("should display only Applicant's name if no agent on case", () => {
-	// 		const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(false);
-	// 		expect(rows[contactIndex].valueText).toEqual('Appellant Test');
-	// 	});
-	// });
+			testCase.otherTenantsAgriculturalHolding = false;
+			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[otherAgriculturalTenantsIndex].condition(testCase)).toEqual(false);
+		});
+	});
 
-	// describe("What date did you submit your planning application", () => {
-	// 	const nameIndex = 1;
-	// 	const contactIndex = 2;
+	describe('Informed other agricultural holding tenants', () => {
+		const informedAgriculturalTenantsIndex = 17;
 
-	// 	it("should display Applicant's and Agent name if agent on case", () => {
-	// 		const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(true);
-	// 		expect(rows[nameIndex].valueText).toEqual('Appellant Test');
-	// 		expect(rows[contactIndex].valueText).toEqual('Agent Test');
-	// 	});
+		it('should display informed other agricultural holding tenants if true', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.informedTenantsAgriculturalHolding = true;
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[informedAgriculturalTenantsIndex].condition(testCase)).toEqual(true);
+			expect(rows[informedAgriculturalTenantsIndex].keyText).toEqual(
+				'Informed other agricultural holding tenants'
+			);
+			expect(rows[informedAgriculturalTenantsIndex].valueText).toEqual('Yes');
+		});
 
-	// 	it("should display only Applicant's name if no agent on case", () => {
-	// 		const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(false);
-	// 		expect(rows[contactIndex].valueText).toEqual('Appellant Test');
-	// 	});
-	// });
+		it('should not display informed other agricultural holding tenants if not true', () => {
+			const testCase = structuredClone(caseWithAppellant);
 
-	// describe("Enter the description of development", () => {
-	// 	const nameIndex = 1;
-	// 	const contactIndex = 2;
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[informedAgriculturalTenantsIndex].condition(testCase)).toBeFalsy();
 
-	// 	it("should display Applicant's and Agent name if agent on case", () => {
-	// 		const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(true);
-	// 		expect(rows[nameIndex].valueText).toEqual('Appellant Test');
-	// 		expect(rows[contactIndex].valueText).toEqual('Agent Test');
-	// 	});
+			testCase.informedTenantsAgriculturalHolding = false;
+			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[informedAgriculturalTenantsIndex].condition(testCase)).toEqual(false);
+		});
+	});
 
-	// 	it("should display only Applicant's name if no agent on case", () => {
-	// 		const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(false);
-	// 		expect(rows[contactIndex].valueText).toEqual('Appellant Test');
-	// 	});
-	// });
+	describe('Application reference', () => {
+		const applicationReferenceIndex = 19;
 
-	// describe("Did the local planning authority change the description of development?", () => {
-	// 	const nameIndex = 1;
-	// 	const contactIndex = 2;
+		it('should display the application reference if set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.applicationReference = '12345';
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[applicationReferenceIndex].condition(testCase)).toBeTruthy();
+			expect(rows[applicationReferenceIndex].keyText).toEqual('Application reference');
+			expect(rows[applicationReferenceIndex].valueText).toEqual('12345');
+		});
 
-	// 	it("should display Applicant's and Agent name if agent on case", () => {
-	// 		const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(true);
-	// 		expect(rows[nameIndex].valueText).toEqual('Appellant Test');
-	// 		expect(rows[contactIndex].valueText).toEqual('Agent Test');
-	// 	});
+		it('should not display the application reference if not set', () => {
+			const testCase = structuredClone(caseWithAppellant);
 
-	// 	it("should display only Applicant's name if no agent on case", () => {
-	// 		const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(false);
-	// 		expect(rows[contactIndex].valueText).toEqual('Appellant Test');
-	// 	});
-	// });
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[applicationReferenceIndex].condition(testCase)).toBeFalsy();
+		});
+	});
 
-	// describe("Preferred procedure", () => {
-	// 	const nameIndex = 1;
-	// 	const contactIndex = 2;
+	describe('Enter the description of development', () => {
+		const descriptionIndex = 21;
 
-	// 	it("should display Applicant's and Agent name if agent on case", () => {
-	// 		const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(true);
-	// 		expect(rows[nameIndex].valueText).toEqual('Appellant Test');
-	// 		expect(rows[contactIndex].valueText).toEqual('Agent Test');
-	// 	});
+		it('should display the development description if set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.originalDevelopmentDescription = 'A test site';
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[descriptionIndex].condition(testCase)).toBeTruthy();
+			expect(rows[descriptionIndex].keyText).toEqual('Enter the description of development');
+			expect(rows[descriptionIndex].valueText).toEqual('A test site');
+		});
 
-	// 	it("should display only Applicant's name if no agent on case", () => {
-	// 		const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(false);
-	// 		expect(rows[contactIndex].valueText).toEqual('Appellant Test');
-	// 	});
-	// });
+		it('should not display the development description if not set', () => {
+			const testCase = structuredClone(caseWithAppellant);
 
-	// describe("Are there other appeals linked to your development", () => {
-	// 	const nameIndex = 1;
-	// 	const contactIndex = 2;
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[descriptionIndex].condition(testCase)).toBeFalsy();
+			expect(rows[descriptionIndex].valueText).toEqual('');
+		});
+	});
 
-	// 	it("should display Applicant's and Agent name if agent on case", () => {
-	// 		const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(true);
-	// 		expect(rows[nameIndex].valueText).toEqual('Appellant Test');
-	// 		expect(rows[contactIndex].valueText).toEqual('Agent Test');
-	// 	});
+	describe('Did the local planning authority change the description of development?', () => {
+		const lpaChangedDescriptionIndex = 22;
 
-	// 	it("should display only Applicant's name if no agent on case", () => {
-	// 		const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(false);
-	// 		expect(rows[contactIndex].valueText).toEqual('Appellant Test');
-	// 	});
-	// });
+		it('should show Green Belt if not null', () => {
+			const testCase = structuredClone(caseWithAppellant);
 
-	// describe("Cost application", () => {
-	// 	const nameIndex = 1;
-	// 	const contactIndex = 2;
+			testCase.changedDevelopmentDescription = true;
 
-	// 	it("should display Applicant's and Agent name if agent on case", () => {
-	// 		const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(true);
-	// 		expect(rows[nameIndex].valueText).toEqual('Appellant Test');
-	// 		expect(rows[contactIndex].valueText).toEqual('Agent Test');
-	// 	});
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[lpaChangedDescriptionIndex].condition(testCase)).toEqual(true);
+			expect(rows[lpaChangedDescriptionIndex].keyText).toEqual(
+				'Did the local planning authority change the description of development?'
+			);
+			expect(rows[lpaChangedDescriptionIndex].valueText).toEqual('Yes');
 
-	// 	it("should display only Applicant's name if no agent on case", () => {
-	// 		const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
-	// 		expect(rows[nameIndex].condition()).toEqual(false);
-	// 		expect(rows[contactIndex].valueText).toEqual('Appellant Test');
-	// 	});
-	// });
+			testCase.changedDevelopmentDescription = false;
+			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[lpaChangedDescriptionIndex].condition(testCase)).toEqual(true);
+			expect(rows2[lpaChangedDescriptionIndex].valueText).toEqual('No');
+		});
+
+		it('should not show Green Belt if null', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+			expect(rows[lpaChangedDescriptionIndex].condition(testCase)).toEqual(false);
+		});
+	});
+
+	describe('Preferred procedure', () => {
+		const procedureIndex = 23;
+
+		it('should display the appellant preferred procedure if set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.appellantProcedurePreference = 'Inquiry';
+			testCase.appellantProcedurePreferenceDetails = 'For reasons';
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[procedureIndex].condition(testCase)).toBeTruthy();
+			expect(rows[procedureIndex].keyText).toEqual('Preferred procedure');
+			expect(rows[procedureIndex].valueText).toEqual('Inquiry\nFor reasons');
+		});
+
+		it('should not display the procedure preference if not set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[procedureIndex].condition(testCase)).toBeFalsy();
+		});
+	});
+
+	describe('Cost application', () => {
+		const costsApplicationIndex = 25;
+
+		it('should display Yes if applicant applied for costs', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.appellantCostsAppliedFor = true;
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[costsApplicationIndex].keyText).toEqual(
+				'Do you need to apply for an award of appeal costs?'
+			);
+			expect(rows[costsApplicationIndex].valueText).toEqual('Yes');
+
+			const rows2 = detailsRows(testCase, LPA_USER_ROLE);
+			expect(rows2[costsApplicationIndex].keyText).toEqual(
+				'Did the appellant apply for an award of appeal costs?'
+			);
+			expect(rows2[costsApplicationIndex].valueText).toEqual('Yes');
+		});
+
+		it('should display no if Applicant did not apply for costs', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[costsApplicationIndex].valueText).toEqual('No');
+
+			testCase.appellantCostsAppliedFor = false;
+			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[costsApplicationIndex].valueText).toEqual('No');
+		});
+	});
 });
