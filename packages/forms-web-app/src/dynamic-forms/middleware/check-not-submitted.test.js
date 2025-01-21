@@ -13,7 +13,8 @@ describe('dynamic-forms/middleware/check-not-submitted', () => {
 			log: {},
 			params: {},
 			session: {
-				user: userType
+				user: userType,
+				navigationHistory: ['previous-page']
 			}
 		});
 	});
