@@ -52,6 +52,7 @@ class SchemaValidator {
 	 */
 	setSchemas(schemas) {
 		// _flattens_ the object
+		// todo: this relies on unique filenames in the datamodel i.e. a command and schema cannot share a filename or one will overwrite the other
 		const flatSchemas = Object.values(schemas).reduce((a, c) => ({ ...a, ...c }), {});
 		this.ajv = new Ajv({ schemas: flatSchemas, allErrors: true });
 		addFormats(this.ajv);
