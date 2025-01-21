@@ -35,8 +35,10 @@ const decidedAppeals = async (req, res) => {
 
 	// override default navigation for backlink if postcode not stored in session
 	if (!req.session.interestedParty?.searchPostcode) {
-		let navigation = [];
-		navigation[1] = req.session.navigationHistory[1] + `?search=${postcode}`;
+		let navigation = [
+			req.session.navigationHistory[0],
+			req.session.navigationHistory[1] + `?search=${postcode}`
+		];
 		renderLocals = { navigation, ...renderLocals };
 	}
 

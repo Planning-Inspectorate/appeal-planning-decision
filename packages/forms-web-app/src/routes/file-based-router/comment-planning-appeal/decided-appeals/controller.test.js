@@ -77,7 +77,7 @@ describe('decidedAppeals', () => {
 					caseDecisionOutcome: APPEAL_CASE_DECISION_OUTCOME.ALLOWED
 				}
 			],
-			navigation: [undefined, 'lastpage?search=AB12 3CD']
+			navigation: ['thispage', 'lastpage?search=AB12 3CD']
 		});
 	});
 });
