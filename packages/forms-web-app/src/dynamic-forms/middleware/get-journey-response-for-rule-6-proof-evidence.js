@@ -18,6 +18,7 @@ module.exports = () => async (req, res, next) => {
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
 
 	if (appeal.caseStatus !== APPEAL_CASE_STATUS.EVIDENCE) {
+		req.session.navigationHistory.shift();
 		return res.redirect(appealOverviewUrl);
 	}
 

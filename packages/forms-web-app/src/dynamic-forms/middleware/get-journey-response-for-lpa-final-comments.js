@@ -26,6 +26,7 @@ module.exports = () => async (req, res, next) => {
 	});
 
 	if (appeal.caseStatus !== APPEAL_CASE_STATUS.FINAL_COMMENTS) {
+		req.session.navigationHistory.shift();
 		return res.redirect(appealOverviewUrl);
 	}
 
