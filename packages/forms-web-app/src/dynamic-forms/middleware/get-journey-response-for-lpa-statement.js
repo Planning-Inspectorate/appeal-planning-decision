@@ -32,6 +32,7 @@ module.exports = () => async (req, res, next) => {
 			!deadlineHasPassed(appeal.lpaQuestionnaireDueDate)) &&
 		appeal.caseStatus !== APPEAL_CASE_STATUS.STATEMENTS
 	) {
+		req.session.navigationHistory.shift();
 		return res.redirect(appealOverviewUrl);
 	}
 

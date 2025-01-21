@@ -26,6 +26,7 @@ module.exports = (alreadySubmittedUrl) => (req, res, next) => {
 		journeyResponse?.answers?.submitted === 'yes' ||
 		journeyResponse?.answers?.submitted === true
 	) {
+		req.session.navigationHistory.shift();
 		return res.redirect(redirectPageUrl);
 	}
 
