@@ -31,7 +31,16 @@ const decidedAppeals = async (req, res) => {
 
 	decidedAppeals.sort(sortByCaseDecisionDate);
 
-	res.render(`comment-planning-appeal/decided-appeals/index`, { postcode, decidedAppeals });
+	let renderLocals = { postcode, decidedAppeals };
+
+	// override default navigation for backlink if postcode not stored in session
+	if (!req.session.interestedParty?.searchPostcode) {
+		let navigation = [];
+		navigation[1] = req.session.navigationHistory[1] + `?search=${postcode}`;
+		renderLocals = { navigation, ...renderLocals };
+	}
+
+	res.render(`comment-planning-appeal/decided-appeals/index`, renderLocals);
 };
 
 module.exports = { decidedAppeals };
