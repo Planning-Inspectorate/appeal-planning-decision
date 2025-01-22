@@ -8,6 +8,13 @@ const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 /** @type {import('express').RequestHandler} */
 const decidedAppeals = async (req, res) => {
 	const postcode = req.query.search || req.session.interestedParty?.searchPostcode;
+
+	// remove navigation reference and redirect to first page if no postcode
+	if (!postcode) {
+		req.session.navigationHistory.shift();
+		return res.redirect('enter-appeal-reference');
+	}
+
 	/** @type {import('#utils/appeals-view').AppealViewModel[]} */
 	const decidedAppeals = await req.appealsApiClient.getPostcodeSearchResults({
 		postcode,

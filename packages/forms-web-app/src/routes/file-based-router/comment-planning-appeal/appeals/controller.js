@@ -10,6 +10,13 @@ const { SERVICE_USER_TYPE } = require('pins-data-model');
 /** @type {import('express').RequestHandler} */
 const appeals = async (req, res) => {
 	const postcode = req.query.search || req.session.interestedParty?.searchPostcode;
+
+	// remove navigation reference and redirect to first page if no postcode
+	if (!postcode) {
+		req.session.navigationHistory.shift();
+		return res.redirect('enter-appeal-reference');
+	}
+
 	/** @type {import('#utils/appeals-view').AppealViewModel[]} */
 	const postcodeSearchResults = await req.appealsApiClient.getPostcodeSearchResults({
 		postcode,
