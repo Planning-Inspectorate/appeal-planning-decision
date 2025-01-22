@@ -12,7 +12,8 @@ const representationIds = {
 	representationNine: 'd24247a2-ad41-42b7-be86-7a222ae57426',
 	representationTen: 'd24247a2-ad41-42b7-be86-7a222ae57427',
 	representationEleven: 'd24247a2-ad41-42b7-be86-7a222ae57428',
-	representationTwelve: 'd24247a2-ad41-42b7-be86-7a222ae57431'
+	representationTwelve: 'd24247a2-ad41-42b7-be86-7a222ae57431',
+	representationThirteen: 'd24247a2-ad41-42b7-be86-7a222ae57432'
 };
 
 const caseReferences = {
@@ -334,7 +335,7 @@ const representations = [
 				caseReference: '1000014'
 			}
 		},
-		status: 'published',
+		status: 'awaiting_review',
 		originalRepresentation:
 			'R6 Party 1 Lorem ipsum dolor sit amet. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
 		source: 'citizen',
@@ -355,6 +356,22 @@ const representations = [
 			'R6 Party 2 Statement Lorem ipsum dolor sit amet. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
 		source: 'citizen',
 		serviceUserId: '123999',
+		representationType: 'statement',
+		dateReceived: pickRandom(datesNMonthsAgo(0.5))
+	},
+	{
+		id: representationIds.representationThirteen,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471366',
+		AppealCase: {
+			connect: {
+				caseReference: '1000014'
+			}
+		},
+		status: 'published',
+		originalRepresentation:
+			'R6 Party 3 Statement Lorem ipsum dolor sit amet. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
+		source: 'citizen',
+		serviceUserId: '123997',
 		representationType: 'statement',
 		dateReceived: pickRandom(datesNMonthsAgo(0.5))
 	}
