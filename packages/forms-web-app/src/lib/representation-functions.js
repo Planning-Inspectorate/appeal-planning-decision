@@ -18,6 +18,49 @@ const escape = require('escape-html');
 
 /**
  * @param {AppealCaseDetailed} caseData
+ * @param {string | undefined | null} serviceUserId
+ * @param {RepresentationParams} representationParams
+ * @returns {Representation[]}
+ */
+const filterRepresentationsForDisplay = (caseData, serviceUserId, representationParams) => {
+	const { userType, representationType, submittingParty, rule6OwnRepresentations } =
+		representationParams;
+
+	if (!caseData.Representations || caseData.Representations.length === 0) return [];
+
+	let representationsFilteredBySubmittingParty;
+
+	// Don't need to filter by submitting party for IP comments as all submitted by IPs (who may not have a service user id)
+	if (representationType == REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT) {
+		representationsFilteredBySubmittingParty = caseData.Representations;
+	} else if (
+		userType == APPEAL_USER_ROLES.RULE_6_PARTY &&
+		submittingParty == APPEAL_USER_ROLES.RULE_6_PARTY
+	) {
+		representationsFilteredBySubmittingParty = filterRepresentationsForRule6ViewingRule6(
+			caseData,
+			serviceUserId,
+			!!rule6OwnRepresentations
+		);
+	} else {
+		representationsFilteredBySubmittingParty = filterRepresentationsBySubmittingParty(
+			caseData,
+			submittingParty
+		);
+	}
+
+	// filter so that only show representations owned by user and representations from other parties that have been published
+	const ownOrPublishedRepresentations = filterRepresentationsByOwnershipAndPublishedStatus(
+		representationsFilteredBySubmittingParty,
+		userType,
+		serviceUserId
+	);
+
+	return ownOrPublishedRepresentations;
+};
+
+/**
+ * @param {AppealCaseDetailed} caseData
  * @param {AppealToUserRoles|LpaUserRole} submittingParty
  * @returns {Representation[]}
  */
@@ -54,7 +97,7 @@ const filterRepresentationsBySubmittingParty = (caseData, submittingParty) => {
 
 /**
  * @param {AppealCaseDetailed} caseData
- * @param {string} serviceUserId
+ * @param {string | undefined | null} serviceUserId
  * @param {boolean} rule6OwnRepresentations
  * @returns {Representation[]}
  */
@@ -77,6 +120,26 @@ const filterRepresentationsForRule6ViewingRule6 = (
 		: unfilteredRepresentations.filter(
 				(representation) => representation.serviceUserId != serviceUserId
 		  );
+};
+
+/**
+ * @param {Representation[]} representations
+ * @param {AppealToUserRoles|LpaUserRole} userType
+ * @param {string | undefined | null} serviceUserId
+ * @returns {Representation[]}
+ */
+const filterRepresentationsByOwnershipAndPublishedStatus = (
+	representations,
+	userType,
+	serviceUserId
+) => {
+	const publishedRepresentations = representations.filter(
+		(representation) =>
+			userOwnsRepresentation(representation, userType, serviceUserId) ||
+			representation.status == 'published'
+	);
+
+	return publishedRepresentations;
 };
 
 /**
@@ -307,7 +370,6 @@ const formatRowLabelAndKey = (representationType) => {
  * @param {Document} document
  * @returns {boolean}
  */
-
 const isProofsDocument = (document) => {
 	const { documentType } = document;
 
@@ -318,9 +380,30 @@ const isProofsDocument = (document) => {
 	);
 };
 
+/**
+ * @param {Representation} representation
+ * @param {AppealToUserRoles|LpaUserRole} userType
+ * @param {string | undefined | null} serviceUserId
+ * @returns {boolean}
+ */
+const userOwnsRepresentation = (representation, userType, serviceUserId) => {
+	//ip comments submitters will not have a facility to log in and see their comments
+	if (representation.representationType == 'comment') return false;
+
+	switch (userType) {
+		case LPA_USER_ROLE:
+			return representation.source == 'lpa';
+		case APPEAL_USER_ROLES.AGENT:
+		case APPEAL_USER_ROLES.APPELLANT:
+		case APPEAL_USER_ROLES.RULE_6_PARTY:
+			return representation.source == 'citizen' && representation.serviceUserId == serviceUserId;
+		default:
+			return false;
+	}
+};
+
 module.exports = {
-	filterRepresentationsBySubmittingParty,
-	filterRepresentationsForRule6ViewingRule6,
+	filterRepresentationsForDisplay,
 	formatRepresentationHeading,
 	formatRepresentations
 };

@@ -4,10 +4,9 @@ const { formatTitleSuffix } = require('../../../lib/selected-appeal-page-setup')
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { REPRESENTATION_TYPES, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const {
-	filterRepresentationsBySubmittingParty,
 	formatRepresentationHeading,
-	formatRepresentations,
-	filterRepresentationsForRule6ViewingRule6
+	filterRepresentationsForDisplay,
+	formatRepresentations
 } = require('../../../lib/representation-functions');
 const { getServiceUserId } = require('../../../services/user.service');
 
@@ -49,24 +48,14 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			representationType
 		);
 
-		// Don't need to filter by submitting party for IP comments as all submitted by IPs (who may not have a service user id)
-		let representationsForDisplay;
+		// used for filtering representations for display
+		const serviceUserId = await getServiceUserId(req);
 
-		if (representationType == REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT) {
-			representationsForDisplay = caseData.Representations;
-		} else if (
-			userType == APPEAL_USER_ROLES.RULE_6_PARTY &&
-			submittingParty == APPEAL_USER_ROLES.RULE_6_PARTY
-		) {
-			const serviceUserId = await getServiceUserId(req);
-			representationsForDisplay = filterRepresentationsForRule6ViewingRule6(
-				caseData,
-				serviceUserId,
-				!!rule6OwnRepresentations
-			);
-		} else {
-			representationsForDisplay = filterRepresentationsBySubmittingParty(caseData, submittingParty);
-		}
+		const representationsForDisplay = filterRepresentationsForDisplay(
+			caseData,
+			serviceUserId,
+			representationParams
+		);
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
