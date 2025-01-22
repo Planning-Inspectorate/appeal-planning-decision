@@ -32,12 +32,6 @@ describe('decidedAppeals', () => {
 		};
 	});
 
-	it('should redirect to no results page if no appeals are found', async () => {
-		req.appealsApiClient.getPostcodeSearchResults.mockResolvedValue([]);
-		await decidedAppeals(req, res);
-		expect(res.redirect).toHaveBeenCalledWith('appeal-search-no-results?search=AB12 3CD');
-	});
-
 	it('should format and sort appeals correctly and render the results', async () => {
 		req.session = { interestedParty: { searchPostcode: 'AB12 3CD' } };
 		req.appealsApiClient.getPostcodeSearchResults.mockResolvedValue([appeal]);

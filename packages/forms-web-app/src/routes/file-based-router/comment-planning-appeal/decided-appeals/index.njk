@@ -5,6 +5,7 @@
  {%- from "govuk/components/tag/macro.njk" import govukTag -%}
 
 {% block content %}
+  {% if decidedAppeals.length %}
   <div class="govuk-form-group">
     <h1 class="govuk-label govuk-label--l">{{ decidedAppeals.length }} decided Appeals found {{ postcode }}</h1>
     <table class="govuk-table govuk-!-margin-top-3">
@@ -39,4 +40,14 @@
       </tbody>
     </table>
   </div>
+  {% else %}
+    <h1 class="govuk-heading-l">Decided appeals at {{ postcode }}</h1>
+    <h2 class="govuk-heading-m">0 results</h2>
+    <p class="govuk-body">There are no decided appeals at {{ postcode }}.</p>
+    <p class="govuk-body">You can:</p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li><a href="enter-postcode" class="govuk-link">enter a different postcode</a></li>
+        <li>try searching for this case on the <a href="https://acp.planninginspectorate.gov.uk/" class="govuk-link"> Appeals Casework Portal</a></li>
+    </ul>
+  {% endif %}
 {% endblock content %}

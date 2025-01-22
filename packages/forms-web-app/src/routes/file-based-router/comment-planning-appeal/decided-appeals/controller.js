@@ -14,22 +14,19 @@ const decidedAppeals = async (req, res) => {
 		'decided-only': true
 	});
 
-	if (!decidedAppeals.length) {
-		return res.redirect(`appeal-search-no-results?search=${postcode}`);
+	if (decidedAppeals) {
+		decidedAppeals.forEach((appeal) => {
+			appeal.formattedAddress = formatAddress(appeal);
+			appeal.formattedCaseDecisionDate = formatDateForDisplay(appeal.caseDecisionOutcomeDate);
+			appeal.formattedDecisionColour = mapDecisionColour(appeal.caseDecisionOutcome);
+			appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
+			appeal.caseDecisionOutcome =
+				appeal.caseDecisionOutcome in APPEAL_CASE_DECISION_OUTCOME
+					? APPEAL_CASE_DECISION_OUTCOME[appeal.caseDecisionOutcome].name
+					: appeal.caseDecisionOutcome;
+		});
+		decidedAppeals.sort(sortByCaseDecisionDate);
 	}
-
-	decidedAppeals.forEach((appeal) => {
-		appeal.formattedAddress = formatAddress(appeal);
-		appeal.formattedCaseDecisionDate = formatDateForDisplay(appeal.caseDecisionOutcomeDate);
-		appeal.formattedDecisionColour = mapDecisionColour(appeal.caseDecisionOutcome);
-		appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
-		appeal.caseDecisionOutcome =
-			appeal.caseDecisionOutcome in APPEAL_CASE_DECISION_OUTCOME
-				? APPEAL_CASE_DECISION_OUTCOME[appeal.caseDecisionOutcome].name
-				: appeal.caseDecisionOutcome;
-	});
-
-	decidedAppeals.sort(sortByCaseDecisionDate);
 
 	let renderLocals = { postcode, decidedAppeals };
 
