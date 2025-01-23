@@ -29,6 +29,10 @@ const appealTypeToDetails = {
 	[APPEAL_ID.PLANNING_SECTION_78]: {
 		appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78,
 		taskListUrlStub: 'full-planning'
+	},
+	[APPEAL_ID.PLANNING_LISTED_BUILDING]: {
+		appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S20,
+		taskListUrlStub: 'listed-building'
 	}
 };
 
