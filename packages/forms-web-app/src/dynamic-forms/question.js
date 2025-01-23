@@ -289,7 +289,11 @@ class Question {
 		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyType)) {
 			await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave.answers);
 		} else if (
-			[JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyType)
+			[
+				JOURNEY_TYPES.HAS_APPEAL_FORM,
+				JOURNEY_TYPES.S78_APPEAL_FORM,
+				JOURNEY_TYPES.S20_APPEAL_FORM
+			].includes(journeyType)
 		) {
 			await apiClient.updateAppellantSubmission(
 				journeyResponse.referenceId,
@@ -449,7 +453,8 @@ class Question {
 			JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 			JOURNEY_TYPES.S78_QUESTIONNAIRE,
 			JOURNEY_TYPES.HAS_APPEAL_FORM,
-			JOURNEY_TYPES.S78_APPEAL_FORM
+			JOURNEY_TYPES.S78_APPEAL_FORM,
+			JOURNEY_TYPES.S20_APPEAL_FORM
 		];
 
 		return !longForms.includes(journey.journeyId);

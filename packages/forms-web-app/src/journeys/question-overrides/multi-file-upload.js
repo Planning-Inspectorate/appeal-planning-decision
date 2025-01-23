@@ -191,6 +191,9 @@ function uploadDocuments(apiClient, referenceId, journeyId, data) {
 		case JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE: {
 			return apiClient.postRule6ProofOfEvidenceDocumentUpload(referenceId, data);
 		}
+		case JOURNEY_TYPES.S20_APPEAL_FORM: {
+			return apiClient.postAppellantSubmissionDocumentUpload(referenceId, data);
+		}
 		default:
 			throw new Error('Unrecognised journey type');
 	}
@@ -236,6 +239,9 @@ function removeDocuments(apiClient, journeyId) {
 			}
 			case JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE: {
 				return apiClient.deleteRule6ProofOfEvidenceDocumentUpload(submissionId, documentId);
+			}
+			case JOURNEY_TYPES.S20_APPEAL_FORM: {
+				return apiClient.deleteAppellantSubmissionDocumentUpload(submissionId, documentId);
 			}
 			default:
 				throw new Error('Unrecognised journey type');
