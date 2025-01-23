@@ -135,6 +135,7 @@ const sections = [
 		.addQuestion(questions.planningApplicationDate)
 		.addQuestion(questions.enterDevelopmentDescription)
 		.addQuestion(questions.updateDevelopmentDescription)
+		.addQuestion(questions.grantOrLoan)
 		.addQuestion(questions.appellantProcedurePreference)
 		.addQuestion(questions.appellantPreferHearing)
 		.withCondition((response) =>

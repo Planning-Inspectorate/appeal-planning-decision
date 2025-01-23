@@ -1506,6 +1506,31 @@ exports.questionProps = {
 			}
 		]
 	},
+	grantOrLoan: {
+		type: 'boolean',
+		title: 'Was a grant or loan made to preserve the listed building?',
+		question: 'Was a grant or loan made to preserve the listed building?',
+		fieldName: 'section3aGrant',
+		url: 'preserve-grant-loan',
+		hint: 'We only need to know about grants and loans made under section 3A or 4 of the Historic Buildings and Ancient Monuments Act 1953.',
+		validators: [
+			new RequiredValidator(
+				'Select yes if a grant or loan was made to preserve the listed building'
+			)
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				attributes: { 'data-cy': 'answer-yes' }
+			},
+			{
+				text: 'No',
+				value: 'no',
+				attributes: { 'data-cy': 'answer-no' }
+			}
+		]
+	},
 	uploadAppellantStatement: {
 		type: 'multi-file-upload',
 		title: 'Appeal statement',
