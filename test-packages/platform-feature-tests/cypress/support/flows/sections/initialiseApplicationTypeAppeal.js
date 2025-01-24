@@ -10,7 +10,7 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 	cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 	cy.advanceToNextPage();
 	cy.get(basePage?._selectors?.localPlanningDepartment)
-		.type('System Test Borough Council')
+		.type('System Test 2 Borough Council')
 		.get(basePage?._selectors?.localPlanningDepartmentOptionZero)
 		.click();
 	cy.advanceToNextPage();
