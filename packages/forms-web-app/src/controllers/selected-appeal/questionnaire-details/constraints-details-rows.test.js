@@ -1,4 +1,5 @@
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const { constraintsRows } = require('./constraints-details-rows');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
@@ -238,7 +239,7 @@ describe('constraintsRows', () => {
 
 	it('should create rows with correct data for HAS appeal', () => {
 		const caseData = {
-			appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS,
+			appealTypeCode: CASE_TYPES.HAS.processCode,
 			isCorrectAppealType: true,
 			ListedBuildings: [
 				{

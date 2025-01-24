@@ -10,7 +10,9 @@ const {
 	formatQuestionnaireAppealInformationSection
 } = require('./dynamic-components/utils/submission-information-utils');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
-const { APPEALS_CASE_DATA, LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { getDepartmentFromId } = require('../services/department.service');
 const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
@@ -22,16 +24,16 @@ const { CONSTS } = require('../consts');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 
 const appealTypeToDetails = {
-	[APPEAL_ID.HOUSEHOLDER]: {
-		appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS,
+	[CASE_TYPES.HAS.id]: {
+		appealTypeCode: CASE_TYPES.HAS.processCode,
 		taskListUrlStub: 'householder'
 	},
-	[APPEAL_ID.PLANNING_SECTION_78]: {
-		appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78,
+	[CASE_TYPES.S78.id]: {
+		appealTypeCode: CASE_TYPES.S78.processCode,
 		taskListUrlStub: 'full-planning'
 	},
-	[APPEAL_ID.PLANNING_LISTED_BUILDING]: {
-		appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S20,
+	[CASE_TYPES.S20.id]: {
+		appealTypeCode: CASE_TYPES.S20.processCode,
 		taskListUrlStub: 'listed-building'
 	}
 };

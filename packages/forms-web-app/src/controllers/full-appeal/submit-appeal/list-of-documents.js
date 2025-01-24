@@ -8,7 +8,8 @@ const {
 } = require('../../../lib/full-appeal/views');
 const { postSaveAndReturn } = require('../../save');
 const { FLAG } = require('@pins/common/src/feature-flags');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { isFeatureActive } = require('../../../featureFlag');
 const {
 	baseS78SubmissionUrl,
@@ -48,7 +49,7 @@ const postListOfDocuments = async (req, res) => {
 			const appealSubmission = await req.appealsApiClient.createAppellantSubmission({
 				appealId: appeal.appealSqlId,
 				LPACode: lpaCode,
-				appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78, // we should define this in a table + align with data model
+				appealTypeCode: CASE_TYPES.S78.processCode,
 				applicationDecisionDate: appeal.decisionDate,
 				applicationReference: appeal.planningApplicationNumber,
 				applicationDecision: appeal.eligibility.applicationDecision

@@ -5,7 +5,8 @@ const {
 	documentExists,
 	boolToYesNo
 } = require('@pins/common');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
@@ -18,7 +19,7 @@ const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 exports.constraintsRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
-	const isHASAppeal = caseData.appealTypeCode === APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS;
+	const isHASAppeal = caseData.appealTypeCode === CASE_TYPES.HAS.processCode;
 
 	const affectedListedBuildings = caseData.ListedBuildings?.filter(
 		(x) => x.type === LISTED_RELATION_TYPES.affected

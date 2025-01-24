@@ -16,7 +16,7 @@ const {
 	baseS78SubmissionUrl,
 	taskListUrl
 } = require('../../../../../src/dynamic-forms/s78-appeal-form/journey');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const apiClient = {
 	createAppellantSubmission: jest.fn()
@@ -87,7 +87,7 @@ describe('controllers/full-appeal/submit-appeal/list-of-documents', () => {
 			expect(apiClient.createAppellantSubmission).toHaveBeenCalledWith({
 				appealId: mockAppealSqlId,
 				LPACode: 'testLPACode',
-				appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78,
+				appealTypeCode: CASE_TYPES.S78.processCode,
 				applicationDecisionDate: mockDecisionDate,
 				applicationReference: mockPlanningApplicationNumber,
 				applicationDecision: mockEligibility.applicationDecision

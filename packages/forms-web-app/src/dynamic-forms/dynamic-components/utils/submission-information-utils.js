@@ -1,10 +1,11 @@
 const { getLPA, getLPAById } = require('../../../lib/appeals-api-wrapper');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { formatAddress } = require('@pins/common/src/lib/format-address');
 const { formatApplicant } = require('@pins/common/src/lib/format-applicant');
 const typeCodeToSubmissionInformationString = {
-	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS]: 'Householder',
-	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78]: 'Full planning'
+	[CASE_TYPES.HAS.processCode]: 'Householder',
+	[CASE_TYPES.S78.processCode]: 'Full planning'
 };
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
