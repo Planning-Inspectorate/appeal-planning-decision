@@ -17,7 +17,7 @@ module.exports = async (req, res, next) => {
 		next();
 	} catch (error) {
 		if (error instanceof ApiError) {
-			res.status(error.code || 500).send(error.message.errors);
+			res.status(error.code || 500).send(error.errors);
 		} else {
 			res.status(500).send('An unexpected error occurred');
 		}

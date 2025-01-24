@@ -11,7 +11,7 @@ function apiErrorHandler(err, req, res, next) {
 	if (err instanceof ApiError) {
 		const errorMessage = {
 			code: err.code,
-			errors: err.message.errors
+			errors: err.errors
 		};
 		res.status(err.code).json(errorMessage);
 		return;

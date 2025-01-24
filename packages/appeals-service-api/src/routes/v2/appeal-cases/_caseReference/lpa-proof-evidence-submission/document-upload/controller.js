@@ -15,8 +15,8 @@ async function createSubmissionDocumentUpload(req, res) {
 		res.status(200).send(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
-			logger.error(`Failed to create document upload: ${error.code} // ${error.message.errors}`);
-			res.status(error.code || 500).send(error.message.errors);
+			logger.error(`Failed to create document upload: ${error.code} // ${error.errors}`);
+			res.status(error.code || 500).send(error.errors);
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');
@@ -37,8 +37,8 @@ async function deleteSubmissionDocumentUpload(req, res) {
 		res.status(200).send(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
-			logger.error(`Failed to delete document upload: ${error.code} // ${error.message.errors}`);
-			res.status(error.code || 500).send(error.message.errors);
+			logger.error(`Failed to delete document upload: ${error.code} // ${error.errors}`);
+			res.status(error.code || 500).send(error.errors);
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');

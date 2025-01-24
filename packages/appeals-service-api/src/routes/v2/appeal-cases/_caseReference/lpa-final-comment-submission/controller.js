@@ -19,8 +19,8 @@ async function getLPAFinalCommentSubmission(req, res) {
 		res.status(200).send(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
-			logger.error(`Failed to get LPA Final Comment: ${error.code} // ${error.message.errors}`);
-			res.status(error.code || 500).send(error.message.errors);
+			logger.error(`Failed to get LPA Final Comment: ${error.code} // ${error.errors}`);
+			res.status(error.code || 500).send(error.errors);
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');
@@ -40,8 +40,8 @@ async function createLPAFinalCommentSubmission(req, res) {
 		res.status(200).send(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
-			logger.error(`Failed to create LPA Final Comment: ${error.code} // ${error.message.errors}`);
-			res.status(error.code || 500).send(error.message.errors);
+			logger.error(`Failed to create LPA Final Comment: ${error.code} // ${error.errors}`);
+			res.status(error.code || 500).send(error.errors);
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');
@@ -61,8 +61,8 @@ async function patchLPAFinalCommentSubmission(req, res) {
 		res.status(200).send(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
-			logger.error(`Failed to update LPA Final Comment: ${error.code} // ${error.message.errors}`);
-			res.status(error.code || 500).send(error.message.errors);
+			logger.error(`Failed to update LPA Final Comment: ${error.code} // ${error.errors}`);
+			res.status(error.code || 500).send(error.errors);
 		} else if (error instanceof PrismaClientValidationError) {
 			logger.error(`invalid request: ${error.message}`);
 			res.status(400).send({ errors: ['Bad request'] });

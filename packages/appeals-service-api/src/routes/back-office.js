@@ -19,7 +19,7 @@ router.post('/appeals/:id', async (req, res) => {
 		if (!(error instanceof ApiError)) {
 			throw error;
 		}
-		return res.status(error.code).send(error.message.errors);
+		return res.status(error.code).send(error.errors);
 	}
 });
 
@@ -37,7 +37,7 @@ router.get('/appeals/:id', async (req, res) => {
 		if (!(error instanceof ApiError)) {
 			throw error;
 		}
-		return res.status(error.code).send(error.message.errors);
+		return res.status(error.code).send(error.errors);
 	}
 });
 module.exports = router;

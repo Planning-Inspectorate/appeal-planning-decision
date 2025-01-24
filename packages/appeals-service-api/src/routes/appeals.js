@@ -1,5 +1,5 @@
 const express = require('express');
-
+const ApiError = require('#errors/apiError');
 const {
 	updateAppeal,
 	getAppeal,
@@ -14,56 +14,52 @@ const {
 const router = express.Router();
 
 router.get('/:id', async (req, res) => {
-	let statusCode = 200;
-	let body = '';
 	try {
-		body = await getAppeal(req.params.id);
+		const body = await getAppeal(req.params.id);
+		res.status(200).send(body);
 	} catch (error) {
-		statusCode = error.code;
-		body = error.message.errors;
-	} finally {
-		res.status(statusCode).send(body);
+		if (!(error instanceof ApiError)) {
+			throw error;
+		}
+		return res.status(error.code).send(error.errors);
 	}
 });
 
 router.post('/', createAppeal);
 
 router.put('/:id', appealInsertValidationRules, async (req, res) => {
-	let statusCode = 200;
-	let body = '';
 	try {
-		body = await updateAppeal(req.params.id, req.body);
+		const body = await updateAppeal(req.params.id, req.body);
+		res.status(200).send(body);
 	} catch (error) {
-		statusCode = error.code;
-		body = error.message.errors;
-	} finally {
-		res.status(statusCode).send(body);
+		if (!(error instanceof ApiError)) {
+			throw error;
+		}
+		return res.status(error.code).send(error.errors);
 	}
 });
 
 router.patch('/:id', appealUpdateValidationRules, async (req, res) => {
-	let statusCode = 200;
-	let body = '';
 	try {
-		body = await updateAppeal(req.params.id, req.body);
+		const body = await updateAppeal(req.params.id, req.body);
+		res.status(200).send(body);
 	} catch (error) {
-		statusCode = error.code;
-		body = error.message.errors;
-	} finally {
-		res.status(statusCode).send(body);
+		if (!(error instanceof ApiError)) {
+			throw error;
+		}
+		return res.status(error.code).send(error.errors);
 	}
 });
 
 router.delete('/:id', async (req, res) => {
-	let statusCode = 200;
-	let body = {};
 	try {
 		await deleteAppeal(req.params.id);
+		res.status(200).send({});
 	} catch (error) {
-		statusCode = error.code;
-		body = error.message.errors;
-	} finally {
-		res.status(statusCode).send(body);
+		if (!(error instanceof ApiError)) {
+			throw error;
+		}
+		return res.status(error.code).send(error.errors);
 	}
 });
 
