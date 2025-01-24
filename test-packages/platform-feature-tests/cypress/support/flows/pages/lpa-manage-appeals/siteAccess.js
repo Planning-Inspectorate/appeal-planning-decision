@@ -36,9 +36,9 @@ export class SiteAccess {
                     cy.getByData(basePage?._selectors.answerNo).click();
                     cy.advanceToNextPage();
                 } else {
-                    cy.get(this._selectors?.addressLine1Details).type(lpaManageAppealsData?.siteAccess?.addresssLineOne);
-                    cy.get(this._selectors?.addressLine2Details).type(lpaManageAppealsData?.siteAccess?.addresssLineTwo);
-                    cy.get(this._selectors?.addressTownDetails).type(lpaManageAppealsData?.siteAccess?.addresssTown);
+                    cy.get(this._selectors?.addressLine1Details).type(lpaManageAppealsData?.siteAccess?.addressLineOne);
+                    cy.get(this._selectors?.addressLine2Details).type(lpaManageAppealsData?.siteAccess?.addressLineTwo);
+                    cy.get(this._selectors?.addressTownDetails).type(lpaManageAppealsData?.siteAccess?.addressTown);
                     cy.get(this._selectors?.addressCountyDetails).type(lpaManageAppealsData?.siteAccess?.addressCounty);
                     cy.get(this._selectors?.addressPostCodeDetails).type(lpaManageAppealsData?.siteAccess?.addressPostCode);
                     cy.advanceToNextPage();

@@ -32,14 +32,18 @@ export class EnvImpactAssess {
         }
     };
 
-    selectScheduleOne(context) {     
+    selectScheduleOne(context) {  
+        const basePage = new BasePage();   
         cy.getByData(this?._selectors.yesScheduleOne).click();
         cy.advanceToNextPage();
-        //Upload your screening opinion and any correspondence
-        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadScreeningOpinion);
-        cy.advanceToNextPage();
-        this.selectScreeningOpinionEnvStmt(context);
+        // cy.getByData(basePage?._selectors.answerYes).click();
+        // cy.advanceToNextPage();
+        // //Upload your screening opinion and any correspondence
+       // cy.uploadFileFromFixtureDirectories(context?.documents?.uploadScreeningOpinion);
+       // cy.advanceToNextPage();
+        
         this.selectEnvironmentalStatement(context);
+        //this.selectScreeningOpinionEnvStmt(context);
     };
 
     selectEnvironmentalStatement(context) {
