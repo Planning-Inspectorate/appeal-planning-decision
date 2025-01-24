@@ -5,7 +5,8 @@ const {
 	boolToYesNo
 } = require('@pins/common');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
@@ -36,7 +37,7 @@ exports.planningOfficerReportRows = (caseData) => {
 			keyText: 'Plans, drawings and list of plans',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
 			condition: () =>
-				caseData.appealTypeCode === APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS &&
+				caseData.appealTypeCode === CASE_TYPES.HAS.processCode &&
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
 			isEscaped: true
 		},

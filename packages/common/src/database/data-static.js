@@ -46,7 +46,13 @@ const APPEAL_TO_USER_ROLES = {
  */
 const CASE_TYPES = {
 	HAS: { id: 1001, key: APPEAL_CASE_TYPE.D, type: 'Householder', processCode: 'HAS' },
-	S78: { id: 1005, key: APPEAL_CASE_TYPE.W, type: 'Full Planning', processCode: 'S78' }
+	S78: { id: 1005, key: APPEAL_CASE_TYPE.W, type: 'Full Planning', processCode: 'S78' },
+	S20: {
+		id: 1006,
+		key: APPEAL_CASE_TYPE.Y,
+		type: 'Planned listed building and conservation area appeal',
+		processCode: 'S20'
+	}
 	// { id: 1000, key: 'C', type: 'Enforcement notice appeal' },
 	// { id: 1002, key: 'F', type: 'Enforcement listed building and conservation area appeal' },
 	// { key: 'G', type: 'Discontinuance notice appeal' },
@@ -56,7 +62,6 @@ const CASE_TYPES = {
 	// { key: 'S', type: 'Affordable housing obligation appeal' },
 	// { key: 'V', type: 'Call-in application' },
 	// { key: 'X', type: 'Lawful development certificate appeal' },
-	// { id: 1006, key: 'Y', type: 'Planned listed building and conservation area appeal' },
 	// { id: 1007, key: 'Z', type: 'Commercial (CAS) appeal' }
 };
 

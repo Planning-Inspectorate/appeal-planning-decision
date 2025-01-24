@@ -1,5 +1,6 @@
 const { documentsRows } = require('./appeal-documents-rows');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 describe('appeal-documents-rows', () => {
@@ -30,14 +31,14 @@ describe('appeal-documents-rows', () => {
 
 	describe('Plans, drawings and supporting documents', () => {
 		it('should display field if S78', () => {
-			const rows = documentsRows({ appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78 });
+			const rows = documentsRows({ appealTypeCode: CASE_TYPES.S78.processCode });
 			expect(rows[2].keyText).toEqual('Plans, drawings and supporting documents');
 			expect(rows[2].valueText).toEqual('No');
 			expect(rows[2].condition()).toEqual(true);
 			expect(rows[2].isEscaped).toEqual(true);
 		});
 		it('should not display field if not S78', () => {
-			const rows = documentsRows({ appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS });
+			const rows = documentsRows({ appealTypeCode: CASE_TYPES.HAS.processCode });
 			expect(rows[2].keyText).toEqual('Plans, drawings and supporting documents');
 			expect(rows[2].valueText).toEqual('No');
 			expect(rows[2].condition()).toEqual(false);

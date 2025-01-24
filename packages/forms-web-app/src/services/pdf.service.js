@@ -13,7 +13,8 @@ const {
 } = require('../lib/full-appeal/views');
 const logger = require('../lib/logger');
 const { CONSTS } = require('../consts');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 
 const defaultFileName = 'appeal-form';
@@ -124,8 +125,8 @@ const storePdfAppeal = async ({ appeal, fileName, sid }) => {
 // Functions relating to V2 appeal forms
 
 const typeCodeToAppealUrlStub = {
-	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS]: 'householder',
-	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78]: 'full-planning'
+	[CASE_TYPES.HAS.processCode]: 'householder',
+	[CASE_TYPES.S78.processCode]: 'full-planning'
 };
 
 /**

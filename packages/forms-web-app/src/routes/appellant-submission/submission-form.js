@@ -19,9 +19,10 @@ const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dy
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-appellant');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
 const { businessRulesDeadline } = require('../../lib/calculate-deadline');
-const { mapTypeCodeToAppealId } = require('../../lib/full-appeal/map-planning-application');
+const { mapTypeCodeToAppealId } = require('@pins/common');
 const { format } = require('date-fns');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { getJourney } = require('../../dynamic-forms/middleware/get-journey');
 const { journeys } = require('../../journeys');
 const checkDecisionDateDeadline = require('../../middleware/check-decision-date-deadline');
@@ -35,11 +36,11 @@ const {
 const dashboardUrl = `/${YOUR_APPEALS}`;
 
 const typeCodeToTaskListDetails = {
-	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS]: {
+	[CASE_TYPES.HAS.processCode]: {
 		stub: 'householder',
 		pageCaption: 'Householder Appeal'
 	},
-	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78]: {
+	[CASE_TYPES.S78.processCode]: {
 		stub: 'full-planning',
 		pageCaption: 'Full Planning Appeal'
 	}
