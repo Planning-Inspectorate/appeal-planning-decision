@@ -5,6 +5,8 @@
     "s78AppealType":"S78",
     "todoInvalid":"INVALID",
     "todoQuestionnaire": "questionnaire",
+    "todoProofsOfEvidence": "Proofs of Evidence",
+    "proofsOfEvidenceLink": "proof-evidence",
     "appealType": "Appeal type",
     "appealTypeHouseholder":"Householder",
     "appealTypeFullPlanning":"Full Planning",
@@ -69,5 +71,9 @@
         "lpaPreferHearingDetails":"Lpa Pefer Hearing Details !£$%^&*(123456789 ",
         "lpaProcedurePreferenceLpaPreferInquiryDuration":"99",
         "lpaPreferInquiryDetails":"Lpa Pefer Inquiry Details !£$%^&*(123456789 "
+    },   
+    "proofsOfEvidence":{
+
     }
+
 }
