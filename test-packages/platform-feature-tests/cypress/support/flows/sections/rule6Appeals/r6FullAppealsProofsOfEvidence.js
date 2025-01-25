@@ -3,7 +3,7 @@
 /// <reference types="cypress"/>
 
 import { BasePage } from "../../../../page-objects/base-page";
-import { ProofsOfEvidence } from "../../pages/lpa-manage-appeals/lpa-proofs-of-evidence/proofsOfEvidence";
+import { ProofsOfEvidence } from "../../pages/rule-6-appeals/r6FullAppealsProofsOfEvidence";
 
 
 export const r6FullAppealsProofsOfEvidence = (context, lpaManageAppealsData) => {
