@@ -78,11 +78,17 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 				? VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS
 				: VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS;
 
+		const showLabel =
+			userType == APPEAL_USER_ROLES.RULE_6_PARTY &&
+			submittingParty == APPEAL_USER_ROLES.RULE_6_PARTY
+				? !rule6OwnRepresentations
+				: formattedRepresentations.length > 1;
+
 		const viewContext = {
 			layoutTemplate,
 			titleSuffix: formatTitleSuffix(userType),
-			heading: formatRepresentationHeading(representationType, userType, submittingParty),
-
+			heading: formatRepresentationHeading(representationParams),
+			showLabel,
 			appeal: {
 				appealNumber,
 				headlineData,

@@ -32,14 +32,14 @@ const fullPostCodeTests = [
 		base: 'A11 1AA',
 		expected: true
 	},
-	// {
-	// 	base: 'AA111AA',
-	// 	expected: true
-	// },
-	// {
-	// 	base: 'AA11AA',
-	// 	expected: true
-	// },
+	{
+		base: 'AA111AA',
+		expected: true
+	},
+	{
+		base: 'AA11AA',
+		expected: true
+	},
 	{
 		base: 'AA11 1AA',
 		expected: true
@@ -52,10 +52,10 @@ const fullPostCodeTests = [
 		base: '11AAAA',
 		expected: false
 	},
-	// {
-	// 	base: '1A1 1AA',
-	// 	expected: false
-	// },
+	{
+		base: '1A1 1AA',
+		expected: false
+	},
 	{
 		base: 'AA1 AA',
 		expected: false

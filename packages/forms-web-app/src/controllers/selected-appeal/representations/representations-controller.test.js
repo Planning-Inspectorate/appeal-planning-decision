@@ -75,13 +75,10 @@ describe('controllers/selected-appeal/representations', () => {
 		);
 		expect(formatRepresentations).toHaveBeenCalledWith([]);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
-		expect(formatRepresentationHeading).toHaveBeenCalledWith(
-			testParams.representationType,
-			testParams.userType,
-			testParams.submittingParty
-		);
+		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
 		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS, {
 			layoutTemplate: testLayoutTemplate,
+			showLabel: false,
 			titleSuffix: 'test title suffix',
 			heading: 'test representation heading',
 			appeal: {
@@ -114,15 +111,12 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(filterRepresentationsBySubmittingParty).not.toHaveBeenCalled();
 		expect(formatRepresentations).toHaveBeenCalledWith([]);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
-		expect(formatRepresentationHeading).toHaveBeenCalledWith(
-			testParams.representationType,
-			testParams.userType,
-			testParams.submittingParty
-		);
+		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
 		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS, {
 			layoutTemplate: testLayoutTemplate,
 			titleSuffix: 'test title suffix',
 			heading: 'test representation heading',
+			showLabel: false,
 			appeal: {
 				appealNumber: 'ABC123',
 				headlineData: { title: 'Appeal Headline Data' },

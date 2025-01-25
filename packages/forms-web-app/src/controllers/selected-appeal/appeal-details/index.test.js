@@ -96,7 +96,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			});
 			expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
 			expect(detailsRows).toHaveBeenCalledWith(caseData, LPA_USER_ROLE);
-			expect(documentsRows).toHaveBeenCalledWith(caseData, LPA_USER_ROLE);
+			expect(documentsRows).toHaveBeenCalledWith(caseData);
 			expect(formatRows).toHaveBeenCalledWith('returned details rows', caseData);
 			expect(formatHeadlineData).toHaveBeenCalledWith(caseData, 'Test LPA', LPA_USER_ROLE);
 
@@ -136,7 +136,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			});
 			expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
 			expect(detailsRows).toHaveBeenCalledWith(caseData, LPA_USER_ROLE);
-			expect(documentsRows).toHaveBeenCalledWith(caseData, LPA_USER_ROLE);
+			expect(documentsRows).toHaveBeenCalledWith(caseData);
 			expect(formatRows).toHaveBeenCalledWith('returned details rows', caseData);
 			expect(formatHeadlineData).toHaveBeenCalledWith(caseData, 'Test LPA', LPA_USER_ROLE);
 

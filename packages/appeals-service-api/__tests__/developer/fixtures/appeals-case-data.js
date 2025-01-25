@@ -1,3 +1,4 @@
+const sanitizePostcode = require('#lib/sanitize-postcode');
 const { APPEAL_CASE_STATUS } = require('pins-data-model');
 
 /**
@@ -28,6 +29,7 @@ function createTestAppealCase(
 		siteAddressTown: 'Testville',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: postCode,
+		siteAddressPostcodeSanitized: sanitizePostcode(postCode),
 		appellantCostsAppliedFor: false,
 		LPACode: lpaCode,
 		casePublishedDate: publishedDate,

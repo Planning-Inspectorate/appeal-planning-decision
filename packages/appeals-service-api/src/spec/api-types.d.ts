@@ -468,7 +468,7 @@ export interface AppealCase {
 	rule6ProofEvidenceSubmittedDate?: string;
 	interestedPartyCommentsPublished?: boolean;
 	Rule6Parties?: object[];
-	AffectedListedBuildings?: object[];
+	ListedBuildings?: object[];
 	Documents?: object[];
 	NeighbouringAddresses?: object[];
 	Events?: Event[];
@@ -673,7 +673,7 @@ export interface AppellantSubmission {
 	/** @format uuid */
 	id?: string;
 	LPACode?: string;
-	appealTypeCode?: 'HAS' | 'S78';
+	appealTypeCode?: 'HAS' | 'S78' | 'S20';
 	/** @format date-time */
 	applicationDecisionDate?: string;
 	applicationDecision?: string;
@@ -728,6 +728,7 @@ export interface AppellantSubmission {
 	appellantPreferInquiryWitnesses?: number;
 	siteArea?: number;
 	tenantAgriculturalHolding?: boolean;
+	section3aGrant?: boolean;
 	appellantLinkedCaseAdd?: boolean;
 	appellantLinkedCase?: boolean;
 	SubmissionLinkedCase?: object[];

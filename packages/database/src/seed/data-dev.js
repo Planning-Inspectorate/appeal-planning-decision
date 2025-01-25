@@ -123,6 +123,14 @@ const lpaUsers = {
 		isLpaAdmin: true,
 		lpaCode: 'Q9999',
 		lpaStatus: 'confirmed'
+	},
+	lpaAdmin2: {
+		id: '59a82253-4309-45c4-8f6e-5412e2e9be9b',
+		email: 'admin2@planninginspectorate.gov.uk',
+		isLpaUser: true,
+		isLpaAdmin: true,
+		lpaCode: 'Q1111',
+		lpaStatus: 'confirmed'
 	}
 };
 
@@ -141,7 +149,8 @@ const appealIds = {
 	appeal12: '7573b265-f529-4b0b-adf1-659cc70c180f',
 	appeal13: '1f72d00c-03fa-48be-8ded-a9580e65f7a5',
 	appeal14: '437c4af5-7440-486d-98e9-b37a748be96c',
-	appeal15: '5b769d3f-466c-427a-9d58-d9823239ee9b'
+	appeal15: '5b769d3f-466c-427a-9d58-d9823239ee9b',
+	appeal16: 'e2e772d4-e688-465f-802c-59a69e43a9ea'
 };
 
 const caseReferences = {
@@ -157,7 +166,8 @@ const caseReferences = {
 	caseReferenceTen: '1010110',
 	caseReference13: '2201010',
 	caseReference14: '2211010',
-	caseReference15: '2221010'
+	caseReference15: '2221010',
+	caseReference16: '2231010'
 };
 
 const appellantSubmissionIds = {
@@ -261,6 +271,7 @@ const users = [
 	lpaUsers.lpaUser,
 	lpaUsers.lpaUser2,
 	lpaUsers.lpaAdmin,
+	lpaUsers.lpaAdmin2,
 	appellants.appellantOne,
 	appellants.appellantTwo,
 	appellants.appellantThree,
@@ -298,6 +309,7 @@ const appeals = [
 	{ id: appealIds.appeal13 },
 	{ id: appealIds.appeal14 },
 	{ id: appealIds.appeal15 },
+	{ id: appealIds.appeal16 },
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
@@ -312,11 +324,12 @@ const appeals = [
 ];
 
 const commonAppealProperties = {
-	LPACode: 'Q9999',
+	LPACode: 'Q1111',
 	siteAddressLine1: '123 Fake Street',
 	siteAddressTown: 'Testville',
 	siteAddressCounty: 'Countyshire',
 	siteAddressPostcode: 'BS1 6PN',
+	siteAddressPostcodeSanitized: 'BS16PN',
 	appellantCostsAppliedFor: false,
 	casePublishedDate: new Date(),
 	caseCreatedDate: new Date(),
@@ -339,7 +352,7 @@ const appealCases = [
 		},
 		caseReference: caseReferences.caseReferenceNine,
 		caseId: 131313,
-		LPACode: 'Q9999',
+		LPACode: 'Q1111',
 		CaseType: {
 			connect: { processCode: 'HAS' }
 		},
@@ -363,7 +376,8 @@ const appealCases = [
 		siteAddressLine2: 'Testing',
 		siteAddressTown: 'Testville',
 		siteAddressCounty: 'Countyshire',
-		siteAddressPostcode: 'BS1 6PN',
+		siteAddressPostcode: 'BS2 6PN',
+		siteAddressPostcodeSanitized: 'BS26PN',
 		siteAccessDetails: '["Open the gate"]',
 		siteSafetyDetails: '["Watch out for nails", "And the goat"]',
 		siteAreaSquareMetres: 67,
@@ -617,7 +631,7 @@ const appealCases = [
 		Appeal: {
 			connect: { id: appealIds.appeal12 }
 		},
-		LPACode: 'Q9999',
+		LPACode: 'Q1111',
 		siteAddressLine1: '123 Fake Street',
 		siteAddressTown: 'Birmingham',
 		siteAddressCounty: 'West Midlands',
@@ -647,11 +661,12 @@ const appealCases = [
 		Appeal: {
 			connect: { id: appealIds.appeal13 }
 		},
-		LPACode: 'Q9999',
+		LPACode: 'Q1111',
 		siteAddressLine1: '124 Fake Street',
 		siteAddressTown: 'Bristol',
 		siteAddressCounty: 'Bristolshire',
 		siteAddressPostcode: 'BS1 6PN',
+		siteAddressPostcodeSanitized: 'BS16PN',
 		appellantCostsAppliedFor: false,
 		casePublishedDate: pickRandom(datesNMonthsAgo(1)),
 		caseCreatedDate: pickRandom(datesNMonthsAgo(1)),
@@ -676,11 +691,12 @@ const appealCases = [
 		Appeal: {
 			connect: { id: appealIds.appeal14 }
 		},
-		LPACode: 'Q9999',
+		LPACode: 'Q1111',
 		siteAddressLine1: '124 Fake Street',
 		siteAddressTown: 'Bristol',
 		siteAddressCounty: 'Bristolshire',
 		siteAddressPostcode: 'BS1 6PN',
+		siteAddressPostcodeSanitized: 'BS16PN',
 		appellantCostsAppliedFor: false,
 		casePublishedDate: pickRandom(datesNMonthsAgo(1)),
 		caseCreatedDate: pickRandom(datesNMonthsAgo(1)),
@@ -691,6 +707,8 @@ const appealCases = [
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.FINAL_COMMENTS }
 		},
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantCommentsSubmitted: new Date(),
 		appellantFinalCommentsSubmitted: true,
 		ProcedureType: {
@@ -707,11 +725,12 @@ const appealCases = [
 		Appeal: {
 			connect: { id: appealIds.appeal15 }
 		},
-		LPACode: 'Q9999',
+		LPACode: 'Q1111',
 		siteAddressLine1: '125 Fake Street',
 		siteAddressTown: 'Bristol',
 		siteAddressCounty: 'Bristolshire',
 		siteAddressPostcode: 'BS1 6PN',
+		siteAddressPostcodeSanitized: 'BS16PN',
 		appellantCostsAppliedFor: false,
 		casePublishedDate: pickRandom(datesNMonthsAgo(1)),
 		caseCreatedDate: pickRandom(datesNMonthsAgo(1)),
@@ -725,11 +744,53 @@ const appealCases = [
 		appellantCommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantFinalCommentsSubmitted: true,
 		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: new Date(),
+		lpaProofEvidenceSubmitted: true,
+		LPAProofsSubmitted: new Date(),
+		rule6ProofEvidenceSubmitted: true,
+		rule6ProofEvidenceSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		ProcedureType: {
 			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
 		},
 		caseReference: caseReferences.caseReference15,
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323238/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2))
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appeal16 }
+		},
+		LPACode: 'Q1111',
+		siteAddressLine1: '124 Fake Street',
+		siteAddressTown: 'Bristol',
+		siteAddressCounty: 'Bristolshire',
+		siteAddressPostcode: 'BS1 6PN',
+		appellantCostsAppliedFor: false,
+		casePublishedDate: pickRandom(datesNMonthsAgo(1)),
+		caseCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		CaseType: {
+			connect: { processCode: 'S78' }
+		},
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.STATEMENTS }
+		},
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		rule6StatementSubmitted: true,
+		rule6StatementSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		appellantCommentsSubmitted: new Date(),
+		appellantFinalCommentsSubmitted: true,
+		ProcedureType: {
+			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
+		},
+		caseReference: caseReferences.caseReference16,
 		applicationDecision: '',
 		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		applicationReference: '12/2323238/PLA',
@@ -882,6 +943,16 @@ const appealToUsers = [
 	{
 		appealId: appealIds.appealEight,
 		userId: rule6Parties.r6Eight.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appeal15,
+		userId: rule6Parties.r6One.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appeal16,
+		userId: rule6Parties.r6One.id,
 		role: APPEAL_USER_ROLES.RULE_6_PARTY
 	},
 	...linkedLpaR6Appeals
@@ -1379,7 +1450,7 @@ const interestedPartyComments = [
 const appealStatements = [
 	{
 		id: appealStatementIds.appealStatementOne,
-		lpaCode: 'Q9999',
+		lpaCode: 'Q1111',
 		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
 		statement:
 			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
@@ -1391,7 +1462,7 @@ const appealStatements = [
 	},
 	{
 		id: appealStatementIds.appealStatementTwo,
-		lpaCode: 'Q9999',
+		lpaCode: 'Q1111',
 		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
 		statement:
 			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.',
@@ -1428,7 +1499,7 @@ const statementDocuments = [
 const appealFinalComments = [
 	{
 		id: appealFinalCommentIds.appealFinalCommentOne,
-		lpaCode: 'Q9999',
+		lpaCode: 'Q1111',
 		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
 		comments:
 			'This is the LPA final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.',
@@ -1441,7 +1512,7 @@ const appealFinalComments = [
 	},
 	{
 		id: appealFinalCommentIds.appealFinalCommentTwo,
-		lpaCode: 'Q9999',
+		lpaCode: 'Q1111',
 		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
 		comments:
 			'This is the LPA final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.',
@@ -1527,7 +1598,7 @@ const appellantSubmissions = [
 	// v2 appellant submissions
 	{
 		id: appellantSubmissionIds.appellantSubmissionOne,
-		LPACode: 'Q9999',
+		LPACode: 'Q1111',
 		appealTypeCode: 'HAS',
 		Appeal: {
 			connect: { id: appealIds.appealOne }
@@ -1536,7 +1607,7 @@ const appellantSubmissions = [
 	},
 	{
 		id: appellantSubmissionIds.appellantSubmissionTwo,
-		LPACode: 'Q9999',
+		LPACode: 'Q1111',
 		appealTypeCode: 'HAS',
 		applicationDecisionDate: new Date(),
 		Appeal: {
@@ -1545,7 +1616,7 @@ const appellantSubmissions = [
 	},
 	{
 		id: appellantSubmissionIds.appellantSubmissionThree,
-		LPACode: 'Q9999',
+		LPACode: 'Q1111',
 		appealTypeCode: 'HAS',
 		applicationDecisionDate: new Date('2024-03-01'),
 		Appeal: {

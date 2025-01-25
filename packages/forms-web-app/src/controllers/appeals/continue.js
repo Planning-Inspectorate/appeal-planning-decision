@@ -1,5 +1,6 @@
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { isAppealSubmission, isV2Submission } = require('@pins/common/src/lib/format-address');
 
@@ -9,8 +10,8 @@ const appealSubmissionContinueUrls = {
 };
 
 const typeCodeToAppealUrlStub = {
-	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS]: 'householder',
-	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78]: 'full-planning'
+	[CASE_TYPES.HAS.processCode]: 'householder',
+	[CASE_TYPES.S78.processCode]: 'full-planning'
 };
 
 /**

@@ -41,7 +41,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.18.2
+      ref: refs/tags/release/3.20.0
 
 extends:
   template: stages/wrapper_ci.yml@templates
@@ -66,11 +66,6 @@ extends:
               condition: succeededOrFailed()
               script: npm run test
               nodeVersion: 20
-          - template: ../steps/node_script.yml
-            parameters:
-              condition: and(succeededOrFailed(),eq(variables['Build.SourceBranchName'], 'main'))
-              script: npm run integration-test
-              nodeVersion: 20
           - template: ../steps/check_changed_files.yml
             parameters:
               pathFilters:
@@ -93,6 +88,19 @@ extends:
                 - name: web
                   path: packages/forms-web-app
               stepName: check_files
+      - name: Run Integration Tests
+        condition: ${{ eq(parameters.runValidation, true) }}
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 20
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: npm run integration-test
+              nodeVersion: 20
+
       - name: Build Appeals API
         condition: >-
           and(
@@ -116,6 +124,7 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
+          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
@@ -146,6 +155,7 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
+          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
@@ -175,6 +185,7 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
+          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
@@ -203,6 +214,7 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
+          - Run Integration Tests
         steps:
           - template: ../steps/node_script.yml
             parameters:
@@ -246,6 +258,7 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
+          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
@@ -276,6 +289,7 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
+          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:

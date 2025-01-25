@@ -1,0 +1,19 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[AppealCaseListedBuilding] ADD [type] NVARCHAR(1000) NOT NULL CONSTRAINT [AppealCaseListedBuilding_type_df] DEFAULT 'affected';
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

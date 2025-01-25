@@ -2,6 +2,12 @@ const { createPrismaClient } = require('#db-client');
 const { APPEAL_REDACTED_STATUS } = require('pins-data-model');
 
 /**
+ * @param {number} ms
+ * @returns {Promise<void>}
+ */
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
  * @typedef {import('pins-data-model/src/schemas').AppealDocument} DataModelDocument
  * @typedef {import('@prisma/client').Document} PrismaDocument
  */
@@ -45,15 +51,29 @@ module.exports = class Repo {
 	 * @returns {Promise<PrismaDocument>}
 	 */
 	async put(data) {
-		return this.dbClient.$transaction(async (tx) => {
-			const mappedData = mapDataModelToFODBDocument(data);
-			return await tx.document.upsert({
-				where: {
-					id: mappedData.id
-				},
-				create: mappedData,
-				update: mappedData
-			});
+		const mappedData = mapDataModelToFODBDocument(data);
+		try {
+			return await this.#putInner(mappedData);
+		} catch (error) {
+			// retry the upsert if we get a unique constraint error to handle race condition
+			// this has happened in prod leading to deadletter
+			if (error.code !== 'P2002') throw error;
+			await delay(300);
+			return await this.#putInner(mappedData);
+		}
+	}
+
+	/**
+	 * @param {PrismaDocument} data
+	 * @returns {Promise<PrismaDocument>}
+	 */
+	async #putInner(data) {
+		return this.dbClient.document.upsert({
+			where: {
+				id: data.id
+			},
+			create: data,
+			update: data
 		});
 	}
 

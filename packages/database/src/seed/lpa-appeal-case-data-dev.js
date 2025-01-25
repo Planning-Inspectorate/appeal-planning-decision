@@ -77,7 +77,7 @@ const lpaAppeals = [
 ];
 
 const commonAppealCaseDataProperties = {
-	LPACode: 'Q9999',
+	LPACode: 'Q1111',
 	applicationDecision: 'refused',
 	applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
 	applicationDate: pickRandom(datesNMonthsAgo(2)),
@@ -617,7 +617,7 @@ const lpaAppealCaseData = [
 		Appeal: {
 			connect: { id: lpaAppealIds.appeal17 }
 		},
-		LPACode: 'Q1111',
+		LPACode: 'Q9999',
 		applicationDecision: 'refused',
 		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		applicationDate: pickRandom(datesNMonthsAgo(2)),
@@ -938,7 +938,7 @@ const lpaAppealCaseData = [
 		Appeal: {
 			connect: { id: lpaAppealIds.appeal26 }
 		},
-		LPACode: 'Q9999',
+		LPACode: 'Q1111',
 		applicationDecision: 'refused',
 		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		appellantCostsAppliedFor: true,
@@ -1031,7 +1031,7 @@ const lpaAppealCaseData = [
 		Appeal: {
 			connect: { id: lpaAppealIds.appeal27 }
 		},
-		LPACode: 'Q9999',
+		LPACode: 'Q1111',
 		applicationDecision: 'refused',
 		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		appellantCostsAppliedFor: true,
@@ -1124,7 +1124,7 @@ const lpaAppealCaseData = [
 		Appeal: {
 			connect: { id: lpaAppealIds.appeal28 }
 		},
-		LPACode: 'Q9999',
+		LPACode: 'Q1111',
 		applicationDecision: 'refused',
 		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		appellantCostsAppliedFor: true,
@@ -1217,7 +1217,7 @@ const lpaAppealCaseData = [
 		Appeal: {
 			connect: { id: lpaAppealIds.appealFifteen }
 		},
-		LPACode: 'Q9999',
+		LPACode: 'Q1111',
 		applicationDecision: 'refused',
 		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		appellantCostsAppliedFor: true,

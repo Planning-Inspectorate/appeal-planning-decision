@@ -1,10 +1,10 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const generatePdf = require('./generatePdf');
 
 const html = '<html><body><p>A test pdf</p></body></html>';
 const mockPdfBuffer = Buffer.from(html);
 
-jest.mock('puppeteer', () => ({
+jest.mock('puppeteer-core', () => ({
 	launch: () => ({
 		newPage: () => ({
 			setContent: jest.fn(),

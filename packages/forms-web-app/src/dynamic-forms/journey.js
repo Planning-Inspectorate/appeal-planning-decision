@@ -229,7 +229,10 @@ class Journey {
 						);
 					}
 
-					if (question.fieldName === questionSegment) {
+					if (
+						question.fieldName === questionSegment ||
+						(reverse && question.subQuestion?.fieldName === questionSegment)
+					) {
 						takeNextQuestion = true;
 					}
 				}

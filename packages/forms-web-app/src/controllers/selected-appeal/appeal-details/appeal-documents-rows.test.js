@@ -1,27 +1,25 @@
 const { documentsRows } = require('./appeal-documents-rows');
-const { APPEAL_USER_ROLES, APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 describe('appeal-documents-rows', () => {
 	it('should create rows', () => {
-		const rows = documentsRows({ Documents: [] }, APPEAL_USER_ROLES.APPELLANT);
+		const rows = documentsRows({ Documents: [] });
 		expect(rows.length).toEqual(14);
 	});
 
 	it('should show a document', () => {
-		const rows = documentsRows(
-			{
-				Documents: [
-					{
-						id: 1,
-						documentType: APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM,
-						filename: 'test.txt',
-						redacted: true
-					}
-				]
-			},
-			APPEAL_USER_ROLES.AGENT
-		);
+		const rows = documentsRows({
+			Documents: [
+				{
+					id: 1,
+					documentType: APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM,
+					filename: 'test.txt',
+					redacted: true
+				}
+			]
+		});
 
 		expect(rows[0].condition()).toEqual(true);
 		expect(rows[0].isEscaped).toEqual(true);
@@ -33,20 +31,14 @@ describe('appeal-documents-rows', () => {
 
 	describe('Plans, drawings and supporting documents', () => {
 		it('should display field if S78', () => {
-			const rows = documentsRows(
-				{ appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78 },
-				APPEAL_USER_ROLES.APPELLANT
-			);
+			const rows = documentsRows({ appealTypeCode: CASE_TYPES.S78.processCode });
 			expect(rows[2].keyText).toEqual('Plans, drawings and supporting documents');
 			expect(rows[2].valueText).toEqual('No');
 			expect(rows[2].condition()).toEqual(true);
 			expect(rows[2].isEscaped).toEqual(true);
 		});
 		it('should not display field if not S78', () => {
-			const rows = documentsRows(
-				{ appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS },
-				APPEAL_USER_ROLES.APPELLANT
-			);
+			const rows = documentsRows({ appealTypeCode: CASE_TYPES.HAS.processCode });
 			expect(rows[2].keyText).toEqual('Plans, drawings and supporting documents');
 			expect(rows[2].valueText).toEqual('No');
 			expect(rows[2].condition()).toEqual(false);

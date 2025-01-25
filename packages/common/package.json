@@ -16,16 +16,17 @@
 	},
 	"author": "",
 	"dependencies": {
+		"@azure/app-configuration": "*",
 		"@azure/identity": "*",
-		"@azure/service-bus": "*",
 		"@azure/storage-blob": "*",
-		"@prisma/client": "*",
-		"axios": "*",
+		"@pins/business-rules": "file:../business-rules",
+		"clamscan": "*",
 		"date-fns": "*",
 		"date-fns-tz": "*",
 		"escape-html": "*",
-		"form-data": "*",
+		"express": "*",
 		"jose": "*",
+		"node-fetch": "*",
 		"notifications-node-client": "*",
 		"openid-client": "*",
 		"pino": "*",
@@ -34,6 +35,7 @@
 	"devDependencies": {
 		"jest": "*",
 		"jest-fetch-mock": "*",
-		"jest-junit": "*"
+		"jest-junit": "*",
+		"supertest": "*"
 	}
 }
