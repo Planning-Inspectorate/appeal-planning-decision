@@ -9,6 +9,7 @@ import { ConsultResponseAndRepresent } from "../../pages/lpa-manage-appeals/cons
 import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
+import { waitingForReview} from "./waitingForReview";
 
 export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 	const basePage = new BasePage();
@@ -73,8 +74,11 @@ export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 		// Appeals Access
 		appealProcess.selectNearbyAppeals(context, lpaManageAppealsData, lpaManageAppealsData?.hasAppealType);
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
-	});
-	//commented for test during coding
-	// cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-	// cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
+
+		// commented for test during codding
+		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
+		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
+		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();		
+		waitingForReview(appealId);
+	});	
 };
