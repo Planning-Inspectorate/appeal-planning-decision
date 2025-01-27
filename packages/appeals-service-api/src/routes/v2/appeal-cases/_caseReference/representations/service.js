@@ -1,9 +1,7 @@
 const { RepresentationsRepository } = require('./repo');
 const { appendAppellantAndAgent } = require('../../service');
 const { REPRESENTATION_TYPES } = require('@pins/common/src/constants');
-const {
-	getServiceUsersWithEmailsByIdAndCaseReference
-} = require('src/routes/v2/service-users/service');
+const { getServiceUsersWithEmailsByIdAndCaseReference } = require('../../../service-users/service');
 const repo = new RepresentationsRepository();
 
 /**
