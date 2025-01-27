@@ -8,7 +8,6 @@ const {
 	filterRepresentationsForDisplay,
 	formatRepresentations
 } = require('../../../lib/representation-functions');
-const { getServiceUserId } = require('../../../services/user.service');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
@@ -43,17 +42,14 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			representationParams;
 
 		// Retrieves an AppealCase with an array of Representations of the specified type
+		// Representations will have a 'userOwnsRepresentation' field
 		const caseData = await req.appealsApiClient.getAppealCaseWithRepresentationsByType(
 			appealNumber,
 			representationType
 		);
 
-		// used for filtering representations for display
-		const serviceUserId = await getServiceUserId(req);
-
 		const representationsForDisplay = filterRepresentationsForDisplay(
 			caseData,
-			serviceUserId,
 			representationParams
 		);
 

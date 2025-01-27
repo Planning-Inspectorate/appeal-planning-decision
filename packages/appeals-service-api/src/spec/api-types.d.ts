@@ -1290,6 +1290,7 @@ export interface Representation {
 	 * @format date-time
 	 */
 	dateReceived?: string;
+	userOwnsRepresentation?: boolean;
 	RepresentationDocuments?: RepresentationDocument[];
 }
 

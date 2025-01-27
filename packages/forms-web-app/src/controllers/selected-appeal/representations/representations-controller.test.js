@@ -73,11 +73,7 @@ describe('controllers/selected-appeal/representations', () => {
 			'ABC123',
 			testParams.representationType
 		);
-		expect(filterRepresentationsForDisplay).toHaveBeenCalledWith(
-			testCaseData,
-			testServiceUserId,
-			testParams
-		);
+		expect(filterRepresentationsForDisplay).toHaveBeenCalledWith(testCaseData, testParams);
 		expect(formatRepresentations).toHaveBeenCalledWith([]);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
 		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
@@ -113,11 +109,7 @@ describe('controllers/selected-appeal/representations', () => {
 			'ABC123',
 			testParams.representationType
 		);
-		expect(filterRepresentationsForDisplay).toHaveBeenCalledWith(
-			testCaseData,
-			testServiceUserId,
-			testParams
-		);
+		expect(filterRepresentationsForDisplay).toHaveBeenCalledWith(testCaseData, testParams);
 		expect(formatRepresentations).toHaveBeenCalledWith([]);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
 		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
