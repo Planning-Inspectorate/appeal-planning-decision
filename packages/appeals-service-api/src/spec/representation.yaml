@@ -56,7 +56,7 @@ components:
           description: the date and time the representation was received by the BO
         userOwnsRepresentation:
           type: boolean
-          descriptions: added during get request
+          description: added during get request
         RepresentationDocuments:
           type: array
           items:
