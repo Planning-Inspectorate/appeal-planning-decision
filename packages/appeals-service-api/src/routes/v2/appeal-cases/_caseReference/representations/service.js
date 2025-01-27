@@ -98,7 +98,7 @@ async function addOwnershipDetailsToRepresentations(representations, caseReferen
 	);
 
 	// call to service user repo, return serviceUserId and email if id is serviceUserIds array.
-	const serviceUsersWithEmails = getServiceUsersWithEmailsByIdAndCaseReference(
+	const serviceUsersWithEmails = await getServiceUsersWithEmailsByIdAndCaseReference(
 		[...serviceUserIds],
 		caseReference
 	);
