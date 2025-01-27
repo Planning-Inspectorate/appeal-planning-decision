@@ -968,7 +968,8 @@ const serviceUsers = [
 		serviceUserType: 'Appellant',
 		caseReference: caseReferences.caseReferenceOne,
 		firstName: 'Appellant',
-		lastName: 'One'
+		lastName: 'One',
+		emailAddress: 'appellant1@planninginspectorate.gov.uk'
 	},
 	{
 		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a89',
@@ -976,7 +977,8 @@ const serviceUsers = [
 		serviceUserType: 'Appellant',
 		caseReference: '1000014',
 		firstName: 'Appellant',
-		lastName: 'One'
+		lastName: 'One',
+		emailAddress: 'appellant1@planninginspectorate.gov.uk'
 	},
 	{
 		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a82',
@@ -1068,7 +1070,8 @@ const serviceUsers = [
 		serviceUserType: 'Appellant',
 		caseReference: '6666666',
 		firstName: 'Appellant',
-		lastName: 'One'
+		lastName: 'One',
+		emailAddress: 'appellant1@planninginspectorate.gov.uk'
 	},
 	{
 		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc23',
@@ -1076,7 +1079,8 @@ const serviceUsers = [
 		serviceUserType: 'Rule6Party',
 		caseReference: '1000014',
 		firstName: 'Rule6Party',
-		lastName: 'One'
+		lastName: 'One',
+		emailAddress: 'r6-1@planninginspectorate.gov.uk'
 	},
 	{
 		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc24',
@@ -1084,7 +1088,8 @@ const serviceUsers = [
 		serviceUserType: 'Rule6Party',
 		caseReference: '1000014',
 		firstName: 'Rule6Party',
-		lastName: 'Two'
+		lastName: 'Two',
+		emailAddress: 'r6-2@planninginspectorate.gov.uk'
 	}
 ];
 
