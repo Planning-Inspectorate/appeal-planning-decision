@@ -18,11 +18,11 @@ async function getRule6StatementSubmission(req, res) {
 		if (!content) {
 			throw ApiError.withMessage(404, 'Rule 6 Statement not found');
 		}
-		res.status(200).send(content);
+		res.status(200).json(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
 			logger.error(`Failed to get rule 6 statement: ${error.code} // ${error.errors}`);
-			res.status(error.code || 500).send(error.errors);
+			res.status(error.code).json(error.errors);
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');
@@ -41,11 +41,11 @@ async function createRule6StatementSubmission(req, res) {
 		if (!content) {
 			throw ApiError.withMessage(400, 'Unable to create rule 6 statement');
 		}
-		res.status(200).send(content);
+		res.status(200).json(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
 			logger.error(`Failed to create rule 6 statement: ${error.code} // ${error.errors}`);
-			res.status(error.code || 500).send(error.errors);
+			res.status(error.code).json(error.errors);
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');
@@ -64,14 +64,14 @@ async function patchRule6StatementSubmission(req, res) {
 		if (!content) {
 			throw ApiError.withMessage(404, 'Rule 6 Statement not found');
 		}
-		res.status(200).send(content);
+		res.status(200).json(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
 			logger.error(`Failed to update rule 6 statement: ${error.code} // ${error.errors}`);
-			res.status(error.code || 500).send(error.errors);
+			res.status(error.code).json(error.errors);
 		} else if (error instanceof PrismaClientValidationError) {
 			logger.error(`invalid request: ${error.message}`);
-			res.status(400).send({ errors: ['Bad request'] });
+			res.status(400).json({ errors: ['Bad request'] });
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');

@@ -17,11 +17,11 @@ async function getLPAQuestionnaireSubmission(req, res) {
 		if (!content) {
 			throw ApiError.questionnaireNotFound();
 		}
-		res.status(200).send(content);
+		res.status(200).json(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
 			logger.error(`Failed to get questionnaire: ${error.code} // ${error.errors}`);
-			res.status(error.code || 500).send(error.errors);
+			res.status(error.code).json(error.errors);
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');
@@ -38,11 +38,11 @@ async function createLPAQuestionnaireSubmission(req, res) {
 		if (!content) {
 			throw ApiError.unableToCreateQuestionnaire();
 		}
-		res.status(200).send(content);
+		res.status(200).json(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
 			logger.error(`Failed to create questionnaire: ${error.code} // ${error.errors}`);
-			res.status(error.code || 500).send(error.errors);
+			res.status(error.code).json(error.errors);
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');
@@ -59,14 +59,14 @@ async function patchLPAQuestionnaireSubmission(req, res) {
 		if (!content) {
 			throw ApiError.questionnaireNotFound();
 		}
-		res.status(200).send(content);
+		res.status(200).json(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
 			logger.error(`Failed to update questionnaire: ${error.code} // ${error.errors}`);
-			res.status(error.code || 500).send(error.errors);
+			res.status(error.code).json(error.errors);
 		} else if (error instanceof PrismaClientValidationError) {
 			logger.error(`invalid request: ${error.message}`);
-			res.status(400).send({ errors: ['Bad request'] });
+			res.status(400).json({ errors: ['Bad request'] });
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');
@@ -93,7 +93,7 @@ async function getLPAQuestionnaireDownloadDetailsByCaseReference(req, res) {
 
 	const result = await getLPAQuestionnaireDownloadDetails(caseReference);
 
-	res.send(result);
+	res.json(result);
 }
 
 module.exports = {

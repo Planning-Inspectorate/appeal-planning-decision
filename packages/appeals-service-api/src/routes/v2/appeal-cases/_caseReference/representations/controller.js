@@ -56,7 +56,7 @@ async function getAppealCaseWithRepresentations(req, res) {
 				email,
 				isLpa
 			);
-		res.status(200).send(caseWithRepresentations);
+		res.status(200).json(caseWithRepresentations);
 	} catch (error) {
 		logger.error(`Failed to get case with representations for ${caseReference}: ${error}`);
 		throw error;

@@ -6,7 +6,7 @@ const service = require('./service');
  */
 exports.put = async (req, res) => {
 	const doc = await service.put(req.body);
-	res.send(doc);
+	res.json(doc);
 };
 
 /**

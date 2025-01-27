@@ -33,6 +33,6 @@ exports.get = async (req, res) => {
 			body = 'An unexpected error occurred';
 		}
 	} finally {
-		res.status(statusCode).send(body);
+		res.status(statusCode).json(body);
 	}
 };

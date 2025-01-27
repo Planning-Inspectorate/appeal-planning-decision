@@ -26,7 +26,7 @@ async function getByCaseReference(req, res) {
 		if (!appealCase) {
 			throw ApiError.withMessage(404, 'not found');
 		}
-		res.status(200).send(appealCase);
+		res.status(200).json(appealCase);
 	} catch (err) {
 		if (err instanceof ApiError) {
 			throw err; // re-throw 404
@@ -47,7 +47,7 @@ async function putByCaseReference(req, res) {
 	}
 	try {
 		const appealCase = await putCase(caseReference, req.body);
-		res.status(200).send(appealCase);
+		res.status(200).json(appealCase);
 	} catch (err) {
 		if (err instanceof ApiError) {
 			throw err; // re-throw service errors
@@ -102,7 +102,7 @@ async function listByLpaCode(req, res) {
 			withAppellant: isWithAppellant,
 			caseStatus
 		});
-		res.status(200).send(appealCases);
+		res.status(200).json(appealCases);
 	} catch (err) {
 		logger.error({ error: err, lpaCode, decidedOnly }, 'error fetching cases by lpa code');
 		throw ApiError.withMessage(500, 'unexpected error');
@@ -136,7 +136,7 @@ async function listByPostcode(req, res) {
 			decidedOnly: isDecidedOnly,
 			withAppellant: isWithAppellant
 		});
-		res.status(200).send(appealCases);
+		res.status(200).json(appealCases);
 	} catch (err) {
 		logger.error({ error: err, postcode, decidedOnly }, 'error fetching cases by postcode');
 		throw ApiError.withMessage(500, 'unexpected error');
@@ -169,7 +169,7 @@ async function countByLpaCode(req, res) {
 	const isDecidedOnly = decidedOnly === 'true';
 	try {
 		const count = await repo.countByLpaCode({ lpaCode, decidedOnly: isDecidedOnly });
-		res.status(200).send({ count });
+		res.status(200).json({ count });
 	} catch (err) {
 		logger.error({ error: err, lpaCode, decidedOnly }, 'error counting cases by lpa code');
 		throw ApiError.withMessage(500, 'unexpected error');

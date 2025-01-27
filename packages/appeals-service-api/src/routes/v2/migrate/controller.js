@@ -53,7 +53,7 @@ async function migrateAppeals(req, res) {
 		await cursor.close();
 	}
 
-	res.status(200).send(result);
+	res.status(200).json(result);
 
 	/**
 	 * @returns {Promise<[string]>}

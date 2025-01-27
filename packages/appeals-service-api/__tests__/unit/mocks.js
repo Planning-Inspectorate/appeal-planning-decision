@@ -11,6 +11,7 @@ const mockRes = () => {
 	const res = {};
 	res.status = jest.fn();
 	res.send = jest.fn();
+	res.json = jest.fn();
 	res.status.mockReturnValue(res);
 	res.send.mockReturnValue(res);
 

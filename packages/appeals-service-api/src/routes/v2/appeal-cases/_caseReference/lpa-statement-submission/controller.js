@@ -16,11 +16,11 @@ async function getLPAStatementSubmission(req, res) {
 		if (!content) {
 			throw ApiError.withMessage(404, 'Statement not found');
 		}
-		res.status(200).send(content);
+		res.status(200).json(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
 			logger.error(`Failed to get statement: ${error.code} // ${error.errors}`);
-			res.status(error.code || 500).send(error.errors);
+			res.status(error.code).json(error.errors);
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');
@@ -37,11 +37,11 @@ async function createLPAStatementSubmission(req, res) {
 		if (!content) {
 			throw ApiError.withMessage(400, 'Unable to create statement');
 		}
-		res.status(200).send(content);
+		res.status(200).json(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
 			logger.error(`Failed to create statement: ${error.code} // ${error.errors}`);
-			res.status(error.code || 500).send(error.errors);
+			res.status(error.code).json(error.errors);
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');
@@ -58,14 +58,14 @@ async function patchLPAStatementSubmission(req, res) {
 		if (!content) {
 			throw ApiError.withMessage(404, 'Statement not found');
 		}
-		res.status(200).send(content);
+		res.status(200).json(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
 			logger.error(`Failed to update statement: ${error.code} // ${error.errors}`);
-			res.status(error.code || 500).send(error.errors);
+			res.status(error.code).json(error.errors);
 		} else if (error instanceof PrismaClientValidationError) {
 			logger.error(`invalid request: ${error.message}`);
-			res.status(400).send({ errors: ['Bad request'] });
+			res.status(400).json({ errors: ['Bad request'] });
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');

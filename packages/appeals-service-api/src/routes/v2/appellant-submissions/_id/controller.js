@@ -19,7 +19,7 @@ exports.get = async (req, res) => {
 
 	const submission = await get({ appellantSubmissionId, userId });
 
-	res.send(submission);
+	res.json(submission);
 };
 
 /**
@@ -42,7 +42,7 @@ exports.patch = async (req, res) => {
 
 	const submission = await patch({ appellantSubmissionId, userId, data });
 
-	res.send(submission);
+	res.json(submission);
 };
 
 // Endpoint which checks whether a user is linked with an appellant submission
@@ -64,7 +64,7 @@ exports.confirm = async (req, res) => {
 
 	const result = await confirmOwnership({ appellantSubmissionId, userId });
 
-	res.status(200).send(result);
+	res.status(200).json(result);
 };
 
 // Endpoint for retrieving details required for appellant submission pdf generation
@@ -86,7 +86,7 @@ exports.getDownloadDetails = async (req, res) => {
 
 	const result = await getDownloadDetails({ appellantSubmissionId, userId });
 
-	res.send(result);
+	res.json(result);
 };
 
 // Endpoint for retrieving details required for appellant submission pdf generation
@@ -108,5 +108,5 @@ exports.getCaseReference = async (req, res) => {
 
 	const result = await getCaseReference({ appellantSubmissionId, userId });
 
-	res.send(result);
+	res.json(result);
 };

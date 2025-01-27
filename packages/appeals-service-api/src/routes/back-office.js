@@ -14,12 +14,12 @@ router.post('/appeals/:id', async (req, res) => {
 		// leaving commented out for now, not expecting to need to submit v1 appeals to new back office: AAPD-582 + AAPD-1535
 		// await backOfficeV2Service.submitAppeal(req.params.id);
 		await backOfficeService.saveAppealForSubmission(req.params.id);
-		return res.status(202).send({});
+		return res.status(202).json({});
 	} catch (error) {
 		if (!(error instanceof ApiError)) {
 			throw error;
 		}
-		return res.status(error.code).send(error.errors);
+		return res.status(error.code).json(error.errors);
 	}
 });
 
@@ -32,12 +32,12 @@ router.get('/appeals/:id', async (req, res) => {
 	try {
 		let body = await backOfficeService.getAppealForSubmission(req.params.id);
 		logger.info({ body }, '/appeals/:id, backOfficeService.getAppealForSubmission');
-		return res.status(202).send(body);
+		return res.status(202).json(body);
 	} catch (error) {
 		if (!(error instanceof ApiError)) {
 			throw error;
 		}
-		return res.status(error.code).send(error.errors);
+		return res.status(error.code).json(error.errors);
 	}
 });
 module.exports = router;

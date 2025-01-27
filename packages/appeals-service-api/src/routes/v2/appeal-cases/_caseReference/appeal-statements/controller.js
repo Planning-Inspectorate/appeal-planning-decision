@@ -34,7 +34,7 @@ async function getAppealStatementsForCase(req, res) {
 			throw ApiError.withMessage(400, 'invalid statement type');
 		}
 
-		res.status(200).send(statements);
+		res.status(200).json(statements);
 	} catch (error) {
 		logger.error(`Failed to get appeal statements: ${error}`);
 		throw error;

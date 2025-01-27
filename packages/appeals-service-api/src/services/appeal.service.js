@@ -51,12 +51,12 @@ async function createAppeal(req, res) {
 	if (document.result && document.result.ok) {
 		logger.debug(`Appeal ${appeal.id} created`);
 		appeal.appealSqlId = sqlAppeal.id;
-		res.status(201).send(appeal);
+		res.status(201).json(appeal);
 		return;
 	}
 
 	logger.error(`Problem while ${appeal.id} created`);
-	res.status(500).send(appeal);
+	res.status(500).json(appeal);
 }
 
 /**

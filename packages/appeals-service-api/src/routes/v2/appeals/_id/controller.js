@@ -15,12 +15,12 @@ exports.patch = async (req, res) => {
 		const appeal = await patch({ appealId, data });
 
 		if (!appeal) {
-			res.status(404).send({ error: 'Appeal not found' });
+			res.status(404).json({ error: 'Appeal not found' });
 			return;
 		}
 
-		res.send(appeal);
+		res.json(appeal);
 	} catch (error) {
-		res.status(500).send({ error: 'Internal server error' });
+		res.status(500).json({ error: 'Internal server error' });
 	}
 };

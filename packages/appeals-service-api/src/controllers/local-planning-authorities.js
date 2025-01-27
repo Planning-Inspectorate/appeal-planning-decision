@@ -54,12 +54,12 @@ const list = async (req, res) => {
 		totalResult: data.length
 	};
 
-	res.send(output);
+	res.json(output);
 };
 
 const create = async (req, res) => {
 	const lpaList = await lpaService.createLpaList(req.body);
-	res.status(200).send(lpaList);
+	res.status(200).json(lpaList);
 };
 
 module.exports = {

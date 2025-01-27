@@ -10,7 +10,7 @@ async function createQuestionnaireListedBuilding(req, res) {
 	if (!content) {
 		throw ApiError.unableToCreateListedBuilding();
 	}
-	res.status(200).send(content);
+	res.status(200).json(content);
 }
 
 /**
@@ -22,7 +22,7 @@ async function deleteQuestionnaireListedBuilding(req, res) {
 	if (!content) {
 		throw ApiError.unableToDeleteListedBuilding();
 	}
-	res.status(200).send(content);
+	res.status(200).json(content);
 }
 
 module.exports = {

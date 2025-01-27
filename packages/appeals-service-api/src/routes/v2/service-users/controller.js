@@ -5,5 +5,5 @@ const { put } = require('./service');
  */
 exports.put = async (req, res) => {
 	const serviceUser = await put(req.body);
-	res.send(serviceUser);
+	res.json(serviceUser);
 };

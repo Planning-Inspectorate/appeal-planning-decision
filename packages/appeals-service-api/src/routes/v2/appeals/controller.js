@@ -27,7 +27,7 @@ async function getUserAppeals(req, res) {
 		throw ApiError.userNotFound();
 	}
 
-	res.status(200).send(content);
+	res.status(200).json(content);
 }
 
 /**

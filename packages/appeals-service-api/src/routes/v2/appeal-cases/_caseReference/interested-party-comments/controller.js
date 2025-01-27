@@ -18,7 +18,7 @@ async function getCommentsForCase(req, res) {
 		throw ApiError.withMessage(404, 'No comments found for this case reference');
 	}
 
-	res.status(200).send(comments);
+	res.status(200).json(comments);
 }
 
 /**
@@ -36,7 +36,7 @@ async function createComment(req, res) {
 
 		const createdComment = await createInterestedPartyComment({ ...commentData, caseReference });
 
-		res.status(200).send(createdComment);
+		res.status(200).json(createdComment);
 	} catch (err) {
 		logger.error('Error creating comment', { err });
 		throw err;
