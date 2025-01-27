@@ -46,7 +46,6 @@ app
 			}
 		})
 	)
-	.use(bodyParser.json())
 	.use(compression()) /* gzip compression */
 	.use('/', routes)
 	.use(openApiValidationErrorHandler)
