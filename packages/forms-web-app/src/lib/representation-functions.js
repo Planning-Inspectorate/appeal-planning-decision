@@ -18,11 +18,10 @@ const escape = require('escape-html');
 
 /**
  * @param {AppealCaseDetailed} caseData
- * @param {string | undefined | null} serviceUserId
  * @param {RepresentationParams} representationParams
  * @returns {Representation[]}
  */
-const filterRepresentationsForDisplay = (caseData, serviceUserId, representationParams) => {
+const filterRepresentationsForDisplay = (caseData, representationParams) => {
 	const { userType, representationType, submittingParty, rule6OwnRepresentations } =
 		representationParams;
 
@@ -39,7 +38,6 @@ const filterRepresentationsForDisplay = (caseData, serviceUserId, representation
 	) {
 		representationsFilteredBySubmittingParty = filterRepresentationsForRule6ViewingRule6(
 			caseData,
-			serviceUserId,
 			!!rule6OwnRepresentations
 		);
 	} else {
@@ -50,10 +48,9 @@ const filterRepresentationsForDisplay = (caseData, serviceUserId, representation
 	}
 
 	// filter so that only show representations owned by user and representations from other parties that have been published
-	const ownOrPublishedRepresentations = filterRepresentationsByOwnershipAndPublishedStatus(
-		representationsFilteredBySubmittingParty,
-		userType,
-		serviceUserId
+	const ownOrPublishedRepresentations = representationsFilteredBySubmittingParty.filter(
+		(representation) =>
+			representation.userOwnsRepresentation || representation.status == 'published'
 	);
 
 	return ownOrPublishedRepresentations;
@@ -97,49 +94,18 @@ const filterRepresentationsBySubmittingParty = (caseData, submittingParty) => {
 
 /**
  * @param {AppealCaseDetailed} caseData
- * @param {string | undefined | null} serviceUserId
  * @param {boolean} rule6OwnRepresentations
  * @returns {Representation[]}
  */
-const filterRepresentationsForRule6ViewingRule6 = (
-	caseData,
-	serviceUserId,
-	rule6OwnRepresentations
-) => {
-	if (!serviceUserId) return [];
-
+const filterRepresentationsForRule6ViewingRule6 = (caseData, rule6OwnRepresentations) => {
 	const unfilteredRepresentations = filterRepresentationsBySubmittingParty(
 		caseData,
 		APPEAL_USER_ROLES.RULE_6_PARTY
 	);
 
 	return rule6OwnRepresentations
-		? unfilteredRepresentations.filter(
-				(representation) => representation.serviceUserId == serviceUserId
-		  )
-		: unfilteredRepresentations.filter(
-				(representation) => representation.serviceUserId != serviceUserId
-		  );
-};
-
-/**
- * @param {Representation[]} representations
- * @param {AppealToUserRoles|LpaUserRole} userType
- * @param {string | undefined | null} serviceUserId
- * @returns {Representation[]}
- */
-const filterRepresentationsByOwnershipAndPublishedStatus = (
-	representations,
-	userType,
-	serviceUserId
-) => {
-	const publishedRepresentations = representations.filter(
-		(representation) =>
-			userOwnsRepresentation(representation, userType, serviceUserId) ||
-			representation.status == 'published'
-	);
-
-	return publishedRepresentations;
+		? unfilteredRepresentations.filter((representation) => representation.userOwnsRepresentation)
+		: unfilteredRepresentations.filter((representation) => !representation.userOwnsRepresentation);
 };
 
 /**
@@ -378,28 +344,6 @@ const isProofsDocument = (document) => {
 		documentType === 'appellantProofs' ||
 		documentType === 'rule6Proofs'
 	);
-};
-
-/**
- * @param {Representation} representation
- * @param {AppealToUserRoles|LpaUserRole} userType
- * @param {string | undefined | null} serviceUserId
- * @returns {boolean}
- */
-const userOwnsRepresentation = (representation, userType, serviceUserId) => {
-	//ip comments submitters will not have a facility to log in and see their comments
-	if (representation.representationType == 'comment') return false;
-
-	switch (userType) {
-		case LPA_USER_ROLE:
-			return representation.source == 'lpa';
-		case APPEAL_USER_ROLES.AGENT:
-		case APPEAL_USER_ROLES.APPELLANT:
-		case APPEAL_USER_ROLES.RULE_6_PARTY:
-			return representation.source == 'citizen' && representation.serviceUserId == serviceUserId;
-		default:
-			return false;
-	}
 };
 
 module.exports = {

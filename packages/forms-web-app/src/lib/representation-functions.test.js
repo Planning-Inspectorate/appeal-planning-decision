@@ -15,6 +15,7 @@ const lpaStatement = {
 	caseReference: 'testReference1',
 	source: 'lpa',
 	status: 'published',
+	userOwnsRepresentation: true,
 	originalRepresentation: 'this is a rude statement',
 	redacted: true,
 	redactedRepresentation: 'this is a bleep statement',
@@ -33,6 +34,7 @@ const r6Statement1 = {
 	caseReference: 'testReference1',
 	source: 'citizen',
 	status: 'published',
+	userOwnsRepresentation: true,
 	serviceUserId: testR6ServiceUserId1,
 	originalRepresentation: 'this is a statement',
 	redacted: false,
@@ -47,6 +49,7 @@ const r6Statement2 = {
 	caseReference: 'testReference1',
 	source: 'citizen',
 	status: 'published',
+	userOwnsRepresentation: false,
 	serviceUserId: testR6ServiceUserId2,
 	originalRepresentation: 'this is a different r6 statement',
 	redacted: false,
@@ -61,6 +64,7 @@ const lpaFinalComment = {
 	caseReference: 'testReference1',
 	source: 'lpa',
 	status: 'published',
+	userOwnsRepresentation: true,
 	originalRepresentation: 'this is a rude comment',
 	redacted: true,
 	redactedRepresentation: 'this is a bleep comment',
@@ -75,6 +79,7 @@ const appellantFinalComment = {
 	caseReference: 'testReference1',
 	source: 'citizen',
 	status: 'published',
+	userOwnsRepresentation: true,
 	serviceUserId: testAppellantServiceUserId,
 	originalRepresentation: 'this is a comment',
 	redacted: false,
@@ -89,6 +94,7 @@ const unpublishedAppellantFinalComment = {
 	caseReference: 'testReference1',
 	source: 'citizen',
 	status: 'awaiting_review',
+	userOwnsRepresentation: true,
 	serviceUserId: testAppellantServiceUserId,
 	originalRepresentation: 'this is an unpublished comment',
 	redacted: false,
@@ -103,6 +109,7 @@ const interestedPartyComment1 = {
 	caseReference: 'testReference1',
 	source: 'citizen',
 	status: 'published',
+	userOwnsRepresentation: false,
 	originalRepresentation: 'this is an interested party comment',
 	redacted: false,
 	representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
@@ -116,6 +123,7 @@ const interestedPartyComment2 = {
 	caseReference: 'testReference1',
 	source: 'citizen',
 	status: 'published',
+	userOwnsRepresentation: false,
 	originalRepresentation: 'this is an earlier interested party comment',
 	redacted: false,
 	representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
@@ -129,6 +137,7 @@ const unpublishedInterestedPartyComment = {
 	caseReference: 'testReference1',
 	source: 'citizen',
 	status: 'awaiting_review',
+	userOwnsRepresentation: false,
 	originalRepresentation: 'this is an unpublished interested party comment',
 	redacted: false,
 	representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
@@ -197,7 +206,7 @@ describe('lib/representation-functions', () => {
 				submittingParty: LPA_USER_ROLE
 			};
 
-			const result = filterRepresentationsForDisplay(testCaseData, null, testRepresentationParams);
+			const result = filterRepresentationsForDisplay(testCaseData, testRepresentationParams);
 			expect(result).toEqual([lpaStatement]);
 		});
 
@@ -214,7 +223,7 @@ describe('lib/representation-functions', () => {
 				submittingParty: APPEAL_USER_ROLES.APPELLANT
 			};
 
-			const result = filterRepresentationsForDisplay(testCaseData, null, testRepresentationParams);
+			const result = filterRepresentationsForDisplay(testCaseData, testRepresentationParams);
 			expect(result).toEqual([appellantFinalComment]);
 		});
 
@@ -231,7 +240,7 @@ describe('lib/representation-functions', () => {
 				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
 			};
 
-			const result = filterRepresentationsForDisplay(testCaseData, null, testRepresentationParams);
+			const result = filterRepresentationsForDisplay(testCaseData, testRepresentationParams);
 			expect(result).toEqual([r6Statement1, r6Statement2]);
 		});
 
@@ -249,11 +258,7 @@ describe('lib/representation-functions', () => {
 				rule6OwnRepresentations: true
 			};
 
-			const result = filterRepresentationsForDisplay(
-				testCaseData,
-				testR6ServiceUserId1,
-				testRepresentationParams
-			);
+			const result = filterRepresentationsForDisplay(testCaseData, testRepresentationParams);
 			expect(result).toEqual([r6Statement1]);
 		});
 
@@ -270,11 +275,7 @@ describe('lib/representation-functions', () => {
 				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
 			};
 
-			const result = filterRepresentationsForDisplay(
-				testCaseData,
-				testR6ServiceUserId1,
-				testRepresentationParams
-			);
+			const result = filterRepresentationsForDisplay(testCaseData, testRepresentationParams);
 			expect(result).toEqual([r6Statement2]);
 		});
 
@@ -297,16 +298,8 @@ describe('lib/representation-functions', () => {
 				submittingParty: APPEAL_USER_ROLES.APPELLANT
 			};
 
-			const result1 = filterRepresentationsForDisplay(
-				testCaseData1,
-				testAppellantServiceUserId,
-				testRepresentationParams
-			);
-			const result2 = filterRepresentationsForDisplay(
-				testCaseData2,
-				testAppellantServiceUserId,
-				testRepresentationParams
-			);
+			const result1 = filterRepresentationsForDisplay(testCaseData1, testRepresentationParams);
+			const result2 = filterRepresentationsForDisplay(testCaseData2, testRepresentationParams);
 			expect(result1).toEqual([]);
 			expect(result2).toEqual([]);
 		});
@@ -324,19 +317,24 @@ describe('lib/representation-functions', () => {
 				submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
 			};
 
-			const result = filterRepresentationsForDisplay(
-				testCaseData1,
-				testAppellantServiceUserId,
-				testRepresentationParams
-			);
+			const result = filterRepresentationsForDisplay(testCaseData1, testRepresentationParams);
 			expect(result).toEqual([interestedPartyComment1, interestedPartyComment2]);
 		});
 
 		it('returns unpublished representations only if owned by user', () => {
+			const unpublishedAppellantFinalComment2 = structuredClone(unpublishedAppellantFinalComment);
+			unpublishedAppellantFinalComment2.userOwnsRepresentation = false;
+
 			const testCaseData1 = {
 				caseReference: 'testReference1',
 				users: testUsers,
 				Representations: [lpaFinalComment, unpublishedAppellantFinalComment]
+			};
+
+			const testCaseData2 = {
+				caseReference: 'testReference1',
+				users: testUsers,
+				Representations: [lpaFinalComment, unpublishedAppellantFinalComment2]
 			};
 
 			const testAppellantRepresentationParams = {
@@ -345,21 +343,13 @@ describe('lib/representation-functions', () => {
 				submittingParty: APPEAL_USER_ROLES.APPELLANT
 			};
 
-			const testLpaRepresentationParams = {
-				userType: LPA_USER_ROLE,
-				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
-				submittingParty: APPEAL_USER_ROLES.APPELLANT
-			};
-
 			const result1 = filterRepresentationsForDisplay(
 				testCaseData1,
-				testAppellantServiceUserId,
 				testAppellantRepresentationParams
 			);
 			const result2 = filterRepresentationsForDisplay(
-				testCaseData1,
-				null,
-				testLpaRepresentationParams
+				testCaseData2,
+				testAppellantRepresentationParams
 			);
 			expect(result1).toEqual([unpublishedAppellantFinalComment]);
 			expect(result2).toEqual([]);
