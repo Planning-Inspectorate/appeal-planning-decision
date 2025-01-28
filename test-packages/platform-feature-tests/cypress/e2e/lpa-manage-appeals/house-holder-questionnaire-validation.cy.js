@@ -7,7 +7,7 @@ import { houseHolderQuestionnaireTestCases } from "../../helpers/lpaManageAppeal
 
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('LPA Manage Your Appeals', () => {
+describe('LPA Manage House Holder Apppeal Questionnaire validation', () => {
   const basePage = new BasePage();
   const yourAppealsSelector = new YourAppealsSelector();
   let lpaManageAppealsData;
