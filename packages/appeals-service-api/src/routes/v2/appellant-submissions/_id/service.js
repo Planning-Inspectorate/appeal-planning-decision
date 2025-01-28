@@ -5,19 +5,7 @@ const repo = new Repo();
 /**
  * @typedef {import('@prisma/client').AppellantSubmission} AppellantSubmission
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
- * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
- *   include: {
- *     SubmissionDocumentUpload: true,
- *     SubmissionAddress: true,
- *     SubmissionLinkedCase: true,
- * 		 SubmissionListedBuilding: true,
- *		 Appeal: {
- *       include: {
- *			   Users: true
- *		   }
- *     }
- *   }
- * }>} FullAppellantSubmission
+ * @typedef {import('../repo').FullAppellantSubmission} FullAppellantSubmission
  */
 
 /**

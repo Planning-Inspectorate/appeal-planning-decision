@@ -1,0 +1,560 @@
+const BackOfficeV2Service = require('../../../../src/services/back-office-v2/index');
+const forwarders = require('../../../../src/services/back-office-v2/forwarders');
+const { SchemaValidator } = require('../../../../src/services/back-office-v2/validate');
+
+const { isFeatureActive } = require('../../../../src/configuration/featureFlag');
+
+const { getUserById } = require('../../../../src/routes/v2/users/service');
+const {
+	getServiceUserByIdAndCaseReference
+} = require('../../../../src/routes/v2/service-users/service');
+
+const {
+	markAppealAsSubmitted
+} = require('../../../../src/routes/v2/appellant-submissions/_id/service');
+const {
+	markQuestionnaireAsSubmitted
+} = require('../../../../src/routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/service');
+const { getCaseAndAppellant } = require('../../../../src/routes/v2/appeal-cases/service');
+
+const {
+	getLPAStatementByAppealId,
+	markStatementAsSubmitted
+} = require('../../../../src/routes/v2/appeal-cases/_caseReference/lpa-statement-submission/service');
+const {
+	getLPAFinalCommentByAppealId,
+	markLPAFinalCommentAsSubmitted
+} = require('../../../../src/routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/service');
+const {
+	getLpaProofOfEvidenceByAppealId,
+	markLpaProofOfEvidenceAsSubmitted
+} = require('../../../../src/routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service');
+const {
+	getAppellantFinalCommentByAppealId,
+	markAppellantFinalCommentAsSubmitted
+} = require('../../../../src/routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/service');
+const {
+	getAppellantProofOfEvidenceByAppealId,
+	markAppellantProofOfEvidenceAsSubmitted
+} = require('../../../../src/routes/v2/appeal-cases/_caseReference/appellant-proof-evidence-submission/service');
+const {
+	getRule6ProofOfEvidenceByAppealId,
+	markRule6ProofOfEvidenceAsSubmitted
+} = require('../../../../src/routes/v2/appeal-cases/_caseReference/rule-6-proof-evidence-submission/service');
+const {
+	getRule6StatementByAppealId,
+	markRule6StatementAsSubmitted
+} = require('../../../../src/routes/v2/appeal-cases/_caseReference/rule-6-statement-submission/service');
+
+const {
+	sendSubmissionReceivedEmailToAppellantV2,
+	sendSubmissionReceivedEmailToLpaV2,
+	sendCommentSubmissionConfirmationEmailToIp,
+	sendLpaStatementSubmissionReceivedEmailToLpaV2,
+	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
+	sendAppellantProofEvidenceSubmissionEmailToAppellantV2,
+	sendLPAProofEvidenceSubmissionEmailToLPAV2,
+	sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2,
+	sendRule6StatementSubmissionEmailToRule6PartyV2,
+	sendLPAFinalCommentSubmissionEmailToLPAV2,
+	sendLPAHASQuestionnaireSubmittedEmailV2
+} = require('#lib/notify');
+const { SERVICE_USER_TYPE } = require('pins-data-model');
+
+jest.mock('#lib/logger');
+jest.mock('#lib/notify');
+jest.mock('../../../../src/configuration/featureFlag');
+
+jest.mock('../../../../src/services/back-office-v2/validate');
+jest.mock('../../../../src/services/back-office-v2/forwarders');
+jest.mock('../../../../src/routes/v2/users/service');
+jest.mock('../../../../src/routes/v2/service-users/service');
+jest.mock('../../../../src/routes/v2/appellant-submissions/_id/service');
+jest.mock('../../../../src/routes/v2/appeal-cases/service');
+jest.mock(
+	'../../../../src/routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/service'
+);
+jest.mock('../../../../src/routes/v2/appeal-cases/_caseReference/lpa-statement-submission/service');
+jest.mock(
+	'../../../../src/routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/service'
+);
+jest.mock(
+	'../../../../src/routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service'
+);
+jest.mock(
+	'../../../../src/routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/service'
+);
+jest.mock(
+	'../../../../src/routes/v2/appeal-cases/_caseReference/appellant-proof-evidence-submission/service'
+);
+jest.mock(
+	'../../../../src/routes/v2/appeal-cases/_caseReference/rule-6-proof-evidence-submission/service'
+);
+jest.mock(
+	'../../../../src/routes/v2/appeal-cases/_caseReference/rule-6-statement-submission/service'
+);
+
+// todo: this shouldn't be needed
+jest.mock('../../../../src/db/db-client');
+
+describe('BackOfficeV2Service', () => {
+	/** @type {import('../../../../src/services/back-office-v2/index')} */
+	let backOfficeV2Service;
+
+	const testCaseRef = 'abc';
+	const testUserID = '123';
+	const mockUser = { email: 'test', serviceUserId: '321' };
+	const mockServiceUser = { firstName: 'first', lastName: 'last' };
+
+	// schema validator
+	const mockValidator = jest.fn();
+	const mockGetValidator = jest
+		.spyOn(SchemaValidator.prototype, 'getValidator')
+		.mockImplementation(() => mockValidator);
+
+	beforeEach(() => {
+		backOfficeV2Service = new BackOfficeV2Service();
+		getUserById.mockResolvedValue(mockUser);
+		getServiceUserByIdAndCaseReference.mockResolvedValue(mockServiceUser);
+		isFeatureActive.mockResolvedValue(true);
+		mockValidator.mockReturnValue(true);
+	});
+
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
+
+	describe('submitAppellantSubmission', () => {
+		const mockAppealSubmission = {
+			id: 'a1',
+			appealTypeCode: 'HAS'
+		};
+
+		const mockFormattedAppeal = {};
+
+		const mockResult = { test: 1 };
+
+		// formatter
+		const mockAppealFormatter = jest.fn();
+		mockAppealFormatter.mockReturnValue(mockFormattedAppeal);
+
+		// forwarder
+		forwarders.appeal = jest.fn();
+		forwarders.appeal.mockResolvedValue(mockResult);
+
+		it('should submit Appeal', async () => {
+			const result = await backOfficeV2Service.submitAppellantSubmission({
+				appellantSubmission: mockAppealSubmission,
+				userId: testUserID,
+				formatter: mockAppealFormatter
+			});
+
+			expect(mockAppealFormatter).toHaveBeenCalledWith(mockAppealSubmission);
+			expect(mockGetValidator).toHaveBeenCalled();
+			expect(mockValidator).toHaveBeenCalledWith(mockFormattedAppeal);
+			expect(forwarders.appeal).toHaveBeenCalledWith([mockFormattedAppeal]);
+			expect(markAppealAsSubmitted).toHaveBeenCalledWith(mockAppealSubmission.id);
+			expect(sendSubmissionReceivedEmailToLpaV2).toHaveBeenCalledWith(
+				mockAppealSubmission,
+				mockUser.email
+			);
+			expect(sendSubmissionReceivedEmailToAppellantV2).toHaveBeenCalledWith(
+				mockAppealSubmission,
+				mockUser.email
+			);
+			expect(result).toEqual(mockResult);
+		});
+
+		it('should error if unhandled appeal type', async () => {
+			const badAppealSubmission = {
+				id: 'a1',
+				appealTypeCode: 'Nope'
+			};
+			await expect(
+				backOfficeV2Service.submitAppellantSubmission({
+					appellantSubmission: badAppealSubmission,
+					userId: testUserID,
+					formatter: mockAppealFormatter
+				})
+			).rejects.toThrow(
+				`Appeal submission ${badAppealSubmission.id} has an invalid appealTypeCode`
+			);
+		});
+
+		it('should error if validation fails', async () => {
+			mockValidator.mockReturnValue(false);
+
+			await expect(
+				backOfficeV2Service.submitAppellantSubmission({
+					appellantSubmission: mockAppealSubmission,
+					userId: testUserID,
+					formatter: mockAppealFormatter
+				})
+			).rejects.toThrow(
+				'Payload was invalid when checked against appellant submission command schema'
+			);
+
+			expect(mockGetValidator).toHaveBeenCalled();
+		});
+
+		it('should return if feature flag is off', async () => {
+			isFeatureActive.mockResolvedValue(false);
+
+			const result = await backOfficeV2Service.submitAppellantSubmission({
+				appellantSubmission: mockAppealSubmission,
+				userId: testUserID,
+				formatter: mockAppealFormatter
+			});
+
+			expect(result).toBe(undefined);
+			expect(markAppealAsSubmitted).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('submitQuestionnaire', () => {
+		const mockLPAQ = {
+			AppealCase: {
+				LPACode: 'Q9999',
+				appealTypeCode: 'HAS'
+			}
+		};
+
+		const mockFormattedLpaq = {
+			test: 1,
+			casedata: {
+				lpaQuestionnaireSubmittedDate: new Date()
+			}
+		};
+
+		const mockCaseAndAppellant = {
+			users: [
+				{
+					serviceUserType: SERVICE_USER_TYPE.AGENT,
+					emailAddress: 'test'
+				}
+			]
+		};
+		const mockResult = { test: 1 };
+
+		// formatter
+		const mockFormatter = jest.fn();
+		mockFormatter.mockReturnValue(mockFormattedLpaq);
+
+		// forwarder
+		forwarders.questionnaire = jest.fn();
+		forwarders.questionnaire.mockResolvedValue(mockResult);
+
+		it('should submit LPAQ', async () => {
+			getCaseAndAppellant.mockResolvedValue(mockCaseAndAppellant);
+
+			const result = await backOfficeV2Service.submitQuestionnaire(
+				testCaseRef,
+				mockLPAQ,
+				mockFormatter
+			);
+
+			expect(mockFormatter).toHaveBeenCalledWith(testCaseRef, mockLPAQ);
+			expect(mockGetValidator).toHaveBeenCalled();
+			expect(mockValidator).toHaveBeenCalledWith(mockFormattedLpaq);
+			expect(forwarders.questionnaire).toHaveBeenCalledWith([mockFormattedLpaq]);
+			expect(markQuestionnaireAsSubmitted).toHaveBeenCalledWith(
+				testCaseRef,
+				mockFormattedLpaq.casedata.lpaQuestionnaireSubmittedDate
+			);
+			expect(getCaseAndAppellant).toHaveBeenCalledWith({ caseReference: testCaseRef });
+			expect(sendLPAHASQuestionnaireSubmittedEmailV2).toHaveBeenCalledWith(
+				mockCaseAndAppellant,
+				mockCaseAndAppellant.users[0].emailAddress
+			);
+			expect(result).toEqual(mockResult);
+		});
+
+		it('should use appellant email if no agent', async () => {
+			const mockCaseAndAppellant2 = {
+				users: [
+					{
+						serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+						emailAddress: 'test2'
+					}
+				]
+			};
+
+			getCaseAndAppellant.mockResolvedValue(mockCaseAndAppellant2);
+
+			await backOfficeV2Service.submitQuestionnaire(testCaseRef, mockLPAQ, mockFormatter);
+
+			expect(sendLPAHASQuestionnaireSubmittedEmailV2).toHaveBeenCalledWith(
+				mockCaseAndAppellant2,
+				mockCaseAndAppellant2.users[0].emailAddress
+			);
+		});
+
+		it('should error if unhandled appeal type', async () => {
+			const testCase = {
+				AppealCase: {
+					LPACode: 'Q9999',
+					appealTypeCode: 'Nope'
+				}
+			};
+			await expect(
+				backOfficeV2Service.submitQuestionnaire(testCaseRef, testCase, mockFormatter)
+			).rejects.toThrow("Questionnaire's associated AppealCase has an invalid appealTypeCode");
+		});
+
+		it('should error if validation fails', async () => {
+			mockValidator.mockReturnValue(false);
+
+			await expect(
+				backOfficeV2Service.submitQuestionnaire(testCaseRef, mockLPAQ, mockFormatter)
+			).rejects.toThrow(
+				'Payload was invalid when checked against lpa questionnaire command schema'
+			);
+		});
+
+		it('should return if feature flag is off', async () => {
+			isFeatureActive.mockResolvedValue(false);
+
+			const result = await backOfficeV2Service.submitQuestionnaire(testCaseRef, mockLPAQ, null);
+
+			expect(result).toBe(undefined);
+			expect(markQuestionnaireAsSubmitted).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('submitInterestedPartySubmission', () => {
+		it('should submit IP comment', async () => {
+			const interestedPartySubmission = { emailAddress: 'test' };
+
+			await backOfficeV2Service.submitInterestedPartySubmission(interestedPartySubmission);
+
+			expect(sendCommentSubmissionConfirmationEmailToIp).toHaveBeenCalledWith(
+				interestedPartySubmission
+			);
+		});
+
+		it('should not send email if IP comment has no email', async () => {
+			const interestedPartySubmission = {};
+
+			await backOfficeV2Service.submitInterestedPartySubmission(interestedPartySubmission);
+
+			expect(sendCommentSubmissionConfirmationEmailToIp).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('submitLPAStatementSubmission', () => {
+		it('should submit lpa statement', async () => {
+			const mockStatement = { test: 1 };
+
+			getLPAStatementByAppealId.mockResolvedValue(mockStatement);
+
+			await backOfficeV2Service.submitLPAStatementSubmission(testCaseRef);
+
+			expect(getLPAStatementByAppealId).toHaveBeenCalledWith(testCaseRef);
+			expect(markStatementAsSubmitted).toHaveBeenCalledWith(testCaseRef, expect.any(String));
+			expect(sendLpaStatementSubmissionReceivedEmailToLpaV2).toHaveBeenCalledWith(mockStatement);
+		});
+	});
+
+	describe('submitLPAFinalCommentSubmission', () => {
+		it('should submit lpa final comment', async () => {
+			const mockComment = { test: 1 };
+
+			getLPAFinalCommentByAppealId.mockResolvedValue(mockComment);
+
+			await backOfficeV2Service.submitLPAFinalCommentSubmission(testCaseRef);
+
+			expect(getLPAFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
+			expect(markLPAFinalCommentAsSubmitted).toHaveBeenCalledWith(testCaseRef, expect.any(String));
+			expect(sendLPAFinalCommentSubmissionEmailToLPAV2).toHaveBeenCalledWith(mockComment);
+		});
+	});
+
+	describe('submitLpaProofEvidenceSubmission', () => {
+		it('should submit lpa proof', async () => {
+			const mockProof = { test: 1 };
+
+			getLpaProofOfEvidenceByAppealId.mockResolvedValue(mockProof);
+
+			await backOfficeV2Service.submitLpaProofEvidenceSubmission(testCaseRef);
+
+			expect(getLpaProofOfEvidenceByAppealId).toHaveBeenCalledWith(testCaseRef);
+			expect(markLpaProofOfEvidenceAsSubmitted).toHaveBeenCalledWith(
+				testCaseRef,
+				expect.any(String)
+			);
+			expect(sendLPAProofEvidenceSubmissionEmailToLPAV2).toHaveBeenCalledWith(mockProof);
+		});
+	});
+
+	describe('submitAppellantFinalCommentSubmission', () => {
+		it('should submit appellant final comment', async () => {
+			const mockComment = { test: 1 };
+
+			getAppellantFinalCommentByAppealId.mockResolvedValue(mockComment);
+
+			await backOfficeV2Service.submitAppellantFinalCommentSubmission(testCaseRef, testUserID);
+
+			expect(getAppellantFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
+			expect(getUserById).toHaveBeenCalledWith(testUserID);
+			expect(markAppellantFinalCommentAsSubmitted).toHaveBeenCalledWith(
+				testCaseRef,
+				expect.any(String)
+			);
+			expect(sendAppellantFinalCommentSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
+				mockComment,
+				mockUser.email,
+				`${mockServiceUser.firstName} ${mockServiceUser.lastName}`
+			);
+		});
+
+		it('should handle no service user details', async () => {
+			const mockComment = { test: 1 };
+
+			getAppellantFinalCommentByAppealId.mockResolvedValue(mockComment);
+			getServiceUserByIdAndCaseReference.mockResolvedValue(null);
+
+			await backOfficeV2Service.submitAppellantFinalCommentSubmission(testCaseRef, testUserID);
+
+			expect(getAppellantFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
+			expect(getUserById).toHaveBeenCalledWith(testUserID);
+			expect(markAppellantFinalCommentAsSubmitted).toHaveBeenCalledWith(
+				testCaseRef,
+				expect.any(String)
+			);
+			expect(sendAppellantFinalCommentSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
+				mockComment,
+				mockUser.email,
+				'Appellant'
+			);
+		});
+
+		it('should handle service user with no name', async () => {
+			const mockComment = { test: 1 };
+
+			getAppellantFinalCommentByAppealId.mockResolvedValue(mockComment);
+			getServiceUserByIdAndCaseReference.mockResolvedValue({});
+
+			await backOfficeV2Service.submitAppellantFinalCommentSubmission(testCaseRef, testUserID);
+
+			expect(getAppellantFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
+			expect(getUserById).toHaveBeenCalledWith(testUserID);
+			expect(markAppellantFinalCommentAsSubmitted).toHaveBeenCalledWith(
+				testCaseRef,
+				expect.any(String)
+			);
+			expect(sendAppellantFinalCommentSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
+				mockComment,
+				mockUser.email,
+				'Appellant'
+			);
+		});
+	});
+
+	describe('submitAppellantProofEvidenceSubmission', () => {
+		it('should submit appellant proof', async () => {
+			const mockProof = { test: 1 };
+
+			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockProof);
+
+			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(testCaseRef, testUserID);
+
+			expect(getAppellantProofOfEvidenceByAppealId).toHaveBeenCalledWith(testCaseRef);
+			expect(getUserById).toHaveBeenCalledWith(testUserID);
+			expect(markAppellantProofOfEvidenceAsSubmitted).toHaveBeenCalledWith(
+				testCaseRef,
+				expect.any(String)
+			);
+			expect(sendAppellantProofEvidenceSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
+				mockProof,
+				mockUser.email,
+				`${mockServiceUser.firstName} ${mockServiceUser.lastName}`
+			);
+		});
+
+		it('should handle no service user details', async () => {
+			const mockProof = { test: 1 };
+
+			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockProof);
+			getServiceUserByIdAndCaseReference.mockResolvedValue(null);
+
+			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(testCaseRef, testUserID);
+
+			expect(getAppellantProofOfEvidenceByAppealId).toHaveBeenCalledWith(testCaseRef);
+			expect(getUserById).toHaveBeenCalledWith(testUserID);
+			expect(markAppellantProofOfEvidenceAsSubmitted).toHaveBeenCalledWith(
+				testCaseRef,
+				expect.any(String)
+			);
+			expect(sendAppellantProofEvidenceSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
+				mockProof,
+				mockUser.email,
+				'Appellant'
+			);
+		});
+
+		it('should handle service user with no name', async () => {
+			const mockProof = { test: 1 };
+
+			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockProof);
+			getServiceUserByIdAndCaseReference.mockResolvedValue({});
+
+			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(testCaseRef, testUserID);
+
+			expect(getAppellantProofOfEvidenceByAppealId).toHaveBeenCalledWith(testCaseRef);
+			expect(getUserById).toHaveBeenCalledWith(testUserID);
+			expect(markAppellantProofOfEvidenceAsSubmitted).toHaveBeenCalledWith(
+				testCaseRef,
+				expect.any(String)
+			);
+			expect(sendAppellantProofEvidenceSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
+				mockProof,
+				mockUser.email,
+				'Appellant'
+			);
+		});
+	});
+
+	describe('submitRule6ProofOfEvidenceSubmission', () => {
+		it('should submit rule6 proof', async () => {
+			const mockProof = { test: 1 };
+
+			getRule6ProofOfEvidenceByAppealId.mockResolvedValue(mockProof);
+
+			await backOfficeV2Service.submitRule6ProofOfEvidenceSubmission(testCaseRef, testUserID);
+
+			expect(getRule6ProofOfEvidenceByAppealId).toHaveBeenCalledWith(testUserID, testCaseRef);
+			expect(getUserById).toHaveBeenCalledWith(testUserID);
+			expect(markRule6ProofOfEvidenceAsSubmitted).toHaveBeenCalledWith(
+				testUserID,
+				testCaseRef,
+				expect.any(String)
+			);
+			expect(sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2).toHaveBeenCalledWith(
+				mockProof,
+				mockUser.email
+			);
+		});
+	});
+
+	describe('submitRule6StatementSubmission', () => {
+		it('should submit rule6 statement', async () => {
+			const mockStatement = { test: 1 };
+
+			getRule6StatementByAppealId.mockResolvedValue(mockStatement);
+
+			await backOfficeV2Service.submitRule6StatementSubmission(testCaseRef, testUserID);
+
+			expect(getRule6StatementByAppealId).toHaveBeenCalledWith(testUserID, testCaseRef);
+			expect(getUserById).toHaveBeenCalledWith(testUserID);
+			expect(markRule6StatementAsSubmitted).toHaveBeenCalledWith(
+				testUserID,
+				testCaseRef,
+				expect.any(String)
+			);
+			expect(sendRule6StatementSubmissionEmailToRule6PartyV2).toHaveBeenCalledWith(
+				mockStatement,
+				mockUser.email
+			);
+		});
+	});
+});
