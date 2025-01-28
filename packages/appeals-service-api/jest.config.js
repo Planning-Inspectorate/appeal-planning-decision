@@ -7,7 +7,8 @@ module.exports = {
 		'node_modules',
 		'<rootDir>/src/app.js',
 		'<rootDir>/src/main.js',
-		'<rootDir>/src/server.js'
+		'<rootDir>/src/server.js',
+		'<rootDir>/src/.*\\.spec\\.js$'
 	],
 	// to improve
 	coverageThreshold: {
@@ -19,7 +20,8 @@ module.exports = {
 		}
 	},
 	setupFiles: ['<rootDir>/__tests__/setup-jest.js'],
-	roots: ['<rootDir>/__tests__/unit/'],
+	roots: ['<rootDir>/__tests__/unit/', '<rootDir>/src/'],
+	testMatch: ['**/__tests__/unit/**/*.test.js', '**/src/**/*.test.js'],
 	transform: {
 		'\\.[jt]sx?$': 'babel-jest'
 	}
