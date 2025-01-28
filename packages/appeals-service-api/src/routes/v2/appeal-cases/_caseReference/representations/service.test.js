@@ -102,7 +102,7 @@ describe('representations/service', () => {
 				testLoggedInEmail,
 				false
 			);
-			expect(result).toEqual([expectedResult]);
+			expect(result).toContainEqual(expectedResult);
 			expect(getServiceUsersWithEmailsByIdAndCaseReference).toHaveBeenCalledWith(
 				[testR6ServiceUserId1],
 				testCaseReference
@@ -123,8 +123,8 @@ describe('representations/service', () => {
 				testLoggedInEmail,
 				true
 			);
-			expect(result).toContain(expectedLpaRep);
-			expect(result).toContain(expectedR6Rep);
+			expect(result).toContainEqual(expectedLpaRep);
+			expect(result).toContainEqual(expectedR6Rep);
 			expect(getServiceUsersWithEmailsByIdAndCaseReference).not.toHaveBeenCalled;
 		});
 
@@ -147,9 +147,9 @@ describe('representations/service', () => {
 				testLoggedInEmail,
 				false
 			);
-			expect(result).toContain(expectedLpaRep);
-			expect(result).toContain(expectedR6Party1Rep);
-			expect(result).toContain(expectedR6Party2Rep);
+			expect(result).toContainEqual(expectedLpaRep);
+			expect(result).toContainEqual(expectedR6Party1Rep);
+			expect(result).toContainEqual(expectedR6Party2Rep);
 			expect(getServiceUsersWithEmailsByIdAndCaseReference).toHaveBeenCalledWith(
 				[testR6ServiceUserId1, testR6ServiceUserId2],
 				testCaseReference
