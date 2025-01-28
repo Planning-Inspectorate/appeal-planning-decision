@@ -77,6 +77,13 @@ async function addOwnershipDetailsToRepresentations(representations, caseReferen
 			.filter(Boolean)
 	);
 
+	// if no serviceUserIds marks ownership of all reps as false
+	if (serviceUserIds.size == 0)
+		return representations.map((rep) => ({
+			...rep,
+			userOwnsRepresentation: false
+		}));
+
 	// call to service user repo, return serviceUserId and email if id is serviceUserIds array.
 	const serviceUsersWithEmails = await getServiceUsersWithEmailsByIdAndCaseReference(
 		[...serviceUserIds],
