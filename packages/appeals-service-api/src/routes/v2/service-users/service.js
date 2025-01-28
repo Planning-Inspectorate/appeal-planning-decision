@@ -13,7 +13,7 @@ exports.put = (data) => {
 /**
  * @param {string} serviceUserId
  * @param {string} caseReference
- * @returns {import('pins-data-model/src/schemas').ServiceUser}
+ * @returns {Promise<import('pins-data-model/src/schemas').ServiceUser|null>}
  */
 exports.getServiceUserByIdAndCaseReference = (serviceUserId, caseReference) => {
 	return serviceUserRepository.getServiceUserByIdAndCaseReference(serviceUserId, caseReference);

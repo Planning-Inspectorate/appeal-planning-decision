@@ -1,23 +1,17 @@
 const { isFeatureActive } = require('../../configuration/featureFlag');
-const formatters = require('./formatters');
 const forwarders = require('./forwarders');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const {
-	getLPAQuestionnaireByAppealId,
 	markQuestionnaireAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/service');
 
-const {
-	markAppealAsSubmitted,
-	getForBOSubmission
-} = require('../../routes/v2/appellant-submissions/_id/service');
+const { markAppealAsSubmitted } = require('../../routes/v2/appellant-submissions/_id/service');
 
 const {
 	getLPAStatementByAppealId,
 	markStatementAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-statement-submission/service');
 
-const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
 	sendSubmissionReceivedEmailToAppellantV2,
@@ -65,6 +59,7 @@ const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 /**
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
+ * @typedef {import('../../routes/v2/appellant-submissions/_id/service').FullAppellantSubmission} FullAppellantSubmission
  * @typedef {"HAS" | "S78"} AppealTypeCode
  */
 
@@ -98,15 +93,10 @@ class BackOfficeV2Service {
 	constructor() {}
 
 	/**
-	 * @param {{ appellantSubmissionId: string, userId: string }} params
+	 * @param {{ appellantSubmission: FullAppellantSubmission, userId: string, formatter: function(FullAppellantSubmission): *}} params
 	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitAppellantSubmission({ appellantSubmissionId, userId }) {
-		const appellantSubmission = await getForBOSubmission({ appellantSubmissionId, userId });
-
-		if (!appellantSubmission)
-			throw new Error(`Appeal submission ${appellantSubmissionId} not found`);
-
+	async submitAppellantSubmission({ appellantSubmission, userId, formatter }) {
 		const { email } = await getUserById(userId);
 
 		const isBOIntegrationActive = await isFeatureActive(
@@ -116,14 +106,12 @@ class BackOfficeV2Service {
 		if (!isBOIntegrationActive) return;
 
 		if (!isValidAppealTypeCode(appellantSubmission.appealTypeCode))
-			throw new Error(`Appeal submission ${appellantSubmissionId} has an invalid appealTypeCode`);
+			throw new Error(`Appeal submission ${appellantSubmission.id} has an invalid appealTypeCode`);
 
 		logger.info(
 			`mapping appeal ${appellantSubmission.appealId} to ${appellantSubmission.appealTypeCode} schema`
 		);
-		const mappedData = await formatters.appeal[
-			appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]
-		](appellantSubmission);
+		const mappedData = await formatter(appellantSubmission);
 		logger.debug({ mappedData }, 'mapped appeal');
 
 		logger.info(`validating appeal ${appellantSubmission.appealId} schema`);
@@ -161,15 +149,11 @@ class BackOfficeV2Service {
 
 	/**
 	 * @param {string} caseReference
+	 * @param {LPAQuestionnaireSubmission} questionnaire
+	 * @param {function(string, LPAQuestionnaireSubmission): *} formatter
 	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitQuestionnaire(caseReference) {
-		const questionnaire = await getLPAQuestionnaireByAppealId(caseReference);
-
-		if (!questionnaire) {
-			throw ApiError.questionnaireNotFound();
-		}
-
+	async submitQuestionnaire(caseReference, questionnaire, formatter) {
 		const { LPACode, appealTypeCode } = questionnaire.AppealCase;
 
 		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
@@ -183,10 +167,7 @@ class BackOfficeV2Service {
 		// todo: temporary check until integration work for s78 is done
 		if (appealTypeCode === 'HAS') {
 			logger.info(`mapping lpaq ${caseReference} to ${appealTypeCode} schema`);
-			mappedData = await formatters.questionnaire[appealTypeCodeToAppealId[appealTypeCode]](
-				caseReference,
-				questionnaire
-			);
+			mappedData = await formatter(caseReference, questionnaire);
 			logger.debug({ mappedData }, 'mapped lpaq');
 
 			logger.info(`validating lpaq ${caseReference} schema`);
@@ -195,7 +176,7 @@ class BackOfficeV2Service {
 			const validator = getValidator('lpa-questionnaire');
 			if (!validator(mappedData)) {
 				throw new Error(
-					`Payload was invalid when checked against appellant submission command schema`
+					`Payload was invalid when checked against lpa questionnaire command schema`
 				);
 			}
 
@@ -344,22 +325,8 @@ class BackOfficeV2Service {
 
 		const { email, serviceUserId } = await getUserById(userId);
 
-		let appellantName;
-
-		if (serviceUserId) {
-			const serviceUserDetails = await getServiceUserByIdAndCaseReference(
-				serviceUserId,
-				caseReference
-			);
-
-			if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
-				appellantName = serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
-			} else {
-				appellantName = 'Appellant';
-			}
-		} else {
-			appellantName = 'Appellant';
-		}
+		const appellantName =
+			(await this.#getAppellantNameFromServiceUser(serviceUserId, caseReference)) || 'Appellant';
 
 		logger.info(
 			`forwarding appellant final comment submission for ${caseReference} to service bus`
@@ -392,22 +359,8 @@ class BackOfficeV2Service {
 
 		const { email, serviceUserId } = await getUserById(userId);
 
-		let appellantName;
-
-		if (serviceUserId) {
-			const serviceUserDetails = await getServiceUserByIdAndCaseReference(
-				serviceUserId,
-				caseReference
-			);
-
-			if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
-				appellantName = serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
-			} else {
-				appellantName = 'Appellant';
-			}
-		} else {
-			appellantName = 'Appellant';
-		}
+		const appellantName =
+			(await this.#getAppellantNameFromServiceUser(serviceUserId, caseReference)) || 'Appellant';
 
 		logger.info(
 			`forwarding appellant proof of evidence submission for ${caseReference} to service bus`
@@ -480,6 +433,26 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendRule6StatementSubmissionEmailToRule6PartyV2');
 			throw new Error('failed to send rule 6 statement submission email');
 		}
+	}
+
+	/**
+	 * @param {string|null} serviceUserId
+	 * @param {string} caseReference
+	 * @returns {Promise<string|null>}
+	 */
+	async #getAppellantNameFromServiceUser(serviceUserId, caseReference) {
+		if (serviceUserId) {
+			const serviceUserDetails = await getServiceUserByIdAndCaseReference(
+				serviceUserId,
+				caseReference
+			);
+
+			if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
+				return serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
+			}
+		}
+
+		return null;
 	}
 }
 
