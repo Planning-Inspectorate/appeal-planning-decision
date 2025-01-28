@@ -7,7 +7,7 @@ import { fullAppealQuestionnaireTestCases } from "../../helpers/lpaManageAppeals
 
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('LPA Manage Your Appeals', () => {
+describe('LPA Manage Full Apppeal Questionnaire validation', () => {
   const basePage = new BasePage();
   const yourAppealsSelector = new YourAppealsSelector();
   let lpaManageAppealsData;
@@ -59,6 +59,7 @@ describe('Full appleal questionnaire validation', () => {
   const yourAppealsSelector = new YourAppealsSelector();
   const context = fullAppealQuestionnaireTestCases[0];
   let lpaManageAppealsData;
+  let appealId;
   beforeEach(() => {
     cy.fixture('lpaManageAppealsData').then(data => {
       lpaManageAppealsData = data;
@@ -72,64 +73,65 @@ describe('Full appleal questionnaire validation', () => {
         cy.get(yourAppealsSelector?._selectors?.emailCode).type(lpaManageAppealsData?.emailCode);
         cy.advanceToNextPage();
       }
+    });  
+  
+ // it(`Validating Full appeal questionnaire url`, () => {
+   
+    let counter = 0;
+    cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
+      const rowtext = $row.text();		
+      if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
+        if (counter === 0) {				
+          cy.wrap($row).within(() => {
+            cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');					
+            cy.get('a').each(($link) => {
+              if ($link.attr('href')?.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+                appealId = $link.attr('href')?.split('/').pop();
+                cy.log(appealId);							
+                cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
+                return false;
+              }
+            });
+          });
+        }
+        counter++;
+      }
     });
   })
-  
-  it(`Validating Full appeal questionnaire url`, () => {
-    let appealId;
-    let counter = 0;
-    cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-      const rowtext = $row.text();		
-      if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
-        if (counter === 0) {				
-          cy.wrap($row).within(() => {
-            cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');					
-            cy.get('a').each(($link) => {
-              if ($link.attr('href')?.includes(lpaManageAppealsData?.todoQuestionnaire)) {
-                appealId = $link.attr('href')?.split('/').pop();
-                cy.log(appealId);							
-                cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
-                return false;
-              }
-            });
-          });
-        }
-        counter++;
-      }
-    }).then(() => {
+  it(`Full appleal questionnaire url`, () => { 
 
       cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
 
     });
-  });
+ 
 
-  it(`Validating Full appeal questionnaire url`, () => {
-    let appealId;
-    let counter = 0;
-    cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-      const rowtext = $row.text();		
-      if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
-        if (counter === 0) {				
-          cy.wrap($row).within(() => {
-            cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');					
-            cy.get('a').each(($link) => {
-              if ($link.attr('href')?.includes(lpaManageAppealsData?.todoQuestionnaire)) {
-                appealId = $link.attr('href')?.split('/').pop();
-                cy.log(appealId);							
-                cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
-                return false;
-              }
-            });
-          });
-        }
-        counter++;
-      }
-    }).then(() => {
+  // it(`Validating Full appeal questionnaire url`, () => {
+  //   let appealId;
+  //   let counter = 0;
+  //   cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
+  //     const rowtext = $row.text();		
+  //     if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
+  //       if (counter === 0) {				
+  //         cy.wrap($row).within(() => {
+  //           cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');					
+  //           cy.get('a').each(($link) => {
+  //             if ($link.attr('href')?.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+  //               appealId = $link.attr('href')?.split('/').pop();
+  //               cy.log(appealId);							
+  //               cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
+  //               return false;
+  //             }
+  //           });
+  //         });
+  //       }
+  //       counter++;
+  //     }
+  //   }).then(() => {
 
-      cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
+  //     cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
 
-    });
-  });
+  //   });
+  // });
 
   it(`Validate Full appeal questionnaire appeal type answer link`, () => {
     cy.get('a.govuk-link').should('exist').each(($link) => {
@@ -189,7 +191,7 @@ describe('Full appleal questionnaire validation', () => {
         cy.advanceToNextPage();
         if(context?.constraintsAndDesignations?.isChangesListedBuilding){
           cy.advanceToNextPage();
-          cy.get('.govuk-list.govuk-error-summary__list').find('a').should('have.attr', 'href', '#addChangedListedBuilding').and('contain.text', 'Enter a list entry number');
+          cy.get('.govuk-list.govuk-error-summary__list').find('a').should('have.attr', 'href', '#changedListedBuildingNumber').and('contain.text', 'Enter a list entry number');
         }        
       }
     });
@@ -225,7 +227,7 @@ describe('Full appleal questionnaire validation', () => {
         if(context?.constraintsAndDesignations?.isChangesListedBuilding){
           cy.advanceToNextPage();
 
-          cy.get('.govuk-list.govuk-error-summary__list').find('a').should('have.attr', 'href', '#addAffectedListedBuilding').and('contain.text', 'Enter a list entry number');
+          cy.get('.govuk-list.govuk-error-summary__list').find('a').should('have.attr', 'href', '#affectedListedBuildingNumber').and('contain.text', 'Enter a list entry number');
         }        
       }
     });
@@ -454,7 +456,104 @@ describe('Full appleal questionnaire validation', () => {
     });
   });  
 
+  it(`Validate Full appeal questionnaire Uploaded site notice`, () => {
+    cy.get('.govuk-summary-list__key').contains('Uploaded site notice').closest('.govuk-summary-list__row').find('a.govuk-link').then(($link) => {
+      const linkText = $link.text().split('Upload the site notice')[0].trim();
+      cy.log(linkText);
+      if (linkText === 'Upload') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get('.govuk-list.govuk-error-summary__list').find('a').should('have.attr', 'href', '#uploadSiteNotice').and('contain.text', 'You must add your documents');
+      }
+      else if (linkText === 'Change') {
+        cy.get('.govuk-summary-list__key').contains('Uploaded site notice').closest('.govuk-summary-list__row').find('.govuk-summary-list__value').should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
+
+  it(`Validate Full appeal questionnaire Letter sent to neighbours`, () => {
+    cy.get('.govuk-summary-list__key').contains('Letter sent to neighbours').closest('.govuk-summary-list__row').find('a.govuk-link').then(($link) => {
+      const linkText = $link.text().split('Upload letters or emails sent to interested parties with their addresses')[0].trim();
+      cy.log(linkText);
+      if (linkText === 'Upload') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get('.govuk-list.govuk-error-summary__list').find('a').should('have.attr', 'href', '#uploadLettersInterestedParties').and('contain.text', 'Select letters or emails sent to interested parties with their addresses');
+      }
+      else if (linkText === 'Change') {
+        cy.get('.govuk-summary-list__key').contains('Letter sent to neighbours').closest('.govuk-summary-list__row').find('.govuk-summary-list__value').should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
+
+  it(`Validate Full appeal questionnaire Uploaded press advert`, () => {
+    cy.get('.govuk-summary-list__key').contains('Uploaded press advert').closest('.govuk-summary-list__row').find('a.govuk-link').then(($link) => {
+      const linkText = $link.text().split('Upload the press advertisement')[0].trim();
+      cy.log(linkText);
+      if (linkText === 'Upload') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get('.govuk-list.govuk-error-summary__list').find('a').should('have.attr', 'href', '#uploadPressAdvert').and('contain.text', 'Select the press advertisement');
+      }
+      else if (linkText === 'Change') {
+        cy.get('.govuk-summary-list__key').contains('Uploaded press advert').closest('.govuk-summary-list__row').find('.govuk-summary-list__value').should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
+
  // 4. Consultation responses and representations
+  it(`Validate Full appeal questionnaire Statutory consultees`, () => {
+    cy.get('.govuk-summary-list__key').contains('Statutory consultees').closest('.govuk-summary-list__row').find('a.govuk-link').then(($link) => {
+      const linkText = $link.text().split('Did you consult all the relevant statutory consultees about the development?')[0].trim();
+      cy.log(linkText);
+      if (linkText === 'Answer') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get('.govuk-list.govuk-error-summary__list').find('a').should('have.attr', 'href', '#statutoryConsultees_consultedBodiesDetails').and('contain.text', 'Provide further information');
+      }
+      else if (linkText === 'Change') {
+        cy.get('.govuk-summary-list__key').contains('Statutory consultees').closest('.govuk-summary-list__row').find('.govuk-summary-list__value').should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
+
+  it(`Validate Full appeal questionnaire Responses or standing advice to upload`, () => {
+    cy.get('.govuk-summary-list__key').contains('Responses or standing advice to upload').closest('.govuk-summary-list__row').find('a.govuk-link').then(($link) => {
+      const linkText = $link.text().split('Do you have any consultation responses or standing advice from statutory consultees to upload?')[0].trim();
+      cy.log(linkText);
+      if (linkText === 'Answer') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get('.govuk-list.govuk-error-summary__list').find('a').should('have.attr', 'href', '#uploadConsultationResponses').and('contain.text', 'Select the consultation responses and standing advice');
+      }
+      else if (linkText === 'Change') {
+        cy.get('.govuk-summary-list__key').contains('Responses or standing advice to upload').closest('.govuk-summary-list__row').find('.govuk-summary-list__value').should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
+
+  it(`Validate Full appeal questionnaire Upload the consultation responses and standing advice`, () => {
+    cy.get('.govuk-summary-list__key').contains('Responses or standing advice to upload').closest('.govuk-summary-list__row').find('a.govuk-link').then(($link) => {
+      const linkText = $link.text().split('Do you have any consultation responses or standing advice from statutory consultees to upload?')[0].trim();
+      cy.log(linkText);
+      if (linkText === 'Answer') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get('.govuk-list.govuk-error-summary__list').find('a').should('have.attr', 'href', '#uploadConsultationResponses').and('contain.text', 'Select the consultation responses and standing advice');
+      }
+      else if (linkText === 'Change') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+
+        if(context?.consultResponseAndRepresent?.isConsultationResponses){
+          cy.advanceToNextPage();
+
+          cy.get('.govuk-list.govuk-error-summary__list').find('a').should('have.attr', 'href', '#uploadConsultationResponses').and('contain.text', 'Select the consultation responses and standing advice');
+        }
+      }
+    });
+  });
+
   it(`Validate Full appeal questionnaire Representations from other parties`, () => {
     cy.get('.govuk-summary-list__key').contains('Representations from other parties').closest('.govuk-summary-list__row').find('a.govuk-link').then(($link) => {
       const linkText = $link.text().split(' Did you receive representations from members of the public or other parties?')[0].trim();
