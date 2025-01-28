@@ -35,6 +35,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
+ * @typedef {import('appeals-service-api').Api.Representation} Representation
  */
 
 // Data model types
@@ -42,6 +43,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('pins-data-model/src/schemas').ServiceUser} ServiceUser
  * @typedef {import('pins-data-model/src/schemas').AppealDocument} AppealDocument
  * @typedef {import('pins-data-model/src/schemas').AppealEvent} AppealEvent
+ * @typedef {import('pins-data-model/src/schemas').AppealRepresentation} AppealRepresentation
  */
 
 /**
@@ -247,6 +249,16 @@ class AppealsApiClient {
 	 */
 	async putServiceUser(data) {
 		const endpoint = `${v2}/service-users/`;
+		const response = await this.#makePutRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {AppealRepresentation} data
+	 * @returns {Promise<Representation>}
+	 */
+	async putAppealRepresentation(data) {
+		const endpoint = `${v2}/appeal-cases/${data.caseReference}/representations/${data.representationId}`;
 		const response = await this.#makePutRequest(endpoint, data);
 		return response.json();
 	}
