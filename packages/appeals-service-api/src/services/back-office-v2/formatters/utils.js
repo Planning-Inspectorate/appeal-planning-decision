@@ -33,8 +33,6 @@ const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-sta
  * }>} FullAppellantSubmission
  */
 
-const getBlobMeta = blobMetaGetter(initContainerClient);
-
 /**
  * @param {string | null} str
  * @returns {boolean}
@@ -47,6 +45,8 @@ exports.toBool = (str) => str === 'yes';
  * @returns {Promise<DataModelDocuments>}
  */
 exports.getDocuments = async ({ SubmissionDocumentUpload }, defaultDocType) => {
+	const getBlobMeta = blobMetaGetter(initContainerClient);
+
 	const uploadedFilesAndBlobMeta = await conjoinedPromises(
 		SubmissionDocumentUpload,
 		(uploadedFile) => getBlobMeta(uploadedFile.location)

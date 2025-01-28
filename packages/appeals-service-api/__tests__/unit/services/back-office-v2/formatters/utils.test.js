@@ -19,7 +19,6 @@ jest.mock('@pins/common', () => ({
 jest.mock('@pins/common/src/document-types', () => ({
 	getDocType: jest.fn()
 }));
-jest.mock('../../../../../src/services/object-store');
 jest.mock('@pins/common/src/utils');
 jest.mock('@pins/common/src/document-types');
 

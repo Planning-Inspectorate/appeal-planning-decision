@@ -185,7 +185,6 @@ jest.mock('../../../../../../src/infrastructure/event-client', () => ({
 	sendEvents: jest.fn()
 }));
 
-jest.mock('../../../../../../src/services/object-store');
 jest.mock('../../../../../../src/services/lpa.service', () => {
 	class LpaService {
 		getLpaByCode() {

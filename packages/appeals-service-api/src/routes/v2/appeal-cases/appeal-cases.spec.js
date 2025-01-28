@@ -7,7 +7,6 @@ const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
-const { blobMetaGetter } = require('../../../../src/services/object-store');
 const {
 	createTestAppealCase
 } = require('../../../../__tests__/developer/fixtures/appeals-case-data');
@@ -24,7 +23,6 @@ const validLpa = 'Q9999';
 const invalidLpa = 'nope';
 
 jest.mock('../../../configuration/featureFlag');
-jest.mock('../../../../src/services/object-store');
 jest.mock('express-oauth2-jwt-bearer', () => {
 	let currentSub = 'abc';
 
@@ -61,8 +59,6 @@ jest.mock('@pins/common/src/middleware/validate-token', () => {
 		}
 	};
 });
-
-blobMetaGetter;
 
 jest.setTimeout(10000);
 

@@ -36,7 +36,6 @@ let testHorizonLpaCodeWales = 'H1234';
 jest.setTimeout(240000); // The Horizon integration tests need a bit of time to complete! This seemed like a good number (4 mins)
 jest.mock('../../src/db/db'); // TODO: We shouldn't need to do this, but we didn't have time to look at making this better. It should be possible to use the DB connection directly (not mock it)
 jest.mock('../../src/configuration/featureFlag');
-jest.mock('../../src/services/object-store');
 
 const dbName = 'integration-test-appeals-db';
 

@@ -20,7 +20,6 @@ const validLpa = 'Q9999';
 const invalidLpa = 'nope';
 
 jest.mock('../../../../../../configuration/featureFlag');
-jest.mock('../../../../../../../src/services/object-store');
 jest.mock('express-oauth2-jwt-bearer', () => {
 	let currentSub = '';
 
