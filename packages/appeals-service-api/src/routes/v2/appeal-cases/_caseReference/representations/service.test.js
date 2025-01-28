@@ -76,11 +76,11 @@ describe('representations/service', () => {
 	});
 
 	describe('addOwnershipDetailsToRepresentations', () => {
-		it('marks interested party comments ownership as false', () => {
+		it('marks interested party comments ownership as false', async () => {
 			const expectedResult = structuredClone(interestedPartyComment1);
 			expectedResult.userOwnsRepresentation = false;
 
-			const result = addOwnershipDetailsToRepresentations(
+			const result = await addOwnershipDetailsToRepresentations(
 				[interestedPartyComment1],
 				testCaseReference,
 				testLoggedInEmail,
@@ -90,13 +90,13 @@ describe('representations/service', () => {
 			expect(result).toEqual([expectedResult]);
 		});
 
-		it('marks lpa representation ownership as false if not lpa user logged in', () => {
+		it('marks lpa representation ownership as false if not lpa user logged in', async () => {
 			getServiceUsersWithEmailsByIdAndCaseReference.mockResolvedValue([]);
 
 			const expectedResult = structuredClone(lpaStatement);
 			expectedResult.userOwnsRepresentation = false;
 
-			const result = addOwnershipDetailsToRepresentations(
+			const result = await addOwnershipDetailsToRepresentations(
 				[lpaStatement, r6Party1Statement],
 				testCaseReference,
 				testLoggedInEmail,
@@ -109,7 +109,7 @@ describe('representations/service', () => {
 			);
 		});
 
-		it('marks lpa representation ownership as true if lpa user logged in', () => {
+		it('marks lpa representation ownership as true if lpa user logged in', async () => {
 			getServiceUsersWithEmailsByIdAndCaseReference.mockResolvedValue([]);
 
 			const expectedLpaRep = structuredClone(lpaStatement);
@@ -117,7 +117,7 @@ describe('representations/service', () => {
 			const expectedR6Rep = structuredClone(r6Party1Statement);
 			expectedR6Rep.userOwnsRepresentation = false;
 
-			const result = addOwnershipDetailsToRepresentations(
+			const result = await addOwnershipDetailsToRepresentations(
 				[lpaStatement, r6Party1Statement],
 				testCaseReference,
 				testLoggedInEmail,
@@ -128,7 +128,7 @@ describe('representations/service', () => {
 			expect(getServiceUsersWithEmailsByIdAndCaseReference).not.toHaveBeenCalled;
 		});
 
-		it('marks representation ownership based on logged in user', () => {
+		it('marks representation ownership based on logged in user', async () => {
 			getServiceUsersWithEmailsByIdAndCaseReference.mockResolvedValue([
 				{ id: testR6ServiceUserId1, emailAddress: testLoggedInEmail },
 				{ id: testR6ServiceUserId2, emailAddress: 'anotherEmail' }
@@ -141,7 +141,7 @@ describe('representations/service', () => {
 			const expectedR6Party2Rep = structuredClone(r6Party2Statement);
 			expectedR6Party2Rep.userOwnsRepresentation = false;
 
-			const result = addOwnershipDetailsToRepresentations(
+			const result = await addOwnershipDetailsToRepresentations(
 				testStatements,
 				testCaseReference,
 				testLoggedInEmail,
