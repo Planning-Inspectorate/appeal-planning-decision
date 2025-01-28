@@ -13,27 +13,11 @@ const { APPEAL_CASE_PROCEDURE, APPEAL_CASE_TYPE } = require('pins-data-model');
 
 /**
  * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
- * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
- *   include: {
- *     SubmissionDocumentUpload: true,
- *     SubmissionAddress: true,
- *     SubmissionLinkedCase: true,
- * 		 SubmissionListedBuilding: true,
- *		 Appeal: {
- *       include: {
- *			   Users: {
- *           include: {
- *             AppealUser: true
- *           }
- *         }
- *		   }
- *     }
- *   }
- * }>} AppellantSubmission
+ * @typedef {import('../../../../routes/v2/appellant-submissions/repo').FullAppellantSubmission} FullAppellantSubmission
  */
 
 /**
- * @param {AppellantSubmission} appellantSubmission
+ * @param {FullAppellantSubmission} appellantSubmission
  * @returns {Promise<AppellantSubmissionCommand>}
  */
 exports.formatter = async (appellantSubmission) => {

@@ -19,15 +19,15 @@ const { subMonths } = require('date-fns');
  *     SubmissionDocumentUpload: true,
  *     SubmissionAddress: true,
  *     SubmissionLinkedCase: true,
- * 		 SubmissionListedBuilding: true,
- *		 Appeal: {
+ * 	   SubmissionListedBuilding: true,
+ *	   Appeal: {
  *       include: {
- *			   Users: {
+ *         Users: {
  *           include: {
  *             AppealUser: true
  *           }
  *         }
- *		   }
+ *       }
  *     }
  *   }
  * }>} FullAppellantSubmission
