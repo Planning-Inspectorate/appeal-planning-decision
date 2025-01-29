@@ -77,7 +77,8 @@ class ServiceUserRepository {
 			},
 			select: {
 				id: true,
-				emailAddress: true
+				emailAddress: true,
+				serviceUserType: true
 			}
 		});
 	}

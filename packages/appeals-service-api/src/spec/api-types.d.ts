@@ -1292,6 +1292,8 @@ export interface Representation {
 	dateReceived?: string;
 	/** added during get request */
 	userOwnsRepresentation?: boolean;
+	/** added during get request [LPA_USER_ROLE, APPEAL_USER_ROLES] */
+	submittingPartyType?: string;
 	RepresentationDocuments?: RepresentationDocument[];
 }
 

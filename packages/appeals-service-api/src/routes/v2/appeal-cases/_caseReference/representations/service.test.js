@@ -1,5 +1,9 @@
-const { addOwnershipDetailsToRepresentations } = require('./service');
-const { REPRESENTATION_TYPES } = require('@pins/common/src/constants');
+const { addOwnershipAndSubmissionDetailsToRepresentations } = require('./service');
+const {
+	REPRESENTATION_TYPES,
+	APPEAL_USER_ROLES,
+	LPA_USER_ROLE
+} = require('@pins/common/src/constants');
 const { getServiceUsersWithEmailsByIdAndCaseReference } = require('../../../service-users/service');
 
 jest.mock('../../../service-users/service');
@@ -75,12 +79,13 @@ describe('representations/service', () => {
 		jest.resetAllMocks();
 	});
 
-	describe('addOwnershipDetailsToRepresentations', () => {
-		it('marks interested party comments ownership as false', async () => {
+	describe('addOwnershipAndSubmissionDetailsToRepresentations', () => {
+		it('marks interested party comments ownership as false, sets submitting party', async () => {
 			const expectedResult = structuredClone(interestedPartyComment1);
 			expectedResult.userOwnsRepresentation = false;
+			expectedResult.submittingPartyType = APPEAL_USER_ROLES.INTERESTED_PARTY;
 
-			const result = await addOwnershipDetailsToRepresentations(
+			const result = await addOwnershipAndSubmissionDetailsToRepresentations(
 				[interestedPartyComment1],
 				testCaseReference,
 				testLoggedInEmail,
@@ -90,13 +95,14 @@ describe('representations/service', () => {
 			expect(result).toEqual([expectedResult]);
 		});
 
-		it('marks lpa representation ownership as false if not lpa user logged in', async () => {
+		it('marks lpa representation ownership as false if not lpa user logged in, marks submitting party', async () => {
 			getServiceUsersWithEmailsByIdAndCaseReference.mockResolvedValue([]);
 
 			const expectedResult = structuredClone(lpaStatement);
 			expectedResult.userOwnsRepresentation = false;
+			expectedResult.submittingPartyType = LPA_USER_ROLE;
 
-			const result = await addOwnershipDetailsToRepresentations(
+			const result = await addOwnershipAndSubmissionDetailsToRepresentations(
 				[lpaStatement, r6Party1Statement],
 				testCaseReference,
 				testLoggedInEmail,
@@ -114,10 +120,12 @@ describe('representations/service', () => {
 
 			const expectedLpaRep = structuredClone(lpaStatement);
 			expectedLpaRep.userOwnsRepresentation = true;
+			expectedLpaRep.submittingPartyType = LPA_USER_ROLE;
 			const expectedR6Rep = structuredClone(r6Party1Statement);
 			expectedR6Rep.userOwnsRepresentation = false;
+			expectedR6Rep.submittingPartyType = APPEAL_USER_ROLES.RULE_6_PARTY;
 
-			const result = await addOwnershipDetailsToRepresentations(
+			const result = await addOwnershipAndSubmissionDetailsToRepresentations(
 				[lpaStatement, r6Party1Statement],
 				testCaseReference,
 				testLoggedInEmail,
@@ -136,12 +144,15 @@ describe('representations/service', () => {
 
 			const expectedLpaRep = structuredClone(lpaStatement);
 			expectedLpaRep.userOwnsRepresentation = false;
+			expectedLpaRep.submittingPartyType = LPA_USER_ROLE;
 			const expectedR6Party1Rep = structuredClone(r6Party1Statement);
 			expectedR6Party1Rep.userOwnsRepresentation = true;
+			expectedR6Party1Rep.submittingPartyType = APPEAL_USER_ROLES.RULE_6_PARTY;
 			const expectedR6Party2Rep = structuredClone(r6Party2Statement);
 			expectedR6Party2Rep.userOwnsRepresentation = false;
+			expectedR6Party2Rep.submittingPartyType = APPEAL_USER_ROLES.RULE_6_PARTY;
 
-			const result = await addOwnershipDetailsToRepresentations(
+			const result = await addOwnershipAndSubmissionDetailsToRepresentations(
 				testStatements,
 				testCaseReference,
 				testLoggedInEmail,
