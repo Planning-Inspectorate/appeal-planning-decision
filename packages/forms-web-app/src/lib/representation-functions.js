@@ -22,42 +22,38 @@ const escape = require('escape-html');
  * @returns {Representation[]}
  */
 const filterRepresentationsForDisplay = (caseData, representationParams) => {
-	const { userType, representationType, submittingParty, rule6OwnRepresentations } =
-		representationParams;
+	const { userType, submittingParty, rule6OwnRepresentations } = representationParams;
 
 	if (!caseData.Representations || caseData.Representations.length === 0) return [];
 
-	let representationsFilteredBySubmittingParty;
+	const representations = caseData.Representations;
 
-	// Don't need to filter by submitting party for IP comments as all submitted by IPs (who may not have a service user id)
-	if (representationType == REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT) {
-		representationsFilteredBySubmittingParty = caseData.Representations;
-	} else if (
+	const representationsFilteredBySubmittingParty = filterRepresentationsBySubmittingParty(
+		representations,
+		submittingParty
+	);
+
+	if (
 		userType == APPEAL_USER_ROLES.RULE_6_PARTY &&
 		submittingParty == APPEAL_USER_ROLES.RULE_6_PARTY
 	) {
-		representationsFilteredBySubmittingParty = filterRepresentationsForRule6ViewingRule6(
-			caseData,
+		return filterRepresentationsForRule6ViewingRule6(
+			representationsFilteredBySubmittingParty,
 			!!rule6OwnRepresentations
+		).filter(
+			(representation) =>
+				representation.userOwnsRepresentation || representation.status == 'published'
 		);
 	} else {
-		representationsFilteredBySubmittingParty = filterRepresentationsBySubmittingParty(
-			caseData,
-			submittingParty
+		return representationsFilteredBySubmittingParty.filter(
+			(representation) =>
+				representation.userOwnsRepresentation || representation.status == 'published'
 		);
 	}
-
-	// filter so that only show representations owned by user and representations from other parties that have been published
-	const ownOrPublishedRepresentations = representationsFilteredBySubmittingParty.filter(
-		(representation) =>
-			representation.userOwnsRepresentation || representation.status == 'published'
-	);
-
-	return ownOrPublishedRepresentations;
 };
 
 /**
- * @param {AppealCaseDetailed} caseData
+ * @param {Representation[]} representations
  * @param {AppealToUserRoles|LpaUserRole} submittingParty
  * @returns {Representation[]}
  */
@@ -67,45 +63,31 @@ const filterRepresentationsForDisplay = (caseData, representationParams) => {
 // - the users array on the AppealCase contains serviceUser information for Agents and Appellants only
 // - representations with non-null serviceUserId values will have been submitted by Agent/Appellant, Rule6Party of InterestedParty
 // - in theory the return for Rule6Parties could include interested parties - however interestedParties only submit comments and these should not be filtered by this function
-const filterRepresentationsBySubmittingParty = (caseData, submittingParty) => {
-	if (!caseData.Representations || caseData.Representations.length === 0) return [];
-	const applicantPartyServiceUserIds = caseData.users?.map((user) => user.id);
-
+const filterRepresentationsBySubmittingParty = (representations, submittingParty) => {
 	switch (submittingParty) {
-		case LPA_USER_ROLE:
-			return caseData.Representations.filter((representation) => !representation.serviceUserId);
 		case APPEAL_USER_ROLES.AGENT:
 		case APPEAL_USER_ROLES.APPELLANT:
-			return caseData.Representations.filter(
+			return representations.filter(
 				(representation) =>
-					representation.serviceUserId &&
-					applicantPartyServiceUserIds?.includes(representation.serviceUserId)
-			);
-		case APPEAL_USER_ROLES.RULE_6_PARTY:
-			return caseData.Representations.filter(
-				(representation) =>
-					representation.serviceUserId &&
-					!applicantPartyServiceUserIds?.includes(representation.serviceUserId)
+					representation.submittingPartyType === APPEAL_USER_ROLES.AGENT ||
+					representation.submittingPartyType === APPEAL_USER_ROLES.APPELLANT
 			);
 		default:
-			return [];
+			return representations.filter(
+				(representation) => representation.submittingPartyType === submittingParty
+			);
 	}
 };
 
 /**
- * @param {AppealCaseDetailed} caseData
+ * @param {Representation[]} representations
  * @param {boolean} rule6OwnRepresentations
  * @returns {Representation[]}
  */
-const filterRepresentationsForRule6ViewingRule6 = (caseData, rule6OwnRepresentations) => {
-	const unfilteredRepresentations = filterRepresentationsBySubmittingParty(
-		caseData,
-		APPEAL_USER_ROLES.RULE_6_PARTY
-	);
-
+const filterRepresentationsForRule6ViewingRule6 = (representations, rule6OwnRepresentations) => {
 	return rule6OwnRepresentations
-		? unfilteredRepresentations.filter((representation) => representation.userOwnsRepresentation)
-		: unfilteredRepresentations.filter((representation) => !representation.userOwnsRepresentation);
+		? representations.filter((representation) => representation.userOwnsRepresentation)
+		: representations.filter((representation) => !representation.userOwnsRepresentation);
 };
 
 /**

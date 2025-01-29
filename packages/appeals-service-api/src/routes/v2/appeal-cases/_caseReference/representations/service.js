@@ -1,6 +1,10 @@
 const { RepresentationsRepository } = require('./repo');
 const { appendAppellantAndAgent } = require('../../service');
-const { REPRESENTATION_TYPES } = require('@pins/common/src/constants');
+const {
+	REPRESENTATION_TYPES,
+	LPA_USER_ROLE,
+	APPEAL_USER_ROLES
+} = require('@pins/common/src/constants');
 const { getServiceUsersWithEmailsByIdAndCaseReference } = require('../../../service-users/service');
 const { APPEAL_SOURCE } = require('pins-data-model');
 const repo = new RepresentationsRepository();
@@ -8,6 +12,8 @@ const repo = new RepresentationsRepository();
 /**
  * @typedef {import('@prisma/client').AppealCase} AppealCase
  * @typedef {import('@prisma/client').Representation} Representation
+ * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
+ * @typedef { 'LPAUser' } LpaUserRole
  */
 
 /**
@@ -52,17 +58,12 @@ async function getAppealCaseWithRepresentationsByType(caseReference, type) {
  * @param {boolean} isLpa
  * @returns {Promise<Representation[]>}
  */
-async function addOwnershipDetailsToRepresentations(representations, caseReference, email, isLpa) {
-	//lpa ownership
-	if (isLpa) {
-		return representations.map((rep) => ({
-			...rep,
-			userOwnsRepresentation: rep.source === APPEAL_SOURCE.LPA
-		}));
-	}
-
-	// rule 6 and appellant ownership
-
+async function addOwnershipAndSubmissionDetailsToRepresentations(
+	representations,
+	caseReference,
+	email,
+	isLpa
+) {
 	// get unique list of service user ids for any non-ip comment representations
 	// ip comments are ignored as they have no associated login and so ownership always false
 	//
@@ -76,13 +77,6 @@ async function addOwnershipDetailsToRepresentations(representations, caseReferen
 			.map((rep) => rep.serviceUserId)
 			.filter(Boolean)
 	);
-
-	// if no serviceUserIds marks ownership of all reps as false
-	if (serviceUserIds.size == 0)
-		return representations.map((rep) => ({
-			...rep,
-			userOwnsRepresentation: false
-		}));
 
 	// call to service user repo, return serviceUserId and email if id is serviceUserIds array.
 	const serviceUsersWithEmails = await getServiceUsersWithEmailsByIdAndCaseReference(
@@ -100,12 +94,30 @@ async function addOwnershipDetailsToRepresentations(representations, caseReferen
 	// map userOwnsRepresentation onto the representations based on the logged in user
 	return representations.map((rep) => ({
 		...rep,
-		userOwnsRepresentation: loggedInUserIds.has(rep.serviceUserId)
+		userOwnsRepresentation:
+			(isLpa && rep.source === APPEAL_SOURCE.LPA) || loggedInUserIds.has(rep.serviceUserId),
+		submittingPartyType: ascertainSubmittingParty(rep, serviceUsersWithEmails)
 	}));
+}
+
+/**
+ *
+ * @param {Representation} representation
+ * @param {import('pins-data-model/src/schemas').ServiceUser[]} serviceUsersWithEmails
+ * @returns {LpaUserRole | AppealToUserRoles | undefined}
+ */
+function ascertainSubmittingParty(representation, serviceUsersWithEmails) {
+	if (representation.representationType === REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT)
+		return APPEAL_USER_ROLES.INTERESTED_PARTY;
+
+	if (representation.source === APPEAL_SOURCE.LPA) return LPA_USER_ROLE;
+
+	return serviceUsersWithEmails.find((user) => user.id === representation.serviceUserId)
+		?.serviceUserType;
 }
 
 module.exports = {
 	getAppealCaseWithAllRepresentations,
 	getAppealCaseWithRepresentationsByType,
-	addOwnershipDetailsToRepresentations
+	addOwnershipAndSubmissionDetailsToRepresentations
 };

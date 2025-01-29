@@ -25,6 +25,8 @@ exports.getServiceUserByIdAndCaseReference = (serviceUserId, caseReference) => {
  * @returns {import('pins-data-model/src/schemas').ServiceUser[]}
  */
 exports.getServiceUsersWithEmailsByIdAndCaseReference = (serviceUserIds, caseReference) => {
+	if (serviceUserIds.length === 0) return [];
+
 	return serviceUserRepository.getServiceUsersWithEmailsByIdAndCaseReference(
 		serviceUserIds,
 		caseReference

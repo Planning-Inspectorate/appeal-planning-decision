@@ -1,7 +1,7 @@
 const {
 	getAppealCaseWithAllRepresentations,
 	getAppealCaseWithRepresentationsByType,
-	addOwnershipDetailsToRepresentations
+	addOwnershipAndSubmissionDetailsToRepresentations
 } = require('./service');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
@@ -49,12 +49,13 @@ async function getAppealCaseWithRepresentations(req, res) {
 			caseWithRepresentations = await getAppealCaseWithAllRepresentations(caseReference);
 		}
 
-		caseWithRepresentations.Representations = await addOwnershipDetailsToRepresentations(
-			caseWithRepresentations.Representations,
-			caseReference,
-			email,
-			isLpa
-		);
+		caseWithRepresentations.Representations =
+			await addOwnershipAndSubmissionDetailsToRepresentations(
+				caseWithRepresentations.Representations,
+				caseReference,
+				email,
+				isLpa
+			);
 		res.status(200).send(caseWithRepresentations);
 	} catch (error) {
 		logger.error(`Failed to get case with representations for ${caseReference}: ${error}`);
