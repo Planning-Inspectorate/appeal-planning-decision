@@ -1090,6 +1090,15 @@ const serviceUsers = [
 		firstName: 'Rule6Party',
 		lastName: 'Two',
 		emailAddress: 'r6-2@planninginspectorate.gov.uk'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc55',
+		id: '123997',
+		serviceUserType: 'Rule6Party',
+		caseReference: '1000014',
+		firstName: 'Rule6Party',
+		lastName: 'Three',
+		emailAddress: 'r6-3@planninginspectorate.gov.uk'
 	}
 ];
 
