@@ -84,6 +84,7 @@ describe('representations/service', () => {
 			const expectedResult = structuredClone(interestedPartyComment1);
 			expectedResult.userOwnsRepresentation = false;
 			expectedResult.submittingPartyType = APPEAL_USER_ROLES.INTERESTED_PARTY;
+			getServiceUsersWithEmailsByIdAndCaseReference.mockResolvedValue([]);
 
 			const result = await addOwnershipAndSubmissionDetailsToRepresentations(
 				[interestedPartyComment1],
@@ -91,7 +92,10 @@ describe('representations/service', () => {
 				testLoggedInEmail,
 				false
 			);
-			expect(getServiceUsersWithEmailsByIdAndCaseReference).not.toHaveBeenCalled;
+			expect(getServiceUsersWithEmailsByIdAndCaseReference).toHaveBeenCalledWith(
+				[],
+				testCaseReference
+			);
 			expect(result).toEqual([expectedResult]);
 		});
 
@@ -116,7 +120,13 @@ describe('representations/service', () => {
 		});
 
 		it('marks lpa representation ownership as true if lpa user logged in', async () => {
-			getServiceUsersWithEmailsByIdAndCaseReference.mockResolvedValue([]);
+			getServiceUsersWithEmailsByIdAndCaseReference.mockResolvedValue([
+				{
+					id: testR6ServiceUserId1,
+					emailAddress: 'testR6Email',
+					serviceUserType: APPEAL_USER_ROLES.RULE_6_PARTY
+				}
+			]);
 
 			const expectedLpaRep = structuredClone(lpaStatement);
 			expectedLpaRep.userOwnsRepresentation = true;
@@ -133,13 +143,21 @@ describe('representations/service', () => {
 			);
 			expect(result).toContainEqual(expectedLpaRep);
 			expect(result).toContainEqual(expectedR6Rep);
-			expect(getServiceUsersWithEmailsByIdAndCaseReference).not.toHaveBeenCalled;
+			expect(getServiceUsersWithEmailsByIdAndCaseReference).toHaveBeenCalled;
 		});
 
 		it('marks representation ownership based on logged in user', async () => {
 			getServiceUsersWithEmailsByIdAndCaseReference.mockResolvedValue([
-				{ id: testR6ServiceUserId1, emailAddress: testLoggedInEmail },
-				{ id: testR6ServiceUserId2, emailAddress: 'anotherEmail' }
+				{
+					id: testR6ServiceUserId1,
+					emailAddress: testLoggedInEmail,
+					serviceUserType: APPEAL_USER_ROLES.RULE_6_PARTY
+				},
+				{
+					id: testR6ServiceUserId2,
+					emailAddress: 'anotherEmail',
+					serviceUserType: APPEAL_USER_ROLES.RULE_6_PARTY
+				}
 			]);
 
 			const expectedLpaRep = structuredClone(lpaStatement);
