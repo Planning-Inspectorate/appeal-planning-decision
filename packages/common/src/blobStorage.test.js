@@ -21,8 +21,8 @@ const mockConfig = {
 		level: 'info'
 	},
 	storage: {
-		connectionString: '',
-		container: ''
+		connectionString: 'a',
+		container: 'b'
 	}
 };
 
@@ -39,7 +39,15 @@ describe('initContainerClient', () => {
 		});
 
 		try {
-			await initContainerClient(mockConfig);
+			await initContainerClient({
+				...mockConfig,
+				...{
+					storage: {
+						connectionString: 'c',
+						container: 'd'
+					}
+				}
+			});
 			throw new Error('Expected error not thrown');
 		} catch (err) {
 			expect(err.message).toEqual('Internal Server Error');
