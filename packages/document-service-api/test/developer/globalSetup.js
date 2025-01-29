@@ -1,4 +1,5 @@
 const { exec } = require('child_process');
+const path = require('path');
 
 function run(cmd) {
 	return new Promise((resolve, reject) => {
@@ -21,5 +22,6 @@ module.exports = async () => {
 	process.env.FILE_MAX_SIZE_IN_BYTES = '4000'; // Just big enough for the ./test-files/sample.pdf
 	process.env.FILE_UPLOAD_PATH = __dirname;
 
-	await run(`npx prisma migrate deploy`); //--schema "./packages/database/src/schema.prisma"`
+	const schemaPath = path.resolve(__dirname, '../../../database/src/schema.prisma');
+	await run(`npx prisma migrate deploy --schema ${schemaPath}`);
 };
