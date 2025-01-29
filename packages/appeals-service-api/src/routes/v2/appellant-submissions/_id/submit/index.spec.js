@@ -359,6 +359,10 @@ beforeAll(async () => {
 	validUser = user.id;
 });
 
+afterAll(async () => {
+	await sqlClient.$disconnect();
+});
+
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 	it.each([
 		['HAS', '001', formattedHAS1],
