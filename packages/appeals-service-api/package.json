@@ -12,16 +12,13 @@
 	},
 	"scripts": {
 		"db:generate": "npx prisma generate",
+		"test": "npm run db:generate && cross-env NODE_OPTIONS=\"--experimental-vm-modules --max-old-space-size=8192\" jest --coverage --verbose",
 		"gen-api-types": "node src/spec/write-api-types.js",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
 		"start": "node ./",
 		"start:dev": "npm run db:generate && nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
 		"start:dev:debug": "npm run db:generate && nodemon --inspect=0.0.0.0 ./",
-		"test": "jest --coverage",
-		"test:cov": "jest --coverage --verbose",
-		"test:watch": "jest --watchAll --runInBand",
-		"integration-test": "npm run db:generate && cross-env NODE_OPTIONS=\"--experimental-vm-modules --max-old-space-size=8192\" jest --silent --config ./jest.developer-test.config.js",
 		"prevalidate-spec": "node src/spec/write-api-spec.js",
 		"validate-spec": "npx swagger-cli validate src/spec/spec.json",
 		"postvalidate-spec": "rm -rf ./src/spec/spec.json"

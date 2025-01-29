@@ -8,20 +8,24 @@ module.exports = {
 		'<rootDir>/src/app.js',
 		'<rootDir>/src/main.js',
 		'<rootDir>/src/server.js',
-		'<rootDir>/src/.*\\.spec\\.js$'
+		'<rootDir>/src/.*\\.spec\\.js$',
+		'<rootDir>/src/.*\\.test\\.js$'
 	],
 	// to improve
 	coverageThreshold: {
 		global: {
-			branches: 36.65,
-			functions: 11.41,
-			lines: 32.91,
-			statements: 32.76
+			statements: 50.0,
+			branches: 29.5,
+			functions: 42.0,
+			lines: 50.0
 		}
 	},
+	globalSetup: '<rootDir>/__tests__/developer/globalSetup.js',
+	globalTeardown: '<rootDir>/__tests__/developer/globalTeardown.js',
+	preset: '@shelf/jest-mongodb',
 	setupFiles: ['<rootDir>/__tests__/setup-jest.js'],
-	roots: ['<rootDir>/__tests__/unit/', '<rootDir>/src/'],
-	testMatch: ['**/__tests__/unit/**/*.test.js', '**/src/**/*.test.js'],
+	roots: ['<rootDir>/__tests__/developer/', '<rootDir>/__tests__/unit/', '<rootDir>/src/'],
+	testMatch: ['**/__tests__/unit/**/*.test.js', '**/src/**/*.test.js', '**/src/**/*.spec.js'],
 	transform: {
 		'\\.[jt]sx?$': 'babel-jest'
 	}
