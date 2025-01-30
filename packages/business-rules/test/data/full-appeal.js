@@ -21,7 +21,8 @@ const appeal = {
 		applicationDecision: 'granted',
 		enforcementNotice: false,
 		hasPriorApprovalForExistingHome: true,
-		hasHouseholderPermissionConditions: true
+		hasHouseholderPermissionConditions: true,
+		isListedBuilding: false
 	},
 	contactDetailsSection: {
 		isOriginalApplicant: true,

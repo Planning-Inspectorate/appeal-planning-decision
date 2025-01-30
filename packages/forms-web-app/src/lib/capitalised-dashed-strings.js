@@ -1,10 +1,17 @@
-function capitalise(text) {
+/**
+ * @param {string} text
+ * @returns {string}
+ */
+function removeDashesAndCapitaliseString(text) {
 	const words = text.match(/[a-zA-Z][^\-+\s_]*[a-zA-Z]/g);
-	return words
+	if (!words) return '';
+	const string = words
 		.map((word) => {
-			return word[0].toUpperCase() + word.substring(1);
+			return word[0] + word.substring(1);
 		})
 		.join(' ');
+
+	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-module.exports = { capitalise };
+module.exports = { removeDashesAndCapitaliseString };

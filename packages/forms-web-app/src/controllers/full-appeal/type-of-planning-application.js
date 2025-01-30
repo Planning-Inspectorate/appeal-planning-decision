@@ -18,6 +18,8 @@ const {
 } = require('../../lib/views');
 const { mapPlanningApplication } = require('../../lib/full-appeal/map-planning-application');
 const config = require('../../config');
+const { FLAG } = require('@pins/common/src/feature-flags');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 const getTypeOfPlanningApplication = (req, res) => {
 	const { appeal } = req.session;
@@ -58,6 +60,8 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		});
 	}
 
+	const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+
 	switch (typeOfPlanningApplication) {
 		case HOUSEHOLDER_PLANNING:
 			return res.redirect('/before-you-start/listed-building-householder');
@@ -69,7 +73,9 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		case I_HAVE_NOT_MADE_A_PLANNING_APPLICATION:
 			return res.redirect('/before-you-start/use-existing-service-application-type');
 		default:
-			return res.redirect('/before-you-start/any-of-following');
+			return isV2
+				? res.redirect('/before-you-start/listed-building')
+				: res.redirect('/before-you-start/any-of-following');
 	}
 };
 

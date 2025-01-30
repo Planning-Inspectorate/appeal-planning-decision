@@ -492,6 +492,25 @@ describe('schemas/full-appeal/update', () => {
 			});
 		});
 
+		describe('eligibility.isListedBuilding', () => {
+			it('should throw an error when not given a boolean value', async () => {
+				appeal.eligibility = {
+					isListedBuilding: 'yes'
+				};
+
+				await expect(() => update.validate(appeal, config)).rejects.toThrow(
+					'eligibility.isListedBuilding must be a `boolean` type, but the final value was: `"yes"`'
+				);
+			});
+
+			it('should not throw an error when not given a value', async () => {
+				delete appeal.isListedBuilding;
+
+				const result = await update.validate(appeal, config);
+				expect(result).toEqual(appeal);
+			});
+		});
+
 		describe('appealDocumentsSection', () => {
 			it('should throw an error when given a null value', async () => {
 				appeal.appealDocumentsSection = null;

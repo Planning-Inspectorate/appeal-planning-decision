@@ -11,7 +11,8 @@ const VIEW = {
 			'before-you-start/use-existing-service-enforcement-notice',
 
 		USE_EXISTING_SERVICE_DEVELOPMENT_TYPE: 'before-you-start/use-existing-service-development-type',
-		USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building'
+		USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building',
+		LISTED_BUILDING: 'before-you-start/listed-building'
 	},
 
 	APPELLANT_SUBMISSION: {
@@ -48,14 +49,12 @@ const VIEW = {
 			USE_EXISTING_SERVICE_COSTS: 'householder-planning/eligibility/use-existing-service-costs',
 			DATE_DECISION_DUE_HOUSEHOLDER:
 				'householder-planning/eligibility/date-decision-due-householder',
-			LISTED_BUILDING_HOUSEHOLDER: 'householder-planning/eligibility/listed-building-householder',
 			ENFORCEMENT_NOTICE_HOUSEHOLDER:
 				'householder-planning/eligibility/enforcement-notice-householder',
 			GRANTED_OR_REFUSED_HOUSEHOLDER:
 				'householder-planning/eligibility/granted-or-refused-householder',
 			HAS_APPEAL_FORM: 'householder-planning/eligibility/results-householder',
 			DECISION_DATE_HOUSEHOLDER: 'householder-planning/eligibility/decision-date-householder',
-			LISTED_BUILDING: 'householder-planning/eligibility/listed-building-householder',
 			CONDITIONS_HOUSEHOLDER_PERMISSION:
 				'householder-planning/eligibility/conditions-householder-permission',
 			CAN_USE_SERVICE_HOUSEHOLDER: 'householder-planning/eligibility/can-use-service',
