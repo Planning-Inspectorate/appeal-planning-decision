@@ -1,10 +1,10 @@
-const eventClient = require('../../../../src/infrastructure/event-client');
-const { EventType } = require('../../../../src/event-client/event-type');
-const config = require('../../../../src/configuration/config');
-const { appeal, questionnaire } = require('../../../../src/services/back-office-v2/forwarders');
+const eventClient = require('../../infrastructure/event-client');
+const { EventType } = require('../../event-client/event-type');
+const config = require('../../configuration/config');
+const { appeal, questionnaire } = require('./forwarders');
 
-jest.mock('../../../../src/infrastructure/event-client');
-jest.mock('../../../../src/configuration/config');
+jest.mock('../../infrastructure/event-client');
+jest.mock('../../configuration/config');
 
 describe('appeal and questionnaire', () => {
 	let mockData;

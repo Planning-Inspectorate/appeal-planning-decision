@@ -6,7 +6,7 @@ const {
 	formatApplicationSubmissionUsers,
 	formatApplicationDecision,
 	formatYesNoSomeAnswer
-} = require('../../../../../src/services/back-office-v2/formatters/utils');
+} = require('./utils');
 const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 const { APPEAL_APPLICATION_DECISION, SERVICE_USER_TYPE } = require('pins-data-model');
@@ -19,7 +19,7 @@ jest.mock('@pins/common', () => ({
 jest.mock('@pins/common/src/document-types', () => ({
 	getDocType: jest.fn()
 }));
-jest.mock('../../../../../src/services/object-store');
+jest.mock('../../object-store');
 jest.mock('@pins/common/src/utils');
 jest.mock('@pins/common/src/document-types');
 
