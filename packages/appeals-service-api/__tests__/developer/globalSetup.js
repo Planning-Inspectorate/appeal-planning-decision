@@ -1,5 +1,7 @@
 const { exec } = require('child_process');
 const path = require('path');
+const { createPrismaClient } = require('../../src/db/db-client');
+const { seedStaticData } = require('@pins/database/src/seed/data-static');
 
 function run(cmd) {
 	return new Promise((resolve, reject) => {
@@ -20,4 +22,8 @@ module.exports = async () => {
 
 	const schemaPath = path.resolve(__dirname, '../../../database/src/schema.prisma');
 	await run(`npx prisma migrate deploy --schema ${schemaPath}`);
+
+	const sqlClient = createPrismaClient();
+	await seedStaticData(sqlClient);
+	await sqlClient.$disconnect();
 };

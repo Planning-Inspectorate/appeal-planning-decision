@@ -3,7 +3,6 @@ const supertest = require('supertest');
 
 const app = require('../../../app');
 const { createPrismaClient } = require('../../../db/db-client');
-const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const {
 	createTestAppealCase
 } = require('../../../../__tests__/developer/fixtures/appeals-case-data');
@@ -48,8 +47,6 @@ beforeAll(async () => {
 	///////////////////
 	let server = http.createServer(app);
 	appealsApi = supertest(server);
-
-	await seedStaticData(sqlClient);
 });
 
 beforeEach(async () => {
