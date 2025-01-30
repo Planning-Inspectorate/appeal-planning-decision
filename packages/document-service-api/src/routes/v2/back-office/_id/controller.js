@@ -104,7 +104,9 @@ async function getDocumentUrl(req, res) {
 	try {
 		const sasUrl = await blobClient.getBlobSASUrl(
 			config.boStorage.container,
-			documentWithAppeal.documentURI
+			documentWithAppeal.documentURI,
+			undefined,
+			documentWithAppeal.filename
 		);
 		res.status(200).send({
 			url: sasUrl
