@@ -3,7 +3,6 @@ const http = require('http');
 const app = require('../../../../../app');
 const { sendEvents } = require('../../../../../../src/infrastructure/event-client');
 const { createPrismaClient } = require('#db-client');
-const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const crypto = require('crypto');
 
 const server = http.createServer(app);
@@ -276,8 +275,6 @@ let appeal2;
 let appeal3;
 
 beforeAll(async () => {
-	await seedStaticData(sqlClient);
-
 	const user = await sqlClient.appealUser.create({
 		data: { email: crypto.randomUUID() + '@example.com' }
 	});

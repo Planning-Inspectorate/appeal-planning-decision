@@ -8,7 +8,6 @@ const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
 const { createPrismaClient } = require('../../src/db/db-client');
-const { seedStaticData } = require('@pins/database/src/seed/data-static');
 
 const MockedExternalApis = require('./external-dependencies/rest-apis/mocked-external-apis');
 const HorizonInteraction = require('./external-dependencies/rest-apis/interactions/horizon-interaction');
@@ -113,8 +112,6 @@ beforeAll(async () => {
 
 	const testLpaJson = `{OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n323;${testLpaCodeEngland};;${testLpaNameEngland};${testLpaEmail};;TRUE\n324;${testLpaCodeWales};${testHorizonLpaCodeWales};${testLpaNameWales};${testLpaEmail};;TRUE}`;
 	await appealsApi.post('/api/v1/local-planning-authorities').send(testLpaJson);
-
-	await seedStaticData(sqlClient);
 });
 
 beforeEach(async () => {
