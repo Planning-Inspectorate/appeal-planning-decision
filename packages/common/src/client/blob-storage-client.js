@@ -56,9 +56,10 @@ class BlobStorageClient {
 	 * @param {string} containerName - Blob storage container name
 	 * @param {string} blobName - Blob name e.g. doc/path/file.txt or complete uri to blob
 	 * @param {Date} [expiresOn] The end time for the user delegation SAS. Must be within 7 days of the current time, defaults to 10 mins from now
+	 * @param {string} [filename]
 	 * @returns {Promise<string>} - empty string if the
 	 */
-	async getBlobSASUrl(containerName, blobName, expiresOn) {
+	async getBlobSASUrl(containerName, blobName, expiresOn, filename) {
 		const TEN_MINUTES = 10 * 60 * 1000;
 		const NOW = new Date();
 		const startsOn = new Date(NOW.valueOf() - TEN_MINUTES);
@@ -87,7 +88,8 @@ class BlobStorageClient {
 				protocol: SASProtocol.HttpsAndHttp,
 				startsOn: startsOn,
 				expiresOn: expiresOn,
-				permissions: BlobSASPermissions.parse(blobPermissions)
+				permissions: BlobSASPermissions.parse(blobPermissions),
+				contentDisposition: `attachment; filename="${filename}"`
 			});
 
 			// fix for localhost, replace docker dns with localhost entry
@@ -113,7 +115,8 @@ class BlobStorageClient {
 			permissions: BlobSASPermissions.parse(blobPermissions),
 			protocol: SASProtocol.Https,
 			startsOn: startsOn,
-			expiresOn: expiresOn
+			expiresOn: expiresOn,
+			contentDisposition: `attachment; filename="${filename}"`
 		};
 
 		// https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json#sas-token
