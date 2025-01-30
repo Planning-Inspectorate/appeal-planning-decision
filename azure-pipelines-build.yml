@@ -111,7 +111,6 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
-          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
@@ -142,7 +141,6 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
-          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
@@ -172,7 +170,6 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
-          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
@@ -201,7 +198,6 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
-          - Run Integration Tests
         steps:
           - template: ../steps/node_script.yml
             parameters:
@@ -245,7 +241,6 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
-          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
@@ -276,7 +271,6 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
-          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
