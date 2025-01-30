@@ -3,19 +3,19 @@
 /// <reference types="cypress"/>
 
 import { BasePage } from "../../../../page-objects/base-page";
-import { AppellantFullApeealProofsOfEvidence } from "../../pages/appellant-aapd/appellant-proofs-of-evidence/appellantFullApeealProofsOfEvidence";
+import { AppellantFullApealProofsOfEvidence } from "../../pages/appellant-aapd/appellant-proofs-of-evidence/appellantFullApealProofsOfEvidence";
 
-export const appellantFullApeealProofsOfEvidence = (context, prepareAppealData) => {
+export const appellantFullAppealProofsOfEvidence = (context, prepareAppealData) => {
 	const basePage = new BasePage();
-	const appellantFullApeealProofsOfEvidence = new AppellantFullApeealProofsOfEvidence();
+	const appellantFullApealProofsOfEvidence = new AppellantFullApealProofsOfEvidence();
 	let appealId;
 	let counter = 0;
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
-		if (rowtext.includes(prepareAppealData?.s78AppealType) && rowtext.includes(prepareAppealData?.todoProofsOfEvidence)) {
+		if (rowtext.includes(prepareAppealData?.FullAppealType) && rowtext.includes(prepareAppealData?.todoProofsOfEvidence)) {
 			if (counter === 0) {				
 				cy.wrap($row).within(() => {
-					cy.get(basePage?._selectors.trgovukTableCell).contains(prepareAppealData?.s78AppealType).should('be.visible');					
+					cy.get(basePage?._selectors.trgovukTableCell).contains(prepareAppealData?.FullAppealType).should('be.visible');					
 					cy.get('a').each(($link) => {						
 						if ($link.attr('href')?.includes(prepareAppealData?.proofsOfEvidenceLink)) {
 							appealId = $link.attr('href')?.split('/').pop();							
@@ -28,11 +28,11 @@ export const appellantFullApeealProofsOfEvidence = (context, prepareAppealData) 
 			counter++;
 		}
 	}).then(() => {
-		cy.url().should('include', `/manage-appeals/proof-evidence/${appealId}`);
-		appellantFullApeealProofsOfEvidence.selectUploadProofEvidence(context);
-		appellantFullApeealProofsOfEvidence.selectAddWitnesses(context);
+		cy.url().should('include', `/appeals/proof-evidence/${appealId}`);
+		appellantFullApealProofsOfEvidence.selectUploadProofEvidence(context);
+		appellantFullApealProofsOfEvidence.selectAddWitnesses(context);
 	});
-	// commented for test during coding
-	// 	cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-	// 	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
+	// commented for test during coding due to seeded data
+	// 	cy.getByData(prepareAppealData?.submitQuestionnaire).click();
+	// 	cy.get(basePage?._selectors.govukPanelTitle).contains(prepareAppealData?.questionnaireSubmitted);
 };

@@ -4,7 +4,7 @@ const documents = {
 
 };
 
-export const fullAppealAppellantProofsOfEvidenceTestCases = [
+export const appellantFullAppealProofsOfEvidenceTestCases = [
     {  
         proofsOfEvidence:{
             isAddWitness: true

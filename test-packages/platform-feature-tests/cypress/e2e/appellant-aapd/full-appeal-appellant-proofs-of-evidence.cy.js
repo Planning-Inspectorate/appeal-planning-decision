@@ -2,11 +2,11 @@
 /// <reference types="cypress"/>
 import { appellantFullAppealProofsOfEvidenceTestCases } from "../../helpers/appellantAAPD/appellantFullAppealProofsOfEvidenceData";
 const { appellantFullAppealProofsOfEvidence } = require('../../support/flows/sections/appellantAAPD/appellantFullAppealProofsOfEvidence');
-const { YourAppealsSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
+const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
 
 describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
-        const yourAppealsSelector = new YourAppealsSelector();
+        const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
         beforeEach(() => {
                 cy.fixture('prepareAppealData').then(data => {
@@ -15,10 +15,10 @@ describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
                 cy.visit(`${Cypress.config('appeals_beta_base_url')}/appeal/email-address`);
                 cy.url().then((url) => {
                         if (url.includes('/appeal/email-address')) {
-                                cy.getByData(yourAppealsSelector?._selectors?.emailAddress).clear();
-                                cy.getByData(yourAppealsSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
+                                cy.getById(prepareAppealSelector?._selectors?.emailAddress).clear();
+                                cy.getById(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
                                 cy.advanceToNextPage();
-                                cy.get(yourAppealsSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
+                                cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
                                 cy.advanceToNextPage();
                         }
                 });

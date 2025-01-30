@@ -1,7 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { BasePage } from "../../../../page-objects/base-page";
-export class ProofsOfEvidence {
+import { BasePage } from "../../../../../page-objects/base-page";
+export class AppellantFullApealProofsOfEvidence {
     _selectors = {
        
            }
