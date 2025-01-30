@@ -95,18 +95,18 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Other owners identified',
-			valueText: 'Yes',
-			condition: (caseData) => caseData.advertisedAppeal
+			valueText: formatYesOrNo(caseData, 'advertisedAppeal'),
+			condition: (caseData) => caseData.advertisedAppeal != null
 		},
 		{
 			keyText: 'Advertised appeal',
-			valueText: 'Yes',
-			condition: (caseData) => caseData.advertisedAppeal
+			valueText: formatYesOrNo(caseData, 'advertisedAppeal'),
+			condition: (caseData) => caseData.advertisedAppeal != null
 		},
 		{
 			keyText: 'Other owners informed',
-			valueText: 'Yes',
-			condition: (caseData) => caseData.ownersInformed
+			valueText: formatYesOrNo(caseData, 'ownersInformed'),
+			condition: (caseData) => caseData.ownersInformed != null
 		},
 		{
 			keyText: 'Will an inspector need to access the land or property?',
@@ -120,18 +120,18 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Tenant on agricultural holding',
-			valueText: 'Yes',
-			condition: (caseData) => caseData.tenantAgriculturalHolding
+			valueText: formatYesOrNo(caseData, 'tenantAgriculturalHolding'),
+			condition: (caseData) => caseData.tenantAgriculturalHolding != null
 		},
 		{
 			keyText: 'Other agricultural holding tenants',
-			valueText: 'Yes',
-			condition: (caseData) => caseData.otherTenantsAgriculturalHolding
+			valueText: formatYesOrNo(caseData, 'otherTenantsAgriculturalHolding'),
+			condition: (caseData) => caseData.otherTenantsAgriculturalHolding != null
 		},
 		{
 			keyText: 'Informed other agricultural holding tenants',
-			valueText: 'Yes',
-			condition: (caseData) => caseData.informedTenantsAgriculturalHolding
+			valueText: formatYesOrNo(caseData, 'informedTenantsAgriculturalHolding'),
+			condition: (caseData) => caseData.informedTenantsAgriculturalHolding != null
 		},
 		{
 			keyText: 'Site health and safety issues',
