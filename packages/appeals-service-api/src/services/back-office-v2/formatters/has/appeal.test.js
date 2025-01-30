@@ -1,24 +1,22 @@
-const {
-	formatter
-} = require(`../../../../../../src/services/back-office-v2/formatters/has/appeal`);
+const { formatter } = require(`./appeal`);
 const {
 	getDocuments,
 	formatApplicationSubmissionUsers,
 	formatApplicationDecision,
 	formatYesNoSomeAnswer
-} = require(`../../../../../../src/services/back-office-v2/formatters/utils`);
+} = require(`../utils`);
 const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-date');
 const { APPEAL_CASE_PROCEDURE, APPEAL_CASE_TYPE } = require('pins-data-model');
 
-jest.mock('../../../../../../src/services/lpa.service', () => {
+jest.mock('../../../lpa.service', () => {
 	return jest.fn().mockImplementation(() => {
 		return {
 			getLpaByCode: jest.fn().mockResolvedValue({ getLpaCode: jest.fn().mockReturnValue('123') })
 		};
 	});
 });
-jest.mock('../../../../../../src/errors/apiError');
-jest.mock(`../../../../../../src/services/back-office-v2/formatters/utils`);
+jest.mock('../../../../errors/apiError');
+jest.mock(`../../../back-office-v2/formatters/utils`);
 
 jest.mock('@pins/business-rules/src/rules/appeal/deadline-date');
 

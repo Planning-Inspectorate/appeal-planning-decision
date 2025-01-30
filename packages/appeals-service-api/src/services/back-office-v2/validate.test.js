@@ -1,11 +1,11 @@
 const { loadAllSchemasSync } = require('pins-data-model');
-const { SchemaValidator } = require('../../../../src/services/back-office-v2/validate');
+const { SchemaValidator } = require('./validate');
 
 jest.mock('pins-data-model');
 jest.mock('#lib/logger');
 
 describe('SchemaValidator', () => {
-	/** @type {import('../../../../src/services/back-office-v2/validate').SchemaValidator} */
+	/** @type {import('./validate').SchemaValidator} */
 	let schemaValidator;
 	let mockSchemas = {
 		schema1: {
