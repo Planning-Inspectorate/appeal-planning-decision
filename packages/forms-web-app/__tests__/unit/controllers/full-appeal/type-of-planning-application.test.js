@@ -114,7 +114,6 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		it.each(defaultTypes)(
 			'should redirect to the any-of-following page if %s - v1',
 			async (type) => {
-				console.log(type);
 				const planningApplication = type;
 
 				const mockRequest = {
