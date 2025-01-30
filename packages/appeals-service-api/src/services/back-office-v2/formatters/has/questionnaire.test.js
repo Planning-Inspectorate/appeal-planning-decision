@@ -1,13 +1,8 @@
-const {
-	formatter
-} = require(`../../../../../../src/services/back-office-v2/formatters/has/questionnaire`);
-const {
-	getDocuments,
-	howYouNotifiedPeople
-} = require(`../../../../../../src/services/back-office-v2/formatters/utils`);
+const { formatter } = require(`./questionnaire`);
+const { getDocuments, howYouNotifiedPeople } = require(`../utils`);
 const { documentTypes } = require('@pins/common/src/document-types');
 
-jest.mock(`../../../../../../src/services/back-office-v2/formatters/utils`);
+jest.mock(`../../../back-office-v2/formatters/utils`);
 
 describe('formatter', () => {
 	const caseReference = '12345';
