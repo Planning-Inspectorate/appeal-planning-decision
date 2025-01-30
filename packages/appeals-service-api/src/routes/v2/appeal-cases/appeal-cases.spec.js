@@ -3,7 +3,6 @@ const supertest = require('supertest');
 const { buildQueryString } = require('@pins/common/src/client/utils');
 const app = require('../../../app');
 const { createPrismaClient } = require('../../../db/db-client');
-const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
@@ -138,8 +137,6 @@ beforeAll(async () => {
 	///////////////////
 	let server = http.createServer(app);
 	appealsApi = supertest(server);
-
-	await seedStaticData(sqlClient);
 });
 
 beforeEach(async () => {
