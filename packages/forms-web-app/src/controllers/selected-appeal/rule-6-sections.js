@@ -29,14 +29,9 @@ exports.sections = [
 		heading: 'Statements',
 		links: [
 			{
-				url: '/your-statement',
+				url: '/statement',
 				text: 'View your statement',
-				condition: (appealCase, userEmail) => {
-					const currentRule6User = appealCase.Rule6Parties?.find(
-						(party) => party.partyEmail === userEmail
-					);
-					return currentRule6User?.statementReceived;
-				}
+				condition: (appealCase) => appealCase.rule6StatementPublished
 			},
 			{
 				url: '/lpa-statement',
@@ -55,9 +50,26 @@ exports.sections = [
 		links: [
 			{
 				// tbc
-				url: '/ip-comments',
+				url: '/interested-party-comments',
 				text: 'View interested party comments',
 				condition: (appealCase) => appealCase.interestedPartyCommentsPublished // schema matched ticket
+			}
+		]
+	},
+	{
+		heading: 'Final comments',
+		links: [
+			{
+				// tbc
+				url: '/appellant-final-comments',
+				text: "View appellant's final comments",
+				condition: (appealCase) => !!appealCase.appellantFinalCommentsSubmitted // appellantCommentsReceived on ticket?
+			},
+			{
+				// tbc
+				url: '/lpa-final-comments',
+				text: 'View local planning authority final comments',
+				condition: (appealCase) => !!appealCase.lpaFinalCommentsPublished // changed from lpaFinalCommentPublished
 			}
 		]
 	},
@@ -78,12 +90,7 @@ exports.sections = [
 				// tbc
 				url: '/proof-evidence',
 				text: 'View your proof of evidence and witnesses',
-				condition: (appealCase, userEmail) => {
-					const currentRule6User = appealCase.Rule6Parties?.find(
-						(party) => party.partyEmail === userEmail
-					);
-					return currentRule6User?.proofEvidenceReceived;
-				}
+				condition: (appealCase) => appealCase.rule6ProofsEvidencePublished
 			},
 			{
 				// tbc

@@ -12,9 +12,9 @@ const {
 	VIEW: { FULL_APPEAL }
 } = require('../lib/full-appeal/views');
 const logger = require('../lib/logger');
-const { textToPdf } = require('../lib/textToPdf');
 const { CONSTS } = require('../consts');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 
 const defaultFileName = 'appeal-form';
@@ -122,41 +122,11 @@ const storePdfAppeal = async ({ appeal, fileName, sid }) => {
 	}
 };
 
-const storeTextAsDocument = async (submission, plainText, docType) => {
-	const log = logger.child({ uuid: uuid.v4() });
-
-	log.info('Storing PDF appeal document');
-
-	try {
-		log.debug('Generating PDF of plainText');
-
-		const pdfBuffer = await textToPdf(plainText);
-
-		log.debug('Creating document from PDF buffer');
-
-		const document = await createDocument(
-			submission,
-			pdfBuffer,
-			`${docType.displayName}.pdf`,
-			docType.name
-		);
-
-		log.debug('PDF document successfully created');
-
-		return document;
-	} catch (err) {
-		const msg = 'Error during the pdf generation';
-		log.error({ err }, msg);
-
-		throw new Error(msg);
-	}
-};
-
 // Functions relating to V2 appeal forms
 
 const typeCodeToAppealUrlStub = {
-	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS]: 'householder',
-	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78]: 'full-planning'
+	[CASE_TYPES.HAS.processCode]: 'householder',
+	[CASE_TYPES.S78.processCode]: 'full-planning'
 };
 
 /**
@@ -272,6 +242,5 @@ module.exports = {
 	storePdfAppeal,
 	storePdfAppellantSubmission,
 	getHtml,
-	storeTextAsDocument,
 	storePdfQuestionnaireSubmission
 };

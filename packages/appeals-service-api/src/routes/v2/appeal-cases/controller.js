@@ -7,6 +7,7 @@ const {
 	listByLpaCodeWithAppellant,
 	listByPostcodeWithAppellant
 } = require('./service');
+const sanitizePostcode = require('#lib/sanitize-postcode');
 
 const repo = new AppealCaseRepository();
 
@@ -131,7 +132,7 @@ async function listByPostcode(req, res) {
 	const isWithAppellant = withAppellant === 'true';
 	try {
 		const appealCases = await listByPostcodeWithAppellant({
-			postcode,
+			sanitizedPostcode: sanitizePostcode(postcode),
 			decidedOnly: isDecidedOnly,
 			withAppellant: isWithAppellant
 		});

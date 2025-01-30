@@ -10,6 +10,7 @@ exports.JOURNEY_TYPES = {
 	S78_QUESTIONNAIRE: 's78-questionnaire',
 	HAS_APPEAL_FORM: 'has-appeal-form',
 	S78_APPEAL_FORM: 's78-appeal-form',
+	S20_APPEAL_FORM: 's20-appeal-form',
 	S78_LPA_STATEMENT: 's78-lpa-statement',
 	S78_APPELLANT_FINAL_COMMENTS: 's78-appellant-final-comments',
 	S78_LPA_FINAL_COMMENTS: 's78-lpa-final-comments',

@@ -14,25 +14,6 @@ const VIEW = {
 		USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building'
 	},
 
-	ELIGIBILITY: {
-		LISTED_BUILDING: 'eligibility/listed-building',
-		LISTED_OUT: 'eligibility/listed-out',
-		NO_DECISION: 'eligibility/no-decision',
-		DECISION_DATE: 'eligibility/decision-date',
-		DECISION_DATE_PASSED: 'eligibility/decision-date-passed',
-		PLANNING_DEPARTMENT: 'eligibility/planning-department',
-		PLANNING_DEPARTMENT_OUT: 'eligibility/planning-department-out',
-		COSTS: 'eligibility/costs',
-		COSTS_OUT: 'eligibility/costs-out',
-		APPEAL_STATEMENT: 'eligibility/appeal-statement',
-		ENFORCEMENT_NOTICE: 'eligibility/enforcement-notice',
-		ENFORCEMENT_NOTICE_OUT: 'eligibility/enforcement-notice-out',
-		HOUSEHOLDER_PLANNING_PERMISSION: 'eligibility/householder-planning-permission',
-		HOUSEHOLDER_PLANNING_PERMISSION_OUT: 'eligibility/householder-planning-permission-out',
-		GRANTED_REFUSED_PERMISSION: 'eligibility/granted-or-refused-permission',
-		GRANTED_REFUSED_PERMISSION_OUT: 'eligibility/granted-or-refused-permission-out'
-	},
-
 	APPELLANT_SUBMISSION: {
 		TASK_LIST: 'appeal-householder-decision/task-list',
 		APPEAL_STATEMENT: 'appellant-submission/appeal-statement',
@@ -83,14 +64,6 @@ const VIEW = {
 			CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
 				'householder-planning/eligibility/removal-or-variation-of-conditions/can-use-service'
 		}
-	},
-
-	GUIDANCE_PAGES: {
-		BEFORE_APPEAL: 'guidance-pages/before-appeal',
-		WHEN_APPEAL: 'guidance-pages/when-appeal',
-		AFTER_APPEAL: 'guidance-pages/after-appeal',
-		START_APPEAL: 'guidance-pages/start-appeal',
-		STAGES_APPEAL: 'guidance-pages/stages-appeal'
 	},
 
 	FULL_APPEAL: {
@@ -196,6 +169,7 @@ const VIEW = {
 	},
 
 	SELECTED_APPEAL: {
+		APPEAL_OVERVIEW: '/appeals',
 		APPEAL: 'selected-appeal/appeal',
 		APPEAL_DETAILS: 'selected-appeal/appeal-details',
 		APPEAL_QUESTIONNAIRE: 'selected-appeal/questionnaire-details',
@@ -211,11 +185,6 @@ const VIEW = {
 		ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details'
 	},
 
-	YOUR_PLANNING_APPEAL: {
-		INDEX: 'your-planning-appeal/index',
-		YOUR_APPEAL_DETAILS: 'your-planning-appeal/your-appeal-details'
-	},
-
 	LPA_DASHBOARD: {
 		ENTER_CODE: 'manage-appeals/enter-code',
 		CODE_EXPIRED: 'manage-appeals/code-expired',
@@ -227,7 +196,8 @@ const VIEW = {
 		CONFIRM_ADD_USER: 'manage-appeals/confirm-add-user',
 		CONFIRM_REMOVE_USER: 'manage-appeals/confirm-remove-user',
 		YOUR_EMAIL_ADDRESS: 'manage-appeals/your-email-address',
-		DECIDED_APPEALS: 'manage-appeals/decided-appeals'
+		DECIDED_APPEALS: 'manage-appeals/decided-appeals',
+		APPEAL_OVERVIEW: '/manage-appeals'
 	},
 
 	INTERESTED_PARTY_COMMENTS: {
@@ -241,7 +211,8 @@ const VIEW = {
 		NEED_NEW_CODE: 'rule-6/need-new-code',
 		REQUEST_NEW_CODE: 'rule-6/request-new-code',
 		DASHBOARD: 'rule-6/your-appeals',
-		DECIDED_APPEALS: 'rule-6/decided-appeals'
+		DECIDED_APPEALS: 'rule-6/decided-appeals',
+		APPEAL_OVERVIEW: '/rule-6'
 	},
 
 	MESSAGES: {

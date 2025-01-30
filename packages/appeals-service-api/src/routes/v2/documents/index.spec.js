@@ -195,6 +195,56 @@ describe('documents v2', () => {
 			expect(document2?.id).toBe(id2);
 			expect(document2?.redacted).toBe(false);
 		});
+
+		it('should handle 2 calls in quick succession', async () => {
+			const caseRef = 'quickcall_ref_001';
+
+			await sqlClient.appealCase.create({
+				data: {
+					Appeal: { create: {} },
+					...createTestAppealCase(caseRef, 'HAS', 'lpa_001')
+				}
+			});
+
+			/** @type {import('pins-data-model/src/schemas').AppealDocument} */
+			const doc = {
+				documentId: '8964ae94-a34f-477f-8248-ef22ae878e38',
+				caseId: 1,
+				caseReference: caseRef,
+				version: 1,
+				filename: 'test.jpg',
+				originalFilename: 'test.jpg',
+				size: 1024,
+				mime: 'image/jpeg',
+				documentURI: 'https://example.com/doc_001',
+				publishedDocumentURI: 'https://example.com/published/doc_001',
+				virusCheckStatus: 'scanned',
+				fileMD5: '6f1ed002ab5595859014ebf0951522d9',
+				dateCreated: new Date().toISOString(),
+				dateReceived: new Date().toISOString(),
+				datePublished: new Date().toISOString(),
+				lastModified: new Date().toISOString(),
+				caseType: 'C',
+				redactedStatus: null,
+				documentType: 'appellantCaseCorrespondence',
+				sourceSystem: 'back-office-appeals',
+				origin: 'citizen',
+				owner: 'Jason',
+				author: 'Tom',
+				description: 'A picture of a cow',
+				caseStage: 'appeal-decision',
+				horizonFolderId: 'hor_001'
+			};
+
+			for (const _attempt of Array.from(Array(5).keys())) {
+				doc.documentId = crypto.randomUUID();
+				const request1 = appealsApi.put('/api/v2/documents').send(doc);
+				const request2 = appealsApi.put('/api/v2/documents').send(doc);
+				const [response1, response2] = await Promise.all([request1, request2]);
+				expect(response1.status).toBe(200);
+				expect(response2.status).toBe(200);
+			}
+		});
 	});
 
 	describe('delete document', () => {

@@ -17,5 +17,5 @@ module.exports = async () => {
 	process.env.LOGGER_LEVEL = 'info';
 	await create();
 
-	await run(`npx prisma migrate deploy`);
+	await run(`npx prisma migrate deploy`); //--schema "./packages/database/src/schema.prisma"`
 };

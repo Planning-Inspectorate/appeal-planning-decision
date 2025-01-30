@@ -10,6 +10,13 @@ const { SERVICE_USER_TYPE } = require('pins-data-model');
 /** @type {import('express').RequestHandler} */
 const appeals = async (req, res) => {
 	const postcode = req.query.search || req.session.interestedParty?.searchPostcode;
+
+	// remove navigation reference and redirect to first page if no postcode
+	if (!postcode) {
+		req.session.navigationHistory.shift();
+		return res.redirect('enter-appeal-reference');
+	}
+
 	/** @type {import('#utils/appeals-view').AppealViewModel[]} */
 	const postcodeSearchResults = await req.appealsApiClient.getPostcodeSearchResults({
 		postcode,
@@ -17,6 +24,8 @@ const appeals = async (req, res) => {
 	});
 
 	if (!postcodeSearchResults.length) {
+		// remove this page from navigation history to ensure back button functions correctly on redirect
+		req.session.navigationHistory.shift();
 		return res.redirect(`appeal-search-no-results?search=${postcode}&type=postcode`);
 	}
 

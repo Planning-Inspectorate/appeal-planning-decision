@@ -1,14 +1,26 @@
 const { JourneyResponse } = require('../journey-response');
 const { RULE_6_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
+const { APPEAL_CASE_STATUS } = require('pins-data-model');
 const logger = require('#lib/logger');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
+const {
+	VIEW: {
+		RULE_6: { APPEAL_OVERVIEW }
+	}
+} = require('../../lib/views');
 
 module.exports = () => async (req, res, next) => {
 	const referenceId = req.params.referenceId;
+	const appealOverviewUrl = `${APPEAL_OVERVIEW}/${referenceId}`;
 	let result;
 
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
+
+	if (appeal.caseStatus !== APPEAL_CASE_STATUS.STATEMENTS) {
+		req.session.navigationHistory.shift();
+		return res.redirect(appealOverviewUrl);
+	}
 
 	const journeyType = RULE_6_JOURNEY_TYPES_FORMATTED.STATEMENT;
 

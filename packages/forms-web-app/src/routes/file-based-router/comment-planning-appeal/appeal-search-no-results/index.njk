@@ -9,9 +9,27 @@
             <label class="govuk-label govuk-label--l" for="appeal-reference">{{pageHeading}} {{ searchQuery }}</label>
             <p class="govuk-body govuk-label--m"><strong>0 results</strong></p>
             <p class="govuk-body">{{paragraph}} {{searchQuery}}.</p>
-            <p class="govuk-body">
-                <a href="{{linkToRelatedSearchPage}}" class="govuk-link">Find a planning appeal</a>
-            </p>
+            <p class="govuk-body">You can:</p>
+            <ul class="govuk-list govuk-list--bullet">
+                {% if typeOfSearch === 'postcode' %}
+                    <li>
+                        <a href="{{linkToRelatedSearchPage}}" class="govuk-link">enter a different postcode</a>
+                    </li>
+                    {% if viewDecidedAppeals %}
+                        <li>
+                            <a href="decided-appeals?search={{ searchQuery | replace(' ', '+') }}">view decided appeals at {{ searchQuery }}</a>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li>
+                        <a href="{{linkToRelatedSearchPage}}" class="govuk-link">find a different appeal</a>
+                    </li>
+                {% endif %}
+                    <li>
+                        try searching for this case on the <a href="https://acp.planninginspectorate.gov.uk/" class="govuk-link">Appeals Casework Portal</a> 
+                    </li>
+                </ul> 
+            
         </div>
     </form>
 {% endblock content %}

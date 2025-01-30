@@ -54,6 +54,12 @@ components:
           type: string
           format: date-time
           description: the date and time the representation was received by the BO
+        userOwnsRepresentation:
+          type: boolean
+          description: added during get request
+        submittingPartyType:
+          type: string
+          description: added during get request [LPA_USER_ROLE, APPEAL_USER_ROLES]
         RepresentationDocuments:
           type: array
           items:

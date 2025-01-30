@@ -3,18 +3,15 @@ const {
 	formatQuestionnaireAppealInformationSection
 } = require('./submission-information-utils');
 const { getLPA, getLPAById } = require('../../../lib/appeals-api-wrapper');
-const {
-	APPEALS_CASE_DATA,
-	APPEAL_USER_ROLES,
-	LPA_USER_ROLE
-} = require('@pins/common/src/constants');
+const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 jest.mock('../../../lib/appeals-api-wrapper');
 
 describe('formatBeforeYouStartSection', () => {
 	const mockAppellantSubmission = {
 		LPACode: '123',
-		appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS,
+		appealTypeCode: CASE_TYPES.HAS.processCode,
 		applicationDecisionDate: '2023-01-01'
 	};
 

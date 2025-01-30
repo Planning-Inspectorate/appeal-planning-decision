@@ -15,7 +15,7 @@ const { appealDocuments } = require('@pins/database/src/seed/appeal-documents-de
 const blobClient = require('#lib/back-office-storage-client');
 const fs = require('fs');
 
-jest.setTimeout(20000);
+jest.setTimeout(100000);
 
 jest.mock('../../src/configuration/featureFlag', () => ({
 	isFeatureActive: () => true

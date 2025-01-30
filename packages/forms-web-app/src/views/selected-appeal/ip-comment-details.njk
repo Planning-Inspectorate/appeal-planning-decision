@@ -32,13 +32,13 @@
 
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 
-			{% for comment in appeal.formattedComments %}
+			{% for comment in appeal.representations %}
                 <h2 class="govuk-heading-l">{{ comment.key.text }}</h2>
                 {{renderComment(comment.value, loop.index, "Comments") }}
             {% endfor %}
         </div>
     </div>
-    
+
     <script src="/public/javascripts/commentActions.bundle.js" defer></script>
-    
+
 {% endblock %}

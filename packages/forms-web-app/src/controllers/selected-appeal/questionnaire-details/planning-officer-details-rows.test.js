@@ -1,6 +1,6 @@
 const { planningOfficerReportRows } = require('./planning-officer-details-rows');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const date = new Date('2020-12-17T03:24:00');
 const formattedDate = '17 Dec 2020';
@@ -8,7 +8,7 @@ const formattedDate = '17 Dec 2020';
 describe('planningOfficerReportRows', () => {
 	it('should create row with correct data if relevant case fields exist and files uploaded/field values otherwise populated', () => {
 		const caseData = {
-			appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS,
+			appealTypeCode: CASE_TYPES.HAS.processCode,
 			infrastructureLevy: true,
 			infrastructureLevyAdopted: true,
 			infrastructureLevyAdoptedDate: date,
@@ -137,7 +137,7 @@ describe('planningOfficerReportRows', () => {
 	});
 	it('should handle false values correctly', () => {
 		const caseData = {
-			appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS,
+			appealTypeCode: CASE_TYPES.HAS.processCode,
 			infrastructureLevy: false,
 			infrastructureLevyAdopted: false,
 			Documents: []
@@ -183,7 +183,7 @@ describe('planningOfficerReportRows', () => {
 
 	it('should set plans, drawings and list of plans condition as false if not HAS appeal type', () => {
 		const caseData = {
-			appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78,
+			appealTypeCode: CASE_TYPES.S78.processCode,
 			infrastructureLevy: true,
 			infrastructureLevyAdopted: true,
 			infrastructureLevyAdoptedDate: date,

@@ -4,9 +4,10 @@ const { VIEW } = require('../../../lib/views');
 const { mockReq, mockRes } = require('../../../../__tests__/unit/mocks');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { formatTitleSuffix } = require('../../../lib/selected-appeal-page-setup');
+const { getServiceUserId } = require('../../../services/user.service');
 const { formatHeadlineData } = require('@pins/common');
 const {
-	filterRepresentationsBySubmittingParty,
+	filterRepresentationsForDisplay,
 	formatRepresentationHeading,
 	formatRepresentations
 } = require('../../../lib/representation-functions');
@@ -19,6 +20,7 @@ const {
 jest.mock('../../../services/department.service');
 jest.mock('../../../lib/selected-appeal-page-setup');
 jest.mock('../../../lib/representation-functions');
+jest.mock('../../../services/user.service');
 
 jest.mock('@pins/common');
 
@@ -26,6 +28,7 @@ describe('controllers/selected-appeal/representations', () => {
 	let req;
 	let res;
 	const appealNumber = 'ABC123';
+	const testServiceUserId = '12345';
 	const testCaseData = {
 		LPACode: 'ABC',
 		appealNumber,
@@ -46,7 +49,8 @@ describe('controllers/selected-appeal/representations', () => {
 		getDepartmentFromCode.mockImplementation(() => Promise.resolve({ name: 'Test LPA' }));
 		formatHeadlineData.mockImplementation(() => ({ title: 'Appeal Headline Data' }));
 		formatTitleSuffix.mockImplementation(() => 'test title suffix');
-		filterRepresentationsBySubmittingParty.mockImplementation(() => []);
+		getServiceUserId.mockImplementation(() => testServiceUserId);
+		filterRepresentationsForDisplay.mockImplementation(() => []);
 		formatRepresentationHeading.mockImplementation(() => 'test representation heading');
 		formatRepresentations.mockImplementation(() => ['test reps']);
 	});
@@ -69,19 +73,13 @@ describe('controllers/selected-appeal/representations', () => {
 			'ABC123',
 			testParams.representationType
 		);
-		expect(filterRepresentationsBySubmittingParty).toHaveBeenCalledWith(
-			testCaseData,
-			LPA_USER_ROLE
-		);
+		expect(filterRepresentationsForDisplay).toHaveBeenCalledWith(testCaseData, testParams);
 		expect(formatRepresentations).toHaveBeenCalledWith([]);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
-		expect(formatRepresentationHeading).toHaveBeenCalledWith(
-			testParams.representationType,
-			testParams.userType,
-			testParams.submittingParty
-		);
+		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
 		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS, {
 			layoutTemplate: testLayoutTemplate,
+			showLabel: false,
 			titleSuffix: 'test title suffix',
 			heading: 'test representation heading',
 			appeal: {
@@ -111,18 +109,15 @@ describe('controllers/selected-appeal/representations', () => {
 			'ABC123',
 			testParams.representationType
 		);
-		expect(filterRepresentationsBySubmittingParty).not.toHaveBeenCalled();
+		expect(filterRepresentationsForDisplay).toHaveBeenCalledWith(testCaseData, testParams);
 		expect(formatRepresentations).toHaveBeenCalledWith([]);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
-		expect(formatRepresentationHeading).toHaveBeenCalledWith(
-			testParams.representationType,
-			testParams.userType,
-			testParams.submittingParty
-		);
-		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS, {
+		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
+		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS, {
 			layoutTemplate: testLayoutTemplate,
 			titleSuffix: 'test title suffix',
 			heading: 'test representation heading',
+			showLabel: false,
 			appeal: {
 				appealNumber: 'ABC123',
 				headlineData: { title: 'Appeal Headline Data' },

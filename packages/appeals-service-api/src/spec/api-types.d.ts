@@ -468,7 +468,7 @@ export interface AppealCase {
 	rule6ProofEvidenceSubmittedDate?: string;
 	interestedPartyCommentsPublished?: boolean;
 	Rule6Parties?: object[];
-	AffectedListedBuildings?: object[];
+	ListedBuildings?: object[];
 	Documents?: object[];
 	NeighbouringAddresses?: object[];
 	Events?: Event[];
@@ -583,7 +583,7 @@ export interface AppealUser {
 	/** is this user enrolled? (have they been sent a registration confirmation email) */
 	isEnrolled?: boolean;
 	/** service user ID to map to service users */
-	serviceUserId?: number;
+	serviceUserId?: string;
 	/** is this an LPA user? */
 	isLpaUser?: boolean;
 	/** if an LPA user, the LPA this user belongs to */
@@ -673,7 +673,7 @@ export interface AppellantSubmission {
 	/** @format uuid */
 	id?: string;
 	LPACode?: string;
-	appealTypeCode?: 'HAS' | 'S78';
+	appealTypeCode?: 'HAS' | 'S78' | 'S20';
 	/** @format date-time */
 	applicationDecisionDate?: string;
 	applicationDecision?: string;
@@ -728,6 +728,7 @@ export interface AppellantSubmission {
 	appellantPreferInquiryWitnesses?: number;
 	siteArea?: number;
 	tenantAgriculturalHolding?: boolean;
+	section3aGrant?: boolean;
 	appellantLinkedCaseAdd?: boolean;
 	appellantLinkedCase?: boolean;
 	SubmissionLinkedCase?: object[];
@@ -1289,6 +1290,10 @@ export interface Representation {
 	 * @format date-time
 	 */
 	dateReceived?: string;
+	/** added during get request */
+	userOwnsRepresentation?: boolean;
+	/** added during get request [LPA_USER_ROLE, APPEAL_USER_ROLES] */
+	submittingPartyType?: string;
 	RepresentationDocuments?: RepresentationDocument[];
 }
 

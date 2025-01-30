@@ -79,14 +79,14 @@ describe('LPA and Appellant Sections', () => {
 			});
 			it('should show "View other party statements" when rule6StatementPublished is true', () => {
 				const section = findSectionByHeading(lpaSections, 'Statements');
-				const link = findLinkByUrl(section, '/rule-6-statements');
+				const link = findLinkByUrl(section, '/other-party-statements');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View other party statements');
 			});
 			it('should not show "View other party statements" when rule6StatementPublished is absent', () => {
 				appealCase.rule6StatementPublished = null;
 				const section = findSectionByHeading(lpaSections, 'Statements');
-				const link = findLinkByUrl(section, '/rule-6-statements');
+				const link = findLinkByUrl(section, '/other-party-statements');
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 		});
@@ -147,38 +147,38 @@ describe('LPA and Appellant Sections', () => {
 		describe('Proof of evidence and witnesses', () => {
 			it('should show "View your proof of evidence and witnesses" when lpaProofEvidencePublished is true', () => {
 				const section = findSectionByHeading(lpaSections, 'Proof of evidence and witnesses');
-				const link = findLinkByUrl(section, '/lpa-proof-of-evidences');
+				const link = findLinkByUrl(section, '/proof-evidence');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View your proof of evidence and witnesses');
 			});
 			it('should not show "View your proof of evidence and witnesses" when lpaProofEvidencePublished is absent', () => {
 				appealCase.lpaProofEvidencePublished = null;
 				const section = findSectionByHeading(lpaSections, 'Proof of evidence and witnesses');
-				const link = findLinkByUrl(section, '/lpa-proof-of-evidences');
+				const link = findLinkByUrl(section, '/proof-evidence');
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 			it("should show 'View the appellant's proof of evidence and witnesses' when appellantProofEvidencePublished is true", () => {
 				const section = findSectionByHeading(lpaSections, 'Proof of evidence and witnesses');
-				const link = findLinkByUrl(section, '/proof-of-evidences');
+				const link = findLinkByUrl(section, '/appellant-proof-evidence');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe("View the appellant's proof of evidence and witnesses");
 			});
 			it("should not show 'View the appellant's proof of evidence and witnesses' when appellantProofEvidencePublished is absent", () => {
 				appealCase.appellantProofEvidencePublished = null;
 				const section = findSectionByHeading(lpaSections, 'Proof of evidence and witnesses');
-				const link = findLinkByUrl(section, '/proof-of-evidences');
+				const link = findLinkByUrl(section, '/appellant-proof-evidence');
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 			it("should show 'View proof of evidence and witnesses from other parties' when rule6ProofsEvidencePublished is true", () => {
 				const section = findSectionByHeading(lpaSections, 'Proof of evidence and witnesses');
-				const link = findLinkByUrl(section, '/rule-6-proof-of-evidences');
+				const link = findLinkByUrl(section, '/other-party-proof-evidence');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View proof of evidence and witnesses from other parties');
 			});
 			it("should not show 'View proof of evidence and witnesses from other parties' when rule6ProofsEvidencePublished is absent", () => {
 				appealCase.rule6ProofsEvidencePublished = null;
 				const section = findSectionByHeading(lpaSections, 'Proof of evidence and witnesses');
-				const link = findLinkByUrl(section, '/rule-6-proof-of-evidences');
+				const link = findLinkByUrl(section, '/other-party-proof-evidence');
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 		});
@@ -221,14 +221,14 @@ describe('LPA and Appellant Sections', () => {
 			});
 			it('should show "View other party statements" when rule6StatementPublished is true', () => {
 				const section = findSectionByHeading(appellantSections, 'Statements');
-				const link = findLinkByUrl(section, '/rule-6-statements');
+				const link = findLinkByUrl(section, '/other-party-statements');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View other party statements');
 			});
 			it('should not show "View other party statements" when rule6StatementPublished is absent', () => {
 				appealCase.rule6StatementPublished = null;
 				const section = findSectionByHeading(appellantSections, 'Statements');
-				const link = findLinkByUrl(section, '/rule-6-statements');
+				const link = findLinkByUrl(section, '/other-party-statements');
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 		});
@@ -289,19 +289,19 @@ describe('LPA and Appellant Sections', () => {
 		describe('Proof of evidence and witnesses', () => {
 			it('should show "View your proof of evidence and witnesses" when appellantProofEvidencePublished is true', () => {
 				const section = findSectionByHeading(appellantSections, 'Proof of evidence and witnesses');
-				const link = findLinkByUrl(section, '/proof-of-evidences');
+				const link = findLinkByUrl(section, '/proof-evidence');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View your proof of evidence and witnesses');
 			});
 			it('should not show "View your proof of evidence and witnesses" when appellantProofEvidencePublished is absent', () => {
 				appealCase.appellantProofEvidencePublished = null;
 				const section = findSectionByHeading(appellantSections, 'Proof of evidence and witnesses');
-				const link = findLinkByUrl(section, '/proof-of-evidences');
+				const link = findLinkByUrl(section, '/proof-evidence');
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 			it("should show 'View the local planning authority proof of evidence and witnesses' when lpaProofEvidencePublished is true", () => {
 				const section = findSectionByHeading(appellantSections, 'Proof of evidence and witnesses');
-				const link = findLinkByUrl(section, '/lpa-proof-of-evidences');
+				const link = findLinkByUrl(section, '/lpa-proof-evidence');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe(
 					'View the local planning authority proof of evidence and witnesses'
@@ -310,19 +310,19 @@ describe('LPA and Appellant Sections', () => {
 			it("should not show 'View the local planning authority proof of evidence and witnesses' when lpaProofEvidencePublished is absent", () => {
 				appealCase.lpaProofEvidencePublished = null;
 				const section = findSectionByHeading(appellantSections, 'Proof of evidence and witnesses');
-				const link = findLinkByUrl(section, '/lpa-proof-of-evidences');
+				const link = findLinkByUrl(section, '/lpa-proof-evidence');
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 			it("should show 'View other party proof of evidence and witnesses' when rule6ProofsEvidencePublished is true", () => {
 				const section = findSectionByHeading(appellantSections, 'Proof of evidence and witnesses');
-				const link = findLinkByUrl(section, '/rule-6-proof-of-evidences');
+				const link = findLinkByUrl(section, '/other-party-proof-evidence');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View other party proof of evidence and witnesses');
 			});
 			it("should not show 'View proof of evidence and witnesses from other parties' when rule6ProofsEvidencePublished is absent", () => {
 				appealCase.rule6ProofsEvidencePublished = null;
 				const section = findSectionByHeading(appellantSections, 'Proof of evidence and witnesses');
-				const link = findLinkByUrl(section, '/rule-6-proof-of-evidences');
+				const link = findLinkByUrl(section, '/other-party-proof-evidence');
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 		});

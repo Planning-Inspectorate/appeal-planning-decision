@@ -141,7 +141,7 @@ async function listByLpaCodeWithAppellant(options) {
  * List cases by postcode
  *
  * @param {Object} options
- * @param {string} options.postcode
+ * @param {string} options.sanitizedPostcode
  * @param {boolean} options.decidedOnly - if true, only decided cases; else ONLY cases not decided
  * @param {boolean} options.withAppellant - if true, include the appellant if available
  * @returns {Promise<AppealCaseDetailed[]>}
