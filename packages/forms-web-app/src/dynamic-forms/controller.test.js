@@ -1,8 +1,20 @@
-const { list, question, save, remove, submit, lpaSubmitted } = require('./controller');
+const {
+	list,
+	question,
+	save,
+	remove,
+	submit,
+	lpaSubmitted,
+	appellantStartAppeal
+} = require('./controller');
 const { getUserFromSession } = require('../services/user.service');
 const { Journey } = require('./journey');
 const { SECTION_STATUS } = require('./section');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
+const { getDepartmentFromId } = require('../services/department.service');
+const { deleteAppeal } = require('#lib/appeals-api-wrapper');
+
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const { mockReq, mockRes } = require('../../__tests__/unit/mocks');
 
@@ -188,6 +200,8 @@ const mockSection = {
 };
 
 jest.mock('../services/pdf.service');
+jest.mock('../services/department.service');
+jest.mock('#lib/appeals-api-wrapper');
 jest.mock('../services/user.service');
 jest.mock('./journey-factory');
 
@@ -220,7 +234,9 @@ describe('dynamic-form/controller', () => {
 			appealsApiClient: {
 				getUsersAppealCase: jest.fn(),
 				submitLPAQuestionnaire: jest.fn(),
-				patchLPAQuestionnaire: jest.fn()
+				patchLPAQuestionnaire: jest.fn(),
+				createAppellantSubmission: jest.fn(),
+				patchAppealById: jest.fn()
 			},
 			...mockReq(null)
 		};
@@ -577,6 +593,51 @@ describe('dynamic-form/controller', () => {
 				zipDownloadUrl:
 					'https://test/manage-appeals/householder/100/download/submission/documents/lpa-questionnaire'
 			});
+		});
+	});
+
+	describe('appellantStartAppeal', () => {
+		const appeal = {
+			id: '123',
+			appealType: CASE_TYPES.HAS.id.toString(),
+			lpaCode: 'some-lpa-code',
+			appealSqlId: 'some-appeal-sql-id',
+			decisionDate: '2023-01-01',
+			planningApplicationNumber: 'some-application-number',
+			eligibility: {
+				applicationDecision: 'some-decision'
+			}
+		};
+		const lpa = { lpaCode: 'some-lpa-code', id: 'some-id' };
+
+		it('should generate appellant submission and redirect', async () => {
+			getDepartmentFromId.mockResolvedValue(lpa);
+			req.appealsApiClient.createAppellantSubmission.mockResolvedValue({
+				id: 'some-submission-id'
+			});
+			req.session.appeal = appeal;
+
+			await appellantStartAppeal(req, res);
+
+			expect(getDepartmentFromId).toHaveBeenCalledWith(appeal.lpaCode);
+			expect(req.appealsApiClient.createAppellantSubmission).toHaveBeenCalledWith({
+				appealId: appeal.appealSqlId,
+				LPACode: lpa.lpaCode,
+				appealTypeCode: CASE_TYPES.HAS.processCode,
+				applicationDecisionDate: appeal.decisionDate,
+				applicationReference: appeal.planningApplicationNumber,
+				applicationDecision: appeal.eligibility.applicationDecision
+			});
+			expect(deleteAppeal).toHaveBeenCalledWith(appeal.id);
+			expect(req.session.appeal).toBeNull();
+			expect(req.appealsApiClient.patchAppealById).toHaveBeenCalledWith(appeal.appealSqlId, {
+				legacyAppealSubmissionId: null,
+				legacyAppealSubmissionDecisionDate: null,
+				legacyAppealSubmissionState: null
+			});
+			expect(res.redirect).toHaveBeenCalledWith(
+				'/appeals/householder/appeal-form/your-appeal?id=some-submission-id'
+			);
 		});
 	});
 });
