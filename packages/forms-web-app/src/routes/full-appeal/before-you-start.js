@@ -7,6 +7,7 @@ const decisionDateRouter = require('./decision-date');
 const dateDecisionDueRouter = require('./date-decision-due');
 const priorApprovalExistingHomeRouter = require('./prior-approval-existing-home');
 const useExistingServiceEnforcementNotice = require('./use-existing-service-enforcement-notice');
+const listedBuildingRouter = require('./listed-building');
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ router.use(decisionDateRouter);
 router.use(dateDecisionDueRouter);
 router.use(priorApprovalExistingHomeRouter);
 router.use(useExistingServiceEnforcementNotice);
+router.use(listedBuildingRouter);
 
 module.exports = router;

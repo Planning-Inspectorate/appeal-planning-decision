@@ -12,9 +12,11 @@ const {
 	}
 } = require('../../../../src/lib/views');
 const config = require('../../../../src/config');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 jest.mock('../../../../src/lib/logger');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
 
 describe('controllers/full-appeal/any-of-following', () => {
 	let req;
@@ -31,13 +33,22 @@ describe('controllers/full-appeal/any-of-following', () => {
 		jest.resetAllMocks();
 	});
 
-	it('should render any of following page', () => {
-		getAnyOfFollowing(req, res);
+	describe('getAnyOfFollowing', () => {
+		it('should render page', async () => {
+			await getAnyOfFollowing(req, res);
 
-		expect(res.render).toHaveBeenCalledWith(ANY_OF_FOLLOWING, {
-			bannerHtmlOverride: config.betaBannerText,
-			applicationCategories: ['none_of_these'],
-			typeOfPlanningApplication: 'full-appeal'
+			expect(res.render).toHaveBeenCalledWith(ANY_OF_FOLLOWING, {
+				bannerHtmlOverride: config.betaBannerText,
+				applicationCategories: ['none_of_these'],
+				typeOfPlanningApplication: 'full-appeal'
+			});
+		});
+
+		it('should redirect if v2', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			await getAnyOfFollowing(req, res);
+			expect(res.render).not.toHaveBeenCalled();
+			expect(res.redirect).toHaveBeenCalledWith(config.appeals.startingPointEnrolUsersActive);
 		});
 	});
 

@@ -9,6 +9,8 @@ const {
 	}
 } = require('../../lib/views');
 const config = require('../../config');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 const sectionName = 'eligibility';
 
@@ -72,8 +74,14 @@ const postPriorApprovalExistingHome = async (req, res) => {
 		});
 	}
 
-	return hasPriorApprovalForExistingHome
-		? res.redirect('/before-you-start/listed-building-householder')
+	if (hasPriorApprovalForExistingHome) {
+		return res.redirect('/before-you-start/listed-building-householder');
+	}
+
+	const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+
+	return isV2
+		? res.redirect('/before-you-start/listed-building')
 		: res.redirect('/before-you-start/any-of-following');
 };
 

@@ -16,9 +16,11 @@ const {
 	mapPlanningApplication
 } = require('../../../../src/lib/full-appeal/map-planning-application');
 const config = require('../../../../src/config');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
+jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
 
 describe('controllers/full-appeal/type-of-planning-application', () => {
 	let req;
@@ -35,13 +37,13 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		it('should call the correct template on getTypeOfPlanningApplication', async () => {
 			await getTypeOfPlanningApplication(req, res);
 
-			expect(res.render).toBeCalledWith(TYPE_OF_PLANNING_APPLICATION, {
+			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				bannerHtmlOverride: config.betaBannerText,
 				typeOfPlanningApplication: 'full-appeal'
 			});
 		});
 
-		it('should redirect to the listed building page', async () => {
+		it('should redirect to the listed building page if HAS', async () => {
 			const planningApplication = 'householder-planning';
 			const mockRequest = {
 				...req,
@@ -58,10 +60,10 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				...updatedAppeal
 			});
 
-			expect(res.redirect).toBeCalledWith('/before-you-start/listed-building-householder');
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/listed-building-householder');
 		});
 
-		it('should redirect to the shutter page', async () => {
+		it('should redirect to the shutter page if something-else', async () => {
 			const planningApplication = 'something-else';
 
 			const mockRequest = {
@@ -79,12 +81,12 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				...updatedAppeal
 			});
 
-			expect(res.redirect).toBeCalledWith(
+			expect(res.redirect).toHaveBeenCalledWith(
 				'/before-you-start/use-existing-service-application-type'
 			);
 		});
 
-		it('should redirect to the shutter page', async () => {
+		it('should redirect to the shutter page if i-have-not-made-a-planning-application', async () => {
 			const planningApplication = 'i-have-not-made-a-planning-application';
 
 			const mockRequest = {
@@ -102,31 +104,62 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				...updatedAppeal
 			});
 
-			expect(res.redirect).toBeCalledWith(
+			expect(res.redirect).toHaveBeenCalledWith(
 				'/before-you-start/use-existing-service-application-type'
 			);
 		});
 
-		it('should redirect to the about appeal page', async () => {
-			const planningApplication = 'outline-planning';
+		const defaultTypes = ['outline-planning', 'full-appeal', 'reserved-matters'];
 
-			const mockRequest = {
-				...req,
-				body: { 'type-of-planning-application': planningApplication }
-			};
+		it.each(defaultTypes)(
+			'should redirect to the any-of-following page if %s - v1',
+			async (type) => {
+				console.log(type);
+				const planningApplication = type;
 
-			await postTypeOfPlanningApplication(mockRequest, res);
+				const mockRequest = {
+					...req,
+					body: { 'type-of-planning-application': planningApplication }
+				};
 
-			const updatedAppeal = appeal;
-			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
-			updatedAppeal.typeOfPlanningApplication = planningApplication;
+				await postTypeOfPlanningApplication(mockRequest, res);
 
-			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-				...updatedAppeal
-			});
+				const updatedAppeal = appeal;
+				updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+				updatedAppeal.typeOfPlanningApplication = planningApplication;
 
-			expect(res.redirect).toBeCalledWith('/before-you-start/any-of-following');
-		});
+				expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+					...updatedAppeal
+				});
+
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/any-of-following');
+			}
+		);
+
+		it.each(defaultTypes)(
+			'should redirect to the any-of-following page if %s - v2',
+			async (type) => {
+				isLpaInFeatureFlag.mockReturnValueOnce(true);
+				const planningApplication = type;
+
+				const mockRequest = {
+					...req,
+					body: { 'type-of-planning-application': planningApplication }
+				};
+
+				await postTypeOfPlanningApplication(mockRequest, res);
+
+				const updatedAppeal = appeal;
+				updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+				updatedAppeal.typeOfPlanningApplication = planningApplication;
+
+				expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+					...updatedAppeal
+				});
+
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/listed-building');
+			}
+		);
 
 		it('should redirect to the prior approval page', async () => {
 			const planningApplication = 'prior-approval';
@@ -146,7 +179,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				...updatedAppeal
 			});
 
-			expect(res.redirect).toBeCalledWith('/before-you-start/prior-approval-existing-home');
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/prior-approval-existing-home');
 		});
 
 		it('should redirect to the removal or variation of conditions page', async () => {
@@ -167,7 +200,9 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				...updatedAppeal
 			});
 
-			expect(res.redirect).toBeCalledWith('/before-you-start/conditions-householder-permission');
+			expect(res.redirect).toHaveBeenCalledWith(
+				'/before-you-start/conditions-householder-permission'
+			);
 		});
 
 		it('should render errors on the page', async () => {
@@ -187,7 +222,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
-			expect(res.render).toBeCalledWith(TYPE_OF_PLANNING_APPLICATION, {
+			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				bannerHtmlOverride: config.betaBannerText,
 				typeOfPlanningApplication: undefined,
 				errors: {

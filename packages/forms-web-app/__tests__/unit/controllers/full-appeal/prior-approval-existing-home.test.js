@@ -11,10 +11,12 @@ const {
 		FULL_APPEAL: { PRIOR_APPROVAL_EXISTING_HOME }
 	}
 } = require('../../../../src/lib/views');
+const config = require('../../../../src/config');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/task.service');
-const config = require('../../../../src/config');
+jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
 
 describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', () => {
 	let req;
@@ -125,7 +127,7 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 			expect(req.session.appeal).toEqual(submittedAppeal);
 		});
 
-		it('should redirect to the correct page if `no` has been selected', async () => {
+		it('should redirect to the correct page if `no` has been selected - v1', async () => {
 			fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = false;
 			fullAppealCopy.appealType = '1005';
 
@@ -147,6 +149,32 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullAppealCopy);
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/any-of-following');
+			expect(req.session.appeal).toEqual(submittedAppeal);
+		});
+
+		it('should redirect to the correct page if `no` has been selected - v2', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = false;
+			fullAppealCopy.appealType = '1005';
+
+			const submittedAppeal = {
+				...fullAppealCopy,
+				state: 'SUBMITTED'
+			};
+
+			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+			req = {
+				...req,
+				body: {
+					'prior-approval-existing-home': 'no'
+				}
+			};
+
+			await postPriorApprovalExistingHome(req, res);
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullAppealCopy);
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/listed-building');
 			expect(req.session.appeal).toEqual(submittedAppeal);
 		});
 	});
