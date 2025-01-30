@@ -36,13 +36,13 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'Separate ownership certificate in application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OWNERSHIP_CERTIFICATE),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
 			keyText: 'Design and access statement in application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
@@ -60,7 +60,7 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'New plans or drawings',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.NEW_PLANS_DRAWINGS),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
@@ -71,25 +71,25 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'Planning obligation',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
 			keyText: 'New supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
 			keyText: 'Draft statement of common ground',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
 			keyText: 'Evidence of agreement to change description of development',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
