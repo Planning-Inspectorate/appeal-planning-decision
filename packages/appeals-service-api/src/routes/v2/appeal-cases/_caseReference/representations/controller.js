@@ -1,8 +1,8 @@
 const {
 	getAppealCaseWithAllRepresentations,
 	getAppealCaseWithRepresentationsByType,
-	addOwnershipAndSubmissionDetailsToRepresentations
-	// putRepresentation
+	addOwnershipAndSubmissionDetailsToRepresentations,
+	putRepresentation
 } = require('./service');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
@@ -64,29 +64,32 @@ async function getAppealCaseWithRepresentations(req, res) {
 	}
 }
 
-// /**
-//  * @type {import('express').RequestHandler}
-//  */
-// async function putByRepresentationId(req, res) {
-// 	const { representationId } = req.params;
+/**
+ * @type {import('express').RequestHandler}
+ */
+async function putByRepresentationId(req, res) {
+	const { representationId } = req.params;
 
-// 	if (!representationId) {
-// 		throw ApiError.withMessage(400, 'representation id required');
-// 	}
+	if (!representationId) {
+		throw ApiError.withMessage(400, 'representation id required');
+	}
 
-// 	try {
-// 		const representation = await putRepresentation(representationId, req.body);
-// 		res.status(200).send(representation);
-// 	} catch (err) {
-// 		if (err instanceof ApiError) {
-// 			throw err; // re-throw service errors
-// 		}
-// 		logger.error({ error: err, representationId }, 'error upserting representation by representation id');
-// 		throw ApiError.withMessage(500, 'unexpected error');
-// 	}
-// }
+	try {
+		const representation = await putRepresentation(representationId, req.body);
+		res.status(200).send(representation);
+	} catch (err) {
+		if (err instanceof ApiError) {
+			throw err; // re-throw service errors
+		}
+		logger.error(
+			{ error: err, representationId },
+			'error upserting representation by representation id'
+		);
+		throw ApiError.withMessage(500, 'unexpected error');
+	}
+}
 
 module.exports = {
-	getAppealCaseWithRepresentations
-	// putByRepresentationId
+	getAppealCaseWithRepresentations,
+	putByRepresentationId
 };
