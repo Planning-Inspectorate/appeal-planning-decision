@@ -171,22 +171,33 @@ class RepresentationsRepository {
 			}
 		});
 
-		// need to add an if guard rail?
-		await this.dbClient.$transaction(async (tx) => {
-			// delete all relations that use this case
-			await tx.representationDocument.deleteMany({
-				where: {
-					representationId
-				}
-			});
+		if (data.documentIds?.length) {
+			const existingIds = await Promise.all(
+				data.documentIds.filter(async (documentId) => {
+					(await this.dbClient.document.count({
+						where: {
+							id: documentId
+						}
+					})) > 0;
+				})
+			);
 
-			await tx.representationDocument.createMany({
-				data: data.documentIds.map((documentId) => ({
-					representationId,
-					documentId
-				}))
+			await this.dbClient.$transaction(async (tx) => {
+				// delete all relations that use this case
+				await tx.representationDocument.deleteMany({
+					where: {
+						representationId
+					}
+				});
+
+				await tx.representationDocument.createMany({
+					data: existingIds.map((documentId) => ({
+						representationId: result.id,
+						documentId
+					}))
+				});
 			});
-		});
+		}
 
 		return result;
 	}
