@@ -1268,7 +1268,7 @@ export interface Representation {
 	caseReference: string;
 	AppealCase?: object;
 	/** Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ] */
-	status?: string;
+	representationStatus?: string;
 	/** The original representation */
 	originalRepresentation?: boolean;
 	/** Indicates if the representation is redacted */
@@ -1278,7 +1278,9 @@ export interface Representation {
 	/** Unique identifier for the case team member that performed the redaction */
 	redactedBy?: string;
 	/** a json array of reasons why the representation has been marked as invalid */
-	invalidDetails?: string;
+	invalidOrIncompleteDetails?: string;
+	/** a json array of free text other reasons why the representation has been marked as invalid */
+	otherInvalidOrIncompleteDetails?: string;
 	/** source of the representation (citizen or LPA), ["lpa", "citizen"] */
 	source?: string;
 	/** service User Id of the person or organisation making the representation */
