@@ -1,5 +1,7 @@
 const { RepresentationsRepository } = require('./repo');
 const { appendAppellantAndAgent } = require('../../service');
+const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
+const ApiError = require('#errors/apiError');
 const {
 	REPRESENTATION_TYPES,
 	LPA_USER_ROLE,
@@ -9,8 +11,8 @@ const { getServiceUsersWithEmailsByIdAndCaseReference } = require('../../../serv
 const { APPEAL_SOURCE } = require('pins-data-model');
 const repo = new RepresentationsRepository();
 
-// const { SchemaValidator } = require('../../../../../services/back-office-v2/validate');
-// const { getValidator } = new SchemaValidator();
+const { SchemaValidator } = require('../../../../../services/back-office-v2/validate');
+const { getValidator } = new SchemaValidator();
 
 /**
  * @template Payload
@@ -125,55 +127,36 @@ function ascertainSubmittingParty(representation, serviceUsersWithEmails) {
 		?.serviceUserType;
 }
 
+/**
+ * Put a representation by representation id
+ *
+ * @param {string} representationId
+ * @param {AppealRepresentation} data
+ * @returns {Promise<Representation>}
+ */
+async function putReference(representationId, data) {
+	try {
+		/** @type {Validate<AppealRepresentation>} */
+		const representationValidator = getValidator('appeal-representation');
+
+		if (!representationValidator(data)) {
+			throw ApiError.badRequest('Payload was invalid');
+		}
+
+		const result = await repo.putRepresentationByRepresentationId(representationId, data);
+
+		return result;
+	} catch (err) {
+		if (err instanceof PrismaClientValidationError) {
+			throw ApiError.badRequest(err.message);
+		}
+		throw err;
+	}
+}
+
 module.exports = {
 	getAppealCaseWithAllRepresentations,
 	getAppealCaseWithRepresentationsByType,
-	addOwnershipAndSubmissionDetailsToRepresentations
-// /**
-//  * Put a representation by representation id
-//  *
-//  * @param {string} representationId
-//  * @param {AppealRepresentation} data
-//  * @returns {Promise<AppealCase>}
-//  */
-// async function putReference(representationId, data) {
-// 	try {
-// 		/** @type {Validate<AppealRepresentation>} */
-// 		const representationValidator = getValidator('appeal-representation');
-
-// 		if (!representationValidator(data)) {
-// 			throw ApiError.badRequest('Payload was invalid');
-// 		}
-
-// 		const result = await repo.putRepresentationByRepresentationId(representationId, CASE_TYPES.HAS.processCode, {
-// 			...data
-// 		});
-
-// 		// send email confirming appeal to user if this creates a new appeal
-// 		// if (!result.exists && result.appellantSubmission) {
-// 		// 	const email = await repo.getAppealUserEmailAddress(caseReference);
-
-// 		// 	if (!email) {
-// 		// 		throw Error(`no user email associated with: ${caseReference}`);
-// 		// 	}
-// 		// 	await sendSubmissionConfirmationEmailToAppellantV2(
-// 		// 		result.appealCase,
-// 		// 		result.appellantSubmission,
-// 		// 		email
-// 		// 	);
-// 		// }
-
-// 		return result;
-// 	} catch (err) {
-// 		if (err instanceof PrismaClientValidationError) {
-// 			throw ApiError.badRequest(err.message);
-// 		}
-// 		throw err;
-// 	}
-// }
-
-module.exports = {
-	getAppealCaseWithAllRepresentations,
-	getAppealCaseWithRepresentationsByType
-	// putReference
+	addOwnershipAndSubmissionDetailsToRepresentations,
+	putReference
 };
