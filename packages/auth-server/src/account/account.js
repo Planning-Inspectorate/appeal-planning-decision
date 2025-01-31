@@ -1,13 +1,14 @@
 import { UnknownUserId } from 'oidc-provider/lib/helpers/errors.js';
-import { sendConfirmRegistrationEmailToAppellant } from '../lib/notify.js';
 import { isEmailLike } from '../validators/email.js';
-
-import Repository from './repository.js';
-const repo = new Repository();
 
 /** @type {Map<string, {account: Account, timestamp: number}>} **/
 const store = new Map(); // user store cache, updates made outside of this class won't be reflected in tokens until next refresh
 const CACHE_DURATION_MS = 300_000; // 5 mins
+
+/** @type {import('./repository.js').default} */
+let repo;
+/** @type {import('../lib/notify.js').default} */
+let notify;
 
 class Account {
 	/**
@@ -28,7 +29,7 @@ class Account {
 		) {
 			this.user.isEnrolled = true;
 			await repo.updateUser(this.user);
-			await sendConfirmRegistrationEmailToAppellant(this.user.email, this.accountId);
+			await notify.sendConfirmRegistrationEmailToAppellant(this.user.email, this.accountId);
 		}
 	}
 
@@ -66,11 +67,9 @@ class Account {
 	/**
 	 * @param {import('oidc-provider').KoaContextWithOIDC} ctx
 	 * @param {string} id
-	 * @param {import('oidc-provider/lib/models/base_token.js') | undefined} token // token is a reference to the token used for which a given account is being loaded,
-	 *  it is undefined in scenarios where account claims are returned from authorization endpoint
 	 * @returns {Promise<Account>}
 	 */ // eslint-disable-next-line no-unused-vars
-	static async findAccount(ctx, id, token) {
+	static async findAccount(ctx, id) {
 		const cachedEntry = store.get(id);
 
 		if (cachedEntry) {
@@ -90,6 +89,14 @@ class Account {
 		if (!user) throw new UnknownUserId(id);
 
 		return new Account(user.id, user);
+	}
+
+	/**
+	 * @param {import('../app.js').dependencies} dependencies
+	 */
+	static setDependencies(dependencies) {
+		repo = dependencies.accountRepo;
+		notify = dependencies.notify;
 	}
 }
 
