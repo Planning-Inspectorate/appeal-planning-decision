@@ -42,12 +42,12 @@ const filterRepresentationsForDisplay = (caseData, representationParams) => {
 			!!rule6OwnRepresentations
 		).filter(
 			(representation) =>
-				representation.userOwnsRepresentation || representation.status == 'published'
+				representation.userOwnsRepresentation || representation.representationStatus == 'published'
 		);
 	} else {
 		return representationsFilteredBySubmittingParty.filter(
 			(representation) =>
-				representation.userOwnsRepresentation || representation.status == 'published'
+				representation.userOwnsRepresentation || representation.representationStatus == 'published'
 		);
 	}
 };

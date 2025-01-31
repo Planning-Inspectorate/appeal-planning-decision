@@ -1217,21 +1217,22 @@ model Representation {
   /// this ID is for front office only
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
-  representationId        String                   @unique /// The unique identifier for the representation
-  caseId                  Int? /// Internal case identifier
-  caseReference           String /// External case identifier
-  AppealCase              AppealCase               @relation(fields: [caseReference], references: [caseReference])
-  status                  String? /// Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ]
-  originalRepresentation  String?                  @db.NVarChar(Max) /// The original representation
-  redacted                Boolean? /// Indicates if the representation is redacted
-  redactedRepresentation  String?                  @db.NVarChar(Max) /// The redacted version of the representation
-  redactedBy              String? /// Unique identifier for the case team member that performed the redaction
-  invalidDetails          String? /// A json array of reasons why the representation has been marked as invalid
-  source                  String? /// Source of the representation (citizen or LPA), ["lpa", "citizen"]
-  serviceUserId           String? /// Service User Id of the person or organisation making the representation
-  representationType      String? /// The type of representation, ["statement", "comment", "final_comment", "proofs_evidence", null]
-  dateReceived            DateTime?
-  RepresentationDocuments RepresentationDocument[]
+  representationId                String                   @unique /// The unique identifier for the representation
+  caseId                          Int? /// Internal case identifier
+  caseReference                   String /// External case identifier
+  AppealCase                      AppealCase               @relation(fields: [caseReference], references: [caseReference])
+  representationStatus            String? /// Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ]
+  originalRepresentation          String?                  @db.NVarChar(Max) /// The original representation
+  redacted                        Boolean? /// Indicates if the representation is redacted
+  redactedRepresentation          String?                  @db.NVarChar(Max) /// The redacted version of the representation
+  redactedBy                      String? /// Unique identifier for the case team member that performed the redaction
+  invalidOrIncompleteDetails      String? /// A json array of reasons why the representation has been marked as invalid
+  otherInvalidOrIncompleteDetails String? /// A json array of free text other reasons why the representation has been marked as invalid
+  source                          String? /// Source of the representation (citizen or LPA), ["lpa", "citizen"]
+  serviceUserId                   String? /// Service User Id of the person or organisation making the representation
+  representationType              String? /// The type of representation, ["statement", "comment", "final_comment", "proofs_evidence", null]
+  dateReceived                    DateTime?
+  RepresentationDocuments         RepresentationDocument[]
 }
 
 /// Join table to link document to representation
