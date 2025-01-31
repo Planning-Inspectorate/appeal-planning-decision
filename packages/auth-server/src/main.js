@@ -5,8 +5,12 @@
  */
 import appInsights from 'applicationinsights';
 
-import logger from './lib/logger.js';
+import { getLogger } from './lib/logger.js';
+import config from './configuration/config.js';
+
 import server from './server.js';
+
+const logger = getLogger(config);
 
 async function main() {
 	try {
@@ -18,7 +22,7 @@ async function main() {
 		logger.warn({ err }, 'Application insights failed to start: ');
 	}
 
-	server();
+	server({ config, logger });
 }
 
 main().catch((err) => {

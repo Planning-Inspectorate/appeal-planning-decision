@@ -1,8 +1,10 @@
 // From https://github.com/Mostafatalaat770/node-oidc-provider-prisma-adapter - MIT
-import createPrismaClient from './prisma-client.js';
-import logger from '../lib/logger.js';
 
-const prisma = createPrismaClient();
+/** @type {import('@prisma/client').PrismaClient} */
+let prisma;
+
+/** @type {import('pino').Logger} */
+let logger;
 
 /**
  * @typedef {import("oidc-provider").AdapterPayload} AdapterPayload
@@ -216,5 +218,14 @@ export default class PrismaAdapter {
 			...payload,
 			...(doc.consumedAt ? { consumed: true } : undefined)
 		};
+	}
+
+	/**
+	 * @param {import("@prisma/client").PrismaClient} client
+	 * @param {import("pino").Logger} loggerInstance
+	 */
+	static setDependencies(client, loggerInstance) {
+		prisma = client;
+		logger = loggerInstance;
 	}
 }

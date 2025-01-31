@@ -1,10 +1,8 @@
-import logger from './logger.js';
-
 /**
- *
- * @param {import('oidc-provider')} provider
+ * @param {import('oidc-provider').Provider} provider
+ * @param {import('pino').Logger} logger
  */
-export function subscribe(provider) {
+export function subscribe(provider, logger) {
 	const eventHandlers = [
 		['access_token.destroyed', genericEventHandler],
 		['access_token.saved', genericEventHandler],
@@ -62,7 +60,7 @@ export function subscribe(provider) {
 		['userinfo.error', errorEventHandler]
 	];
 
-	eventHandlers.map(([eventName, listener]) => {
+	eventHandlers.forEach(([eventName, listener]) => {
 		provider.on(eventName, (...args) => {
 			// we detect here when ctx arg is passed so we skip writing ctx argument when debugging,
 			// since it will contain koa request, and can bloat our stdout easily
@@ -71,18 +69,18 @@ export function subscribe(provider) {
 			listener(...args);
 		});
 	});
-}
 
-/**
- * @param  {...any} args
- */ // eslint-disable-next-line no-unused-vars
-function genericEventHandler(...args) {
-	// do nothing, example only
-}
+	/**
+	 * @param  {...any} args
+	 */ // eslint-disable-next-line no-unused-vars
+	function genericEventHandler(...args) {
+		// do nothing, example only
+	}
 
-/**
- * @param  {...any} args
- */
-function errorEventHandler(...args) {
-	logger.error(...args.filter((arg) => !arg.req));
+	/**
+	 * @param  {...any} args
+	 */
+	function errorEventHandler(...args) {
+		logger.error(...args.filter((arg) => !arg.req));
+	}
 }

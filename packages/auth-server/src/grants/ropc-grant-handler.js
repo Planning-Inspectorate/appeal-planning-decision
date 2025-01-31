@@ -8,8 +8,6 @@ import {
 	CodeExpired,
 	UserNotFound
 } from './custom-grant-errors.js';
-import createPrismaClient from '../adapter/prisma-client.js';
-import { TokenRepository } from './token-repo.js';
 import config from '../configuration/config.js';
 import consts from '@pins/common/src/constants.js';
 
@@ -28,54 +26,58 @@ const isTestEnvironment = () => config.server.allowTestingOverrides;
 
 export const parameters = new Set(['scope', 'resource', 'email', 'otp']);
 
-const tokenRepo = new TokenRepository(createPrismaClient());
-
 /**
- * @param {import('oidc-provider').KoaContextWithOIDC} ctx
- * @param {function} next
+ * @param {import('../dependencies.js').lifetimeDependencies} dependencies
  */
-export const handler = async function (ctx, next) {
-	const { client, params } = ctx.oidc;
+export const handler = (dependencies) => {
+	/**
+	 * @param {import('oidc-provider').KoaContextWithOIDC} ctx
+	 * @param {function} next
+	 */
+	return async function (ctx, next) {
+		const { client, params } = ctx.oidc;
 
-	if (!params || !params.otp) {
-		throw new InvalidRopcGrant('params missing');
-	}
-
-	if (!client) {
-		throw new InvalidClient('client not set');
-	}
-
-	try {
-		ctx.body = await performRopcGrant(ctx);
-	} catch (err) {
-		if (err instanceof TooManyAttempts) {
-			ctx.status = 429;
-			return;
+		if (!params || !params.otp) {
+			throw new InvalidRopcGrant('params missing');
 		}
 
-		if (err instanceof IncorrectCode) {
-			ctx.status = 401;
-			ctx.message = 'IncorrectCode';
-			return;
+		if (!client) {
+			throw new InvalidClient('client not set');
 		}
 
-		if (err instanceof CodeExpired) {
-			ctx.status = 401;
-			ctx.message = 'CodeExpired';
-			return;
+		try {
+			ctx.body = await performRopcGrant(ctx, dependencies);
+		} catch (err) {
+			if (err instanceof TooManyAttempts) {
+				ctx.status = 429;
+				return;
+			}
+
+			if (err instanceof IncorrectCode) {
+				ctx.status = 401;
+				ctx.message = 'IncorrectCode';
+				return;
+			}
+
+			if (err instanceof CodeExpired) {
+				ctx.status = 401;
+				ctx.message = 'CodeExpired';
+				return;
+			}
+
+			throw err;
 		}
 
-		throw err;
-	}
-
-	await next();
+		await next();
+	};
 };
 
 /**
  * @param {import('oidc-provider').KoaContextWithOIDC} ctx
+ * @param {import('../dependencies.js').lifetimeDependencies} dependencies
  * @returns {Promise<{access_token: string,	expires_in: number, token_type: string, scope: string|undefined, id_token: string|undefined}>}
  */
-const performRopcGrant = async (ctx) => {
+const performRopcGrant = async (ctx, dependencies) => {
 	const { email, otp, scope } = ctx.oidc.params;
 
 	const account = await findAccount(ctx, email);
@@ -83,7 +85,7 @@ const performRopcGrant = async (ctx) => {
 	const isTestScenario = isTestEnvironment() && isTestToken(otp);
 
 	if (!isTestScenario) {
-		await validateToken(account, otp);
+		await validateToken(account, otp, dependencies);
 		await account.enrolUser();
 	}
 
@@ -115,10 +117,12 @@ async function findAccount(ctx, email) {
 /**
  * @param {import('oidc-provider').Account} account
  * @param {string} otp
+ * @param {import('../dependencies.js').lifetimeDependencies} dependencies
  * @returns {Promise<void>}
  */
-async function validateToken(account, otp) {
+async function validateToken(account, otp, dependencies) {
 	const ttl = config.server.tokenExpiry;
+	const { tokenRepo } = dependencies;
 
 	/**
 	 * @param {number} seconds

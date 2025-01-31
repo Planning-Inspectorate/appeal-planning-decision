@@ -36,6 +36,7 @@
 		"cross-env": "*",
 		"jest": "*",
 		"jest-junit": "*",
+		"jest-mock-extended": "*",
 		"jose": "*",
 		"pino-pretty": "*",
 		"supertest": "*",
