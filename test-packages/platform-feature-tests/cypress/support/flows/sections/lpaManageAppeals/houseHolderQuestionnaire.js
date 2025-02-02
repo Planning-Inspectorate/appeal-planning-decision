@@ -9,7 +9,7 @@ import { ConsultResponseAndRepresent } from "../../pages/lpa-manage-appeals/cons
 import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
-import { waitingForReview} from "./waitingForReview";
+import { waitingForReview} from "./downloadVerify";
 
 export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 	const basePage = new BasePage();
@@ -23,7 +23,7 @@ export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 	let counter = 0;
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
-		if (rowtext.includes(lpaManageAppealsData?.hasAppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
+		if (rowtext.includes(lpaManageAppealsData?.hasAppealType) && rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
 			if (counter === 0) {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.hasAppealType).should('be.visible');
