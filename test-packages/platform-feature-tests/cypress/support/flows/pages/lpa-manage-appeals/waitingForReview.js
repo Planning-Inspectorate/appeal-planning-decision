@@ -12,11 +12,12 @@ export const waitingForReview = (appealId)=>{
     cy.window().then(win=>{
         cy.stub(win,'open').as('download')
     });
-    cy.get(`a[href*="/manage-appeals/${appealId}/appeal-details?pdf=true"]`).click();    
-    cy.waitUntil(()=>cy.task('isFileExist',`cypress/downloads/Appeal ${appealId}.pdf`),{
-        timeout: 10000,
-        interval: 500
-    })
+    cy.get(`a[href*="/manage-appeals/${appealId}/appeal-details?pdf=true"]`).click();  
+    cy.verifyDownload(`Appeal ${appealId}.pdf`,{contains:true});   
+    // cy.waitUntil(()=>cy.task('isFileExist',`cypress/downloads/Appeal ${appealId}.pdf`),{
+    //     timeout: 10000,
+    //     interval: 500
+    // })
     basePage.backBtn();
 
     // cy.get('#tab_waiting-for-review').click();
@@ -27,15 +28,17 @@ export const waitingForReview = (appealId)=>{
     cy.window().then(win=>{
         cy.stub(win,'open').as('download')
     });
-    cy.get(`a[href*="/manage-appeals/${appealId}/questionnaire?pdf=true"]`).click();    
-    cy.waitUntil(()=>cy.task('isFileExist',`cypress/downloads/Appeal Questionnaire ${appealId}.pdf`),{
-        timeout: 10000,
-        interval: 500
-    })
+    cy.get(`a[href*="/manage-appeals/${appealId}/questionnaire?pdf=true"]`).click();
+    cy.verifyDownload(`Appeal Questionnaire ${appealId}.pdf`,{contains:true});    
+    // cy.waitUntil(()=>cy.task('isFileExist',`cypress/downloads/Appeal Questionnaire ${appealId}.pdf`),{
+    //     timeout: 10000,
+    //     interval: 500
+    // })
 
     cy.get(`a[href*="/manage-appeals/${appealId}/download/back-office/documents/lpa-questionnaire"]`).click();    
-    cy.waitUntil(()=>cy.task('isFileExist',`cypress/downloads/appeal_${appealId}_lpa-questionnaire`),{
-        timeout: 100000,
-        interval: 5000
-    })
+    cy.verifyDownload(`appeal_${appealId}_lpa-questionnaire.zip`,{contains:true});
+    // cy.waitUntil(()=>cy.task('isFileExist',`cypress/downloads/appeal_${appealId}_lpa-questionnaire`),{
+    //     timeout: 100000,
+    //     interval: 5000
+    // })
 }

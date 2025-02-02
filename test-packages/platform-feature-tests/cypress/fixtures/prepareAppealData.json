@@ -31,6 +31,11 @@
     
     "develpmentDescriptionOriginal":"developmentDescriptionOriginal-hint123456789!£$%&*j",
     "acceptAndSubmitButton":"Accept and submit",
-    "appealSubmitted": "Appeal submitted"   
+    "appealSubmitted": "Appeal submitted",
+    
+    "decisionAllowed": "Allowed",
+    "decisionAllowedInPart": "Allowed in part",
+    "decisionDismissed": "Dismissed"
+
 
 }

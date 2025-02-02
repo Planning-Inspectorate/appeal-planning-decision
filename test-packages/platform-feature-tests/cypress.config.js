@@ -1,4 +1,5 @@
 const { defineConfig } = require('cypress');
+const { verifyDownloadTasks } = require('cy-verify-downloads');
 
 module.exports = defineConfig({
   pageLoadTimeout: 300000,
@@ -25,9 +26,10 @@ module.exports = defineConfig({
     // },
 		async setupNodeEvents(on, config) {
       require('cypress-mochawesome-reporter/plugin')(on);
-      on('task',{isFileExist(filename){
-        return require('fs').existsSync(filename)
-      }})
+      on('task', verifyDownloadTasks);
+      // on('task',{isFileExist(filename){
+      //   return require('fs').existsSync(filename)
+      // }})
 		},  
 		appeals_beta_base_url: process.env.CYPRESS_APPEALS_BETA_BASE_URL || 'https://appeals-service-test.planninginspectorate.gov.uk',
 		supportFile: 'cypress/support/e2e.js',
