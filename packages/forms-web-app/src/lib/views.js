@@ -9,9 +9,9 @@ const VIEW = {
 		LOCAL_PLANNING: 'before-you-start/local-planning-department',
 		USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
 			'before-you-start/use-existing-service-enforcement-notice',
-
 		USE_EXISTING_SERVICE_DEVELOPMENT_TYPE: 'before-you-start/use-existing-service-development-type',
 		USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building',
+		USE_EXISTING_SERVICE_APPLICATION_TYPE: 'before-you-start/use-existing-service-application-type',
 		LISTED_BUILDING: 'before-you-start/listed-building',
 		ENFORCEMENT_NOTICE: 'before-you-start/enforcement-notice'
 	},
@@ -135,7 +135,6 @@ const VIEW = {
 		TELLING_THE_TENANTS: 'full-appeal/submit-appeal/telling-the-tenants',
 		TYPE_OF_PLANNING_APPLICATION: 'full-appeal/type-of-planning-application',
 		USE_A_DIFFERENT_SERVICE: 'full-appeal/use-a-different-service',
-		USE_EXISTING_SERVICE_APPLICATION_TYPE: 'full-appeal/use-existing-service-application-type',
 		VISIBLE_FROM_ROAD: 'full-appeal/submit-appeal/visible-from-road',
 		WHY_HEARING: 'full-appeal/submit-appeal/why-hearing',
 		WHY_INQUIRY: 'full-appeal/submit-appeal/why-inquiry',

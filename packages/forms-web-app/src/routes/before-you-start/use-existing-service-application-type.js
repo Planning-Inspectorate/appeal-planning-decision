@@ -1,5 +1,5 @@
 const express = require('express');
-const useExistingServiceApplicationType = require('../../controllers/full-appeal/use-existing-service-application-type');
+const useExistingServiceApplicationType = require('../../controllers/before-you-start/use-existing-service-application-type');
 const router = express.Router();
 
 router.get(

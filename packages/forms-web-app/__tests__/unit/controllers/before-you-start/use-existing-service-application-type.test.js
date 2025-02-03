@@ -1,10 +1,10 @@
 const {
 	getUseExistingServiceApplicationType
-} = require('../../../../src/controllers/full-appeal/use-existing-service-application-type');
+} = require('../../../../src/controllers/before-you-start/use-existing-service-application-type');
 
 const {
 	VIEW: {
-		FULL_APPEAL: { USE_EXISTING_SERVICE_APPLICATION_TYPE }
+		BEFORE_YOU_START: { USE_EXISTING_SERVICE_APPLICATION_TYPE }
 	}
 } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
@@ -17,7 +17,7 @@ describe('controllers/full-appeal/use-existing-service-application-type', () => 
 	it('Test getUseExistingServiceApplicationType method calls the correct template', async () => {
 		await getUseExistingServiceApplicationType(req, res);
 
-		expect(res.render).toBeCalledWith(USE_EXISTING_SERVICE_APPLICATION_TYPE, {
+		expect(res.render).toHaveBeenCalledWith(USE_EXISTING_SERVICE_APPLICATION_TYPE, {
 			bannerHtmlOverride: config.betaBannerText,
 			acpLink: 'https://acp.planninginspectorate.gov.uk/'
 		});

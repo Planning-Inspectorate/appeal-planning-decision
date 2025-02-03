@@ -1,7 +1,7 @@
 const { get } = require('../router-mock');
-const useExistingServiceApplicationType = require('../../../../src/controllers/full-appeal/use-existing-service-application-type');
+const useExistingServiceApplicationType = require('../../../../src/controllers/before-you-start/use-existing-service-application-type');
 
-describe('routes/full-appeal/use-existing-service-application-type', () => {
+describe('routes/before-you-start/use-existing-service-application-type', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
 		require('../../../../src/routes/before-you-start/use-existing-service-application-type');
