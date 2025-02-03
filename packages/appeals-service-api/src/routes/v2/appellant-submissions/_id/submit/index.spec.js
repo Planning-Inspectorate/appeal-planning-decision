@@ -168,6 +168,83 @@ jest.mock('../service', () => ({
 						]
 					}
 				};
+			case '003':
+				return {
+					appealId: '7e791a1c-e0ca-4089-9fce-bdef405b9ce1',
+					LPACode: '123',
+					appealTypeCode: 'S78',
+					applicationReference: '567',
+					onApplicationDate: new Date(),
+					applicationDecision: 'granted',
+					applicationDecisionDate: new Date(),
+					appellantSiteAccess_appellantSiteAccessDetails: 'Access details',
+					appellantSiteSafety_appellantSiteSafetyDetails: 'Safety details',
+					appellantGreenBelt: true,
+					siteAreaSquareMetres: 100,
+					ownsAllLand: true,
+					ownsSomeLand: false,
+					knowsOtherOwners: 'yes',
+					knowsAllOwners: 'no',
+					advertisedAppeal: true,
+					informedOwners: true,
+					developmentDescriptionOriginal: 'Original description',
+					updateDevelopmentDescription: true,
+					appellantFirstName: 'Test App',
+					appellantLastName: 'Testington',
+					contactFirstName: 'Testy',
+					contactLastName: 'McTest',
+					contactPhoneNumber: '12345657',
+					costApplication: true,
+					isAppellant: false,
+
+					Appeal: {
+						Users: [
+							{
+								AppealUser: { email: 'email' }
+							}
+						]
+					},
+					SubmissionLinkedCase: [{ caseReference: 'case123' }],
+					SubmissionDocumentUpload: [
+						{
+							id: 'img_003',
+							fileName: 'img.jpg',
+							originalFileName: 'oimg.jpg',
+							appellantSubmissionId: '003',
+							name: 'img.jpg',
+							location: '/img.jpg',
+							type: 'jpg',
+							storageId: '001',
+							questionnaireId: '003'
+						}
+					],
+					SubmissionAddress: [
+						{
+							id: 'add_002',
+							appellantSubmissionId: '002',
+							addressLine1: 'Somewhere',
+							addressLine2: 'Somewhere St',
+							townCity: 'Somewhereville',
+							postcode: 'SOM3 W3R',
+							fieldName: 'siteAddress',
+							questionnaireId: '002',
+							county: 'Somewhere'
+						}
+					],
+
+					agriculturalHolding: true,
+					tenantAgriculturalHolding: true,
+					otherTenantsAgriculturalHolding: true,
+					informedTenantsAgriculturalHolding: true,
+
+					planningObligation: true,
+					statusPlanningObligation: 'test',
+
+					appellantProcedurePreference: 'inquiry',
+					appellantPreferInquiryDetails: 'details',
+					appellantPreferInquiryDuration: 13,
+					appellantPreferInquiryWitnesses: 3
+				};
 			default:
 				return null;
 		}
@@ -352,6 +429,89 @@ const formattedHAS2 = {
 	]
 };
 
+/** @type {import('pins-data-model/src/schemas').AppellantSubmissionCommand} */
+const formattedS78 = {
+	casedata: {
+		submissionId: '7e791a1c-e0ca-4089-9fce-bdef405b9ce1',
+		advertisedAppeal: true,
+		appellantCostsAppliedFor: true,
+		applicationDate: expect.any(String),
+		applicationDecision: 'granted',
+		applicationDecisionDate: expect.any(String),
+		applicationReference: '567',
+		caseProcedure: 'written',
+		caseSubmissionDueDate: expect.any(String),
+		caseSubmittedDate: expect.any(String), // it's based on a new Date() so we can't get it exactly
+		caseType: 'W',
+		changedDevelopmentDescription: true,
+		enforcementNotice: false,
+		floorSpaceSquareMetres: 100,
+		knowsAllOwners: 'No',
+		knowsOtherOwners: 'Yes',
+		lpaCode: 'LPA_001',
+		nearbyCaseReferences: ['case123'],
+		neighbouringSiteAddresses: null,
+		originalDevelopmentDescription: 'Original description',
+		ownersInformed: true,
+		ownsAllLand: true,
+		ownsSomeLand: false,
+		siteAccessDetails: ['Access details'],
+		siteAddressCounty: 'Somewhere',
+		siteAddressLine1: 'Somewhere',
+		siteAddressLine2: 'Somewhere St',
+		siteAddressPostcode: 'SOM3 W3R',
+		siteAddressTown: 'Somewhereville',
+		siteAreaSquareMetres: 100,
+		siteSafetyDetails: ['Safety details'],
+		isGreenBelt: true,
+
+		agriculturalHolding: true,
+		tenantAgriculturalHolding: true,
+		otherTenantsAgriculturalHolding: true,
+		informedTenantsAgriculturalHolding: true,
+
+		planningObligation: true,
+		statusPlanningObligation: 'test',
+
+		appellantProcedurePreference: 'inquiry',
+		appellantProcedurePreferenceDetails: 'details',
+		appellantProcedurePreferenceDuration: 13,
+		inquiryHowManyWitnesses: 3
+	},
+	documents: [
+		{
+			dateCreated: '2024-03-01T13:48:35.847Z',
+			documentId: '001',
+			documentType: 'appellantCostsApplication',
+			documentURI: 'https://example.com',
+			filename: 'img.jpg',
+			mime: 'image/jpeg',
+			originalFilename: 'oimg.jpg',
+			size: 10293
+		}
+	],
+	users: [
+		{
+			emailAddress: 'email',
+			firstName: 'Testy',
+			lastName: 'McTest',
+			salutation: null,
+			serviceUserType: 'Agent',
+			telephoneNumber: '12345657',
+			organisation: null
+		},
+		{
+			emailAddress: null,
+			firstName: 'Test App',
+			lastName: 'Testington',
+			salutation: null,
+			serviceUserType: 'Appellant',
+			telephoneNumber: null,
+			organisation: null
+		}
+	]
+};
+
 beforeAll(async () => {
 	const user = await sqlClient.appealUser.create({
 		data: { email: crypto.randomUUID() + '@example.com' }
@@ -366,7 +526,8 @@ afterAll(async () => {
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 	it.each([
 		['HAS', '001', formattedHAS1],
-		['HAS', '002', formattedHAS2]
+		['HAS', '002', formattedHAS2],
+		['S78', '003', formattedS78]
 	])('Formats %s appeal submission then sends it to back office', async (_, id, expectation) => {
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 		setCurrentSub(validUser);
@@ -382,7 +543,7 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 
 	it('404s if the appeal submission can not be found', () => {
 		appealsApi
-			.post('/api/v2/appellant-submissions/003/submit')
+			.post('/api/v2/appellant-submissions/nope/submit')
 			.expect(404)
 			.end(() => {});
 	});

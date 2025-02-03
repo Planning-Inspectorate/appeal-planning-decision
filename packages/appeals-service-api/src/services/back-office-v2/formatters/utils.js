@@ -3,8 +3,14 @@ const { getDocType } = require('@pins/common/src/document-types');
 const { blobMetaGetter } = require('../../../services/object-store');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
-const { APPEAL_APPLICATION_DECISION, SERVICE_USER_TYPE } = require('pins-data-model');
-const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
+const {
+	APPEAL_APPLICATION_DECISION,
+	APPEAL_APPELLANT_PROCEDURE_PREFERENCE,
+	SERVICE_USER_TYPE,
+	APPEAL_CASE_PROCEDURE
+} = require('pins-data-model');
+const { LPA_NOTIFICATION_METHODS, CASE_TYPES } = require('@pins/common/src/database/data-static');
+const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-date');
 
 /**
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -14,23 +20,13 @@ const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-sta
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents'][0]['documentType'] | import('pins-data-model/src/schemas').LPAQuestionnaireCommand['documents'][0]['documentType']} DataModelDocumentTypes
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['users']} DataModelUsers
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['casedata']['applicationDecision']} DataModelApplicationDecision
- * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
- *   include: {
- *     SubmissionDocumentUpload: true,
- *     SubmissionAddress: true,
- *     SubmissionLinkedCase: true,
- * 		 SubmissionListedBuilding: true,
- *		 Appeal: {
- *       include: {
- *			   Users: {
- *           include: {
- *             AppealUser: true
- *           }
- *         }
- *		   }
- *     }
- *   }
- * }>} FullAppellantSubmission
+ * @typedef {import('../../../routes/v2/appellant-submissions/repo').FullAppellantSubmission} FullAppellantSubmission
+ * @typedef {import ('pins-data-model').Schemas.AppellantCommonSubmissionProperties} AppellantCommonSubmissionProperties
+ * @typedef {import ('pins-data-model').Schemas.AppellantHASSubmissionProperties} AppellantHASSubmissionProperties
+ * @typedef {import ('pins-data-model').Schemas.AppellantS78SubmissionProperties} AppellantS78SubmissionProperties
+ * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
+ * @typedef {import ('../../../models/entities/lpa-entity')} LPA
+ * @typedef {function(FullAppellantSubmission, LPA): Promise<AppellantSubmissionCommand>} AppellantSubmissionMapper
  */
 
 /**
@@ -159,6 +155,9 @@ exports.formatApplicationSubmissionUsers = ({
 	return users;
 };
 
+/**
+ * @type {Object.<string, string>}
+ */
 const dataModelApplicationDecisions = {
 	[APPLICATION_DECISION.GRANTED]: APPEAL_APPLICATION_DECISION.GRANTED,
 	[APPLICATION_DECISION.REFUSED]: APPEAL_APPLICATION_DECISION.REFUSED,
@@ -172,6 +171,10 @@ exports.formatApplicationDecision = (applicationDecision) =>
 	dataModelApplicationDecisions[applicationDecision] ??
 	dataModelApplicationDecisions[APPLICATION_DECISION.NODECISIONRECEIVED];
 
+/**
+ * @typedef {{yes: "Yes", no:"No", some: "Some"}} yesNoSome
+ * @type {yesNoSome}
+ */
 const yesNoSomeMap = {
 	yes: 'Yes',
 	no: 'No',
@@ -179,7 +182,164 @@ const yesNoSomeMap = {
 };
 
 /**
- * @param {string} answer
- * @returns
+ * @param {string|null} answer
+ * @returns {"Yes"|"No"|"Some"|null}
  */
-exports.formatYesNoSomeAnswer = (answer) => yesNoSomeMap[answer] ?? null;
+exports.formatYesNoSomeAnswer = (answer) => {
+	if (!answer || !isValidYesNoSomeKey(answer)) {
+		return null;
+	}
+	return yesNoSomeMap[answer];
+};
+
+/**
+ * @param {string} key
+ * @returns {key is keyof yesNoSome}
+ */
+function isValidYesNoSomeKey(key) {
+	return key in yesNoSomeMap;
+}
+
+/**
+ * @param {FullAppellantSubmission} appellantSubmission
+ * @param {import('../../../models/entities/lpa-entity')} lpa
+ * @returns {AppellantCommonSubmissionProperties}
+ */
+exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
+	if (!appellantSubmission.applicationDecisionDate) {
+		throw new Error('appellantSubmission.applicationDecisionDate should never be null');
+	}
+
+	if (!appellantSubmission.onApplicationDate) {
+		throw new Error('appellantSubmission.onApplicationDate should never be null');
+	}
+
+	if (!appellantSubmission.applicationDecision) {
+		throw new Error('appellantSubmission.applicationDecision should never be null');
+	}
+
+	const address = appellantSubmission.SubmissionAddress?.find(
+		(address) => address.fieldName === 'siteAddress'
+	);
+
+	if (!address) {
+		throw new Error('appellantSubmission.siteAddress should never be null');
+	}
+
+	return {
+		submissionId: appellantSubmission.appealId,
+		caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
+		lpaCode: lpa.getLpaCode(),
+		caseSubmittedDate: new Date().toISOString(),
+		enforcementNotice: false, // this will eventually come from before you start
+		applicationReference: appellantSubmission.applicationReference ?? '',
+		applicationDate: appellantSubmission.onApplicationDate.toISOString(),
+		applicationDecision: exports.formatApplicationDecision(appellantSubmission.applicationDecision),
+		applicationDecisionDate: appellantSubmission.applicationDecisionDate.toISOString(),
+		caseSubmissionDueDate: deadlineDate(
+			appellantSubmission.applicationDecisionDate,
+			CASE_TYPES[appellantSubmission.appealTypeCode].id.toString(),
+			appellantSubmission.applicationDecision
+		).toISOString(),
+		siteAddressLine1: address.addressLine1 ?? '',
+		siteAddressLine2: address.addressLine2 ?? '',
+		siteAddressTown: address.townCity ?? '',
+		siteAddressCounty: address.county ?? '',
+		siteAddressPostcode: address.postcode ?? '',
+		siteAccessDetails: [appellantSubmission.appellantSiteAccess_appellantSiteAccessDetails].filter(
+			Boolean
+		),
+		siteSafetyDetails: [appellantSubmission.appellantSiteSafety_appellantSiteSafetyDetails].filter(
+			Boolean
+		),
+		neighbouringSiteAddresses: null, // unused
+		nearbyCaseReferences: appellantSubmission.SubmissionLinkedCase?.map(
+			({ caseReference }) => caseReference
+		)
+	};
+};
+
+/**
+ * @param {FullAppellantSubmission} appellantSubmission
+ * @returns {AppellantHASSubmissionProperties}
+ */
+exports.getHASAppellantSubmissionFields = (appellantSubmission) => {
+	// todo: HAS properties only type
+	return {
+		isGreenBelt: appellantSubmission.appellantGreenBelt ?? null,
+		siteAreaSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null,
+		floorSpaceSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null, // is this correct?
+		ownsAllLand: appellantSubmission.ownsAllLand ?? null,
+		ownsSomeLand: appellantSubmission.ownsSomeLand ?? null,
+		knowsOtherOwners: exports.formatYesNoSomeAnswer(appellantSubmission.knowsOtherOwners),
+		knowsAllOwners: exports.formatYesNoSomeAnswer(appellantSubmission.knowsAllOwners),
+		advertisedAppeal: appellantSubmission.advertisedAppeal ?? null,
+		ownersInformed: appellantSubmission.informedOwners ?? null,
+		originalDevelopmentDescription: appellantSubmission.developmentDescriptionOriginal ?? null,
+		changedDevelopmentDescription: appellantSubmission.updateDevelopmentDescription ?? null,
+		appellantCostsAppliedFor: appellantSubmission.costApplication ?? null
+	};
+};
+
+/**
+ * @param {FullAppellantSubmission} appellantSubmission
+ * @returns {AppellantS78SubmissionProperties}
+ */
+exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
+	// todo: S78 properties only type
+	const preference = getAppellantProcedurePreference(appellantSubmission);
+
+	return {
+		agriculturalHolding: appellantSubmission.agriculturalHolding ?? null,
+		tenantAgriculturalHolding: appellantSubmission.agriculturalHolding
+			? appellantSubmission.tenantAgriculturalHolding ?? null
+			: null,
+		otherTenantsAgriculturalHolding:
+			appellantSubmission.agriculturalHolding && appellantSubmission.tenantAgriculturalHolding
+				? appellantSubmission.otherTenantsAgriculturalHolding ?? null
+				: null,
+		informedTenantsAgriculturalHolding: appellantSubmission.agriculturalHolding
+			? appellantSubmission.informedTenantsAgriculturalHolding ?? null
+			: null,
+
+		planningObligation: appellantSubmission.planningObligation ?? null,
+		statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
+
+		appellantProcedurePreference: preference.type,
+		appellantProcedurePreferenceDetails: preference.details,
+		appellantProcedurePreferenceDuration: preference.duration,
+		inquiryHowManyWitnesses: preference.witnesses
+	};
+};
+
+/**
+ * @param {FullAppellantSubmission} appellantSubmission
+ * @returns {{type: 'written'|'hearing'|'inquiry', details: string|null, duration: Number|null, witnesses: Number|null}}
+ */
+const getAppellantProcedurePreference = (appellantSubmission) => {
+	/** @type {{type: string, details: string|null, duration: Number|null, witnesses: Number|null }} */
+	let preference = {
+		type: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.WRITTEN,
+		details: null,
+		duration: null,
+		witnesses: null
+	};
+
+	if (appellantSubmission.appellantProcedurePreference === APPEAL_CASE_PROCEDURE.HEARING) {
+		preference = {
+			type: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.HEARING,
+			details: appellantSubmission.appellantPreferHearingDetails,
+			duration: null,
+			witnesses: null
+		};
+	} else if (appellantSubmission.appellantProcedurePreference === APPEAL_CASE_PROCEDURE.INQUIRY) {
+		preference = {
+			type: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.INQUIRY,
+			details: appellantSubmission.appellantPreferInquiryDetails,
+			duration: Number(appellantSubmission.appellantPreferInquiryDuration) || null,
+			witnesses: Number(appellantSubmission.appellantPreferInquiryWitnesses)
+		};
+	}
+
+	return preference;
+};

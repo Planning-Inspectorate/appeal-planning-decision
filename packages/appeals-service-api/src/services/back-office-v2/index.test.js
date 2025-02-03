@@ -1,50 +1,46 @@
-const BackOfficeV2Service = require('../../../../src/services/back-office-v2/index');
-const forwarders = require('../../../../src/services/back-office-v2/forwarders');
-const { SchemaValidator } = require('../../../../src/services/back-office-v2/validate');
+const BackOfficeV2Service = require('./index');
+const forwarders = require('./forwarders');
+const { SchemaValidator } = require('./validate');
 
-const { isFeatureActive } = require('../../../../src/configuration/featureFlag');
+const { isFeatureActive } = require('../../configuration/featureFlag');
 
-const { getUserById } = require('../../../../src/routes/v2/users/service');
-const {
-	getServiceUserByIdAndCaseReference
-} = require('../../../../src/routes/v2/service-users/service');
+const { getUserById } = require('../../routes/v2/users/service');
+const { getServiceUserByIdAndCaseReference } = require('../../routes/v2/service-users/service');
 
-const {
-	markAppealAsSubmitted
-} = require('../../../../src/routes/v2/appellant-submissions/_id/service');
+const { markAppealAsSubmitted } = require('../../routes/v2/appellant-submissions/_id/service');
 const {
 	markQuestionnaireAsSubmitted
-} = require('../../../../src/routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/service');
-const { getCaseAndAppellant } = require('../../../../src/routes/v2/appeal-cases/service');
+} = require('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/service');
+const { getCaseAndAppellant } = require('../../routes/v2/appeal-cases/service');
 
 const {
 	getLPAStatementByAppealId,
 	markStatementAsSubmitted
-} = require('../../../../src/routes/v2/appeal-cases/_caseReference/lpa-statement-submission/service');
+} = require('../../routes/v2/appeal-cases/_caseReference/lpa-statement-submission/service');
 const {
 	getLPAFinalCommentByAppealId,
 	markLPAFinalCommentAsSubmitted
-} = require('../../../../src/routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/service');
+} = require('../../routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/service');
 const {
 	getLpaProofOfEvidenceByAppealId,
 	markLpaProofOfEvidenceAsSubmitted
-} = require('../../../../src/routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service');
+} = require('../../routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service');
 const {
 	getAppellantFinalCommentByAppealId,
 	markAppellantFinalCommentAsSubmitted
-} = require('../../../../src/routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/service');
+} = require('../../routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/service');
 const {
 	getAppellantProofOfEvidenceByAppealId,
 	markAppellantProofOfEvidenceAsSubmitted
-} = require('../../../../src/routes/v2/appeal-cases/_caseReference/appellant-proof-evidence-submission/service');
+} = require('../../routes/v2/appeal-cases/_caseReference/appellant-proof-evidence-submission/service');
 const {
 	getRule6ProofOfEvidenceByAppealId,
 	markRule6ProofOfEvidenceAsSubmitted
-} = require('../../../../src/routes/v2/appeal-cases/_caseReference/rule-6-proof-evidence-submission/service');
+} = require('../../routes/v2/appeal-cases/_caseReference/rule-6-proof-evidence-submission/service');
 const {
 	getRule6StatementByAppealId,
 	markRule6StatementAsSubmitted
-} = require('../../../../src/routes/v2/appeal-cases/_caseReference/rule-6-statement-submission/service');
+} = require('../../routes/v2/appeal-cases/_caseReference/rule-6-statement-submission/service');
 
 const {
 	sendSubmissionReceivedEmailToAppellantV2,
@@ -63,39 +59,27 @@ const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 jest.mock('#lib/logger');
 jest.mock('#lib/notify');
-jest.mock('../../../../src/configuration/featureFlag');
+jest.mock('../../configuration/featureFlag');
 
-jest.mock('../../../../src/services/back-office-v2/validate');
-jest.mock('../../../../src/services/back-office-v2/forwarders');
-jest.mock('../../../../src/routes/v2/users/service');
-jest.mock('../../../../src/routes/v2/service-users/service');
-jest.mock('../../../../src/routes/v2/appellant-submissions/_id/service');
-jest.mock('../../../../src/routes/v2/appeal-cases/service');
+jest.mock('./validate');
+jest.mock('./forwarders');
+jest.mock('../../routes/v2/users/service');
+jest.mock('../../routes/v2/service-users/service');
+jest.mock('../../routes/v2/appellant-submissions/_id/service');
+jest.mock('../../routes/v2/appeal-cases/service');
+jest.mock('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/service');
+jest.mock('../../routes/v2/appeal-cases/_caseReference/lpa-statement-submission/service');
+jest.mock('../../routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/service');
+jest.mock('../../routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service');
+jest.mock('../../routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/service');
 jest.mock(
-	'../../../../src/routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/service'
+	'../../routes/v2/appeal-cases/_caseReference/appellant-proof-evidence-submission/service'
 );
-jest.mock('../../../../src/routes/v2/appeal-cases/_caseReference/lpa-statement-submission/service');
-jest.mock(
-	'../../../../src/routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/service'
-);
-jest.mock(
-	'../../../../src/routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service'
-);
-jest.mock(
-	'../../../../src/routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/service'
-);
-jest.mock(
-	'../../../../src/routes/v2/appeal-cases/_caseReference/appellant-proof-evidence-submission/service'
-);
-jest.mock(
-	'../../../../src/routes/v2/appeal-cases/_caseReference/rule-6-proof-evidence-submission/service'
-);
-jest.mock(
-	'../../../../src/routes/v2/appeal-cases/_caseReference/rule-6-statement-submission/service'
-);
+jest.mock('../../routes/v2/appeal-cases/_caseReference/rule-6-proof-evidence-submission/service');
+jest.mock('../../routes/v2/appeal-cases/_caseReference/rule-6-statement-submission/service');
 
 // todo: this shouldn't be needed
-jest.mock('../../../../src/db/db-client');
+jest.mock('../../db/db-client');
 
 describe('BackOfficeV2Service', () => {
 	/** @type {import('../../../../src/services/back-office-v2/index')} */
@@ -143,13 +127,15 @@ describe('BackOfficeV2Service', () => {
 		forwarders.appeal.mockResolvedValue(mockResult);
 
 		it('should submit Appeal', async () => {
+			const lpa = { test: 1 };
 			const result = await backOfficeV2Service.submitAppellantSubmission({
 				appellantSubmission: mockAppealSubmission,
-				userId: testUserID,
+				email: mockUser.email,
+				lpa,
 				formatter: mockAppealFormatter
 			});
 
-			expect(mockAppealFormatter).toHaveBeenCalledWith(mockAppealSubmission);
+			expect(mockAppealFormatter).toHaveBeenCalledWith(mockAppealSubmission, lpa);
 			expect(mockGetValidator).toHaveBeenCalled();
 			expect(mockValidator).toHaveBeenCalledWith(mockFormattedAppeal);
 			expect(forwarders.appeal).toHaveBeenCalledWith([mockFormattedAppeal]);

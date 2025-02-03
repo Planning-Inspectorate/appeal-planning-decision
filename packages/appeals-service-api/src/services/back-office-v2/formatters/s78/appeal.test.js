@@ -1,6 +1,7 @@
 const LpaEntity = require('../../../../models/entities/lpa-entity');
 const { formatter } = require(`./appeal`);
 const {
+	APPEAL_APPELLANT_PROCEDURE_PREFERENCE,
 	APPEAL_APPLICATION_DECISION,
 	APPEAL_CASE_PROCEDURE,
 	APPEAL_CASE_TYPE,
@@ -18,7 +19,7 @@ jest.mock('../utils', () => {
 	};
 });
 
-describe('HAS formatter', () => {
+describe('S78 formatter', () => {
 	/**
 	 * @type {import('../utils').FullAppellantSubmission}
 	 */
@@ -48,7 +49,7 @@ describe('HAS formatter', () => {
 				]
 			},
 			appealId: 'appeal123',
-			appealTypeCode: 'HAS',
+			appealTypeCode: 'S78',
 			onApplicationDate: new Date(),
 			applicationDecision: APPEAL_APPLICATION_DECISION.GRANTED,
 			applicationDecisionDate: new Date(),
@@ -63,10 +64,23 @@ describe('HAS formatter', () => {
 			advertisedAppeal: true,
 			informedOwners: true,
 			developmentDescriptionOriginal: 'Original description',
-			updateDevelopmentDescription: true,
+			updateDevelopmentDescription: 'Updated description',
 			SubmissionLinkedCase: [{ caseReference: 'case123' }],
 			costApplication: true,
-			isAppellant: true
+			isAppellant: true,
+
+			agriculturalHolding: true,
+			tenantAgriculturalHolding: true,
+			otherTenantsAgriculturalHolding: true,
+			informedTenantsAgriculturalHolding: true,
+
+			planningObligation: true,
+			statusPlanningObligation: 'test',
+
+			appellantProcedurePreference: 'inquiry',
+			appellantPreferInquiryDetails: 'details',
+			appellantPreferInquiryDuration: 13,
+			appellantPreferInquiryWitnesses: 3
 		};
 	});
 
@@ -76,7 +90,7 @@ describe('HAS formatter', () => {
 		expect(result).toEqual({
 			casedata: {
 				submissionId: 'appeal123',
-				caseType: APPEAL_CASE_TYPE.D,
+				caseType: APPEAL_CASE_TYPE.W,
 				caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
 				lpaCode: 123,
 				caseSubmittedDate: expect.any(String),
@@ -103,10 +117,20 @@ describe('HAS formatter', () => {
 				advertisedAppeal: true,
 				ownersInformed: true,
 				originalDevelopmentDescription: 'Original description',
-				changedDevelopmentDescription: true,
+				changedDevelopmentDescription: 'Updated description',
 				nearbyCaseReferences: ['case123'],
 				neighbouringSiteAddresses: null,
-				appellantCostsAppliedFor: true
+				appellantCostsAppliedFor: true,
+				agriculturalHolding: true,
+				tenantAgriculturalHolding: true,
+				otherTenantsAgriculturalHolding: true,
+				informedTenantsAgriculturalHolding: true,
+				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.INQUIRY,
+				appellantProcedurePreferenceDetails: 'details',
+				appellantProcedurePreferenceDuration: 13,
+				inquiryHowManyWitnesses: 3,
+				planningObligation: true,
+				statusPlanningObligation: 'test'
 			},
 			documents: testDocuments,
 			users: [
@@ -130,7 +154,10 @@ describe('HAS formatter', () => {
 				isAppellant: false,
 				appellantFirstName: 'bob',
 				appellantLastName: 'test',
-				appellantCompanyName: 'test co.'
+				appellantCompanyName: 'test co.',
+				appellantProcedurePreference: 'hearing',
+				appellantPreferHearingDetails: 'details 2',
+				agriculturalHolding: false
 			},
 			lpa
 		);
@@ -138,7 +165,7 @@ describe('HAS formatter', () => {
 		expect(result).toEqual({
 			casedata: {
 				submissionId: 'appeal123',
-				caseType: APPEAL_CASE_TYPE.D,
+				caseType: APPEAL_CASE_TYPE.W,
 				caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
 				lpaCode: 123,
 				caseSubmittedDate: expect.any(String),
@@ -165,10 +192,20 @@ describe('HAS formatter', () => {
 				advertisedAppeal: true,
 				ownersInformed: true,
 				originalDevelopmentDescription: 'Original description',
-				changedDevelopmentDescription: true,
+				changedDevelopmentDescription: 'Updated description',
 				nearbyCaseReferences: ['case123'],
 				neighbouringSiteAddresses: null,
-				appellantCostsAppliedFor: true
+				appellantCostsAppliedFor: true,
+				agriculturalHolding: false,
+				tenantAgriculturalHolding: null,
+				otherTenantsAgriculturalHolding: null,
+				informedTenantsAgriculturalHolding: null,
+				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.HEARING,
+				appellantProcedurePreferenceDetails: 'details 2',
+				appellantProcedurePreferenceDuration: null,
+				inquiryHowManyWitnesses: null,
+				planningObligation: true,
+				statusPlanningObligation: 'test'
 			},
 			documents: testDocuments,
 			users: [
