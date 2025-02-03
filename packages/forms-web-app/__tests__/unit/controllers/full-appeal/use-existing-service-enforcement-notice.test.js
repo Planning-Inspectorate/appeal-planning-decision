@@ -1,6 +1,6 @@
 const {
 	getUseExistingServiceEnforcementNotice
-} = require('../../../../src/controllers/full-appeal/use-existing-service-enforcement-notice');
+} = require('../../../../src/controllers/before-you-start/use-existing-service-enforcement-notice');
 
 const {
 	VIEW: {

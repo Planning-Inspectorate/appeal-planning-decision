@@ -27,7 +27,7 @@ const {
 const logger = require('../../../../src/lib/logger');
 
 const navigationPage = {
-	nextPage: '/before-you-start/enforcement-notice',
+	nextPage: '/before-you-start/can-use-service',
 	shutterPage: '/before-you-start/you-cannot-appeal'
 };
 
@@ -331,7 +331,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 			});
 		});
 
-		it('should redirect to enforcement notice as deadline date is not passed', async () => {
+		it('should redirect to correct page if deadline date is not passed', async () => {
 			const decisionDate = addDays(subMonths(endOfDay(new Date()), 5), 1);
 
 			const mockRequest = {

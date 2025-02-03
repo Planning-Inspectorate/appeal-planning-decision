@@ -12,8 +12,8 @@ const {
 } = require('../../../lib/views');
 const config = require('../../../config');
 
-const shutter = `/before-you-start/you-cannot-appeal`;
-const enforcementNoticeHouseholder = `/before-you-start/enforcement-notice-householder`;
+const shutterPage = `/before-you-start/you-cannot-appeal`;
+const nextPage = '/before-you-start/can-use-service';
 
 exports.getDecisionDateHouseholder = async (req, res) => {
 	const { appeal } = req.session;
@@ -75,7 +75,7 @@ exports.postDecisionDateHouseholder = async (req, res) => {
 		req.session.appeal.eligibility.appealDeadline = refusedDeadlineDate;
 		req.session.appeal.eligibility.appealPeriod = deadline.description;
 
-		return res.redirect(shutter);
+		return res.redirect(shutterPage);
 	}
 
 	try {
@@ -83,7 +83,7 @@ exports.postDecisionDateHouseholder = async (req, res) => {
 			...appeal,
 			decisionDate: enteredDate.toISOString()
 		});
-		return res.redirect(enforcementNoticeHouseholder);
+		return res.redirect(nextPage);
 	} catch (e) {
 		logger.error(e);
 

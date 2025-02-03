@@ -2,17 +2,17 @@ const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const {
 	postEnforcementNotice,
 	getEnforcementNotice
-} = require('../../../../src/controllers/full-appeal/enforcement-notice');
+} = require('../../../../src/controllers/before-you-start/enforcement-notice');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const {
 	VIEW: {
-		FULL_APPEAL: { ENFORCEMENT_NOTICE }
+		BEFORE_YOU_START: { ENFORCEMENT_NOTICE }
 	}
 } = require('../../../../src/lib/views');
 const config = require('../../../../src/config');
 
 const navigationPages = {
-	nextPage: '/before-you-start/can-use-service',
+	nextPage: '/before-you-start/type-of-planning-application',
 	shutterPage: '/before-you-start/use-existing-service-enforcement-notice'
 };
 const logger = require('../../../../src/lib/logger');
@@ -21,7 +21,7 @@ const { mockReq, mockRes } = require('../../mocks');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
 
-describe('controllers/full-appeal/enforcement-notice', () => {
+describe('controllers/before-you-start/enforcement-notice', () => {
 	let req;
 	let res;
 
@@ -127,7 +127,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 			expect(res.redirect).toHaveBeenCalledWith(navigationPages.shutterPage);
 		});
 
-		it('should redirect to `/before-you-start/can-use-service` if `enforcement-notice` is `no`', async () => {
+		it('should redirect to `/before-you-start/type-of-planning-application` if `enforcement-notice` is `no`', async () => {
 			const mockRequest = {
 				...req,
 				body: {

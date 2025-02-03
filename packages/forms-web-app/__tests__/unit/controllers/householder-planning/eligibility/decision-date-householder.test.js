@@ -75,7 +75,7 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 	});
 
 	describe('postDecisionDateHouseholder', () => {
-		it('should save the appeal and redirect to enforcement-notice-householder if application decision is granted and date is within six months', async () => {
+		it('should save the appeal and redirect to correct page if application decision is granted and date is within six months', async () => {
 			const decisionDate = addDays(subMonths(startOfDay(new Date()), 1), 1);
 			const mockRequest = {
 				...req,
@@ -95,10 +95,10 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 				decisionDate: decisionDate.toISOString()
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/enforcement-notice-householder`);
+			expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/can-use-service`);
 		});
 
-		it('should save the appeal and redirect to enforcement-notice-householder if application decision is refused and date is within twelve weeks', async () => {
+		it('should save the appeal and redirect to correct page if application decision is refused and date is within twelve weeks', async () => {
 			const decisionDate = addDays(subMonths(startOfDay(new Date()), 1), 1);
 			const mockRequest = {
 				...req,
@@ -118,7 +118,7 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 				decisionDate: decisionDate.toISOString()
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/enforcement-notice-householder`);
+			expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/can-use-service`);
 		});
 
 		it('should not save the appeal and redirect to you-cannot-appeal if application decision is granted and date is older than six months', async () => {

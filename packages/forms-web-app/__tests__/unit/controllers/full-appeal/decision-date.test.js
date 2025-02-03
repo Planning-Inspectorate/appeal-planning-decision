@@ -70,7 +70,7 @@ describe('controllers/full-appeal/decision-date', () => {
 	});
 
 	describe('postDecisionDate', () => {
-		it('should save the appeal and redirect to enforcement-notice if date is within six months', async () => {
+		it('should save the appeal and redirect to correct pafe if date is within six months', async () => {
 			const decisionDate = addDays(subDays(startOfDay(new Date()), 181), 1);
 			const mockRequest = {
 				...req,
@@ -90,7 +90,7 @@ describe('controllers/full-appeal/decision-date', () => {
 				decisionDate: decisionDate.toISOString()
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/enforcement-notice`);
+			expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/can-use-service`);
 		});
 
 		it('should not save the appeal and redirect to shutter page if date is not within six months', async () => {

@@ -1,5 +1,5 @@
 const express = require('express');
-const useExistingServiceEnforcementNotice = require('../../controllers/full-appeal/use-existing-service-enforcement-notice');
+const useExistingServiceEnforcementNotice = require('../../controllers/before-you-start/use-existing-service-enforcement-notice');
 
 const router = express.Router();
 

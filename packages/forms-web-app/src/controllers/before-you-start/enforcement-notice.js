@@ -2,22 +2,17 @@ const logger = require('../../lib/logger');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
 	VIEW: {
-		FULL_APPEAL: { ENFORCEMENT_NOTICE: currentPage }
+		BEFORE_YOU_START: { ENFORCEMENT_NOTICE }
 	}
 } = require('../../lib/views');
 const {
 	validEnforcementNoticeOptions
-} = require('../../validators/full-appeal/enforcement-notice');
-
-const navigationPages = {
-	nextPage: '/before-you-start/can-use-service',
-	shutterPage: '/before-you-start/use-existing-service-enforcement-notice'
-};
+} = require('../../validators/before-you-start/enforcement-notice');
 const config = require('../../config');
 
 exports.getEnforcementNotice = (req, res) => {
 	const { appeal } = req.session;
-	res.render(currentPage, {
+	res.render(ENFORCEMENT_NOTICE, {
 		bannerHtmlOverride: config.betaBannerText,
 		appeal
 	});
@@ -34,7 +29,7 @@ exports.postEnforcementNotice = async (req, res) => {
 	}
 
 	if (Object.keys(errors).length > 0) {
-		res.render(currentPage, {
+		res.render(ENFORCEMENT_NOTICE, {
 			bannerHtmlOverride: config.betaBannerText,
 			appeal: {
 				...appeal,
@@ -60,7 +55,7 @@ exports.postEnforcementNotice = async (req, res) => {
 	} catch (e) {
 		logger.error(e);
 
-		res.render(currentPage, {
+		res.render(ENFORCEMENT_NOTICE, {
 			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			errors,
@@ -70,9 +65,9 @@ exports.postEnforcementNotice = async (req, res) => {
 	}
 
 	if (hasReceivedEnforcementNotice) {
-		res.redirect(navigationPages.shutterPage);
+		res.redirect('/before-you-start/use-existing-service-enforcement-notice');
 		return;
 	}
 
-	res.redirect(navigationPages.nextPage);
+	res.redirect('/before-you-start/type-of-planning-application');
 };

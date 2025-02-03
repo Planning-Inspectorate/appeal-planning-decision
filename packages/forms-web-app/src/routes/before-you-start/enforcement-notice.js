@@ -1,10 +1,10 @@
 const express = require('express');
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
-const enforcementNoticeController = require('../../controllers/full-appeal/enforcement-notice');
+const enforcementNoticeController = require('../../controllers/before-you-start/enforcement-notice');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
 	rules: enforcementNoticeValidationRules
-} = require('../../validators/full-appeal/enforcement-notice');
+} = require('../../validators/before-you-start/enforcement-notice');
 
 const router = express.Router();
 

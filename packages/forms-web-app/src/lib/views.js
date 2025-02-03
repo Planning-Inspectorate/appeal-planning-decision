@@ -12,7 +12,8 @@ const VIEW = {
 
 		USE_EXISTING_SERVICE_DEVELOPMENT_TYPE: 'before-you-start/use-existing-service-development-type',
 		USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building',
-		LISTED_BUILDING: 'before-you-start/listed-building'
+		LISTED_BUILDING: 'before-you-start/listed-building',
+		ENFORCEMENT_NOTICE: 'before-you-start/enforcement-notice'
 	},
 
 	APPELLANT_SUBMISSION: {
@@ -51,6 +52,7 @@ const VIEW = {
 				'householder-planning/eligibility/date-decision-due-householder',
 			ENFORCEMENT_NOTICE_HOUSEHOLDER:
 				'householder-planning/eligibility/enforcement-notice-householder',
+			LISTED_BUILDING_HOUSEHOLDER: 'householder-planning/eligibility/listed-building-householder',
 			GRANTED_OR_REFUSED_HOUSEHOLDER:
 				'householder-planning/eligibility/granted-or-refused-householder',
 			HAS_APPEAL_FORM: 'householder-planning/eligibility/results-householder',
@@ -102,7 +104,6 @@ const VIEW = {
 		DECLARATION_INFORMATION: 'full-appeal/submit-appeal/declaration-information',
 		DRAFT_PLANNING_OBLIGATION: 'full-appeal/submit-appeal/draft-planning-obligation',
 		DRAFT_STATEMENT_COMMON_GROUND: 'full-appeal/submit-appeal/draft-statement-common-ground',
-		ENFORCEMENT_NOTICE: 'full-appeal/enforcement-notice',
 		EXPECT_ENQUIRY_LAST: 'full-appeal/submit-appeal/expect-inquiry-last',
 		GRANTED_OR_REFUSED: 'full-appeal/granted-or-refused',
 		HEALTH_SAFETY_ISSUES: 'full-appeal/submit-appeal/health-safety-issues',

@@ -7,11 +7,10 @@ const typeOfPlanningRouter = require('../../../../src/routes/before-you-start/ty
 const useADifferentServiceRouter = require('../../../../src/routes/before-you-start/use-a-different-service');
 const useExistingServiceApplicationType = require('../../../../src/routes/before-you-start/use-existing-service-application-type');
 const outOfTimeRouter = require('../../../../src/routes/full-appeal/you-cannot-appeal');
-const enforcementNoticeRouter = require('../../../../src/routes/full-appeal/enforcement-notice');
 const dateDecisionDueRouter = require('../../../../src/routes/full-appeal/date-decision-due');
 const decisionDateRouter = require('../../../../src/routes/full-appeal/decision-date');
 const priorApprovalExistingHomeRouter = require('../../../../src/routes/full-appeal/prior-approval-existing-home');
-const useExistingServiceEnforcementNotice = require('../../../../src/routes/full-appeal/use-existing-service-enforcement-notice');
+const useExistingServiceEnforcementNotice = require('../../../../src/routes/before-you-start/use-existing-service-enforcement-notice');
 
 describe('routes/full-appeal/index', () => {
 	beforeEach(() => {
@@ -29,7 +28,6 @@ describe('routes/full-appeal/index', () => {
 		expect(use).toHaveBeenCalledWith(useADifferentServiceRouter);
 		expect(use).toHaveBeenCalledWith(useExistingServiceApplicationType);
 		expect(use).toHaveBeenCalledWith(outOfTimeRouter);
-		expect(use).toHaveBeenCalledWith(enforcementNoticeRouter);
 		expect(use).toHaveBeenCalledWith(decisionDateRouter);
 		expect(use).toHaveBeenCalledWith(dateDecisionDueRouter);
 		expect(use).toHaveBeenCalledWith(priorApprovalExistingHomeRouter);

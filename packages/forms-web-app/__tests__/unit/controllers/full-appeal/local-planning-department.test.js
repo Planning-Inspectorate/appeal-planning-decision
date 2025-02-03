@@ -116,7 +116,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 					...appeal,
 					lpaCode: 'lpaCode1'
 				});
-				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/type-of-planning-application');
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/enforcement-notice');
 			});
 
 			it('re-renders page with error when errors in request body', async () => {
