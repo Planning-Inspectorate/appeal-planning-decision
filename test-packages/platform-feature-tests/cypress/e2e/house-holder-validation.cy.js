@@ -31,7 +31,7 @@ describe('House Holder Date Validations', () => {
         cy.advanceToNextPage();
 
         cy.get(basePage?._selectors?.localPlanningDepartment)
-            .type('System Test Borough Council')
+            .type('System Test 2 Borough Council')
             .get(basePage?._selectors?.localPlanningDepartmentOptionZero)
             .click();
         cy.advanceToNextPage();
@@ -104,7 +104,7 @@ describe('House Holder Date Validations', () => {
 
         let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-        cy.getByData(basePage?._selectors.localPlanningDpmt).should('have.text', 'System Test Borough Council');
+        cy.getByData(basePage?._selectors.localPlanningDpmt).should('have.text', 'System Test 2 Borough Council');
         cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.householderPlanningText);
         cy.getByData(basePage?._selectors.listedBuilding).should('have.text', 'No');
         cy.getByData(basePage?._selectors.applicaitonDecision).should('have.text', 'Refused');
@@ -138,7 +138,7 @@ describe('House Holder Validations', () => {
         cy.advanceToNextPage();
 
         cy.get(basePage?._selectors?.localPlanningDepartment)
-            .type('System Test Borough Council')
+            .type('System Test 2 Borough Council')
             .get(basePage?._selectors?.localPlanningDepartmentOptionZero)
             .click();
         cy.advanceToNextPage();
