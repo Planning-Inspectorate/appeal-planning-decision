@@ -58,23 +58,19 @@ const { getCaseAndAppellant } = require('../../routes/v2/appeal-cases/service');
 const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 /**
- * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
- * @typedef {import('../../routes/v2/appellant-submissions/_id/service').FullAppellantSubmission} FullAppellantSubmission
- * @typedef {"HAS" | "S78"} AppealTypeCode
- */
-
-/**
  * @template Payload
  * @typedef {import('./validate').Validate<Payload>} Validate
  */
 
 /**
+ * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
+ * @typedef {import('../../routes/v2/appellant-submissions/_id/service').FullAppellantSubmission} FullAppellantSubmission
+ * @typedef {"HAS" | "S78"} AppealTypeCode
  * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
  * @typedef {import ('pins-data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
- */
-
-/**
  * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
+ * @typedef {import('../../models/entities/lpa-entity')} LPA
+ * @typedef {import('./formatters/utils').AppellantSubmissionMapper} AppellantSubmissionMapper
  */
 
 const { getValidator } = new SchemaValidator();
@@ -93,12 +89,10 @@ class BackOfficeV2Service {
 	constructor() {}
 
 	/**
-	 * @param {{ appellantSubmission: FullAppellantSubmission, userId: string, formatter: function(FullAppellantSubmission): *}} params
+	 * @param {{ appellantSubmission: FullAppellantSubmission, email: string, lpa: LPA, formatter: AppellantSubmissionMapper}} params
 	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitAppellantSubmission({ appellantSubmission, userId, formatter }) {
-		const { email } = await getUserById(userId);
-
+	async submitAppellantSubmission({ appellantSubmission, email, lpa, formatter }) {
 		const isBOIntegrationActive = await isFeatureActive(
 			FLAG.APPEALS_BO_SUBMISSION,
 			appellantSubmission.LPACode
@@ -111,7 +105,7 @@ class BackOfficeV2Service {
 		logger.info(
 			`mapping appeal ${appellantSubmission.appealId} to ${appellantSubmission.appealTypeCode} schema`
 		);
-		const mappedData = await formatter(appellantSubmission);
+		const mappedData = await formatter(appellantSubmission, lpa);
 		logger.debug({ mappedData }, 'mapped appeal');
 
 		logger.info(`validating appeal ${appellantSubmission.appealId} schema`);

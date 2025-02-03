@@ -21,6 +21,7 @@ const { templates } = config.services.notify;
  * @typedef {import('@prisma/client').AppealCase } AppealCase
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
+ * @typedef {import('../routes/v2/appellant-submissions/_id/service').FullAppellantSubmission} FullAppellantSubmission
  * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
@@ -129,7 +130,7 @@ const sendSubmissionReceivedEmailToAppellant = async (appeal) => {
 
 /**
  *  v2 appellant submission initial
- * @param { AppellantSubmission } appellantSubmission
+ * @param { FullAppellantSubmission } appellantSubmission
  * @param { string } email
  */
 const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, email) => {
@@ -228,7 +229,7 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
 };
 
 /**
- * @param { AppellantSubmission } appellantSubmission
+ * @param { FullAppellantSubmission } appellantSubmission
  * @param { string } email
  */
 const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission, email) => {
