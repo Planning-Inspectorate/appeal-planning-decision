@@ -20,7 +20,7 @@ export class PrepareAppealSelector {
         statusOfOriginalApplicationNoDecision: "no decision",
         answerFullAppeal: "answer-full-appeal",
         answerHouseholderPlanning: "answer-householder-planning",
-        fullAppealText: "Full Appeal",
+        fullAppealText: "Full appeal",
         householderPlanningText: "Householder planning"
     }
     _fullAppealselectors = {

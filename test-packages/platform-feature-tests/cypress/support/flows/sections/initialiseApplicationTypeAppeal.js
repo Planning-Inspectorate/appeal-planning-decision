@@ -29,7 +29,8 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 
 	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal) {
 
-		cy.get(basePage._selectors?.siteSelectionSeven).click();
+		//cy.get(basePage._selectors?.siteSelectionSeven).click();
+		cy.getByData(basePage._selectors?.answerListedBuilding).click();
 		cy.advanceToNextPage();
 		initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.fullAppealText, context, prepareAppealData);
 	}

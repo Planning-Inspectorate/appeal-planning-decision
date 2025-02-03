@@ -45,7 +45,7 @@ describe('Full Appeal Validations', () => {
         cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
         cy.advanceToNextPage();
         // eslint-disable-next-line cypress/unsafe-to-chain-command
-        cy.get(basePage?._selectors?.localPlanningDepartment).type('System Test Borough Council').get(basePage?._selectors?.localPlanningDepartmentOptionZero).click();
+        cy.get(basePage?._selectors?.localPlanningDepartment).type('System Test 2 Borough Council').get(basePage?._selectors?.localPlanningDepartmentOptionZero).click();
         cy.advanceToNextPage();
 
         cy.getByData(basePage?._selectors?.answerFullAppeal).click();
