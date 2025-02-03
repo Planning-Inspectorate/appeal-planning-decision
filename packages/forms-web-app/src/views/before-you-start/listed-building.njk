@@ -29,8 +29,8 @@
           <span class="govuk-caption-l">Before you start</span>
 
           {{ govukRadios({
-            id: "listed-building-householder",
-            name: "listed-building-householder",
+            id: "listed-building",
+            name: "listed-building",
             fieldset: {
               legend: {
                 text: "Is your appeal about a listed building?",
@@ -38,8 +38,8 @@
                 classes: "govuk-fieldset__legend--l"
               }
             },
-            errorMessage: errors['listed-building-householder'] and {
-              text: errors['listed-building-householder'].msg
+            errorMessage: errors['listed-building'] and {
+              text: errors['listed-building'].msg
             },
             items: [
               {

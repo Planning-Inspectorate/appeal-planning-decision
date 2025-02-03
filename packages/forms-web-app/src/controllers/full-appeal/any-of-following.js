@@ -6,14 +6,23 @@ const {
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const config = require('../../config');
+const { FLAG } = require('@pins/common/src/feature-flags');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 const sectionName = 'eligibility';
 
-const getAnyOfFollowing = (req, res) => {
+// this controller only used for v1 appeals
+
+const getAnyOfFollowing = async (req, res) => {
+	// redirect if v2
+	const isV2 = await isLpaInFeatureFlag(req.session.appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+	if (isV2) return res.redirect(config.appeals.startingPointEnrolUsersActive);
+
 	const {
 		[sectionName]: { applicationCategories },
 		typeOfPlanningApplication
 	} = req.session.appeal;
+
 	res.render(ANY_OF_FOLLOWING, {
 		bannerHtmlOverride: config.betaBannerText,
 		applicationCategories,

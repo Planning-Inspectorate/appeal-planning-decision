@@ -24,15 +24,15 @@ const { CONSTS } = require('../consts');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 
 const appealTypeToDetails = {
-	[CASE_TYPES.HAS.id]: {
+	[CASE_TYPES.HAS.id.toString()]: {
 		appealTypeCode: CASE_TYPES.HAS.processCode,
 		taskListUrlStub: 'householder'
 	},
-	[CASE_TYPES.S78.id]: {
+	[CASE_TYPES.S78.id.toString()]: {
 		appealTypeCode: CASE_TYPES.S78.processCode,
 		taskListUrlStub: 'full-planning'
 	},
-	[CASE_TYPES.S20.id]: {
+	[CASE_TYPES.S20.id.toString()]: {
 		appealTypeCode: CASE_TYPES.S20.processCode,
 		taskListUrlStub: 'listed-building'
 	}

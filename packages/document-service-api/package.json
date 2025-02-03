@@ -17,7 +17,7 @@
 		"start:dev": "npm run db:generate && nodemon ./ | pino-pretty -tlc",
 		"start:dev:debug": "npm run db:generate && nodemon --inspect=0.0.0.0 ./",
 		"seed:dev": "node ./dev/seed.js",
-		"integration-test": "npm run db:generate && jest"
+		"test": "npm run db:generate && jest --coverage --verbose"
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {

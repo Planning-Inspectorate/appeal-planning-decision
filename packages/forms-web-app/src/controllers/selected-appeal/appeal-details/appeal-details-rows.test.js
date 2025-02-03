@@ -239,7 +239,7 @@ describe('appeal-details-rows', () => {
 		const otherOwnersIdentifiedIndex = 10;
 		const advertisedAppealIndex = 11;
 
-		it('should display Other Owners Identified and Advertised Appeal if advertised appeal', () => {
+		it('should display Other Owners Identified and Advertised Appeal if advertised appeal not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
 			testCase.advertisedAppeal = true;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
@@ -249,43 +249,49 @@ describe('appeal-details-rows', () => {
 			expect(rows[advertisedAppealIndex].condition(testCase)).toEqual(true);
 			expect(rows[advertisedAppealIndex].keyText).toEqual('Advertised appeal');
 			expect(rows[advertisedAppealIndex].valueText).toEqual('Yes');
-		});
-
-		it('should not display Other Owners Identified and Advertised Appeal if not advertised appeal', () => {
-			const testCase = structuredClone(caseWithAppellant);
-
-			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows[otherOwnersIdentifiedIndex].condition(testCase)).toBeFalsy();
-			expect(rows[advertisedAppealIndex].condition(testCase)).toBeFalsy();
 
 			testCase.advertisedAppeal = false;
 			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows2[otherOwnersIdentifiedIndex].condition(testCase)).toEqual(false);
-			expect(rows2[advertisedAppealIndex].condition(testCase)).toEqual(false);
+			expect(rows2[otherOwnersIdentifiedIndex].condition(testCase)).toEqual(true);
+			expect(rows2[otherOwnersIdentifiedIndex].keyText).toEqual('Other owners identified');
+			expect(rows2[otherOwnersIdentifiedIndex].valueText).toEqual('No');
+			expect(rows2[advertisedAppealIndex].condition(testCase)).toEqual(true);
+			expect(rows2[advertisedAppealIndex].keyText).toEqual('Advertised appeal');
+			expect(rows2[advertisedAppealIndex].valueText).toEqual('No');
+		});
+
+		it('should not display Other Owners Identified and Advertised Appeal if advertised appeal null', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[otherOwnersIdentifiedIndex].condition(testCase)).toEqual(false);
+			expect(rows[advertisedAppealIndex].condition(testCase)).toEqual(false);
 		});
 	});
 
 	describe('Other owners informed', () => {
 		const otherOwnersInformedIndex = 12;
 
-		it('should display Advertised Appeal if advertised appeal', () => {
+		it('should display other owners informed if otherOwnersInformed not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
 			testCase.ownersInformed = true;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[otherOwnersInformedIndex].condition(testCase)).toEqual(true);
 			expect(rows[otherOwnersInformedIndex].keyText).toEqual('Other owners informed');
 			expect(rows[otherOwnersInformedIndex].valueText).toEqual('Yes');
-		});
-
-		it('should not display Advertised Appeal if not advertised appeal', () => {
-			const testCase = structuredClone(caseWithAppellant);
-
-			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows[otherOwnersInformedIndex].condition(testCase)).toBeFalsy();
 
 			testCase.ownersInformed = false;
 			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows2[otherOwnersInformedIndex].condition(testCase)).toEqual(false);
+			expect(rows2[otherOwnersInformedIndex].condition(testCase)).toEqual(true);
+			expect(rows2[otherOwnersInformedIndex].keyText).toEqual('Other owners informed');
+			expect(rows2[otherOwnersInformedIndex].valueText).toEqual('No');
+		});
+
+		it('should display other owners informed if otherOwnersInformed null', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[otherOwnersInformedIndex].condition(testCase)).toEqual(false);
 		});
 	});
 
@@ -346,31 +352,33 @@ describe('appeal-details-rows', () => {
 	describe('Tenant on agricultural holding', () => {
 		const tenantAgriculturalIndex = 15;
 
-		it('should display tenant on agricultural holding if true', () => {
+		it('should display tenant on agricultural holding if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
 			testCase.tenantAgriculturalHolding = true;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[tenantAgriculturalIndex].condition(testCase)).toEqual(true);
 			expect(rows[tenantAgriculturalIndex].keyText).toEqual('Tenant on agricultural holding');
 			expect(rows[tenantAgriculturalIndex].valueText).toEqual('Yes');
-		});
-
-		it('should not display tenant on agricultural holding if not true', () => {
-			const testCase = structuredClone(caseWithAppellant);
-
-			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows[tenantAgriculturalIndex].condition(testCase)).toBeFalsy();
 
 			testCase.tenantAgriculturalHolding = false;
 			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows2[tenantAgriculturalIndex].condition(testCase)).toEqual(false);
+			expect(rows2[tenantAgriculturalIndex].condition(testCase)).toEqual(true);
+			expect(rows2[tenantAgriculturalIndex].keyText).toEqual('Tenant on agricultural holding');
+			expect(rows2[tenantAgriculturalIndex].valueText).toEqual('No');
+		});
+
+		it('should not display tenant on agricultural holding if null', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[tenantAgriculturalIndex].condition(testCase)).toEqual(false);
 		});
 	});
 
 	describe('Other agricultural holding tenants', () => {
 		const otherAgriculturalTenantsIndex = 16;
 
-		it('should display Other agricultural holding tenants if true', () => {
+		it('should display Other agricultural holding tenants if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
 			testCase.otherTenantsAgriculturalHolding = true;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
@@ -379,24 +387,28 @@ describe('appeal-details-rows', () => {
 				'Other agricultural holding tenants'
 			);
 			expect(rows[otherAgriculturalTenantsIndex].valueText).toEqual('Yes');
-		});
-
-		it('should not display Other agricultural holding tenants if not true', () => {
-			const testCase = structuredClone(caseWithAppellant);
-
-			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows[otherAgriculturalTenantsIndex].condition(testCase)).toBeFalsy();
 
 			testCase.otherTenantsAgriculturalHolding = false;
 			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows2[otherAgriculturalTenantsIndex].condition(testCase)).toEqual(false);
+			expect(rows2[otherAgriculturalTenantsIndex].condition(testCase)).toEqual(true);
+			expect(rows2[otherAgriculturalTenantsIndex].keyText).toEqual(
+				'Other agricultural holding tenants'
+			);
+			expect(rows2[otherAgriculturalTenantsIndex].valueText).toEqual('No');
+		});
+
+		it('should not display Other agricultural holding tenants if null', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[otherAgriculturalTenantsIndex].condition(testCase)).toEqual(false);
 		});
 	});
 
 	describe('Informed other agricultural holding tenants', () => {
 		const informedAgriculturalTenantsIndex = 17;
 
-		it('should display informed other agricultural holding tenants if true', () => {
+		it('should display informed other agricultural holding tenants if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
 			testCase.informedTenantsAgriculturalHolding = true;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
@@ -405,17 +417,21 @@ describe('appeal-details-rows', () => {
 				'Informed other agricultural holding tenants'
 			);
 			expect(rows[informedAgriculturalTenantsIndex].valueText).toEqual('Yes');
-		});
-
-		it('should not display informed other agricultural holding tenants if not true', () => {
-			const testCase = structuredClone(caseWithAppellant);
-
-			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows[informedAgriculturalTenantsIndex].condition(testCase)).toBeFalsy();
 
 			testCase.informedTenantsAgriculturalHolding = false;
 			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows2[informedAgriculturalTenantsIndex].condition(testCase)).toEqual(false);
+			expect(rows2[informedAgriculturalTenantsIndex].condition(testCase)).toEqual(true);
+			expect(rows2[informedAgriculturalTenantsIndex].keyText).toEqual(
+				'Informed other agricultural holding tenants'
+			);
+			expect(rows2[informedAgriculturalTenantsIndex].valueText).toEqual('No');
+		});
+
+		it('should not display informed other agricultural holding tenants if null', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[informedAgriculturalTenantsIndex].condition(testCase)).toEqual(false);
 		});
 	});
 

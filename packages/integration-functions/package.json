@@ -11,8 +11,7 @@
 	"scripts": {
 		"lint": "eslint ./",
 		"start": "func start",
-		"test": "jest",
-		"test:cov": "jest --coverage --verbose",
+		"test": "jest --coverage --verbose",
 		"test:watch": "jest --watchAll --runInBand"
 	},
 	"devDependencies": {

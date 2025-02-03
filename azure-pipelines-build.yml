@@ -88,19 +88,6 @@ extends:
                 - name: web
                   path: packages/forms-web-app
               stepName: check_files
-      - name: Run Integration Tests
-        condition: ${{ eq(parameters.runValidation, true) }}
-        steps:
-          - template: ../steps/node_script.yml
-            parameters:
-              nodeVersion: 20
-              script: npm ci
-          - template: ../steps/node_script.yml
-            parameters:
-              condition: succeededOrFailed()
-              script: npm run integration-test
-              nodeVersion: 20
-
       - name: Build Appeals API
         condition: >-
           and(
@@ -124,7 +111,6 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
-          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
@@ -155,7 +141,6 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
-          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
@@ -185,7 +170,6 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
-          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
@@ -214,7 +198,6 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
-          - Run Integration Tests
         steps:
           - template: ../steps/node_script.yml
             parameters:
@@ -258,7 +241,6 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
-          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:
@@ -289,7 +271,6 @@ extends:
           )
         dependsOn:
           - Run Linting & Tests
-          - Run Integration Tests
         steps:
           - template: ../steps/azure_web_app_docker_build_push.yml@templates
             parameters:

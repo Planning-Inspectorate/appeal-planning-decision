@@ -20,9 +20,8 @@
 		"start:dev:server:debug": "nodemon --inspect=0.0.0.0 src/server.js",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
-		"test": "jest --coverage",
+		"test": "jest --coverage --verbose",
 		"test:update": "jest --updateSnapshot",
-		"test:cov": "jest --coverage --verbose",
 		"test:watch": "jest --watchAll --runInBand"
 	},
 	"dependencies": {
