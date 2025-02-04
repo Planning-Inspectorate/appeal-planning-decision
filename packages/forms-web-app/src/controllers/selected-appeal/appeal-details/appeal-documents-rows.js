@@ -25,7 +25,7 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'New description of development',
 			valueText: formatNewDescription(caseData),
-			condition: () => true
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode
 		},
 		{
 			keyText: 'Plans, drawings and supporting documents',
@@ -89,7 +89,7 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'Evidence of agreement to change description of development',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION),
-			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
+			condition: () => true,
 			isEscaped: true
 		},
 		{
