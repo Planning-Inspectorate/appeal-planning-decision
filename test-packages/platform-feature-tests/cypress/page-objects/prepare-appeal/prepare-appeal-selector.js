@@ -20,8 +20,8 @@ export class PrepareAppealSelector {
         statusOfOriginalApplicationNoDecision: "no decision",
         answerFullAppeal: "answer-full-appeal",
         answerHouseholderPlanning: "answer-householder-planning",
-        fullAppealText: "Full Appeal",
-        householderPlanningText: "Householder Planning"
+        fullAppealText: "Full appeal",
+        householderPlanningText: "Householder planning"
     }
     _fullAppealselectors = {
         decisionDateDay: '#decision-date-day',
