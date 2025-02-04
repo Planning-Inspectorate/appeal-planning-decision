@@ -70,7 +70,7 @@ describe('controllers/full-appeal/decision-date', () => {
 	});
 
 	describe('postDecisionDate', () => {
-		it('should save the appeal and redirect to correct pafe if date is within six months', async () => {
+		it('should save the appeal and redirect to correct page if date is within six months', async () => {
 			const decisionDate = addDays(subDays(startOfDay(new Date()), 181), 1);
 			const mockRequest = {
 				...req,
