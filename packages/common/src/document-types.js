@@ -626,18 +626,18 @@ const documentTypes = {
 	},
 	uploadLpaStatementDocuments: {
 		name: 'uploadLpaStatementDocuments',
-		dataModelName: 'appealStatement', // To be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_STATEMENT,
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
 	uploadRule6StatementDocuments: {
 		name: 'uploadRule6StatementDocuments',
-		dataModelName: 'rule6AppealStatement', // To be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.RULE_6_STATEMENT,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -648,7 +648,7 @@ const documentTypes = {
 	},
 	uploadAppellantFinalCommentDocuments: {
 		name: 'uploadAppellantFinalCommentDocuments',
-		dataModelName: 'finalComment', // To be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_FINAL_COMMENT,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -659,11 +659,11 @@ const documentTypes = {
 	},
 	uploadLPAFinalCommentDocuments: {
 		name: 'uploadLPAFinalCommentDocuments',
-		dataModelName: 'finalComment', // To be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_FINAL_COMMENT,
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
+		owner: (_appealTypeCode) => lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
@@ -681,7 +681,7 @@ const documentTypes = {
 	},
 	uploadAppellantProofOfEvidenceDocuments: {
 		name: 'uploadAppellantProofOfEvidenceDocuments',
-		dataModelName: 'appellantProofs', // To be amended as needed once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_PROOF_OF_EVIDENCE,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -692,7 +692,7 @@ const documentTypes = {
 	},
 	uploadAppellantWitnessesEvidence: {
 		name: 'uploadAppellantWitnessesEvidence',
-		dataModelName: 'appellantWitnesses', // To be amended as needed once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_WITNESSES_EVIDENCE,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -703,7 +703,7 @@ const documentTypes = {
 	},
 	uploadLpaProofOfEvidenceDocuments: {
 		name: 'uploadLpaProofOfEvidenceDocuments',
-		dataModelName: 'lpaProofs', // To be amended as needed once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_PROOF_OF_EVIDENCE,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -714,7 +714,7 @@ const documentTypes = {
 	},
 	uploadRule6ProofOfEvidenceDocuments: {
 		name: 'uploadRule6ProofOfEvidenceDocuments',
-		dataModelName: 'rule6Proofs', // To be amended as needed once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.RULE_6_PROOF_OF_EVIDENCE,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -725,7 +725,7 @@ const documentTypes = {
 	},
 	uploadLpaWitnessesEvidence: {
 		name: 'uploadLpaWitnessesEvidence',
-		dataModelName: 'lpaWitnesses', // To be amended as needed once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_WITNESSES_EVIDENCE,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -736,7 +736,7 @@ const documentTypes = {
 	},
 	uploadRule6WitnessesEvidence: {
 		name: 'uploadRule6WitnessesEvidence',
-		dataModelName: 'rule6Witnesses', // To be amended as needed once data model confirmed
+		dataModelName: 'rule6Witnesses', // Not in data model
 		multiple: true,
 		displayName: '',
 		involvement: '',
