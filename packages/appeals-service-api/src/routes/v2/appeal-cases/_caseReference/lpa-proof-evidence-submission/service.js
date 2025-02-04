@@ -3,7 +3,7 @@ const { LpaProofOfEvidenceSubmissionRepository } = require('./repo');
 const repo = new LpaProofOfEvidenceSubmissionRepository();
 
 /**
- * @typedef {import('@prisma/client').LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
+ * @typedef {import('./lpa-proof-evidence-submission').LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  */
 
 /**

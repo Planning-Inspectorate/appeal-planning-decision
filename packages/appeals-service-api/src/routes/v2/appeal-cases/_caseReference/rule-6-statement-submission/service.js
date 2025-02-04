@@ -3,7 +3,7 @@ const { Rule6StatementSubmissionRepository } = require('./repo');
 const repo = new Rule6StatementSubmissionRepository();
 
 /**
- * @typedef {import('@prisma/client').Rule6StatementSubmission} Rule6StatementSubmission
+ * @typedef {import('./rule-6-statement-submission').Rule6StatementSubmission} Rule6StatementSubmission
  */
 
 /**

@@ -1,6 +1,4 @@
-// const {
-// 	// getDocuments
-// } = require('../utils');
+const { getDocuments } = require('../utils');
 const { APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
@@ -8,13 +6,13 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
  * @typedef {import('@pins/common/src/constants').RepresentationTypes} RepresentationTypes
  * @typedef {'appellantFinalCommentDetails' | 'lpaFinalCommentDetails' | 'lpaStatement' | 'rule6Statement'} AllowedRepresentationField
  * @typedef {import ('pins-data-model').Schemas.AppealRepresentationSubmission} AppealRepresentationSubmission
- * @typedef {import('@prisma/client').Prisma.AppellantFinalCommentSubmissionGetPayload<{include: {AppealCase: {select: {LPACode: true}}}}>} AppellantFinalCommentSubmission
- * @typedef {import('@prisma/client').Prisma.LPAFinalCommentSubmissionGetPayload<{include: {AppealCase: {select: {LPACode: true}}}}>} LPAFinalCommentSubmission
- * @typedef {import('@prisma/client').Prisma.LPAStatementSubmissionGetPayload<{include: {AppealCase: {select: {LPACode: true}}}}>} LPAStatementSubmission
- * @typedef {import('@prisma/client').Prisma.Rule6StatementSubmissionGetPayload<{include: {AppealCase: {select: {LPACode: true}}}}>} Rule6StatementSubmission
- * @typedef {import('@prisma/client').Prisma.AppellantProofOfEvidenceSubmissionGetPayload<{include: {AppealCase: {select: {LPACode: true}}}}>} AppellantProofOfEvidenceSubmission
- * @typedef {import('@prisma/client').Prisma.LPAProofOfEvidenceSubmissionGetPayload<{include: {AppealCase: {select: {LPACode: true}}}}>} LPAProofOfEvidenceSubmission
- * @typedef {import('@prisma/client').Prisma.Rule6ProofOfEvidenceSubmissionGetPayload<{include: {AppealCase: {select: {LPACode: true}}}}>} Rule6ProofOfEvidenceSubmission
+ * @typedef {import('../../../../routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/appellant-final-comment-submission').AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
+ * @typedef {import('../../../../routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/lpa-final-comment-submission').LPAFinalCommentSubmission} LPAFinalCommentSubmission
+ * @typedef {import('../../../../routes/v2/appeal-cases/_caseReference/lpa-statement-submission/lpa-statement-submission').LPAStatementSubmission} LPAStatementSubmission
+ * @typedef {import('../../../../routes/v2/appeal-cases/_caseReference/rule-6-statement-submission/rule-6-statement-submission').Rule6StatementSubmission} Rule6StatementSubmission
+ * @typedef {import('../../../../routes/v2/appeal-cases/_caseReference/appellant-proof-evidence-submission/appellant-proof-evidence-submission').AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
+ * @typedef {import('../../../../routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/lpa-proof-evidence-submission').LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
+ * @typedef {import('../../../../routes/v2/appeal-cases/_caseReference/rule-6-proof-evidence-submission/rule-6-proof-evidence-submission').Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  * @typedef {(AppellantFinalCommentSubmission | LPAFinalCommentSubmission | LPAStatementSubmission | Rule6StatementSubmission | AppellantProofOfEvidenceSubmission | LPAProofOfEvidenceSubmission | Rule6ProofOfEvidenceSubmission) & Record<AllowedRepresentationField, string|null>} TypedRepresentationSubmission
  */
 
@@ -71,7 +69,7 @@ exports.formatter = async (caseReference, serviceUserId, repType, representation
 			serviceUserId: serviceUserId || null,
 			lpaCode: lpaCode || null,
 			newUser: null, // to be updated for IP comment
-			documents: []
+			documents: getDocuments(representationSubmission)
 		}
 	};
 };

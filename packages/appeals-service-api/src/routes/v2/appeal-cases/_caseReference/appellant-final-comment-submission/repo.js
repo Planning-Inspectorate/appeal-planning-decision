@@ -2,16 +2,7 @@ const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 
 /**
-* @typedef {import('@prisma/client').Prisma.AppellantFinalCommentSubmissionGetPayload<{
-* 		include: { 
-* 			AppealCase: { 
-* 				select: { 
-* 					appealTypeCode: true,
-* 					LPACode: true
-* 				}
-* 			}
-* 		}
-* 	}>} AppellantFinalCommentSubmission
+* @typedef {import('./appellant-final-comment-submission').AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
 
  */
 

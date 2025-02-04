@@ -3,16 +3,7 @@ const { AppellantFinalCommentSubmissionRepository } = require('./repo');
 const repo = new AppellantFinalCommentSubmissionRepository();
 
 /**
- * @typedef {import('@prisma/client').Prisma.AppellantFinalCommentSubmissionGetPayload<{
- * 		include: {
- * 			AppealCase: {
- * 				select: {
- * 					appealTypeCode: true,
- * 					LPACode: true
- * 				}
- * 			}
- * 		}
- * 	}>} AppellantFinalCommentSubmission
+ * @typedef {import('./appellant-final-comment-submission').AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  */
 
 /**

@@ -2,7 +2,7 @@ const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 
 /**
- * @typedef {import('@prisma/client').LPAFinalCommentSubmission} LPAFinalCommentSubmission
+ * @typedef {import('./lpa-final-comment-submission').LPAFinalCommentSubmission} LPAFinalCommentSubmission
  */
 
 /**

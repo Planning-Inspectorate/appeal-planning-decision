@@ -3,7 +3,7 @@ const { Rule6ProofOfEvidenceSubmissionRepository } = require('./repo');
 const repo = new Rule6ProofOfEvidenceSubmissionRepository();
 
 /**
- * @typedef {import('@prisma/client').Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
+ * @typedef {import('./rule-6-proof-evidence-submission').Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  */
 
 /**

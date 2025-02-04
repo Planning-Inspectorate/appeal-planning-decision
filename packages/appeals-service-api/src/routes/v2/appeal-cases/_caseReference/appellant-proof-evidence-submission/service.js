@@ -3,7 +3,7 @@ const { AppellantProofOfEvidenceSubmissionRepository } = require('./repo');
 const repo = new AppellantProofOfEvidenceSubmissionRepository();
 
 /**
- * @typedef {import('@prisma/client').AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
+ * @typedef {import('./appellant-proof-evidence-submission').AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
  */
 
 /**

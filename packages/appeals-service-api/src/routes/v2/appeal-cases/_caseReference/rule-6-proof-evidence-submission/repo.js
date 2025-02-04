@@ -2,7 +2,7 @@ const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 
 /**
- * @typedef {import('@prisma/client').Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
+ * @typedef {import('./rule-6-proof-evidence-submission').Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  */
 
 /**

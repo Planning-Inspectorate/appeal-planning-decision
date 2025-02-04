@@ -3,7 +3,7 @@ const { LPAFinalCommentSubmissionRepository } = require('./repo');
 const repo = new LPAFinalCommentSubmissionRepository();
 
 /**
- * @typedef {import('@prisma/client').LPAFinalCommentSubmission} LPAFinalCommentSubmission
+ * @typedef {import('./lpa-final-comment-submission').LPAFinalCommentSubmission} LPAFinalCommentSubmission
  */
 
 /**
