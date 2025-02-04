@@ -136,7 +136,7 @@
 		"openid-client": "^5.6.4",
 		"pino": "^9.2.0",
 		"pino-http": "^10.1.0",
-		"pins-data-model": "github:Planning-Inspectorate/data-model#f52c8e836a94847619159ff2076ad6405726c002",
+		"pins-data-model": "github:Planning-Inspectorate/data-model#1.9.14",
 		"puppeteer-core": "^23.11.1",
 		"stream-json": "^1.8.0",
 		"swagger-jsdoc": "^6.2.8",
