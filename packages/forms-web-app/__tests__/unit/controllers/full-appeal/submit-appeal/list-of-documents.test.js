@@ -17,6 +17,7 @@ const {
 	taskListUrl
 } = require('../../../../../src/dynamic-forms/s78-appeal-form/journey');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 const apiClient = {
 	createAppellantSubmission: jest.fn()
@@ -38,6 +39,7 @@ const mockAppeal = {
 	eligibility: mockEligibility
 };
 
+jest.mock('../../../../../src/lib/is-lpa-in-feature-flag');
 jest.mock('../../../../../src/featureFlag');
 jest.mock('../../../../../src/services/department.service');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
@@ -55,8 +57,7 @@ describe('controllers/full-appeal/submit-appeal/list-of-documents', () => {
 
 	describe('getListOfDocuments', () => {
 		it('should call the correct template', async () => {
-			getDepartmentFromId.mockResolvedValue({ lpaCode: 'testCode' });
-			isFeatureActive.mockResolvedValue(false);
+			isLpaInFeatureFlag.mockResolvedValueOnce(false);
 
 			await getListOfDocuments(req, res);
 
