@@ -1,5 +1,6 @@
 const { formatDocumentDetails, formatNewDescription } = require('@pins/common');
-const { APPEALS_CASE_DATA, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
@@ -9,13 +10,10 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
  * @param {AppealCaseDetailed} caseData
- * @param {string} userType
  * @returns {Rows}
  */
-exports.documentsRows = (caseData, userType) => {
+exports.documentsRows = (caseData) => {
 	const documents = caseData.Documents || [];
-	const isAppellantOrAgent =
-		userType === APPEAL_USER_ROLES.APPELLANT || userType === APPEAL_USER_ROLES.AGENT;
 
 	return [
 		{
@@ -32,19 +30,19 @@ exports.documentsRows = (caseData, userType) => {
 		{
 			keyText: 'Plans, drawings and supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
-			condition: () => caseData.appealTypeCode === APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
 			keyText: 'Separate ownership certificate in application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OWNERSHIP_CERTIFICATE),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
 			keyText: 'Design and access statement in application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
@@ -62,7 +60,7 @@ exports.documentsRows = (caseData, userType) => {
 		{
 			keyText: 'New plans or drawings',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.NEW_PLANS_DRAWINGS),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
@@ -73,31 +71,31 @@ exports.documentsRows = (caseData, userType) => {
 		{
 			keyText: 'Planning obligation',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
 			keyText: 'New supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
 			keyText: 'Draft statement of common ground',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
 			keyText: 'Evidence of agreement to change description of development',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
 			isEscaped: true
 		},
 		{
 			keyText: 'Costs application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION),
-			condition: (caseData) => isAppellantOrAgent && caseData.appellantCostsAppliedFor,
+			condition: (caseData) => caseData.appellantCostsAppliedFor,
 			isEscaped: true
 		}
 	];

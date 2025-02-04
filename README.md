@@ -49,6 +49,7 @@ __Initial setup__
 - stop the database container
 - `make serve`
 - `npm run documents:seed`
+- `npm run populate-db` (if required to populate local LPA list)
 
 For windows either use WSL or copy the command for the appropriate step from the Makefile
 
@@ -75,7 +76,8 @@ __Access once running__
 - The website runs locally on [http://localhost:9003/](http://localhost:9003/) (forms-web-app)
 - Use `12345` for any email confirmation codes locally
 - Any email address can be used to [Make an appeal](http://localhost:9003/) but `appellant1@planninginspectorate.gov.uk` has some seeded data
-- Use `admin1@planninginspectorate.gov.uk` on [/manage-appeals/your-email-address](http://localhost:9003/manage-appeals/your-email-address) to act as a Local planning authority (LPA). `System Test Borough Council` is the LPA used locally and for testing
+- Use `admin2@planninginspectorate.gov.uk` on [/manage-appeals/your-email-address](http://localhost:9003/manage-appeals/your-email-address) to act as a Local planning authority (LPA). `System Test Borough Council 2` is the LPA used locally and for testing
+- `System Test Borough Council` is used for testing legacy V1 appeals that go to Horizon
 - Use `r6-1@planninginspectorate.gov.uk` to act as a [/rule-6/email-address](http://localhost:9003/rule-6/email-address) on an appeal
 - You can search and comment on an existing appeal via [Comment on a planning appeal](http://localhost:9003/comment-planning-appeal/enter-postcode)
 

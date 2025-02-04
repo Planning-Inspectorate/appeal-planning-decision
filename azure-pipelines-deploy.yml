@@ -49,7 +49,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.18.2
+      ref: refs/tags/release/3.20.0
   pipelines:
     - pipeline: build
       source: Appeals Service Build
@@ -79,12 +79,87 @@ extends:
         dependsOn:
           - Test
     deploymentStages:
-      - name: Deploy Applications
+      - name: Stage
+        deploymentJobs:
+          - name: Stage API
+            condition: eq(${{ parameters.deployAppealsApi }}, 'true')
+            steps:
+              - template: ../steps/azure_web_app_deploy_slot.yml
+                parameters:
+                  appName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/appeals-service-api
+              - template: ../steps/azure_web_app_verify_git_hash.yml
+                parameters:
+                  appName: appeals-api staging slot
+                  appUrl: $(deploySlotOutputs.slotUrl)/health
+                  buildCommit: $(resources.pipeline.build.sourceCommit)
+          - name: Stage Auth Server
+            condition: eq(${{ parameters.deployAuthServer }}, 'true')
+            steps:
+              - template: ../steps/azure_web_app_deploy_slot.yml
+                parameters:
+                  appName: pins-app-appeals-service-auth-server-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/auth-server
+              - template: ../steps/azure_web_app_verify_git_hash.yml
+                parameters:
+                  appName: auth-server staging slot
+                  appUrl: $(deploySlotOutputs.slotUrl)/health
+                  buildCommit: $(resources.pipeline.build.sourceCommit)
+          - name: Stage Documents API
+            condition: eq(${{ parameters.deployDocumentsApi }}, 'true')
+            steps:
+              - template: ../steps/azure_web_app_deploy_slot.yml
+                parameters:
+                  appName: pins-app-appeals-service-documents-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/documents-api
+              - template: ../steps/azure_web_app_verify_git_hash.yml
+                parameters:
+                  appName: documents-api staging slot
+                  appUrl: $(deploySlotOutputs.slotUrl)/health
+                  buildCommit: $(resources.pipeline.build.sourceCommit)
+          - name: Stage PDF API
+            condition: eq(${{ parameters.deployPdfApi }}, 'true')
+            steps:
+              - template: ../steps/azure_web_app_deploy_slot.yml
+                parameters:
+                  appName: pins-app-appeals-service-pdf-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/pdf-service-api
+              - template: ../steps/azure_web_app_verify_git_hash.yml
+                parameters:
+                  appName: pdf-api staging slot
+                  appUrl: $(deploySlotOutputs.slotUrl)/health
+                  buildCommit: $(resources.pipeline.build.sourceCommit)
+          - name: Stage Web
+            condition: eq(${{ parameters.deployWeb }}, 'true')
+            steps:
+              - template: ../steps/azure_web_app_deploy_slot.yml
+                parameters:
+                  appName: pins-app-appeals-service-appeals-wfe-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/forms-web-app
+              - template: ../steps/azure_web_app_verify_git_hash.yml
+                parameters:
+                  appName: web staging slot
+                  appUrl: $(deploySlotOutputs.slotUrl)/health
+                  buildCommit: $(resources.pipeline.build.sourceCommit)
+      - name: Deploy
+        dependsOn:
+          - Stage
         deploymentJobs:
           - name: Migrate
             condition: ${{ or(eq(parameters.schemaMigration, true), eq(parameters.seedData, true)) }}
             steps:
               - checkout: self
+                fetchDepth: 1
               - template: ../steps/azure_get_secrets.yml
                 parameters:
                   secrets:
@@ -118,58 +193,49 @@ extends:
               - Migrate
             condition: eq(${{ parameters.deployAppealsApi }}, 'true')
             steps:
-              - checkout: self
-              - template: ../steps/azure_web_app_deploy.yml
+              - template: ../steps/azure_web_app_slot_swap.yml
                 parameters:
                   appName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
                   appResourceGroup: $(resourceGroup)
-                  azurecrName: $(azurecrName)
-                  repository: appeal-planning-decision/appeals-service-api
-              - script: |
-                    echo "Verifying API Version (using git hash $(resources.pipeline.build.sourceCommit))..."
-                    bash ./scripts/verify_commit_hash.sh "API" "https://pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health" "$(resources.pipeline.build.sourceCommit)" 5
-                displayName: API Verify Version
-                failOnStderr: true
-                continueOnError: false
-                workingDirectory: $(Build.Repository.LocalPath)
+                  appStagingSlotName: staging
+                  appTargetSlotName: production
+              - template: ../steps/azure_web_app_verify_git_hash.yml
+                parameters:
+                  appName: appeals-api
+                  appUrl: https://pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health
+                  buildCommit: $(resources.pipeline.build.sourceCommit)
           - name: Deploy Auth Server
             dependsOn:
               - Migrate
             condition: eq(${{ parameters.deployAuthServer }}, 'true')
             steps:
-              - checkout: self
-              - template: ../steps/azure_web_app_deploy.yml
+              - template: ../steps/azure_web_app_slot_swap.yml
                 parameters:
                   appName: pins-app-appeals-service-auth-server-$(ENVIRONMENT)-$(REGION_SHORT)-001
                   appResourceGroup: $(resourceGroup)
-                  azurecrName: $(azurecrName)
-                  repository: appeal-planning-decision/auth-server
-              - script: |
-                    echo "Verifying Auth Version (using git hash $(resources.pipeline.build.sourceCommit))..."
-                    bash ./scripts/verify_commit_hash.sh "API" "https://pins-app-appeals-service-auth-server-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health" "$(resources.pipeline.build.sourceCommit)" 5
-                displayName: Auth Verify Version
-                failOnStderr: true
-                continueOnError: false
-                workingDirectory: $(Build.Repository.LocalPath)
+                  appStagingSlotName: staging
+                  appTargetSlotName: production
+              - template: ../steps/azure_web_app_verify_git_hash.yml
+                parameters:
+                  appName: auth-server
+                  appUrl: https://pins-app-appeals-service-auth-server-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health
+                  buildCommit: $(resources.pipeline.build.sourceCommit)
           - name: Deploy Documents API
             dependsOn:
               - Migrate
             condition: eq(${{ parameters.deployDocumentsApi }}, 'true')
             steps:
-              - checkout: self
-              - template: ../steps/azure_web_app_deploy.yml
+              - template: ../steps/azure_web_app_slot_swap.yml
                 parameters:
                   appName: pins-app-appeals-service-documents-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
                   appResourceGroup: $(resourceGroup)
-                  azurecrName: $(azurecrName)
-                  repository: appeal-planning-decision/documents-api
-              - script: |
-                    echo "Verifying Documents Version (using git hash $(resources.pipeline.build.sourceCommit))..."
-                    bash ./scripts/verify_commit_hash.sh "API" "https://pins-app-appeals-service-documents-api-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health" "$(resources.pipeline.build.sourceCommit)" 5
-                displayName: Documents Verify Version
-                failOnStderr: true
-                continueOnError: false
-                workingDirectory: $(Build.Repository.LocalPath)
+                  appStagingSlotName: staging
+                  appTargetSlotName: production
+              - template: ../steps/azure_web_app_verify_git_hash.yml
+                parameters:
+                  appName: documents-api
+                  appUrl: https://pins-app-appeals-service-documents-api-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health
+                  buildCommit: $(resources.pipeline.build.sourceCommit)
           - name: Deploy Integration Functions
             dependsOn:
               - Migrate
@@ -188,39 +254,32 @@ extends:
               - Migrate
             condition: eq(${{ parameters.deployPdfApi }}, 'true')
             steps:
-              - checkout: self
-              - template: ../steps/azure_web_app_deploy.yml
+              - template: ../steps/azure_web_app_slot_swap.yml
                 parameters:
                   appName: pins-app-appeals-service-pdf-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
                   appResourceGroup: $(resourceGroup)
-                  azurecrName: $(azurecrName)
-                  repository: appeal-planning-decision/pdf-service-api
-              - script: |
-                    echo "Verifying PDF Version (using git hash $(resources.pipeline.build.sourceCommit))..."
-                    bash ./scripts/verify_commit_hash.sh "API" "https://pins-app-appeals-service-pdf-api-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health" "$(resources.pipeline.build.sourceCommit)" 10
-                    # large image, slow to update 
-                displayName: PDF Verify Version
-                failOnStderr: true
-                continueOnError: false
-                workingDirectory: $(Build.Repository.LocalPath)
+                  appStagingSlotName: staging
+                  appTargetSlotName: production
+              - template: ../steps/azure_web_app_verify_git_hash.yml
+                parameters:
+                  appName: pdf-api
+                  appUrl: https://pins-app-appeals-service-pdf-api-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health
+                  buildCommit: $(resources.pipeline.build.sourceCommit)
           - name: Deploy Web
             dependsOn:
               - Migrate
             condition: eq(${{ parameters.deployWeb }}, 'true')
             steps:
-              - checkout: self
-              - template: ../steps/azure_web_app_deploy.yml
+              - template: ../steps/azure_web_app_slot_swap.yml
                 parameters:
                   appName: pins-app-appeals-service-appeals-wfe-$(ENVIRONMENT)-$(REGION_SHORT)-001
                   appResourceGroup: $(resourceGroup)
-                  azurecrName: $(azurecrName)
-                  repository: appeal-planning-decision/forms-web-app
-              - script: |
-                    echo "Verifying Web Version (using git hash $(resources.pipeline.build.sourceCommit))..."
-                    bash ./scripts/verify_commit_hash.sh "API" "$(WEB_URL)/health" "$(resources.pipeline.build.sourceCommit)" 5
-                displayName: Web Verify Version
-                failOnStderr: true
-                continueOnError: false
-                workingDirectory: $(Build.Repository.LocalPath)
+                  appStagingSlotName: staging
+                  appTargetSlotName: production
+              - template: ../steps/azure_web_app_verify_git_hash.yml
+                parameters:
+                  appName: web
+                  appUrl: $(WEB_URL)/health
+                  buildCommit: $(resources.pipeline.build.sourceCommit)
     globalVariables:
       - template: azure-pipelines-variables.yml@self

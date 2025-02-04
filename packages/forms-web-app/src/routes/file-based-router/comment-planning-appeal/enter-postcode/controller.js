@@ -1,7 +1,9 @@
 const { fullPostcodeRegex, partialPostcodeRegex } = require('@pins/common/src/regex');
+const { resetInterestedPartySession } = require('../../../../services/interested-party.service');
 
 /** @type {import('express').RequestHandler} */
 const enterPostcodeGet = (req, res) => {
+	resetInterestedPartySession(req);
 	res.render(`comment-planning-appeal/enter-postcode/index`);
 };
 

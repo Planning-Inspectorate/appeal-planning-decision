@@ -16,6 +16,7 @@ exports.patch = async (req, res) => {
 
 		if (!appeal) {
 			res.status(404).send({ error: 'Appeal not found' });
+			return;
 		}
 
 		res.send(appeal);

@@ -1,8 +1,6 @@
 const { validationResult } = require('express-validator');
-const {
-	rules
-} = require('../../../../../src/validators/householder-planning/eligibility/listed-building-householder');
-const { testExpressValidatorMiddleware } = require('../../validation-middleware-helper');
+const { rules } = require('../../../../src/validators/full-appeal/listed-building');
+const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
 describe('validators/planning-department', () => {
 	describe('rules', () => {
@@ -10,7 +8,7 @@ describe('validators/planning-department', () => {
 			const rule = rules()[0].builder.build();
 
 			expect(rules().length).toEqual(1);
-			expect(rule.fields).toEqual(['listed-building-householder']);
+			expect(rule.fields).toEqual(['listed-building']);
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
 			expect(rule.stack).toHaveLength(2);
@@ -23,7 +21,7 @@ describe('validators/planning-department', () => {
 				title: 'no error yes',
 				given: () => ({
 					body: {
-						'listed-building-householder': 'yes'
+						'listed-building': 'yes'
 					}
 				}),
 				expected: (result) => {
@@ -34,7 +32,7 @@ describe('validators/planning-department', () => {
 				title: 'no error no',
 				given: () => ({
 					body: {
-						'listed-building-householder': 'yes'
+						'listed-building': 'no'
 					}
 				}),
 				expected: (result) => {
@@ -45,7 +43,7 @@ describe('validators/planning-department', () => {
 				title: 'error',
 				given: () => ({
 					body: {
-						'listed-building-householder': ''
+						'listed-building': ''
 					}
 				}),
 				expected: (result) => {
@@ -54,7 +52,7 @@ describe('validators/planning-department', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Select yes if your appeal is about a listed building'
 					);
-					expect(result.errors[0].param).toEqual('listed-building-householder');
+					expect(result.errors[0].param).toEqual('listed-building');
 				}
 			}
 		].forEach(({ title, given, expected }) => {

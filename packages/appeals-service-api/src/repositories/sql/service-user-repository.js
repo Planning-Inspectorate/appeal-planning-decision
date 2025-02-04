@@ -38,7 +38,7 @@ class ServiceUserRepository {
 	/**
 	 * Get service user by id
 	 *
-	 * @param {string} serviceUserId
+	 * @param {string[]} serviceUserId
 	 * @param {string} caseReference
 	 * @returns {Promise<ServiceUser|null>}
 	 */
@@ -53,6 +53,31 @@ class ServiceUserRepository {
 			select: {
 				firstName: true,
 				lastName: true,
+				serviceUserType: true
+			}
+		});
+	}
+
+	/**
+	 * Get service user emails by array of ids
+	 *
+	 * @param {Set<string>} serviceUserIds
+	 * @param {string} caseReference
+	 * @returns {Promise<ServiceUser[]|null>}
+	 */
+	getServiceUsersWithEmailsByIdAndCaseReference(serviceUserIds, caseReference) {
+		return this.dbClient.serviceUser.findMany({
+			where: {
+				AND: {
+					id: {
+						in: serviceUserIds
+					},
+					caseReference
+				}
+			},
+			select: {
+				id: true,
+				emailAddress: true,
 				serviceUserType: true
 			}
 		});

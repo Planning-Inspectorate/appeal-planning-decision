@@ -11,7 +11,8 @@ const eligibilityValidation = () => {
 			applicationDecision: applicationDecisionValidation(),
 			enforcementNotice: booleanValidation(),
 			hasPriorApprovalForExistingHome: booleanValidation(),
-			hasHouseholderPermissionConditions: booleanValidation()
+			hasHouseholderPermissionConditions: booleanValidation(),
+			isListedBuilding: booleanValidation()
 		})
 		.noUnknown(true);
 };

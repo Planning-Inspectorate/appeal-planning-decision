@@ -1,4 +1,5 @@
 const { exec } = require('child_process');
+const path = require('path');
 
 function run(cmd) {
 	return new Promise((resolve, reject) => {
@@ -17,5 +18,6 @@ module.exports = async () => {
 	process.env.LOGGER_LEVEL = 'info';
 	await create();
 
-	await run(`npx prisma migrate deploy`);
+	const schemaPath = path.resolve(__dirname, '../../../database/src/schema.prisma');
+	await run(`npx prisma migrate deploy --schema ${schemaPath}`);
 };

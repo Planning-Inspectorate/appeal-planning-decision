@@ -82,7 +82,7 @@ const sections = [
 		.withCondition((response) =>
 			questionHasAnswer(response, questions.submitEnvironmentalStatement, 'no')
 		),
-	new Section('Notifying relevant parties of the application', 'notified')
+	new Section('Notifying relevant parties', 'notified')
 		.addQuestion(questions.whoWasNotified)
 		.addQuestion(questions.howYouNotifiedPeople)
 		.addQuestion(questions.uploadSiteNotice)

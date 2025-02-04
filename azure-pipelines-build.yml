@@ -41,7 +41,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.18.2
+      ref: refs/tags/release/3.20.0
 
 extends:
   template: stages/wrapper_ci.yml@templates
@@ -65,11 +65,6 @@ extends:
             parameters:
               condition: succeededOrFailed()
               script: npm run test
-              nodeVersion: 20
-          - template: ../steps/node_script.yml
-            parameters:
-              condition: and(succeededOrFailed(),eq(variables['Build.SourceBranchName'], 'main'))
-              script: npm run integration-test
               nodeVersion: 20
           - template: ../steps/check_changed_files.yml
             parameters:

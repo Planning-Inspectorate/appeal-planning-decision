@@ -1,5 +1,8 @@
+const { resetInterestedPartySession } = require('../../../../services/interested-party.service');
 const { enterPostcodeGet, enterPostcodePost } = require('./controller');
 const { fullPostcodeRegex, partialPostcodeRegex } = require('@pins/common/src/regex');
+
+jest.mock('../../../../services/interested-party.service');
 
 describe('enterPostcode Controller Tests', () => {
 	let req, res;
@@ -15,10 +18,12 @@ describe('enterPostcode Controller Tests', () => {
 	});
 
 	describe('enterPostcodeGet', () => {
-		it('should render the enter-postcode page', () => {
+		it('should render the enter-postcode page and reset interested party session', () => {
+			req.session = {};
 			enterPostcodeGet(req, res);
 
 			expect(res.render).toHaveBeenCalledWith('comment-planning-appeal/enter-postcode/index');
+			expect(resetInterestedPartySession).toHaveBeenCalledWith(req);
 		});
 	});
 

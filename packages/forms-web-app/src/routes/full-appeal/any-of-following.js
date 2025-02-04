@@ -9,6 +9,8 @@ const {
 const { buildCheckboxValidation } = require('../../validators/common/checkboxes');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 
+// this router only used for v1 appeals
+
 const router = express.Router();
 
 router.get('/any-of-following', getAnyOfFollowing);

@@ -1,6 +1,6 @@
 const { format, parseISO } = require('date-fns');
 const { getDepartmentFromId } = require('../services/department.service');
-const { capitalise } = require('./capitalised-dashed-strings');
+const { removeDashesAndCapitaliseString } = require('./capitalised-dashed-strings');
 const {
 	chooseAppropriateApplicationNumberPage
 } = require('./choose-appropriate-application-number-page');
@@ -19,18 +19,18 @@ const extractAppealProps = async (appeal) => {
 
 	if (appeal.typeOfPlanningApplication) {
 		applicationType = appeal.typeOfPlanningApplication;
-		applicationType = capitalise(applicationType);
+		applicationType = removeDashesAndCapitaliseString(applicationType);
 	}
 
 	let { applicationDecision } = appeal.eligibility;
 	if (applicationDecision === 'nodecisionreceived') {
-		applicationDecision = 'No Decision Received';
+		applicationDecision = 'No decision received';
 	} else if (applicationDecision === 'granted') {
 		applicationDecision = 'Granted with conditions';
 	} else if (applicationDecision === 'refused') {
 		applicationDecision = 'Refused';
 	} else {
-		applicationDecision = capitalise(applicationDecision);
+		applicationDecision = removeDashesAndCapitaliseString(applicationDecision);
 	}
 
 	const nextPageUrl = chooseAppropriateApplicationNumberPage(appeal);
@@ -40,7 +40,7 @@ const extractAppealProps = async (appeal) => {
 	const enforcementNotice = appeal.eligibility.enforcementNotice ? 'Yes' : 'No';
 
 	const dateOfDecisionLabel =
-		applicationDecision === 'No Decision Received' ? 'Date decision due' : 'Date of Decision';
+		applicationDecision === 'No decision received' ? 'Date decision due' : 'Date of decision';
 
 	return {
 		appealLPD,

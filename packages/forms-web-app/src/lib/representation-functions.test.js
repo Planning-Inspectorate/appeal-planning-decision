@@ -1,6 +1,5 @@
 const {
-	filterRepresentationsBySubmittingParty,
-	filterRepresentationsForRule6ViewingRule6,
+	filterRepresentationsForDisplay,
 	formatRepresentationHeading,
 	formatRepresentations
 } = require('./representation-functions');
@@ -15,6 +14,9 @@ const lpaStatement = {
 	representationId: 'testStatement1',
 	caseReference: 'testReference1',
 	source: 'lpa',
+	status: 'published',
+	userOwnsRepresentation: true,
+	submittingPartyType: LPA_USER_ROLE,
 	originalRepresentation: 'this is a rude statement',
 	redacted: true,
 	redactedRepresentation: 'this is a bleep statement',
@@ -23,6 +25,7 @@ const lpaStatement = {
 	RepresentationDocuments: []
 };
 
+const testAppellantServiceUserId = 'testAppellantServiceUserId';
 const testR6ServiceUserId1 = 'testR6ServiceUserId1';
 const testR6ServiceUserId2 = 'testR6ServiceUserId2';
 
@@ -31,6 +34,9 @@ const r6Statement1 = {
 	representationId: 'testStatement2',
 	caseReference: 'testReference1',
 	source: 'citizen',
+	status: 'published',
+	userOwnsRepresentation: true,
+	submittingPartyType: APPEAL_USER_ROLES.RULE_6_PARTY,
 	serviceUserId: testR6ServiceUserId1,
 	originalRepresentation: 'this is a statement',
 	redacted: false,
@@ -44,6 +50,9 @@ const r6Statement2 = {
 	representationId: 'testStatement3',
 	caseReference: 'testReference1',
 	source: 'citizen',
+	status: 'published',
+	userOwnsRepresentation: false,
+	submittingPartyType: APPEAL_USER_ROLES.RULE_6_PARTY,
 	serviceUserId: testR6ServiceUserId2,
 	originalRepresentation: 'this is a different r6 statement',
 	redacted: false,
@@ -57,6 +66,9 @@ const lpaFinalComment = {
 	representationId: 'testFinalComment1',
 	caseReference: 'testReference1',
 	source: 'lpa',
+	status: 'published',
+	userOwnsRepresentation: true,
+	submittingPartyType: LPA_USER_ROLE,
 	originalRepresentation: 'this is a rude comment',
 	redacted: true,
 	redactedRepresentation: 'this is a bleep comment',
@@ -70,8 +82,27 @@ const appellantFinalComment = {
 	representationId: 'testFinalComment2',
 	caseReference: 'testReference1',
 	source: 'citizen',
-	serviceUserId: 'testAppellantServiceUserId',
+	status: 'published',
+	userOwnsRepresentation: true,
+	submittingPartyType: APPEAL_USER_ROLES.APPELLANT,
+	serviceUserId: testAppellantServiceUserId,
 	originalRepresentation: 'this is a comment',
+	redacted: false,
+	representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+	dateReceived: '2024-11-04 09:00:00.0000000',
+	RepresentationDocuments: []
+};
+
+const unpublishedAppellantFinalComment = {
+	id: 'appellantFinalComment2',
+	representationId: 'testFinalComment3',
+	caseReference: 'testReference1',
+	source: 'citizen',
+	status: 'awaiting_review',
+	userOwnsRepresentation: true,
+	submittingPartyType: APPEAL_USER_ROLES.APPELLANT,
+	serviceUserId: testAppellantServiceUserId,
+	originalRepresentation: 'this is an unpublished comment',
 	redacted: false,
 	representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
 	dateReceived: '2024-11-04 09:00:00.0000000',
@@ -83,6 +114,9 @@ const interestedPartyComment1 = {
 	representationId: 'testInterestedPartyComment1',
 	caseReference: 'testReference1',
 	source: 'citizen',
+	status: 'published',
+	userOwnsRepresentation: false,
+	submittingPartyType: APPEAL_USER_ROLES.INTERESTED_PARTY,
 	originalRepresentation: 'this is an interested party comment',
 	redacted: false,
 	representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
@@ -95,7 +129,25 @@ const interestedPartyComment2 = {
 	representationId: 'testInterestedPartyComment2',
 	caseReference: 'testReference1',
 	source: 'citizen',
+	status: 'published',
+	userOwnsRepresentation: false,
+	submittingPartyType: APPEAL_USER_ROLES.INTERESTED_PARTY,
 	originalRepresentation: 'this is an earlier interested party comment',
+	redacted: false,
+	representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+	dateReceived: '2024-11-03 09:00:00.0000000',
+	RepresentationDocuments: []
+};
+
+const unpublishedInterestedPartyComment = {
+	id: 'interestedPartyComment3',
+	representationId: 'testInterestedPartyComment3',
+	caseReference: 'testReference1',
+	source: 'citizen',
+	status: 'awaiting_review',
+	userOwnsRepresentation: false,
+	submittingPartyType: APPEAL_USER_ROLES.INTERESTED_PARTY,
+	originalRepresentation: 'this is an unpublished interested party comment',
 	redacted: false,
 	representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
 	dateReceived: '2024-11-03 09:00:00.0000000',
@@ -138,36 +190,49 @@ const testStatements = [lpaStatement, r6Statement1, r6Statement2];
 
 const testFinalComments = [lpaFinalComment, appellantFinalComment];
 
-const testInterestedPartyComments = [interestedPartyComment1, interestedPartyComment2];
+const testInterestedPartyComments = [
+	interestedPartyComment1,
+	interestedPartyComment2,
+	unpublishedInterestedPartyComment
+];
 
 // const testProofsOfEvidence = [lpaProof1, appellantProof1, rule6Proof1];
 
 const testUsers = [{ id: 'testAppellantServiceUserId' }, { id: 'testAgentServiceUserId' }];
 
 describe('lib/representation-functions', () => {
-	describe('filterRepresentationsBySubmittingParty', () => {
-		it('returns representations submitted by an lpa', () => {
+	describe('filterRepresentationsForDisplay', () => {
+		it('returns published representations submitted by an lpa', () => {
 			const testCaseData = {
 				caseReference: 'testReference1',
 				users: testUsers,
 				Representations: testStatements
 			};
 
-			const result = filterRepresentationsBySubmittingParty(testCaseData, LPA_USER_ROLE);
+			const testRepresentationParams = {
+				userType: LPA_USER_ROLE,
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				submittingParty: LPA_USER_ROLE
+			};
+
+			const result = filterRepresentationsForDisplay(testCaseData, testRepresentationParams);
 			expect(result).toEqual([lpaStatement]);
 		});
 
-		it('returns representations submitted by an appellant', () => {
+		it('returns published representations submitted by an appellant', () => {
 			const testCaseData = {
 				caseReference: 'testReference1',
 				users: testUsers,
 				Representations: testFinalComments
 			};
 
-			const result = filterRepresentationsBySubmittingParty(
-				testCaseData,
-				APPEAL_USER_ROLES.APPELLANT
-			);
+			const testRepresentationParams = {
+				userType: LPA_USER_ROLE,
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			};
+
+			const result = filterRepresentationsForDisplay(testCaseData, testRepresentationParams);
 			expect(result).toEqual([appellantFinalComment]);
 		});
 
@@ -178,11 +243,49 @@ describe('lib/representation-functions', () => {
 				Representations: testStatements
 			};
 
-			const result = filterRepresentationsBySubmittingParty(
-				testCaseData,
-				APPEAL_USER_ROLES.RULE_6_PARTY
-			);
+			const testRepresentationParams = {
+				userType: LPA_USER_ROLE,
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			};
+
+			const result = filterRepresentationsForDisplay(testCaseData, testRepresentationParams);
 			expect(result).toEqual([r6Statement1, r6Statement2]);
+		});
+
+		it('returns rule 6 party representations submitted by the rule 6 party viewing them', () => {
+			const testCaseData = {
+				caseReference: 'testReference1',
+				users: testUsers,
+				Representations: testStatements
+			};
+
+			const testRepresentationParams = {
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY,
+				rule6OwnRepresentations: true
+			};
+
+			const result = filterRepresentationsForDisplay(testCaseData, testRepresentationParams);
+			expect(result).toEqual([r6Statement1]);
+		});
+
+		it('returns rule 6 party representations submitted by other rule 6 parties', () => {
+			const testCaseData = {
+				caseReference: 'testReference1',
+				users: testUsers,
+				Representations: testStatements
+			};
+
+			const testRepresentationParams = {
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			};
+
+			const result = filterRepresentationsForDisplay(testCaseData, testRepresentationParams);
+			expect(result).toEqual([r6Statement2]);
 		});
 
 		it('returns an empty array if there are no relevant representations', () => {
@@ -198,151 +301,296 @@ describe('lib/representation-functions', () => {
 				users: testUsers
 			};
 
-			const result1 = filterRepresentationsBySubmittingParty(
-				testCaseData1,
-				APPEAL_USER_ROLES.APPELLANT
-			);
-			const result2 = filterRepresentationsBySubmittingParty(
-				testCaseData2,
-				APPEAL_USER_ROLES.APPELLANT
-			);
+			const testRepresentationParams = {
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			};
+
+			const result1 = filterRepresentationsForDisplay(testCaseData1, testRepresentationParams);
+			const result2 = filterRepresentationsForDisplay(testCaseData2, testRepresentationParams);
 			expect(result1).toEqual([]);
 			expect(result2).toEqual([]);
 		});
-	});
 
-	describe('filterRepresentationsForRule6ViewingRule6', () => {
-		it('returns rule 6 party representations submitted by the rule 6 party viewing them', () => {
-			const testCaseData = {
+		it('does not return unpublished representations if not owned by user', () => {
+			const testCaseData1 = {
 				caseReference: 'testReference1',
 				users: testUsers,
-				Representations: testStatements
+				Representations: testInterestedPartyComments
 			};
 
-			const result = filterRepresentationsForRule6ViewingRule6(
-				testCaseData,
-				testR6ServiceUserId1,
-				true
-			);
-			expect(result).toEqual([r6Statement1]);
+			const testRepresentationParams = {
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+				submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+			};
+
+			const result = filterRepresentationsForDisplay(testCaseData1, testRepresentationParams);
+			expect(result).toEqual([interestedPartyComment1, interestedPartyComment2]);
 		});
 
-		it('returns rule 6 party representations submitted by other rule 6 parties', () => {
-			const testCaseData = {
+		it('returns unpublished representations only if owned by user', () => {
+			const unpublishedAppellantFinalComment2 = structuredClone(unpublishedAppellantFinalComment);
+			unpublishedAppellantFinalComment2.userOwnsRepresentation = false;
+
+			const testCaseData1 = {
 				caseReference: 'testReference1',
 				users: testUsers,
-				Representations: testStatements
+				Representations: [lpaFinalComment, unpublishedAppellantFinalComment]
 			};
 
-			const result = filterRepresentationsForRule6ViewingRule6(
-				testCaseData,
-				testR6ServiceUserId1,
-				false
+			const testCaseData2 = {
+				caseReference: 'testReference1',
+				users: testUsers,
+				Representations: [lpaFinalComment, unpublishedAppellantFinalComment2]
+			};
+
+			const testAppellantRepresentationParams = {
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			};
+
+			const result1 = filterRepresentationsForDisplay(
+				testCaseData1,
+				testAppellantRepresentationParams
 			);
-			expect(result).toEqual([r6Statement2]);
-		});
-
-		it('returns an empty array if no serviceUserId provided', () => {
-			const testCaseData = {
-				caseReference: 'testReference1',
-				users: testUsers,
-				Representations: testStatements
-			};
-
-			const result = filterRepresentationsForRule6ViewingRule6(testCaseData, undefined, true);
-			expect(result).toEqual([]);
+			const result2 = filterRepresentationsForDisplay(
+				testCaseData2,
+				testAppellantRepresentationParams
+			);
+			expect(result1).toEqual([unpublishedAppellantFinalComment]);
+			expect(result2).toEqual([]);
 		});
 	});
 
 	describe('formatRepresentationHeading', () => {
 		it('returns the heading for an lpa user viewing an lpa statement', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.STATEMENT,
-				LPA_USER_ROLE,
-				LPA_USER_ROLE
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: LPA_USER_ROLE,
+				submittingParty: LPA_USER_ROLE
+			});
 			expect(heading).toEqual('Your statement');
 		});
 
 		it('returns the heading for an lpa user viewing an R6 statement', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.STATEMENT,
-				LPA_USER_ROLE,
-				APPEAL_USER_ROLES.RULE_6_PARTY
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: LPA_USER_ROLE,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
 			expect(heading).toEqual('Statements from other parties');
 		});
 
 		it('returns the heading for an lpa user viewing an lpa final comment', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.FINAL_COMMENT,
-				LPA_USER_ROLE,
-				LPA_USER_ROLE
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				userType: LPA_USER_ROLE,
+				submittingParty: LPA_USER_ROLE
+			});
 			expect(heading).toEqual('Your final comments');
 		});
 
 		it('returns the heading for an lpa user viewing an appellant final comment', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.FINAL_COMMENT,
-				LPA_USER_ROLE,
-				APPEAL_USER_ROLES.APPELLANT
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				userType: LPA_USER_ROLE,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			});
 			expect(heading).toEqual("Appellant's final comments");
 		});
 
+		it('returns the heading for an lpa user viewing an lpa proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: LPA_USER_ROLE,
+				submittingParty: LPA_USER_ROLE
+			});
+			expect(heading).toEqual('Your proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an lpa user viewing an appellant proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: LPA_USER_ROLE,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			});
+			expect(heading).toEqual('Appellant’s proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an lpa user viewing an R6 proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: LPA_USER_ROLE,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
+			expect(heading).toEqual('Proof of evidence and witnesses from other parties');
+		});
+
 		it('returns the heading for an appellant viewing an lpa statement', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.STATEMENT,
-				APPEAL_USER_ROLES.APPELLANT,
-				LPA_USER_ROLE
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: LPA_USER_ROLE
+			});
 			expect(heading).toEqual('Local planning authority statement');
 		});
 
 		it('returns the heading for an appellant viewing an R6 statement', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.STATEMENT,
-				APPEAL_USER_ROLES.APPELLANT,
-				APPEAL_USER_ROLES.RULE_6_PARTY
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
 			expect(heading).toEqual('Statements from other parties');
 		});
 
 		it('returns the heading for an appellant viewing an appellant final comment', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.FINAL_COMMENT,
-				APPEAL_USER_ROLES.APPELLANT,
-				APPEAL_USER_ROLES.APPELLANT
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			});
 			expect(heading).toEqual('Your final comments');
 		});
 
 		it('returns the heading for an appellant viewing an lpa final comment', () => {
-			const heading = formatRepresentationHeading(
-				REPRESENTATION_TYPES.FINAL_COMMENT,
-				APPEAL_USER_ROLES.APPELLANT,
-				LPA_USER_ROLE
-			);
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: LPA_USER_ROLE
+			});
 			expect(heading).toEqual('Local planning authority final comments');
 		});
 
+		it('returns the heading for an appellant viewing an lpa proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: LPA_USER_ROLE
+			});
+			expect(heading).toEqual('Local planning authority proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an appellant viewing an appellant proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			});
+			expect(heading).toEqual('Your proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an appellant user viewing an R6 proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
+			expect(heading).toEqual('Proof of evidence and witnesses from other parties');
+		});
+
+		it('returns the heading for an r6 user viewing an lpa statement', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: LPA_USER_ROLE
+			});
+			expect(heading).toEqual('Local planning authority statement');
+		});
+
+		it('returns the heading for an r6 user viewing own R6 statement', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY,
+				rule6OwnRepresentations: true
+			});
+			expect(heading).toEqual('Your statement');
+		});
+
+		it('returns the heading for an r6 user viewing other R6 statement', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.STATEMENT,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
+			expect(heading).toEqual('Statements from other parties');
+		});
+
+		it('returns the heading for an r6 user viewing an appellant final comment', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			});
+			expect(heading).toEqual("Appellant's final comments");
+		});
+
+		it('returns the heading for an r6 user viewing an lpa final comment', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: LPA_USER_ROLE
+			});
+			expect(heading).toEqual('Local planning authority final comments');
+		});
+
+		it('returns the heading for an r6 user viewing an lpa proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: LPA_USER_ROLE
+			});
+			expect(heading).toEqual('Local planning authority proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an r6 user viewing an appellant proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.APPELLANT
+			});
+			expect(heading).toEqual('Appellant’s proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an r6 user user viewing own R6 proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY,
+				rule6OwnRepresentations: true
+			});
+			expect(heading).toEqual('Your proof of evidence and witnesses');
+		});
+
+		it('returns the heading for an r6 user user viewing other R6 proofs of evidence', () => {
+			const heading = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
+			expect(heading).toEqual('Proof of evidence and witnesses from other parties');
+		});
+
 		it('returns the heading for viewing interested party comments', () => {
-			const heading1 = formatRepresentationHeading(
-				REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
-				APPEAL_USER_ROLES.APPELLANT,
-				APPEAL_USER_ROLES.INTERESTED_PARTY
-			);
-			const heading2 = formatRepresentationHeading(
-				REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
-				APPEAL_USER_ROLES.RULE_6_PARTY,
-				APPEAL_USER_ROLES.INTERESTED_PARTY
-			);
-			const heading3 = formatRepresentationHeading(
-				REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
-				LPA_USER_ROLE,
-				APPEAL_USER_ROLES.INTERESTED_PARTY
-			);
+			const heading1 = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+				userType: APPEAL_USER_ROLES.APPELLANT,
+				submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+			});
+			const heading2 = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+				userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+			});
+			const heading3 = formatRepresentationHeading({
+				representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+				userType: LPA_USER_ROLE,
+				submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+			});
 
 			expect(heading1).toEqual('Interested Party Comments');
 			expect(heading2).toEqual('Interested Party Comments');
@@ -458,7 +706,10 @@ describe('lib/representation-functions', () => {
 		// });
 
 		it('formats an array of interested party comments', () => {
-			const formattedRepresentations = formatRepresentations(testInterestedPartyComments);
+			const formattedRepresentations = formatRepresentations([
+				interestedPartyComment1,
+				interestedPartyComment2
+			]);
 			const expectedResult = [
 				{
 					key: {

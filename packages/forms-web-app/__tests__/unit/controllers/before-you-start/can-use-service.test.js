@@ -28,8 +28,10 @@ const {
 		}
 	}
 } = require('../../../../src/lib/views');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 jest.mock('../../../../src/services/department.service');
+jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
 
 const { mockReq, mockRes } = require('../../mocks');
 
@@ -43,60 +45,39 @@ describe('controllers/before-you-start/can-use-service', () => {
 		getDepartmentFromId.mockImplementation(() => Promise.resolve({ name: 'Bradford' }));
 	});
 
-	describe('Testing controller for HAS Appeals Check Your Answers page', () => {
-		it('Test getCanUseService method calls the HAS Check Your Answers page - HAS conditions', async () => {
-			req = mockReq(removalOrVariationOfConditionsHASAppeal);
-
-			await getCanUseService(req, res);
-
-			expect(res.render).toBeCalledWith(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
-				bannerHtmlOverride: config.betaBannerText,
-				appealLPD: 'Bradford',
-				applicationDecision: 'Refused',
-				applicationType: 'Removal Or Variation Of Conditions',
-				deadlineDate: { date: 15, day: 'Sunday', month: 'May', year: 2022 },
-				decisionDate: '20 February 2022',
-				enforcementNotice: 'No',
-				dateOfDecisionLabel: 'Date of Decision',
-				claimingCosts: 'No',
-				hasHouseholderPermissionConditions: 'Yes',
-				isListedBuilding: 'No',
-				nextPageUrl: '/appeal-householder-decision/planning-application-number'
-			});
-		});
-
-		it('Test getCanUseService method calls the HP Check Your Answers page when typeOfPlanningApplication is householder-planning - date of decision', async () => {
+	describe('getCanUseService', () => {
+		it('renders page - HAS - date of decision', async () => {
 			req = mockReq(householderAppeal);
 
 			await getCanUseService(req, res);
 
-			expect(res.render).toBeCalledWith(canUseServiceHouseholder, {
+			expect(res.render).toHaveBeenCalledWith(canUseServiceHouseholder, {
 				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Granted with conditions',
-				applicationType: 'Householder Planning',
+				applicationType: 'Householder planning',
 				claimingCosts: 'No',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
 				decisionDate: '04 May 2022',
-				dateOfDecisionLabel: 'Date of Decision',
+				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
 				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
 			});
 		});
 
-		it('Test getCanUseService method calls the HP Check Your Answers page when typeOfPlanningApplication is householder-planning - date decision due', async () => {
+		it('renders page - HAS - date decision due', async () => {
 			const householderAppealNoDecisionReceived = { ...householderAppeal };
 			householderAppealNoDecisionReceived.eligibility.applicationDecision = 'nodecisionreceived';
 			req = mockReq(householderAppealNoDecisionReceived);
 
 			await getCanUseService(req, res);
 
-			expect(res.render).toBeCalledWith(canUseServiceHouseholder, {
+			expect(res.render).toHaveBeenCalledWith(canUseServiceHouseholder, {
 				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
-				applicationDecision: 'No Decision Received',
-				applicationType: 'Householder Planning',
+				applicationDecision: 'No decision received',
+				applicationType: 'Householder planning',
 				claimingCosts: 'No',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
 				decisionDate: '04 May 2022',
@@ -108,40 +89,63 @@ describe('controllers/before-you-start/can-use-service', () => {
 		});
 	});
 
-	describe('Testing Controller for Prior Approval', () => {
-		it('Test getCanUseService method calls the Full Appeal Check Your Answers page - no prior approval', async () => {
+	describe('getCanUseService - prior approval', () => {
+		it('renders page - s78 - no prior approval - v1', async () => {
 			req = mockReq(priorApprovalFPAppeal);
 
 			await getCanUseService(req, res);
 
-			expect(res.render).toBeCalledWith(canUseServicePriorApprovalFull, {
+			expect(res.render).toHaveBeenCalledWith(canUseServicePriorApprovalFull, {
 				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Refused',
-				applicationType: 'Prior Approval',
+				applicationType: 'Prior approval',
 				deadlineDate: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
 				decisionDate: '20 February 2022',
 				enforcementNotice: 'No',
-				dateOfDecisionLabel: 'Date of Decision',
+				dateOfDecisionLabel: 'Date of decision',
 				hasPriorApprovalForExistingHome: 'No',
+				isListedBuilding: 'No',
 				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
 			});
 		});
 
-		it('Test getCanUseService method calls the HAS Check Your Answers page - prior approval', async () => {
+		it('renders page - s78 - no prior approval - v2', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			req = mockReq(priorApprovalFPAppeal);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServicePriorApprovalFull, {
+				bannerHtmlOverride: config.betaBannerText,
+				appealLPD: 'Bradford',
+				applicationDecision: 'Refused',
+				applicationType: 'Prior approval',
+				deadlineDate: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
+				decisionDate: '20 February 2022',
+				enforcementNotice: 'No',
+				dateOfDecisionLabel: 'Date of decision',
+				hasPriorApprovalForExistingHome: 'No',
+				isListedBuilding: 'No',
+				isV2: true,
+				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+			});
+		});
+
+		it('renders page - HAS - prior approval', async () => {
 			req = mockReq(priorApprovalHASAppeal);
 
 			await getCanUseService(req, res);
 
-			expect(res.render).toBeCalledWith(canUseServicePriorApprovalHouseholder, {
+			expect(res.render).toHaveBeenCalledWith(canUseServicePriorApprovalHouseholder, {
 				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Refused',
-				applicationType: 'Prior Approval',
+				applicationType: 'Prior approval',
 				deadlineDate: { date: 15, day: 'Sunday', month: 'May', year: 2022 },
 				decisionDate: '20 February 2022',
 				enforcementNotice: 'No',
-				dateOfDecisionLabel: 'Date of Decision',
+				dateOfDecisionLabel: 'Date of decision',
 				claimingCosts: 'No',
 				hasPriorApprovalForExistingHome: 'Yes',
 				isListedBuilding: 'No',
@@ -150,79 +154,159 @@ describe('controllers/before-you-start/can-use-service', () => {
 		});
 	});
 
-	describe('Testing Controller for Removal Or Variation Of Conditions', () => {
-		it('Test getCanUseService method calls the Full Appeal Check Your Answers page - no HAS conditions', async () => {
+	describe('getCanUseService - removal or variation of conditions', () => {
+		it('renders page - s78 - v1', async () => {
 			req = mockReq(removalOrVariationOfConditionsFPAppeal);
 
 			await getCanUseService(req, res);
 
-			expect(res.render).toBeCalledWith(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
-				bannerHtmlOverride: config.betaBannerText,
-				appealLPD: 'Bradford',
-				applicationDecision: 'Refused',
-				applicationType: 'Removal Or Variation Of Conditions',
-				deadlineDate: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
-				decisionDate: '20 February 2022',
-				enforcementNotice: 'No',
-				dateOfDecisionLabel: 'Date of Decision',
-				hasHouseholderPermissionConditions: 'No',
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
-			});
+			expect(res.render).toHaveBeenCalledWith(
+				canUseServiceRemovalOrVariationOfConditionsFullAppeal,
+				{
+					bannerHtmlOverride: config.betaBannerText,
+					appealLPD: 'Bradford',
+					applicationDecision: 'Refused',
+					applicationType: 'Removal or variation of conditions',
+					deadlineDate: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
+					decisionDate: '20 February 2022',
+					enforcementNotice: 'No',
+					dateOfDecisionLabel: 'Date of decision',
+					hasHouseholderPermissionConditions: 'No',
+					isListedBuilding: 'No',
+					nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				}
+			);
+		});
+		it('renders page - s78 - v2', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			req = mockReq(removalOrVariationOfConditionsFPAppeal);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(
+				canUseServiceRemovalOrVariationOfConditionsFullAppeal,
+				{
+					bannerHtmlOverride: config.betaBannerText,
+					appealLPD: 'Bradford',
+					applicationDecision: 'Refused',
+					applicationType: 'Removal or variation of conditions',
+					deadlineDate: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
+					decisionDate: '20 February 2022',
+					enforcementNotice: 'No',
+					dateOfDecisionLabel: 'Date of decision',
+					hasHouseholderPermissionConditions: 'No',
+					isV2: true,
+					isListedBuilding: 'No',
+					nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				}
+			);
+		});
+		it('renders page - HAS', async () => {
+			req = mockReq(removalOrVariationOfConditionsHASAppeal);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(
+				canUseServiceRemovalOrVariationOfConditionsHouseholder,
+				{
+					bannerHtmlOverride: config.betaBannerText,
+					appealLPD: 'Bradford',
+					applicationDecision: 'Refused',
+					applicationType: 'Removal or variation of conditions',
+					deadlineDate: { date: 15, day: 'Sunday', month: 'May', year: 2022 },
+					decisionDate: '20 February 2022',
+					enforcementNotice: 'No',
+					dateOfDecisionLabel: 'Date of decision',
+					claimingCosts: 'No',
+					hasHouseholderPermissionConditions: 'Yes',
+					isListedBuilding: 'No',
+					nextPageUrl: '/appeal-householder-decision/planning-application-number'
+				}
+			);
 		});
 	});
 
-	describe('Testing controller for Full Planning Appeals Check Your Answers page', () => {
-		it('Test getCanUseService method calls the Full Appeal Check Your Answers page when typeOfPlanningApplication is full-appeal', async () => {
+	describe('getCanUseService - s78', () => {
+		it('renders page - s78 - date of decision - v1', async () => {
 			req = mockReq(fullAppeal);
 
 			await getCanUseService(req, res);
 
-			expect(res.render).toBeCalledWith(canUseServiceFullAppealUrl, {
+			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
 				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Granted with conditions',
-				applicationType: 'Full Appeal',
+				applicationType: 'Full appeal',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
 				decisionDate: '04 May 2022',
+				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
-				dateOfDecisionLabel: 'Date of Decision',
+				isListedBuilding: 'No',
 				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
 			});
 		});
-		it('Test getCanUseService method calls the Full Appeal Check Your Answers page when typeOfPlanningApplication is full-appeal - date of decision', async () => {
+
+		it('renders page - s78 - date of decision - v2', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(true);
 			req = mockReq(fullAppeal);
 
 			await getCanUseService(req, res);
 
-			expect(res.render).toBeCalledWith(canUseServiceFullAppealUrl, {
+			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
 				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Granted with conditions',
-				applicationType: 'Full Appeal',
+				applicationType: 'Full appeal',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
 				decisionDate: '04 May 2022',
-				dateOfDecisionLabel: 'Date of Decision',
+				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
+				isListedBuilding: 'No',
+				isV2: true,
 				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
 			});
 		});
 
-		it('Test getCanUseService method calls the Full Appeal Check Your Answers page when typeOfPlanningApplication is full-appeal - date decision due', async () => {
+		it('renders page - s78 - date decision due - v1', async () => {
 			const fullAppealNoDecisionReceived = { ...fullAppeal };
 			fullAppealNoDecisionReceived.eligibility.applicationDecision = 'nodecisionreceived';
 			req = mockReq(fullAppealNoDecisionReceived);
 
 			await getCanUseService(req, res);
 
-			expect(res.render).toBeCalledWith(canUseServiceFullAppealUrl, {
+			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
 				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
-				applicationDecision: 'No Decision Received',
-				applicationType: 'Full Appeal',
+				applicationDecision: 'No decision received',
+				applicationType: 'Full appeal',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date decision due',
 				enforcementNotice: 'No',
+				isListedBuilding: 'No',
+				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+			});
+		});
+
+		it('renders page - s78 - date decision due - v2', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			const fullAppealNoDecisionReceived = { ...fullAppeal };
+			fullAppealNoDecisionReceived.eligibility.applicationDecision = 'nodecisionreceived';
+			req = mockReq(fullAppealNoDecisionReceived);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				bannerHtmlOverride: config.betaBannerText,
+				appealLPD: 'Bradford',
+				applicationDecision: 'No decision received',
+				applicationType: 'Full appeal',
+				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
+				decisionDate: '04 May 2022',
+				dateOfDecisionLabel: 'Date decision due',
+				enforcementNotice: 'No',
+				isListedBuilding: 'No',
+				isV2: true,
 				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
 			});
 		});

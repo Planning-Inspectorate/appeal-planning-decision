@@ -39,12 +39,22 @@ describe('Utils test', () => {
 			expect(util.isTestLPA(testONSCode)).toEqual(true);
 		});
 
+		it('should return true if test2 ONS code', async () => {
+			const testONSCode = 'E69999991';
+			expect(util.isTestLPA(testONSCode)).toEqual(true);
+		});
+
 		it('should return true if test lpa code', async () => {
 			const testLpaCode = 'Q9999';
 			expect(util.isTestLPA(testLpaCode)).toEqual(true);
 		});
 
-		it('should return false if test lpa code', async () => {
+		it('should return true if test2 lpa code', async () => {
+			const testLpaCode = 'Q1111';
+			expect(util.isTestLPA(testLpaCode)).toEqual(true);
+		});
+
+		it('should return false if not test lpa code', async () => {
 			const testLpaCode = 'Q0000';
 			expect(util.isTestLPA(testLpaCode)).toEqual(false);
 		});

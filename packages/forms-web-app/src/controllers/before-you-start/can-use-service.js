@@ -19,6 +19,8 @@ const {
 	}
 } = require('../../lib/views');
 const config = require('../../config');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 const canUseServiceHouseholderPlanning = async (req, res) => {
 	const { appeal } = req.session;
@@ -81,6 +83,9 @@ const canUseServiceFullAppeal = async (req, res) => {
 		appeal.eligibility.applicationDecision
 	);
 
+	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+	const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+
 	res.render(canUseServiceFullAppealUrl, {
 		bannerHtmlOverride: config.betaBannerText,
 		deadlineDate,
@@ -90,6 +95,8 @@ const canUseServiceFullAppeal = async (req, res) => {
 		decisionDate,
 		enforcementNotice,
 		dateOfDecisionLabel,
+		isListedBuilding,
+		isV2,
 		nextPageUrl
 	});
 };
@@ -110,9 +117,9 @@ const canUseServicePriorApproval = async (req, res) => {
 		? 'Yes'
 		: 'No';
 
-	if (appeal.eligibility.hasPriorApprovalForExistingHome) {
-		const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
+	if (appeal.eligibility.hasPriorApprovalForExistingHome) {
 		const deadlineDate = businessRulesDeadline(
 			appeal.decisionDate,
 			appeal.appealType,
@@ -147,6 +154,8 @@ const canUseServicePriorApproval = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
+		const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+
 		res.render(canUseServicePriorApprovalFull, {
 			bannerHtmlOverride: config.betaBannerText,
 			deadlineDate,
@@ -157,6 +166,8 @@ const canUseServicePriorApproval = async (req, res) => {
 			enforcementNotice,
 			dateOfDecisionLabel,
 			hasPriorApprovalForExistingHome,
+			isListedBuilding,
+			isV2,
 			nextPageUrl
 		});
 	}
@@ -178,9 +189,9 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 		? 'Yes'
 		: 'No';
 
-	if (appeal.eligibility.hasHouseholderPermissionConditions) {
-		const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
+	if (appeal.eligibility.hasHouseholderPermissionConditions) {
 		const deadlineDate = businessRulesDeadline(
 			appeal.decisionDate,
 			appeal.appealType,
@@ -215,6 +226,8 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
+		const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+
 		res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
 			bannerHtmlOverride: config.betaBannerText,
 			deadlineDate,
@@ -225,6 +238,8 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			enforcementNotice,
 			dateOfDecisionLabel,
 			hasHouseholderPermissionConditions,
+			isListedBuilding,
+			isV2,
 			nextPageUrl
 		});
 	}

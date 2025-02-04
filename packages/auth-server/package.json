@@ -19,11 +19,9 @@
 		"start": "node ./src/main.js",
 		"start:dev": "npm run db:generate && nodemon ./src/main.js | pino-pretty -tlc",
 		"start:dev:debug": "npm run db:generate && nodemon --inspect=0.0.0.0 ./src/main.js",
-		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
-		"integration-test": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --config ./jest.developer-test.config.js"
+		"test": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage --verbose"
 	},
 	"dependencies": {
-		"@azure/app-configuration": "*",
 		"@pins/common": "file:../common",
 		"@pins/database": "file:../database",
 		"@prisma/client": "*",
@@ -32,8 +30,7 @@
 		"joi": "*",
 		"oidc-provider": "*",
 		"pino": "*",
-		"pino-http": "*",
-		"pins-data-model": "*"
+		"pino-http": "*"
 	},
 	"devDependencies": {
 		"cross-env": "*",

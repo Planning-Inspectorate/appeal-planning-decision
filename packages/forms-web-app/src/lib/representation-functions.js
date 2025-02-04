@@ -13,10 +13,47 @@ const escape = require('escape-html');
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
  * @typedef {import('@pins/common/src/constants').LpaUserRole} LpaUserRole
  * @typedef {import('@pins/common/src/constants').RepresentationTypes} RepresentationTypes
+ * @typedef {import('../controllers/selected-appeal/representations/index').RepresentationParams} RepresentationParams
  */
 
 /**
  * @param {AppealCaseDetailed} caseData
+ * @param {RepresentationParams} representationParams
+ * @returns {Representation[]}
+ */
+const filterRepresentationsForDisplay = (caseData, representationParams) => {
+	const { userType, submittingParty, rule6OwnRepresentations } = representationParams;
+
+	if (!caseData.Representations || caseData.Representations.length === 0) return [];
+
+	const representations = caseData.Representations;
+
+	const representationsFilteredBySubmittingParty = filterRepresentationsBySubmittingParty(
+		representations,
+		submittingParty
+	);
+
+	if (
+		userType == APPEAL_USER_ROLES.RULE_6_PARTY &&
+		submittingParty == APPEAL_USER_ROLES.RULE_6_PARTY
+	) {
+		return filterRepresentationsForRule6ViewingRule6(
+			representationsFilteredBySubmittingParty,
+			!!rule6OwnRepresentations
+		).filter(
+			(representation) =>
+				representation.userOwnsRepresentation || representation.status == 'published'
+		);
+	} else {
+		return representationsFilteredBySubmittingParty.filter(
+			(representation) =>
+				representation.userOwnsRepresentation || representation.status == 'published'
+		);
+	}
+};
+
+/**
+ * @param {Representation[]} representations
  * @param {AppealToUserRoles|LpaUserRole} submittingParty
  * @returns {Representation[]}
  */
@@ -26,72 +63,48 @@ const escape = require('escape-html');
 // - the users array on the AppealCase contains serviceUser information for Agents and Appellants only
 // - representations with non-null serviceUserId values will have been submitted by Agent/Appellant, Rule6Party of InterestedParty
 // - in theory the return for Rule6Parties could include interested parties - however interestedParties only submit comments and these should not be filtered by this function
-const filterRepresentationsBySubmittingParty = (caseData, submittingParty) => {
-	if (!caseData.Representations || caseData.Representations.length === 0) return [];
-	const applicantPartyServiceUserIds = caseData.users?.map((user) => user.id);
-
+const filterRepresentationsBySubmittingParty = (representations, submittingParty) => {
 	switch (submittingParty) {
-		case LPA_USER_ROLE:
-			return caseData.Representations.filter((representation) => !representation.serviceUserId);
 		case APPEAL_USER_ROLES.AGENT:
 		case APPEAL_USER_ROLES.APPELLANT:
-			return caseData.Representations.filter(
+			return representations.filter(
 				(representation) =>
-					representation.serviceUserId &&
-					applicantPartyServiceUserIds?.includes(representation.serviceUserId)
-			);
-		case APPEAL_USER_ROLES.RULE_6_PARTY:
-			return caseData.Representations.filter(
-				(representation) =>
-					representation.serviceUserId &&
-					!applicantPartyServiceUserIds?.includes(representation.serviceUserId)
+					representation.submittingPartyType === APPEAL_USER_ROLES.AGENT ||
+					representation.submittingPartyType === APPEAL_USER_ROLES.APPELLANT
 			);
 		default:
-			return [];
+			return representations.filter(
+				(representation) => representation.submittingPartyType === submittingParty
+			);
 	}
 };
 
 /**
- * @param {AppealCaseDetailed} caseData
- * @param {string} serviceUserId
+ * @param {Representation[]} representations
  * @param {boolean} rule6OwnRepresentations
  * @returns {Representation[]}
  */
-const filterRepresentationsForRule6ViewingRule6 = (
-	caseData,
-	serviceUserId,
-	rule6OwnRepresentations
-) => {
-	if (!serviceUserId) return [];
-
-	const unfilteredRepresentations = filterRepresentationsBySubmittingParty(
-		caseData,
-		APPEAL_USER_ROLES.RULE_6_PARTY
-	);
-
+const filterRepresentationsForRule6ViewingRule6 = (representations, rule6OwnRepresentations) => {
 	return rule6OwnRepresentations
-		? unfilteredRepresentations.filter(
-				(representation) => representation.serviceUserId == serviceUserId
-		  )
-		: unfilteredRepresentations.filter(
-				(representation) => representation.serviceUserId != serviceUserId
-		  );
+		? representations.filter((representation) => representation.userOwnsRepresentation)
+		: representations.filter((representation) => !representation.userOwnsRepresentation);
 };
 
 /**
- * @param {RepresentationTypes} representationType
- * @param {AppealToUserRoles|LpaUserRole} userType
- * @param {AppealToUserRoles|LpaUserRole} submittingParty
+ * @param {RepresentationParams} representationParams
  * @returns {string}
  */
-const formatRepresentationHeading = (representationType, userType, submittingParty) => {
+const formatRepresentationHeading = (representationParams) => {
+	const { userType, submittingParty, representationType, rule6OwnRepresentations } =
+		representationParams;
+
 	switch (representationType) {
 		case REPRESENTATION_TYPES.STATEMENT:
-			return formatStatementHeading(userType, submittingParty);
+			return formatStatementHeading(userType, submittingParty, !!rule6OwnRepresentations);
 		case REPRESENTATION_TYPES.FINAL_COMMENT:
 			return formatFinalCommentsHeading(userType, submittingParty);
 		case REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE:
-			return formatProofsOfEvidenceHeading(userType, submittingParty);
+			return formatProofsOfEvidenceHeading(userType, submittingParty, !!rule6OwnRepresentations);
 		case REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT:
 			return 'Interested Party Comments';
 		default:
@@ -102,18 +115,23 @@ const formatRepresentationHeading = (representationType, userType, submittingPar
 /**
  * @param {AppealToUserRoles|LpaUserRole} userType
  * @param {AppealToUserRoles|LpaUserRole} submittingParty
+ * @param {Boolean} rule6OwnRepresentations
  * @returns {string}
  */
-const formatStatementHeading = (userType, submittingParty) => {
+const formatStatementHeading = (userType, submittingParty, rule6OwnRepresentations) => {
 	switch (userType) {
 		case LPA_USER_ROLE:
 			return submittingParty == LPA_USER_ROLE ? 'Your statement' : 'Statements from other parties';
 		case APPEAL_USER_ROLES.AGENT:
 		case APPEAL_USER_ROLES.APPELLANT:
 		case APPEAL_USER_ROLES.RULE_6_PARTY:
-			return submittingParty == LPA_USER_ROLE
-				? 'Local planning authority statement'
-				: 'Statements from other parties';
+			if (rule6OwnRepresentations) {
+				return 'Your statement';
+			} else {
+				return submittingParty == LPA_USER_ROLE
+					? 'Local planning authority statement'
+					: 'Statements from other parties';
+			}
 		default:
 			return 'Appeal statement';
 	}
@@ -147,21 +165,26 @@ const formatFinalCommentsHeading = (userType, submittingParty) => {
 /**
  * @param {AppealToUserRoles|LpaUserRole} userType
  * @param {AppealToUserRoles|LpaUserRole} submittingParty
+ * @param {Boolean} rule6OwnRepresentations
  * @returns {string}
  */
-const formatProofsOfEvidenceHeading = (userType, submittingParty) => {
-	if (userType == submittingParty) {
-		return 'Your proof of evidence and witnesses';
-	}
-
+const formatProofsOfEvidenceHeading = (userType, submittingParty, rule6OwnRepresentations) => {
 	switch (submittingParty) {
 		case LPA_USER_ROLE:
-			return 'Local planning authority proof of evidence and witnesses';
+			return userType == LPA_USER_ROLE
+				? 'Your proof of evidence and witnesses'
+				: 'Local planning authority proof of evidence and witnesses';
 		case APPEAL_USER_ROLES.AGENT:
 		case APPEAL_USER_ROLES.APPELLANT:
-			return 'Appellant’s proof of evidence and witnesses';
+			return userType == APPEAL_USER_ROLES.APPELLANT || userType == APPEAL_USER_ROLES.AGENT
+				? 'Your proof of evidence and witnesses'
+				: 'Appellant’s proof of evidence and witnesses';
+		case APPEAL_USER_ROLES.RULE_6_PARTY:
+			return rule6OwnRepresentations
+				? 'Your proof of evidence and witnesses'
+				: 'Proof of evidence and witnesses from other parties';
 		default:
-			return 'Proof of evidence and witnesses from other parties';
+			return 'Proof of evidence and witnesses';
 	}
 };
 
@@ -295,7 +318,6 @@ const formatRowLabelAndKey = (representationType) => {
  * @param {Document} document
  * @returns {boolean}
  */
-
 const isProofsDocument = (document) => {
 	const { documentType } = document;
 
@@ -307,8 +329,7 @@ const isProofsDocument = (document) => {
 };
 
 module.exports = {
-	filterRepresentationsBySubmittingParty,
-	filterRepresentationsForRule6ViewingRule6,
+	filterRepresentationsForDisplay,
 	formatRepresentationHeading,
 	formatRepresentations
 };

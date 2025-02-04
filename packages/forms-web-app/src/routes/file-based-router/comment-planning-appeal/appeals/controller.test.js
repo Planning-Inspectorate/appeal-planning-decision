@@ -31,6 +31,19 @@ describe('appeals Controller Tests', () => {
 		};
 	});
 
+	it('should handle navigation history and redirect if session + query params do not contain postcode', async () => {
+		req.query.search = undefined;
+		req.session = {
+			interestedParty: {},
+			navigationHistory: ['test1', 'test2']
+		};
+
+		await appeals(req, res);
+
+		expect(res.redirect).toHaveBeenCalledWith('enter-appeal-reference');
+		expect(req.session.navigationHistory).toEqual(['test2']);
+	});
+
 	it('should redirect to no-results page with correct navigation history if no search results are found', async () => {
 		req.query.search = 'AB12 3CD';
 		req.appealsApiClient.getPostcodeSearchResults.mockResolvedValue([]);

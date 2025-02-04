@@ -1,10 +1,10 @@
 const express = require('express');
 
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
-const listedBuildingHouseholderController = require('../../../controllers/householder-planning/eligibility/listed-building-householder');
+const listedBuildingController = require('../../../controllers/full-appeal/listed-building');
 const {
 	rules: listedBuildingControllerValidationRules
-} = require('../../../validators/householder-planning/eligibility/listed-building-householder');
+} = require('../../../validators/full-appeal/listed-building');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 
 const router = express.Router();
@@ -12,14 +12,14 @@ const router = express.Router();
 router.get(
 	'/listed-building-householder',
 	[fetchExistingAppealMiddleware],
-	listedBuildingHouseholderController.getListedBuildingHouseholder
+	listedBuildingController.getListedBuilding
 );
 
 router.post(
 	'/listed-building-householder',
 	listedBuildingControllerValidationRules(),
 	validationErrorHandler,
-	listedBuildingHouseholderController.postListedBuildingHouseholder
+	listedBuildingController.postListedBuilding
 );
 
 module.exports = router;

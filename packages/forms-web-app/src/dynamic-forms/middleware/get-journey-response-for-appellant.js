@@ -58,7 +58,7 @@ module.exports = async (request, response, next) => {
 };
 
 /**
- * @param {'HAS' | 'S78' | undefined } appealTypeCode
+ * @param {'HAS' | 'S78' | 'S20' | undefined } appealTypeCode
  * @param { string | undefined } LPACode
  * @returns {Promise<boolean>}
  */
@@ -68,6 +68,8 @@ const appealTypeFlagActive = async (appealTypeCode, LPACode) => {
 			return await isFeatureActive(FLAG.HAS_APPEAL_FORM_V2, LPACode);
 		case 'S78':
 			return await isFeatureActive(FLAG.S78_APPEAL_FORM_V2, LPACode);
+		case 'S20':
+			return await isFeatureActive(FLAG.S20_APPEAL_FORM_V2, LPACode);
 		default:
 			return false;
 	}

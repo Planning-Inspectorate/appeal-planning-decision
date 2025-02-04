@@ -681,7 +681,7 @@ const documentTypes = {
 	},
 	uploadAppellantProofOfEvidenceDocuments: {
 		name: 'uploadAppellantProofOfEvidenceDocuments',
-		dataModelName: '', // To be added once data model confirmed
+		dataModelName: 'appellantProofs', // To be amended as needed once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -692,7 +692,7 @@ const documentTypes = {
 	},
 	uploadAppellantWitnessesEvidence: {
 		name: 'uploadAppellantWitnessesEvidence',
-		dataModelName: '', // To be added once data model confirmed
+		dataModelName: 'appellantWitnesses', // To be amended as needed once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -703,7 +703,7 @@ const documentTypes = {
 	},
 	uploadLpaProofOfEvidenceDocuments: {
 		name: 'uploadLpaProofOfEvidenceDocuments',
-		dataModelName: '', // To be added once data model confirmed
+		dataModelName: 'lpaProofs', // To be amended as needed once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -714,7 +714,7 @@ const documentTypes = {
 	},
 	uploadRule6ProofOfEvidenceDocuments: {
 		name: 'uploadRule6ProofOfEvidenceDocuments',
-		dataModelName: '', // To be added once data model confirmed
+		dataModelName: 'rule6Proofs', // To be amended as needed once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -725,7 +725,7 @@ const documentTypes = {
 	},
 	uploadLpaWitnessesEvidence: {
 		name: 'uploadLpaWitnessesEvidence',
-		dataModelName: '', // To be added once data model confirmed
+		dataModelName: 'lpaWitnesses', // To be amended as needed once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -736,7 +736,7 @@ const documentTypes = {
 	},
 	uploadRule6WitnessesEvidence: {
 		name: 'uploadRule6WitnessesEvidence',
-		dataModelName: '', // To be added once data model confirmed
+		dataModelName: 'rule6Witnesses', // To be amended as needed once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -747,7 +747,7 @@ const documentTypes = {
 	},
 	lpaQuestionnaireSubmission: {
 		name: 'lpaQuestionnaireSubmission',
-		dataModelName: '', // To be added once data model confirmed
+		dataModelName: 'lpaQuestionnaireSubmission', // To be amended as needed once data model confirmed
 		multiple: false,
 		displayName: '',
 		involvement: 'LPA',

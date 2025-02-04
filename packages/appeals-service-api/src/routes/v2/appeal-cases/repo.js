@@ -1,9 +1,13 @@
 const { createPrismaClient } = require('#db-client');
-const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
+const {
+	CASE_RELATION_TYPES,
+	LISTED_RELATION_TYPES
+} = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { subYears } = require('date-fns');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
+const sanitizePostcode = require('#lib/sanitize-postcode');
 
 /**
  * @typedef {import("@prisma/client").Appeal} Appeal
@@ -146,7 +150,7 @@ const mapHASDataModelToAppealCase = (
 		}
 	},
 	siteAddressPostcode: siteAddressPostcode,
-	siteAddressPostcodeSanitized: siteAddressPostcode.replace(' ', '').toUpperCase(),
+	siteAddressPostcodeSanitized: sanitizePostcode(siteAddressPostcode),
 	LPACode: lpaCode,
 	caseSpecialisms: caseSpecialisms ? JSON.stringify(caseSpecialisms) : null,
 	caseValidationInvalidDetails: caseValidationInvalidDetails
@@ -184,7 +188,7 @@ class AppealCaseRepository {
 			},
 			include: {
 				Documents: DocumentsArgsPublishedOnly,
-				AffectedListedBuildings: true,
+				ListedBuildings: true,
 				AppealCaseLpaNotificationMethod: true,
 				NeighbouringAddresses: true,
 				Events: true
@@ -320,9 +324,7 @@ class AppealCaseRepository {
 						townCity: address.neighbouringSiteAddressTown,
 						county: address.neighbouringSiteAddressCounty,
 						postcode: address.neighbouringSiteAddressPostcode,
-						postcodeSanitized: address.neighbouringSiteAddressPostcode
-							.replace(' ', '')
-							.toUpperCase(),
+						postcodeSanitized: sanitizePostcode(address.neighbouringSiteAddressPostcode),
 						siteAccessDetails: address.neighbouringSiteAccessDetails,
 						siteSafetyDetails: address.neighbouringSiteSafetyDetails
 					}))
@@ -339,10 +341,15 @@ class AppealCaseRepository {
 				}
 			});
 
-			if (data.affectedListedBuildingNumbers?.length) {
+			const combinedListedBuildings = [
+				...(data.affectedListedBuildingNumbers || []),
+				...(data.changedListedBuildingNumbers || [])
+			];
+
+			if (combinedListedBuildings.length) {
 				// upsert any listed buildings in case they don't already exist
 				await Promise.all(
-					data.affectedListedBuildingNumbers.map((reference) => {
+					combinedListedBuildings.map((reference) => {
 						return tx.listedBuilding.upsert({
 							create: { reference },
 							update: {},
@@ -353,20 +360,27 @@ class AppealCaseRepository {
 					})
 				);
 
-				// delete existing listed buildings
-				await tx.appealCaseListedBuilding.deleteMany({
-					where: {
-						caseReference
-					}
-				});
+				if (data.affectedListedBuildingNumbers?.length) {
+					// add the links to affected listed buildings
+					await tx.appealCaseListedBuilding.createMany({
+						data: data.affectedListedBuildingNumbers.map((reference) => ({
+							caseReference: caseReference,
+							listedBuildingReference: reference,
+							type: LISTED_RELATION_TYPES.affected
+						}))
+					});
+				}
 
-				// add the links to the listed buildings
-				await tx.appealCaseListedBuilding.createMany({
-					data: data.affectedListedBuildingNumbers.map((reference) => ({
-						caseReference: caseReference,
-						listedBuildingReference: reference
-					}))
-				});
+				if (data.changedListedBuildingNumbers?.length) {
+					// add the links to changed listed buildings
+					await tx.appealCaseListedBuilding.createMany({
+						data: data.changedListedBuildingNumbers.map((reference) => ({
+							caseReference: caseReference,
+							listedBuildingReference: reference,
+							type: LISTED_RELATION_TYPES.changed
+						}))
+					});
+				}
 			}
 		});
 
@@ -454,14 +468,14 @@ class AppealCaseRepository {
 	 * List cases by postcode
 	 *
 	 * @param {Object} options
-	 * @param {string} options.postcode
+	 * @param {string} options.sanitizedPostcode
 	 * @param {boolean} options.decidedOnly - if true, only decided cases; else ONLY cases not decided
 	 * @returns {Promise<AppealCase[]>}
 	 */
-	async listByPostCode({ postcode, decidedOnly }) {
+	async listByPostCode({ sanitizedPostcode, decidedOnly }) {
 		/** @type {AppealCaseWhereInput[]}	*/
 		const AND = [
-			{ siteAddressPostcode: { startsWith: postcode } },
+			{ siteAddressPostcodeSanitized: { startsWith: sanitizedPostcode } },
 			{ casePublishedDate: { not: null } }
 		];
 		addDecidedClauseToQuery(AND, decidedOnly);

@@ -17,14 +17,13 @@
 		"start:dev": "npm run db:generate && nodemon ./ | pino-pretty -tlc",
 		"start:dev:debug": "npm run db:generate && nodemon --inspect=0.0.0.0 ./",
 		"seed:dev": "node ./dev/seed.js",
-		"integration-test": "npm run db:generate && jest"
+		"test": "npm run db:generate && jest --coverage --verbose"
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {
-		"@azure/app-configuration": "*",
 		"@azure/storage-blob": "*",
-		"@pins/business-rules": "file:../business-rules",
 		"@pins/common": "file:../common",
+		"@pins/database": "file:../database",
 		"@prisma/client": "*",
 		"applicationinsights": "*",
 		"archiver": "*",
@@ -43,11 +42,10 @@
 		"uuid": "*"
 	},
 	"devDependencies": {
-		"dotenv-cli": "*",
+		"dotenv": "*",
 		"jest": "*",
 		"jest-each": "*",
 		"jest-junit": "*",
-		"jest-when": "*",
 		"nodemon": "*",
 		"pino-pretty": "*",
 		"supertest": "*",
