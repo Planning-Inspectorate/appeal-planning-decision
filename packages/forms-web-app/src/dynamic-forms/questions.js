@@ -34,7 +34,11 @@ const NumericValidator = require('./validator/numeric-validator');
 const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox-validator');
 
 const { add, sub, format: formatDate } = require('date-fns');
-const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
+const {
+	APPEAL_CASE_PROCEDURE,
+	APPEAL_EIA_DEVELOPMENT_DESCRIPTION,
+	APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE
+} = require('pins-data-model');
 const { getConditionalFieldName, DIVIDER } = require('./dynamic-components/utils/question-utils');
 const { documentTypes } = require('@pins/common');
 const {
@@ -974,11 +978,11 @@ exports.questionProps = {
 		options: [
 			{
 				text: 'Yes, schedule 1',
-				value: 'schedule-1'
+				value: APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE.SCHEDULE_1
 			},
 			{
 				text: 'Yes, schedule 2',
-				value: 'schedule-2'
+				value: APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE.SCHEDULE_2
 			},
 			{
 				[DIVIDER]: 'or'
@@ -1091,55 +1095,55 @@ exports.questionProps = {
 		options: [
 			{
 				text: 'Agriculture and aquaculture',
-				value: 'agriculture-aquaculture'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.AGRICULTURE_AQUACULTURE
 			},
 			{
 				text: 'Changes and extensions',
-				value: 'change-extensions'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.CHANGE_EXTENSIONS
 			},
 			{
 				text: 'Chemical industry (unless included in Schedule 1)',
-				value: 'chemical-industry'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.CHEMICAL_INDUSTRY
 			},
 			{
 				text: 'Energy industry',
-				value: 'energy-industry'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.ENERGY_INDUSTRY
 			},
 			{
 				text: 'Extractive industry',
-				value: 'extractive-industry'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.EXTRACTIVE_INDUSTRY
 			},
 			{
 				text: 'Food industry',
-				value: 'food-industry'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.FOOD_INDUSTRY
 			},
 			{
 				text: 'Infrastructure projects',
-				value: 'infrastructure-projects'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.INFRASTRUCTURE_PROJECTS
 			},
 			{
 				text: 'Mineral industry',
-				value: 'mineral-industry'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.MINERAL_INDUSTRY
 			},
 			{
 				text: 'Other projects',
-				value: 'other-projects'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.OTHER_PROJECTS
 			},
 			{
 				text: 'Production and processing of metals',
-				value: 'production-processing-of-metals'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.PRODUCTION_PROCESSING_OF_METALS
 			},
 			{
 				text: 'Rubber industry',
-				value: 'rubber-industry'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.RUBBER_INDUSTRY
 			},
 			{
 				text: 'Textile, leather, wood and paper industries',
-				value: 'textile-industries'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.TEXTILE_INDUSTRIES
 			},
 			{
 				text: 'Tourism and leisure',
-				value: 'tourism-leisure'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.TOURISM_LEISURE
 			}
 		]
 	},

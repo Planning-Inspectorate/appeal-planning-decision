@@ -1,16 +1,26 @@
 const { formatter } = require(`./questionnaire`);
-const { getDocuments, howYouNotifiedPeople } = require(`../utils`);
-const { documentTypes } = require('@pins/common/src/document-types');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const HAS = CASE_TYPES.HAS.key;
 
-jest.mock(`../../../back-office-v2/formatters/utils`);
+jest.mock('../../../../services/object-store');
+
+// Mock getDocuments
+jest.mock('../utils', () => {
+	const originalModule = jest.requireActual('../utils');
+	return {
+		...originalModule,
+		getDocuments: jest.fn(() => [1])
+	};
+});
 
 describe('formatter', () => {
 	const caseReference = '12345';
 	const answers = {
 		correctAppealType: true,
-		SubmissionListedBuilding: [{ reference: 'LB123' }],
+		SubmissionListedBuilding: [{ reference: 'LB123', fieldName: 'affectedListedBuildingNumber' }],
 		conservationArea: true,
 		greenBelt: false,
+		notificationMethod: 'site-notice,letters-or-emails,advert',
 		lpaSiteAccess_lpaSiteAccessDetails: 'Access details',
 		lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails: 'Safety details',
 		SubmissionAddress: [
@@ -32,20 +42,18 @@ describe('formatter', () => {
 	});
 
 	it('should format the data correctly', async () => {
-		getDocuments.mockResolvedValue(['doc1', 'doc2']);
-		howYouNotifiedPeople.mockReturnValue('Email');
-
 		const result = await formatter(caseReference, answers);
 
 		expect(result).toEqual({
 			casedata: {
+				caseType: HAS,
 				caseReference: '12345',
 				lpaQuestionnaireSubmittedDate: expect.any(String),
 				isCorrectAppealType: true,
 				affectedListedBuildingNumbers: ['LB123'],
 				inConservationArea: true,
 				isGreenBelt: false,
-				notificationMethod: 'Email',
+				notificationMethod: ['notice', 'letter', 'advert'],
 				siteAccessDetails: ['Access details'],
 				siteSafetyDetails: ['Safety details'],
 				neighbouringSiteAddresses: [
@@ -64,35 +72,26 @@ describe('formatter', () => {
 				lpaStatement: '',
 				lpaCostsAppliedFor: null
 			},
-			documents: ['doc1', 'doc2']
+			documents: [1]
 		});
-
-		expect(getDocuments).toHaveBeenCalledWith(
-			answers,
-			documentTypes.planningOfficersReportUpload.dataModelName
-		);
-		expect(howYouNotifiedPeople).toHaveBeenCalledWith(answers);
 	});
 
 	it('should handle missing optional fields', async () => {
 		const minimalAnswers = {
 			correctAppealType: true
 		};
-
-		getDocuments.mockResolvedValue([]);
-		howYouNotifiedPeople.mockReturnValue('Email');
-
 		const result = await formatter(caseReference, minimalAnswers);
 
 		expect(result).toEqual({
 			casedata: {
+				caseType: HAS,
 				caseReference: '12345',
 				lpaQuestionnaireSubmittedDate: expect.any(String),
 				isCorrectAppealType: true,
-				affectedListedBuildingNumbers: undefined,
+				affectedListedBuildingNumbers: [],
 				inConservationArea: undefined,
 				isGreenBelt: undefined,
-				notificationMethod: 'Email',
+				notificationMethod: null,
 				siteAccessDetails: null,
 				siteSafetyDetails: null,
 				neighbouringSiteAddresses: undefined,
@@ -101,13 +100,7 @@ describe('formatter', () => {
 				lpaStatement: '',
 				lpaCostsAppliedFor: null
 			},
-			documents: []
+			documents: [1]
 		});
-
-		expect(getDocuments).toHaveBeenCalledWith(
-			minimalAnswers,
-			documentTypes.planningOfficersReportUpload.dataModelName
-		);
-		expect(howYouNotifiedPeople).toHaveBeenCalledWith(minimalAnswers);
 	});
 });

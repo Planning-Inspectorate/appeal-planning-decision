@@ -7,26 +7,34 @@ const {
 	APPEAL_APPLICATION_DECISION,
 	APPEAL_APPELLANT_PROCEDURE_PREFERENCE,
 	SERVICE_USER_TYPE,
-	APPEAL_CASE_PROCEDURE
+	APPEAL_CASE_PROCEDURE,
+	APPEAL_LPA_PROCEDURE_PREFERENCE
 } = require('pins-data-model');
 const { LPA_NOTIFICATION_METHODS, CASE_TYPES } = require('@pins/common/src/database/data-static');
 const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-date');
 
 /**
+ * @typedef {import('../../../routes/v2/appellant-submissions/repo').FullAppellantSubmission} FullAppellantSubmission
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
- * @typedef {Omit<LPAQuestionnaireSubmission, "AppealCase">} Answers
+ * @typedef {Omit<LPAQuestionnaireSubmission, "AppealCase">} LPAQAnswers
  * @typedef {import('./has/has').Submission} HASBOSubmission
+ *
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents']} DataModelDocuments
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents'][0]['documentType'] | import('pins-data-model/src/schemas').LPAQuestionnaireCommand['documents'][0]['documentType']} DataModelDocumentTypes
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['users']} DataModelUsers
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['casedata']['applicationDecision']} DataModelApplicationDecision
- * @typedef {import('../../../routes/v2/appellant-submissions/repo').FullAppellantSubmission} FullAppellantSubmission
+ *
  * @typedef {import ('pins-data-model').Schemas.AppellantCommonSubmissionProperties} AppellantCommonSubmissionProperties
  * @typedef {import ('pins-data-model').Schemas.AppellantHASSubmissionProperties} AppellantHASSubmissionProperties
  * @typedef {import ('pins-data-model').Schemas.AppellantS78SubmissionProperties} AppellantS78SubmissionProperties
  * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
+ *
+ * @typedef {import ('pins-data-model').Schemas.LPAQCommonSubmissionProperties} LPAQCommonSubmissionProperties
+ * @typedef {import ('pins-data-model').Schemas.LPAQHASSubmissionProperties} LPAQHASSubmissionProperties
+ * @typedef {import ('pins-data-model').Schemas.LPAQS78SubmissionProperties} LPAQS78SubmissionProperties
+ * @typedef {import ('pins-data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
+ *
  * @typedef {import ('../../../models/entities/lpa-entity')} LPA
- * @typedef {function(FullAppellantSubmission, LPA): Promise<AppellantSubmissionCommand>} AppellantSubmissionMapper
  */
 
 /**
@@ -64,7 +72,7 @@ exports.getDocuments = async ({ SubmissionDocumentUpload }, defaultDocType) => {
 			mime: mime_type,
 			documentURI: _response.request.url,
 			dateCreated: new Date(createdOn).toISOString(),
-			documentType: getDocType(document_type, 'name').dataModelName ?? defaultDocType
+			documentType: getDocType(document_type, 'name').dataModelName ?? defaultDocType // todo: this errors so will never get default
 		})
 	);
 };
@@ -83,7 +91,7 @@ exports.formatAddresses = (addresses) =>
 	})) || [];
 
 /**
- * @param {Answers} answers
+ * @param {LPAQAnswers} answers
  * @returns {string[]|null}
  */
 exports.howYouNotifiedPeople = (answers) => {
@@ -202,7 +210,7 @@ function isValidYesNoSomeKey(key) {
 
 /**
  * @param {FullAppellantSubmission} appellantSubmission
- * @param {import('../../../models/entities/lpa-entity')} lpa
+ * @param {LPA} lpa
  * @returns {AppellantCommonSubmissionProperties}
  */
 exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
@@ -305,41 +313,220 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
 		planningObligation: appellantSubmission.planningObligation ?? null,
 		statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
 
-		appellantProcedurePreference: preference.type,
-		appellantProcedurePreferenceDetails: preference.details,
-		appellantProcedurePreferenceDuration: preference.duration,
-		inquiryHowManyWitnesses: preference.witnesses
+		...preference
 	};
 };
 
 /**
  * @param {FullAppellantSubmission} appellantSubmission
- * @returns {{type: 'written'|'hearing'|'inquiry', details: string|null, duration: Number|null, witnesses: Number|null}}
+ * @returns {{appellantProcedurePreference: 'written'|'hearing'|'inquiry', appellantProcedurePreferenceDetails: string|null, appellantProcedurePreferenceDuration: Number|null, inquiryHowManyWitnesses: Number|null}}
  */
 const getAppellantProcedurePreference = (appellantSubmission) => {
-	/** @type {{type: string, details: string|null, duration: Number|null, witnesses: Number|null }} */
-	let preference = {
-		type: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.WRITTEN,
-		details: null,
-		duration: null,
-		witnesses: null
-	};
-
-	if (appellantSubmission.appellantProcedurePreference === APPEAL_CASE_PROCEDURE.HEARING) {
-		preference = {
-			type: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.HEARING,
-			details: appellantSubmission.appellantPreferHearingDetails,
-			duration: null,
-			witnesses: null
-		};
-	} else if (appellantSubmission.appellantProcedurePreference === APPEAL_CASE_PROCEDURE.INQUIRY) {
-		preference = {
-			type: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.INQUIRY,
-			details: appellantSubmission.appellantPreferInquiryDetails,
-			duration: Number(appellantSubmission.appellantPreferInquiryDuration) || null,
-			witnesses: Number(appellantSubmission.appellantPreferInquiryWitnesses)
-		};
+	switch (appellantSubmission.appellantProcedurePreference) {
+		case APPEAL_CASE_PROCEDURE.WRITTEN:
+			return {
+				appellantProcedurePreference: APPEAL_LPA_PROCEDURE_PREFERENCE.WRITTEN,
+				appellantProcedurePreferenceDetails: null,
+				appellantProcedurePreferenceDuration: null,
+				inquiryHowManyWitnesses: null
+			};
+		case APPEAL_CASE_PROCEDURE.HEARING:
+			return {
+				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.HEARING,
+				appellantProcedurePreferenceDetails: appellantSubmission.appellantPreferHearingDetails,
+				appellantProcedurePreferenceDuration: null,
+				inquiryHowManyWitnesses: null
+			};
+		case APPEAL_CASE_PROCEDURE.INQUIRY:
+			return {
+				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.INQUIRY,
+				appellantProcedurePreferenceDetails: appellantSubmission.appellantPreferInquiryDetails,
+				appellantProcedurePreferenceDuration:
+					Number(appellantSubmission.appellantPreferInquiryDuration) || null,
+				inquiryHowManyWitnesses: Number(appellantSubmission.appellantPreferInquiryWitnesses)
+			};
+		default:
+			throw new Error('unknown appellantProcedurePreference');
 	}
+};
 
-	return preference;
+/**
+ * @param {string} caseReference
+ * @param {LPAQAnswers} answers
+ * @returns {LPAQCommonSubmissionProperties}
+ */
+exports.getCommonLPAQSubmissionFields = (caseReference, answers) => ({
+	caseReference: caseReference,
+	lpaQuestionnaireSubmittedDate: new Date().toISOString(),
+	siteAccessDetails: answers.lpaSiteAccess_lpaSiteAccessDetails
+		? [answers.lpaSiteAccess_lpaSiteAccessDetails]
+		: null,
+	siteSafetyDetails: answers.lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails
+		? [answers.lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails]
+		: null,
+	neighbouringSiteAddresses: answers.SubmissionAddress?.filter((address) => {
+		return address.fieldName === 'neighbourSiteAddress';
+	}).map((address) => {
+		return {
+			neighbouringSiteAddressLine1: address.addressLine1,
+			neighbouringSiteAddressLine2: address.addressLine2,
+			neighbouringSiteAddressTown: address.townCity,
+			neighbouringSiteAddressCounty: address.county,
+			neighbouringSiteAddressPostcode: address.postcode,
+			neighbouringSiteAccessDetails: null, // not asked
+			neighbouringSiteSafetyDetails: null // not asked
+		};
+	}),
+	nearbyCaseReferences: answers.SubmissionLinkedCase?.map(({ caseReference }) => caseReference)
+});
+
+/**
+ *
+ * @param {import('@prisma/client').SubmissionListedBuilding[]} listedBuildings
+ * @param {string} type
+ * @returns {string[]}
+ */
+const getListedBuildingByType = (listedBuildings, type) => {
+	if (!listedBuildings || !listedBuildings.length) return [];
+
+	return listedBuildings.filter((lb) => lb.fieldName === type).map(({ reference }) => reference);
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {LPAQHASSubmissionProperties}
+ */
+exports.getHASLPAQSubmissionFields = (answers) => {
+	return {
+		isCorrectAppealType: answers.correctAppealType,
+		affectedListedBuildingNumbers: getListedBuildingByType(
+			answers.SubmissionListedBuilding,
+			'affectedListedBuildingNumber'
+		), // todo: const
+		inConservationArea: answers.conservationArea,
+		isGreenBelt: answers.greenBelt,
+		notificationMethod: exports.howYouNotifiedPeople(answers),
+		newConditionDetails: answers.newConditions_newConditionDetails ?? null,
+		lpaStatement: '', // not asked
+		lpaCostsAppliedFor: null // not asked
+	};
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {LPAQS78SubmissionProperties}
+ */
+exports.getS78LPAQSubmissionFields = (answers) => {
+	const levy = getInfrastructureLevy(answers);
+	const preference = getLPAProcedurePreference(answers);
+
+	return {
+		// Constraints, designations and other issues
+		changedListedBuildingNumbers: getListedBuildingByType(
+			answers.SubmissionListedBuilding,
+			'changedListedBuildingNumber'
+		), // todo const
+		affectsScheduledMonument: answers.affectsScheduledMonument,
+		hasProtectedSpecies: answers.protectedSpecies,
+		isAonbNationalLandscape: answers.areaOutstandingBeauty,
+		designatedSitesNames: [
+			...(answers.designatedSites ? answers.designatedSites.split(',') : []),
+			answers.designatedSites_otherDesignations || null
+		].filter(Boolean),
+		hasTreePreservationOrder: answers.treePreservationOrder,
+		isGypsyOrTravellerSite: answers.gypsyTraveller,
+		isPublicRightOfWay: answers.publicRightOfWay,
+
+		// Environmental impact assessment, todo: handle dependent logic in journey so we don't send redundant data
+		eiaEnvironmentalImpactSchedule: getSchedule(answers),
+		eiaDevelopmentDescription: answers.developmentDescription || null,
+		eiaSensitiveAreaDetails: answers.sensitiveArea_sensitiveAreaDetails || null,
+		eiaColumnTwoThreshold: answers.columnTwoThreshold,
+		eiaScreeningOpinion: answers.screeningOpinion,
+		// todo: update the db names for the below so it is less confusing being switched
+		eiaRequiresEnvironmentalStatement: answers.environmentalStatement, // Did your screening opinion say the development needed an environmental statement
+		eiaCompletedEnvironmentalStatement: exports.toBool(answers.requiresEnvironmentalStatement), // Did the applicant submit an environmental statement
+
+		// Consultation responses and representations
+		hasStatutoryConsultees: exports.toBool(answers.statutoryConsultees),
+		eiaConsultedBodiesDetails: answers.statutoryConsultees_consultedBodiesDetails || null, // should this be renamed to lose eia?
+		hasConsultationResponses: answers.consultationResponses,
+
+		// Planning officer’s report and supporting documents
+		hasEmergingPlan: answers.emergingPlan,
+		hasSupplementaryPlanningDocs: answers.supplementaryPlanningDocs,
+		...levy,
+
+		// Appeal process
+		...preference
+	};
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {string|null}
+ */
+const getSchedule = (answers) => {
+	if (!answers.environmentalImpactSchedule || answers.environmentalImpactSchedule === 'no')
+		return null;
+	return answers.environmentalImpactSchedule;
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {{hasInfrastructureLevy: boolean, isInfrastructureLevyFormallyAdopted: boolean|null, infrastructureLevyAdoptedDate: string|null, infrastructureLevyExpectedDate: string|null}}
+ */
+const getInfrastructureLevy = (answers) => {
+	if (!answers.infrastructureLevy)
+		return {
+			hasInfrastructureLevy: false,
+			isInfrastructureLevyFormallyAdopted: null,
+			infrastructureLevyAdoptedDate: null,
+			infrastructureLevyExpectedDate: null
+		};
+
+	if (answers.infrastructureLevyAdopted)
+		return {
+			hasInfrastructureLevy: true,
+			isInfrastructureLevyFormallyAdopted: true,
+			infrastructureLevyAdoptedDate: answers.infrastructureLevyAdoptedDate?.toISOString() || null,
+			infrastructureLevyExpectedDate: null
+		};
+
+	return {
+		hasInfrastructureLevy: true,
+		isInfrastructureLevyFormallyAdopted: false,
+		infrastructureLevyAdoptedDate: null,
+		infrastructureLevyExpectedDate: answers.infrastructureLevyExpectedDate?.toISOString() || null
+	};
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {{lpaProcedurePreference: 'written'|'hearing'|'inquiry', lpaProcedurePreferenceDetails: string|null, lpaProcedurePreferenceDuration: Number|null}}
+ */
+const getLPAProcedurePreference = (answers) => {
+	switch (answers.lpaProcedurePreference) {
+		case APPEAL_CASE_PROCEDURE.WRITTEN:
+			return {
+				lpaProcedurePreference: APPEAL_LPA_PROCEDURE_PREFERENCE.WRITTEN,
+				lpaProcedurePreferenceDetails: null,
+				lpaProcedurePreferenceDuration: null
+			};
+		case APPEAL_CASE_PROCEDURE.HEARING:
+			return {
+				lpaProcedurePreference: APPEAL_LPA_PROCEDURE_PREFERENCE.HEARING,
+				lpaProcedurePreferenceDetails: answers.lpaPreferHearingDetails || null,
+				lpaProcedurePreferenceDuration: null
+			};
+		case APPEAL_CASE_PROCEDURE.INQUIRY:
+			return {
+				lpaProcedurePreference: APPEAL_LPA_PROCEDURE_PREFERENCE.INQUIRY,
+				lpaProcedurePreferenceDetails: answers.lpaPreferInquiryDetails || null,
+				lpaProcedurePreferenceDuration:
+					Number(answers.lpaProcedurePreference_lpaPreferInquiryDuration) || null
+			};
+		default:
+			throw new Error('unknown lpaProcedurePreference');
+	}
 };
