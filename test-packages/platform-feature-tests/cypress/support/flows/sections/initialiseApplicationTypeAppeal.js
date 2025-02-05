@@ -15,6 +15,9 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 		.click();
 	cy.advanceToNextPage();
 
+	cy.getByData(basePage?._selectors.answerNo).click();
+	cy.advanceToNextPage();
+
 	cy.get(`[data-cy="${planning}"]`).click();
 	cy.advanceToNextPage();
 
