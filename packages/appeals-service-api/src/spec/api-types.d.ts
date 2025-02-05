@@ -1187,7 +1187,7 @@ export interface LPAQuestionnaireSubmission {
 	uploadScreeningOpinion?: boolean | null;
 	uploadScreeningDirection?: boolean | null;
 	developmentDescription?: string;
-	requiresEnvironmentalStatement?: boolean;
+	applicantSubmittedEnvironmentalStatement?: boolean;
 	SubmissionAddress?: object[];
 	SubmissionListedBuilding?: object[];
 	SubmissionLinkedCase?: object[];

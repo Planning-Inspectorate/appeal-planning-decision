@@ -1152,7 +1152,7 @@ exports.questionProps = {
 		title: 'Environmental impact assessment',
 		question: 'Did the applicant submit an environmental statement?',
 		// fieldName: 'environmental-statement',
-		fieldName: 'requiresEnvironmentalStatement',
+		fieldName: 'applicantSubmittedEnvironmentalStatement',
 		url: 'environmental-statement',
 		options: [
 			{

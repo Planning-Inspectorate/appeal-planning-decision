@@ -443,9 +443,10 @@ exports.getS78LPAQSubmissionFields = (answers) => {
 		eiaSensitiveAreaDetails: answers.sensitiveArea_sensitiveAreaDetails || null,
 		eiaColumnTwoThreshold: answers.columnTwoThreshold,
 		eiaScreeningOpinion: answers.screeningOpinion,
-		// todo: update the db names for the below so it is less confusing being switched
-		eiaRequiresEnvironmentalStatement: answers.environmentalStatement, // Did your screening opinion say the development needed an environmental statement
-		eiaCompletedEnvironmentalStatement: exports.toBool(answers.requiresEnvironmentalStatement), // Did the applicant submit an environmental statement
+		eiaRequiresEnvironmentalStatement: answers.environmentalStatement,
+		eiaCompletedEnvironmentalStatement: exports.toBool(
+			answers.applicantSubmittedEnvironmentalStatement
+		),
 
 		// Consultation responses and representations
 		hasStatutoryConsultees: exports.toBool(answers.statutoryConsultees),

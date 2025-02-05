@@ -60,7 +60,7 @@ describe('formatter', () => {
 		columnTwoThreshold: true,
 		screeningOpinion: true,
 		environmentalStatement: true,
-		requiresEnvironmentalStatement: 'yes',
+		applicantSubmittedEnvironmentalStatement: 'yes',
 		statutoryConsultees: 'yes',
 		statutoryConsultees_consultedBodiesDetails: 'statutoryConsultees_consultedBodiesDetails',
 		consultationResponses: true,

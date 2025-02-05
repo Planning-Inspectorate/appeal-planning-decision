@@ -910,7 +910,7 @@ model LPAQuestionnaireSubmission {
   uploadScreeningOpinion                          Boolean?
   uploadScreeningDirection                        Boolean?
   developmentDescription                          String?
-  requiresEnvironmentalStatement                  String?
+  applicantSubmittedEnvironmentalStatement        String?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
