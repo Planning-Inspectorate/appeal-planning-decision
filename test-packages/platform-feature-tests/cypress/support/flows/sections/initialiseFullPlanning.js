@@ -63,8 +63,8 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 	cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateYear).type(date.currentYear());
 	cy.advanceToNextPage();
 
-	cy.getByData(basePage?._selectors.answerNo).click();
-	cy.advanceToNextPage();
+	// cy.getByData(basePage?._selectors.answerNo).click();
+	// cy.advanceToNextPage();
 
 	cy.getByData(basePage?._selectors.applicationType).should('have.text', applicationType);
 
