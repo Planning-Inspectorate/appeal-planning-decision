@@ -599,11 +599,10 @@ model Document {
   horizonFolderId String?
 
   // relations
-  caseReference           String
-  AppealCase              AppealCase               @relation(fields: [caseReference], references: [caseReference])
-  RepresentationDocuments RepresentationDocument[]
-  StatementDocuments      StatementDocument[]
-  FinalCommentDocuments   FinalCommentDocument[]
+  caseReference         String
+  AppealCase            AppealCase             @relation(fields: [caseReference], references: [caseReference])
+  StatementDocuments    StatementDocument[]
+  FinalCommentDocuments FinalCommentDocument[]
 }
 
 // Stores appeal statements from either an LPA or rule 6 party group
@@ -1241,5 +1240,4 @@ model RepresentationDocument {
   representationId String         @db.UniqueIdentifier
   documentId       String         @db.UniqueIdentifier
   Representation   Representation @relation(fields: [representationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Document         Document       @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

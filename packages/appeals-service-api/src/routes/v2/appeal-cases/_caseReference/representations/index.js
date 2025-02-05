@@ -1,8 +1,5 @@
 const express = require('express');
-const {
-	getAppealCaseWithRepresentations
-	//  putByRepresentationId
-} = require('./controller');
+const { getAppealCaseWithRepresentations, putByRepresentationId } = require('./controller');
 const { AUTH } = require('@pins/common/src/constants');
 const config = require('../../../../../configuration/config');
 const { auth } = require('express-oauth2-jwt-bearer');
@@ -29,6 +26,6 @@ router.use(
 
 router.get('/', asyncHandler(getAppealCaseWithRepresentations));
 
-// router.put('/:representationId', asyncHandler(putByRepresentationId));
+router.put('/:representationId', asyncHandler(putByRepresentationId));
 
 module.exports = { router };

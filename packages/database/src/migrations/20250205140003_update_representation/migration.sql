@@ -9,6 +9,9 @@ BEGIN TRY
 
 BEGIN TRAN;
 
+-- DropForeignKey
+ALTER TABLE [dbo].[RepresentationDocument] DROP CONSTRAINT [RepresentationDocument_documentId_fkey];
+
 -- AlterTable
 ALTER TABLE [dbo].[Representation] DROP COLUMN [invalidDetails],
 [status];
