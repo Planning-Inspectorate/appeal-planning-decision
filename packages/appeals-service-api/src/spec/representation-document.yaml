@@ -20,5 +20,3 @@ components:
           description: Unique identifier of appeal (SQL)
         Representation:
           $ref: '#/components/schemas/Representation'
-        Document:
-          $ref: '#/components/schemas/Document'

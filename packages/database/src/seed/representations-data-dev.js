@@ -37,11 +37,7 @@ const representationDocuments = [
 				id: representationIds.representationOne
 			}
 		},
-		Document: {
-			connect: {
-				id: '35880c82-7252-40a0-8dbd-30b740f22bce'
-			}
-		}
+		documentId: '35880c82-7252-40a0-8dbd-30b740f22bce'
 	},
 	// rule 6 statement
 	{
@@ -51,11 +47,7 @@ const representationDocuments = [
 				id: representationIds.representationEleven
 			}
 		},
-		Document: {
-			connect: {
-				id: '0fc15038-7b19-4f36-92aa-bddc611f5bba'
-			}
-		}
+		documentId: '0fc15038-7b19-4f36-92aa-bddc611f5bba'
 	},
 	// lpa final comments
 	{
@@ -65,11 +57,7 @@ const representationDocuments = [
 				id: representationIds.representationThree
 			}
 		},
-		Document: {
-			connect: {
-				id: '35cb4ad1-9ba3-43fb-b102-e845804ba2f7'
-			}
-		}
+		documentId: '35cb4ad1-9ba3-43fb-b102-e845804ba2f7'
 	},
 	// appellant final comments
 	{
@@ -79,11 +67,7 @@ const representationDocuments = [
 				id: representationIds.representationTen
 			}
 		},
-		Document: {
-			connect: {
-				id: 'a1b60dc2-2253-48eb-aaea-4ec665f15fbd'
-			}
-		}
+		documentId: 'a1b60dc2-2253-48eb-aaea-4ec665f15fbd'
 	},
 	// lpa poe
 	{
@@ -93,11 +77,7 @@ const representationDocuments = [
 				id: representationIds.representationSix
 			}
 		},
-		Document: {
-			connect: {
-				id: '5b51fcb3-54ad-4e12-974e-a59ee2abcf31'
-			}
-		}
+		documentId: '5b51fcb3-54ad-4e12-974e-a59ee2abcf31'
 	},
 	{
 		id: '319612c2-9cad-48b3-bfde-faeffba61544',
@@ -106,11 +86,7 @@ const representationDocuments = [
 				id: representationIds.representationSix
 			}
 		},
-		Document: {
-			connect: {
-				id: '5b51fcb3-54ad-4e12-974e-a59ee2abcf32'
-			}
-		}
+		documentId: '5b51fcb3-54ad-4e12-974e-a59ee2abcf32'
 	},
 	// appellant poe
 	{
@@ -120,11 +96,7 @@ const representationDocuments = [
 				id: representationIds.representationSeven
 			}
 		},
-		Document: {
-			connect: {
-				id: '5b51fcb3-54ad-4e12-974e-a59ee2abcf33'
-			}
-		}
+		documentId: '5b51fcb3-54ad-4e12-974e-a59ee2abcf33'
 	},
 	// r6 poes
 	{
@@ -134,11 +106,7 @@ const representationDocuments = [
 				id: representationIds.representationEight
 			}
 		},
-		Document: {
-			connect: {
-				id: '5b51fcb3-54ad-4e12-974e-a59ee2abcf34'
-			}
-		}
+		documentId: '5b51fcb3-54ad-4e12-974e-a59ee2abcf34'
 	},
 	{
 		id: '319612c2-9cad-48b3-bfde-faeffba61547',
@@ -147,11 +115,7 @@ const representationDocuments = [
 				id: representationIds.representationEight
 			}
 		},
-		Document: {
-			connect: {
-				id: '5b51fcb3-54ad-4e12-974e-a59ee2abcf35'
-			}
-		}
+		documentId: '5b51fcb3-54ad-4e12-974e-a59ee2abcf35'
 	},
 	{
 		id: '319612c2-9cad-48b3-bfde-faeffba61548',
@@ -160,11 +124,7 @@ const representationDocuments = [
 				id: representationIds.representationNine
 			}
 		},
-		Document: {
-			connect: {
-				id: '5b51fcb3-54ad-4e12-974e-a59ee2abcf36'
-			}
-		}
+		documentId: '5b51fcb3-54ad-4e12-974e-a59ee2abcf36'
 	}
 ];
 

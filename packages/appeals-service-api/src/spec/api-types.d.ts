@@ -943,7 +943,6 @@ export interface Document {
 	origin: string;
 	stage: string;
 	caseReference: string;
-	RepresentationDocument?: RepresentationDocument[];
 }
 
 export interface ErrorBody {
@@ -1249,8 +1248,6 @@ export interface RepresentationDocument {
 	documentId: string;
 	/** Proofs of Evidence, Final Comments, Statements, Planning Obligations or IP Comments received from BO */
 	Representation?: Representation;
-	/** A document associated with an appeal */
-	Document?: Document;
 }
 
 /** Proofs of Evidence, Final Comments, Statements, Planning Obligations or IP Comments received from BO */
