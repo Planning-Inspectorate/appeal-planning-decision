@@ -68,6 +68,13 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
  * @typedef {"HAS" | "S78"} AppealTypeCode
  * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
  * @typedef {import ('pins-data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
+ * @typedef {import ('pins-data-model').Schemas.AppealRepresentationSubmission} AppealRepresentationSubmission
+ * @typedef {import('./formatters/s78/representation').TypedRepresentationSubmission} TypedRepresentationSubmission
+ * @typedef {import('./formatters/s78/representation').RepresentationTypes} RepresentationTypes
+ *
+ */
+
+/**
  * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('../../models/entities/lpa-entity')} LPA
  * @typedef {import('./formatters/utils').AppellantSubmissionMapper} AppellantSubmissionMapper
@@ -299,19 +306,53 @@ class BackOfficeV2Service {
 	/**
 	 * @param {string} caseReference
 	 * @param {string} userId
-	 * @returns {Promise<void>}
+	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitAppellantFinalCommentSubmission(caseReference, userId) {
+	async submitAppellantFinalCommentSubmission(caseReference, userId, formatter) {
 		const appellantFinalCommentSubmission = await getAppellantFinalCommentByAppealId(caseReference);
 
+		if (!appellantFinalCommentSubmission) {
+			throw ApiError.finalCommentsNotFound();
+		}
+
+		const { appealTypeCode, LPACode } = appellantFinalCommentSubmission.AppealCase;
 		const { email, serviceUserId } = await getUserById(userId);
+
+		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
+		if (!isBOIntegrationActive) return;
 
 		const appellantName =
 			(await this.#getAppellantNameFromServiceUser(serviceUserId, caseReference)) || 'Appellant';
 
-		logger.info(
-			`forwarding appellant final comment submission for ${caseReference} to service bus`
-		);
+		let result;
+		let mappedData;
+		if (appealTypeCode === 'S78') {
+			logger.info(`mapping appellant final comment ${caseReference} to ${appealTypeCode} schema`);
+			mappedData = await formatter(
+				caseReference,
+				serviceUserId,
+				APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+				appellantFinalCommentSubmission
+			);
+			logger.debug({ mappedData }, 'mapped representation');
+
+			logger.info(`validating representation ${caseReference} schema`);
+
+			/** @type {Validate<AppealRepresentationSubmission>} */
+			const validator = getValidator('appeal-representation-submission');
+			if (!validator(mappedData)) {
+				throw new Error(
+					`Payload was invalid when checked against appeal representation submission schema`
+				);
+			}
+
+			logger.info(
+				`forwarding appellant final comment representation ${caseReference} to service bus`
+			);
+
+			result = await forwarders.representation([mappedData]);
+		}
 
 		// Date to be set in back office mapper once data model confirmed
 		await markAppellantFinalCommentAsSubmitted(caseReference, new Date().toISOString());
@@ -326,6 +367,8 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendAppellantFinalCommentSubmissionEmailToAppellantV2');
 			throw new Error('failed to send appellant final comment submission email');
 		}
+
+		return result;
 	}
 
 	/**
