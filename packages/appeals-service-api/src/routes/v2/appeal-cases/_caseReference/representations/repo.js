@@ -172,16 +172,6 @@ class RepresentationsRepository {
 		});
 
 		if (data.documentIds?.length) {
-			const existingIds = await Promise.all(
-				data.documentIds.filter(async (documentId) => {
-					(await this.dbClient.document.count({
-						where: {
-							id: documentId
-						}
-					})) > 0;
-				})
-			);
-
 			await this.dbClient.$transaction(async (tx) => {
 				// delete all relations that use this case
 				await tx.representationDocument.deleteMany({
@@ -191,7 +181,7 @@ class RepresentationsRepository {
 				});
 
 				await tx.representationDocument.createMany({
-					data: existingIds.map((documentId) => ({
+					data: data.documentIds.map((documentId) => ({
 						representationId: result.id,
 						documentId
 					}))
