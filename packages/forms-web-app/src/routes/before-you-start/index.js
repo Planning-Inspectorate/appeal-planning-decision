@@ -8,7 +8,6 @@ const useExistingServiceListedBuilding = require('./use-existing-service-listed-
 const canUseService = require('./can-use-service');
 const localPlanningDepartmentRouter = require('./local-planning-department');
 const typeOfPlanningApplicationRouter = require('./type-of-planning-application');
-const useADifferentServiceRouter = require('../before-you-start/use-a-different-service');
 const useExistingServiceApplicationType = require('./use-existing-service-application-type');
 const enforcementNotice = require('./enforcement-notice');
 const useExistingServiceEnforcementNotice = require('./use-existing-service-enforcement-notice');
@@ -19,7 +18,6 @@ router.use(useExistingServiceListedBuilding);
 router.use(canUseService);
 router.use(localPlanningDepartmentRouter);
 router.use(typeOfPlanningApplicationRouter);
-router.use(useADifferentServiceRouter);
 router.use(useExistingServiceApplicationType);
 router.use(enforcementNotice);
 router.use(useExistingServiceEnforcementNotice);

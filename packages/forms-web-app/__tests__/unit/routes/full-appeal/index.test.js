@@ -4,7 +4,6 @@ const anyOfFollowingRouter = require('../../../../src/routes/full-appeal/any-of-
 const grantedOrRefusedRouter = require('../../../../src/routes/full-appeal/granted-or-refused');
 const localPlanningDepartmentRouter = require('../../../../src/routes/before-you-start/local-planning-department');
 const typeOfPlanningRouter = require('../../../../src/routes/before-you-start/type-of-planning-application');
-const useADifferentServiceRouter = require('../../../../src/routes/before-you-start/use-a-different-service');
 const useExistingServiceApplicationType = require('../../../../src/routes/before-you-start/use-existing-service-application-type');
 const outOfTimeRouter = require('../../../../src/routes/full-appeal/you-cannot-appeal');
 const dateDecisionDueRouter = require('../../../../src/routes/full-appeal/date-decision-due');
@@ -25,7 +24,6 @@ describe('routes/full-appeal/index', () => {
 		expect(use).toHaveBeenCalledWith(typeOfPlanningRouter);
 		expect(use).toHaveBeenCalledWith(anyOfFollowingRouter);
 		expect(use).toHaveBeenCalledWith(grantedOrRefusedRouter);
-		expect(use).toHaveBeenCalledWith(useADifferentServiceRouter);
 		expect(use).toHaveBeenCalledWith(useExistingServiceApplicationType);
 		expect(use).toHaveBeenCalledWith(outOfTimeRouter);
 		expect(use).toHaveBeenCalledWith(decisionDateRouter);

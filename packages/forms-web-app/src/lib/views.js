@@ -134,7 +134,6 @@ const VIEW = {
 		TELLING_THE_LANDOWNERS: 'full-appeal/submit-appeal/telling-the-landowners',
 		TELLING_THE_TENANTS: 'full-appeal/submit-appeal/telling-the-tenants',
 		TYPE_OF_PLANNING_APPLICATION: 'full-appeal/type-of-planning-application',
-		USE_A_DIFFERENT_SERVICE: 'full-appeal/use-a-different-service',
 		VISIBLE_FROM_ROAD: 'full-appeal/submit-appeal/visible-from-road',
 		WHY_HEARING: 'full-appeal/submit-appeal/why-hearing',
 		WHY_INQUIRY: 'full-appeal/submit-appeal/why-inquiry',
