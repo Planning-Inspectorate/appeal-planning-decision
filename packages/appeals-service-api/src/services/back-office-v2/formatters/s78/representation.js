@@ -60,16 +60,17 @@ exports.formatter = async (caseReference, serviceUserId, repType, representation
 		}
 	}
 
-	return {
-		caseData: {
-			caseReference: caseReference,
-			representation: representationText,
-			representationSubmittedDate: new Date().toISOString(),
-			representationType: repType,
-			serviceUserId: serviceUserId || null,
-			lpaCode: lpaCode || null,
-			newUser: null, // to be updated for IP comment
-			documents: getDocuments(representationSubmission)
-		}
+	const payload = {
+		caseReference: caseReference,
+		representation: representationText,
+		representationSubmittedDate: new Date().toISOString(),
+		representationType: repType,
+		documents: await getDocuments(representationSubmission)
 	};
+	if (serviceUserId) {
+		payload.serviceUserId = serviceUserId;
+	} else if (lpaCode) {
+		payload.lpaCode = lpaCode;
+	} //todo: add newUser for IP comment
+	return payload;
 };

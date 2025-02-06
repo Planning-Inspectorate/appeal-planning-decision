@@ -327,7 +327,7 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (appealTypeCode === 'S78') {
+		if (appealTypeCode === CASE_TYPES.S78.processCode) {
 			logger.info(`mapping appellant final comment ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter(
 				caseReference,

@@ -736,7 +736,7 @@ const documentTypes = {
 	},
 	uploadRule6WitnessesEvidence: {
 		name: 'uploadRule6WitnessesEvidence',
-		dataModelName: 'rule6Witnesses', // Not in data model
+		dataModelName: APPEAL_DOCUMENT_TYPE.RULE_6_WITNESSES_EVIDENCE,
 		multiple: true,
 		displayName: '',
 		involvement: '',

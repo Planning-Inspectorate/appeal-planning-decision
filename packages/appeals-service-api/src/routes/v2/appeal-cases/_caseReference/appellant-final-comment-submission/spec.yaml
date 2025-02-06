@@ -84,3 +84,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appeal-cases/{caseReference}/appellant-final-comment-submission/submit:
+    post:
+      tags:
+        - appellant submissions
+      description: Submit a final comment to back office
+      parameters:
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          description: appeal case reference
+      responses:
+        200:
+          description: The final comment has been submitted successfully
+          content:
+            'text/html':
+              schema:
+                type: string
+        404:
+          description: Final comment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
