@@ -5,6 +5,22 @@ const { SchemaValidator } = require('../../../services/back-office-v2/validate')
 const { getValidator } = new SchemaValidator();
 
 /**
+ * @typedef {import('@prisma/client').Document} PrismaDocument
+ */
+
+/**
+ * @param {string} id
+ * @returns {Promise<PrismaDocument>}
+ */
+exports.get = async (id) => {
+	try {
+		return await repo.get(id);
+	} catch (error) {
+		throw ApiError.documentDetailsNotFound(id);
+	}
+};
+
+/**
  * @param {import('pins-data-model/src/schemas').AppealDocument} data
  * @returns {Promise<import('@prisma/client').Document>}
  */

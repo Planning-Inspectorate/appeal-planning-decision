@@ -47,6 +47,18 @@ module.exports = class Repo {
 	}
 
 	/**
+	 * @param {string} id
+	 * @returns {Promise<PrismaDocument>}
+	 */
+	async get(id) {
+		return await this.dbClient.document.findUniqueOrThrow({
+			where: {
+				id
+			}
+		});
+	}
+
+	/**
 	 * @param {DataModelDocument} data
 	 * @returns {Promise<PrismaDocument>}
 	 */

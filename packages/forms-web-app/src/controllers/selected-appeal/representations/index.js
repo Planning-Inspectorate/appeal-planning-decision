@@ -56,7 +56,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
 
-		const formattedRepresentations = formatRepresentations(representationsForDisplay);
+		const formattedRepresentations = await formatRepresentations(representationsForDisplay, req);
 
 		const representationView =
 			representationType == REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT

@@ -13,6 +13,7 @@ router.use(
 	})
 );
 
+router.get('/:id', asyncHandler(controller.get));
 router.put('/', asyncHandler(controller.put));
 router.delete('/:id', asyncHandler(controller.delete));
 
