@@ -32,13 +32,13 @@ describe('Representation Formatter', () => {
 			submission
 		);
 
-		expect(result.caseData.caseReference).toBe(caseReference);
-		expect(result.caseData.representation).toBe('LPA final comment text');
-		expect(result.caseData.representationType).toBe('final_comment');
-		expect(result.caseData.serviceUserId).toBeNull();
-		expect(result.caseData.lpaCode).toBe('LPA001');
-		expect(result.caseData.documents).toEqual([1]);
-		expect(typeof result.caseData.representationSubmittedDate).toBe('string');
+		expect(result.caseReference).toBe(caseReference);
+		expect(result.representation).toBe('LPA final comment text');
+		expect(result.representationType).toBe('final_comment');
+		expect(result).not.toHaveProperty('serviceUserId');
+		expect(result.lpaCode).toBe('LPA001');
+		expect(result.documents).toEqual([1]);
+		expect(typeof result.representationSubmittedDate).toBe('string');
 	});
 
 	it('should format a FINAL_COMMENT submission from Appellant (serviceUserId provided)', async () => {
@@ -50,12 +50,12 @@ describe('Representation Formatter', () => {
 			submission
 		);
 
-		expect(result.caseData.caseReference).toBe(caseReference);
-		expect(result.caseData.representation).toBe('Appellant final comment text');
-		expect(result.caseData.representationType).toBe('final_comment');
-		expect(result.caseData.serviceUserId).toBe(serviceUserId);
-		expect(result.caseData.lpaCode).toBeNull();
-		expect(result.caseData.documents).toEqual([1]);
+		expect(result.caseReference).toBe(caseReference);
+		expect(result.representation).toBe('Appellant final comment text');
+		expect(result.representationType).toBe('final_comment');
+		expect(result.serviceUserId).toBe(serviceUserId);
+		expect(result).not.toHaveProperty('lpaCode');
+		expect(result.documents).toEqual([1]);
 	});
 
 	it('should format a STATEMENT submission from Rule6 (serviceUserId provided)', async () => {
@@ -67,11 +67,11 @@ describe('Representation Formatter', () => {
 			submission
 		);
 
-		expect(result.caseData.representation).toBe('Rule6 statement text');
-		expect(result.caseData.representationType).toBe('statement');
-		expect(result.caseData.serviceUserId).toBe(serviceUserId);
-		expect(result.caseData.lpaCode).toBeNull();
-		expect(result.caseData.documents).toEqual([1]);
+		expect(result.representation).toBe('Rule6 statement text');
+		expect(result.representationType).toBe('statement');
+		expect(result.serviceUserId).toBe(serviceUserId);
+		expect(result).not.toHaveProperty('lpaCode');
+		expect(result.documents).toEqual([1]);
 	});
 
 	it('should format a STATEMENT submission from LPA (no serviceUserId)', async () => {
@@ -82,11 +82,11 @@ describe('Representation Formatter', () => {
 			submission
 		);
 
-		expect(result.caseData.representation).toBe('LPA statement text');
-		expect(result.caseData.representationType).toBe('statement');
-		expect(result.caseData.serviceUserId).toBeNull();
-		expect(result.caseData.lpaCode).toBe('LPA001');
-		expect(result.caseData.documents).toEqual([1]);
+		expect(result.representation).toBe('LPA statement text');
+		expect(result.representationType).toBe('statement');
+		expect(result).not.toHaveProperty('serviceUserId');
+		expect(result.lpaCode).toBe('LPA001');
+		expect(result.documents).toEqual([1]);
 	});
 
 	it('should set representation to null for PROOFS_EVIDENCE rep type', async () => {
@@ -96,7 +96,7 @@ describe('Representation Formatter', () => {
 			APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
 			submission
 		);
-		expect(result.caseData.representation).toBeNull();
+		expect(result.representation).toBeNull();
 	});
 	it('should throw an error if representationSubmission is not provided', async () => {
 		await expect(
