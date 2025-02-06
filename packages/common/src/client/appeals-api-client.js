@@ -36,6 +36,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
  * @typedef {import('appeals-service-api').Api.Representation} Representation
+ * @typedef {import('appeals-service-api').Api.Document} Document
  */
 
 // Data model types
@@ -260,6 +261,16 @@ class AppealsApiClient {
 	async putAppealRepresentation(data) {
 		const endpoint = `${v2}/appeal-cases/${data.caseReference}/representations/${data.representationId}`;
 		const response = await this.#makePutRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} id
+	 * @returns {Promise<Document>}
+	 */
+	async getDocumentDetails(id) {
+		const endpoint = `${v2}/documents/${id}`;
+		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
 

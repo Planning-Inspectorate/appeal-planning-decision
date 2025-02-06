@@ -134,7 +134,7 @@ function ascertainSubmittingParty(representation, serviceUsersWithEmails) {
  * @param {AppealRepresentation} data
  * @returns {Promise<Representation>}
  */
-async function putReference(representationId, data) {
+async function putRepresentation(representationId, data) {
 	try {
 		/** @type {Validate<AppealRepresentation>} */
 		const representationValidator = getValidator('appeal-representation');
@@ -158,5 +158,5 @@ module.exports = {
 	getAppealCaseWithAllRepresentations,
 	getAppealCaseWithRepresentationsByType,
 	addOwnershipAndSubmissionDetailsToRepresentations,
-	putReference
+	putRepresentation
 };

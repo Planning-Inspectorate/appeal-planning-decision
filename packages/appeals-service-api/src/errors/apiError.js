@@ -277,6 +277,14 @@ class ApiError {
 	static unableToSubmitIpComment() {
 		return new ApiError(400, { errors: ['Unable to submit Interested Party Comment'] });
 	}
+
+	/**
+	 * @param {string} documentId
+	 * @returns {ApiError}
+	 */
+	static documentDetailsNotFound(documentId) {
+		return new ApiError(404, { errors: [`The document detail for ${documentId} were not found`] });
+	}
 }
 
 module.exports = ApiError;

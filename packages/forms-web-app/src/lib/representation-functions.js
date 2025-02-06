@@ -4,6 +4,7 @@ const {
 	REPRESENTATION_TYPES
 } = require('@pins/common/src/constants');
 const escape = require('escape-html');
+const logger = require('./logger');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
@@ -190,53 +191,67 @@ const formatProofsOfEvidenceHeading = (userType, submittingParty, rule6OwnRepres
 
 /**
  * @param {Representation[]} representations
+ * @param {import('express').Request} req
  */
-const formatRepresentations = (representations) => {
+const formatRepresentations = async (representations, req) => {
 	representations.sort((a, b) => new Date(a.dateReceived) - new Date(b.dateReceived));
 
-	const formattedRepresentations = representations.map((representation, index) => {
-		const fullText = representation.redacted
-			? representation.redactedRepresentation
-			: representation.originalRepresentation;
-		const truncated = fullText ? fullText.length > 150 : false;
-		const truncatedText = truncated ? fullText.substring(0, 150) + '...' : fullText;
+	const formattedRepresentations = await Promise.all(
+		representations.map(async (representation, index) => {
+			const fullText = representation.redacted
+				? representation.redactedRepresentation
+				: representation.originalRepresentation;
+			const truncated = fullText ? fullText.length > 150 : false;
+			const truncatedText = truncated ? fullText.substring(0, 150) + '...' : fullText;
 
-		const rowLabel = formatRowLabelAndKey(representation.representationType);
+			const rowLabel = formatRowLabelAndKey(representation.representationType);
 
-		const documents =
-			representation.representationType === REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
-				? formatProofsOfEvidenceDocuments(representation.RepresentationDocuments)
-				: formatRepresentationDocumentsLinks(
-						representation.RepresentationDocuments,
-						'Supporting documents'
-				  );
+			const unformattedRepDocs =
+				representation.RepresentationDocuments?.length > 0
+					? representation.RepresentationDocuments
+					: [];
 
-		return {
-			key: { text: `${rowLabel} ${index + 1}` },
-			rowLabel,
-			value: {
-				text: fullText,
-				truncatedText: truncatedText,
-				truncated: truncated,
-				documents
-			}
-		};
-	});
+			const documentDetails = await Promise.all(
+				unformattedRepDocs.map(async (repDoc) => {
+					try {
+						return await req.appealsApiClient.getDocumentDetails(repDoc.documentId);
+					} catch (err) {
+						logger.error(err);
+						return;
+					}
+				})
+			);
+
+			const formattedDocuments =
+				representation.representationType === REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
+					? formatProofsOfEvidenceDocuments(documentDetails)
+					: formatRepresentationDocumentsLinks(documentDetails, 'Supporting documents');
+
+			return {
+				key: { text: `${rowLabel} ${index + 1}` },
+				rowLabel,
+				value: {
+					text: fullText,
+					truncatedText: truncatedText,
+					truncated: truncated,
+					documents: formattedDocuments
+				}
+			};
+		})
+	);
 
 	return formattedRepresentations;
 };
 
 /**
- * @param {RepresentationDocument[]} representationDocuments
+ * @param {Document[]} documentDetails
  * @param {string} documentsLabel
  */
-const formatRepresentationDocumentsLinks = (representationDocuments, documentsLabel) => {
-	const documents = representationDocuments.map(
-		(representationDocument) => representationDocument.Document
-	);
-
+const formatRepresentationDocumentsLinks = (documentDetails, documentsLabel) => {
 	const documentsLinks =
-		documents.length > 0 ? documents.map(formatDocumentLink).join('\n') : 'No documents';
+		documentDetails.length > 0
+			? documentDetails.map(formatDocumentLink).join('\n')
+			: 'No documents';
 
 	return [
 		{
@@ -247,14 +262,10 @@ const formatRepresentationDocumentsLinks = (representationDocuments, documentsLa
 };
 
 /**
- * @param {RepresentationDocument[]} representationDocuments
+ * @param {Document[]} documentDetails
  */
-const formatProofsOfEvidenceDocuments = (representationDocuments) => {
-	const documents = representationDocuments.map(
-		(representationDocument) => representationDocument.Document
-	);
-
-	const { proofs, witnesses } = documents.reduce(
+const formatProofsOfEvidenceDocuments = (documentDetails) => {
+	const { proofs, witnesses } = documentDetails.reduce(
 		(acc, document) => {
 			if (isProofsDocument(document)) {
 				acc.proofs.push(document);
