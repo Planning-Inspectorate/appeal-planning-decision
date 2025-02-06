@@ -8,13 +8,13 @@ export const MILLISECONDS_BETWEEN_TOKENS = 10_000;
  * @typedef { import("@prisma/client").Prisma.SecurityTokenCreateInput } SecurityTokenCreateInput
  */
 
-export class TokenRepository {
+export default class TokenRepository {
 	dbClient;
 
 	/**
-	 * @param {import('@prisma/client').PrismaClient} client
+	 * @param {{client: import('@prisma/client').PrismaClient}} deps
 	 */
-	constructor(client) {
+	constructor({ client }) {
 		this.dbClient = client;
 	}
 
