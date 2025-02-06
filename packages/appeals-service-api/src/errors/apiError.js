@@ -96,6 +96,10 @@ class ApiError {
 		return new ApiError(409, { errors: ['Appeal does not have a final comments expiry date'] });
 	}
 
+	static unableToSubmitFinalCommentResponse() {
+		return new ApiError(400, { errors: ['Unable to submit final comment response'] });
+	}
+
 	// lpas
 	static lpaNotFound() {
 		return new ApiError(404, { errors: [`LPA was not found`] });

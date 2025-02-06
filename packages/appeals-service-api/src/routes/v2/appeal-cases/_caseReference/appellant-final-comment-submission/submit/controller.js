@@ -55,7 +55,7 @@ exports.post = async (req, res) => {
 		);
 	} catch (err) {
 		logger.error(err);
-		throw ApiError.unableToSubmitResponse();
+		throw ApiError.unableToSubmitFinalCommentResponse();
 	}
 
 	res.sendStatus(200);
