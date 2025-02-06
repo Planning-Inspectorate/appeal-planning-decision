@@ -41,6 +41,7 @@ const {
 } = require('pins-data-model');
 const { getConditionalFieldName, DIVIDER } = require('./dynamic-components/utils/question-utils');
 const { documentTypes } = require('@pins/common');
+const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 const {
 	validation: {
 		characterLimits: { appealFormV2, finalComment: configInputMaxCharacters },
@@ -131,7 +132,7 @@ exports.questionProps = {
 			type: 'listed-building',
 			title: 'Tell us the list entry number',
 			question: 'Tell us the list entry number',
-			fieldName: 'changedListedBuildingNumber',
+			fieldName: fieldNames.changedListedBuildingNumber,
 			html: 'resources/listed-building-number/content.html',
 			validators: [
 				new RequiredValidator('Enter a list entry number'),
@@ -158,7 +159,7 @@ exports.questionProps = {
 			title: 'Tell us the list entry number',
 			question: 'Tell us the list entry number',
 			// fieldName: 'listed-building-number',
-			fieldName: 'affectedListedBuildingNumber',
+			fieldName: fieldNames.affectedListedBuildingNumber,
 			html: 'resources/listed-building-number/content.html',
 			validators: [
 				new RequiredValidator('Enter a list entry number'),

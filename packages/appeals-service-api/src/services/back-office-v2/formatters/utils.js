@@ -2,6 +2,7 @@ const { initContainerClient } = require('@pins/common');
 const { getDocType } = require('@pins/common/src/document-types');
 const { blobMetaGetter } = require('../../../services/object-store');
 const { conjoinedPromises } = require('@pins/common/src/utils');
+const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 const {
 	APPEAL_APPLICATION_DECISION,
@@ -401,8 +402,8 @@ exports.getHASLPAQSubmissionFields = (answers) => {
 		isCorrectAppealType: answers.correctAppealType,
 		affectedListedBuildingNumbers: getListedBuildingByType(
 			answers.SubmissionListedBuilding,
-			'affectedListedBuildingNumber'
-		), // todo: const
+			fieldNames.affectedListedBuildingNumber
+		),
 		inConservationArea: answers.conservationArea,
 		isGreenBelt: answers.greenBelt,
 		notificationMethod: exports.howYouNotifiedPeople(answers),
@@ -424,8 +425,8 @@ exports.getS78LPAQSubmissionFields = (answers) => {
 		// Constraints, designations and other issues
 		changedListedBuildingNumbers: getListedBuildingByType(
 			answers.SubmissionListedBuilding,
-			'changedListedBuildingNumber'
-		), // todo const
+			fieldNames.changedListedBuildingNumber
+		),
 		affectsScheduledMonument: answers.affectsScheduledMonument,
 		hasProtectedSpecies: answers.protectedSpecies,
 		isAonbNationalLandscape: answers.areaOutstandingBeauty,
