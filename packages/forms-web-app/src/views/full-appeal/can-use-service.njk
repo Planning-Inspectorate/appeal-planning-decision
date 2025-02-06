@@ -88,6 +88,24 @@
             },
             {
               key: {
+                text: "Have you received an enforcement notice?"
+              },
+              value: {
+                text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/enforcement-notice",
+                    text: "Change",
+                    visuallyHiddenText: "Have you received an enforcement notice?",
+                    attributes: { "data-cy":"enforcementNotice"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
                 text: "Type of application"
               },
               value: {
@@ -137,24 +155,6 @@
                     text: "Change",
                     visuallyHiddenText: dateOfDecisionLabel,
                     attributes: { "data-cy":"decisionDate"}
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Have you received an enforcement notice?"
-              },
-              value: {
-                text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/before-you-start/enforcement-notice",
-                    text: "Change",
-                    visuallyHiddenText: "Have you received an enforcement notice?",
-                    attributes: { "data-cy":"enforcementNotice"}
                   }
                 ]
               }
