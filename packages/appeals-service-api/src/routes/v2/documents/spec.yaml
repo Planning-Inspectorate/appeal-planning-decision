@@ -44,3 +44,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+    get:
+      tags:
+        - documents
+      description: get a document
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: document id
+      responses:
+        200:
+          description: retrieved document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Document'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'

@@ -290,4 +290,46 @@ describe('documents v2', () => {
 			expect(notDoc).toBe(null);
 		});
 	});
+
+	describe('get document', () => {
+		it('get documents', async () => {
+			const caseRef = 'getDocument_ref_001';
+			await sqlClient.appealCase.create({
+				data: {
+					Appeal: { create: {} },
+					...createTestAppealCase(caseRef, 'HAS', 'lpa_001')
+				}
+			});
+
+			const docId = 'd15138a2-9e02-4a16-a6ab-0543aaccab62';
+			await sqlClient.document.create({
+				data: {
+					id: docId,
+					dateCreated: new Date('2024').toISOString(),
+					dateReceived: new Date('2024').toISOString(),
+					lastModified: new Date('2024').toISOString(),
+					datePublished: new Date('2024').toISOString(),
+					stage: 'appeal-decision',
+					published: true,
+					redacted: true,
+					filename: 'moose.jpg',
+					originalFilename: 'large_moose.jpg',
+					size: 22,
+					mime: 'image/jpeg',
+					documentURI: 'https://example.com/images/moose.jpg',
+					caseReference: caseRef
+				}
+			});
+
+			const response = await appealsApi.get(`/api/v2/documents/${docId}`);
+
+			expect(response.status).toBe(200);
+			expect(response.body).toHaveProperty('caseReference', caseRef);
+			expect(response.body).toHaveProperty('published', true);
+			expect(response.body).toHaveProperty('filename', 'moose.jpg');
+			expect(response.body).toHaveProperty('originalFilename', 'large_moose.jpg');
+			expect(response.body).toHaveProperty('redacted', true);
+			expect(response.body).toHaveProperty('documentURI', 'https://example.com/images/moose.jpg');
+		});
+	});
 });
