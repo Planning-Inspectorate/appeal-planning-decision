@@ -110,8 +110,8 @@ describe('/appeal-cases/{caseReference}/representations', () => {
 			});
 			const response = await appealsApi.get(`/api/v2/appeal-cases/${testCaseRef}/representations`);
 			expect(response.status).toEqual(200);
-			expect(response.body.length).toBe(2);
-			expect(response.body).toEqual(
+			expect(response.body.Representations.length).toBe(2);
+			expect(response.body.Representations).toEqual(
 				expect.arrayContaining([
 					expect.objectContaining({
 						caseReference: testCaseRef,
@@ -137,14 +137,14 @@ describe('/appeal-cases/{caseReference}/representations', () => {
 				data: [
 					{
 						caseReference: testCaseRef,
-						representationId: 'testRep',
+						representationId: 'testRep3',
 						representationStatus: 'published',
 						representationType: REPRESENTATION_TYPES.STATEMENT,
 						originalRepresentation: 'This is a test rep'
 					},
 					{
 						caseReference: testCaseRef,
-						representationId: 'testRep2',
+						representationId: 'testRep4',
 						representationStatus: 'published',
 						representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
 						originalRepresentation: 'This is another test rep'
@@ -152,13 +152,13 @@ describe('/appeal-cases/{caseReference}/representations', () => {
 				]
 			});
 			const response = await appealsApi.get(
-				`/api/v2/appeal-cases/${testCaseRef}/representation?type=statement`
+				`/api/v2/appeal-cases/${testCaseRef}/representations?type=statement`
 			);
 			expect(response.status).toEqual(200);
-			expect(response.body.length).toBe(1);
-			expect(response.body[0]).toMatchObject({
+			expect(response.body.Representations.length).toBe(1);
+			expect(response.body.Representations[0]).toMatchObject({
 				caseReference: testCaseRef,
-				representationId: 'testRep',
+				representationId: 'testRep3',
 				representationStatus: 'published',
 				representationType: REPRESENTATION_TYPES.STATEMENT,
 				originalRepresentation: 'This is a test rep'
@@ -178,7 +178,7 @@ describe('/appeal-cases/{caseReference}/representations', () => {
 			};
 
 			const response = await appealsApi
-				.put(`/api/v2/appeal-cases/${testCaseRef}/representation/${testRepId}`)
+				.put(`/api/v2/appeal-cases/${testCaseRef}/representations/${testRepId}`)
 				.send(testRep);
 			expect(response.status).toBe(200);
 			expect(response.body).toHaveProperty('caseReference', testCaseRef);
