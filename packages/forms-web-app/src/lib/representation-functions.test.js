@@ -3,6 +3,7 @@ const {
 	formatRepresentationHeading,
 	formatRepresentations
 } = require('./representation-functions');
+const { mockReq } = require('../../__tests__/unit/mocks');
 const {
 	LPA_USER_ROLE,
 	REPRESENTATION_TYPES,
@@ -599,8 +600,9 @@ describe('lib/representation-functions', () => {
 	});
 
 	describe('formatRepresentations', () => {
-		it('formats an array of statements', () => {
-			const formattedRepresentations = formatRepresentations(testStatements);
+		it('formats an array of statements', async () => {
+			const req = mockReq();
+			const formattedRepresentations = await formatRepresentations(testStatements, req);
 			const expectedResult = [
 				{
 					key: {
@@ -643,8 +645,9 @@ describe('lib/representation-functions', () => {
 			expect(formattedRepresentations).toEqual(expectedResult);
 		});
 
-		it('formats an array of final comments', () => {
-			const formattedRepresentations = formatRepresentations(testFinalComments);
+		it('formats an array of final comments', async () => {
+			const req = mockReq();
+			const formattedRepresentations = await formatRepresentations(testFinalComments, req);
 			const expectedResult = [
 				{
 					key: {
@@ -705,11 +708,12 @@ describe('lib/representation-functions', () => {
 		// 	expect(formattedRepresentations).toEqual(expectedResult);
 		// });
 
-		it('formats an array of interested party comments', () => {
-			const formattedRepresentations = formatRepresentations([
-				interestedPartyComment1,
-				interestedPartyComment2
-			]);
+		it('formats an array of interested party comments', async () => {
+			const req = mockReq();
+			const formattedRepresentations = await formatRepresentations(
+				[interestedPartyComment1, interestedPartyComment2],
+				req
+			);
 			const expectedResult = [
 				{
 					key: {
