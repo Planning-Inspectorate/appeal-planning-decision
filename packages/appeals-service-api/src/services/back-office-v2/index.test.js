@@ -373,12 +373,33 @@ describe('BackOfficeV2Service', () => {
 	});
 
 	describe('submitAppellantFinalCommentSubmission', () => {
+		const mockAppealFinalComment = {
+			AppealCase: {
+				id: 'a1',
+				appealTypeCode: 'S78'
+			}
+		};
+
+		const mockFormattedAppealFinalComment = {};
+
+		const mockResult = { test: 1 };
+
+		// formatter
+		const mockAppealFinalCommentFormatter = jest.fn();
+		mockAppealFinalCommentFormatter.mockReturnValue(mockFormattedAppealFinalComment);
+
+		// forwarder
+		forwarders.representation = jest.fn();
+		forwarders.representation.mockResolvedValue(mockResult);
+
 		it('should submit appellant final comment', async () => {
-			const mockComment = { test: 1 };
+			getAppellantFinalCommentByAppealId.mockResolvedValue(mockAppealFinalComment);
 
-			getAppellantFinalCommentByAppealId.mockResolvedValue(mockComment);
-
-			await backOfficeV2Service.submitAppellantFinalCommentSubmission(testCaseRef, testUserID);
+			await backOfficeV2Service.submitAppellantFinalCommentSubmission(
+				testCaseRef,
+				testUserID,
+				mockAppealFinalCommentFormatter
+			);
 
 			expect(getAppellantFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
 			expect(getUserById).toHaveBeenCalledWith(testUserID);
@@ -387,19 +408,21 @@ describe('BackOfficeV2Service', () => {
 				expect.any(String)
 			);
 			expect(sendAppellantFinalCommentSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
-				mockComment,
+				mockAppealFinalComment,
 				mockUser.email,
 				`${mockServiceUser.firstName} ${mockServiceUser.lastName}`
 			);
 		});
 
 		it('should handle no service user details', async () => {
-			const mockComment = { test: 1 };
-
-			getAppellantFinalCommentByAppealId.mockResolvedValue(mockComment);
+			getAppellantFinalCommentByAppealId.mockResolvedValue(mockAppealFinalComment);
 			getServiceUserByIdAndCaseReference.mockResolvedValue(null);
 
-			await backOfficeV2Service.submitAppellantFinalCommentSubmission(testCaseRef, testUserID);
+			await backOfficeV2Service.submitAppellantFinalCommentSubmission(
+				testCaseRef,
+				testUserID,
+				mockAppealFinalCommentFormatter
+			);
 
 			expect(getAppellantFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
 			expect(getUserById).toHaveBeenCalledWith(testUserID);
@@ -408,19 +431,21 @@ describe('BackOfficeV2Service', () => {
 				expect.any(String)
 			);
 			expect(sendAppellantFinalCommentSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
-				mockComment,
+				mockAppealFinalComment,
 				mockUser.email,
 				'Appellant'
 			);
 		});
 
 		it('should handle service user with no name', async () => {
-			const mockComment = { test: 1 };
-
-			getAppellantFinalCommentByAppealId.mockResolvedValue(mockComment);
+			getAppellantFinalCommentByAppealId.mockResolvedValue(mockAppealFinalComment);
 			getServiceUserByIdAndCaseReference.mockResolvedValue({});
 
-			await backOfficeV2Service.submitAppellantFinalCommentSubmission(testCaseRef, testUserID);
+			await backOfficeV2Service.submitAppellantFinalCommentSubmission(
+				testCaseRef,
+				testUserID,
+				mockAppealFinalCommentFormatter
+			);
 
 			expect(getAppellantFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
 			expect(getUserById).toHaveBeenCalledWith(testUserID);
@@ -429,7 +454,7 @@ describe('BackOfficeV2Service', () => {
 				expect.any(String)
 			);
 			expect(sendAppellantFinalCommentSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
-				mockComment,
+				mockAppealFinalComment,
 				mockUser.email,
 				'Appellant'
 			);
