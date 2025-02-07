@@ -54,7 +54,7 @@ const {
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service');
 const { getServiceUserByIdAndCaseReference } = require('../../routes/v2/service-users/service');
 const { getCaseAndAppellant } = require('../../routes/v2/appeal-cases/service');
-const { SERVICE_USER_TYPE } = require('pins-data-model');
+const { SERVICE_USER_TYPE, APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /**
@@ -313,7 +313,7 @@ class BackOfficeV2Service {
 		const appellantFinalCommentSubmission = await getAppellantFinalCommentByAppealId(caseReference);
 
 		if (!appellantFinalCommentSubmission) {
-			throw ApiError.finalCommentsNotFound();
+			throw new Error('No appellant final comments found');
 		}
 
 		const { appealTypeCode, LPACode } = appellantFinalCommentSubmission.AppealCase;
