@@ -74,7 +74,7 @@ describe('controllers/selected-appeal/representations', () => {
 			testParams.representationType
 		);
 		expect(filterRepresentationsForDisplay).toHaveBeenCalledWith(testCaseData, testParams);
-		expect(formatRepresentations).toHaveBeenCalledWith([]);
+		expect(formatRepresentations).toHaveBeenCalledWith([], req);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
 		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
 		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS, {
@@ -110,7 +110,7 @@ describe('controllers/selected-appeal/representations', () => {
 			testParams.representationType
 		);
 		expect(filterRepresentationsForDisplay).toHaveBeenCalledWith(testCaseData, testParams);
-		expect(formatRepresentations).toHaveBeenCalledWith([]);
+		expect(formatRepresentations).toHaveBeenCalledWith([], req);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
 		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
 		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS, {
