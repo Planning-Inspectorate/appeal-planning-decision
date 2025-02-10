@@ -24,7 +24,6 @@ describe('Check access to appeals service for granted LPAs', () => {
 		it('Enter "' + localPlanningAuthorities + '" planning authortiy', () => {
 			// Step 4: Enters Local planning authority
 			enterLpa.enterLPA(localPlanningAuthorities);
-			
 
 			// Step 5: Selects Local planning authority from drop down list
 			enterLpa.selectLPA();
