@@ -81,7 +81,7 @@ beforeAll(async () => {
 	const user = await sqlClient.appealUser.create({
 		data: {
 			email: crypto.randomUUID() + '@example.com',
-			serviceUserId: 'userID'
+			serviceUserId: 'userID1'
 		}
 	});
 	validUser = user.id;
@@ -135,7 +135,7 @@ const formattedFinalComment1 = {
 	representation: 'This is a test comment',
 	representationSubmittedDate: expect.any(String),
 	representationType: 'final_comment',
-	serviceUserId: 'userID',
+	serviceUserId: 'userID1',
 	documents: []
 };
 
@@ -144,7 +144,7 @@ const formattedFinalComment2 = {
 	representation: 'Another final comment text for appellant case 002',
 	representationSubmittedDate: expect.any(String),
 	representationType: 'final_comment',
-	serviceUserId: 'userID',
+	serviceUserId: 'userID1',
 	documents: [
 		{
 			dateCreated: expect.any(String),
