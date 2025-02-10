@@ -18,6 +18,7 @@ jest.mock('../../../../../configuration/featureFlag');
 jest.mock('../../../../../../src/services/object-store');
 jest.mock('express-oauth2-jwt-bearer', () => {
 	let currentSub = '';
+
 	return {
 		auth: jest.fn(() => {
 			return (req, _res, next) => {
@@ -34,6 +35,25 @@ jest.mock('express-oauth2-jwt-bearer', () => {
 		}
 	};
 });
+
+jest.mock('@pins/common/src/middleware/validate-token', () => {
+	let currentLpa = validLpa;
+
+	return {
+		validateToken: jest.fn(() => {
+			return (req, _res, next) => {
+				req.id_token = {
+					lpaCode: currentLpa
+				};
+				next();
+			};
+		}),
+		setCurrentLpa: (newLpa) => {
+			currentLpa = newLpa;
+		}
+	};
+});
+
 jest.setTimeout(30000);
 beforeAll(async () => {
 	///////////////////////////////
@@ -47,7 +67,8 @@ beforeAll(async () => {
 	await seedStaticData(sqlClient);
 	const user = await sqlClient.appealUser.create({
 		data: {
-			email: crypto.randomUUID() + '@example.com'
+			email: crypto.randomUUID() + '@example.com',
+			serviceUserId: 'userID'
 		}
 	});
 	validUser = user.id;
