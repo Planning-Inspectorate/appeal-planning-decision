@@ -1,3 +1,5 @@
+
+// @ts-nocheck
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
