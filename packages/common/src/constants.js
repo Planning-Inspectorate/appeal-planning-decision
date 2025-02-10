@@ -4,7 +4,11 @@
  * @typedef { 'LPAUser' } LpaUserRole
  */
 
-const { APPEAL_CASE_STAGE, APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const {
+	APPEAL_CASE_STAGE,
+	APPEAL_DOCUMENT_TYPE,
+	APPEAL_REPRESENTATION_TYPE
+} = require('pins-data-model');
 module.exports = {
 	STATUS_CONSTANTS: {
 		ADDED: 'added',
@@ -37,10 +41,10 @@ module.exports = {
 	 * @type {Record<string, RepresentationTypes>}
 	 */
 	REPRESENTATION_TYPES: {
-		STATEMENT: 'statement',
-		INTERESTED_PARTY_COMMENT: 'comment',
-		FINAL_COMMENT: 'final_comment',
-		PROOFS_OF_EVIDENCE: 'proofs_evidence'
+		STATEMENT: APPEAL_REPRESENTATION_TYPE.STATEMENT,
+		INTERESTED_PARTY_COMMENT: APPEAL_REPRESENTATION_TYPE.COMMENT,
+		FINAL_COMMENT: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+		PROOFS_OF_EVIDENCE: APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE
 	},
 	STATEMENT_TYPE: {
 		LPA: 'lpa',

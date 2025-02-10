@@ -3,12 +3,13 @@ const {
 	formatRepresentationHeading,
 	formatRepresentations
 } = require('./representation-functions');
-const { mockReq } = require('../../__tests__/unit/mocks');
 const {
 	LPA_USER_ROLE,
 	REPRESENTATION_TYPES,
 	APPEAL_USER_ROLES
 } = require('@pins/common/src/constants');
+const os = require('os');
+const newLine = os.EOL;
 
 const lpaStatement = {
 	id: 'lpaStatement1',
@@ -155,37 +156,37 @@ const unpublishedInterestedPartyComment = {
 	RepresentationDocuments: []
 };
 
-// const lpaProof1 = {
-// 	id: 'lpaProof1',
-// 	representationId: 'testLpaProof1',
-// 	caseReference: 'testReference1',
-// 	source: 'lpa',
-// 	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
-// 	dateReceived: '2024-11-25 09:00:00.0000000',
-// 	RepresentationDocuments: []
-// };
+const lpaProof1 = {
+	id: 'lpaProof1',
+	representationId: 'testLpaProof1',
+	caseReference: 'testReference1',
+	source: 'lpa',
+	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+	dateReceived: '2024-11-25 09:00:00.0000000',
+	RepresentationDocuments: []
+};
 
-// const appellantProof1 = {
-// 	id: 'apellantProof1',
-// 	representationId: 'testAppellantProof1',
-// 	caseReference: 'testReference1',
-// 	source: 'citizen',
-// 	serviceUserId: 'testAppellantServiceUserId',
-// 	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
-// 	dateReceived: '2024-11-25 09:00:00.0000000',
-// 	RepresentationDocuments: []
-// };
+const appellantProof1 = {
+	id: 'apellantProof1',
+	representationId: 'testAppellantProof1',
+	caseReference: 'testReference1',
+	source: 'citizen',
+	serviceUserId: 'testAppellantServiceUserId',
+	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+	dateReceived: '2024-11-25 09:00:00.0000000',
+	RepresentationDocuments: []
+};
 
-// const rule6Proof1 = {
-// 	id: 'rule6Proof1',
-// 	representationId: 'testrule6Proof1',
-// 	caseReference: 'testReference1',
-// 	source: 'citizen',
-// 	serviceUserId: 'testR6ServiceUserId',
-// 	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
-// 	dateReceived: '2024-11-25 09:00:00.0000000',
-// 	RepresentationDocuments: []
-// }
+const rule6Proof1 = {
+	id: 'rule6Proof1',
+	representationId: 'testrule6Proof1',
+	caseReference: 'testReference1',
+	source: 'citizen',
+	serviceUserId: 'testR6ServiceUserId',
+	representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+	dateReceived: '2024-11-25 09:00:00.0000000',
+	RepresentationDocuments: []
+};
 
 const testStatements = [lpaStatement, r6Statement1, r6Statement2];
 
@@ -197,7 +198,7 @@ const testInterestedPartyComments = [
 	unpublishedInterestedPartyComment
 ];
 
-// const testProofsOfEvidence = [lpaProof1, appellantProof1, rule6Proof1];
+const testProofsOfEvidence = [lpaProof1, appellantProof1, rule6Proof1];
 
 const testUsers = [{ id: 'testAppellantServiceUserId' }, { id: 'testAgentServiceUserId' }];
 
@@ -601,8 +602,7 @@ describe('lib/representation-functions', () => {
 
 	describe('formatRepresentations', () => {
 		it('formats an array of statements', async () => {
-			const req = mockReq();
-			const formattedRepresentations = await formatRepresentations(testStatements, req);
+			const formattedRepresentations = formatRepresentations({}, testStatements);
 			const expectedResult = [
 				{
 					key: {
@@ -646,8 +646,7 @@ describe('lib/representation-functions', () => {
 		});
 
 		it('formats an array of final comments', async () => {
-			const req = mockReq();
-			const formattedRepresentations = await formatRepresentations(testFinalComments, req);
+			const formattedRepresentations = await formatRepresentations({}, testFinalComments);
 			const expectedResult = [
 				{
 					key: {
@@ -678,42 +677,57 @@ describe('lib/representation-functions', () => {
 			expect(formattedRepresentations).toEqual(expectedResult);
 		});
 
-		// it('formats an array of proofs of evidence', () => {
-		// 	const formattedRepresentations = formatRepresentations(testProofsOfEvidence);
-		// 	const expectedResult = [
-		// 		{
-		// 			key: {
-		// 				text: `statement 1`
-		// 			},
-		// 			value: {
-		// 				text: 'this is a statement',
-		// 				truncatedText: 'this is a statement',
-		// 				truncated: false,
-		// 				documents: 'No'
-		// 			}
-		// 		},
-		// 		{
-		// 			key: {
-		// 				text: `statement 2`
-		// 			},
-		// 			value: {
-		// 				text: 'this is a bleep statement',
-		// 				truncatedText: 'this is a bleep statement',
-		// 				truncated: false,
-		// 				documents: 'No'
-		// 			}
-		// 		}
-		// 	];
-
-		// 	expect(formattedRepresentations).toEqual(expectedResult);
-		// });
+		it('formats an array of proofs of evidence', () => {
+			const formattedRepresentations = formatRepresentations({}, testProofsOfEvidence);
+			const expectedResult = [
+				{
+					key: { text: 'Representation 1' },
+					rowLabel: 'Representation',
+					value: {
+						text: undefined,
+						truncatedText: undefined,
+						truncated: false,
+						documents: [
+							{ documentsLabel: 'Proof of evidence and summary', documentsLinks: 'No documents' },
+							{ documentsLabel: 'Witnesses and their evidence', documentsLinks: 'No documents' }
+						]
+					}
+				},
+				{
+					key: { text: 'Representation 2' },
+					rowLabel: 'Representation',
+					value: {
+						text: undefined,
+						truncatedText: undefined,
+						truncated: false,
+						documents: [
+							{ documentsLabel: 'Proof of evidence and summary', documentsLinks: 'No documents' },
+							{ documentsLabel: 'Witnesses and their evidence', documentsLinks: 'No documents' }
+						]
+					}
+				},
+				{
+					key: { text: 'Representation 3' },
+					rowLabel: 'Representation',
+					value: {
+						text: undefined,
+						truncatedText: undefined,
+						truncated: false,
+						documents: [
+							{ documentsLabel: 'Proof of evidence and summary', documentsLinks: 'No documents' },
+							{ documentsLabel: 'Witnesses and their evidence', documentsLinks: 'No documents' }
+						]
+					}
+				}
+			];
+			expect(formattedRepresentations).toEqual(expectedResult);
+		});
 
 		it('formats an array of interested party comments', async () => {
-			const req = mockReq();
-			const formattedRepresentations = await formatRepresentations(
-				[interestedPartyComment1, interestedPartyComment2],
-				req
-			);
+			const formattedRepresentations = await formatRepresentations({}, [
+				interestedPartyComment1,
+				interestedPartyComment2
+			]);
 			const expectedResult = [
 				{
 					key: {
@@ -737,6 +751,58 @@ describe('lib/representation-functions', () => {
 						truncatedText: 'this is an interested party comment',
 						truncated: false,
 						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }]
+					}
+				}
+			];
+
+			expect(formattedRepresentations).toEqual(expectedResult);
+		});
+
+		it('formats related document links', async () => {
+			const caseData = {
+				Documents: [
+					{ id: 1, filename: 'test.txt' },
+					{ id: 2, filename: 'test2.txt', redacted: true },
+					{ id: 3, filename: 'test3.txt' }
+				]
+			};
+			const formattedRepresentations = formatRepresentations(caseData, [
+				{ ...lpaStatement, RepresentationDocuments: [{ documentId: 1 }, { documentId: 2 }] },
+				{ ...r6Statement2, RepresentationDocuments: [{ documentId: 3 }] }
+			]);
+			const expectedResult = [
+				{
+					key: {
+						text: `Statement 1`
+					},
+					rowLabel: 'Statement',
+					value: {
+						text: r6Statement2.originalRepresentation,
+						truncatedText: r6Statement2.originalRepresentation,
+						truncated: false,
+						documents: [
+							{
+								documentsLabel: 'Supporting documents',
+								documentsLinks: 'test3.txt - awaiting review'
+							}
+						]
+					}
+				},
+				{
+					key: {
+						text: `Statement 2`
+					},
+					rowLabel: 'Statement',
+					value: {
+						text: lpaStatement.redactedRepresentation,
+						truncatedText: lpaStatement.redactedRepresentation,
+						truncated: false,
+						documents: [
+							{
+								documentsLabel: 'Supporting documents',
+								documentsLinks: `test.txt - awaiting review${newLine}<a href="/published-document/2" class="govuk-link">test2.txt</a>`
+							}
+						]
 					}
 				}
 			];

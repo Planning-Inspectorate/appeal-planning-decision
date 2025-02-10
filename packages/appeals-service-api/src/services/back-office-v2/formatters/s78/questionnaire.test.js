@@ -176,7 +176,7 @@ describe('formatter', () => {
 
 				// Consultation responses and representations
 				hasStatutoryConsultees: true,
-				eiaConsultedBodiesDetails: s78Answers.statutoryConsultees_consultedBodiesDetails, // should this be renamed to lose eia?
+				eiaConsultedBodiesDetails: s78Answers.statutoryConsultees_consultedBodiesDetails,
 				hasConsultationResponses: s78Answers.consultationResponses,
 
 				// Planning officer’s report and supporting documents

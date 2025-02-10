@@ -38,7 +38,6 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 						select: {
 							LPACode: true,
 							appealTypeCode: true,
-							rule6ProofEvidenceDueDate: true,
 							siteAddressLine1: true,
 							siteAddressLine2: true,
 							siteAddressTown: true,
@@ -116,28 +115,17 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 	/**
 	 * @param {string} userId
 	 * @param {string} caseReference
-	 * @param {string} submissionDate
+	 * @param {string} _submissionDate // todo: mark this on rule 6 submission entity?
 	 * @returns {Promise<{id: string}>}
 	 */
-	markRule6ProofOfEvidenceAsSubmitted(userId, caseReference, submissionDate) {
+	markRule6ProofOfEvidenceAsSubmitted(userId, caseReference, _submissionDate) {
 		return this.dbClient.rule6ProofOfEvidenceSubmission.update({
 			where: {
 				caseReference,
 				userId
 			},
 			data: {
-				submitted: true,
-				AppealCase: {
-					update: {
-						where: {
-							caseReference
-						},
-						data: {
-							rule6ProofEvidenceSubmitted: true,
-							rule6ProofEvidenceSubmittedDate: submissionDate
-						}
-					}
-				}
+				submitted: true
 			},
 			select: {
 				id: true

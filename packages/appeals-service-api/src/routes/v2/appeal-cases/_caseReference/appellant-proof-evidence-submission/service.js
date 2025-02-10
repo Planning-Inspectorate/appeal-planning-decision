@@ -60,11 +60,14 @@ async function patchAppellantProofOfEvidenceByAppealId(appealCaseId, finalCommen
  * mark Proof Of Evidence as submitted to back office
  *
  * @param {string} caseReference
- * @param {string} appellantCommentsSubmitted
+ * @param {string} appellantCommentsSubmittedDate
  * @return {Promise<{id: string}>}
  */
-function markAppellantProofOfEvidenceAsSubmitted(caseReference, appellantCommentsSubmitted) {
-	return repo.markAppellantProofOfEvidenceAsSubmitted(caseReference, appellantCommentsSubmitted);
+function markAppellantProofOfEvidenceAsSubmitted(caseReference, appellantCommentsSubmittedDate) {
+	return repo.markAppellantProofOfEvidenceAsSubmitted(
+		caseReference,
+		appellantCommentsSubmittedDate
+	);
 }
 
 module.exports = {

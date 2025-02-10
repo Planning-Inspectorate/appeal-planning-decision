@@ -437,53 +437,34 @@ const appealCases = [
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnairePublishedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireSubmittedDate: new Date(),
-		lpaFinalCommentsPublished: true,
-		appellantFinalCommentsSubmitted: true,
+		appellantCommentsSubmittedDate: new Date(),
 		caseValidDate: new Date(),
-		lpaStatementPublished: true,
-		rule6StatementPublished: true,
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(2)),
-		interestedPartyCommentsPublished: true,
-		planningObligation: true,
 		// questionnaire details
 		// constraints
 		isCorrectAppealType: true,
 		scheduledMonument: false,
-		conservationArea: null,
 		protectedSpecies: null,
 		isGreenBelt: true,
 		areaOutstandingBeauty: null,
-		designatedSites: null,
-		treePreservationOrder: null,
+		designatedSitesNames: null,
 		gypsyTraveller: null,
 		publicRightOfWay: null,
 		// environmental
 		environmentalImpactSchedule: null,
-		sensitiveArea: false,
 		columnTwoThreshold: false,
 		screeningOpinion: false,
 		requiresEnvironmentalStatement: false,
 		// notified
 		// consultations
 		statutoryConsultees: false,
-		consultationResponses: false,
-		otherPartyRepresentations: null,
 		// planning officer reports
-		emergingPlan: null,
-		supplementaryPlanningDocs: null,
 		infrastructureLevy: null,
 		infrastructureLevyAdopted: null,
 		infrastructureLevyExpectedDate: null,
 		// site access
-		lpaSiteAccess: null,
-		lpaSiteAccessDetails: null,
-		neighbouringSiteAccess: null,
-		addNeighbouringSiteAccess: null,
-		neighbouringSiteAccessDetails: null,
 		siteAccessDetails: '["access details from appellant", "access details from LPA"]',
 		siteSafetyDetails: '["safety details from appellant", "safety details from LPA"]',
-		lpaSiteSafetyRisks: null,
-		lpaSiteSafetyRiskDetails: null,
 		// appeal process
 		lpaProcedurePreference: null,
 		lpaProcedurePreferenceDetails: null,
@@ -506,12 +487,6 @@ const appealCases = [
 		lpaQuestionnairePublishedDate: pickRandom(datesNMonthsAgo(1)),
 		caseValidDate: new Date(),
 		lpaQuestionnaireSubmittedDate: new Date(),
-		lpaStatementPublished: true,
-		rule6StatementPublished: true,
-		interestedPartyCommentsPublished: true,
-		appellantProofEvidencePublished: true,
-		lpaProofEvidencePublished: true,
-		rule6ProofsEvidencePublished: true,
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } }
 	},
 	{
@@ -529,12 +504,6 @@ const appealCases = [
 		lpaQuestionnairePublishedDate: new Date(),
 		caseValidDate: new Date(),
 		lpaQuestionnaireSubmittedDate: new Date(),
-		lpaStatementPublished: true,
-		rule6StatementPublished: true,
-		interestedPartyCommentsPublished: true,
-		appellantProofEvidencePublished: true,
-		lpaProofEvidencePublished: true,
-		rule6ProofsEvidencePublished: true,
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(1)),
 		CaseDecisionOutcome: {
 			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
@@ -555,15 +524,8 @@ const appealCases = [
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnairePublishedDate: new Date(),
 		lpaQuestionnaireSubmittedDate: new Date(),
-		lpaStatementPublished: true,
 		caseValidDate: new Date(),
-		interestedPartyCommentsPublished: true,
-		lpaFinalCommentsPublished: true,
-		lpaFinalCommentDetails:
-			'gravida neque convallis a cras semper auctor neque vitae tempus quam pellentesque nec nam aliquam sem et tortor consequat id porta nibh venenatis cras sed',
-		appellantFinalCommentDetails:
-			'I am the appellant and this is my final comment. felis eget velit aliquet sagittis id consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat ac tincidunt',
-		appellantFinalCommentsSubmitted: true,
+		appellantCommentsSubmittedDate: new Date(),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN } }
 	},
 	{
@@ -708,9 +670,8 @@ const appealCases = [
 			connect: { key: APPEAL_CASE_STATUS.FINAL_COMMENTS }
 		},
 		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
-		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		appellantCommentsSubmitted: new Date(),
-		appellantFinalCommentsSubmitted: true,
+		LPAStatementSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		appellantCommentsSubmittedDate: new Date(),
 		ProcedureType: {
 			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
 		},
@@ -741,17 +702,13 @@ const appealCases = [
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
 		},
-		appellantCommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		appellantFinalCommentsSubmitted: true,
+		appellantCommentsSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
-		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		appellantsProofsSubmitted: new Date(),
-		lpaProofEvidenceSubmitted: true,
-		LPAProofsSubmitted: new Date(),
-		rule6ProofEvidenceSubmitted: true,
-		rule6ProofEvidenceSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		LPACommentsSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		appellantProofsSubmittedDate: new Date(),
+		LPAProofsSubmittedDate: new Date(),
 		ProcedureType: {
 			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
 		},
@@ -782,11 +739,8 @@ const appealCases = [
 			connect: { key: APPEAL_CASE_STATUS.STATEMENTS }
 		},
 		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
-		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		rule6StatementSubmitted: true,
-		rule6StatementSubmittedDate: pickRandom(datesNMonthsAgo(1)),
-		appellantCommentsSubmitted: new Date(),
-		appellantFinalCommentsSubmitted: true,
+		LPAStatementSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		appellantCommentsSubmittedDate: new Date(),
 		ProcedureType: {
 			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
 		},

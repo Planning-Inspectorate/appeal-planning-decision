@@ -24,63 +24,22 @@ const boolToYesNo = (check) => {
 
 exports.boolToYesNo = boolToYesNo;
 
-// TODO the associated changed and affected listed building numbers may be more than 1
-// the current data model does not support multiple entries.
-// function will need refactoring once data model updated
-// /**
-//  * @param {AppealCaseDetailed} caseData
-//  */
-// exports.formatListedBuildings = (caseData) => {
-// 	const allListedBuildings = [];
-// 	const changedListedBuildingNumber = caseData.changedListedBuildingNumber;
-// 	const affectedListedBuildingNumber = caseData.affectedListedBuildingNumber;
-// 	const listedBuildingUrl = 'https://historicengland.org.uk/listing/the-list/list-entry/';
-
-// 	if (!changedListedBuildingNumber && !affectedListedBuildingNumber) {
-// 		return '';
-// 	}
-
-// 	if (changedListedBuildingNumber) {
-// 		allListedBuildings.push(
-// 			`<a href="${listedBuildingUrl}${changedListedBuildingNumber}">${changedListedBuildingNumber}</a>`
-// 		);
-// 	}
-
-// 	if (affectedListedBuildingNumber) {
-// 		allListedBuildings.push(
-// 			`<a href="${listedBuildingUrl}${affectedListedBuildingNumber}">${affectedListedBuildingNumber}</a>`
-// 		);
-// 	}
-
-// 	return allListedBuildings.length > 1
-// 		? allListedBuildings.join('\n')
-// 		: allListedBuildings.toString();
-// };
-
 /**
  * @param {AppealCaseDetailed} caseData
  */
 exports.formatDesignations = (caseData) => {
-	if (caseData.designatedSites === 'None') {
+	if (!caseData.designatedSitesNames || caseData.designatedSitesNames.length === 0) {
 		return 'No';
 	}
 
-	if (caseData.designatedSites === 'other' && caseData.otherDesignationDetails) {
-		return `Other\n${caseData.otherDesignationDetails}`;
-	}
-
-	if (caseData.designatedSites && caseData.designatedSites !== 'None') {
-		return caseData.designatedSites;
-	}
-
-	return '';
+	return caseData.designatedSitesNames.join('\n');
 };
 
 /**
  * @param {AppealCaseDetailed} caseData
  */
 exports.formatSensitiveArea = (caseData) =>
-	caseData.sensitiveArea ? `Yes\n${caseData.sensitiveAreaDetails ?? ''}` : 'No';
+	caseData.sensitiveAreaDetails ? `Yes\n${caseData.sensitiveAreaDetails ?? ''}` : 'No';
 
 /**
  * @param {AppealCaseDetailed} caseData
@@ -125,38 +84,6 @@ exports.formatDevelopmentDescription = (caseData) => {
 		? developmentDescriptions[key]
 		: 'None';
 };
-
-// TODO the associated question is checkbox meaning there could be multiple answers
-// notificationMethod is currently a string
-// ? should this be an array of strings in schema or need a relation table
-// function will need refactoring when data model corrected
-// /**
-//  * @param {AppealCaseDetailed} caseData
-//  */
-// exports.formatNotificationMethod = (caseData) => {
-// 	/**
-// 	 * @type {string[]}
-// 	 */
-// 	const notifcationTypes = [];
-// 	if (caseData.notificationMethod) {
-// 		const types = caseData.notificationMethod.split(' ');
-// 		types.forEach((type) => {
-// 			if (type === 'site-notice') {
-// 				notifcationTypes.push('A site notice');
-// 			}
-// 			if (type === 'letters-or-emails') {
-// 				notifcationTypes.push('Letter sent to neighbours');
-// 			}
-// 			if (type === 'advert') {
-// 				notifcationTypes.push('Press advert');
-// 			}
-// 		});
-// 	}
-// 	if (!notifcationTypes) {
-// 		return 'None';
-// 	}
-// 	return notifcationTypes.join('\n');
-// };
 
 /**
  * @param {AppealCaseDetailed} caseData

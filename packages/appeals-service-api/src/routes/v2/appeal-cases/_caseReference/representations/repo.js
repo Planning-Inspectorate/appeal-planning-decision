@@ -1,14 +1,20 @@
 const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const { dashboardSelect, DocumentsArgsPublishedOnly } = require('../../repo');
+const ApiError = require('#errors/apiError');
 
 /**
  * @typedef {import('@prisma/client').AppealCase} AppealCase
+ * @typedef {import('@prisma/client').Representation} Representation
+ * @typedef {import('@prisma/client').Document} Document
+ * @typedef {AppealCase & { Representations?: Array.<Representation>} & { Documents?: Array.<Document>}} AppealWithRepresentations
+ *
  * @typedef {import ('pins-data-model').Schemas.AppealRepresentation} AppealRepresentation
  */
 
 /**
  * @param {AppealRepresentation} dataModel
- * @returns {RepresentationCreate}
+ * @returns {import('@prisma/client').Prisma.RepresentationCreateWithoutAppealCaseInput}
  */
 const mapRepresentationDataModelToRepresentation = ({
 	representationId,
@@ -55,26 +61,17 @@ class RepresentationsRepository {
 	 * Get all representations for a given case reference
 	 *
 	 * @param {string} caseReference
-	 * @returns {Promise<AppealCase|null>}
+	 * @returns {Promise<AppealWithRepresentations|null>}
 	 */
 	async getAppealCaseWithAllRepresentations(caseReference) {
 		try {
-			// @ts-ignore
 			return await this.dbClient.appealCase.findUnique({
 				where: {
 					caseReference
 				},
 				select: {
-					caseReference: true,
-					LPACode: true,
-					applicationReference: true,
-					caseProcedure: true,
-					appealTypeCode: true,
-					siteAddressLine1: true,
-					siteAddressLine2: true,
-					siteAddressTown: true,
-					siteAddressCounty: true,
-					siteAddressPostcode: true,
+					...dashboardSelect,
+					Documents: { ...DocumentsArgsPublishedOnly },
 					Representations: {
 						include: {
 							RepresentationDocuments: true
@@ -102,22 +99,13 @@ class RepresentationsRepository {
 	 */
 	async getAppealCaseWithRepresentationsByType(caseReference, type) {
 		try {
-			// @ts-ignore
 			return await this.dbClient.appealCase.findUnique({
 				where: {
 					caseReference
 				},
 				select: {
-					LPACode: true,
-					applicationReference: true,
-					caseReference: true,
-					caseProcedure: true,
-					appealTypeCode: true,
-					siteAddressLine1: true,
-					siteAddressLine2: true,
-					siteAddressTown: true,
-					siteAddressCounty: true,
-					siteAddressPostcode: true,
+					...dashboardSelect,
+					Documents: { ...DocumentsArgsPublishedOnly },
 					Representations: {
 						where: {
 							representationType: type
@@ -146,14 +134,16 @@ class RepresentationsRepository {
 	 * @returns {Promise<Representation>}
 	 */
 	async putRepresentationByRepresentationId(representationId, data) {
+		if (!data.caseReference) {
+			throw ApiError.appealsCaseDataNotFound();
+		}
+
 		const mappedData = mapRepresentationDataModelToRepresentation(data);
 
 		const result = await this.dbClient.representation.upsert({
 			create: {
 				...mappedData,
-				AppealCase: data.caseReference
-					? { connect: { caseReference: data.caseReference } }
-					: { create: {} }
+				AppealCase: { connect: { caseReference: data.caseReference } }
 			},
 			update: mappedData,
 			where: {

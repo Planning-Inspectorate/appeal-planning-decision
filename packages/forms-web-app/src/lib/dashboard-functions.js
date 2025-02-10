@@ -10,11 +10,14 @@ const {
 } = require('@pins/common/src/lib/format-address');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
+const { APPEAL_REPRESENTATION_STATUS } = require('pins-data-model');
+const { APPEAL_USER_ROLES, REPRESENTATION_TYPES } = require('@pins/common/src/constants');
 const logger = require('#lib/logger');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
+ * @typedef {import('appeals-service-api').Api.Representation} Representation
  */
 
 /**
@@ -166,8 +169,6 @@ const overdueDocumentNotToBeDisplayed = (dueDocument) => {
 	return dueDocument.dueInDays < 0 && dueDocument.documentDue !== 'Questionnaire';
 };
 
-// Appellant Dashboard - ToDo or WaitingToReview FUNCTIONS
-
 /**
  * @param {DashboardDisplayData} dashboardData
  * @returns {boolean}
@@ -186,7 +187,7 @@ const isToDoRule6Dashboard = (dashboardData) => {
 
 /**
  * @param {AppealSubmission} appealSubmission return object from database call
- * @returns {Date | object} returns appeal deadline - note: should return Date as rawDate param set as true
+ * @returns {Date|object|undefined} returns appeal deadline - note: should return Date as rawDate param set as true
  */
 const calculateAppealDueDeadline = (appealSubmission) => {
 	if (isAppealSubmission(appealSubmission)) {
@@ -234,7 +235,7 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 			baseUrl: `${questionnaireBaseUrl}/${appealCaseData.caseReference}`
 		};
 	} else if (
-		isStatementDue(appealCaseData) &&
+		isLPAStatementDue(appealCaseData) &&
 		!(calculateDueInDays(appealCaseData.statementDueDate) < 0)
 	) {
 		return {
@@ -244,14 +245,14 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 			// direct straight to first question of statement journey
 			baseUrl: `${statementBaseUrl}/${appealCaseData.caseReference}/appeal-statement`
 		};
-	} else if (isFinalCommentDue(appealCaseData)) {
+	} else if (isLPAFinalCommentDue(appealCaseData)) {
 		return {
 			deadline: appealCaseData.finalCommentsDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.finalCommentsDueDate),
 			documentDue: 'Final comment',
 			baseUrl: `${finalCommentBaseUrl}/${appealCaseData.caseReference}`
 		};
-	} else if (isProofsOfEvidenceDue(appealCaseData)) {
+	} else if (isLPAProofsOfEvidenceDue(appealCaseData)) {
 		return {
 			deadline: appealCaseData.proofsOfEvidenceDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.proofsOfEvidenceDueDate),
@@ -325,15 +326,15 @@ const determineDocumentToDisplayAppellantDashboard = (caseOrSubmission) => {
 const determineDocumentToDisplayRule6Dashboard = (appealCaseData) => {
 	if (isRule6StatementDue(appealCaseData)) {
 		return {
-			deadline: appealCaseData.rule6StatementDueDate,
-			dueInDays: calculateDueInDays(appealCaseData.rule6StatementDueDate),
+			deadline: appealCaseData.statementDueDate,
+			dueInDays: calculateDueInDays(appealCaseData.statementDueDate),
 			documentDue: 'Statement',
 			baseUrl: `${rule6StatementBaseUrl}/${appealCaseData.caseReference}`
 		};
 	} else if (isRule6ProofOfEvidenceDue(appealCaseData)) {
 		return {
-			deadline: appealCaseData.rule6ProofEvidenceDueDate,
-			dueInDays: calculateDueInDays(appealCaseData.rule6ProofEvidenceDueDate),
+			deadline: appealCaseData.proofsOfEvidenceDueDate,
+			dueInDays: calculateDueInDays(appealCaseData.proofsOfEvidenceDueDate),
 			documentDue: 'Proof of Evidence',
 			baseUrl: `${rule6ProofsBaseUrl}/${appealCaseData.caseReference}`
 		};
@@ -365,10 +366,10 @@ const isQuestionnaireDue = (appealCaseData) => {
  * @param {AppealCaseDetailed} appealCaseData return object from database call
  * @returns {boolean}
  */
-const isStatementDue = (appealCaseData) => {
+const isLPAStatementDue = (appealCaseData) => {
 	return (
 		!!appealCaseData.statementDueDate &&
-		!appealCaseData.LPAStatementSubmitted &&
+		!appealCaseData.LPAStatementSubmittedDate &&
 		appealCaseData.caseStatus === APPEAL_CASE_STATUS.STATEMENTS
 	);
 };
@@ -377,10 +378,10 @@ const isStatementDue = (appealCaseData) => {
  * @param {AppealCaseDetailed} appealCaseData return object from database call
  * @returns {boolean}
  */
-const isFinalCommentDue = (appealCaseData) => {
+const isLPAFinalCommentDue = (appealCaseData) => {
 	return (
 		!!appealCaseData.finalCommentsDueDate &&
-		!appealCaseData.LPACommentsSubmitted &&
+		!appealCaseData.LPACommentsSubmittedDate &&
 		appealCaseData.caseStatus === APPEAL_CASE_STATUS.FINAL_COMMENTS
 	);
 };
@@ -389,10 +390,10 @@ const isFinalCommentDue = (appealCaseData) => {
  * @param {AppealCaseDetailed} appealCaseData return object from database call
  * @returns {boolean}
  */
-const isProofsOfEvidenceDue = (appealCaseData) => {
+const isLPAProofsOfEvidenceDue = (appealCaseData) => {
 	return (
 		!!appealCaseData.proofsOfEvidenceDueDate &&
-		!appealCaseData.LPAProofsSubmitted &&
+		!appealCaseData.LPAProofsSubmittedDate &&
 		appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE
 	);
 };
@@ -404,7 +405,7 @@ const isProofsOfEvidenceDue = (appealCaseData) => {
 const isAppellantFinalCommentDue = (appealCaseData) => {
 	return (
 		!!appealCaseData.finalCommentsDueDate &&
-		!appealCaseData.appellantCommentsSubmitted &&
+		!appealCaseData.appellantCommentsSubmittedDate &&
 		appealCaseData.caseStatus === APPEAL_CASE_STATUS.FINAL_COMMENTS
 	);
 };
@@ -416,9 +417,55 @@ const isAppellantFinalCommentDue = (appealCaseData) => {
 const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
 	return (
 		!!appealCaseData.proofsOfEvidenceDueDate &&
-		!appealCaseData.appellantsProofsSubmitted &&
+		!appealCaseData.appellantProofsSubmittedDate &&
 		appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE
 	);
+};
+
+/**
+ * @param {Representation[]|undefined} representations
+ * @param {string} type
+ * @param {boolean} owned
+ * @returns {boolean}
+ */
+const representationExists = (representations, type, owned) => {
+	return !!representations?.filter(
+		(rep) => (!owned || rep.userOwnsRepresentation) && rep.representationType === type
+	).length;
+};
+
+/**
+ * Find other user's representations by type, must be published
+ * @param {Representation[]|undefined} representations
+ * @param {string} type
+ * @param {import('@pins/common/src/constants').LpaUserRole|import('@pins/common/src/constants').AppealToUserRoles} [submitter]
+ * @returns {boolean}
+ */
+const representationPublished = (representations, type, submitter) => {
+	/**
+	 * @param {Representation} rep
+	 * @returns {boolean}
+	 */
+	function isSubmitter(rep) {
+		if (!submitter) return true;
+
+		// appellant and agent treated as the same
+		if (submitter === APPEAL_USER_ROLES.APPELLANT || submitter === APPEAL_USER_ROLES.AGENT)
+			return (
+				rep.submittingPartyType === APPEAL_USER_ROLES.APPELLANT ||
+				rep.submittingPartyType === APPEAL_USER_ROLES.AGENT
+			);
+
+		return rep.submittingPartyType === submitter;
+	}
+
+	return !!representations?.filter(
+		(rep) =>
+			rep.representationStatus === APPEAL_REPRESENTATION_STATUS.PUBLISHED && // published
+			!rep.userOwnsRepresentation && // not owned
+			rep.representationType === type && // matches type
+			isSubmitter(rep)
+	).length; // if present checks the submittingPartyType matches
 };
 
 /**
@@ -427,8 +474,8 @@ const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
  */
 const isRule6StatementDue = (appealCaseData) => {
 	return (
-		!!appealCaseData.rule6StatementDueDate &&
-		!appealCaseData.rule6StatementSubmitted &&
+		!!appealCaseData.statementDueDate &&
+		!representationExists(appealCaseData.Representations, REPRESENTATION_TYPES.STATEMENT, true) &&
 		appealCaseData.caseStatus === APPEAL_CASE_STATUS.STATEMENTS
 	);
 };
@@ -439,8 +486,12 @@ const isRule6StatementDue = (appealCaseData) => {
  */
 const isRule6ProofOfEvidenceDue = (appealCaseData) => {
 	return (
-		!!appealCaseData.rule6ProofEvidenceDueDate &&
-		!appealCaseData.rule6ProofEvidenceSubmitted &&
+		!!appealCaseData.proofsOfEvidenceDueDate &&
+		!representationExists(
+			appealCaseData.Representations,
+			REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+			true
+		) &&
 		appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE
 	);
 };
@@ -485,5 +536,7 @@ module.exports = {
 	isToDoAppellantDashboard,
 	mapToAppellantDashboardDisplayData,
 	mapToRule6DashboardDisplayData,
-	isToDoRule6Dashboard
+	isToDoRule6Dashboard,
+	representationExists,
+	representationPublished
 };

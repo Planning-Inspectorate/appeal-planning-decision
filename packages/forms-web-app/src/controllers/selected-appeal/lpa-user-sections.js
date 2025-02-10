@@ -1,3 +1,6 @@
+const { representationPublished } = require('../../lib/dashboard-functions');
+const { APPEAL_USER_ROLES, REPRESENTATION_TYPES } = require('@pins/common/src/constants');
+
 /**
  * @type {import("@pins/common/src/view-model-maps/sections/def").Sections}
  */
@@ -29,12 +32,17 @@ exports.sections = [
 			{
 				url: '/statement',
 				text: 'View your statement',
-				condition: (appealCase) => !!appealCase.lpaStatementPublished
+				condition: (appealCase) => !!appealCase.LPAStatementSubmittedDate
 			},
 			{
 				url: '/other-party-statements',
 				text: 'View other party statements',
-				condition: (appealCase) => !!appealCase.rule6StatementPublished
+				condition: (appealCase) =>
+					representationPublished(
+						appealCase.Representations,
+						REPRESENTATION_TYPES.STATEMENT,
+						APPEAL_USER_ROLES.RULE_6_PARTY
+					)
 			}
 		]
 	},
@@ -44,7 +52,11 @@ exports.sections = [
 			{
 				url: '/interested-party-comments',
 				text: 'View interested party comments',
-				condition: (appealCase) => !!appealCase.interestedPartyCommentsPublished
+				condition: (appealCase) =>
+					representationPublished(
+						appealCase.Representations,
+						REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
+					)
 			}
 		]
 	},
@@ -54,12 +66,17 @@ exports.sections = [
 			{
 				url: '/final-comments',
 				text: 'View your final comments',
-				condition: (appealCase) => !!appealCase.lpaFinalCommentsPublished
+				condition: (appealCase) => !!appealCase.LPACommentsSubmittedDate
 			},
 			{
 				url: '/appellant-final-comments',
 				text: 'View appellant final comments',
-				condition: (appealCase) => !!appealCase.appellantFinalCommentsSubmitted
+				condition: (appealCase) =>
+					representationPublished(
+						appealCase.Representations,
+						REPRESENTATION_TYPES.FINAL_COMMENT,
+						APPEAL_USER_ROLES.APPELLANT
+					)
 			}
 		]
 	},
@@ -69,7 +86,7 @@ exports.sections = [
 			{
 				url: '/appellant-planning-obligation',
 				text: 'View the appellant’s planning obligation',
-				condition: (appealCase) => !!appealCase.planningObligation
+				condition: (appealCase) => !!appealCase.statusPlanningObligation
 			}
 		]
 	},
@@ -79,19 +96,28 @@ exports.sections = [
 			{
 				url: '/proof-evidence',
 				text: 'View your proof of evidence and witnesses',
-				condition: (appealCase) => !!appealCase.lpaProofEvidencePublished
+				condition: (appealCase) => !!appealCase.LPAProofsSubmittedDate
 			},
 			{
 				url: '/appellant-proof-evidence',
 				text: "View the appellant's proof of evidence and witnesses",
-				condition: (appealCase) => !!appealCase.appellantProofEvidencePublished
+				condition: (appealCase) =>
+					representationPublished(
+						appealCase.Representations,
+						REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+						APPEAL_USER_ROLES.APPELLANT
+					)
 			},
 			{
 				url: '/other-party-proof-evidence',
 				text: 'View proof of evidence and witnesses from other parties',
-				condition: (appealCase) => !!appealCase.rule6ProofsEvidencePublished
+				condition: (appealCase) =>
+					representationPublished(
+						appealCase.Representations,
+						REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+						APPEAL_USER_ROLES.RULE_6_PARTY
+					)
 			}
 		]
 	}
-	// ToDo - Witness timings? On prototype but not included in tickets
 ];

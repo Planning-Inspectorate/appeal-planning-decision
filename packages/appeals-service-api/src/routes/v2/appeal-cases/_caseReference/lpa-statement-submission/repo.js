@@ -123,7 +123,7 @@ class LPAStatementSubmissionRepository {
 							caseReference
 						},
 						data: {
-							LPAStatementSubmitted: lpaStatementSubmittedDate
+							LPAStatementSubmittedDate: lpaStatementSubmittedDate
 						}
 					}
 				}

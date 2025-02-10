@@ -10,7 +10,6 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
  * @param {import('appeals-service-api').Api.AppealCaseDetailed} caseData
  * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
  */
-
 exports.planningObligationRows = (caseData) => {
 	const documents = caseData.Documents || [];
 	const sortedDocuments = sortDocumentsByDate(documents);
@@ -19,7 +18,12 @@ exports.planningObligationRows = (caseData) => {
 		{
 			keyText: 'Do you have a planning obligation to support your appeal?',
 			valueText: 'Yes',
-			condition: () => caseData.planningObligation
+			condition: () => !!caseData.statusPlanningObligation
+		},
+		{
+			keyText: 'The status of the planning obligation',
+			valueText: caseData.statusPlanningObligation,
+			condition: () => !!caseData.statusPlanningObligation
 		},
 		{
 			keyText: 'Planning obligation',

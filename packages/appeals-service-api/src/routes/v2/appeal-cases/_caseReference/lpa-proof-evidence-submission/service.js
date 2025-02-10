@@ -60,11 +60,11 @@ async function patchLpaProofOfEvidenceByAppealId(appealCaseId, proofEvidenceData
  * mark lpa proof of evidence as submitted to back office
  *
  * @param {string} caseReference
- * @param {string} lpaProofEvidenceSubmitted
+ * @param {string} LPAProofsSubmittedDate
  * @return {Promise<{id: string}>}
  */
-function markLpaProofOfEvidenceAsSubmitted(caseReference, lpaProofEvidenceSubmitted) {
-	return repo.markLpaProofOfEvidenceAsSubmitted(caseReference, lpaProofEvidenceSubmitted);
+function markLpaProofOfEvidenceAsSubmitted(caseReference, LPAProofsSubmittedDate) {
+	return repo.markLpaProofOfEvidenceAsSubmitted(caseReference, LPAProofsSubmittedDate);
 }
 
 module.exports = {

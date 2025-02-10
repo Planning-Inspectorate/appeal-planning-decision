@@ -1,3 +1,10 @@
+const { representationPublished } = require('../../lib/dashboard-functions');
+const {
+	LPA_USER_ROLE,
+	APPEAL_USER_ROLES,
+	REPRESENTATION_TYPES
+} = require('@pins/common/src/constants');
+
 /**
  * @type {import("@pins/common/src/view-model-maps/sections/def").Sections}
  */
@@ -6,7 +13,6 @@ exports.sections = [
 		heading: 'Appeal details',
 		links: [
 			{
-				// tbc
 				url: '/appeal-details',
 				text: 'View your appeal details',
 				condition: () => true
@@ -17,7 +23,6 @@ exports.sections = [
 		heading: 'Questionnaire',
 		links: [
 			{
-				// tbc
 				url: '/questionnaire',
 				text: 'View questionnaire',
 				condition: (appealCase) => appealCase.lpaQuestionnairePublishedDate !== null
@@ -28,16 +33,24 @@ exports.sections = [
 		heading: 'Statements',
 		links: [
 			{
-				// tbc
 				url: '/lpa-statement',
 				text: 'View local planning authority statement',
-				condition: (appealCase) => !!appealCase.lpaStatementPublished // lpaStatementPublished on ticket?
+				condition: (appealCase) =>
+					representationPublished(
+						appealCase.Representations,
+						REPRESENTATION_TYPES.STATEMENT,
+						LPA_USER_ROLE
+					)
 			},
 			{
-				// tbc
 				url: '/other-party-statements',
 				text: 'View other party statements',
-				condition: (appealCase) => !!appealCase.rule6StatementPublished // changed from appealRule6PartyStatementsPublished
+				condition: (appealCase) =>
+					representationPublished(
+						appealCase.Representations,
+						REPRESENTATION_TYPES.STATEMENT,
+						APPEAL_USER_ROLES.RULE_6_PARTY
+					)
 			}
 		]
 	},
@@ -45,10 +58,13 @@ exports.sections = [
 		heading: 'Interested party comments',
 		links: [
 			{
-				// tbc
 				url: '/interested-party-comments',
 				text: 'View interested party comments',
-				condition: (appealCase) => !!appealCase.interestedPartyCommentsPublished // schema matched ticket
+				condition: (appealCase) =>
+					representationPublished(
+						appealCase.Representations,
+						REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
+					)
 			}
 		]
 	},
@@ -56,16 +72,19 @@ exports.sections = [
 		heading: 'Final comments',
 		links: [
 			{
-				// tbc
 				url: '/final-comments',
 				text: 'View your final comments',
-				condition: (appealCase) => !!appealCase.appellantFinalCommentsSubmitted // appellantCommentsReceived on ticket?
+				condition: (appealCase) => !!appealCase.appellantCommentsSubmittedDate
 			},
 			{
-				// tbc
 				url: '/lpa-final-comments',
 				text: 'View local planning authority final comments',
-				condition: (appealCase) => !!appealCase.lpaFinalCommentsPublished // changed from lpaFinalCommentPublished
+				condition: (appealCase) =>
+					representationPublished(
+						appealCase.Representations,
+						REPRESENTATION_TYPES.FINAL_COMMENT,
+						LPA_USER_ROLE
+					)
 			}
 		]
 	},
@@ -75,7 +94,7 @@ exports.sections = [
 			{
 				url: '/planning-obligation',
 				text: 'View planning obligation',
-				condition: (appealCase) => !!appealCase.planningObligation
+				condition: (appealCase) => !!appealCase.statusPlanningObligation
 			}
 		]
 	},
@@ -83,22 +102,29 @@ exports.sections = [
 		heading: 'Proof of evidence and witnesses',
 		links: [
 			{
-				// tbc
 				url: '/proof-evidence',
 				text: 'View your proof of evidence and witnesses',
-				condition: (appealCase) => !!appealCase.appellantProofEvidencePublished // appellantsProofEvidenceReceived on ticket?
+				condition: (appealCase) => !!appealCase.appellantProofsSubmittedDate
 			},
 			{
-				// tbc
 				url: '/lpa-proof-evidence',
 				text: 'View the local planning authority proof of evidence and witnesses',
-				condition: (appealCase) => !!appealCase.lpaProofEvidencePublished // schema matched ticket
+				condition: (appealCase) =>
+					representationPublished(
+						appealCase.Representations,
+						REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+						LPA_USER_ROLE
+					)
 			},
 			{
-				// tbc
 				url: '/other-party-proof-evidence',
 				text: 'View other party proof of evidence and witnesses',
-				condition: (appealCase) => !!appealCase.rule6ProofsEvidencePublished // appealRule6PartyProofsEvidencePublished on ticket?
+				condition: (appealCase) =>
+					representationPublished(
+						appealCase.Representations,
+						REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+						APPEAL_USER_ROLES.RULE_6_PARTY
+					)
 			}
 		]
 	}

@@ -4,7 +4,7 @@ const serviceUserRepository = new ServiceUserRepository();
 
 /**
  * @param {import('pins-data-model/src/schemas').ServiceUser} data
- * @returns
+ * @returns {Promise<import('@prisma/client').ServiceUser>}
  */
 exports.put = (data) => {
 	return serviceUserRepository.put(data);
@@ -13,19 +13,19 @@ exports.put = (data) => {
 /**
  * @param {string} serviceUserId
  * @param {string} caseReference
- * @returns {Promise<import('pins-data-model/src/schemas').ServiceUser|null>}
+ * @returns {Promise<import("#repositories/sql/service-user-repository").ServiceUserName|null>}
  */
 exports.getServiceUserByIdAndCaseReference = (serviceUserId, caseReference) => {
 	return serviceUserRepository.getServiceUserByIdAndCaseReference(serviceUserId, caseReference);
 };
 
 /**
- * @param {string[]} serviceUserIds
+ * @param {string[]|null} serviceUserIds
  * @param {string} caseReference
- * @returns {import('pins-data-model/src/schemas').ServiceUser[]}
+ * @returns {Promise<import("#repositories/sql/service-user-repository").BasicServiceUser[]>|[]}
  */
 exports.getServiceUsersWithEmailsByIdAndCaseReference = (serviceUserIds, caseReference) => {
-	if (serviceUserIds.length === 0) return [];
+	if (!serviceUserIds || serviceUserIds.length === 0) return [];
 
 	return serviceUserRepository.getServiceUsersWithEmailsByIdAndCaseReference(
 		serviceUserIds,

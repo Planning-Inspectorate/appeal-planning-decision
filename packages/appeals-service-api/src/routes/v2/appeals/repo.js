@@ -58,8 +58,8 @@ class UserAppealsRepository {
 											caseDecisionOutcome: true,
 											caseValidationDate: true,
 											caseReference: true,
-											appellantCommentsSubmitted: true,
-											appellantsProofsSubmitted: true,
+											appellantCommentsSubmittedDate: true,
+											appellantProofsSubmittedDate: true,
 											finalCommentsDueDate: true,
 											proofsOfEvidenceDueDate: true,
 											caseWithdrawnDate: true,
@@ -67,11 +67,7 @@ class UserAppealsRepository {
 											siteAddressLine1: true,
 											siteAddressLine2: true,
 											siteAddressTown: true,
-											siteAddressPostcode: true,
-											rule6StatementDueDate: true,
-											rule6StatementSubmitted: true,
-											rule6ProofEvidenceDueDate: true,
-											rule6ProofEvidenceSubmitted: true
+											siteAddressPostcode: true
 										}
 									},
 									AppellantSubmission: {

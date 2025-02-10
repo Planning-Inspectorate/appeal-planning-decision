@@ -18,8 +18,8 @@ describe('get', () => {
 			originalUrl: '/appeals/123',
 			appealsApiClient: {
 				getUserByEmailV2: jest.fn(),
-				getUsersAppealCase: jest.fn(),
-				getEventsByCaseRef: jest.fn()
+				getEventsByCaseRef: jest.fn(),
+				getAppealCaseWithRepresentations: jest.fn()
 			}
 		};
 		res = {
@@ -35,20 +35,11 @@ describe('get', () => {
 		await expect(handler(req, res)).rejects.toThrow('Unknown role');
 	});
 
-	it('should throw an error if no session email is found', async () => {
-		determineUser.mockReturnValue('APPELLANT');
-		getUserFromSession.mockReturnValue({});
-
-		const handler = get();
-
-		await expect(handler(req, res)).rejects.toThrow('no session email');
-	});
-
 	it('should render the view with the correct context', async () => {
 		determineUser.mockReturnValue('Appellant');
 		getUserFromSession.mockReturnValue({ email: 'test@example.com' });
 		req.appealsApiClient.getUserByEmailV2.mockResolvedValue({ id: 'user-id' });
-		req.appealsApiClient.getUsersAppealCase.mockResolvedValue({
+		req.appealsApiClient.getAppealCaseWithRepresentations.mockResolvedValue({
 			LPACode: 'LPA123',
 			caseDecisionOutcome: 'GRANTED',
 			Documents: []

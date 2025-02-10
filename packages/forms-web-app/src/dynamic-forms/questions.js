@@ -434,7 +434,6 @@ exports.questionProps = {
 		description: 'You need to tell inspectors how to prepare for a site visit and what to bring.',
 		html: 'resources/safety-risks/content.html',
 		label: 'Are there any potential safety risks?',
-		// fieldName: 'safety-risks',
 		fieldName: 'lpaSiteSafetyRisks',
 		url: 'potential-safety-risks',
 		validators: [

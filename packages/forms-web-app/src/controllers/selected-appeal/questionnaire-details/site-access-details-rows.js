@@ -34,8 +34,8 @@ exports.siteAccessRows = (caseData) => {
 		},
 		{
 			keyText: 'Reason for Inspector visit',
-			valueText: caseData.neighbouringSiteAccessDetails || '',
-			condition: () => !!caseData.neighbouringSiteAccessDetails
+			valueText: caseData.reasonForNeighbourVisits || '',
+			condition: () => !!caseData.reasonForNeighbourVisits
 		}
 	];
 

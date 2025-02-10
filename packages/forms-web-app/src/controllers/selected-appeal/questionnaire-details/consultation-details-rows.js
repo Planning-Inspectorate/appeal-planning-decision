@@ -5,6 +5,7 @@ const {
 	boolToYesNo
 } = require('@pins/common');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
@@ -18,6 +19,8 @@ exports.consultationRows = (caseData) => {
 	);
 	const otherPartyRepresentationsText = boolToYesNo(hasOtherPartyRepresentations);
 
+	const isHASAppeal = caseData.appealTypeCode === CASE_TYPES.HAS.processCode;
+
 	return [
 		{
 			keyText: 'Statutory consultees',
@@ -26,8 +29,10 @@ exports.consultationRows = (caseData) => {
 		},
 		{
 			keyText: 'Responses or standing advice',
-			valueText: formatYesOrNo(caseData, 'consultationResponses'),
-			condition: () => caseData.consultationResponses
+			valueText: boolToYesNo(
+				documentExists(documents, APPEAL_DOCUMENT_TYPE.CONSULTATION_RESPONSES)
+			),
+			condition: () => !isHASAppeal
 		},
 		{
 			keyText: 'Uploaded consultation responses and standing advice',

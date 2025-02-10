@@ -12,7 +12,6 @@ const {
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
  * @typedef {import('@pins/common/src/constants').LpaUserRole} LpaUserRole
- * @typedef {import('@pins/common/src/constants').RepresentationTypes} RepresentationTypes
  */
 
 /**
@@ -23,7 +22,6 @@ const {
 /**
  * @typedef {Object} RepresentationParams
  * @property {AppealToUserRoles|LpaUserRole} userType // the user
- * @property {RepresentationTypes} representationType // Statement, Final Comment, IP Comments, Proofs of Evidence
  * @property {AppealToUserRoles|LpaUserRole} submittingParty  // the party submitting the representation
  * @property {boolean | null} [rule6OwnRepresentations] // optional param passed when a rule 6 party is viewing own (true) or other rule 6 party (false) reps
  */
@@ -55,8 +53,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
-
-		const formattedRepresentations = await formatRepresentations(representationsForDisplay, req);
+		const formattedRepresentations = formatRepresentations(caseData, representationsForDisplay);
 
 		const representationView =
 			representationType == REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT

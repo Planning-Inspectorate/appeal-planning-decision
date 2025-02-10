@@ -15,11 +15,10 @@ const sanitizePostcode = require('#lib/sanitize-postcode');
  * @typedef {import("@prisma/client").AppealCase} AppealCase
  * @typedef {import("@prisma/client").AppealCaseRelationship} AppealCaseRelationship
  * @typedef {import("@prisma/client").Prisma.AppealCaseCreateInput} AppealCaseCreateInput
- * @typedef {import("@prisma/client").Prisma.AppealCaseCreateWithoutAppealInput} AppealCaseCreateWithoutAppealInput
  * @typedef {import('@prisma/client').Prisma.AppealCaseFindManyArgs} AppealCaseFindManyArgs
  * @typedef {import('@prisma/client').Prisma.AppealCaseWhereInput} AppealCaseWhereInput
  * @typedef {import('@prisma/client').Prisma.AppealCaseCountArgs} AppealCaseCountArgs
- * @typedef {import('pins-data-model/src/schemas').AppealHASCase} AppealHASCase
+ * @typedef {(import('pins-data-model/src/schemas').AppealHASCase['neighbouringSiteAddresses'])} NeighbouringSiteAddresses
  */
 
 /**
@@ -31,6 +30,7 @@ const dashboardSelect = {
 	appealId: true,
 	caseReference: true,
 
+	// basic appeal details
 	LPACode: true,
 	appealTypeCode: true,
 	caseStatus: true,
@@ -39,45 +39,47 @@ const dashboardSelect = {
 	applicationDecision: true,
 	applicationDate: true,
 	applicationDecisionDate: true,
-	caseSubmissionDueDate: true,
 
+	// site address
 	siteAddressLine1: true,
 	siteAddressLine2: true,
 	siteAddressTown: true,
 	siteAddressCounty: true,
 	siteAddressPostcode: true,
 
+	// outcome
 	caseDecisionOutcome: true,
 
+	// case dates
 	caseSubmittedDate: true,
-	caseCreatedDate: true,
-	caseUpdatedDate: true,
 	caseValidDate: true,
 	caseValidationDate: true,
-	caseExtensionDate: true,
 	caseStartedDate: true,
 	casePublishedDate: true,
 	caseWithdrawnDate: true,
-	caseTransferredDate: true,
-	transferredCaseClosedDate: true,
 	caseDecisionOutcomeDate: true,
-	// caseDecisionPublishedDate: true, null for HAS
-	caseCompletedDate: true,
+
+	// lpaq dates
 	lpaQuestionnaireDueDate: true,
 	lpaQuestionnaireSubmittedDate: true,
-	lpaQuestionnaireCreatedDate: true,
 	lpaQuestionnairePublishedDate: true,
-	lpaQuestionnaireValidationOutcomeDate: true,
-	statementDueDate: true,
-	LPAStatementSubmitted: true,
-	appellantStatementSubmitted: true,
-	finalCommentsDueDate: true,
-	appellantCommentsSubmitted: true,
-	LPACommentsSubmitted: true,
-	proofsOfEvidenceDueDate: true,
-	appellantsProofsSubmitted: true,
-	LPAProofsSubmitted: true,
 
+	// statements dates
+	statementDueDate: true,
+	appellantStatementSubmittedDate: true,
+	LPAStatementSubmittedDate: true,
+
+	// final comments dates
+	finalCommentsDueDate: true,
+	appellantCommentsSubmittedDate: true,
+	LPACommentsSubmittedDate: true,
+
+	// proofs of evidence dates
+	proofsOfEvidenceDueDate: true,
+	appellantProofsSubmittedDate: true,
+	LPAProofsSubmittedDate: true,
+
+	// IP dates
 	interestedPartyRepsDueDate: true
 };
 
@@ -95,76 +97,6 @@ const DocumentsArgsPublishedOnly = {
 		redacted: true
 	}
 };
-
-/**
- * @param {String} caseProcessCode
- * @param {AppealHASCase} dataModel
- * @returns {AppealCaseCreate}
- */
-const mapHASDataModelToAppealCase = (
-	caseProcessCode,
-	{
-		caseType: _caseType,
-		linkedCaseStatus: _linkedCaseStatus,
-		leadCaseReference: _leadCaseReference,
-		notificationMethod: _notificationMethod,
-		nearbyCaseReferences: _nearbyCaseReferences,
-		neighbouringSiteAddresses: _neighbouringSiteAddresses,
-		affectedListedBuildingNumbers: _affectedListedBuildingNumbers,
-		submissionId: _submissionId,
-		caseStatus,
-		caseDecisionOutcome,
-		caseValidationOutcome,
-		lpaQuestionnaireValidationOutcome,
-		caseProcedure,
-		lpaCode,
-		caseSpecialisms,
-		caseValidationInvalidDetails,
-		caseValidationIncompleteDetails,
-		lpaQuestionnaireValidationDetails,
-		siteAccessDetails,
-		siteSafetyDetails,
-		siteAddressPostcode,
-		...commonFields
-	}
-) => ({
-	...commonFields,
-	CaseStatus: { connect: { key: caseStatus } },
-	CaseDecisionOutcome: caseDecisionOutcome ? { connect: { key: caseDecisionOutcome } } : undefined,
-	CaseValidationOutcome: caseValidationOutcome
-		? { connect: { key: caseValidationOutcome } }
-		: undefined,
-	LPAQuestionnaireValidationOutcome: lpaQuestionnaireValidationOutcome
-		? { connect: { key: lpaQuestionnaireValidationOutcome } }
-		: undefined,
-	CaseType: { connect: { processCode: caseProcessCode } },
-	ProcedureType: {
-		connectOrCreate: {
-			where: {
-				key: caseProcedure
-			},
-			create: {
-				key: caseProcedure,
-				name: caseProcedure
-			}
-		}
-	},
-	siteAddressPostcode: siteAddressPostcode,
-	siteAddressPostcodeSanitized: sanitizePostcode(siteAddressPostcode),
-	LPACode: lpaCode,
-	caseSpecialisms: caseSpecialisms ? JSON.stringify(caseSpecialisms) : null,
-	caseValidationInvalidDetails: caseValidationInvalidDetails
-		? JSON.stringify(caseValidationInvalidDetails)
-		: null,
-	caseValidationIncompleteDetails: caseValidationIncompleteDetails
-		? JSON.stringify(caseValidationIncompleteDetails)
-		: null,
-	lpaQuestionnaireValidationDetails: lpaQuestionnaireValidationDetails
-		? JSON.stringify(lpaQuestionnaireValidationDetails)
-		: null,
-	siteAccessDetails: siteAccessDetails ? JSON.stringify(siteAccessDetails) : null,
-	siteSafetyDetails: siteSafetyDetails ? JSON.stringify(siteSafetyDetails) : null
-});
 
 class AppealCaseRepository {
 	dbClient;
@@ -218,40 +150,34 @@ class AppealCaseRepository {
 	 */
 
 	/**
-	 * Get an appeal by case reference (aka appeal number)
-	 * @param {string} caseReference
-	 * @param {string} caseProcessCode
-	 * @param {AppealHASCase} data
+	 * Upsert an appeal by case reference (aka appeal number)
+	 * @param {Object} params
+	 * @param {string} params.caseReference
+	 * @param {string|null|undefined} [params.submissionId]
+	 * @param {Omit<AppealCaseCreateInput, 'Appeal'>} params.mappedData
 	 * @returns {Promise<putAppealResult>}
 	 */
-	async putHASByCaseReference(caseReference, caseProcessCode, data) {
-		const mappedData = mapHASDataModelToAppealCase(caseProcessCode, data);
-
-		/** @type {putAppealResult} */
-		let result = {
-			appealCase: null,
-			appellantSubmission: null,
-			exists: true
-		};
-
-		result.exists = !!(await this.dbClient.appealCase.count({
+	async putByCaseReference({ caseReference, submissionId, mappedData }) {
+		const exists = !!(await this.dbClient.appealCase.count({
 			where: {
 				caseReference
 			}
 		}));
 
-		if (!result.exists && data.submissionId) {
-			result.appellantSubmission = await this.dbClient.appellantSubmission.findFirst({
+		/** @type {AppellantSubmission|null} */
+		let appellantSubmission = null;
+		if (!exists && submissionId) {
+			appellantSubmission = await this.dbClient.appellantSubmission.findFirst({
 				where: {
-					appealId: data.submissionId
+					appealId: submissionId
 				}
 			});
 		}
 
-		result.appealCase = await this.dbClient.appealCase.upsert({
+		const appealCase = await this.dbClient.appealCase.upsert({
 			create: {
 				...mappedData,
-				Appeal: data.submissionId ? { connect: { id: data.submissionId } } : { create: {} }
+				Appeal: submissionId ? { connect: { id: submissionId } } : { create: {} }
 			},
 			update: mappedData,
 			where: {
@@ -259,6 +185,39 @@ class AppealCaseRepository {
 			}
 		});
 
+		return {
+			appealCase,
+			appellantSubmission,
+			exists
+		};
+	}
+
+	/**
+	 * @typedef AppealRelations
+	 * @property {import('pins-data-model/src/schemas').AppealS78Case['leadCaseReference']} [leadCaseReference]
+	 * @property {import('pins-data-model/src/schemas').AppealS78Case['nearbyCaseReferences']} [nearbyCaseReferences]
+	 * @property {import('pins-data-model/src/schemas').AppealS78Case['neighbouringSiteAddresses']} [neighbouringSiteAddresses]
+	 * @property {import('pins-data-model/src/schemas').AppealS78Case['affectedListedBuildingNumbers']} [affectedListedBuildingNumbers]
+	 * @property {import('pins-data-model/src/schemas').AppealS78Case['changedListedBuildingNumbers']} [changedListedBuildingNumbers]
+	 * @property {import('pins-data-model/src/schemas').AppealS78Case['notificationMethod']} [notificationMethod]
+	 */
+	/**
+	 * Upsert an appeal's relations by case reference (aka appeal number)
+	 * @param {string} caseReference
+	 * @param {AppealRelations} data
+	 * @returns {Promise<void>}
+	 */
+	async putRelationsByCaseReference(
+		caseReference,
+		{
+			leadCaseReference,
+			nearbyCaseReferences,
+			neighbouringSiteAddresses,
+			affectedListedBuildingNumbers,
+			changedListedBuildingNumbers,
+			notificationMethod
+		}
+	) {
 		// case relations
 		// nearby cases are referenced both ways
 		// lead/child are only reference from child(1) to lead(2)
@@ -278,12 +237,12 @@ class AppealCaseRepository {
 			});
 
 			// add nearby references both ways
-			if (data.nearbyCaseReferences?.length) {
-				const direction1 = data.nearbyCaseReferences.map((nearby) => ({
+			if (nearbyCaseReferences?.length) {
+				const direction1 = nearbyCaseReferences.map((nearby) => ({
 					caseReference: caseReference,
 					caseReference2: nearby
 				}));
-				const direction2 = data.nearbyCaseReferences.map((nearby) => ({
+				const direction2 = nearbyCaseReferences.map((nearby) => ({
 					caseReference: nearby,
 					caseReference2: caseReference
 				}));
@@ -294,11 +253,11 @@ class AppealCaseRepository {
 			}
 
 			// add lead case (only referenced from child(1) -> lead(2))
-			if (data.leadCaseReference) {
+			if (leadCaseReference) {
 				await tx.appealCaseRelationship.create({
 					data: {
 						caseReference,
-						caseReference2: data.leadCaseReference,
+						caseReference2: leadCaseReference,
 						type: CASE_RELATION_TYPES.linked
 					}
 				});
@@ -315,9 +274,9 @@ class AppealCaseRepository {
 			});
 
 			// add all
-			if (data.neighbouringSiteAddresses?.length) {
+			if (neighbouringSiteAddresses?.length) {
 				await tx.neighbouringAddress.createMany({
-					data: data.neighbouringSiteAddresses.map((address) => ({
+					data: neighbouringSiteAddresses.map((address) => ({
 						caseReference,
 						addressLine1: address.neighbouringSiteAddressLine1,
 						addressLine2: address.neighbouringSiteAddressLine2,
@@ -342,8 +301,8 @@ class AppealCaseRepository {
 			});
 
 			const combinedListedBuildings = [
-				...(data.affectedListedBuildingNumbers || []),
-				...(data.changedListedBuildingNumbers || [])
+				...(affectedListedBuildingNumbers || []),
+				...(changedListedBuildingNumbers || [])
 			];
 
 			if (combinedListedBuildings.length) {
@@ -360,10 +319,10 @@ class AppealCaseRepository {
 					})
 				);
 
-				if (data.affectedListedBuildingNumbers?.length) {
+				if (affectedListedBuildingNumbers?.length) {
 					// add the links to affected listed buildings
 					await tx.appealCaseListedBuilding.createMany({
-						data: data.affectedListedBuildingNumbers.map((reference) => ({
+						data: affectedListedBuildingNumbers.map((reference) => ({
 							caseReference: caseReference,
 							listedBuildingReference: reference,
 							type: LISTED_RELATION_TYPES.affected
@@ -371,10 +330,10 @@ class AppealCaseRepository {
 					});
 				}
 
-				if (data.changedListedBuildingNumbers?.length) {
+				if (changedListedBuildingNumbers?.length) {
 					// add the links to changed listed buildings
 					await tx.appealCaseListedBuilding.createMany({
-						data: data.changedListedBuildingNumbers.map((reference) => ({
+						data: changedListedBuildingNumbers.map((reference) => ({
 							caseReference: caseReference,
 							listedBuildingReference: reference,
 							type: LISTED_RELATION_TYPES.changed
@@ -393,18 +352,16 @@ class AppealCaseRepository {
 				}
 			});
 
-			if (data.notificationMethod?.length) {
+			if (notificationMethod?.length) {
 				// add all notification methods
 				await tx.appealCaseLpaNotificationMethod.createMany({
-					data: data.notificationMethod.map((notification) => ({
+					data: notificationMethod.map((notification) => ({
 						caseReference,
 						lPANotificationMethodsKey: notification
 					}))
 				});
 			}
 		});
-
-		return result;
 	}
 
 	/**
@@ -612,4 +569,4 @@ function addCaseStatusToQuery(whereArray, caseStatus) {
 	whereArray.push({ caseStatus: caseStatus });
 }
 
-module.exports = { AppealCaseRepository, DocumentsArgsPublishedOnly };
+module.exports = { AppealCaseRepository, DocumentsArgsPublishedOnly, dashboardSelect };

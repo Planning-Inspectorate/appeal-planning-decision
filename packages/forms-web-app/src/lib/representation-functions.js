@@ -4,7 +4,6 @@ const {
 	REPRESENTATION_TYPES
 } = require('@pins/common/src/constants');
 const escape = require('escape-html');
-const logger = require('./logger');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
@@ -190,57 +189,46 @@ const formatProofsOfEvidenceHeading = (userType, submittingParty, rule6OwnRepres
 };
 
 /**
+ * @param {AppealCaseDetailed} caseData
  * @param {Representation[]} representations
- * @param {import('express').Request} req
  */
-const formatRepresentations = async (representations, req) => {
+const formatRepresentations = (caseData, representations) => {
 	representations.sort((a, b) => new Date(a.dateReceived) - new Date(b.dateReceived));
 
-	const formattedRepresentations = await Promise.all(
-		representations.map(async (representation, index) => {
-			const fullText = representation.redacted
-				? representation.redactedRepresentation
-				: representation.originalRepresentation;
-			const truncated = fullText ? fullText.length > 150 : false;
-			const truncatedText = truncated ? fullText.substring(0, 150) + '...' : fullText;
+	return representations.map((representation, index) => {
+		const fullText = representation.redacted
+			? representation.redactedRepresentation
+			: representation.originalRepresentation;
+		const truncated = fullText ? fullText.length > 150 : false;
+		const truncatedText = truncated ? fullText.substring(0, 150) + '...' : fullText;
 
-			const rowLabel = formatRowLabelAndKey(representation.representationType);
+		const rowLabel = formatRowLabelAndKey(representation.representationType);
 
-			const unformattedRepDocs =
-				representation.RepresentationDocuments?.length > 0
-					? representation.RepresentationDocuments
-					: [];
+		/** @type {string[]} */
+		const repDocsIds = representation.RepresentationDocuments
+			? representation.RepresentationDocuments?.map((x) => x.documentId)
+			: [];
 
-			const documentDetails = await Promise.all(
-				unformattedRepDocs.map(async (repDoc) => {
-					try {
-						return await req.appealsApiClient.getDocumentDetails(repDoc.documentId);
-					} catch (err) {
-						logger.error(err);
-						return;
-					}
-				})
-			);
+		const representationDocuments = caseData?.Documents
+			? caseData?.Documents?.filter((doc) => repDocsIds.includes(doc.id))
+			: [];
 
-			const formattedDocuments =
-				representation.representationType === REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
-					? formatProofsOfEvidenceDocuments(documentDetails)
-					: formatRepresentationDocumentsLinks(documentDetails, 'Supporting documents');
+		const formattedDocuments =
+			representation.representationType === REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
+				? formatProofsOfEvidenceDocuments(representationDocuments)
+				: formatRepresentationDocumentsLinks(representationDocuments, 'Supporting documents');
 
-			return {
-				key: { text: `${rowLabel} ${index + 1}` },
-				rowLabel,
-				value: {
-					text: fullText,
-					truncatedText: truncatedText,
-					truncated: truncated,
-					documents: formattedDocuments
-				}
-			};
-		})
-	);
-
-	return formattedRepresentations;
+		return {
+			key: { text: `${rowLabel} ${index + 1}` },
+			rowLabel,
+			value: {
+				text: fullText,
+				truncatedText: truncatedText,
+				truncated: truncated,
+				documents: formattedDocuments
+			}
+		};
+	});
 };
 
 /**

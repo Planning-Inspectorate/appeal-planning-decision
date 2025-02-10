@@ -114,28 +114,16 @@ class Rule6StatementSubmissionRepository {
 	/**
 	 * @param {string} userId
 	 * @param {string} caseReference
-	 * @param {string} submissionDate
 	 * @returns {Promise<{id: string}>}
 	 */
-	markRule6StatementAsSubmitted(userId, caseReference, submissionDate) {
+	markRule6StatementAsSubmitted(userId, caseReference) {
 		return this.dbClient.rule6StatementSubmission.update({
 			where: {
 				caseReference,
 				userId
 			},
 			data: {
-				submitted: true,
-				AppealCase: {
-					update: {
-						where: {
-							caseReference
-						},
-						data: {
-							rule6StatementSubmitted: true,
-							rule6StatementSubmittedDate: submissionDate
-						}
-					}
-				}
+				submitted: true
 			},
 			select: {
 				id: true

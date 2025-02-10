@@ -16,7 +16,6 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
  * @typedef {import('appeals-service-api').Api.LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
- * @typedef {import('appeals-service-api').Api.AppealCaseWithRule6Parties} AppealCaseWithRule6Parties
  * @typedef {import('appeals-service-api').Api.AppealUser} AppealUser
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
@@ -344,7 +343,8 @@ class AppealsApiClient {
 	/**
 	 * todo, use a call to appeal-cases and use token rather than user/appeal-cases
 	 * @param {{ caseReference: string, userId: string, role: string }} params
-	 * @returns {Promise<AppealCaseWithRule6Parties>}
+	 * @returns {Promise<AppealCaseDetailed>}
+	 * @deprecated
 	 */
 	async getUsersAppealCase({ caseReference, userId, role }) {
 		const urlParams = new URLSearchParams();
@@ -501,7 +501,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @returns {Promise<AppealCase>}
+	 * @returns {Promise<AppealCaseDetailed>}
 	 */
 	async getAppealCaseWithRepresentations(caseReference) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/representations`;
@@ -512,7 +512,7 @@ class AppealsApiClient {
 	/**
 	 * @param {string} caseReference
 	 * @param {RepresentationTypes} type
-	 * @returns {Promise<AppealCase>}
+	 * @returns {Promise<AppealCaseDetailed>}
 	 */
 	async getAppealCaseWithRepresentationsByType(caseReference, type) {
 		const urlParams = new URLSearchParams();

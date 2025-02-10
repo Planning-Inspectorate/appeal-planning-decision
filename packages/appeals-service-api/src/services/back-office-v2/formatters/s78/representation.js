@@ -60,6 +60,7 @@ exports.formatter = async (caseReference, serviceUserId, repType, representation
 		}
 	}
 
+	/** @type {AppealRepresentationSubmission} */
 	const payload = {
 		caseReference: caseReference,
 		representation: representationText,

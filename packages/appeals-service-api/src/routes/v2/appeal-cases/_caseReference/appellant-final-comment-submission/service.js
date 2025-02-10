@@ -60,11 +60,11 @@ async function patchAppellantFinalCommentByAppealId(appealCaseId, finalCommentDa
  * mark comment as submitted to back office
  *
  * @param {string} caseReference
- * @param {string} appellantCommentsSubmitted
+ * @param {string} appellantCommentsSubmittedDate
  * @return {Promise<{id: string}>}
  */
-function markAppellantFinalCommentAsSubmitted(caseReference, appellantCommentsSubmitted) {
-	return repo.markAppellantFinalCommentAsSubmitted(caseReference, appellantCommentsSubmitted);
+function markAppellantFinalCommentAsSubmitted(caseReference, appellantCommentsSubmittedDate) {
+	return repo.markAppellantFinalCommentAsSubmitted(caseReference, appellantCommentsSubmittedDate);
 }
 
 module.exports = {

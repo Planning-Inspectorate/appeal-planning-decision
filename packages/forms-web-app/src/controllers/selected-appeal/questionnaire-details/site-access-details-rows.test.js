@@ -5,7 +5,7 @@ describe('siteAccessRows', () => {
 		const caseData = {
 			siteAccessDetails: ['appellant access details do not show', 'lpa access details for show'],
 			siteSafetyDetails: ['appellant safety details do not show', 'lpa safety details for show'],
-			neighbouringSiteAccessDetails: 'some neighbouring site access details',
+			reasonForNeighbourVisits: 'some neighbouring site access details',
 			NeighbouringAddresses: [
 				{
 					addressLine1: 'address 1 l1',
