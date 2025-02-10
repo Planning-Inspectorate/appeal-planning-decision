@@ -23,7 +23,6 @@ const { sections: appellantSections } = require('./appellant-sections');
 const { sections: lpaUserSections } = require('./lpa-user-sections');
 const { mapDecisionTag } = require('@pins/business-rules/src/utils/decision-outcome');
 const { sections: rule6Sections } = require('./rule-6-sections');
-const { getUserFromSession } = require('../../services/user.service');
 const { formatInTimeZone } = require('date-fns-tz');
 const targetTimezone = 'Europe/London';
 const { getDepartmentFromCode } = require('../../services/department.service');
@@ -56,24 +55,12 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			throw new Error('Unknown role');
 		}
 
-		const userEmail = getUserFromSession(req).email;
-
-		if (!userEmail) {
-			throw new Error('no session email');
-		}
-
-		const user = await req.appealsApiClient.getUserByEmailV2(userEmail);
-
-		let [caseData, events] = await Promise.all([
-			req.appealsApiClient.getUsersAppealCase({
-				caseReference: appealNumber,
-				role: userType,
-				userId: user.id
-			}),
+		const [caseData, events] = await Promise.all([
+			req.appealsApiClient.getAppealCaseWithRepresentations(appealNumber),
 			req.appealsApiClient.getEventsByCaseRef(appealNumber, { includePast: true })
 		]);
 
-		events?.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+		events?.sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = displayHeadlinesByUser(caseData, lpa.name, userType);
@@ -118,16 +105,16 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				headlineData,
 				siteVisits: formatSiteVisits(events, userType),
 				inquiries: formatInquiries(events, userType),
-				sections: formatSections({ caseData, sections, userEmail }),
+				sections: formatSections({ caseData, sections }),
 				baseUrl: userRouteUrl,
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),
 				decisionDocuments: filterDecisionDocuments(caseData.Documents),
 				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate),
 				statementDueDate: formatDateForNotification(caseData.statementDueDate),
-				rule6StatementDueDate: formatDateForNotification(caseData.rule6StatementDueDate),
+				rule6StatementDueDate: formatDateForNotification(caseData.statementDueDate),
 				finalCommentDueDate: formatDateForNotification(caseData.finalCommentsDueDate),
 				proofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate),
-				rule6ProofEvidenceDueDate: formatDateForNotification(caseData.rule6ProofEvidenceDueDate)
+				rule6ProofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate)
 			}
 		};
 

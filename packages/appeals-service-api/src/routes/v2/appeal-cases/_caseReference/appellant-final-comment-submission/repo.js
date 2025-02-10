@@ -108,10 +108,10 @@ class AppellantFinalCommentSubmissionRepository {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} appellantCommentsSubmitted date time string of date submitted to FO
+	 * @param {string} appellantCommentsSubmittedDate date time string of date submitted to FO
 	 * @returns {Promise<{id: string}>}
 	 */
-	markAppellantFinalCommentAsSubmitted(caseReference, appellantCommentsSubmitted) {
+	markAppellantFinalCommentAsSubmitted(caseReference, appellantCommentsSubmittedDate) {
 		return this.dbClient.appellantFinalCommentSubmission.update({
 			where: {
 				caseReference
@@ -124,8 +124,7 @@ class AppellantFinalCommentSubmissionRepository {
 							caseReference
 						},
 						data: {
-							appellantCommentsSubmitted,
-							appellantFinalCommentsSubmitted: true
+							appellantCommentsSubmittedDate
 						}
 					}
 				}

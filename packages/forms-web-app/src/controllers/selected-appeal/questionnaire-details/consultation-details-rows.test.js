@@ -1,16 +1,37 @@
 const { consultationRows } = require('./consultation-details-rows');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 describe('consultationRows', () => {
-	it('should create rows', () => {
+	it('should create HAS rows', () => {
 		const rows = consultationRows(
-			{ statutoryConsultees: true, consultationResponses: true },
+			{ appealTypeCode: CASE_TYPES.HAS.processCode, statutoryConsultees: true },
+			APPEAL_USER_ROLES.AGENT
+		);
+		expect(rows.length).toEqual(5);
+		expect(rows[0].valueText).toEqual('Yes');
+		expect(rows[1].valueText).toEqual('No');
+		expect(rows[1].condition()).toEqual(false);
+		expect(rows[2].valueText).toEqual('No');
+		expect(rows[2].condition()).toEqual(false);
+	});
+
+	it('should create S78 rows', () => {
+		const rows = consultationRows(
+			{
+				appealTypeCode: CASE_TYPES.S78.processCode,
+				statutoryConsultees: true,
+				Documents: [{ documentType: APPEAL_DOCUMENT_TYPE.CONSULTATION_RESPONSES, filename: 'test' }]
+			},
 			APPEAL_USER_ROLES.AGENT
 		);
 		expect(rows.length).toEqual(5);
 		expect(rows[0].valueText).toEqual('Yes');
 		expect(rows[1].valueText).toEqual('Yes');
+		expect(rows[1].condition()).toEqual(true);
+		expect(rows[2].valueText).toEqual('test - awaiting review');
+		expect(rows[2].condition()).toEqual(true);
 	});
 
 	it('should show a document', () => {

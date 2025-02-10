@@ -22,22 +22,24 @@ const { getValidator } = new SchemaValidator();
 /**
  * @typedef {import('@prisma/client').AppealCase} AppealCase
  * @typedef {import('@prisma/client').Representation} Representation
+ *
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  * @typedef { 'LPAUser' } LpaUserRole
+ *
  * @typedef {import ('pins-data-model').Schemas.AppealRepresentation} AppealRepresentation
  */
 
 /**
  *
  * @param {string} caseReference
- * @returns {Promise<AppealCase|null>}
+ * @returns {Promise<import('./repo').AppealWithRepresentations>}
  */
 async function getAppealCaseWithAllRepresentations(caseReference) {
 	const appealCaseWithRepresentations = await repo.getAppealCaseWithAllRepresentations(
 		caseReference
 	);
+	if (!appealCaseWithRepresentations) throw ApiError.appealsCaseDataNotFound();
 
-	// @ts-ignore
 	const appealCaseWithApplicant = await appendAppellantAndAgent(appealCaseWithRepresentations);
 
 	return appealCaseWithApplicant;
@@ -47,7 +49,7 @@ async function getAppealCaseWithAllRepresentations(caseReference) {
  *
  * @param {string} caseReference
  * @param {string} type
- * @returns {Promise<AppealCase|null>}
+ * @returns {Promise<import('./repo').AppealWithRepresentations>}
  */
 async function getAppealCaseWithRepresentationsByType(caseReference, type) {
 	const appealCaseWithRepresentations = await repo.getAppealCaseWithRepresentationsByType(
@@ -55,7 +57,8 @@ async function getAppealCaseWithRepresentationsByType(caseReference, type) {
 		type
 	);
 
-	// @ts-ignore
+	if (!appealCaseWithRepresentations) throw ApiError.appealsCaseDataNotFound();
+
 	const appealCaseWithApplicant = await appendAppellantAndAgent(appealCaseWithRepresentations);
 
 	return appealCaseWithApplicant;
@@ -77,7 +80,6 @@ async function addOwnershipAndSubmissionDetailsToRepresentations(
 ) {
 	// get unique list of service user ids for any non-ip comment representations
 	// ip comments are ignored as they have no associated login and so ownership always false
-	//
 	const serviceUserIds = new Set(
 		representations
 			.filter(
@@ -106,7 +108,8 @@ async function addOwnershipAndSubmissionDetailsToRepresentations(
 	return representations.map((rep) => ({
 		...rep,
 		userOwnsRepresentation:
-			(isLpa && rep.source === APPEAL_SOURCE.LPA) || loggedInUserIds.has(rep.serviceUserId),
+			(isLpa && rep.source === APPEAL_SOURCE.LPA) ||
+			(!!rep.serviceUserId && loggedInUserIds.has(rep.serviceUserId)),
 		submittingPartyType: ascertainSubmittingParty(rep, serviceUsersWithEmails)
 	}));
 }
@@ -114,7 +117,7 @@ async function addOwnershipAndSubmissionDetailsToRepresentations(
 /**
  *
  * @param {Representation} representation
- * @param {import('pins-data-model/src/schemas').ServiceUser[]} serviceUsersWithEmails
+ * @param {import("#repositories/sql/service-user-repository").BasicServiceUser[]|[]} serviceUsersWithEmails
  * @returns {LpaUserRole | AppealToUserRoles | undefined}
  */
 function ascertainSubmittingParty(representation, serviceUsersWithEmails) {

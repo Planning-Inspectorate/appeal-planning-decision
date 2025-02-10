@@ -97,7 +97,7 @@ describe('lib/dashboard-functions', () => {
 				lpaQuestionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
 				lpaQuestionnaireSubmittedDate: null,
 				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
-				LPAStatementSubmitted: null,
+				LPAStatementSubmittedDate: null,
 				caseReference: testCaseRef,
 				caseStatus: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE
 			};
@@ -121,7 +121,7 @@ describe('lib/dashboard-functions', () => {
 				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
 				questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',
 				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
-				LPAStatementSubmitted: null,
+				LPAStatementSubmittedDate: null,
 				caseReference: testCaseRef,
 				caseStatus: APPEAL_CASE_STATUS.STATEMENTS
 			};
@@ -145,9 +145,9 @@ describe('lib/dashboard-functions', () => {
 				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
 				questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',
 				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
-				LPAStatementSubmitted: '2023-07-17T13:53:31.6003126+00:00',
+				LPAStatementSubmittedDate: '2023-07-17T13:53:31.6003126+00:00',
 				finalCommentsDueDate: '2023-07-27T13:53:31.6003126+00:00',
-				LPACommentsSubmitted: null,
+				LPACommentsSubmittedDate: null,
 				caseStatus: APPEAL_CASE_STATUS.FINAL_COMMENTS,
 				caseReference: testCaseRef
 			};
@@ -171,9 +171,9 @@ describe('lib/dashboard-functions', () => {
 				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
 				questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',
 				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
-				LPAStatementSubmitted: '2023-07-17T13:53:31.6003126+00:00',
+				LPAStatementSubmittedDate: '2023-07-17T13:53:31.6003126+00:00',
 				proofsOfEvidenceDueDate: '2023-07-27T13:53:31.6003126+00:00',
-				LPAProofsSubmitted: null,
+				LPAProofsSubmittedDate: null,
 				caseStatus: APPEAL_CASE_STATUS.EVIDENCE,
 				caseReference: testCaseRef
 			};
@@ -205,8 +205,8 @@ describe('lib/dashboard-functions', () => {
 
 		it('returns the rule 6 statement details if the statement is next in proximity', () => {
 			const appealStatementDueDetails = {
-				rule6StatementDueDate: '2023-07-07T13:53:31.6003126+00:00',
-				rule6StatementSubmitted: null,
+				statementDueDate: '2023-07-07T13:53:31.6003126+00:00',
+				// rule6StatementSubmitted: null,
 				caseReference: testCaseRef,
 				caseStatus: APPEAL_CASE_STATUS.STATEMENTS
 			};
@@ -227,8 +227,8 @@ describe('lib/dashboard-functions', () => {
 
 		it('returns the rule 6 proofs of evidence details if the proofs are next in proximity', () => {
 			const appealStatementDueDetails = {
-				rule6ProofEvidenceDueDate: '2023-07-27T13:53:31.6003126+00:00',
-				rule6ProofEvidenceSubmitted: null,
+				proofsOfEvidenceDueDate: '2023-07-27T13:53:31.6003126+00:00',
+				//rule6ProofEvidenceSubmitted: null,
 				caseStatus: APPEAL_CASE_STATUS.EVIDENCE,
 				caseReference: testCaseRef
 			};

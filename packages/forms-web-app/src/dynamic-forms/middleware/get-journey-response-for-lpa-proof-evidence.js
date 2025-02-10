@@ -33,7 +33,7 @@ module.exports = () => async (req, res, next) => {
 
 	let journeyType;
 
-	if (appeal.LPACommentsSubmitted) {
+	if (appeal.LPACommentsSubmittedDate) {
 		journeyType = LPA_JOURNEY_TYPES_FORMATTED.PROOF_EVIDENCE;
 	}
 

@@ -1,8 +1,14 @@
-const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
+const {
+	APPEAL_USER_ROLES,
+	LPA_USER_ROLE,
+	REPRESENTATION_TYPES
+} = require('@pins/common/src/constants');
 const { deadlineHasPassed } = require('../../lib/deadline-has-passed');
 
+const { representationExists } = require('../../lib/dashboard-functions');
+
 /**
- * @typedef {import('@pins/common/src/client/appeals-api-client').AppealCaseWithRule6Parties} CaseData
+ * @typedef {import('@pins/common/src/client/appeals-api-client').AppealCaseDetailed} CaseData
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} UserRole
  */
 
@@ -26,7 +32,7 @@ const shouldDisplayStatementsDueBannerLPA = (caseData, userType) => {
 		!!caseData.statementDueDate &&
 		userType === LPA_USER_ROLE &&
 		deadlineHasPassed(caseData.lpaQuestionnaireDueDate) &&
-		!caseData.LPAStatementSubmitted &&
+		!caseData.LPAStatementSubmittedDate &&
 		!deadlineHasPassed(caseData.statementDueDate)
 	);
 };
@@ -38,11 +44,11 @@ const shouldDisplayStatementsDueBannerLPA = (caseData, userType) => {
  */
 const shouldDisplayStatementsDueBannerRule6 = (caseData, userType) => {
 	return (
-		!!caseData.rule6StatementDueDate &&
+		!!caseData.statementDueDate &&
 		userType === APPEAL_USER_ROLES.RULE_6_PARTY &&
 		!!caseData.lpaQuestionnairePublishedDate &&
-		!caseData.rule6StatementSubmitted &&
-		!deadlineHasPassed(caseData.rule6StatementDueDate)
+		!representationExists(caseData.Representations, REPRESENTATION_TYPES.STATEMENT, true) &&
+		!deadlineHasPassed(caseData.statementDueDate)
 	);
 };
 
@@ -58,7 +64,7 @@ const shouldDisplayFinalCommentsDueBannerLPA = (caseData, userType) => {
 		deadlineHasPassed(caseData.statementDueDate) &&
 		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
 		!deadlineHasPassed(caseData.finalCommentsDueDate) &&
-		!caseData.lpaFinalCommentsPublished
+		!caseData.LPACommentsSubmittedDate
 	);
 };
 
@@ -74,7 +80,7 @@ const shouldDisplayFinalCommentsDueBannerAppellant = (caseData, userType) => {
 		deadlineHasPassed(caseData.statementDueDate) &&
 		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
 		!deadlineHasPassed(caseData.finalCommentsDueDate) &&
-		!caseData.appellantFinalCommentsSubmitted
+		!caseData.appellantCommentsSubmittedDate
 	);
 };
 
@@ -91,7 +97,7 @@ const shouldDisplayProofEvidenceDueBannerAppellant = (caseData, userType) => {
 		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
 		deadlineHasPassed(caseData.finalCommentsDueDate) &&
 		!deadlineHasPassed(caseData.proofsOfEvidenceDueDate) &&
-		!caseData.appellantsProofsSubmitted
+		!caseData.appellantProofsSubmittedDate
 	);
 };
 
@@ -108,7 +114,7 @@ const shouldDisplayProofEvidenceDueBannerLPA = (caseData, userType) => {
 		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
 		deadlineHasPassed(caseData.finalCommentsDueDate) &&
 		!deadlineHasPassed(caseData.proofsOfEvidenceDueDate) &&
-		!caseData.lpaProofEvidenceSubmitted
+		!caseData.LPAProofsSubmittedDate
 	);
 };
 
@@ -119,13 +125,13 @@ const shouldDisplayProofEvidenceDueBannerLPA = (caseData, userType) => {
  */
 const shouldDisplayProofEvidenceDueBannerRule6 = (caseData, userType) => {
 	return (
-		!!caseData.rule6ProofEvidenceDueDate &&
+		!!caseData.proofsOfEvidenceDueDate &&
 		userType === APPEAL_USER_ROLES.RULE_6_PARTY &&
-		deadlineHasPassed(caseData.rule6StatementDueDate) &&
+		deadlineHasPassed(caseData.statementDueDate) &&
 		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
 		deadlineHasPassed(caseData.finalCommentsDueDate) &&
-		!deadlineHasPassed(caseData.rule6ProofEvidenceDueDate) &&
-		!caseData.rule6ProofEvidenceSubmitted
+		!deadlineHasPassed(caseData.proofsOfEvidenceDueDate) &&
+		!representationExists(caseData.Representations, REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE, true)
 	);
 };
 

@@ -1,7 +1,7 @@
 components:
   schemas:
     AppealCaseDetailed:
-      description: An appeal case from the Back Office, with appellant service user
+      description: An appeal case from the Back Office, with users, relations and documents
       allOf:
         - $ref: '#/components/schemas/AppealCase'
         - type: object
@@ -14,17 +14,11 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/AppealCaseRelationship'
-
-    AppealCaseWithRule6Parties:
-      description: An appeal case with rule 6 parties
-      allOf:
-        - $ref: '#/components/schemas/AppealCase'
-        - type: object
-          properties:
-            Rule6Parties:
+            Documents:
               type: array
               items:
-                $ref: '#/components/schemas/Rule6Party'
+                $ref: '#/components/schemas/Document'
+    
     AppealCase:
       description: An appeal case from the Back Office
       type: object
@@ -88,7 +82,7 @@ components:
         caseProcedure:
           type: string
           enum: ['written', 'hearing', 'inquiry']
-          description: The type of procedure for the appeal
+          description: The type of procedure for the appeal        
 
         applicationReference:
           type: string
@@ -196,9 +190,9 @@ components:
         newConditionDetails:
           type: string
           description: New conditions details provided by the LPA
-        lpaStatement:
+        reasonForNeighbourVisits:
           type: string
-          description: A statement provided by the LPA
+          description: Reason given for the need to visit neighbours
 
         # PINS provided details
         caseDecisionOutcome:
@@ -318,19 +312,11 @@ components:
           type: string
           format: date-time
           description: the date statements are due
-        appellantStatementForwarded:
-          type: string
-          format: date-time
-          description: the date the appellant's statement was forwarded
-        appellantStatementSubmitted:
+        appellantStatementSubmittedDate:
           type: string
           format: date-time
           description: the date the appellant's statement was received
-        LPAStatementForwarded:
-          type: string
-          format: date-time
-          description: the date the LPA's statement was forwarded
-        LPAStatementSubmitted:
+        LPAStatementSubmittedDate:
           type: string
           format: date-time
           description: the date the LPA's statement was received
@@ -340,79 +326,43 @@ components:
           type: string
           format: date-time
           description: the date comments are due
-        appellantCommentsForwarded:
-          type: string
-          format: date-time
-          description: the date the appellant's comments were forwarded
-        appellantCommentsSubmitted:
+        appellantCommentsSubmittedDate:
           type: string
           format: date-time
           description: the date the appellant's comments were received
-        LPACommentsForwarded:
-          type: string
-          format: date-time
-          description: the date the LPA's comments were forwarded
-        LPACommentsSubmitted:
+        LPACommentsSubmittedDate:
           type: string
           format: date-time
           description: the date the LPA's comments were received
-        appellantFinalCommentDetails:
-          type: string
 
         # proofs of evidence
         proofsOfEvidenceDueDate:
           type: string
           format: date-time
           description: the date proofs of evidence are due
-        appellantsProofsForwarded:
-          type: string
-          format: date-time
-          description: the date the appellant's proofs of evidence were forwarded
-        appellantsProofsSubmitted:
+        appellantProofsSubmittedDate:
           type: string
           format: date-time
           description: the date the appellant's proofs of evidence were received
-        LPAProofsForwarded:
-          type: string
-          format: date-time
-          description: the date the LPA's proofs of evidence were forwarded
-        LPAProofsSubmitted:
+        LPAProofsSubmittedDate:
           type: string
           format: date-time
           description: the date the LPA's proofs of evidence were received
 
         scheduledMonument:
           type: boolean
-        appellantProofEvidencePublished:
-          type: boolean
-        appellantFinalCommentsSubmitted:
-          type: boolean
-        lpaStatementPublished:
-          type: boolean
-        lpaProofEvidenceSubmitted:
-          type: boolean
-        lpaProofEvidencePublished:
-          type: boolean
-        lpaFinalCommentsPublished:
-          type: boolean
 
-        conservationArea:
-          type: boolean
-          description: Is the site in, or next to a conservation area
         protectedSpecies:
           type: boolean
           description: Would the development affect a protected species
         areaOutstandingBeauty:
           type: boolean
           description: Is the appeal site in an area of outstanding natural beauty
-        designatedSites:
-          type: string
-          description: Is the development in, near or likely to affect any designated sites
-        otherDesignationDetails:
-          type: string
-        treePreservationOrder:
-          type: boolean
-          description: Does a Tree Preservation Order (TPO) apply to any part of the appeal site
+        designatedSitesNames:
+          type: array
+          items:
+            type: string
+          description: A json array of any affected designated sites
         gypsyTraveller:
           type: boolean
           description: Does the development relate to anyone claiming to be a Gypsy or Traveller
@@ -425,9 +375,6 @@ components:
         developmentDescription:
           type: string
           description: Description of development
-        sensitiveArea:
-          type: boolean
-          description: Is the development in, partly in, or likely to affect a sensitive area
         sensitiveAreaDetails:
           type: string
           description: Tell us about the sensitive area
@@ -449,18 +396,6 @@ components:
         consultedBodiesDetails:
           type: string
           description: Which bodies did you consult
-        consultationResponses:
-          type: boolean
-          description: Do you have any consultation responses or standing advice from statutory consultees to upload
-        otherPartyRepresentations:
-          type: boolean
-          description: Did you receive representations from members of the public or other parties
-        emergingPlan:
-          type: boolean
-          description: Do you have an emerging plan that is relevant to this appeal
-        supplementaryPlanningDocs:
-          type: boolean
-          description: Did any supplementary planning documents inform the outcome of the application
         infrastructureLevy:
           type: boolean
           description: Do you have a community infrastructure levy
@@ -475,27 +410,6 @@ components:
           type: string
           format: date-time
           description: When do you expect to formally adopt the community infrastructure levy
-        lpaSiteAccess:
-          type: boolean
-          description: Might the inspector need access to the appellants land or property
-        lpaSiteAccessDetails:
-          type: string
-          description: the reason
-        neighbouringSiteAccess:
-          type: boolean
-          description: Might the inspector need to enter a neighbours land or property
-        neighbouringSiteAccessDetails:
-          type: string
-          description: the reason
-        addNeighbouringSiteAccess:
-          type: boolean
-          description: Do you want to add another neighbour to be visited
-        lpaSiteSafetyRisks:
-          type: boolean
-          description: Are there any potential safety risks
-        lpaSiteSafetyRiskDetails:
-          type: string
-          description: Add details of the potential risk and what the inspector might need
         appellantProcedurePreference:
           type: string
           description: Which procedure does appellant think is most appropriate for this appeal
@@ -514,21 +428,9 @@ components:
         lpaProcedurePreferenceDuration:
           type: number
           description: LPA procedure length preference
-        lpaStatementDocuments:
-          type: boolean
-          description: Do you have additional documents to support your appeal statement
         uploadLpaStatementDocuments:
           type: boolean
           description: Upload your new supporting documents
-        lpaFinalComment:
-          type: boolean
-          description: Do you want to submit a final comment
-        lpaFinalCommentDetails:
-          type: string
-          description: What are your final comments
-        lpaWitnesses:
-          type: boolean
-          description: Do you need to add any witnesses
         agriculturalHolding:
           type: boolean
         tenantAgriculturalHolding:
@@ -539,31 +441,6 @@ components:
           type: boolean
         statusPlanningObligation:
           type: string
-        planningObligation:
-          type: boolean
-
-        # rule 6
-        rule6StatementPublished:
-          type: boolean
-        rule6ProofsEvidencePublished:
-          type: boolean
-        rule6StatementDueDate:
-          type: string
-          format: date-time
-        rule6StatementSubmitted:
-          type: boolean
-        rule6ProofEvidenceDueDate:
-          type: string
-          format: date-time
-        rule6ProofEvidenceSubmitted:
-          type: boolean
-        rule6ProofEvidenceSubmittedDate:
-          type: string
-          format: date-time
-
-        # interested party
-        interestedPartyCommentsPublished:
-          type: boolean
 
         # relations
         Rule6Parties:

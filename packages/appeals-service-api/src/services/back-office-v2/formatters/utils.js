@@ -18,7 +18,6 @@ const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-dat
  * @typedef {import('../../../routes/v2/appellant-submissions/repo').FullAppellantSubmission} FullAppellantSubmission
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  * @typedef {Omit<LPAQuestionnaireSubmission, "AppealCase">} LPAQAnswers
- * @typedef {import('./has/has').Submission} HASBOSubmission
  *
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents']} DataModelDocuments
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents'][0]['documentType'] | import('pins-data-model/src/schemas').LPAQuestionnaireCommand['documents'][0]['documentType']} DataModelDocumentTypes
@@ -80,7 +79,7 @@ exports.getDocuments = async ({ SubmissionDocumentUpload }, defaultDocType) => {
 
 /**
  * @param {LPAQuestionnaireSubmission["SubmissionAddress"]} [addresses]
- * @returns {HASBOSubmission['neighbouring-address']}
+ * @returns {AppellantSubmissionCommand['neighbouring-address']}
  */
 exports.formatAddresses = (addresses) =>
 	addresses?.map((address) => ({

@@ -108,10 +108,10 @@ class LpaProofOfEvidenceSubmissionRepository {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} lpaProofsSubmitted date time string of date submitted to FO
+	 * @param {string} LPAProofsSubmittedDate date time string of date submitted to FO
 	 * @returns {Promise<{id: string}>}
 	 */
-	markLpaProofOfEvidenceAsSubmitted(caseReference, lpaProofsSubmitted) {
+	markLpaProofOfEvidenceAsSubmitted(caseReference, LPAProofsSubmittedDate) {
 		return this.dbClient.lPAProofOfEvidenceSubmission.update({
 			where: {
 				caseReference
@@ -124,7 +124,7 @@ class LpaProofOfEvidenceSubmissionRepository {
 							caseReference
 						},
 						data: {
-							LPAProofsSubmitted: lpaProofsSubmitted
+							LPAProofsSubmittedDate: LPAProofsSubmittedDate
 						}
 					}
 				}

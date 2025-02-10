@@ -40,11 +40,11 @@ async function getAppealCaseWithRepresentations(req, res) {
 		}
 	}
 
+	/** @type {import('./repo').AppealWithRepresentations} */
 	let caseWithRepresentations;
 
 	try {
 		if (type) {
-			// @ts-ignore
 			caseWithRepresentations = await getAppealCaseWithRepresentationsByType(caseReference, type);
 		} else {
 			caseWithRepresentations = await getAppealCaseWithAllRepresentations(caseReference);

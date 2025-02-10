@@ -20,7 +20,7 @@ const { templates } = config.services.notify;
  * @typedef {"HAS" | "S78"} AppealTypeCode
  * @typedef {import('@prisma/client').AppealCase } AppealCase
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
- * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
+ * @typedef {import("@prisma/client").AppellantSubmission} AppellantSubmission
  * @typedef {import('../routes/v2/appellant-submissions/_id/service').FullAppellantSubmission} FullAppellantSubmission
  * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission

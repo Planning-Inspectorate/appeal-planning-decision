@@ -107,10 +107,10 @@ class LPAFinalCommentSubmissionRepository {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} LPACommentsSubmitted date time string of date submitted to FO
+	 * @param {string} LPACommentsSubmittedDate date time string of date submitted to FO
 	 * @returns {Promise<{id: string}>}
 	 */
-	markLPAFinalCommentAsSubmitted(caseReference, LPACommentsSubmitted) {
+	markLPAFinalCommentAsSubmitted(caseReference, LPACommentsSubmittedDate) {
 		return this.dbClient.lPAFinalCommentSubmission.update({
 			where: {
 				caseReference
@@ -123,7 +123,7 @@ class LPAFinalCommentSubmissionRepository {
 							caseReference
 						},
 						data: {
-							LPACommentsSubmitted
+							LPACommentsSubmittedDate
 						}
 					}
 				}

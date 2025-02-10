@@ -35,11 +35,6 @@ export type AppealCaseDetailed = AppealCase & {
 	relations?: AppealCaseRelationship[];
 };
 
-/** An appeal case with rule 6 parties */
-export type AppealCaseWithRule6Parties = AppealCase & {
-	Rule6Parties?: Rule6Party[];
-};
-
 /** An appeal case from the Back Office */
 export interface AppealCase {
 	/**
@@ -160,6 +155,8 @@ export interface AppealCase {
 	changedDevelopmentDescription?: boolean;
 	/** New conditions details provided by the LPA */
 	newConditionDetails?: string;
+	/** Reason given for the need to visit neighbours */
+	reasonForNeighbourVisits?: string;
 	/** A statement provided by the LPA */
 	lpaStatement?: string;
 	/** The final outcome for the case */
@@ -280,94 +277,53 @@ export interface AppealCase {
 	 */
 	statementDueDate?: string;
 	/**
-	 * the date the appellant's statement was forwarded
-	 * @format date-time
-	 */
-	appellantStatementForwarded?: string;
-	/**
 	 * the date the appellant's statement was received
 	 * @format date-time
 	 */
-	appellantStatementSubmitted?: string;
-	/**
-	 * the date the LPA's statement was forwarded
-	 * @format date-time
-	 */
-	LPAStatementForwarded?: string;
+	appellantStatementSubmittedDate?: string;
 	/**
 	 * the date the LPA's statement was received
 	 * @format date-time
 	 */
-	LPAStatementSubmitted?: string;
+	LPAStatementSubmittedDate?: string;
 	/**
 	 * the date comments are due
 	 * @format date-time
 	 */
 	finalCommentsDueDate?: string;
 	/**
-	 * the date the appellant's comments were forwarded
-	 * @format date-time
-	 */
-	appellantCommentsForwarded?: string;
-	/**
 	 * the date the appellant's comments were received
 	 * @format date-time
 	 */
-	appellantCommentsSubmitted?: string;
-	/**
-	 * the date the LPA's comments were forwarded
-	 * @format date-time
-	 */
-	LPACommentsForwarded?: string;
+	appellantCommentsSubmittedDate?: string;
 	/**
 	 * the date the LPA's comments were received
 	 * @format date-time
 	 */
-	LPACommentsSubmitted?: string;
-	appellantFinalCommentDetails?: string;
+	LPACommentsSubmittedDate?: string;
 	/**
 	 * the date proofs of evidence are due
 	 * @format date-time
 	 */
 	proofsOfEvidenceDueDate?: string;
 	/**
-	 * the date the appellant's proofs of evidence were forwarded
-	 * @format date-time
-	 */
-	appellantsProofsForwarded?: string;
-	/**
 	 * the date the appellant's proofs of evidence were received
 	 * @format date-time
 	 */
-	appellantsProofsSubmitted?: string;
-	/**
-	 * the date the LPA's proofs of evidence were forwarded
-	 * @format date-time
-	 */
-	LPAProofsForwarded?: string;
+	appellantProofsSubmittedDate?: string;
 	/**
 	 * the date the LPA's proofs of evidence were received
 	 * @format date-time
 	 */
-	LPAProofsSubmitted?: string;
+	LPAProofsSubmittedDate?: string;
 	scheduledMonument?: boolean;
-	appellantProofEvidencePublished?: boolean;
 	appellantFinalCommentsSubmitted?: boolean;
-	lpaStatementPublished?: boolean;
-	lpaProofEvidenceSubmitted?: boolean;
-	lpaProofEvidencePublished?: boolean;
-	lpaFinalCommentsPublished?: boolean;
-	/** Is the site in, or next to a conservation area */
-	conservationArea?: boolean;
 	/** Would the development affect a protected species */
 	protectedSpecies?: boolean;
 	/** Is the appeal site in an area of outstanding natural beauty */
 	areaOutstandingBeauty?: boolean;
-	/** Is the development in, near or likely to affect any designated sites */
-	designatedSites?: string;
-	otherDesignationDetails?: string;
-	/** Does a Tree Preservation Order (TPO) apply to any part of the appeal site */
-	treePreservationOrder?: boolean;
+	/** A json array of any affected designated sites */
+	designatedSitesNames?: string[];
 	/** Does the development relate to anyone claiming to be a Gypsy or Traveller */
 	gypsyTraveller?: boolean;
 	/** Would a public right of way need to be removed or diverted */
@@ -376,8 +332,6 @@ export interface AppealCase {
 	environmentalImpactSchedule?: string;
 	/** Description of development */
 	developmentDescription?: string;
-	/** Is the development in, partly in, or likely to affect a sensitive area */
-	sensitiveArea?: boolean;
 	/** Tell us about the sensitive area */
 	sensitiveAreaDetails?: string;
 	/** Does the development meet or exceed the threshold or criteria in column 2 */
@@ -392,14 +346,6 @@ export interface AppealCase {
 	statutoryConsultees?: boolean;
 	/** Which bodies did you consult */
 	consultedBodiesDetails?: string;
-	/** Do you have any consultation responses or standing advice from statutory consultees to upload */
-	consultationResponses?: boolean;
-	/** Did you receive representations from members of the public or other parties */
-	otherPartyRepresentations?: boolean;
-	/** Do you have an emerging plan that is relevant to this appeal */
-	emergingPlan?: boolean;
-	/** Did any supplementary planning documents inform the outcome of the application */
-	supplementaryPlanningDocs?: boolean;
 	/** Do you have a community infrastructure levy */
 	infrastructureLevy?: boolean;
 	/** Is the community infrastructure levy formally adopted */
@@ -414,21 +360,7 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	infrastructureLevyExpectedDate?: string;
-	/** Might the inspector need access to the appellants land or property */
-	lpaSiteAccess?: boolean;
-	/** the reason */
-	lpaSiteAccessDetails?: string;
-	/** Might the inspector need to enter a neighbours land or property */
-	neighbouringSiteAccess?: boolean;
-	/** the reason */
-	neighbouringSiteAccessDetails?: string;
-	/** Do you want to add another neighbour to be visited */
-	addNeighbouringSiteAccess?: boolean;
 	/** Are there any potential safety risks */
-	lpaSiteSafetyRisks?: boolean;
-	/** Add details of the potential risk and what the inspector might need */
-	lpaSiteSafetyRiskDetails?: string;
-	/** Which procedure does appellant think is most appropriate for this appeal */
 	appellantProcedurePreference?: string;
 	/** Why preference chosen */
 	appellantProcedurePreferenceDetails?: string;
@@ -440,33 +372,13 @@ export interface AppealCase {
 	lpaProcedurePreferenceDetails?: string;
 	/** LPA procedure length preference */
 	lpaProcedurePreferenceDuration?: number;
-	/** Do you have additional documents to support your appeal statement */
-	lpaStatementDocuments?: boolean;
 	/** Upload your new supporting documents */
 	uploadLpaStatementDocuments?: boolean;
-	/** Do you want to submit a final comment */
-	lpaFinalComment?: boolean;
-	/** What are your final comments */
-	lpaFinalCommentDetails?: string;
-	/** Do you need to add any witnesses */
-	lpaWitnesses?: boolean;
 	agriculturalHolding?: boolean;
 	tenantAgriculturalHolding?: boolean;
 	otherTenantsAgriculturalHolding?: boolean;
 	informedTenantsAgriculturalHolding?: boolean;
 	statusPlanningObligation?: string;
-	planningObligation?: boolean;
-	rule6StatementPublished?: boolean;
-	rule6ProofsEvidencePublished?: boolean;
-	/** @format date-time */
-	rule6StatementDueDate?: string;
-	rule6StatementSubmitted?: boolean;
-	/** @format date-time */
-	rule6ProofEvidenceDueDate?: string;
-	rule6ProofEvidenceSubmitted?: boolean;
-	/** @format date-time */
-	rule6ProofEvidenceSubmittedDate?: string;
-	interestedPartyCommentsPublished?: boolean;
 	Rule6Parties?: object[];
 	ListedBuildings?: object[];
 	Documents?: object[];
@@ -1392,8 +1304,6 @@ export interface Rule6ProofOfEvidenceSubmission {
 	AppealCase: {
 		LPACode: string;
 		appealTypeCode?: string;
-		/** @format date-time */
-		rule6ProofEvidenceDueDate?: string;
 		siteAddressLine1?: string;
 		siteAddressLine2?: string;
 		siteAddressTown?: string;
