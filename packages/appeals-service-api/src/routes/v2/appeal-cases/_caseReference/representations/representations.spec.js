@@ -7,6 +7,9 @@ const crypto = require('crypto');
 const {
 	createTestAppealCase
 } = require('../../../../../../__tests__/developer/fixtures/appeals-case-data');
+const {
+	createTestRepresentationPayload
+} = require('../../../../../../__tests__/developer/fixtures/representation-data');
 const { isFeatureActive } = require('../../../../../configuration/featureFlag');
 /** @type {import('@prisma/client').PrismaClient} */
 let sqlClient;
@@ -43,7 +46,8 @@ jest.mock('@pins/common/src/middleware/validate-token', () => {
 		validateToken: jest.fn(() => {
 			return (req, _res, next) => {
 				req.id_token = {
-					lpaCode: currentLpa
+					lpaCode: currentLpa,
+					email: 'testEmail@test.com'
 				};
 				next();
 			};
@@ -107,28 +111,57 @@ const createAppeal = async (caseRef) => {
 	});
 	return appeal.AppealCase?.caseReference;
 };
+
 describe('/appeal-cases/{caseReference}/representations', () => {
+	describe('put', () => {
+		it('should upsert a representation', async () => {
+			const testRepId = '12345';
+			const testCaseRef = '7845678';
+
+			await createAppeal(testCaseRef);
+
+			const testPutRepresentation = createTestRepresentationPayload(
+				testRepId,
+				testCaseRef,
+				REPRESENTATION_TYPES.STATEMENT
+			);
+
+			const response = await appealsApi
+				.put(`/api/v2/appeal-cases/${testCaseRef}/representations/${testRepId}`)
+				.send(testPutRepresentation);
+			expect(response.status).toBe(200);
+			expect(response.body).toHaveProperty('caseReference', testCaseRef);
+			expect(response.body).toHaveProperty('representationId', testRepId);
+		});
+	});
+
 	describe('get', () => {
 		it('should retrieve all representations for the given case reference', async () => {
 			const testCaseRef = '7834587';
+			const testRepId1 = '23456';
+			const testRepId2 = '34567';
 			await createAppeal(testCaseRef);
 
-			await sqlClient.representation.createMany({
-				data: [
-					{
-						caseReference: testCaseRef,
-						representationId: 'testRep',
-						representationStatus: 'published',
-						originalRepresentation: 'This is a test rep'
-					},
-					{
-						caseReference: testCaseRef,
-						representationId: 'testRep2',
-						representationStatus: 'published',
-						originalRepresentation: 'This is another test rep'
-					}
-				]
-			});
+			const testGetRepresentation1 = createTestRepresentationPayload(
+				testRepId1,
+				testCaseRef,
+				REPRESENTATION_TYPES.STATEMENT
+			);
+			const testGetRepresentation2 = createTestRepresentationPayload(
+				testRepId2,
+				testCaseRef,
+				REPRESENTATION_TYPES.FINAL_COMMENT,
+				'citizen'
+			);
+
+			await appealsApi
+				.put(`/api/v2/appeal-cases/${testCaseRef}/representations/${testRepId1}`)
+				.send(testGetRepresentation1);
+
+			await appealsApi
+				.put(`/api/v2/appeal-cases/${testCaseRef}/representations/${testRepId2}`)
+				.send(testGetRepresentation2);
+
 			const response = await appealsApi.get(`/api/v2/appeal-cases/${testCaseRef}/representations`);
 			expect(response.status).toEqual(200);
 			expect(response.body.Representations.length).toBe(2);
@@ -136,15 +169,15 @@ describe('/appeal-cases/{caseReference}/representations', () => {
 				expect.arrayContaining([
 					expect.objectContaining({
 						caseReference: testCaseRef,
-						representationId: 'testRep',
-						representationStatus: 'published',
-						originalRepresentation: 'This is a test rep'
+						representationId: testRepId1,
+						source: 'lpa',
+						representationType: REPRESENTATION_TYPES.STATEMENT
 					}),
 					expect.objectContaining({
 						caseReference: testCaseRef,
-						representationId: 'testRep2',
-						representationStatus: 'published',
-						originalRepresentation: 'This is another test rep'
+						representationId: testRepId2,
+						source: 'citizen',
+						representationType: REPRESENTATION_TYPES.FINAL_COMMENT
 					})
 				])
 			);
@@ -152,26 +185,30 @@ describe('/appeal-cases/{caseReference}/representations', () => {
 
 		it('should retrieve representations filtered by type', async () => {
 			const testCaseRef = '7834588';
+			const testRepId3 = '45678';
+			const testRepId4 = '56789';
 			await createAppeal(testCaseRef);
 
-			await sqlClient.representation.createMany({
-				data: [
-					{
-						caseReference: testCaseRef,
-						representationId: 'testRep3',
-						representationStatus: 'published',
-						representationType: REPRESENTATION_TYPES.STATEMENT,
-						originalRepresentation: 'This is a test rep'
-					},
-					{
-						caseReference: testCaseRef,
-						representationId: 'testRep4',
-						representationStatus: 'published',
-						representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
-						originalRepresentation: 'This is another test rep'
-					}
-				]
-			});
+			const testGetRepresentation3 = createTestRepresentationPayload(
+				testRepId3,
+				testCaseRef,
+				REPRESENTATION_TYPES.STATEMENT
+			);
+			const testGetRepresentation4 = createTestRepresentationPayload(
+				testRepId4,
+				testCaseRef,
+				REPRESENTATION_TYPES.FINAL_COMMENT,
+				'citizen'
+			);
+
+			await appealsApi
+				.put(`/api/v2/appeal-cases/${testCaseRef}/representations/${testRepId3}`)
+				.send(testGetRepresentation3);
+
+			await appealsApi
+				.put(`/api/v2/appeal-cases/${testCaseRef}/representations/${testRepId4}`)
+				.send(testGetRepresentation4);
+
 			const response = await appealsApi.get(
 				`/api/v2/appeal-cases/${testCaseRef}/representations?type=statement`
 			);
@@ -179,31 +216,9 @@ describe('/appeal-cases/{caseReference}/representations', () => {
 			expect(response.body.Representations.length).toBe(1);
 			expect(response.body.Representations[0]).toMatchObject({
 				caseReference: testCaseRef,
-				representationId: 'testRep3',
-				representationStatus: 'published',
-				representationType: REPRESENTATION_TYPES.STATEMENT,
-				originalRepresentation: 'This is a test rep'
+				representationId: testRepId3,
+				representationType: REPRESENTATION_TYPES.STATEMENT
 			});
-		});
-	});
-
-	describe('put', () => {
-		it('should upsert a representation', async () => {
-			const testCaseRef = '7845678';
-			const testRepId = '12345';
-			await createAppeal(testCaseRef);
-
-			const testRep = {
-				representationId: testRepId,
-				caseReference: testCaseRef
-			};
-
-			const response = await appealsApi
-				.put(`/api/v2/appeal-cases/${testCaseRef}/representations/${testRepId}`)
-				.send(testRep);
-			expect(response.status).toBe(200);
-			expect(response.body).toHaveProperty('caseReference', testCaseRef);
-			expect(response.body).toHaveProperty('representationId', testRepId);
 		});
 	});
 });

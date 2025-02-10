@@ -13,7 +13,6 @@ const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/librar
 const mapRepresentationDataModelToRepresentation = ({
 	representationId,
 	caseId,
-	caseReference,
 	representationStatus,
 	originalRepresentation,
 	redacted,
@@ -28,7 +27,6 @@ const mapRepresentationDataModelToRepresentation = ({
 }) => ({
 	representationId,
 	caseId,
-	caseReference,
 	representationStatus,
 	originalRepresentation,
 	redacted,
