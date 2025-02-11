@@ -20,7 +20,7 @@ export class BasePage {
 		answerRefused: "answer-refused",
 		answerNodecisionreceived: "answer-nodecisionreceived",
 		answerGranted: "answer-granted",
-		siteSelectionSeven: "#site-selection-7",		
+		siteSelectionSeven: "#site-selection-7",
 		govukErrorSummaryBody: ".govuk-error-summary__body  > ul > li > a",
 		govukHeadingOne: ".govuk-heading-l",
 		govukBody: ".govuk-body",
@@ -30,10 +30,11 @@ export class BasePage {
 		trgovukTableCell:"td.govuk-table__cell",
 		dlgovukSummaryListAppealDetails:"dl.govuk-summary-list.appeal-details",
 		govukSummaryListRow:'.govuk-summary-list__row',
-		agovukLink:"a.govuk-link",		
+		agovukLink:"a.govuk-link",
 		govukSummaryListValue:".govuk-summary-list__value",
 		govukErrorSummaryList:".govuk-list.govuk-error-summary__list",
-		
+		enforcementNoticeNo: "answer-no"
+
 	}
 
 	basePageElements = {
