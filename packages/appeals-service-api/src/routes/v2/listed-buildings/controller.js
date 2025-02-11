@@ -13,7 +13,7 @@ exports.put = async (req, res) => {
 		result = await put([listedBuildings]);
 	}
 
-	res.status(200).send(result);
+	res.status(200).json(result);
 };
 
 /**
@@ -22,5 +22,5 @@ exports.put = async (req, res) => {
 exports.get = async (req, res) => {
 	const listedBuildingRef = req.params.reference;
 	const lb = await get(listedBuildingRef);
-	res.status(200).send(lb);
+	res.status(200).json(lb);
 };

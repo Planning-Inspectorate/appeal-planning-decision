@@ -18,7 +18,7 @@ async function userPost(req, res) {
 		throw ApiError.badRequest({ errors: ['id is not allowed'] });
 	}
 	const body = await createUser(req.body);
-	res.status(200).send(body);
+	res.status(200).json(body);
 }
 
 /**
@@ -35,7 +35,7 @@ async function userSearch(req, res) {
 		lpaCode: lpaCode?.trim()
 	});
 
-	res.status(200).send(body);
+	res.status(200).json(body);
 }
 
 /**
@@ -44,7 +44,7 @@ async function userSearch(req, res) {
 async function userGet(req, res) {
 	const body = await resolveUser(req.params.userLookup);
 
-	res.status(200).send(body);
+	res.status(200).json(body);
 }
 
 /**
@@ -63,7 +63,7 @@ async function userUpdate(req, res) {
 
 	const body = await updateUser(updateData);
 
-	res.status(200).send(body);
+	res.status(200).json(body);
 }
 
 /**
@@ -85,7 +85,7 @@ async function userLink(req, res) {
 	const user = await resolveUser(userLookup);
 	const result = await linkUserToAppeal(user.id, appealId, role);
 
-	res.status(200).send({
+	res.status(200).json({
 		userLookup,
 		appealId: result.appealId,
 		role: result.role
@@ -100,7 +100,7 @@ async function userIsRule6User(req, res) {
 
 	const result = await isRule6User(userLookup);
 
-	res.status(200).send(result);
+	res.status(200).json(result);
 }
 
 /**

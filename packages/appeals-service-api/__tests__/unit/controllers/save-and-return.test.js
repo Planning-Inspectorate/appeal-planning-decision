@@ -43,9 +43,10 @@ describe('Save And Return API', () => {
 		it('should respond with - ERROR 400 when appealId is null', async () => {
 			req.body = { appealId: null };
 
-			await expect(async () => saveAndReturnCreate(req, res)).rejects.toThrowError('');
+			await saveAndReturnCreate(req, res);
 			expect(res.status).toHaveBeenCalledWith(400);
-			expect(createSavedAppealDocument).toBeCalledTimes(0);
+			expect(res.send).toHaveBeenCalledWith('Invalid Id');
+			expect(createSavedAppealDocument).toHaveBeenCalledTimes(0);
 		});
 	});
 
@@ -56,7 +57,7 @@ describe('Save And Return API', () => {
 			await saveAndReturnGet(req, res);
 			expect(getSavedAppealDocument).toHaveBeenCalledWith('12345');
 			expect(res.status).toHaveBeenCalledWith(200);
-			expect(res.send).toHaveBeenCalledWith({ appealId: '12345' });
+			expect(res.json).toHaveBeenCalledWith({ appealId: '12345' });
 		});
 	});
 });

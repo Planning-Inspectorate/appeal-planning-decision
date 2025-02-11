@@ -10,7 +10,7 @@ async function getAppealEvents(req, res) {
 		type,
 		includePast: includePast === 'true'
 	});
-	res.status(200).send(content);
+	res.status(200).json(content);
 }
 
 module.exports = {

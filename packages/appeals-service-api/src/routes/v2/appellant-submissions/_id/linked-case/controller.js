@@ -11,7 +11,7 @@ async function createSubmissionLinkedCase(req, res) {
 	if (!content) {
 		throw ApiError.unableToCreateLinkedCase();
 	}
-	res.status(200).send(content);
+	res.status(200).json(content);
 }
 
 /**
@@ -23,7 +23,7 @@ async function deleteSubmissionLinkedCase(req, res) {
 	if (!content) {
 		throw ApiError.unableToDeleteLinkedCase();
 	}
-	res.status(200).send(content);
+	res.status(200).json(content);
 }
 
 module.exports = {

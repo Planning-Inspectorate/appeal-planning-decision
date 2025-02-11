@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/health', (req, res) => {
-	res.status(200).send({
+	res.status(200).json({
 		status: 'OK',
 		uptime: process.uptime(),
 		commit: config.gitSha

@@ -15,7 +15,7 @@ exports.put = async (req, res) => {
 
 	const submission = await put({ userId, data });
 
-	res.send(submission);
+	res.json(submission);
 };
 
 /**
@@ -32,7 +32,7 @@ exports.post = async (req, res) => {
 
 	const submission = await post({ userId, data });
 
-	res.send(submission);
+	res.json(submission);
 };
 
 /**

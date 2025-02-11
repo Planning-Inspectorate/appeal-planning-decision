@@ -18,7 +18,7 @@ async function getAppealFinalCommentsForCase(req, res) {
 		if (!comments || comments.length === 0) {
 			throw ApiError.withMessage(404, `No ${type} final comments found for this case reference`);
 		}
-		res.status(200).send(comments);
+		res.status(200).json(comments);
 	} catch (error) {
 		logger.error(`Failed to get appeal final comments: ${error}`);
 		throw error;

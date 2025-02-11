@@ -3,14 +3,21 @@
  * @property {Array.<string>} errors
  */
 
-class ApiError {
+class ApiError extends Error {
 	/**
 	 * @param {number} code
-	 * @param {ErrorMessages} messages
+	 * @param {ErrorMessages|string} messages
 	 */
 	constructor(code, messages) {
-		this.code = code;
-		this.message = messages;
+		if (typeof messages === 'string') {
+			super(messages);
+			this.errors = [messages];
+		} else {
+			super('ApiError');
+			this.errors = messages.errors;
+		}
+
+		this.code = code || 500;
 	}
 
 	/**

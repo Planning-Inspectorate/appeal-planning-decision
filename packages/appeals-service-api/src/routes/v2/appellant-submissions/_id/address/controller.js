@@ -15,7 +15,7 @@ async function createSubmissionAddress(req, res) {
 	if (!content) {
 		throw ApiError.unableToCreateAddress();
 	}
-	res.status(200).send(content);
+	res.status(200).json(content);
 }
 
 /**
@@ -36,7 +36,7 @@ async function deleteSubmissionAddress(req, res) {
 	if (!content) {
 		throw ApiError.unableToDeleteAddress();
 	}
-	res.status(200).send(content);
+	res.status(200).json(content);
 }
 
 module.exports = {

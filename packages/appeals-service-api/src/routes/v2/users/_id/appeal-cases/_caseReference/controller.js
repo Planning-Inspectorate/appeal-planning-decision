@@ -24,15 +24,15 @@ exports.get = async (req, res) => {
 		});
 	} catch (error) {
 		if (error instanceof ApiError) {
-			logger.error(`Failed to get users: ${error.code} // ${error.message.errors}`);
+			logger.error(`Failed to get users: ${error.code} // ${error.errors}`);
 			statusCode = error.code;
-			body = error.message.errors;
+			body = error.errors;
 		} else {
 			logger.error('Error:', error);
 			statusCode = 500;
 			body = 'An unexpected error occurred';
 		}
 	} finally {
-		res.status(statusCode).send(body);
+		res.status(statusCode).json(body);
 	}
 };
