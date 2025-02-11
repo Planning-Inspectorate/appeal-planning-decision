@@ -4,6 +4,8 @@ const { createPrismaClient } = require('../../../../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+// const LpaService = require('../../../../../../services/lpa.service');
+// const lpaService = new LpaService();
 const crypto = require('crypto');
 const {
 	createTestAppealCase
@@ -53,6 +55,23 @@ jest.mock('@pins/common/src/middleware/validate-token', () => {
 });
 jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
 	sendEvents: jest.fn()
+}));
+jest.mock('../../../../../../services/lpa.service', () => {
+	return jest.fn(() => ({
+		getLpaByCode: jest.fn().mockResolvedValue({
+			getEmail: jest.fn(() => 'test@example.com'),
+			getName: jest.fn(() => 'lpaName')
+		}),
+		getLpaById: jest.fn().mockResolvedValue({
+			getEmail: jest.fn(() => 'test@example.com'),
+			getName: jest.fn(() => 'lpaName')
+		})
+	}));
+});
+jest.mock('../../../../../../models/entities/lpa-entity', () => ({
+	createFromJson: jest.fn(() => ({
+		getEmail: jest.fn(() => 'test@example.com')
+	}))
 }));
 jest.setTimeout(30000);
 beforeAll(async () => {
@@ -104,7 +123,10 @@ const createAppeal = async (caseRef) => {
 				}
 			},
 			AppealCase: {
-				create: createTestAppealCase(caseRef, 'S78', validLpa)
+				create: {
+					...createTestAppealCase(caseRef, 'S78', validLpa),
+					finalCommentsDueDate: new Date().toISOString()
+				}
 			}
 		}
 	});
@@ -162,7 +184,7 @@ describe('/api/v2/appeal-cases/:caseReference/lpa-final-comment-submission/submi
 			'Create'
 		);
 	});
-	it('Formats S78 appellant final comment submission with docs for case 002', async () => {
+	it('Formats S78 appellant final comment submission with docs for case 004', async () => {
 		utils.getDocuments.mockReturnValue([
 			{
 				documentId: '004',
