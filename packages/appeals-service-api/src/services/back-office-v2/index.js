@@ -265,12 +265,48 @@ class BackOfficeV2Service {
 
 	/**
 	 * @param {string} caseReference
-	 * @returns {Promise<void>}
+	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitLPAFinalCommentSubmission(caseReference) {
+	async submitLPAFinalCommentSubmission(caseReference, formatter) {
 		const lpaFinalCommentSubmission = await getLPAFinalCommentByAppealId(caseReference);
 
-		logger.info(`forwarding lpa final comment submission for ${caseReference} to service bus`);
+		if (!lpaFinalCommentSubmission) throw new Error('No lpa final comments found');
+
+		const { LPACode, appealTypeCode } = lpaFinalCommentSubmission.AppealCase;
+
+		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
+		if (!isBOIntegrationActive) return;
+
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error('LPA final comments associated AppealCase has an invalid appealTypeCode');
+
+		let result;
+		let mappedData;
+		if (appealTypeCode === CASE_TYPES.S78.processCode) {
+			logger.info(`mapping lpa final comment ${caseReference} to ${appealTypeCode} schema`);
+			mappedData = await formatter(
+				caseReference,
+				null,
+				APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+				lpaFinalCommentSubmission
+			);
+			logger.debug({ mappedData }, 'mapped representation');
+
+			logger.info(`validating representation ${caseReference} schema`);
+
+			/** @type {Validate<AppealRepresentationSubmission>} */
+			const validator = getValidator('appeal-representation-submission');
+			if (!validator(mappedData)) {
+				throw new Error(
+					`Payload was invalid when checked against appeal representation submission schema`
+				);
+			}
+
+			logger.info(`forwarding lpa final comment submission for ${caseReference} to service bus`);
+
+			result = await forwarders.representation([mappedData]);
+		}
 
 		// Date to be set in back office mapper once data model confirmed
 		await markLPAFinalCommentAsSubmitted(caseReference, new Date().toISOString());
@@ -281,6 +317,7 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendLPAFinalCommentSubmissionEmailToLPAV2');
 			throw new Error('failed to send lpa final comment submission email');
 		}
+		return result;
 	}
 
 	/**

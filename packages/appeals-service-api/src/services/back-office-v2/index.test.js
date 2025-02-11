@@ -342,16 +342,37 @@ describe('BackOfficeV2Service', () => {
 	});
 
 	describe('submitLPAFinalCommentSubmission', () => {
+		const mockAppealFinalComment = {
+			AppealCase: {
+				id: 'a1',
+				appealTypeCode: 'S78'
+			}
+		};
+
+		const mockFormattedAppealFinalComment = {};
+
+		const mockResult = { test: 1 };
+
+		// formatter
+		const mockAppealFinalCommentFormatter = jest.fn();
+		mockAppealFinalCommentFormatter.mockReturnValue(mockFormattedAppealFinalComment);
+
+		// forwarder
+		forwarders.representation = jest.fn();
+		forwarders.representation.mockResolvedValue(mockResult);
 		it('should submit lpa final comment', async () => {
-			const mockComment = { test: 1 };
+			getLPAFinalCommentByAppealId.mockResolvedValue(mockAppealFinalComment);
 
-			getLPAFinalCommentByAppealId.mockResolvedValue(mockComment);
-
-			await backOfficeV2Service.submitLPAFinalCommentSubmission(testCaseRef);
+			await backOfficeV2Service.submitLPAFinalCommentSubmission(
+				testCaseRef,
+				mockAppealFinalCommentFormatter
+			);
 
 			expect(getLPAFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
 			expect(markLPAFinalCommentAsSubmitted).toHaveBeenCalledWith(testCaseRef, expect.any(String));
-			expect(sendLPAFinalCommentSubmissionEmailToLPAV2).toHaveBeenCalledWith(mockComment);
+			expect(sendLPAFinalCommentSubmissionEmailToLPAV2).toHaveBeenCalledWith(
+				mockAppealFinalComment
+			);
 		});
 	});
 
