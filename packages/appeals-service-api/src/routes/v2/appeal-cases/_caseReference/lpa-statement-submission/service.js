@@ -3,7 +3,7 @@ const { LPAStatementSubmissionRepository } = require('./repo');
 const repo = new LPAStatementSubmissionRepository();
 
 /**
- * @typedef {import('@prisma/client').LPAStatementSubmission} LPAStatementSubmission
+ * @typedef {import('./lpa-statement-submission').LPAStatementSubmission} LPAStatementSubmission
  */
 
 /**

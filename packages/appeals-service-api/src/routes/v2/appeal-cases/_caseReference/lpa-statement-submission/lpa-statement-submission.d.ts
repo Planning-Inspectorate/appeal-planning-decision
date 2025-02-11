@@ -1,6 +1,6 @@
 import type { Prisma } from '@prisma/client';
 
-export type LPAStatementSubmission = Prisma.LPAStateMentSubmissionGetPayload<{
+export type LPAStatementSubmission = Prisma.LPAStatementSubmissionGetPayload<{
 	include: {
 		AppealCase: {
 			select: {

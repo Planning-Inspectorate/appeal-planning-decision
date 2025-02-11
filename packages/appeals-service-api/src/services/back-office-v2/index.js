@@ -245,12 +245,48 @@ class BackOfficeV2Service {
 
 	/**
 	 * @param {string} appealCaseReference
-	 * @returns {Promise<void>}
+	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitLPAStatementSubmission(appealCaseReference) {
+	async submitLPAStatementSubmission(appealCaseReference, formatter) {
 		const lpaStatement = await getLPAStatementByAppealId(appealCaseReference);
 
-		logger.info(`forwarding lpa statement submission for ${appealCaseReference} to service bus`);
+		if (!lpaStatement) throw new Error('No lpa statement found');
+
+		const { LPACode, appealTypeCode } = lpaStatement.AppealCase;
+
+		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
+		if (!isBOIntegrationActive) return;
+
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error('LPA statement associated AppealCase has an invalid appealTypeCode');
+
+		let result;
+		let mappedData;
+		if (appealTypeCode === CASE_TYPES.S78.processCode) {
+			logger.info(`mapping lpa statement ${appealCaseReference} to ${appealTypeCode} schema`);
+			mappedData = await formatter(
+				appealCaseReference,
+				null,
+				APPEAL_REPRESENTATION_TYPE.STATEMENT,
+				lpaStatement
+			);
+			logger.debug({ mappedData }, 'mapped representation');
+
+			logger.info(`validating representation ${appealCaseReference} schema`);
+
+			/** @type {Validate<AppealRepresentationSubmission>} */
+			const validator = getValidator('appeal-representation-submission');
+			if (!validator(mappedData)) {
+				throw new Error(
+					`Payload was invalid when checked against appeal representation submission schema`
+				);
+			}
+
+			logger.info(`forwarding lpa statement submission for ${appealCaseReference} to service bus`);
+
+			result = await forwarders.representation([mappedData]);
+		}
 
 		// Date to be set in back office mapper once data model confirmed
 		await markStatementAsSubmitted(appealCaseReference, new Date().toISOString());
@@ -261,6 +297,7 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendLpaStatementSubmissionReceivedEmailToLpaV2');
 			throw new Error('failed to send lpa statement submission email');
 		}
+		return result;
 	}
 
 	/**
