@@ -130,25 +130,25 @@ const createAppeal = async (caseRef) => {
 	});
 	return appeal.AppealCase?.caseReference;
 };
-const formattedFinalComment1 = {
-	caseReference: '003',
+const formattedStatement1 = {
+	caseReference: '005',
 	representation: 'This is a test comment',
 	representationSubmittedDate: expect.any(String),
-	representationType: 'final_comment',
+	representationType: 'statement',
 	lpaCode: 'Q9999',
 	documents: []
 };
-const formattedFinalComment2 = {
-	caseReference: '004',
-	representation: 'Another final comment text for lpa case 004',
+const formattedStatement2 = {
+	caseReference: '006',
+	representation: 'Another statement text for lpa case 006',
 	representationSubmittedDate: expect.any(String),
-	representationType: 'final_comment',
+	representationType: 'statement',
 	lpaCode: 'Q9999',
 	documents: [
 		{
 			dateCreated: expect.any(String),
-			documentId: '004',
-			documentType: 'lpaFinalComment',
+			documentId: '006',
+			documentType: 'lpaStatement',
 			documentURI: 'https://example.com',
 			filename: 'doc.pdf',
 			mime: 'doc',
@@ -157,70 +157,64 @@ const formattedFinalComment2 = {
 		}
 	]
 };
-describe('/api/v2/appeal-cases/:caseReference/lpa-final-comment-submission/submit', () => {
-	it('Formats S78 lpa final comment submission without docs for case 003', async () => {
+describe('/api/v2/appeal-cases/:caseReference/lpa-statement-submission/submit', () => {
+	it('Formats S78 lpa final comment submission without docs for case 005', async () => {
 		utils.getDocuments.mockReturnValue([]);
-		await createAppeal('003');
+		await createAppeal('005');
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 		setCurrentSub(validUser);
-		const lpaFinalCommentData = {
-			lpaFinalComment: true,
-			lpaFinalCommentDetails: 'This is a test comment',
-			lpaFinalCommentDocuments: false
+		const lpaStatementData = {
+			lpaStatement: 'This is a test comment',
+			additionalDocuments: false
 		};
 		await appealsApi
-			.post(`/api/v2/appeal-cases/003/lpa-final-comment-submission`)
-			.send(lpaFinalCommentData);
-		await appealsApi
-			.post(`/api/v2/appeal-cases/003/lpa-final-comment-submission/submit`)
-			.expect(200);
+			.post(`/api/v2/appeal-cases/005/lpa-statement-submission`)
+			.send(lpaStatementData);
+		await appealsApi.post(`/api/v2/appeal-cases/005/lpa-statement-submission/submit`).expect(200);
 		expect(sendEvents).toHaveBeenCalledWith(
 			'appeal-fo-representation-submission',
-			[formattedFinalComment1],
+			[formattedStatement1],
 			'Create'
 		);
 	});
-	it('Formats S78 appellant final comment submission with docs for case 004', async () => {
+	it('Formats S78 lpa statement submission with docs for case 006', async () => {
 		utils.getDocuments.mockReturnValue([
 			{
-				documentId: '004',
+				documentId: '006',
 				filename: 'doc.pdf',
 				originalFilename: 'mydoc.pdf',
-				documentType: 'lpaFinalComment',
+				documentType: 'lpaStatement',
 				documentURI: 'https://example.com',
 				size: 10293,
 				dateCreated: new Date().toISOString(),
 				mime: 'doc'
 			}
 		]);
-		await createAppeal('004');
+		await createAppeal('006');
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 		setCurrentSub(validUser);
 		const lpaFinalCommentData = {
-			lpaFinalComment: true,
-			lpaFinalCommentDetails: 'Another final comment text for lpa case 004',
-			lpaFinalCommentDocuments: true,
-			uploadLPAFinalCommentDocuments: true
+			lpaStatement: 'Another statement text for lpa case 006',
+			additionalDocuments: true,
+			uploadLpaStatementDocuments: true
 		};
 		await appealsApi
-			.post('/api/v2/appeal-cases/004/lpa-final-comment-submission')
+			.post('/api/v2/appeal-cases/006/lpa-statement-submission')
 			.send(lpaFinalCommentData);
-		await appealsApi
-			.post(`/api/v2/appeal-cases/004/lpa-final-comment-submission/submit`)
-			.expect(200);
+		await appealsApi.post(`/api/v2/appeal-cases/006/lpa-statement-submission/submit`).expect(200);
 		expect(sendEvents).toHaveBeenCalledWith(
 			'appeal-fo-representation-submission',
-			[formattedFinalComment2],
+			[formattedStatement2],
 			'Create'
 		);
 	});
-	it('404s if the final comment submission cannot be found', async () => {
+	it('404s if the statement submission cannot be found', async () => {
 		await appealsApi
-			.post('/api/v2/appeal-cases/nothere/lpa-final-comment-submissions/submit')
+			.post('/api/v2/appeal-cases/nothere/lpa-statement-submissions/submit')
 			.expect(404);
 	});
 });

@@ -260,6 +260,12 @@ class ApiError {
 		});
 	}
 
+	//statements
+
+	static statementsNotFound() {
+		return new ApiError(404, { errors: [`The statement was not found`] });
+	}
+
 	// listed building
 	static listedBuildingNotFound(reference) {
 		return new ApiError(404, { errors: [`The listedBuilding ${reference} was not found`] });
