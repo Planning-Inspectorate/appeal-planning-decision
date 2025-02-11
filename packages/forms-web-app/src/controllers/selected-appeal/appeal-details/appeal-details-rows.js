@@ -33,7 +33,7 @@ exports.detailsRows = (caseData, userType) => {
 	const contact = contactIsAppellant ? appellant : agent;
 
 	const linkedAppeals = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked);
-	const showLinked = linkedAppeals.length > 0;
+	const showLinked = !!linkedAppeals;
 
 	const costApplicationKeyText = isAppellantOrAgent
 		? 'Do you need to apply for an award of appeal costs?'
@@ -165,7 +165,9 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',
-			valueText: showLinked ? `Yes \n ${linkedAppeals}` : 'No',
+			valueText: showLinked
+				? `Yes \n ${formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked)}`
+				: 'No',
 			condition: () => true,
 			isEscaped: true
 		},
