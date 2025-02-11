@@ -60,10 +60,8 @@ exports.deleteOldSubmissions = async () => {
 						documents.map((document) => docsApiClient.deleteSubmissionDocument(document.id))
 					);
 
-					await Promise.all([
-						repo.deleteLinkedRecords(submission.id),
-						repo.deleteSubmission(submission.id)
-					]);
+					await repo.deleteLinkedRecords(submission.id);
+					await repo.deleteSubmission(submission.id);
 
 					deletedSubmissions.push(submission.id);
 				}
