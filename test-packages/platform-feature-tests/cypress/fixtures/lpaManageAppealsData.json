@@ -1,5 +1,5 @@
 {
-    "emailAddress":"admin1@planninginspectorate.gov.uk",
+    "emailAddress":"admin2@planninginspectorate.gov.uk",
     "emailCode":"12345",    
     "hasAppealType":"HAS",
     "s78AppealType":"S78",
@@ -55,7 +55,7 @@
         "siteAccessInformation":"site access information",
         "neighbourSiteAccess":"neighbour access",
         "anotherNeighbourVisit":"Do you want to add another neighbour to be visited?",
-        "addresssLineOne":"address-line-one",
+        "addressLineOne":"address-line-one",
         "addressLineTwo":"address-line-two",
         "addressTown":"address-town",
         "addressCounty":"address-county",

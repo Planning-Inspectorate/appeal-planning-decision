@@ -86,7 +86,7 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 		siteAccess.selectLpaSiteSafetyRisks(context, lpaManageAppealsData);
 		// Appeals Access
 		appealProcess.selectProcedureType(context, lpaManageAppealsData);
-		appealProcess.selectOngoingAppealsNextToSite(context, lpaManageAppealsData);		
+		appealProcess.selectOngoingAppealsNextToSite(context, lpaManageAppealsData,lpaManageAppealsData?.s78AppealType);		
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
 	});
 	// commented for test during coding

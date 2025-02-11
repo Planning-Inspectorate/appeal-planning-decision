@@ -1,3 +1,5 @@
+
+// @ts-nocheck
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
@@ -13,16 +15,19 @@ module.exports = defineConfig({
     reportFilename: "[name]",
     timestamp: "mmddyyyy_HHMMss",
     reportPageTitle: 'Cypress Inline Reporter',
-    embeddedScreenshots: true, 
+    embeddedScreenshots: true,
     inlineAssets: true, //Adds the asserts inline
   },
 
 	e2e: {
 		async setupNodeEvents(on, config) {
       require('cypress-mochawesome-reporter/plugin')(on);
-		},  
+		},
 		appeals_beta_base_url: process.env.CYPRESS_APPEALS_BETA_BASE_URL || 'https://appeals-service-test.planninginspectorate.gov.uk',
 		supportFile: 'cypress/support/e2e.js',
-		testIsolation: false
+		testIsolation: false,
+		experimentalMemoryManagement: true,
+    numTestsKeptInMemory: 1,
+		scrollBehavior: 'nearest'
 	}
 });
