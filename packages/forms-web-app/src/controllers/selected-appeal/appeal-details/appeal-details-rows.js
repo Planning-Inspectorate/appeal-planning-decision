@@ -8,7 +8,7 @@ const {
 	boolToYesNo,
 	formatAccessDetails
 } = require('@pins/common');
-const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
+const { CASE_RELATION_TYPES, CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
@@ -32,7 +32,10 @@ exports.detailsRows = (caseData, userType) => {
 	const contactIsAppellant = !agent; // if no agent than appellant made their own appeal
 	const contact = contactIsAppellant ? appellant : agent;
 
-	const linkedAppeals = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked);
+	const linkedAppeals =
+		caseData.appealTypeCode === CASE_TYPES.HAS.processCode
+			? formatRelatedAppeals(caseData, CASE_RELATION_TYPES.nearby)
+			: formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked);
 	const showLinked = !!linkedAppeals;
 
 	const costApplicationKeyText = isAppellantOrAgent
@@ -165,9 +168,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',
-			valueText: showLinked
-				? `Yes \n ${formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked)}`
-				: 'No',
+			valueText: showLinked ? `Yes \n ${linkedAppeals}` : 'No',
 			condition: () => true,
 			isEscaped: true
 		},
