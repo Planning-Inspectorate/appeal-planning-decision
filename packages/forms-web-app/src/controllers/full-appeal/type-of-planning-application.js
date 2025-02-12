@@ -2,6 +2,7 @@ const {
 	constants: {
 		TYPE_OF_PLANNING_APPLICATION: {
 			HOUSEHOLDER_PLANNING,
+			LISTED_BUILDING,
 			I_HAVE_NOT_MADE_A_PLANNING_APPLICATION,
 			PRIOR_APPROVAL,
 			REMOVAL_OR_VARIATION_OF_CONDITIONS,
@@ -20,13 +21,19 @@ const { mapPlanningApplication } = require('../../lib/full-appeal/map-planning-a
 const config = require('../../config');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const {
+	typeOfPlanningApplicationRadioItems
+} = require('#lib/type-of-planning-application-radio-items');
 
-const getTypeOfPlanningApplication = (req, res) => {
+const getTypeOfPlanningApplication = async (req, res) => {
 	const { appeal } = req.session;
+
+	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
 
 	res.render(TYPE_OF_PLANNING_APPLICATION, {
 		bannerHtmlOverride: config.betaBannerText,
-		typeOfPlanningApplication: appeal.typeOfPlanningApplication
+		typeOfPlanningApplication: appeal.typeOfPlanningApplication,
+		radioItems: typeOfPlanningApplicationRadioItems(isV2forS20, appeal.typeOfPlanningApplication)
 	});
 };
 
@@ -37,10 +44,13 @@ const postTypeOfPlanningApplication = async (req, res) => {
 
 	const typeOfPlanningApplication = body['type-of-planning-application'];
 
+	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
+
 	if (errors['type-of-planning-application']) {
 		return res.render(TYPE_OF_PLANNING_APPLICATION, {
 			bannerHtmlOverride: config.betaBannerText,
 			typeOfPlanningApplication,
+			radioItems: typeOfPlanningApplicationRadioItems(isV2forS20, appeal.typeOfPlanningApplication),
 			errors,
 			errorSummary
 		});
@@ -55,16 +65,23 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		return res.render(TYPE_OF_PLANNING_APPLICATION, {
 			bannerHtmlOverride: config.betaBannerText,
 			typeOfPlanningApplication,
+			radioItems: typeOfPlanningApplicationRadioItems(isV2forS20, appeal.typeOfPlanningApplication),
 			errors,
 			errorSummary: [{ text: err.toString(), href: '#' }]
 		});
 	}
 
-	const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+	const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
 	switch (typeOfPlanningApplication) {
 		case HOUSEHOLDER_PLANNING:
 			return res.redirect('/before-you-start/listed-building-householder');
+		case LISTED_BUILDING:
+			// if somehow appeal type is listed-building and lpa is v1,
+			// redirect to existing listed-building page which links to ACP
+			return isV2forS20
+				? res.redirect('/before-you-start/granted-or-refused')
+				: res.redirect('/before-you-start/listed-building');
 		case PRIOR_APPROVAL:
 			return res.redirect('/before-you-start/prior-approval-existing-home');
 		case REMOVAL_OR_VARIATION_OF_CONDITIONS:
@@ -73,7 +90,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		case I_HAVE_NOT_MADE_A_PLANNING_APPLICATION:
 			return res.redirect('/before-you-start/use-existing-service-application-type');
 		default:
-			return isV2
+			return isV2forS78
 				? res.redirect('/before-you-start/listed-building')
 				: res.redirect('/before-you-start/any-of-following');
 	}

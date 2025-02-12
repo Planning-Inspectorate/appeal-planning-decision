@@ -20,6 +20,9 @@ router.use('/full-planning', dynamicSubmission);
 router.use('/final-comments', finalCommentsRouter);
 router.use('/proof-evidence', proofEvidenceRouter);
 
+// s20 appeals
+router.use('/listed-building', dynamicSubmission);
+
 // todo: leave at end or fix the urls defined in these routes, currently catches anything else as :appealNumber
 router.use('/', selectedAppealRouter);
 

@@ -17,10 +17,21 @@ const {
 } = require('../../../../src/lib/full-appeal/map-planning-application');
 const config = require('../../../../src/config');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const {
+	typeOfPlanningApplicationRadioItems
+} = require('#lib/type-of-planning-application-radio-items');
+
+const mockRadioItems = [
+	{
+		value: 'test',
+		text: 'test'
+	}
+];
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
 jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
+jest.mock('../../../../src/lib/type-of-planning-application-radio-items');
 
 describe('controllers/full-appeal/type-of-planning-application', () => {
 	let req;
@@ -34,12 +45,29 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 	});
 
 	describe('Type of Planning Application Controller Tests', () => {
-		it('should call the correct template on getTypeOfPlanningApplication', async () => {
+		it('should call the correct template on getTypeOfPlanningApplication - v1', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(false);
+			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 			await getTypeOfPlanningApplication(req, res);
 
+			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(false, 'full-appeal');
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				bannerHtmlOverride: config.betaBannerText,
-				typeOfPlanningApplication: 'full-appeal'
+				typeOfPlanningApplication: 'full-appeal',
+				radioItems: mockRadioItems
+			});
+		});
+
+		it('should call the correct template on getTypeOfPlanningApplication - v2', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
+			await getTypeOfPlanningApplication(req, res);
+
+			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, 'full-appeal');
+			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
+				bannerHtmlOverride: config.betaBannerText,
+				typeOfPlanningApplication: 'full-appeal',
+				radioItems: mockRadioItems
 			});
 		});
 
@@ -136,9 +164,10 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		);
 
 		it.each(defaultTypes)(
-			'should redirect to the any-of-following page if %s - v2',
+			'should redirect to the listed-building page if %s - v2',
 			async (type) => {
-				isLpaInFeatureFlag.mockReturnValueOnce(true);
+				isLpaInFeatureFlag.mockReturnValue(true);
+				typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 				const planningApplication = type;
 
 				const mockRequest = {
@@ -204,7 +233,30 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			);
 		});
 
+		it('should redirect to granted-or-refused page if listed-building selected (v2 only)', async () => {
+			isLpaInFeatureFlag.mockReturnValue(true);
+			const planningApplication = 'listed-building';
+
+			const mockRequest = {
+				...req,
+				body: { 'type-of-planning-application': planningApplication }
+			};
+
+			await postTypeOfPlanningApplication(mockRequest, res);
+
+			const updatedAppeal = appeal;
+			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+			updatedAppeal.typeOfPlanningApplication = planningApplication;
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...updatedAppeal
+			});
+
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
+		});
+
 		it('should render errors on the page', async () => {
+			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 			const mockRequest = {
 				...req,
 				body: {
@@ -224,6 +276,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				bannerHtmlOverride: config.betaBannerText,
 				typeOfPlanningApplication: undefined,
+				radioItems: mockRadioItems,
 				errors: {
 					'type-of-planning-application': {
 						msg: 'Select which type of planning application your appeal is about, or if you have not made a planning application'
@@ -234,6 +287,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		});
 
 		it('should render page with failed appeal update message', async () => {
+			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 			const error = new Error('API is down');
 
 			const mockRequest = {
@@ -252,6 +306,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				bannerHtmlOverride: config.betaBannerText,
 				typeOfPlanningApplication: 'outline-planning',
+				radioItems: mockRadioItems,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
 			});

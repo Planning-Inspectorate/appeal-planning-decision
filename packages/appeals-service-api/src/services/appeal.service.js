@@ -109,7 +109,13 @@ function isValidAppeal(appeal) {
 
 	let errors;
 
-	if (appeal.appealType === APPEAL_ID.PLANNING_SECTION_78) {
+	// we do not use v1 validators for s20 listed building appeal but we need to validate
+	// the object created in before you start journey which may have s20 listed building type
+	// so we use full appeal validator in this context
+	if (
+		appeal.appealType === APPEAL_ID.PLANNING_SECTION_78 ||
+		appeal.appealType === APPEAL_ID.PLANNING_LISTED_BUILDING
+	) {
 		errors = validateFullAppeal(appeal);
 	} else {
 		errors = validateAppeal(appeal);

@@ -26,7 +26,7 @@
 }
 %}
 
-{% if isV2 %}
+{% if isV2  %}
   {% set listedBuildingRow = {
     key: {
       text: "Is your appeal about a listed building?"
@@ -45,6 +45,11 @@
       ]
     }
   }
+  %}
+{% endif %}
+
+{% if not isListedBuilding   %}
+  {% set listedBuildingRow = null
   %}
 {% endif %}
 

@@ -33,8 +33,20 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 
 	describe('getPlanningApplicationNumber', () => {
 		it('should call the correct template', () => {
-			getPlanningApplicationNumber(req, res);
+			const controllerFunction = getPlanningApplicationNumber();
+			controllerFunction(req, res);
 			expect(res.render).toHaveBeenCalledWith(PLANNING_APPLICATION_NUMBER, {
+				planningApplicationNumber: applicationNumber
+			});
+		});
+
+		it('should allow custom views to be passed in', () => {
+			const controllerFunction = getPlanningApplicationNumber({
+				PLANNING_APPLICATION_NUMBER: 'test1/url',
+				EMAIL_ADDRESS: 'test2/url'
+			});
+			controllerFunction(req, res);
+			expect(res.render).toHaveBeenCalledWith('test1/url', {
 				planningApplicationNumber: applicationNumber
 			});
 		});
@@ -49,7 +61,8 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await postPlanningApplicationNumber(mockRequest, res);
+			const controllerFunction = postPlanningApplicationNumber();
+			await controllerFunction(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(PLANNING_APPLICATION_NUMBER, {
@@ -67,7 +80,8 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 				...req,
 				body: { 'application-number': '123456' }
 			};
-			await postPlanningApplicationNumber(mockRequest, res);
+			const controllerFunction = postPlanningApplicationNumber();
+			await controllerFunction(mockRequest, res);
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
@@ -90,7 +104,8 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 				}
 			};
 
-			await postPlanningApplicationNumber(mockRequest, res);
+			const controllerFunction = postPlanningApplicationNumber();
+			await controllerFunction(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -98,6 +113,52 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 			});
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${EMAIL_ADDRESS}`);
+		});
+
+		it('should allow custom views to be passed in - testing valid redirect', async () => {
+			const fakeApplicationNumber = 'some valid application number';
+
+			const mockRequest = {
+				...req,
+				body: {
+					'application-number': fakeApplicationNumber
+				}
+			};
+
+			const controllerFunction = postPlanningApplicationNumber({
+				PLANNING_APPLICATION_NUMBER: 'test1/url',
+				EMAIL_ADDRESS: 'test2/url'
+			});
+			await controllerFunction(mockRequest, res);
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...appeal,
+				planningApplicationNumber: fakeApplicationNumber
+			});
+
+			expect(res.redirect).toHaveBeenCalledWith('/test2/url');
+		});
+
+		it('should allow custom views to be passed in - testing failure re-render', async () => {
+			const mockRequest = {
+				...req,
+				body: {
+					errors: { a: 'b' },
+					errorSummary: [{ text: 'There were errors here', href: '#' }]
+				}
+			};
+			const controllerFunction = postPlanningApplicationNumber({
+				PLANNING_APPLICATION_NUMBER: 'test1/url',
+				EMAIL_ADDRESS: 'test2/url'
+			});
+			await controllerFunction(mockRequest, res);
+
+			expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.render).toHaveBeenCalledWith('test1/url', {
+				planningApplicationNumber: applicationNumber,
+				errorSummary: [{ text: 'There were errors here', href: '#' }],
+				errors: { a: 'b' }
+			});
 		});
 	});
 });

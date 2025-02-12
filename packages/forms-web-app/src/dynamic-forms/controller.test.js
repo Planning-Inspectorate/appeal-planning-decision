@@ -5,7 +5,8 @@ const {
 	remove,
 	submit,
 	lpaSubmitted,
-	appellantStartAppeal
+	appellantStartAppeal,
+	appellantBYSListOfDocuments
 } = require('./controller');
 const { getUserFromSession } = require('../services/user.service');
 const { Journey } = require('./journey');
@@ -29,6 +30,7 @@ const mockAnswer = 'Not started';
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
 const { CONSTS } = require('../consts');
+const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
 const sections = [
 	{
@@ -638,6 +640,35 @@ describe('dynamic-form/controller', () => {
 			expect(res.redirect).toHaveBeenCalledWith(
 				'/appeals/householder/appeal-form/your-appeal?id=some-submission-id'
 			);
+		});
+	});
+
+	describe('appellantBYSListOfDocuments', () => {
+		it('renders correct page for Householder', () => {
+			req.session.appeal = { appealType: APPEAL_ID.HOUSEHOLDER };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('appeal-householder-decision/list-of-documents', {
+				usingV2Form: true
+			});
+		});
+		it('renders correct page for S78 - full appeal', () => {
+			req.session.appeal = { appealType: APPEAL_ID.PLANNING_SECTION_78 };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents', {
+				usingV2Form: true
+			});
+		});
+		it('renders correct page for S20 - listed building', () => {
+			req.session.appeal = { appealType: APPEAL_ID.PLANNING_LISTED_BUILDING };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents', {
+				usingV2Form: true
+			});
+		});
+		it('renders error page if appeal type not found', () => {
+			req.session.appeal = { appealType: '123456' };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('./error/not-found.njk');
 		});
 	});
 });

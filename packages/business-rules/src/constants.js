@@ -33,6 +33,7 @@ const SECTION_STATE = {
 const TYPE_OF_PLANNING_APPLICATION = {
 	FULL_APPEAL: 'full-appeal',
 	HOUSEHOLDER_PLANNING: 'householder-planning',
+	LISTED_BUILDING: 'listed-building',
 	OUTLINE_PLANNING: 'outline-planning',
 	PRIOR_APPROVAL: 'prior-approval',
 	RESERVED_MATTERS: 'reserved-matters',
