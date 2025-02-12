@@ -23,6 +23,7 @@ const shouldDisplayQuestionnaireDueNotification = (caseData, userType) =>
  */
 const shouldDisplayStatementsDueBannerLPA = (caseData, userType) => {
 	return (
+		!!caseData.statementDueDate &&
 		userType === LPA_USER_ROLE &&
 		deadlineHasPassed(caseData.lpaQuestionnaireDueDate) &&
 		!caseData.LPAStatementSubmitted &&
@@ -37,6 +38,7 @@ const shouldDisplayStatementsDueBannerLPA = (caseData, userType) => {
  */
 const shouldDisplayStatementsDueBannerRule6 = (caseData, userType) => {
 	return (
+		!!caseData.rule6StatementDueDate &&
 		userType === APPEAL_USER_ROLES.RULE_6_PARTY &&
 		!!caseData.lpaQuestionnairePublishedDate &&
 		!caseData.rule6StatementSubmitted &&
@@ -51,6 +53,7 @@ const shouldDisplayStatementsDueBannerRule6 = (caseData, userType) => {
  */
 const shouldDisplayFinalCommentsDueBannerLPA = (caseData, userType) => {
 	return (
+		!!caseData.finalCommentsDueDate &&
 		userType === LPA_USER_ROLE &&
 		deadlineHasPassed(caseData.statementDueDate) &&
 		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
@@ -66,6 +69,7 @@ const shouldDisplayFinalCommentsDueBannerLPA = (caseData, userType) => {
  */
 const shouldDisplayFinalCommentsDueBannerAppellant = (caseData, userType) => {
 	return (
+		!!caseData.finalCommentsDueDate &&
 		userType === APPEAL_USER_ROLES.APPELLANT &&
 		deadlineHasPassed(caseData.statementDueDate) &&
 		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
@@ -81,6 +85,7 @@ const shouldDisplayFinalCommentsDueBannerAppellant = (caseData, userType) => {
  */
 const shouldDisplayProofEvidenceDueBannerAppellant = (caseData, userType) => {
 	return (
+		!!caseData.proofsOfEvidenceDueDate &&
 		userType === APPEAL_USER_ROLES.APPELLANT &&
 		deadlineHasPassed(caseData.statementDueDate) &&
 		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
@@ -97,6 +102,7 @@ const shouldDisplayProofEvidenceDueBannerAppellant = (caseData, userType) => {
  */
 const shouldDisplayProofEvidenceDueBannerLPA = (caseData, userType) => {
 	return (
+		!!caseData.proofsOfEvidenceDueDate &&
 		userType === LPA_USER_ROLE &&
 		deadlineHasPassed(caseData.statementDueDate) &&
 		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
@@ -113,6 +119,7 @@ const shouldDisplayProofEvidenceDueBannerLPA = (caseData, userType) => {
  */
 const shouldDisplayProofEvidenceDueBannerRule6 = (caseData, userType) => {
 	return (
+		!!caseData.rule6ProofEvidenceDueDate &&
 		userType === APPEAL_USER_ROLES.RULE_6_PARTY &&
 		deadlineHasPassed(caseData.rule6StatementDueDate) &&
 		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&

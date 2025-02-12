@@ -49,6 +49,15 @@ describe('Action Banner Tests', () => {
 			caseData.lpaQuestionnaireDueDate = subDays(currentDate, 1);
 			expect(shouldDisplayStatementsDueBannerLPA(caseData, LPA_USER_ROLE)).toBe(true);
 		});
+		it('should return false for HAS with no statementDueDate', () => {
+			const hasCaseData = {
+				lpaQuestionnaireSubmittedDate: null,
+				lpaQuestionnaireDueDate: subDays(currentDate, 1),
+				lpaQuestionnairePublishedDate: null,
+				statementDueDate: null
+			};
+			expect(shouldDisplayStatementsDueBannerLPA(hasCaseData, LPA_USER_ROLE)).toBe(false);
+		});
 		it('should return false when LPAStatementSubmitted is true', () => {
 			caseData.LPAStatementSubmitted = true;
 			expect(shouldDisplayStatementsDueBannerLPA(caseData, LPA_USER_ROLE)).toBe(false);
