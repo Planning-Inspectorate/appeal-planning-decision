@@ -1,17 +1,20 @@
-const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { APPEAL_ID, TYPE_OF_PLANNING_APPLICATION } = require('@pins/business-rules/src/constants');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const mapPlanningApplication = (application) => {
 	switch (application) {
-		case 'full-appeal':
-		case 'outline-planning':
-		case 'prior-approval':
-		case 'reserved-matters':
-		case 'removal-or-variation-of-conditions':
+		case TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL:
+		case TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING:
+		case TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL:
+		case TYPE_OF_PLANNING_APPLICATION.RESERVED_MATTERS:
+		case TYPE_OF_PLANNING_APPLICATION.REMOVAL_OR_VARIATION_OF_CONDITIONS:
 			return APPEAL_ID.PLANNING_SECTION_78;
 
-		case 'householder-planning':
+		case TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING:
 			return APPEAL_ID.HOUSEHOLDER;
+
+		case TYPE_OF_PLANNING_APPLICATION.LISTED_BUILDING:
+			return APPEAL_ID.PLANNING_LISTED_BUILDING;
 
 		default:
 			return undefined;

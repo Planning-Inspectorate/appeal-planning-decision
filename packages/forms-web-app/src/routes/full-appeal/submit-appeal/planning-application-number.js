@@ -12,13 +12,13 @@ const router = express.Router();
 router.get(
 	'/submit-appeal/planning-application-number',
 	[fetchExistingAppealMiddleware],
-	planningApplicationNumberController.getPlanningApplicationNumber
+	planningApplicationNumberController.getPlanningApplicationNumber()
 );
 router.post(
 	'/submit-appeal/planning-application-number',
 	applicationNumberValidationRules(),
 	validationErrorHandler,
-	planningApplicationNumberController.postPlanningApplicationNumber
+	planningApplicationNumberController.postPlanningApplicationNumber()
 );
 
 module.exports = router;

@@ -139,7 +139,6 @@ const VIEW = {
 		WHY_INQUIRY: 'full-appeal/submit-appeal/why-inquiry',
 		YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal'
 	},
-
 	APPEAL: {
 		NEW_OR_SAVED_APPEAL: 'appeal/new-or-saved-appeal',
 		EMAIL_ADDRESS: 'appeal/email-address',
@@ -149,14 +148,20 @@ const VIEW = {
 		NEED_NEW_CODE: 'appeal/need-new-code',
 		START_NEW: 'appeal/start-new' // redirect only
 	},
-
+	LISTED_BUILDING: {
+		EMAIL_ADDRESS: 'listed-building/email-address', // redirect only
+		ENTER_CODE: 'listed-building/enter-code', // redirect only
+		REQUEST_NEW_CODE: 'listed-building/request-new-code', // redirect only
+		CODE_EXPIRED: 'listed-building/code-expired', // redirect only
+		NEED_NEW_CODE: 'listed-building/need-new-code', // redirect only
+		EMAIL_CONFIRMED: 'listed-building/email-address-confirmed' // redirect only
+	},
 	COMMON: {
 		ENTER_CODE: 'common/enter-code',
 		REQUEST_NEW_CODE: 'common/request-new-code',
 		CODE_EXPIRED: 'common/code-expired',
 		NEED_NEW_CODE: 'common/need-new-code'
 	},
-
 	APPEALS: {
 		YOUR_APPEALS: 'appeals/your-appeals',
 		NO_APPEALS: 'appeals/no-appeals'

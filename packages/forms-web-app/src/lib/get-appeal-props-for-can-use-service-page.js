@@ -1,11 +1,10 @@
 const { format, parseISO } = require('date-fns');
 const { getDepartmentFromId } = require('../services/department.service');
 const { removeDashesAndCapitaliseString } = require('./capitalised-dashed-strings');
-const {
-	chooseAppropriateApplicationNumberPage
-} = require('./choose-appropriate-application-number-page');
+const { getNextPageFromCanUseServicePage } = require('./get-next-page-from-can-use-service-page');
+const { TYPE_OF_PLANNING_APPLICATION } = require('@pins/business-rules/src/constants');
 
-const extractAppealProps = async (appeal) => {
+const getAppealPropsForCanUseServicePage = async (appeal) => {
 	let appealLPD = '';
 
 	if (appeal.lpaCode) {
@@ -19,7 +18,10 @@ const extractAppealProps = async (appeal) => {
 
 	if (appeal.typeOfPlanningApplication) {
 		applicationType = appeal.typeOfPlanningApplication;
-		applicationType = removeDashesAndCapitaliseString(applicationType);
+		applicationType =
+			applicationType === TYPE_OF_PLANNING_APPLICATION.LISTED_BUILDING
+				? 'Listed building consent'
+				: (applicationType = removeDashesAndCapitaliseString(applicationType));
 	}
 
 	let { applicationDecision } = appeal.eligibility;
@@ -33,7 +35,7 @@ const extractAppealProps = async (appeal) => {
 		applicationDecision = removeDashesAndCapitaliseString(applicationDecision);
 	}
 
-	const nextPageUrl = chooseAppropriateApplicationNumberPage(appeal);
+	const nextPageUrl = getNextPageFromCanUseServicePage(appeal);
 
 	const decisionDate = format(parseISO(appeal.decisionDate), 'dd MMMM yyyy');
 
@@ -53,4 +55,4 @@ const extractAppealProps = async (appeal) => {
 	};
 };
 
-module.exports = { extractAppealProps };
+module.exports = { getAppealPropsForCanUseServicePage };

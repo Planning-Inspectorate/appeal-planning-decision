@@ -311,4 +311,32 @@ describe('controllers/before-you-start/can-use-service', () => {
 			});
 		});
 	});
+	describe('getCanUseService - s20', () => {
+		it('renders page - s20', async () => {
+			const s20Appeal = {
+				typeOfPlanningApplication: 'listed-building',
+				lpaCode: 'E60000068',
+				decisionDate: fullAppeal.decisionDate,
+				eligibility: {
+					applicationDecision: 'granted'
+				}
+			};
+			req = mockReq(s20Appeal);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				bannerHtmlOverride: config.betaBannerText,
+				appealLPD: 'Bradford',
+				applicationDecision: 'Granted with conditions',
+				applicationType: 'Listed building consent',
+				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
+				decisionDate: '04 May 2022',
+				dateOfDecisionLabel: 'Date of decision',
+				enforcementNotice: 'No',
+				isListedBuilding: null,
+				nextPageUrl: '/listed-building/planning-application-number'
+			});
+		});
+	});
 });

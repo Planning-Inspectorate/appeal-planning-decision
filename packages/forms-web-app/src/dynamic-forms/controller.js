@@ -426,17 +426,19 @@ exports.lpaQuestionnaireSubmissionInformation = async (req, res) => {
 /**
  * @type {import('express').Handler}
  */
-exports.appellantBYSListOfDocuments = async (req, res) => {
+exports.appellantBYSListOfDocuments = (req, res) => {
 	const appeal = req.session.appeal;
 
 	const usingV2Form = true;
 
-	if (appeal.appealType == APPEAL_ID.HOUSEHOLDER) {
-		res.render('appeal-householder-decision/list-of-documents', { usingV2Form });
-	} else if (appeal.appealType == APPEAL_ID.PLANNING_SECTION_78) {
-		res.render('full-appeal/submit-appeal/list-of-documents', { usingV2Form });
-	} else {
-		res.render('./error/not-found.njk');
+	switch (appeal.appealType) {
+		case APPEAL_ID.HOUSEHOLDER:
+			return res.render('appeal-householder-decision/list-of-documents', { usingV2Form });
+		case APPEAL_ID.PLANNING_SECTION_78:
+		case APPEAL_ID.PLANNING_LISTED_BUILDING:
+			return res.render('full-appeal/submit-appeal/list-of-documents', { usingV2Form });
+		default:
+			return res.render('./error/not-found.njk');
 	}
 };
 
