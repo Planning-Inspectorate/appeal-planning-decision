@@ -19,7 +19,7 @@ exports.post = async (req, res) => {
 		await backOfficeV2Service.submitLPAStatementSubmission(req.params.caseReference, formatter);
 	} catch (err) {
 		logger.error(err);
-		throw ApiError.unableToSubmitResponse();
+		throw ApiError.unableToSubmitStatementsResponse();
 	}
 
 	res.sendStatus(200);

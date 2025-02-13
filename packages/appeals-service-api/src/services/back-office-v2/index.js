@@ -359,12 +359,48 @@ class BackOfficeV2Service {
 
 	/**
 	 * @param {string} caseReference
-	 * @returns {Promise<void>}
+	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitLpaProofEvidenceSubmission(caseReference) {
+	async submitLpaProofEvidenceSubmission(caseReference, formatter) {
 		const lpaProofEvidenceSubmission = await getLpaProofOfEvidenceByAppealId(caseReference);
 
-		logger.info(`forwarding lpa proof evidence submission for ${caseReference} to service bus`);
+		if (!lpaProofEvidenceSubmission) throw new Error('No lpa proof of evidence found');
+
+		const { LPACode, appealTypeCode } = lpaProofEvidenceSubmission.AppealCase;
+
+		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
+		if (!isBOIntegrationActive) return;
+
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error('LPA proof of evidence associated AppealCase has an invalid appealTypeCode');
+
+		let result;
+		let mappedData;
+		if (appealTypeCode === CASE_TYPES.S78.processCode) {
+			logger.info(`mapping lpa proof of evidence ${caseReference} to ${appealTypeCode} schema`);
+			mappedData = await formatter(
+				caseReference,
+				null,
+				APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+				lpaProofEvidenceSubmission
+			);
+			logger.debug({ mappedData }, 'mapped representation');
+
+			logger.info(`validating representation ${caseReference} schema`);
+
+			/** @type {Validate<AppealRepresentationSubmission>} */
+			const validator = getValidator('appeal-representation-submission');
+			if (!validator(mappedData)) {
+				throw new Error(
+					`Payload was invalid when checked against appeal representation submission schema`
+				);
+			}
+
+			logger.info(`forwarding lpa proof evidence submission for ${caseReference} to service bus`);
+
+			result = await forwarders.representation([mappedData]);
+		}
 
 		// Date to be set in back office mapper once data model confirmed
 		await markLpaProofOfEvidenceAsSubmitted(caseReference, new Date().toISOString());
@@ -375,6 +411,8 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendLpaProofEvidenceSubmissionEmailToLPAV2');
 			throw new Error('failed to send lpa proof evidence submission email');
 		}
+
+		return result;
 	}
 
 	/**

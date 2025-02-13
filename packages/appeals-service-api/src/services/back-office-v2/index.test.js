@@ -328,16 +328,37 @@ describe('BackOfficeV2Service', () => {
 	});
 
 	describe('submitLPAStatementSubmission', () => {
+		const mockAppealStatement = {
+			AppealCase: {
+				id: 'a1',
+				appealTypeCode: 'S78'
+			}
+		};
+
+		const mockFormattedAppealFinalComment = {};
+
+		const mockResult = { test: 1 };
+
+		// formatter
+		const mockAppealStatmentFormatter = jest.fn();
+		mockAppealStatmentFormatter.mockReturnValue(mockFormattedAppealFinalComment);
+
+		// forwarder
+		forwarders.representation = jest.fn();
+		forwarders.representation.mockResolvedValue(mockResult);
 		it('should submit lpa statement', async () => {
-			const mockStatement = { test: 1 };
+			getLPAStatementByAppealId.mockResolvedValue(mockAppealStatement);
 
-			getLPAStatementByAppealId.mockResolvedValue(mockStatement);
-
-			await backOfficeV2Service.submitLPAStatementSubmission(testCaseRef);
+			await backOfficeV2Service.submitLPAStatementSubmission(
+				testCaseRef,
+				mockAppealStatmentFormatter
+			);
 
 			expect(getLPAStatementByAppealId).toHaveBeenCalledWith(testCaseRef);
 			expect(markStatementAsSubmitted).toHaveBeenCalledWith(testCaseRef, expect.any(String));
-			expect(sendLpaStatementSubmissionReceivedEmailToLpaV2).toHaveBeenCalledWith(mockStatement);
+			expect(sendLpaStatementSubmissionReceivedEmailToLpaV2).toHaveBeenCalledWith(
+				mockAppealStatement
+			);
 		});
 	});
 
@@ -377,19 +398,40 @@ describe('BackOfficeV2Service', () => {
 	});
 
 	describe('submitLpaProofEvidenceSubmission', () => {
+		const mockAppealProofEvidence = {
+			AppealCase: {
+				id: 'a1',
+				appealTypeCode: 'S78'
+			}
+		};
+
+		const mockFormattedAppealFinalComment = {};
+
+		const mockResult = { test: 1 };
+
+		// formatter
+		const mockAppealStatmentFormatter = jest.fn();
+		mockAppealStatmentFormatter.mockReturnValue(mockFormattedAppealFinalComment);
+
+		// forwarder
+		forwarders.representation = jest.fn();
+		forwarders.representation.mockResolvedValue(mockResult);
 		it('should submit lpa proof', async () => {
-			const mockProof = { test: 1 };
+			getLpaProofOfEvidenceByAppealId.mockResolvedValue(mockAppealProofEvidence);
 
-			getLpaProofOfEvidenceByAppealId.mockResolvedValue(mockProof);
-
-			await backOfficeV2Service.submitLpaProofEvidenceSubmission(testCaseRef);
+			await backOfficeV2Service.submitLpaProofEvidenceSubmission(
+				testCaseRef,
+				mockAppealStatmentFormatter
+			);
 
 			expect(getLpaProofOfEvidenceByAppealId).toHaveBeenCalledWith(testCaseRef);
 			expect(markLpaProofOfEvidenceAsSubmitted).toHaveBeenCalledWith(
 				testCaseRef,
 				expect.any(String)
 			);
-			expect(sendLPAProofEvidenceSubmissionEmailToLPAV2).toHaveBeenCalledWith(mockProof);
+			expect(sendLPAProofEvidenceSubmissionEmailToLPAV2).toHaveBeenCalledWith(
+				mockAppealProofEvidence
+			);
 		});
 	});
 

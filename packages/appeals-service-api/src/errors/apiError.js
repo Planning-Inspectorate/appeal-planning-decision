@@ -260,10 +260,24 @@ class ApiError {
 		});
 	}
 
+	// proofs evidence
+
+	static proofEvidenceNotFound() {
+		return new ApiError(404, { errors: [`The proof of evidence was not found`] });
+	}
+
+	static unableToSubmitProofEvidenceResponse() {
+		return new ApiError(400, { errors: ['Unable to submit proof of evidence response'] });
+	}
+
 	//statements
 
 	static statementsNotFound() {
 		return new ApiError(404, { errors: [`The statement was not found`] });
+	}
+
+	static unableToSubmitStatementsResponse() {
+		return new ApiError(400, { errors: ['Unable to submit statements response'] });
 	}
 
 	// listed building
