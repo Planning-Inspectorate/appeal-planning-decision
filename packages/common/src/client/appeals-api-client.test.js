@@ -223,7 +223,7 @@ describe('appeals-api-client', () => {
 		});
 	});
 
-	describe('getAppelCaseWithRepresentations', () => {
+	describe('getAppealCaseWithRepresentations', () => {
 		it('should get document details by id', async () => {
 			const testCaseReference = 'abc';
 			fetch.mockResponseOnce(JSON.stringify({ a: 1 }));
