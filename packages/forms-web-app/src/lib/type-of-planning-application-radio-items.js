@@ -101,6 +101,6 @@ exports.typeOfPlanningApplicationRadioItems = (isS20featureFlag, typeOfPlanningA
 		}
 	];
 
-	// do not return the listed building option for a v1 appeal
+	// only return the listed building option if feature flag turned on
 	return isS20featureFlag ? items : items.filter((item) => item.value !== LISTED_BUILDING);
 };
