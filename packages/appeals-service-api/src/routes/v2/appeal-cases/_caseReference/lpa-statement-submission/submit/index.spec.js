@@ -158,7 +158,7 @@ const formattedStatement2 = {
 	]
 };
 describe('/api/v2/appeal-cases/:caseReference/lpa-statement-submission/submit', () => {
-	it('Formats S78 lpa final comment submission without docs for case 005', async () => {
+	it('Formats S78 lpa statement submission without docs for case 005', async () => {
 		utils.getDocuments.mockReturnValue([]);
 		await createAppeal('005');
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');

@@ -182,7 +182,7 @@ describe('/api/v2/appeal-cases/:caseReference/lpa-final-comment-submission/submi
 			'Create'
 		);
 	});
-	it('Formats S78 appellant final comment submission with docs for case 004', async () => {
+	it('Formats S78 lpa final comment submission with docs for case 004', async () => {
 		utils.getDocuments.mockReturnValue([
 			{
 				documentId: '004',
