@@ -9,13 +9,13 @@ const { getFormatter } = require('../../get-representation-formatter');
 /** @type {import('express').Handler} */
 exports.post = async (req, res) => {
 	try {
-		const finalComments = await getLPAStatementByAppealId(req.params.caseReference);
+		const statements = await getLPAStatementByAppealId(req.params.caseReference);
 
-		if (!finalComments) {
+		if (!statements) {
 			throw ApiError.statementsNotFound();
 		}
 
-		const formatter = getFormatter(finalComments.AppealCase.appealTypeCode);
+		const formatter = getFormatter(statements.AppealCase.appealTypeCode);
 		await backOfficeV2Service.submitLPAStatementSubmission(req.params.caseReference, formatter);
 	} catch (err) {
 		logger.error(err);
