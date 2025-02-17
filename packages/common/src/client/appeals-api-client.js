@@ -964,7 +964,13 @@ class AppealsApiClient {
 
 		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/address`;
-		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+		} else if (
+			[
+				JOURNEY_TYPES.HAS_APPEAL_FORM,
+				JOURNEY_TYPES.S78_APPEAL_FORM,
+				JOURNEY_TYPES.S20_APPEAL_FORM
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/address`;
 		}
 
@@ -987,7 +993,13 @@ class AppealsApiClient {
 
 		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/address/${addressId}`;
-		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+		} else if (
+			[
+				JOURNEY_TYPES.HAS_APPEAL_FORM,
+				JOURNEY_TYPES.S78_APPEAL_FORM,
+				JOURNEY_TYPES.S20_APPEAL_FORM
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/address/${addressId}`;
 		}
 
@@ -1009,7 +1021,13 @@ class AppealsApiClient {
 		let endpoint;
 		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/linked-case`;
-		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+		} else if (
+			[
+				JOURNEY_TYPES.HAS_APPEAL_FORM,
+				JOURNEY_TYPES.S78_APPEAL_FORM,
+				JOURNEY_TYPES.S20_APPEAL_FORM
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/linked-case`;
 		}
 
@@ -1031,7 +1049,13 @@ class AppealsApiClient {
 		let endpoint;
 		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/linked-case/${linkedCaseId}`;
-		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+		} else if (
+			[
+				JOURNEY_TYPES.HAS_APPEAL_FORM,
+				JOURNEY_TYPES.S78_APPEAL_FORM,
+				JOURNEY_TYPES.S20_APPEAL_FORM
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/linked-case/${linkedCaseId}`;
 		}
 
