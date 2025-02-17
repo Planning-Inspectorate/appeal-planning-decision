@@ -1,6 +1,5 @@
 /**
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
- * @typedef { 'statement' | 'comment' | 'final_comment' | 'proofs_evidence' } RepresentationTypes
  * @typedef { 'LPAUser' } LpaUserRole
  */
 
@@ -9,6 +8,7 @@ const {
 	APPEAL_DOCUMENT_TYPE,
 	APPEAL_REPRESENTATION_TYPE
 } = require('pins-data-model');
+
 module.exports = {
 	STATUS_CONSTANTS: {
 		ADDED: 'added',
@@ -38,7 +38,7 @@ module.exports = {
 		VIRTUAL: 'virtual'
 	},
 	/**
-	 * @type {Record<string, RepresentationTypes>}
+	 * @type {Record<string, string>}
 	 */
 	REPRESENTATION_TYPES: {
 		STATEMENT: APPEAL_REPRESENTATION_TYPE.STATEMENT,
