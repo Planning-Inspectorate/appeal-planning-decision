@@ -112,7 +112,7 @@ describe('formatter', () => {
 			designatedSitesNames: [],
 			eiaColumnTwoThreshold: undefined,
 			eiaCompletedEnvironmentalStatement: false,
-			eiaConsultedBodiesDetails: null,
+			consultedBodiesDetails: null,
 			eiaDevelopmentDescription: null,
 			eiaEnvironmentalImpactSchedule: null,
 			eiaRequiresEnvironmentalStatement: undefined,
@@ -176,7 +176,7 @@ describe('formatter', () => {
 
 				// Consultation responses and representations
 				hasStatutoryConsultees: true,
-				eiaConsultedBodiesDetails: s78Answers.statutoryConsultees_consultedBodiesDetails,
+				consultedBodiesDetails: s78Answers.statutoryConsultees_consultedBodiesDetails,
 				hasConsultationResponses: s78Answers.consultationResponses,
 
 				// Planning officer’s report and supporting documents
@@ -296,7 +296,7 @@ describe('formatter', () => {
 
 				// Consultation responses and representations
 				hasStatutoryConsultees: false,
-				eiaConsultedBodiesDetails: null,
+				consultedBodiesDetails: null,
 				hasConsultationResponses: undefined,
 
 				// Planning officer’s report and supporting documents

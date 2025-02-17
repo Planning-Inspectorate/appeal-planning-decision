@@ -197,7 +197,7 @@ model AppealCase {
   protectedSpecies      Boolean? /// Indicates the existence of protected species
   areaOutstandingBeauty Boolean? /// Indicates an area of outstanding beauty (National Landscape)
   gypsyTraveller        Boolean? /// Indicates a traveller site
-  publicRightOfWay      Boolean? /// Indicates a PROW (public right of way)  
+  publicRightOfWay      Boolean? /// Indicates a PROW (public right of way)
 
   //***************************************************************************
   // site details

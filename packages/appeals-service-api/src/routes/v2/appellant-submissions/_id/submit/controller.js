@@ -39,6 +39,7 @@ const getFormatter = (appealTypeCode) => {
 /** @type {import('express').Handler} */
 exports.post = async (req, res) => {
 	const userId = req.auth.payload.sub;
+
 	if (!userId) throw ApiError.invalidToken();
 	const { email } = await getUserById(userId);
 
