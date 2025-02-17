@@ -450,7 +450,7 @@ exports.getS78LPAQSubmissionFields = (answers) => {
 
 		// Consultation responses and representations
 		hasStatutoryConsultees: exports.toBool(answers.statutoryConsultees),
-		eiaConsultedBodiesDetails: answers.statutoryConsultees_consultedBodiesDetails || null, // should this be renamed to lose eia?
+		consultedBodiesDetails: answers.statutoryConsultees_consultedBodiesDetails || null,
 		hasConsultationResponses: answers.consultationResponses,
 
 		// Planning officer’s report and supporting documents

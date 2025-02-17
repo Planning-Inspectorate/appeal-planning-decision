@@ -10,11 +10,11 @@ const exampleS78DataModel = {
 
 	// todo: data model updates
 	// rename on data model
-	eiaConsultedBodiesDetails: null,
+	consultedBodiesDetails: null,
 	// add to HAS as well
 	developmentType: 'major-industry-storage',
 	// add to S78
-	// appellantProofsSubmittedDate: null,
+	appellantProofsSubmittedDate: null,
 
 	// S78 fields
 	changedListedBuildingNumbers: ['9000009'],

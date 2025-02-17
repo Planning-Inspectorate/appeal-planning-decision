@@ -233,7 +233,7 @@ const formattedS78 = [
 			designatedSitesNames: ['yes', 'other designations'],
 			eiaColumnTwoThreshold: true,
 			eiaCompletedEnvironmentalStatement: false,
-			eiaConsultedBodiesDetails: 'consultation details',
+			consultedBodiesDetails: 'consultation details',
 			eiaDevelopmentDescription: null,
 			eiaEnvironmentalImpactSchedule: null,
 			eiaRequiresEnvironmentalStatement: true,

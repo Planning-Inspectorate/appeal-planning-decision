@@ -91,6 +91,7 @@ describe('S78 formatter', () => {
 			casedata: {
 				submissionId: 'appeal123',
 				caseType: APPEAL_CASE_TYPE.W,
+				developmentType: 'householder',
 				caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
 				lpaCode: 123,
 				caseSubmittedDate: expect.any(String),
@@ -166,6 +167,7 @@ describe('S78 formatter', () => {
 			casedata: {
 				submissionId: 'appeal123',
 				caseType: APPEAL_CASE_TYPE.W,
+				developmentType: 'householder',
 				caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
 				lpaCode: 123,
 				caseSubmittedDate: expect.any(String),
