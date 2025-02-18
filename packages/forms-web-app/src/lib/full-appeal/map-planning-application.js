@@ -35,11 +35,11 @@ const getAppealTypeName = (appealId) => {
 const getAppealTypeNameByTypeCode = (typeCode) => {
 	switch (typeCode) {
 		case CASE_TYPES.S78.processCode:
-			return 'Full appeal';
+			return 'Planning appeal';
 		case CASE_TYPES.HAS.processCode:
 			return 'Householder appeal';
 		case CASE_TYPES.S20.processCode:
-			return 'Listed building';
+			return 'Planning Listed Building appeal';
 		default:
 			return '';
 	}
