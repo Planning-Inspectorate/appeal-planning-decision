@@ -5,7 +5,8 @@ const {
 		PRIOR_APPROVAL,
 		REMOVAL_OR_VARIATION_OF_CONDITIONS
 	},
-	APPLICATION_DECISION: { REFUSED }
+	APPLICATION_DECISION: { REFUSED },
+	APPEAL_ID
 } = require('@pins/business-rules/src/constants');
 
 const nextPage = {
@@ -34,6 +35,9 @@ const getNextPageFromCanUseServicePage = (appeal) => {
 			}
 			return nextPage.fullAppeal;
 		case REMOVAL_OR_VARIATION_OF_CONDITIONS:
+			if (appeal.appealType === APPEAL_ID.PLANNING_LISTED_BUILDING) {
+				return nextPage.listedBuilding;
+			}
 			if (hasHouseholderPermissionConditions && applicationDecision === REFUSED) {
 				return nextPage.householderPlanning;
 			}

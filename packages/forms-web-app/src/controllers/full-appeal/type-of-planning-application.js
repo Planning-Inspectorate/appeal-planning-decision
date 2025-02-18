@@ -46,6 +46,11 @@ const postTypeOfPlanningApplication = async (req, res) => {
 
 	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
 
+	let isListedBuilding = null;
+	if (isV2forS20) {
+		isListedBuilding = typeOfPlanningApplication === LISTED_BUILDING;
+	}
+
 	if (errors['type-of-planning-application']) {
 		return res.render(TYPE_OF_PLANNING_APPLICATION, {
 			bannerHtmlOverride: config.betaBannerText,
@@ -57,6 +62,9 @@ const postTypeOfPlanningApplication = async (req, res) => {
 	}
 
 	try {
+		if (isV2forS20) {
+			appeal.eligibility.isListedBuilding = isListedBuilding;
+		}
 		appeal.appealType = mapPlanningApplication(typeOfPlanningApplication);
 		appeal.typeOfPlanningApplication = typeOfPlanningApplication;
 		req.session.appeal = await createOrUpdateAppeal(appeal);
@@ -75,7 +83,9 @@ const postTypeOfPlanningApplication = async (req, res) => {
 
 	switch (typeOfPlanningApplication) {
 		case HOUSEHOLDER_PLANNING:
-			return res.redirect('/before-you-start/listed-building-householder');
+			return isV2forS20
+				? res.redirect('/before-you-start/granted-or-refused-householder')
+				: res.redirect('/before-you-start/listed-building-householder');
 		case LISTED_BUILDING:
 			// if somehow appeal type is listed-building and lpa is v1,
 			// redirect to existing listed-building page which links to ACP
@@ -90,9 +100,13 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		case I_HAVE_NOT_MADE_A_PLANNING_APPLICATION:
 			return res.redirect('/before-you-start/use-existing-service-application-type');
 		default:
-			return isV2forS78
-				? res.redirect('/before-you-start/listed-building')
-				: res.redirect('/before-you-start/any-of-following');
+			if (isV2forS20) {
+				return res.redirect('/before-you-start/granted-or-refused');
+			} else if (isV2forS78) {
+				return res.redirect('/before-you-start/listed-building');
+			} else {
+				return res.redirect('/before-you-start/any-of-following'); // v1 redirect
+			}
 	}
 };
 

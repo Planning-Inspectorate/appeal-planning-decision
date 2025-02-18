@@ -74,15 +74,23 @@ const postPriorApprovalExistingHome = async (req, res) => {
 		});
 	}
 
+	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
+
 	if (hasPriorApprovalForExistingHome) {
-		return res.redirect('/before-you-start/listed-building-householder');
+		return isV2forS20
+			? res.redirect('/before-you-start/granted-or-refused-householder')
+			: res.redirect('/before-you-start/listed-building-householder');
 	}
 
-	const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+	const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
-	return isV2
-		? res.redirect('/before-you-start/listed-building')
-		: res.redirect('/before-you-start/any-of-following');
+	if (isV2forS20) {
+		return res.redirect('/before-you-start/granted-or-refused');
+	} else if (isV2forS78) {
+		return res.redirect('/before-you-start/listed-building');
+	} else {
+		return res.redirect('/before-you-start/any-of-following'); // v1 redirect
+	}
 };
 
 module.exports = {
