@@ -1,6 +1,7 @@
 /**
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  * @typedef { 'LPAUser' } LpaUserRole
+ * @typedef {import('pins-data-model/src/enums').APPEAL_REPRESENTATION_TYPE} AppealRepresentationType
  */
 
 const {
@@ -38,7 +39,7 @@ module.exports = {
 		VIRTUAL: 'virtual'
 	},
 	/**
-	 * @type {Record<string, string>}
+	 * @type {Record<string, AppealRepresentationType>}
 	 */
 	REPRESENTATION_TYPES: {
 		STATEMENT: APPEAL_REPRESENTATION_TYPE.STATEMENT,
