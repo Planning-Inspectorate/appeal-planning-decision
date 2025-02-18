@@ -6,6 +6,30 @@
 {% from "../../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
 {% from "../../macros/summary-field.njk" import summaryField %}
 
+{% set listedBuildingRow = {
+  key: {
+    text: "Is your appeal about a listed building?"
+  },
+  value: {
+    text: summaryField(isListedBuilding, { 'data-cy': "listed-building" })
+  },
+  actions: {
+    items: [
+      {
+        href: "/before-you-start/listed-building-householder",
+        text: "Change",
+        visuallyHiddenText: "Is your appeal about a listed building?",
+        attributes: { "data-cy":"listedBuilding"}
+      }
+    ]
+  }
+}
+%}
+
+{% if not isListedBuilding %}
+  {% set listedBuildingRow = null %}
+{% endif %}
+
 {% block pageTitle %}
   You can appeal using this service - Before you start - Appeal a planning decision - GOV.UK
 {% endblock %}
@@ -79,24 +103,7 @@
               ]
             }
           },
-          {
-            key: {
-              text: "Is your appeal about a listed building?"
-            },
-            value: {
-              text: summaryField(isListedBuilding, { 'data-cy': "listed-building" })
-            },
-            actions: {
-              items: [
-                {
-                  href: "/before-you-start/listed-building-householder",
-                  text: "Change",
-                  visuallyHiddenText: "Is your appeal about a listed building?",
-                  attributes: { "data-cy":"listedBuilding"}
-                }
-              ]
-            }
-          },
+          listedBuildingRow,
           {
             key: {
               text: "Was your application granted or refused?"
