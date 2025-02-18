@@ -205,32 +205,53 @@ class BackOfficeV2Service {
 
 	/**
 	 * @param {DetailedInterestedPartySubmission} interestedPartySubmission
-	 * @returns {Promise<void>}
+	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitInterestedPartySubmission(interestedPartySubmission) {
-		const isBOIntegrationActive = await isFeatureActive(
-			FLAG.APPEALS_BO_SUBMISSION,
-			interestedPartySubmission.AppealCase?.LPACode
-		);
+	async submitInterestedPartySubmission(interestedPartySubmission, formatter) {
+		const { LPACode, appealTypeCode } = interestedPartySubmission.AppealCase;
+		const { caseReference, id } = interestedPartySubmission;
+
+		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
 		if (!isBOIntegrationActive) return;
 
-		// Note - mapping to be implemented in future
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error(
+				'Interested Party Comment associated AppealCase has an invalid appealTypeCode'
+			);
 
-		logger.info(`mapping interested party submission ${interestedPartySubmission.id} to schema`);
-		// const mappedData = await formatters.interestedPartyComment(interestedPartySubmission);
-		// logger.debug({ mappedData }, 'mapped interested party submission');
+		let result;
+		let mappedData;
 
-		// NOTE - consider whether validation required
+		if (appealTypeCode === CASE_TYPES.S78.processCode) {
+			logger.info(`mapping interested party submission ${id} to schema`);
+			mappedData = await formatter(
+				caseReference,
+				null,
+				APPEAL_REPRESENTATION_TYPE.COMMENT,
+				interestedPartySubmission
+			);
+			logger.debug({ mappedData }, 'mapped representation');
 
-		logger.info(
-			`forwarding interested party submission ${interestedPartySubmission.id} to service bus`
-		);
-		// const result = await forwarders.interestedPartyComment([mappedData]);
+			logger.info(`validating interested party comment ${id} representation schema`);
+
+			/** @type {Validate<AppealRepresentationSubmission>} */
+			const validator = getValidator('appeal-representation-submission');
+			if (!validator(mappedData)) {
+				throw new Error(
+					`Payload was invalid when checked against appeal representation submission schema`
+				);
+			}
+
+			logger.info(
+				`forwarding interested party submission ${id} of ${caseReference} to service bus`
+			);
+
+			result = await forwarders.representation([mappedData]);
+		}
 
 		if (interestedPartySubmission.emailAddress) {
-			logger.info(
-				`sending interested party comment submitted emails for ${interestedPartySubmission.id}`
-			);
+			logger.info(`sending interested party comment submitted emails for ${id}`);
 
 			try {
 				await sendCommentSubmissionConfirmationEmailToIp(interestedPartySubmission);
@@ -239,6 +260,7 @@ class BackOfficeV2Service {
 				throw new Error('failed to send interested party comment submission email');
 			}
 		}
+		return result;
 	}
 
 	/**
