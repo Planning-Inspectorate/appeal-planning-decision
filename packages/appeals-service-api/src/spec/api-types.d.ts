@@ -29,10 +29,11 @@ export interface AppealCaseRelationship {
 	caseReference2: string;
 }
 
-/** An appeal case from the Back Office, with appellant service user */
+/** An appeal case from the Back Office, with users, relations and documents */
 export type AppealCaseDetailed = AppealCase & {
 	users?: ServiceUser[];
 	relations?: AppealCaseRelationship[];
+	Documents?: Document[];
 };
 
 /** An appeal case from the Back Office */
@@ -157,8 +158,6 @@ export interface AppealCase {
 	newConditionDetails?: string;
 	/** Reason given for the need to visit neighbours */
 	reasonForNeighbourVisits?: string;
-	/** A statement provided by the LPA */
-	lpaStatement?: string;
 	/** The final outcome for the case */
 	caseDecisionOutcome?: 'allowed' | 'split_decision' | 'dismissed' | 'invalid';
 	/** The outcome of the validation action */
@@ -317,7 +316,6 @@ export interface AppealCase {
 	 */
 	LPAProofsSubmittedDate?: string;
 	scheduledMonument?: boolean;
-	appellantFinalCommentsSubmitted?: boolean;
 	/** Would the development affect a protected species */
 	protectedSpecies?: boolean;
 	/** Is the appeal site in an area of outstanding natural beauty */
@@ -360,7 +358,7 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	infrastructureLevyExpectedDate?: string;
-	/** Are there any potential safety risks */
+	/** Which procedure does appellant think is most appropriate for this appeal */
 	appellantProcedurePreference?: string;
 	/** Why preference chosen */
 	appellantProcedurePreferenceDetails?: string;
@@ -945,6 +943,7 @@ export interface InterestedPartySubmission {
 	comments: string;
 	/** @format date-time */
 	createdAt?: string;
+	AppealCase?: object;
 }
 
 /** A listed building */
@@ -1305,6 +1304,8 @@ export interface Rule6ProofOfEvidenceSubmission {
 	AppealCase: {
 		LPACode: string;
 		appealTypeCode?: string;
+		/** @format date-time */
+		rule6ProofEvidenceDueDate?: string;
 		siteAddressLine1?: string;
 		siteAddressLine2?: string;
 		siteAddressTown?: string;

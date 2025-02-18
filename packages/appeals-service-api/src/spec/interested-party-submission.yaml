@@ -36,3 +36,5 @@ components:
         createdAt:
           type: string
           format: date-time
+        AppealCase:
+          type: object
