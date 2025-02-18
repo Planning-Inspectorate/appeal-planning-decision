@@ -75,7 +75,7 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
  */
 
 /**
- * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
+ * @typedef {import('../../routes/v2/interested-party-submissions/repo').DetailedInterestedPartySubmission} DetailedInterestedPartySubmission
  * @typedef {import('../../models/entities/lpa-entity')} LPA
  * @typedef {import('./formatters/utils').AppellantSubmissionMapper} AppellantSubmissionMapper
  */
@@ -204,23 +204,21 @@ class BackOfficeV2Service {
 	}
 
 	/**
-	 * @param {InterestedPartySubmission} interestedPartySubmission
+	 * @param {DetailedInterestedPartySubmission} interestedPartySubmission
 	 * @returns {Promise<void>}
 	 */
 	async submitInterestedPartySubmission(interestedPartySubmission) {
-		// const isBOIntegrationActive = await isFeatureActive(
-		// 	FLAG.APPEALS_BO_SUBMISSION,
-		// 	lpaCode
-		// );
-		// if (!isBOIntegrationActive) return;
+		const isBOIntegrationActive = await isFeatureActive(
+			FLAG.APPEALS_BO_SUBMISSION,
+			interestedPartySubmission.AppealCase?.LPACode
+		);
+		if (!isBOIntegrationActive) return;
 
 		// Note - mapping to be implemented in future
 
-		// logger.info(
-		// 	`mapping interested party submission ${interestedPartySubmission.id} to schema`
-		// );
+		logger.info(`mapping interested party submission ${interestedPartySubmission.id} to schema`);
 		// const mappedData = await formatters.interestedPartyComment(interestedPartySubmission);
-		// logger.debug({ mappedData }, 'mapped appeal');
+		// logger.debug({ mappedData }, 'mapped interested party submission');
 
 		// NOTE - consider whether validation required
 
