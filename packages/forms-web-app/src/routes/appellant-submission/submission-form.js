@@ -42,11 +42,11 @@ const typeCodeToTaskListDetails = {
 	},
 	[CASE_TYPES.S78.processCode]: {
 		stub: 'full-planning',
-		pageCaption: 'Full Planning Appeal'
+		pageCaption: 'Planning Appeal'
 	},
 	[CASE_TYPES.S20.processCode]: {
 		stub: 'listed-building',
-		pageCaption: 'Listed building consent appeal'
+		pageCaption: 'Planning Listed Building Appeal'
 	}
 };
 
