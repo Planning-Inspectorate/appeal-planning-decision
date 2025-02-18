@@ -38,6 +38,8 @@ const getAppealTypeNameByTypeCode = (typeCode) => {
 			return 'Full appeal';
 		case CASE_TYPES.HAS.processCode:
 			return 'Householder appeal';
+		case CASE_TYPES.S20.processCode:
+			return 'Listed building';
 		default:
 			return '';
 	}
