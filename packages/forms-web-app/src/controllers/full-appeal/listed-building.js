@@ -59,6 +59,16 @@ const postListedBuilding = async (req, res) => {
 		});
 	}
 
+	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
+
+	if (isV2forS20) {
+		appeal.appealType = isListedBuilding
+			? APPEAL_ID.PLANNING_LISTED_BUILDING
+			: appeal.eligibility.hasHouseholderPermissionConditions
+			? APPEAL_ID.HOUSEHOLDER
+			: APPEAL_ID.PLANNING_SECTION_78;
+	}
+
 	try {
 		appeal[sectionName].isListedBuilding = isListedBuilding;
 		req.session.appeal = await createOrUpdateAppeal(appeal);
@@ -73,7 +83,7 @@ const postListedBuilding = async (req, res) => {
 		});
 	}
 
-	if (isListedBuilding) {
+	if (isListedBuilding && !isV2forS20) {
 		return res.redirect(`/before-you-start/use-existing-service-listed-building`);
 	}
 

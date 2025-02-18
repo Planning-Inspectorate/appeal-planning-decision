@@ -96,7 +96,8 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 			});
 		});
 
-		it('should redirect to the correct page if `yes` has been selected', async () => {
+		it('should redirect to the correct page if `yes` has been selected - v1', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(false);
 			fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = true;
 			fullAppealCopy.appealType = '1001';
 
@@ -127,6 +128,38 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 			expect(req.session.appeal).toEqual(submittedAppeal);
 		});
 
+		it('should redirect to the correct page if `yes` has been selected - v2 (s20 flag)', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = true;
+			fullAppealCopy.appealType = '1001';
+
+			const submittedAppeal = {
+				...fullAppealCopy,
+				state: 'SUBMITTED'
+			};
+
+			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+			req = {
+				...req,
+				body: {
+					'prior-approval-existing-home': 'yes'
+				}
+			};
+
+			await postPriorApprovalExistingHome(req, res);
+
+			// const appealCopy = JSON.parse(JSON.stringify(fullAppealCopy));
+			fullAppealCopy.appealSiteSection.siteOwnership = {
+				haveOtherOwnersBeenTold: null,
+				ownsWholeSite: null
+			};
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullAppealCopy);
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused-householder');
+			expect(req.session.appeal).toEqual(submittedAppeal);
+		});
+
 		it('should redirect to the correct page if `no` has been selected - v1', async () => {
 			fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = false;
 			fullAppealCopy.appealType = '1005';
@@ -152,8 +185,9 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 			expect(req.session.appeal).toEqual(submittedAppeal);
 		});
 
-		it('should redirect to the correct page if `no` has been selected - v2', async () => {
-			isLpaInFeatureFlag.mockReturnValueOnce(true);
+		it('should redirect to the correct page if `no` has been selected - v2, s78 flag', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(false); //s20
+			isLpaInFeatureFlag.mockReturnValueOnce(true); //s78
 			fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = false;
 			fullAppealCopy.appealType = '1005';
 
@@ -175,6 +209,60 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullAppealCopy);
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/listed-building');
+			expect(req.session.appeal).toEqual(submittedAppeal);
+		});
+
+		it('should redirect to the correct page if `no` has been selected - v2, s20 flag', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(true); //s20
+			isLpaInFeatureFlag.mockReturnValueOnce(false); //s78
+			fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = false;
+			fullAppealCopy.appealType = '1005';
+
+			const submittedAppeal = {
+				...fullAppealCopy,
+				state: 'SUBMITTED'
+			};
+
+			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+			req = {
+				...req,
+				body: {
+					'prior-approval-existing-home': 'no'
+				}
+			};
+
+			await postPriorApprovalExistingHome(req, res);
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullAppealCopy);
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
+			expect(req.session.appeal).toEqual(submittedAppeal);
+		});
+
+		it('should redirect to the correct page if `no` has been selected - v2, s20 & s78 flag', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(true); //s20
+			isLpaInFeatureFlag.mockReturnValueOnce(true); //s78
+			fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = false;
+			fullAppealCopy.appealType = '1005';
+
+			const submittedAppeal = {
+				...fullAppealCopy,
+				state: 'SUBMITTED'
+			};
+
+			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
+
+			req = {
+				...req,
+				body: {
+					'prior-approval-existing-home': 'no'
+				}
+			};
+
+			await postPriorApprovalExistingHome(req, res);
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullAppealCopy);
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
 			expect(req.session.appeal).toEqual(submittedAppeal);
 		});
 	});

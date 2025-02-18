@@ -47,7 +47,8 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 		nextPageUrl
 	} = await getAppealPropsForCanUseServicePage(appeal);
 
-	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
+	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
 	const deadlineDate = businessRulesDeadline(
 		appeal.decisionDate,
@@ -95,13 +96,9 @@ const canUseServiceFullAppeal = async (req, res) => {
 		appeal.eligibility.applicationDecision
 	);
 
-	const isListedBuilding =
-		appeal.typeOfPlanningApplication === LISTED_BUILDING
-			? null
-			: appeal.eligibility.isListedBuilding
-			? 'Yes'
-			: 'No';
-	const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
+	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+	const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
 	res.render(canUseServiceFullAppealUrl, {
 		bannerHtmlOverride: config.betaBannerText,
@@ -113,7 +110,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 		enforcementNotice,
 		dateOfDecisionLabel,
 		isListedBuilding,
-		isV2,
+		isV2forS78,
 		nextPageUrl
 	});
 };
@@ -134,7 +131,8 @@ const canUseServicePriorApproval = async (req, res) => {
 		? 'Yes'
 		: 'No';
 
-	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
+	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
 	if (appeal.eligibility.hasPriorApprovalForExistingHome) {
 		const deadlineDate = businessRulesDeadline(
@@ -171,7 +169,7 @@ const canUseServicePriorApproval = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
-		const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+		const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
 		res.render(canUseServicePriorApprovalFull, {
 			bannerHtmlOverride: config.betaBannerText,
@@ -184,7 +182,7 @@ const canUseServicePriorApproval = async (req, res) => {
 			dateOfDecisionLabel,
 			hasPriorApprovalForExistingHome,
 			isListedBuilding,
-			isV2,
+			isV2forS78,
 			nextPageUrl
 		});
 	}
