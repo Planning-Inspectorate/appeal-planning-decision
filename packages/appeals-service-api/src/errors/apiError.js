@@ -298,6 +298,10 @@ class ApiError {
 		return new ApiError(400, { errors: ['Unable to submit appellant submission'] });
 	}
 
+	static unableToCreateAndFindIpComment() {
+		return new ApiError(404, { errors: ['Unable to create and find Interested Party Comment'] });
+	}
+
 	static unableToSubmitIpComment() {
 		return new ApiError(400, { errors: ['Unable to submit Interested Party Comment'] });
 	}
