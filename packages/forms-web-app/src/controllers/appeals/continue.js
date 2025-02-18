@@ -11,7 +11,8 @@ const appealSubmissionContinueUrls = {
 
 const typeCodeToAppealUrlStub = {
 	[CASE_TYPES.HAS.processCode]: 'householder',
-	[CASE_TYPES.S78.processCode]: 'full-planning'
+	[CASE_TYPES.S78.processCode]: 'full-planning',
+	[CASE_TYPES.S20.processCode]: 'listed-building'
 };
 
 /**
