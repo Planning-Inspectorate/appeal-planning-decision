@@ -5,7 +5,8 @@ const {
 	howYouNotifiedPeople,
 	formatApplicationSubmissionUsers,
 	formatApplicationDecision,
-	formatYesNoSomeAnswer
+	formatYesNoSomeAnswer,
+	createInterestedPartyNewUser
 } = require('./utils');
 const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
@@ -155,6 +156,36 @@ describe('utils.js', () => {
 			expect(formatYesNoSomeAnswer('no')).toBe('No');
 			expect(formatYesNoSomeAnswer('some')).toBe('Some');
 			expect(formatYesNoSomeAnswer('unknown')).toBeNull();
+		});
+	});
+
+	describe('createInterestedPartyNewUser', () => {
+		it('should return a formatted ip new user', () => {
+			const data = {
+				id: '123',
+				caseReference: '987',
+				firstName: 'Testy',
+				lastName: 'McTest',
+				addressLine1: null,
+				addressLine2: null,
+				townCity: null,
+				county: null,
+				postcode: null,
+				emailAddress: 'testEmail@test.com',
+				comments: 'some test comments',
+				createdAt: new Date(),
+				AppealCase: { LPACode: 'test456', appealTypeCode: 'S78' }
+			};
+			const result = createInterestedPartyNewUser(data);
+			expect(result).toEqual({
+				salutation: null,
+				firstName: 'Testy',
+				lastName: 'McTest',
+				emailAddress: 'testEmail@test.com',
+				serviceUserType: SERVICE_USER_TYPE.INTERESTED_PARTY,
+				telephoneNumber: null,
+				organisation: null
+			});
 		});
 	});
 });
