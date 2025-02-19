@@ -210,3 +210,5 @@ components:
           type: array
           items:
             type: object
+        appealNotification:
+          type: boolean

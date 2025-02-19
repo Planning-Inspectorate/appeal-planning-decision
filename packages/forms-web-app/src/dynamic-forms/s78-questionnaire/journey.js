@@ -96,7 +96,8 @@ const sections = [
 		.addQuestion(questions.pressAdvertUpload)
 		.withCondition((response) =>
 			questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert')
-		),
+		)
+		.addQuestion(questions.appealNotification),
 	new Section('Consultation responses and representations', 'consultation')
 		.addQuestion(questions.statutoryConsultees)
 		.addQuestion(questions.consultationResponses)

@@ -755,6 +755,17 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	appealNotification: {
+		name: 'appealNotification',
+		dataModelName: APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: 'LPA Questionnaire Documents',
+		horizonDocumentGroupType: 'Evidence'
 	}
 };
 
