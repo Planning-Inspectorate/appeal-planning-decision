@@ -308,20 +308,51 @@ describe('BackOfficeV2Service', () => {
 	});
 
 	describe('submitInterestedPartySubmission', () => {
-		it('should submit IP comment', async () => {
-			const interestedPartySubmission = { emailAddress: 'test' };
+		const mockFormattedIPComment = {};
+		const mockResult = { test: 1 };
 
-			await backOfficeV2Service.submitInterestedPartySubmission(interestedPartySubmission);
+		// formatter
+		const mockIPCommentFormatter = jest.fn();
+		mockIPCommentFormatter.mockReturnValue(mockFormattedIPComment);
+
+		forwarders.representation = jest.fn();
+		forwarders.representation.mockResolvedValue(mockResult);
+
+		it('should submit IP comment', async () => {
+			const interestedPartySubmission1 = {
+				id: '123',
+				caseReference: '234',
+				emailAddress: 'testEmail@test.com',
+				AppealCase: {
+					LPACode: 'Q1111',
+					appealTypeCode: 'S78'
+				}
+			};
+
+			await backOfficeV2Service.submitInterestedPartySubmission(
+				interestedPartySubmission1,
+				mockIPCommentFormatter
+			);
 
 			expect(sendCommentSubmissionConfirmationEmailToIp).toHaveBeenCalledWith(
-				interestedPartySubmission
+				interestedPartySubmission1
 			);
 		});
 
 		it('should not send email if IP comment has no email', async () => {
-			const interestedPartySubmission = {};
+			const interestedPartySubmission2 = {
+				id: '123',
+				caseReference: '234',
+				AppealCase: {
+					LPACode: 'Q1111',
+					appealTypeCode: 'S78'
+				}
+			};
 
-			await backOfficeV2Service.submitInterestedPartySubmission(interestedPartySubmission);
+			await backOfficeV2Service.submitInterestedPartySubmission(
+				interestedPartySubmission2,
+				mockIPCommentFormatter
+			);
 
 			expect(sendCommentSubmissionConfirmationEmailToIp).not.toHaveBeenCalled();
 		});
