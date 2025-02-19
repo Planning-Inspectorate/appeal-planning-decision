@@ -35,6 +35,9 @@ const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-dat
  * @typedef {import ('pins-data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
  *
  * @typedef {import ('../../../models/entities/lpa-entity')} LPA
+ *
+ * @typedef {import('../../../routes/v2/interested-party-submissions/repo').DetailedInterestedPartySubmission} InterestedPartySubmission
+ * @typedef {import ('pins-data-model').Schemas.AppealRepresentationSubmission['newUser']} IPNewUser
  */
 
 /**
@@ -207,6 +210,22 @@ exports.formatYesNoSomeAnswer = (answer) => {
 function isValidYesNoSomeKey(key) {
 	return key in yesNoSomeMap;
 }
+
+/**
+ * @param {InterestedPartySubmission} interestedPartySubmission
+ * @returns {IPNewUser}
+ */
+exports.createInterestedPartyNewUser = (interestedPartySubmission) => {
+	return {
+		salutation: null,
+		firstName: interestedPartySubmission.firstName,
+		lastName: interestedPartySubmission.lastName,
+		emailAddress: interestedPartySubmission.emailAddress,
+		telephoneNumber: null,
+		organisation: null,
+		serviceUserType: 'InterestedParty'
+	};
+};
 
 /**
  * @param {FullAppellantSubmission} appellantSubmission

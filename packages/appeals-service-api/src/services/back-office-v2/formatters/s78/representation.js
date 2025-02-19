@@ -1,4 +1,4 @@
-const { getDocuments } = require('../utils');
+const { getDocuments, createInterestedPartyNewUser } = require('../utils');
 const { APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
@@ -46,23 +46,6 @@ const REPRESENTATION_FIELDS = {
 };
 
 /**
- * @param {InterestedPartySubmission} interestedPartySubmission
- * @returns {NewUser}
- */
-
-const createInterestedPartyNewUser = (interestedPartySubmission) => {
-	return {
-		salutation: null,
-		firstName: interestedPartySubmission.firstName,
-		lastName: interestedPartySubmission.lastName,
-		emailAddress: interestedPartySubmission.emailAddress,
-		telephoneNumber: null,
-		organisation: null,
-		serviceUserType: 'InterestedParty'
-	};
-};
-
-/**
  * @param {string} caseReference
  * @param {string | null} serviceUserId
  * @param {RepresentationTypes} repType
@@ -78,7 +61,7 @@ exports.formatter = async (caseReference, serviceUserId, repType, representation
 	if (repType === APPEAL_REPRESENTATION_TYPE.COMMENT) {
 		party = APPEAL_USER_ROLES.INTERESTED_PARTY;
 	} else if (!serviceUserId) {
-		lpaCode = representationSubmission.AppealCase.LPACode;
+		lpaCode = representationSubmission.AppealCase?.LPACode;
 		party = LPA_USER_ROLE;
 	} else if (serviceUserId && repType === APPEAL_REPRESENTATION_TYPE.STATEMENT) {
 		party = APPEAL_USER_ROLES.RULE_6_PARTY;

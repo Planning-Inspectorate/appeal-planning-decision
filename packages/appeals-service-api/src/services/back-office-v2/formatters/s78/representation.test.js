@@ -1,8 +1,19 @@
 const { formatter } = require('./representation');
 const { APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
 
+const expectedNewIPUser = {
+	salutation: null,
+	firstName: 'Testy',
+	lastName: 'McTest',
+	emailAddress: 'testEmail@test.com',
+	serviceUserType: 'InterestedParty',
+	telephoneNumber: null,
+	organisation: null
+};
+
 jest.mock('../utils', () => ({
-	getDocuments: jest.fn(() => [1])
+	getDocuments: jest.fn(() => [1]),
+	createInterestedPartyNewUser: jest.fn(() => expectedNewIPUser)
 }));
 describe('Representation Formatter', () => {
 	let submission;
@@ -98,6 +109,39 @@ describe('Representation Formatter', () => {
 		);
 		expect(result.representation).toBeNull();
 	});
+
+	it('should format a COMMENT submission ', async () => {
+		const ipSubmission = {
+			id: '123',
+			caseReference,
+			firstName: 'Testy',
+			lastName: 'McTest',
+			addressLine1: null,
+			addressLine2: null,
+			townCity: null,
+			county: null,
+			postcode: null,
+			emailAddress: 'testEmail@test.com',
+			comments: 'some test comments',
+			createdAt: new Date(),
+			AppealCase: { LPACode: 'test456', appealTypeCode: 'S78' }
+		};
+
+		const result = await formatter(
+			caseReference,
+			null,
+			APPEAL_REPRESENTATION_TYPE.COMMENT,
+			ipSubmission
+		);
+
+		expect(result.representation).toBe('some test comments');
+		expect(result.representationType).toBe('comment');
+		expect(result.newUser).toBe(expectedNewIPUser);
+		expect(result).not.toHaveProperty('serviceUserId');
+		expect(result).not.toHaveProperty('lpaCode');
+		expect(result.documents).toEqual([]);
+	});
+
 	it('should throw an error if representationSubmission is not provided', async () => {
 		await expect(
 			formatter(caseReference, null, APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT, null)
