@@ -289,6 +289,15 @@ exports.questionProps = {
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
 		documentType: documentTypes.uploadSiteNotice
 	},
+	appealNotification: {
+		type: 'multi-file-upload',
+		title: 'Appeal notification letter',
+		question: 'Upload the appeal notification letter and the list of people that you notified',
+		fieldName: 'appealNotification',
+		url: 'appeal-notification-letter',
+		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
+		documentType: documentTypes.appealNotification
+	},
 	representationsFromOthers: {
 		type: 'boolean',
 		title: 'Representations from other parties',
