@@ -1200,8 +1200,8 @@ exports.questionProps = {
 	},
 	ownsAllLand: {
 		type: 'boolean',
-		title: 'Do you own all the land involved in the appeal?',
-		question: 'Do you own all the land involved in the appeal?',
+		title: 'Do you own all of the land involved in the appeal?',
+		question: 'Do you own all of the land involved in the appeal?',
 		fieldName: 'ownsAllLand',
 		url: 'own-all-land',
 		validators: [
