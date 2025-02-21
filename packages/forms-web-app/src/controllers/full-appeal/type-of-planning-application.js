@@ -47,7 +47,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
 
 	let isListedBuilding = null;
-	if (isV2forS20) {
+	if (isV2forS20 && typeOfPlanningApplication !== REMOVAL_OR_VARIATION_OF_CONDITIONS) {
 		isListedBuilding = typeOfPlanningApplication === LISTED_BUILDING;
 	}
 
