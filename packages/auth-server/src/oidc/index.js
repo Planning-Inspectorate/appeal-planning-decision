@@ -1,8 +1,6 @@
 import CONSTS from '@pins/common/src/constants.js';
 import config from '../configuration/config.js';
 import resourceFeature from './resources.js';
-import Adapter from '../adapter/prisma-adapter.js';
-import Account from '../account/account.js';
 import { buildClient } from './clients.js';
 
 const oidc = {
@@ -43,8 +41,5 @@ const oidc = {
 		ttl: config.oidc.ttl
 	}
 };
-
-oidc.configuration.findAccount = Account.findAccount;
-oidc.configuration.adapter = Adapter;
 
 export default oidc;
