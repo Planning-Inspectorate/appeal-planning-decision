@@ -31,7 +31,7 @@ extends:
       - name: Prod
         dependsOn:
           - Test
-    serviceConnectionPrefix: Azure DevOps Pipelines - Appeals Front Office - Infrastructure DEV
+    serviceConnectionPrefix: Azure DevOps Pipelines - Appeals Front Office - Infrastructure
     storageAccountName: pinssttfstateuksappealfo
     resourceGroupName: pins-rg-shared-terraform-uks
     containerPrefix: terraform-state-appeals-front-office-
