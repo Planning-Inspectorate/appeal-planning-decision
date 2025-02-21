@@ -316,6 +316,32 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			);
 		});
 
+		it('should redirect to the removal or variation of conditions page - s20', async () => {
+			isLpaInFeatureFlag.mockReturnValue(true); //s20
+
+			const planningApplication = 'removal-or-variation-of-conditions';
+
+			const mockRequest = {
+				...req,
+				body: { 'type-of-planning-application': planningApplication }
+			};
+
+			await postTypeOfPlanningApplication(mockRequest, res);
+
+			const updatedAppeal = appeal;
+			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+			updatedAppeal.typeOfPlanningApplication = planningApplication;
+			updatedAppeal.eligibility.isListedBuilding = null;
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...updatedAppeal
+			});
+
+			expect(res.redirect).toHaveBeenCalledWith(
+				'/before-you-start/conditions-householder-permission'
+			);
+		});
+
 		it('should redirect to granted-or-refused page if listed-building selected (v2 only)', async () => {
 			isLpaInFeatureFlag.mockReturnValue(true); //s20
 			const planningApplication = 'listed-building';
