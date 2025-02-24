@@ -1,7 +1,7 @@
 /**
  * @typedef {Object} InterestedParty
  * @property {string} caseReference
- * @property {string} searchPostcode
+ * @property {string} [searchPostcode]
  * @property {string} [firstName]
  * @property {string} [lastName]
  * @property {string} [emailAddress]
@@ -54,6 +54,38 @@ const getInterestedPartyFromSession = (req) => {
 };
 
 /**
+ * retrieves the interested party from session and formats for submission
+ * @param {import('express').Request} req
+ * @returns {InterestedParty} interested party
+ */
+const getInterestedPartySubmissionFromSession = (req) => {
+	const {
+		caseReference,
+		firstName,
+		lastName,
+		emailAddress,
+		addressLine1,
+		addressLine2,
+		townCity,
+		county,
+		postcode,
+		comments
+	} = req.session.interestedParty;
+	return {
+		caseReference,
+		firstName,
+		lastName,
+		emailAddress,
+		addressLine1,
+		addressLine2,
+		townCity,
+		county,
+		postcode,
+		comments
+	};
+};
+
+/**
  * resets interested party in req.session
  * @param {import('express').Request} req
  */
@@ -90,6 +122,7 @@ const checkIfInterestedPartySessionSubmitted = (req) => {
 module.exports = {
 	createInterestedPartySession,
 	getInterestedPartyFromSession,
+	getInterestedPartySubmissionFromSession,
 	updateInterestedPartySession,
 	resetInterestedPartySession,
 	checkInterestedPartySessionCaseReferenceSet,
