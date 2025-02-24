@@ -198,6 +198,7 @@ const expectedHAS = {
 				neighbouringSiteSafetyDetails: null
 			}
 		],
+		reasonForNeighbourVisits: null,
 		nearbyCaseReferences: ['abc1234'],
 		newConditionDetails: 'I have new conditions',
 		lpaStatement: '',

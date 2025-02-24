@@ -397,6 +397,7 @@ exports.getCommonLPAQSubmissionFields = (caseReference, answers) => ({
 			neighbouringSiteSafetyDetails: null // not asked
 		};
 	}),
+	reasonForNeighbourVisits: answers.neighbourSiteAccess_neighbourSiteAccessDetails ?? null,
 	nearbyCaseReferences: answers.SubmissionLinkedCase?.map(({ caseReference }) => caseReference)
 });
 
