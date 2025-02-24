@@ -1627,7 +1627,7 @@ exports.questionProps = {
 			type: 'case',
 			title: 'Enter the appeal reference number',
 			question: 'Enter the appeal reference number',
-			fieldName: 'appellantLinkedCase',
+			fieldName: 'appellantLinkedCaseReference',
 			html: 'resources/appellant-linked-case/content.html',
 			hint: 'For example, 0221532.',
 			validators: [
