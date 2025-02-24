@@ -38,7 +38,10 @@ module.exports = () => async (req, res, next) => {
 
 	let journeyType;
 
-	if (deadlineHasPassed(appeal.lpaQuestionnaireDueDate)) {
+	if (
+		deadlineHasPassed(appeal.lpaQuestionnaireDueDate) ||
+		appeal.caseStatus === APPEAL_CASE_STATUS.STATEMENTS
+	) {
 		journeyType = LPA_JOURNEY_TYPES_FORMATTED.STATEMENT;
 	}
 
