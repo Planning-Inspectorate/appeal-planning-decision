@@ -642,22 +642,40 @@ describe('BackOfficeV2Service', () => {
 	});
 
 	describe('submitRule6StatementSubmission', () => {
+		const mockR6Statement = {
+			AppealCase: {
+				id: 'a1',
+				appealTypeCode: 'S78',
+				LPACode: 'Q1111'
+			}
+		};
+
+		const mockFormattedR6Statement = {};
+
+		const mockResult = { test: 1 };
+
+		// formatter
+		const mockR6StatementFormatter = jest.fn();
+		mockR6StatementFormatter.mockReturnValue(mockFormattedR6Statement);
+
+		// forwarder
+		forwarders.representation = jest.fn();
+		forwarders.representation.mockResolvedValue(mockResult);
+
 		it('should submit rule6 statement', async () => {
-			const mockStatement = { test: 1 };
+			getRule6StatementByAppealId.mockResolvedValue(mockR6Statement);
 
-			getRule6StatementByAppealId.mockResolvedValue(mockStatement);
-
-			await backOfficeV2Service.submitRule6StatementSubmission(testCaseRef, testUserID);
+			await backOfficeV2Service.submitRule6StatementSubmission(
+				testCaseRef,
+				testUserID,
+				mockR6StatementFormatter
+			);
 
 			expect(getRule6StatementByAppealId).toHaveBeenCalledWith(testUserID, testCaseRef);
 			expect(getUserById).toHaveBeenCalledWith(testUserID);
-			expect(markRule6StatementAsSubmitted).toHaveBeenCalledWith(
-				testUserID,
-				testCaseRef,
-				expect.any(String)
-			);
+			expect(markRule6StatementAsSubmitted).toHaveBeenCalledWith(testUserID, testCaseRef);
 			expect(sendRule6StatementSubmissionEmailToRule6PartyV2).toHaveBeenCalledWith(
-				mockStatement,
+				mockR6Statement,
 				mockUser.email
 			);
 		});
