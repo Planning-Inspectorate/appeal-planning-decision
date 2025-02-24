@@ -1,6 +1,7 @@
 const { checkAnswersGet, checkAnswersPost } = require('./controller');
 const {
 	getInterestedPartyFromSession,
+	getInterestedPartySubmissionFromSession,
 	markInterestedPartySessionAsSubmitted
 } = require('../../../../services/interested-party.service');
 const logger = require('../../../../lib/logger');
@@ -64,11 +65,11 @@ describe('checkAnswers Controller Tests', () => {
 	describe('checkAnswersPost', () => {
 		it('should submit interested party submission and redirect to comment-submitted', async () => {
 			const interestedParty = { firstName: 'John', lastName: 'Doe', comments: 'Test comment' };
-			getInterestedPartyFromSession.mockReturnValue(interestedParty);
+			getInterestedPartySubmissionFromSession.mockReturnValue(interestedParty);
 
 			await checkAnswersPost(req, res);
 
-			expect(getInterestedPartyFromSession).toHaveBeenCalledWith(req);
+			expect(getInterestedPartySubmissionFromSession).toHaveBeenCalledWith(req);
 			expect(req.appealsApiClient.submitInterestedPartySubmission).toHaveBeenCalledWith(
 				interestedParty
 			);
@@ -79,7 +80,7 @@ describe('checkAnswers Controller Tests', () => {
 		it('should log an error if submission fails', async () => {
 			const interestedParty = { firstName: 'John', lastName: 'Doe', comments: 'Test comment' };
 			const error = new Error('Submission failed');
-			getInterestedPartyFromSession.mockReturnValue(interestedParty);
+			getInterestedPartySubmissionFromSession.mockReturnValue(interestedParty);
 			req.appealsApiClient.submitInterestedPartySubmission.mockRejectedValue(error);
 
 			await checkAnswersPost(req, res);
