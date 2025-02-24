@@ -565,24 +565,57 @@ class BackOfficeV2Service {
 	/**
 	 * @param {string} caseReference
 	 * @param {string} userId
-	 * @returns {Promise<void>}
+	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitRule6StatementSubmission(caseReference, userId) {
-		const rule6StatementSubmission = await getRule6StatementByAppealId(userId, caseReference);
+	async submitRule6StatementSubmission(caseReference, userId, formatter) {
+		const rule6Statement = await getRule6StatementByAppealId(userId, caseReference);
 
-		const { email } = await getUserById(userId);
+		const { LPACode, appealTypeCode } = rule6Statement.AppealCase;
+
+		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
+		if (!isBOIntegrationActive) return;
+
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error('Rule 6 statement associated AppealCase has an invalid appealTypeCode');
+
+		const { email, serviceUserId } = await getUserById(userId);
+
+		logger.info(`mapping rule6 statement ${caseReference} to ${appealTypeCode} schema`);
+		const mappedData = await formatter(
+			caseReference,
+			serviceUserId,
+			APPEAL_REPRESENTATION_TYPE.STATEMENT,
+			rule6Statement
+		);
+		logger.debug({ mappedData }, 'mapped representation');
+
+		logger.info(`validating representation ${caseReference} schema`);
+
+		/** @type {Validate<AppealRepresentationSubmission>} */
+		const validator = getValidator('appeal-representation-submission');
+		if (!validator(mappedData)) {
+			throw new Error(
+				`Payload was invalid when checked against appeal representation submission schema`
+			);
+		}
+
+		logger.info(`forwarding rule 6 statement submission for ${caseReference} to service bus`);
+
+		const result = await forwarders.representation([mappedData]);
 
 		logger.info(`forwarding rule 6 party statement submission for ${caseReference} to service bus`);
 
-		// Date to be set in back office mapper once data model confirmed
-		await markRule6StatementAsSubmitted(userId, caseReference, new Date().toISOString());
+		await markRule6StatementAsSubmitted(userId, caseReference);
 
 		try {
-			await sendRule6StatementSubmissionEmailToRule6PartyV2(rule6StatementSubmission, email);
+			await sendRule6StatementSubmissionEmailToRule6PartyV2(rule6Statement, email);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendRule6StatementSubmissionEmailToRule6PartyV2');
 			throw new Error('failed to send rule 6 statement submission email');
 		}
+
+		return result;
 	}
 
 	/**
