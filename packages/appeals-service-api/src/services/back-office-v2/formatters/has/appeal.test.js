@@ -4,6 +4,7 @@ const {
 	APPEAL_APPLICATION_DECISION,
 	APPEAL_CASE_PROCEDURE,
 	APPEAL_CASE_TYPE,
+	APPEAL_TYPE_OF_PLANNING_APPLICATION,
 	SERVICE_USER_TYPE
 } = require('pins-data-model');
 
@@ -66,7 +67,8 @@ describe('HAS formatter', () => {
 			updateDevelopmentDescription: true,
 			SubmissionLinkedCase: [{ caseReference: 'case123' }],
 			costApplication: true,
-			isAppellant: true
+			isAppellant: true,
+			typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
 		};
 	});
 
@@ -106,7 +108,8 @@ describe('HAS formatter', () => {
 				changedDevelopmentDescription: true,
 				nearbyCaseReferences: ['case123'],
 				neighbouringSiteAddresses: null,
-				appellantCostsAppliedFor: true
+				appellantCostsAppliedFor: true,
+				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
 			},
 			documents: testDocuments,
 			users: [
@@ -168,7 +171,8 @@ describe('HAS formatter', () => {
 				changedDevelopmentDescription: true,
 				nearbyCaseReferences: ['case123'],
 				neighbouringSiteAddresses: null,
-				appellantCostsAppliedFor: true
+				appellantCostsAppliedFor: true,
+				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
 			},
 			documents: testDocuments,
 			users: [

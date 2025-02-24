@@ -681,9 +681,10 @@ model ServiceUser {
 
 /// AppellantSubmission represents an appeal submitted by an appellant
 model AppellantSubmission {
-  id             String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  LPACode        String
-  appealTypeCode String // type shortcode such as HAS or S78
+  id                        String  @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  LPACode                   String
+  appealTypeCode            String // type shortcode such as HAS or S78
+  typeOfPlanningApplication String?
 
   // dates
   createdAt DateTime  @default(now())
