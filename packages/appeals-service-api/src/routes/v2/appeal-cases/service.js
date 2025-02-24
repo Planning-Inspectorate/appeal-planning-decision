@@ -156,7 +156,8 @@ const mapHASDataModelToAppealCase = (
 		changedDevelopmentDescription,
 		newConditionDetails,
 		appellantCostsAppliedFor,
-		lpaCostsAppliedFor
+		lpaCostsAppliedFor,
+		typeOfPlanningApplication
 	}
 ) => ({
 	// custom mappings
@@ -247,7 +248,8 @@ const mapHASDataModelToAppealCase = (
 	changedDevelopmentDescription,
 	newConditionDetails,
 	appellantCostsAppliedFor,
-	lpaCostsAppliedFor
+	lpaCostsAppliedFor,
+	typeOfPlanningApplication
 });
 
 /**
@@ -315,8 +317,7 @@ const mapS78DataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	siteGridReferenceEasting: dataModel.siteGridReferenceEasting,
 	siteGridReferenceNorthing: dataModel.siteGridReferenceNorthing,
 	siteViewableFromRoad: dataModel.siteViewableFromRoad,
-	siteWithinSSSI: dataModel.siteWithinSSSI,
-	typeOfPlanningApplication: dataModel.typeOfPlanningApplication
+	siteWithinSSSI: dataModel.siteWithinSSSI
 });
 
 /**

@@ -8,14 +8,6 @@ const exampleS78DataModel = {
 	...exampleHASDataModel,
 	caseType: 'W',
 
-	// todo: data model updates
-	// rename on data model
-	consultedBodiesDetails: null,
-	// add to HAS as well
-	developmentType: 'major-industry-storage',
-	// add to S78
-	appellantProofsSubmittedDate: null,
-
 	// S78 fields
 	changedListedBuildingNumbers: ['9000009'],
 	agriculturalHolding: null,
@@ -41,6 +33,7 @@ const exampleS78DataModel = {
 	eiaRequiresEnvironmentalStatement: null,
 	eiaCompletedEnvironmentalStatement: null,
 	hasStatutoryConsultees: true,
+	consultedBodiesDetails: null,
 	hasInfrastructureLevy: false,
 	isInfrastructureLevyFormallyAdopted: null,
 	infrastructureLevyAdoptedDate: '2023-07-27T20:30:00.000Z',
@@ -59,6 +52,7 @@ const exampleS78DataModel = {
 	targetDate: '2023-07-27T20:30:00.000Z',
 	appellantCommentsSubmittedDate: '2023-07-27T20:30:00.000Z',
 	appellantStatementSubmittedDate: '2023-07-27T20:30:00.000Z',
+	appellantProofsSubmittedDate: null,
 	finalCommentsDueDate: '2023-07-27T20:30:00.000Z',
 	interestedPartyRepsDueDate: '2023-07-27T20:30:00.000Z',
 	lpaCommentsSubmittedDate: '2023-07-27T20:30:00.000Z',

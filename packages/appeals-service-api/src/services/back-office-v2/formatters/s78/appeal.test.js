@@ -5,6 +5,7 @@ const {
 	APPEAL_APPLICATION_DECISION,
 	APPEAL_CASE_PROCEDURE,
 	APPEAL_CASE_TYPE,
+	APPEAL_TYPE_OF_PLANNING_APPLICATION,
 	SERVICE_USER_TYPE
 } = require('pins-data-model');
 
@@ -68,6 +69,7 @@ describe('S78 formatter', () => {
 			SubmissionLinkedCase: [{ caseReference: 'case123' }],
 			costApplication: true,
 			isAppellant: true,
+			typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
 
 			agriculturalHolding: true,
 			tenantAgriculturalHolding: true,
@@ -131,7 +133,8 @@ describe('S78 formatter', () => {
 				appellantProcedurePreferenceDuration: 13,
 				inquiryHowManyWitnesses: 3,
 				planningObligation: true,
-				statusPlanningObligation: 'test'
+				statusPlanningObligation: 'test',
+				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
 			},
 			documents: testDocuments,
 			users: [
@@ -207,7 +210,8 @@ describe('S78 formatter', () => {
 				appellantProcedurePreferenceDuration: null,
 				inquiryHowManyWitnesses: null,
 				planningObligation: true,
-				statusPlanningObligation: 'test'
+				statusPlanningObligation: 'test',
+				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
 			},
 			documents: testDocuments,
 			users: [

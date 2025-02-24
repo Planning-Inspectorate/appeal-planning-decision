@@ -332,7 +332,8 @@ const formattedHAS1 = {
 		siteAddressTown: 'Somewhereville',
 		siteAreaSquareMetres: 22,
 		siteSafetyDetails: ["It's dangerous"],
-		isGreenBelt: false
+		isGreenBelt: false,
+		typeOfPlanningApplication: null
 	},
 	documents: [
 		{
@@ -393,7 +394,8 @@ const formattedHAS2 = {
 		siteAddressTown: 'Somewhereville',
 		siteAreaSquareMetres: 25,
 		siteSafetyDetails: ["It's dangerous"],
-		isGreenBelt: false
+		isGreenBelt: false,
+		typeOfPlanningApplication: null
 	},
 	documents: [
 		{
@@ -477,7 +479,8 @@ const formattedS78 = {
 		appellantProcedurePreferenceDetails: 'details',
 		appellantProcedurePreferenceDuration: 13,
 		inquiryHowManyWitnesses: 3,
-		developmentType: 'householder'
+		developmentType: 'householder',
+		typeOfPlanningApplication: null
 	},
 	documents: [
 		{

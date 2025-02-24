@@ -462,7 +462,8 @@ exports.appellantStartAppeal = async (req, res) => {
 		appealTypeCode: appealTypeDetails.appealTypeCode,
 		applicationDecisionDate: appeal.decisionDate,
 		applicationReference: appeal.planningApplicationNumber,
-		applicationDecision: appeal.eligibility.applicationDecision
+		applicationDecision: appeal.eligibility.applicationDecision,
+		typeOfPlanningApplication: appeal.typeOfPlanningApplication
 	});
 
 	await deleteAppeal(appeal.id);
