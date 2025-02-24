@@ -286,7 +286,13 @@ class Question {
 	async saveResponseToDB(apiClient, journeyResponse, responseToSave) {
 		const journeyType = journeyResponse.journeyId;
 
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyType)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyType)
+		) {
 			await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave.answers);
 		} else if (
 			[
@@ -452,6 +458,7 @@ class Question {
 		const longForms = [
 			JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 			JOURNEY_TYPES.S78_QUESTIONNAIRE,
+			JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
 			JOURNEY_TYPES.HAS_APPEAL_FORM,
 			JOURNEY_TYPES.S78_APPEAL_FORM,
 			JOURNEY_TYPES.S20_APPEAL_FORM
