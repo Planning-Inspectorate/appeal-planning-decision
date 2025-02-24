@@ -962,7 +962,13 @@ class AppealsApiClient {
 	async postSubmissionAddress(journeyId, referenceId, data) {
 		let endpoint;
 
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/address`;
 		} else if (
 			[
@@ -991,7 +997,13 @@ class AppealsApiClient {
 	async deleteSubmissionAddress(journeyId, referenceId, addressId) {
 		let endpoint;
 
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/address/${addressId}`;
 		} else if (
 			[
@@ -1019,7 +1031,13 @@ class AppealsApiClient {
 	 */
 	async postSubmissionLinkedCase(journeyId, referenceId, data) {
 		let endpoint;
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/linked-case`;
 		} else if (
 			[
@@ -1047,7 +1065,13 @@ class AppealsApiClient {
 	 */
 	async deleteSubmissionLinkedCase(journeyId, referenceId, linkedCaseId) {
 		let endpoint;
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/linked-case/${linkedCaseId}`;
 		} else if (
 			[
@@ -1075,7 +1099,13 @@ class AppealsApiClient {
 	 */
 	async postSubmissionListedBuilding(journeyId, referenceId, data) {
 		let endpoint;
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/listed-building`;
 		}
 
@@ -1095,7 +1125,13 @@ class AppealsApiClient {
 	 */
 	async deleteSubmissionListedBuilding(journeyId, referenceId, listedBuildingId) {
 		let endpoint;
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/listed-building/${listedBuildingId}`;
 		}
 
