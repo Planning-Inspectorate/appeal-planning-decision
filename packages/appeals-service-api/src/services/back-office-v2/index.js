@@ -220,35 +220,29 @@ class BackOfficeV2Service {
 				'Interested Party Comment associated AppealCase has an invalid appealTypeCode'
 			);
 
-		let result;
-		let mappedData;
+		logger.info(`mapping interested party submission ${id} to schema`);
 
-		if (appealTypeCode === CASE_TYPES.S78.processCode) {
-			logger.info(`mapping interested party submission ${id} to schema`);
-			mappedData = await formatter(
-				caseReference,
-				null,
-				APPEAL_REPRESENTATION_TYPE.COMMENT,
-				interestedPartySubmission
+		const mappedData = await formatter(
+			caseReference,
+			null,
+			APPEAL_REPRESENTATION_TYPE.COMMENT,
+			interestedPartySubmission
+		);
+		logger.debug({ mappedData }, 'mapped representation');
+
+		logger.info(`validating interested party comment ${id} representation schema`);
+
+		/** @type {Validate<AppealRepresentationSubmission>} */
+		const validator = getValidator('appeal-representation-submission');
+		if (!validator(mappedData)) {
+			throw new Error(
+				`Payload was invalid when checked against appeal representation submission schema`
 			);
-			logger.debug({ mappedData }, 'mapped representation');
-
-			logger.info(`validating interested party comment ${id} representation schema`);
-
-			/** @type {Validate<AppealRepresentationSubmission>} */
-			const validator = getValidator('appeal-representation-submission');
-			if (!validator(mappedData)) {
-				throw new Error(
-					`Payload was invalid when checked against appeal representation submission schema`
-				);
-			}
-
-			logger.info(
-				`forwarding interested party submission ${id} of ${caseReference} to service bus`
-			);
-
-			result = await forwarders.representation([mappedData]);
 		}
+
+		logger.info(`forwarding interested party submission ${id} of ${caseReference} to service bus`);
+
+		const result = await forwarders.representation([mappedData]);
 
 		if (interestedPartySubmission.emailAddress) {
 			logger.info(`sending interested party comment submitted emails for ${id}`);
