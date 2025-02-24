@@ -390,6 +390,17 @@ const isLPAStatementDue = (appealCaseData) => {
 };
 
 /**
+ * @param {AppealCaseDetailed} caseData return object from database call
+ * @returns {boolean}
+ */
+const isLpaStatementOpen = (caseData) => {
+	return (
+		deadlineHasPassed(caseData.lpaQuestionnaireDueDate) ||
+		caseData.caseStatus === APPEAL_CASE_STATUS.STATEMENTS
+	);
+};
+
+/**
  * @param {AppealCaseDetailed} caseData
  * @param {UserRole} userType
  * @returns {boolean}
@@ -669,6 +680,7 @@ module.exports = {
 	representationPublished,
 	shouldDisplayQuestionnaireDueNotification,
 	shouldDisplayStatementsDueBannerLPA,
+	isLpaStatementOpen,
 	shouldDisplayStatementsDueBannerRule6,
 	shouldDisplayFinalCommentsDueBannerLPA,
 	shouldDisplayFinalCommentsDueBannerAppellant,

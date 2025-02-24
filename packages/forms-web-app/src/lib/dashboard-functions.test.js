@@ -5,6 +5,7 @@ const {
 	isNewAppeal,
 	shouldDisplayQuestionnaireDueNotification,
 	shouldDisplayStatementsDueBannerLPA,
+	isLpaStatementOpen,
 	shouldDisplayStatementsDueBannerRule6,
 	shouldDisplayFinalCommentsDueBannerLPA,
 	shouldDisplayFinalCommentsDueBannerAppellant,
@@ -437,6 +438,42 @@ describe('lib/dashboard-functions', () => {
 					shouldDisplayProofEvidenceDueBannerRule6(caseData, APPEAL_USER_ROLES.RULE_6_PARTY)
 				).toBe(false);
 			});
+		});
+	});
+	describe('isLpaStatementOpen', () => {
+		const currentDate = new Date();
+		beforeEach(() => {
+			const { calculateDueInDays: realCalculateDueInDays } =
+				jest.requireActual('./calculate-due-in-days');
+			calculateDueInDays.mockImplementation((dateDue) => realCalculateDueInDays(dateDue));
+		});
+		it('should return false if lpaQuestionnaireDueDate is in the future and caseStatus is not STATEMENTS', () => {
+			const appeal = {
+				lpaQuestionnaireDueDate: addDays(currentDate, 2),
+				caseStatus: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE
+			};
+			expect(isLpaStatementOpen(appeal)).toBe(false);
+		});
+		it('should return true if lpaQuestionnaireDueDate is in the past and caseStatus is not STATEMENTS', () => {
+			const appeal = {
+				lpaQuestionnaireDueDate: subDays(currentDate, 2),
+				caseStatus: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE
+			};
+			expect(isLpaStatementOpen(appeal)).toBe(true);
+		});
+		it('should return true if caseStatus is STATEMENTS even if lpaQuestionnaireDueDate is in the future', () => {
+			const appeal = {
+				lpaQuestionnaireDueDate: addDays(currentDate, 2),
+				caseStatus: APPEAL_CASE_STATUS.STATEMENTS
+			};
+			expect(isLpaStatementOpen(appeal)).toBe(true);
+		});
+		it('should return true if caseStatus is STATEMENTS and lpaQuestionnaireDueDate is in the past', () => {
+			const appeal = {
+				lpaQuestionnaireDueDate: subDays(currentDate, 2),
+				caseStatus: APPEAL_CASE_STATUS.STATEMENTS
+			};
+			expect(isLpaStatementOpen(appeal)).toBe(true);
 		});
 	});
 });
