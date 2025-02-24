@@ -15,7 +15,7 @@ const {
 	shouldDisplayProofEvidenceDueBannerAppellant,
 	shouldDisplayProofEvidenceDueBannerLPA,
 	shouldDisplayProofEvidenceDueBannerRule6
-} = require('./action-banners');
+} = require('../../lib/dashboard-functions');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 const { VIEW } = require('../../lib/views');
 const { determineUser } = require('../../lib/determine-user');
