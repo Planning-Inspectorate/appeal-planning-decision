@@ -223,7 +223,7 @@ exports.createInterestedPartyNewUser = (interestedPartySubmission) => {
 		emailAddress: interestedPartySubmission.emailAddress,
 		telephoneNumber: null,
 		organisation: null,
-		serviceUserType: 'InterestedParty'
+		serviceUserType: SERVICE_USER_TYPE.INTERESTED_PARTY
 	};
 };
 
