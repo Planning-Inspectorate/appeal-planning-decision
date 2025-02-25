@@ -62,6 +62,7 @@ module.exports = {
 		);
 	},
 	testLPACode,
+	testLPACode2,
 	testLPAONSCode,
 	/**
 	 * Sanitizes a given filename by removing disallowed characters and ensuring its length does not exceed a maximum value.

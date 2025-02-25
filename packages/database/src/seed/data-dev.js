@@ -1,5 +1,5 @@
 const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
-const { lpaAppealCaseData, lpaAppeals } = require('./lpa-appeal-case-data-dev');
+const { lpaAppealCaseData, lpaAppeals, createAppealCase } = require('./lpa-appeal-case-data-dev');
 const { representations, representationDocuments } = require('./representations-data-dev');
 const { appealDocuments } = require('./appeal-documents-dev');
 const {
@@ -9,6 +9,8 @@ const {
 	APPEAL_CASE_VALIDATION_OUTCOME
 } = require('pins-data-model');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { testLPACode2 } = require('@pins/common/src/utils');
 const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const config = require('../configuration/config.js');
 
@@ -1652,6 +1654,22 @@ async function seedDev(dbClient) {
 		});
 		caseIds.push(createdCase.id);
 	}
+
+	const s20AppealQuestionnarire = createAppealCase(
+		'3000000',
+		testLPACode2,
+		CASE_TYPES.S20.processCode,
+		'questionnaire'
+	);
+
+	await dbClient.appealCase.upsert({
+		create: {
+			...s20AppealQuestionnarire,
+			Appeal: { create: {} }
+		},
+		update: s20AppealQuestionnarire,
+		where: { caseReference: s20AppealQuestionnarire.caseReference }
+	});
 
 	for (const caseId of caseIds) {
 		for (const document of appealDocuments) {
