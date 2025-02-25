@@ -410,7 +410,7 @@ exports.lpaQuestionnaireSubmissionInformation = async (req, res) => {
 	const informationPageType = 'Questionnaire';
 	const pageHeading = 'Appeal questionnaire';
 	const pageCaption = 'Appeal ' + journeyResponse.referenceId;
-	console.log('###', journey.informationPageViewPath);
+
 	return res.render(journey.informationPageViewPath, {
 		informationPageType,
 		pageHeading,
