@@ -5,7 +5,7 @@ const logger = require('#lib/logger');
 const { getUserFromSession } = require('../../services/user.service');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { deadlineHasPassed } = require('../../lib/deadline-has-passed');
-const { isLPAStatementOpen } = require('../../lib/dashboard-functions');
+const { isLpaStatementOpen } = require('../../lib/dashboard-functions');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const {
@@ -39,7 +39,7 @@ module.exports = () => async (req, res, next) => {
 
 	let journeyType;
 
-	if (isLPAStatementOpen(appeal)) {
+	if (isLpaStatementOpen(appeal)) {
 		journeyType = LPA_JOURNEY_TYPES_FORMATTED.STATEMENT;
 	}
 
