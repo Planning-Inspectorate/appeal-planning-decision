@@ -132,6 +132,13 @@ router.get(
 	lpaQuestionnaireSubmissionInformation
 );
 
+router.get(
+	'/full-planning/:referenceId/questionnaire-submitted/information',
+	getJourneyResponse(),
+	getJourney(journeys),
+	lpaQuestionnaireSubmissionInformation
+);
+
 // remove answer - only available for some question types
 router.get(
 	'/questionnaire/:referenceId/:section/:question/:answerId',

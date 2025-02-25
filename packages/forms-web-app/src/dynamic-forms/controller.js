@@ -324,9 +324,9 @@ exports.submit = async (req, res) => {
 
 	const journeyUrl = (journeyId) => {
 		if (journeyId === 'has-questionnaire') {
-			return 'householder/';
+			return 'householder';
 		} else if (journeyId === 's78-questionnaire') {
-			return 'full-planning/';
+			return 'full-planning';
 		} else return '';
 	};
 
@@ -339,14 +339,15 @@ exports.submit = async (req, res) => {
 
 	const storedPdf = await storePdfQuestionnaireSubmission({
 		submissionJourney: journey,
-		sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
+		sid: req.cookies[CONSTS.SESSION_COOKIE_NAME],
+		appealTypeUrl: journeyUrl(journeyResponse.journeyId)
 	});
 
 	await req.appealsApiClient.patchLPAQuestionnaire(referenceId, { submissionPdfId: storedPdf.id });
 
 	return res.redirect(
 		'/manage-appeals/' +
-			journeyUrl(journeyResponse.journeyId) +
+			`${journeyUrl(journeyResponse.journeyId)}/` +
 			encodeURIComponent(referenceId) +
 			'/questionnaire-submitted/'
 	);
@@ -409,7 +410,7 @@ exports.lpaQuestionnaireSubmissionInformation = async (req, res) => {
 	const informationPageType = 'Questionnaire';
 	const pageHeading = 'Appeal questionnaire';
 	const pageCaption = 'Appeal ' + journeyResponse.referenceId;
-
+	console.log('###', journey.informationPageViewPath);
 	return res.render(journey.informationPageViewPath, {
 		informationPageType,
 		pageHeading,

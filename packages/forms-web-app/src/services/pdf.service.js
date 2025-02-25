@@ -198,12 +198,18 @@ const buildAppellantSubmissionUrl = (appellantSubmissionId, appealTypeCode) => {
  * @param {*} params.submissionJourney - LPA questionnaire submission journey
  * @param {string} [params.fileName] - optional filename
  * @param {string} params.sid - session cookie
+ * @param {string} params.appealTypeUrl - appealType passed from dynamic forms controller
  */
-const storePdfQuestionnaireSubmission = async ({ submissionJourney, fileName, sid }) => {
+const storePdfQuestionnaireSubmission = async ({
+	submissionJourney,
+	fileName,
+	sid,
+	appealTypeUrl
+}) => {
 	const appealReferenceId = submissionJourney.response.referenceId;
 	const lpaQuestionnaireId = submissionJourney.response.answers.id;
-	//todo: url hardcoded for householder questionnaire information page - will require adaptation for S78 etc
-	const url = `${config.server.host}/manage-appeals/householder/${appealReferenceId}/questionnaire-submitted/information`;
+
+	const url = `${config.server.host}/manage-appeals/${appealTypeUrl}/${appealReferenceId}/questionnaire-submitted/information`;
 
 	const log = logger.child({
 		lpaQuestionnaireId: lpaQuestionnaireId,
