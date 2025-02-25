@@ -525,7 +525,7 @@ describe('dynamic-form/controller', () => {
 	});
 
 	describe('submit', () => {
-		it('should submit if all sections are complete', async () => {
+		it('should submit for has if all sections are complete', async () => {
 			storePdfQuestionnaireSubmission.mockReturnValue({ submissionId: '1234', id: '5678' });
 			mockJourney.sections[2].isComplete.mockReturnValue(true);
 
@@ -537,16 +537,48 @@ describe('dynamic-form/controller', () => {
 
 			res.locals.journeyResponse = {
 				referenceId: '987654',
+				journeyId: 'has-questionnaire',
 				answers: {}
 			};
 
 			await submit(req, res);
 			expect(storePdfQuestionnaireSubmission).toHaveBeenCalledWith({
 				submissionJourney: res.locals.journey,
-				sid: 'abc123'
+				sid: 'abc123',
+				appealTypeUrl: 'householder'
 			});
 			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith('987654', {
 				submissionPdfId: '5678'
+			});
+			expect(res.redirect).toHaveBeenCalledWith(
+				expect.stringMatching(/^\/manage-appeals\/.+\/questionnaire-submitted\/$/)
+			);
+		});
+
+		it('should submit for s78 if all sections are complete', async () => {
+			storePdfQuestionnaireSubmission.mockReturnValue({ submissionId: '1235', id: '5671' });
+			mockJourney.sections[2].isComplete.mockReturnValue(true);
+
+			req.cookies = { [CONSTS.SESSION_COOKIE_NAME]: 'abc123' };
+
+			req.params = {
+				referenceId: mockRef
+			};
+
+			res.locals.journeyResponse = {
+				referenceId: '987659',
+				journeyId: 's78-questionnaire',
+				answers: {}
+			};
+
+			await submit(req, res);
+			expect(storePdfQuestionnaireSubmission).toHaveBeenCalledWith({
+				submissionJourney: res.locals.journey,
+				sid: 'abc123',
+				appealTypeUrl: 'full-planning'
+			});
+			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith('987659', {
+				submissionPdfId: '5671'
 			});
 			expect(res.redirect).toHaveBeenCalledWith(
 				expect.stringMatching(/^\/manage-appeals\/.+\/questionnaire-submitted\/$/)
