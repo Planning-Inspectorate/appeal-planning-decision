@@ -93,6 +93,39 @@ const commonAppealCaseDataProperties = {
 };
 
 /**
+ * @param {string} caseReference
+ * @param {string} lpaCode
+ * @param {string} type
+ * @param {'new'|'questionnaire'} state
+ * @returns {import('@prisma/client').Prisma.AppealCaseCreateWithoutAppealInput}
+ */
+const createAppealCase = (caseReference, lpaCode, type, state) => {
+	/** @type {import('@prisma/client').Prisma.AppealCaseCreateWithoutAppealInput} */
+	const appeal = {
+		...commonAppealCaseDataProperties,
+		LPACode: lpaCode,
+		caseReference: caseReference,
+		siteAddressLine1: state + ' appeal',
+		siteAddressLine2: null,
+		siteAddressTown: 'Town',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.VALIDATION }
+		},
+		CaseType: { connect: { processCode: type } },
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	};
+
+	if (state === 'questionnaire') {
+		appeal.lpaQuestionnaireDueDate = pickRandom(datesNMonthsAhead(1));
+	}
+
+	return appeal;
+};
+
+/**
  * @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]}
  */
 const lpaAppealCaseData = [
@@ -1222,5 +1255,6 @@ const lpaAppealCaseData = [
 
 module.exports = {
 	lpaAppealCaseData,
-	lpaAppeals
+	lpaAppeals,
+	createAppealCase
 };

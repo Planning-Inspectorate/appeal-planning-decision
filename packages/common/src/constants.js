@@ -56,6 +56,10 @@ module.exports = {
 	 * @type {LpaUserRole}
 	 */
 	LPA_USER_ROLE: 'LPAUser',
+	TEST_LPA_CODES: {
+		Q9999: 'Q9999',
+		Q1111: 'Q1111'
+	},
 	AUTH: {
 		RESOURCE: 'http://appeals-front-office', // represents all appeals apis, single access token shared between all
 		OIDC_ENDPOINT: '/oidc',
