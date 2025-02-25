@@ -181,6 +181,7 @@ const params = {
 	sections,
 	journeyTemplate: 'questionnaire-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
+	informationPageViewPath: 'dynamic-components/submission-information/index',
 	journeyTitle: 'Manage your appeals',
 	makeBaseUrl
 };
