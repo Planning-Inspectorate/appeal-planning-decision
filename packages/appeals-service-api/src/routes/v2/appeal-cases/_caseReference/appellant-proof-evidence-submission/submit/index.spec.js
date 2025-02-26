@@ -55,7 +55,7 @@ jest.mock('@pins/common/src/middleware/validate-token', () => {
 jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
 	sendEvents: jest.fn()
 }));
-
+const testServiceUserId = 'testAppUserId1';
 jest.setTimeout(30000);
 beforeAll(async () => {
 	///////////////////////////////
@@ -70,7 +70,7 @@ beforeAll(async () => {
 	const user = await sqlClient.appealUser.create({
 		data: {
 			email: crypto.randomUUID() + '@example.com',
-			serviceUserId: 'userID1'
+			serviceUserId: testServiceUserId
 		}
 	});
 	validUser = user.id;
@@ -121,7 +121,7 @@ const formattedProofs1 = {
 	representation: null,
 	representationSubmittedDate: expect.any(String),
 	representationType: 'proofs_evidence',
-	serviceUserId: 'userID1',
+	serviceUserId: testServiceUserId,
 	documents: [
 		{
 			dateCreated: expect.any(String),
@@ -140,7 +140,7 @@ const formattedProofs2 = {
 	representation: null,
 	representationSubmittedDate: expect.any(String),
 	representationType: 'proofs_evidence',
-	serviceUserId: 'userID1',
+	serviceUserId: testServiceUserId,
 	documents: [
 		{
 			dateCreated: expect.any(String),
