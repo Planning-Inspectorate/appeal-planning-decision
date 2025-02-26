@@ -55,7 +55,7 @@ jest.mock('@pins/common/src/middleware/validate-token', () => {
 jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
 	sendEvents: jest.fn()
 }));
-
+const testR6ServiceUserID2 = 'testR6ServiceUserId2';
 jest.setTimeout(30000);
 beforeAll(async () => {
 	///////////////////////////////
@@ -70,7 +70,7 @@ beforeAll(async () => {
 	const user = await sqlClient.appealUser.create({
 		data: {
 			email: crypto.randomUUID() + '@example.com',
-			serviceUserId: 'userID1'
+			serviceUserId: testR6ServiceUserID2
 		}
 	});
 	validUser = user.id;
@@ -121,7 +121,7 @@ const formattedStatement1 = {
 	representation: 'This is a test comment',
 	representationSubmittedDate: expect.any(String),
 	representationType: 'statement',
-	lpaCode: 'Q9999',
+	serviceUserId: testR6ServiceUserID2,
 	documents: []
 };
 const formattedStatement2 = {
@@ -129,7 +129,7 @@ const formattedStatement2 = {
 	representation: 'Another statement text for rule 6 case 406',
 	representationSubmittedDate: expect.any(String),
 	representationType: 'statement',
-	lpaCode: 'Q9999',
+	serviceUserId: testR6ServiceUserID2,
 	documents: [
 		{
 			dateCreated: expect.any(String),
