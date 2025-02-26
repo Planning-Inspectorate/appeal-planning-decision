@@ -185,75 +185,6 @@ const appealSubmissionDraft = {
 	idTwo: 'ac3643e6-e680-4230-9c3c-66d90c3ecdfe'
 };
 
-const rule6Documents = {
-	proofEvidenceSubmitted: false,
-	proofEvidenceReceived: false,
-	statementDocuments: false,
-	witnesses: false,
-	statementSubmitted: false,
-	statementReceived: false
-};
-
-const rule6PartyGroups = [
-	{
-		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c11',
-		caseReference: caseReferences.caseReferenceOne,
-		firstName: 'Group',
-		lastName: '1',
-		over18: true,
-		partyName: 'Group 1',
-		partyEmail: rule6Parties.r6One.email,
-		addressLine1: '321 Fake Street',
-		partyStatus: 'confirmed',
-		...rule6Documents,
-		appealUserId: rule6Parties.r6One.id
-	},
-	{
-		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c12',
-		caseReference: caseReferences.caseReferenceTwo,
-		firstName: 'Group',
-		lastName: '2',
-		over18: true,
-		partyName: 'Group 2',
-		partyEmail: rule6Parties.r6Two.email,
-		addressLine1: '321 Fake Street',
-		partyStatus: 'confirmed',
-		...rule6Documents,
-		statementReceived: true,
-		appealUserId: rule6Parties.r6Two.id
-	},
-	{
-		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c13',
-		caseReference: caseReferences.caseReferenceThree,
-		firstName: 'Group',
-		lastName: '3',
-		over18: true,
-		partyName: 'Group 3',
-		partyEmail: rule6Parties.r6Three.email,
-		addressLine1: '321 Fake Street',
-		partyStatus: 'confirmed',
-		...rule6Documents,
-		statementReceived: true,
-		proofEvidenceReceived: true,
-		appealUserId: rule6Parties.r6Three.id
-	},
-	{
-		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c14',
-		caseReference: caseReferences.caseReferenceThree,
-		firstName: 'Group',
-		lastName: '4',
-		over18: true,
-		partyName: 'Group 4',
-		partyEmail: rule6Parties.r6Four.email,
-		addressLine1: '321 Fake Street',
-		partyStatus: 'confirmed',
-		...rule6Documents,
-		statementReceived: true,
-		proofEvidenceReceived: true,
-		appealUserId: rule6Parties.r6Four.id
-	}
-];
-
 /**
  * @type {import('@prisma/client').Prisma.AppealUserCreateInput[]}
  */
@@ -1589,14 +1520,6 @@ async function seedDev(dbClient) {
 			create: serviceUser,
 			update: serviceUser,
 			where: { internalId: serviceUser.internalId }
-		});
-	}
-
-	for (const rule6PartyGroup of rule6PartyGroups) {
-		await dbClient.rule6Party.upsert({
-			create: rule6PartyGroup,
-			update: rule6PartyGroup,
-			where: { id: rule6PartyGroup.id }
 		});
 	}
 

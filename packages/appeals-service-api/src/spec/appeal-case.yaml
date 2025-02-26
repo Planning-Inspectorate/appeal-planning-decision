@@ -18,7 +18,7 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Document'
-    
+
     AppealCase:
       description: An appeal case from the Back Office
       type: object
@@ -82,7 +82,7 @@ components:
         caseProcedure:
           type: string
           enum: ['written', 'hearing', 'inquiry']
-          description: The type of procedure for the appeal        
+          description: The type of procedure for the appeal
 
         applicationReference:
           type: string
@@ -443,11 +443,6 @@ components:
           type: string
 
         # relations
-        Rule6Parties:
-          type: array
-          items:
-            type: object
-
         ListedBuildings:
           type: array
           items:

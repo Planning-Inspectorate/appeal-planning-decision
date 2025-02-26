@@ -69,8 +69,6 @@ model AppealUser {
   /// appeals this user is linked to, by being the appellant or agent, for example
   Appeals AppealToUser[]
 
-  Rule6Parties Rule6Party[]
-
   /// a security token this user can use to access our service(s)
   SecurityToken                  SecurityToken?
   Rule6ProofOfEvidenceSubmission Rule6ProofOfEvidenceSubmission[]
@@ -385,7 +383,6 @@ model AppealCase {
   AppellantFinalCommentSubmission    AppellantFinalCommentSubmission?
   AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission?
 
-  Rule6Parties                    Rule6Party[]
   ListedBuildings                 AppealCaseListedBuilding[]
   Documents                       Document[]
   NeighbouringAddresses           NeighbouringAddress[]
@@ -1093,45 +1090,6 @@ model SubmissionListedBuilding {
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering
   fieldName String
-}
-
-model Rule6Party {
-  id                                 String    @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  caseReference                      String
-  firstName                          String
-  lastName                           String
-  over18                             Boolean
-  partyName                          String
-  partyEmail                         String
-  addressLine1                       String
-  addressLine2                       String?
-  addressTown                        String?
-  addressCounty                      String?
-  addressPostcode                    String?
-  partyStatus                        String
-  proofEvidenceSubmitted             Boolean
-  proofEvidenceSubmittedDate         DateTime?
-  proofEvidenceReceived              Boolean
-  proofEvidenceReceivedDate          DateTime?
-  proofEvidenceValidationOutcome     String?
-  proofEvidenceValidationOutcomeDate DateTime?
-  proofEvidenceValidationDetails     String?
-  statementDocuments                 Boolean
-  witnesses                          Boolean
-  statementSubmitted                 Boolean
-  statementSubmittedDate             DateTime?
-  statementReceived                  Boolean
-  statementReceivedDate              DateTime?
-  statementValidationOutcome         String?
-  statementValidationOutcomeDate     DateTime?
-  statementValidationDetails         String?
-
-  // Link to AppealUser
-  appealUserId String     @db.UniqueIdentifier
-  AppealUser   AppealUser @relation(fields: [appealUserId], references: [id])
-
-  //Optional link to AppealCase
-  AppealCase AppealCase? @relation(fields: [caseReference], references: [caseReference])
 }
 
 /// Proofs of Evidence, Final Comments, Statements, Planning Obligations and Interested Party Comments
