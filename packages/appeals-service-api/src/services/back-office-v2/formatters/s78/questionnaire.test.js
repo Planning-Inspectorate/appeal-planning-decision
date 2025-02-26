@@ -36,6 +36,7 @@ describe('formatter', () => {
 		],
 		SubmissionLinkedCase: [{ caseReference: 'CASE123' }],
 		newConditions_newConditionDetails: 'New condition details',
+		neighbourSiteAccess_neighbourSiteAccessDetails: 'reason details',
 		lpaProcedurePreference: 'written'
 	};
 	const s78Answers = {
@@ -101,6 +102,7 @@ describe('formatter', () => {
 					neighbouringSiteSafetyDetails: null
 				}
 			],
+			reasonForNeighbourVisits: 'reason details',
 			nearbyCaseReferences: ['CASE123'],
 			newConditionDetails: 'New condition details',
 			lpaStatement: '',
@@ -270,6 +272,7 @@ describe('formatter', () => {
 				siteAccessDetails: null,
 				siteSafetyDetails: null,
 				neighbouringSiteAddresses: undefined,
+				reasonForNeighbourVisits: null,
 				nearbyCaseReferences: undefined,
 				newConditionDetails: null,
 				lpaStatement: '',

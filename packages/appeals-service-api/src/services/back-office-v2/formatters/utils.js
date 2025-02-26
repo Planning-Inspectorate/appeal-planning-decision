@@ -256,6 +256,7 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
 	return {
 		submissionId: appellantSubmission.appealId,
 		caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
+		typeOfPlanningApplication: appellantSubmission.typeOfPlanningApplication ?? null,
 		lpaCode: lpa.getLpaCode(),
 		caseSubmittedDate: new Date().toISOString(),
 		enforcementNotice: false, // this will eventually come from before you start
@@ -396,6 +397,7 @@ exports.getCommonLPAQSubmissionFields = (caseReference, answers) => ({
 			neighbouringSiteSafetyDetails: null // not asked
 		};
 	}),
+	reasonForNeighbourVisits: answers.neighbourSiteAccess_neighbourSiteAccessDetails ?? null,
 	nearbyCaseReferences: answers.SubmissionLinkedCase?.map(({ caseReference }) => caseReference)
 });
 
