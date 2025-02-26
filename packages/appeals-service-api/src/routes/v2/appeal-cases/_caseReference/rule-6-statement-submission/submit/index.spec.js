@@ -173,7 +173,7 @@ describe('/api/v2/appeal-cases/:caseReference/rule-6-statement-submission/submit
 				documentId: '406',
 				filename: 'doc.pdf',
 				originalFilename: 'mydoc.pdf',
-				documentType: 'lpaStatement',
+				documentType: APPEAL_DOCUMENT_TYPE.RULE_6_STATEMENT,
 				documentURI: 'https://example.com',
 				size: 10293,
 				dateCreated: new Date().toISOString(),
