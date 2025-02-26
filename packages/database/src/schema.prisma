@@ -342,7 +342,7 @@ model AppealCase {
 
   // final comments
   finalCommentsDueDate           DateTime? /// date final comments are due by
-  appellantCommentsSubmittedDate DateTime? /// date appellant submitted their final comment 
+  appellantCommentsSubmittedDate DateTime? /// date appellant submitted their final comment
   LPACommentsSubmittedDate       DateTime? /// date lpa submitted their final comment
 
   // IP dates
