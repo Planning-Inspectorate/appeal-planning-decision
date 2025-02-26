@@ -13,8 +13,8 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
  * @typedef {import('../../../../routes/v2/appeal-cases/_caseReference/appellant-proof-evidence-submission/appellant-proof-evidence-submission').AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
  * @typedef {import('../../../../routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/lpa-proof-evidence-submission').LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  * @typedef {import('../../../../routes/v2/appeal-cases/_caseReference/rule-6-proof-evidence-submission/rule-6-proof-evidence-submission').Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
- * @typedef {import('../../../../routes/v2/interested-party-submissions/repo').DetailedInterestedPartySubmission} InterestedPartySubmission
- * @typedef {(AppellantFinalCommentSubmission | LPAFinalCommentSubmission | LPAStatementSubmission | Rule6StatementSubmission | AppellantProofOfEvidenceSubmission | LPAProofOfEvidenceSubmission | Rule6ProofOfEvidenceSubmission | InterestedPartySubmission) & Record<AllowedRepresentationField, string|null>} TypedRepresentationSubmission
+ * @typedef {import('../../../../routes/v2/interested-party-submissions/repo').DetailedInterestedPartySubmission} DetailedInterestedPartySubmission
+ * @typedef {(AppellantFinalCommentSubmission | LPAFinalCommentSubmission | LPAStatementSubmission | Rule6StatementSubmission | AppellantProofOfEvidenceSubmission | LPAProofOfEvidenceSubmission | Rule6ProofOfEvidenceSubmission | DetailedInterestedPartySubmission) & Record<AllowedRepresentationField, string|null>} TypedRepresentationSubmission
  */
 
 /**
@@ -26,6 +26,16 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
  * @property {string | null} telephoneNumber
  * @property {string | null} organisation
  * @property {'InterestedParty'} serviceUserType
+ */
+
+/**
+ * @typedef RepresentationFormatterParams
+ * @type {object}
+ * @property {string} caseReference
+ * @property {string | null} [serviceUserId]
+ * @property {RepresentationTypes} repType
+ * @property { LPA_USER_ROLE | 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } party
+ * @property {TypedRepresentationSubmission} representationSubmission
  */
 
 /**
@@ -46,20 +56,13 @@ const REPRESENTATION_FIELDS = {
 };
 
 /**
- * @param {string} caseReference
- * @param {string | null} serviceUserId
- * @param {RepresentationTypes} repType
- * @param { LPA_USER_ROLE | 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } party
- * @param {TypedRepresentationSubmission} representationSubmission
+ * @param {RepresentationFormatterParams} representationFormatterParams
  * @returns {Promise<AppealRepresentationSubmission>}
  */
-exports.formatter = async (
-	caseReference,
-	serviceUserId,
-	repType,
-	party,
-	representationSubmission
-) => {
+exports.formatter = async (representationFormatterParams) => {
+	const { caseReference, serviceUserId, repType, party, representationSubmission } =
+		representationFormatterParams;
+
 	if (!representationSubmission)
 		throw new Error(`Representation submission could not be formatted`);
 

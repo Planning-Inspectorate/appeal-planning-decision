@@ -371,8 +371,8 @@ describe('BackOfficeV2Service', () => {
 		const mockResult = { test: 1 };
 
 		// formatter
-		const mockAppealStatmentFormatter = jest.fn();
-		mockAppealStatmentFormatter.mockReturnValue(mockFormattedAppealFinalComment);
+		const mockAppealStatementFormatter = jest.fn();
+		mockAppealStatementFormatter.mockReturnValue(mockFormattedAppealFinalComment);
 
 		// forwarder
 		forwarders.representation = jest.fn();
@@ -382,7 +382,7 @@ describe('BackOfficeV2Service', () => {
 
 			await backOfficeV2Service.submitLPAStatementSubmission(
 				testCaseRef,
-				mockAppealStatmentFormatter
+				mockAppealStatementFormatter
 			);
 
 			expect(getLPAStatementByAppealId).toHaveBeenCalledWith(testCaseRef);
@@ -441,8 +441,8 @@ describe('BackOfficeV2Service', () => {
 		const mockResult = { test: 1 };
 
 		// formatter
-		const mockAppealStatmentFormatter = jest.fn();
-		mockAppealStatmentFormatter.mockReturnValue(mockFormattedAppealFinalComment);
+		const mockLPAProofsFormatter = jest.fn();
+		mockLPAProofsFormatter.mockReturnValue(mockFormattedAppealFinalComment);
 
 		// forwarder
 		forwarders.representation = jest.fn();
@@ -452,7 +452,7 @@ describe('BackOfficeV2Service', () => {
 
 			await backOfficeV2Service.submitLpaProofEvidenceSubmission(
 				testCaseRef,
-				mockAppealStatmentFormatter
+				mockLPAProofsFormatter
 			);
 
 			expect(getLpaProofOfEvidenceByAppealId).toHaveBeenCalledWith(testCaseRef);

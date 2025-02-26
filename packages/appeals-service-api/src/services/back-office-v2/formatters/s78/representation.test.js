@@ -37,13 +37,12 @@ describe('Representation Formatter', () => {
 	});
 
 	it('should format a FINAL_COMMENT submission from LPA (no serviceUserId)', async () => {
-		const result = await formatter(
+		const result = await formatter({
 			caseReference,
-			null,
-			APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
-			LPA_USER_ROLE,
-			submission
-		);
+			repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+			party: LPA_USER_ROLE,
+			representationSubmission: submission
+		});
 
 		expect(result.caseReference).toBe(caseReference);
 		expect(result.representation).toBe('LPA final comment text');
@@ -56,13 +55,13 @@ describe('Representation Formatter', () => {
 
 	it('should format a FINAL_COMMENT submission from Appellant (serviceUserId provided)', async () => {
 		const serviceUserId = 'user123';
-		const result = await formatter(
+		const result = await formatter({
 			caseReference,
 			serviceUserId,
-			APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
-			APPEAL_USER_ROLES.APPELLANT,
-			submission
-		);
+			repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+			party: APPEAL_USER_ROLES.APPELLANT,
+			representationSubmission: submission
+		});
 
 		expect(result.caseReference).toBe(caseReference);
 		expect(result.representation).toBe('Appellant final comment text');
@@ -74,13 +73,13 @@ describe('Representation Formatter', () => {
 
 	it('should format a STATEMENT submission from Rule6 (serviceUserId provided)', async () => {
 		const serviceUserId = 'user124';
-		const result = await formatter(
+		const result = await formatter({
 			caseReference,
 			serviceUserId,
-			APPEAL_REPRESENTATION_TYPE.STATEMENT,
-			APPEAL_USER_ROLES.RULE_6_PARTY,
-			submission
-		);
+			repType: APPEAL_REPRESENTATION_TYPE.STATEMENT,
+			party: APPEAL_USER_ROLES.RULE_6_PARTY,
+			representationSubmission: submission
+		});
 
 		expect(result.representation).toBe('Rule6 statement text');
 		expect(result.representationType).toBe('statement');
@@ -90,13 +89,12 @@ describe('Representation Formatter', () => {
 	});
 
 	it('should format a STATEMENT submission from LPA (no serviceUserId)', async () => {
-		const result = await formatter(
+		const result = await formatter({
 			caseReference,
-			null,
-			APPEAL_REPRESENTATION_TYPE.STATEMENT,
-			LPA_USER_ROLE,
-			submission
-		);
+			repType: APPEAL_REPRESENTATION_TYPE.STATEMENT,
+			party: LPA_USER_ROLE,
+			representationSubmission: submission
+		});
 
 		expect(result.representation).toBe('LPA statement text');
 		expect(result.representationType).toBe('statement');
@@ -106,13 +104,12 @@ describe('Representation Formatter', () => {
 	});
 
 	it('should set representation to null for PROOFS_EVIDENCE rep type', async () => {
-		const result = await formatter(
+		const result = await formatter({
 			caseReference,
-			null,
-			APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
-			LPA_USER_ROLE,
-			submission
-		);
+			repType: APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+			party: LPA_USER_ROLE,
+			representationSubmission: submission
+		});
 		expect(result.representation).toBeNull();
 	});
 
@@ -133,13 +130,12 @@ describe('Representation Formatter', () => {
 			AppealCase: { LPACode: 'test456', appealTypeCode: 'S78' }
 		};
 
-		const result = await formatter(
+		const result = await formatter({
 			caseReference,
-			null,
-			APPEAL_REPRESENTATION_TYPE.COMMENT,
-			APPEAL_USER_ROLES.INTERESTED_PARTY,
-			ipSubmission
-		);
+			repType: APPEAL_REPRESENTATION_TYPE.COMMENT,
+			party: APPEAL_USER_ROLES.INTERESTED_PARTY,
+			representationSubmission: ipSubmission
+		});
 
 		expect(result.representation).toBe('some test comments');
 		expect(result.representationType).toBe('comment');
@@ -151,7 +147,12 @@ describe('Representation Formatter', () => {
 
 	it('should throw an error if representationSubmission is not provided', async () => {
 		await expect(
-			formatter(caseReference, null, APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT, LPA_USER_ROLE, null)
+			formatter({
+				caseReference,
+				repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+				party: LPA_USER_ROLE,
+				representationSubmission: null
+			})
 		).rejects.toThrow('Representation submission could not be formatted');
 	});
 });
