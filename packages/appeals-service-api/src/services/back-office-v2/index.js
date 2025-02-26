@@ -56,6 +56,7 @@ const { getServiceUserByIdAndCaseReference } = require('../../routes/v2/service-
 const { getCaseAndAppellant } = require('../../routes/v2/appeal-cases/service');
 const { SERVICE_USER_TYPE, APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
  * @template Payload
@@ -226,6 +227,7 @@ class BackOfficeV2Service {
 			caseReference,
 			null,
 			APPEAL_REPRESENTATION_TYPE.COMMENT,
+			APPEAL_USER_ROLES.INTERESTED_PARTY,
 			interestedPartySubmission
 		);
 		logger.debug({ mappedData }, 'mapped representation');
@@ -283,6 +285,7 @@ class BackOfficeV2Service {
 				appealCaseReference,
 				null,
 				APPEAL_REPRESENTATION_TYPE.STATEMENT,
+				LPA_USER_ROLE,
 				lpaStatement
 			);
 			logger.debug({ mappedData }, 'mapped representation');
@@ -340,6 +343,7 @@ class BackOfficeV2Service {
 				caseReference,
 				null,
 				APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+				LPA_USER_ROLE,
 				lpaFinalCommentSubmission
 			);
 			logger.debug({ mappedData }, 'mapped representation');
@@ -397,6 +401,7 @@ class BackOfficeV2Service {
 				caseReference,
 				null,
 				APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+				LPA_USER_ROLE,
 				lpaProofEvidenceSubmission
 			);
 			logger.debug({ mappedData }, 'mapped representation');
@@ -459,6 +464,7 @@ class BackOfficeV2Service {
 				caseReference,
 				serviceUserId,
 				APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+				APPEAL_USER_ROLES.APPELLANT,
 				appellantFinalCommentSubmission
 			);
 			logger.debug({ mappedData }, 'mapped representation');
@@ -500,21 +506,58 @@ class BackOfficeV2Service {
 	/**
 	 * @param {string} caseReference
 	 * @param {string} userId
-	 * @returns {Promise<void>}
+	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitAppellantProofEvidenceSubmission(caseReference, userId) {
+	async submitAppellantProofEvidenceSubmission(caseReference, userId, formatter) {
 		const appellantProofEvidenceSubmission = await getAppellantProofOfEvidenceByAppealId(
 			caseReference
 		);
+
+		if (!appellantProofEvidenceSubmission) {
+			throw new Error('No appellant proofs of evidence found');
+		}
+
+		const { appealTypeCode, LPACode } = appellantProofEvidenceSubmission.AppealCase;
+
+		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
+		if (!isBOIntegrationActive) return;
+
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error(
+				'Appellant proofs of evidence associated AppealCase has an invalid appealTypeCode'
+			);
 
 		const { email, serviceUserId } = await getUserById(userId);
 
 		const appellantName =
 			(await this.#getAppellantNameFromServiceUser(serviceUserId, caseReference)) || 'Appellant';
 
+		logger.info(`mapping appellant proofs for ${caseReference} to ${appealTypeCode} schema`);
+		const mappedData = await formatter(
+			caseReference,
+			serviceUserId,
+			APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+			APPEAL_USER_ROLES.APPELLANT,
+			appellantProofEvidenceSubmission
+		);
+		logger.debug({ mappedData }, 'mapped representation');
+
+		logger.info(`validating representation ${caseReference} schema`);
+
+		/** @type {Validate<AppealRepresentationSubmission>} */
+		const validator = getValidator('appeal-representation-submission');
+		if (!validator(mappedData)) {
+			throw new Error(
+				`Payload was invalid when checked against appeal representation submission schema`
+			);
+		}
+
 		logger.info(
 			`forwarding appellant proof of evidence submission for ${caseReference} to service bus`
 		);
+
+		const result = await forwarders.representation([mappedData]);
 
 		// Date to be set in back office mapper once data model confirmed
 		await markAppellantProofOfEvidenceAsSubmitted(caseReference, new Date().toISOString());
@@ -529,26 +572,62 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendAppellantProofEvidenceSubmissionEmailToAppellantV2');
 			throw new Error('failed to send appellant proof of evidence submission email');
 		}
+
+		return result;
 	}
 
 	/**
 	 * @param {string} caseReference
 	 * @param {string} userId
-	 * @returns {Promise<void>}
+	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitRule6ProofOfEvidenceSubmission(caseReference, userId) {
+	async submitRule6ProofOfEvidenceSubmission(caseReference, userId, formatter) {
 		const rule6ProofOfEvidenceSubmission = await getRule6ProofOfEvidenceByAppealId(
 			userId,
 			caseReference
 		);
 
-		const { email } = await getUserById(userId);
+		if (!rule6ProofOfEvidenceSubmission) throw new Error('No rule 6 proof of evidence found');
+
+		const { LPACode, appealTypeCode } = rule6ProofOfEvidenceSubmission.AppealCase;
+
+		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
+		if (!isBOIntegrationActive) return;
+
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error('Rule 6 statement associated AppealCase has an invalid appealTypeCode');
+
+		const { email, serviceUserId } = await getUserById(userId);
+
+		logger.info(
+			`mapping rule6 proof of evidence for case ${caseReference} to ${appealTypeCode} schema`
+		);
+		const mappedData = await formatter(
+			caseReference,
+			serviceUserId,
+			APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+			APPEAL_USER_ROLES.RULE_6_PARTY,
+			rule6ProofOfEvidenceSubmission
+		);
+		logger.debug({ mappedData }, 'mapped representation');
+
+		logger.info(`validating representation ${caseReference} schema`);
+
+		/** @type {Validate<AppealRepresentationSubmission>} */
+		const validator = getValidator('appeal-representation-submission');
+		if (!validator(mappedData)) {
+			throw new Error(
+				`Payload was invalid when checked against appeal representation submission schema`
+			);
+		}
 
 		logger.info(
 			`forwarding rule 6 party proof of evidence submission for ${caseReference} to service bus`
 		);
 
-		// Date to be set in back office mapper once data model confirmed
+		const result = await forwarders.representation([mappedData]);
+
 		await markRule6ProofOfEvidenceAsSubmitted(userId, caseReference, new Date().toISOString());
 
 		try {
@@ -560,6 +639,8 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendRule6ProofOfEvidenceSubmissionEmailToRule6PartyV2');
 			throw new Error('failed to send rule 6 proof of evidence submission email');
 		}
+
+		return result;
 	}
 
 	/**
@@ -586,6 +667,7 @@ class BackOfficeV2Service {
 			caseReference,
 			serviceUserId,
 			APPEAL_REPRESENTATION_TYPE.STATEMENT,
+			APPEAL_USER_ROLES.RULE_6_PARTY,
 			rule6Statement
 		);
 		logger.debug({ mappedData }, 'mapped representation');
@@ -600,11 +682,9 @@ class BackOfficeV2Service {
 			);
 		}
 
-		logger.info(`forwarding rule 6 statement submission for ${caseReference} to service bus`);
+		logger.info(`forwarding rule 6 party statement submission for ${caseReference} to service bus`);
 
 		const result = await forwarders.representation([mappedData]);
-
-		logger.info(`forwarding rule 6 party statement submission for ${caseReference} to service bus`);
 
 		await markRule6StatementAsSubmitted(userId, caseReference);
 

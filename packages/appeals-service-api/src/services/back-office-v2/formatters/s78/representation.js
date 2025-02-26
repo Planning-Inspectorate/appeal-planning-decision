@@ -49,25 +49,19 @@ const REPRESENTATION_FIELDS = {
  * @param {string} caseReference
  * @param {string | null} serviceUserId
  * @param {RepresentationTypes} repType
+ * @param { LPA_USER_ROLE | 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } party
  * @param {TypedRepresentationSubmission} representationSubmission
  * @returns {Promise<AppealRepresentationSubmission>}
  */
-exports.formatter = async (caseReference, serviceUserId, repType, representationSubmission) => {
+exports.formatter = async (
+	caseReference,
+	serviceUserId,
+	repType,
+	party,
+	representationSubmission
+) => {
 	if (!representationSubmission)
 		throw new Error(`Representation submission could not be formatted`);
-
-	let party;
-	let lpaCode;
-	if (repType === APPEAL_REPRESENTATION_TYPE.COMMENT) {
-		party = APPEAL_USER_ROLES.INTERESTED_PARTY;
-	} else if (!serviceUserId) {
-		lpaCode = representationSubmission.AppealCase?.LPACode;
-		party = LPA_USER_ROLE;
-	} else if (serviceUserId && repType === APPEAL_REPRESENTATION_TYPE.STATEMENT) {
-		party = APPEAL_USER_ROLES.RULE_6_PARTY;
-	} else {
-		party = APPEAL_USER_ROLES.APPELLANT;
-	}
 
 	let representationText = null;
 	if (repType !== APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE) {
@@ -92,10 +86,10 @@ exports.formatter = async (caseReference, serviceUserId, repType, representation
 	};
 	if (repType === APPEAL_REPRESENTATION_TYPE.COMMENT) {
 		payload.newUser = createInterestedPartyNewUser(representationSubmission);
+	} else if (party === LPA_USER_ROLE) {
+		payload.lpaCode = representationSubmission.AppealCase?.LPACode;
 	} else if (serviceUserId) {
 		payload.serviceUserId = serviceUserId;
-	} else if (lpaCode) {
-		payload.lpaCode = lpaCode;
 	}
 	return payload;
 };

@@ -556,12 +556,34 @@ describe('BackOfficeV2Service', () => {
 	});
 
 	describe('submitAppellantProofEvidenceSubmission', () => {
+		const mockAppellantProofs = {
+			AppealCase: {
+				id: 'a1',
+				appealTypeCode: 'S78',
+				LPACode: 'Q1111'
+			}
+		};
+
+		const mockFormattedAppellantProofs = {};
+
+		const mockResult = { test: 1 };
+
+		// formatter
+		const mockAppellantProofsFormatter = jest.fn();
+		mockAppellantProofsFormatter.mockReturnValue(mockFormattedAppellantProofs);
+
+		// forwarder
+		forwarders.representation = jest.fn();
+		forwarders.representation.mockResolvedValue(mockResult);
+
 		it('should submit appellant proof', async () => {
-			const mockProof = { test: 1 };
+			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockAppellantProofs);
 
-			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockProof);
-
-			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(testCaseRef, testUserID);
+			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(
+				testCaseRef,
+				testUserID,
+				mockAppellantProofsFormatter
+			);
 
 			expect(getAppellantProofOfEvidenceByAppealId).toHaveBeenCalledWith(testCaseRef);
 			expect(getUserById).toHaveBeenCalledWith(testUserID);
@@ -570,19 +592,21 @@ describe('BackOfficeV2Service', () => {
 				expect.any(String)
 			);
 			expect(sendAppellantProofEvidenceSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
-				mockProof,
+				mockAppellantProofs,
 				mockUser.email,
 				`${mockServiceUser.firstName} ${mockServiceUser.lastName}`
 			);
 		});
 
 		it('should handle no service user details', async () => {
-			const mockProof = { test: 1 };
-
-			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockProof);
+			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockAppellantProofs);
 			getServiceUserByIdAndCaseReference.mockResolvedValue(null);
 
-			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(testCaseRef, testUserID);
+			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(
+				testCaseRef,
+				testUserID,
+				mockAppellantProofsFormatter
+			);
 
 			expect(getAppellantProofOfEvidenceByAppealId).toHaveBeenCalledWith(testCaseRef);
 			expect(getUserById).toHaveBeenCalledWith(testUserID);
@@ -591,19 +615,21 @@ describe('BackOfficeV2Service', () => {
 				expect.any(String)
 			);
 			expect(sendAppellantProofEvidenceSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
-				mockProof,
+				mockAppellantProofs,
 				mockUser.email,
 				'Appellant'
 			);
 		});
 
 		it('should handle service user with no name', async () => {
-			const mockProof = { test: 1 };
-
-			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockProof);
+			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockAppellantProofs);
 			getServiceUserByIdAndCaseReference.mockResolvedValue({});
 
-			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(testCaseRef, testUserID);
+			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(
+				testCaseRef,
+				testUserID,
+				mockAppellantProofsFormatter
+			);
 
 			expect(getAppellantProofOfEvidenceByAppealId).toHaveBeenCalledWith(testCaseRef);
 			expect(getUserById).toHaveBeenCalledWith(testUserID);
@@ -612,7 +638,7 @@ describe('BackOfficeV2Service', () => {
 				expect.any(String)
 			);
 			expect(sendAppellantProofEvidenceSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
-				mockProof,
+				mockAppellantProofs,
 				mockUser.email,
 				'Appellant'
 			);
@@ -620,12 +646,33 @@ describe('BackOfficeV2Service', () => {
 	});
 
 	describe('submitRule6ProofOfEvidenceSubmission', () => {
+		const mockR6Proofs = {
+			AppealCase: {
+				id: 'a1',
+				appealTypeCode: 'S78',
+				LPACode: 'Q1111'
+			}
+		};
+
+		const mockFormattedR6Proofs = {};
+
+		const mockResult = { test: 1 };
+
+		// formatter
+		const mockR6ProofsFormatter = jest.fn();
+		mockR6ProofsFormatter.mockReturnValue(mockFormattedR6Proofs);
+
+		// forwarder
+		forwarders.representation = jest.fn();
+		forwarders.representation.mockResolvedValue(mockResult);
 		it('should submit rule6 proof', async () => {
-			const mockProof = { test: 1 };
+			getRule6ProofOfEvidenceByAppealId.mockResolvedValue(mockR6Proofs);
 
-			getRule6ProofOfEvidenceByAppealId.mockResolvedValue(mockProof);
-
-			await backOfficeV2Service.submitRule6ProofOfEvidenceSubmission(testCaseRef, testUserID);
+			await backOfficeV2Service.submitRule6ProofOfEvidenceSubmission(
+				testCaseRef,
+				testUserID,
+				mockR6ProofsFormatter
+			);
 
 			expect(getRule6ProofOfEvidenceByAppealId).toHaveBeenCalledWith(testUserID, testCaseRef);
 			expect(getUserById).toHaveBeenCalledWith(testUserID);
@@ -635,7 +682,7 @@ describe('BackOfficeV2Service', () => {
 				expect.any(String)
 			);
 			expect(sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2).toHaveBeenCalledWith(
-				mockProof,
+				mockR6Proofs,
 				mockUser.email
 			);
 		});

@@ -1,5 +1,6 @@
 const { formatter } = require('./representation');
 const { APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
+const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 const expectedNewIPUser = {
 	salutation: null,
@@ -40,6 +41,7 @@ describe('Representation Formatter', () => {
 			caseReference,
 			null,
 			APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+			LPA_USER_ROLE,
 			submission
 		);
 
@@ -58,6 +60,7 @@ describe('Representation Formatter', () => {
 			caseReference,
 			serviceUserId,
 			APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+			APPEAL_USER_ROLES.APPELLANT,
 			submission
 		);
 
@@ -75,6 +78,7 @@ describe('Representation Formatter', () => {
 			caseReference,
 			serviceUserId,
 			APPEAL_REPRESENTATION_TYPE.STATEMENT,
+			APPEAL_USER_ROLES.RULE_6_PARTY,
 			submission
 		);
 
@@ -90,6 +94,7 @@ describe('Representation Formatter', () => {
 			caseReference,
 			null,
 			APPEAL_REPRESENTATION_TYPE.STATEMENT,
+			LPA_USER_ROLE,
 			submission
 		);
 
@@ -105,6 +110,7 @@ describe('Representation Formatter', () => {
 			caseReference,
 			null,
 			APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+			LPA_USER_ROLE,
 			submission
 		);
 		expect(result.representation).toBeNull();
@@ -131,6 +137,7 @@ describe('Representation Formatter', () => {
 			caseReference,
 			null,
 			APPEAL_REPRESENTATION_TYPE.COMMENT,
+			APPEAL_USER_ROLES.INTERESTED_PARTY,
 			ipSubmission
 		);
 
@@ -144,7 +151,7 @@ describe('Representation Formatter', () => {
 
 	it('should throw an error if representationSubmission is not provided', async () => {
 		await expect(
-			formatter(caseReference, null, APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT, null)
+			formatter(caseReference, null, APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT, LPA_USER_ROLE, null)
 		).rejects.toThrow('Representation submission could not be formatted');
 	});
 });
