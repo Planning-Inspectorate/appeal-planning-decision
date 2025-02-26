@@ -72,7 +72,7 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
  * @typedef {import ('pins-data-model').Schemas.AppealRepresentationSubmission} AppealRepresentationSubmission
  * @typedef {import('./formatters/s78/representation').TypedRepresentationSubmission} TypedRepresentationSubmission
  * @typedef {import('./formatters/s78/representation').RepresentationTypes} RepresentationTypes
- *
+ * @typedef {import('./formatters/s78/representation').RepresentationFormatterParams} RepresentationFormatterParams
  */
 
 /**
@@ -206,7 +206,7 @@ class BackOfficeV2Service {
 
 	/**
 	 * @param {DetailedInterestedPartySubmission} interestedPartySubmission
-	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @param {function(RepresentationFormatterParams): *} formatter
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitInterestedPartySubmission(interestedPartySubmission, formatter) {
@@ -223,13 +223,12 @@ class BackOfficeV2Service {
 
 		logger.info(`mapping interested party submission ${id} to schema`);
 
-		const mappedData = await formatter(
+		const mappedData = await formatter({
 			caseReference,
-			null,
-			APPEAL_REPRESENTATION_TYPE.COMMENT,
-			APPEAL_USER_ROLES.INTERESTED_PARTY,
-			interestedPartySubmission
-		);
+			repType: APPEAL_REPRESENTATION_TYPE.COMMENT,
+			party: APPEAL_USER_ROLES.INTERESTED_PARTY,
+			representationSubmission: interestedPartySubmission
+		});
 		logger.debug({ mappedData }, 'mapped representation');
 
 		logger.info(`validating interested party comment ${id} representation schema`);
@@ -260,12 +259,12 @@ class BackOfficeV2Service {
 	}
 
 	/**
-	 * @param {string} appealCaseReference
-	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @param {string} caseReference
+	 * @param {function(RepresentationFormatterParams): *} formatter
 	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitLPAStatementSubmission(appealCaseReference, formatter) {
-		const lpaStatement = await getLPAStatementByAppealId(appealCaseReference);
+	async submitLPAStatementSubmission(caseReference, formatter) {
+		const lpaStatement = await getLPAStatementByAppealId(caseReference);
 
 		if (!lpaStatement) throw new Error('No lpa statement found');
 
@@ -280,17 +279,16 @@ class BackOfficeV2Service {
 		let result;
 		let mappedData;
 		if (appealTypeCode === CASE_TYPES.S78.processCode) {
-			logger.info(`mapping lpa statement ${appealCaseReference} to ${appealTypeCode} schema`);
-			mappedData = await formatter(
-				appealCaseReference,
-				null,
-				APPEAL_REPRESENTATION_TYPE.STATEMENT,
-				LPA_USER_ROLE,
-				lpaStatement
-			);
+			logger.info(`mapping lpa statement ${caseReference} to ${appealTypeCode} schema`);
+			mappedData = await formatter({
+				caseReference,
+				repType: APPEAL_REPRESENTATION_TYPE.STATEMENT,
+				party: LPA_USER_ROLE,
+				representationSubmission: lpaStatement
+			});
 			logger.debug({ mappedData }, 'mapped representation');
 
-			logger.info(`validating representation ${appealCaseReference} schema`);
+			logger.info(`validating representation ${caseReference} schema`);
 
 			/** @type {Validate<AppealRepresentationSubmission>} */
 			const validator = getValidator('appeal-representation-submission');
@@ -300,13 +298,13 @@ class BackOfficeV2Service {
 				);
 			}
 
-			logger.info(`forwarding lpa statement submission for ${appealCaseReference} to service bus`);
+			logger.info(`forwarding lpa statement submission for ${caseReference} to service bus`);
 
 			result = await forwarders.representation([mappedData]);
 		}
 
 		// Date to be set in back office mapper once data model confirmed
-		await markStatementAsSubmitted(appealCaseReference, new Date().toISOString());
+		await markStatementAsSubmitted(caseReference, new Date().toISOString());
 
 		try {
 			await sendLpaStatementSubmissionReceivedEmailToLpaV2(lpaStatement);
@@ -319,7 +317,7 @@ class BackOfficeV2Service {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @param {function(RepresentationFormatterParams): *} formatter
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitLPAFinalCommentSubmission(caseReference, formatter) {
@@ -339,13 +337,12 @@ class BackOfficeV2Service {
 		let mappedData;
 		if (appealTypeCode === CASE_TYPES.S78.processCode) {
 			logger.info(`mapping lpa final comment ${caseReference} to ${appealTypeCode} schema`);
-			mappedData = await formatter(
+			mappedData = await formatter({
 				caseReference,
-				null,
-				APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
-				LPA_USER_ROLE,
-				lpaFinalCommentSubmission
-			);
+				repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+				party: LPA_USER_ROLE,
+				representationSubmission: lpaFinalCommentSubmission
+			});
 			logger.debug({ mappedData }, 'mapped representation');
 
 			logger.info(`validating representation ${caseReference} schema`);
@@ -377,7 +374,7 @@ class BackOfficeV2Service {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @param {function(RepresentationFormatterParams): *} formatter
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitLpaProofEvidenceSubmission(caseReference, formatter) {
@@ -397,13 +394,12 @@ class BackOfficeV2Service {
 		let mappedData;
 		if (appealTypeCode === CASE_TYPES.S78.processCode) {
 			logger.info(`mapping lpa proof of evidence ${caseReference} to ${appealTypeCode} schema`);
-			mappedData = await formatter(
+			mappedData = await formatter({
 				caseReference,
-				null,
-				APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
-				LPA_USER_ROLE,
-				lpaProofEvidenceSubmission
-			);
+				repType: APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+				party: LPA_USER_ROLE,
+				representationSubmission: lpaProofEvidenceSubmission
+			});
 			logger.debug({ mappedData }, 'mapped representation');
 
 			logger.info(`validating representation ${caseReference} schema`);
@@ -437,7 +433,7 @@ class BackOfficeV2Service {
 	/**
 	 * @param {string} caseReference
 	 * @param {string} userId
-	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @param {function(RepresentationFormatterParams): *} formatter
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitAppellantFinalCommentSubmission(caseReference, userId, formatter) {
@@ -460,13 +456,13 @@ class BackOfficeV2Service {
 		let mappedData;
 		if (appealTypeCode === CASE_TYPES.S78.processCode) {
 			logger.info(`mapping appellant final comment ${caseReference} to ${appealTypeCode} schema`);
-			mappedData = await formatter(
+			mappedData = await formatter({
 				caseReference,
 				serviceUserId,
-				APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
-				APPEAL_USER_ROLES.APPELLANT,
-				appellantFinalCommentSubmission
-			);
+				repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+				party: APPEAL_USER_ROLES.APPELLANT,
+				representationSubmission: appellantFinalCommentSubmission
+			});
 			logger.debug({ mappedData }, 'mapped representation');
 
 			logger.info(`validating representation ${caseReference} schema`);
@@ -506,7 +502,7 @@ class BackOfficeV2Service {
 	/**
 	 * @param {string} caseReference
 	 * @param {string} userId
-	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @param {function(RepresentationFormatterParams): *} formatter
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitAppellantProofEvidenceSubmission(caseReference, userId, formatter) {
@@ -534,13 +530,13 @@ class BackOfficeV2Service {
 			(await this.#getAppellantNameFromServiceUser(serviceUserId, caseReference)) || 'Appellant';
 
 		logger.info(`mapping appellant proofs for ${caseReference} to ${appealTypeCode} schema`);
-		const mappedData = await formatter(
+		const mappedData = await formatter({
 			caseReference,
 			serviceUserId,
-			APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
-			APPEAL_USER_ROLES.APPELLANT,
-			appellantProofEvidenceSubmission
-		);
+			repType: APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+			party: APPEAL_USER_ROLES.APPELLANT,
+			representationSubmission: appellantProofEvidenceSubmission
+		});
 		logger.debug({ mappedData }, 'mapped representation');
 
 		logger.info(`validating representation ${caseReference} schema`);
@@ -579,7 +575,7 @@ class BackOfficeV2Service {
 	/**
 	 * @param {string} caseReference
 	 * @param {string} userId
-	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @param {function(RepresentationFormatterParams): *} formatter
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitRule6ProofOfEvidenceSubmission(caseReference, userId, formatter) {
@@ -603,13 +599,13 @@ class BackOfficeV2Service {
 		logger.info(
 			`mapping rule6 proof of evidence for case ${caseReference} to ${appealTypeCode} schema`
 		);
-		const mappedData = await formatter(
+		const mappedData = await formatter({
 			caseReference,
 			serviceUserId,
-			APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
-			APPEAL_USER_ROLES.RULE_6_PARTY,
-			rule6ProofOfEvidenceSubmission
-		);
+			repType: APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+			party: APPEAL_USER_ROLES.RULE_6_PARTY,
+			representationSubmission: rule6ProofOfEvidenceSubmission
+		});
 		logger.debug({ mappedData }, 'mapped representation');
 
 		logger.info(`validating representation ${caseReference} schema`);
@@ -646,11 +642,13 @@ class BackOfficeV2Service {
 	/**
 	 * @param {string} caseReference
 	 * @param {string} userId
-	 * @param {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *} formatter
+	 * @param {function(RepresentationFormatterParams): *} formatter
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitRule6StatementSubmission(caseReference, userId, formatter) {
 		const rule6Statement = await getRule6StatementByAppealId(userId, caseReference);
+
+		if (!rule6Statement) throw new Error('Rule 6 statement not found');
 
 		const { LPACode, appealTypeCode } = rule6Statement.AppealCase;
 
@@ -663,13 +661,13 @@ class BackOfficeV2Service {
 		const { email, serviceUserId } = await getUserById(userId);
 
 		logger.info(`mapping rule6 statement ${caseReference} to ${appealTypeCode} schema`);
-		const mappedData = await formatter(
+		const mappedData = await formatter({
 			caseReference,
 			serviceUserId,
-			APPEAL_REPRESENTATION_TYPE.STATEMENT,
-			APPEAL_USER_ROLES.RULE_6_PARTY,
-			rule6Statement
-		);
+			repType: APPEAL_REPRESENTATION_TYPE.STATEMENT,
+			party: APPEAL_USER_ROLES.RULE_6_PARTY,
+			representationSubmission: rule6Statement
+		});
 		logger.debug({ mappedData }, 'mapped representation');
 
 		logger.info(`validating representation ${caseReference} schema`);
