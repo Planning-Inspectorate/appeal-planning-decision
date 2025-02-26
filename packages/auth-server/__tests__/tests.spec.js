@@ -5,9 +5,10 @@ import { jest } from '@jest/globals';
 
 import consts from '@pins/common/src/constants.js';
 import { dayInSeconds, config } from '../src/configuration/config.js';
-import app from '../src/app.js';
+import { getApp } from '../src/app.js';
 import createPrismaClient from '../src/adapter/prisma-client.js';
 import { seedStaticData } from '@pins/database/src/seed/data-static';
+import { getLogger } from '../src/lib/logger.js';
 
 /** @type {import('@prisma/client').PrismaClient} */
 let sqlClient;
@@ -24,14 +25,16 @@ const usersIds = [];
 const TEST_EMAIL = 'test@example.com';
 
 beforeAll(async () => {
+	const logger = getLogger(config);
 	///////////////////////////////
 	///// SETUP TEST DATABASE ////
 	/////////////////////////////
-	sqlClient = createPrismaClient();
+	sqlClient = createPrismaClient({ config, logger });
 
 	/////////////////////
 	///// SETUP APP ////
 	///////////////////
+	const app = getApp({ config, logger });
 	const server = http.createServer(app);
 	authServer = supertest(server);
 
