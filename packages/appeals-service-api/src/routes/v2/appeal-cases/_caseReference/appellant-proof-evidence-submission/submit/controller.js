@@ -32,7 +32,7 @@ exports.post = async (req, res) => {
 		);
 	} catch (err) {
 		logger.error(err);
-		throw ApiError.unableToSubmitResponse();
+		throw ApiError.unableToSubmitProofEvidenceResponse();
 	}
 
 	res.sendStatus(200);
