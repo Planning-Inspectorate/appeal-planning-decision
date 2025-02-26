@@ -5,6 +5,7 @@
   - You are about to drop the `FinalComment` table. If the table is not empty, all the data it contains will be lost.
   - You are about to drop the `FinalCommentDocument` table. If the table is not empty, all the data it contains will be lost.
   - You are about to drop the `InterestedPartyComment` table. If the table is not empty, all the data it contains will be lost.
+  - You are about to drop the `Rule6Party` table. If the table is not empty, all the data it contains will be lost.
   - You are about to drop the `StatementDocument` table. If the table is not empty, all the data it contains will be lost.
 
 */
@@ -31,6 +32,12 @@ ALTER TABLE [dbo].[FinalCommentDocument] DROP CONSTRAINT [FinalCommentDocument_d
 ALTER TABLE [dbo].[InterestedPartyComment] DROP CONSTRAINT [InterestedPartyComment_caseReference_fkey];
 
 -- DropForeignKey
+ALTER TABLE [dbo].[Rule6Party] DROP CONSTRAINT [Rule6Party_appealUserId_fkey];
+
+-- DropForeignKey
+ALTER TABLE [dbo].[Rule6Party] DROP CONSTRAINT [Rule6Party_caseReference_fkey];
+
+-- DropForeignKey
 ALTER TABLE [dbo].[StatementDocument] DROP CONSTRAINT [StatementDocument_documentId_fkey];
 
 -- DropForeignKey
@@ -47,6 +54,9 @@ DROP TABLE [dbo].[FinalCommentDocument];
 
 -- DropTable
 DROP TABLE [dbo].[InterestedPartyComment];
+
+-- DropTable
+DROP TABLE [dbo].[Rule6Party];
 
 -- DropTable
 DROP TABLE [dbo].[StatementDocument];
