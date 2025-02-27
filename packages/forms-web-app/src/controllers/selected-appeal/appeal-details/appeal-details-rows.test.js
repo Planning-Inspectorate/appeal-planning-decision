@@ -201,8 +201,42 @@ describe('appeal-details-rows', () => {
 		});
 	});
 
+	describe('All owners known', () => {
+		const allOwnersIndex = 9;
+
+		it('should show All Owners Known if not null', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			testCase.knowsAllOwners = 'Yes';
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[allOwnersIndex].condition(testCase)).toEqual(true);
+			expect(rows[allOwnersIndex].keyText).toEqual('All owners known');
+			expect(rows[allOwnersIndex].valueText).toEqual('Yes');
+
+			testCase.knowsAllOwners = 'No';
+			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[allOwnersIndex].condition(testCase)).toEqual(true);
+			expect(rows2[allOwnersIndex].valueText).toEqual('No');
+
+			testCase.knowsAllOwners = 'Some';
+			const rows3 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows3[allOwnersIndex].condition(testCase)).toEqual(true);
+			expect(rows3[allOwnersIndex].valueText).toEqual('Some');
+		});
+
+		it('should not show All Owners Known if null', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+			expect(rows[allOwnersIndex].condition(testCase)).toEqual(false);
+			expect(rows[allOwnersIndex].valueText).toEqual('');
+		});
+	});
+
 	describe('Other owners known', () => {
-		const otherOwnersIndex = 9;
+		const otherOwnersIndex = 10;
 
 		it('should show Other Owners Known if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -236,8 +270,8 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Other owners identified and Advertised Appeal', () => {
-		const otherOwnersIdentifiedIndex = 10;
-		const advertisedAppealIndex = 11;
+		const otherOwnersIdentifiedIndex = 11;
+		const advertisedAppealIndex = 12;
 
 		it('should display Other Owners Identified and Advertised Appeal if advertised appeal not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -270,7 +304,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Other owners informed', () => {
-		const otherOwnersInformedIndex = 12;
+		const otherOwnersInformedIndex = 13;
 
 		it('should display other owners informed if otherOwnersInformed not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -296,7 +330,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Will an inspector need to access the land or property?', () => {
-		const inspectorAccessIndex = 13;
+		const inspectorAccessIndex = 14;
 
 		it('should display Inspector access details if provided by applicant', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -321,7 +355,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Agricultural holding', () => {
-		const agriculturalHoldingIndex = 14;
+		const agriculturalHoldingIndex = 15;
 
 		it('should show Agricultural Holding if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -350,7 +384,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Tenant on agricultural holding', () => {
-		const tenantAgriculturalIndex = 15;
+		const tenantAgriculturalIndex = 16;
 
 		it('should display tenant on agricultural holding if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -376,7 +410,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Other agricultural holding tenants', () => {
-		const otherAgriculturalTenantsIndex = 16;
+		const otherAgriculturalTenantsIndex = 17;
 
 		it('should display Other agricultural holding tenants if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -406,7 +440,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Informed other agricultural holding tenants', () => {
-		const informedAgriculturalTenantsIndex = 17;
+		const informedAgriculturalTenantsIndex = 18;
 
 		it('should display informed other agricultural holding tenants if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -436,7 +470,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Application reference', () => {
-		const applicationReferenceIndex = 19;
+		const applicationReferenceIndex = 20;
 
 		it('should display the application reference if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -456,7 +490,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Enter the description of development', () => {
-		const descriptionIndex = 21;
+		const descriptionIndex = 22;
 
 		it('should display the development description if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -477,7 +511,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Did the local planning authority change the description of development?', () => {
-		const lpaChangedDescriptionIndex = 22;
+		const lpaChangedDescriptionIndex = 23;
 
 		it('should show Green Belt if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -507,7 +541,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Preferred procedure', () => {
-		const procedureIndex = 23;
+		const procedureIndex = 24;
 
 		it('should display the appellant preferred procedure if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -529,7 +563,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Cost application', () => {
-		const costsApplicationIndex = 25;
+		const costsApplicationIndex = 26;
 
 		it('should display Yes if applicant applied for costs', () => {
 			const testCase = structuredClone(caseWithAppellant);
