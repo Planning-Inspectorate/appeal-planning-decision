@@ -101,7 +101,10 @@ class OptionsQuestion extends Question {
 		for (const option of this.options) {
 			let optionData = { ...option };
 			// Skip if the option is a divider
-			if (optionIsDivider(optionData)) continue;
+			if (optionIsDivider(optionData)) {
+				viewModel.question.options.push(optionData);
+				continue;
+			}
 
 			if (optionData.value !== undefined) {
 				optionData.checked = (',' + answer + ',').includes(',' + optionData.value + ',');

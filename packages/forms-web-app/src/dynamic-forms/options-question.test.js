@@ -50,7 +50,7 @@ describe('./src/dynamic-forms/question.js', () => {
 
 	describe('prepQuestionForRendering', () => {
 		it('should set options on question and call super', () => {
-			const expectedData = { options: [{ a: 1 }] };
+			const expectedData = { options: [{ a: 1, divider: 'or', b: 2 }] };
 			const question = getTestQuestion(expectedData);
 
 			const journey = {
