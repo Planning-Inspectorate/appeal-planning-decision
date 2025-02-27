@@ -214,3 +214,5 @@ components:
           type: boolean
         demolishAlterExtend:
           type: boolean
+        listedBuildingGrade:
+          type: string

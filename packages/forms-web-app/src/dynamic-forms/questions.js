@@ -2499,6 +2499,28 @@ exports.questionProps = {
 				attributes: { 'data-cy': 'answer-no' }
 			}
 		]
+	},
+	listedBuildingGrade: {
+		type: 'radio',
+		title: 'What grade is the listed building?',
+		question: 'What grade is the listed building?',
+		fieldName: 'listedBuildingGrade',
+		url: 'listed-building-grade',
+		validators: [new RequiredValidator('Select the grade of the listed building')],
+		options: [
+			{
+				text: 'Grade I',
+				value: 'Grade I'
+			},
+			{
+				text: 'Grade II*',
+				value: 'Grade II*'
+			},
+			{
+				text: 'Grade II',
+				value: 'Grade II'
+			}
+		]
 	}
 };
 

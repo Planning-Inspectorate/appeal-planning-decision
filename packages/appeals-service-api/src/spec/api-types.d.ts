@@ -1104,6 +1104,7 @@ export interface LPAQuestionnaireSubmission {
 	SubmissionDocumentUpload?: object[];
 	appealNotification?: boolean | null;
 	demolishAlterExtend?: boolean | null;
+	listedBuildingGrade?: string;
 }
 
 /** A statement submitted by an LPA */
