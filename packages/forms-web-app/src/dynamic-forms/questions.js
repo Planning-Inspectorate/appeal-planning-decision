@@ -42,6 +42,7 @@ const {
 const { getConditionalFieldName, DIVIDER } = require('./dynamic-components/utils/question-utils');
 const { documentTypes } = require('@pins/common');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
+const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const {
 	validation: {
 		characterLimits: { appealFormV2, finalComment: configInputMaxCharacters },
@@ -2543,6 +2544,35 @@ exports.questionProps = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadHistoricEnglandConsultation
+	},
+	majorMinorDevelopment: {
+		type: 'radio',
+		title: 'Was your application for a major or minor development?',
+		question: 'Was your application for a major or minor development?',
+		legend: 'Development class',
+		fieldName: 'majorMinorDevelopment',
+		url: 'major-minor-development',
+		html: 'resources/major-minor-development/content.html',
+		validators: [
+			new RequiredValidator('Select if your application was for a major or minor development')
+		],
+		options: [
+			{
+				text: 'Major development',
+				value: fieldValues.minorMajorDevelopment.MAJOR
+			},
+			{
+				text: 'Minor development',
+				value: fieldValues.minorMajorDevelopment.MINOR
+			},
+			{
+				[DIVIDER]: 'or'
+			},
+			{
+				text: 'Other',
+				value: fieldValues.minorMajorDevelopment.OTHER
+			}
+		]
 	}
 };
 
