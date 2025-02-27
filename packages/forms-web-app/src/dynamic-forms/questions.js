@@ -2499,6 +2499,15 @@ exports.questionProps = {
 				attributes: { 'data-cy': 'answer-no' }
 			}
 		]
+	},
+	consultHistoricEngland: {
+		type: 'boolean',
+		title: 'Did you consult Historic England?',
+		question: 'Did you consult Historic England?',
+		// fieldName: 'consult-historic-england',
+		fieldName: 'consultHistoricEngland',
+		url: 'consult-historic-england',
+		validators: [new RequiredValidator('Select yes if you consulted Historic England')]
 	}
 };
 
