@@ -27,6 +27,7 @@ const sections = [
 		.addQuestion(questions.listedBuildingCheck)
 		.addQuestion(questions.affectedListedBuildings)
 		.withCondition((response) => questionHasAnswer(response, questions.listedBuildingCheck, 'yes'))
+		.addQuestion(questions.demolishAlterExtend)
 		.addQuestion(questions.scheduledMonument)
 		.addQuestion(questions.conservationArea)
 		.addQuestion(questions.conservationAreaUpload)
