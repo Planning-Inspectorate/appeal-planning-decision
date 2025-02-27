@@ -93,7 +93,7 @@
 		"@azure/service-bus": "^7.9.1",
 		"@azure/storage-blob": "^12.17.0",
 		"@ministryofjustice/frontend": "^1.6.4",
-		"@prisma/client": "5.11.0",
+		"@prisma/client": "6.4.1",
 		"accessible-autocomplete": "^2.0.3",
 		"ajv": "^8.14.0",
 		"ajv-errors": "^3.0.0",
