@@ -212,8 +212,10 @@ components:
             type: object
         appealNotification:
           type: boolean
+          nullable: true
         demolishAlterExtend:
           type: boolean
+          nullable: true
         consultHistoricEngland:
           type: boolean
         listedBuildingGrade:

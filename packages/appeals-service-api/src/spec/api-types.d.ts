@@ -568,6 +568,8 @@ export interface AppellantSubmission {
 	submissionPdfId?: string;
 	/** @format date-time */
 	onApplicationDate?: string;
+	majorMinorDevelopment?: string | null;
+	typeDevelopment?: string | null;
 	isAppellant?: boolean;
 	appellantFirstName?: string;
 	appellantLastName?: string;

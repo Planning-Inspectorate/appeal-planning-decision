@@ -700,6 +700,10 @@ model AppellantSubmission {
   appellantSiteAccess_appellantSiteAccessDetails String?
   statusPlanningObligation                       String?
 
+  // radio
+  majorMinorDevelopment String?
+  typeDevelopment       String?
+
   // plain text
   applicationReference           String?
   developmentDescriptionOriginal String?
