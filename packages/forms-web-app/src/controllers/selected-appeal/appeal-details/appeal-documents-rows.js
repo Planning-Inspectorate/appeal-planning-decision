@@ -89,7 +89,7 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'Evidence of agreement to change description of development',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION),
-			condition: () => true,
+			condition: (caseData) => !!caseData.changedDevelopmentDescription,
 			isEscaped: true
 		},
 		{

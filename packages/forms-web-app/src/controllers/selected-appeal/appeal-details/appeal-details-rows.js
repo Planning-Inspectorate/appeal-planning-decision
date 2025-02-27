@@ -92,6 +92,11 @@ exports.detailsRows = (caseData, userType) => {
 			condition: (caseData) => caseData.ownsSomeLand != null
 		},
 		{
+			keyText: 'All owners known',
+			valueText: caseData.knowsAllOwners ?? '',
+			condition: (caseData) => caseData.knowsAllOwners != null
+		},
+		{
 			keyText: 'Other owners known',
 			valueText: caseData.knowsOtherOwners ?? '',
 			condition: (caseData) => caseData.knowsOtherOwners != null
