@@ -37,6 +37,13 @@ components:
         onApplicationDate:
           type: string
           format: date-time
+        
+        majorMinorDevelopment:
+          type: string
+          nullable: true
+        typeDevelopment:
+          type: string
+          nullable: true
 
         isAppellant:
           type: boolean
