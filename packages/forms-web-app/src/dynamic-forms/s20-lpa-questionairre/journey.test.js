@@ -23,7 +23,7 @@ describe('S20 Journey', () => {
 
 	it('should set taskListUrl', () => {
 		const journey = new Journey({ ...params, response: mockResponse });
-		expect(journey.taskListUrl).toEqual('/manage-appeals/listed-building/123');
+		expect(journey.taskListUrl).toEqual('/manage-appeals/questionnaire/123');
 	});
 
 	it('should set template', () => {
