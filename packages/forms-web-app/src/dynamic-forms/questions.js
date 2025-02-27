@@ -2475,6 +2475,30 @@ exports.questionProps = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadRule6WitnessesEvidence
+	},
+	demolishAlterExtend: {
+		type: 'boolean',
+		title: 'Does the proposed development demolish, alter or extend a listed building?',
+		question: 'Does the proposed development demolish, alter or extend a listed building?',
+		fieldName: 'demolishAlterExtend',
+		url: 'demolish-alter-extend',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the proposed development demolishes, alters or extends a listed building'
+			)
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				attributes: { 'data-cy': 'answer-yes' }
+			},
+			{
+				text: 'No',
+				value: 'no',
+				attributes: { 'data-cy': 'answer-no' }
+			}
+		]
 	}
 };
 

@@ -1103,6 +1103,7 @@ export interface LPAQuestionnaireSubmission {
 	SubmissionLinkedCase?: object[];
 	SubmissionDocumentUpload?: object[];
 	appealNotification?: boolean | null;
+	demolishAlterExtend?: boolean | null;
 }
 
 /** A statement submitted by an LPA */

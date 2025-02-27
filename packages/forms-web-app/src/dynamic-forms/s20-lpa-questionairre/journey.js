@@ -167,7 +167,7 @@ const sections = [
 		.addQuestion(questions.addNewConditions)
 ];
 
-const baseS20LpaqUrl = '/manage-appeals/listed-building';
+const baseS20LpaqUrl = '/manage-appeals/questionnaire'; // TODO: To be changed to '/manage-appeals/listed-building';
 
 /**
  * @param {JourneyResponse} response

@@ -212,3 +212,5 @@ components:
             type: object
         appealNotification:
           type: boolean
+        demolishAlterExtend:
+          type: boolean

@@ -895,6 +895,7 @@ model LPAQuestionnaireSubmission {
   developmentDescription                          String?
   applicantSubmittedEnvironmentalStatement        String?
   appealNotification                              Boolean?
+  demolishAlterExtend                             Boolean?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
