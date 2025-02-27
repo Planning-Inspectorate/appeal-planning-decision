@@ -832,6 +832,7 @@ model LPAQuestionnaireSubmission {
   appealNotification                              Boolean?
   demolishAlterExtend                             Boolean?
   consultHistoricEngland                          Boolean?
+  listedBuildingGrade                             String?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
