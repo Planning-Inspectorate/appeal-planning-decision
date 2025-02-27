@@ -18,6 +18,7 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
  */
 const sections = [
 	new Section('Constraints, designations and other issues', 'constraints')
+		.addQuestion(questions.consultHistoricEngland)
 		.addQuestion(questions.appealTypeAppropriate)
 		.addQuestion(questions.changesListedBuilding)
 		.addQuestion(questions.changedListedBuildings)

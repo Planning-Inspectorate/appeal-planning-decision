@@ -1038,6 +1038,7 @@ export interface LPAQuestionnaireSubmission {
 	SubmissionDocumentUpload?: object[];
 	appealNotification?: boolean | null;
 	demolishAlterExtend?: boolean | null;
+	consultHistoricEngland?: boolean;
 }
 
 /** A statement submitted by an LPA */
