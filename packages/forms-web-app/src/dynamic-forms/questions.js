@@ -2573,6 +2573,54 @@ exports.questionProps = {
 				value: fieldValues.minorMajorDevelopment.OTHER
 			}
 		]
+	},
+	developmentType: {
+		type: 'radio',
+		title: 'Was your application about any of the following?',
+		question: 'Was your application about any of the following?',
+		fieldName: 'typeDevelopment',
+		url: 'application-about',
+		validators: [
+			new RequiredValidator('Select if your application was about any of the following')
+		],
+		options: [
+			{
+				text: 'Householder development',
+				value: fieldValues.applicationAbout.HOUSEHOLDER
+			},
+			{
+				text: 'Change of use',
+				value: fieldValues.applicationAbout.CHANGE_OF_USE
+			},
+			{
+				text: 'Mineral working',
+				value: fieldValues.applicationAbout.MINERAL_WORKINGS
+			},
+			{
+				text: 'Dwellings',
+				value: fieldValues.applicationAbout.DWELLINGS
+			},
+			{
+				text: 'General industry, storage or warehousing',
+				value: fieldValues.applicationAbout.INDUSTRY_STORAGE
+			},
+			{
+				text: 'Offices, light industry or research and development',
+				value: fieldValues.applicationAbout.OFFICES
+			},
+			{
+				text: 'Retail and services',
+				value: fieldValues.applicationAbout.RETAIL_SERVICES
+			},
+			{
+				text: 'Traveller and caravan pitches',
+				value: fieldValues.applicationAbout.TRAVELLER_CARAVAN
+			},
+			{
+				text: 'Other',
+				value: fieldValues.applicationAbout.OTHER
+			}
+		]
 	}
 };
 
