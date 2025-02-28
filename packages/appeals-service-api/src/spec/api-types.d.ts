@@ -1038,7 +1038,7 @@ export interface LPAQuestionnaireSubmission {
 	SubmissionDocumentUpload?: object[];
 	appealNotification?: boolean | null;
 	demolishAlterExtend?: boolean | null;
-	consultHistoricEngland?: boolean | null;
+	consultHistoricEngland?: boolean;
 	listedBuildingGrade?: string;
 }
 
