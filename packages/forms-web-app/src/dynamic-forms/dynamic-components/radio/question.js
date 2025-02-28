@@ -96,6 +96,11 @@ class RadioQuestion extends OptionsQuestion {
 	 * }>}
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer) {
+		if (!answer) {
+			return super.formatAnswerForSummary(sectionSegment, journey, answer);
+		}
+
+		//would only apply if particular answer has conditional
 		if (answer && typeof answer !== 'string') {
 			const selectedOption = this.options.find(
 				(option) => !optionIsDivider(option) && option.value === answer.value
@@ -113,7 +118,17 @@ class RadioQuestion extends OptionsQuestion {
 
 			return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
 		}
-		return super.formatAnswerForSummary(sectionSegment, journey, answer);
+
+		// answer will be a string, unlike checkbox shouldn't need to split as only get one answer on radio
+		// I am not 100% convinced that the optionIsDivider checks are required here
+		const selectedOption = this.options.find(
+			(option) => !optionIsDivider(option) && option.value === answer
+		);
+
+		if (!selectedOption || optionIsDivider(selectedOption))
+			throw new Error('Answer did not correlate with a valid option');
+
+		return super.formatAnswerForSummary(sectionSegment, journey, selectedOption.text);
 	}
 }
 
