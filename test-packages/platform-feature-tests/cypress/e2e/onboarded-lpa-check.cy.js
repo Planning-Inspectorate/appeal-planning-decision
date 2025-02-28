@@ -31,6 +31,9 @@ describe('Check access to appeals service for granted LPAs', () => {
 			// Step 6: Selects Contiune Button
 			basePage.clickSaveAndContiuneBtn();
 
+			cy.getByData(basePage?._selectors.answerNo).click();
+			cy.advanceToNextPage();
+
 			// Step 7: Checks we are on the type of planning application page
 			cy.url().should('include', '/type-of-planning-application');
 		});

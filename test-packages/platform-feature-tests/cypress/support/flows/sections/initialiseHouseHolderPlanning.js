@@ -44,8 +44,8 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
 	cy.advanceToNextPage();
 
-	cy.getByData(basePage?._selectors.answerNo).click();
-	cy.advanceToNextPage();
+	// cy.getByData(basePage?._selectors.answerNo).click();
+	// cy.advanceToNextPage();
 
 	cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.householderPlanningText);
 	

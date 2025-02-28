@@ -10,9 +10,12 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 	cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 	cy.advanceToNextPage();
 	cy.get(basePage?._selectors?.localPlanningDepartment)
-		.type('System Test Borough Council')
+		.type('System Test 2 Borough Council')
 		.get(basePage?._selectors?.localPlanningDepartmentOptionZero)
 		.click();
+	cy.advanceToNextPage();
+
+	cy.getByData(basePage?._selectors.answerNo).click();
 	cy.advanceToNextPage();
 
 	cy.get(`[data-cy="${planning}"]`).click();
@@ -26,18 +29,12 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 	} else {
 		grantedOrRefusedId =  basePage._selectors?.answerGranted;
 	}
-
-	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal) {
-
-		cy.get(basePage._selectors?.siteSelectionSeven).click();
-		cy.advanceToNextPage();
+	cy.getByData(basePage._selectors?.answerListedBuilding).click();
+	cy.advanceToNextPage();
+	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal) {		
 		initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.fullAppealText, context, prepareAppealData);
 	}
 	else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {
-
-		cy.getByData(basePage._selectors?.answerListedBuilding).click();
-		cy.advanceToNextPage();
-
 		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? initialiseHouseHolderPlanning(planning, grantedOrRefusedId, context, prepareAppealData) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData);
 	}
 };
