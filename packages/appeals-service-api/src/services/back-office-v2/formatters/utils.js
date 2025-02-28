@@ -3,13 +3,15 @@ const { getDocType } = require('@pins/common/src/document-types');
 const { blobMetaGetter } = require('../../../services/object-store');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
+const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 const {
 	APPEAL_APPLICATION_DECISION,
 	APPEAL_APPELLANT_PROCEDURE_PREFERENCE,
 	SERVICE_USER_TYPE,
 	APPEAL_CASE_PROCEDURE,
-	APPEAL_LPA_PROCEDURE_PREFERENCE
+	APPEAL_LPA_PROCEDURE_PREFERENCE,
+	APPEAL_DEVELOPMENT_TYPE
 } = require('pins-data-model');
 const { LPA_NOTIFICATION_METHODS, CASE_TYPES } = require('@pins/common/src/database/data-static');
 const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-date');
@@ -291,7 +293,6 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
  * @returns {AppellantHASSubmissionProperties}
  */
 exports.getHASAppellantSubmissionFields = (appellantSubmission) => {
-	// todo: HAS properties only type
 	return {
 		isGreenBelt: appellantSubmission.appellantGreenBelt ?? null,
 		siteAreaSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null,
@@ -313,7 +314,6 @@ exports.getHASAppellantSubmissionFields = (appellantSubmission) => {
  * @returns {AppellantS78SubmissionProperties}
  */
 exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
-	// todo: S78 properties only type
 	const preference = getAppellantProcedurePreference(appellantSubmission);
 
 	return {
@@ -331,7 +331,7 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
 
 		planningObligation: appellantSubmission.planningObligation ?? null,
 		statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
-
+		developmentType: exports.getDevelopmentType(appellantSubmission),
 		...preference
 	};
 };
@@ -366,6 +366,52 @@ const getAppellantProcedurePreference = (appellantSubmission) => {
 			};
 		default:
 			throw new Error('unknown appellantProcedurePreference');
+	}
+};
+
+/**
+ * @param {FullAppellantSubmission} appellantSubmission
+ * @returns {AppellantS78SubmissionProperties['developmentType']}
+ */
+exports.getDevelopmentType = (appellantSubmission) => {
+	if (!appellantSubmission.typeDevelopment) return null;
+
+	const isMajorDevelopment =
+		appellantSubmission.majorMinorDevelopment === fieldValues.majorMinorDevelopment.MAJOR;
+
+	switch (appellantSubmission.typeDevelopment) {
+		case fieldValues.applicationAbout.HOUSEHOLDER:
+			return APPEAL_DEVELOPMENT_TYPE.HOUSEHOLDER;
+		case fieldValues.applicationAbout.CHANGE_OF_USE:
+			return APPEAL_DEVELOPMENT_TYPE.CHANGE_OF_USE;
+		case fieldValues.applicationAbout.MINERAL_WORKINGS:
+			return APPEAL_DEVELOPMENT_TYPE.MINERAL_WORKINGS;
+		case fieldValues.applicationAbout.DWELLINGS:
+			return isMajorDevelopment
+				? APPEAL_DEVELOPMENT_TYPE.MAJOR_DWELLINGS
+				: APPEAL_DEVELOPMENT_TYPE.MINOR_DWELLINGS;
+		case fieldValues.applicationAbout.INDUSTRY_STORAGE:
+			return isMajorDevelopment
+				? APPEAL_DEVELOPMENT_TYPE.MAJOR_INDUSTRY_STORAGE
+				: APPEAL_DEVELOPMENT_TYPE.MINOR_INDUSTRY_STORAGE;
+		case fieldValues.applicationAbout.OFFICES:
+			return isMajorDevelopment
+				? APPEAL_DEVELOPMENT_TYPE.MAJOR_OFFICES
+				: APPEAL_DEVELOPMENT_TYPE.MINOR_OFFICES;
+		case fieldValues.applicationAbout.RETAIL_SERVICES:
+			return isMajorDevelopment
+				? APPEAL_DEVELOPMENT_TYPE.MAJOR_RETAIL_SERVICES
+				: APPEAL_DEVELOPMENT_TYPE.MINOR_RETAIL_SERVICES;
+		case fieldValues.applicationAbout.TRAVELLER_CARAVAN:
+			return isMajorDevelopment
+				? APPEAL_DEVELOPMENT_TYPE.MAJOR_TRAVELLER_CARAVAN
+				: APPEAL_DEVELOPMENT_TYPE.MINOR_TRAVELLER_CARAVAN;
+		case fieldValues.applicationAbout.OTHER:
+			return isMajorDevelopment
+				? APPEAL_DEVELOPMENT_TYPE.OTHER_MAJOR
+				: APPEAL_DEVELOPMENT_TYPE.OTHER_MINOR;
+		default:
+			throw new Error('unhandled developmentType');
 	}
 };
 

@@ -7,6 +7,8 @@ const {
 	APPEAL_CASE_TYPE,
 	SERVICE_USER_TYPE
 } = require('pins-data-model');
+const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
+const { APPEAL_DEVELOPMENT_TYPE } = require('pins-data-model');
 
 jest.mock('../../../../services/object-store');
 
@@ -80,7 +82,10 @@ describe('S78 formatter', () => {
 			appellantProcedurePreference: 'inquiry',
 			appellantPreferInquiryDetails: 'details',
 			appellantPreferInquiryDuration: 13,
-			appellantPreferInquiryWitnesses: 3
+			appellantPreferInquiryWitnesses: 3,
+
+			typeDevelopment: fieldValues.applicationAbout.DWELLINGS,
+			majorMinorDevelopment: fieldValues.majorMinorDevelopment.MAJOR
 		};
 	});
 
@@ -91,7 +96,7 @@ describe('S78 formatter', () => {
 			casedata: {
 				submissionId: 'appeal123',
 				caseType: APPEAL_CASE_TYPE.W,
-				developmentType: 'householder',
+				developmentType: APPEAL_DEVELOPMENT_TYPE.MAJOR_DWELLINGS,
 				caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
 				lpaCode: 123,
 				caseSubmittedDate: expect.any(String),
@@ -167,7 +172,7 @@ describe('S78 formatter', () => {
 			casedata: {
 				submissionId: 'appeal123',
 				caseType: APPEAL_CASE_TYPE.W,
-				developmentType: 'householder',
+				developmentType: APPEAL_DEVELOPMENT_TYPE.MAJOR_DWELLINGS,
 				caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
 				lpaCode: 123,
 				caseSubmittedDate: expect.any(String),

@@ -6,7 +6,7 @@
  * @enum {DynamicFormFieldValue}
  */
 exports.fieldValues = {
-	minorMajorDevelopment: {
+	majorMinorDevelopment: {
 		MAJOR: 'major',
 		MINOR: 'minor',
 		OTHER: 'other'
