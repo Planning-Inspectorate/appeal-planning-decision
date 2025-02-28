@@ -38,7 +38,7 @@
                     {% if item.isNewAppeal %}
 										{% elif item.displayInvalid %}
                     {% else %}
-                      {{item.nextDocumentDue.deadline | date('D MMMM YYYY') }}
+                      {{item.nextJourneyDue.deadline | date('D MMMM YYYY') }}
                     {% endif %}
                   </td>
                   <td class="govuk-table__cell govuk-table__cell--numeric">
@@ -46,11 +46,11 @@
 										{% if item.displayInvalid %}
 										{% elif item.isNewAppeal %}
                       <strong class='govuk-tag govuk-tag--green'>NEW</strong>
-										{% elif item.nextDocumentDue.dueInDays < 0 %}
+										{% elif item.nextJourneyDue.dueInDays < 0 %}
                       <strong class='govuk-tag govuk-tag--red'>OVERDUE</strong>
                     {% else %}
-                      {{item.nextDocumentDue.dueInDays}}
-                      {% if item.nextDocumentDue.dueInDays == 1 %}
+                      {{item.nextJourneyDue.dueInDays}}
+                      {% if item.nextJourneyDue.dueInDays == 1 %}
                         day
                       {% else %}
                         days
@@ -61,8 +61,8 @@
 										{% if item.displayInvalid %}
 											<strong class='govuk-tag govuk-tag--grey'>INVALID</strong>
                     {% else %}
-                      <a href="{{item.nextDocumentDue.baseUrl}}" class="govuk-link">
-                          {{item.nextDocumentDue.documentDue}}
+                      <a href="{{item.nextJourneyDue.baseUrl}}" class="govuk-link">
+                          {{item.nextJourneyDue.journeyDue}}
                           <span class="govuk-visually-hidden"> for {{item.appealNumber}}</span>
                         </a>
                     {% endif %}

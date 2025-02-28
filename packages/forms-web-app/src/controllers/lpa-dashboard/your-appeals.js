@@ -46,7 +46,7 @@ const getYourAppeals = async (req, res) => {
 			{ toDoAppeals: [], waitingForReviewAppeals: [] }
 		);
 
-	toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
+	toDoAppeals.sort((a, b) => a.nextJourneyDue.dueInDays - b.nextJourneyDue.dueInDays);
 
 	waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
 
