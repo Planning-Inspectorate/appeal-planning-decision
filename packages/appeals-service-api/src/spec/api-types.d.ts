@@ -1038,11 +1038,12 @@ export interface LPAQuestionnaireSubmission {
 	SubmissionListedBuilding?: object[];
 	SubmissionLinkedCase?: object[];
 	SubmissionDocumentUpload?: object[];
-	appealNotification?: boolean | null;
-	demolishAlterExtend?: boolean | null;
+	appealNotification?: boolean;
+	demolishAlterExtend?: boolean;
 	consultHistoricEngland?: boolean;
 	listedBuildingGrade?: string;
 	uploadHistoricEnglandConsultation?: boolean;
+	preserveGrantLoan?: boolean;
 }
 
 /** A statement submitted by an LPA */
