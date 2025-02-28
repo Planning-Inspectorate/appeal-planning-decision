@@ -1,7 +1,7 @@
 const {
 	formatAddress,
-	determineDocumentToDisplayLPADashboard,
-	determineDocumentToDisplayRule6Dashboard,
+	determineJourneyToDisplayLPADashboard,
+	determineJourneyToDisplayRule6Dashboard,
 	isNewAppeal,
 	shouldDisplayQuestionnaireDueNotification,
 	shouldDisplayStatementsDueBannerLPA,
@@ -65,12 +65,12 @@ describe('lib/dashboard-functions', () => {
 		});
 	});
 
-	describe('determineDocumentToDisplayLPADashboard', () => {
+	describe('determineJourneyToDisplayLPADashboard', () => {
 		it('returns default values if no documents are due', () => {
-			expect(determineDocumentToDisplayLPADashboard({})).toEqual({
+			expect(determineJourneyToDisplayLPADashboard({})).toEqual({
 				deadline: null,
 				dueInDays: 100000,
-				documentDue: null,
+				journeyDue: null,
 				baseUrl: null
 			});
 		});
@@ -82,10 +82,10 @@ describe('lib/dashboard-functions', () => {
 
 			calculateDaysSinceInvalidated.mockReturnValue(1);
 
-			expect(determineDocumentToDisplayLPADashboard(invalidAppealDetails)).toEqual({
+			expect(determineJourneyToDisplayLPADashboard(invalidAppealDetails)).toEqual({
 				deadline: null,
 				dueInDays: -100000,
-				documentDue: null
+				journeyDue: null
 			});
 		});
 
@@ -96,10 +96,10 @@ describe('lib/dashboard-functions', () => {
 
 			calculateDaysSinceInvalidated.mockReturnValue(100);
 
-			expect(determineDocumentToDisplayLPADashboard(invalidAppealDetails)).toEqual({
+			expect(determineJourneyToDisplayLPADashboard(invalidAppealDetails)).toEqual({
 				deadline: null,
 				dueInDays: 100000,
-				documentDue: null,
+				journeyDue: null,
 				baseUrl: null
 			});
 		});
@@ -117,13 +117,13 @@ describe('lib/dashboard-functions', () => {
 			const expectedQuestionnaireDetails = {
 				deadline: '2023-07-07T13:53:31.6003126+00:00',
 				dueInDays: 3,
-				documentDue: 'Questionnaire',
+				journeyDue: 'Questionnaire',
 				baseUrl: questionnaireBaseUrl
 			};
 
 			calculateDueInDays.mockReturnValue(3);
 
-			expect(determineDocumentToDisplayLPADashboard(appealDetails)).toEqual(
+			expect(determineJourneyToDisplayLPADashboard(appealDetails)).toEqual(
 				expectedQuestionnaireDetails
 			);
 		});
@@ -141,13 +141,13 @@ describe('lib/dashboard-functions', () => {
 			const expectedStatementDetails = {
 				deadline: '2023-07-17T13:53:31.6003126+00:00',
 				dueInDays: 13,
-				documentDue: 'Statement',
+				journeyDue: 'Statement',
 				baseUrl: statementBaseUrl
 			};
 
 			calculateDueInDays.mockReturnValue(13);
 
-			expect(determineDocumentToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
+			expect(determineJourneyToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
 				expectedStatementDetails
 			);
 		});
@@ -167,13 +167,13 @@ describe('lib/dashboard-functions', () => {
 			const expectedFinalCommentDetails = {
 				deadline: '2023-07-27T13:53:31.6003126+00:00',
 				dueInDays: 23,
-				documentDue: 'Final comment',
+				journeyDue: 'Final comment',
 				baseUrl: finalCommentBaseUrl
 			};
 
 			calculateDueInDays.mockReturnValue(23);
 
-			expect(determineDocumentToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
+			expect(determineJourneyToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
 				expectedFinalCommentDetails
 			);
 		});
@@ -193,13 +193,13 @@ describe('lib/dashboard-functions', () => {
 			const expectedProofsDetails = {
 				deadline: '2023-07-27T13:53:31.6003126+00:00',
 				dueInDays: 23,
-				documentDue: 'Proofs of Evidence',
+				journeyDue: 'Proofs of Evidence',
 				baseUrl: proofsBaseUrl
 			};
 
 			calculateDueInDays.mockReturnValue(23);
 
-			expect(determineDocumentToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
+			expect(determineJourneyToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
 				expectedProofsDetails
 			);
 		});
@@ -207,10 +207,10 @@ describe('lib/dashboard-functions', () => {
 
 	describe('determineDocumentToDisplayRul6Dashboard', () => {
 		it('returns default values if no documents are due', () => {
-			expect(determineDocumentToDisplayRule6Dashboard({})).toEqual({
+			expect(determineJourneyToDisplayRule6Dashboard({})).toEqual({
 				deadline: null,
 				dueInDays: 100000,
-				documentDue: null,
+				journeyDue: null,
 				baseUrl: null
 			});
 		});
@@ -226,13 +226,13 @@ describe('lib/dashboard-functions', () => {
 			const expectedStatementDetails = {
 				deadline: '2023-07-07T13:53:31.6003126+00:00',
 				dueInDays: 13,
-				documentDue: 'Statement',
+				journeyDue: 'Statement',
 				baseUrl: `${rule6StatementBaseUrl}${testCaseRef}`
 			};
 
 			calculateDueInDays.mockReturnValue(13);
 
-			expect(determineDocumentToDisplayRule6Dashboard(appealStatementDueDetails)).toEqual(
+			expect(determineJourneyToDisplayRule6Dashboard(appealStatementDueDetails)).toEqual(
 				expectedStatementDetails
 			);
 		});
@@ -248,13 +248,13 @@ describe('lib/dashboard-functions', () => {
 			const expectedProofsDetails = {
 				deadline: '2023-07-27T13:53:31.6003126+00:00',
 				dueInDays: 23,
-				documentDue: 'Proof of Evidence',
+				journeyDue: 'Proof of Evidence',
 				baseUrl: `${rule6ProofsBaseUrl}${testCaseRef}`
 			};
 
 			calculateDueInDays.mockReturnValue(23);
 
-			expect(determineDocumentToDisplayRule6Dashboard(appealStatementDueDetails)).toEqual(
+			expect(determineJourneyToDisplayRule6Dashboard(appealStatementDueDetails)).toEqual(
 				expectedProofsDetails
 			);
 		});

@@ -19,10 +19,10 @@ describe('controllers/appeals/your-appeals/decided-appeals', () => {
 		appealNumber: '0000004',
 		address: 'decidedAddress',
 		appealType: 'an appeal',
-		nextDocumentDue: {
+		nextJourneyDue: {
 			deadline: null,
 			dueInDays: 100000,
-			documentDue: null
+			journeyDue: null
 		},
 		isDraft: false,
 		appealDecision: 'allowed',

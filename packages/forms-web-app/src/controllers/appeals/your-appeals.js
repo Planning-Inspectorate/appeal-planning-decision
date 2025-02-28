@@ -44,7 +44,7 @@ exports.get = async (req, res) => {
 		logger.debug({ toDoAppeals }, 'toDoAppeals');
 		logger.debug({ waitingForReviewAppeals }, 'waitingForReviewAppeals');
 
-		toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
+		toDoAppeals.sort((a, b) => a.nextJourneyDue.dueInDays - b.nextJourneyDue.dueInDays);
 		waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
 		const noToDoAppeals = !arrayHasItems(toDoAppeals);
 
