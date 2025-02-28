@@ -377,30 +377,37 @@ const isQuestionnaireDue = (appealCaseData) => {
  * @returns {boolean}
  */
 const shouldDisplayQuestionnaireDueNotification = (caseData, userType) =>
-	userType === LPA_USER_ROLE &&
-	!caseData.lpaQuestionnaireSubmittedDate &&
-	!!caseData.lpaQuestionnaireDueDate;
+	userType === LPA_USER_ROLE && isLPAQuestionnaireOpen(caseData);
 
 /**
+ * checks if questionnaire is open for LPA
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {boolean}
  */
-const isLPAStatementDue = (appealCaseData) => {
-	return (
-		!!appealCaseData.statementDueDate &&
-		!appealCaseData.LPAStatementSubmittedDate &&
-		appealCaseData.caseStatus === APPEAL_CASE_STATUS.STATEMENTS
-	);
-};
+const isLPAQuestionnaireOpen = (appealCaseData) =>
+	!!appealCaseData.lpaQuestionnaireDueDate && !appealCaseData.lpaQuestionnaireSubmittedDate;
 
 /**
+ * checks if statement is due for LPA
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {boolean}
+ */
+const isLPAStatementDue = (appealCaseData) =>
+	isLpaStatementOpen(appealCaseData) && !!appealCaseData.statementDueDate;
+
+/**
+ * checks if statement is open for LPA
  * @param {AppealCaseDetailed} caseData
  * @returns {boolean}
  */
 const isLpaStatementOpen = (caseData) => {
+	// not already submitted
+	// we are in statement stage
+	// or the lpaq due date has already gone past (allowing statements to open even if lpaq is not complete)
 	return (
-		deadlineHasPassed(caseData.lpaQuestionnaireDueDate) ||
-		caseData.caseStatus === APPEAL_CASE_STATUS.STATEMENTS
+		!caseData.LPAStatementSubmittedDate &&
+		(caseData.caseStatus === APPEAL_CASE_STATUS.STATEMENTS ||
+			deadlineHasPassed(caseData.lpaQuestionnaireDueDate))
 	);
 };
 
@@ -423,13 +430,16 @@ const shouldDisplayStatementsDueBannerLPA = (caseData, userType) => {
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {boolean}
  */
-const isLPAFinalCommentDue = (appealCaseData) => {
-	return (
-		!!appealCaseData.finalCommentsDueDate &&
-		!appealCaseData.LPACommentsSubmittedDate &&
-		appealCaseData.caseStatus === APPEAL_CASE_STATUS.FINAL_COMMENTS
-	);
-};
+const isLPAFinalCommentDue = (appealCaseData) =>
+	isLPAFinalCommentOpen(appealCaseData) && !!appealCaseData.finalCommentsDueDate;
+
+/**
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {boolean}
+ */
+const isLPAFinalCommentOpen = (appealCaseData) =>
+	appealCaseData.caseStatus === APPEAL_CASE_STATUS.FINAL_COMMENTS &&
+	!appealCaseData.LPACommentsSubmittedDate;
 
 /**
  * @param {AppealCaseDetailed} caseData
@@ -448,16 +458,21 @@ const shouldDisplayFinalCommentsDueBannerLPA = (caseData, userType) => {
 };
 
 /**
+ * Proofs is due for LPA
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {boolean}
  */
-const isLPAProofsOfEvidenceDue = (appealCaseData) => {
-	return (
-		!!appealCaseData.proofsOfEvidenceDueDate &&
-		!appealCaseData.LPAProofsSubmittedDate &&
-		appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE
-	);
-};
+const isLPAProofsOfEvidenceDue = (appealCaseData) =>
+	isLPAProofsOfEvidenceOpen(appealCaseData) && !!appealCaseData.proofsOfEvidenceDueDate;
+
+/**
+ * Proofs is open for LPA
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {boolean}
+ */
+const isLPAProofsOfEvidenceOpen = (appealCaseData) =>
+	appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE &&
+	!appealCaseData.LPACommentsSubmittedDate;
 
 /**
  * @param {AppealCaseDetailed} caseData
@@ -477,16 +492,21 @@ const shouldDisplayProofEvidenceDueBannerLPA = (caseData, userType) => {
 };
 
 /**
+ * final comment is due for appellant
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {boolean}
  */
-const isAppellantFinalCommentDue = (appealCaseData) => {
-	return (
-		!!appealCaseData.finalCommentsDueDate &&
-		!appealCaseData.appellantCommentsSubmittedDate &&
-		appealCaseData.caseStatus === APPEAL_CASE_STATUS.FINAL_COMMENTS
-	);
-};
+const isAppellantFinalCommentDue = (appealCaseData) =>
+	isAppellantFinalCommentOpen(appealCaseData) && !!appealCaseData.finalCommentsDueDate;
+
+/**
+ * final comment is open for appellant
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {boolean}
+ */
+const isAppellantFinalCommentOpen = (appealCaseData) =>
+	appealCaseData.caseStatus === APPEAL_CASE_STATUS.FINAL_COMMENTS &&
+	!appealCaseData.appellantCommentsSubmittedDate;
 
 /**
  * @param {AppealCaseDetailed} caseData
@@ -505,16 +525,21 @@ const shouldDisplayFinalCommentsDueBannerAppellant = (caseData, userType) => {
 };
 
 /**
+ * proofs is due for appellant
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {boolean}
  */
-const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
-	return (
-		!!appealCaseData.proofsOfEvidenceDueDate &&
-		!appealCaseData.appellantProofsSubmittedDate &&
-		appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE
-	);
-};
+const isAppellantProofsOfEvidenceDue = (appealCaseData) =>
+	isAppellantProofsOfEvidenceOpen(appealCaseData) && !!appealCaseData.proofsOfEvidenceDueDate;
+
+/**
+ * proofs is open for appellant
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {boolean}
+ */
+const isAppellantProofsOfEvidenceOpen = (appealCaseData) =>
+	appealCaseData.caseStatus !== APPEAL_CASE_STATUS.EVIDENCE &&
+	!appealCaseData.appellantProofsSubmittedDate;
 
 /**
  * @param {AppealCaseDetailed} caseData
@@ -580,16 +605,25 @@ const representationPublished = (representations, type, submitter) => {
 };
 
 /**
+ * Checks if statement is due for current rule 6 user
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {boolean}
  */
 const isRule6StatementDue = (appealCaseData) => {
 	return (
 		!!appealCaseData.statementDueDate &&
-		!representationExists(appealCaseData.Representations, REPRESENTATION_TYPES.STATEMENT, true) &&
-		appealCaseData.caseStatus === APPEAL_CASE_STATUS.STATEMENTS
+		isRule6StatementOpen(appealCaseData) &&
+		!representationExists(appealCaseData.Representations, REPRESENTATION_TYPES.STATEMENT, true)
 	);
 };
+
+/**
+ * Checks if statements are open for all rule 6 parties
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {boolean}
+ */
+const isRule6StatementOpen = (appealCaseData) =>
+	appealCaseData.caseStatus === APPEAL_CASE_STATUS.STATEMENTS;
 
 /**
  * @param {AppealCaseDetailed} caseData
@@ -607,20 +641,29 @@ const shouldDisplayStatementsDueBannerRule6 = (caseData, userType) => {
 };
 
 /**
+ * Checks if proofs of evidence is due for current rule 6 user
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {boolean}
  */
 const isRule6ProofOfEvidenceDue = (appealCaseData) => {
 	return (
 		!!appealCaseData.proofsOfEvidenceDueDate &&
+		isRule6ProofsOfEvidenceOpen(appealCaseData) &&
 		!representationExists(
 			appealCaseData.Representations,
 			REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
 			true
-		) &&
-		appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE
+		)
 	);
 };
+
+/**
+ * Checks if proofs of evidence are open for all rule 6 parties
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {boolean}
+ */
+const isRule6ProofsOfEvidenceOpen = (appealCaseData) =>
+	appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE;
 
 /**
  * @param {AppealCaseDetailed} caseData
@@ -690,5 +733,11 @@ module.exports = {
 	shouldDisplayFinalCommentsDueBannerAppellant,
 	shouldDisplayProofEvidenceDueBannerAppellant,
 	shouldDisplayProofEvidenceDueBannerLPA,
-	shouldDisplayProofEvidenceDueBannerRule6
+	shouldDisplayProofEvidenceDueBannerRule6,
+	isLPAProofsOfEvidenceOpen,
+	isAppellantFinalCommentOpen,
+	isAppellantProofsOfEvidenceOpen,
+	isLPAFinalCommentOpen,
+	isRule6ProofsOfEvidenceOpen,
+	isRule6StatementOpen
 };
