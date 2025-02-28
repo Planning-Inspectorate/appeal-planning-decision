@@ -6,13 +6,19 @@ const {
 	formatApplicationSubmissionUsers,
 	formatApplicationDecision,
 	formatYesNoSomeAnswer,
-	createInterestedPartyNewUser
+	createInterestedPartyNewUser,
+	getDevelopmentType
 } = require('./utils');
 const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
-const { APPEAL_APPLICATION_DECISION, SERVICE_USER_TYPE } = require('pins-data-model');
+const {
+	APPEAL_APPLICATION_DECISION,
+	SERVICE_USER_TYPE,
+	APPEAL_DEVELOPMENT_TYPE
+} = require('pins-data-model');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { getDocType } = require('@pins/common/src/document-types');
+const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 
 jest.mock('@pins/common', () => ({
 	initContainerClient: jest.fn()
@@ -186,6 +192,151 @@ describe('utils.js', () => {
 				telephoneNumber: null,
 				organisation: null
 			});
+		});
+	});
+
+	describe('getDevelopmentType', () => {
+		it('should return null if typeDevelopment is not provided', () => {
+			const appellantSubmission = {};
+			expect(getDevelopmentType(appellantSubmission)).toBeNull();
+		});
+
+		it('should return HOUSEHOLDER for HOUSEHOLDER typeDevelopment', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.HOUSEHOLDER
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(APPEAL_DEVELOPMENT_TYPE.HOUSEHOLDER);
+		});
+
+		it('should return CHANGE_OF_USE for CHANGE_OF_USE typeDevelopment', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.CHANGE_OF_USE
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(APPEAL_DEVELOPMENT_TYPE.CHANGE_OF_USE);
+		});
+
+		it('should return MINERAL_WORKINGS for MINERAL_WORKINGS typeDevelopment', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.MINERAL_WORKINGS
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(
+				APPEAL_DEVELOPMENT_TYPE.MINERAL_WORKINGS
+			);
+		});
+
+		it('should return MAJOR_DWELLINGS for DWELLINGS typeDevelopment and major development', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.DWELLINGS,
+				majorMinorDevelopment: fieldValues.majorMinorDevelopment.MAJOR
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(APPEAL_DEVELOPMENT_TYPE.MAJOR_DWELLINGS);
+		});
+
+		it('should return MINOR_DWELLINGS for DWELLINGS typeDevelopment and minor development', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.DWELLINGS,
+				majorMinorDevelopment: fieldValues.majorMinorDevelopment.MINOR
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(APPEAL_DEVELOPMENT_TYPE.MINOR_DWELLINGS);
+		});
+
+		it('should return MAJOR_INDUSTRY_STORAGE for INDUSTRY_STORAGE typeDevelopment and major development', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.INDUSTRY_STORAGE,
+				majorMinorDevelopment: fieldValues.majorMinorDevelopment.MAJOR
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(
+				APPEAL_DEVELOPMENT_TYPE.MAJOR_INDUSTRY_STORAGE
+			);
+		});
+
+		it('should return MINOR_INDUSTRY_STORAGE for INDUSTRY_STORAGE typeDevelopment and minor development', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.INDUSTRY_STORAGE,
+				majorMinorDevelopment: fieldValues.majorMinorDevelopment.MINOR
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(
+				APPEAL_DEVELOPMENT_TYPE.MINOR_INDUSTRY_STORAGE
+			);
+		});
+
+		it('should return MAJOR_OFFICES for OFFICES typeDevelopment and major development', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.OFFICES,
+				majorMinorDevelopment: fieldValues.majorMinorDevelopment.MAJOR
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(APPEAL_DEVELOPMENT_TYPE.MAJOR_OFFICES);
+		});
+
+		it('should return MINOR_OFFICES for OFFICES typeDevelopment and minor development', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.OFFICES,
+				majorMinorDevelopment: fieldValues.majorMinorDevelopment.MINOR
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(APPEAL_DEVELOPMENT_TYPE.MINOR_OFFICES);
+		});
+
+		it('should return MAJOR_RETAIL_SERVICES for RETAIL_SERVICES typeDevelopment and major development', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.RETAIL_SERVICES,
+				majorMinorDevelopment: fieldValues.majorMinorDevelopment.MAJOR
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(
+				APPEAL_DEVELOPMENT_TYPE.MAJOR_RETAIL_SERVICES
+			);
+		});
+
+		it('should return MINOR_RETAIL_SERVICES for RETAIL_SERVICES typeDevelopment and minor development', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.RETAIL_SERVICES,
+				majorMinorDevelopment: fieldValues.majorMinorDevelopment.MINOR
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(
+				APPEAL_DEVELOPMENT_TYPE.MINOR_RETAIL_SERVICES
+			);
+		});
+
+		it('should return MAJOR_TRAVELLER_CARAVAN for TRAVELLER_CARAVAN typeDevelopment and major development', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.TRAVELLER_CARAVAN,
+				majorMinorDevelopment: fieldValues.majorMinorDevelopment.MAJOR
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(
+				APPEAL_DEVELOPMENT_TYPE.MAJOR_TRAVELLER_CARAVAN
+			);
+		});
+
+		it('should return MINOR_TRAVELLER_CARAVAN for TRAVELLER_CARAVAN typeDevelopment and minor development', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.TRAVELLER_CARAVAN,
+				majorMinorDevelopment: fieldValues.majorMinorDevelopment.MINOR
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(
+				APPEAL_DEVELOPMENT_TYPE.MINOR_TRAVELLER_CARAVAN
+			);
+		});
+
+		it('should return OTHER_MAJOR for OTHER typeDevelopment and major development', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.OTHER,
+				majorMinorDevelopment: fieldValues.majorMinorDevelopment.MAJOR
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(APPEAL_DEVELOPMENT_TYPE.OTHER_MAJOR);
+		});
+
+		it('should return OTHER_MINOR for OTHER typeDevelopment and minor development', () => {
+			const appellantSubmission = {
+				typeDevelopment: fieldValues.applicationAbout.OTHER,
+				majorMinorDevelopment: fieldValues.majorMinorDevelopment.MINOR
+			};
+			expect(getDevelopmentType(appellantSubmission)).toBe(APPEAL_DEVELOPMENT_TYPE.OTHER_MINOR);
+		});
+
+		it('should throw an error for unhandled developmentType', () => {
+			const appellantSubmission = {
+				typeDevelopment: 'UNHANDLED_TYPE'
+			};
+			expect(() => getDevelopmentType(appellantSubmission)).toThrow('unhandled developmentType');
 		});
 	});
 });

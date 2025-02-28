@@ -15,7 +15,6 @@ exports.formatter = async (appellantSubmission, lpa) => {
 		casedata: {
 			// Root
 			caseType: APPEAL_CASE_TYPE.W,
-			developmentType: 'householder',
 			// Common
 			...getCommonAppellantSubmissionFields(appellantSubmission, lpa),
 			// HAS

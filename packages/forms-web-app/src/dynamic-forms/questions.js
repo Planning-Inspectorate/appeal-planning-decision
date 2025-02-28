@@ -2559,18 +2559,18 @@ exports.questionProps = {
 		options: [
 			{
 				text: 'Major development',
-				value: fieldValues.minorMajorDevelopment.MAJOR
+				value: fieldValues.majorMinorDevelopment.MAJOR
 			},
 			{
 				text: 'Minor development',
-				value: fieldValues.minorMajorDevelopment.MINOR
+				value: fieldValues.majorMinorDevelopment.MINOR
 			},
 			{
 				[DIVIDER]: 'or'
 			},
 			{
 				text: 'Other',
-				value: fieldValues.minorMajorDevelopment.OTHER
+				value: fieldValues.majorMinorDevelopment.OTHER
 			}
 		]
 	},
