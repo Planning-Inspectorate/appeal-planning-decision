@@ -19,6 +19,13 @@ const defaultOptionJoinString = ',';
  */
 
 /**
+ * @typedef ConditionalAnswerObject
+ * @type {object}
+ * @property {string} value the checkbox answer
+ * @property {string} conditional the conditional text input
+ */
+
+/**
  * @typedef {QuestionViewModel & { question: QuestionViewModel['question'] & { options?: Option[] } }} OptionsViewModel
  */
 
@@ -192,6 +199,74 @@ class OptionsQuestion extends Question {
 		});
 
 		return responseToSave;
+	}
+
+	/**
+	 * returns the formatted answers values to be used to build task list elements
+	 * @param {String} sectionSegment
+	 * @param {import('./journey').Journey} journey
+	 * @param {string | OptionWithoutDivider | ConditionalAnswerObject | null} answer
+	 * @returns {Array<{
+	 *   key: string;
+	 *   value: string | Object;
+	 *   action: {
+	 *     href: string;
+	 *     text: string;
+	 *     visuallyHiddenText: string;
+	 *   };
+	 * }>}
+	 */
+	formatAnswerForSummary(sectionSegment, journey, answer, capitals = true) {
+		if (!answer) {
+			return super.formatAnswerForSummary(sectionSegment, journey, answer, capitals);
+		}
+
+		//would only apply if particular answer has conditional
+		if (typeof answer !== 'string') {
+			/** @type {import('src/dynamic-forms/question-props').OptionWithoutDivider | undefined} */
+			// @ts-ignore
+			const selectedOption = this.options.find(
+				(option) => !optionIsDivider(option) && option.value === answer.value
+			);
+
+			if (
+				!selectedOption ||
+				conditionalIsJustHTML(selectedOption.conditional) ||
+				optionIsDivider(selectedOption)
+			)
+				throw new Error('Answer did not correlate with a valid option');
+
+			const conditionalAnswerText = selectedOption.conditional?.label
+				? `${selectedOption.conditional.label} ${answer.conditional}`
+				: answer.conditional;
+
+			const formattedAnswer = [selectedOption.text, conditionalAnswerText].join('\n');
+
+			return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
+		}
+
+		const answerArray = answer.split(this.optionJoinString);
+
+		const formattedAnswer = this.options
+			.filter((option) => !optionIsDivider(option) && answerArray.includes(option.value))
+			.map(
+				// @ts-ignore
+				(/** @type {import('src/dynamic-forms/question-props').OptionWithoutDivider} */ option) => {
+					if (option.conditional) {
+						if (conditionalIsJustHTML(option.conditional)) return '';
+						const conditionalAnswer =
+							journey.response.answers[
+								getConditionalFieldName(this.fieldName, option.conditional.fieldName)
+							];
+						return [option.text, conditionalAnswer].join('\n');
+					}
+
+					return option.text;
+				}
+			)
+			.join('\n');
+
+		return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, capitals);
 	}
 }
 
