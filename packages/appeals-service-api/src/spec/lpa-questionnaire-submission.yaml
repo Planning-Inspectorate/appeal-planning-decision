@@ -216,3 +216,5 @@ components:
           type: boolean
         consultHistoricEngland:
           type: boolean
+        listedBuildingGrade:
+          type: string
