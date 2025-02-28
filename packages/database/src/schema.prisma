@@ -838,6 +838,7 @@ model LPAQuestionnaireSubmission {
   consultHistoricEngland                          Boolean?
   listedBuildingGrade                             String?
   uploadHistoricEnglandConsultation               Boolean?
+  preserveGrantLoan                               Boolean?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
