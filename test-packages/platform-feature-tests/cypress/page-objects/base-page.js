@@ -32,6 +32,7 @@ export class BasePage {
 		govukSummaryListRow:'.govuk-summary-list__row',
 		agovukLink:"a.govuk-link",		
 		govukSummaryListValue:".govuk-summary-list__value",
+		govukErrorSummaryList:".govuk-list.govuk-error-summary__list"
 		
 	}
 
