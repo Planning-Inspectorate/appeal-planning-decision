@@ -833,6 +833,7 @@ model LPAQuestionnaireSubmission {
   demolishAlterExtend                             Boolean?
   consultHistoricEngland                          Boolean?
   listedBuildingGrade                             String?
+  uploadHistoricEnglandConsultation               Boolean?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]

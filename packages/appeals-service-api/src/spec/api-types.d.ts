@@ -1040,6 +1040,7 @@ export interface LPAQuestionnaireSubmission {
 	demolishAlterExtend?: boolean | null;
 	consultHistoricEngland?: boolean;
 	listedBuildingGrade?: string;
+	uploadHistoricEnglandConsultation?: boolean;
 }
 
 /** A statement submitted by an LPA */

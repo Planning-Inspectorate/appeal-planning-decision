@@ -2530,6 +2530,19 @@ exports.questionProps = {
 				value: 'Grade II'
 			}
 		]
+	},
+	uploadHistoricEnglandConsultation: {
+		type: 'multi-file-upload',
+		title: 'Upload your consultation with Historic England',
+		question: 'Upload your consultation with Historic England',
+		// fieldName: 'upload-historic-england-consultation',
+		fieldName: 'uploadHistoricEnglandConsultation',
+		url: 'historic-england-consultation',
+		validators: [
+			new RequiredFileUploadValidator('Select your consultation with Historic England'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadHistoricEnglandConsultation
 	}
 };
 

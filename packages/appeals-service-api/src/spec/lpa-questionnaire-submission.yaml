@@ -218,3 +218,6 @@ components:
           type: boolean
         listedBuildingGrade:
           type: string
+        uploadHistoricEnglandConsultation:
+          type: boolean
+          nullable: true

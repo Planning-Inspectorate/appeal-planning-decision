@@ -31,6 +31,7 @@ const sections = [
 		.addQuestion(questions.listedBuildingGrade)
 		.withCondition((response) => questionHasAnswer(response, questions.demolishAlterExtend, 'yes'))
 		.addQuestion(questions.consultHistoricEngland)
+		.addQuestion(questions.uploadHistoricEnglandConsultation)
 		.addQuestion(questions.scheduledMonument)
 		.addQuestion(questions.conservationArea)
 		.addQuestion(questions.conservationAreaUpload)

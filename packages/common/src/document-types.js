@@ -766,6 +766,17 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: 'LPA Questionnaire Documents',
 		horizonDocumentGroupType: 'Evidence'
+	},
+	uploadHistoricEnglandConsultation: {
+		name: 'uploadHistoricEnglandConsultation',
+		dataModelName: 'lpaHistoricEnglandConsultation', // To be amended as needed once data model confirmed - APPEAL_DOCUMENT_TYPE.LPA_HISTORIC_ENGLAND_CONSULTATION,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 
