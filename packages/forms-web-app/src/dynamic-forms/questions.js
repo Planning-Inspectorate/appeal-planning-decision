@@ -42,6 +42,7 @@ const {
 const { getConditionalFieldName, DIVIDER } = require('./dynamic-components/utils/question-utils');
 const { documentTypes } = require('@pins/common');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
+const { LISTED_BUILDING_GRADE } = require('@pins/common/src/dynamic-forms/listed-building-grade');
 const {
 	validation: {
 		characterLimits: { appealFormV2, finalComment: configInputMaxCharacters },
@@ -2510,15 +2511,15 @@ exports.questionProps = {
 		options: [
 			{
 				text: 'Grade I',
-				value: 'Grade I'
+				value: LISTED_BUILDING_GRADE.GRADE_I
 			},
 			{
 				text: 'Grade II*',
-				value: 'Grade II*'
+				value: LISTED_BUILDING_GRADE.GRADE_II_ASTERISK
 			},
 			{
 				text: 'Grade II',
-				value: 'Grade II'
+				value: LISTED_BUILDING_GRADE.GRADE_II
 			}
 		]
 	}
