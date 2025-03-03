@@ -2,7 +2,9 @@ const { JourneyResponse } = require('../journey-response');
 const { RULE_6_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
-const { isRule6StatementOpen } = require('#lib/dashboard-functions');
+const {
+	isRule6StatementOpen
+} = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const {
 	VIEW: {

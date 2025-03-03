@@ -3,7 +3,7 @@ const { LPA_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
 const { getUserFromSession } = require('../../services/user.service');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
-const { isLpaStatementOpen } = require('../../lib/dashboard-functions');
+const { isLPAStatementOpen } = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const {
@@ -26,7 +26,7 @@ module.exports = () => async (req, res, next) => {
 		role: LPA_USER_ROLE
 	});
 
-	if (!isLpaStatementOpen(appeal)) {
+	if (!isLPAStatementOpen(appeal)) {
 		req.session.navigationHistory.shift();
 		return res.redirect(appealOverviewUrl);
 	}

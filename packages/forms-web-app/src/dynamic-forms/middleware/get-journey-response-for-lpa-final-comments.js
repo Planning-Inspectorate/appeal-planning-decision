@@ -3,7 +3,9 @@ const { LPA_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
 const { getUserFromSession } = require('../../services/user.service');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
-const { isLPAFinalCommentOpen } = require('#lib/dashboard-functions');
+const {
+	isLPAFinalCommentOpen
+} = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const {
