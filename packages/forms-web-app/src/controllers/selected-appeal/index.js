@@ -1,3 +1,16 @@
+const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+
+const {
+	isLPAQuestionnaireDue,
+	isLPAStatementOpen,
+	isRule6StatementOpen,
+	isAppellantProofsOfEvidenceOpen,
+	isLPAProofsOfEvidenceOpen,
+	isRule6ProofsOfEvidenceOpen,
+	isAppellantFinalCommentOpen,
+	isLPAFinalCommentOpen
+} = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
+
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const {
 	formatSections,
@@ -6,17 +19,7 @@ const {
 	isSection,
 	displayHeadlinesByUser
 } = require('@pins/common');
-const {
-	shouldDisplayQuestionnaireDueNotification,
-	shouldDisplayStatementsDueBannerLPA,
-	shouldDisplayStatementsDueBannerRule6,
-	shouldDisplayFinalCommentsDueBannerLPA,
-	shouldDisplayFinalCommentsDueBannerAppellant,
-	shouldDisplayProofEvidenceDueBannerAppellant,
-	shouldDisplayProofEvidenceDueBannerLPA,
-	shouldDisplayProofEvidenceDueBannerRule6
-} = require('../../lib/dashboard-functions');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+
 const { VIEW } = require('../../lib/views');
 const { determineUser } = require('../../lib/determine-user');
 const { sections: appellantSections } = require('./appellant-sections');
@@ -55,6 +58,11 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			throw new Error('Unknown role');
 		}
 
+		const isLPA = userType === LPA_USER_ROLE;
+		const isAppellant =
+			userType === APPEAL_USER_ROLES.APPELLANT || userType === APPEAL_USER_ROLES.AGENT;
+		const isRule6 = userType === APPEAL_USER_ROLES.RULE_6_PARTY;
+
 		const [caseData, events] = await Promise.all([
 			req.appealsApiClient.getAppealCaseWithRepresentations(appealNumber),
 			req.appealsApiClient.getEventsByCaseRef(appealNumber, { includePast: true })
@@ -71,35 +79,20 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const viewContext = {
 			layoutTemplate,
 			titleSuffix: formatTitleSuffix(userType),
-			shouldDisplayQuestionnaireDueNotification: shouldDisplayQuestionnaireDueNotification(
-				caseData,
-				userType
-			),
-			shouldDisplayStatementsDueBannerLPA: shouldDisplayStatementsDueBannerLPA(caseData, userType),
-			shouldDisplayStatementsDueBannerRule6: shouldDisplayStatementsDueBannerRule6(
-				caseData,
-				userType
-			),
-			shouldDisplayFinalCommentsDueBannerLPA: shouldDisplayFinalCommentsDueBannerLPA(
-				caseData,
-				userType
-			),
-			shouldDisplayFinalCommentsDueBannerAppellant: shouldDisplayFinalCommentsDueBannerAppellant(
-				caseData,
-				userType
-			),
-			shouldDisplayProofEvidenceDueBannerLPA: shouldDisplayProofEvidenceDueBannerLPA(
-				caseData,
-				userType
-			),
-			shouldDisplayProofEvidenceDueBannerAppellant: shouldDisplayProofEvidenceDueBannerAppellant(
-				caseData,
-				userType
-			),
-			shouldDisplayProofEvidenceDueBannerRule6: shouldDisplayProofEvidenceDueBannerRule6(
-				caseData,
-				userType
-			),
+
+			shouldDisplayQuestionnaireDueNotification: isLPA && isLPAQuestionnaireDue(caseData),
+			shouldDisplayStatementsDueBannerLPA: isLPA && isLPAStatementOpen(caseData),
+			shouldDisplayProofEvidenceDueBannerLPA: isLPA && isLPAProofsOfEvidenceOpen(caseData),
+			shouldDisplayFinalCommentsDueBannerLPA: isLPA && isLPAFinalCommentOpen(caseData),
+
+			shouldDisplayProofEvidenceDueBannerAppellant:
+				isAppellant && isAppellantProofsOfEvidenceOpen(caseData),
+			shouldDisplayFinalCommentsDueBannerAppellant:
+				isAppellant && isAppellantFinalCommentOpen(caseData),
+
+			shouldDisplayStatementsDueBannerRule6: isRule6 && isRule6StatementOpen(caseData),
+			shouldDisplayProofEvidenceDueBannerRule6: isRule6 && isRule6ProofsOfEvidenceOpen(caseData),
+
 			appeal: {
 				appealNumber,
 				headlineData,
