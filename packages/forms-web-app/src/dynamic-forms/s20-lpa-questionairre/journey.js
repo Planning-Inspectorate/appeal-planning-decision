@@ -34,6 +34,9 @@ const sections = [
 		.withCondition((response) => questionHasAnswer(response, questions.demolishAlterExtend, 'no'))
 		.addQuestion(questions.consultHistoricEngland)
 		.addQuestion(questions.uploadHistoricEnglandConsultation)
+		.withCondition((response) =>
+			questionHasAnswer(response, questions.consultHistoricEngland, 'yes')
+		)
 		.addQuestion(questions.scheduledMonument)
 		.addQuestion(questions.conservationArea)
 		.addQuestion(questions.conservationAreaUpload)
