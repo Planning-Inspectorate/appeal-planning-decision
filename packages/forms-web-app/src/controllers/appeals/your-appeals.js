@@ -5,7 +5,7 @@ const {
 const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
-const { isNotWithdrawn } = require('@pins/common');
+const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdrawn-appeal');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 exports.get = async (req, res) => {

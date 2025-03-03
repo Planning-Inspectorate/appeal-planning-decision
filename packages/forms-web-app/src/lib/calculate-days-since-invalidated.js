@@ -1,4 +1,4 @@
-const differenceInCalendarDays = require('date-fns/differenceInCalendarDays');
+const { differenceInCalendarDays } = require('date-fns');
 
 /**
  *

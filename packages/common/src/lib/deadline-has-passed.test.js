@@ -1,4 +1,5 @@
-const { deadlineHasPassed } = require('../../../src/lib/deadline-has-passed');
+const { deadlineHasPassed } = require('./deadline-has-passed');
+
 describe('deadlineHasPassed', () => {
 	it('should return false when dueDate is undefined', () => {
 		const result = deadlineHasPassed('');
