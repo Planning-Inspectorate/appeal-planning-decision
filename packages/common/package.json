@@ -17,7 +17,6 @@
 		"@azure/app-configuration": "*",
 		"@azure/identity": "*",
 		"@azure/storage-blob": "*",
-		"@pins/business-rules": "file:../business-rules",
 		"clamscan": "*",
 		"date-fns": "*",
 		"date-fns-tz": "*",

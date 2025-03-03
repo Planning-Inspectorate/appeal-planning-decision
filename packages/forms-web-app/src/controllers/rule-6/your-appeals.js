@@ -4,7 +4,7 @@ const {
 } = require('../../lib/dashboard-functions');
 const logger = require('../../lib/logger');
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
-const { isNotWithdrawn } = require('@pins/common');
+const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdrawn-appeal');
 const {
 	VIEW: {
 		RULE_6: { DASHBOARD }
