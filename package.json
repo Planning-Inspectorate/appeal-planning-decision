@@ -106,7 +106,7 @@
 		"connect-mongodb-session": "^4.0.0",
 		"cookie-parser": "^1.4.6",
 		"cors": "^2.8.5",
-		"date-fns": "^2.30.0",
+		"date-fns": "^4.1.0",
 		"date-fns-tz": "^2.0.0",
 		"dotenv": "^16.3.1",
 		"escape-html": "^1.0.3",
