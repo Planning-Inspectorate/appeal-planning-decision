@@ -3,8 +3,16 @@ const { LPA_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
 const { getUserFromSession } = require('../../services/user.service');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
+const {
+	isLPAQuestionnaireOpen
+} = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+const {
+	VIEW: {
+		LPA_DASHBOARD: { DASHBOARD }
+	}
+} = require('../../lib/views');
 
 module.exports = () => async (req, res, next) => {
 	const referenceId = req.params.referenceId;
@@ -18,6 +26,11 @@ module.exports = () => async (req, res, next) => {
 		userId: user.id,
 		role: LPA_USER_ROLE
 	});
+
+	if (!isLPAQuestionnaireOpen(appeal)) {
+		req.session.navigationHistory.shift();
+		return res.redirect('/' + DASHBOARD);
+	}
 
 	const appealType = LPA_JOURNEY_TYPES_FORMATTED[appeal.appealTypeCode];
 
