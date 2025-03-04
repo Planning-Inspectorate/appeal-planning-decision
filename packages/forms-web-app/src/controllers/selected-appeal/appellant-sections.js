@@ -1,4 +1,7 @@
-const { representationPublished } = require('@pins/common/src/lib/representations');
+const {
+	representationPublished,
+	representationExists
+} = require('@pins/common/src/lib/representations');
 const {
 	LPA_USER_ROLE,
 	APPEAL_USER_ROLES,
@@ -74,7 +77,8 @@ exports.sections = [
 			{
 				url: '/final-comments',
 				text: 'View your final comments',
-				condition: (appealCase) => !!appealCase.appellantCommentsSubmittedDate
+				condition: (appealCase) =>
+					representationExists(appealCase.Representations, REPRESENTATION_TYPES.FINAL_COMMENT, true)
 			},
 			{
 				url: '/lpa-final-comments',
@@ -104,7 +108,12 @@ exports.sections = [
 			{
 				url: '/proof-evidence',
 				text: 'View your proof of evidence and witnesses',
-				condition: (appealCase) => !!appealCase.appellantProofsSubmittedDate
+				condition: (appealCase) =>
+					representationExists(
+						appealCase.Representations,
+						REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+						true
+					)
 			},
 			{
 				url: '/lpa-proof-evidence',
