@@ -1,3 +1,4 @@
+const { APPEAL_REPRESENTATION_STATUS } = require('pins-data-model');
 const {
 	LPA_USER_ROLE,
 	APPEAL_USER_ROLES,
@@ -42,12 +43,14 @@ const filterRepresentationsForDisplay = (caseData, representationParams) => {
 			!!rule6OwnRepresentations
 		).filter(
 			(representation) =>
-				representation.userOwnsRepresentation || representation.representationStatus == 'published'
+				representation.userOwnsRepresentation ||
+				representation.representationStatus == APPEAL_REPRESENTATION_STATUS.PUBLISHED
 		);
 	} else {
 		return representationsFilteredBySubmittingParty.filter(
 			(representation) =>
-				representation.userOwnsRepresentation || representation.representationStatus == 'published'
+				representation.userOwnsRepresentation ||
+				representation.representationStatus == APPEAL_REPRESENTATION_STATUS.PUBLISHED
 		);
 	}
 };

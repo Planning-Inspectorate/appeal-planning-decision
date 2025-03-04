@@ -130,7 +130,7 @@ class ServiceUserRepository {
 			}),
 
 			this.dbClient.serviceUser.findFirst({
-				where: { id: data.id }
+				where: { id: data.id, caseReference: data.caseReference }
 			})
 		]);
 
