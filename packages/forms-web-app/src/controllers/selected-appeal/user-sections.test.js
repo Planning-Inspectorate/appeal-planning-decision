@@ -91,15 +91,28 @@ describe('LPA and Appellant Sections', () => {
 		});
 
 		describe('Statements', () => {
-			it('should show "View your statement" when LPAStatementSubmittedDate is set', () => {
-				appealCase.LPAStatementSubmittedDate = new Date();
+			it('should show "View your statement" when user owned statement is present', () => {
+				appealCase.Representations = [
+					{
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: true,
+						representationType: REPRESENTATION_TYPES.STATEMENT
+					}
+				];
 				const section = findSectionByHeading(lpaSections, 'Statements');
 				const link = findLinkByUrl(section, '/statement');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View your statement');
 			});
 
-			it('should not show "View your statement" when LPAStatementSubmittedDate is absent', () => {
+			it('should not show "View your statement" when user owned statement is not present', () => {
+				appealCase.Representations = [
+					{
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: false,
+						representationType: REPRESENTATION_TYPES.STATEMENT
+					}
+				];
 				const section = findSectionByHeading(lpaSections, 'Statements');
 				const link = findLinkByUrl(section, '/statement');
 				expect(link?.condition(appealCase)).toBe(false);
@@ -167,8 +180,14 @@ describe('LPA and Appellant Sections', () => {
 		});
 
 		describe('Final comments', () => {
-			it('should show "View your final comments" when LPACommentsSubmittedDate is set', () => {
-				appealCase.LPACommentsSubmittedDate = new Date();
+			it('should show "View your final comments" when owned FINAL_COMMENT is present', () => {
+				appealCase.Representations = [
+					{
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: true,
+						representationType: REPRESENTATION_TYPES.FINAL_COMMENT
+					}
+				];
 				const section = findSectionByHeading(lpaSections, 'Final comments');
 				const link = findLinkByUrl(section, '/final-comments');
 				expect(link?.condition(appealCase)).toBe(true);
@@ -176,6 +195,13 @@ describe('LPA and Appellant Sections', () => {
 			});
 
 			it('should not show "View your final comments" when LPACommentsSubmittedDate is absent', () => {
+				appealCase.Representations = [
+					{
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: false,
+						representationType: REPRESENTATION_TYPES.FINAL_COMMENT
+					}
+				];
 				const section = findSectionByHeading(lpaSections, 'Final comments');
 				const link = findLinkByUrl(section, '/final-comments');
 				expect(link?.condition(appealCase)).toBe(false);
@@ -205,16 +231,28 @@ describe('LPA and Appellant Sections', () => {
 		});
 
 		describe('Proof of evidence and witnesses', () => {
-			it('should show "View your proof of evidence and witnesses" when LPAProofsSubmittedDate is set', () => {
-				appealCase.LPAProofsSubmittedDate = new Date();
+			it('should show "View your proof of evidence and witnesses" when owned PROOFS_OF_EVIDENCE is present', () => {
+				appealCase.Representations = [
+					{
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: true,
+						representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
+					}
+				];
 				const section = findSectionByHeading(lpaSections, 'Proof of evidence and witnesses');
 				const link = findLinkByUrl(section, '/proof-evidence');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View your proof of evidence and witnesses');
 			});
 
-			it('should not show "View your proof of evidence and witnesses" when lpaProofEvidencePublished is absent', () => {
-				appealCase.LPAProofsSubmittedDate = null;
+			it('should not show "View your proof of evidence and witnesses" when no owned PROOFS_OF_EVIDENCE is present', () => {
+				appealCase.Representations = [
+					{
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: false,
+						representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
+					}
+				];
 				const section = findSectionByHeading(lpaSections, 'Proof of evidence and witnesses');
 				const link = findLinkByUrl(section, '/proof-evidence');
 				expect(link?.condition(appealCase)).toBe(false);
@@ -375,16 +413,28 @@ describe('LPA and Appellant Sections', () => {
 		});
 
 		describe('Final comments', () => {
-			it('should show "View your final comments" when appellantCommentsSubmittedDate is set', () => {
-				appealCase.appellantCommentsSubmittedDate = new Date();
+			it('should show "View your final comments" when user has owned final comment', () => {
+				appealCase.Representations = [
+					{
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: true,
+						representationType: REPRESENTATION_TYPES.FINAL_COMMENT
+					}
+				];
 				const section = findSectionByHeading(appellantSections, 'Final comments');
 				const link = findLinkByUrl(section, '/final-comments');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View your final comments');
 			});
 
-			it('should not show "View your final comments" when appellantCommentsSubmittedDate is absent', () => {
-				appealCase.appellantCommentsSubmittedDate = null;
+			it('should not show "View your final comments" when user has no owned final comments', () => {
+				appealCase.Representations = [
+					{
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: false,
+						representationType: REPRESENTATION_TYPES.FINAL_COMMENT
+					}
+				];
 				const section = findSectionByHeading(appellantSections, 'Final comments');
 				const link = findLinkByUrl(section, '/final-comments');
 				expect(link?.condition(appealCase)).toBe(false);
@@ -414,16 +464,28 @@ describe('LPA and Appellant Sections', () => {
 		});
 
 		describe('Proof of evidence and witnesses', () => {
-			it('should show "View your proof of evidence and witnesses" when appellantProofsSubmittedDate is set', () => {
-				appealCase.appellantProofsSubmittedDate = new Date();
+			it('should show "View your proof of evidence and witnesses" when owned PROOFS_OF_EVIDENCE is present', () => {
+				appealCase.Representations = [
+					{
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: true,
+						representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
+					}
+				];
 				const section = findSectionByHeading(appellantSections, 'Proof of evidence and witnesses');
 				const link = findLinkByUrl(section, '/proof-evidence');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View your proof of evidence and witnesses');
 			});
 
-			it('should not show "View your proof of evidence and witnesses" when appellantProofsSubmittedDate is absent', () => {
-				appealCase.appellantProofsSubmittedDate = null;
+			it('should not show "View your proof of evidence and witnesses" when no owned PROOFS_OF_EVIDENCE is present', () => {
+				appealCase.Representations = [
+					{
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: false,
+						representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
+					}
+				];
 				const section = findSectionByHeading(appellantSections, 'Proof of evidence and witnesses');
 				const link = findLinkByUrl(section, '/proof-evidence');
 				expect(link?.condition(appealCase)).toBe(false);
