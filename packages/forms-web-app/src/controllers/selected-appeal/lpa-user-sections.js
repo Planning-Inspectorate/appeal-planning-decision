@@ -1,4 +1,4 @@
-const { representationPublished } = require('../../lib/dashboard-functions');
+const { representationPublished } = require('@pins/common/src/lib/representations');
 const { APPEAL_USER_ROLES, REPRESENTATION_TYPES } = require('@pins/common/src/constants');
 
 /**

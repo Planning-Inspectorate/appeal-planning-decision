@@ -1,4 +1,4 @@
-const { calculateDueInDays } = require('../../../src/lib/calculate-due-in-days');
+const { calculateDueInDays } = require('./calculate-due-in-days');
 
 describe('calculateDueInDays', () => {
 	beforeAll(() => {

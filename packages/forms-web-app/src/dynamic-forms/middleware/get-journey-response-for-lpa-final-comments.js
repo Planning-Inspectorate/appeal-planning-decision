@@ -1,9 +1,11 @@
 const { JourneyResponse } = require('../journey-response');
 const { LPA_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
-const { APPEAL_CASE_STATUS } = require('pins-data-model');
 const logger = require('#lib/logger');
 const { getUserFromSession } = require('../../services/user.service');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
+const {
+	isLPAFinalCommentOpen
+} = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const {
@@ -25,20 +27,12 @@ module.exports = () => async (req, res, next) => {
 		role: LPA_USER_ROLE
 	});
 
-	if (appeal.caseStatus !== APPEAL_CASE_STATUS.FINAL_COMMENTS) {
+	if (!isLPAFinalCommentOpen(appeal)) {
 		req.session.navigationHistory.shift();
 		return res.redirect(appealOverviewUrl);
 	}
 
-	let journeyType;
-
-	if (appeal.lpaQuestionnaireSubmittedDate) {
-		journeyType = LPA_JOURNEY_TYPES_FORMATTED.FINAL_COMMENTS;
-	}
-
-	if (typeof journeyType === 'undefined') {
-		throw new Error('journeyType is undefined');
-	}
+	const journeyType = LPA_JOURNEY_TYPES_FORMATTED.FINAL_COMMENTS;
 
 	try {
 		const dbResponse = await req.appealsApiClient.getLPAFinalCommentSubmission(referenceId);

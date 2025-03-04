@@ -7,7 +7,7 @@ const {
 } = require('../../lib/dashboard-functions');
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
 
-const { isNotWithdrawn } = require('@pins/common');
+const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdrawn-appeal');
 const {
 	VIEW: {
 		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, APPEAL_DETAILS, DECIDED_APPEALS }
@@ -46,7 +46,7 @@ const getYourAppeals = async (req, res) => {
 			{ toDoAppeals: [], waitingForReviewAppeals: [] }
 		);
 
-	toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
+	toDoAppeals.sort((a, b) => a.nextJourneyDue.dueInDays - b.nextJourneyDue.dueInDays);
 
 	waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
 

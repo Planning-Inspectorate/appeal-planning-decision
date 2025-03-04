@@ -1,8 +1,10 @@
 const { JourneyResponse } = require('../journey-response');
 const { APPELLANT_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
-const { APPEAL_CASE_STATUS } = require('pins-data-model');
 const logger = require('#lib/logger');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
+const {
+	isAppellantProofsOfEvidenceOpen
+} = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const {
 	VIEW: {
@@ -17,7 +19,7 @@ module.exports = () => async (req, res, next) => {
 
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
 
-	if (appeal.caseStatus !== APPEAL_CASE_STATUS.EVIDENCE) {
+	if (!isAppellantProofsOfEvidenceOpen(appeal)) {
 		req.session.navigationHistory.shift();
 		return res.redirect(appealOverviewUrl);
 	}

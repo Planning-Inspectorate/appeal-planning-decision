@@ -4,7 +4,7 @@ const {
 } = require('../../lib/dashboard-functions');
 const logger = require('../../lib/logger');
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
-const { isNotWithdrawn } = require('@pins/common');
+const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdrawn-appeal');
 const {
 	VIEW: {
 		RULE_6: { DASHBOARD }
@@ -48,7 +48,7 @@ const getYourAppealsR6 = async (req, res) => {
 		logger.debug({ toDoAppeals }, 'toDoAppeals');
 		logger.debug({ waitingForReviewAppeals }, 'waitingForReviewAppeals');
 
-		toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
+		toDoAppeals.sort((a, b) => a.nextJourneyDue.dueInDays - b.nextJourneyDue.dueInDays);
 		waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
 		const noToDoAppeals = !arrayHasItems(toDoAppeals);
 

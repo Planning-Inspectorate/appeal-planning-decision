@@ -58,12 +58,12 @@
                           <td class="govuk-table__cell">{{item.appealType}}</td>
                         	{# Deadline #}
                           <td class="govuk-table__cell">
-                            {{item.nextDocumentDue.deadline | date('D MMMM YYYY') }}
+                            {{item.nextJourneyDue.deadline | date('D MMMM YYYY') }}
                           </td>
 													{# To do #}
                           <td class="govuk-table__cell">
-                            <a href="{{item.nextDocumentDue.baseUrl}}" class="govuk-link">
-                              {{item.nextDocumentDue.documentDue}}
+                            <a href="{{item.nextJourneyDue.baseUrl}}" class="govuk-link">
+                              {{item.nextJourneyDue.journeyDue}}
                             </a>
                           </td>
                         </tr>
