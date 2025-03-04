@@ -7,8 +7,10 @@ const {
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
 
-const { LPAQuestionnaireSubmissionRepository } = require('../lpa-questionnaire-submission/repo');
+const { AppealCaseRepository } = require('../../repo');
+const caseRepo = new AppealCaseRepository();
 
+const { LPAQuestionnaireSubmissionRepository } = require('../lpa-questionnaire-submission/repo');
 const submissionRepo = new LPAQuestionnaireSubmissionRepository();
 
 /**
@@ -33,6 +35,16 @@ async function getAppealCaseWithRepresentations(req, res) {
 			await submissionRepo.lpaCanModifyCase({
 				caseReference: caseReference,
 				userLpa: lpaCode
+			});
+		} catch (error) {
+			logger.error({ error }, 'get representations: invalid user access');
+			throw ApiError.forbidden();
+		}
+	} else {
+		try {
+			await caseRepo.userCanModifyCase({
+				caseReference: caseReference,
+				userId: req.auth?.payload.sub
 			});
 		} catch (error) {
 			logger.error({ error }, 'get representations: invalid user access');

@@ -482,6 +482,7 @@ class AppealCaseRepository {
 
 	/**
 	 * @param {{ caseReference: string, userId: string }} params
+	 * @returns {Promise<boolean>}
 	 */
 	async appellantCanModifyCase({ caseReference, userId }) {
 		try {
@@ -513,6 +514,7 @@ class AppealCaseRepository {
 
 	/**
 	 * @param {{ caseReference: string, userId: string }} params
+	 * @returns {Promise<boolean>}
 	 */
 	async rule6PartyCanModifyCase({ caseReference, userId }) {
 		try {
@@ -528,6 +530,45 @@ class AppealCaseRepository {
 								where: {
 									userId,
 									role: APPEAL_USER_ROLES.RULE_6_PARTY
+								}
+							}
+						}
+					}
+				}
+			});
+
+			return true;
+		} catch (err) {
+			logger.error({ err }, 'invalid user access');
+			throw ApiError.forbidden();
+		}
+	}
+
+	/**
+	 * checks user can modify case, does not work for LPA users
+	 * @param {{ caseReference: string, userId: string }} params
+	 * @returns {Promise<boolean>}
+	 */
+	async userCanModifyCase({ caseReference, userId }) {
+		try {
+			await this.dbClient.appealCase.findUniqueOrThrow({
+				where: {
+					caseReference
+				},
+				select: {
+					Appeal: {
+						select: {
+							id: true,
+							Users: {
+								where: {
+									userId,
+									role: {
+										in: [
+											APPEAL_USER_ROLES.RULE_6_PARTY,
+											APPEAL_USER_ROLES.APPELLANT,
+											APPEAL_USER_ROLES.AGENT
+										]
+									}
 								}
 							}
 						}
