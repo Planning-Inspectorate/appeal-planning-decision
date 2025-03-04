@@ -1,4 +1,5 @@
 const {
+	isNewAppealForLPA,
 	isLPAQuestionnaireOpen,
 	isLPAQuestionnaireDue,
 	isLPAStatementOpen,
@@ -38,6 +39,17 @@ describe('case-due-dates', () => {
 	});
 
 	describe('LPAQ', () => {
+		describe('isNewAppealForLPA', () => {
+			it('should return true if lpaQuestionnaireDueDate not set', () => {
+				expect(isNewAppealForLPA(appealCaseData)).toBe(true);
+			});
+
+			it('should return false if lpaQuestionnaireDueDate is set', () => {
+				appealCaseData.lpaQuestionnaireDueDate = '2025-03-01';
+				expect(isNewAppealForLPA(appealCaseData)).toBe(false);
+			});
+		});
+
 		describe('isLPAQuestionnaireOpen', () => {
 			it('should return true if lpaQuestionnaireDueDate is set and lpaq has not been submitted', () => {
 				appealCaseData.lpaQuestionnaireDueDate = '2025-03-01';

@@ -3,7 +3,7 @@ const {
 	mapDecisionLabel
 } = require('@pins/business-rules/src/utils/decision-outcome');
 const {
-	isLPAQuestionnaireOpen,
+	isNewAppealForLPA,
 	isLPAQuestionnaireDue,
 	isLPAStatementOpen,
 	isRule6StatementOpen,
@@ -91,7 +91,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	address: formatAddress(appealCaseData),
 	appealType: appealCaseData.appealTypeCode,
 	nextJourneyDue: determineJourneyToDisplayLPADashboard(appealCaseData),
-	isNewAppeal: isLPAQuestionnaireOpen(appealCaseData),
+	isNewAppeal: isNewAppealForLPA(appealCaseData),
 	displayInvalid: displayInvalidAppeal(appealCaseData),
 	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),

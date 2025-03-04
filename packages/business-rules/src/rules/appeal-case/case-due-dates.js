@@ -8,6 +8,13 @@ const { representationExists } = require('@pins/common/src/lib/representations')
  */
 
 /**
+ * appeal is visible for LPA but not open for LPAQ yet
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {boolean}
+ */
+exports.isNewAppealForLPA = (appealCaseData) => !appealCaseData.lpaQuestionnaireDueDate;
+
+/**
  * questionnaire is open for LPA
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {boolean}
