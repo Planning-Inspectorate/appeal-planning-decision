@@ -296,7 +296,12 @@ exports.questionProps = {
 		question: 'Upload the appeal notification letter and the list of people that you notified',
 		fieldName: 'appealNotification',
 		url: 'appeal-notification-letter',
-		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the appeal notification letter and the list of people that you notified'
+			),
+			new MultifileUploadValidator()
+		],
 		documentType: documentTypes.appealNotification
 	},
 	representationsFromOthers: {
