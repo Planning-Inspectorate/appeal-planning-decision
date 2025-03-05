@@ -14,58 +14,64 @@ const {
 	}
 } = require('../../lib/views');
 
-module.exports = () => async (req, res, next) => {
-	const referenceId = req.params.referenceId;
-	const encodedReferenceId = encodeURIComponent(referenceId);
-	let result;
+/**
+ * @param {boolean} checkSubmitted
+ * @returns {import('express').Handler}
+ */
+module.exports =
+	(checkSubmitted = true) =>
+	async (req, res, next) => {
+		const referenceId = req.params.referenceId;
+		const encodedReferenceId = encodeURIComponent(referenceId);
+		let result;
 
-	const user = getUserFromSession(req);
+		const user = getUserFromSession(req);
 
-	const appeal = await req.appealsApiClient.getUsersAppealCase({
-		caseReference: encodedReferenceId,
-		userId: user.id,
-		role: LPA_USER_ROLE
-	});
+		const appeal = await req.appealsApiClient.getUsersAppealCase({
+			caseReference: encodedReferenceId,
+			userId: user.id,
+			role: LPA_USER_ROLE
+		});
 
-	if (!isLPAQuestionnaireOpen(appeal)) {
-		req.session.navigationHistory.shift();
-		return res.redirect('/' + DASHBOARD);
-	}
-
-	const appealType = LPA_JOURNEY_TYPES_FORMATTED[appeal.appealTypeCode];
-
-	if (typeof appealType === 'undefined') {
-		throw new Error('appealType is undefined');
-	}
-
-	try {
-		const dbResponse = await req.appealsApiClient.getLPAQuestionnaire(referenceId);
-		const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
-		result = new JourneyResponse(
-			appealType,
-			referenceId,
-			convertedResponse,
-			dbResponse.AppealCase?.LPACode
-		);
-	} catch (err) {
-		if (err instanceof ApiClientError && err.code === 404) {
-			logger.debug('questionnaire not found, creating and returning default response');
-			await req.appealsApiClient.postLPAQuestionnaire(referenceId);
-		} else {
-			logger.error(err);
+		if (checkSubmitted && !isLPAQuestionnaireOpen(appeal)) {
+			req.session.navigationHistory.shift();
+			return res.redirect('/' + DASHBOARD);
 		}
-		// return default response
-		result = getDefaultResponse(appealType, referenceId, user.lpaCode);
-	}
 
-	if (result.LPACode !== user.lpaCode) {
-		return res.status(404).render('error/not-found');
-	}
+		const appealType = LPA_JOURNEY_TYPES_FORMATTED[appeal.appealTypeCode];
 
-	res.locals.journeyResponse = result;
+		if (typeof appealType === 'undefined') {
+			throw new Error('appealType is undefined');
+		}
 
-	return next();
-};
+		try {
+			const dbResponse = await req.appealsApiClient.getLPAQuestionnaire(referenceId);
+			const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
+			result = new JourneyResponse(
+				appealType,
+				referenceId,
+				convertedResponse,
+				dbResponse.AppealCase?.LPACode
+			);
+		} catch (err) {
+			if (err instanceof ApiClientError && err.code === 404) {
+				logger.debug('questionnaire not found, creating and returning default response');
+				await req.appealsApiClient.postLPAQuestionnaire(referenceId);
+			} else {
+				logger.error(err);
+			}
+			// return default response
+			result = getDefaultResponse(appealType, referenceId, user.lpaCode);
+		}
+
+		if (result.LPACode !== user.lpaCode) {
+			return res.status(404).render('error/not-found');
+		}
+
+		res.locals.journeyResponse = result;
+
+		return next();
+	};
 
 /**
  * returns a default response for a journey

@@ -76,7 +76,7 @@ router.post(
 router.get(
 	'/:referenceId/submitted',
 	setDefaultSection(),
-	getJourneyResponse(),
+	getJourneyResponse(false),
 	getJourney(journeys),
 	appellantFinalCommentSubmitted
 );

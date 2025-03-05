@@ -105,7 +105,7 @@ router.post(
 
 router.get(
 	'/full-planning/:referenceId/questionnaire-submitted',
-	getJourneyResponse(),
+	getJourneyResponse(false),
 	getJourney(journeys),
 	validationErrorHandler,
 	lpaSubmitted

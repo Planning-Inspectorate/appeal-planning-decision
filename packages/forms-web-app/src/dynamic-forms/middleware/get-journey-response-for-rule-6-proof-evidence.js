@@ -12,44 +12,50 @@ const {
 	}
 } = require('../../lib/views');
 
-module.exports = () => async (req, res, next) => {
-	const referenceId = req.params.referenceId;
-	const appealOverviewUrl = `${APPEAL_OVERVIEW}/${referenceId}`;
-	let result;
+/**
+ * @param {boolean} checkSubmitted
+ * @returns {import('express').Handler}
+ */
+module.exports =
+	(checkSubmitted = true) =>
+	async (req, res, next) => {
+		const referenceId = req.params.referenceId;
+		const appealOverviewUrl = `${APPEAL_OVERVIEW}/${referenceId}`;
+		let result;
 
-	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
+		const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
 
-	if (!isRule6ProofsOfEvidenceOpen(appeal)) {
-		req.session.navigationHistory.shift();
-		return res.redirect(appealOverviewUrl);
-	}
-
-	const journeyType = RULE_6_JOURNEY_TYPES_FORMATTED.PROOF_EVIDENCE;
-
-	try {
-		const dbResponse = await req.appealsApiClient.getRule6ProofOfEvidenceSubmission(referenceId);
-		const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
-		result = new JourneyResponse(
-			journeyType,
-			referenceId,
-			convertedResponse,
-			dbResponse.AppealCase?.LPACode
-		);
-	} catch (err) {
-		if (err instanceof ApiClientError && err.code === 404) {
-			logger.debug('proof of evidence not found, creating and returning default response');
-			await req.appealsApiClient.postRule6ProofOfEvidenceSubmission(referenceId);
-		} else {
-			logger.error(err);
+		if (checkSubmitted && !isRule6ProofsOfEvidenceOpen(appeal)) {
+			req.session.navigationHistory.shift();
+			return res.redirect(appealOverviewUrl);
 		}
-		// return default response
-		result = getDefaultResponse(journeyType, referenceId, appeal.LPACode);
-	}
 
-	res.locals.journeyResponse = result;
+		const journeyType = RULE_6_JOURNEY_TYPES_FORMATTED.PROOF_EVIDENCE;
 
-	return next();
-};
+		try {
+			const dbResponse = await req.appealsApiClient.getRule6ProofOfEvidenceSubmission(referenceId);
+			const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
+			result = new JourneyResponse(
+				journeyType,
+				referenceId,
+				convertedResponse,
+				dbResponse.AppealCase?.LPACode
+			);
+		} catch (err) {
+			if (err instanceof ApiClientError && err.code === 404) {
+				logger.debug('proof of evidence not found, creating and returning default response');
+				await req.appealsApiClient.postRule6ProofOfEvidenceSubmission(referenceId);
+			} else {
+				logger.error(err);
+			}
+			// return default response
+			result = getDefaultResponse(journeyType, referenceId, appeal.LPACode);
+		}
+
+		res.locals.journeyResponse = result;
+
+		return next();
+	};
 
 /**
  * returns a default response for a journey

@@ -85,7 +85,7 @@ router.post(
 
 router.get(
 	'/final-comments/:referenceId/submitted',
-	getJourneyResponse(),
+	getJourneyResponse(false),
 	getJourney(journeys),
 	validationErrorHandler,
 	lpaFinalCommentSubmitted

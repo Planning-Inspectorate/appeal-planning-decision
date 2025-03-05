@@ -69,7 +69,7 @@ router.post(
 router.get(
 	'/appeal-statement/:referenceId/submitted-appeal-statement',
 	setDefaultSection(),
-	getJourneyResponse(),
+	getJourneyResponse(false),
 	getJourney(journeys),
 	rule6StatementSubmitted
 );
