@@ -14,55 +14,61 @@ const {
 	}
 } = require('../../lib/views');
 
-module.exports = () => async (req, res, next) => {
-	const referenceId = req.params.referenceId;
-	const encodedReferenceId = encodeURIComponent(referenceId);
-	const appealOverviewUrl = `${APPEAL_OVERVIEW}/${referenceId}`;
-	let result;
+/**
+ * @param {boolean} checkSubmitted
+ * @returns {import('express').Handler}
+ */
+module.exports =
+	(checkSubmitted = true) =>
+	async (req, res, next) => {
+		const referenceId = req.params.referenceId;
+		const encodedReferenceId = encodeURIComponent(referenceId);
+		const appealOverviewUrl = `${APPEAL_OVERVIEW}/${referenceId}`;
+		let result;
 
-	const user = getUserFromSession(req);
+		const user = getUserFromSession(req);
 
-	const appeal = await req.appealsApiClient.getUsersAppealCase({
-		caseReference: encodedReferenceId,
-		userId: user.id,
-		role: LPA_USER_ROLE
-	});
+		const appeal = await req.appealsApiClient.getUsersAppealCase({
+			caseReference: encodedReferenceId,
+			userId: user.id,
+			role: LPA_USER_ROLE
+		});
 
-	if (!isLPAProofsOfEvidenceOpen(appeal)) {
-		req.session.navigationHistory.shift();
-		return res.redirect(appealOverviewUrl);
-	}
-
-	const journeyType = LPA_JOURNEY_TYPES_FORMATTED.PROOF_EVIDENCE;
-
-	try {
-		const dbResponse = await req.appealsApiClient.getLpaProofOfEvidenceSubmission(referenceId);
-		const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
-		result = new JourneyResponse(
-			journeyType,
-			referenceId,
-			convertedResponse,
-			dbResponse.AppealCase?.LPACode
-		);
-	} catch (err) {
-		if (err instanceof ApiClientError && err.code === 404) {
-			logger.debug('statement not found, creating and returning default response');
-			await req.appealsApiClient.postLpaProofOfEvidenceSubmission(referenceId);
-		} else {
-			logger.error(err);
+		if (checkSubmitted && !isLPAProofsOfEvidenceOpen(appeal)) {
+			req.session.navigationHistory.shift();
+			return res.redirect(appealOverviewUrl);
 		}
-		// return default response
-		result = getDefaultResponse(journeyType, referenceId, user.lpaCode);
-	}
 
-	if (result.LPACode !== user.lpaCode) {
-		return res.status(404).render('error/not-found');
-	}
+		const journeyType = LPA_JOURNEY_TYPES_FORMATTED.PROOF_EVIDENCE;
 
-	res.locals.journeyResponse = result;
+		try {
+			const dbResponse = await req.appealsApiClient.getLpaProofOfEvidenceSubmission(referenceId);
+			const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
+			result = new JourneyResponse(
+				journeyType,
+				referenceId,
+				convertedResponse,
+				dbResponse.AppealCase?.LPACode
+			);
+		} catch (err) {
+			if (err instanceof ApiClientError && err.code === 404) {
+				logger.debug('statement not found, creating and returning default response');
+				await req.appealsApiClient.postLpaProofOfEvidenceSubmission(referenceId);
+			} else {
+				logger.error(err);
+			}
+			// return default response
+			result = getDefaultResponse(journeyType, referenceId, user.lpaCode);
+		}
 
-	return next();
-};
+		if (result.LPACode !== user.lpaCode) {
+			return res.status(404).render('error/not-found');
+		}
+
+		res.locals.journeyResponse = result;
+
+		return next();
+	};
 
 /**
  * returns a default response for a journey

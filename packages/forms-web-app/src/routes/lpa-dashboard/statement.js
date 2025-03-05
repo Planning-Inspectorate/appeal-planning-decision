@@ -74,7 +74,7 @@ router.get(
 
 router.get(
 	'/appeal-statement/:referenceId/submitted-appeal-statement',
-	getJourneyResponse(),
+	getJourneyResponse(false),
 	getJourney(journeys),
 	validationErrorHandler,
 	appealStatementSubmitted

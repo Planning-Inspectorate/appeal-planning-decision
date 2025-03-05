@@ -119,6 +119,17 @@ describe('getJourneyResponse', () => {
 		expect(res.redirect).toHaveBeenCalled();
 	});
 
+	it('should not redirect user if lpaq not open but checkSubmitted is false', async () => {
+		getUserFromSession.mockReturnValue(mockValidNotTestLpaUser);
+		req.appealsApiClient.getUsersAppealCase.mockImplementation(() =>
+			Promise.resolve({ ...mockAppeal, lpaQuestionnaireSubmittedDate: new Date() })
+		);
+
+		await getJourneyResponse(false)(req, res, next);
+
+		expect(res.redirect).not.toHaveBeenCalled();
+	});
+
 	it('should return a 404 not found response if user lpa does not match', async () => {
 		getUserFromSession.mockReturnValue(mockValidNotTestLpaUser);
 		req.appealsApiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));

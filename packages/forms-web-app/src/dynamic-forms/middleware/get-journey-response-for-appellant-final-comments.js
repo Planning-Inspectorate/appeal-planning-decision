@@ -12,44 +12,50 @@ const {
 	}
 } = require('../../lib/views');
 
-module.exports = () => async (req, res, next) => {
-	const referenceId = req.params.referenceId;
-	const appealOverviewUrl = `${APPEAL_OVERVIEW}/${referenceId}`;
-	let result;
+/**
+ * @param {boolean} checkSubmitted
+ * @returns {import('express').Handler}
+ */
+module.exports =
+	(checkSubmitted = true) =>
+	async (req, res, next) => {
+		const referenceId = req.params.referenceId;
+		const appealOverviewUrl = `${APPEAL_OVERVIEW}/${referenceId}`;
+		let result;
 
-	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
+		const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
 
-	if (!isAppellantFinalCommentOpen(appeal)) {
-		req.session.navigationHistory.shift();
-		return res.redirect(appealOverviewUrl);
-	}
-
-	const journeyType = APPELLANT_JOURNEY_TYPES_FORMATTED.FINAL_COMMENTS;
-
-	try {
-		const dbResponse = await req.appealsApiClient.getAppellantFinalCommentSubmission(referenceId);
-		const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
-		result = new JourneyResponse(
-			journeyType,
-			referenceId,
-			convertedResponse,
-			dbResponse.AppealCase?.LPACode
-		);
-	} catch (err) {
-		if (err instanceof ApiClientError && err.code === 404) {
-			logger.debug('final comment not found, creating and returning default response');
-			await req.appealsApiClient.postAppellantFinalCommentSubmission(referenceId);
-		} else {
-			logger.error(err);
+		if (checkSubmitted && !isAppellantFinalCommentOpen(appeal)) {
+			req.session.navigationHistory.shift();
+			return res.redirect(appealOverviewUrl);
 		}
-		// return default response
-		result = getDefaultResponse(journeyType, referenceId, appeal.LPACode);
-	}
 
-	res.locals.journeyResponse = result;
+		const journeyType = APPELLANT_JOURNEY_TYPES_FORMATTED.FINAL_COMMENTS;
 
-	return next();
-};
+		try {
+			const dbResponse = await req.appealsApiClient.getAppellantFinalCommentSubmission(referenceId);
+			const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
+			result = new JourneyResponse(
+				journeyType,
+				referenceId,
+				convertedResponse,
+				dbResponse.AppealCase?.LPACode
+			);
+		} catch (err) {
+			if (err instanceof ApiClientError && err.code === 404) {
+				logger.debug('final comment not found, creating and returning default response');
+				await req.appealsApiClient.postAppellantFinalCommentSubmission(referenceId);
+			} else {
+				logger.error(err);
+			}
+			// return default response
+			result = getDefaultResponse(journeyType, referenceId, appeal.LPACode);
+		}
+
+		res.locals.journeyResponse = result;
+
+		return next();
+	};
 
 /**
  * returns a default response for a journey
