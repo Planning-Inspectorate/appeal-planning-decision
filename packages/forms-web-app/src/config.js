@@ -120,7 +120,6 @@ module.exports = {
 	},
 	featureFlag: {
 		commentsEnabled: process.env.COMMENTS_ENABLED === 'true',
-		dashboardsEnabled: process.env.DASHBOARDS_ENABLED === 'true',
 		googleTagManager: process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true',
 		rule6Enabled: process.env.RULE_6_ENABLED === 'true'
 	},
