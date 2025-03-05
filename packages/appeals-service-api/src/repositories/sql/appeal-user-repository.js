@@ -200,6 +200,10 @@ class AppealUserRepository {
 			throw e;
 		}
 	}
+
+	// const unlinkUserToAppeal(userId, appealId, role) {
+
+	// }
 }
 
 module.exports = { AppealUserRepository };

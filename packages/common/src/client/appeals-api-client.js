@@ -251,6 +251,16 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {ServiceUser} data
+	 * @returns {Promise<ServiceUser>}
+	 */
+	async deleteServiceUser(data) {
+		const endpoint = `${v2}/service-users/`;
+		const response = await this.#makeDeleteRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
 	 * @param {AppealRepresentation} data
 	 * @returns {Promise<Representation>}
 	 */
