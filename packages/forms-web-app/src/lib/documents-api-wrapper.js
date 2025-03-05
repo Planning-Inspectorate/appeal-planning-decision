@@ -21,13 +21,7 @@ function isTheFormDataBuffer(data) {
  */
 const hasPathTraversal = (value) => value.includes('../');
 
-const handler = async (
-	url,
-	method = 'GET',
-	data = {},
-	localPlanningAuthorityCode = '',
-	allowedResponseCodes = [200, 202]
-) => {
+const handler = async (url, method = 'GET', data = {}, allowedResponseCodes = [200, 202]) => {
 	const correlationId = uuid.v4();
 	const logger = parentLogger.child({
 		correlationId,
@@ -41,9 +35,6 @@ const handler = async (
 	try {
 		apiResponse = await fetch(url, {
 			method,
-			headers: {
-				'local-planning-authority-code': localPlanningAuthorityCode
-			},
 			...data
 		});
 	} catch (e) {
@@ -125,15 +116,9 @@ const createDocument = async (submission, data, fileName, documentType, sectionT
 
 	body.append('documentType', documentType);
 
-	const apiResponse = await handler(
-		`${config.documents.url}/api/v1/${submissionData.id}`,
-		'POST',
-		{
-			body
-		},
-		submissionData.lpaCode //todo: this is only required for feature flag (horizon mapping) purposes
-		// and can be removed when feature flag is removed
-	);
+	const apiResponse = await handler(`${config.documents.url}/api/v1/${submissionData.id}`, 'POST', {
+		body
+	});
 
 	const response = await apiResponse.json();
 
@@ -159,7 +144,6 @@ const removeDocument = async (appealOrQuestionnaireId, documentId) => {
 		`${config.documents.url}/api/v1/${appealOrQuestionnaireId}/${documentId}`,
 		'DELETE',
 		{},
-		'',
 		[204]
 	);
 };

@@ -224,10 +224,7 @@ describe('lib/documents-api-wrapper', () => {
 			expect(fetch).toHaveBeenCalledWith(
 				`${config.documents.url}/api/v1/${appealId}/${documentId}/file`,
 				{
-					method: 'GET',
-					headers: {
-						'local-planning-authority-code': ''
-					}
+					method: 'GET'
 				}
 			);
 			/* eslint-disable-next-line no-undef */

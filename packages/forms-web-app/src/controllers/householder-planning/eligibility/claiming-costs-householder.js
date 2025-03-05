@@ -19,7 +19,7 @@ exports.getClaimingCostsHouseholder = async (req, res) => {
 	const { appeal } = req.session;
 
 	// skip this question if using v2
-	const usingV2Form = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.HAS_QUESTIONNAIRE);
+	const usingV2Form = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.HAS_APPEAL_FORM_V2);
 
 	if (usingV2Form) {
 		return res.redirect(nextPage);
