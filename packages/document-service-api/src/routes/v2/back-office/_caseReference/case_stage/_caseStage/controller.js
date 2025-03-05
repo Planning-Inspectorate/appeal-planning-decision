@@ -1,7 +1,5 @@
 const kebabCase = require('lodash.kebabcase');
 const blobClient = require('#lib/back-office-storage-client');
-const { isFeatureActive } = require('#config/featureFlag');
-const { FLAG } = require('@pins/common/src/feature-flags');
 const archiver = require('archiver');
 const { FOLDERS } = require('@pins/common/src/constants');
 const { DocumentsRepository } = require('../../../../../../db/repos/repository');
@@ -76,11 +74,6 @@ async function createBlobDownloadStream(blobStorageContainer, blobStoragePath) {
  * @type {import('express').Handler}
  */
 async function getDocumentsByCaseReferenceAndCaseStage(req, res) {
-	if (!(await isFeatureActive(FLAG.SERVE_BO_DOCUMENTS))) {
-		res.sendStatus(501);
-		return;
-	}
-
 	const { caseStage, caseReference } = req.params ?? {};
 
 	if (!caseStage || !caseReference) {
