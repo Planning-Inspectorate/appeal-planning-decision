@@ -48,4 +48,18 @@ describe('appeal-service-user', () => {
 		expect(ctx.log).toHaveBeenCalledWith('Sending unlink rule 6 party request to API');
 		expect(mockClient.deleteR6UserAppealLink).toHaveBeenCalledWith(testR6ServiceUser);
 	});
+
+	it('throws an error on receipt of a delete message for a non-r6 user', async () => {
+		const testNonR6ServiceUser = {
+			serviceUserType: 'not a rule 6 party'
+		};
+
+		await expect(async () =>
+			handler(testNonR6ServiceUser, {
+				...ctx,
+				triggerMetadata: { applicationProperties: { type: 'Delete' } }
+			})
+		).rejects.toThrow('nvalid user type for delete message');
+		expect(mockClient.deleteR6UserAppealLink).not.toHaveBeenCalled;
+	});
 });
