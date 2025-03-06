@@ -16,7 +16,7 @@ const handler = async (serviceUser, context) => {
 
 	if (rule6PartyStatusRevocation(serviceUser, context)) {
 		context.log('Sending delete rule 6 party request to API');
-		return await client.deleteServiceUser(serviceUser);
+		return await client.deleteR6UserAppealLink(serviceUser);
 	}
 
 	context.log('Sending service user request to API');

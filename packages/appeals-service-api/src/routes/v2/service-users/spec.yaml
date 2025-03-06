@@ -19,3 +19,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+  /api/v2/service-users/{id}/appeal/{caseReference}:
+    delete:
+      tags:
+        - users
+      description: Unlink a user in a specified role from an appeal
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          example: '12345'
+          description: Unique identifier of service user (SQL)
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          example: '1234567'
+          description: Unique identifier of appeal case (SQL)
+      responses:
+        200:
+          description: Unlinked r6 user from appeal
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        500:
+          description: Something went wrong
