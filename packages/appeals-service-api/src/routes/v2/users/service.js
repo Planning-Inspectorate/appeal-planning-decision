@@ -7,6 +7,7 @@ const appealUserRepository = new AppealUserRepository();
 
 /**
  * @typedef { import("@prisma/client").AppealToUser } AppealToUser
+ * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
  * @typedef { import("@prisma/client").AppealUser } AppealUser
  * @typedef { import("@prisma/client").Prisma.AppealUserWhereInput } AppealUserWhere
  */
@@ -123,6 +124,21 @@ async function linkUserToAppeal(id, appealId, role) {
 }
 
 /**
+ * Unlink user's specified role on an appeal
+ * @param {string} id
+ * @param {string} appealId
+ * @param {AppealToUserRoles} role
+ * @returns {Promise<void>}
+ */
+async function unlinkUserFromAppeal(id, appealId, role) {
+	if (!APPEAL_USER_ROLES_ARRAY.some((appealRole) => appealRole.name === role)) {
+		throw ApiError.badRequest('invalid role');
+	}
+
+	return appealUserRepository.unlinkUserFromAppeal(id, appealId, role);
+}
+
+/**
  * @param {string} userLookup currently route only used when looking up by email
  * @returns {Promise<boolean>}
  */
@@ -140,5 +156,6 @@ module.exports = {
 	updateUser,
 	removeLPAUser,
 	linkUserToAppeal,
+	unlinkUserFromAppeal,
 	isRule6User
 };

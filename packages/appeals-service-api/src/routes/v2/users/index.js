@@ -6,6 +6,7 @@ const {
 	userUpdate,
 	userDelete,
 	userLink,
+	r6UserUnlink,
 	userIsRule6User
 } = require('./controller');
 const router = express.Router();
@@ -21,5 +22,10 @@ router.get('/:userLookup/isRule6User', openApiValidatorMiddleware(), asyncHandle
 
 // todo: move this
 router.post('/:userLookup/appeal/:appealId', openApiValidatorMiddleware(), asyncHandler(userLink));
+router.delete(
+	'/:userLookup/appeal/:appealId/unlinkRule6',
+	openApiValidatorMiddleware(),
+	asyncHandler(r6UserUnlink)
+);
 
 module.exports = { router };

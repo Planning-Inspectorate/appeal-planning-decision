@@ -6,9 +6,11 @@ const {
 	updateUser,
 	removeLPAUser,
 	linkUserToAppeal,
+	unlinkUserFromAppeal,
 	isRule6User
 } = require('./service');
 const ApiError = require('#errors/apiError');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
  * @type {import('express').RequestHandler}
@@ -95,6 +97,19 @@ async function userLink(req, res) {
 /**
  * @type {import('express').RequestHandler}
  */
+async function r6UserUnlink(req, res) {
+	const { userLookup, appealId } = req.params;
+
+	const user = await resolveUser(userLookup);
+
+	await unlinkUserFromAppeal(user.id, appealId, APPEAL_USER_ROLES.RULE_6_PARTY);
+
+	res.status(200);
+}
+
+/**
+ * @type {import('express').RequestHandler}
+ */
 async function userIsRule6User(req, res) {
 	const { userLookup } = req.params;
 
@@ -124,5 +139,6 @@ module.exports = {
 	userUpdate,
 	userDelete,
 	userLink,
+	r6UserUnlink,
 	userIsRule6User
 };
