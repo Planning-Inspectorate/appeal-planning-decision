@@ -148,13 +148,25 @@ describe('AppealUserRepository', () => {
 	describe('unlinkUserFromAppeal', () => {
 		it('should unlink user with given role from appeal', async () => {
 			const userId = '1';
-			const appealId = '1';
+			const caseReference = '1';
 			const role = APPEAL_USER_ROLES.RULE_6_PARTY;
 
-			await repository.unlinkUserFromAppeal(userId, appealId, role);
+			await repository.unlinkUserFromAppeal(userId, caseReference, role);
 
 			expect(mockPrismaClient.appealToUser.deleteMany).toHaveBeenCalledWith({
-				where: { appealId, userId, role }
+				where: {
+					userId,
+					role,
+					Appeal: {
+						where: {
+							AppealCase: {
+								where: {
+									caseReference
+								}
+							}
+						}
+					}
+				}
 			});
 		});
 	});

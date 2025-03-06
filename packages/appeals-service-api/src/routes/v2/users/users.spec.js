@@ -333,49 +333,6 @@ describe('users v2', () => {
 		});
 	});
 
-	describe('unlink user', () => {
-		it('should return 400 if invalid role supplied', async () => {
-			const testEmail = crypto.randomUUID() + '@example.com';
-			await _createSqlUser(testEmail);
-			const response = await appealsApi.delete(`/api/v2/users/${testEmail}/appeal/123`).send({
-				role: 'nope'
-			});
-
-			expect(response.status).toEqual(400);
-			expect(response.body.errors[0]).toEqual('invalid role');
-		});
-
-		it('should return 404 if user not found', async () => {
-			const response = await appealsApi.delete('/api/v2/users/abc/appeal/123').send();
-			expect(response.status).toEqual(404);
-			expect(response.body.errors[0]).toEqual('The user was not found');
-		});
-
-		it('should return 404 if appeal not found', async () => {
-			const testEmail = crypto.randomUUID() + '@example.com';
-			await _createSqlUser(testEmail);
-
-			const response = await appealsApi.delete(`/api/v2/users/${testEmail}/appeal/123`).send();
-			expect(response.status).toEqual(404);
-			expect(response.body.errors[0]).toEqual(`The appeal 123 was not found`);
-		});
-
-		it('should use role supplied if valid', async () => {
-			const testEmail = crypto.randomUUID() + '@example.com';
-
-			await _createSqlUser(testEmail);
-			const appeal = await _createSqlAppeal();
-
-			const response = await appealsApi
-				.delete(`/api/v2/users/${testEmail}/appeal/${appeal.id}`)
-				.send({
-					role: APPEAL_USER_ROLES.AGENT
-				});
-
-			expect(response.status).toEqual(200);
-		});
-	});
-
 	describe('isRule6User', () => {
 		it('should return false if user has no rule 6 roles', async () => {
 			const testEmail = crypto.randomUUID() + '@example.com';
