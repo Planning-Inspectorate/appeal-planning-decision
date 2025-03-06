@@ -19,6 +19,7 @@ const ruleYourEmail = (key) =>
 		.notEmpty()
 		.withMessage('Enter your email address')
 		.bail()
+		.trim()
 		.isEmail()
 		.withMessage('Enter an email address in the correct format, like name@example.com')
 		.bail()
