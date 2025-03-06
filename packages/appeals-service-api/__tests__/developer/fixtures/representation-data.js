@@ -26,7 +26,7 @@ function createTestRepresentationPayload(
 		serviceUserId: null,
 		representationType,
 		dateReceived: new Date(),
-		documentIds: []
+		documentIds: ['01956ca1-1213-7107-a4ab-be56f597485d']
 	};
 }
 
