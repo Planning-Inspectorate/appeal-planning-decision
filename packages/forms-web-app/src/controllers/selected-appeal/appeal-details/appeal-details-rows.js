@@ -6,7 +6,8 @@ const {
 	formatRelatedAppeals,
 	formatYesOrNo,
 	boolToYesNo,
-	formatAccessDetails
+	formatAccessDetails,
+	formatDevelopmentType
 } = require('@pins/common');
 const { CASE_RELATION_TYPES, CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
@@ -155,6 +156,11 @@ exports.detailsRows = (caseData, userType) => {
 			keyText: 'What date did you submit your planning application?',
 			valueText: formatDateForDisplay(caseData.applicationDate),
 			condition: (caseData) => caseData.applicationDate != null
+		},
+		{
+			keyText: 'What is the development type?',
+			valueText: formatDevelopmentType(caseData.developmentType),
+			condition: (caseData) => caseData.appealTypeCode !== CASE_TYPES.HAS.processCode
 		},
 		{
 			keyText: 'Enter the description of development',
