@@ -19,3 +19,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+  /api/v2/service-users/{emailAddress}/appeal/{caseReference}/unlinkRule6:
+    delete:
+      tags:
+        - users
+      description: Unlink a r6 user from an appeal
+      parameters:
+        - in: path
+          name: emailAddress
+          required: true
+          schema:
+            type: string
+            format: email
+          example: me@example.com
+          description: user email
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          example: '12345'
+          description: Case Reference for appeal (SQL)
+      responses:
+        200:
+          description: Created role
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        500:
+          description: Something went wrong
