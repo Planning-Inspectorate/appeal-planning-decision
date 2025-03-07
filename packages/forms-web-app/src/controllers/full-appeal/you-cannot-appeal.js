@@ -7,9 +7,6 @@ const getYouCannotAppeal = async (req, res) => {
 	const { appeal } = req.session;
 	const { appealDeadline, appealPeriod } = appeal.eligibility;
 
-	// Clear appeal object
-	req.session.appeal = null;
-
 	return res.render(VIEW.YOU_CANNOT_APPEAL, {
 		bannerHtmlOverride: config.betaBannerText,
 		appealDeadline,
