@@ -215,12 +215,8 @@ class AppealUserRepository {
 					userId: userId,
 					role: role,
 					Appeal: {
-						where: {
-							AppealCase: {
-								where: {
-									caseReference
-								}
-							}
+						AppealCase: {
+							caseReference
 						}
 					}
 				}
