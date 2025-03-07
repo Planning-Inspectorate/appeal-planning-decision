@@ -379,7 +379,9 @@ export interface AppealCase {
 	/** Why preference chosen */
 	appellantProcedurePreferenceDetails?: string;
 	/** appellant procedure length preference */
-	appellantProcedurePreferenceDuration?: number;
+	appellantProcedurePreferenceDuration?: number | null;
+	/** appellant expected witness count */
+	appellantProcedurePreferenceWitnessCount?: number | null;
 	/** Which procedure does LPA think is most appropriate for this appeal */
 	lpaProcedurePreference?: string;
 	/** Why preference chosen */
