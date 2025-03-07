@@ -135,7 +135,7 @@ async function unlinkUserFromAppeal(id, appealId, role) {
 		throw ApiError.badRequest('invalid role');
 	}
 
-	return appealUserRepository.unlinkUserFromAppeal(id, appealId, role);
+	return await appealUserRepository.unlinkUserFromAppeal(id, appealId, role);
 }
 
 /**

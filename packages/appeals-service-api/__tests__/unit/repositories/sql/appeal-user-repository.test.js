@@ -158,12 +158,8 @@ describe('AppealUserRepository', () => {
 					userId,
 					role,
 					Appeal: {
-						where: {
-							AppealCase: {
-								where: {
-									caseReference
-								}
-							}
+						AppealCase: {
+							caseReference
 						}
 					}
 				}
