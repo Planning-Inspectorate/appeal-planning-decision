@@ -7,10 +7,8 @@ const {
 } = require('../lib/blobStorage');
 const deleteLocalFile = require('../lib/deleteLocalFile');
 const { documentTypes, initContainerClient } = require('@pins/common');
-const { isFeatureActive } = require('../configuration/featureFlag');
 const logger = require('../lib/logger');
 const config = require('../configuration/config');
-const { FLAG } = require('@pins/common/src/feature-flags');
 
 const getDocumentsForApplication = async (req, res) => {
 	const { applicationId } = req.params;
@@ -132,17 +130,9 @@ const uploadDocument = async (req, res) => {
 			involvement: documentTypes[documentType].involvement
 		};
 
-		if (
-			req.headers &&
-			(await isFeatureActive(
-				FLAG.HORIZON_DOCUMENT_LABELLING,
-				req.headers['local-planning-authority-code']
-			))
-		) {
-			let horizonMetadata = _getHorizonMetadata(documentType);
-			document = { ...document, ...horizonMetadata };
-			logger.info(document, 'Document');
-		}
+		let horizonMetadata = _getHorizonMetadata(documentType);
+		document = { ...document, ...horizonMetadata };
+		logger.info(document, 'Document');
 
 		req.log.info(
 			{

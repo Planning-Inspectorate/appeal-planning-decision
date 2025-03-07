@@ -59,7 +59,7 @@ const getYourAppeals = async (req, res) => {
 		waitingForReviewAppeals: waitingForReviewAppeals,
 		appealDetailsLink: `/${APPEAL_DETAILS}`,
 		appealQuestionnaireLink: baseHASUrl,
-		showQuestionnaire: await isFeatureActive(FLAG.HAS_QUESTIONNAIRE, user.lpaCode),
+		showQuestionnaire: await isFeatureActive(FLAG.HAS_APPEAL_FORM_V2, user.lpaCode),
 		decidedAppealsLink: `/${DECIDED_APPEALS}`,
 		decidedAppealsCount: decidedAppealsCount.count,
 		noToDoAppeals

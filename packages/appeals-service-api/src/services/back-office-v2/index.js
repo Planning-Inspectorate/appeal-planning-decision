@@ -1,6 +1,4 @@
-const { isFeatureActive } = require('../../configuration/featureFlag');
 const forwarders = require('./forwarders');
-const { FLAG } = require('@pins/common/src/feature-flags');
 const {
 	markQuestionnaireAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/service');
@@ -95,12 +93,6 @@ class BackOfficeV2Service {
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitAppellantSubmission({ appellantSubmission, email, lpa, formatter }) {
-		const isBOIntegrationActive = await isFeatureActive(
-			FLAG.APPEALS_BO_SUBMISSION,
-			appellantSubmission.LPACode
-		);
-		if (!isBOIntegrationActive) return;
-
 		if (!isValidAppealTypeCode(appellantSubmission.appealTypeCode))
 			throw new Error(`Appeal submission ${appellantSubmission.id} has an invalid appealTypeCode`);
 
@@ -150,10 +142,7 @@ class BackOfficeV2Service {
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitQuestionnaire(caseReference, questionnaire, formatter) {
-		const { LPACode, appealTypeCode } = questionnaire.AppealCase;
-
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
-		if (!isBOIntegrationActive) return;
+		const { appealTypeCode } = questionnaire.AppealCase;
 
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error("Questionnaire's associated AppealCase has an invalid appealTypeCode");
@@ -210,11 +199,8 @@ class BackOfficeV2Service {
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitInterestedPartySubmission(interestedPartySubmission, formatter) {
-		const { LPACode, appealTypeCode } = interestedPartySubmission.AppealCase;
+		const { appealTypeCode } = interestedPartySubmission.AppealCase;
 		const { caseReference, id } = interestedPartySubmission;
-
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
-		if (!isBOIntegrationActive) return;
 
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error(
@@ -268,10 +254,7 @@ class BackOfficeV2Service {
 
 		if (!lpaStatement) throw new Error('No lpa statement found');
 
-		const { LPACode, appealTypeCode } = lpaStatement.AppealCase;
-
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
-		if (!isBOIntegrationActive) return;
+		const { appealTypeCode } = lpaStatement.AppealCase;
 
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error('LPA statement associated AppealCase has an invalid appealTypeCode');
@@ -325,10 +308,7 @@ class BackOfficeV2Service {
 
 		if (!lpaFinalCommentSubmission) throw new Error('No lpa final comments found');
 
-		const { LPACode, appealTypeCode } = lpaFinalCommentSubmission.AppealCase;
-
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
-		if (!isBOIntegrationActive) return;
+		const { appealTypeCode } = lpaFinalCommentSubmission.AppealCase;
 
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error('LPA final comments associated AppealCase has an invalid appealTypeCode');
@@ -382,10 +362,7 @@ class BackOfficeV2Service {
 
 		if (!lpaProofEvidenceSubmission) throw new Error('No lpa proof of evidence found');
 
-		const { LPACode, appealTypeCode } = lpaProofEvidenceSubmission.AppealCase;
-
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
-		if (!isBOIntegrationActive) return;
+		const { appealTypeCode } = lpaProofEvidenceSubmission.AppealCase;
 
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error('LPA proof of evidence associated AppealCase has an invalid appealTypeCode');
@@ -443,11 +420,8 @@ class BackOfficeV2Service {
 			throw new Error('No appellant final comments found');
 		}
 
-		const { appealTypeCode, LPACode } = appellantFinalCommentSubmission.AppealCase;
+		const { appealTypeCode } = appellantFinalCommentSubmission.AppealCase;
 		const { email, serviceUserId } = await getUserById(userId);
-
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
-		if (!isBOIntegrationActive) return;
 
 		const appellantName =
 			(await this.#getAppellantNameFromServiceUser(serviceUserId, caseReference)) || 'Appellant';
@@ -514,10 +488,7 @@ class BackOfficeV2Service {
 			throw new Error('No appellant proofs of evidence found');
 		}
 
-		const { appealTypeCode, LPACode } = appellantProofEvidenceSubmission.AppealCase;
-
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
-		if (!isBOIntegrationActive) return;
+		const { appealTypeCode } = appellantProofEvidenceSubmission.AppealCase;
 
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error(
@@ -586,10 +557,7 @@ class BackOfficeV2Service {
 
 		if (!rule6ProofOfEvidenceSubmission) throw new Error('No rule 6 proof of evidence found');
 
-		const { LPACode, appealTypeCode } = rule6ProofOfEvidenceSubmission.AppealCase;
-
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
-		if (!isBOIntegrationActive) return;
+		const { appealTypeCode } = rule6ProofOfEvidenceSubmission.AppealCase;
 
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error('Rule 6 statement associated AppealCase has an invalid appealTypeCode');
@@ -650,10 +618,7 @@ class BackOfficeV2Service {
 
 		if (!rule6Statement) throw new Error('Rule 6 statement not found');
 
-		const { LPACode, appealTypeCode } = rule6Statement.AppealCase;
-
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
-		if (!isBOIntegrationActive) return;
+		const { appealTypeCode } = rule6Statement.AppealCase;
 
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error('Rule 6 statement associated AppealCase has an invalid appealTypeCode');

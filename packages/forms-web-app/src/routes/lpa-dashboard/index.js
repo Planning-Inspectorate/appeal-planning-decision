@@ -1,11 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { featureFlagMiddleware } = require('#middleware/feature-flag');
-const { FLAG } = require('@pins/common/src/feature-flags');
 const requireLpaUser = require('#middleware/lpa-dashboard/require-user');
-
-router.use(featureFlagMiddleware(FLAG.LPA_DASHBOARD));
 
 // login
 router.use(require('./service-invite'));

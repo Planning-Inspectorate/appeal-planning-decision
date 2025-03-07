@@ -182,19 +182,6 @@ describe('BackOfficeV2Service', () => {
 
 			expect(mockGetValidator).toHaveBeenCalled();
 		});
-
-		it('should return if feature flag is off', async () => {
-			isFeatureActive.mockResolvedValue(false);
-
-			const result = await backOfficeV2Service.submitAppellantSubmission({
-				appellantSubmission: mockAppealSubmission,
-				userId: testUserID,
-				formatter: mockAppealFormatter
-			});
-
-			expect(result).toBe(undefined);
-			expect(markAppealAsSubmitted).not.toHaveBeenCalled();
-		});
 	});
 
 	describe('submitQuestionnaire', () => {
@@ -295,15 +282,6 @@ describe('BackOfficeV2Service', () => {
 			).rejects.toThrow(
 				'Payload was invalid when checked against lpa questionnaire command schema'
 			);
-		});
-
-		it('should return if feature flag is off', async () => {
-			isFeatureActive.mockResolvedValue(false);
-
-			const result = await backOfficeV2Service.submitQuestionnaire(testCaseRef, mockLPAQ, null);
-
-			expect(result).toBe(undefined);
-			expect(markQuestionnaireAsSubmitted).not.toHaveBeenCalled();
 		});
 	});
 
