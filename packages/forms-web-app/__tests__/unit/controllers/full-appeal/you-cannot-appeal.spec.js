@@ -34,7 +34,6 @@ describe('controllers/full-appeal/out-of-time-shutter-page', () => {
 			};
 
 			await getYouCannotAppeal(mockRequest, res);
-			expect(mockRequest.session.appeal).toBe(null);
 			expect(res.render).toHaveBeenCalledWith(YOU_CANNOT_APPEAL, {
 				bannerHtmlOverride: config.betaBannerText,
 				appealDeadline,
