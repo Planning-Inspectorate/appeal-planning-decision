@@ -11,6 +11,7 @@ const typeOfPlanningApplicationRouter = require('./type-of-planning-application'
 const useExistingServiceApplicationType = require('./use-existing-service-application-type');
 const enforcementNotice = require('./enforcement-notice');
 const useExistingServiceEnforcementNotice = require('./use-existing-service-enforcement-notice');
+const clearAppealSession = require('./clear-appeal-session');
 
 router.use(beforeYouStart);
 router.use(useExistingServiceDevelopmentType);
@@ -21,5 +22,6 @@ router.use(typeOfPlanningApplicationRouter);
 router.use(useExistingServiceApplicationType);
 router.use(enforcementNotice);
 router.use(useExistingServiceEnforcementNotice);
+router.use(clearAppealSession);
 
 module.exports = router;
