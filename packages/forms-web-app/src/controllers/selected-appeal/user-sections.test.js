@@ -94,6 +94,7 @@ describe('LPA and Appellant Sections', () => {
 			it('should show "View your statement" when user owned statement is present', () => {
 				appealCase.Representations = [
 					{
+						submittingPartyType: LPA_USER_ROLE,
 						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
 						userOwnsRepresentation: true,
 						representationType: REPRESENTATION_TYPES.STATEMENT
@@ -183,6 +184,7 @@ describe('LPA and Appellant Sections', () => {
 			it('should show "View your final comments" when owned FINAL_COMMENT is present', () => {
 				appealCase.Representations = [
 					{
+						submittingPartyType: LPA_USER_ROLE,
 						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
 						userOwnsRepresentation: true,
 						representationType: REPRESENTATION_TYPES.FINAL_COMMENT
@@ -234,6 +236,7 @@ describe('LPA and Appellant Sections', () => {
 			it('should show "View your proof of evidence and witnesses" when owned PROOFS_OF_EVIDENCE is present', () => {
 				appealCase.Representations = [
 					{
+						submittingPartyType: LPA_USER_ROLE,
 						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
 						userOwnsRepresentation: true,
 						representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
@@ -416,6 +419,7 @@ describe('LPA and Appellant Sections', () => {
 			it('should show "View your final comments" when user has owned final comment', () => {
 				appealCase.Representations = [
 					{
+						submittingPartyType: APPEAL_USER_ROLES.APPELLANT,
 						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
 						userOwnsRepresentation: true,
 						representationType: REPRESENTATION_TYPES.FINAL_COMMENT
@@ -467,6 +471,7 @@ describe('LPA and Appellant Sections', () => {
 			it('should show "View your proof of evidence and witnesses" when owned PROOFS_OF_EVIDENCE is present', () => {
 				appealCase.Representations = [
 					{
+						submittingPartyType: APPEAL_USER_ROLES.APPELLANT,
 						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
 						userOwnsRepresentation: true,
 						representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
@@ -732,6 +737,7 @@ describe('LPA and Appellant Sections', () => {
 			it('should show "View your proof of evidence and witnesses" when own proofs are submitted', () => {
 				appealCase.Representations = [
 					{
+						submittingPartyType: APPEAL_USER_ROLES.RULE_6_PARTY,
 						userOwnsRepresentation: true,
 						representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
 					}

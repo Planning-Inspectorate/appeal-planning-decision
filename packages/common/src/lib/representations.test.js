@@ -4,10 +4,24 @@ const { APPEAL_REPRESENTATION_STATUS, SERVICE_USER_TYPE } = require('pins-data-m
 describe('representationExists', () => {
 	it('should return true if representation exists with the given type and ownership', () => {
 		const representations = [
-			{ representationType: 'type1', userOwnsRepresentation: true },
-			{ representationType: 'type2', userOwnsRepresentation: false }
+			{
+				representationType: 'type1',
+				userOwnsRepresentation: true,
+				submittingPartyType: SERVICE_USER_TYPE.APPELLANT
+			},
+			{
+				representationType: 'type2',
+				userOwnsRepresentation: false,
+				submittingPartyType: SERVICE_USER_TYPE.APPELLANT
+			}
 		];
-		expect(representationExists(representations, 'type1', true)).toBe(true);
+		expect(
+			representationExists(representations, {
+				type: 'type1',
+				owned: true,
+				submitter: SERVICE_USER_TYPE.APPELLANT
+			})
+		).toBe(true);
 	});
 
 	it('should return false if no representation exists with the given type and ownership', () => {
@@ -15,7 +29,7 @@ describe('representationExists', () => {
 			{ representationType: 'type1', userOwnsRepresentation: false },
 			{ representationType: 'type2', userOwnsRepresentation: false }
 		];
-		expect(representationExists(representations, 'type1', true)).toBe(false);
+		expect(representationExists(representations, { type: 'type1', owned: true })).toBe(false);
 	});
 
 	it('should return true if representation exists with the given type regardless of ownership', () => {
@@ -23,11 +37,12 @@ describe('representationExists', () => {
 			{ representationType: 'type1', userOwnsRepresentation: false },
 			{ representationType: 'type2', userOwnsRepresentation: false }
 		];
-		expect(representationExists(representations, 'type1', false)).toBe(true);
+		expect(representationExists(representations, { type: 'type1', owned: false })).toBe(true);
+		expect(representationExists(representations, { type: 'type1' })).toBe(true);
 	});
 
 	it('should return false if representations array is undefined', () => {
-		expect(representationExists(undefined, 'type1', true)).toBe(false);
+		expect(representationExists(undefined, { type: 'type1' })).toBe(false);
 	});
 });
 
@@ -41,9 +56,12 @@ describe('representationPublished', () => {
 				submittingPartyType: SERVICE_USER_TYPE.APPELLANT
 			}
 		];
-		expect(representationPublished(representations, 'type1', SERVICE_USER_TYPE.APPELLANT)).toBe(
-			true
-		);
+		expect(
+			representationPublished(representations, {
+				type: 'type1',
+				submitter: SERVICE_USER_TYPE.APPELLANT
+			})
+		).toBe(true);
 	});
 
 	it('should return false if no published representation exists with the given type and submitter', () => {
@@ -55,9 +73,12 @@ describe('representationPublished', () => {
 				submittingPartyType: SERVICE_USER_TYPE.APPELLANT
 			}
 		];
-		expect(representationPublished(representations, 'type1', SERVICE_USER_TYPE.APPELLANT)).toBe(
-			false
-		);
+		expect(
+			representationPublished(representations, {
+				type: 'type1',
+				submitter: SERVICE_USER_TYPE.APPELLANT
+			})
+		).toBe(false);
 	});
 
 	it('should return true if published representation exists with the given type regardless of submitter', () => {
@@ -69,10 +90,12 @@ describe('representationPublished', () => {
 				submittingPartyType: SERVICE_USER_TYPE.AGENT
 			}
 		];
-		expect(representationPublished(representations, 'type1')).toBe(true);
+		expect(representationPublished(representations, { type: 'type1' })).toBe(true);
 	});
 
 	it('should return false if representations array is undefined', () => {
-		expect(representationPublished(undefined, 'type1', SERVICE_USER_TYPE.APPELLANT)).toBe(false);
+		expect(
+			representationPublished(undefined, { type: 'type1', submitter: SERVICE_USER_TYPE.APPELLANT })
+		).toBe(false);
 	});
 });

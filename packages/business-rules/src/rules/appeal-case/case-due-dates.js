@@ -1,6 +1,7 @@
 const { APPEAL_CASE_STATUS, APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
 const { deadlineHasPassed } = require('@pins/common/src/lib/deadline-has-passed');
 const { representationExists } = require('@pins/common/src/lib/representations');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} UserRole
@@ -61,7 +62,11 @@ exports.isLPAStatementOpen = (appealCaseData) =>
  */
 exports.isRule6StatementOpen = (appealCaseData) =>
 	statementsAreOpen(appealCaseData) &&
-	!representationExists(appealCaseData.Representations, APPEAL_REPRESENTATION_TYPE.STATEMENT, true);
+	!representationExists(appealCaseData.Representations, {
+		type: APPEAL_REPRESENTATION_TYPE.STATEMENT,
+		owned: true,
+		submitter: APPEAL_USER_ROLES.RULE_6_PARTY
+	});
 
 /**
  * Checks appeal is in proofs stage
@@ -98,11 +103,11 @@ exports.isLPAProofsOfEvidenceOpen = (appealCaseData) =>
  */
 exports.isRule6ProofsOfEvidenceOpen = (appealCaseData) =>
 	proofsAreOpen(appealCaseData) &&
-	!representationExists(
-		appealCaseData.Representations,
-		APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
-		true
-	);
+	!representationExists(appealCaseData.Representations, {
+		type: APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+		owned: true,
+		submitter: APPEAL_USER_ROLES.RULE_6_PARTY
+	});
 
 /**
  * checks if final comments are open

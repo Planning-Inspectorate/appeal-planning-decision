@@ -108,8 +108,10 @@ async function addOwnershipAndSubmissionDetailsToRepresentations(
 	return representations.map((rep) => ({
 		...rep,
 		userOwnsRepresentation:
-			(isLpa && rep.source === APPEAL_SOURCE.LPA) ||
-			(!!rep.serviceUserId && loggedInUserIds.has(rep.serviceUserId)),
+			(rep.source === APPEAL_SOURCE.LPA && isLpa) ||
+			(rep.source !== APPEAL_SOURCE.LPA &&
+				!!rep.serviceUserId &&
+				loggedInUserIds.has(rep.serviceUserId)),
 		submittingPartyType: ascertainSubmittingParty(rep, serviceUsersWithEmails)
 	}));
 }
