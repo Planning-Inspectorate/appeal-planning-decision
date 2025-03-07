@@ -176,6 +176,27 @@ components:
         originalDevelopmentDescription:
           type: string
           description: The original description of the development, as provided by the appellant
+        developmentType:
+          type: string
+          enum:
+            [
+              'householder',
+              'change-of-use',
+              'major-dwellings',
+              'major-industry-storage',
+              'major-offices',
+              'major-retail-services',
+              'major-traveller-caravan',
+              'mineral-workings',
+              'minor-dwellings',
+              'minor-industry-storage',
+              'minor-offices',
+              'minor-retail-services',
+              'minor-traveller-caravan',
+              'other-major',
+              'other-minor',
+              null
+            ]
 
         # LPA fields
         isCorrectAppealType:
