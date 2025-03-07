@@ -9,14 +9,24 @@ const enterAppealReferencePost = async (req, res) => {
 
 	if (!appealReference) {
 		return res.render(`comment-planning-appeal/enter-appeal-reference/index`, {
-			error: { text: 'Enter the appeal reference', href: '#appeal-reference' },
+			error: { text: 'Enter the appeal reference number', href: '#appeal-reference' },
 			value: appealReference
 		});
 	}
 
-	if (!/^[0-9]{7}$/.exec(appealReference)) {
+	if (!/^[0-9]*$/.exec(appealReference)) {
 		return res.render(`comment-planning-appeal/enter-appeal-reference/index`, {
 			error: { text: 'Enter the appeal reference using numbers 0 to 9', href: '#appeal-reference' },
+			value: appealReference
+		});
+	}
+
+	if (appealReference.length > 7) {
+		return res.render(`comment-planning-appeal/enter-appeal-reference/index`, {
+			error: {
+				text: 'Appeal reference number must be 7 characters or less',
+				href: '#appeal-reference'
+			},
 			value: appealReference
 		});
 	}
