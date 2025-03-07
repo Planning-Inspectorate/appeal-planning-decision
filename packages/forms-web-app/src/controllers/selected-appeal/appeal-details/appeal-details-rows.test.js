@@ -490,7 +490,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Enter the description of development', () => {
-		const descriptionIndex = 22;
+		const descriptionIndex = 23;
 
 		it('should display the development description if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -511,7 +511,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Did the local planning authority change the description of development?', () => {
-		const lpaChangedDescriptionIndex = 23;
+		const lpaChangedDescriptionIndex = 24;
 
 		it('should show Green Belt if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -541,7 +541,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Preferred procedure', () => {
-		const procedureIndex = 24;
+		const procedureIndex = 25;
 
 		it('should display the appellant preferred procedure if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -563,7 +563,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Cost application', () => {
-		const costsApplicationIndex = 26;
+		const costsApplicationIndex = 29;
 
 		it('should display Yes if applicant applied for costs', () => {
 			const testCase = structuredClone(caseWithAppellant);

@@ -178,6 +178,20 @@ exports.detailsRows = (caseData, userType) => {
 			condition: (caseData) => caseData.appellantProcedurePreference
 		},
 		{
+			keyText: 'Expected procedure duration',
+			valueText: caseData.appellantProcedurePreferenceDuration
+				? caseData.appellantProcedurePreferenceDuration.toString()
+				: '',
+			condition: (caseData) => caseData.appellantProcedurePreferenceDuration != null
+		},
+		{
+			keyText: 'Expected witness count',
+			valueText: caseData.appellantProcedurePreferenceWitnessCount
+				? caseData.appellantProcedurePreferenceWitnessCount.toString()
+				: '',
+			condition: (caseData) => caseData.appellantProcedurePreferenceWitnessCount != null
+		},
+		{
 			keyText: 'Are there other appeals linked to your development?',
 			valueText: showLinked ? `Yes \n ${linkedAppeals}` : 'No',
 			condition: () => true,

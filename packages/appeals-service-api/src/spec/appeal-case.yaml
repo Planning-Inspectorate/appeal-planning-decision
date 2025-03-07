@@ -439,7 +439,12 @@ components:
           description: Why preference chosen
         appellantProcedurePreferenceDuration:
           type: number
+          nullable: true
           description: appellant procedure length preference
+        appellantProcedurePreferenceWitnessCount:
+          type: number
+          nullable: true
+          description: appellant expected witness count
         lpaProcedurePreference:
           type: string
           description: Which procedure does LPA think is most appropriate for this appeal
