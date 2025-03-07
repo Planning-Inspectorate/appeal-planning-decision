@@ -183,31 +183,6 @@ paths:
                 $ref: '#/components/schemas/ErrorBody'
         500:
           description: Something went wrong
-  /api/v2/users/{userLookup}/appeal/{appealId}/unlinkRule6:
-    delete:
-      tags:
-        - users
-      description: Unlink a r6 user from an appeal
-      parameters:
-        - $ref: '#/components/parameters/userLookup'
-        - in: path
-          name: appealId
-          required: true
-          schema:
-            type: string
-          example: '12345'
-          description: Case Reference for appeal (SQL)
-      responses:
-        200:
-          description: Created role
-        400:
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorBody'
-        500:
-          description: Something went wrong
 
 components:
   schemas:
