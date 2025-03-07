@@ -20,5 +20,5 @@ exports.r6UserUnlink = async (req, res) => {
 
 	await unlinkUserFromAppeal(user.id, caseReference, APPEAL_USER_ROLES.RULE_6_PARTY);
 
-	res.status(200);
+	res.sendStatus(200);
 };
