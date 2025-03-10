@@ -4,7 +4,7 @@ import { BasePage } from "../../../../page-objects/base-page";
 export class OtherAppealsPage {
 
     _selectors = {
-        appellantLinkedCase: '#appellantLinkedCase'
+        appellantLinkedCase: '#appellantLinkedCaseReference'
     }
 
     addOtherAppealsData(anyOtherAppeals, context) {
