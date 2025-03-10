@@ -156,7 +156,7 @@ class RepresentationsRepository {
 				// delete all relations that use this case
 				await tx.representationDocument.deleteMany({
 					where: {
-						representationId
+						representationId: result.id
 					}
 				});
 

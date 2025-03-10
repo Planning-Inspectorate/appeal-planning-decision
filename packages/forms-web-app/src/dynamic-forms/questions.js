@@ -660,6 +660,7 @@ exports.questionProps = {
 			),
 			new MultifileUploadValidator()
 		],
+		html: 'resources/upload-relevant-policies/content.html',
 		documentType: documentTypes.uploadDevelopmentPlanPolicies
 	},
 	uploadOtherRelevantPolicies: {

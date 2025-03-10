@@ -132,6 +132,12 @@ describe('/appeal-cases/{caseReference}/representations', () => {
 			expect(response.status).toBe(200);
 			expect(response.body).toHaveProperty('caseReference', testCaseRef);
 			expect(response.body).toHaveProperty('representationId', testRepId);
+			const repDocs = await sqlClient.representationDocument.findMany({
+				where: {
+					representationId: response.body.id
+				}
+			});
+			expect(repDocs.length).toBe(1);
 		});
 	});
 

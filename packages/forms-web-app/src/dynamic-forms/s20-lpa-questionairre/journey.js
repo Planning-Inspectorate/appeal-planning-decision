@@ -31,7 +31,6 @@ const sections = [
 		.addQuestion(questions.listedBuildingGrade)
 		.withCondition((response) => questionHasAnswer(response, questions.demolishAlterExtend, 'yes'))
 		.addQuestion(questions.preserveGrantLoan)
-		.withCondition((response) => questionHasAnswer(response, questions.demolishAlterExtend, 'no'))
 		.addQuestion(questions.consultHistoricEngland)
 		.addQuestion(questions.uploadHistoricEnglandConsultation)
 		.withCondition((response) =>
