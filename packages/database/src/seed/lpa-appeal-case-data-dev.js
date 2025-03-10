@@ -41,7 +41,12 @@ const lpaAppealIds = {
 	appealFC02: '7c8512e0-c734-4969-b7d4-441c60c6822b',
 	appealFC03: '7c8512e0-c734-4969-b7d4-441c60c6823b',
 	appealFC04: '7c8512e0-c734-4969-b7d4-441c60c6824b',
-	appealFC05: '7c8512e0-c734-4969-b7d4-441c60c6825b'
+	appealFC05: '7c8512e0-c734-4969-b7d4-441c60c6825b',
+	appealLPAQ01: '7c8212e0-c734-4929-b7d4-441c60c6831b',
+	appealLPAQ02: '7c8212e0-c734-4929-b7d4-441c60c6832b',
+	appealLPAQ03: '7c8212e0-c734-4929-b7d4-441c60c6833b',
+	appealLPAQ04: '7c8212e0-c734-4929-b7d4-441c60c6834b',
+	appealLPAQ05: '7c8212e0-c734-4929-b7d4-441c60c6835b'
 };
 
 /**
@@ -83,7 +88,12 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appealFC02 },
 	{ id: lpaAppealIds.appealFC03 },
 	{ id: lpaAppealIds.appealFC04 },
-	{ id: lpaAppealIds.appealFC05 }
+	{ id: lpaAppealIds.appealFC05 },
+	{ id: lpaAppealIds.appealLPAQ01 },
+	{ id: lpaAppealIds.appealLPAQ02 },
+	{ id: lpaAppealIds.appealLPAQ03 },
+	{ id: lpaAppealIds.appealLPAQ04 },
+	{ id: lpaAppealIds.appealLPAQ05 }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -204,6 +214,111 @@ const lpaAppealCaseData = [
 			connect: { key: APPEAL_CASE_STATUS.WITHDRAWN }
 		},
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.HEARING } },
+		CaseType: { connect: { processCode: 'S78' } },
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealLPA01 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '7000061',
+		siteAddressLine1: 's78 Questionnaire and statement due',
+		siteAddressLine2: null,
+		siteAddressTown: 'Not submitted',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+		},
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN } },
+		CaseType: { connect: { processCode: 'S78' } },
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealLPAQ02 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '7000062',
+		siteAddressLine1: 's78 Questionnaire and statement due',
+		siteAddressLine2: null,
+		siteAddressTown: 'Not submitted',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+		},
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN } },
+		CaseType: { connect: { processCode: 'S78' } },
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealLPAQ03 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '7000063',
+		siteAddressLine1: 's78 Questionnaire and statement due',
+		siteAddressLine2: null,
+		siteAddressTown: 'Not submitted',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+		},
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN } },
+		CaseType: { connect: { processCode: 'S78' } },
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealLPAQ04 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '7000064',
+		siteAddressLine1: 's78 Questionnaire and statement due',
+		siteAddressLine2: null,
+		siteAddressTown: 'Not submitted',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+		},
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN } },
+		CaseType: { connect: { processCode: 'S78' } },
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealLPAQ05 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '7000065',
+		siteAddressLine1: 's78 Questionnaire and statement due',
+		siteAddressLine2: null,
+		siteAddressTown: 'Not submitted',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+		},
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN } },
 		CaseType: { connect: { processCode: 'S78' } },
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
