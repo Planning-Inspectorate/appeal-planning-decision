@@ -219,7 +219,7 @@ const lpaAppealCaseData = [
 	},
 	{
 		Appeal: {
-			connect: { id: lpaAppealIds.appealLPA01 }
+			connect: { id: lpaAppealIds.appealLPAQ01 }
 		},
 		...commonAppealCaseDataProperties,
 		caseReference: '7000061',
