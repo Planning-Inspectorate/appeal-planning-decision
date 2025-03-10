@@ -200,6 +200,36 @@ class AppealUserRepository {
 			throw e;
 		}
 	}
+
+	/**
+	 * Remove user's specified role on an appeal
+	 * @param {string} userId
+	 * @param {string} caseReference
+	 * @param {AppealToUserRoles} role
+	 * @returns {Promise<void>}
+	 */
+	async unlinkUserFromAppeal(userId, caseReference, role) {
+		try {
+			await this.dbClient.appealToUser.deleteMany({
+				where: {
+					userId: userId,
+					role: role,
+					Appeal: {
+						AppealCase: {
+							caseReference
+						}
+					}
+				}
+			});
+		} catch (e) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
+				if (e.code === 'P2023') {
+					throw ApiError.appealNotFound(caseReference);
+				}
+			}
+			throw e;
+		}
+	}
 }
 
 module.exports = { AppealUserRepository };

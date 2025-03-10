@@ -167,7 +167,7 @@ paths:
               properties:
                 role:
                   type: string
-                  enum: ['Appellant', 'Agent', 'InterestedParty']
+                  enum: ['Appellant', 'Agent', 'InterestedParty', 'Rule6Party']
       responses:
         200:
           description: Created role
