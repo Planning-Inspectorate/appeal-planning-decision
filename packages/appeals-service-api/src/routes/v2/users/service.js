@@ -1,7 +1,7 @@
 const { AppealUserRepository } = require('#repositories/sql/appeal-user-repository');
 const ApiError = require('#errors/apiError');
 const { APPEAL_USER_ROLES_ARRAY } = require('@pins/database/src/seed/data-static');
-const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
+const { STATUS_CONSTANTS, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const logger = require('#lib/logger');
 const appealUserRepository = new AppealUserRepository();
 
@@ -131,8 +131,9 @@ async function linkUserToAppeal(id, appealId, role) {
  * @returns {Promise<void>}
  */
 async function unlinkUserFromAppeal(id, appealId, role) {
-	if (!APPEAL_USER_ROLES_ARRAY.some((appealRole) => appealRole.name === role)) {
-		throw ApiError.badRequest('invalid role');
+	// At present the only use case is for rule 6 parties, but this may change in future
+	if (role !== APPEAL_USER_ROLES.RULE_6_PARTY) {
+		throw ApiError.badRequest('invalid role for unlink from appeal');
 	}
 
 	return await appealUserRepository.unlinkUserFromAppeal(id, appealId, role);
