@@ -9,9 +9,13 @@
 
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
-{% if question.html %}
+{% if question.hint or question.html %}
   {% set htmlHint %}
-    {% include question.html ignore missing %}
+    {% if question.hint %}
+      {{ question.hint }}
+    {% elif question.html %}
+      {% include question.html ignore missing %}
+    {% endif %}
   {% endset %}
 {% endif %}
 
