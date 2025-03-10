@@ -22,6 +22,9 @@ const { SubmitDesignAccessStatementPage } = require("../pages/upload-documents/s
 const { NewPlansDrawingsPage } = require("../pages/upload-documents/newPlansDrawingsPage");
 const { OtherNewDocumentsPage } = require("../pages/upload-documents/otherNewDocumentsPage");
 const { HealthSafetyIssuesPage } = require("../pages/prepare-appeal/healthSafetyIssuesPage");
+const { MajorMinorDevelopmentPage } = require("../pages/prepare-appeal/majorMinorDevelopmentPage");
+const { ApplicationAboutPage } = require("../pages/prepare-appeal/applicationAboutPage");
+
 const { PrepareAppealSelector } = require("../../../page-objects/prepare-appeal/prepare-appeal-selector");
 
 module.exports = (planning, grantedOrRefusedId, applicationType, context, prepareAppealData) => {
@@ -37,6 +40,8 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 	const agriculturalHoldingPage = new AgriculturalHoldingPage();
 	const inspectorNeedAccessPage = new InspectorNeedAccessPage();
 	const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
+	const majorMinorDevelopmentPage =  new MajorMinorDevelopmentPage();
+	const applicationAboutPage =  new ApplicationAboutPage();	
 	const decideAppealsPage = new DecideAppealsPage();
 	const otherAppealsPage = new OtherAppealsPage();
 	const uploadApplicationFormPage = new UploadApplicationFormPage();
@@ -62,9 +67,6 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 	cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateMonth).type(date.currentMonth());
 	cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateYear).type(date.currentYear());
 	cy.advanceToNextPage();
-
-	// cy.getByData(basePage?._selectors.answerNo).click();
-	// cy.advanceToNextPage();
 
 	cy.getByData(basePage?._selectors.applicationType).should('have.text', applicationType);
 
@@ -142,6 +144,16 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth());
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(date.currentYear());
 		cy.advanceToNextPage();
+		//Was your application for a major or minor development?
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/major-minor-development`);
+		majorMinorDevelopmentPage.addMajorMionorDevelopmentData(context?.applicationForm?.majorMionorDevelopmentData);
+		cy.advanceToNextPage();
+
+		//Was your application about any of the following?
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/application-about`);
+		applicationAboutPage.addApplicationAboutData(context?.applicationForm?.applicationAboutData);
+		cy.advanceToNextPage();
+
 		//Enter the description of development that you submitted in your application
 		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/enter-description-of-development`);
 		cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type(prepareAppealData?.develpmentDescriptionOriginal);

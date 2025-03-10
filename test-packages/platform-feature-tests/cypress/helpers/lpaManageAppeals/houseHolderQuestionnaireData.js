@@ -10,6 +10,7 @@ const documents = {
     uploadSiteNotice: 'site-notice.pdf',
     uploadLettersEmailsToParties: 'letters-emails-to-parties.pdf',
     uploadPressAdvertisement: 'press-advertisement.pdf',
+    uploadAppealNotificationLetter: 'appeal-notification-letter.pdf',
     uploadConsultationResponses: 'consultation-responses.pdf',
     uploadRepresentations: 'representations.pdf',
     uploadPoReportDecisionNotice: 'po-report-decision-notice.pdf',
