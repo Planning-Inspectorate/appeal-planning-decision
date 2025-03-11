@@ -660,6 +660,7 @@ exports.questionProps = {
 			),
 			new MultifileUploadValidator()
 		],
+		html: 'resources/upload-relevant-policies/content.html',
 		documentType: documentTypes.uploadDevelopmentPlanPolicies
 	},
 	uploadOtherRelevantPolicies: {
@@ -2625,19 +2626,6 @@ exports.questionProps = {
 				text: 'Other',
 				value: fieldValues.applicationAbout.OTHER
 			}
-		]
-	},
-	preserveGrantLoan: {
-		type: 'boolean',
-		title: 'Was a grant or loan made to preserve the listed building?',
-		question: 'Was a grant or loan made to preserve the listed building?',
-		hint: 'We only need to know about grants and loans made under section 3A or 4 of the Historic Buildings and Ancient Monuments Act 1953.',
-		fieldName: 'preserveGrantLoan',
-		url: 'preserve-grant-loan',
-		validators: [
-			new RequiredValidator(
-				'Select yes if a grant or loan was made to preserve the listed building'
-			)
 		]
 	}
 };

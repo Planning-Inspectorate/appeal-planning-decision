@@ -223,5 +223,5 @@ components:
         uploadHistoricEnglandConsultation:
           type: boolean
           nullable: true
-        preserveGrantLoan:
+        section3aGrant:
           type: boolean
