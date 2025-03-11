@@ -114,7 +114,7 @@ class UnitOptionEntryQuestion extends Question {
 				if (conditionalIsJustHTML(conditionalField)) continue;
 
 				const conversionFactor = conditionalField.conversionFactor || 1;
-				const unconvertedAnswer = journey.response.answers[this.conditionalFieldName];
+				const unconvertedAnswer = Number(journey.response.answers[this.conditionalFieldName]);
 
 				const existingValue =
 					answer === optionData.value && typeof unconvertedAnswer === 'number'

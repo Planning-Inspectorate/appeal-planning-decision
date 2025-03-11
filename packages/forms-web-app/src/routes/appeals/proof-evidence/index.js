@@ -76,7 +76,7 @@ router.post(
 router.get(
 	'/:referenceId/submitted-proof-evidence',
 	setDefaultSection(),
-	getJourneyResponse(),
+	getJourneyResponse(false),
 	getJourney(journeys),
 	appellantProofEvidenceSubmitted
 );

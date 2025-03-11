@@ -13,5 +13,6 @@ const forward = (topic) => {
 
 module.exports = {
 	appeal: forward(config.serviceBus.topics.appellantSubmission),
-	questionnaire: forward(config.serviceBus.topics.lpaSubmission)
+	questionnaire: forward(config.serviceBus.topics.lpaSubmission),
+	representation: forward(config.serviceBus.topics.representationSubmission)
 };

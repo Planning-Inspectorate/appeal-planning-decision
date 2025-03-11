@@ -2,9 +2,6 @@ const {
 	getEmailConfirmed
 } = require('../../../../src/controllers/appeal-householder-decision/email-address-confirmed');
 
-const { isFeatureActive } = require('../../../../src/featureFlag');
-const { getDepartmentFromId } = require('../../../../src/services/department.service');
-
 const {
 	VIEW: {
 		APPELLANT_SUBMISSION: { EMAIL_CONFIRMED }
@@ -12,9 +9,9 @@ const {
 } = require('../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../mocks');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
-jest.mock('../../../../src/featureFlag');
-jest.mock('../../../../src/services/department.service');
+jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
 
 describe('controllers/appeal-householder-decision/email-address-confirmed', () => {
 	let req;
@@ -28,23 +25,19 @@ describe('controllers/appeal-householder-decision/email-address-confirmed', () =
 
 	describe('getEmailConfirmed', () => {
 		it('calls correct template: token valid, V1 routes', async () => {
-			const mockLpa = { lpaCode: 'Q9999', id: 'someId' };
-			isFeatureActive.mockResolvedValue(false);
-			getDepartmentFromId.mockResolvedValue(mockLpa);
+			isLpaInFeatureFlag.mockResolvedValueOnce(false);
 
 			await getEmailConfirmed(req, res);
-			expect(res.render).toBeCalledWith(EMAIL_CONFIRMED, {
+			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: 'list-of-documents'
 			});
 		});
 
 		it('calls correct template: token valid, V2 routes', async () => {
-			const mockLpa = { lpaCode: 'Q9999', id: 'someId' };
-			isFeatureActive.mockResolvedValue(true);
-			getDepartmentFromId.mockResolvedValue(mockLpa);
+			isLpaInFeatureFlag.mockResolvedValueOnce(true);
 
 			await getEmailConfirmed(req, res);
-			expect(res.render).toBeCalledWith(EMAIL_CONFIRMED, {
+			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/householder/appeal-form/before-you-start'
 			});
 		});

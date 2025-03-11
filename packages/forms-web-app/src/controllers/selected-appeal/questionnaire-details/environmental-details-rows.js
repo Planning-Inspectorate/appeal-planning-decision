@@ -28,7 +28,7 @@ exports.environmentalRows = (caseData) => {
 		{
 			keyText: 'In, partly in, or likely to affect sensitive area',
 			valueText: formatSensitiveArea(caseData),
-			condition: () => caseData.sensitiveArea
+			condition: () => !!caseData.sensitiveAreaDetails
 		},
 		{
 			keyText: 'Meets or exceeds threshold or criteria in column 2',

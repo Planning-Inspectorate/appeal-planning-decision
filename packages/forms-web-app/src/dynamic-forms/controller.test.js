@@ -5,7 +5,8 @@ const {
 	remove,
 	submit,
 	lpaSubmitted,
-	appellantStartAppeal
+	appellantStartAppeal,
+	appellantBYSListOfDocuments
 } = require('./controller');
 const { getUserFromSession } = require('../services/user.service');
 const { Journey } = require('./journey');
@@ -29,6 +30,7 @@ const mockAnswer = 'Not started';
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
 const { CONSTS } = require('../consts');
+const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
 const sections = [
 	{
@@ -523,7 +525,7 @@ describe('dynamic-form/controller', () => {
 	});
 
 	describe('submit', () => {
-		it('should submit if all sections are complete', async () => {
+		it('should submit for has if all sections are complete', async () => {
 			storePdfQuestionnaireSubmission.mockReturnValue({ submissionId: '1234', id: '5678' });
 			mockJourney.sections[2].isComplete.mockReturnValue(true);
 
@@ -535,16 +537,48 @@ describe('dynamic-form/controller', () => {
 
 			res.locals.journeyResponse = {
 				referenceId: '987654',
+				journeyId: 'has-questionnaire',
 				answers: {}
 			};
 
 			await submit(req, res);
 			expect(storePdfQuestionnaireSubmission).toHaveBeenCalledWith({
 				submissionJourney: res.locals.journey,
-				sid: 'abc123'
+				sid: 'abc123',
+				appealTypeUrl: 'householder'
 			});
 			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith('987654', {
 				submissionPdfId: '5678'
+			});
+			expect(res.redirect).toHaveBeenCalledWith(
+				expect.stringMatching(/^\/manage-appeals\/.+\/questionnaire-submitted\/$/)
+			);
+		});
+
+		it('should submit for s78 if all sections are complete', async () => {
+			storePdfQuestionnaireSubmission.mockReturnValue({ submissionId: '1235', id: '5671' });
+			mockJourney.sections[2].isComplete.mockReturnValue(true);
+
+			req.cookies = { [CONSTS.SESSION_COOKIE_NAME]: 'abc123' };
+
+			req.params = {
+				referenceId: mockRef
+			};
+
+			res.locals.journeyResponse = {
+				referenceId: '987659',
+				journeyId: 's78-questionnaire',
+				answers: {}
+			};
+
+			await submit(req, res);
+			expect(storePdfQuestionnaireSubmission).toHaveBeenCalledWith({
+				submissionJourney: res.locals.journey,
+				sid: 'abc123',
+				appealTypeUrl: 'full-planning'
+			});
+			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith('987659', {
+				submissionPdfId: '5671'
 			});
 			expect(res.redirect).toHaveBeenCalledWith(
 				expect.stringMatching(/^\/manage-appeals\/.+\/questionnaire-submitted\/$/)
@@ -638,6 +672,35 @@ describe('dynamic-form/controller', () => {
 			expect(res.redirect).toHaveBeenCalledWith(
 				'/appeals/householder/appeal-form/your-appeal?id=some-submission-id'
 			);
+		});
+	});
+
+	describe('appellantBYSListOfDocuments', () => {
+		it('renders correct page for Householder', () => {
+			req.session.appeal = { appealType: APPEAL_ID.HOUSEHOLDER };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('appeal-householder-decision/list-of-documents', {
+				usingV2Form: true
+			});
+		});
+		it('renders correct page for S78 - full appeal', () => {
+			req.session.appeal = { appealType: APPEAL_ID.PLANNING_SECTION_78 };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents', {
+				usingV2Form: true
+			});
+		});
+		it('renders correct page for S20 - listed building', () => {
+			req.session.appeal = { appealType: APPEAL_ID.PLANNING_LISTED_BUILDING };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents', {
+				usingV2Form: true
+			});
+		});
+		it('renders error page if appeal type not found', () => {
+			req.session.appeal = { appealType: '123456' };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('./error/not-found.njk');
 		});
 	});
 });

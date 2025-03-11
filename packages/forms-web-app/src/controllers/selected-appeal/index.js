@@ -1,3 +1,16 @@
+const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+
+const {
+	isLPAQuestionnaireDue,
+	isLPAStatementOpen,
+	isRule6StatementOpen,
+	isAppellantProofsOfEvidenceOpen,
+	isLPAProofsOfEvidenceOpen,
+	isRule6ProofsOfEvidenceOpen,
+	isAppellantFinalCommentOpen,
+	isLPAFinalCommentOpen
+} = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
+
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const {
 	formatSections,
@@ -6,24 +19,13 @@ const {
 	isSection,
 	displayHeadlinesByUser
 } = require('@pins/common');
-const {
-	shouldDisplayQuestionnaireDueNotification,
-	shouldDisplayStatementsDueBannerLPA,
-	shouldDisplayStatementsDueBannerRule6,
-	shouldDisplayFinalCommentsDueBannerLPA,
-	shouldDisplayFinalCommentsDueBannerAppellant,
-	shouldDisplayProofEvidenceDueBannerAppellant,
-	shouldDisplayProofEvidenceDueBannerLPA,
-	shouldDisplayProofEvidenceDueBannerRule6
-} = require('./action-banners');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+
 const { VIEW } = require('../../lib/views');
 const { determineUser } = require('../../lib/determine-user');
 const { sections: appellantSections } = require('./appellant-sections');
 const { sections: lpaUserSections } = require('./lpa-user-sections');
 const { mapDecisionTag } = require('@pins/business-rules/src/utils/decision-outcome');
 const { sections: rule6Sections } = require('./rule-6-sections');
-const { getUserFromSession } = require('../../services/user.service');
 const { formatInTimeZone } = require('date-fns-tz');
 const targetTimezone = 'Europe/London';
 const { getDepartmentFromCode } = require('../../services/department.service');
@@ -56,24 +58,17 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			throw new Error('Unknown role');
 		}
 
-		const userEmail = getUserFromSession(req).email;
+		const isLPA = userType === LPA_USER_ROLE;
+		const isAppellant =
+			userType === APPEAL_USER_ROLES.APPELLANT || userType === APPEAL_USER_ROLES.AGENT;
+		const isRule6 = userType === APPEAL_USER_ROLES.RULE_6_PARTY;
 
-		if (!userEmail) {
-			throw new Error('no session email');
-		}
-
-		const user = await req.appealsApiClient.getUserByEmailV2(userEmail);
-
-		let [caseData, events] = await Promise.all([
-			req.appealsApiClient.getUsersAppealCase({
-				caseReference: appealNumber,
-				role: userType,
-				userId: user.id
-			}),
+		const [caseData, events] = await Promise.all([
+			req.appealsApiClient.getAppealCaseWithRepresentations(appealNumber),
 			req.appealsApiClient.getEventsByCaseRef(appealNumber, { includePast: true })
 		]);
 
-		events?.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+		events?.sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = displayHeadlinesByUser(caseData, lpa.name, userType);
@@ -84,50 +79,35 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const viewContext = {
 			layoutTemplate,
 			titleSuffix: formatTitleSuffix(userType),
-			shouldDisplayQuestionnaireDueNotification: shouldDisplayQuestionnaireDueNotification(
-				caseData,
-				userType
-			),
-			shouldDisplayStatementsDueBannerLPA: shouldDisplayStatementsDueBannerLPA(caseData, userType),
-			shouldDisplayStatementsDueBannerRule6: shouldDisplayStatementsDueBannerRule6(
-				caseData,
-				userType
-			),
-			shouldDisplayFinalCommentsDueBannerLPA: shouldDisplayFinalCommentsDueBannerLPA(
-				caseData,
-				userType
-			),
-			shouldDisplayFinalCommentsDueBannerAppellant: shouldDisplayFinalCommentsDueBannerAppellant(
-				caseData,
-				userType
-			),
-			shouldDisplayProofEvidenceDueBannerLPA: shouldDisplayProofEvidenceDueBannerLPA(
-				caseData,
-				userType
-			),
-			shouldDisplayProofEvidenceDueBannerAppellant: shouldDisplayProofEvidenceDueBannerAppellant(
-				caseData,
-				userType
-			),
-			shouldDisplayProofEvidenceDueBannerRule6: shouldDisplayProofEvidenceDueBannerRule6(
-				caseData,
-				userType
-			),
+
+			shouldDisplayQuestionnaireDueNotification: isLPA && isLPAQuestionnaireDue(caseData),
+			shouldDisplayStatementsDueBannerLPA: isLPA && isLPAStatementOpen(caseData),
+			shouldDisplayProofEvidenceDueBannerLPA: isLPA && isLPAProofsOfEvidenceOpen(caseData),
+			shouldDisplayFinalCommentsDueBannerLPA: isLPA && isLPAFinalCommentOpen(caseData),
+
+			shouldDisplayProofEvidenceDueBannerAppellant:
+				isAppellant && isAppellantProofsOfEvidenceOpen(caseData),
+			shouldDisplayFinalCommentsDueBannerAppellant:
+				isAppellant && isAppellantFinalCommentOpen(caseData),
+
+			shouldDisplayStatementsDueBannerRule6: isRule6 && isRule6StatementOpen(caseData),
+			shouldDisplayProofEvidenceDueBannerRule6: isRule6 && isRule6ProofsOfEvidenceOpen(caseData),
+
 			appeal: {
 				appealNumber,
 				headlineData,
 				siteVisits: formatSiteVisits(events, userType),
 				inquiries: formatInquiries(events, userType),
-				sections: formatSections({ caseData, sections, userEmail }),
+				sections: formatSections({ caseData, sections }),
 				baseUrl: userRouteUrl,
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),
 				decisionDocuments: filterDecisionDocuments(caseData.Documents),
 				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate),
 				statementDueDate: formatDateForNotification(caseData.statementDueDate),
-				rule6StatementDueDate: formatDateForNotification(caseData.rule6StatementDueDate),
+				rule6StatementDueDate: formatDateForNotification(caseData.statementDueDate),
 				finalCommentDueDate: formatDateForNotification(caseData.finalCommentsDueDate),
 				proofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate),
-				rule6ProofEvidenceDueDate: formatDateForNotification(caseData.rule6ProofEvidenceDueDate)
+				rule6ProofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate)
 			}
 		};
 

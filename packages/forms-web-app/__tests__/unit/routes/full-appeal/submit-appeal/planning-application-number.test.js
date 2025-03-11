@@ -9,6 +9,7 @@ const {
 const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fetch-existing-appeal');
 
 jest.mock('../../../../../src/validators/full-appeal/application-number');
+jest.mock('../../../../../src/controllers/full-appeal/submit-appeal/planning-application-number');
 
 describe('routes/full-appeal/submit-appeal/planning-application-number', () => {
 	beforeEach(() => {
@@ -24,13 +25,13 @@ describe('routes/full-appeal/submit-appeal/planning-application-number', () => {
 		expect(get).toHaveBeenCalledWith(
 			'/submit-appeal/planning-application-number',
 			[fetchExistingAppealMiddleware],
-			planningApplicationNumberController.getPlanningApplicationNumber
+			planningApplicationNumberController.getPlanningApplicationNumber()
 		);
 		expect(post).toHaveBeenCalledWith(
 			'/submit-appeal/planning-application-number',
 			applicationNumberValidationRules(),
 			validationErrorHandler,
-			planningApplicationNumberController.postPlanningApplicationNumber
+			planningApplicationNumberController.postPlanningApplicationNumber()
 		);
 	});
 });

@@ -2,7 +2,7 @@ const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 
 /**
- * @typedef {import('@prisma/client').AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
+ * @typedef {import('./appellant-proof-evidence-submission').AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
  */
 
 /**
@@ -108,10 +108,10 @@ class AppellantProofOfEvidenceSubmissionRepository {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} appellantsProofsSubmitted date time string of date submitted to FO
+	 * @param {string} appellantProofsSubmittedDate date time string of date submitted to FO
 	 * @returns {Promise<{id: string}>}
 	 */
-	markAppellantProofOfEvidenceAsSubmitted(caseReference, appellantsProofsSubmitted) {
+	markAppellantProofOfEvidenceAsSubmitted(caseReference, appellantProofsSubmittedDate) {
 		return this.dbClient.appellantProofOfEvidenceSubmission.update({
 			where: {
 				caseReference
@@ -124,7 +124,7 @@ class AppellantProofOfEvidenceSubmissionRepository {
 							caseReference
 						},
 						data: {
-							appellantsProofsSubmitted
+							appellantProofsSubmittedDate
 						}
 					}
 				}

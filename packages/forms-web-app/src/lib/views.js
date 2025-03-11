@@ -9,10 +9,11 @@ const VIEW = {
 		LOCAL_PLANNING: 'before-you-start/local-planning-department',
 		USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
 			'before-you-start/use-existing-service-enforcement-notice',
-
 		USE_EXISTING_SERVICE_DEVELOPMENT_TYPE: 'before-you-start/use-existing-service-development-type',
 		USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building',
-		LISTED_BUILDING: 'before-you-start/listed-building'
+		USE_EXISTING_SERVICE_APPLICATION_TYPE: 'before-you-start/use-existing-service-application-type',
+		LISTED_BUILDING: 'before-you-start/listed-building',
+		ENFORCEMENT_NOTICE: 'before-you-start/enforcement-notice'
 	},
 
 	APPELLANT_SUBMISSION: {
@@ -51,6 +52,7 @@ const VIEW = {
 				'householder-planning/eligibility/date-decision-due-householder',
 			ENFORCEMENT_NOTICE_HOUSEHOLDER:
 				'householder-planning/eligibility/enforcement-notice-householder',
+			LISTED_BUILDING_HOUSEHOLDER: 'householder-planning/eligibility/listed-building-householder',
 			GRANTED_OR_REFUSED_HOUSEHOLDER:
 				'householder-planning/eligibility/granted-or-refused-householder',
 			HAS_APPEAL_FORM: 'householder-planning/eligibility/results-householder',
@@ -102,7 +104,6 @@ const VIEW = {
 		DECLARATION_INFORMATION: 'full-appeal/submit-appeal/declaration-information',
 		DRAFT_PLANNING_OBLIGATION: 'full-appeal/submit-appeal/draft-planning-obligation',
 		DRAFT_STATEMENT_COMMON_GROUND: 'full-appeal/submit-appeal/draft-statement-common-ground',
-		ENFORCEMENT_NOTICE: 'full-appeal/enforcement-notice',
 		EXPECT_ENQUIRY_LAST: 'full-appeal/submit-appeal/expect-inquiry-last',
 		GRANTED_OR_REFUSED: 'full-appeal/granted-or-refused',
 		HEALTH_SAFETY_ISSUES: 'full-appeal/submit-appeal/health-safety-issues',
@@ -133,14 +134,11 @@ const VIEW = {
 		TELLING_THE_LANDOWNERS: 'full-appeal/submit-appeal/telling-the-landowners',
 		TELLING_THE_TENANTS: 'full-appeal/submit-appeal/telling-the-tenants',
 		TYPE_OF_PLANNING_APPLICATION: 'full-appeal/type-of-planning-application',
-		USE_A_DIFFERENT_SERVICE: 'full-appeal/use-a-different-service',
-		USE_EXISTING_SERVICE_APPLICATION_TYPE: 'full-appeal/use-existing-service-application-type',
 		VISIBLE_FROM_ROAD: 'full-appeal/submit-appeal/visible-from-road',
 		WHY_HEARING: 'full-appeal/submit-appeal/why-hearing',
 		WHY_INQUIRY: 'full-appeal/submit-appeal/why-inquiry',
 		YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal'
 	},
-
 	APPEAL: {
 		NEW_OR_SAVED_APPEAL: 'appeal/new-or-saved-appeal',
 		EMAIL_ADDRESS: 'appeal/email-address',
@@ -150,14 +148,20 @@ const VIEW = {
 		NEED_NEW_CODE: 'appeal/need-new-code',
 		START_NEW: 'appeal/start-new' // redirect only
 	},
-
+	LISTED_BUILDING: {
+		EMAIL_ADDRESS: 'listed-building/email-address', // redirect only
+		ENTER_CODE: 'listed-building/enter-code', // redirect only
+		REQUEST_NEW_CODE: 'listed-building/request-new-code', // redirect only
+		CODE_EXPIRED: 'listed-building/code-expired', // redirect only
+		NEED_NEW_CODE: 'listed-building/need-new-code', // redirect only
+		EMAIL_CONFIRMED: 'listed-building/email-address-confirmed' // redirect only
+	},
 	COMMON: {
 		ENTER_CODE: 'common/enter-code',
 		REQUEST_NEW_CODE: 'common/request-new-code',
 		CODE_EXPIRED: 'common/code-expired',
 		NEED_NEW_CODE: 'common/need-new-code'
 	},
-
 	APPEALS: {
 		YOUR_APPEALS: 'appeals/your-appeals',
 		NO_APPEALS: 'appeals/no-appeals'

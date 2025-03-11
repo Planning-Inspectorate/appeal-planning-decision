@@ -1,5 +1,4 @@
 const { OptionsQuestion } = require('../../options-question');
-const { optionIsDivider, conditionalIsJustHTML } = require('../utils/question-utils');
 
 /**
  * @typedef {import('../../options-question').OptionsViewModel} OptionsViewModel
@@ -78,42 +77,6 @@ class RadioQuestion extends OptionsQuestion {
 		viewModel.question.label = this.label;
 		viewModel.question.legend = this.legend;
 		return viewModel;
-	}
-
-	/**
-	 * returns the formatted answers values to be used to build task list elements
-	 * @param {String} sectionSegment
-	 * @param {import('../../journey').Journey} journey
-	 * @param {string | import('../../options-question').OptionWithoutDivider | null} answer
-	 * @returns {Array<{
-	 *   key: string;
-	 *   value: string | Object;
-	 *   action: {
-	 *     href: string;
-	 *     text: string;
-	 *     visuallyHiddenText: string;
-	 *   };
-	 * }>}
-	 */
-	formatAnswerForSummary(sectionSegment, journey, answer) {
-		if (answer && typeof answer !== 'string') {
-			const selectedOption = this.options.find(
-				(option) => !optionIsDivider(option) && option.value === answer.value
-			);
-
-			if (!selectedOption || optionIsDivider(selectedOption))
-				throw new Error('Answer did not correlate with a valid option');
-
-			const conditionalAnswerText =
-				conditionalIsJustHTML(selectedOption.conditional) || !selectedOption.conditional
-					? answer.conditional
-					: `${selectedOption.conditional.label || ''} ${answer.conditional}`.trim();
-
-			const formattedAnswer = [selectedOption.text, conditionalAnswerText].join('\n');
-
-			return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
-		}
-		return super.formatAnswerForSummary(sectionSegment, journey, answer);
 	}
 }
 

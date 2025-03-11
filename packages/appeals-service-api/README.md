@@ -7,7 +7,7 @@ The microservice API for the appeals service
 We have incorporated Azure feature flag functionality into this repo. Feature flags should be set up in the infra, and can be used by importing the `isFeatureActive` function from `src/configuration/featureFlag`, and specifying the name of the feature flag in the parameters, i.e.:
 
 ```
-if (isFeatureActive('horizon-document-labelling')) 
+if (isFeatureActive('has-appeal-form-v2')) 
     { feature implementation goes here }`
 ```
 

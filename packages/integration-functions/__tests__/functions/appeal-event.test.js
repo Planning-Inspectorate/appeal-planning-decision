@@ -1,4 +1,4 @@
-const handler = require('../../src/functions/appeal-service-user');
+const handler = require('../../src/functions/appeal-event');
 const config = require('../../src/common/config');
 const createApiClient = require('../../src/common/api-client');
 const { InvocationContext } = require('@azure/functions');
@@ -9,7 +9,7 @@ describe('appeal-event', () => {
 	const ctx = new InvocationContext({ functionName: 'appeal-event' });
 	ctx.log = jest.fn();
 	const mockClient = {
-		putServiceUser: jest.fn()
+		putAppealEvent: jest.fn()
 	};
 
 	beforeEach(async () => {
@@ -24,6 +24,6 @@ describe('appeal-event', () => {
 
 	it('forwards the message to the appeals api', async () => {
 		await handler({ appeal: 'event' }, ctx);
-		expect(mockClient.putServiceUser).toHaveBeenCalledWith({ appeal: 'event' });
+		expect(mockClient.putAppealEvent).toHaveBeenCalledWith({ appeal: 'event' });
 	});
 });

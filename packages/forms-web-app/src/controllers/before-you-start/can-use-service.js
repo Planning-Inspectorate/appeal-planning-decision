@@ -1,4 +1,6 @@
-const { extractAppealProps } = require('../../lib/extract-appeal-props');
+const {
+	getAppealPropsForCanUseServicePage
+} = require('../../lib/get-appeal-props-for-can-use-service-page');
 const { businessRulesDeadline } = require('../../lib/calculate-deadline');
 const {
 	VIEW: {
@@ -21,6 +23,16 @@ const {
 const config = require('../../config');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { FLAG } = require('@pins/common/src/feature-flags');
+const {
+	TYPE_OF_PLANNING_APPLICATION: {
+		FULL_APPEAL,
+		OUTLINE_PLANNING,
+		RESERVED_MATTERS,
+		REMOVAL_OR_VARIATION_OF_CONDITIONS,
+		PRIOR_APPROVAL,
+		LISTED_BUILDING
+	}
+} = require('@pins/business-rules/src/constants');
 
 const canUseServiceHouseholderPlanning = async (req, res) => {
 	const { appeal } = req.session;
@@ -33,9 +45,10 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 		enforcementNotice,
 		dateOfDecisionLabel,
 		nextPageUrl
-	} = await extractAppealProps(appeal);
+	} = await getAppealPropsForCanUseServicePage(appeal);
 
-	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
+	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
 	const deadlineDate = businessRulesDeadline(
 		appeal.decisionDate,
@@ -75,7 +88,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 		enforcementNotice,
 		dateOfDecisionLabel,
 		nextPageUrl
-	} = await extractAppealProps(appeal);
+	} = await getAppealPropsForCanUseServicePage(appeal);
 
 	const deadlineDate = businessRulesDeadline(
 		appeal.decisionDate,
@@ -83,8 +96,9 @@ const canUseServiceFullAppeal = async (req, res) => {
 		appeal.eligibility.applicationDecision
 	);
 
-	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
-	const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
+	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+	const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
 	res.render(canUseServiceFullAppealUrl, {
 		bannerHtmlOverride: config.betaBannerText,
@@ -96,7 +110,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 		enforcementNotice,
 		dateOfDecisionLabel,
 		isListedBuilding,
-		isV2,
+		isV2forS78,
 		nextPageUrl
 	});
 };
@@ -111,13 +125,14 @@ const canUseServicePriorApproval = async (req, res) => {
 		enforcementNotice,
 		dateOfDecisionLabel,
 		nextPageUrl
-	} = await extractAppealProps(appeal);
+	} = await getAppealPropsForCanUseServicePage(appeal);
 
 	const hasPriorApprovalForExistingHome = appeal.eligibility.hasPriorApprovalForExistingHome
 		? 'Yes'
 		: 'No';
 
-	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
+	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
+	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
 	if (appeal.eligibility.hasPriorApprovalForExistingHome) {
 		const deadlineDate = businessRulesDeadline(
@@ -154,7 +169,7 @@ const canUseServicePriorApproval = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
-		const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+		const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
 		res.render(canUseServicePriorApprovalFull, {
 			bannerHtmlOverride: config.betaBannerText,
@@ -167,7 +182,7 @@ const canUseServicePriorApproval = async (req, res) => {
 			dateOfDecisionLabel,
 			hasPriorApprovalForExistingHome,
 			isListedBuilding,
-			isV2,
+			isV2forS78,
 			nextPageUrl
 		});
 	}
@@ -183,7 +198,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 		enforcementNotice,
 		dateOfDecisionLabel,
 		nextPageUrl
-	} = await extractAppealProps(appeal);
+	} = await getAppealPropsForCanUseServicePage(appeal);
 
 	const hasHouseholderPermissionConditions = appeal.eligibility.hasHouseholderPermissionConditions
 		? 'Yes'
@@ -250,15 +265,16 @@ exports.getCanUseService = async (req, res) => {
 	const applicationType = appeal.typeOfPlanningApplication;
 
 	switch (applicationType) {
-		case 'full-appeal':
-		case 'outline-planning':
-		case 'reserved-matters':
+		case FULL_APPEAL:
+		case OUTLINE_PLANNING:
+		case RESERVED_MATTERS:
+		case LISTED_BUILDING:
 			await canUseServiceFullAppeal(req, res);
 			break;
-		case 'prior-approval':
+		case PRIOR_APPROVAL:
 			await canUseServicePriorApproval(req, res);
 			break;
-		case 'removal-or-variation-of-conditions':
+		case REMOVAL_OR_VARIATION_OF_CONDITIONS:
 			await canUseServiceRemovalOrVariationOfConditions(req, res);
 			break;
 		default:

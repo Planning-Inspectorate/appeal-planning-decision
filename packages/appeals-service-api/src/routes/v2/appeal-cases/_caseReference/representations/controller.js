@@ -1,13 +1,16 @@
 const {
 	getAppealCaseWithAllRepresentations,
 	getAppealCaseWithRepresentationsByType,
-	addOwnershipAndSubmissionDetailsToRepresentations
+	addOwnershipAndSubmissionDetailsToRepresentations,
+	putRepresentation
 } = require('./service');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
 
-const { LPAQuestionnaireSubmissionRepository } = require('../lpa-questionnaire-submission/repo');
+const { AppealCaseRepository } = require('../../repo');
+const caseRepo = new AppealCaseRepository();
 
+const { LPAQuestionnaireSubmissionRepository } = require('../lpa-questionnaire-submission/repo');
 const submissionRepo = new LPAQuestionnaireSubmissionRepository();
 
 /**
@@ -37,13 +40,23 @@ async function getAppealCaseWithRepresentations(req, res) {
 			logger.error({ error }, 'get representations: invalid user access');
 			throw ApiError.forbidden();
 		}
+	} else {
+		try {
+			await caseRepo.userCanModifyCase({
+				caseReference: caseReference,
+				userId: req.auth?.payload.sub
+			});
+		} catch (error) {
+			logger.error({ error }, 'get representations: invalid user access');
+			throw ApiError.forbidden();
+		}
 	}
 
+	/** @type {import('./repo').AppealWithRepresentations} */
 	let caseWithRepresentations;
 
 	try {
 		if (type) {
-			// @ts-ignore
 			caseWithRepresentations = await getAppealCaseWithRepresentationsByType(caseReference, type);
 		} else {
 			caseWithRepresentations = await getAppealCaseWithAllRepresentations(caseReference);
@@ -63,4 +76,32 @@ async function getAppealCaseWithRepresentations(req, res) {
 	}
 }
 
-module.exports = { getAppealCaseWithRepresentations };
+/**
+ * @type {import('express').RequestHandler}
+ */
+async function putByRepresentationId(req, res) {
+	const { representationId } = req.params;
+
+	if (!representationId) {
+		throw ApiError.withMessage(400, 'representation id required');
+	}
+
+	try {
+		const representation = await putRepresentation(representationId, req.body);
+		res.status(200).send(representation);
+	} catch (err) {
+		if (err instanceof ApiError) {
+			throw err; // re-throw service errors
+		}
+		logger.error(
+			{ error: err, representationId },
+			'error upserting representation by representation id'
+		);
+		throw ApiError.withMessage(500, 'unexpected error');
+	}
+}
+
+module.exports = {
+	getAppealCaseWithRepresentations,
+	putByRepresentationId
+};

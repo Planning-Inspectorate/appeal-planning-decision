@@ -10,7 +10,7 @@ const {
 const config = require('../../config');
 
 const navigationPage = {
-	nextPage: '/before-you-start/enforcement-notice',
+	nextPage: '/before-you-start/can-use-service',
 	shutterPage: '/before-you-start/you-cannot-appeal'
 };
 

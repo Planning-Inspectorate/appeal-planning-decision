@@ -19,6 +19,13 @@ describe('/lib/full-appeal/map-planning-application', () => {
 		expect(appealType).toEqual(APPEAL_ID.HOUSEHOLDER);
 	});
 
+	it('should map listed building planning application', () => {
+		const planningApplication = 'listed-building';
+		const appealType = mapPlanningApplication(planningApplication);
+
+		expect(appealType).toEqual(APPEAL_ID.PLANNING_LISTED_BUILDING);
+	});
+
 	[
 		{ id: APPEAL_ID.HOUSEHOLDER, name: 'Householder appeal' },
 		{ id: APPEAL_ID.PLANNING_SECTION_78, name: 'Full appeal' }

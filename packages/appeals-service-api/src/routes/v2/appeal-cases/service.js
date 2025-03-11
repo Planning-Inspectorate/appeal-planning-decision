@@ -7,6 +7,7 @@ const { PrismaClientValidationError } = require('@prisma/client/runtime/library'
 const ApiError = require('#errors/apiError');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { sendSubmissionConfirmationEmailToAppellantV2 } = require('#lib/notify');
+const sanitizePostcode = require('#lib/sanitize-postcode');
 
 const repo = new AppealCaseRepository();
 const serviceUserRepo = new ServiceUserRepository();
@@ -25,6 +26,7 @@ const { getValidator } = new SchemaValidator();
  * @typedef {import("@prisma/client").AppealCaseRelationship} AppealRelations
  * @typedef {AppealCase & {users?: Array.<ServiceUser>} & {relations?: Array.<AppealRelations>}} AppealCaseDetailed
  * @typedef {import ('pins-data-model').Schemas.AppealHASCase} AppealHASCase
+ * @typedef {import ('pins-data-model').Schemas.AppealS78Case} AppealS78Case
  */
 
 /**
@@ -44,6 +46,9 @@ const parseJSONFields = (caseData) => {
 			: [],
 		lpaQuestionnaireValidationDetails: caseData.lpaQuestionnaireValidationDetails
 			? JSON.parse(caseData.lpaQuestionnaireValidationDetails)
+			: [],
+		designatedSitesNames: caseData.designatedSitesNames
+			? JSON.parse(caseData.designatedSitesNames)
 			: []
 	};
 };
@@ -69,30 +74,277 @@ async function getCaseAndAppellant(opts) {
 }
 
 /**
+ * @param {String} caseProcessCode
+ * @param {AppealHASCase|AppealS78Case} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const mapHASDataModelToAppealCase = (
+	caseProcessCode,
+	{
+		// these are ignored or handled outside of this function
+		caseType: _caseType,
+		linkedCaseStatus: _linkedCaseStatus,
+		leadCaseReference: _leadCaseReference,
+		notificationMethod: _notificationMethod,
+		nearbyCaseReferences: _nearbyCaseReferences,
+		neighbouringSiteAddresses: _neighbouringSiteAddresses,
+		affectedListedBuildingNumbers: _affectedListedBuildingNumbers,
+		submissionId: _submissionId,
+		// custom mappings
+		caseStatus,
+		caseDecisionOutcome,
+		caseValidationOutcome,
+		lpaQuestionnaireValidationOutcome,
+		caseProcedure,
+		lpaCode,
+		caseSpecialisms,
+		caseValidationInvalidDetails,
+		caseValidationIncompleteDetails,
+		lpaQuestionnaireValidationDetails,
+		siteAccessDetails,
+		siteSafetyDetails,
+		siteAddressPostcode,
+		// direct mappings
+		caseId,
+		caseReference,
+		caseOfficerId,
+		inspectorId,
+		allocationLevel,
+		allocationBand,
+		caseSubmittedDate,
+		caseCreatedDate,
+		caseUpdatedDate,
+		caseValidDate,
+		caseValidationDate,
+		caseExtensionDate,
+		caseStartedDate,
+		casePublishedDate,
+		lpaQuestionnaireDueDate,
+		lpaQuestionnaireSubmittedDate,
+		lpaQuestionnaireCreatedDate,
+		lpaQuestionnairePublishedDate,
+		lpaQuestionnaireValidationOutcomeDate,
+		lpaStatement,
+		caseWithdrawnDate,
+		caseTransferredDate,
+		transferredCaseClosedDate,
+		caseDecisionOutcomeDate,
+		caseDecisionPublishedDate,
+		caseCompletedDate,
+		enforcementNotice,
+		applicationReference,
+		applicationDate,
+		applicationDecision,
+		applicationDecisionDate,
+		caseSubmissionDueDate,
+		siteAddressLine1,
+		siteAddressLine2,
+		siteAddressTown,
+		siteAddressCounty,
+		siteAreaSquareMetres,
+		floorSpaceSquareMetres,
+		isCorrectAppealType,
+		isGreenBelt,
+		inConservationArea,
+		ownsAllLand,
+		ownsSomeLand,
+		knowsOtherOwners,
+		knowsAllOwners,
+		advertisedAppeal,
+		ownersInformed,
+		originalDevelopmentDescription,
+		changedDevelopmentDescription,
+		newConditionDetails,
+		appellantCostsAppliedFor,
+		lpaCostsAppliedFor
+	}
+) => ({
+	// custom mappings
+	CaseStatus: { connect: { key: caseStatus } },
+	CaseDecisionOutcome: caseDecisionOutcome ? { connect: { key: caseDecisionOutcome } } : undefined,
+	CaseValidationOutcome: caseValidationOutcome
+		? { connect: { key: caseValidationOutcome } }
+		: undefined,
+	LPAQuestionnaireValidationOutcome: lpaQuestionnaireValidationOutcome
+		? { connect: { key: lpaQuestionnaireValidationOutcome } }
+		: undefined,
+	CaseType: { connect: { processCode: caseProcessCode } },
+	ProcedureType: {
+		connectOrCreate: {
+			where: {
+				key: caseProcedure
+			},
+			create: {
+				key: caseProcedure,
+				name: caseProcedure
+			}
+		}
+	},
+	siteAddressPostcode: siteAddressPostcode,
+	siteAddressPostcodeSanitized: sanitizePostcode(siteAddressPostcode),
+	LPACode: lpaCode,
+	caseSpecialisms: caseSpecialisms ? JSON.stringify(caseSpecialisms) : null,
+	caseValidationInvalidDetails: caseValidationInvalidDetails
+		? JSON.stringify(caseValidationInvalidDetails)
+		: null,
+	caseValidationIncompleteDetails: caseValidationIncompleteDetails
+		? JSON.stringify(caseValidationIncompleteDetails)
+		: null,
+	lpaQuestionnaireValidationDetails: lpaQuestionnaireValidationDetails
+		? JSON.stringify(lpaQuestionnaireValidationDetails)
+		: null,
+	siteAccessDetails: siteAccessDetails ? JSON.stringify(siteAccessDetails) : null,
+	siteSafetyDetails: siteSafetyDetails ? JSON.stringify(siteSafetyDetails) : null,
+	// direct mappings
+	caseId,
+	caseReference,
+	caseOfficerId,
+	inspectorId,
+	allocationLevel,
+	allocationBand,
+	caseSubmittedDate,
+	caseCreatedDate,
+	caseUpdatedDate,
+	caseValidDate,
+	caseValidationDate,
+	caseExtensionDate,
+	caseStartedDate,
+	casePublishedDate,
+	lpaQuestionnaireDueDate,
+	lpaQuestionnaireSubmittedDate,
+	lpaQuestionnaireCreatedDate,
+	lpaQuestionnairePublishedDate,
+	lpaQuestionnaireValidationOutcomeDate,
+	lpaStatement,
+	caseWithdrawnDate,
+	caseTransferredDate,
+	transferredCaseClosedDate,
+	caseDecisionOutcomeDate,
+	caseDecisionPublishedDate,
+	caseCompletedDate,
+	enforcementNotice,
+	applicationReference,
+	applicationDate,
+	applicationDecision,
+	applicationDecisionDate,
+	caseSubmissionDueDate,
+	siteAddressLine1,
+	siteAddressLine2,
+	siteAddressTown,
+	siteAddressCounty,
+	siteAreaSquareMetres,
+	floorSpaceSquareMetres,
+	isCorrectAppealType,
+	isGreenBelt,
+	inConservationArea,
+	ownsAllLand,
+	ownsSomeLand,
+	knowsOtherOwners,
+	knowsAllOwners,
+	advertisedAppeal,
+	ownersInformed,
+	originalDevelopmentDescription,
+	changedDevelopmentDescription,
+	newConditionDetails,
+	appellantCostsAppliedFor,
+	lpaCostsAppliedFor
+});
+
+/**
+ * @param {String} caseProcessCode
+ * @param {AppealS78Case} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const mapS78DataModelToAppealCase = (caseProcessCode, dataModel) => ({
+	...mapHASDataModelToAppealCase(caseProcessCode, dataModel),
+	agriculturalHolding: dataModel.agriculturalHolding,
+	tenantAgriculturalHolding: dataModel.tenantAgriculturalHolding,
+	otherTenantsAgriculturalHolding: dataModel.otherTenantsAgriculturalHolding,
+	informedTenantsAgriculturalHolding: dataModel.informedTenantsAgriculturalHolding,
+	appellantProcedurePreference: dataModel.appellantProcedurePreference,
+	appellantProcedurePreferenceDetails: dataModel.appellantProcedurePreferenceDetails,
+	appellantProcedurePreferenceDuration: dataModel.appellantProcedurePreferenceDuration,
+	appellantProcedurePreferenceWitnessCount: dataModel.appellantProcedurePreferenceWitnessCount,
+	statusPlanningObligation: dataModel.statusPlanningObligation,
+	scheduledMonument: dataModel.affectsScheduledMonument ?? null, // todo: rename
+	protectedSpecies: dataModel.hasProtectedSpecies, // todo: rename
+	areaOutstandingBeauty: dataModel.isAonbNationalLandscape, // todo: rename
+	designatedSitesNames: dataModel.designatedSitesNames
+		? JSON.stringify(dataModel.designatedSitesNames)
+		: null,
+	gypsyTraveller: dataModel.isGypsyOrTravellerSite, // todo: rename
+	publicRightOfWay: dataModel.isPublicRightOfWay, // todo: rename
+	environmentalImpactSchedule: dataModel.eiaEnvironmentalImpactSchedule, // todo: rename
+	developmentDescription: dataModel.eiaDevelopmentDescription, // todo: rename
+	sensitiveAreaDetails: dataModel.eiaSensitiveAreaDetails, // todo: rename
+	columnTwoThreshold: dataModel.eiaColumnTwoThreshold, // todo: rename
+	screeningOpinion: dataModel.eiaScreeningOpinion, // todo: rename
+	requiresEnvironmentalStatement: dataModel.eiaRequiresEnvironmentalStatement, // todo: rename
+	completedEnvironmentalStatement: dataModel.eiaCompletedEnvironmentalStatement, // todo: rename
+	statutoryConsultees: dataModel.hasStatutoryConsultees, // todo: rename
+	consultedBodiesDetails: dataModel.consultedBodiesDetails,
+	infrastructureLevy: dataModel.hasInfrastructureLevy, // todo: rename
+	infrastructureLevyAdopted: dataModel.isInfrastructureLevyFormallyAdopted, // todo: rename
+	infrastructureLevyAdoptedDate: dataModel.infrastructureLevyAdoptedDate,
+	infrastructureLevyExpectedDate: dataModel.infrastructureLevyExpectedDate,
+	lpaProcedurePreference: dataModel.lpaProcedurePreference,
+	lpaProcedurePreferenceDetails: dataModel.lpaProcedurePreferenceDetails,
+	lpaProcedurePreferenceDuration: dataModel.lpaProcedurePreferenceDuration,
+	caseworkReason: dataModel.caseworkReason,
+	developmentType: dataModel.developmentType,
+	importantInformation: dataModel.importantInformation,
+	jurisdiction: dataModel.jurisdiction,
+	redeterminedIndicator: dataModel.redeterminedIndicator,
+	dateCostsReportDespatched: dataModel.dateCostsReportDespatched,
+	dateNotRecoveredOrDerecovered: dataModel.dateNotRecoveredOrDerecovered,
+	dateRecovered: dataModel.dateRecovered,
+	originalCaseDecisionDate: dataModel.originalCaseDecisionDate,
+	targetDate: dataModel.targetDate,
+	appellantCommentsSubmittedDate: dataModel.appellantCommentsSubmittedDate,
+	appellantStatementSubmittedDate: dataModel.appellantStatementSubmittedDate,
+	finalCommentsDueDate: dataModel.finalCommentsDueDate,
+	interestedPartyRepsDueDate: dataModel.interestedPartyRepsDueDate,
+	LPACommentsSubmittedDate: dataModel.lpaCommentsSubmittedDate,
+	LPAProofsSubmittedDate: dataModel.lpaProofsSubmittedDate,
+	LPAStatementSubmittedDate: dataModel.lpaStatementSubmittedDate,
+	proofsOfEvidenceDueDate: dataModel.proofsOfEvidenceDueDate,
+	siteNoticesSentDate: dataModel.siteNoticesSentDate,
+	statementDueDate: dataModel.statementDueDate,
+	reasonForNeighbourVisits: dataModel.reasonForNeighbourVisits,
+	numberOfResidencesNetChange: dataModel.numberOfResidencesNetChange,
+	siteGridReferenceEasting: dataModel.siteGridReferenceEasting,
+	siteGridReferenceNorthing: dataModel.siteGridReferenceNorthing,
+	siteViewableFromRoad: dataModel.siteViewableFromRoad,
+	siteWithinSSSI: dataModel.siteWithinSSSI,
+	typeOfPlanningApplication: dataModel.typeOfPlanningApplication
+});
+
+/**
  * Get an appeal case and appellant by case reference
  *
  * @param {string} caseReference
- * @param {AppealHASCase} data
+ * @param {AppealS78Case|AppealHASCase} data
  * @returns {Promise<AppealCase>}
  */
 async function putCase(caseReference, data) {
 	try {
-		/** @type {Validate<AppealHASCase>} */
-		const hasValidator = getValidator('appeal-has');
+		const mappedData = getMappedData(data);
+		const result = await repo.putByCaseReference({
+			caseReference,
+			submissionId: data.submissionId,
+			mappedData
+		});
+		await repo.putRelationsByCaseReference(caseReference, {
+			leadCaseReference: data.leadCaseReference,
+			nearbyCaseReferences: data.nearbyCaseReferences,
 
-		let result;
-		switch (data.caseType) {
-			case CASE_TYPES.HAS.key:
-				if (!hasValidator(data)) {
-					throw ApiError.badRequest('Payload was invalid');
-				}
-				result = await repo.putHASByCaseReference(caseReference, CASE_TYPES.HAS.processCode, {
-					...data
-				});
-				break;
-			default:
-				throw Error(`putCase: unhandled casetype: ${data.caseType}`);
-		}
+			affectedListedBuildingNumbers: data.affectedListedBuildingNumbers,
+			changedListedBuildingNumbers: data.changedListedBuildingNumbers,
+
+			notificationMethod: data.notificationMethod,
+
+			neighbouringSiteAddresses: data.neighbouringSiteAddresses
+		});
 
 		// send email confirming appeal to user if this creates a new appeal
 		if (!result.exists && result.appellantSubmission) {
@@ -116,6 +368,27 @@ async function putCase(caseReference, data) {
 		throw err;
 	}
 }
+
+/**
+ * @param {AppealS78Case|AppealHASCase} data
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const getMappedData = (data) => {
+	switch (data.caseType) {
+		case CASE_TYPES.HAS.key: {
+			const hasValidator = getValidator('appeal-has');
+			if (!hasValidator(data)) throw ApiError.badRequest('Payload was invalid');
+			return mapHASDataModelToAppealCase(CASE_TYPES.HAS.processCode, data);
+		}
+		case CASE_TYPES.S78.key: {
+			const s78Validator = getValidator('appeal-s78');
+			if (!s78Validator(data)) throw ApiError.badRequest('Payload was invalid');
+			return mapS78DataModelToAppealCase(CASE_TYPES.S78.processCode, data);
+		}
+		default:
+			throw Error(`putCase: unhandled casetype: ${data.caseType}`);
+	}
+};
 
 /**
  * List cases for an LPA
@@ -159,8 +432,8 @@ async function listByPostcodeWithAppellant(options) {
 /**
  * Add the service users to an appeal if there are any.
  *
- * @param {AppealCaseDetailed} appeal
- * @returns {Promise<AppealCaseDetailed>}
+ * @param {AppealCase} appeal
+ * @returns {Promise<AppealCase & {users?: Array.<ServiceUser>}>}
  */
 async function appendAppellantAndAgent(appeal) {
 	// find appeal users by roles
@@ -178,8 +451,8 @@ async function appendAppellantAndAgent(appeal) {
 /**
  * Add the relations to an appeal.
  *
- * @param {AppealCaseDetailed} appeal
- * @returns {Promise<AppealCaseDetailed>}
+ * @param {AppealCase} appeal
+ * @returns {Promise<AppealCase & {relations?: Array.<AppealRelations>}>}
  */
 async function appendAppealRelations(appeal) {
 	const relations = await repo.getRelatedCases({ caseReference: appeal.caseReference });

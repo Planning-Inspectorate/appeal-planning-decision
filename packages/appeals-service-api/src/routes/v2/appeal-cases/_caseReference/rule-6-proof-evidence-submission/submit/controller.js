@@ -3,6 +3,8 @@ const logger = require('#lib/logger');
 const BackOfficeV2Service = require('../../../../../../services/back-office-v2');
 
 const backOfficeV2Service = new BackOfficeV2Service();
+const { getRule6ProofOfEvidenceByAppealId } = require('../service');
+const { getFormatter } = require('../../get-representation-formatter');
 
 /** @type {import('express').Handler} */
 exports.post = async (req, res) => {
@@ -12,14 +14,24 @@ exports.post = async (req, res) => {
 		throw ApiError.invalidToken();
 	}
 
+	const caseReference = req.params.caseReference;
+
 	try {
+		const proofEvidence = await getRule6ProofOfEvidenceByAppealId(userId, caseReference);
+
+		if (!proofEvidence) {
+			throw ApiError.proofEvidenceNotFound();
+		}
+
+		const formatter = getFormatter(proofEvidence.AppealCase.appealTypeCode);
 		await backOfficeV2Service.submitRule6ProofOfEvidenceSubmission(
-			req.params.caseReference,
-			userId
+			caseReference,
+			userId,
+			formatter
 		);
 	} catch (err) {
 		logger.error(err);
-		throw ApiError.unableToSubmitResponse();
+		throw ApiError.unableToSubmitProofEvidenceResponse();
 	}
 
 	res.sendStatus(200);

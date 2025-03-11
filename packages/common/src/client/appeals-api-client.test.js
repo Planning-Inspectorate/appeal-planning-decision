@@ -1,7 +1,7 @@
 const fetchMock = require('jest-fetch-mock');
 const { default: fetch } = require('node-fetch');
 const { AppealsApiClient, ApiClientError } = require('./appeals-api-client');
-const { APPEAL_USER_ROLES } = require('../constants');
+const { APPEAL_USER_ROLES, REPRESENTATION_TYPES } = require('../constants');
 
 const mockLogger = jest.fn();
 
@@ -201,6 +201,58 @@ describe('appeals-api-client', () => {
 				expect.objectContaining({
 					method: 'POST',
 					body: JSON.stringify({ role: role })
+				})
+			);
+			expect(createResponse).toEqual({ a: 1 });
+		});
+	});
+
+	describe('getDocumentDetails', () => {
+		it('should get document details by id', async () => {
+			const testId = 'abc';
+			fetch.mockResponseOnce(JSON.stringify({ a: 1 }));
+			const createResponse = await apiClient.getDocumentDetails(testId);
+
+			expect(fetch).toHaveBeenCalledWith(
+				`${TEST_BASEURL}${v2}/documents/${testId}`,
+				expect.objectContaining({
+					method: 'GET'
+				})
+			);
+			expect(createResponse).toEqual({ a: 1 });
+		});
+	});
+
+	describe('getAppealCaseWithRepresentations', () => {
+		it('should get document details by id', async () => {
+			const testCaseReference = 'abc';
+			fetch.mockResponseOnce(JSON.stringify({ a: 1 }));
+			const createResponse = await apiClient.getAppealCaseWithRepresentations(testCaseReference);
+
+			expect(fetch).toHaveBeenCalledWith(
+				`${TEST_BASEURL}${v2}/appeal-cases/${testCaseReference}/representations`,
+				expect.objectContaining({
+					method: 'GET'
+				})
+			);
+			expect(createResponse).toEqual({ a: 1 });
+		});
+	});
+
+	describe('getAppealCaseWithRepresentationsByType', () => {
+		it('should handle type', async () => {
+			const testCaseReference = 'abc';
+			const type = REPRESENTATION_TYPES.STATEMENT;
+			fetch.mockResponseOnce(JSON.stringify({ a: 1 }));
+			const createResponse = await apiClient.getAppealCaseWithRepresentationsByType(
+				testCaseReference,
+				type
+			);
+
+			expect(fetch).toHaveBeenCalledWith(
+				`${TEST_BASEURL}${v2}/appeal-cases/${testCaseReference}/representations?type=${type}`,
+				expect.objectContaining({
+					method: 'GET'
 				})
 			);
 			expect(createResponse).toEqual({ a: 1 });

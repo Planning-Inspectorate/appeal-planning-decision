@@ -1,19 +1,4 @@
 const { subMonths, addDays, getYear, getMonth, getDate, startOfDay } = require('date-fns');
-
-jest.mock('../../../../../src/lib/appeals-api-wrapper');
-jest.mock('../../../../../src/lib/logger');
-jest.mock('../../../../../src/config', () => ({
-	logger: {
-		level: 'info'
-	},
-	server: {
-		limitedRouting: {
-			serviceUrl: 'example-url'
-		}
-	},
-	betaBannerText: 'some text'
-}));
-
 const sinon = require('sinon');
 const {
 	constants: { APPEAL_ID, APPLICATION_DECISION },
@@ -31,6 +16,22 @@ const {
 		}
 	}
 } = require('../../../../../src/lib/views');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+
+jest.mock('../../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../../src/lib/logger');
+jest.mock('../../../../../src/config', () => ({
+	logger: {
+		level: 'info'
+	},
+	server: {
+		limitedRouting: {
+			serviceUrl: 'example-url'
+		}
+	},
+	betaBannerText: 'some text'
+}));
+jest.mock('../../../../../src/lib/is-lpa-in-feature-flag');
 
 describe('controllers/householder-planning/eligibility/decision-date-householder', () => {
 	let req;
@@ -75,51 +76,65 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 	});
 
 	describe('postDecisionDateHouseholder', () => {
-		it('should save the appeal and redirect to enforcement-notice-householder if application decision is granted and date is within six months', async () => {
-			const decisionDate = addDays(subMonths(startOfDay(new Date()), 1), 1);
-			const mockRequest = {
-				...req,
-				body: {
-					'decision-date-householder-year': getYear(decisionDate),
-					'decision-date-householder-month': getMonth(decisionDate) + 1,
-					'decision-date-householder-day': getDate(decisionDate)
-				}
-			};
+		it.each([
+			[false, 'claiming-costs-householder'],
+			[true, 'can-use-service']
+		])(
+			'should save the appeal and redirect to correct page if application decision is granted and date is within six months - v2 is %p',
+			async (isV2, page) => {
+				isLpaInFeatureFlag.mockReturnValueOnce(isV2);
+				const decisionDate = addDays(subMonths(startOfDay(new Date()), 1), 1);
+				const mockRequest = {
+					...req,
+					body: {
+						'decision-date-householder-year': getYear(decisionDate),
+						'decision-date-householder-month': getMonth(decisionDate) + 1,
+						'decision-date-householder-day': getDate(decisionDate)
+					}
+				};
 
-			mockRequest.session.appeal.eligibility.applicationDecision = APPLICATION_DECISION.GRANTED;
+				mockRequest.session.appeal.eligibility.applicationDecision = APPLICATION_DECISION.GRANTED;
 
-			await decisionDateHouseholderController.postDecisionDateHouseholder(mockRequest, res);
+				await decisionDateHouseholderController.postDecisionDateHouseholder(mockRequest, res);
 
-			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-				...appeal,
-				decisionDate: decisionDate.toISOString()
-			});
+				expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+					...appeal,
+					decisionDate: decisionDate.toISOString()
+				});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/enforcement-notice-householder`);
-		});
+				expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/${page}`);
+			}
+		);
 
-		it('should save the appeal and redirect to enforcement-notice-householder if application decision is refused and date is within twelve weeks', async () => {
-			const decisionDate = addDays(subMonths(startOfDay(new Date()), 1), 1);
-			const mockRequest = {
-				...req,
-				body: {
-					'decision-date-householder-year': getYear(decisionDate),
-					'decision-date-householder-month': getMonth(decisionDate) + 1,
-					'decision-date-householder-day': getDate(decisionDate)
-				}
-			};
+		it.each([
+			[false, 'claiming-costs-householder'],
+			[true, 'can-use-service']
+		])(
+			'should save the appeal and redirect to correct page if application decision is refused and date is within twelve weeks - v2 is %p',
+			async (isV2, page) => {
+				isLpaInFeatureFlag.mockReturnValueOnce(isV2);
+				const decisionDate = addDays(subMonths(startOfDay(new Date()), 1), 1);
+				const mockRequest = {
+					...req,
+					body: {
+						'decision-date-householder-year': getYear(decisionDate),
+						'decision-date-householder-month': getMonth(decisionDate) + 1,
+						'decision-date-householder-day': getDate(decisionDate)
+					}
+				};
 
-			appeal.eligibility.applicationDecision = 'refused';
+				appeal.eligibility.applicationDecision = 'refused';
 
-			await decisionDateHouseholderController.postDecisionDateHouseholder(mockRequest, res);
+				await decisionDateHouseholderController.postDecisionDateHouseholder(mockRequest, res);
 
-			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-				...appeal,
-				decisionDate: decisionDate.toISOString()
-			});
+				expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+					...appeal,
+					decisionDate: decisionDate.toISOString()
+				});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/enforcement-notice-householder`);
-		});
+				expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/${page}`);
+			}
+		);
 
 		it('should not save the appeal and redirect to you-cannot-appeal if application decision is granted and date is older than six months', async () => {
 			const mockRequest = {

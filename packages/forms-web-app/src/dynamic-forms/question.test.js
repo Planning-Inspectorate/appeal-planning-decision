@@ -512,11 +512,13 @@ describe('./src/dynamic-forms/question.js', () => {
 			const journey2 = { journeyId: JOURNEY_TYPES.S78_QUESTIONNAIRE };
 			const journey3 = { journeyId: JOURNEY_TYPES.HAS_APPEAL_FORM };
 			const journey4 = { journeyId: JOURNEY_TYPES.S78_APPEAL_FORM };
+			const journey5 = { journeyId: JOURNEY_TYPES.S20_APPEAL_FORM };
 
 			expect(question.isShortJourney(journey)).toBe(false);
 			expect(question.isShortJourney(journey2)).toBe(false);
 			expect(question.isShortJourney(journey3)).toBe(false);
 			expect(question.isShortJourney(journey4)).toBe(false);
+			expect(question.isShortJourney(journey5)).toBe(false);
 		});
 	});
 

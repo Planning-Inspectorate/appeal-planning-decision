@@ -63,5 +63,5 @@ exports.postPlanningDepartment = async (req, res) => {
 		});
 	}
 
-	return res.redirect(`/before-you-start/type-of-planning-application`);
+	return res.redirect(`/before-you-start/enforcement-notice`);
 };

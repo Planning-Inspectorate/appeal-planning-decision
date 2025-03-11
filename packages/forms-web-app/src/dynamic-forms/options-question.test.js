@@ -10,6 +10,15 @@ describe('./src/dynamic-forms/question.js', () => {
 	const QUESTION_STRING = 'What is your favourite colour?';
 	const FIELDNAME = 'favouriteColour';
 
+	const journey = {
+		journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+		response: {
+			answers: {}
+		},
+		getNextQuestionUrl: jest.fn(),
+		getCurrentQuestionUrl: jest.fn()
+	};
+
 	const getTestQuestion = ({ options = [] } = {}) => {
 		return new OptionsQuestion({
 			title: TITLE,
@@ -50,16 +59,10 @@ describe('./src/dynamic-forms/question.js', () => {
 
 	describe('prepQuestionForRendering', () => {
 		it('should set options on question and call super', () => {
-			const expectedData = { options: [{ a: 1 }] };
+			const expectedData = { options: [{ a: 1, divider: 'or', b: 2 }] };
 			const question = getTestQuestion(expectedData);
 
-			const journey = {
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-				response: {
-					answers: {}
-				},
-				getNextQuestionUrl: jest.fn()
-			};
+			journey.response.answers = {};
 
 			const customViewData = { hello: 'hi' };
 			const result = question.prepQuestionForRendering({}, journey, customViewData);
@@ -79,14 +82,8 @@ describe('./src/dynamic-forms/question.js', () => {
 			const expectedData = { options: [{ value: 'yes' }, { value: 'maybe' }, { value: 'no' }] };
 			const question = getTestQuestion(expectedData);
 
-			const journey = {
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-				response: {
-					answers: {
-						[question.fieldName]: ['yes', 'maybe']
-					}
-				},
-				getNextQuestionUrl: jest.fn()
+			journey.response.answers = {
+				[question.fieldName]: ['yes', 'maybe']
 			};
 
 			const result = question.prepQuestionForRendering({}, journey, {});
@@ -137,13 +134,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			expectedData.options[0].attributes = { 'data-cy': 'answer-' + options[0].value };
 			expectedData.options[1].attributes = { 'data-cy': 'answer-' + options[1].value };
 
-			const journey = {
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-				response: {
-					answers: {}
-				},
-				getNextQuestionUrl: jest.fn()
-			};
+			journey.response.answers = {};
 
 			const customViewData = { hello: 'hi' };
 			const result = question.prepQuestionForRendering({}, journey, customViewData);
@@ -198,15 +189,9 @@ describe('./src/dynamic-forms/question.js', () => {
 			expectedData.options[0].attributes = { 'data-cy': 'answer-' + options[0].value };
 			expectedData.options[1].attributes = { 'data-cy': 'answer-' + options[1].value };
 
-			const journey = {
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-				response: {
-					answers: {
-						[question.fieldName]: 'yes',
-						[`${question.fieldName}_${options[0].conditional.fieldName}`]: value
-					}
-				},
-				getNextQuestionUrl: jest.fn()
+			journey.response.answers = {
+				[question.fieldName]: 'yes',
+				[`${question.fieldName}_${options[0].conditional.fieldName}`]: value
 			};
 
 			const customViewData = { hello: 'hi' };
@@ -229,6 +214,75 @@ describe('./src/dynamic-forms/question.js', () => {
 					hello: 'hi'
 				})
 			);
+		});
+	});
+
+	describe('formatAnswerForSummary', () => {
+		const TITLE = 'title';
+		const QUESTION = 'Question?';
+		const DESCRIPTION = 'Describe';
+		const FIELDNAME = 'field-name';
+		const CONDITIONAL_FIELDNAME = 'conditional-field-name';
+		const URL = 'url';
+		const PAGE_TITLE = 'this appears in <title>';
+		const VALIDATORS = [1, 2];
+		const OPTIONS = [
+			{ text: 'a', value: '1' },
+			{ text: 'b', value: '2' },
+			{
+				divider: 'or'
+			},
+			{
+				text: 'c',
+				value: '3',
+				conditional: {
+					fieldName: CONDITIONAL_FIELDNAME
+				}
+			}
+		];
+		const OPTIONS_PARAMS = {
+			title: TITLE,
+			question: QUESTION,
+			description: DESCRIPTION,
+			fieldName: FIELDNAME,
+			url: URL,
+			pageTitle: PAGE_TITLE,
+			validators: VALIDATORS,
+			options: OPTIONS,
+			viewFolder: 'abc'
+		};
+		const CONDITIONAL_ANSWER_TEXT = 'a conditional answer';
+
+		beforeEach(() => {
+			journey.response.answers[`${FIELDNAME}_${CONDITIONAL_FIELDNAME}`] = CONDITIONAL_ANSWER_TEXT;
+		});
+
+		it('should return option label when formatAnswerForSummary is called with one answer', () => {
+			const question = new OptionsQuestion(OPTIONS_PARAMS);
+			const formattedAnswer = question.formatAnswerForSummary({}, journey, '1');
+			expect(formattedAnswer[0].value).toEqual('A');
+		});
+
+		it('should return formatted option labels when formatAnswerForSummary is called with a string representing several non-conditional answers', () => {
+			const question = new OptionsQuestion(OPTIONS_PARAMS);
+			const formattedAnswer = question.formatAnswerForSummary({}, journey, '1,2');
+			expect(formattedAnswer[0].value).toEqual('A<br>b');
+		});
+
+		it('should return formatted option labels when formatAnswerForSummary is called with a string representing several answers including a conditional', () => {
+			const question = new OptionsQuestion(OPTIONS_PARAMS);
+			const formattedAnswer = question.formatAnswerForSummary({}, journey, '1,2,3');
+			expect(formattedAnswer[0].value).toEqual(`A<br>b<br>c<br>${CONDITIONAL_ANSWER_TEXT}`);
+		});
+
+		it('should return a formatted option label when formatAnswerForSummary is called with a single conditional answer', () => {
+			const question = new OptionsQuestion(OPTIONS_PARAMS);
+			const conditionalAnswer = {
+				value: '3',
+				conditional: CONDITIONAL_ANSWER_TEXT
+			};
+			const formattedAnswer = question.formatAnswerForSummary({}, journey, conditionalAnswer);
+			expect(formattedAnswer[0].value).toEqual(`c<br>${CONDITIONAL_ANSWER_TEXT}`);
 		});
 	});
 });

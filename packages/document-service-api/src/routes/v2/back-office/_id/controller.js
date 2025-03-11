@@ -1,8 +1,6 @@
 const blobClient = require('#lib/back-office-storage-client');
 const logger = require('#lib/logger');
 const config = require('#config/config');
-const { isFeatureActive } = require('#config/featureFlag');
-const { FLAG } = require('@pins/common/src/feature-flags');
 const { LPA_USER_ROLE, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const BlobStorageError = require('@pins/common/src/client/blob-storage-error');
 const { canAccessBODocument, CLIENT_CREDS_ROLE } = require('./access-rules');
@@ -75,11 +73,6 @@ async function getRole(documentWithAppeal, access_token, id_token) {
  * @type {import('express').Handler}
  */
 async function getDocumentUrl(req, res) {
-	if (!(await isFeatureActive(FLAG.SERVE_BO_DOCUMENTS))) {
-		res.sendStatus(501);
-		return;
-	}
-
 	const docRef = req.params?.id;
 
 	if (!docRef) {

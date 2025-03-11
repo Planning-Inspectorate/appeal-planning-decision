@@ -1,8 +1,10 @@
 const { JourneyResponse } = require('../journey-response');
 const { APPELLANT_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
-const { APPEAL_CASE_STATUS } = require('pins-data-model');
 const logger = require('#lib/logger');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
+const {
+	isAppellantProofsOfEvidenceOpen
+} = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const {
 	VIEW: {
@@ -10,46 +12,52 @@ const {
 	}
 } = require('../../lib/views');
 
-module.exports = () => async (req, res, next) => {
-	const referenceId = req.params.referenceId;
-	const appealOverviewUrl = `${APPEAL_OVERVIEW}/${referenceId}`;
-	let result;
+/**
+ * @param {boolean} checkSubmitted
+ * @returns {import('express').Handler}
+ */
+module.exports =
+	(checkSubmitted = true) =>
+	async (req, res, next) => {
+		const referenceId = req.params.referenceId;
+		const appealOverviewUrl = `${APPEAL_OVERVIEW}/${referenceId}`;
+		let result;
 
-	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
+		const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
 
-	if (appeal.caseStatus !== APPEAL_CASE_STATUS.EVIDENCE) {
-		req.session.navigationHistory.shift();
-		return res.redirect(appealOverviewUrl);
-	}
-
-	const journeyType = APPELLANT_JOURNEY_TYPES_FORMATTED.PROOF_EVIDENCE;
-
-	try {
-		const dbResponse = await req.appealsApiClient.getAppellantProofOfEvidenceSubmission(
-			referenceId
-		);
-		const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
-		result = new JourneyResponse(
-			journeyType,
-			referenceId,
-			convertedResponse,
-			dbResponse.AppealCase?.LPACode
-		);
-	} catch (err) {
-		if (err instanceof ApiClientError && err.code === 404) {
-			logger.debug('proof of evidence not found, creating and returning default response');
-			await req.appealsApiClient.postAppellantProofOfEvidenceSubmission(referenceId);
-		} else {
-			logger.error(err);
+		if (checkSubmitted && !isAppellantProofsOfEvidenceOpen(appeal)) {
+			req.session.navigationHistory.shift();
+			return res.redirect(appealOverviewUrl);
 		}
-		// return default response
-		result = getDefaultResponse(journeyType, referenceId, appeal.LPACode);
-	}
 
-	res.locals.journeyResponse = result;
+		const journeyType = APPELLANT_JOURNEY_TYPES_FORMATTED.PROOF_EVIDENCE;
 
-	return next();
-};
+		try {
+			const dbResponse = await req.appealsApiClient.getAppellantProofOfEvidenceSubmission(
+				referenceId
+			);
+			const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
+			result = new JourneyResponse(
+				journeyType,
+				referenceId,
+				convertedResponse,
+				dbResponse.AppealCase?.LPACode
+			);
+		} catch (err) {
+			if (err instanceof ApiClientError && err.code === 404) {
+				logger.debug('proof of evidence not found, creating and returning default response');
+				await req.appealsApiClient.postAppellantProofOfEvidenceSubmission(referenceId);
+			} else {
+				logger.error(err);
+			}
+			// return default response
+			result = getDefaultResponse(journeyType, referenceId, appeal.LPACode);
+		}
+
+		res.locals.journeyResponse = result;
+
+		return next();
+	};
 
 /**
  * returns a default response for a journey

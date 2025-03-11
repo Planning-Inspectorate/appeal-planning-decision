@@ -1,6 +1,8 @@
 const logger = require('../../../lib/logger');
 const { getDepartmentFromId } = require('../../../services/department.service');
 const { getLPAById, deleteAppeal } = require('../../../lib/appeals-api-wrapper');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const { isFeatureActive } = require('../../../featureFlag');
 const {
 	VIEW: {
 		FULL_APPEAL: { LIST_OF_DOCUMENTS: currentPage, TASK_LIST }
@@ -10,7 +12,6 @@ const { postSaveAndReturn } = require('../../save');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
-const { isFeatureActive } = require('../../../featureFlag');
 const {
 	baseS78SubmissionUrl,
 	taskListUrl
@@ -19,10 +20,7 @@ const {
 const getListOfDocuments = async (req, res) => {
 	const appeal = req.session.appeal;
 
-	const lpa = await getDepartmentFromId(appeal.lpaCode);
-	const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
-
-	const usingV2Form = await isFeatureActive(FLAG.S78_APPEAL_FORM_V2, lpaCode);
+	const usingV2Form = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
 	res.render(currentPage, { usingV2Form });
 };

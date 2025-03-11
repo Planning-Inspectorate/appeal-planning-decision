@@ -1,5 +1,6 @@
 const {
 	getInterestedPartyFromSession,
+	getInterestedPartySubmissionFromSession,
 	markInterestedPartySessionAsSubmitted
 } = require('../../../../services/interested-party.service');
 const logger = require('../../../../lib/logger');
@@ -29,10 +30,10 @@ const checkAnswersGet = (req, res) => {
 /** @type {import('express').RequestHandler} */
 const checkAnswersPost = async (req, res) => {
 	/** @type {InterestedParty} */
-	const interestedParty = getInterestedPartyFromSession(req);
+	const interestedPartySubmission = getInterestedPartySubmissionFromSession(req);
 
 	try {
-		await req.appealsApiClient.submitInterestedPartySubmission(interestedParty);
+		await req.appealsApiClient.submitInterestedPartySubmission(interestedPartySubmission);
 	} catch (error) {
 		logger.error(error);
 	}

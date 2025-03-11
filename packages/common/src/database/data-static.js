@@ -88,9 +88,11 @@ const LPA_NOTIFICATION_METHODS = {
  */
 const CASE_STATUSES = {
 	ASSIGN_CASE_OFFICER: { key: APPEAL_CASE_STATUS.ASSIGN_CASE_OFFICER, name: 'Assign case officer' },
+	AWAITING_EVENT: { key: APPEAL_CASE_STATUS.AWAITING_EVENT, name: 'Awaiting event' },
 	AWAITING_TRANSFER: { key: APPEAL_CASE_STATUS.AWAITING_TRANSFER, name: 'Awaiting transfer' },
 	CLOSED: { key: APPEAL_CASE_STATUS.CLOSED, name: 'Closed' },
 	COMPLETE: { key: APPEAL_CASE_STATUS.COMPLETE, name: 'Complete' },
+	EVENT: { key: APPEAL_CASE_STATUS.EVENT, name: 'Event' },
 	EVIDENCE: { key: APPEAL_CASE_STATUS.EVIDENCE, name: 'Evidence' },
 	FINAL_COMMENTS: { key: APPEAL_CASE_STATUS.FINAL_COMMENTS, name: 'Final Comments' },
 	INVALID: { key: APPEAL_CASE_STATUS.INVALID, name: 'Invalid' },

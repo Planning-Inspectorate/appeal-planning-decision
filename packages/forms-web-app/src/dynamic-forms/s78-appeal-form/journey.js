@@ -171,6 +171,8 @@ const sections = [
 		.addQuestion(questions.healthAndSafety)
 		.addQuestion(questions.enterApplicationReference)
 		.addQuestion(questions.planningApplicationDate)
+		.addQuestion(questions.majorMinorDevelopment)
+		.addQuestion(questions.developmentType)
 		.addQuestion(questions.enterDevelopmentDescription)
 		.addQuestion(questions.updateDevelopmentDescription)
 		.addQuestion(questions.appellantProcedurePreference)

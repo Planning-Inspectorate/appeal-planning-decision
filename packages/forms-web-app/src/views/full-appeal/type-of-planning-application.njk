@@ -44,77 +44,7 @@
             errorMessage: errors['type-of-planning-application'] and {
               text: errors['type-of-planning-application'].msg
             },
-            items: [
-              {
-                value: "full-appeal",
-                text: 'Full planning',
-                attributes: { "data-cy":"answer-full-appeal"},
-                checked: typeOfPlanningApplication === "full-appeal",
-                hint: {
-                  text: "Applications affecting flats, more than one house or changes of use. For example, a new building or any commercial project."
-                }
-              },
-              {
-                value: "householder-planning",
-                text: 'Householder planning',
-                attributes: { "data-cy":"answer-householder-planning"},
-                checked: typeOfPlanningApplication === "householder-planning",
-                hint: {
-                  text: "A simpler process for changes to a single house, including works within the garden. For example, small projects like extensions, conservatories or loft conversions."
-                }
-              },
-              {
-                value: "outline-planning",
-                text: 'Outline planning',
-                attributes: { "data-cy":"answer-outline-planning"},
-                checked: typeOfPlanningApplication === "outline-planning",
-                hint: {
-                  text: "General principles of how a site can be developed."
-                }
-              },
-              {
-                value: "prior-approval",
-                text: 'Prior approval',
-                attributes: { "data-cy":"answer-prior-approval"},
-                checked: typeOfPlanningApplication === "prior-approval",
-                hint: {
-                  text: "To accept specific parts of a development before work can start."
-                }
-              },
-              {
-                value: "reserved-matters",
-                text: 'Reserved matters',
-                attributes: { "data-cy":"answer-reserved-matters"},
-                checked: typeOfPlanningApplication === "reserved-matters",
-                hint: {
-                  text: "Parts of a proposed development which you chose to not submit with your outline planning application (so they are ‘reserved’ for a later decision)."
-                }
-              },
-              {
-                value: "removal-or-variation-of-conditions",
-                text: 'Removal or variation of conditions',
-                attributes: { "data-cy":"answer-removal-or-variation-of-conditions"},
-                checked: typeOfPlanningApplication === "removal-or-variation-of-conditions",
-                hint: {
-                  text: "Planning conditions limit and control the way you must develop."
-                }
-              },
-              {
-                value: "something-else",
-                text: 'Something else',
-                attributes: { "data-cy":"answer-something-else"},
-                checked: typeOfPlanningApplication === "something-else"
-              },
-              {
-                divider: "or"
-              },
-              {
-                value: "i-have-not-made-a-planning-application",
-                text: 'I have not made a planning application',
-                attributes: { "data-cy":"answer-i-have-not-made-a-planning-application"},
-                checked: typeOfPlanningApplication === "i-have-not-made-a-planning-application"
-              }
-            ]
+            items: radioItems
           }) }}
 
         </div>

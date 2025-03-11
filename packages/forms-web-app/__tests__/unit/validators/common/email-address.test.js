@@ -9,9 +9,9 @@ describe('validators/common/email-address', () => {
 			expect(rule.fields).toEqual(['appellant-email']);
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
-			expect(rule.stack).toHaveLength(7);
+			expect(rule.stack).toHaveLength(8);
 			expect(rule.stack[0].message).toEqual('Enter your email address');
-			expect(rule.stack[2].validator.name).toEqual('isEmail');
+			expect(rule.stack[3].validator.name).toEqual('isEmail');
 		});
 
 		it('should have an array containing rule', () => {
@@ -67,7 +67,7 @@ describe('validators/common/email-address', () => {
 						'Enter an email address in the correct format, like name@example.com'
 					);
 					expect(result.errors[0].param).toEqual('appellant-email');
-					expect(result.errors[0].value).toEqual(13);
+					expect(result.errors[0].value).toEqual('13');
 				}
 			},
 

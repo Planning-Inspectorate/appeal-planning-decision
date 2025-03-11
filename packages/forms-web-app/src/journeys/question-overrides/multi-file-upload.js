@@ -158,15 +158,13 @@ async function saveFilesToBlobStorage(files, journeyResponse) {
  */
 function uploadDocuments(apiClient, referenceId, journeyId, data) {
 	switch (journeyId) {
-		case JOURNEY_TYPES.HAS_QUESTIONNAIRE: {
+		case JOURNEY_TYPES.HAS_QUESTIONNAIRE:
+		case JOURNEY_TYPES.S78_QUESTIONNAIRE:
+		case JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE: {
 			return apiClient.postLPASubmissionDocumentUpload(referenceId, data);
 		}
-		case JOURNEY_TYPES.HAS_APPEAL_FORM: {
-			return apiClient.postAppellantSubmissionDocumentUpload(referenceId, data);
-		}
-		case JOURNEY_TYPES.S78_QUESTIONNAIRE: {
-			return apiClient.postLPASubmissionDocumentUpload(referenceId, data);
-		}
+		case JOURNEY_TYPES.HAS_APPEAL_FORM:
+		case JOURNEY_TYPES.S20_APPEAL_FORM:
 		case JOURNEY_TYPES.S78_APPEAL_FORM: {
 			return apiClient.postAppellantSubmissionDocumentUpload(referenceId, data);
 		}
@@ -191,9 +189,6 @@ function uploadDocuments(apiClient, referenceId, journeyId, data) {
 		case JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE: {
 			return apiClient.postRule6ProofOfEvidenceDocumentUpload(referenceId, data);
 		}
-		case JOURNEY_TYPES.S20_APPEAL_FORM: {
-			return apiClient.postAppellantSubmissionDocumentUpload(referenceId, data);
-		}
 		default:
 			throw new Error('Unrecognised journey type');
 	}
@@ -207,16 +202,14 @@ function uploadDocuments(apiClient, referenceId, journeyId, data) {
 function removeDocuments(apiClient, journeyId) {
 	return (submissionId, documentId) => {
 		switch (journeyId) {
-			case JOURNEY_TYPES.HAS_QUESTIONNAIRE: {
+			case JOURNEY_TYPES.HAS_QUESTIONNAIRE:
+			case JOURNEY_TYPES.S78_QUESTIONNAIRE:
+			case JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE: {
 				return apiClient.deleteLPASubmissionDocumentUpload(submissionId, documentId);
 			}
-			case JOURNEY_TYPES.HAS_APPEAL_FORM: {
-				return apiClient.deleteAppellantSubmissionDocumentUpload(submissionId, documentId);
-			}
-			case JOURNEY_TYPES.S78_QUESTIONNAIRE: {
-				return apiClient.deleteLPASubmissionDocumentUpload(submissionId, documentId);
-			}
-			case JOURNEY_TYPES.S78_APPEAL_FORM: {
+			case JOURNEY_TYPES.HAS_APPEAL_FORM:
+			case JOURNEY_TYPES.S78_APPEAL_FORM:
+			case JOURNEY_TYPES.S20_APPEAL_FORM: {
 				return apiClient.deleteAppellantSubmissionDocumentUpload(submissionId, documentId);
 			}
 			case JOURNEY_TYPES.S78_LPA_STATEMENT: {
@@ -239,9 +232,6 @@ function removeDocuments(apiClient, journeyId) {
 			}
 			case JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE: {
 				return apiClient.deleteRule6ProofOfEvidenceDocumentUpload(submissionId, documentId);
-			}
-			case JOURNEY_TYPES.S20_APPEAL_FORM: {
-				return apiClient.deleteAppellantSubmissionDocumentUpload(submissionId, documentId);
 			}
 			default:
 				throw new Error('Unrecognised journey type');

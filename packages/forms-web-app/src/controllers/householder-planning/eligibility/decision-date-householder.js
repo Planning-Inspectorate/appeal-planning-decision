@@ -11,9 +11,8 @@ const {
 	}
 } = require('../../../lib/views');
 const config = require('../../../config');
-
-const shutter = `/before-you-start/you-cannot-appeal`;
-const enforcementNoticeHouseholder = `/before-you-start/enforcement-notice-householder`;
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 exports.getDecisionDateHouseholder = async (req, res) => {
 	const { appeal } = req.session;
@@ -75,15 +74,21 @@ exports.postDecisionDateHouseholder = async (req, res) => {
 		req.session.appeal.eligibility.appealDeadline = refusedDeadlineDate;
 		req.session.appeal.eligibility.appealPeriod = deadline.description;
 
-		return res.redirect(shutter);
+		return res.redirect(`/before-you-start/you-cannot-appeal`);
 	}
+
+	const usingV2Form = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.HAS_APPEAL_FORM_V2);
+
+	const nextPage = usingV2Form
+		? '/before-you-start/can-use-service'
+		: '/before-you-start/claiming-costs-householder';
 
 	try {
 		req.session.appeal = await createOrUpdateAppeal({
 			...appeal,
 			decisionDate: enteredDate.toISOString()
 		});
-		return res.redirect(enforcementNoticeHouseholder);
+		return res.redirect(nextPage);
 	} catch (e) {
 		logger.error(e);
 

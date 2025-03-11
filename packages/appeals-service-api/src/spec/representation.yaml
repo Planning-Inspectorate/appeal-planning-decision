@@ -23,7 +23,7 @@ components:
           description: external case identifier
         AppealCase:
           type: object
-        status:
+        representationStatus:
           type: string
           description: Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ]
         originalRepresentation:
@@ -38,9 +38,12 @@ components:
         redactedBy:
           type: string
           description: Unique identifier for the case team member that performed the redaction
-        invalidDetails:
+        invalidOrIncompleteDetails:
           type: string
           description: a json array of reasons why the representation has been marked as invalid
+        otherInvalidOrIncompleteDetails:
+          type: string
+          description: a json array of free text other reasons why the representation has been marked as invalid
         source:
           type: string
           description: source of the representation (citizen or LPA), ["lpa", "citizen"]

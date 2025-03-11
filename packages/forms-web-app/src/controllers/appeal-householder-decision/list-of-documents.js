@@ -1,11 +1,12 @@
 const logger = require('../../lib/logger');
 const { getDepartmentFromId } = require('../../services/department.service');
 const { getLPAById, deleteAppeal } = require('../../lib/appeals-api-wrapper');
+const { isFeatureActive } = require('../../featureFlag');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { postSaveAndReturn } = require('../appeal-householder-decision/save');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
-const { isFeatureActive } = require('../../featureFlag');
 const {
 	baseHASSubmissionUrl,
 	taskListUrl
@@ -14,10 +15,8 @@ const {
 const getListOfDocuments = async (req, res) => {
 	const appeal = req.session.appeal;
 
-	const lpa = await getDepartmentFromId(appeal.lpaCode);
-	const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
+	const usingV2Form = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.HAS_APPEAL_FORM_V2);
 
-	const usingV2Form = await isFeatureActive(FLAG.HAS_APPEAL_FORM_V2, lpaCode);
 	res.render('appeal-householder-decision/list-of-documents', { usingV2Form });
 };
 

@@ -18,6 +18,7 @@ const submit = require('./submit-appeal');
 const submission = require('./appellant-submission');
 const lpaDashboard = require('./lpa-dashboard');
 const rule6Appeals = require('./rule-6');
+const listedBuilding = require('./listed-building');
 const debug = require('./debug');
 const {
 	getDocument,
@@ -37,9 +38,7 @@ router.use(cacheBusting);
 router.use(createApiClients);
 
 /// LPA ///
-if (config.featureFlag.dashboardsEnabled) {
-	router.use('/manage-appeals', lpaDashboard);
-}
+router.use('/manage-appeals', lpaDashboard);
 
 /// Rule 6 ///
 if (config.featureFlag.rule6Enabled) {
@@ -70,13 +69,14 @@ router.use('/appeal-householder-decision', householder);
 /// full appeal ///
 router.use('/full-appeal', fullAppeal);
 
+/// listed building ///
+router.use('/listed-building', listedBuilding);
+
 /// appeal ///
 router.use('/appeal', appeal);
 
 /// post login shared appeals pages ///
-if (config.featureFlag.dashboardsEnabled) {
-	router.use('/appeals', checkLoggedIn, appeals);
-}
+router.use('/appeals', checkLoggedIn, appeals);
 
 router.use('/appeal-document/:appellantSubmissionId', checkLoggedIn, getAppellantSubmissionPDFV2);
 //v2 lpaq submission pdf

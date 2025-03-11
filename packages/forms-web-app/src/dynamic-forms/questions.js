@@ -34,9 +34,15 @@ const NumericValidator = require('./validator/numeric-validator');
 const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox-validator');
 
 const { add, sub, format: formatDate } = require('date-fns');
-const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
+const {
+	APPEAL_CASE_PROCEDURE,
+	APPEAL_EIA_DEVELOPMENT_DESCRIPTION,
+	APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE
+} = require('pins-data-model');
 const { getConditionalFieldName, DIVIDER } = require('./dynamic-components/utils/question-utils');
 const { documentTypes } = require('@pins/common');
+const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
+const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const {
 	validation: {
 		characterLimits: { appealFormV2, finalComment: configInputMaxCharacters },
@@ -127,7 +133,7 @@ exports.questionProps = {
 			type: 'listed-building',
 			title: 'Tell us the list entry number',
 			question: 'Tell us the list entry number',
-			fieldName: 'changedListedBuildingNumber',
+			fieldName: fieldNames.changedListedBuildingNumber,
 			html: 'resources/listed-building-number/content.html',
 			validators: [
 				new RequiredValidator('Enter a list entry number'),
@@ -154,7 +160,7 @@ exports.questionProps = {
 			title: 'Tell us the list entry number',
 			question: 'Tell us the list entry number',
 			// fieldName: 'listed-building-number',
-			fieldName: 'affectedListedBuildingNumber',
+			fieldName: fieldNames.affectedListedBuildingNumber,
 			html: 'resources/listed-building-number/content.html',
 			validators: [
 				new RequiredValidator('Enter a list entry number'),
@@ -283,6 +289,20 @@ exports.questionProps = {
 		url: 'upload-site-notice',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
 		documentType: documentTypes.uploadSiteNotice
+	},
+	appealNotification: {
+		type: 'multi-file-upload',
+		title: 'Appeal notification letter',
+		question: 'Upload the appeal notification letter and the list of people that you notified',
+		fieldName: 'appealNotification',
+		url: 'appeal-notification-letter',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the appeal notification letter and the list of people that you notified'
+			),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.appealNotification
 	},
 	representationsFromOthers: {
 		type: 'boolean',
@@ -429,7 +449,6 @@ exports.questionProps = {
 		description: 'You need to tell inspectors how to prepare for a site visit and what to bring.',
 		html: 'resources/safety-risks/content.html',
 		label: 'Are there any potential safety risks?',
-		// fieldName: 'safety-risks',
 		fieldName: 'lpaSiteSafetyRisks',
 		url: 'potential-safety-risks',
 		validators: [
@@ -641,6 +660,7 @@ exports.questionProps = {
 			),
 			new MultifileUploadValidator()
 		],
+		html: 'resources/upload-relevant-policies/content.html',
 		documentType: documentTypes.uploadDevelopmentPlanPolicies
 	},
 	uploadOtherRelevantPolicies: {
@@ -974,11 +994,11 @@ exports.questionProps = {
 		options: [
 			{
 				text: 'Yes, schedule 1',
-				value: 'schedule-1'
+				value: APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE.SCHEDULE_1
 			},
 			{
 				text: 'Yes, schedule 2',
-				value: 'schedule-2'
+				value: APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE.SCHEDULE_2
 			},
 			{
 				[DIVIDER]: 'or'
@@ -1091,55 +1111,55 @@ exports.questionProps = {
 		options: [
 			{
 				text: 'Agriculture and aquaculture',
-				value: 'agriculture-aquaculture'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.AGRICULTURE_AQUACULTURE
 			},
 			{
 				text: 'Changes and extensions',
-				value: 'change-extensions'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.CHANGE_EXTENSIONS
 			},
 			{
 				text: 'Chemical industry (unless included in Schedule 1)',
-				value: 'chemical-industry'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.CHEMICAL_INDUSTRY
 			},
 			{
 				text: 'Energy industry',
-				value: 'energy-industry'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.ENERGY_INDUSTRY
 			},
 			{
 				text: 'Extractive industry',
-				value: 'extractive-industry'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.EXTRACTIVE_INDUSTRY
 			},
 			{
 				text: 'Food industry',
-				value: 'food-industry'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.FOOD_INDUSTRY
 			},
 			{
 				text: 'Infrastructure projects',
-				value: 'infrastructure-projects'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.INFRASTRUCTURE_PROJECTS
 			},
 			{
 				text: 'Mineral industry',
-				value: 'mineral-industry'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.MINERAL_INDUSTRY
 			},
 			{
 				text: 'Other projects',
-				value: 'other-projects'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.OTHER_PROJECTS
 			},
 			{
 				text: 'Production and processing of metals',
-				value: 'production-processing-of-metals'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.PRODUCTION_PROCESSING_OF_METALS
 			},
 			{
 				text: 'Rubber industry',
-				value: 'rubber-industry'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.RUBBER_INDUSTRY
 			},
 			{
 				text: 'Textile, leather, wood and paper industries',
-				value: 'textile-industries'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.TEXTILE_INDUSTRIES
 			},
 			{
 				text: 'Tourism and leisure',
-				value: 'tourism-leisure'
+				value: APPEAL_EIA_DEVELOPMENT_DESCRIPTION.TOURISM_LEISURE
 			}
 		]
 	},
@@ -1148,7 +1168,7 @@ exports.questionProps = {
 		title: 'Environmental impact assessment',
 		question: 'Did the applicant submit an environmental statement?',
 		// fieldName: 'environmental-statement',
-		fieldName: 'requiresEnvironmentalStatement',
+		fieldName: 'applicantSubmittedEnvironmentalStatement',
 		url: 'environmental-statement',
 		options: [
 			{
@@ -1187,8 +1207,8 @@ exports.questionProps = {
 	},
 	ownsAllLand: {
 		type: 'boolean',
-		title: 'Do you own all the land involved in the appeal?',
-		question: 'Do you own all the land involved in the appeal?',
+		title: 'Do you own all of the land involved in the appeal?',
+		question: 'Do you own all of the land involved in the appeal?',
 		fieldName: 'ownsAllLand',
 		url: 'own-all-land',
 		validators: [
@@ -1614,7 +1634,7 @@ exports.questionProps = {
 			type: 'case',
 			title: 'Enter the appeal reference number',
 			question: 'Enter the appeal reference number',
-			fieldName: 'appellantLinkedCase',
+			fieldName: 'appellantLinkedCaseReference',
 			html: 'resources/appellant-linked-case/content.html',
 			hint: 'For example, 0221532.',
 			validators: [
@@ -2462,6 +2482,151 @@ exports.questionProps = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadRule6WitnessesEvidence
+	},
+	demolishAlterExtend: {
+		type: 'boolean',
+		title: 'Does the proposed development demolish, alter or extend a listed building?',
+		question: 'Does the proposed development demolish, alter or extend a listed building?',
+		fieldName: 'demolishAlterExtend',
+		url: 'demolish-alter-extend',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the proposed development demolishes, alters or extends a listed building'
+			)
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				attributes: { 'data-cy': 'answer-yes' }
+			},
+			{
+				text: 'No',
+				value: 'no',
+				attributes: { 'data-cy': 'answer-no' }
+			}
+		]
+	},
+	consultHistoricEngland: {
+		type: 'boolean',
+		title: 'Did you consult Historic England?',
+		question: 'Did you consult Historic England?',
+		// fieldName: 'consult-historic-england',
+		fieldName: 'consultHistoricEngland',
+		url: 'consult-historic-england',
+		validators: [new RequiredValidator('Select yes if you consulted Historic England')]
+	},
+	listedBuildingGrade: {
+		type: 'radio',
+		title: 'What grade is the listed building?',
+		question: 'What grade is the listed building?',
+		fieldName: 'listedBuildingGrade',
+		url: 'listed-building-grade',
+		validators: [new RequiredValidator('Select the grade of the listed building')],
+		options: [
+			{
+				text: 'Grade I',
+				value: 'Grade I'
+			},
+			{
+				text: 'Grade II*',
+				value: 'Grade II*'
+			},
+			{
+				text: 'Grade II',
+				value: 'Grade II'
+			}
+		]
+	},
+	uploadHistoricEnglandConsultation: {
+		type: 'multi-file-upload',
+		title: 'Upload your consultation with Historic England',
+		question: 'Upload your consultation with Historic England',
+		// fieldName: 'upload-historic-england-consultation',
+		fieldName: 'uploadHistoricEnglandConsultation',
+		url: 'historic-england-consultation',
+		validators: [
+			new RequiredFileUploadValidator('Select your consultation with Historic England'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadHistoricEnglandConsultation
+	},
+	majorMinorDevelopment: {
+		type: 'radio',
+		title: 'Was your application for a major or minor development?',
+		question: 'Was your application for a major or minor development?',
+		legend: 'Development class',
+		fieldName: 'majorMinorDevelopment',
+		url: 'major-minor-development',
+		html: 'resources/major-minor-development/content.html',
+		validators: [
+			new RequiredValidator('Select if your application was for a major or minor development')
+		],
+		options: [
+			{
+				text: 'Major development',
+				value: fieldValues.majorMinorDevelopment.MAJOR
+			},
+			{
+				text: 'Minor development',
+				value: fieldValues.majorMinorDevelopment.MINOR
+			},
+			{
+				[DIVIDER]: 'or'
+			},
+			{
+				text: 'Other',
+				value: fieldValues.majorMinorDevelopment.OTHER
+			}
+		]
+	},
+	developmentType: {
+		type: 'radio',
+		title: 'Was your application about any of the following?',
+		question: 'Was your application about any of the following?',
+		fieldName: 'typeDevelopment',
+		url: 'application-about',
+		validators: [
+			new RequiredValidator('Select if your application was about any of the following')
+		],
+		options: [
+			{
+				text: 'Householder development',
+				value: fieldValues.applicationAbout.HOUSEHOLDER
+			},
+			{
+				text: 'Change of use',
+				value: fieldValues.applicationAbout.CHANGE_OF_USE
+			},
+			{
+				text: 'Mineral working',
+				value: fieldValues.applicationAbout.MINERAL_WORKINGS
+			},
+			{
+				text: 'Dwellings',
+				value: fieldValues.applicationAbout.DWELLINGS
+			},
+			{
+				text: 'General industry, storage or warehousing',
+				value: fieldValues.applicationAbout.INDUSTRY_STORAGE
+			},
+			{
+				text: 'Offices, light industry or research and development',
+				value: fieldValues.applicationAbout.OFFICES
+			},
+			{
+				text: 'Retail and services',
+				value: fieldValues.applicationAbout.RETAIL_SERVICES
+			},
+			{
+				text: 'Traveller and caravan pitches',
+				value: fieldValues.applicationAbout.TRAVELLER_CARAVAN
+			},
+			{
+				text: 'Other',
+				value: fieldValues.applicationAbout.OTHER
+			}
+		]
 	}
 };
 

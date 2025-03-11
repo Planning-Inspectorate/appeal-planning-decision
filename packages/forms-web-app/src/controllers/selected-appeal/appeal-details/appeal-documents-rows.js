@@ -1,7 +1,7 @@
 const { formatDocumentDetails, formatNewDescription } = require('@pins/common');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE, APPEAL_APPELLANT_PROCEDURE_PREFERENCE } = require('pins-data-model');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
@@ -25,7 +25,7 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'New description of development',
 			valueText: formatNewDescription(caseData),
-			condition: () => true
+			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode
 		},
 		{
 			keyText: 'Plans, drawings and supporting documents',
@@ -83,13 +83,15 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'Draft statement of common ground',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND),
-			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
+			condition: () =>
+				caseData.appealTypeCode === CASE_TYPES.S78.processCode &&
+				caseData.appellantProcedurePreference !== APPEAL_APPELLANT_PROCEDURE_PREFERENCE.WRITTEN,
 			isEscaped: true
 		},
 		{
 			keyText: 'Evidence of agreement to change description of development',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION),
-			condition: () => caseData.appealTypeCode === CASE_TYPES.S78.processCode,
+			condition: (caseData) => !!caseData.changedDevelopmentDescription,
 			isEscaped: true
 		},
 		{

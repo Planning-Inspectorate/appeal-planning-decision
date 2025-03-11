@@ -1,3 +1,4 @@
+const { APPEAL_REPRESENTATION_STATUS } = require('pins-data-model');
 const {
 	LPA_USER_ROLE,
 	APPEAL_USER_ROLES,
@@ -42,12 +43,14 @@ const filterRepresentationsForDisplay = (caseData, representationParams) => {
 			!!rule6OwnRepresentations
 		).filter(
 			(representation) =>
-				representation.userOwnsRepresentation || representation.status == 'published'
+				representation.userOwnsRepresentation ||
+				representation.representationStatus == APPEAL_REPRESENTATION_STATUS.PUBLISHED
 		);
 	} else {
 		return representationsFilteredBySubmittingParty.filter(
 			(representation) =>
-				representation.userOwnsRepresentation || representation.status == 'published'
+				representation.userOwnsRepresentation ||
+				representation.representationStatus == APPEAL_REPRESENTATION_STATUS.PUBLISHED
 		);
 	}
 };
@@ -189,12 +192,13 @@ const formatProofsOfEvidenceHeading = (userType, submittingParty, rule6OwnRepres
 };
 
 /**
+ * @param {AppealCaseDetailed} caseData
  * @param {Representation[]} representations
  */
-const formatRepresentations = (representations) => {
+const formatRepresentations = (caseData, representations) => {
 	representations.sort((a, b) => new Date(a.dateReceived) - new Date(b.dateReceived));
 
-	const formattedRepresentations = representations.map((representation, index) => {
+	return representations.map((representation, index) => {
 		const fullText = representation.redacted
 			? representation.redactedRepresentation
 			: representation.originalRepresentation;
@@ -203,13 +207,19 @@ const formatRepresentations = (representations) => {
 
 		const rowLabel = formatRowLabelAndKey(representation.representationType);
 
-		const documents =
+		/** @type {string[]} */
+		const repDocsIds = representation.RepresentationDocuments
+			? representation.RepresentationDocuments?.map((x) => x.documentId)
+			: [];
+
+		const representationDocuments = caseData?.Documents
+			? caseData?.Documents?.filter((doc) => repDocsIds.includes(doc.id))
+			: [];
+
+		const formattedDocuments =
 			representation.representationType === REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
-				? formatProofsOfEvidenceDocuments(representation.RepresentationDocuments)
-				: formatRepresentationDocumentsLinks(
-						representation.RepresentationDocuments,
-						'Supporting documents'
-				  );
+				? formatProofsOfEvidenceDocuments(representationDocuments)
+				: formatRepresentationDocumentsLinks(representationDocuments, 'Supporting documents');
 
 		return {
 			key: { text: `${rowLabel} ${index + 1}` },
@@ -218,25 +228,21 @@ const formatRepresentations = (representations) => {
 				text: fullText,
 				truncatedText: truncatedText,
 				truncated: truncated,
-				documents
+				documents: formattedDocuments
 			}
 		};
 	});
-
-	return formattedRepresentations;
 };
 
 /**
- * @param {RepresentationDocument[]} representationDocuments
+ * @param {Document[]} documentDetails
  * @param {string} documentsLabel
  */
-const formatRepresentationDocumentsLinks = (representationDocuments, documentsLabel) => {
-	const documents = representationDocuments.map(
-		(representationDocument) => representationDocument.Document
-	);
-
+const formatRepresentationDocumentsLinks = (documentDetails, documentsLabel) => {
 	const documentsLinks =
-		documents.length > 0 ? documents.map(formatDocumentLink).join('\n') : 'No documents';
+		documentDetails.length > 0
+			? documentDetails.map(formatDocumentLink).join('\n')
+			: 'No documents';
 
 	return [
 		{
@@ -247,14 +253,10 @@ const formatRepresentationDocumentsLinks = (representationDocuments, documentsLa
 };
 
 /**
- * @param {RepresentationDocument[]} representationDocuments
+ * @param {Document[]} documentDetails
  */
-const formatProofsOfEvidenceDocuments = (representationDocuments) => {
-	const documents = representationDocuments.map(
-		(representationDocument) => representationDocument.Document
-	);
-
-	const { proofs, witnesses } = documents.reduce(
+const formatProofsOfEvidenceDocuments = (documentDetails) => {
+	const { proofs, witnesses } = documentDetails.reduce(
 		(acc, document) => {
 			if (isProofsDocument(document)) {
 				acc.proofs.push(document);

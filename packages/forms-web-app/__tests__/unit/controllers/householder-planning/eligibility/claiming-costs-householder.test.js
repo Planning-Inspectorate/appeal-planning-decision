@@ -4,8 +4,6 @@ const {
 	postClaimingCostsHouseholder
 } = require('../../../../../src/controllers/householder-planning/eligibility/claiming-costs-householder');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { getDepartmentFromId } = require('../../../../../src/services/department.service');
-const { isFeatureActive } = require('../../../../../src/featureFlag');
 const logger = require('../../../../../src/lib/logger');
 const config = require('../../../../../src/config');
 
@@ -17,11 +15,12 @@ const {
 	}
 } = require('../../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../../mocks');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
-jest.mock('../../../../../src/featureFlag');
 jest.mock('../../../../../src/services/department.service');
+jest.mock('../../../../../src/lib/is-lpa-in-feature-flag');
 
 describe('controllers/householder-planning/claiming-costs-householder', () => {
 	let req;
@@ -36,10 +35,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 
 	describe('getClaimingCostsHouseholder', () => {
 		it('should redirect if using V2 form', async () => {
-			const mockLpa = { lpaCode: 'Q9999', id: 'someId' };
-
-			isFeatureActive.mockResolvedValue(true);
-			getDepartmentFromId.mockResolvedValue(mockLpa);
+			isLpaInFeatureFlag.mockResolvedValueOnce(true);
 
 			await getClaimingCostsHouseholder(req, res);
 
@@ -47,10 +43,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 		});
 
 		it('should call the correct template on getClaimingCostsHouseholder', async () => {
-			const mockLpa = { lpaCode: 'someLpaCode', id: 'someId' };
-
-			isFeatureActive.mockResolvedValue(false);
-			getDepartmentFromId.mockResolvedValue(mockLpa);
+			isLpaInFeatureFlag.mockResolvedValueOnce(false);
 
 			await getClaimingCostsHouseholder(req, res);
 

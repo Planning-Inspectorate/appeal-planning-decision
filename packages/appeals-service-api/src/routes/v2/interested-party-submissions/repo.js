@@ -5,6 +5,7 @@ const ApiError = require('#errors/apiError');
 /**
  * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import("@prisma/client").Prisma.InterestedPartySubmissionCreateInput} IPSubmissionData
+ * @typedef {InterestedPartySubmission & {AppealCase?: {LPACode: string, appealTypeCode: string | null}}} DetailedInterestedPartySubmission
  */
 
 class InterestedPartySubmissionRepository {
@@ -18,12 +19,20 @@ class InterestedPartySubmissionRepository {
 	 * Create interested party submission for a given case
 	 *
 	 * @param {IPSubmissionData} ipSubmissionData
-	 * @returns {Promise<InterestedPartySubmission>}
+	 * @returns {Promise<DetailedInterestedPartySubmission>}
 	 */
 	async createInterestedPartySubmission(ipSubmissionData) {
 		try {
 			return await this.dbClient.interestedPartySubmission.create({
-				data: ipSubmissionData
+				data: ipSubmissionData,
+				include: {
+					AppealCase: {
+						select: {
+							LPACode: true,
+							appealTypeCode: true
+						}
+					}
+				}
 			});
 		} catch (e) {
 			if (e instanceof PrismaClientValidationError) {

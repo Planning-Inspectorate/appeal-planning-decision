@@ -6,6 +6,8 @@ const { AppealUserRepository } = require('#repositories/sql/appeal-user-reposito
 /**
  * @typedef {import("@prisma/client").ServiceUser} ServiceUser
  * @typedef {import("@prisma/client").AppealToUser} AppealToUser
+ * @typedef {Pick<ServiceUser, 'id' | 'emailAddress' | 'serviceUserType'>} BasicServiceUser
+ * @typedef {Pick<ServiceUser, 'firstName' | 'lastName' | 'serviceUserType'>} ServiceUserName
  */
 
 /** @type {(modelRole: string) => import('@pins/common/src/constants').APPEAL_USER_ROLES | null} */
@@ -15,7 +17,7 @@ const mapDataModelRoleToInternalRole = (modelRole) => {
 			return APPEAL_USER_ROLES.APPELLANT;
 		case SERVICE_USER_TYPE.AGENT:
 			return APPEAL_USER_ROLES.AGENT;
-		case 'Rule6Party': // todo: update when data model changed
+		case SERVICE_USER_TYPE.RULE_6_PARTY:
 			return APPEAL_USER_ROLES.RULE_6_PARTY;
 		default:
 			return null;
@@ -38,9 +40,9 @@ class ServiceUserRepository {
 	/**
 	 * Get service user by id
 	 *
-	 * @param {string[]} serviceUserId
+	 * @param {string} serviceUserId
 	 * @param {string} caseReference
-	 * @returns {Promise<ServiceUser|null>}
+	 * @returns {Promise<ServiceUserName|null>}
 	 */
 	getServiceUserByIdAndCaseReference(serviceUserId, caseReference) {
 		return this.dbClient.serviceUser.findFirst({
@@ -61,9 +63,9 @@ class ServiceUserRepository {
 	/**
 	 * Get service user emails by array of ids
 	 *
-	 * @param {Set<string>} serviceUserIds
+	 * @param {string[]} serviceUserIds
 	 * @param {string} caseReference
-	 * @returns {Promise<ServiceUser[]|null>}
+	 * @returns {Promise<BasicServiceUser[]>}
 	 */
 	getServiceUsersWithEmailsByIdAndCaseReference(serviceUserIds, caseReference) {
 		return this.dbClient.serviceUser.findMany({
@@ -88,7 +90,7 @@ class ServiceUserRepository {
 	 *
 	 * @param {string} caseReference
 	 * @param {Array.<string>} serviceUserType
-	 * @returns {Promise<ServiceUser[]|null>}
+	 * @returns {Promise<ServiceUser[]>}
 	 */
 	getForCaseAndType(caseReference, serviceUserType) {
 		return this.dbClient.serviceUser.findMany({
@@ -128,7 +130,7 @@ class ServiceUserRepository {
 			}),
 
 			this.dbClient.serviceUser.findFirst({
-				where: { id: data.id }
+				where: { id: data.id, caseReference: data.caseReference }
 			})
 		]);
 

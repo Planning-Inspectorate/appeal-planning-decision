@@ -19,15 +19,15 @@ const { subMonths } = require('date-fns');
  *     SubmissionDocumentUpload: true,
  *     SubmissionAddress: true,
  *     SubmissionLinkedCase: true,
- * 		 SubmissionListedBuilding: true,
- *		 Appeal: {
+ * 	   SubmissionListedBuilding: true,
+ *	   Appeal: {
  *       include: {
- *			   Users: {
+ *         Users: {
  *           include: {
  *             AppealUser: true
  *           }
  *         }
- *		   }
+ *       }
  *     }
  *   }
  * }>} FullAppellantSubmission
@@ -172,32 +172,33 @@ module.exports = class Repo {
 	 */
 	async get({ appellantSubmissionId, userId }) {
 		try {
-			return await this.dbClient.$transaction(async (tx) => {
-				await tx.appealToUser.findFirstOrThrow({
-					where: {
-						userId,
-						role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
-					}
-				});
-
-				return await this.dbClient.appellantSubmission.findUnique({
-					where: {
-						id: appellantSubmissionId,
-						Appeal: {
+			const result = await this.dbClient.appellantSubmission.findUniqueOrThrow({
+				where: {
+					id: appellantSubmissionId
+				},
+				include: {
+					SubmissionDocumentUpload: true,
+					SubmissionAddress: true,
+					SubmissionLinkedCase: true,
+					Appeal: {
+						select: {
+							id: true,
 							Users: {
-								some: {
-									userId
+								where: {
+									userId,
+									role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
 								}
 							}
 						}
-					},
-					include: {
-						SubmissionDocumentUpload: true,
-						SubmissionAddress: true,
-						SubmissionLinkedCase: true
 					}
-				});
+				}
 			});
+
+			if (!result.Appeal.Users.some((x) => x.userId.toLowerCase() === userId.toLowerCase())) {
+				throw ApiError.forbidden();
+			}
+
+			return result;
 		} catch (e) {
 			if (e instanceof PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
@@ -237,42 +238,6 @@ module.exports = class Repo {
 	}
 
 	/**
-	 * Create an appellant submission
-	 *
-	 * @param {{ userId: string, data: AppellantSubmissionCreateInput }} params
-	 * @returns {Promise<BareAppellantSubmission>}
-	 */
-	async post({ userId, data }) {
-		return await this.dbClient.$transaction(async (tx) => {
-			return await tx.appeal.create({
-				select: {
-					AppellantSubmission: {
-						select: {
-							id: true,
-							LPACode: true,
-							appealTypeCode: true,
-							appealId: true
-						}
-					}
-				},
-				data: {
-					Users: {
-						create: {
-							userId,
-							role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
-						}
-					},
-					AppellantSubmission: {
-						create: {
-							...data
-						}
-					}
-				}
-			});
-		});
-	}
-
-	/**
 	 * Update an appellant submission
 	 *
 	 * @param {{ appellantSubmissionId: string, userId: string, data: AppellantSubmissionUpdateInput }} params
@@ -280,33 +245,31 @@ module.exports = class Repo {
 	 */
 	async patch({ appellantSubmissionId, userId, data }) {
 		try {
-			return await this.dbClient.$transaction(async (tx) => {
-				await tx.appealToUser.findFirstOrThrow({
-					where: {
-						userId,
-						role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
-					}
-				});
+			const userOwnsAppealSubmission = await this.userOwnsAppealSubmission({
+				appellantSubmissionId,
+				userId
+			});
 
-				return await this.dbClient.appellantSubmission.update({
-					where: {
-						id: appellantSubmissionId,
-						Appeal: {
-							Users: {
-								some: {
-									userId
-								}
+			if (!userOwnsAppealSubmission) throw ApiError.forbidden();
+
+			return await this.dbClient.appellantSubmission.update({
+				where: {
+					id: appellantSubmissionId,
+					Appeal: {
+						Users: {
+							some: {
+								userId
 							}
 						}
-					},
-					select: {
-						id: true,
-						LPACode: true,
-						appealTypeCode: true,
-						appealId: true
-					},
-					data: data
-				});
+					}
+				},
+				select: {
+					id: true,
+					LPACode: true,
+					appealTypeCode: true,
+					appealId: true
+				},
+				data: data
 			});
 		} catch (e) {
 			if (e instanceof PrismaClientKnownRequestError) {
@@ -345,16 +308,9 @@ module.exports = class Repo {
 	 */
 	async getForBOSubmission({ appellantSubmissionId, userId }) {
 		try {
-			return await this.dbClient.appellantSubmission.findUnique({
+			const result = await this.dbClient.appellantSubmission.findUniqueOrThrow({
 				where: {
-					id: appellantSubmissionId,
-					Appeal: {
-						Users: {
-							some: {
-								userId
-							}
-						}
-					}
+					id: appellantSubmissionId
 				},
 				include: {
 					SubmissionDocumentUpload: true,
@@ -362,8 +318,13 @@ module.exports = class Repo {
 					SubmissionLinkedCase: true,
 					SubmissionListedBuilding: true,
 					Appeal: {
-						include: {
+						select: {
+							id: true,
 							Users: {
+								where: {
+									userId,
+									role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
+								},
 								include: {
 									AppealUser: true
 								}
@@ -372,6 +333,12 @@ module.exports = class Repo {
 					}
 				}
 			});
+
+			if (!result.Appeal.Users.some((x) => x.userId.toLowerCase() === userId.toLowerCase())) {
+				throw ApiError.forbidden();
+			}
+
+			return result;
 		} catch (e) {
 			if (e instanceof PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {

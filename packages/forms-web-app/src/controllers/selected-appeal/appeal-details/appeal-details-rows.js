@@ -6,9 +6,10 @@ const {
 	formatRelatedAppeals,
 	formatYesOrNo,
 	boolToYesNo,
-	formatAccessDetails
+	formatAccessDetails,
+	formatDevelopmentType
 } = require('@pins/common');
-const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
+const { CASE_RELATION_TYPES, CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
@@ -32,8 +33,8 @@ exports.detailsRows = (caseData, userType) => {
 	const contactIsAppellant = !agent; // if no agent than appellant made their own appeal
 	const contact = contactIsAppellant ? appellant : agent;
 
-	const linkedAppeals = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked);
-	const showLinked = linkedAppeals.length > 0;
+	const nearbyAppeals = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.nearby);
+	const showNearbyAppeals = !!nearbyAppeals;
 
 	const costApplicationKeyText = isAppellantOrAgent
 		? 'Do you need to apply for an award of appeal costs?'
@@ -87,6 +88,11 @@ exports.detailsRows = (caseData, userType) => {
 			keyText: 'Site partly owned',
 			valueText: formatYesOrNo(caseData, 'ownsSomeLand'),
 			condition: (caseData) => caseData.ownsSomeLand != null
+		},
+		{
+			keyText: 'All owners known',
+			valueText: caseData.knowsAllOwners ?? '',
+			condition: (caseData) => caseData.knowsAllOwners != null
 		},
 		{
 			keyText: 'Other owners known',
@@ -149,6 +155,11 @@ exports.detailsRows = (caseData, userType) => {
 			condition: (caseData) => caseData.applicationDate != null
 		},
 		{
+			keyText: 'What is the development type?',
+			valueText: formatDevelopmentType(caseData.developmentType),
+			condition: (caseData) => caseData.appealTypeCode !== CASE_TYPES.HAS.processCode
+		},
+		{
 			keyText: 'Enter the description of development',
 			valueText: caseData.originalDevelopmentDescription ?? '',
 			condition: (caseData) => caseData.originalDevelopmentDescription
@@ -164,8 +175,22 @@ exports.detailsRows = (caseData, userType) => {
 			condition: (caseData) => caseData.appellantProcedurePreference
 		},
 		{
+			keyText: 'Expected procedure duration',
+			valueText: caseData.appellantProcedurePreferenceDuration
+				? caseData.appellantProcedurePreferenceDuration.toString()
+				: '',
+			condition: (caseData) => caseData.appellantProcedurePreferenceDuration != null
+		},
+		{
+			keyText: 'Expected witness count',
+			valueText: caseData.appellantProcedurePreferenceWitnessCount
+				? caseData.appellantProcedurePreferenceWitnessCount.toString()
+				: '',
+			condition: (caseData) => caseData.appellantProcedurePreferenceWitnessCount != null
+		},
+		{
 			keyText: 'Are there other appeals linked to your development?',
-			valueText: showLinked ? `Yes \n ${linkedAppeals}` : 'No',
+			valueText: showNearbyAppeals ? `Yes \n ${nearbyAppeals}` : 'No',
 			condition: () => true,
 			isEscaped: true
 		},

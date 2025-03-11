@@ -18,10 +18,10 @@ describe('controllers/appeals/your-appeals', () => {
 		appealNumber: '0000001',
 		address: 'toDoAddress',
 		appealType: 'an appeal',
-		nextDocumentDue: {
+		nextJourneyDue: {
 			deadline: 'a future date',
 			dueInDays: 1,
-			documentDue: 'Final comments'
+			journeyDue: 'Final comments'
 		},
 		isDraft: false,
 		appealDecision: null
@@ -31,10 +31,10 @@ describe('controllers/appeals/your-appeals', () => {
 		appealNumber: '0000002',
 		address: 'wfrAddress',
 		appealType: 'an overdue appeal',
-		nextDocumentDue: {
+		nextJourneyDue: {
 			deadline: 'a past date',
 			dueInDays: -1,
-			documentDue: 'testDocument'
+			journeyDue: 'testDocument'
 		},
 		isDraft: false,
 		appealDecision: null
@@ -44,10 +44,10 @@ describe('controllers/appeals/your-appeals', () => {
 		appealNumber: '0000003',
 		address: 'completedAddress',
 		appealType: 'an appeal',
-		nextDocumentDue: {
+		nextJourneyDue: {
 			deadline: null,
 			dueInDays: 100000,
-			documentDue: null
+			journeyDue: null
 		},
 		isDraft: false,
 		appealDecision: null
@@ -57,10 +57,10 @@ describe('controllers/appeals/your-appeals', () => {
 		appealNumber: '0000004',
 		address: 'decidedAddress',
 		appealType: 'an appeal',
-		nextDocumentDue: {
+		nextJourneyDue: {
 			deadline: null,
 			dueInDays: 100000,
-			documentDue: null
+			journeyDue: null
 		},
 		isDraft: false,
 		appealDecision: 'allowed'

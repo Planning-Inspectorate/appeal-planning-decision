@@ -9,6 +9,8 @@ const s78LpaStatementParams = require('../dynamic-forms/s78-lpa-statement/journe
 const s78LpaProofEvidenceParams = require('../dynamic-forms/s78-lpa-proof-evidence/journey');
 const s78Rule6ProofEvidenceParams = require('../dynamic-forms/s78-rule-6-proof-evidence/journey');
 const s78Rule6StatementParams = require('../dynamic-forms/s78-rule-6-statement/journey');
+const s20AppealParams = require('../dynamic-forms/s20-appeal-form/journey');
+const s20QuestionnaireParams = require('../dynamic-forms/s20-lpa-questionairre/journey');
 
 const { Journeys } = require('../dynamic-forms/journeys');
 
@@ -25,5 +27,7 @@ journeys.registerJourney(s78LpaStatementParams);
 journeys.registerJourney(s78LpaProofEvidenceParams);
 journeys.registerJourney(s78Rule6ProofEvidenceParams);
 journeys.registerJourney(s78Rule6StatementParams);
+journeys.registerJourney(s20AppealParams);
+journeys.registerJourney(s20QuestionnaireParams);
 
 module.exports = { journeys };

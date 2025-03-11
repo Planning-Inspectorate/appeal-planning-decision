@@ -7,9 +7,9 @@ describe('validators/interested-parties/email-address', () => {
 			expect(rule.fields).toEqual(['email-address']);
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
-			expect(rule.stack).toHaveLength(7);
+			expect(rule.stack).toHaveLength(8);
 			expect(rule.stack[0].message).toEqual('Enter your email address');
-			expect(rule.stack[2].validator.name).toEqual('isEmail');
+			expect(rule.stack[3].validator.name).toEqual('isEmail');
 		});
 
 		it('should have an array containing rule', () => {

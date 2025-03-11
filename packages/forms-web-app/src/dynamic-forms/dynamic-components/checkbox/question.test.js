@@ -1,5 +1,6 @@
 const CheckboxQuestion = require('./question');
 const ValidOptionValidator = require('../../validator/valid-option-validator');
+
 describe('./src/dynamic-forms/dynamic-components/checkbox/question.js', () => {
 	const TITLE = 'title';
 	const QUESTION = 'Question?';
@@ -37,6 +38,7 @@ describe('./src/dynamic-forms/dynamic-components/checkbox/question.js', () => {
 		}
 	};
 	JOURNEY.response.answers[`${FIELDNAME}_${CONDITIONAL_FIELDNAME}`] = CONDITIONAL_ANSWER_TEXT;
+
 	it('should create', () => {
 		const question = new CheckboxQuestion(CHECKBOX_PARAMS);
 
@@ -51,35 +53,37 @@ describe('./src/dynamic-forms/dynamic-components/checkbox/question.js', () => {
 		expect(question.options).toEqual(OPTIONS);
 	});
 
-	it('should return option label when formatAnswerForSummary is called with one answer', () => {
-		const question = new CheckboxQuestion(CHECKBOX_PARAMS);
-		question.getAction = () => {};
-		const formattedAnswer = question.formatAnswerForSummary({}, JOURNEY, '1');
-		expect(formattedAnswer[0].value).toEqual('a');
-	});
+	describe('formatAnswerForSummary', () => {
+		it('should return option label when formatAnswerForSummary is called with one answer', () => {
+			const question = new CheckboxQuestion(CHECKBOX_PARAMS);
+			question.getAction = () => {};
+			const formattedAnswer = question.formatAnswerForSummary({}, JOURNEY, '1');
+			expect(formattedAnswer[0].value).toEqual('a');
+		});
 
-	it('should return formatted option labels when formatAnswerForSummary is called with a string representing several non-conditional answers', () => {
-		const question = new CheckboxQuestion(CHECKBOX_PARAMS);
-		question.getAction = () => {};
-		const formattedAnswer = question.formatAnswerForSummary({}, JOURNEY, '1,2');
-		expect(formattedAnswer[0].value).toEqual('a<br>b');
-	});
+		it('should return formatted option labels when formatAnswerForSummary is called with a string representing several non-conditional answers', () => {
+			const question = new CheckboxQuestion(CHECKBOX_PARAMS);
+			question.getAction = () => {};
+			const formattedAnswer = question.formatAnswerForSummary({}, JOURNEY, '1,2');
+			expect(formattedAnswer[0].value).toEqual('a<br>b');
+		});
 
-	it('should return formatted option labels when formatAnswerForSummary is called with a string representing several answers including a conditional', () => {
-		const question = new CheckboxQuestion(CHECKBOX_PARAMS);
-		question.getAction = () => {};
-		const formattedAnswer = question.formatAnswerForSummary({}, JOURNEY, '1,2,3');
-		expect(formattedAnswer[0].value).toEqual(`a<br>b<br>c<br>${CONDITIONAL_ANSWER_TEXT}`);
-	});
+		it('should return formatted option labels when formatAnswerForSummary is called with a string representing several answers including a conditional', () => {
+			const question = new CheckboxQuestion(CHECKBOX_PARAMS);
+			question.getAction = () => {};
+			const formattedAnswer = question.formatAnswerForSummary({}, JOURNEY, '1,2,3');
+			expect(formattedAnswer[0].value).toEqual(`a<br>b<br>c<br>${CONDITIONAL_ANSWER_TEXT}`);
+		});
 
-	it('should return a formatted option label when formatAnswerForSummary is called with a single conditional answer', () => {
-		const question = new CheckboxQuestion(CHECKBOX_PARAMS);
-		const conditionalAnswer = {
-			value: '3',
-			conditional: CONDITIONAL_ANSWER_TEXT
-		};
-		question.getAction = () => {};
-		const formattedAnswer = question.formatAnswerForSummary({}, JOURNEY, conditionalAnswer);
-		expect(formattedAnswer[0].value).toEqual(`c<br>${CONDITIONAL_ANSWER_TEXT}`);
+		it('should return a formatted option label when formatAnswerForSummary is called with a single conditional answer', () => {
+			const question = new CheckboxQuestion(CHECKBOX_PARAMS);
+			const conditionalAnswer = {
+				value: '3',
+				conditional: CONDITIONAL_ANSWER_TEXT
+			};
+			question.getAction = () => {};
+			const formattedAnswer = question.formatAnswerForSummary({}, JOURNEY, conditionalAnswer);
+			expect(formattedAnswer[0].value).toEqual(`c<br>${CONDITIONAL_ANSWER_TEXT}`);
+		});
 	});
 });

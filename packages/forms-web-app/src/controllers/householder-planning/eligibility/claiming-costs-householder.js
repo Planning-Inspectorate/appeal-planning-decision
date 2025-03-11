@@ -1,8 +1,6 @@
 const logger = require('../../../lib/logger');
-const { createOrUpdateAppeal, getLPAById } = require('../../../lib/appeals-api-wrapper');
-const { isFeatureActive } = require('../../../featureFlag');
+const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const { FLAG } = require('@pins/common/src/feature-flags');
-const { getDepartmentFromId } = require('../../../services/department.service');
 
 const {
 	VIEW: {
@@ -12,6 +10,7 @@ const {
 	}
 } = require('../../../lib/views');
 const config = require('../../../config');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 const nextPage = `/before-you-start/can-use-service`;
 
@@ -20,9 +19,7 @@ exports.getClaimingCostsHouseholder = async (req, res) => {
 	const { appeal } = req.session;
 
 	// skip this question if using v2
-	const lpa = await getDepartmentFromId(appeal.lpaCode);
-	const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
-	const usingV2Form = await isFeatureActive(FLAG.HAS_QUESTIONNAIRE, lpaCode);
+	const usingV2Form = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.HAS_APPEAL_FORM_V2);
 
 	if (usingV2Form) {
 		return res.redirect(nextPage);

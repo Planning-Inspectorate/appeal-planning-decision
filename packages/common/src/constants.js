@@ -1,10 +1,15 @@
 /**
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
- * @typedef { 'statement' | 'comment' | 'final_comment' | 'proofs_evidence' } RepresentationTypes
  * @typedef { 'LPAUser' } LpaUserRole
+ * @typedef {import('pins-data-model/src/enums').APPEAL_REPRESENTATION_TYPE} AppealRepresentationType
  */
 
-const { APPEAL_CASE_STAGE, APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const {
+	APPEAL_CASE_STAGE,
+	APPEAL_DOCUMENT_TYPE,
+	APPEAL_REPRESENTATION_TYPE
+} = require('pins-data-model');
+
 module.exports = {
 	STATUS_CONSTANTS: {
 		ADDED: 'added',
@@ -34,13 +39,13 @@ module.exports = {
 		VIRTUAL: 'virtual'
 	},
 	/**
-	 * @type {Record<string, RepresentationTypes>}
+	 * @type {Record<string, AppealRepresentationType>}
 	 */
 	REPRESENTATION_TYPES: {
-		STATEMENT: 'statement',
-		INTERESTED_PARTY_COMMENT: 'comment',
-		FINAL_COMMENT: 'final_comment',
-		PROOFS_OF_EVIDENCE: 'proofs_evidence'
+		STATEMENT: APPEAL_REPRESENTATION_TYPE.STATEMENT,
+		INTERESTED_PARTY_COMMENT: APPEAL_REPRESENTATION_TYPE.COMMENT,
+		FINAL_COMMENT: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+		PROOFS_OF_EVIDENCE: APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE
 	},
 	STATEMENT_TYPE: {
 		LPA: 'lpa',
@@ -51,6 +56,10 @@ module.exports = {
 	 * @type {LpaUserRole}
 	 */
 	LPA_USER_ROLE: 'LPAUser',
+	TEST_LPA_CODES: {
+		Q9999: 'Q9999',
+		Q1111: 'Q1111'
+	},
 	AUTH: {
 		RESOURCE: 'http://appeals-front-office', // represents all appeals apis, single access token shared between all
 		OIDC_ENDPOINT: '/oidc',

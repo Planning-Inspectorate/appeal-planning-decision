@@ -26,7 +26,7 @@
 }
 %}
 
-{% if isV2 %}
+{% if isV2forS78 %}
   {% set listedBuildingRow = {
     key: {
       text: "Is your appeal about a listed building?"
@@ -46,6 +46,10 @@
     }
   }
   %}
+{% endif %}
+
+{% if not isListedBuilding %}
+  {% set listedBuildingRow = null %}
 {% endif %}
 
 {% block pageTitle %}
@@ -82,6 +86,24 @@
                     text: "Change",
                     visuallyHiddenText: "Local planning authority",
                     attributes: { "data-cy":"localPlanningDepartment"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Have you received an enforcement notice?"
+              },
+              value: {
+                text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/enforcement-notice",
+                    text: "Change",
+                    visuallyHiddenText: "Have you received an enforcement notice?",
+                    attributes: { "data-cy":"enforcementNotice"}
                   }
                 ]
               }
@@ -155,24 +177,6 @@
                     text: "Change",
                     visuallyHiddenText: dateOfDecisionLabel,
                     attributes: { "data-cy":"decisionDate"}
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Have you received an enforcement notice?"
-              },
-              value: {
-                text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/before-you-start/enforcement-notice",
-                    text: "Change",
-                    visuallyHiddenText: "Have you received an enforcement notice?",
-                    attributes: { "data-cy":"enforcementNotice"}
                   }
                 ]
               }

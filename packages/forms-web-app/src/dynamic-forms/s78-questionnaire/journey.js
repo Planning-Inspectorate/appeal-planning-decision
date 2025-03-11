@@ -96,7 +96,8 @@ const sections = [
 		.addQuestion(questions.pressAdvertUpload)
 		.withCondition((response) =>
 			questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert')
-		),
+		)
+		.addQuestion(questions.appealNotification),
 	new Section('Consultation responses and representations', 'consultation')
 		.addQuestion(questions.statutoryConsultees)
 		.addQuestion(questions.consultationResponses)
@@ -180,6 +181,7 @@ const params = {
 	sections,
 	journeyTemplate: 'questionnaire-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
+	informationPageViewPath: 'dynamic-components/submission-information/index',
 	journeyTitle: 'Manage your appeals',
 	makeBaseUrl
 };

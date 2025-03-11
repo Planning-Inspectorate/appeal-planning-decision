@@ -50,14 +50,13 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				`/download/back-office/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`;
 		}
 
-		const lpaUser = getUserFromSession(req);
-		const userEmail = userType === LPA_USER_ROLE ? lpaUser?.email : req.session.email;
+		const loggedInUser = getUserFromSession(req);
 
-		if (!userEmail) {
+		if (!loggedInUser.email) {
 			throw new Error('no session email');
 		}
 
-		const user = await req.appealsApiClient.getUserByEmailV2(userEmail);
+		const user = await req.appealsApiClient.getUserByEmailV2(loggedInUser.email);
 
 		const caseData = await req.appealsApiClient.getUsersAppealCase({
 			caseReference: appealNumber,

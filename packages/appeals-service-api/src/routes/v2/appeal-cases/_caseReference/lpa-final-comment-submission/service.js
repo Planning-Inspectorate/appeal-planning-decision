@@ -3,7 +3,7 @@ const { LPAFinalCommentSubmissionRepository } = require('./repo');
 const repo = new LPAFinalCommentSubmissionRepository();
 
 /**
- * @typedef {import('@prisma/client').LPAFinalCommentSubmission} LPAFinalCommentSubmission
+ * @typedef {import('./lpa-final-comment-submission').LPAFinalCommentSubmission} LPAFinalCommentSubmission
  */
 
 /**
@@ -60,11 +60,11 @@ async function patchLPAFinalCommentByAppealId(appealCaseId, finalCommentData) {
  * mark comment as submitted to back office
  *
  * @param {string} caseReference
- * @param {string} LPACommentsSubmitted
+ * @param {string} LPACommentsSubmittedDate
  * @return {Promise<{id: string}>}
  */
-function markLPAFinalCommentAsSubmitted(caseReference, LPACommentsSubmitted) {
-	return repo.markLPAFinalCommentAsSubmitted(caseReference, LPACommentsSubmitted);
+function markLPAFinalCommentAsSubmitted(caseReference, LPACommentsSubmittedDate) {
+	return repo.markLPAFinalCommentAsSubmitted(caseReference, LPACommentsSubmittedDate);
 }
 
 module.exports = {

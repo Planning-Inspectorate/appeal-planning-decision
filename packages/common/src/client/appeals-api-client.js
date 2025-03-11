@@ -16,25 +16,23 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
  * @typedef {import('appeals-service-api').Api.LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
- * @typedef {import('appeals-service-api').Api.AppealCaseWithRule6Parties} AppealCaseWithRule6Parties
  * @typedef {import('appeals-service-api').Api.AppealUser} AppealUser
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
  * @typedef {import('appeals-service-api').Api.Event} Event
  * @typedef {import('appeals-service-api').Api.ServiceUser} ServiceUserAPI
  * @typedef {import('pins-data-model/src/schemas').AppealHASCase} AppealHASCase
- * @typedef {import('appeals-service-api').Api.InterestedPartyComment} InterestedPartyComment
  * @typedef {import('appeals-service-api').Api.InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.ListedBuilding} ListedBuilding
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
- * @typedef {import('appeals-service-api').Api.AppealStatement} AppealStatement
- * @typedef {import('appeals-service-api').Api.FinalComment} FinalComment
  * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
+ * @typedef {import('appeals-service-api').Api.Representation} Representation
+ * @typedef {import('appeals-service-api').Api.Document} Document
  */
 
 // Data model types
@@ -42,6 +40,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('pins-data-model/src/schemas').ServiceUser} ServiceUser
  * @typedef {import('pins-data-model/src/schemas').AppealDocument} AppealDocument
  * @typedef {import('pins-data-model/src/schemas').AppealEvent} AppealEvent
+ * @typedef {import('pins-data-model/src/schemas').AppealRepresentation} AppealRepresentation
  */
 
 /**
@@ -252,6 +251,36 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {ServiceUser} data
+	 * @returns {Promise<ServiceUser>}
+	 */
+	async deleteR6UserAppealLink(data) {
+		const endpoint = `${v2}/service-users/${data.emailAddress}/appeal-cases/${data.caseReference}/unlinkRule6`;
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {AppealRepresentation} data
+	 * @returns {Promise<Representation>}
+	 */
+	async putAppealRepresentation(data) {
+		const endpoint = `${v2}/appeal-cases/${data.caseReference}/representations/${data.representationId}`;
+		const response = await this.#makePutRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} id
+	 * @returns {Promise<Document>}
+	 */
+	async getDocumentDetails(id) {
+		const endpoint = `${v2}/documents/${id}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * @param {AppealDocument} data
 	 * @returns {Promise<AppealDocument>}
 	 */
@@ -321,7 +350,8 @@ class AppealsApiClient {
 	/**
 	 * todo, use a call to appeal-cases and use token rather than user/appeal-cases
 	 * @param {{ caseReference: string, userId: string, role: string }} params
-	 * @returns {Promise<AppealCaseWithRule6Parties>}
+	 * @returns {Promise<AppealCaseDetailed>}
+	 * @deprecated
 	 */
 	async getUsersAppealCase({ caseReference, userId, role }) {
 		const urlParams = new URLSearchParams();
@@ -478,7 +508,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @returns {Promise<AppealCase>}
+	 * @returns {Promise<AppealCaseDetailed>}
 	 */
 	async getAppealCaseWithRepresentations(caseReference) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/representations`;
@@ -489,38 +519,12 @@ class AppealsApiClient {
 	/**
 	 * @param {string} caseReference
 	 * @param {RepresentationTypes} type
-	 * @returns {Promise<AppealCase>}
+	 * @returns {Promise<AppealCaseDetailed>}
 	 */
 	async getAppealCaseWithRepresentationsByType(caseReference, type) {
 		const urlParams = new URLSearchParams();
 		urlParams.append('type', type);
 		const endpoint = `${v2}/appeal-cases/${caseReference}/representations?${urlParams.toString()}`;
-		const response = await this.#makeGetRequest(endpoint);
-		return response.json();
-	}
-
-	/**
-	 * @param {string} caseReference
-	 * @param {string} type
-	 * @returns {Promise<AppealStatement[]>}
-	 */
-	async getAppealStatement(caseReference, type) {
-		const urlParams = new URLSearchParams();
-		urlParams.append('type', type);
-		const endpoint = `${v2}/appeal-cases/${caseReference}/appeal-statements?${urlParams.toString()}`;
-		const response = await this.#makeGetRequest(endpoint);
-		return response.json();
-	}
-
-	/**
-	 * @param {string} caseReference
-	 * @param {string} type
-	 * @returns {Promise<FinalComment[]>}
-	 */
-	async getAppealFinalComments(caseReference, type) {
-		const urlParams = new URLSearchParams();
-		urlParams.append('type', type);
-		const endpoint = `${v2}/appeal-cases/${caseReference}/appeal-final-comments?${urlParams.toString()}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
@@ -939,9 +943,21 @@ class AppealsApiClient {
 	async postSubmissionAddress(journeyId, referenceId, data) {
 		let endpoint;
 
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/address`;
-		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+		} else if (
+			[
+				JOURNEY_TYPES.HAS_APPEAL_FORM,
+				JOURNEY_TYPES.S78_APPEAL_FORM,
+				JOURNEY_TYPES.S20_APPEAL_FORM
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/address`;
 		}
 
@@ -962,9 +978,21 @@ class AppealsApiClient {
 	async deleteSubmissionAddress(journeyId, referenceId, addressId) {
 		let endpoint;
 
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/address/${addressId}`;
-		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+		} else if (
+			[
+				JOURNEY_TYPES.HAS_APPEAL_FORM,
+				JOURNEY_TYPES.S78_APPEAL_FORM,
+				JOURNEY_TYPES.S20_APPEAL_FORM
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/address/${addressId}`;
 		}
 
@@ -984,9 +1012,21 @@ class AppealsApiClient {
 	 */
 	async postSubmissionLinkedCase(journeyId, referenceId, data) {
 		let endpoint;
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/linked-case`;
-		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+		} else if (
+			[
+				JOURNEY_TYPES.HAS_APPEAL_FORM,
+				JOURNEY_TYPES.S78_APPEAL_FORM,
+				JOURNEY_TYPES.S20_APPEAL_FORM
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/linked-case`;
 		}
 
@@ -1006,9 +1046,21 @@ class AppealsApiClient {
 	 */
 	async deleteSubmissionLinkedCase(journeyId, referenceId, linkedCaseId) {
 		let endpoint;
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/linked-case/${linkedCaseId}`;
-		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+		} else if (
+			[
+				JOURNEY_TYPES.HAS_APPEAL_FORM,
+				JOURNEY_TYPES.S78_APPEAL_FORM,
+				JOURNEY_TYPES.S20_APPEAL_FORM
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/linked-case/${linkedCaseId}`;
 		}
 
@@ -1028,7 +1080,13 @@ class AppealsApiClient {
 	 */
 	async postSubmissionListedBuilding(journeyId, referenceId, data) {
 		let endpoint;
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/listed-building`;
 		}
 
@@ -1048,7 +1106,13 @@ class AppealsApiClient {
 	 */
 	async deleteSubmissionListedBuilding(journeyId, referenceId, listedBuildingId) {
 		let endpoint;
-		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+		if (
+			[
+				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				JOURNEY_TYPES.S78_QUESTIONNAIRE,
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+			].includes(journeyId)
+		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/listed-building/${listedBuildingId}`;
 		}
 
@@ -1067,27 +1131,6 @@ class AppealsApiClient {
 	async submitLPAQuestionnaire(caseReference) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/submit`;
 		await this.#makePostRequest(endpoint);
-	}
-
-	/**
-	 * @param {string} caseReference
-	 * @returns {Promise<InterestedPartyComment[]>}
-	 */
-	async getInterestedPartyComments(caseReference) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/interested-party-comments`;
-		const response = await this.#makeGetRequest(endpoint);
-		return response.json();
-	}
-
-	/**
-	 * @param {string} caseReference
-	 * @param {import("@prisma/client").Prisma.InterestedPartyCommentCreateInput} commentData
-	 * @returns {Promise<InterestedPartyComment>}
-	 */
-	async createInterestedPartyComment(caseReference, commentData) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/interested-party-comments`;
-		const response = await this.#makePostRequest(endpoint, commentData);
-		return response.json();
 	}
 
 	/**

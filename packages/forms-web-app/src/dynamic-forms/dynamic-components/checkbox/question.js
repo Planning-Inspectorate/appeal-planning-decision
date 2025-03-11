@@ -1,5 +1,4 @@
 const { OptionsQuestion } = require('../../options-question');
-const questionUtils = require('../utils/question-utils');
 
 const defaultOptionJoinString = ',';
 
@@ -66,56 +65,7 @@ class CheckboxQuestion extends OptionsQuestion {
 	 * }>}
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer) {
-		if (!answer) {
-			return super.formatAnswerForSummary(sectionSegment, journey, answer, false);
-		}
-
-		// answer is single ConditionalAnswerObject
-		if (typeof answer !== 'string') {
-			/** @type {import('src/dynamic-forms/question-props').OptionWithoutDivider | undefined} */
-			// @ts-ignore
-			const selectedOption = this.options.find(
-				(option) => !questionUtils.optionIsDivider(option) && option.value === answer.value
-			);
-
-			if (!selectedOption || questionUtils.conditionalIsJustHTML(selectedOption.conditional)) {
-				throw new Error('No valid options matched answer option');
-			}
-
-			const conditionalAnswerText = selectedOption.conditional?.label
-				? `${selectedOption.conditional.label} ${answer.conditional}`
-				: answer.conditional;
-
-			const formattedConditionalText = [selectedOption.text, conditionalAnswerText].join('\n');
-
-			return super.formatAnswerForSummary(sectionSegment, journey, formattedConditionalText, false);
-		}
-
-		// answer is a string
-		const answerArray = answer.split(this.optionJoinString);
-
-		const formattedAnswer = this.options
-			.filter(
-				(option) => !questionUtils.optionIsDivider(option) && answerArray.includes(option.value)
-			)
-			.map(
-				// @ts-ignore
-				(/** @type {import('src/dynamic-forms/question-props').OptionWithoutDivider} */ option) => {
-					if (option.conditional) {
-						if (questionUtils.conditionalIsJustHTML(option.conditional)) return '';
-						const conditionalAnswer =
-							journey.response.answers[
-								questionUtils.getConditionalFieldName(this.fieldName, option.conditional.fieldName)
-							];
-						return [option.text, conditionalAnswer].join('\n');
-					}
-
-					return option.text;
-				}
-			)
-			.join('\n');
-
-		return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
+		return super.formatAnswerForSummary(sectionSegment, journey, answer, false);
 	}
 }
 

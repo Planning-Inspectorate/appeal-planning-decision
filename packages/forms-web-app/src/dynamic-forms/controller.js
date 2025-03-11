@@ -324,9 +324,9 @@ exports.submit = async (req, res) => {
 
 	const journeyUrl = (journeyId) => {
 		if (journeyId === 'has-questionnaire') {
-			return 'householder/';
+			return 'householder';
 		} else if (journeyId === 's78-questionnaire') {
-			return 'full-planning/';
+			return 'full-planning';
 		} else return '';
 	};
 
@@ -339,14 +339,15 @@ exports.submit = async (req, res) => {
 
 	const storedPdf = await storePdfQuestionnaireSubmission({
 		submissionJourney: journey,
-		sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
+		sid: req.cookies[CONSTS.SESSION_COOKIE_NAME],
+		appealTypeUrl: journeyUrl(journeyResponse.journeyId)
 	});
 
 	await req.appealsApiClient.patchLPAQuestionnaire(referenceId, { submissionPdfId: storedPdf.id });
 
 	return res.redirect(
 		'/manage-appeals/' +
-			journeyUrl(journeyResponse.journeyId) +
+			`${journeyUrl(journeyResponse.journeyId)}/` +
 			encodeURIComponent(referenceId) +
 			'/questionnaire-submitted/'
 	);
@@ -426,17 +427,19 @@ exports.lpaQuestionnaireSubmissionInformation = async (req, res) => {
 /**
  * @type {import('express').Handler}
  */
-exports.appellantBYSListOfDocuments = async (req, res) => {
+exports.appellantBYSListOfDocuments = (req, res) => {
 	const appeal = req.session.appeal;
 
 	const usingV2Form = true;
 
-	if (appeal.appealType == APPEAL_ID.HOUSEHOLDER) {
-		res.render('appeal-householder-decision/list-of-documents', { usingV2Form });
-	} else if (appeal.appealType == APPEAL_ID.PLANNING_SECTION_78) {
-		res.render('full-appeal/submit-appeal/list-of-documents', { usingV2Form });
-	} else {
-		res.render('./error/not-found.njk');
+	switch (appeal.appealType) {
+		case APPEAL_ID.HOUSEHOLDER:
+			return res.render('appeal-householder-decision/list-of-documents', { usingV2Form });
+		case APPEAL_ID.PLANNING_SECTION_78:
+		case APPEAL_ID.PLANNING_LISTED_BUILDING:
+			return res.render('full-appeal/submit-appeal/list-of-documents', { usingV2Form });
+		default:
+			return res.render('./error/not-found.njk');
 	}
 };
 

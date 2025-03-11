@@ -1,24 +1,15 @@
-const { isFeatureActive } = require('../../configuration/featureFlag');
-const formatters = require('./formatters');
 const forwarders = require('./forwarders');
-const { FLAG } = require('@pins/common/src/feature-flags');
 const {
-	getLPAQuestionnaireByAppealId,
 	markQuestionnaireAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/service');
 
-const {
-	markAppealAsSubmitted,
-	getForBOSubmission
-} = require('../../routes/v2/appellant-submissions/_id/service');
+const { markAppealAsSubmitted } = require('../../routes/v2/appellant-submissions/_id/service');
 
 const {
 	getLPAStatementByAppealId,
 	markStatementAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-statement-submission/service');
 
-const ApiError = require('#errors/apiError');
-const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
 	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionReceivedEmailToLpaV2,
@@ -61,12 +52,9 @@ const {
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service');
 const { getServiceUserByIdAndCaseReference } = require('../../routes/v2/service-users/service');
 const { getCaseAndAppellant } = require('../../routes/v2/appeal-cases/service');
-const { SERVICE_USER_TYPE } = require('pins-data-model');
-
-/**
- * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
- * @typedef {"HAS" | "S78"} AppealTypeCode
- */
+const { SERVICE_USER_TYPE, APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
  * @template Payload
@@ -74,56 +62,44 @@ const { SERVICE_USER_TYPE } = require('pins-data-model');
  */
 
 /**
+ * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
+ * @typedef {import('../../routes/v2/appellant-submissions/_id/service').FullAppellantSubmission} FullAppellantSubmission
+ * @typedef {"HAS" | "S78"} AppealTypeCode
  * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
  * @typedef {import ('pins-data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
+ * @typedef {import ('pins-data-model').Schemas.AppealRepresentationSubmission} AppealRepresentationSubmission
+ * @typedef {import('./formatters/s78/representation').TypedRepresentationSubmission} TypedRepresentationSubmission
+ * @typedef {import('./formatters/s78/representation').RepresentationTypes} RepresentationTypes
+ * @typedef {import('./formatters/s78/representation').RepresentationFormatterParams} RepresentationFormatterParams
  */
 
 /**
- * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
+ * @typedef {import('../../routes/v2/interested-party-submissions/repo').DetailedInterestedPartySubmission} DetailedInterestedPartySubmission
+ * @typedef {import('../../models/entities/lpa-entity')} LPA
+ * @typedef {import('./formatters/utils').AppellantSubmissionMapper} AppellantSubmissionMapper
  */
 
 const { getValidator } = new SchemaValidator();
 
-/** @type {Record<AppealTypeCode, string>} */
-const appealTypeCodeToAppealId = {
-	HAS: APPEAL_ID.HOUSEHOLDER,
-	S78: APPEAL_ID.PLANNING_SECTION_78
-};
-
 /** @type {(maybeTypeCode: string) => maybeTypeCode is AppealTypeCode} */
 const isValidAppealTypeCode = (maybeTypeCode) =>
-	Object.keys(appealTypeCodeToAppealId).includes(maybeTypeCode);
+	[CASE_TYPES.HAS.processCode, CASE_TYPES.S78.processCode].includes(maybeTypeCode);
 
 class BackOfficeV2Service {
 	constructor() {}
 
 	/**
-	 * @param {{ appellantSubmissionId: string, userId: string }} params
+	 * @param {{ appellantSubmission: FullAppellantSubmission, email: string, lpa: LPA, formatter: AppellantSubmissionMapper}} params
 	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitAppellantSubmission({ appellantSubmissionId, userId }) {
-		const appellantSubmission = await getForBOSubmission({ appellantSubmissionId, userId });
-
-		if (!appellantSubmission)
-			throw new Error(`Appeal submission ${appellantSubmissionId} not found`);
-
-		const { email } = await getUserById(userId);
-
-		const isBOIntegrationActive = await isFeatureActive(
-			FLAG.APPEALS_BO_SUBMISSION,
-			appellantSubmission.LPACode
-		);
-		if (!isBOIntegrationActive) return;
-
+	async submitAppellantSubmission({ appellantSubmission, email, lpa, formatter }) {
 		if (!isValidAppealTypeCode(appellantSubmission.appealTypeCode))
-			throw new Error(`Appeal submission ${appellantSubmissionId} has an invalid appealTypeCode`);
+			throw new Error(`Appeal submission ${appellantSubmission.id} has an invalid appealTypeCode`);
 
 		logger.info(
 			`mapping appeal ${appellantSubmission.appealId} to ${appellantSubmission.appealTypeCode} schema`
 		);
-		const mappedData = await formatters.appeal[
-			appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]
-		](appellantSubmission);
+		const mappedData = await formatter(appellantSubmission, lpa);
 		logger.debug({ mappedData }, 'mapped appeal');
 
 		logger.info(`validating appeal ${appellantSubmission.appealId} schema`);
@@ -161,48 +137,31 @@ class BackOfficeV2Service {
 
 	/**
 	 * @param {string} caseReference
+	 * @param {LPAQuestionnaireSubmission} questionnaire
+	 * @param {function(string, LPAQuestionnaireSubmission): *} formatter
 	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitQuestionnaire(caseReference) {
-		const questionnaire = await getLPAQuestionnaireByAppealId(caseReference);
-
-		if (!questionnaire) {
-			throw ApiError.questionnaireNotFound();
-		}
-
-		const { LPACode, appealTypeCode } = questionnaire.AppealCase;
-
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, LPACode);
-		if (!isBOIntegrationActive) return;
+	async submitQuestionnaire(caseReference, questionnaire, formatter) {
+		const { appealTypeCode } = questionnaire.AppealCase;
 
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error("Questionnaire's associated AppealCase has an invalid appealTypeCode");
 
-		let result;
-		let mappedData;
-		// todo: temporary check until integration work for s78 is done
-		if (appealTypeCode === 'HAS') {
-			logger.info(`mapping lpaq ${caseReference} to ${appealTypeCode} schema`);
-			mappedData = await formatters.questionnaire[appealTypeCodeToAppealId[appealTypeCode]](
-				caseReference,
-				questionnaire
-			);
-			logger.debug({ mappedData }, 'mapped lpaq');
+		logger.info(`mapping lpaq ${caseReference} to ${appealTypeCode} schema`);
+		const mappedData = await formatter(caseReference, questionnaire);
+		logger.debug({ mappedData }, 'mapped lpaq');
 
-			logger.info(`validating lpaq ${caseReference} schema`);
+		logger.info(`validating lpaq ${caseReference} schema`);
 
-			/** @type {Validate<LPAQuestionnaireCommand>} */
-			const validator = getValidator('lpa-questionnaire');
-			if (!validator(mappedData)) {
-				throw new Error(
-					`Payload was invalid when checked against appellant submission command schema`
-				);
-			}
-
-			logger.info(`forwarding lpaq ${caseReference} to service bus`);
-
-			result = await forwarders.questionnaire([mappedData]);
+		/** @type {Validate<LPAQuestionnaireCommand>} */
+		const validator = getValidator('lpa-questionnaire');
+		if (!validator(mappedData)) {
+			throw new Error(`Payload was invalid when checked against lpa questionnaire command schema`);
 		}
+
+		logger.info(`forwarding lpaq ${caseReference} to service bus`);
+
+		const result = await forwarders.questionnaire([mappedData]);
 
 		await markQuestionnaireAsSubmitted(
 			caseReference,
@@ -235,35 +194,45 @@ class BackOfficeV2Service {
 	}
 
 	/**
-	 * @param {InterestedPartySubmission} interestedPartySubmission
-	 * @returns {Promise<void>}
+	 * @param {DetailedInterestedPartySubmission} interestedPartySubmission
+	 * @param {function(RepresentationFormatterParams): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitInterestedPartySubmission(interestedPartySubmission) {
-		// const isBOIntegrationActive = await isFeatureActive(
-		// 	FLAG.APPEALS_BO_SUBMISSION,
-		// 	lpaCode
-		// );
-		// if (!isBOIntegrationActive) return;
+	async submitInterestedPartySubmission(interestedPartySubmission, formatter) {
+		const { appealTypeCode } = interestedPartySubmission.AppealCase;
+		const { caseReference, id } = interestedPartySubmission;
 
-		// Note - mapping to be implemented in future
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error(
+				'Interested Party Comment associated AppealCase has an invalid appealTypeCode'
+			);
 
-		// logger.info(
-		// 	`mapping interested party submission ${interestedPartySubmission.id} to schema`
-		// );
-		// const mappedData = await formatters.interestedPartyComment(interestedPartySubmission);
-		// logger.debug({ mappedData }, 'mapped appeal');
+		logger.info(`mapping interested party submission ${id} to schema`);
 
-		// NOTE - consider whether validation required
+		const mappedData = await formatter({
+			caseReference,
+			repType: APPEAL_REPRESENTATION_TYPE.COMMENT,
+			party: APPEAL_USER_ROLES.INTERESTED_PARTY,
+			representationSubmission: interestedPartySubmission
+		});
+		logger.debug({ mappedData }, 'mapped representation');
 
-		logger.info(
-			`forwarding interested party submission ${interestedPartySubmission.id} to service bus`
-		);
-		// const result = await forwarders.interestedPartyComment([mappedData]);
+		logger.info(`validating interested party comment ${id} representation schema`);
+
+		/** @type {Validate<AppealRepresentationSubmission>} */
+		const validator = getValidator('appeal-representation-submission');
+		if (!validator(mappedData)) {
+			throw new Error(
+				`Payload was invalid when checked against appeal representation submission schema`
+			);
+		}
+
+		logger.info(`forwarding interested party submission ${id} of ${caseReference} to service bus`);
+
+		const result = await forwarders.representation([mappedData]);
 
 		if (interestedPartySubmission.emailAddress) {
-			logger.info(
-				`sending interested party comment submitted emails for ${interestedPartySubmission.id}`
-			);
+			logger.info(`sending interested party comment submitted emails for ${id}`);
 
 			try {
 				await sendCommentSubmissionConfirmationEmailToIp(interestedPartySubmission);
@@ -272,19 +241,53 @@ class BackOfficeV2Service {
 				throw new Error('failed to send interested party comment submission email');
 			}
 		}
+		return result;
 	}
 
 	/**
-	 * @param {string} appealCaseReference
-	 * @returns {Promise<void>}
+	 * @param {string} caseReference
+	 * @param {function(RepresentationFormatterParams): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitLPAStatementSubmission(appealCaseReference) {
-		const lpaStatement = await getLPAStatementByAppealId(appealCaseReference);
+	async submitLPAStatementSubmission(caseReference, formatter) {
+		const lpaStatement = await getLPAStatementByAppealId(caseReference);
 
-		logger.info(`forwarding lpa statement submission for ${appealCaseReference} to service bus`);
+		if (!lpaStatement) throw new Error('No lpa statement found');
+
+		const { appealTypeCode } = lpaStatement.AppealCase;
+
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error('LPA statement associated AppealCase has an invalid appealTypeCode');
+
+		let result;
+		let mappedData;
+		if (appealTypeCode === CASE_TYPES.S78.processCode) {
+			logger.info(`mapping lpa statement ${caseReference} to ${appealTypeCode} schema`);
+			mappedData = await formatter({
+				caseReference,
+				repType: APPEAL_REPRESENTATION_TYPE.STATEMENT,
+				party: LPA_USER_ROLE,
+				representationSubmission: lpaStatement
+			});
+			logger.debug({ mappedData }, 'mapped representation');
+
+			logger.info(`validating representation ${caseReference} schema`);
+
+			/** @type {Validate<AppealRepresentationSubmission>} */
+			const validator = getValidator('appeal-representation-submission');
+			if (!validator(mappedData)) {
+				throw new Error(
+					`Payload was invalid when checked against appeal representation submission schema`
+				);
+			}
+
+			logger.info(`forwarding lpa statement submission for ${caseReference} to service bus`);
+
+			result = await forwarders.representation([mappedData]);
+		}
 
 		// Date to be set in back office mapper once data model confirmed
-		await markStatementAsSubmitted(appealCaseReference, new Date().toISOString());
+		await markStatementAsSubmitted(caseReference, new Date().toISOString());
 
 		try {
 			await sendLpaStatementSubmissionReceivedEmailToLpaV2(lpaStatement);
@@ -292,16 +295,50 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendLpaStatementSubmissionReceivedEmailToLpaV2');
 			throw new Error('failed to send lpa statement submission email');
 		}
+		return result;
 	}
 
 	/**
 	 * @param {string} caseReference
-	 * @returns {Promise<void>}
+	 * @param {function(RepresentationFormatterParams): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitLPAFinalCommentSubmission(caseReference) {
+	async submitLPAFinalCommentSubmission(caseReference, formatter) {
 		const lpaFinalCommentSubmission = await getLPAFinalCommentByAppealId(caseReference);
 
-		logger.info(`forwarding lpa final comment submission for ${caseReference} to service bus`);
+		if (!lpaFinalCommentSubmission) throw new Error('No lpa final comments found');
+
+		const { appealTypeCode } = lpaFinalCommentSubmission.AppealCase;
+
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error('LPA final comments associated AppealCase has an invalid appealTypeCode');
+
+		let result;
+		let mappedData;
+		if (appealTypeCode === CASE_TYPES.S78.processCode) {
+			logger.info(`mapping lpa final comment ${caseReference} to ${appealTypeCode} schema`);
+			mappedData = await formatter({
+				caseReference,
+				repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+				party: LPA_USER_ROLE,
+				representationSubmission: lpaFinalCommentSubmission
+			});
+			logger.debug({ mappedData }, 'mapped representation');
+
+			logger.info(`validating representation ${caseReference} schema`);
+
+			/** @type {Validate<AppealRepresentationSubmission>} */
+			const validator = getValidator('appeal-representation-submission');
+			if (!validator(mappedData)) {
+				throw new Error(
+					`Payload was invalid when checked against appeal representation submission schema`
+				);
+			}
+
+			logger.info(`forwarding lpa final comment submission for ${caseReference} to service bus`);
+
+			result = await forwarders.representation([mappedData]);
+		}
 
 		// Date to be set in back office mapper once data model confirmed
 		await markLPAFinalCommentAsSubmitted(caseReference, new Date().toISOString());
@@ -312,16 +349,50 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendLPAFinalCommentSubmissionEmailToLPAV2');
 			throw new Error('failed to send lpa final comment submission email');
 		}
+		return result;
 	}
 
 	/**
 	 * @param {string} caseReference
-	 * @returns {Promise<void>}
+	 * @param {function(RepresentationFormatterParams): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitLpaProofEvidenceSubmission(caseReference) {
+	async submitLpaProofEvidenceSubmission(caseReference, formatter) {
 		const lpaProofEvidenceSubmission = await getLpaProofOfEvidenceByAppealId(caseReference);
 
-		logger.info(`forwarding lpa proof evidence submission for ${caseReference} to service bus`);
+		if (!lpaProofEvidenceSubmission) throw new Error('No lpa proof of evidence found');
+
+		const { appealTypeCode } = lpaProofEvidenceSubmission.AppealCase;
+
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error('LPA proof of evidence associated AppealCase has an invalid appealTypeCode');
+
+		let result;
+		let mappedData;
+		if (appealTypeCode === CASE_TYPES.S78.processCode) {
+			logger.info(`mapping lpa proof of evidence ${caseReference} to ${appealTypeCode} schema`);
+			mappedData = await formatter({
+				caseReference,
+				repType: APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+				party: LPA_USER_ROLE,
+				representationSubmission: lpaProofEvidenceSubmission
+			});
+			logger.debug({ mappedData }, 'mapped representation');
+
+			logger.info(`validating representation ${caseReference} schema`);
+
+			/** @type {Validate<AppealRepresentationSubmission>} */
+			const validator = getValidator('appeal-representation-submission');
+			if (!validator(mappedData)) {
+				throw new Error(
+					`Payload was invalid when checked against appeal representation submission schema`
+				);
+			}
+
+			logger.info(`forwarding lpa proof evidence submission for ${caseReference} to service bus`);
+
+			result = await forwarders.representation([mappedData]);
+		}
 
 		// Date to be set in back office mapper once data model confirmed
 		await markLpaProofOfEvidenceAsSubmitted(caseReference, new Date().toISOString());
@@ -332,38 +403,58 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendLpaProofEvidenceSubmissionEmailToLPAV2');
 			throw new Error('failed to send lpa proof evidence submission email');
 		}
+
+		return result;
 	}
 
 	/**
 	 * @param {string} caseReference
 	 * @param {string} userId
-	 * @returns {Promise<void>}
+	 * @param {function(RepresentationFormatterParams): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitAppellantFinalCommentSubmission(caseReference, userId) {
+	async submitAppellantFinalCommentSubmission(caseReference, userId, formatter) {
 		const appellantFinalCommentSubmission = await getAppellantFinalCommentByAppealId(caseReference);
 
-		const { email, serviceUserId } = await getUserById(userId);
-
-		let appellantName;
-
-		if (serviceUserId) {
-			const serviceUserDetails = await getServiceUserByIdAndCaseReference(
-				serviceUserId,
-				caseReference
-			);
-
-			if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
-				appellantName = serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
-			} else {
-				appellantName = 'Appellant';
-			}
-		} else {
-			appellantName = 'Appellant';
+		if (!appellantFinalCommentSubmission) {
+			throw new Error('No appellant final comments found');
 		}
 
-		logger.info(
-			`forwarding appellant final comment submission for ${caseReference} to service bus`
-		);
+		const { appealTypeCode } = appellantFinalCommentSubmission.AppealCase;
+		const { email, serviceUserId } = await getUserById(userId);
+
+		const appellantName =
+			(await this.#getAppellantNameFromServiceUser(serviceUserId, caseReference)) || 'Appellant';
+
+		let result;
+		let mappedData;
+		if (appealTypeCode === CASE_TYPES.S78.processCode) {
+			logger.info(`mapping appellant final comment ${caseReference} to ${appealTypeCode} schema`);
+			mappedData = await formatter({
+				caseReference,
+				serviceUserId,
+				repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+				party: APPEAL_USER_ROLES.APPELLANT,
+				representationSubmission: appellantFinalCommentSubmission
+			});
+			logger.debug({ mappedData }, 'mapped representation');
+
+			logger.info(`validating representation ${caseReference} schema`);
+
+			/** @type {Validate<AppealRepresentationSubmission>} */
+			const validator = getValidator('appeal-representation-submission');
+			if (!validator(mappedData)) {
+				throw new Error(
+					`Payload was invalid when checked against appeal representation submission schema`
+				);
+			}
+
+			logger.info(
+				`forwarding appellant final comment representation ${caseReference} to service bus`
+			);
+
+			result = await forwarders.representation([mappedData]);
+		}
 
 		// Date to be set in back office mapper once data model confirmed
 		await markAppellantFinalCommentAsSubmitted(caseReference, new Date().toISOString());
@@ -378,40 +469,62 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendAppellantFinalCommentSubmissionEmailToAppellantV2');
 			throw new Error('failed to send appellant final comment submission email');
 		}
+
+		return result;
 	}
 
 	/**
 	 * @param {string} caseReference
 	 * @param {string} userId
-	 * @returns {Promise<void>}
+	 * @param {function(RepresentationFormatterParams): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitAppellantProofEvidenceSubmission(caseReference, userId) {
+	async submitAppellantProofEvidenceSubmission(caseReference, userId, formatter) {
 		const appellantProofEvidenceSubmission = await getAppellantProofOfEvidenceByAppealId(
 			caseReference
 		);
 
-		const { email, serviceUserId } = await getUserById(userId);
+		if (!appellantProofEvidenceSubmission) {
+			throw new Error('No appellant proofs of evidence found');
+		}
 
-		let appellantName;
+		const { appealTypeCode } = appellantProofEvidenceSubmission.AppealCase;
 
-		if (serviceUserId) {
-			const serviceUserDetails = await getServiceUserByIdAndCaseReference(
-				serviceUserId,
-				caseReference
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error(
+				'Appellant proofs of evidence associated AppealCase has an invalid appealTypeCode'
 			);
 
-			if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
-				appellantName = serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
-			} else {
-				appellantName = 'Appellant';
-			}
-		} else {
-			appellantName = 'Appellant';
+		const { email, serviceUserId } = await getUserById(userId);
+
+		const appellantName =
+			(await this.#getAppellantNameFromServiceUser(serviceUserId, caseReference)) || 'Appellant';
+
+		logger.info(`mapping appellant proofs for ${caseReference} to ${appealTypeCode} schema`);
+		const mappedData = await formatter({
+			caseReference,
+			serviceUserId,
+			repType: APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+			party: APPEAL_USER_ROLES.APPELLANT,
+			representationSubmission: appellantProofEvidenceSubmission
+		});
+		logger.debug({ mappedData }, 'mapped representation');
+
+		logger.info(`validating representation ${caseReference} schema`);
+
+		/** @type {Validate<AppealRepresentationSubmission>} */
+		const validator = getValidator('appeal-representation-submission');
+		if (!validator(mappedData)) {
+			throw new Error(
+				`Payload was invalid when checked against appeal representation submission schema`
+			);
 		}
 
 		logger.info(
 			`forwarding appellant proof of evidence submission for ${caseReference} to service bus`
 		);
+
+		const result = await forwarders.representation([mappedData]);
 
 		// Date to be set in back office mapper once data model confirmed
 		await markAppellantProofOfEvidenceAsSubmitted(caseReference, new Date().toISOString());
@@ -426,26 +539,59 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendAppellantProofEvidenceSubmissionEmailToAppellantV2');
 			throw new Error('failed to send appellant proof of evidence submission email');
 		}
+
+		return result;
 	}
 
 	/**
 	 * @param {string} caseReference
 	 * @param {string} userId
-	 * @returns {Promise<void>}
+	 * @param {function(RepresentationFormatterParams): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitRule6ProofOfEvidenceSubmission(caseReference, userId) {
+	async submitRule6ProofOfEvidenceSubmission(caseReference, userId, formatter) {
 		const rule6ProofOfEvidenceSubmission = await getRule6ProofOfEvidenceByAppealId(
 			userId,
 			caseReference
 		);
 
-		const { email } = await getUserById(userId);
+		if (!rule6ProofOfEvidenceSubmission) throw new Error('No rule 6 proof of evidence found');
+
+		const { appealTypeCode } = rule6ProofOfEvidenceSubmission.AppealCase;
+
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error('Rule 6 statement associated AppealCase has an invalid appealTypeCode');
+
+		const { email, serviceUserId } = await getUserById(userId);
+
+		logger.info(
+			`mapping rule6 proof of evidence for case ${caseReference} to ${appealTypeCode} schema`
+		);
+		const mappedData = await formatter({
+			caseReference,
+			serviceUserId,
+			repType: APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
+			party: APPEAL_USER_ROLES.RULE_6_PARTY,
+			representationSubmission: rule6ProofOfEvidenceSubmission
+		});
+		logger.debug({ mappedData }, 'mapped representation');
+
+		logger.info(`validating representation ${caseReference} schema`);
+
+		/** @type {Validate<AppealRepresentationSubmission>} */
+		const validator = getValidator('appeal-representation-submission');
+		if (!validator(mappedData)) {
+			throw new Error(
+				`Payload was invalid when checked against appeal representation submission schema`
+			);
+		}
 
 		logger.info(
 			`forwarding rule 6 party proof of evidence submission for ${caseReference} to service bus`
 		);
 
-		// Date to be set in back office mapper once data model confirmed
+		const result = await forwarders.representation([mappedData]);
+
 		await markRule6ProofOfEvidenceAsSubmitted(userId, caseReference, new Date().toISOString());
 
 		try {
@@ -457,29 +603,82 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendRule6ProofOfEvidenceSubmissionEmailToRule6PartyV2');
 			throw new Error('failed to send rule 6 proof of evidence submission email');
 		}
+
+		return result;
 	}
 
 	/**
 	 * @param {string} caseReference
 	 * @param {string} userId
-	 * @returns {Promise<void>}
+	 * @param {function(RepresentationFormatterParams): *} formatter
+	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitRule6StatementSubmission(caseReference, userId) {
-		const rule6StatementSubmission = await getRule6StatementByAppealId(userId, caseReference);
+	async submitRule6StatementSubmission(caseReference, userId, formatter) {
+		const rule6Statement = await getRule6StatementByAppealId(userId, caseReference);
 
-		const { email } = await getUserById(userId);
+		if (!rule6Statement) throw new Error('Rule 6 statement not found');
+
+		const { appealTypeCode } = rule6Statement.AppealCase;
+
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error('Rule 6 statement associated AppealCase has an invalid appealTypeCode');
+
+		const { email, serviceUserId } = await getUserById(userId);
+
+		logger.info(`mapping rule6 statement ${caseReference} to ${appealTypeCode} schema`);
+		const mappedData = await formatter({
+			caseReference,
+			serviceUserId,
+			repType: APPEAL_REPRESENTATION_TYPE.STATEMENT,
+			party: APPEAL_USER_ROLES.RULE_6_PARTY,
+			representationSubmission: rule6Statement
+		});
+		logger.debug({ mappedData }, 'mapped representation');
+
+		logger.info(`validating representation ${caseReference} schema`);
+
+		/** @type {Validate<AppealRepresentationSubmission>} */
+		const validator = getValidator('appeal-representation-submission');
+		if (!validator(mappedData)) {
+			throw new Error(
+				`Payload was invalid when checked against appeal representation submission schema`
+			);
+		}
 
 		logger.info(`forwarding rule 6 party statement submission for ${caseReference} to service bus`);
 
-		// Date to be set in back office mapper once data model confirmed
-		await markRule6StatementAsSubmitted(userId, caseReference, new Date().toISOString());
+		const result = await forwarders.representation([mappedData]);
+
+		await markRule6StatementAsSubmitted(userId, caseReference);
 
 		try {
-			await sendRule6StatementSubmissionEmailToRule6PartyV2(rule6StatementSubmission, email);
+			await sendRule6StatementSubmissionEmailToRule6PartyV2(rule6Statement, email);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendRule6StatementSubmissionEmailToRule6PartyV2');
 			throw new Error('failed to send rule 6 statement submission email');
 		}
+
+		return result;
+	}
+
+	/**
+	 * @param {string|null} serviceUserId
+	 * @param {string} caseReference
+	 * @returns {Promise<string|null>}
+	 */
+	async #getAppellantNameFromServiceUser(serviceUserId, caseReference) {
+		if (serviceUserId) {
+			const serviceUserDetails = await getServiceUserByIdAndCaseReference(
+				serviceUserId,
+				caseReference
+			);
+
+			if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
+				return serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
+			}
+		}
+
+		return null;
 	}
 }
 

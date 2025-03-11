@@ -1,5 +1,7 @@
 const { RepresentationsRepository } = require('./repo');
 const { appendAppellantAndAgent } = require('../../service');
+const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
+const ApiError = require('#errors/apiError');
 const {
 	REPRESENTATION_TYPES,
 	LPA_USER_ROLE,
@@ -9,24 +11,35 @@ const { getServiceUsersWithEmailsByIdAndCaseReference } = require('../../../serv
 const { APPEAL_SOURCE } = require('pins-data-model');
 const repo = new RepresentationsRepository();
 
+const { SchemaValidator } = require('../../../../../services/back-office-v2/validate');
+const { getValidator } = new SchemaValidator();
+
+/**
+ * @template Payload
+ * @typedef {import('../../../../../services/back-office-v2/validate').Validate<Payload>} Validate
+ */
+
 /**
  * @typedef {import('@prisma/client').AppealCase} AppealCase
  * @typedef {import('@prisma/client').Representation} Representation
+ *
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  * @typedef { 'LPAUser' } LpaUserRole
+ *
+ * @typedef {import ('pins-data-model').Schemas.AppealRepresentation} AppealRepresentation
  */
 
 /**
  *
  * @param {string} caseReference
- * @returns {Promise<AppealCase|null>}
+ * @returns {Promise<import('./repo').AppealWithRepresentations>}
  */
 async function getAppealCaseWithAllRepresentations(caseReference) {
 	const appealCaseWithRepresentations = await repo.getAppealCaseWithAllRepresentations(
 		caseReference
 	);
+	if (!appealCaseWithRepresentations) throw ApiError.appealsCaseDataNotFound();
 
-	// @ts-ignore
 	const appealCaseWithApplicant = await appendAppellantAndAgent(appealCaseWithRepresentations);
 
 	return appealCaseWithApplicant;
@@ -36,7 +49,7 @@ async function getAppealCaseWithAllRepresentations(caseReference) {
  *
  * @param {string} caseReference
  * @param {string} type
- * @returns {Promise<AppealCase|null>}
+ * @returns {Promise<import('./repo').AppealWithRepresentations>}
  */
 async function getAppealCaseWithRepresentationsByType(caseReference, type) {
 	const appealCaseWithRepresentations = await repo.getAppealCaseWithRepresentationsByType(
@@ -44,7 +57,8 @@ async function getAppealCaseWithRepresentationsByType(caseReference, type) {
 		type
 	);
 
-	// @ts-ignore
+	if (!appealCaseWithRepresentations) throw ApiError.appealsCaseDataNotFound();
+
 	const appealCaseWithApplicant = await appendAppellantAndAgent(appealCaseWithRepresentations);
 
 	return appealCaseWithApplicant;
@@ -66,7 +80,6 @@ async function addOwnershipAndSubmissionDetailsToRepresentations(
 ) {
 	// get unique list of service user ids for any non-ip comment representations
 	// ip comments are ignored as they have no associated login and so ownership always false
-	//
 	const serviceUserIds = new Set(
 		representations
 			.filter(
@@ -95,7 +108,10 @@ async function addOwnershipAndSubmissionDetailsToRepresentations(
 	return representations.map((rep) => ({
 		...rep,
 		userOwnsRepresentation:
-			(isLpa && rep.source === APPEAL_SOURCE.LPA) || loggedInUserIds.has(rep.serviceUserId),
+			(rep.source === APPEAL_SOURCE.LPA && isLpa) ||
+			(rep.source !== APPEAL_SOURCE.LPA &&
+				!!rep.serviceUserId &&
+				loggedInUserIds.has(rep.serviceUserId)),
 		submittingPartyType: ascertainSubmittingParty(rep, serviceUsersWithEmails)
 	}));
 }
@@ -103,7 +119,7 @@ async function addOwnershipAndSubmissionDetailsToRepresentations(
 /**
  *
  * @param {Representation} representation
- * @param {import('pins-data-model/src/schemas').ServiceUser[]} serviceUsersWithEmails
+ * @param {import("#repositories/sql/service-user-repository").BasicServiceUser[]|[]} serviceUsersWithEmails
  * @returns {LpaUserRole | AppealToUserRoles | undefined}
  */
 function ascertainSubmittingParty(representation, serviceUsersWithEmails) {
@@ -116,8 +132,36 @@ function ascertainSubmittingParty(representation, serviceUsersWithEmails) {
 		?.serviceUserType;
 }
 
+/**
+ * Put a representation by representation id
+ *
+ * @param {string} representationId
+ * @param {AppealRepresentation} data
+ * @returns {Promise<Representation>}
+ */
+async function putRepresentation(representationId, data) {
+	try {
+		/** @type {Validate<AppealRepresentation>} */
+		const representationValidator = getValidator('appeal-representation');
+
+		if (!representationValidator(data)) {
+			throw ApiError.badRequest('Payload was invalid');
+		}
+
+		const result = await repo.putRepresentationByRepresentationId(representationId, data);
+
+		return result;
+	} catch (err) {
+		if (err instanceof PrismaClientValidationError) {
+			throw ApiError.badRequest(err.message);
+		}
+		throw err;
+	}
+}
+
 module.exports = {
 	getAppealCaseWithAllRepresentations,
 	getAppealCaseWithRepresentationsByType,
-	addOwnershipAndSubmissionDetailsToRepresentations
+	addOwnershipAndSubmissionDetailsToRepresentations,
+	putRepresentation
 };

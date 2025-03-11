@@ -3,7 +3,7 @@ const { Rule6StatementSubmissionRepository } = require('./repo');
 const repo = new Rule6StatementSubmissionRepository();
 
 /**
- * @typedef {import('@prisma/client').Rule6StatementSubmission} Rule6StatementSubmission
+ * @typedef {import('./rule-6-statement-submission').Rule6StatementSubmission} Rule6StatementSubmission
  */
 
 /**
@@ -18,13 +18,13 @@ async function getRule6StatementByAppealId(userId, appealCaseId) {
 		return null;
 	}
 
-	const proofs = await repo.getRule6StatementByAppealRef(userId, appealCaseId);
+	const statement = await repo.getRule6StatementByAppealRef(userId, appealCaseId);
 
-	if (!proofs) {
+	if (!statement) {
 		return null;
 	}
 
-	return proofs;
+	return statement;
 }
 
 /**
@@ -39,13 +39,13 @@ async function createRule6Statement(userId, appealCaseId, statementData) {
 	if (!userId) {
 		return null;
 	}
-	const proofs = await repo.createRule6Statement(userId, appealCaseId, statementData);
+	const statement = await repo.createRule6Statement(userId, appealCaseId, statementData);
 
-	if (!proofs) {
+	if (!statement) {
 		return null;
 	}
 
-	return proofs;
+	return statement;
 }
 
 /**
@@ -61,13 +61,13 @@ async function patchRule6StatementByAppealId(userId, appealCaseId, statementData
 		return null;
 	}
 
-	const proofs = await repo.patchRule6StatementByAppealId(userId, appealCaseId, statementData);
+	const statement = await repo.patchRule6StatementByAppealId(userId, appealCaseId, statementData);
 
-	if (!proofs) {
+	if (!statement) {
 		return null;
 	}
 
-	return proofs;
+	return statement;
 }
 
 /**
@@ -75,11 +75,10 @@ async function patchRule6StatementByAppealId(userId, appealCaseId, statementData
  *
  * @param {string} userId
  * @param {string} caseReference
- * @param {string} submissionDate
  * @return {Promise<{id: string}>}
  */
-function markRule6StatementAsSubmitted(userId, caseReference, submissionDate) {
-	return repo.markRule6StatementAsSubmitted(userId, caseReference, submissionDate);
+function markRule6StatementAsSubmitted(userId, caseReference) {
+	return repo.markRule6StatementAsSubmitted(userId, caseReference);
 }
 
 module.exports = {

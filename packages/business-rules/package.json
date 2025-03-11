@@ -16,6 +16,7 @@
 	},
 	"author": "",
 	"dependencies": {
+		"@pins/common": "file:../common",
 		"date-fns": "*",
 		"date-fns-tz": "*",
 		"pins-data-model": "*",

@@ -95,19 +95,20 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Designated sites',
 			valueText: formatDesignations(caseData),
-			condition: () => !!formatDesignations(caseData)
+			condition: () => !isHASAppeal
 		},
 		{
 			keyText: 'Tree Preservation Order',
-			valueText: formatYesOrNo(caseData, 'treePreservationOrder'),
-			condition: () => isNotUndefinedOrNull(caseData.treePreservationOrder)
+			valueText: boolToYesNo(
+				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN)
+			),
+			condition: () => !isHASAppeal
 		},
 		{
 			keyText: 'Uploaded Tree Preservation Order extent',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			condition: () =>
-				!!caseData.treePreservationOrder &&
-				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
+				!isHASAppeal && documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			isEscaped: true
 		},
 		{

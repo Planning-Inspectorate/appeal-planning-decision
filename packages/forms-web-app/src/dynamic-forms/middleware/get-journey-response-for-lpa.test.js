@@ -17,13 +17,16 @@ describe('getJourneyResponse', () => {
 	const mockValidTestLpaUser = { id: '123', lpaCode: testLPACode };
 	const mockValidNotTestLpaUser = { lpaCode: noneTestLPACode };
 	const invalidLpaUser = {};
-	const mockAppeal = { appealTypeCode: 'HAS' };
+	const mockAppeal = { appealTypeCode: 'HAS', lpaQuestionnaireDueDate: new Date() };
 	const testDBResponse = { answer1: '1', AppealCase: { LPACode: testLPACode } };
 
 	beforeEach(() => {
 		req = {
 			params: {
 				referenceId: refId
+			},
+			session: {
+				navigationHistory: ['']
 			}
 		};
 
@@ -41,6 +44,7 @@ describe('getJourneyResponse', () => {
 			res.locals = jest.fn().mockReturnValue(res);
 			res.sendStatus = jest.fn().mockReturnValue(res);
 			res.status = jest.fn().mockReturnValue(res);
+			res.redirect = jest.fn().mockReturnValue(res);
 			return res;
 		};
 		res = mockResponse();
@@ -104,6 +108,28 @@ describe('getJourneyResponse', () => {
 		expect(next).toHaveBeenCalled();
 	});
 
+	it('should redirect user to dashboard if lpaq not open', async () => {
+		getUserFromSession.mockReturnValue(mockValidNotTestLpaUser);
+		req.appealsApiClient.getUsersAppealCase.mockImplementation(() =>
+			Promise.resolve({ ...mockAppeal, lpaQuestionnaireSubmittedDate: new Date() })
+		);
+
+		await getJourneyResponse()(req, res, next);
+
+		expect(res.redirect).toHaveBeenCalled();
+	});
+
+	it('should not redirect user if lpaq not open but checkSubmitted is false', async () => {
+		getUserFromSession.mockReturnValue(mockValidNotTestLpaUser);
+		req.appealsApiClient.getUsersAppealCase.mockImplementation(() =>
+			Promise.resolve({ ...mockAppeal, lpaQuestionnaireSubmittedDate: new Date() })
+		);
+
+		await getJourneyResponse(false)(req, res, next);
+
+		expect(res.redirect).not.toHaveBeenCalled();
+	});
+
 	it('should return a 404 not found response if user lpa does not match', async () => {
 		getUserFromSession.mockReturnValue(mockValidNotTestLpaUser);
 		req.appealsApiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));
@@ -133,7 +159,7 @@ describe('getJourneyResponse', () => {
 	it('should throw error if unknown appealType', async () => {
 		getUserFromSession.mockReturnValue(mockValidTestLpaUser);
 		req.appealsApiClient.getUsersAppealCase.mockImplementation(() =>
-			Promise.resolve({ appealTypeCode: 'nope' })
+			Promise.resolve({ appealTypeCode: 'nope', lpaQuestionnaireDueDate: new Date() })
 		);
 
 		await expect(getJourneyResponse()(req, res, next)).rejects.toThrowError('');

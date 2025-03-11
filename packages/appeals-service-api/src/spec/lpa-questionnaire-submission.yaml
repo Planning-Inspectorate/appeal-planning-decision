@@ -192,7 +192,7 @@ components:
           nullable: true
         developmentDescription:
           type: string
-        requiresEnvironmentalStatement:
+        applicantSubmittedEnvironmentalStatement:
           type: boolean
         SubmissionAddress:
           type: array
@@ -210,3 +210,18 @@ components:
           type: array
           items:
             type: object
+        appealNotification:
+          type: boolean
+          nullable: true
+        demolishAlterExtend:
+          type: boolean
+          nullable: true
+        consultHistoricEngland:
+          type: boolean
+        listedBuildingGrade:
+          type: string
+        uploadHistoricEnglandConsultation:
+          type: boolean
+          nullable: true
+        section3aGrant:
+          type: boolean

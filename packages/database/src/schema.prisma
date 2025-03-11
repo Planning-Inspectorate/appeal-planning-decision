@@ -69,8 +69,6 @@ model AppealUser {
   /// appeals this user is linked to, by being the appellant or agent, for example
   Appeals AppealToUser[]
 
-  Rule6Parties Rule6Party[]
-
   /// a security token this user can use to access our service(s)
   SecurityToken                  SecurityToken?
   Rule6ProofOfEvidenceSubmission Rule6ProofOfEvidenceSubmission[]
@@ -182,15 +180,22 @@ model AppealCase {
   caseProcedure  String? /// The type of procedure for the appeal
   ProcedureType  ProcedureType? @relation(fields: [caseProcedure], references: [key])
 
-  applicationReference    String? /// The unique identifier of the LPA application
-  applicationDecision     String? /// The outcome of the original LPA decision
-  applicationDate         DateTime? /// The date of the original LPA application
-  applicationDecisionDate DateTime? /// The date of the original LPA decision
-  caseSubmissionDueDate   DateTime? /// The statutory deadline for submitting an appeal from the original LPA decision date, calculated from the applicationDecisionDate
+  applicationReference      String? /// The unique identifier of the LPA application
+  applicationDecision       String? /// The outcome of the original LPA decision
+  applicationDate           DateTime? /// The date of the original LPA application
+  applicationDecisionDate   DateTime? /// The date of the original LPA decision
+  caseSubmissionDueDate     DateTime? /// The statutory deadline for submitting an appeal from the original LPA decision date, calculated from the applicationDecisionDate
+  enforcementNotice         Boolean? /// Indicates if an enforcement notice is the reason for the appeal
+  developmentType           String? /// the type of develpoment
+  typeOfPlanningApplication String? /// the type of planning application
 
-  isGreenBelt        Boolean? /// Indicates if the site is in a green belt
-  inConservationArea Boolean? /// Indicates if the site is in a conservation area
-  enforcementNotice  Boolean? /// Indicates if an enforcement notice is the reason for the appeal
+  isGreenBelt           Boolean? /// Indicates if the site is in a green belt
+  inConservationArea    Boolean? /// Indicates if the site is in a conservation area
+  scheduledMonument     Boolean? /// Indicates that a scheduled monument is affected
+  protectedSpecies      Boolean? /// Indicates the existence of protected species
+  areaOutstandingBeauty Boolean? /// Indicates an area of outstanding beauty (National Landscape)
+  gypsyTraveller        Boolean? /// Indicates a traveller site
+  publicRightOfWay      Boolean? /// Indicates a PROW (public right of way)
 
   //***************************************************************************
   // site details
@@ -206,29 +211,77 @@ model AppealCase {
   siteSafetyDetails            String?  @db.NVarChar(MAX) /// A json array of information on site health and safety
   siteAreaSquareMetres         Decimal? /// The site area, in square meters
   floorSpaceSquareMetres       Decimal? /// The floor space, in square meters
+  siteGridReferenceEasting     String? /// Eastings of the site
+  siteGridReferenceNorthing    String? /// Northing of the site
 
   //***************************************************************************
   // Appellant fields
   //***************************************************************************
 
   appellantCostsAppliedFor       Boolean? /// Indicates if the appellant has applied for costs
-  ownsAllLand                    Boolean? /// Indicates if the appellant has complete ownership of the site
-  ownsSomeLand                   Boolean? /// Indicates if the appellant has partial ownership of the site
-  knowsOtherOwners               String? /// Indicates if the appellant knows other owners of the site
-  knowsAllOwners                 String? /// Indicates if the appellant knows all owners of the site
-  advertisedAppeal               Boolean? /// Indicates if the appellant has advertised the appeal to the LPA decision
-  ownersInformed                 Boolean? /// Indicates if the appellant has informed other owners of the site
   originalDevelopmentDescription String? /// The original description of the development, as provided by the appellant
+  statusPlanningObligation       String? /// The planning obligation information, if available
+
+  ownsAllLand      Boolean? /// Indicates if the appellant has complete ownership of the site
+  ownsSomeLand     Boolean? /// Indicates if the appellant has partial ownership of the site
+  knowsOtherOwners String? /// Indicates if the appellant knows other owners of the site
+  knowsAllOwners   String? /// Indicates if the appellant knows all owners of the site
+  advertisedAppeal Boolean? /// Indicates if the appellant has advertised the appeal to the LPA decision
+  ownersInformed   Boolean? /// Indicates if the appellant has informed other owners of the site
+
+  agriculturalHolding                Boolean? /// Indicates if the site is an agricultural holding
+  tenantAgriculturalHolding          Boolean? /// Indicates if the site is a tenant agricultural holding
+  otherTenantsAgriculturalHolding    Boolean? /// Indicates if the site is an agricultural holding with other tenants
+  informedTenantsAgriculturalHolding Boolean? /// If the site is an agricultural holding, indicates tenants are informed
+
+  appellantProcedurePreference             String? /// The procedure preference indicated by the appellant
+  appellantProcedurePreferenceDetails      String? /// The procedure details preference indicated by the appellant
+  appellantProcedurePreferenceDuration     Int? /// The duration of the procedure indicated by the appellant
+  appellantProcedurePreferenceWitnessCount Int? /// The number of witnesses appellant has suggested for inquiries preference
 
   //***************************************************************************
   // LPA fields
   //***************************************************************************
 
   isCorrectAppealType           Boolean? /// Indicates if the LPA considers the appeal type appropriate
-  lpaCostsAppliedFor            Boolean? /// Indicates if the appellant has applied for costs
+  lpaCostsAppliedFor            Boolean? /// Indicates if the LPA has applied for costs
   changedDevelopmentDescription Boolean? /// Indicates that the LPA has changed the development description
   newConditionDetails           String? /// New conditions details provided by the LPA
-  lpaStatement                  String? /// A statement provided by the LPA
+
+  // todo: remove this column is an rep
+  lpaStatement String? /// A statement provided by the LPA
+
+  lpaProcedurePreference         String? /// The procedure preference indicated by the LPA
+  lpaProcedurePreferenceDetails  String? /// The procedure details preference indicated by the LPA
+  lpaProcedurePreferenceDuration Int? /// The duration of enquiry indicated by the LPA
+
+  statutoryConsultees    Boolean? /// Indicates if the LPA consulted all the relevant statutory consultees
+  consultedBodiesDetails String? /// The details of the bodies consulted by the LPA
+
+  reasonForNeighbourVisits String? /// Reason given for the need to visit neighbours
+
+  designatedSitesNames String? @db.NVarChar(MAX) /// A json array of designated site names
+
+  //***************************************************************************
+  // Environmental Impact Assesement fields
+  //***************************************************************************
+
+  environmentalImpactSchedule     String?
+  developmentDescription          String?
+  sensitiveAreaDetails            String?
+  columnTwoThreshold              Boolean?
+  screeningOpinion                Boolean?
+  requiresEnvironmentalStatement  Boolean?
+  completedEnvironmentalStatement Boolean?
+
+  //***************************************************************************
+  // Infrastructure levy fields
+  //***************************************************************************
+
+  infrastructureLevy             Boolean?
+  infrastructureLevyAdopted      Boolean?
+  infrastructureLevyAdoptedDate  DateTime?
+  infrastructureLevyExpectedDate DateTime?
 
   //***************************************************************************
   // PINS provided details
@@ -280,119 +333,48 @@ model AppealCase {
   lpaQuestionnairePublishedDate         DateTime? /// The date indicating when the questionnaire review was completed and the questionnaire published
   lpaQuestionnaireValidationOutcomeDate DateTime? /// The date the LPA response was validated
 
-  //***************************************************************************
-  // s78 fields - remove or rename to align with data model once created
-  //***************************************************************************
+  // statements
+  statementDueDate                DateTime? /// date statements are due by
+  appellantStatementSubmittedDate DateTime? /// date appellant submitted their statement
+  LPAStatementSubmittedDate       DateTime? /// date lpa submitted their statement
+
+  // final comments
+  finalCommentsDueDate           DateTime? /// date final comments are due by
+  appellantCommentsSubmittedDate DateTime? /// date appellant submitted their final comment
+  LPACommentsSubmittedDate       DateTime? /// date lpa submitted their final comment
 
   // IP dates
-  interestedPartyRepsDueDate DateTime?
-
-  // statement
-  statementDueDate            DateTime?
-  appellantStatementForwarded DateTime?
-  appellantStatementSubmitted DateTime?
-  LPAStatementForwarded       DateTime?
-  LPAStatementSubmitted       DateTime?
-
-  // comments
-  finalCommentsDueDate         DateTime?
-  appellantCommentsForwarded   DateTime?
-  appellantCommentsSubmitted   DateTime?
-  LPACommentsForwarded         DateTime?
-  LPACommentsSubmitted         DateTime?
-  appellantFinalCommentDetails String?
+  interestedPartyRepsDueDate DateTime? /// date Interested party comments are due by
 
   // proofs of evidence
-  proofsOfEvidenceDueDate   DateTime?
-  appellantsProofsForwarded DateTime?
-  appellantsProofsSubmitted DateTime?
-  LPAProofsForwarded        DateTime?
-  LPAProofsSubmitted        DateTime?
-
-  scheduledMonument               Boolean @default(false)
-  appellantProofEvidencePublished Boolean @default(false) // todo: use date instead?
-  appellantFinalCommentsSubmitted Boolean @default(false) // todo: use date instead?
-  lpaStatementPublished           Boolean @default(false) // todo: use date instead?
-  lpaProofEvidenceSubmitted       Boolean @default(false) // todo: use date instead?
-  lpaProofEvidencePublished       Boolean @default(false) // todo: use date instead?
-  lpaFinalCommentsPublished       Boolean @default(false) // todo: use date instead?
-
-  appellantProcedurePreference         String?
-  appellantProcedurePreferenceDetails  String?
-  appellantProcedurePreferenceDuration Int?
-  lpaProcedurePreference               String?
-  lpaProcedurePreferenceDetails        String?
-  lpaProcedurePreferenceDuration       Int?
-
-  conservationArea                   Boolean?
-  protectedSpecies                   Boolean?
-  areaOutstandingBeauty              Boolean?
-  designatedSites                    String?
-  otherDesignationDetails            String?
-  treePreservationOrder              Boolean?
-  gypsyTraveller                     Boolean?
-  publicRightOfWay                   Boolean?
-  environmentalImpactSchedule        String?
-  developmentDescription             String?
-  sensitiveArea                      Boolean?
-  sensitiveAreaDetails               String?
-  columnTwoThreshold                 Boolean?
-  screeningOpinion                   Boolean?
-  requiresEnvironmentalStatement     Boolean?
-  completedEnvironmentalStatement    Boolean?
-  statutoryConsultees                Boolean?
-  consultedBodiesDetails             String?
-  consultationResponses              Boolean?
-  otherPartyRepresentations          Boolean?
-  emergingPlan                       Boolean?
-  supplementaryPlanningDocs          Boolean?
-  infrastructureLevy                 Boolean?
-  infrastructureLevyAdopted          Boolean?
-  infrastructureLevyAdoptedDate      DateTime?
-  infrastructureLevyExpectedDate     DateTime?
-  lpaSiteAccess                      Boolean?
-  lpaSiteAccessDetails               String?
-  neighbouringSiteAccess             Boolean?
-  neighbouringSiteAccessDetails      String?
-  addNeighbouringSiteAccess          Boolean?
-  lpaSiteSafetyRisks                 Boolean?
-  lpaSiteSafetyRiskDetails           String?
-  lpaPreferHearingDetails            String?
-  lpaPreferInquiryDuration           String?
-  lpaPreferInquiryDetails            String?
-  lpaStatementDocuments              Boolean?
-  lpaFinalComment                    Boolean?
-  lpaFinalCommentDetails             String?
-  lpaWitnesses                       Boolean?
-  agriculturalHolding                Boolean?
-  tenantAgriculturalHolding          Boolean?
-  otherTenantsAgriculturalHolding    Boolean?
-  informedTenantsAgriculturalHolding Boolean?
-  statusPlanningObligation           String?
-  planningObligation                 Boolean?
+  proofsOfEvidenceDueDate      DateTime? /// date proofs-of-evidence/witnesses are due by
+  LPAProofsSubmittedDate       DateTime? /// date lpa submitted their proofs-of-evidence/witnesses
+  appellantProofsSubmittedDate DateTime? /// date appellant submitted their proofs-of-evidence/witnesses
 
   //***************************************************************************
-  // rule 6 fields
+  // s78 fields - todo: question these with business
   //***************************************************************************
 
-  rule6StatementPublished         Boolean   @default(false) /// todo: use date instead
-  rule6ProofsEvidencePublished    Boolean   @default(false) /// todo: use date instead
-  rule6StatementDueDate           DateTime?
-  rule6StatementSubmitted         Boolean   @default(false)
-  rule6StatementSubmittedDate     DateTime?
-  rule6ProofEvidenceDueDate       DateTime?
-  rule6ProofEvidenceSubmitted     Boolean   @default(false)
-  rule6ProofEvidenceSubmittedDate DateTime?
-
-  //***************************************************************************
-  // interested party fields
-  //***************************************************************************
-
-  interestedPartyCommentsPublished Boolean @default(false) /// todo: use date instead
+  // todo: in data model but not asked or handled anywhere?
+  siteWithinSSSI                Boolean? // SSSI is an option for designatedSites
+  siteViewableFromRoad          Boolean? // todo: could map from site access details, otherwise not in command
+  caseworkReason                String?
+  importantInformation          String?
+  jurisdiction                  String?
+  redeterminedIndicator         String?
+  numberOfResidencesNetChange   Int?
+  // consistent naming for date fields?
+  dateNotRecoveredOrDerecovered DateTime?
+  dateRecovered                 DateTime?
+  originalCaseDecisionDate      DateTime?
+  targetDate                    DateTime?
+  siteNoticesSentDate           DateTime?
+  dateCostsReportDespatched     DateTime?
 
   //***************************************************************************
   // Relations
   //***************************************************************************
+
   LPAQuestionnaireSubmission   LPAQuestionnaireSubmission?
   LPAStatementSubmission       LPAStatementSubmission?
   LPAFinalCommentSubmission    LPAFinalCommentSubmission?
@@ -401,16 +383,12 @@ model AppealCase {
   AppellantFinalCommentSubmission    AppellantFinalCommentSubmission?
   AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission?
 
-  Rule6Parties                    Rule6Party[]
   ListedBuildings                 AppealCaseListedBuilding[]
   Documents                       Document[]
   NeighbouringAddresses           NeighbouringAddress[]
   Events                          Event[]
   AppealCaseLpaNotificationMethod AppealCaseLpaNotificationMethod[]
-  InterestedPartyComments         InterestedPartyComment[]
   InterestedPartySubmissions      InterestedPartySubmission[]
-  AppealStatements                AppealStatement[]
-  FinalComments                   FinalComment[]
   Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission?
   Rule6StatementSubmission        Rule6StatementSubmission?
   Representations                 Representation[]
@@ -599,65 +577,7 @@ model Document {
   horizonFolderId String?
 
   // relations
-  caseReference           String
-  AppealCase              AppealCase               @relation(fields: [caseReference], references: [caseReference])
-  RepresentationDocuments RepresentationDocument[]
-  StatementDocuments      StatementDocument[]
-  FinalCommentDocuments   FinalCommentDocument[]
-}
-
-// Stores appeal statements from either an LPA or rule 6 party group
-model AppealStatement {
-  id            String   @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
   caseReference String
-  serviceUserId String?
-  lpaCode       String?
-  statement     String?
-  submittedDate DateTime
-
-  StatementDocuments StatementDocument[]
-  AppealCase         AppealCase          @relation(fields: [caseReference], references: [caseReference])
-}
-
-//Join table to link a parties statement with the correct documents
-model StatementDocument {
-  id              String          @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  statementId     String          @db.UniqueIdentifier
-  documentId      String          @db.UniqueIdentifier
-  AppealStatement AppealStatement @relation(fields: [statementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Document        Document        @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
-// Stores appeal final comments from either an LPA, appellant or rule 6 group
-model FinalComment {
-  id                String   @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  caseReference     String
-  serviceUserId     String?  @db.UniqueIdentifier
-  lpaCode           String?
-  wantsFinalComment Boolean
-  comments          String?
-  submittedDate     DateTime
-
-  FinalCommentDocuments FinalCommentDocument[]
-  ServiceUser           ServiceUser?           @relation(fields: [serviceUserId], references: [internalId])
-  AppealCase            AppealCase             @relation(fields: [caseReference], references: [caseReference])
-}
-
-model FinalCommentDocument {
-  id           String       @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  commentId    String       @db.UniqueIdentifier
-  documentId   String       @db.UniqueIdentifier
-  FinalComment FinalComment @relation(fields: [commentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Document     Document     @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
-// This table stores IP comments once they have been validated / processed by back office
-model InterestedPartyComment {
-  id            String     @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  caseReference String
-  serviceUserId String?
-  comment       String
-  createdAt     DateTime   @default(now())
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 }
 
@@ -714,8 +634,6 @@ model ServiceUser {
   serviceUserType String
   /// case reference this user + user-type relates to
   caseReference   String
-
-  FinalComments FinalComment[]
 }
 
 /// AppellantSubmission represents an appeal submitted by an appellant
@@ -781,6 +699,10 @@ model AppellantSubmission {
   appellantSiteAccess                            String?
   appellantSiteAccess_appellantSiteAccessDetails String?
   statusPlanningObligation                       String?
+
+  // radio
+  majorMinorDevelopment String?
+  typeDevelopment       String?
 
   // plain text
   applicationReference           String?
@@ -910,7 +832,13 @@ model LPAQuestionnaireSubmission {
   uploadScreeningOpinion                          Boolean?
   uploadScreeningDirection                        Boolean?
   developmentDescription                          String?
-  requiresEnvironmentalStatement                  String?
+  applicantSubmittedEnvironmentalStatement        String?
+  appealNotification                              Boolean?
+  demolishAlterExtend                             Boolean?
+  consultHistoricEngland                          Boolean?
+  listedBuildingGrade                             String?
+  uploadHistoricEnglandConsultation               Boolean?
+  section3aGrant                                  Boolean?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
@@ -1172,66 +1100,28 @@ model SubmissionListedBuilding {
   fieldName String
 }
 
-model Rule6Party {
-  id                                 String    @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  caseReference                      String
-  firstName                          String
-  lastName                           String
-  over18                             Boolean
-  partyName                          String
-  partyEmail                         String
-  addressLine1                       String
-  addressLine2                       String?
-  addressTown                        String?
-  addressCounty                      String?
-  addressPostcode                    String?
-  partyStatus                        String
-  proofEvidenceSubmitted             Boolean
-  proofEvidenceSubmittedDate         DateTime?
-  proofEvidenceReceived              Boolean
-  proofEvidenceReceivedDate          DateTime?
-  proofEvidenceValidationOutcome     String?
-  proofEvidenceValidationOutcomeDate DateTime?
-  proofEvidenceValidationDetails     String?
-  statementDocuments                 Boolean
-  witnesses                          Boolean
-  statementSubmitted                 Boolean
-  statementSubmittedDate             DateTime?
-  statementReceived                  Boolean
-  statementReceivedDate              DateTime?
-  statementValidationOutcome         String?
-  statementValidationOutcomeDate     DateTime?
-  statementValidationDetails         String?
-
-  // Link to AppealUser
-  appealUserId String     @db.UniqueIdentifier
-  AppealUser   AppealUser @relation(fields: [appealUserId], references: [id])
-
-  //Optional link to AppealCase
-  AppealCase AppealCase? @relation(fields: [caseReference], references: [caseReference])
-}
-
 /// Proofs of Evidence, Final Comments, Statements, Planning Obligations and Interested Party Comments
 /// Received from BO will share this model and table
 model Representation {
   /// this ID is for front office only
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
-  representationId        String                   @unique /// The unique identifier for the representation
-  caseId                  Int? /// Internal case identifier
-  caseReference           String /// External case identifier
-  AppealCase              AppealCase               @relation(fields: [caseReference], references: [caseReference])
-  status                  String? /// Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ]
-  originalRepresentation  String?                  @db.NVarChar(Max) /// The original representation
-  redacted                Boolean? /// Indicates if the representation is redacted
-  redactedRepresentation  String?                  @db.NVarChar(Max) /// The redacted version of the representation
-  redactedBy              String? /// Unique identifier for the case team member that performed the redaction
-  invalidDetails          String? /// A json array of reasons why the representation has been marked as invalid
-  source                  String? /// Source of the representation (citizen or LPA), ["lpa", "citizen"]
-  serviceUserId           String? /// Service User Id of the person or organisation making the representation
-  representationType      String? /// The type of representation, ["statement", "comment", "final_comment", "proofs_evidence", null]
-  dateReceived            DateTime?
-  RepresentationDocuments RepresentationDocument[]
+  representationId                String                   @unique /// The unique identifier for the representation
+  caseId                          Int? /// Internal case identifier
+  caseReference                   String /// External case identifier
+  AppealCase                      AppealCase               @relation(fields: [caseReference], references: [caseReference])
+  representationStatus            String? /// Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ]
+  originalRepresentation          String?                  @db.NVarChar(Max) /// The original representation
+  redacted                        Boolean? /// Indicates if the representation is redacted
+  redactedRepresentation          String?                  @db.NVarChar(Max) /// The redacted version of the representation
+  redactedBy                      String? /// Unique identifier for the case team member that performed the redaction
+  invalidOrIncompleteDetails      String? /// A json array of reasons why the representation has been marked as invalid
+  otherInvalidOrIncompleteDetails String? /// A json array of free text other reasons why the representation has been marked as invalid
+  source                          String? /// Source of the representation (citizen or LPA), ["lpa", "citizen"]
+  serviceUserId                   String? /// Service User Id of the person or organisation making the representation
+  representationType              String? /// The type of representation, ["statement", "comment", "final_comment", "proofs_evidence", null]
+  dateReceived                    DateTime?
+  RepresentationDocuments         RepresentationDocument[]
 }
 
 /// Join table to link document to representation
@@ -1240,5 +1130,4 @@ model RepresentationDocument {
   representationId String         @db.UniqueIdentifier
   documentId       String         @db.UniqueIdentifier
   Representation   Representation @relation(fields: [representationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Document         Document       @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

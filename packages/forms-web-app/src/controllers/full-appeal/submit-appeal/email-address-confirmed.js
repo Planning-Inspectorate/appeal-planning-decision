@@ -3,20 +3,20 @@ const {
 		FULL_APPEAL: { EMAIL_CONFIRMED, LIST_OF_DOCUMENTS }
 	}
 } = require('../../../lib/full-appeal/views');
-const { getDepartmentFromId } = require('../../../services/department.service');
-const { getLPAById } = require('../../../lib/appeals-api-wrapper');
 const { FLAG } = require('@pins/common/src/feature-flags');
-const { isFeatureActive } = require('../../../featureFlag');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
 const getEmailConfirmed = async (req, res) => {
 	const appeal = req.session.appeal;
 
-	const lpa = await getDepartmentFromId(appeal.lpaCode);
-	const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
+	const usingV2Form = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
-	const usingV2Form = await isFeatureActive(FLAG.S78_APPEAL_FORM_V2, lpaCode);
+	const isS20 = appeal.appealType === APPEAL_ID.PLANNING_LISTED_BUILDING;
 
-	const listOfDocumentsUrl = usingV2Form
+	const listOfDocumentsUrl = isS20
+		? '/appeals/listed-building/appeal-form/before-you-start'
+		: usingV2Form
 		? '/appeals/full-planning/appeal-form/before-you-start'
 		: `/${LIST_OF_DOCUMENTS}`;
 

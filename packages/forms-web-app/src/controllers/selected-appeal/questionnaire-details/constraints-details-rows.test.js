@@ -7,6 +7,7 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 describe('constraintsRows', () => {
 	it('should create rows with correct data if relevant case data fields exist and field values true/files uploaded/otherwise populated', () => {
 		const caseData = {
+			appealTypeCode: CASE_TYPES.S78.processCode,
 			ListedBuildings: [
 				{
 					listedBuildingReference: 'Building 1',
@@ -30,8 +31,7 @@ describe('constraintsRows', () => {
 			protectedSpecies: true,
 			isGreenBelt: true,
 			areaOutstandingBeauty: true,
-			designatedSites: 'Yes',
-			treePreservationOrder: true,
+			designatedSitesNames: ['Yes'],
 			gypsyTraveller: true,
 			publicRightOfWay: true,
 			Documents: [
@@ -129,14 +129,14 @@ describe('constraintsRows', () => {
 
 	it('should create rows with correct data if relevant case data fields and field values false/no files uploaded/otherwise not populated', () => {
 		const caseData = {
+			appealTypeCode: CASE_TYPES.S78.processCode,
 			ListedBuildings: [],
 			scheduledMonument: false,
 			isCorrectAppealType: false,
 			protectedSpecies: false,
 			isGreenBelt: false,
 			areaOutstandingBeauty: false,
-			designatedSites: 'None',
-			treePreservationOrder: false,
+			designatedSites: [],
 			gypsyTraveller: false,
 			publicRightOfWay: false,
 			Documents: []
@@ -216,7 +216,7 @@ describe('constraintsRows', () => {
 	});
 
 	it('should create rows with correct conditions if fields do not exist', () => {
-		const rows = constraintsRows({ Documents: [] });
+		const rows = constraintsRows({ appealTypeCode: CASE_TYPES.S78.processCode, Documents: [] });
 		expect(rows.length).toEqual(17);
 		expect(rows[0].condition()).toEqual(false);
 		expect(rows[1].condition()).toEqual(false);
@@ -229,8 +229,8 @@ describe('constraintsRows', () => {
 		expect(rows[8].condition()).toEqual(false);
 		expect(rows[9].condition()).toEqual(false);
 		expect(rows[10].condition()).toEqual(false);
-		expect(rows[11].condition()).toEqual(false);
-		expect(rows[12].condition()).toEqual(false);
+		expect(rows[11].condition()).toEqual(true);
+		expect(rows[12].condition()).toEqual(true);
 		expect(rows[13].condition()).toEqual(false);
 		expect(rows[14].condition()).toEqual(false);
 		expect(rows[15].condition()).toEqual(false);

@@ -310,4 +310,59 @@ describe('service users v2', () => {
 			expect(relations.some((x) => x.role === APPEAL_USER_ROLES.RULE_6_PARTY)).toBe(true);
 		});
 	});
+
+	describe('unlink r6 user', () => {
+		it('should unlink a rule6 party from an appeal by deleting relevant appealToUser', async () => {
+			const userId = 'usr_008';
+			const email = `${userId}@example.com`;
+			const caseRef = 'ref_008';
+
+			await sqlClient.serviceUser.create({
+				data: {
+					id: userId,
+					serviceUserType: SERVICE_USER_TYPE.RULE_6_PARTY,
+					caseReference: caseRef,
+					emailAddress: email
+				}
+			});
+
+			const appealCase = await sqlClient.appealCase.create({
+				data: {
+					Appeal: { create: {} },
+					...createTestAppealCase(caseRef, 'S78', 'lpa_001')
+				}
+			});
+
+			const appealUser = await sqlClient.appealUser.create({
+				data: {
+					email: email,
+					serviceUserId: userId
+				}
+			});
+
+			await sqlClient.appealToUser.create({
+				data: {
+					appealId: appealCase.appealId,
+					userId: appealUser.id,
+					role: APPEAL_USER_ROLES.RULE_6_PARTY
+				}
+			});
+
+			const response = await appealsApi.delete(
+				`/api/v2/service-users/${email}/appeal-cases/${caseRef}/unlinkRule6`
+			);
+
+			expect(response.status).toEqual(200);
+
+			const relations = await sqlClient.appealToUser.findMany({
+				where: {
+					appealId: appealCase.appealId,
+					userId: appealUser.id,
+					role: APPEAL_USER_ROLES.RULE_6_PARTY
+				}
+			});
+
+			expect(relations.length).toBe(0);
+		});
+	});
 });

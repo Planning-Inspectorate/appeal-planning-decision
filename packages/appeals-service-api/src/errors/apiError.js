@@ -96,6 +96,10 @@ class ApiError {
 		return new ApiError(409, { errors: ['Appeal does not have a final comments expiry date'] });
 	}
 
+	static unableToSubmitFinalCommentResponse() {
+		return new ApiError(400, { errors: ['Unable to submit final comment response'] });
+	}
+
 	// lpas
 	static lpaNotFound() {
 		return new ApiError(404, { errors: [`LPA was not found`] });
@@ -256,6 +260,26 @@ class ApiError {
 		});
 	}
 
+	// proofs evidence
+
+	static proofEvidenceNotFound() {
+		return new ApiError(404, { errors: [`The proof of evidence was not found`] });
+	}
+
+	static unableToSubmitProofEvidenceResponse() {
+		return new ApiError(400, { errors: ['Unable to submit proof of evidence response'] });
+	}
+
+	//statements
+
+	static statementsNotFound() {
+		return new ApiError(404, { errors: [`The statement was not found`] });
+	}
+
+	static unableToSubmitStatementsResponse() {
+		return new ApiError(400, { errors: ['Unable to submit statements response'] });
+	}
+
 	// listed building
 	static listedBuildingNotFound(reference) {
 		return new ApiError(404, { errors: [`The listedBuilding ${reference} was not found`] });
@@ -274,8 +298,20 @@ class ApiError {
 		return new ApiError(400, { errors: ['Unable to submit appellant submission'] });
 	}
 
+	static unableToCreateAndFindIpComment() {
+		return new ApiError(404, { errors: ['Unable to create and find Interested Party Comment'] });
+	}
+
 	static unableToSubmitIpComment() {
 		return new ApiError(400, { errors: ['Unable to submit Interested Party Comment'] });
+	}
+
+	/**
+	 * @param {string} documentId
+	 * @returns {ApiError}
+	 */
+	static documentDetailsNotFound(documentId) {
+		return new ApiError(404, { errors: [`The document detail for ${documentId} were not found`] });
 	}
 }
 

@@ -1,5 +1,5 @@
 const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
-const { lpaAppealCaseData, lpaAppeals } = require('./lpa-appeal-case-data-dev');
+const { lpaAppealCaseData, lpaAppeals, createAppealCase } = require('./lpa-appeal-case-data-dev');
 const { representations, representationDocuments } = require('./representations-data-dev');
 const { appealDocuments } = require('./appeal-documents-dev');
 const {
@@ -9,6 +9,8 @@ const {
 	APPEAL_CASE_VALIDATION_OUTCOME
 } = require('pins-data-model');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { testLPACode2 } = require('@pins/common/src/utils');
 const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const config = require('../configuration/config.js');
 
@@ -183,87 +185,6 @@ const appealSubmissionDraft = {
 	idTwo: 'ac3643e6-e680-4230-9c3c-66d90c3ecdfe'
 };
 
-const appealStatementIds = {
-	appealStatementOne: '4f7bb373-faee-47ab-9ddd-cd430c56b33e',
-	appealStatementTwo: 'd24447a2-ad41-42b7-be86-7a222ae57448'
-};
-
-const appealFinalCommentIds = {
-	appealFinalCommentOne: '16258e95-cd25-47ec-8953-8674c74dbc79',
-	appealFinalCommentTwo: 'e2860281-647f-46ee-8099-d53d32b43daf',
-	appealFinalCommentThree: 'c04acd1d-be07-4150-ba49-ecda79343ca5',
-	appealFinalCommentFour: 'c9304307-a57d-4411-9334-1ce831179a53'
-};
-
-const rule6Documents = {
-	proofEvidenceSubmitted: false,
-	proofEvidenceReceived: false,
-	statementDocuments: false,
-	witnesses: false,
-	statementSubmitted: false,
-	statementReceived: false
-};
-
-const rule6PartyGroups = [
-	{
-		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c11',
-		caseReference: caseReferences.caseReferenceOne,
-		firstName: 'Group',
-		lastName: '1',
-		over18: true,
-		partyName: 'Group 1',
-		partyEmail: rule6Parties.r6One.email,
-		addressLine1: '321 Fake Street',
-		partyStatus: 'confirmed',
-		...rule6Documents,
-		appealUserId: rule6Parties.r6One.id
-	},
-	{
-		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c12',
-		caseReference: caseReferences.caseReferenceTwo,
-		firstName: 'Group',
-		lastName: '2',
-		over18: true,
-		partyName: 'Group 2',
-		partyEmail: rule6Parties.r6Two.email,
-		addressLine1: '321 Fake Street',
-		partyStatus: 'confirmed',
-		...rule6Documents,
-		statementReceived: true,
-		appealUserId: rule6Parties.r6Two.id
-	},
-	{
-		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c13',
-		caseReference: caseReferences.caseReferenceThree,
-		firstName: 'Group',
-		lastName: '3',
-		over18: true,
-		partyName: 'Group 3',
-		partyEmail: rule6Parties.r6Three.email,
-		addressLine1: '321 Fake Street',
-		partyStatus: 'confirmed',
-		...rule6Documents,
-		statementReceived: true,
-		proofEvidenceReceived: true,
-		appealUserId: rule6Parties.r6Three.id
-	},
-	{
-		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c14',
-		caseReference: caseReferences.caseReferenceThree,
-		firstName: 'Group',
-		lastName: '4',
-		over18: true,
-		partyName: 'Group 4',
-		partyEmail: rule6Parties.r6Four.email,
-		addressLine1: '321 Fake Street',
-		partyStatus: 'confirmed',
-		...rule6Documents,
-		statementReceived: true,
-		proofEvidenceReceived: true,
-		appealUserId: rule6Parties.r6Four.id
-	}
-];
-
 /**
  * @type {import('@prisma/client').Prisma.AppealUserCreateInput[]}
  */
@@ -437,53 +358,34 @@ const appealCases = [
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnairePublishedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireSubmittedDate: new Date(),
-		lpaFinalCommentsPublished: true,
-		appellantFinalCommentsSubmitted: true,
+		appellantCommentsSubmittedDate: new Date(),
 		caseValidDate: new Date(),
-		lpaStatementPublished: true,
-		rule6StatementPublished: true,
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(2)),
-		interestedPartyCommentsPublished: true,
-		planningObligation: true,
 		// questionnaire details
 		// constraints
 		isCorrectAppealType: true,
 		scheduledMonument: false,
-		conservationArea: null,
 		protectedSpecies: null,
 		isGreenBelt: true,
 		areaOutstandingBeauty: null,
-		designatedSites: null,
-		treePreservationOrder: null,
+		designatedSitesNames: null,
 		gypsyTraveller: null,
 		publicRightOfWay: null,
 		// environmental
 		environmentalImpactSchedule: null,
-		sensitiveArea: false,
 		columnTwoThreshold: false,
 		screeningOpinion: false,
 		requiresEnvironmentalStatement: false,
 		// notified
 		// consultations
 		statutoryConsultees: false,
-		consultationResponses: false,
-		otherPartyRepresentations: null,
 		// planning officer reports
-		emergingPlan: null,
-		supplementaryPlanningDocs: null,
 		infrastructureLevy: null,
 		infrastructureLevyAdopted: null,
 		infrastructureLevyExpectedDate: null,
 		// site access
-		lpaSiteAccess: null,
-		lpaSiteAccessDetails: null,
-		neighbouringSiteAccess: null,
-		addNeighbouringSiteAccess: null,
-		neighbouringSiteAccessDetails: null,
 		siteAccessDetails: '["access details from appellant", "access details from LPA"]',
 		siteSafetyDetails: '["safety details from appellant", "safety details from LPA"]',
-		lpaSiteSafetyRisks: null,
-		lpaSiteSafetyRiskDetails: null,
 		// appeal process
 		lpaProcedurePreference: null,
 		lpaProcedurePreferenceDetails: null,
@@ -506,12 +408,6 @@ const appealCases = [
 		lpaQuestionnairePublishedDate: pickRandom(datesNMonthsAgo(1)),
 		caseValidDate: new Date(),
 		lpaQuestionnaireSubmittedDate: new Date(),
-		lpaStatementPublished: true,
-		rule6StatementPublished: true,
-		interestedPartyCommentsPublished: true,
-		appellantProofEvidencePublished: true,
-		lpaProofEvidencePublished: true,
-		rule6ProofsEvidencePublished: true,
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } }
 	},
 	{
@@ -529,12 +425,6 @@ const appealCases = [
 		lpaQuestionnairePublishedDate: new Date(),
 		caseValidDate: new Date(),
 		lpaQuestionnaireSubmittedDate: new Date(),
-		lpaStatementPublished: true,
-		rule6StatementPublished: true,
-		interestedPartyCommentsPublished: true,
-		appellantProofEvidencePublished: true,
-		lpaProofEvidencePublished: true,
-		rule6ProofsEvidencePublished: true,
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(1)),
 		CaseDecisionOutcome: {
 			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
@@ -555,15 +445,8 @@ const appealCases = [
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnairePublishedDate: new Date(),
 		lpaQuestionnaireSubmittedDate: new Date(),
-		lpaStatementPublished: true,
 		caseValidDate: new Date(),
-		interestedPartyCommentsPublished: true,
-		lpaFinalCommentsPublished: true,
-		lpaFinalCommentDetails:
-			'gravida neque convallis a cras semper auctor neque vitae tempus quam pellentesque nec nam aliquam sem et tortor consequat id porta nibh venenatis cras sed',
-		appellantFinalCommentDetails:
-			'I am the appellant and this is my final comment. felis eget velit aliquet sagittis id consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat ac tincidunt',
-		appellantFinalCommentsSubmitted: true,
+		appellantCommentsSubmittedDate: new Date(),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN } }
 	},
 	{
@@ -708,9 +591,8 @@ const appealCases = [
 			connect: { key: APPEAL_CASE_STATUS.FINAL_COMMENTS }
 		},
 		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
-		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		appellantCommentsSubmitted: new Date(),
-		appellantFinalCommentsSubmitted: true,
+		LPAStatementSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		appellantCommentsSubmittedDate: new Date(),
 		ProcedureType: {
 			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
 		},
@@ -741,17 +623,13 @@ const appealCases = [
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
 		},
-		appellantCommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		appellantFinalCommentsSubmitted: true,
+		appellantCommentsSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
-		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		appellantsProofsSubmitted: new Date(),
-		lpaProofEvidenceSubmitted: true,
-		LPAProofsSubmitted: new Date(),
-		rule6ProofEvidenceSubmitted: true,
-		rule6ProofEvidenceSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		LPACommentsSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		appellantProofsSubmittedDate: new Date(),
+		LPAProofsSubmittedDate: new Date(),
 		ProcedureType: {
 			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
 		},
@@ -782,11 +660,8 @@ const appealCases = [
 			connect: { key: APPEAL_CASE_STATUS.STATEMENTS }
 		},
 		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
-		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		rule6StatementSubmitted: true,
-		rule6StatementSubmittedDate: pickRandom(datesNMonthsAgo(1)),
-		appellantCommentsSubmitted: new Date(),
-		appellantFinalCommentsSubmitted: true,
+		LPAStatementSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		appellantCommentsSubmittedDate: new Date(),
 		ProcedureType: {
 			connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY }
 		},
@@ -1414,198 +1289,6 @@ const events = [
 ];
 
 /**
- * @type {import('@prisma/client').Prisma.InterestedPartyCommentCreateInput[]}
- */
-const interestedPartyComments = [
-	{
-		id: 'c75d6821-5850-45be-a069-2791fef3d973',
-		comment:
-			'I am IP 1. tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec',
-		AppealCase: {
-			connect: {
-				caseReference: caseReferences.caseReferenceFour
-			}
-		}
-	},
-	{
-		id: 'a90340eb-31f2-45e3-9c55-73cf0eb1dfae',
-		comment:
-			'I am IP 2. senectus et netus et malesuada fames ac turpis egestas integer eget aliquet nibh praesent tristique magna sit amet purus gravida quis blandit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
-		AppealCase: {
-			connect: {
-				caseReference: caseReferences.caseReferenceFour
-			}
-		}
-	},
-	{
-		id: '50271928-4e72-4901-a586-c44e949c8677',
-		comment:
-			'I am IP 3. orci nulla pellentesque dignissim enim sit amet venenatis urna cursus eget nunc scelerisque viverra mauris',
-		AppealCase: {
-			connect: {
-				caseReference: caseReferences.caseReferenceFour
-			}
-		}
-	},
-	{
-		id: '122d9082-ffef-4c8a-ad7f-6425f7bfc873',
-		comment: `I am IP 4. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.`,
-		AppealCase: {
-			connect: {
-				caseReference: caseReferences.caseReferenceFour
-			}
-		}
-	}
-];
-
-/**
- * @type {import('@prisma/client').Prisma.AppealStatementCreateInput[]}
- */
-const appealStatements = [
-	{
-		id: appealStatementIds.appealStatementOne,
-		lpaCode: 'Q1111',
-		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
-		statement:
-			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
-		AppealCase: {
-			connect: {
-				caseReference: '1000014'
-			}
-		}
-	},
-	{
-		id: appealStatementIds.appealStatementTwo,
-		lpaCode: 'Q1111',
-		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
-		statement:
-			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.',
-		AppealCase: {
-			connect: {
-				caseReference: caseReferences.caseReferenceOne
-			}
-		}
-	}
-];
-
-/**
- * @type {import('@prisma/client').Prisma.StatementDocumentCreateInput[]}
- */
-const statementDocuments = [
-	{
-		id: 'af82c699-c5ed-41dd-9b7f-172e41471846',
-		AppealStatement: {
-			connect: {
-				id: appealStatementIds.appealStatementOne
-			}
-		},
-		Document: {
-			connect: {
-				id: '35880c82-7252-40a0-8dbd-30b740f22bce'
-			}
-		}
-	}
-];
-
-/**
- * @type {import('@prisma/client').Prisma.FinalCommentCreateInput[]}
- */
-const appealFinalComments = [
-	{
-		id: appealFinalCommentIds.appealFinalCommentOne,
-		lpaCode: 'Q1111',
-		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
-		comments:
-			'This is the LPA final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.',
-		wantsFinalComment: true,
-		AppealCase: {
-			connect: {
-				caseReference: '1000014'
-			}
-		}
-	},
-	{
-		id: appealFinalCommentIds.appealFinalCommentTwo,
-		lpaCode: 'Q1111',
-		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
-		comments:
-			'This is the LPA final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.',
-		wantsFinalComment: true,
-		AppealCase: {
-			connect: {
-				caseReference: caseReferences.caseReferenceOne
-			}
-		}
-	},
-	{
-		id: appealFinalCommentIds.appealFinalCommentThree,
-		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
-		comments:
-			'This is the appellant final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus',
-		wantsFinalComment: true,
-		AppealCase: {
-			connect: {
-				caseReference: '1000014'
-			}
-		},
-		ServiceUser: {
-			connect: {
-				internalId: '19d01551-e0cb-414f-95d9-fd71422c9a89'
-			}
-		}
-	},
-	{
-		id: appealFinalCommentIds.appealFinalCommentFour,
-		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
-		comments:
-			'This is the appellant final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. ',
-		wantsFinalComment: true,
-		AppealCase: {
-			connect: {
-				caseReference: caseReferences.caseReferenceOne
-			}
-		},
-		ServiceUser: {
-			connect: {
-				internalId: '19d01551-e0cb-414f-95d9-fd71422c9a89'
-			}
-		}
-	}
-];
-
-/**
- * @type {import('@prisma/client').Prisma.FinalCommentDocumentCreateInput[]}
- */
-const finalCommentDocuments = [
-	{
-		id: '319612c2-9cad-48b3-bfde-faeffba61555',
-		FinalComment: {
-			connect: {
-				id: appealFinalCommentIds.appealFinalCommentOne
-			}
-		},
-		Document: {
-			connect: {
-				id: '35cb4ad1-9ba3-43fb-b102-e845804ba2f7'
-			}
-		}
-	},
-	{
-		id: 'bdea7f30-d25f-49b2-8b0b-f5b9d38c16a7',
-		FinalComment: {
-			connect: {
-				id: appealFinalCommentIds.appealFinalCommentThree
-			}
-		},
-		Document: {
-			connect: {
-				id: 'a1b60dc2-2253-48eb-aaea-4ec665f15fbd'
-			}
-		}
-	}
-];
-
-/**
  * @type {import('@prisma/client').Prisma.AppellantSubmissionCreateInput[]}
  */
 const appellantSubmissions = [
@@ -1698,6 +1381,22 @@ async function seedDev(dbClient) {
 		});
 		caseIds.push(createdCase.id);
 	}
+
+	const s20AppealQuestionnarire = createAppealCase(
+		'3000000',
+		testLPACode2,
+		CASE_TYPES.S20.processCode,
+		'questionnaire'
+	);
+
+	await dbClient.appealCase.upsert({
+		create: {
+			...s20AppealQuestionnarire,
+			Appeal: { create: {} }
+		},
+		update: s20AppealQuestionnarire,
+		where: { caseReference: s20AppealQuestionnarire.caseReference }
+	});
 
 	for (const caseId of caseIds) {
 		for (const document of appealDocuments) {
@@ -1824,14 +1523,6 @@ async function seedDev(dbClient) {
 		});
 	}
 
-	for (const rule6PartyGroup of rule6PartyGroups) {
-		await dbClient.rule6Party.upsert({
-			create: rule6PartyGroup,
-			update: rule6PartyGroup,
-			where: { id: rule6PartyGroup.id }
-		});
-	}
-
 	for (const neighbourAddress of neighbourAddresses) {
 		await dbClient.neighbouringAddress.upsert({
 			create: neighbourAddress,
@@ -1877,46 +1568,6 @@ async function seedDev(dbClient) {
 			create: representationDocument,
 			update: representationDocument,
 			where: { id: representationDocument.id }
-		});
-	}
-
-	for (const appealStatement of appealStatements) {
-		await dbClient.appealStatement.upsert({
-			create: appealStatement,
-			update: appealStatement,
-			where: { id: appealStatement.id }
-		});
-	}
-
-	for (const statementDocument of statementDocuments) {
-		await dbClient.statementDocument.upsert({
-			create: statementDocument,
-			update: statementDocument,
-			where: { id: statementDocument.id }
-		});
-	}
-
-	for (const appealFinalComment of appealFinalComments) {
-		await dbClient.finalComment.upsert({
-			create: appealFinalComment,
-			update: appealFinalComment,
-			where: { id: appealFinalComment.id }
-		});
-	}
-
-	for (const finalCommentDocument of finalCommentDocuments) {
-		await dbClient.finalCommentDocument.upsert({
-			create: finalCommentDocument,
-			update: finalCommentDocument,
-			where: { id: finalCommentDocument.id }
-		});
-	}
-
-	for (const comment of interestedPartyComments) {
-		await dbClient.interestedPartyComment.upsert({
-			create: comment,
-			update: comment,
-			where: { id: comment.id }
 		});
 	}
 

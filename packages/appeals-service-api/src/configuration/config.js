@@ -196,7 +196,11 @@ let config = {
 			appellantSubmission:
 				process.env.BACK_OFFICE_APPELLANT_SUBMISSION_TOPIC || 'appeal-fo-appellant-submission',
 			lpaSubmission:
-				process.env.BACK_OFFICE_LPA_RESPONSE_SUBMISSION_TOPIC || 'appeal-fo-lpa-response-submission'
+				process.env.BACK_OFFICE_LPA_RESPONSE_SUBMISSION_TOPIC ||
+				'appeal-fo-lpa-response-submission',
+			representationSubmission:
+				process.env.BACK_OFFICE_REPRESENTATION_SUBMISSION_TOPIC ||
+				'appeal-fo-representation-submission'
 		}
 	},
 	storage: {

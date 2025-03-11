@@ -77,7 +77,7 @@ exports.postDecisionDate = async (req, res) => {
 			...appeal,
 			decisionDate: enteredDate.toISOString()
 		});
-		return res.redirect(`/before-you-start/enforcement-notice`);
+		return res.redirect(`/before-you-start/can-use-service`);
 	} catch (e) {
 		logger.error(e);
 

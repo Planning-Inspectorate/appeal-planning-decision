@@ -29,15 +29,11 @@ export interface AppealCaseRelationship {
 	caseReference2: string;
 }
 
-/** An appeal case from the Back Office, with appellant service user */
+/** An appeal case from the Back Office, with users, relations and documents */
 export type AppealCaseDetailed = AppealCase & {
 	users?: ServiceUser[];
 	relations?: AppealCaseRelationship[];
-};
-
-/** An appeal case with rule 6 parties */
-export type AppealCaseWithRule6Parties = AppealCase & {
-	Rule6Parties?: Rule6Party[];
+	Documents?: Document[];
 };
 
 /** An appeal case from the Back Office */
@@ -152,6 +148,22 @@ export interface AppealCase {
 	ownersInformed?: boolean;
 	/** The original description of the development, as provided by the appellant */
 	originalDevelopmentDescription?: string;
+	developmentType?:
+		| 'householder'
+		| 'change-of-use'
+		| 'major-dwellings'
+		| 'major-industry-storage'
+		| 'major-offices'
+		| 'major-retail-services'
+		| 'major-traveller-caravan'
+		| 'mineral-workings'
+		| 'minor-dwellings'
+		| 'minor-industry-storage'
+		| 'minor-offices'
+		| 'minor-retail-services'
+		| 'minor-traveller-caravan'
+		| 'other-major'
+		| 'other-minor';
 	/** Indicates if the LPA considers the appeal type appropriate */
 	isCorrectAppealType?: boolean;
 	/** Indicates if the appellant has applied for costs */
@@ -160,8 +172,8 @@ export interface AppealCase {
 	changedDevelopmentDescription?: boolean;
 	/** New conditions details provided by the LPA */
 	newConditionDetails?: string;
-	/** A statement provided by the LPA */
-	lpaStatement?: string;
+	/** Reason given for the need to visit neighbours */
+	reasonForNeighbourVisits?: string;
 	/** The final outcome for the case */
 	caseDecisionOutcome?: 'allowed' | 'split_decision' | 'dismissed' | 'invalid';
 	/** The outcome of the validation action */
@@ -280,94 +292,52 @@ export interface AppealCase {
 	 */
 	statementDueDate?: string;
 	/**
-	 * the date the appellant's statement was forwarded
-	 * @format date-time
-	 */
-	appellantStatementForwarded?: string;
-	/**
 	 * the date the appellant's statement was received
 	 * @format date-time
 	 */
-	appellantStatementSubmitted?: string;
-	/**
-	 * the date the LPA's statement was forwarded
-	 * @format date-time
-	 */
-	LPAStatementForwarded?: string;
+	appellantStatementSubmittedDate?: string;
 	/**
 	 * the date the LPA's statement was received
 	 * @format date-time
 	 */
-	LPAStatementSubmitted?: string;
+	LPAStatementSubmittedDate?: string;
 	/**
 	 * the date comments are due
 	 * @format date-time
 	 */
 	finalCommentsDueDate?: string;
 	/**
-	 * the date the appellant's comments were forwarded
-	 * @format date-time
-	 */
-	appellantCommentsForwarded?: string;
-	/**
 	 * the date the appellant's comments were received
 	 * @format date-time
 	 */
-	appellantCommentsSubmitted?: string;
-	/**
-	 * the date the LPA's comments were forwarded
-	 * @format date-time
-	 */
-	LPACommentsForwarded?: string;
+	appellantCommentsSubmittedDate?: string;
 	/**
 	 * the date the LPA's comments were received
 	 * @format date-time
 	 */
-	LPACommentsSubmitted?: string;
-	appellantFinalCommentDetails?: string;
+	LPACommentsSubmittedDate?: string;
 	/**
 	 * the date proofs of evidence are due
 	 * @format date-time
 	 */
 	proofsOfEvidenceDueDate?: string;
 	/**
-	 * the date the appellant's proofs of evidence were forwarded
-	 * @format date-time
-	 */
-	appellantsProofsForwarded?: string;
-	/**
 	 * the date the appellant's proofs of evidence were received
 	 * @format date-time
 	 */
-	appellantsProofsSubmitted?: string;
-	/**
-	 * the date the LPA's proofs of evidence were forwarded
-	 * @format date-time
-	 */
-	LPAProofsForwarded?: string;
+	appellantProofsSubmittedDate?: string;
 	/**
 	 * the date the LPA's proofs of evidence were received
 	 * @format date-time
 	 */
-	LPAProofsSubmitted?: string;
+	LPAProofsSubmittedDate?: string;
 	scheduledMonument?: boolean;
-	appellantProofEvidencePublished?: boolean;
-	appellantFinalCommentsSubmitted?: boolean;
-	lpaStatementPublished?: boolean;
-	lpaProofEvidenceSubmitted?: boolean;
-	lpaProofEvidencePublished?: boolean;
-	lpaFinalCommentsPublished?: boolean;
-	/** Is the site in, or next to a conservation area */
-	conservationArea?: boolean;
 	/** Would the development affect a protected species */
 	protectedSpecies?: boolean;
 	/** Is the appeal site in an area of outstanding natural beauty */
 	areaOutstandingBeauty?: boolean;
-	/** Is the development in, near or likely to affect any designated sites */
-	designatedSites?: string;
-	otherDesignationDetails?: string;
-	/** Does a Tree Preservation Order (TPO) apply to any part of the appeal site */
-	treePreservationOrder?: boolean;
+	/** A json array of any affected designated sites */
+	designatedSitesNames?: string[];
 	/** Does the development relate to anyone claiming to be a Gypsy or Traveller */
 	gypsyTraveller?: boolean;
 	/** Would a public right of way need to be removed or diverted */
@@ -376,8 +346,6 @@ export interface AppealCase {
 	environmentalImpactSchedule?: string;
 	/** Description of development */
 	developmentDescription?: string;
-	/** Is the development in, partly in, or likely to affect a sensitive area */
-	sensitiveArea?: boolean;
 	/** Tell us about the sensitive area */
 	sensitiveAreaDetails?: string;
 	/** Does the development meet or exceed the threshold or criteria in column 2 */
@@ -392,14 +360,6 @@ export interface AppealCase {
 	statutoryConsultees?: boolean;
 	/** Which bodies did you consult */
 	consultedBodiesDetails?: string;
-	/** Do you have any consultation responses or standing advice from statutory consultees to upload */
-	consultationResponses?: boolean;
-	/** Did you receive representations from members of the public or other parties */
-	otherPartyRepresentations?: boolean;
-	/** Do you have an emerging plan that is relevant to this appeal */
-	emergingPlan?: boolean;
-	/** Did any supplementary planning documents inform the outcome of the application */
-	supplementaryPlanningDocs?: boolean;
 	/** Do you have a community infrastructure levy */
 	infrastructureLevy?: boolean;
 	/** Is the community infrastructure levy formally adopted */
@@ -414,60 +374,27 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	infrastructureLevyExpectedDate?: string;
-	/** Might the inspector need access to the appellants land or property */
-	lpaSiteAccess?: boolean;
-	/** the reason */
-	lpaSiteAccessDetails?: string;
-	/** Might the inspector need to enter a neighbours land or property */
-	neighbouringSiteAccess?: boolean;
-	/** the reason */
-	neighbouringSiteAccessDetails?: string;
-	/** Do you want to add another neighbour to be visited */
-	addNeighbouringSiteAccess?: boolean;
-	/** Are there any potential safety risks */
-	lpaSiteSafetyRisks?: boolean;
-	/** Add details of the potential risk and what the inspector might need */
-	lpaSiteSafetyRiskDetails?: string;
 	/** Which procedure does appellant think is most appropriate for this appeal */
 	appellantProcedurePreference?: string;
 	/** Why preference chosen */
 	appellantProcedurePreferenceDetails?: string;
 	/** appellant procedure length preference */
-	appellantProcedurePreferenceDuration?: number;
+	appellantProcedurePreferenceDuration?: number | null;
+	/** appellant expected witness count */
+	appellantProcedurePreferenceWitnessCount?: number | null;
 	/** Which procedure does LPA think is most appropriate for this appeal */
 	lpaProcedurePreference?: string;
 	/** Why preference chosen */
 	lpaProcedurePreferenceDetails?: string;
 	/** LPA procedure length preference */
 	lpaProcedurePreferenceDuration?: number;
-	/** Do you have additional documents to support your appeal statement */
-	lpaStatementDocuments?: boolean;
 	/** Upload your new supporting documents */
 	uploadLpaStatementDocuments?: boolean;
-	/** Do you want to submit a final comment */
-	lpaFinalComment?: boolean;
-	/** What are your final comments */
-	lpaFinalCommentDetails?: string;
-	/** Do you need to add any witnesses */
-	lpaWitnesses?: boolean;
 	agriculturalHolding?: boolean;
 	tenantAgriculturalHolding?: boolean;
 	otherTenantsAgriculturalHolding?: boolean;
 	informedTenantsAgriculturalHolding?: boolean;
 	statusPlanningObligation?: string;
-	planningObligation?: boolean;
-	rule6StatementPublished?: boolean;
-	rule6ProofsEvidencePublished?: boolean;
-	/** @format date-time */
-	rule6StatementDueDate?: string;
-	rule6StatementSubmitted?: boolean;
-	/** @format date-time */
-	rule6ProofEvidenceDueDate?: string;
-	rule6ProofEvidenceSubmitted?: boolean;
-	/** @format date-time */
-	rule6ProofEvidenceSubmittedDate?: string;
-	interestedPartyCommentsPublished?: boolean;
-	Rule6Parties?: object[];
 	ListedBuildings?: object[];
 	Documents?: object[];
 	NeighbouringAddresses?: object[];
@@ -484,31 +411,6 @@ export interface AppealCase {
 	/** A statement submitted by a Rule 6 Party */
 	Rule6StatementSubmission?: Rule6StatementSubmission;
 	Representations?: Representation[];
-}
-
-/** A statement document linked to an appeal statement */
-export interface StatementDocument {
-	/** @format uuid */
-	id: string;
-	/** @format uuid */
-	statementId: string | null;
-	/** @format uuid */
-	documentId: string;
-	/** A document associated with an appeal */
-	Document?: Document;
-}
-
-/** A statement made by an LPA or Rule 6 party on an appeal case */
-export interface AppealStatement {
-	/** @format uuid */
-	id?: string;
-	caseReference: string;
-	serviceUserId?: string | null;
-	lpaCode?: string | null;
-	statement?: string | null;
-	/** @format date-time */
-	submittedDate: string;
-	StatementDocuments?: StatementDocument[];
 }
 
 /** An appeal submission created in the Front Office */
@@ -592,7 +494,6 @@ export interface AppealUser {
 	isLpaAdmin?: boolean;
 	/** if an LPA user, the status of this user, e.g. have they logged in and confirmed their email */
 	lpaStatus?: 'added' | 'confirmed' | 'removed';
-	Rule6Parties?: object[];
 	Rule6ProofOfEvidenceSubmission?: object[];
 	Rule6StatementSubmission?: object[];
 }
@@ -685,6 +586,8 @@ export interface AppellantSubmission {
 	submissionPdfId?: string;
 	/** @format date-time */
 	onApplicationDate?: string;
+	majorMinorDevelopment?: string | null;
+	typeDevelopment?: string | null;
 	isAppellant?: boolean;
 	appellantFirstName?: string;
 	appellantLastName?: string;
@@ -943,7 +846,6 @@ export interface Document {
 	origin: string;
 	stage: string;
 	caseReference: string;
-	RepresentationDocument?: RepresentationDocument[];
 }
 
 export interface ErrorBody {
@@ -979,45 +881,6 @@ export interface Event {
 	addressPostcode?: string;
 }
 
-/** A final comment document linked to an appeal statement */
-export interface FinalCommentDocument {
-	/** @format uuid */
-	id: string;
-	/** @format uuid */
-	commentId: string | null;
-	/** @format uuid */
-	documentId: string;
-	/** A document associated with an appeal */
-	Document?: Document;
-}
-
-/** A final comment made by an LPA, appellant or Rule 6 party on an appeal case */
-export interface FinalComment {
-	/** @format uuid */
-	id?: string;
-	caseReference: string;
-	serviceUserId?: string | null;
-	lpaCode?: string | null;
-	wantsFinalComment?: boolean;
-	comments?: string | null;
-	/** @format date-time */
-	submittedDate: string;
-	FinalCommentDocuments?: FinalCommentDocument[];
-	/** A Service User */
-	ServiceUser?: ServiceUser;
-}
-
-/** A comment made by an interested party on an appeal case */
-export interface InterestedPartyComment {
-	/** @format uuid */
-	id: string;
-	caseReference: string;
-	serviceUserId?: string;
-	comment: string;
-	/** @format date-time */
-	createdAt?: string;
-}
-
 /** A comment submitted by an interested party on an appeal case but not yet validated by BO */
 export interface InterestedPartySubmission {
 	/** @format uuid */
@@ -1034,6 +897,7 @@ export interface InterestedPartySubmission {
 	comments: string;
 	/** @format date-time */
 	createdAt?: string;
+	AppealCase?: object;
 }
 
 /** A listed building */
@@ -1187,11 +1051,17 @@ export interface LPAQuestionnaireSubmission {
 	uploadScreeningOpinion?: boolean | null;
 	uploadScreeningDirection?: boolean | null;
 	developmentDescription?: string;
-	requiresEnvironmentalStatement?: boolean;
+	applicantSubmittedEnvironmentalStatement?: boolean;
 	SubmissionAddress?: object[];
 	SubmissionListedBuilding?: object[];
 	SubmissionLinkedCase?: object[];
 	SubmissionDocumentUpload?: object[];
+	appealNotification?: boolean | null;
+	demolishAlterExtend?: boolean | null;
+	consultHistoricEngland?: boolean;
+	listedBuildingGrade?: string;
+	uploadHistoricEnglandConsultation?: boolean | null;
+	section3aGrant?: boolean;
 }
 
 /** A statement submitted by an LPA */
@@ -1249,8 +1119,6 @@ export interface RepresentationDocument {
 	documentId: string;
 	/** Proofs of Evidence, Final Comments, Statements, Planning Obligations or IP Comments received from BO */
 	Representation?: Representation;
-	/** A document associated with an appeal */
-	Document?: Document;
 }
 
 /** Proofs of Evidence, Final Comments, Statements, Planning Obligations or IP Comments received from BO */
@@ -1268,7 +1136,7 @@ export interface Representation {
 	caseReference: string;
 	AppealCase?: object;
 	/** Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ] */
-	status?: string;
+	representationStatus?: string;
 	/** The original representation */
 	originalRepresentation?: boolean;
 	/** Indicates if the representation is redacted */
@@ -1278,7 +1146,9 @@ export interface Representation {
 	/** Unique identifier for the case team member that performed the redaction */
 	redactedBy?: string;
 	/** a json array of reasons why the representation has been marked as invalid */
-	invalidDetails?: string;
+	invalidOrIncompleteDetails?: string;
+	/** a json array of free text other reasons why the representation has been marked as invalid */
+	otherInvalidOrIncompleteDetails?: string;
 	/** source of the representation (citizen or LPA), ["lpa", "citizen"] */
 	source?: string;
 	/** service User Id of the person or organisation making the representation */
@@ -1295,94 +1165,6 @@ export interface Representation {
 	/** added during get request [LPA_USER_ROLE, APPEAL_USER_ROLES] */
 	submittingPartyType?: string;
 	RepresentationDocuments?: RepresentationDocument[];
-}
-
-/** Information about a rule 6 party involved in an appeal */
-export interface Rule6Party {
-	/**
-	 * identifier for rule 6 party
-	 * @format uuid
-	 */
-	id: string;
-	/** appeal reference the rule 6 party is associated to */
-	caseReference: string;
-	/** first name of the main contact for rule 6 party */
-	firstName: string;
-	/** last name of the main contact for rule 6 party */
-	lastName: string;
-	/** whether the rule 6 party is over 18 */
-	over18: boolean;
-	/** the name of the rule 6 party */
-	partyName: string;
-	/**
-	 * email address of the rule 6 party
-	 * @format email
-	 */
-	partyEmail: string;
-	/** first line of address of the rule 6 party */
-	addressLine1: string;
-	/** second line of address of the rule 6 party */
-	addressLine2?: string;
-	/** town of the rule 6 party's address */
-	addressTown?: string;
-	/** county of the rule 6 party */
-	addressCounty?: string;
-	/** postcode of the rule 6 party */
-	addressPostcode: string;
-	/** the status of the rule 6 party's involvement */
-	partyStatus?: string;
-	/** indicates if the rule 6 party evidence has been submitted */
-	proofEvidenceSubmitted?: boolean;
-	/**
-	 * the date and time the evidence was submitted
-	 * @format date-time
-	 */
-	proofEvidenceSubmittedDate?: string;
-	/** indicates if the rule 6 party evidence has been received */
-	proofEvidenceReceived?: boolean;
-	/**
-	 * the date and time the evidence was received
-	 * @format date-time
-	 */
-	proofEvidenceReceivedDate?: string;
-	/** the validation outcome of the rule 6 party evidence */
-	proofEvidenceValidationOutcome?: string;
-	/**
-	 * the date and time the validation outcome was given
-	 * @format date-time
-	 */
-	proofEvidenceValidationOutcomeDate?: string;
-	/** details about the validation of the rule 6 party evidence */
-	proofEvidenceValidationDetails?: string;
-	/** the statement from the rule 6 party */
-	statement?: string;
-	/** indicates if the rule 6 party has submitted documents */
-	statementDocuments?: boolean;
-	/** indicates if the rule 6 party has submitted witness information */
-	witnesses?: boolean;
-	/** indicates if the rule 6 party statement has been submitted */
-	statementSubmitted?: boolean;
-	/**
-	 * the date and time the statement was submitted
-	 * @format date-time
-	 */
-	statementSubmittedDate?: string;
-	/** indicates if the rule 6 party statement has been received */
-	statementReceived?: boolean;
-	/**
-	 * the date and time the statement was received
-	 * @format date-time
-	 */
-	statementReceivedDate?: string;
-	/** the validation outcome of the rule 6 party statement */
-	statementValidationOutcome?: string;
-	/**
-	 * the date and time the validation outcome was given
-	 * @format date-time
-	 */
-	statementValidationOutcomeDate?: string;
-	/** details about the validation of the rule 6 party statement */
-	statementValidationDetails?: string;
 }
 
 /** Proof of evidence submitted by a rule 6 party */

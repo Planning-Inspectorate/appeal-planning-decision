@@ -36,10 +36,6 @@ components:
           description: if an LPA user, the status of this user, e.g. have they logged in and confirmed their email
 
         # relations
-        Rule6Parties:
-          type: array
-          items:
-            type: object
         Rule6ProofOfEvidenceSubmission:
           type: array
           items:

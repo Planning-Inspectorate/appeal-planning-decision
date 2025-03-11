@@ -45,6 +45,24 @@
             },
             {
               key: {
+                text: "Have you received an enforcement notice?"
+              },
+              value: {
+                text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/enforcement-notice",
+                    text: "Change",
+                    visuallyHiddenText: "Have you received an enforcement notice?",
+                    attributes: { "data-cy":"enforcementNotice"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
                 text: "Type of application"
               },
               value: {
@@ -132,27 +150,9 @@
                   }
                 ]
               }
-            },
-            {
-              key: {
-                text: "Have you received an enforcement notice?"
-              },
-              value: {
-                text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/before-you-start/enforcement-notice-householder",
-                    text: "Change",
-                    visuallyHiddenText: "Have you received an enforcement notice?",
-                    attributes: { "data-cy":"enforcementNotice"}
-                  }
-                ]
-              }
             }
         ] %}
-        
+
         {% if claimingCosts !== null %}
           {% set summaryRows = (summaryRows.push({
             key: {
