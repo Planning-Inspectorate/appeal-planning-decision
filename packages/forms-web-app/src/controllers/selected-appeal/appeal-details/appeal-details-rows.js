@@ -33,11 +33,8 @@ exports.detailsRows = (caseData, userType) => {
 	const contactIsAppellant = !agent; // if no agent than appellant made their own appeal
 	const contact = contactIsAppellant ? appellant : agent;
 
-	const linkedAppeals =
-		caseData.appealTypeCode === CASE_TYPES.HAS.processCode
-			? formatRelatedAppeals(caseData, CASE_RELATION_TYPES.nearby)
-			: formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked);
-	const showLinked = !!linkedAppeals;
+	const nearbyAppeals = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.nearby);
+	const showNearbyAppeals = !!nearbyAppeals;
 
 	const costApplicationKeyText = isAppellantOrAgent
 		? 'Do you need to apply for an award of appeal costs?'
@@ -193,7 +190,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',
-			valueText: showLinked ? `Yes \n ${linkedAppeals}` : 'No',
+			valueText: showNearbyAppeals ? `Yes \n ${nearbyAppeals}` : 'No',
 			condition: () => true,
 			isEscaped: true
 		},
