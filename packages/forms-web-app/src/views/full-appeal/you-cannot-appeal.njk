@@ -1,4 +1,4 @@
-{% extends "layouts/no-banner-link/main-no-back-link.njk" %}
+{% extends "layouts/no-banner-link/main.njk" %}
 
 {% set title="You cannot appeal - Before you start - Appeal a planning decision - GOV.UK" %}
 
@@ -12,8 +12,7 @@
       <h1 class="govuk-heading-l">You cannot appeal</h1>
       <p class="govuk-body">Your deadline to appeal has passed.</p>
       <p class="govuk-body" data-cy="appeal-deadline">Your deadline was {{ appealDeadline | date }}. This is {{ appealPeriodToBeDisplayed }} from the decision date.<p>
-      <p class="govuk-body"><a href={{ beforeYouStartFirstPage }} class="govuk-link clear-appeal-session">Start a new appeal</a></p>
+      <p class="govuk-body"><a href={{ clearAppealSessionUrl }} class="govuk-link">Start a new appeal</a></p>
     </div>
   </div>
-<script src="/public/js/clear-appeal-session-event.js"></script>
 {% endblock %}
