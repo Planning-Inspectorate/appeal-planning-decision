@@ -8,8 +8,6 @@ const {
 	REPRESENTATION_TYPES,
 	APPEAL_USER_ROLES
 } = require('@pins/common/src/constants');
-const os = require('os');
-const newLine = os.EOL;
 
 const lpaStatement = {
 	id: 'lpaStatement1',
@@ -763,7 +761,7 @@ describe('lib/representation-functions', () => {
 				Documents: [
 					{ id: 1, filename: 'test.txt' },
 					{ id: 2, filename: 'test2.txt', redacted: true },
-					{ id: 3, filename: 'test3.txt' }
+					{ id: 3, filename: '<test3.txt>' }
 				]
 			};
 			const formattedRepresentations = formatRepresentations(caseData, [
@@ -783,7 +781,7 @@ describe('lib/representation-functions', () => {
 						documents: [
 							{
 								documentsLabel: 'Supporting documents',
-								documentsLinks: 'test3.txt - awaiting review'
+								documentsLinks: '&lt;test3.txt&gt; - awaiting review'
 							}
 						]
 					}
@@ -800,7 +798,7 @@ describe('lib/representation-functions', () => {
 						documents: [
 							{
 								documentsLabel: 'Supporting documents',
-								documentsLinks: `test.txt - awaiting review${newLine}<a href="/published-document/2" class="govuk-link">test2.txt</a>`
+								documentsLinks: `test.txt - awaiting review<br><a href="/published-document/2" class="govuk-link">test2.txt</a>`
 							}
 						]
 					}
