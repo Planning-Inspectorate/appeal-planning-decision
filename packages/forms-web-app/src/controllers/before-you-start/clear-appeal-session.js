@@ -1,6 +1,6 @@
 const clearAppealSession = (req, res) => {
 	req.session.appeal = null;
-	res.status(200).send({ message: 'Session cleared' });
+	res.redirect('/before-you-start/local-planning-department');
 };
 
 module.exports = {

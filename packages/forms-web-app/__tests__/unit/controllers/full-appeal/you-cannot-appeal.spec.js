@@ -24,7 +24,7 @@ describe('controllers/full-appeal/out-of-time-shutter-page', () => {
 			const appealDeadline = new Date();
 			const appealPeriod = '6 months';
 			const appealPeriodToBeDisplayed = '6 months';
-			const beforeYouStartFirstPage = '/before-you-start';
+			const clearAppealSessionUrl = '/before-you-start/clear-appeal-session';
 
 			const mockRequest = {
 				...req,
@@ -38,7 +38,7 @@ describe('controllers/full-appeal/out-of-time-shutter-page', () => {
 				bannerHtmlOverride: config.betaBannerText,
 				appealDeadline,
 				appealPeriodToBeDisplayed,
-				beforeYouStartFirstPage
+				clearAppealSessionUrl
 			});
 		});
 	});
