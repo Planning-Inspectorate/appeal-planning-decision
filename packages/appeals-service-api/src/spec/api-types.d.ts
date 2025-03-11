@@ -1043,7 +1043,7 @@ export interface LPAQuestionnaireSubmission {
 	consultHistoricEngland?: boolean;
 	listedBuildingGrade?: string;
 	uploadHistoricEnglandConsultation?: boolean;
-	preserveGrantLoan?: boolean;
+	section3aGrant?: boolean;
 }
 
 /** A statement submitted by an LPA */

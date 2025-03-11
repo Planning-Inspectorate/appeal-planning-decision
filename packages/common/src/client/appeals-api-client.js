@@ -251,6 +251,16 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {ServiceUser} data
+	 * @returns {Promise<ServiceUser>}
+	 */
+	async deleteR6UserAppealLink(data) {
+		const endpoint = `${v2}/service-users/${data.emailAddress}/appeal-cases/${data.caseReference}/unlinkRule6`;
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * @param {AppealRepresentation} data
 	 * @returns {Promise<Representation>}
 	 */
