@@ -31,8 +31,7 @@ const getFutureDate = (daysToAdd, hour = 12) => {
 const appellants = {
 	appellantOne: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a11',
-		email: 'appellant1@planninginspectorate.gov.uk',
-		serviceUserId: '123475'
+		email: 'appellant1@planninginspectorate.gov.uk'
 	},
 	appellantTwo: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a12',
@@ -67,13 +66,11 @@ const appellants = {
 const rule6Parties = {
 	r6One: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b11',
-		email: 'r6-1@planninginspectorate.gov.uk',
-		serviceUserId: '123998'
+		email: 'r6-1@planninginspectorate.gov.uk'
 	},
 	r6Two: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b12',
-		email: 'r6-2@planninginspectorate.gov.uk',
-		serviceUserId: '123999'
+		email: 'r6-2@planninginspectorate.gov.uk'
 	},
 	r6Three: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b13',

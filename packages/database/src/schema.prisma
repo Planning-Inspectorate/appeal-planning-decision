@@ -48,14 +48,6 @@ model AppealUser {
   /// they need an email sent when they first login
   isEnrolled Boolean @default(false)
 
-  /// a service user entity will be broadcast by the back office. We match them to AppealUser by email
-  /// appeals will be matched to users by serviceUserId.
-  serviceUserId String? // unique, with nulls allowed, is enforced in SQL, see first migration script & https://stackoverflow.com/a/767702
-  // -- unique AppealUser.serviceUserId
-  // CREATE UNIQUE NONCLUSTERED INDEX idx_AppealUser_serviceUserId_unique_notnull
-  // ON [dbo].[AppealUser](serviceUserId)
-  // WHERE serviceUserId IS NOT NULL;
-
   // LPA user fields
   /// is this an LPA user?
   isLpaUser  Boolean  @default(false)

@@ -82,48 +82,24 @@ describe('service users v2', () => {
 			expect(serviceUser.serviceUserType).toBe(SERVICE_USER_TYPE.APPELLANT);
 		});
 
-		it('should create an appeal user if non exist with a matching email address', async () => {
+		it('should create an appeal user if none exist with a matching email address', async () => {
+			const email = 'newhuman@example.com';
 			const response = await appealsApi.put('/api/v2/service-users').send({
 				id: 'usr_002',
 				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
 				caseReference: 'ref_002',
-				emailAddress: 'newhuman@example.com'
+				emailAddress: email
 			});
 
 			expect(response.status).toEqual(200);
 
 			const appealUser = await sqlClient.appealUser.findFirst({
 				where: {
-					email: 'newhuman@example.com'
+					email
 				}
 			});
 
-			expect(appealUser.serviceUserId).toBe('usr_002');
-		});
-
-		it('should update an appeal user if one exists with a matching email address', async () => {
-			await sqlClient.appealUser.create({
-				data: {
-					email: 'existinghuman@example.com'
-				}
-			});
-
-			const response = await appealsApi.put('/api/v2/service-users').send({
-				id: 'usr_003',
-				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
-				caseReference: 'ref_003',
-				emailAddress: 'existinghuman@example.com'
-			});
-
-			expect(response.status).toEqual(200);
-
-			const appealUser = await sqlClient.appealUser.findFirst({
-				where: {
-					email: 'existinghuman@example.com'
-				}
-			});
-
-			expect(appealUser.serviceUserId).toBe('usr_003');
+			expect(appealUser.email).toBe(email);
 		});
 
 		it('should add an appealToUser relation if a matching appeal exists', async () => {
@@ -221,8 +197,7 @@ describe('service users v2', () => {
 
 			const appealUser = await sqlClient.appealUser.create({
 				data: {
-					email: email,
-					serviceUserId: userId
+					email: email
 				}
 			});
 
@@ -277,8 +252,7 @@ describe('service users v2', () => {
 
 			const appealUser = await sqlClient.appealUser.create({
 				data: {
-					email: email,
-					serviceUserId: userId
+					email: email
 				}
 			});
 
@@ -335,8 +309,7 @@ describe('service users v2', () => {
 
 			const appealUser = await sqlClient.appealUser.create({
 				data: {
-					email: email,
-					serviceUserId: userId
+					email: email
 				}
 			});
 

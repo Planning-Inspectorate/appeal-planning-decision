@@ -50,7 +50,7 @@ const {
 	getLpaProofOfEvidenceByAppealId,
 	markLpaProofOfEvidenceAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service');
-const { getServiceUserByIdAndCaseReference } = require('../../routes/v2/service-users/service');
+const { getForEmailCaseAndType } = require('../../routes/v2/service-users/service');
 const { getCaseAndAppellant } = require('../../routes/v2/appeal-cases/service');
 const { SERVICE_USER_TYPE, APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
@@ -421,10 +421,15 @@ class BackOfficeV2Service {
 		}
 
 		const { appealTypeCode } = appellantFinalCommentSubmission.AppealCase;
-		const { email, serviceUserId } = await getUserById(userId);
+		const { email } = await getUserById(userId);
+		const serviceUser = await getForEmailCaseAndType(email, caseReference, [
+			SERVICE_USER_TYPE.APPELLANT,
+			SERVICE_USER_TYPE.AGENT
+		]);
 
-		const appellantName =
-			(await this.#getAppellantNameFromServiceUser(serviceUserId, caseReference)) || 'Appellant';
+		if (!serviceUser) throw new Error('cannot find appellant service user');
+
+		const appellantName = this.#getNameFromServiceUser(serviceUser) || 'Appellant';
 
 		let result;
 		let mappedData;
@@ -432,7 +437,7 @@ class BackOfficeV2Service {
 			logger.info(`mapping appellant final comment ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
-				serviceUserId,
+				serviceUserId: serviceUser.id,
 				repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
 				party: APPEAL_USER_ROLES.APPELLANT,
 				representationSubmission: appellantFinalCommentSubmission
@@ -495,15 +500,20 @@ class BackOfficeV2Service {
 				'Appellant proofs of evidence associated AppealCase has an invalid appealTypeCode'
 			);
 
-		const { email, serviceUserId } = await getUserById(userId);
+		const { email } = await getUserById(userId);
+		const serviceUser = await getForEmailCaseAndType(email, caseReference, [
+			SERVICE_USER_TYPE.APPELLANT,
+			SERVICE_USER_TYPE.AGENT
+		]);
 
-		const appellantName =
-			(await this.#getAppellantNameFromServiceUser(serviceUserId, caseReference)) || 'Appellant';
+		if (!serviceUser) throw new Error('cannot find appellant service user');
+
+		const appellantName = this.#getNameFromServiceUser(serviceUser) || 'Appellant';
 
 		logger.info(`mapping appellant proofs for ${caseReference} to ${appealTypeCode} schema`);
 		const mappedData = await formatter({
 			caseReference,
-			serviceUserId,
+			serviceUserId: serviceUser.id,
 			repType: APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
 			party: APPEAL_USER_ROLES.APPELLANT,
 			representationSubmission: appellantProofEvidenceSubmission
@@ -562,14 +572,19 @@ class BackOfficeV2Service {
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error('Rule 6 statement associated AppealCase has an invalid appealTypeCode');
 
-		const { email, serviceUserId } = await getUserById(userId);
+		const { email } = await getUserById(userId);
+		const serviceUser = await getForEmailCaseAndType(email, caseReference, [
+			SERVICE_USER_TYPE.RULE_6_PARTY
+		]);
+
+		if (!serviceUser) throw new Error('cannot find rule 6 user');
 
 		logger.info(
 			`mapping rule6 proof of evidence for case ${caseReference} to ${appealTypeCode} schema`
 		);
 		const mappedData = await formatter({
 			caseReference,
-			serviceUserId,
+			serviceUserId: serviceUser.id,
 			repType: APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE,
 			party: APPEAL_USER_ROLES.RULE_6_PARTY,
 			representationSubmission: rule6ProofOfEvidenceSubmission
@@ -623,12 +638,17 @@ class BackOfficeV2Service {
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error('Rule 6 statement associated AppealCase has an invalid appealTypeCode');
 
-		const { email, serviceUserId } = await getUserById(userId);
+		const { email } = await getUserById(userId);
+		const serviceUser = await getForEmailCaseAndType(email, caseReference, [
+			SERVICE_USER_TYPE.RULE_6_PARTY
+		]);
+
+		if (!serviceUser) throw new Error('cannot find rule 6 user');
 
 		logger.info(`mapping rule6 statement ${caseReference} to ${appealTypeCode} schema`);
 		const mappedData = await formatter({
 			caseReference,
-			serviceUserId,
+			serviceUserId: serviceUser.id,
 			repType: APPEAL_REPRESENTATION_TYPE.STATEMENT,
 			party: APPEAL_USER_ROLES.RULE_6_PARTY,
 			representationSubmission: rule6Statement
@@ -662,20 +682,12 @@ class BackOfficeV2Service {
 	}
 
 	/**
-	 * @param {string|null} serviceUserId
-	 * @param {string} caseReference
-	 * @returns {Promise<string|null>}
+	 * @param {import("#repositories/sql/service-user-repository").ServiceUser|null} serviceUserDetails
+	 * @returns {string|null}
 	 */
-	async #getAppellantNameFromServiceUser(serviceUserId, caseReference) {
-		if (serviceUserId) {
-			const serviceUserDetails = await getServiceUserByIdAndCaseReference(
-				serviceUserId,
-				caseReference
-			);
-
-			if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
-				return serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
-			}
+	#getNameFromServiceUser(serviceUserDetails) {
+		if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
+			return serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
 		}
 
 		return null;

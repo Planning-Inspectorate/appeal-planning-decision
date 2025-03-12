@@ -484,8 +484,6 @@ export interface AppealUser {
 	email: string;
 	/** is this user enrolled? (have they been sent a registration confirmation email) */
 	isEnrolled?: boolean;
-	/** service user ID to map to service users */
-	serviceUserId?: string;
 	/** is this an LPA user? */
 	isLpaUser?: boolean;
 	/** if an LPA user, the LPA this user belongs to */

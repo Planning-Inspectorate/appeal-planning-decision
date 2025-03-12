@@ -38,29 +38,6 @@ class ServiceUserRepository {
 	}
 
 	/**
-	 * Get service user by id
-	 *
-	 * @param {string} serviceUserId
-	 * @param {string} caseReference
-	 * @returns {Promise<ServiceUserName|null>}
-	 */
-	getServiceUserByIdAndCaseReference(serviceUserId, caseReference) {
-		return this.dbClient.serviceUser.findFirst({
-			where: {
-				AND: {
-					id: serviceUserId,
-					caseReference
-				}
-			},
-			select: {
-				firstName: true,
-				lastName: true,
-				serviceUserType: true
-			}
-		});
-	}
-
-	/**
 	 * Get service user emails by array of ids
 	 *
 	 * @param {string[]} serviceUserIds
@@ -113,6 +90,33 @@ class ServiceUserRepository {
 	}
 
 	/**
+	 * Get service user by email, case reference and type
+	 *
+	 * @param {string} email
+	 * @param {string} caseReference
+	 * @param {Array.<string>} serviceUserType
+	 * @returns {Promise<ServiceUser|null>}
+	 */
+	getForEmailCaseAndType(email, caseReference, serviceUserType) {
+		return this.dbClient.serviceUser.findFirst({
+			where: {
+				OR: serviceUserType.map((type) => ({
+					emailAddress: email,
+					caseReference,
+					serviceUserType: type
+				}))
+			},
+			select: {
+				emailAddress: true,
+				serviceUserType: true,
+				id: true,
+				firstName: true,
+				lastName: true
+			}
+		});
+	}
+
+	/**
 	 * @param {Omit<ServiceUser, 'internalId'>} data
 	 * @returns {Promise<ServiceUser>}
 	 */
@@ -130,7 +134,7 @@ class ServiceUserRepository {
 			}),
 
 			this.dbClient.serviceUser.findFirst({
-				where: { id: data.id, caseReference: data.caseReference }
+				where: { id: data.id, caseReference: data.caseReference, role: data.role }
 			})
 		]);
 
@@ -143,17 +147,7 @@ class ServiceUserRepository {
 				if (!appealUser) {
 					appealUser = await tx.appealUser.create({
 						data: {
-							email: data.emailAddress,
-							serviceUserId: data.id
-						}
-					});
-				} else {
-					appealUser = await tx.appealUser.update({
-						where: {
 							email: data.emailAddress
-						},
-						data: {
-							serviceUserId: data.id
 						}
 					});
 				}

@@ -4,6 +4,8 @@ const { createPrismaClient } = require('../../../../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { SERVICE_USER_TYPE } = require('pins-data-model');
+
 const crypto = require('crypto');
 const {
 	createTestAppealCase
@@ -18,6 +20,9 @@ let appealsApi;
 
 let validUser;
 const validLpa = 'Q9999';
+
+const testCase1 = '001';
+const testCase2 = '002';
 
 jest.mock('../../../../../../configuration/featureFlag');
 jest.mock('../../../../../../../src/services/object-store');
@@ -78,11 +83,29 @@ beforeAll(async () => {
 
 	await seedStaticData(sqlClient);
 
+	const email = crypto.randomUUID() + '@example.com';
 	const user = await sqlClient.appealUser.create({
 		data: {
-			email: crypto.randomUUID() + '@example.com',
-			serviceUserId: 'userID1'
+			email
 		}
+	});
+	await sqlClient.serviceUser.createMany({
+		data: [
+			{
+				internalId: crypto.randomUUID(),
+				emailAddress: email,
+				id: crypto.randomUUID(),
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+				caseReference: testCase1
+			},
+			{
+				internalId: crypto.randomUUID(),
+				emailAddress: email,
+				id: crypto.randomUUID(),
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+				caseReference: testCase2
+			}
+		]
 	});
 	validUser = user.id;
 });
@@ -131,24 +154,24 @@ const createAppeal = async (caseRef) => {
 };
 
 const formattedFinalComment1 = {
-	caseReference: '001',
+	caseReference: testCase1,
 	representation: 'This is a test comment',
 	representationSubmittedDate: expect.any(String),
 	representationType: 'final_comment',
-	serviceUserId: 'userID1',
+	serviceUserId: expect.any(String),
 	documents: []
 };
 
 const formattedFinalComment2 = {
-	caseReference: '002',
+	caseReference: testCase2,
 	representation: 'Another final comment text for appellant case 002',
 	representationSubmittedDate: expect.any(String),
 	representationType: 'final_comment',
-	serviceUserId: 'userID1',
+	serviceUserId: expect.any(String),
 	documents: [
 		{
 			dateCreated: expect.any(String),
-			documentId: '002',
+			documentId: testCase2,
 			documentType: 'appellantFinalComment',
 			documentURI: 'https://example.com',
 			filename: 'doc.pdf',
@@ -162,7 +185,7 @@ const formattedFinalComment2 = {
 describe('/api/v2/appeal-cases/:caseReference/appellant-final-comment-submissions/submit', () => {
 	it('Formats S78 appellant final comment submission without docs for case 001', async () => {
 		utils.getDocuments.mockReturnValue([]);
-		await createAppeal('001');
+		await createAppeal(testCase1);
 
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
@@ -192,7 +215,7 @@ describe('/api/v2/appeal-cases/:caseReference/appellant-final-comment-submission
 	it('Formats S78 appellant final comment submission with docs for case 002', async () => {
 		utils.getDocuments.mockReturnValue([
 			{
-				documentId: '002',
+				documentId: testCase2,
 				filename: 'doc.pdf',
 				originalFilename: 'mydoc.pdf',
 				documentType: 'appellantFinalComment',
@@ -203,7 +226,7 @@ describe('/api/v2/appeal-cases/:caseReference/appellant-final-comment-submission
 			}
 		]);
 
-		await createAppeal('002');
+		await createAppeal(testCase2);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');

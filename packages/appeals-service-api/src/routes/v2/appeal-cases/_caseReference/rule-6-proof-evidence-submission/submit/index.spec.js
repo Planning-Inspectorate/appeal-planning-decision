@@ -4,7 +4,7 @@ const { createPrismaClient } = require('../../../../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE, SERVICE_USER_TYPE } = require('pins-data-model');
 const crypto = require('crypto');
 const {
 	createTestAppealCase
@@ -68,11 +68,29 @@ beforeAll(async () => {
 	///////////////////
 	appealsApi = supertest(app);
 	await seedStaticData(sqlClient);
+	const email = crypto.randomUUID() + '@example.com';
 	const user = await sqlClient.appealUser.create({
 		data: {
-			email: crypto.randomUUID() + '@example.com',
-			serviceUserId: testR6ServiceUser1
+			email
 		}
+	});
+	await sqlClient.serviceUser.createMany({
+		data: [
+			{
+				internalId: crypto.randomUUID(),
+				emailAddress: email,
+				id: testR6ServiceUser1,
+				serviceUserType: SERVICE_USER_TYPE.RULE_6_PARTY,
+				caseReference: '307'
+			},
+			{
+				internalId: crypto.randomUUID(),
+				emailAddress: email,
+				id: testR6ServiceUser1,
+				serviceUserType: SERVICE_USER_TYPE.RULE_6_PARTY,
+				caseReference: '308'
+			}
+		]
 	});
 	validUser = user.id;
 });
