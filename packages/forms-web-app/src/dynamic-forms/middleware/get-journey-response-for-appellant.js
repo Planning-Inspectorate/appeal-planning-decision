@@ -1,3 +1,4 @@
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { JourneyResponse } = require('../journey-response');
 const { APPELLANT_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
@@ -64,11 +65,11 @@ module.exports = async (request, response, next) => {
  */
 const appealTypeFlagActive = async (appealTypeCode, LPACode) => {
 	switch (appealTypeCode) {
-		case 'HAS':
+		case CASE_TYPES.HAS.processCode:
 			return await isFeatureActive(FLAG.HAS_APPEAL_FORM_V2, LPACode);
-		case 'S78':
+		case CASE_TYPES.S78.processCode:
 			return await isFeatureActive(FLAG.S78_APPEAL_FORM_V2, LPACode);
-		case 'S20':
+		case CASE_TYPES.S20.processCode:
 			return await isFeatureActive(FLAG.S20_APPEAL_FORM_V2, LPACode);
 		default:
 			return false;

@@ -1,5 +1,6 @@
 const escape = require('escape-html');
 const { APPEAL_USER_ROLES } = require('../constants');
+const { APPEAL_DEVELOPMENT_TYPE } = require('pins-data-model');
 
 // NOTE - consider requirement to escape string values from caseData
 
@@ -86,6 +87,52 @@ exports.formatRelatedAppeals = (caseData, type) => {
 	if (!appellantLinkedCases?.length) return '';
 
 	return appellantLinkedCases.map((linkedAppeal) => escape(linkedAppeal.caseReference2)).join('\n');
+};
+
+/**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed['developmentType']} developmentType
+ * @returns {string}
+ */
+exports.formatDevelopmentType = (developmentType) => {
+	if (!developmentType) return '';
+
+	switch (developmentType) {
+		case APPEAL_DEVELOPMENT_TYPE.HOUSEHOLDER:
+			return 'Householder development';
+		case APPEAL_DEVELOPMENT_TYPE.CHANGE_OF_USE:
+			return 'Change of use';
+		case APPEAL_DEVELOPMENT_TYPE.MINERAL_WORKINGS:
+			return 'Mineral workings';
+
+		case APPEAL_DEVELOPMENT_TYPE.OTHER_MAJOR:
+			return 'Other major development';
+		case APPEAL_DEVELOPMENT_TYPE.OTHER_MINOR:
+			return 'Other minor development';
+
+		case APPEAL_DEVELOPMENT_TYPE.MAJOR_DWELLINGS:
+			return 'Major dwellings';
+		case APPEAL_DEVELOPMENT_TYPE.MAJOR_INDUSTRY_STORAGE:
+			return 'Major general industry, storage or warehousing';
+		case APPEAL_DEVELOPMENT_TYPE.MAJOR_OFFICES:
+			return 'Major offices, light industry or research and development';
+		case APPEAL_DEVELOPMENT_TYPE.MAJOR_RETAIL_SERVICES:
+			return 'Major retail and services';
+		case APPEAL_DEVELOPMENT_TYPE.MAJOR_TRAVELLER_CARAVAN:
+			return 'Major traveller and caravan pitches';
+
+		case APPEAL_DEVELOPMENT_TYPE.MINOR_DWELLINGS:
+			return 'Minor dwellings';
+		case APPEAL_DEVELOPMENT_TYPE.MINOR_INDUSTRY_STORAGE:
+			return 'Minor general industry, storage or warehousing';
+		case APPEAL_DEVELOPMENT_TYPE.MINOR_OFFICES:
+			return 'Minor offices, light industry or research and development';
+		case APPEAL_DEVELOPMENT_TYPE.MINOR_RETAIL_SERVICES:
+			return 'Minor retail and services';
+		case APPEAL_DEVELOPMENT_TYPE.MINOR_TRAVELLER_CARAVAN:
+			return 'Minor traveller and caravan pitches';
+	}
+
+	throw new Error('unhandled developmentType mapping');
 };
 
 /**

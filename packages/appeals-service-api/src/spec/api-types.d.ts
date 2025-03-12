@@ -148,6 +148,22 @@ export interface AppealCase {
 	ownersInformed?: boolean;
 	/** The original description of the development, as provided by the appellant */
 	originalDevelopmentDescription?: string;
+	developmentType?:
+		| 'householder'
+		| 'change-of-use'
+		| 'major-dwellings'
+		| 'major-industry-storage'
+		| 'major-offices'
+		| 'major-retail-services'
+		| 'major-traveller-caravan'
+		| 'mineral-workings'
+		| 'minor-dwellings'
+		| 'minor-industry-storage'
+		| 'minor-offices'
+		| 'minor-retail-services'
+		| 'minor-traveller-caravan'
+		| 'other-major'
+		| 'other-minor';
 	/** Indicates if the LPA considers the appeal type appropriate */
 	isCorrectAppealType?: boolean;
 	/** Indicates if the appellant has applied for costs */
@@ -363,7 +379,9 @@ export interface AppealCase {
 	/** Why preference chosen */
 	appellantProcedurePreferenceDetails?: string;
 	/** appellant procedure length preference */
-	appellantProcedurePreferenceDuration?: number;
+	appellantProcedurePreferenceDuration?: number | null;
+	/** appellant expected witness count */
+	appellantProcedurePreferenceWitnessCount?: number | null;
 	/** Which procedure does LPA think is most appropriate for this appeal */
 	lpaProcedurePreference?: string;
 	/** Why preference chosen */
@@ -1038,11 +1056,11 @@ export interface LPAQuestionnaireSubmission {
 	SubmissionListedBuilding?: object[];
 	SubmissionLinkedCase?: object[];
 	SubmissionDocumentUpload?: object[];
-	appealNotification?: boolean;
-	demolishAlterExtend?: boolean;
+	appealNotification?: boolean | null;
+	demolishAlterExtend?: boolean | null;
 	consultHistoricEngland?: boolean;
 	listedBuildingGrade?: string;
-	uploadHistoricEnglandConsultation?: boolean;
+	uploadHistoricEnglandConsultation?: boolean | null;
 	section3aGrant?: boolean;
 }
 

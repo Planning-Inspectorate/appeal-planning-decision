@@ -147,7 +147,7 @@
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.0",
-		"@commitlint/config-conventional": "^17.0.0",
+		"@commitlint/config-conventional": "^19.8.0",
 		"@commitlint/cz-commitlint": "^17.0.0",
 		"@shelf/jest-mongodb": "^1.3.4",
 		"@testing-library/dom": "^10.4.0",
@@ -169,7 +169,7 @@
 		"jest-each": "^29.1.2",
 		"jest-environment-jsdom": "^29.7.0",
 		"jest-fetch-mock": "^3.0.3",
-		"jest-junit": "^13.2.0",
+		"jest-junit": "^16.0.0",
 		"jest-mock-extended": "^3.0.7",
 		"json-server": "^1.0.0-beta.3",
 		"lint-staged": "^15.4.3",
