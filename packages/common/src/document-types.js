@@ -777,6 +777,17 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	interestedPartyComment: {
+		name: 'interestedPartyComment',
+		dataModelName: APPEAL_DOCUMENT_TYPE.INTERESTED_PARTY_COMMENT,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner || appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 
