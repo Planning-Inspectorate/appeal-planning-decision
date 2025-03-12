@@ -218,6 +218,16 @@ function isValidYesNoSomeKey(key) {
  * @returns {IPNewUser}
  */
 exports.createInterestedPartyNewUser = (interestedPartySubmission) => {
+	let address = {};
+	if (interestedPartySubmission.addressLine1) {
+		address = {
+			addressLine1: interestedPartySubmission.addressLine1,
+			addressLine2: interestedPartySubmission.addressLine2,
+			townCity: interestedPartySubmission.townCity,
+			county: interestedPartySubmission.county,
+			postcode: interestedPartySubmission.postcode
+		};
+	}
 	return {
 		salutation: null,
 		firstName: interestedPartySubmission.firstName,
@@ -225,7 +235,8 @@ exports.createInterestedPartyNewUser = (interestedPartySubmission) => {
 		emailAddress: interestedPartySubmission.emailAddress,
 		telephoneNumber: null,
 		organisation: null,
-		serviceUserType: SERVICE_USER_TYPE.INTERESTED_PARTY
+		serviceUserType: SERVICE_USER_TYPE.INTERESTED_PARTY,
+		...address
 	};
 };
 
