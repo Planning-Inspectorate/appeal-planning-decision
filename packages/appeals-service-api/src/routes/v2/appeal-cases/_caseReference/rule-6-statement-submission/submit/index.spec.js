@@ -4,7 +4,8 @@ const { createPrismaClient } = require('../../../../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE, SERVICE_USER_TYPE } = require('pins-data-model');
+
 const crypto = require('crypto');
 const {
 	createTestAppealCase
@@ -16,6 +17,9 @@ let sqlClient;
 let appealsApi;
 let validUser;
 const validLpa = 'Q9999';
+const testCase1 = '405';
+const testCase2 = '406';
+
 jest.mock('../../../../../../configuration/featureFlag');
 jest.mock('../../../../../../../src/services/object-store');
 jest.mock('express-oauth2-jwt-bearer', () => {
@@ -67,11 +71,29 @@ beforeAll(async () => {
 	///////////////////
 	appealsApi = supertest(app);
 	await seedStaticData(sqlClient);
+	const email = crypto.randomUUID() + '@example.com';
 	const user = await sqlClient.appealUser.create({
 		data: {
-			email: crypto.randomUUID() + '@example.com',
-			serviceUserId: testR6ServiceUserID2
+			email
 		}
+	});
+	await sqlClient.serviceUser.createMany({
+		data: [
+			{
+				internalId: crypto.randomUUID(),
+				emailAddress: email,
+				id: testR6ServiceUserID2,
+				serviceUserType: SERVICE_USER_TYPE.RULE_6_PARTY,
+				caseReference: testCase1
+			},
+			{
+				internalId: crypto.randomUUID(),
+				emailAddress: email,
+				id: testR6ServiceUserID2,
+				serviceUserType: SERVICE_USER_TYPE.RULE_6_PARTY,
+				caseReference: testCase2
+			}
+		]
 	});
 	validUser = user.id;
 });
@@ -117,7 +139,7 @@ const createAppeal = async (caseRef) => {
 	return appeal.AppealCase?.caseReference;
 };
 const formattedStatement1 = {
-	caseReference: '405',
+	caseReference: testCase1,
 	representation: 'This is a test comment',
 	representationSubmittedDate: expect.any(String),
 	representationType: 'statement',
@@ -125,7 +147,7 @@ const formattedStatement1 = {
 	documents: []
 };
 const formattedStatement2 = {
-	caseReference: '406',
+	caseReference: testCase2,
 	representation: 'Another statement text for rule 6 case 406',
 	representationSubmittedDate: expect.any(String),
 	representationType: 'statement',
@@ -133,7 +155,7 @@ const formattedStatement2 = {
 	documents: [
 		{
 			dateCreated: expect.any(String),
-			documentId: '406',
+			documentId: testCase2,
 			documentType: APPEAL_DOCUMENT_TYPE.RULE_6_STATEMENT,
 			documentURI: 'https://example.com',
 			filename: 'doc.pdf',
@@ -146,7 +168,7 @@ const formattedStatement2 = {
 describe('/api/v2/appeal-cases/:caseReference/rule-6-statement-submission/submit', () => {
 	it('Formats S78 rule 6 statement submission without docs for case 405', async () => {
 		utils.getDocuments.mockReturnValue([]);
-		await createAppeal('405');
+		await createAppeal(testCase1);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
@@ -156,10 +178,10 @@ describe('/api/v2/appeal-cases/:caseReference/rule-6-statement-submission/submit
 			rule6AdditionalDocuments: false
 		};
 		await appealsApi
-			.post(`/api/v2/appeal-cases/405/rule-6-statement-submission`)
+			.post(`/api/v2/appeal-cases/${testCase1}/rule-6-statement-submission`)
 			.send(rule6StatementData);
 		await appealsApi
-			.post(`/api/v2/appeal-cases/405/rule-6-statement-submission/submit`)
+			.post(`/api/v2/appeal-cases/${testCase1}/rule-6-statement-submission/submit`)
 			.expect(200);
 		expect(sendEvents).toHaveBeenCalledWith(
 			'appeal-fo-representation-submission',
@@ -170,7 +192,7 @@ describe('/api/v2/appeal-cases/:caseReference/rule-6-statement-submission/submit
 	it('Formats S78 rule 6 statement submission with docs for case 406', async () => {
 		utils.getDocuments.mockReturnValue([
 			{
-				documentId: '406',
+				documentId: testCase2,
 				filename: 'doc.pdf',
 				originalFilename: 'mydoc.pdf',
 				documentType: APPEAL_DOCUMENT_TYPE.RULE_6_STATEMENT,
@@ -180,7 +202,7 @@ describe('/api/v2/appeal-cases/:caseReference/rule-6-statement-submission/submit
 				mime: 'doc'
 			}
 		]);
-		await createAppeal('406');
+		await createAppeal(testCase2);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
@@ -191,10 +213,10 @@ describe('/api/v2/appeal-cases/:caseReference/rule-6-statement-submission/submit
 			uploadRule6StatementDocuments: true
 		};
 		await appealsApi
-			.post('/api/v2/appeal-cases/406/rule-6-statement-submission')
+			.post(`/api/v2/appeal-cases/${testCase2}/rule-6-statement-submission`)
 			.send(rule6StatementData);
 		await appealsApi
-			.post(`/api/v2/appeal-cases/406/rule-6-statement-submission/submit`)
+			.post(`/api/v2/appeal-cases/${testCase2}/rule-6-statement-submission/submit`)
 			.expect(200);
 		expect(sendEvents).toHaveBeenCalledWith(
 			'appeal-fo-representation-submission',

@@ -18,9 +18,6 @@ components:
         isEnrolled:
           type: boolean
           description: is this user enrolled? (have they been sent a registration confirmation email)
-        serviceUserId:
-          type: string
-          description: service user ID to map to service users
         isLpaUser:
           type: boolean
           description: is this an LPA user?
