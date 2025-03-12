@@ -25,7 +25,7 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();		
 		if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
-			if (counter === 0) {				
+			if (counter === 1) {				
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');					
 					cy.get('a').each(($link) => {
