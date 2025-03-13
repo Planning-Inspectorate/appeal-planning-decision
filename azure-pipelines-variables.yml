@@ -1,3 +1,4 @@
 variables:
   azurecrName: pinscrsharedtoolinguks
   resourceGroup: pins-rg-appeals-service-$(ENVIRONMENT)-$(REGION_SHORT)-001
+  appRegistrationClientId: api://31bbeefd-e00b-4ef9-b12d-145e06e4ab43
