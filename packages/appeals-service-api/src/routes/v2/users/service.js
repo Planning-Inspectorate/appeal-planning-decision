@@ -21,6 +21,20 @@ async function createUser(user) {
 		throw ApiError.badRequest();
 	}
 
+	const existingRemovedUsers = await appealUserRepository.search({
+		email: user.email,
+		lpaCode: user.lpaCode,
+		lpaStatus: STATUS_CONSTANTS.REMOVED
+	});
+
+	if (existingRemovedUsers.length) {
+		const currentUser = existingRemovedUsers[0];
+		return await appealUserRepository.updateUser({
+			...user,
+			id: currentUser.id,
+			lpaStatus: STATUS_CONSTANTS.ADDED
+		});
+	}
 	return await appealUserRepository.createUser(user);
 }
 
