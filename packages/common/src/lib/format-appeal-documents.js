@@ -24,17 +24,6 @@ exports.documentExists = (documents, documentType) => {
 
 /**
  * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
- */
-exports.formatNewDescription = (caseData) => {
-	if (caseData.updateDevelopmentDescription && caseData.developmentDescriptionDetails) {
-		return caseData.developmentDescriptionDetails;
-	}
-
-	return 'No';
-};
-
-/**
- * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
  * @returns {boolean}
  */
 exports.hasNotificationMethods = (caseData) =>

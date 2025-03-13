@@ -6,7 +6,7 @@ const { APPEAL_DOCUMENT_TYPE, APPEAL_APPELLANT_PROCEDURE_PREFERENCE } = require(
 describe('appeal-documents-rows', () => {
 	it('should create rows', () => {
 		const rows = documentsRows({ Documents: [] });
-		expect(rows.length).toEqual(14);
+		expect(rows.length).toEqual(13);
 	});
 
 	const applicationRow = 0;
@@ -31,7 +31,7 @@ describe('appeal-documents-rows', () => {
 	});
 
 	describe('Plans, drawings and supporting documents', () => {
-		const plansRow = 2;
+		const plansRow = 1;
 		it('should display field if S78', () => {
 			const rows = documentsRows({ appealTypeCode: CASE_TYPES.S78.processCode });
 			expect(rows[plansRow].keyText).toEqual('Plans, drawings and supporting documents');
@@ -49,7 +49,7 @@ describe('appeal-documents-rows', () => {
 	});
 
 	describe('Draft statement of common ground', () => {
-		const draftRow = 11;
+		const draftRow = 10;
 		it('should display field if S78 and not written', () => {
 			const rows = documentsRows({ appealTypeCode: CASE_TYPES.S78.processCode });
 			expect(rows[draftRow].keyText).toEqual('Draft statement of common ground');
