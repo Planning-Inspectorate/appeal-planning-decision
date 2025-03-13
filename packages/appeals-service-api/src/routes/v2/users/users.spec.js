@@ -115,6 +115,53 @@ describe('users v2', () => {
 			expect(response.body.lpaCode).toBe('Q9999');
 			expect(response.body.lpaStatus).toBe('added');
 		});
+
+		it('should reset the status of removed user to Added', async () => {
+			const createResponse = await appealsApi.post('/api/v2/users').send({
+				email: 'working-recreation@example.com',
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+			expect(createResponse.status).toEqual(200);
+			const removeResponse = await appealsApi
+				.delete(`/api/v2/users/working-recreation@example.com`)
+				.send();
+			expect(removeResponse.status).toEqual(200);
+			expect(removeResponse.body.email).toBe('working-recreation@example.com');
+			expect(removeResponse.body.isLpaUser).toBe(true);
+			expect(removeResponse.body.isLpaAdmin).toBe(false);
+			expect(removeResponse.body.lpaCode).toBe('Q9999');
+			expect(removeResponse.body.lpaStatus).toBe('removed');
+
+			const recreateResponse = await appealsApi.post('/api/v2/users').send({
+				email: 'working-recreation@example.com',
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+			expect(recreateResponse.status).toEqual(200);
+
+			expect(recreateResponse.body.email).toBe('working-lpa-creation@example.com');
+			expect(recreateResponse.body.isLpaUser).toBe(true);
+			expect(recreateResponse.body.isLpaAdmin).toBe(false);
+			expect(recreateResponse.body.lpaCode).toBe('Q9999');
+			expect(recreateResponse.body.lpaStatus).toBe('added');
+		});
+
+		it('should throw 400 error if LPA tries to add the same account multiple times without removing first', async () => {
+			const createResponse1 = await appealsApi.post('/api/v2/users').send({
+				email: 'working-recreation-duplicate-creation@example.com',
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+			expect(createResponse1.status).toEqual(200);
+			const createResponse2 = await appealsApi.post('/api/v2/users').send({
+				email: 'working-recreation-duplicate-creation@example.com',
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+			expect(createResponse2.status).toEqual(400);
+			expect(createResponse2.error).toContain('[Error: cannot POST /api/v2/users (400)]');
+		});
 	});
 
 	describe('search users', () => {
