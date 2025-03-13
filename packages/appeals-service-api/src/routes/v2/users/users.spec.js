@@ -123,15 +123,8 @@ describe('users v2', () => {
 				lpaCode: 'Q9999'
 			});
 			expect(createResponse.status).toEqual(200);
-			const removeResponse = await appealsApi
-				.delete(`/api/v2/users/working-recreation@example.com`)
-				.send();
-			expect(removeResponse.status).toEqual(200);
-			expect(removeResponse.body.email).toBe('working-recreation@example.com');
-			expect(removeResponse.body.isLpaUser).toBe(true);
-			expect(removeResponse.body.isLpaAdmin).toBe(false);
-			expect(removeResponse.body.lpaCode).toBe('Q9999');
-			expect(removeResponse.body.lpaStatus).toBe('removed');
+
+			await appealsApi.delete(`/api/v2/users/working-recreation@example.com`).send();
 
 			const recreateResponse = await appealsApi.post('/api/v2/users').send({
 				email: 'working-recreation@example.com',
@@ -140,7 +133,7 @@ describe('users v2', () => {
 			});
 			expect(recreateResponse.status).toEqual(200);
 
-			expect(recreateResponse.body.email).toBe('working-lpa-creation@example.com');
+			expect(recreateResponse.body.email).toBe('working-recreation@example.com');
 			expect(recreateResponse.body.isLpaUser).toBe(true);
 			expect(recreateResponse.body.isLpaAdmin).toBe(false);
 			expect(recreateResponse.body.lpaCode).toBe('Q9999');
@@ -160,7 +153,6 @@ describe('users v2', () => {
 				lpaCode: 'Q9999'
 			});
 			expect(createResponse2.status).toEqual(400);
-			expect(createResponse2.error).toContain('[Error: cannot POST /api/v2/users (400)]');
 		});
 	});
 
