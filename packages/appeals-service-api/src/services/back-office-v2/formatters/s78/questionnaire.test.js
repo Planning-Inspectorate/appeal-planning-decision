@@ -34,6 +34,7 @@ describe('formatter', () => {
 				postcode: 'Postcode'
 			}
 		],
+		neighbourSiteAccess_neighbourSiteAccessDetails: 'check the impact',
 		SubmissionLinkedCase: [{ caseReference: 'CASE123' }],
 		newConditions_newConditionDetails: 'New condition details',
 		lpaProcedurePreference: 'written'
@@ -101,6 +102,7 @@ describe('formatter', () => {
 					neighbouringSiteSafetyDetails: null
 				}
 			],
+			reasonForNeighbourVisits: 'check the impact',
 			nearbyCaseReferences: ['CASE123'],
 			newConditionDetails: 'New condition details',
 			lpaStatement: '',
@@ -270,6 +272,7 @@ describe('formatter', () => {
 				siteAccessDetails: null,
 				siteSafetyDetails: null,
 				neighbouringSiteAddresses: undefined,
+				reasonForNeighbourVisits: null,
 				nearbyCaseReferences: undefined,
 				newConditionDetails: null,
 				lpaStatement: '',

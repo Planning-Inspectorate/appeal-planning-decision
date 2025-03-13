@@ -35,6 +35,7 @@ const hasCase = {
 	lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails: "oh it's bad",
 	lpaSiteAccess: 'yes',
 	neighbourSiteAccess: 'yes',
+	neighbourSiteAccess_neighbourSiteAccessDetails: 'check the impact',
 	newConditions: 'yes',
 	newConditions_newConditionDetails: 'I have new conditions',
 	notificationMethod: 'site-notice,letters-or-emails,advert',
@@ -198,6 +199,7 @@ const expectedHAS = {
 				neighbouringSiteSafetyDetails: null
 			}
 		],
+		reasonForNeighbourVisits: 'check the impact',
 		nearbyCaseReferences: ['abc1234'],
 		newConditionDetails: 'I have new conditions',
 		lpaStatement: '',
