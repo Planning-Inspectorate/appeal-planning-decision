@@ -2,16 +2,23 @@ const helmet = require('helmet');
 const crypto = require('node:crypto');
 
 // Google analytics :(
-const scriptSrc = ['https://*.googletagmanager.com', 'https://*.google-analytics.com'];
+const scriptSrc = [
+	'https://*.googletagmanager.com',
+	'https://*.google-analytics.com',
+	'https://login.microsoftonline.com'
+];
+const styleSrc = ['https://login.microsoftonline.com'];
 const imgSrc = [
 	'https://*.google-analytics.com',
 	'https://*.analytics.google.com',
-	'https://*.googletagmanager.com'
+	'https://*.googletagmanager.com',
+	'https://login.microsoftonline.com'
 ];
 const connectSrc = [
 	'https://*.google-analytics.com',
 	'https://*.analytics.google.com',
-	'https://*.googletagmanager.com'
+	'https://*.googletagmanager.com',
+	'https://login.microsoftonline.com'
 ];
 
 const addCSPNonce = (req, res) => `'nonce-${res.locals.cspNonce}'`;
@@ -28,7 +35,7 @@ function configureCSP(app) {
 			contentSecurityPolicy: {
 				directives: {
 					'script-src': ["'self'", ...scriptSrc, addCSPNonce],
-					'style-src': ["'self'", addCSPNonce],
+					'style-src': ["'self'", ...styleSrc, addCSPNonce],
 					'img-src': ["'self'", ...imgSrc],
 					'connect-src': ["'self'", ...connectSrc],
 					'frame-ancestors': "'none'"
