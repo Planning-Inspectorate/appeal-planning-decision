@@ -25,6 +25,8 @@ const enterPostcodePost = (req, res) => {
 		});
 	}
 
+	req.appealsApiClient.tokens.id_token = null;
+
 	res.redirect(`appeals?search=${postcode}`);
 };
 
