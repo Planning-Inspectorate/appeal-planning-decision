@@ -234,7 +234,7 @@ const formattedS78 = {
 		appellantProcedurePreference: 'inquiry',
 		appellantProcedurePreferenceDetails: 'details',
 		appellantProcedurePreferenceDuration: 13,
-		inquiryHowManyWitnesses: 3,
+		appellantProcedurePreferenceWitnessCount: 3,
 		developmentType: null
 	},
 	documents: [
