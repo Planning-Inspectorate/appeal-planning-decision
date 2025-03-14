@@ -223,9 +223,9 @@ exports.createInterestedPartyNewUser = (interestedPartySubmission) => {
 		address = {
 			addressLine1: interestedPartySubmission.addressLine1,
 			addressLine2: interestedPartySubmission.addressLine2,
-			townCity: interestedPartySubmission.townCity,
-			county: interestedPartySubmission.county,
-			postcode: interestedPartySubmission.postcode
+			addressTown: interestedPartySubmission.townCity,
+			addressCounty: interestedPartySubmission.county,
+			addressPostcode: interestedPartySubmission.postcode
 		};
 	}
 	return {
