@@ -349,7 +349,7 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
 
 /**
  * @param {FullAppellantSubmission} appellantSubmission
- * @returns {{appellantProcedurePreference: 'written'|'hearing'|'inquiry', appellantProcedurePreferenceDetails: string|null, appellantProcedurePreferenceDuration: Number|null, inquiryHowManyWitnesses: Number|null}}
+ * @returns {{appellantProcedurePreference: 'written'|'hearing'|'inquiry', appellantProcedurePreferenceDetails: string|null, appellantProcedurePreferenceDuration: Number|null, appellantProcedurePreferenceWitnessCount: Number|null}}
  */
 const getAppellantProcedurePreference = (appellantSubmission) => {
 	switch (appellantSubmission.appellantProcedurePreference) {
@@ -358,14 +358,14 @@ const getAppellantProcedurePreference = (appellantSubmission) => {
 				appellantProcedurePreference: APPEAL_LPA_PROCEDURE_PREFERENCE.WRITTEN,
 				appellantProcedurePreferenceDetails: null,
 				appellantProcedurePreferenceDuration: null,
-				inquiryHowManyWitnesses: null
+				appellantProcedurePreferenceWitnessCount: null
 			};
 		case APPEAL_CASE_PROCEDURE.HEARING:
 			return {
 				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.HEARING,
 				appellantProcedurePreferenceDetails: appellantSubmission.appellantPreferHearingDetails,
 				appellantProcedurePreferenceDuration: null,
-				inquiryHowManyWitnesses: null
+				appellantProcedurePreferenceWitnessCount: null
 			};
 		case APPEAL_CASE_PROCEDURE.INQUIRY:
 			return {
@@ -373,7 +373,9 @@ const getAppellantProcedurePreference = (appellantSubmission) => {
 				appellantProcedurePreferenceDetails: appellantSubmission.appellantPreferInquiryDetails,
 				appellantProcedurePreferenceDuration:
 					Number(appellantSubmission.appellantPreferInquiryDuration) || null,
-				inquiryHowManyWitnesses: Number(appellantSubmission.appellantPreferInquiryWitnesses)
+				appellantProcedurePreferenceWitnessCount: Number(
+					appellantSubmission.appellantPreferInquiryWitnesses
+				)
 			};
 		default:
 			throw new Error('unknown appellantProcedurePreference');

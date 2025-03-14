@@ -134,7 +134,7 @@ describe('S78 formatter', () => {
 				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.INQUIRY,
 				appellantProcedurePreferenceDetails: 'details',
 				appellantProcedurePreferenceDuration: 13,
-				inquiryHowManyWitnesses: 3,
+				appellantProcedurePreferenceWitnessCount: 3,
 				planningObligation: true,
 				statusPlanningObligation: 'test'
 			},
@@ -210,7 +210,7 @@ describe('S78 formatter', () => {
 				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.HEARING,
 				appellantProcedurePreferenceDetails: 'details 2',
 				appellantProcedurePreferenceDuration: null,
-				inquiryHowManyWitnesses: null,
+				appellantProcedurePreferenceWitnessCount: null,
 				planningObligation: true,
 				statusPlanningObligation: 'test'
 			},
