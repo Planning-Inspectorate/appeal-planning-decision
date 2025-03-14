@@ -221,9 +221,9 @@ describe('utils.js', () => {
 				organisation: null,
 				addressLine1: data.addressLine1,
 				addressLine2: data.addressLine2,
-				townCity: data.townCity,
-				county: data.county,
-				postcode: data.postcode
+				addressTown: data.townCity,
+				addressCounty: data.county,
+				addressPostcode: data.postcode
 			});
 		});
 	});
