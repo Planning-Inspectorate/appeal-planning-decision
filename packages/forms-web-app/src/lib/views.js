@@ -176,9 +176,7 @@ const VIEW = {
 		APPEAL: 'selected-appeal/appeal',
 		APPEAL_DETAILS: 'selected-appeal/appeal-details',
 		APPEAL_QUESTIONNAIRE: 'selected-appeal/questionnaire-details',
-		APPEAL_FINAL_COMMENTS: 'selected-appeal/final-comments-details',
 		APPEAL_IP_COMMENTS: 'selected-appeal/ip-comment-details',
-		APPEAL_STATEMENTS: 'selected-appeal/statements',
 		APPEAL_PLANNING_OBLIGATION: 'selected-appeal/planning-obligation',
 		APPEAL_REPRESENTATIONS: 'selected-appeal/representations'
 	},
