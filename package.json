@@ -164,7 +164,7 @@
 		"eslint-plugin-enforce-catch-block-error-type-guards": "file:dev/eslint-custom-catch-blocks",
 		"eslint-plugin-jest": "^26.5.3",
 		"glob": "^11.0.1",
-		"husky": "^8.0.0",
+		"husky": "^9.1.7",
 		"jest": "^29.4.0",
 		"jest-each": "^29.1.2",
 		"jest-environment-jsdom": "^29.7.0",
