@@ -1,4 +1,7 @@
-const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
+const {
+	APPEAL_CASE_PROCEDURE,
+	APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE
+} = require('pins-data-model');
 
 /**
  * @typedef {import("../client/appeals-api-client").AppealCaseDetailed} AppealCaseDetailed
@@ -45,11 +48,15 @@ exports.formatSensitiveArea = (caseData) =>
  * @param {AppealCaseDetailed} caseData
  */
 exports.formatEnvironmentalImpactSchedule = (caseData) => {
-	if (caseData.environmentalImpactSchedule === 'schedule-1') {
+	if (
+		caseData.environmentalImpactSchedule === APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE.SCHEDULE_1
+	) {
 		return 'Schedule 1';
 	}
 
-	if (caseData.environmentalImpactSchedule === 'schedule-2') {
+	if (
+		caseData.environmentalImpactSchedule === APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE.SCHEDULE_2
+	) {
 		return 'Schedule 2';
 	}
 
