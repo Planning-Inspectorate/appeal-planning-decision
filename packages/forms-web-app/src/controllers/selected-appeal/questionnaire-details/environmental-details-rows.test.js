@@ -12,17 +12,17 @@ describe('environmentalRows', () => {
 			Documents: [
 				{
 					id: 1,
-					documentType: APPEAL_DOCUMENT_TYPE.EIA_SCREENING_DIRECTION,
+					documentType: APPEAL_DOCUMENT_TYPE.EIA_SCREENING_OPINION,
 					filename: 'test.txt',
 					redacted: true
 				}
 			]
 		});
 
-		expect(rows[4].condition()).toEqual(true);
-		expect(rows[4].isEscaped).toEqual(true);
-		expect(rows[4].keyText).toEqual('Uploaded screening direction');
-		expect(rows[4].valueText).toEqual(
+		expect(rows[5].condition()).toEqual(true);
+		expect(rows[5].isEscaped).toEqual(true);
+		expect(rows[5].keyText).toEqual('Uploaded screening opinion');
+		expect(rows[5].valueText).toEqual(
 			'<a href="/published-document/1" class="govuk-link">test.txt</a>'
 		);
 	});
