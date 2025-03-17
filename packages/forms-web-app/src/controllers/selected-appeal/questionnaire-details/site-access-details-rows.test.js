@@ -27,7 +27,9 @@ describe('siteAccessRows', () => {
 		expect(rows.length).toEqual(7);
 
 		expect(rows[0].condition()).toEqual(true);
-		expect(rows[0].keyText).toEqual('Access for inspection');
+		expect(rows[0].keyText).toEqual(
+			'Might the inspector need access to the appellant’s land or property?'
+		);
 		expect(rows[0].valueText).toEqual('Yes');
 
 		expect(rows[1].condition()).toEqual(true);
@@ -35,7 +37,9 @@ describe('siteAccessRows', () => {
 		expect(rows[1].valueText).toEqual('lpa access details for show');
 
 		expect(rows[2].condition()).toEqual(true);
-		expect(rows[2].keyText).toEqual('Inspector visit to neighbour');
+		expect(rows[2].keyText).toEqual(
+			'Might the inspector need to enter a neighbour’s land or property?'
+		);
 		expect(rows[2].valueText).toEqual('Yes');
 
 		expect(rows[3].condition()).toEqual(true);
@@ -62,7 +66,9 @@ describe('siteAccessRows', () => {
 		};
 		const rows = siteAccessRows(caseData);
 		expect(rows[0].condition()).toEqual(true);
-		expect(rows[0].keyText).toEqual('Access for inspection');
+		expect(rows[0].keyText).toEqual(
+			'Might the inspector need access to the appellant’s land or property?'
+		);
 		expect(rows[0].valueText).toEqual('Yes');
 
 		expect(rows[1].condition()).toEqual(true);
@@ -86,13 +92,17 @@ describe('siteAccessRows', () => {
 		expect(rows.length).toEqual(5);
 
 		expect(rows[0].condition()).toEqual(true);
-		expect(rows[0].keyText).toEqual('Access for inspection');
+		expect(rows[0].keyText).toEqual(
+			'Might the inspector need access to the appellant’s land or property?'
+		);
 		expect(rows[0].valueText).toEqual('No');
 
 		expect(rows[1].condition()).toEqual(false);
 
 		expect(rows[2].condition()).toEqual(true);
-		expect(rows[2].keyText).toEqual('Inspector visit to neighbour');
+		expect(rows[2].keyText).toEqual(
+			'Might the inspector need to enter a neighbour’s land or property?'
+		);
 		expect(rows[2].valueText).toEqual('No');
 
 		expect(rows[3].condition()).toEqual(false);
