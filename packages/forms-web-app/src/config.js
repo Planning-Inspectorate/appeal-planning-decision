@@ -15,8 +15,13 @@ function numberWithDefault(value, fallback) {
 const oneGigabyte = 1024 * 1024 * 1024;
 const ninetyMinsInMs = 90 * 60 * 1000;
 const httpPort = numberWithDefault(process.env.PORT, 3000);
+
 const feedbackUrl =
+	process.env.FEEDBACK_URL ||
 	'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UOUlNRkhaQjNXTDQyNEhSRExNOFVGSkNJTS4u&route=shorturl';
+const feedbackUrlComment =
+	process.env.FEEDBACK_URL_COMMENT ||
+	'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UQVU3UkdCT0FPVlYwQUsxUDYySDA1V1NXWC4u';
 
 module.exports = {
 	gitSha: process.env.GIT_SHA ?? 'NO GIT SHA FOUND',
@@ -198,5 +203,6 @@ module.exports = {
 	},
 	feedbackUrl: feedbackUrl,
 	betaBannerText: 'This is a beta service',
-	betaBannerFeedbackLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrl}">feedback</a> will help us to improve it.`
+	betaBannerFeedbackLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrl}">feedback</a> will help us to improve it.`,
+	betaBannerFeedbackCommentLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrlComment}">feedback</a> will help us to improve it.`
 };
