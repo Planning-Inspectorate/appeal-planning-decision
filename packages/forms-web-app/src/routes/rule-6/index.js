@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const requireRule6User = require('../../middleware//rule-6/require-user');
+const requireRule6User = require('../../middleware/rule-6/require-user');
 
 // const selectedAppealController = require('../../controllers/selected-appeal');
 // const appealDetailsController = require('../../controllers/selected-appeal/appeal-details');

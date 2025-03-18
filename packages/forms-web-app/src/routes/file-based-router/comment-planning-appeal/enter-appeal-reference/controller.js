@@ -34,8 +34,6 @@ const enterAppealReferencePost = async (req, res) => {
 		});
 	}
 
-	req.appealsApiClient.tokens.id_token = null;
-
 	if (await req.appealsApiClient.appealCaseRefExists(appealReference)) {
 		res.redirect(`/comment-planning-appeal/appeals/${appealReference}`);
 		return;
