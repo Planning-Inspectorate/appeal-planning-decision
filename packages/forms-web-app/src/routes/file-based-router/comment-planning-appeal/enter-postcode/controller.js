@@ -3,11 +3,6 @@ const { resetInterestedPartySession } = require('../../../../services/interested
 
 /** @type {import('express').RequestHandler} */
 const enterPostcodeGet = (req, res) => {
-	console.log('oioioioio');
-	console.log(req.session);
-	console.log('pepepepe');
-	console.log(req.appealsApiClient);
-
 	resetInterestedPartySession(req);
 	res.render(`comment-planning-appeal/enter-postcode/index`);
 };
