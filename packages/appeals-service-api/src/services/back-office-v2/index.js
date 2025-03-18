@@ -422,6 +422,11 @@ class BackOfficeV2Service {
 
 		const { appealTypeCode } = appellantFinalCommentSubmission.AppealCase;
 		const { email } = await getUserById(userId);
+
+		logger.info(
+			`${userId} - ${email} submitting appellantFinalCommentSubmission for ${caseReference}`
+		);
+
 		const serviceUser = await getForEmailCaseAndType(email, caseReference, [
 			SERVICE_USER_TYPE.APPELLANT,
 			SERVICE_USER_TYPE.AGENT
@@ -501,6 +506,11 @@ class BackOfficeV2Service {
 			);
 
 		const { email } = await getUserById(userId);
+
+		logger.info(
+			`${userId} - ${email} submitting appellantProofEvidenceSubmission for ${caseReference}`
+		);
+
 		const serviceUser = await getForEmailCaseAndType(email, caseReference, [
 			SERVICE_USER_TYPE.APPELLANT,
 			SERVICE_USER_TYPE.AGENT
@@ -573,6 +583,11 @@ class BackOfficeV2Service {
 			throw new Error('Rule 6 statement associated AppealCase has an invalid appealTypeCode');
 
 		const { email } = await getUserById(userId);
+
+		logger.info(
+			`${userId} - ${email} submitting rule6ProofOfEvidenceSubmission for ${caseReference}`
+		);
+
 		const serviceUser = await getForEmailCaseAndType(email, caseReference, [
 			SERVICE_USER_TYPE.RULE_6_PARTY
 		]);
@@ -639,6 +654,9 @@ class BackOfficeV2Service {
 			throw new Error('Rule 6 statement associated AppealCase has an invalid appealTypeCode');
 
 		const { email } = await getUserById(userId);
+
+		logger.info(`${userId} - ${email} submitting rule6Statement for ${caseReference}`);
+
 		const serviceUser = await getForEmailCaseAndType(email, caseReference, [
 			SERVICE_USER_TYPE.RULE_6_PARTY
 		]);
