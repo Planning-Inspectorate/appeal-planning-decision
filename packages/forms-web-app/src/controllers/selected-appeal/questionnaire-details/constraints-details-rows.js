@@ -44,7 +44,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Changes a listed building',
 			valueText: changedListedBuildingText,
-			condition: () => showChangedListed
+			condition: () => !isHASAppeal
 		},
 		{
 			keyText: 'Listed building details',
@@ -54,7 +54,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Affects a listed building',
 			valueText: affectedListedBuildingText,
-			condition: () => showAffectedListed
+			condition: () => true
 		},
 		{
 			keyText: 'Listed building details',

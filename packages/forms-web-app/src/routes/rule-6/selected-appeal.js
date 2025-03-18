@@ -4,9 +4,6 @@ const router = express.Router({ mergeParams: true });
 const selectedAppealController = require('../../controllers/selected-appeal');
 const appealDetailsController = require('../../controllers/selected-appeal/appeal-details');
 const questionnaireDetailsController = require('../../controllers/selected-appeal/questionnaire-details');
-// const finalCommentsController = require('../../controllers/selected-appeal/final-comments-details');
-// const interestedPartyCommentsController = require('../../controllers/selected-appeal/ip-comment-details');
-// const statementDetailsController = require('../../controllers/selected-appeal/statements');
 const planningObligationDetailsController = require('../../controllers/selected-appeal/planning-obligation-details');
 const representationsController = require('../../controllers/selected-appeal/representations');
 
