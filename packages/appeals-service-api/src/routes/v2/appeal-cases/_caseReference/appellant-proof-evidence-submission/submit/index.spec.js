@@ -1,7 +1,6 @@
 const supertest = require('supertest');
 const app = require('../../../../../../app');
 const { createPrismaClient } = require('../../../../../../db/db-client');
-const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { APPEAL_DOCUMENT_TYPE, SERVICE_USER_TYPE } = require('pins-data-model');
@@ -66,7 +65,6 @@ beforeAll(async () => {
 	///// SETUP APP ////
 	///////////////////
 	appealsApi = supertest(app);
-	await seedStaticData(sqlClient);
 	const email = crypto.randomUUID() + '@example.com';
 	const user = await sqlClient.appealUser.create({
 		data: {

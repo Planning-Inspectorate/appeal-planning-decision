@@ -1,7 +1,6 @@
 const supertest = require('supertest');
 const app = require('../../../../../app');
 const { createPrismaClient } = require('../../../../../db/db-client');
-const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const crypto = require('crypto');
 const {
@@ -54,7 +53,6 @@ jest.setTimeout(30000);
 beforeAll(async () => {
 	sqlClient = createPrismaClient();
 	appealsApi = supertest(app);
-	await seedStaticData(sqlClient);
 	const user = await sqlClient.appealUser.create({
 		data: {
 			email: crypto.randomUUID() + '@example.com'
