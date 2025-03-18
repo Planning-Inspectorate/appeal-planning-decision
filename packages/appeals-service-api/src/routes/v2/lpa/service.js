@@ -29,7 +29,7 @@ exports.get = async (id, lpaCode, lpa19CD) => {
 	try {
 		return await repo.get(id, lpaCode, lpa19CD);
 	} catch (error) {
-		throw ApiError.lpaUpsertFailure();
+		throw ApiError.lpaNotFound();
 	}
 };
 
