@@ -1228,3 +1228,21 @@ model RepresentationDocument {
   @@index([representationId])
   @@index([documentId])
 }
+
+/// Proofs of Evidence, Final Comments, Statements, Planning Obligations and Interested Party Comments
+/// Received from BO will share this model and table
+model LPA {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  objectId String?
+  lpa19CD  String?
+  lpaCode  String?
+  name     String?
+  email    String?
+  domain   String?
+  inTrial  Boolean
+
+  // indexes
+  @@index([lpaCode])
+  @@index([lpa19CD])
+}

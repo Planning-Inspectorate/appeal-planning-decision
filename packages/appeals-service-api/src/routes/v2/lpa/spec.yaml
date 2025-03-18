@@ -1,0 +1,118 @@
+paths:
+  /api/v2/lpa/:
+    post:
+      tags:
+        - lpa
+      description: Create list of LPAs
+      requestBody:
+        description: LPAs to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LPA'
+      responses:
+        200:
+          description: Created LPAs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPA'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+    get:
+      tags:
+        - lpa
+      description: Get all LPAs
+      responses:
+        200:
+          description: LPA List
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPA'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+  /api/v2/lpa/{id}:
+    get:
+      tags:
+        - lpa
+      description: get an LPA by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: LPA id
+      responses:
+        200:
+          description: retrieved LPA
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPA'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+  /api/v2/lpa/lpaCode/{lpaCode}:
+    get:
+      tags:
+        - lpa
+      description: get an LPA by lpaCode
+      parameters:
+        - in: path
+          name: lpaCode
+          schema:
+            type: string
+          required: true
+          description: LPA Code
+      responses:
+        200:
+          description: retrieved LPA
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPA'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+  /api/v2/lpa/lpa19CD/{lpa19CD}:
+    get:
+      tags:
+        - lpa
+      description: get an LPA by lpa19CD
+      parameters:
+        - in: path
+          name: lpa19CD
+          schema:
+            type: string
+          required: true
+          description: LPA 19CD
+      responses:
+        200:
+          description: retrieved LPA
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPA'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+
