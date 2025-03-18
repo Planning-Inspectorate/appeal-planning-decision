@@ -14,17 +14,20 @@ const enterAppealReferencePost = async (req, res) => {
 		});
 	}
 
-	if (!/^[0-9]*$/.exec(appealReference)) {
+	if (!/^[A-Za-z0-9]*$/.exec(appealReference)) {
 		return res.render(`comment-planning-appeal/enter-appeal-reference/index`, {
-			error: { text: 'Enter the appeal reference using numbers 0 to 9', href: '#appeal-reference' },
+			error: {
+				text: 'Enter the appeal reference number using letters a to z and numbers 0 to 9',
+				href: '#appeal-reference'
+			},
 			value: appealReference
 		});
 	}
 
-	if (appealReference.length > 7) {
+	if (appealReference.length !== 7) {
 		return res.render(`comment-planning-appeal/enter-appeal-reference/index`, {
 			error: {
-				text: 'Appeal reference number must be 7 characters or less',
+				text: 'Appeal reference number must be 7 digits',
 				href: '#appeal-reference'
 			},
 			value: appealReference
