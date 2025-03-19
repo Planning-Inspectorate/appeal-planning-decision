@@ -1062,6 +1062,17 @@ export interface LPAQuestionnaireSubmission {
 	section3aGrant?: boolean;
 }
 
+export interface LpaRecord {
+	id?: string;
+	objectId?: string;
+	lpa19CD?: string;
+	lpaCode?: string;
+	name?: string;
+	email?: string;
+	domain?: string;
+	inTrial?: boolean;
+}
+
 /** A statement submitted by an LPA */
 export interface LPAStatementSubmission {
 	/** @format uuid */

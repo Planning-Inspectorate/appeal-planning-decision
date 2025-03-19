@@ -13,6 +13,7 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { testLPACode2 } = require('@pins/common/src/utils');
 const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const config = require('../configuration/config.js');
+const { lpasDev } = require('./lpa-dev');
 
 // some data here so we can reference in multiple places
 // IDs have no specific meaning, just valid UUIDs and used for upsert/relations
@@ -1565,6 +1566,14 @@ async function seedDev(dbClient) {
 			create: representationDocument,
 			update: representationDocument,
 			where: { id: representationDocument.id }
+		});
+	}
+
+	for (const lpa of lpasDev) {
+		await dbClient.lPA.upsert({
+			create: lpa,
+			update: lpa,
+			where: { id: lpa.id }
 		});
 	}
 

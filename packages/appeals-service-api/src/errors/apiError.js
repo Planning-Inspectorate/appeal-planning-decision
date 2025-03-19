@@ -105,6 +105,10 @@ class ApiError {
 		return new ApiError(404, { errors: [`LPA was not found`] });
 	}
 
+	static lpaUpsertFailure() {
+		return new ApiError(400, { errors: [`LPA list insert failed`] });
+	}
+
 	// Users/LPA Dashboard
 	static noLpaCodeProvided() {
 		return new ApiError(400, { errors: [`No LPA was provided`] });
