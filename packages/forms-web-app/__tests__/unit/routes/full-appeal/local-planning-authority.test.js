@@ -11,18 +11,18 @@ jest.mock('../../../../src/validators/full-appeal/local-planning-department');
 describe('routes/full-appeal/local-planning-department', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../src/routes/before-you-start/local-planning-department');
+		require('../../../../src/routes/before-you-start/local-planning-authority');
 	});
 
 	it('should define the expected routes', () => {
 		expect(get).toHaveBeenCalledWith(
-			'/local-planning-department',
+			'/local-planning-authority',
 			[fetchExistingAppealMiddleware],
 			localPlanningDepartmentController.getPlanningDepartment
 		);
 
 		expect(post).toHaveBeenCalledWith(
-			'/local-planning-department',
+			'/local-planning-authority',
 			localPlanningDepartmentValidationRules(),
 			validationErrorHandler,
 			localPlanningDepartmentController.postPlanningDepartment
