@@ -3,15 +3,16 @@ const {
 	formatUserDetails,
 	formatHealthAndSafety,
 	formatProcedure,
-	formatRelatedAppeals,
+	formatSubmissionRelatedAppeals,
 	formatYesOrNo,
 	boolToYesNo,
 	formatAccessDetails,
 	formatDevelopmentType
 } = require('@pins/common');
-const { CASE_RELATION_TYPES, CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
+const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
@@ -33,8 +34,11 @@ exports.detailsRows = (caseData, userType) => {
 	const contactIsAppellant = !agent; // if no agent than appellant made their own appeal
 	const contact = contactIsAppellant ? appellant : agent;
 
-	const nearbyAppeals = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.nearby);
-	const showNearbyAppeals = !!nearbyAppeals;
+	const relatedAppeals = formatSubmissionRelatedAppeals(
+		caseData,
+		fieldNames.appellantLinkedCaseReference
+	);
+	const showRelatedAppeals = !!relatedAppeals;
 
 	const costApplicationKeyText = isAppellantOrAgent
 		? 'Do you need to apply for an award of appeal costs?'
@@ -190,7 +194,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',
-			valueText: showNearbyAppeals ? `Yes \n ${nearbyAppeals}` : 'No',
+			valueText: showRelatedAppeals ? `Yes \n ${relatedAppeals}` : 'No',
 			condition: () => true,
 			isEscaped: true
 		},

@@ -1,11 +1,25 @@
 /**
- * @typedef {string} DynamicFormFieldName
+ * @typedef {Object} FieldNames
+ * @property {DynamicFormFieldName} changedListedBuildingNumber
+ * @property {DynamicFormFieldName} affectedListedBuildingNumber
+ * @property {DynamicFormFieldName} appellantLinkedCaseReference
+ * @property {DynamicFormFieldName} nearbyAppealReference
  */
 
 /**
- * @enum {DynamicFormFieldName}
+ * @typedef {'changedListedBuildingNumber'
+ *   | 'affectedListedBuildingNumber'
+ *   | 'appellantLinkedCaseReference'
+ *   | 'nearbyAppealReference'
+ * } DynamicFormFieldName
  */
-exports.fieldNames = {
+
+/**
+ * @type {FieldNames}
+ */
+exports.fieldNames = Object.freeze({
 	changedListedBuildingNumber: 'changedListedBuildingNumber',
-	affectedListedBuildingNumber: 'affectedListedBuildingNumber'
-};
+	affectedListedBuildingNumber: 'affectedListedBuildingNumber',
+	appellantLinkedCaseReference: 'appellantLinkedCaseReference',
+	nearbyAppealReference: 'nearbyAppealReference'
+});

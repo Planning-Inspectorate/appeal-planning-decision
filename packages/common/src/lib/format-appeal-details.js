@@ -90,6 +90,20 @@ exports.formatRelatedAppeals = (caseData, type) => {
 };
 
 /**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ * @param {import('../dynamic-forms/field-names').DynamicFormFieldName} type
+ */
+exports.formatSubmissionRelatedAppeals = (caseData, type) => {
+	const appellantLinkedCases = caseData.submissionLinkedCases?.filter(
+		(relation) => relation.fieldName === type
+	);
+
+	if (!appellantLinkedCases?.length) return '';
+
+	return appellantLinkedCases.map((linkedAppeal) => escape(linkedAppeal.caseReference)).join('\n');
+};
+
+/**
  * @param {import("../client/appeals-api-client").AppealCaseDetailed['developmentType']} developmentType
  * @returns {string}
  */

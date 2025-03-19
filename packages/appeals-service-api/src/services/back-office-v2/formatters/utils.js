@@ -465,7 +465,7 @@ exports.getCommonLPAQSubmissionFields = (caseReference, answers) => ({
 /**
  *
  * @param {import('@prisma/client').SubmissionListedBuilding[]} listedBuildings
- * @param {string} type
+ * @param {import('@pins/common/src/dynamic-forms/field-names').DynamicFormFieldName} type
  * @returns {string[]}
  */
 const getListedBuildingByType = (listedBuildings, type) => {

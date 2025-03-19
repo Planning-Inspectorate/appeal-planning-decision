@@ -5,7 +5,7 @@
 /**
  * @enum {DynamicFormFieldValue}
  */
-exports.fieldValues = {
+exports.fieldValues = Object.freeze({
 	majorMinorDevelopment: {
 		MAJOR: 'major',
 		MINOR: 'minor',
@@ -22,4 +22,4 @@ exports.fieldValues = {
 		TRAVELLER_CARAVAN: 'traveller-caravan',
 		OTHER: 'other'
 	}
-};
+});

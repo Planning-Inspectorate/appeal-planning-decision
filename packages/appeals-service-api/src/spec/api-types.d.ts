@@ -33,6 +33,7 @@ export interface AppealCaseRelationship {
 export type AppealCaseDetailed = AppealCase & {
 	users?: ServiceUser[];
 	relations?: AppealCaseRelationship[];
+	submissionLinkedCases?: SubmissionLinkedCase[];
 	Documents?: Document[];
 };
 

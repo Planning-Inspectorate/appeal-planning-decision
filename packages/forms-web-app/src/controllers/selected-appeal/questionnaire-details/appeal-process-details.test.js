@@ -1,6 +1,6 @@
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 const { appealProcessRows } = require('./appeal-process-details-rows');
-const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
+const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 
 describe('appealProcessRows', () => {
 	it('should create rows with correct data if relevant case data fields exist & field values populated', () => {
@@ -9,12 +9,10 @@ describe('appealProcessRows', () => {
 			lpaProcedurePreferenceDetails: 'inquiry preference',
 			lpaProcedurePreferenceDuration: 6,
 			newConditionDetails: 'new condition details',
-			relations: [
+			submissionLinkedCases: [
 				{
-					id: 1,
-					type: CASE_RELATION_TYPES.nearby,
-					caseReference: '0000001',
-					caseReference2: '0000002'
+					fieldName: fieldNames.nearbyAppealReference,
+					caseReference: '0000002'
 				}
 			]
 		};

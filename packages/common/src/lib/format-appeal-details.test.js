@@ -1,8 +1,11 @@
 const {
 	formatHealthAndSafety,
 	formatAccessDetails,
-	formatDevelopmentType
+	formatDevelopmentType,
+	formatSubmissionRelatedAppeals
 } = require('./format-appeal-details');
+const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
+const escape = require('escape-html');
 
 describe('format-appeal-details', () => {
 	describe('formatHealthAndSafety', () => {
@@ -43,6 +46,73 @@ describe('format-appeal-details', () => {
 			const resultAllIndexesEmpty = formatAccessDetails({ siteAccessDetails: ['', ''] });
 			expect(resultIndex0Empty).toEqual('No');
 			expect(resultAllIndexesEmpty).toEqual('No');
+		});
+	});
+
+	describe('formatSubmissionRelatedAppeals', () => {
+		it('should return an empty string if there are no submissionLinkedCases', () => {
+			const caseData = { submissionLinkedCases: [] };
+			const result = formatSubmissionRelatedAppeals(
+				caseData,
+				fieldNames.appellantLinkedCaseReference
+			);
+			expect(result).toBe('');
+		});
+
+		it('should return an empty string if no cases match the type', () => {
+			const caseData = {
+				submissionLinkedCases: [
+					{ fieldName: fieldNames.changedListedBuildingNumber, caseReference: '123' }
+				]
+			};
+			const result = formatSubmissionRelatedAppeals(
+				caseData,
+				fieldNames.appellantLinkedCaseReference
+			);
+			expect(result).toBe('');
+		});
+
+		it('should return a single case reference if one case matches the type', () => {
+			const caseData = {
+				submissionLinkedCases: [
+					{ fieldName: fieldNames.appellantLinkedCaseReference, caseReference: '123' }
+				]
+			};
+			const result = formatSubmissionRelatedAppeals(
+				caseData,
+				fieldNames.appellantLinkedCaseReference
+			);
+			expect(result).toBe(escape('123'));
+		});
+
+		it('should return multiple case references joined by newline if multiple cases match the type', () => {
+			const caseData = {
+				submissionLinkedCases: [
+					{ fieldName: fieldNames.appellantLinkedCaseReference, caseReference: '123' },
+					{ fieldName: fieldNames.appellantLinkedCaseReference, caseReference: '456' }
+				]
+			};
+			const result = formatSubmissionRelatedAppeals(
+				caseData,
+				fieldNames.appellantLinkedCaseReference
+			);
+			expect(result).toBe(`${escape('123')}\n${escape('456')}`);
+		});
+
+		it('should escape special characters in case references', () => {
+			const caseData = {
+				submissionLinkedCases: [
+					{
+						fieldName: fieldNames.appellantLinkedCaseReference,
+						caseReference: '<script>alert("xss")</script>'
+					}
+				]
+			};
+			const result = formatSubmissionRelatedAppeals(
+				caseData,
+				fieldNames.appellantLinkedCaseReference
+			);
+			expect(result).toBe(escape('<script>alert("xss")</script>'));
 		});
 	});
 
