@@ -540,7 +540,7 @@ exports.questionProps = {
 			type: 'case',
 			title: 'Enter an appeal reference number',
 			question: 'Enter an appeal reference number',
-			fieldName: 'nearbyAppealReference',
+			fieldName: fieldNames.nearbyAppealReference,
 			hint: 'You can add more appeals later if there is more than one nearby',
 			validators: [
 				new RequiredValidator('Enter an appeal reference number'),
@@ -1566,7 +1566,7 @@ exports.questionProps = {
 			type: 'case',
 			title: 'Enter the appeal reference number',
 			question: 'Enter the appeal reference number',
-			fieldName: 'appellantLinkedCaseReference',
+			fieldName: fieldNames.appellantLinkedCaseReference,
 			html: 'resources/appellant-linked-case/content.html',
 			hint: 'For example, 0221532.',
 			validators: [

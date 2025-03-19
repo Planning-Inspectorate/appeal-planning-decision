@@ -12,6 +12,7 @@ const sanitizePostcode = require('#lib/sanitize-postcode');
 /**
  * @typedef {import("@prisma/client").Appeal} Appeal
  * @typedef {import("@prisma/client").AppellantSubmission} AppellantSubmission
+ * @typedef {import("@prisma/client").SubmissionLinkedCase} SubmissionLinkedCase
  * @typedef {import("@prisma/client").AppealCase} AppealCase
  * @typedef {import("@prisma/client").AppealCaseRelationship} AppealCaseRelationship
  * @typedef {import("@prisma/client").Prisma.AppealCaseCreateInput} AppealCaseCreateInput
@@ -138,6 +139,56 @@ class AppealCaseRepository {
 		return this.dbClient.appealCaseRelationship.findMany({
 			where: {
 				caseReference
+			}
+		});
+	}
+
+	/**
+	 * @param {object} options
+	 * @param {string} options.appealId
+	 * @returns {Promise<{id: string, AppellantSubmission: { id: string} | null, AppealCase: { LPAQuestionnaireSubmission: { id: string} | null  } | null } | null>}
+	 */
+	async getSubmissionsForAppeal({ appealId }) {
+		return this.dbClient.appeal.findFirst({
+			where: {
+				id: appealId
+			},
+			select: {
+				id: true,
+				AppealCase: {
+					select: {
+						LPAQuestionnaireSubmission: {
+							select: {
+								id: true
+							}
+						}
+					}
+				},
+				AppellantSubmission: {
+					select: {
+						id: true
+					}
+				}
+			}
+		});
+	}
+
+	/**
+	 * @param {object} options
+	 * @param {string|null} [options.appealSubmissionId]
+	 * @param {string|null} [options.lpaQuestionnaireSubmissionId]
+	 * @returns {Promise<SubmissionLinkedCase[]|null>}
+	 */
+	async getSubmissionLinkedCasesForAppeal({ appealSubmissionId, lpaQuestionnaireSubmissionId }) {
+		const lookup = [];
+		if (appealSubmissionId) lookup.push({ appellantSubmissionId: appealSubmissionId });
+		if (lpaQuestionnaireSubmissionId)
+			lookup.push({ lPAQuestionnaireSubmissionId: lpaQuestionnaireSubmissionId });
+		if (!lookup.length) return null;
+
+		return this.dbClient.submissionLinkedCase.findMany({
+			where: {
+				OR: lookup
 			}
 		});
 	}

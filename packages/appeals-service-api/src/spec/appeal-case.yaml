@@ -14,6 +14,10 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/AppealCaseRelationship'
+            submissionLinkedCases:
+              type: array
+              items:
+                $ref: '#/components/schemas/SubmissionLinkedCase'
             Documents:
               type: array
               items:

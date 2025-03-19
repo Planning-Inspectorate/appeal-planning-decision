@@ -24,6 +24,7 @@ const { getValidator } = new SchemaValidator();
  * @typedef {import('@prisma/client').Prisma.AppealCaseCreateInput} AppealCaseCreateInput
  * @typedef {import("@prisma/client").ServiceUser} ServiceUser
  * @typedef {import("@prisma/client").AppealCaseRelationship} AppealRelations
+ * @typedef {import("@prisma/client").SubmissionLinkedCase} SubmissionLinkedCase
  * @typedef {AppealCase & {users?: Array.<ServiceUser>} & {relations?: Array.<AppealRelations>}} AppealCaseDetailed
  * @typedef {import ('pins-data-model').Schemas.AppealHASCase} AppealHASCase
  * @typedef {import ('pins-data-model').Schemas.AppealS78Case} AppealS78Case
@@ -453,7 +454,7 @@ async function appendAppellantAndAgent(appeal) {
  * Add the relations to an appeal.
  *
  * @param {AppealCase} appeal
- * @returns {Promise<AppealCase & {relations?: Array.<AppealRelations>}>}
+ * @returns {Promise<AppealCase & {relations?: Array.<AppealRelations>} & {submissionLinkedCases?: Array.<SubmissionLinkedCase>}>}
  */
 async function appendAppealRelations(appeal) {
 	const relations = await repo.getRelatedCases({ caseReference: appeal.caseReference });
@@ -461,6 +462,13 @@ async function appendAppealRelations(appeal) {
 		return appeal;
 	}
 	appeal.relations = relations;
+
+	// get relations from submissions
+	const subs = await repo.getSubmissionsForAppeal({ appealId: appeal.appealId });
+	appeal.submissionLinkedCases = await repo.getSubmissionLinkedCasesForAppeal({
+		appealSubmissionId: subs?.AppellantSubmission?.id,
+		lpaQuestionnaireSubmissionId: subs?.AppealCase?.LPAQuestionnaireSubmission?.id
+	});
 	return appeal;
 }
 
