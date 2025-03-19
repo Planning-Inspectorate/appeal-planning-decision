@@ -11,6 +11,7 @@ export class PrepareAppealSelector {
         onApplicationDateYear: '#onApplicationDate_year',
         developmentDescriptionOriginal: '#developmentDescriptionOriginal',
         govukFieldsetHeading: ".govuk-fieldset__heading",
+        govukLabelGovUkLabel1:"label.govuk-label.govuk-label--l",
         fullPlanningApplicaitonType: "full-planning",
         houseHolderApplicaitonType: "householder",
         appellantOther: "other",
@@ -20,8 +21,9 @@ export class PrepareAppealSelector {
         statusOfOriginalApplicationNoDecision: "no decision",
         answerFullAppeal: "answer-full-appeal",
         answerHouseholderPlanning: "answer-householder-planning",
-        fullAppealText: "Full Appeal",
-        householderPlanningText: "Householder Planning"
+        fullAppealText: "Full appeal",
+        householderPlanningText: "Householder planning",
+        systemTest2BoroughCouncil: "System Test 2 Borough Council"
     }
     _fullAppealselectors = {
         decisionDateDay: '#decision-date-day',

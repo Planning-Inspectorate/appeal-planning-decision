@@ -31,23 +31,26 @@ export class AppealProcess {
             cy.advanceToNextPage();            
         }
     };
-    selectOngoingAppealsNextToSite(context,lpaManageAppealsData){
+    selectOngoingAppealsNextToSite(context,lpaManageAppealsData, appealType){
         const basePage = new BasePage();
         if(context?.appealProcess?.isOngoingAppeals){
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage(); 
-            this.selectNearbyAppeals(context,lpaManageAppealsData);   
+            this.selectNearbyAppeals(context,lpaManageAppealsData, appealType);   
         } else {		
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();		
         }
     };
 
-    selectNearbyAppeals(context,lpaManageAppealsData) {
+    selectNearbyAppeals(context,lpaManageAppealsData, appealType) {
         const basePage = new BasePage();
         if(context?.appealProcess?.isNearbyAppeals){
-            cy.getByData(basePage?._selectors.answerYes).click();
-            cy.advanceToNextPage();
+            if(lpaManageAppealsData?.hasAppealType === appealType)
+            {
+                cy.getByData(basePage?._selectors.answerYes).click();
+                cy.advanceToNextPage();
+            }
             cy.get('body').then($body => {
                 if($body.find(`.govuk-fieldset__heading:contains(${lpaManageAppealsData?.appealProcess?.addAnotherAppeal})`).length > 0){
                     cy.getByData(basePage?._selectors.answerNo).click();

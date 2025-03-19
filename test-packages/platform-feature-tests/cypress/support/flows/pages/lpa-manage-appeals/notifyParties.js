@@ -22,5 +22,8 @@ export class NotifyParties {
         //Upload the press advertisement
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPressAdvertisement);
         cy.advanceToNextPage();
+        // Upload the appeal notification letter and the list of people that you notified
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadAppealNotificationLetter);
+        cy.advanceToNextPage();
     };
 }
