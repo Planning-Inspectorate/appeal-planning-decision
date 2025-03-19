@@ -3,7 +3,9 @@ const Repo = require('./repo');
 const repo = new Repo();
 const LpaMapper = require('../../../mappers/lpa-mapper');
 const logger = require('#lib/logger');
+const { chunkArray } = require('@pins/common/src/database/chuck-array');
 
+const chunckSize = 10;
 /**
  * @typedef {import('@prisma/client').LPA} PrismaLPA
  */
@@ -44,7 +46,7 @@ exports.createLpaList = async (csv) => {
 
 	try {
 		await repo.remove();
-		const lpaChunks = chunkArray(lpaEntities, 10);
+		const lpaChunks = chunkArray(lpaEntities, chunckSize);
 
 		for (let chunk in lpaChunks) {
 			await new Promise((res) => setTimeout(res, 1000));
@@ -54,22 +56,4 @@ exports.createLpaList = async (csv) => {
 		logger.error(err);
 		throw ApiError.lpaUpsertFailure();
 	}
-};
-
-/**
- * @param {any} myArray
- * @param {number} chunk_size
- * @returns {Promise<any>}
- */
-const chunkArray = (myArray, chunk_size) => {
-	let index = 0;
-	const arrayLength = myArray.length;
-	const tempArray = [];
-
-	for (index = 0; index < arrayLength; index += chunk_size) {
-		const myChunk = myArray.slice(index, index + chunk_size);
-		tempArray.push(myChunk);
-	}
-
-	return tempArray;
 };
