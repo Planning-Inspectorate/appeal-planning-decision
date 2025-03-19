@@ -1,0 +1,35 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- CreateTable
+CREATE TABLE [dbo].[LPA] (
+    [id] UNIQUEIDENTIFIER NOT NULL CONSTRAINT [LPA_id_df] DEFAULT newid(),
+    [objectId] NVARCHAR(1000),
+    [lpa19CD] NVARCHAR(1000),
+    [lpaCode] NVARCHAR(1000),
+    [name] NVARCHAR(1000),
+    [email] NVARCHAR(1000),
+    [domain] NVARCHAR(1000),
+    [inTrial] BIT NOT NULL,
+    CONSTRAINT [LPA_pkey] PRIMARY KEY CLUSTERED ([id])
+);
+
+-- CreateIndex
+CREATE NONCLUSTERED INDEX [LPA_lpaCode_idx] ON [dbo].[LPA]([lpaCode]);
+
+-- CreateIndex
+CREATE NONCLUSTERED INDEX [LPA_lpa19CD_idx] ON [dbo].[LPA]([lpa19CD]);
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

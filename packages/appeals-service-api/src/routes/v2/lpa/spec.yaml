@@ -1,0 +1,131 @@
+paths:
+  /api/v2/lpa/:
+    get:
+      summary: Get all LPA records
+      operationId: getAll
+      tags:
+        - LPA
+      responses:
+        "200":
+          description: Successfully retrieved all LPA records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LpaRecord"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorBody"
+
+    post:
+      summary: Upload a CSV file
+      operationId: post
+      tags:
+        - LPA
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "204":
+          description: CSV file processed successfully
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorBody"
+
+  /api/v2/lpa/{id}:
+    get:
+      summary: Get LPA record by ID
+      operationId: getById
+      tags:
+        - LPA
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully retrieved LPA record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LpaRecord"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorBody"
+        "404":
+          description: LPA record not found
+
+  /api/v2/lpa/lpaCode/{lpaCode}:
+    get:
+      summary: Get LPA record by LPA Code
+      operationId: getBylpaCode
+      tags:
+        - LPA
+      parameters:
+        - name: lpaCode
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully retrieved LPA record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LpaRecord"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorBody"
+        "404":
+          description: LPA record not found
+
+  /api/v2/lpa/lpa19CD/{lpa19CD}:
+    get:
+      summary: Get LPA record by LPA19CD
+      operationId: getBylpa19CD
+      tags:
+        - LPA
+      parameters:
+        - name: lpa19CD
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully retrieved LPA record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LpaRecord"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorBody"
+        "404":
+          description: LPA record not found

@@ -1,0 +1,21 @@
+components:
+  schemas:
+    LpaRecord:
+      type: object
+      properties:
+        id:
+          type: string
+        objectId:
+          type: string
+        lpa19CD:
+          type: string
+        lpaCode:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        domain:
+          type: string
+        inTrial:
+          type: boolean
