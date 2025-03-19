@@ -8,7 +8,7 @@ const {
 
 jest.mock('../../../../src/validators/full-appeal/local-planning-department');
 
-describe('routes/full-appeal/local-planning-department', () => {
+describe('routes/full-appeal/local-planning-authority', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
 		require('../../../../src/routes/before-you-start/local-planning-authority');
