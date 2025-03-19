@@ -272,6 +272,7 @@ services:
   docs-horizon:
     profiles: ['all', 'appeals']
     image: swaggerapi/swagger-ui
+    platform: 'linux/amd64' # force platform, ARM machines to use emulation
     environment:
       SWAGGER_JSON: /app/swagger.yaml
     depends_on:
@@ -318,6 +319,7 @@ services:
   mssql:
     profiles: ['all', 'api', 'appeals', 'comment', 'database']
     image: mcr.microsoft.com/azure-sql-edge:latest
+    platform: 'linux/amd64' # force platform, ARM machines to use emulation
     container_name: appeals-mssql
     cap_add: ['SYS_PTRACE']
     user: root
