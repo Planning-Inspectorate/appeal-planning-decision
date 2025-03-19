@@ -83,7 +83,9 @@ const { getValidator } = new SchemaValidator();
 
 /** @type {(maybeTypeCode: string) => maybeTypeCode is AppealTypeCode} */
 const isValidAppealTypeCode = (maybeTypeCode) =>
-	[CASE_TYPES.HAS.processCode, CASE_TYPES.S78.processCode].includes(maybeTypeCode);
+	[CASE_TYPES.HAS.processCode, CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode].includes(
+		maybeTypeCode
+	);
 
 class BackOfficeV2Service {
 	constructor() {}
@@ -105,7 +107,11 @@ class BackOfficeV2Service {
 		logger.info(`validating appeal ${appellantSubmission.appealId} schema`);
 		/** @type {Validate<AppellantSubmissionCommand>} */
 		const validator = getValidator('appellant-submission');
-		if (!validator(mappedData)) {
+		// TODO: remove s20 check when data model/ schema confirmed
+		if (
+			appellantSubmission.appealTypeCode !== CASE_TYPES.S20.processCode &&
+			!validator(mappedData)
+		) {
 			throw new Error(
 				`Payload was invalid when checked against appellant submission command schema`
 			);
