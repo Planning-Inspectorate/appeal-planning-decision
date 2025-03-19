@@ -89,7 +89,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Is this the correct type of appeal?',
 		question: 'Is this the correct type of appeal?',
-		// fieldName: 'correct-appeal-type',
 		fieldName: 'correctAppealType',
 		url: 'correct-appeal-type',
 		validators: [new RequiredValidator('Select yes if this is the correct type of appeal')]
@@ -98,7 +97,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Affects a listed building',
 		question: 'Does the proposed development affect the setting of listed buildings?',
-		// fieldName: 'affects-listed-building',
 		fieldName: 'affectsListedBuilding',
 		url: 'affect-listed-building',
 		validators: [
@@ -111,7 +109,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Changes a listed building',
 		question: 'Does the proposed development change a listed building?',
-		// fieldName: 'changes-listed-building',
 		fieldName: 'changesListedBuilding',
 		url: 'changes-listed-building',
 		validators: [new RequiredValidator()]
@@ -121,7 +118,6 @@ exports.questionProps = {
 		title: 'Listed building or site added',
 		pageTitle: 'Listed building or site has been added to the case',
 		question: 'Add another building or site?',
-		// fieldName: 'add-listed-buildings',
 		fieldName: 'addChangedListedBuilding',
 		url: 'changed-listed-buildings',
 		subQuestionLabel: 'Listed Building',
@@ -147,7 +143,6 @@ exports.questionProps = {
 		title: 'Listed building or site added',
 		pageTitle: 'Listed building or site has been added to the case',
 		question: 'Add another building or site?',
-		// fieldName: 'add-listed-buildings',
 		fieldName: 'addAffectedListedBuilding',
 		url: 'affected-listed-buildings',
 		subQuestionLabel: 'Listed Building',
@@ -159,7 +154,6 @@ exports.questionProps = {
 			type: 'listed-building',
 			title: 'Tell us the list entry number',
 			question: 'Tell us the list entry number',
-			// fieldName: 'listed-building-number',
 			fieldName: fieldNames.affectedListedBuildingNumber,
 			html: 'resources/listed-building-number/content.html',
 			validators: [
@@ -173,7 +167,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Conservation area',
 		question: 'Is the site in, or next to a conservation area?',
-		// fieldName: 'conservation-area',
 		fieldName: 'conservationArea',
 		url: 'conservation-area',
 		validators: [new RequiredValidator()]
@@ -194,7 +187,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Green belt',
 		question: 'Is the site in a green belt?',
-		// fieldName: 'green-belt',
 		fieldName: 'greenBelt',
 		url: 'green-belt',
 		validators: [new RequiredValidator()]
@@ -204,7 +196,6 @@ exports.questionProps = {
 		title: 'Who was notified',
 		url: 'upload-who-you-notified',
 		question: 'Who did you notify about this application?',
-		// fieldName: 'notified-who',
 		fieldName: 'uploadWhoNotified',
 		validators: [
 			new RequiredFileUploadValidator('Select your document that lists who you notified'),
@@ -217,7 +208,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Uploaded press advert',
 		question: 'Upload the press advertisement',
-		// fieldName: 'upload-press-advert',
 		fieldName: 'uploadPressAdvert',
 		url: 'upload-press-advert',
 		validators: [
@@ -231,7 +221,6 @@ exports.questionProps = {
 		title: 'Responses or standing advice to upload',
 		question:
 			'Do you have any consultation responses or standing advice from statutory consultees to upload?',
-		// fieldName: 'consultation-responses',
 		fieldName: 'consultationResponses',
 		url: 'consultation-responses',
 		validators: [
@@ -244,7 +233,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Upload the consultation responses and standing advice',
 		question: 'Upload the consultation responses and standing advice',
-		// fieldName: 'upload-consultation-responses',
 		fieldName: 'uploadConsultationResponses',
 		url: 'upload-consultation-responses',
 		validators: [
@@ -258,7 +246,6 @@ exports.questionProps = {
 		title: 'Type of notification',
 		question: 'How did you notify relevant parties about the planning application?',
 		description: 'Select all that apply',
-		// fieldName: 'notification-method',
 		fieldName: 'notificationMethod',
 		url: 'notification-type',
 		validators: [
@@ -284,7 +271,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Uploaded site notice',
 		question: 'Upload the site notice',
-		// fieldName: 'upload-site-notice',
 		fieldName: 'uploadSiteNotice',
 		url: 'upload-site-notice',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
@@ -309,7 +295,6 @@ exports.questionProps = {
 		title: 'Representations from other parties',
 		question: 'Did you receive representations from members of the public or other parties?',
 		url: 'representations',
-		// fieldName: 'representations-other-parties',
 		fieldName: 'otherPartyRepresentations',
 		validators: [
 			new RequiredValidator(
@@ -321,7 +306,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Upload representations from other parties',
 		question: 'Upload the representations',
-		// fieldName: 'upload-representations',
 		fieldName: 'uploadRepresentations',
 		url: 'upload-representations',
 		validators: [
@@ -334,7 +318,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Upload planning officer’s report',
 		question: 'Upload the planning officer’s report or what your decision notice would have said',
-		// fieldName: 'upload-report',
 		fieldName: 'uploadPlanningOfficerReport',
 		html: 'resources/upload-planning-officer-report/content.html',
 		url: 'upload-planning-officers-report-decision-notice',
@@ -351,7 +334,6 @@ exports.questionProps = {
 		title: 'Access for inspection',
 		question: 'Might the inspector need access to the appellant’s land or property?',
 		pageTitle: 'Might the inspector need access to the appellant’s land or property?',
-		// fieldName: 'inspector-access-appeal-site',
 		fieldName: 'lpaSiteAccess',
 		url: 'inspector-access-appeal-site',
 		validators: [
@@ -373,7 +355,6 @@ exports.questionProps = {
 				value: 'yes',
 				conditional: {
 					question: 'Enter the reason',
-					// fieldName: 'reason-for-inspector-access',
 					fieldName: 'lpaSiteAccessDetails',
 					type: 'textarea'
 				}
@@ -388,7 +369,6 @@ exports.questionProps = {
 		type: 'radio',
 		title: 'Might the inspector need to enter a neighbour’s land or property?',
 		question: 'Might the inspector need to enter a neighbour’s land or property?',
-		// fieldName: 'inspector-enter-neighbour-site',
 		fieldName: 'neighbourSiteAccess',
 		url: 'inspector-enter-neighbour-site',
 		validators: [
@@ -410,7 +390,6 @@ exports.questionProps = {
 				value: 'yes',
 				conditional: {
 					question: 'Enter the reason',
-					// fieldName: 'reason-for-neighbour-inspection',
 					fieldName: 'neighbourSiteAccessDetails',
 					type: 'textarea'
 				}
@@ -426,7 +405,6 @@ exports.questionProps = {
 		title: 'Inspector visit to neighbour',
 		pageTitle: 'Neighbour added',
 		question: 'Do you want to add another neighbour to be visited?',
-		// fieldName: 'neighbouring-site-visits',
 		fieldName: 'addNeighbourSiteAccess',
 		url: 'neighbour-address',
 		subQuestionLabel: 'Neighbour',
@@ -436,7 +414,6 @@ exports.questionProps = {
 			type: 'address',
 			title: 'Tell us the address of the neighbour’s land or property',
 			question: 'Tell us the address of the neighbour’s land or property',
-			// fieldName: 'neighbour-site-address',
 			fieldName: 'neighbourSiteAddress',
 			validators: [new AddressValidator()],
 			viewFolder: 'address-entry'
@@ -471,7 +448,6 @@ exports.questionProps = {
 				value: 'yes',
 				conditional: {
 					question: 'Add details of the potential risk and what the inspector might need',
-					// fieldName: 'new-safety-risk-value',
 					fieldName: 'lpaSiteSafetyRiskDetails',
 					type: 'textarea'
 				}
@@ -486,7 +462,6 @@ exports.questionProps = {
 		type: 'radio',
 		title: 'Procedure type',
 		question: 'Which procedure do you think is most appropriate for this appeal?',
-		// fieldName: 'procedure-type',
 		fieldName: 'lpaProcedurePreference',
 		url: 'procedure-type',
 		validators: [
@@ -516,7 +491,6 @@ exports.questionProps = {
 				value: APPEAL_CASE_PROCEDURE.INQUIRY,
 				conditional: {
 					question: 'How many days would you expect the inquiry to last?',
-					// fieldName: 'inquiry-duration',
 					fieldName: 'lpaPreferInquiryDuration',
 					inputClasses: 'govuk-input--width-3',
 					label: 'Length in days:',
@@ -529,7 +503,6 @@ exports.questionProps = {
 		type: 'text-entry',
 		title: 'Why would you prefer an inquiry?',
 		question: 'Why would you prefer an inquiry?',
-		// fieldName: 'prefer-inquiry',
 		fieldName: 'lpaPreferInquiryDetails',
 		validators: [new RequiredValidator('Enter why you would prefer an inquiry')]
 	},
@@ -537,7 +510,6 @@ exports.questionProps = {
 		type: 'text-entry',
 		title: 'Why would you prefer a hearing?',
 		question: 'Why would you prefer a hearing?',
-		// fieldName: 'prefer-hearing',
 		fieldName: 'lpaPreferHearingDetails',
 		validators: [new RequiredValidator('Enter why you would prefer a hearing')]
 	},
@@ -547,7 +519,6 @@ exports.questionProps = {
 		question: 'Are there any other ongoing appeals next to, or close to the site?',
 		pageTitle: 'Are there any other ongoing appeals near the site?',
 		url: 'ongoing-appeals',
-		// fieldName: 'other-ongoing-appeals',
 		fieldName: 'nearbyAppeals',
 		validators: [
 			new RequiredValidator(
@@ -560,7 +531,6 @@ exports.questionProps = {
 		pageTitle: 'Nearby appeal added to the case',
 		title: 'n/a',
 		question: 'Add another appeal?',
-		// fieldName: 'other-appeals-references',
 		fieldName: 'addNearbyAppeal',
 		url: 'appeal-reference-number',
 		subQuestionLabel: 'Other appeal',
@@ -570,7 +540,6 @@ exports.questionProps = {
 			type: 'case',
 			title: 'Enter an appeal reference number',
 			question: 'Enter an appeal reference number',
-			// fieldName: 'other-appeal-reference',
 			fieldName: 'nearbyAppealReference',
 			hint: 'You can add more appeals later if there is more than one nearby',
 			validators: [
@@ -585,7 +554,6 @@ exports.questionProps = {
 		title: 'Extra conditions', // this is summary list title
 		question: 'Add new planning conditions to this appeal',
 		description: 'These are additional to the standard planning conditions we would expect to see.',
-		// fieldName: 'new-planning-conditions',
 		fieldName: 'newConditions',
 		url: 'add-new-planning-conditions',
 		html: 'resources/new-planning-conditions/content.html',
@@ -607,7 +575,6 @@ exports.questionProps = {
 				value: 'yes',
 				conditional: {
 					question: 'Tell us about the new conditions',
-					// fieldName: 'new-conditions-value',
 					fieldName: 'newConditionDetails',
 					type: 'textarea'
 				}
@@ -623,7 +590,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Emerging plans',
 		question: 'Do you have an emerging plan that is relevant to this appeal?',
-		// fieldName: 'emerging-plan',
 		fieldName: 'emergingPlan',
 		url: 'emerging-plan',
 		validators: [
@@ -637,7 +603,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Upload emerging plan and supporting information	',
 		question: 'Upload the emerging plan and supporting information',
-		// fieldName: 'upload-emerging-plan',
 		fieldName: 'uploadEmergingPlan',
 		url: 'upload-emerging-plan',
 		validators: [
@@ -651,7 +616,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Policies from statutory development plan',
 		question: 'Upload relevant policies from your statutory development plan',
-		// fieldName: 'upload-development-plan-policies',
 		fieldName: 'uploadDevelopmentPlanPolicies',
 		url: 'upload-development-plan-policies',
 		validators: [
@@ -667,7 +631,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Upload any other relevant policies',
 		question: 'Upload any other relevant policies',
-		// fieldName: 'upload-other-policies',
 		fieldName: 'uploadOtherPolicies',
 		url: 'upload-other-policies',
 		validators: [
@@ -680,7 +643,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Community infrastructure levy',
 		question: 'Do you have a community infrastructure levy?',
-		// fieldName: 'community-infrastructure-levy',
 		fieldName: 'infrastructureLevy',
 		url: 'community-infrastructure-levy',
 		validators: [new RequiredValidator('Select yes if you have a community infrastructure levy')],
@@ -690,7 +652,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Upload your community infrastructure levy',
 		question: 'Upload your community infrastructure levy',
-		// fieldName: 'upload-community-infrastructure-levy',
 		fieldName: 'uploadInfrastructureLevy',
 		url: 'upload-community-infrastructure-levy',
 		validators: [
@@ -703,7 +664,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Community infrastructure levy formally adopted',
 		question: 'Is the community infrastructure levy formally adopted?',
-		// fieldName: 'community-infrastructure-levy-adopted',
 		fieldName: 'infrastructureLevyAdopted',
 		url: 'community-infrastructure-levy-adopted',
 		validators: [new RequiredValidator()]
@@ -712,7 +672,6 @@ exports.questionProps = {
 		type: 'date',
 		title: 'Date community infrastructure levy adopted',
 		question: 'When was the community infrastructure levy formally adopted?',
-		// fieldName: 'community-infrastructure-levy-adopted-date',
 		fieldName: 'infrastructureLevyAdoptedDate',
 		hint: `For example, ${getExampleDate('past')}`,
 		validators: [
@@ -725,7 +684,6 @@ exports.questionProps = {
 		type: 'date',
 		title: 'Date community infrastructure levy expected to be adopted',
 		question: 'When do you expect to formally adopt the community infrastructure levy?',
-		// fieldName: 'community-infrastructure-levy-adopt-date',
 		fieldName: 'infrastructureLevyExpectedDate',
 		hint: `For example, ${getExampleDate('future')}`,
 		validators: [
@@ -738,7 +696,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Letter sent to neighbours',
 		question: 'Upload letters or emails sent to interested parties with their addresses',
-		// fieldName: 'letters-interested-parties',
 		fieldName: 'uploadLettersInterestedParties',
 		url: 'letters-interested-parties',
 		validators: [
@@ -753,7 +710,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Tree Preservation Order',
 		question: 'Does a Tree Preservation Order (TPO) apply to any part of the appeal site?',
-		// fieldName: 'tree-preservation-order',
 		fieldName: 'treePreservationOrder',
 		url: 'tree-preservation-order',
 		validators: [new RequiredValidator()]
@@ -762,7 +718,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Tree Preservation Order extent',
 		question: 'Upload a plan showing the extent of the order',
-		// fieldName: 'upload-plan-showing-order',
 		fieldName: 'uploadTreePreservationOrder',
 		url: 'upload-plan-showing-order',
 		validators: [
@@ -775,7 +730,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Definitive map and statement extract',
 		question: 'Upload the definitive map and statement extract',
-		// fieldName: 'upload-definitive-map-statement',
 		fieldName: 'uploadDefinitiveMapStatement',
 		url: 'upload-definitive-map-statement',
 		validators: [
@@ -788,7 +742,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Supplementary planning documents',
 		question: 'Did any supplementary planning documents inform the outcome of the application?',
-		// fieldName: 'supplementary-planning-documents',
 		fieldName: 'supplementaryPlanningDocs',
 		url: 'supplementary-planning-documents',
 		validators: [
@@ -801,7 +754,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Upload supplementary planning documents',
 		question: 'Upload relevant policy extracts and supplementary planning documents',
-		// fieldName: 'upload-policies-supplementary-planning-documents',
 		fieldName: 'uploadSupplementaryPlanningDocs',
 		url: 'upload-policies-supplementary-planning-documents',
 
@@ -817,7 +769,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Affects a scheduled monument',
 		question: 'Would the development affect a scheduled monument?',
-		// fieldName: 'scheduled-monument',
 		fieldName: 'affectsScheduledMonument',
 		url: 'scheduled-monument',
 		validators: [
@@ -828,7 +779,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Gypsy or Traveller',
 		question: 'Does the development relate to anyone claiming to be a Gypsy or Traveller?',
-		// fieldName: 'gypsy-traveller',
 		fieldName: 'gypsyTraveller',
 		url: 'gypsy-traveller',
 		validators: [new RequiredValidator()]
@@ -837,7 +787,6 @@ exports.questionProps = {
 		type: 'radio',
 		title: 'Statutory consultees',
 		question: 'Did you consult all the relevant statutory consultees about the development?',
-		// fieldName: 'statutory-consultees',
 		fieldName: 'statutoryConsultees',
 		url: 'statutory-consultees',
 		validators: [
@@ -859,7 +808,6 @@ exports.questionProps = {
 				value: 'yes',
 				conditional: {
 					question: 'Which bodies did you consult?',
-					// fieldName: 'consulted-bodies',
 					fieldName: 'consultedBodiesDetails',
 					type: 'textarea'
 				}
@@ -874,7 +822,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Protected species',
 		question: 'Would the development affect a protected species?',
-		// fieldName: 'protected-species',
 		fieldName: 'protectedSpecies',
 		url: 'protected-species',
 		validators: [
@@ -885,7 +832,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Public right of way',
 		question: 'Would a public right of way need to be removed or diverted?',
-		// fieldName: 'public-right-of-way',
 		fieldName: 'publicRightOfWay',
 		url: 'public-right-of-way',
 		validators: [
@@ -898,7 +844,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Area of outstanding natural beauty',
 		question: 'Is the appeal site in an area of outstanding natural beauty?',
-		// fieldName: 'area-of-outstanding-natural-beauty',
 		fieldName: 'areaOutstandingBeauty',
 		url: 'area-of-outstanding-natural-beauty',
 		validators: [
@@ -911,7 +856,6 @@ exports.questionProps = {
 		type: 'checkbox',
 		title: 'Designated sites',
 		question: 'Is the development in, near or likely to affect any designated sites?',
-		// fieldName: 'designated-sites-check',
 		fieldName: 'designatedSites',
 		url: 'designated-sites',
 		validators: [
@@ -947,7 +891,6 @@ exports.questionProps = {
 				conditional: {
 					question: 'Other designation(s)',
 					type: 'text',
-					// fieldName: 'other-designations'
 					fieldName: 'otherDesignations'
 				}
 			},
@@ -965,7 +908,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Issued screening opinion',
 		question: 'Have you issued a screening opinion?',
-		// fieldName: 'screening-opinion',
 		fieldName: 'screeningOpinion',
 		url: 'screening-opinion',
 		validators: [new RequiredValidator('Select yes if you have issued a screening opinion')]
@@ -974,7 +916,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Screening opinion environmental statement',
 		question: 'Did your screening opinion say the development needed an environmental statement?',
-		// fieldName: 'screening-opinion-environmental-statement',
 		fieldName: 'environmentalStatement',
 		url: 'screening-opinion-environmental-statement',
 		validators: [
@@ -987,7 +928,6 @@ exports.questionProps = {
 		type: 'radio',
 		title: 'Schedule type',
 		question: 'Is the development a schedule 1 or schedule 2 development?',
-		// fieldName: 'environmental-impact-schedule',
 		fieldName: 'environmentalImpactSchedule',
 		url: 'schedule-1-or-2',
 		validators: [new RequiredValidator('Select the development schedule')],
@@ -1013,7 +953,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Upload the environmental statement and supporting information',
 		question: 'Upload the environmental statement and supporting information',
-		// fieldName: 'upload-environmental-statement',
 		fieldName: 'uploadEnvironmentalStatement',
 		url: 'upload-environmental-statement',
 		validators: [
@@ -1028,7 +967,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Meets or exceeds the threshold or criteria in column 2	',
 		question: 'Does the development meet or exceed the threshold or criteria in column 2?',
-		// fieldName: 'column-2-threshold',
 		fieldName: 'columnTwoThreshold',
 		url: 'column-2-threshold',
 		validators: [
@@ -1041,7 +979,6 @@ exports.questionProps = {
 		type: 'radio',
 		title: 'In, partly in, or likely to affect a sensitive area',
 		question: 'Is the development in, partly in, or likely to affect a sensitive area?',
-		// fieldName: 'sensitive-area',
 		fieldName: 'sensitiveArea',
 		url: 'sensitive-area',
 		options: [
@@ -1050,7 +987,6 @@ exports.questionProps = {
 				value: 'yes',
 				conditional: {
 					question: 'Tell us about the sensitive area',
-					// fieldName: 'sensitive-area-value',
 					fieldName: 'sensitiveAreaDetails',
 					type: 'textarea'
 				}
@@ -1078,7 +1014,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Screening opinion',
 		question: 'Upload your screening opinion and any correspondence',
-		// fieldName: 'screening-opinion-upload',
 		fieldName: 'uploadScreeningOpinion',
 		url: 'upload-screening-opinion',
 		validators: [
@@ -1091,7 +1026,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Upload the screening direction',
 		question: 'Upload the screening direction',
-		// fieldName: 'upload-screening-direction',
 		fieldName: 'uploadScreeningDirection',
 		url: 'upload-screening-direction',
 		validators: [
@@ -1104,7 +1038,6 @@ exports.questionProps = {
 		type: 'radio',
 		title: 'Development description',
 		question: 'Description of development',
-		// fieldName: 'development-description',
 		fieldName: 'developmentDescription',
 		url: 'development-description',
 		validators: [new RequiredValidator('Select a description of development')],
@@ -1167,7 +1100,6 @@ exports.questionProps = {
 		type: 'radio',
 		title: 'Did environmental statement',
 		question: 'Did the applicant submit an environmental statement?',
-		// fieldName: 'environmental-statement',
 		fieldName: 'applicantSubmittedEnvironmentalStatement',
 		url: 'environmental-statement',
 		options: [
@@ -2511,7 +2443,6 @@ exports.questionProps = {
 		type: 'boolean',
 		title: 'Did you consult Historic England?',
 		question: 'Did you consult Historic England?',
-		// fieldName: 'consult-historic-england',
 		fieldName: 'consultHistoricEngland',
 		url: 'consult-historic-england',
 		validators: [new RequiredValidator('Select yes if you consulted Historic England')]
@@ -2542,7 +2473,6 @@ exports.questionProps = {
 		type: 'multi-file-upload',
 		title: 'Upload your consultation with Historic England',
 		question: 'Upload your consultation with Historic England',
-		// fieldName: 'upload-historic-england-consultation',
 		fieldName: 'uploadHistoricEnglandConsultation',
 		url: 'historic-england-consultation',
 		validators: [
