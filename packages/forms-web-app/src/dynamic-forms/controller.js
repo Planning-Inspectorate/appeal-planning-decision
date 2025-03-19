@@ -494,6 +494,8 @@ exports.submitAppellantSubmission = async (req, res) => {
 			return 'householder';
 		} else if (journeyId === 's78-appeal-form') {
 			return 'full-planning';
+		} else if (journeyId === 's20-appeal-form') {
+			return 'listed-building';
 		} else return '';
 	};
 

@@ -31,6 +31,9 @@ const getFormatter = (appealTypeCode) => {
 			return hasFormatter;
 		case CASE_TYPES.S78.processCode:
 			return s78Formatter;
+		case CASE_TYPES.S20.processCode:
+			//TODO: update/ create new formatter when data model confirmed
+			return s78Formatter;
 		default:
 			throw new Error('unknown formatter');
 	}
