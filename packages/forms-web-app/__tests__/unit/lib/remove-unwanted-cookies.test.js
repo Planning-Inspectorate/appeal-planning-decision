@@ -2,6 +2,7 @@ const {
 	defaultKeepMeCookies,
 	removeUnwantedCookies
 } = require('../../../src/lib/remove-unwanted-cookies');
+const { CONSTS } = require('../../../src/consts');
 const { mockReq, mockRes } = require('../mocks');
 const cookieConfig = require('../../../src/lib/client-side/cookie/cookie-config');
 const {
@@ -13,7 +14,11 @@ jest.mock('../../../src/lib/extract-root-domain-name-from-full-domain-name');
 describe('lib/remove-unwanted-cookies', () => {
 	describe('defaultKeepMeCookies', () => {
 		it('should have the expected cookie names', () => {
-			expect(defaultKeepMeCookies).toEqual(['connect.sid', cookieConfig.COOKIE_POLICY_KEY]);
+			expect(defaultKeepMeCookies).toEqual([
+				CONSTS.SESSION_COOKIE_NAME,
+				cookieConfig.COOKIE_POLICY_KEY,
+				CONSTS.EASY_AUTH_COOKIE_NAME
+			]);
 		});
 	});
 
