@@ -444,7 +444,12 @@ exports.getCommonLPAQSubmissionFields = (caseReference, answers) => ({
 		? [answers.lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails]
 		: null,
 	neighbouringSiteAddresses: answers.SubmissionAddress?.filter((address) => {
-		return address.fieldName === 'neighbourSiteAddress';
+		return (
+			address.fieldName === 'neighbourSiteAddress' &&
+			address.addressLine1 &&
+			address.townCity &&
+			address.postcode
+		);
 	}).map((address) => {
 		return {
 			neighbouringSiteAddressLine1: address.addressLine1,
