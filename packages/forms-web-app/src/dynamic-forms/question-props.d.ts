@@ -109,6 +109,7 @@ type CheckboxQuestionProps = CommonQuestionProps & {
 type MultiFileUploadQuestionProps = CommonQuestionProps & {
 	type: 'multi-file-upload';
 	documentType: DocType;
+	actionHiddenText?: string;
 };
 
 type BooleanQuestionProps = CommonQuestionProps & {

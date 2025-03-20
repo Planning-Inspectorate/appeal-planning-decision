@@ -27,12 +27,24 @@ class MultiFileUploadQuestion extends Question {
 	 * @param {string} [params.description]
 	 * @param {import('@pins/common/src/document-types').DocType} [params.documentType]
 	 * @param {string} [params.html]
+	 * @param {string} [params.actionHiddenText]
 	 * @param {Array<import('../../question').BaseValidator>} [params.validators]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
 	constructor(
-		{ title, question, fieldName, url, pageTitle, description, documentType, validators, html },
+		{
+			title,
+			question,
+			fieldName,
+			url,
+			pageTitle,
+			description,
+			documentType,
+			validators,
+			html,
+			actionHiddenText
+		},
 		methodOverrides
 	) {
 		super(
@@ -55,6 +67,8 @@ class MultiFileUploadQuestion extends Question {
 		} else {
 			throw new Error('documentType is mandatory');
 		}
+
+		this.actionHiddenText = actionHiddenText || question;
 	}
 
 	/**
@@ -124,7 +138,7 @@ class MultiFileUploadQuestion extends Question {
 		const action = {
 			href: journey.getCurrentQuestionUrl(sectionSegment, this.fieldName),
 			text: answer ? 'Change' : 'Upload',
-			visuallyHiddenText: this.question
+			visuallyHiddenText: this.actionHiddenText
 		};
 		return action;
 	}
