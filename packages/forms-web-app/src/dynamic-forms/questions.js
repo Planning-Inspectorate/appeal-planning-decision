@@ -181,7 +181,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select a conservation map and guidance'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.conservationMap
+		documentType: documentTypes.conservationMap,
+		actionHiddenText: 'conservation map and guidance'
 	},
 	greenBelt: {
 		type: 'boolean',
@@ -214,7 +215,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select the press advertisement'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.pressAdvertUpload
+		documentType: documentTypes.pressAdvertUpload,
+		actionHiddenText: 'the press advertisement'
 	},
 	consultationResponses: {
 		type: 'boolean',
@@ -239,7 +241,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select the consultation responses and standing advice'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.consultationResponsesUpload
+		documentType: documentTypes.consultationResponsesUpload,
+		actionHiddenText: 'the consultation responses and standing advice'
 	},
 	howYouNotifiedPeople: {
 		type: 'checkbox',
@@ -274,7 +277,8 @@ exports.questionProps = {
 		fieldName: 'uploadSiteNotice',
 		url: 'upload-site-notice',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
-		documentType: documentTypes.uploadSiteNotice
+		documentType: documentTypes.uploadSiteNotice,
+		actionHiddenText: 'the site notice'
 	},
 	appealNotification: {
 		type: 'multi-file-upload',
@@ -288,7 +292,8 @@ exports.questionProps = {
 			),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.appealNotification
+		documentType: documentTypes.appealNotification,
+		actionHiddenText: 'the appeal notification letter and the list of people that you notified'
 	},
 	representationsFromOthers: {
 		type: 'boolean',
@@ -312,7 +317,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select the representations'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.representationUpload
+		documentType: documentTypes.representationUpload,
+		actionHiddenText: 'the representations'
 	},
 	planningOfficersReportUpload: {
 		type: 'multi-file-upload',
@@ -327,7 +333,8 @@ exports.questionProps = {
 			),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.planningOfficersReportUpload
+		documentType: documentTypes.planningOfficersReportUpload,
+		actionHiddenText: 'the planning officer’s report or what your decision notice would have said'
 	},
 	accessForInspection: {
 		type: 'radio',
@@ -610,7 +617,8 @@ exports.questionProps = {
 			new MultifileUploadValidator()
 		],
 		html: 'resources/emerging-plan-upload/content.html',
-		documentType: documentTypes.emergingPlanUpload
+		documentType: documentTypes.emergingPlanUpload,
+		actionHiddenText: 'the emerging plan and supporting information'
 	},
 	uploadDevelopmentPlanPolicies: {
 		type: 'multi-file-upload',
@@ -625,7 +633,8 @@ exports.questionProps = {
 			new MultifileUploadValidator()
 		],
 		html: 'resources/upload-relevant-policies/content.html',
-		documentType: documentTypes.uploadDevelopmentPlanPolicies
+		documentType: documentTypes.uploadDevelopmentPlanPolicies,
+		actionHiddenText: 'relevant policies from your statutory development plan'
 	},
 	uploadOtherRelevantPolicies: {
 		type: 'multi-file-upload',
@@ -637,7 +646,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select any other relevant policies'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadOtherRelevantPolicies
+		documentType: documentTypes.uploadOtherRelevantPolicies,
+		actionHiddenText: 'any other relevant policies'
 	},
 	communityInfrastructureLevy: {
 		type: 'boolean',
@@ -658,7 +668,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your community infrastructure levy'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.communityInfrastructureLevyUpload
+		documentType: documentTypes.communityInfrastructureLevyUpload,
+		actionHiddenText: 'your community infrastructure levy'
 	},
 	communityInfrastructureLevyAdopted: {
 		type: 'boolean',
@@ -704,7 +715,8 @@ exports.questionProps = {
 			),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadNeighbourLetterAddresses
+		documentType: documentTypes.uploadNeighbourLetterAddresses,
+		actionHiddenText: 'letters or emails sent to interested parties with their addresses'
 	},
 	treePreservationOrder: {
 		type: 'boolean',
@@ -724,7 +736,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select a plan showing the extent of the order'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.treePreservationPlanUpload
+		documentType: documentTypes.treePreservationPlanUpload,
+		actionHiddenText: 'a plan showing the extent of the order'
 	},
 	uploadDefinitiveMap: {
 		type: 'multi-file-upload',
@@ -736,7 +749,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select the definitive map and statement extract'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadDefinitiveMap
+		documentType: documentTypes.uploadDefinitiveMap,
+		actionHiddenText: 'the definitive map and statement extract'
 	},
 	supplementaryPlanning: {
 		type: 'boolean',
@@ -763,7 +777,8 @@ exports.questionProps = {
 			),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.supplementaryPlanningUpload
+		documentType: documentTypes.supplementaryPlanningUpload,
+		actionHiddenText: 'relevant policy extracts and supplementary planning documents'
 	},
 	scheduledMonument: {
 		type: 'boolean',
@@ -961,7 +976,8 @@ exports.questionProps = {
 			),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadEnvironmentalStatement
+		documentType: documentTypes.uploadEnvironmentalStatement,
+		actionHiddenText: 'the environmental statement and supporting information'
 	},
 	meetsColumnTwoThreshold: {
 		type: 'boolean',
@@ -1020,7 +1036,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your screening opinion and any correspondence'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.screeningOpinionUpload
+		documentType: documentTypes.screeningOpinionUpload,
+		actionHiddenText: 'your screening opinion and any correspondence'
 	},
 	uploadScreeningDirection: {
 		type: 'multi-file-upload',
@@ -1032,7 +1049,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select the screening direction'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadScreeningDirection
+		documentType: documentTypes.uploadScreeningDirection,
+		actionHiddenText: 'the screening direction'
 	},
 	developmentDescription: {
 		type: 'radio',
@@ -1369,7 +1387,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select the decision letter'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadApplicationDecisionLetter
+		documentType: documentTypes.uploadApplicationDecisionLetter,
+		actionHiddenText: 'the decision letter from the local planning authority'
 	},
 	uploadChangeOfDescriptionEvidence: {
 		type: 'multi-file-upload',
@@ -1385,7 +1404,8 @@ exports.questionProps = {
 			),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadChangeOfDescriptionEvidence
+		documentType: documentTypes.uploadChangeOfDescriptionEvidence,
+		actionHiddenText: 'evidence of your agreement to change the description of development'
 	},
 	enterApplicationReference: {
 		type: 'single-line-input',
@@ -1495,7 +1515,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your appeal statement'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadAppellantStatement
+		documentType: documentTypes.uploadAppellantStatement,
+		actionHiddenText: 'your appeal statement'
 	},
 	uploadStatementCommonGround: {
 		type: 'multi-file-upload',
@@ -1507,7 +1528,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select the draft statement of common ground'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadStatementCommonGround
+		documentType: documentTypes.uploadStatementCommonGround,
+		actionHiddenText: 'your draft statement of common ground'
 	},
 	costApplication: {
 		type: 'boolean',
@@ -1539,7 +1561,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your application for an award of appeal costs'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadCostApplication
+		documentType: documentTypes.uploadCostApplication,
+		actionHiddenText: 'your application for an award of appeal costs'
 	},
 	anyOtherAppeals: {
 		type: 'boolean',
@@ -1824,7 +1847,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your planning obligation'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadPlanningObligation
+		documentType: documentTypes.uploadPlanningObligation,
+		actionHiddenText: 'your planning obligation'
 	},
 	designAccessStatement: {
 		type: 'boolean',
@@ -1850,7 +1874,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your design and access statement'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadDesignAccessStatement
+		documentType: documentTypes.uploadDesignAccessStatement,
+		actionHiddenText: 'your design and access statement'
 	},
 	uploadPlansDrawingsHAS: {
 		type: 'multi-file-upload',
@@ -1862,7 +1887,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select the plans, drawings and list of plans'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadPlansDrawings
+		documentType: documentTypes.uploadPlansDrawings,
+		actionHiddenText: 'the plans, drawings and list of plans'
 	},
 	uploadPlansDrawingsDocuments: {
 		type: 'multi-file-upload',
@@ -1876,7 +1902,9 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your plans, drawings and supporting documents'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadPlansDrawings
+		documentType: documentTypes.uploadPlansDrawings,
+		actionHiddenText:
+			'your plans, drawings and supporting documents you submitted with your application'
 	},
 	newPlansDrawings: {
 		type: 'boolean',
@@ -1900,7 +1928,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your new plans or drawings'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadNewPlansDrawings
+		documentType: documentTypes.uploadNewPlansDrawings,
+		actionHiddenText: 'your new plans or drawings'
 	},
 	otherNewDocuments: {
 		type: 'boolean',
@@ -1941,7 +1970,8 @@ exports.questionProps = {
 			),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadOwnershipCertificate
+		documentType: documentTypes.uploadOwnershipCertificate,
+		actionHiddenText: 'your separate ownership certificate and agricultural land declaration'
 	},
 	uploadOtherNewDocuments: {
 		type: 'multi-file-upload',
@@ -1953,7 +1983,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your other new supporting documents'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadOtherNewDocuments
+		documentType: documentTypes.uploadOtherNewDocuments,
+		actionHiddenText: 'your other new supporting documents'
 	},
 	appellantProcedurePreference: {
 		type: 'radio',
@@ -2145,7 +2176,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your new supporting documents'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadLpaStatementDocuments
+		documentType: documentTypes.uploadLpaStatementDocuments,
+		actionHiddenText: 'your new supporting documents'
 	},
 	rule6Statement: {
 		type: 'text-entry',
@@ -2188,7 +2220,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your new supporting documents'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadRule6StatementDocuments
+		documentType: documentTypes.uploadRule6StatementDocuments,
+		actionHiddenText: 'your new supporting documents'
 	},
 	appellantFinalComment: {
 		type: 'boolean',
@@ -2250,7 +2283,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your new supporting documents'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadAppellantFinalCommentDocuments
+		documentType: documentTypes.uploadAppellantFinalCommentDocuments,
+		actionHiddenText: 'your new supporting documents'
 	},
 	lpaFinalComment: {
 		type: 'boolean',
@@ -2312,7 +2346,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your new supporting documents'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadLPAFinalCommentDocuments
+		documentType: documentTypes.uploadLPAFinalCommentDocuments,
+		actionHiddenText: 'your new supporting documents'
 	},
 	uploadAppellantProofOfEvidenceDocuments: {
 		type: 'multi-file-upload',
@@ -2325,7 +2360,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your proof of evidence and summary'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadAppellantProofOfEvidenceDocuments
+		documentType: documentTypes.uploadAppellantProofOfEvidenceDocuments,
+		actionHiddenText: 'your proof of evidence and summary'
 	},
 	appellantAddWitnesses: {
 		type: 'boolean',
@@ -2346,7 +2382,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your witnesses and their evidence'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadAppellantWitnessesEvidence
+		documentType: documentTypes.uploadAppellantWitnessesEvidence,
+		actionHiddenText: 'your witnesses and their evidence'
 	},
 	uploadLpaProofOfEvidenceDocuments: {
 		type: 'multi-file-upload',
@@ -2359,7 +2396,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your proof of evidence and summary'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadLpaProofOfEvidenceDocuments
+		documentType: documentTypes.uploadLpaProofOfEvidenceDocuments,
+		actionHiddenText: 'your proof of evidence and summary'
 	},
 	lpaAddWitnesses: {
 		type: 'boolean',
@@ -2380,7 +2418,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your witnesses and their evidence'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadLpaWitnessesEvidence
+		documentType: documentTypes.uploadLpaWitnessesEvidence,
+		actionHiddenText: 'your witnesses and their evidence'
 	},
 	uploadRule6ProofOfEvidenceDocuments: {
 		type: 'multi-file-upload',
@@ -2393,7 +2432,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your proof of evidence and summary'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadRule6ProofOfEvidenceDocuments
+		documentType: documentTypes.uploadRule6ProofOfEvidenceDocuments,
+		actionHiddenText: 'your proof of evidence and summary'
 	},
 	rule6AddWitnesses: {
 		type: 'boolean',
@@ -2414,7 +2454,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your witnesses and their evidence'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadRule6WitnessesEvidence
+		documentType: documentTypes.uploadRule6WitnessesEvidence,
+		actionHiddenText: 'your witnesses and their evidence'
 	},
 	demolishAlterExtend: {
 		type: 'boolean',
@@ -2480,7 +2521,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your consultation with Historic England'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadHistoricEnglandConsultation
+		documentType: documentTypes.uploadHistoricEnglandConsultation,
+		actionHiddenText: 'your consultation with Historic England'
 	},
 	majorMinorDevelopment: {
 		type: 'radio',
