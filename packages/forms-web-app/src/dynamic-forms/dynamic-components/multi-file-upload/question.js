@@ -27,7 +27,7 @@ class MultiFileUploadQuestion extends Question {
 	 * @param {string} [params.description]
 	 * @param {import('@pins/common/src/document-types').DocType} [params.documentType]
 	 * @param {string} [params.html]
-	 * @param {string} [params.actionHiddenText]
+	 * @param {string} [params.actionHiddenText] // text to be used for visually hidden text - primarily to avoid repetition of Upload with action
 	 * @param {Array<import('../../question').BaseValidator>} [params.validators]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
