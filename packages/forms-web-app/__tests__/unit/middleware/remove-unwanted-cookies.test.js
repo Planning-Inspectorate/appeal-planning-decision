@@ -2,6 +2,7 @@ const { mockReq, mockRes } = require('../mocks');
 const removeUnwantedCookiesMiddelware = require('../../../src/middleware/remove-unwanted-cookies');
 const { removeUnwantedCookies } = require('../../../src/lib/remove-unwanted-cookies');
 const cookieConfig = require('../../../src/lib/client-side/cookie/cookie-config');
+const { CONSTS } = require('../../../src/consts');
 
 jest.mock('../../../src/lib/remove-unwanted-cookies');
 
@@ -36,7 +37,10 @@ describe('middleware/remove-unwanted-cookies', () => {
 				}
 			}),
 			expected: (req, res, next) => {
-				expect(removeUnwantedCookies).toHaveBeenCalledWith(req, res, ['connect.sid']);
+				expect(removeUnwantedCookies).toHaveBeenCalledWith(req, res, [
+					CONSTS.SESSION_COOKIE_NAME,
+					CONSTS.EASY_AUTH_COOKIE_NAME
+				]);
 				expect(next).toHaveBeenCalled();
 			}
 		},
