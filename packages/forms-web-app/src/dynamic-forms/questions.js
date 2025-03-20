@@ -1355,7 +1355,8 @@ exports.questionProps = {
 			new RequiredFileUploadValidator('Select your application form'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.uploadOriginalApplicationForm
+		documentType: documentTypes.uploadOriginalApplicationForm,
+		actionHiddenText: 'your application form'
 	},
 	uploadApplicationDecisionLetter: {
 		type: 'multi-file-upload',
