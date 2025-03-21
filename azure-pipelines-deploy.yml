@@ -284,5 +284,8 @@ extends:
                   appName: web
                   appUrl: $(WEB_URL)/health
                   buildCommit: $(resources.pipeline.build.sourceCommit)
+                  appRegistrationClientId: $(appRegistrationClientId)
+                  auth_enabled: "true"
+                  env: $(ENVIRONMENT)
     globalVariables:
       - template: azure-pipelines-variables.yml@self
