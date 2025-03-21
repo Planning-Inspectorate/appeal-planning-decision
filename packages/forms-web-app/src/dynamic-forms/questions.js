@@ -65,7 +65,7 @@ const formatNumber = require('./dynamic-components/utils/format-number');
 /** @typedef {import('./question-props').QuestionProps} QuestionProps */
 /** @typedef {import('./question')} Question */
 
-const inputMaxCharacters = Math.min(Number(configInputMaxCharacters), 1000);
+const inputMaxCharacters = Math.min(Number(configInputMaxCharacters), 8000);
 
 /**
  * @param {'past' | 'future'} tense
