@@ -36,6 +36,13 @@ const postOwnAllTheLand = async (req, res) => {
 	appeal[sectionName][taskName].ownsAllTheLand = ownsAllTheLand;
 
 	try {
+		if (ownsAllTheLand) {
+			appeal[sectionName][taskName].advertisingYourAppeal = null;
+			appeal[sectionName][taskName].tellingTheLandowners = null;
+			appeal[sectionName][taskName].hasIdentifiedTheOwners = null;
+			appeal[sectionName][taskName].knowsTheOwners = null;
+			appeal[sectionName][taskName].ownsSomeOfTheLand = null;
+		}
 		if (req.body['save-and-return'] !== '') {
 			appeal.sectionStates[sectionName].ownsAllTheLand = COMPLETED;
 			req.session.appeal = await createOrUpdateAppeal(appeal);
