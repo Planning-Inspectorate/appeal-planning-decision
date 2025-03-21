@@ -90,7 +90,18 @@ describe('controllers/full-appeal/submit-appeal/own-all-the-land', () => {
 		it('should redirect to the correct page if `yes` has been selected', async () => {
 			const submittedAppeal = {
 				...appeal,
-				state: 'SUBMITTED'
+				state: 'SUBMITTED',
+				appealSiteSection: {
+					...appeal.appealSiteSection,
+					siteOwnership: {
+						ownsAllTheLand: true,
+						ownsSomeOfTheLand: null,
+						knowsTheOwners: null,
+						hasIdentifiedTheOwners: null,
+						tellingTheLandowners: null,
+						advertisingYourAppeal: null
+					}
+				}
 			};
 
 			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
@@ -103,8 +114,7 @@ describe('controllers/full-appeal/submit-appeal/own-all-the-land', () => {
 			};
 
 			await postOwnAllTheLand(req, res);
-
-			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith(req.session.appeal);
 			expect(res.redirect).toHaveBeenCalledWith(`/${AGRICULTURAL_HOLDING}`);
 			expect(req.session.appeal).toEqual(submittedAppeal);
 		});
