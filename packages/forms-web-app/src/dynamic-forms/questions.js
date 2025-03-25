@@ -1790,10 +1790,6 @@ exports.questionProps = {
 			new UnitOptionEntryValidator({
 				errorMessage: 'Enter the area of the appeal site',
 				unit: 'Appeal site area'
-				// regex: new RegExp(`^[0-9]{0,${inputMaxCharacters}}$`, 'gi'),
-				// regexMessage: 'Enter the area of the site using numbers 0 to 9',
-				// min: minValue,
-				// max: maxValue
 			})
 		],
 		options: [
