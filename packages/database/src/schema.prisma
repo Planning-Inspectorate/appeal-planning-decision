@@ -758,7 +758,7 @@ model AppellantSubmission {
 
   // number entries
   siteAreaSquareMetres            Decimal?
-  siteAreaUnits                   String?
+  siteAreaUnits                   String?  @db.NVarChar(MAX)
   appellantPreferInquiryDuration  Int?
   appellantPreferInquiryWitnesses Int?
   siteArea                        Decimal?
@@ -826,13 +826,13 @@ model LPAQuestionnaireSubmission {
   uploadRepresentations                           Boolean?
   uploadPlanningOfficerReport                     Boolean?
   uploadPlansDrawings                             Boolean?
-  lpaSiteAccess                                   String?
+  lpaSiteAccess                                   String?   @db.NVarChar(MAX)
   lpaSiteAccess_lpaSiteAccessDetails              String?
-  neighbourSiteAccess                             String?
+  neighbourSiteAccess                             String?   @db.NVarChar(MAX)
   neighbourSiteAccess_neighbourSiteAccessDetails  String?
   addNeighbourSiteAccess                          Boolean?
   neighbourSiteAddress                            Boolean?
-  lpaSiteSafetyRisks                              String?
+  lpaSiteSafetyRisks                              String?   @db.NVarChar(MAX)
   lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails     String?
   lpaProcedurePreference                          String?
   lpaPreferHearingDetails                         String?
@@ -840,7 +840,7 @@ model LPAQuestionnaireSubmission {
   lpaPreferInquiryDetails                         String?
   nearbyAppeals                                   Boolean?
   addNearbyAppeal                                 Boolean?
-  newConditions                                   String?
+  newConditions                                   String?   @db.NVarChar(MAX)
   newConditions_newConditionDetails               String?
   emergingPlan                                    Boolean?
   uploadEmergingPlan                              Boolean?
@@ -859,7 +859,7 @@ model LPAQuestionnaireSubmission {
   uploadSupplementaryPlanningDocs                 Boolean?
   affectsScheduledMonument                        Boolean?
   gypsyTraveller                                  Boolean?
-  statutoryConsultees                             String?
+  statutoryConsultees                             String?   @db.NVarChar(MAX)
   statutoryConsultees_consultedBodiesDetails      String?
   protectedSpecies                                Boolean?
   publicRightOfWay                                Boolean?
@@ -871,7 +871,7 @@ model LPAQuestionnaireSubmission {
   environmentalImpactSchedule                     String?
   uploadEnvironmentalStatement                    Boolean?
   columnTwoThreshold                              Boolean?
-  sensitiveArea                                   String?
+  sensitiveArea                                   String?   @db.NVarChar(MAX)
   sensitiveArea_sensitiveAreaDetails              String?
   uploadScreeningOpinion                          Boolean?
   uploadScreeningDirection                        Boolean?
