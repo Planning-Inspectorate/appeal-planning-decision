@@ -181,7 +181,8 @@ module.exports = {
 			},
 			appealSiteArea: {
 				minValue: 1,
-				maxValue: 1000000
+				maxValue: 1000000,
+				minValueHectres: 0.1
 			},
 			numberOfWitnesses: {
 				maxWitnesses: 99

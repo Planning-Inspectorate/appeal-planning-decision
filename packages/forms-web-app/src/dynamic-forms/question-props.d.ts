@@ -99,7 +99,17 @@ interface UnitOption {
 		| {
 				html: string;
 		  };
+	validator: {
+		min: number;
+		max: number;
+		regexps: RegexValidationProps[];
+	};
 }
+
+type RegexValidationProps = {
+	regex: Regex;
+	regexMessage: string;
+};
 
 type CheckboxQuestionProps = CommonQuestionProps & {
 	type: 'checkbox';
