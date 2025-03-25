@@ -45,7 +45,7 @@ const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const {
 	validation: {
-		characterLimits: { appealFormV2, finalComment: configInputMaxCharacters },
+		characterLimits: { appealFormV2 },
 		stringValidation: {
 			appealReferenceNumber: appealReferenceNumberValidation,
 			listedBuildingNumber: listedBuildingNumberValidation,
@@ -64,8 +64,6 @@ const formatNumber = require('./dynamic-components/utils/format-number');
 
 /** @typedef {import('./question-props').QuestionProps} QuestionProps */
 /** @typedef {import('./question')} Question */
-
-const inputMaxCharacters = Math.min(Number(configInputMaxCharacters), 1000);
 
 /**
  * @param {'past' | 'future'} tense
@@ -350,8 +348,8 @@ exports.questionProps = {
 			new ConditionalRequiredValidator('Enter the reason'),
 			new StringValidator({
 				maxLength: {
-					maxLength: inputMaxCharacters,
-					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Reason must be ${appealFormV2.textInputMaxLength} characters or less`
 				},
 				fieldName: getConditionalFieldName('lpaSiteAccess', 'lpaSiteAccessDetails')
 			})
@@ -385,8 +383,8 @@ exports.questionProps = {
 			new ConditionalRequiredValidator(),
 			new StringValidator({
 				maxLength: {
-					maxLength: inputMaxCharacters,
-					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Reason must be ${appealFormV2.textInputMaxLength} characters or less`
 				},
 				fieldName: getConditionalFieldName('neighbourSiteAccess', 'neighbourSiteAccessDetails')
 			})
@@ -442,8 +440,8 @@ exports.questionProps = {
 			),
 			new StringValidator({
 				maxLength: {
-					maxLength: inputMaxCharacters,
-					maxLengthMessage: `Safety risk must be ${inputMaxCharacters} characters or less`
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Safety risk must be ${appealFormV2.textInputMaxLength} characters or less`
 				},
 				fieldName: getConditionalFieldName('lpaSiteSafetyRisks', 'lpaSiteSafetyRiskDetails')
 			})
@@ -570,8 +568,8 @@ exports.questionProps = {
 			new ConditionalRequiredValidator('Enter the new conditions'),
 			new StringValidator({
 				maxLength: {
-					maxLength: inputMaxCharacters,
-					maxLengthMessage: `New conditions must be ${inputMaxCharacters} characters or less`
+					maxLength: appealFormV2.textAreaMediumLength,
+					maxLengthMessage: `New conditions must be ${appealFormV2.textAreaMediumLength} characters or less`
 				},
 				fieldName: getConditionalFieldName('newConditions', 'newConditionDetails')
 			})
@@ -833,8 +831,8 @@ exports.questionProps = {
 			new ConditionalRequiredValidator(),
 			new StringValidator({
 				maxLength: {
-					maxLength: inputMaxCharacters,
-					maxLengthMessage: `Consulted bodies must be ${inputMaxCharacters} characters or less`
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Consulted bodies must be ${appealFormV2.textInputMaxLength} characters or less`
 				},
 				fieldName: getConditionalFieldName('statutoryConsultees', 'consultedBodiesDetails')
 			})
@@ -1041,8 +1039,8 @@ exports.questionProps = {
 			new ConditionalRequiredValidator('Enter a description for the sensitive area'),
 			new StringValidator({
 				maxLength: {
-					maxLength: inputMaxCharacters,
-					maxLengthMessage: `Sensitive area description must be ${inputMaxCharacters} characters or less`
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Sensitive area description must be ${appealFormV2.textInputMaxLength} characters or less`
 				},
 				fieldName: getConditionalFieldName('sensitiveArea', 'sensitiveAreaDetails')
 			})
@@ -1167,7 +1165,7 @@ exports.questionProps = {
 		validators: [
 			new RequiredValidator('Enter the area of the appeal site'),
 			new NumericValidator({
-				regex: new RegExp(`^[0-9]{0,${inputMaxCharacters}}$`, 'gi'),
+				regex: new RegExp(`^[0-9]{0,${appealFormV2.textInputMaxLength}}$`, 'gi'),
 				regexMessage: 'Enter the area of the site using numbers 0 to 9',
 				min: minValue,
 				minMessage: `Appeal site area must be at least ${minValue}m\u00B2`,
@@ -1790,7 +1788,7 @@ exports.questionProps = {
 			new UnitOptionEntryValidator({
 				errorMessage: 'Enter the area of the appeal site',
 				unit: 'Appeal site area',
-				regex: new RegExp(`^[0-9]{0,${inputMaxCharacters}}$`, 'gi'),
+				regex: new RegExp(`^[0-9]{0,${appealFormV2.textInputMaxLength}}$`, 'gi'),
 				regexMessage: 'Enter the area of the site using numbers 0 to 9',
 				min: minValue,
 				max: maxValue
@@ -2128,7 +2126,7 @@ exports.questionProps = {
 		validators: [
 			new RequiredValidator('Enter the number of days you would expect the inquiry to last'),
 			new NumericValidator({
-				regex: new RegExp(`^[0-9]{0,${inputMaxCharacters}}$`, 'gi'),
+				regex: new RegExp(`^[0-9]{0,${appealFormV2.textInputMaxLength}}$`, 'gi'),
 				regexMessage: 'Enter the number of days using numbers 0 to 9',
 				min: minDays,
 				minMessage: `Number of days must be at least ${minDays}`,
@@ -2149,7 +2147,7 @@ exports.questionProps = {
 				'Enter the number of witnesses you would expect to give evidence at the inquiry'
 			),
 			new NumericValidator({
-				regex: new RegExp(`^[0-9]{0,${inputMaxCharacters}}$`, 'gi'),
+				regex: new RegExp(`^[0-9]{0,${appealFormV2.textInputMaxLength}}$`, 'gi'),
 				regexMessage: 'Enter the number of witnesses using numbers 0 to 9',
 				max: maxWitnesses,
 				maxMessage: `Number of witnesses must be ${maxWitnesses} or less`,

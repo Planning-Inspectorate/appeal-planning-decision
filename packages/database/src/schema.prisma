@@ -840,8 +840,8 @@ model LPAQuestionnaireSubmission {
   lpaPreferInquiryDetails                         String?
   nearbyAppeals                                   Boolean?
   addNearbyAppeal                                 Boolean?
-  newConditions                                   String?
-  newConditions_newConditionDetails               String?
+  newConditions                                   String?   @db.NVarChar(Max)
+  newConditions_newConditionDetails               String?   @db.NVarChar(Max)
   emergingPlan                                    Boolean?
   uploadEmergingPlan                              Boolean?
   developmentPlanPolicies                         Boolean?
