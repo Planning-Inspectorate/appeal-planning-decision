@@ -6,6 +6,9 @@ export interface Section {
 	links: Array<{
 		url: string;
 		text: string;
+		submissionDate?: {
+			text: (appealCase: Api.AppealCaseWithRule6Parties) => string;
+		};
 		condition: (
 			appealCase: Api.AppealCaseWithRule6Parties,
 			userEmail?: string

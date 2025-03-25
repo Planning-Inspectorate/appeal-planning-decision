@@ -61,3 +61,17 @@ exports.representationPublished = (representations, options) => {
 			filterRepresentations(rep, options)
 	);
 };
+
+/**
+ * Return the received date for a specified representation type
+ * @param {Representation[]|undefined} representations
+ * @param {options} options
+ * @returns {Date|string|undefined}
+ */
+exports.getRepresentationSubmissionDate = (representations, options) => {
+	const filteredRepresentations = representations?.filter((rep) =>
+		filterRepresentations(rep, options)
+	);
+
+	return !filteredRepresentations ? '' : filteredRepresentations[0].dateReceived;
+};
