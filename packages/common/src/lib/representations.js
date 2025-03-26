@@ -73,5 +73,7 @@ exports.getRepresentationSubmissionDate = (representations, options) => {
 		filterRepresentations(rep, options)
 	);
 
-	return !filteredRepresentations ? '' : filteredRepresentations[0].dateReceived;
+	return !filteredRepresentations || filteredRepresentations.length < 1
+		? undefined
+		: filteredRepresentations[0].dateReceived;
 };
