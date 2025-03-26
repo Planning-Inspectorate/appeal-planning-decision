@@ -11,7 +11,7 @@ version: '3.7'
 services:
   clamav-server:
     profiles: ['all', 'appeals']
-    image: node:20-alpine
+    image: node:22-alpine
     ports:
       - 3310:3310
     working_dir: /opt/mock-clamav
@@ -23,7 +23,7 @@ services:
 
   pdf-service-api:
     profiles: ['all', 'appeals']
-    image: node:20-alpine
+    image: node:22-alpine
     ports:
       - 3004:3000
     working_dir: /opt/mock-pdf
