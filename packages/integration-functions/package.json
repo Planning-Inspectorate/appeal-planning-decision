@@ -10,7 +10,7 @@
 	"scripts": {
 		"lint": "eslint ./",
 		"start": "func start",
-		"test": "jest --coverage --verbose",
+		"test": "jest --verbose ${COVERAGE:+--coverage}",
 		"test:watch": "jest --watchAll --runInBand"
 	},
 	"devDependencies": {

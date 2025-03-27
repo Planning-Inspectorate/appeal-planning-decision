@@ -5,5 +5,5 @@ module.exports = {
 	reporters: ['default', ['jest-junit', { outputDirectory: '<rootDir>/jest-reports' }]],
 	testEnvironment: 'node',
 	testMatch: ['**/?(*.)+(spec|test).js'],
-	collectCoverage: true
+	collectCoverage: process.env.COVERAGE === 'true'
 };

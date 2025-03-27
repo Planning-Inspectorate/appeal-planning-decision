@@ -47,6 +47,7 @@
 		"prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
 		"seed:blob": "cd packages/document-service-api; dotenv -- npm run seed:dev",
 		"test": "run-s --continue-on-error --print-label \"test:*\"",
+		"test-cov": "COVERAGE=true run-s --continue-on-error --print-label \"test:*\"",
 		"test:appeals-api": "cd packages/appeals-service-api; npm run test",
 		"test:auth-server": "cd packages/auth-server; npm run test",
 		"test:business-rules": "cd packages/business-rules; npm run test",
