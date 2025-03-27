@@ -56,6 +56,7 @@ const {
 	}
 } = require('../config');
 const { createQuestions } = require('./create-questions');
+const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 
 // method overrides
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
@@ -87,11 +88,37 @@ const getExampleDate = (tense, days = 60) =>
 exports.questionProps = {
 	appealTypeAppropriate: {
 		type: 'boolean',
-		title: 'Is this the correct type of appeal?',
-		question: 'Is this the correct type of appeal?',
+		title: `Is a ${QUESTION_VARIABLES.APPEAL_TYPE} appeal the correct type of appeal?`,
+		question: `Is a ${QUESTION_VARIABLES.APPEAL_TYPE} appeal the correct type of appeal?`,
 		fieldName: 'correctAppealType',
 		url: 'correct-appeal-type',
-		validators: [new RequiredValidator('Select yes if this is the correct type of appeal')]
+		validators: [
+			new RequiredValidator('Select yes if this is the correct type of appeal'),
+			new ConditionalRequiredValidator('Enter the reason'),
+			new StringValidator({
+				maxLength: {
+					maxLength: inputMaxCharacters,
+					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
+				},
+				fieldName: getConditionalFieldName('correctAppealType', 'correctAppealTypeDetails')
+			})
+		],
+		variables: [QUESTION_VARIABLES.APPEAL_TYPE],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes'
+			},
+			{
+				text: 'No',
+				value: 'no',
+				conditional: {
+					question: 'Enter the reason',
+					fieldName: 'correctAppealTypeDetails',
+					type: 'textarea'
+				}
+			}
+		]
 	},
 	listedBuildingCheck: {
 		type: 'boolean',

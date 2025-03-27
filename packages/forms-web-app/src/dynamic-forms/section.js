@@ -29,6 +29,11 @@ class Section {
 	#conditionAdded = false;
 
 	/**
+	 * @type {any}} - variables within the section
+	 */
+	sectionVariables;
+
+	/**
 	 * creates an instance of a section
 	 * @param {string} name
 	 * @param {string} segment
@@ -46,6 +51,18 @@ class Section {
 	addQuestion(question) {
 		this.questions.push(question);
 		this.#conditionAdded = false; // reset condition flag
+		return this;
+	}
+
+	/**
+	 * @param {any} questionVariable
+	 * @returns {this}
+	 */
+	withVariables(questionVariable) {
+		this.sectionVariables = {
+			...this.sectionVariables,
+			...questionVariable
+		};
 		return this;
 	}
 

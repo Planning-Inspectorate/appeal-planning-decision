@@ -1,6 +1,7 @@
 import { DocType } from '@pins/common/src/document-types';
 import { JourneyResponse } from './journey-response';
 import BaseValidator from './validator/base-validator';
+import { QUESTION_VARIABLES } from '@pins/common/src/dynamic-forms/question-variables';
 
 type QuestionTypes =
 	| 'checkbox'
@@ -35,6 +36,7 @@ interface CommonQuestionProps {
 	html?: string;
 	hint?: string;
 	shouldDisplay?: (response: JourneyResponse) => boolean;
+	variables?: QUESTION_VARIABLES[];
 }
 
 export type OptionWithoutDivider = {

@@ -16,7 +16,8 @@ describe('./src/dynamic-forms/question.js', () => {
 			answers: {}
 		},
 		getNextQuestionUrl: jest.fn(),
-		getCurrentQuestionUrl: jest.fn()
+		getCurrentQuestionUrl: jest.fn(),
+		getSection: jest.fn()
 	};
 
 	const getTestQuestion = ({ options = [] } = {}) => {
