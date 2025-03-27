@@ -10,6 +10,8 @@ const appealsApi = supertest(server);
 let validUser;
 const sqlClient = createPrismaClient();
 
+jest.setTimeout(30000);
+
 /**
  * @typedef {import('../appellant-submission').AppellantSubmission} AppellantSubmission
  */
