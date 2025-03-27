@@ -25,7 +25,12 @@ module.exports = {
 	preset: '@shelf/jest-mongodb',
 	setupFiles: ['<rootDir>/__tests__/setup-jest.js'],
 	roots: ['<rootDir>/__tests__/developer/', '<rootDir>/__tests__/unit/', '<rootDir>/src/'],
-	testMatch: ['**/__tests__/unit/**/*.test.js', '**/src/**/*.test.js', '**/src/**/*.spec.js'],
+	testMatch: [
+		'**/__tests__/unit/**/*.test.js',
+		'**/__tests__/developer/**/*.test.js',
+		'**/src/**/*.test.js',
+		'**/src/**/*.spec.js'
+	],
 	transform: {
 		'\\.[jt]sx?$': 'babel-jest'
 	}
