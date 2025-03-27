@@ -38,7 +38,7 @@ module.exports = {
 		path: process.env.FILE_UPLOAD_PATH || '/tmp/upload'
 	},
 	logger: {
-		level: process.env.LOGGER_LEVEL || /* istanbul ignore next */ 'info',
+		level: process.env.LOGGER_LEVEL || /* istanbul ignore next */ 'error',
 		redact: ['config.storage.connectionString', 'config.db.sql.connectionString']
 	},
 	server: {
