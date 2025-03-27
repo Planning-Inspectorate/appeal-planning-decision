@@ -620,6 +620,18 @@ exports.questionProps = {
 		documentType: documentTypes.emergingPlanUpload,
 		actionHiddenText: 'the emerging plan and supporting information'
 	},
+	developmentPlanPolicies: {
+		type: 'boolean',
+		title: 'Do you have any relevant policies from your statutory development plan?',
+		question: 'Do you have any relevant policies from your statutory development plan?',
+		fieldName: 'developmentPlanPolicies',
+		url: 'other-development-plan-policies',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have any relevant policies from your statutory development plan'
+			)
+		]
+	},
 	uploadDevelopmentPlanPolicies: {
 		type: 'multi-file-upload',
 		title: 'Policies from statutory development plan',
@@ -635,6 +647,14 @@ exports.questionProps = {
 		html: 'resources/upload-relevant-policies/content.html',
 		documentType: documentTypes.uploadDevelopmentPlanPolicies,
 		actionHiddenText: 'relevant policies from your statutory development plan'
+	},
+	otherRelevantPolicies: {
+		type: 'boolean',
+		title: 'Do you have any other relevant policies?',
+		question: 'Do you have any other relevant policies to upload?',
+		fieldName: 'otherRelevantPolicies',
+		url: 'other-relevant-policies',
+		validators: [new RequiredValidator('Select yes if you have any other relevant policies')]
 	},
 	uploadOtherRelevantPolicies: {
 		type: 'multi-file-upload',
