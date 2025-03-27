@@ -1016,7 +1016,9 @@ export interface LPAQuestionnaireSubmission {
 	newConditionDetails?: string;
 	emergingPlan?: boolean;
 	uploadEmergingPlan?: boolean | null;
+	developmentPlanPolicies?: boolean | null;
 	uploadDevelopmentPlanPolicies?: boolean | null;
+	otherRelevantPolicies?: boolean | null;
 	uploadOtherPolicies?: boolean | null;
 	infrastructureLevy?: boolean;
 	uploadInfrastructureLevy?: boolean | null;
