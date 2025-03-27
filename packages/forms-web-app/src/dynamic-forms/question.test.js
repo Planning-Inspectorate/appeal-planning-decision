@@ -3,6 +3,7 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
 const SessionHelper = require('../middleware/session-helper');
 
 const { mockRes } = require('../../__tests__/unit/mocks');
+const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 const res = mockRes();
 
 const apiClient = {
@@ -25,6 +26,7 @@ describe('./src/dynamic-forms/question.js', () => {
 	const HTML = 'resources/question12/content.html';
 	const HINT = 'This is how you submit the form';
 	const LPACode = 'Q9999';
+	const VARIABLES = [QUESTION_VARIABLES.APPEAL_TYPE];
 
 	const getTestQuestion = ({
 		title = TITLE,
@@ -36,7 +38,8 @@ describe('./src/dynamic-forms/question.js', () => {
 		validators = VALIDATORS,
 		pageTitle = undefined,
 		html = undefined,
-		hint = undefined
+		hint = undefined,
+		variables = VARIABLES
 	} = {}) => {
 		return new Question({
 			title,
@@ -51,7 +54,8 @@ describe('./src/dynamic-forms/question.js', () => {
 			hint,
 			getAction: () => {
 				return 'http://example.com/action';
-			}
+			},
+			variables
 		});
 	};
 
@@ -78,6 +82,36 @@ describe('./src/dynamic-forms/question.js', () => {
 			const question = getTestQuestion({ pageTitle });
 
 			expect(question.pageTitle).toEqual(pageTitle);
+		});
+
+		it('should replace pageTitle if variable is set', () => {
+			const title = `This is my ${QUESTION_VARIABLES.APPEAL_TYPE}`;
+			const section = {
+				name: 'section-name',
+				sectionVariables: { [QUESTION_VARIABLES.APPEAL_TYPE]: 'Tester' }
+			};
+			const question = getTestQuestion({ title });
+			const journey = {
+				baseUrl: '',
+				taskListUrl: 'task',
+				journeyTemplate: 'template',
+				journeyTitle: 'title',
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				section,
+				variables: [[QUESTION_VARIABLES.APPEAL_TYPE]],
+				response: {
+					answers: {
+						[question.fieldName]: { a: 1 }
+					}
+				},
+				getNextQuestionUrl: () => {
+					return 'back';
+				},
+				getSection: () => section,
+				getCurrentQuestionUrl: jest.fn()
+			};
+			const result = question.formatAnswerForSummary('segment', journey, null);
+			expect(result[0].key).toEqual('This is my Tester');
 		});
 
 		it('should not set validators if not an array', () => {
@@ -130,7 +164,8 @@ describe('./src/dynamic-forms/question.js', () => {
 				},
 				getNextQuestionUrl: () => {
 					return 'back';
-				}
+				},
+				getSection: jest.fn()
 			};
 
 			const customViewData = { hello: 'hi' };
@@ -433,7 +468,9 @@ describe('./src/dynamic-forms/question.js', () => {
 				},
 				getCurrentQuestionUrl: () => {
 					return 'current';
-				}
+				},
+
+				getSection: jest.fn()
 			};
 			const question = getTestQuestion();
 			const answer = 'Yes';
@@ -448,7 +485,8 @@ describe('./src/dynamic-forms/question.js', () => {
 				},
 				getCurrentQuestionUrl: () => {
 					return 'current';
-				}
+				},
+				getSection: jest.fn()
 			};
 			const question = getTestQuestion();
 			const result = question.formatAnswerForSummary('segment', journey, null);
@@ -466,7 +504,8 @@ describe('./src/dynamic-forms/question.js', () => {
 					{
 						questions: [{ url: '/section/testField' }]
 					}
-				]
+				],
+				getSection: jest.fn()
 			};
 			const section = { name: 'section' };
 			expect(question.isFirstQuestion(journey, section)).toBe(true);

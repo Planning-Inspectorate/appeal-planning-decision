@@ -58,7 +58,8 @@ describe('./src/dynamic-forms/dynamic-components/unit-option-entry/question.js',
 					[CONDITIONAL_FIELDNAME]: '1.123456789'
 				}
 			},
-			getCurrentQuestionUrl: jest.fn()
+			getCurrentQuestionUrl: jest.fn(),
+			getSection: jest.fn()
 		};
 
 		const result = unitOptionEntryQuestion.formatAnswerForSummary('test', journey, 'ha');
@@ -72,7 +73,8 @@ describe('./src/dynamic-forms/dynamic-components/unit-option-entry/question.js',
 					[CONDITIONAL_FIELDNAME]: '1'
 				}
 			},
-			getCurrentQuestionUrl: jest.fn()
+			getCurrentQuestionUrl: jest.fn(),
+			getSection: jest.fn()
 		};
 		const result = unitOptionEntryQuestion.formatAnswerForSummary('test', journey, 'ha');
 		expect(result[0].value).toEqual('1 ha');
@@ -85,7 +87,8 @@ describe('./src/dynamic-forms/dynamic-components/unit-option-entry/question.js',
 					[CONDITIONAL_FIELDNAME]: 'hello'
 				}
 			},
-			getCurrentQuestionUrl: jest.fn()
+			getCurrentQuestionUrl: jest.fn(),
+			getSection: jest.fn()
 		};
 
 		expect(() => {

@@ -47,7 +47,8 @@ const JOURNEY = {
 	},
 	getNextQuestionUrl: () => {
 		return 'back';
-	}
+	},
+	getSection: jest.fn()
 };
 
 describe('./src/dynamic-forms/dynamic-components/radio/question.js', () => {
