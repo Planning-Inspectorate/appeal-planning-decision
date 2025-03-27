@@ -844,7 +844,9 @@ model LPAQuestionnaireSubmission {
   newConditions_newConditionDetails               String?
   emergingPlan                                    Boolean?
   uploadEmergingPlan                              Boolean?
+  developmentPlanPolicies                         Boolean?
   uploadDevelopmentPlanPolicies                   Boolean?
+  otherRelevantPolicies                           Boolean?
   uploadOtherPolicies                             Boolean?
   infrastructureLevy                              Boolean?
   uploadInfrastructureLevy                        Boolean?

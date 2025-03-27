@@ -116,7 +116,13 @@ components:
         uploadEmergingPlan:
           type: boolean
           nullable: true
+        developmentPlanPolicies:
+          type: boolean
+          nullable: true
         uploadDevelopmentPlanPolicies:
+          type: boolean
+          nullable: true
+        otherRelevantPolicies:
           type: boolean
           nullable: true
         uploadOtherPolicies:
