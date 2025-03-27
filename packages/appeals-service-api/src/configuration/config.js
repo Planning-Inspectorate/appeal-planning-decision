@@ -44,7 +44,7 @@ let config = {
 		url: process.env.DOCUMENTS_SERVICE_API_URL
 	},
 	logger: {
-		level: process.env.LOGGER_LEVEL || 'info',
+		level: process.env.LOGGER_LEVEL || 'error',
 		redact: ['config.db', 'config.services.notify.apiKey', 'config.storage.connectionString'],
 		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true'
 	},
