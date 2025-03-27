@@ -11,7 +11,7 @@
 	},
 	"scripts": {
 		"db:generate": "npx prisma generate",
-		"test": "npm run db:generate && cross-env NODE_OPTIONS=\"--experimental-vm-modules --max-old-space-size=8192\" jest --coverage --verbose",
+		"test": "npm run db:generate && cross-env NODE_OPTIONS=\"--experimental-vm-modules --max-old-space-size=8192\" jest --verbose ${COVERAGE:+--coverage}",
 		"gen-api-types": "node src/spec/write-api-types.js",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",

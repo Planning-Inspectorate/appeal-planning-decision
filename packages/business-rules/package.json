@@ -11,7 +11,7 @@
 		"doc": "jsdoc -c jsdoc.conf.json",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
-		"test": "jest --coverage --verbose"
+		"test": "jest  --verbose ${COVERAGE:+--coverage}"
 	},
 	"author": "",
 	"dependencies": {

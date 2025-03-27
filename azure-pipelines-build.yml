@@ -10,6 +10,10 @@ parameters:
     displayName: Run linting and tests
     type: boolean
     default: true
+  - name: collectCoverage
+    displayName: Collect test coverage
+    type: boolean
+    default: false
   - name: buildAppealsApi
     displayName: Build Appeals Service API
     type: boolean
@@ -51,6 +55,12 @@ extends:
     validationJobs:
       - name: Run Linting & Tests
         condition: ${{ eq(parameters.runValidation, true) }}
+        variables:
+        - name: test-script
+          ${{ if eq(parameters.collectCoverage, 'true') }}:
+            value: npm run test-cov
+          ${{ else }}:
+            value: npm run test
         steps:
           - template: ../steps/node_script.yml
             parameters:
@@ -64,7 +74,7 @@ extends:
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
-              script: npm run test
+              script: $(test-script)
               nodeVersion: 22
           - template: ../steps/check_changed_files.yml
             parameters:
