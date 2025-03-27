@@ -17,7 +17,7 @@ function run(cmd) {
 
 module.exports = async () => {
 	const { create } = require('./external-dependencies/database/test-database');
-	process.env.LOGGER_LEVEL = 'info';
+	process.env.LOGGER_LEVEL = 'error';
 	await create();
 
 	const schemaPath = path.resolve(__dirname, '../../../database/src/schema.prisma');
