@@ -37,6 +37,7 @@ class OptionsQuestion extends Question {
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
 	 * @param {Array<Option>} [params.options]
+	 * @param {Array<string>} [params.variables]
 	 * @param {Array<import('./question').BaseValidator>} [params.validators]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
@@ -52,7 +53,8 @@ class OptionsQuestion extends Question {
 			pageTitle,
 			description,
 			options,
-			validators
+			validators,
+			variables
 		},
 		methodOverrides
 	) {
@@ -72,7 +74,8 @@ class OptionsQuestion extends Question {
 				hint,
 				pageTitle,
 				description,
-				validators: optionsValidators
+				validators: optionsValidators,
+				variables
 			},
 			methodOverrides
 		);

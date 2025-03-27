@@ -18,6 +18,7 @@ class RadioQuestion extends OptionsQuestion {
 	 * @param {string} [params.description]
 	 * @param {string} [params.label]
 	 * @param {string} [params.html]
+	 * @param {Array<string>} [params.variables]
 	 * @param {string} [params.legend] - optional legend, used instead of h1
 	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
@@ -38,7 +39,8 @@ class RadioQuestion extends OptionsQuestion {
 			html,
 			options,
 			validators,
-			legend
+			legend,
+			variables
 		},
 		methodOverrides
 	) {
@@ -53,7 +55,8 @@ class RadioQuestion extends OptionsQuestion {
 				pageTitle,
 				description,
 				options,
-				validators
+				validators,
+				variables
 			},
 			methodOverrides
 		);
