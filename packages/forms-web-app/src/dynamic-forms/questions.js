@@ -755,12 +755,14 @@ exports.questionProps = {
 	supplementaryPlanning: {
 		type: 'boolean',
 		title: 'Supplementary planning documents',
-		question: 'Did any supplementary planning documents inform the outcome of the application?',
+		question:
+			'Did any supplementary planning documents inform the outcome of the planning application?',
 		fieldName: 'supplementaryPlanningDocs',
 		url: 'supplementary-planning-documents',
+		html: 'resources/supplementary-planning-documents/content.html',
 		validators: [
 			new RequiredValidator(
-				'Select yes if any supplementary planning documents informed the outcome of the application'
+				'Select yes if any supplementary planning documents informed the outcome of the planning application'
 			)
 		]
 	},
