@@ -3,7 +3,9 @@ BEGIN TRY
 BEGIN TRAN;
 
 -- AlterTable
-ALTER TABLE [dbo].[LPAQuestionnaireSubmission] ALTER COLUMN [newConditions] NVARCHAR(max) NULL;
+ALTER TABLE [dbo].[AppealCase] ALTER COLUMN [newConditionDetails] NVARCHAR(max) NULL;
+
+-- AlterTable
 ALTER TABLE [dbo].[LPAQuestionnaireSubmission] ALTER COLUMN [newConditions_newConditionDetails] NVARCHAR(max) NULL;
 
 COMMIT TRAN;
