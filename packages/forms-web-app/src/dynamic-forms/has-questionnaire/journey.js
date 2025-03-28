@@ -2,6 +2,7 @@ const { questions } = require('../questions');
 const { Section } = require('../section');
 const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -15,6 +16,7 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
 const sections = [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
+		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: 'householder' })
 		.addQuestion(questions.listedBuildingCheck)
 		.addQuestion(questions.affectedListedBuildings)
 		.withCondition(

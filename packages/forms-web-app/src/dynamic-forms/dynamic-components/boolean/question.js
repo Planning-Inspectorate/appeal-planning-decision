@@ -12,6 +12,7 @@ class BooleanQuestion extends RadioQuestion {
 	 * @param {string} [params.description]
 	 * @param {string} [params.html]
 	 * @param {string} [params.interfaceType]
+	 * @param {Array<string>} [params.variables]
 	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 *
@@ -29,7 +30,8 @@ class BooleanQuestion extends RadioQuestion {
 			html,
 			validators,
 			interfaceType = 'radio',
-			options
+			options,
+			variables
 		},
 		methodOverrides
 	) {
@@ -62,7 +64,8 @@ class BooleanQuestion extends RadioQuestion {
 				description,
 				options: defaultOptions,
 				validators,
-				html
+				html,
+				variables
 			},
 			methodOverrides
 		);

@@ -68,6 +68,8 @@ class Question {
 	interfaceType;
 	/** @type {(response: JourneyResponse) => boolean} */
 	shouldDisplay = () => true;
+	/** @type {Array.<string>|undefined} optional variables content*/
+	variables;
 
 	details = {
 		title: '',
@@ -88,6 +90,7 @@ class Question {
 	 * @param {string} [params.hint]
 	 * @param {string} [params.interfaceType]
 	 * @param {(response: JourneyResponse) => boolean} [params.shouldDisplay]
+	 * @param {Array.<QUESTION_VARIABLES>} [params.variables]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
@@ -104,7 +107,8 @@ class Question {
 			html,
 			hint,
 			interfaceType,
-			shouldDisplay
+			shouldDisplay,
+			variables
 		},
 		methodOverrides
 	) {
@@ -122,6 +126,7 @@ class Question {
 		this.description = description;
 		this.hint = hint;
 		this.interfaceType = interfaceType;
+		this.variables = variables;
 
 		if (shouldDisplay) {
 			this.shouldDisplay = shouldDisplay;
@@ -153,16 +158,7 @@ class Question {
 		const backLink = this.getBackLink(journey, section);
 
 		const viewModel = {
-			question: {
-				value: answer,
-				question: this.question,
-				fieldName: this.fieldName,
-				pageTitle: this.pageTitle,
-				description: this.description,
-				html: this.html,
-				hint: this.hint,
-				interfaceType: this.interfaceType
-			},
+			question: this.getQuestionModel(section, answer),
 			answer,
 
 			layoutTemplate: journey.journeyTemplate,
@@ -179,6 +175,46 @@ class Question {
 		};
 
 		return viewModel;
+	}
+	/**
+	 * gets the view model for this question
+	 * @param {Section | undefined} section - the current section
+	 * @param {any} [answer]
+	 * @returns {PreppedQuestion} question
+	 */
+	getQuestionModel(section, answer) {
+		let question = {
+			value: answer,
+			question: this.question,
+			fieldName: this.fieldName,
+			pageTitle: this.pageTitle,
+			description: this.description,
+			html: this.html,
+			hint: this.hint,
+			interfaceType: this.interfaceType
+		};
+		return this.replaceVariables(section, question);
+	}
+
+	/**
+	 * replace the key of each variable to required text
+	 * @param {Section | undefined} section - the current section
+	 * @returns {any} item
+	 */
+	replaceVariables(section, item) {
+		if (this.variables && section?.sectionVariables) {
+			this.variables.forEach((variable) => {
+				const variableValue = section?.sectionVariables[variable];
+				if (variableValue) {
+					Object.keys(item).forEach((prop) => {
+						if (typeof item[prop] === 'string') {
+							item[prop] = item[prop].replace(variable, variableValue);
+						}
+					});
+				}
+			});
+		}
+		return item;
 	}
 
 	/**
@@ -383,7 +419,9 @@ class Question {
 			? capitalize(answer ?? this.NOT_STARTED)
 			: answer ?? this.NOT_STARTED;
 		const action = this.getAction(sectionSegment, journey, answer);
-		const key = this.title ?? this.question;
+		const section = journey.getSection(sectionSegment);
+		const model = this.replaceVariables(section, { title: this.title, question: this.question });
+		const key = model.title ?? model.question;
 		let rowParams = [];
 		rowParams.push({
 			key: key,

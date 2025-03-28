@@ -35,7 +35,8 @@ describe('./src/dynamic-forms/dynamic-components/checkbox/question.js', () => {
 	const JOURNEY = {
 		response: {
 			answers: {}
-		}
+		},
+		getSection: () => {}
 	};
 	JOURNEY.response.answers[`${FIELDNAME}_${CONDITIONAL_FIELDNAME}`] = CONDITIONAL_ANSWER_TEXT;
 
