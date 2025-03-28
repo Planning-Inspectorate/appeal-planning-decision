@@ -1,12 +1,15 @@
 const {
 	representationPublished,
-	representationExists
+	representationExists,
+	getRepresentationSubmissionDate
 } = require('@pins/common/src/lib/representations');
 const {
 	LPA_USER_ROLE,
 	APPEAL_USER_ROLES,
-	REPRESENTATION_TYPES
+	REPRESENTATION_TYPES,
+	SUBMISSIONS
 } = require('@pins/common/src/constants');
+const { formatSubmissionDate } = require('@pins/common/src/lib/format-appeal-details');
 
 /**
  * @type {import("@pins/common/src/view-model-maps/sections/def").Sections}
@@ -29,6 +32,13 @@ exports.sections = [
 			{
 				url: '/questionnaire',
 				text: 'View questionnaire',
+				submissionDate: {
+					text: (appealCase) =>
+						formatSubmissionDate(
+							SUBMISSIONS.QUESTIONNAIRE,
+							appealCase.lpaQuestionnaireSubmittedDate
+						)
+				},
 				condition: (appealCase) => !!appealCase.lpaQuestionnaireSubmittedDate
 			}
 		]
@@ -39,6 +49,17 @@ exports.sections = [
 			{
 				url: '/statement',
 				text: 'View your statement',
+				submissionDate: {
+					text: (appealCase) =>
+						formatSubmissionDate(
+							SUBMISSIONS.STATEMENT,
+							getRepresentationSubmissionDate(appealCase.Representations, {
+								type: REPRESENTATION_TYPES.STATEMENT,
+								owned: true,
+								submitter: LPA_USER_ROLE
+							})
+						)
+				},
 				condition: (appealCase) =>
 					representationExists(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.STATEMENT,
@@ -77,6 +98,17 @@ exports.sections = [
 			{
 				url: '/final-comments',
 				text: 'View your final comments',
+				submissionDate: {
+					text: (appealCase) =>
+						formatSubmissionDate(
+							SUBMISSIONS.FINAL_COMMENT,
+							getRepresentationSubmissionDate(appealCase.Representations, {
+								type: REPRESENTATION_TYPES.FINAL_COMMENT,
+								owned: true,
+								submitter: LPA_USER_ROLE
+							})
+						)
+				},
 				condition: (appealCase) =>
 					representationExists(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.FINAL_COMMENT,
@@ -112,6 +144,17 @@ exports.sections = [
 			{
 				url: '/proof-evidence',
 				text: 'View your proof of evidence and witnesses',
+				submissionDate: {
+					text: (appealCase) =>
+						formatSubmissionDate(
+							SUBMISSIONS.PROOFS_EVIDENCE,
+							getRepresentationSubmissionDate(appealCase.Representations, {
+								type: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+								owned: true,
+								submitter: LPA_USER_ROLE
+							})
+						)
+				},
 				condition: (appealCase) =>
 					representationExists(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,

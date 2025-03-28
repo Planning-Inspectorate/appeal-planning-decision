@@ -618,6 +618,18 @@ exports.questionProps = {
 		documentType: documentTypes.emergingPlanUpload,
 		actionHiddenText: 'the emerging plan and supporting information'
 	},
+	developmentPlanPolicies: {
+		type: 'boolean',
+		title: 'Do you have any relevant policies from your statutory development plan?',
+		question: 'Do you have any relevant policies from your statutory development plan?',
+		fieldName: 'developmentPlanPolicies',
+		url: 'other-development-plan-policies',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have any relevant policies from your statutory development plan'
+			)
+		]
+	},
 	uploadDevelopmentPlanPolicies: {
 		type: 'multi-file-upload',
 		title: 'Policies from statutory development plan',
@@ -633,6 +645,14 @@ exports.questionProps = {
 		html: 'resources/upload-relevant-policies/content.html',
 		documentType: documentTypes.uploadDevelopmentPlanPolicies,
 		actionHiddenText: 'relevant policies from your statutory development plan'
+	},
+	otherRelevantPolicies: {
+		type: 'boolean',
+		title: 'Do you have any other relevant policies?',
+		question: 'Do you have any other relevant policies to upload?',
+		fieldName: 'otherRelevantPolicies',
+		url: 'other-relevant-policies',
+		validators: [new RequiredValidator('Select yes if you have any other relevant policies')]
 	},
 	uploadOtherRelevantPolicies: {
 		type: 'multi-file-upload',
@@ -753,12 +773,14 @@ exports.questionProps = {
 	supplementaryPlanning: {
 		type: 'boolean',
 		title: 'Supplementary planning documents',
-		question: 'Did any supplementary planning documents inform the outcome of the application?',
+		question:
+			'Did any supplementary planning documents inform the outcome of the planning application?',
 		fieldName: 'supplementaryPlanningDocs',
 		url: 'supplementary-planning-documents',
+		html: 'resources/supplementary-planning-documents/content.html',
 		validators: [
 			new RequiredValidator(
-				'Select yes if any supplementary planning documents informed the outcome of the application'
+				'Select yes if any supplementary planning documents informed the outcome of the planning application'
 			)
 		]
 	},

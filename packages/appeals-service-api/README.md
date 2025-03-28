@@ -13,7 +13,7 @@ if (isFeatureActive('has-appeal-form-v2'))
 
 ## Horizon Integration
 
-Integration with Horizon is done driectly, appeals are palced into table in cosmos which acts as a queue then the appeals api runs a cron job every 15 minutes to send them to horizon.
+Integration with Horizon is done directly, appeals are placed into table in cosmos which acts as a queue then the appeals api runs a cron job every 15 minutes to send them to horizon.
 
 ## Commands
 

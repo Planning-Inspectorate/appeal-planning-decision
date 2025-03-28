@@ -51,6 +51,12 @@ module.exports = {
 		LPA: 'lpa',
 		RULE_6: 'rule6'
 	},
+	SUBMISSIONS: {
+		QUESTIONNAIRE: 'Questionnaire',
+		STATEMENT: 'Statement',
+		FINAL_COMMENT: 'Final comments',
+		PROOFS_EVIDENCE: 'Proofs of evidence'
+	},
 	/**
 	 * not strictly appeal-user role, there is no link between LPA user and an appeal, it's via the lpa-code on the user and appeal
 	 * @type {LpaUserRole}

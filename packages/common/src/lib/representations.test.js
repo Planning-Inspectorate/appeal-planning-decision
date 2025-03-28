@@ -1,4 +1,9 @@
-const { representationExists, representationPublished } = require('./representations');
+const { LPA_USER_ROLE } = require('../constants');
+const {
+	representationExists,
+	representationPublished,
+	getRepresentationSubmissionDate
+} = require('./representations');
 const { APPEAL_REPRESENTATION_STATUS, SERVICE_USER_TYPE } = require('pins-data-model');
 
 describe('representationExists', () => {
@@ -97,5 +102,53 @@ describe('representationPublished', () => {
 		expect(
 			representationPublished(undefined, { type: 'type1', submitter: SERVICE_USER_TYPE.APPELLANT })
 		).toBe(false);
+	});
+});
+
+describe('getRepresentationSubmissionDate', () => {
+	it('should return the representation dateReceived if the specified representation type exists', () => {
+		const representations = [
+			{
+				representationType: 'type1',
+				userOwnsRepresentation: true,
+				submittingPartyType: SERVICE_USER_TYPE.APPELLANT,
+				dateReceived: 'today'
+			},
+			{
+				representationType: 'type1',
+				userOwnsRepresentation: false,
+				submittingPartyType: LPA_USER_ROLE,
+				dateReceived: 'last week'
+			},
+			{
+				representationType: 'type2',
+				userOwnsRepresentation: false,
+				submittingPartyType: SERVICE_USER_TYPE.APPELLANT,
+				dateReceived: 'yesterday'
+			}
+		];
+		expect(
+			getRepresentationSubmissionDate(representations, {
+				type: 'type1',
+				owned: true,
+				submitter: SERVICE_USER_TYPE.APPELLANT
+			})
+		).toBe('today');
+	});
+
+	it('should return undefined if no representation exists with the given type and ownership', () => {
+		const representations = [
+			{ representationType: 'type1', userOwnsRepresentation: false },
+			{ representationType: 'type2', userOwnsRepresentation: false }
+		];
+		expect(getRepresentationSubmissionDate(representations, { type: 'type1', owned: true })).toBe(
+			undefined
+		);
+	});
+
+	it('should return undefined if representation array is undefined', () => {
+		expect(getRepresentationSubmissionDate(undefined, { type: 'type1', owned: true })).toBe(
+			undefined
+		);
 	});
 });

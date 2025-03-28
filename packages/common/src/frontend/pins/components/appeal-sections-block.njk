@@ -3,6 +3,9 @@
 		{% if section.links|hasItems %}
 			<h2 class="govuk-heading-l">{{section.heading}}</h2>
 			{%for link in section.links%}
+				{% if link.submissionDate %}
+					<p class="govuk-body">{{link.submissionDate}} </p>
+				{% endif %}
 				<p class="govuk-body">
 					<a href="{{baseUrl}}{{link.url}}"> {{link.text}} </a>
 				</p>
