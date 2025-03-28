@@ -29,7 +29,6 @@ const mockAnswer = 'Not started';
 
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
-const { CONSTS } = require('../consts');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
 const sections = [
@@ -529,7 +528,7 @@ describe('dynamic-form/controller', () => {
 			storePdfQuestionnaireSubmission.mockReturnValue({ submissionId: '1234', id: '5678' });
 			mockJourney.sections[2].isComplete.mockReturnValue(true);
 
-			req.cookies = { [CONSTS.SESSION_COOKIE_NAME]: 'abc123' };
+			req.headers.cookie = "sid='abc123'";
 
 			req.params = {
 				referenceId: mockRef
@@ -544,7 +543,7 @@ describe('dynamic-form/controller', () => {
 			await submit(req, res);
 			expect(storePdfQuestionnaireSubmission).toHaveBeenCalledWith({
 				submissionJourney: res.locals.journey,
-				sid: 'abc123',
+				cookieString: req.headers.cookie,
 				appealTypeUrl: 'householder'
 			});
 			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith('987654', {
@@ -559,7 +558,7 @@ describe('dynamic-form/controller', () => {
 			storePdfQuestionnaireSubmission.mockReturnValue({ submissionId: '1235', id: '5671' });
 			mockJourney.sections[2].isComplete.mockReturnValue(true);
 
-			req.cookies = { [CONSTS.SESSION_COOKIE_NAME]: 'abc123' };
+			req.headers.cookie = "sid='abc123'";
 
 			req.params = {
 				referenceId: mockRef
@@ -574,7 +573,7 @@ describe('dynamic-form/controller', () => {
 			await submit(req, res);
 			expect(storePdfQuestionnaireSubmission).toHaveBeenCalledWith({
 				submissionJourney: res.locals.journey,
-				sid: 'abc123',
+				cookieString: req.headers.cookie,
 				appealTypeUrl: 'full-planning'
 			});
 			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith('987659', {
