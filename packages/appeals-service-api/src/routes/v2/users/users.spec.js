@@ -4,7 +4,6 @@ const supertest = require('supertest');
 
 const app = require('../../../app');
 const { createPrismaClient } = require('../../../db/db-client');
-const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
@@ -35,8 +34,6 @@ beforeAll(async () => {
 	///////////////////
 	let server = http.createServer(app);
 	appealsApi = supertest(server);
-
-	await seedStaticData(sqlClient);
 });
 
 beforeEach(async () => {
@@ -114,6 +111,45 @@ describe('users v2', () => {
 			expect(response.body.isLpaAdmin).toBe(false);
 			expect(response.body.lpaCode).toBe('Q9999');
 			expect(response.body.lpaStatus).toBe('added');
+		});
+
+		it('should reset the status of removed user to Added', async () => {
+			const createResponse = await appealsApi.post('/api/v2/users').send({
+				email: 'working-recreation@example.com',
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+			expect(createResponse.status).toEqual(200);
+
+			await appealsApi.delete(`/api/v2/users/working-recreation@example.com`).send();
+
+			const recreateResponse = await appealsApi.post('/api/v2/users').send({
+				email: 'working-recreation@example.com',
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+			expect(recreateResponse.status).toEqual(200);
+
+			expect(recreateResponse.body.email).toBe('working-recreation@example.com');
+			expect(recreateResponse.body.isLpaUser).toBe(true);
+			expect(recreateResponse.body.isLpaAdmin).toBe(false);
+			expect(recreateResponse.body.lpaCode).toBe('Q9999');
+			expect(recreateResponse.body.lpaStatus).toBe('added');
+		});
+
+		it('should throw 400 error if LPA tries to add the same account multiple times without removing first', async () => {
+			const createResponse1 = await appealsApi.post('/api/v2/users').send({
+				email: 'working-recreation-duplicate-creation@example.com',
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+			expect(createResponse1.status).toEqual(200);
+			const createResponse2 = await appealsApi.post('/api/v2/users').send({
+				email: 'working-recreation-duplicate-creation@example.com',
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+			expect(createResponse2.status).toEqual(400);
 		});
 	});
 

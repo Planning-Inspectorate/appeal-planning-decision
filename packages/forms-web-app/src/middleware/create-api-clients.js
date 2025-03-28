@@ -58,4 +58,7 @@ const createApiClients = async (req, res, next) => {
 	next();
 };
 
-module.exports = createApiClients;
+module.exports = {
+	createApiClients,
+	getClientCredentials
+};

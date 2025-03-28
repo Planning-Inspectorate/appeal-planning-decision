@@ -4,7 +4,7 @@ const rules = () => {
 	return [
 		body('local-planning-department')
 			.notEmpty()
-			.withMessage('Enter the name of the local planning department')
+			.withMessage('Enter the local planning authority')
 			.bail()
 	];
 };

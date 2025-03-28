@@ -33,6 +33,7 @@ export interface AppealCaseRelationship {
 export type AppealCaseDetailed = AppealCase & {
 	users?: ServiceUser[];
 	relations?: AppealCaseRelationship[];
+	submissionLinkedCases?: SubmissionLinkedCase[];
 	Documents?: Document[];
 };
 
@@ -484,8 +485,6 @@ export interface AppealUser {
 	email: string;
 	/** is this user enrolled? (have they been sent a registration confirmation email) */
 	isEnrolled?: boolean;
-	/** service user ID to map to service users */
-	serviceUserId?: string;
 	/** is this an LPA user? */
 	isLpaUser?: boolean;
 	/** if an LPA user, the LPA this user belongs to */
@@ -1017,7 +1016,9 @@ export interface LPAQuestionnaireSubmission {
 	newConditionDetails?: string;
 	emergingPlan?: boolean;
 	uploadEmergingPlan?: boolean | null;
+	developmentPlanPolicies?: boolean | null;
 	uploadDevelopmentPlanPolicies?: boolean | null;
+	otherRelevantPolicies?: boolean | null;
 	uploadOtherPolicies?: boolean | null;
 	infrastructureLevy?: boolean;
 	uploadInfrastructureLevy?: boolean | null;
@@ -1062,6 +1063,17 @@ export interface LPAQuestionnaireSubmission {
 	listedBuildingGrade?: string;
 	uploadHistoricEnglandConsultation?: boolean | null;
 	section3aGrant?: boolean;
+}
+
+export interface LpaRecord {
+	id?: string;
+	objectId?: string;
+	lpa19CD?: string;
+	lpaCode?: string;
+	name?: string;
+	email?: string;
+	domain?: string;
+	inTrial?: boolean;
 }
 
 /** A statement submitted by an LPA */

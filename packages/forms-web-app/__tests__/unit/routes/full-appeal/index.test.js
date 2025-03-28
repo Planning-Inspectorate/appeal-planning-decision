@@ -2,7 +2,7 @@ const { use } = require('../router-mock');
 
 const anyOfFollowingRouter = require('../../../../src/routes/full-appeal/any-of-following');
 const grantedOrRefusedRouter = require('../../../../src/routes/full-appeal/granted-or-refused');
-const localPlanningDepartmentRouter = require('../../../../src/routes/before-you-start/local-planning-department');
+const localPlanningAuthorityRouter = require('../../../../src/routes/before-you-start/local-planning-authority');
 const typeOfPlanningRouter = require('../../../../src/routes/before-you-start/type-of-planning-application');
 const useExistingServiceApplicationType = require('../../../../src/routes/before-you-start/use-existing-service-application-type');
 const outOfTimeRouter = require('../../../../src/routes/full-appeal/you-cannot-appeal');
@@ -20,7 +20,7 @@ describe('routes/full-appeal/index', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(use).toHaveBeenCalledWith(localPlanningDepartmentRouter);
+		expect(use).toHaveBeenCalledWith(localPlanningAuthorityRouter);
 		expect(use).toHaveBeenCalledWith(typeOfPlanningRouter);
 		expect(use).toHaveBeenCalledWith(anyOfFollowingRouter);
 		expect(use).toHaveBeenCalledWith(grantedOrRefusedRouter);

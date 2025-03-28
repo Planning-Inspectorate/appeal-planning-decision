@@ -113,7 +113,7 @@ router.get(
 
 router.get(
 	'/householder/:referenceId/questionnaire-submitted',
-	getJourneyResponse(),
+	getJourneyResponse(false),
 	getJourney(journeys),
 	validationErrorHandler,
 	lpaSubmitted
@@ -127,14 +127,14 @@ router.get(
 // used for PDF generation of submission
 router.get(
 	'/householder/:referenceId/questionnaire-submitted/information',
-	getJourneyResponse(),
+	getJourneyResponse(false),
 	getJourney(journeys),
 	lpaQuestionnaireSubmissionInformation
 );
 
 router.get(
 	'/full-planning/:referenceId/questionnaire-submitted/information',
-	getJourneyResponse(),
+	getJourneyResponse(false),
 	getJourney(journeys),
 	lpaQuestionnaireSubmissionInformation
 );

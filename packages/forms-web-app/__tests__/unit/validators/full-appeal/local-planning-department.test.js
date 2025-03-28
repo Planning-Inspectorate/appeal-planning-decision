@@ -13,7 +13,7 @@ describe('validators/local-planning-department', () => {
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
 			expect(rule.stack).toHaveLength(2);
-			expect(rule.stack[0].message).toEqual('Enter the name of the local planning department');
+			expect(rule.stack[0].message).toEqual('Enter the local planning authority');
 		});
 	});
 	describe('validator', () => {
@@ -37,7 +37,7 @@ describe('validators/local-planning-department', () => {
 				expected: (result) => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
-					expect(result.errors[0].msg).toEqual('Enter the name of the local planning department');
+					expect(result.errors[0].msg).toEqual('Enter the local planning authority');
 					expect(result.errors[0].param).toEqual('local-planning-department');
 				}
 			}

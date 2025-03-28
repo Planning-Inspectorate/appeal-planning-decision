@@ -1,9 +1,4 @@
-const {
-	formatYesOrNo,
-	formatDocumentDetails,
-	documentExists,
-	boolToYesNo
-} = require('@pins/common');
+const { formatDocumentDetails, documentExists, boolToYesNo } = require('@pins/common');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
@@ -24,8 +19,8 @@ exports.consultationRows = (caseData) => {
 	return [
 		{
 			keyText: 'Statutory consultees',
-			valueText: formatYesOrNo(caseData, 'statutoryConsultees'),
-			condition: () => caseData.statutoryConsultees
+			valueText: caseData.statutoryConsultees ? `Yes\n${caseData.consultedBodiesDetails}` : 'No',
+			condition: () => caseData.statutoryConsultees != null
 		},
 		{
 			keyText: 'Responses or standing advice',

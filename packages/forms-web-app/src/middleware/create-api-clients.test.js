@@ -1,4 +1,4 @@
-const createApiClients = require('#middleware/create-api-clients');
+const { createApiClients } = require('#middleware/create-api-clients');
 const { getAuthClient } = require('@pins/common/src/client/auth-client');
 
 // Mocking dependencies

@@ -2,16 +2,19 @@ const {
 	formatProcedurePreference,
 	boolToYesNo,
 	formatConditions,
-	formatRelatedAppeals
+	formatSubmissionRelatedAppeals
 } = require('@pins/common');
-const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
+const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
  * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
  */
 exports.appealProcessRows = (caseData) => {
-	const formattedNearby = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.nearby);
+	const formattedNearby = formatSubmissionRelatedAppeals(
+		caseData,
+		fieldNames.nearbyAppealReference
+	);
 	const showNearby = !!formattedNearby;
 
 	return [
@@ -28,7 +31,8 @@ exports.appealProcessRows = (caseData) => {
 		{
 			keyText: 'Appeal references',
 			valueText: showNearby ? formattedNearby : '',
-			condition: () => showNearby
+			condition: () => showNearby,
+			isEscaped: true
 		},
 		{
 			keyText: 'Extra conditions',

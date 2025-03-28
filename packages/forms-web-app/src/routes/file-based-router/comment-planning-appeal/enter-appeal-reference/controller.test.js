@@ -41,8 +41,8 @@ describe('enterAppealReference Controller Tests', () => {
 			);
 		});
 
-		it('should render the enter-appeal-reference page with an error if appealReference contains non-digit', async () => {
-			req.body['appeal-reference'] = '123ABC';
+		it('should render the enter-appeal-reference page with an error if appealReference contains non-alphanumeric characters', async () => {
+			req.body['appeal-reference'] = '123ABC-';
 
 			await enterAppealReferencePost(req, res);
 
@@ -50,10 +50,10 @@ describe('enterAppealReference Controller Tests', () => {
 				'comment-planning-appeal/enter-appeal-reference/index',
 				{
 					error: {
-						text: 'Enter the appeal reference using numbers 0 to 9',
+						text: 'Enter the appeal reference number using letters a to z and numbers 0 to 9',
 						href: '#appeal-reference'
 					},
-					value: '123ABC'
+					value: '123ABC-'
 				}
 			);
 		});
@@ -67,7 +67,7 @@ describe('enterAppealReference Controller Tests', () => {
 				'comment-planning-appeal/enter-appeal-reference/index',
 				{
 					error: {
-						text: 'Appeal reference number must be 7 characters or less',
+						text: 'Appeal reference number must be 7 digits',
 						href: '#appeal-reference'
 					},
 					value: '12345678'

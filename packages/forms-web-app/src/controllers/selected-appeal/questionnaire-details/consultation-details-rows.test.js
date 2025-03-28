@@ -6,11 +6,12 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 describe('consultationRows', () => {
 	it('should create HAS rows', () => {
 		const rows = consultationRows(
-			{ appealTypeCode: CASE_TYPES.HAS.processCode, statutoryConsultees: true },
+			{ appealTypeCode: CASE_TYPES.HAS.processCode },
 			APPEAL_USER_ROLES.AGENT
 		);
 		expect(rows.length).toEqual(5);
-		expect(rows[0].valueText).toEqual('Yes');
+		expect(rows[0].valueText).toEqual('No');
+		expect(rows[0].condition()).toEqual(false);
 		expect(rows[1].valueText).toEqual('No');
 		expect(rows[1].condition()).toEqual(false);
 		expect(rows[2].valueText).toEqual('No');
@@ -22,12 +23,14 @@ describe('consultationRows', () => {
 			{
 				appealTypeCode: CASE_TYPES.S78.processCode,
 				statutoryConsultees: true,
+				consultedBodiesDetails: 'testing 123',
 				Documents: [{ documentType: APPEAL_DOCUMENT_TYPE.CONSULTATION_RESPONSES, filename: 'test' }]
 			},
 			APPEAL_USER_ROLES.AGENT
 		);
 		expect(rows.length).toEqual(5);
-		expect(rows[0].valueText).toEqual('Yes');
+		expect(rows[0].valueText).toEqual('Yes\ntesting 123');
+		expect(rows[0].condition()).toEqual(true);
 		expect(rows[1].valueText).toEqual('Yes');
 		expect(rows[1].condition()).toEqual(true);
 		expect(rows[2].valueText).toEqual('test - awaiting review');

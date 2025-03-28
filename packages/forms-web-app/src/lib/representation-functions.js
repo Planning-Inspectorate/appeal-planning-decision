@@ -241,7 +241,7 @@ const formatRepresentations = (caseData, representations) => {
 const formatRepresentationDocumentsLinks = (documentDetails, documentsLabel) => {
 	const documentsLinks =
 		documentDetails.length > 0
-			? documentDetails.map(formatDocumentLink).join('\n')
+			? documentDetails.map(formatDocumentLink).join('<br>')
 			: 'No documents';
 
 	return [
@@ -269,9 +269,9 @@ const formatProofsOfEvidenceDocuments = (documentDetails) => {
 	);
 
 	const proofsLinks =
-		proofs.length > 0 ? proofs.map(formatDocumentLink).join('\n') : 'No documents';
+		proofs.length > 0 ? proofs.map(formatDocumentLink).join('<br>') : 'No documents';
 	const witnessesLinks =
-		witnesses.length > 0 ? witnesses.map(formatDocumentLink).join('\n') : 'No documents';
+		witnesses.length > 0 ? witnesses.map(formatDocumentLink).join('<br>') : 'No documents';
 
 	return [
 		{

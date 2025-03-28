@@ -1,6 +1,7 @@
 const escape = require('escape-html');
 const { APPEAL_USER_ROLES } = require('../constants');
 const { APPEAL_DEVELOPMENT_TYPE } = require('pins-data-model');
+const { formatDateForDisplay } = require('./format-date');
 
 // NOTE - consider requirement to escape string values from caseData
 
@@ -90,6 +91,20 @@ exports.formatRelatedAppeals = (caseData, type) => {
 };
 
 /**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ * @param {import('../dynamic-forms/field-names').DynamicFormFieldName} type
+ */
+exports.formatSubmissionRelatedAppeals = (caseData, type) => {
+	const appellantLinkedCases = caseData.submissionLinkedCases?.filter(
+		(relation) => relation.fieldName === type
+	);
+
+	if (!appellantLinkedCases?.length) return '';
+
+	return appellantLinkedCases.map((linkedAppeal) => escape(linkedAppeal.caseReference)).join('\n');
+};
+
+/**
  * @param {import("../client/appeals-api-client").AppealCaseDetailed['developmentType']} developmentType
  * @returns {string}
  */
@@ -133,6 +148,15 @@ exports.formatDevelopmentType = (developmentType) => {
 	}
 
 	throw new Error('unhandled developmentType mapping');
+};
+
+/**
+ * @param {string} submission
+ * @param {Date|string|undefined} date
+ * @returns {string}
+ */
+exports.formatSubmissionDate = (submission, date) => {
+	return `${submission} submitted on ${formatDateForDisplay(date)}`;
 };
 
 /**

@@ -4,7 +4,7 @@ const {
 } = require('./extract-root-domain-name-from-full-domain-name');
 const { CONSTS } = require('../consts');
 
-const defaultKeepMeCookies = [CONSTS.SESSION_COOKIE_NAME, cookieConfig.COOKIE_POLICY_KEY];
+const defaultKeepMeCookies = [CONSTS.SESSION_COOKIE_NAME, cookieConfig.COOKIE_POLICY_KEY, CONSTS.EASY_AUTH_COOKIE_NAME];
 
 /**
  * This is a brute force attempt at removing any unwanted cookies.

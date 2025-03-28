@@ -48,14 +48,6 @@ model AppealUser {
   /// they need an email sent when they first login
   isEnrolled Boolean @default(false)
 
-  /// a service user entity will be broadcast by the back office. We match them to AppealUser by email
-  /// appeals will be matched to users by serviceUserId.
-  serviceUserId String? // unique, with nulls allowed, is enforced in SQL, see first migration script & https://stackoverflow.com/a/767702
-  // -- unique AppealUser.serviceUserId
-  // CREATE UNIQUE NONCLUSTERED INDEX idx_AppealUser_serviceUserId_unique_notnull
-  // ON [dbo].[AppealUser](serviceUserId)
-  // WHERE serviceUserId IS NOT NULL;
-
   // LPA user fields
   /// is this an LPA user?
   isLpaUser  Boolean  @default(false)
@@ -73,6 +65,10 @@ model AppealUser {
   SecurityToken                  SecurityToken?
   Rule6ProofOfEvidenceSubmission Rule6ProofOfEvidenceSubmission[]
   Rule6StatementSubmission       Rule6StatementSubmission[]
+
+  // indexes
+  @@index([email])
+  @@index([lpaCode])
 }
 
 /// SecurityToken is used as a mechanism for users to login
@@ -95,6 +91,9 @@ model SecurityToken {
   attempts         Int      @default(0)
   /// the action the code was generated for, e.g. confirmEmail
   action           String?
+
+  // indexes
+  @@index([appealUserId])
 }
 
 /// Appeal is the base appeal model, used to link references to other entities, which includes, for example:
@@ -121,6 +120,9 @@ model Appeal {
 
   /// appellant v2 submission
   AppellantSubmission AppellantSubmission?
+
+  // indexes
+  @@index([legacyAppealSubmissionId])
 }
 
 /// AppealToUser represents the relationships between AppealUser and Appeal
@@ -139,6 +141,11 @@ model AppealToUser {
   /// must be an AppealToUserRole name value
   role String
   Role AppealToUserRole @relation(fields: [role], references: [name])
+
+  // indexes
+  @@index([appealId])
+  @@index([userId])
+  @@index([role])
 }
 
 /// AppealToUserRole represents the role a user has in relation to an Appeal
@@ -392,6 +399,12 @@ model AppealCase {
   Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission?
   Rule6StatementSubmission        Rule6StatementSubmission?
   Representations                 Representation[]
+
+  // indexes
+  @@index([LPACode])
+  @@index([casePublishedDate])
+  @@index([caseDecisionOutcomeDate])
+  @@index([siteAddressPostcodeSanitized])
 }
 
 /// AppealCase relations
@@ -406,6 +419,10 @@ model AppealCaseRelationship {
 
   caseReference  String
   caseReference2 String
+
+  // indexes
+  @@index([caseReference])
+  @@index([caseReference2])
 }
 
 /// Lookup table for types of appeals processes, and appeal types such as D (Householder) and W (S78).
@@ -478,6 +495,10 @@ model AppealCaseListedBuilding {
   ListedBuilding          ListedBuilding @relation(fields: [listedBuildingReference], references: [reference])
 
   type String @default("affected")
+
+  // indexes
+  @@index([caseReference])
+  @@index([listedBuildingReference])
 }
 
 /// possible notification methods.
@@ -495,6 +516,10 @@ model AppealCaseLpaNotificationMethod {
 
   lPANotificationMethodsKey String?
   LPANotificationMethod     LPANotificationMethods? @relation(fields: [lPANotificationMethodsKey], references: [key])
+
+  // indexes
+  @@index([caseReference])
+  @@index([lPANotificationMethodsKey])
 }
 
 model Event {
@@ -520,6 +545,9 @@ model Event {
   // link the event to the appeal case
   caseReference String
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // indexes
+  @@index([caseReference])
 }
 
 model NeighbouringAddress {
@@ -537,6 +565,9 @@ model NeighbouringAddress {
   // relations
   caseReference String
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // indexes
+  @@index([caseReference])
 }
 
 /// Document represents a document from the Back Office, and follows the PINS Data Model
@@ -579,6 +610,10 @@ model Document {
   // relations
   caseReference String
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // indexes
+  @@index([caseReference])
+  @@index([publishedDocumentURI])
 }
 
 // This table stores unedited IP submissions at the point of submission to BO
@@ -596,6 +631,9 @@ model InterestedPartySubmission {
   comments      String     @db.NVarChar(Max)
   createdAt     DateTime   @default(now())
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // indexes
+  @@index([caseReference])
 }
 
 /// ServiceUser represents any user of PINS Services, and follows the PINS Data Model
@@ -634,13 +672,19 @@ model ServiceUser {
   serviceUserType String
   /// case reference this user + user-type relates to
   caseReference   String
+
+  // indexes
+  @@index([caseReference])
+  @@index([emailAddress])
+  @@index([caseReference, emailAddress, serviceUserType])
 }
 
 /// AppellantSubmission represents an appeal submitted by an appellant
 model AppellantSubmission {
-  id             String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  LPACode        String
-  appealTypeCode String // type shortcode such as HAS or S78
+  id                        String  @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  LPACode                   String
+  appealTypeCode            String // type shortcode such as HAS or S78
+  typeOfPlanningApplication String?
 
   // dates
   createdAt DateTime  @default(now())
@@ -800,7 +844,9 @@ model LPAQuestionnaireSubmission {
   newConditions_newConditionDetails               String?
   emergingPlan                                    Boolean?
   uploadEmergingPlan                              Boolean?
+  developmentPlanPolicies                         Boolean?
   uploadDevelopmentPlanPolicies                   Boolean?
+  otherRelevantPolicies                           Boolean?
   uploadOtherPolicies                             Boolean?
   infrastructureLevy                              Boolean?
   uploadInfrastructureLevy                        Boolean?
@@ -845,6 +891,9 @@ model LPAQuestionnaireSubmission {
   SubmissionAddress        SubmissionAddress[]
   SubmissionLinkedCase     SubmissionLinkedCase[]
   SubmissionListedBuilding SubmissionListedBuilding[]
+
+  // indexes
+  @@index([appealCaseReference])
 }
 
 model LPAStatementSubmission {
@@ -867,6 +916,9 @@ model LPAStatementSubmission {
   // Uploaded documents and details linked to this statement
   uploadLpaStatementDocuments Boolean?
   SubmissionDocumentUpload    SubmissionDocumentUpload[]
+
+  // indexes
+  @@index([appealCaseReference])
 }
 
 model Rule6StatementSubmission {
@@ -893,6 +945,9 @@ model Rule6StatementSubmission {
 
   // Uploaded documents and details linked to this statement
   SubmissionDocumentUpload SubmissionDocumentUpload[]
+
+  // indexes
+  @@index([caseReference])
 }
 
 model AppellantProofOfEvidenceSubmission {
@@ -915,6 +970,9 @@ model AppellantProofOfEvidenceSubmission {
 
   // Uploaded documents and details linked to this proof of evidence
   SubmissionDocumentUpload SubmissionDocumentUpload[]
+
+  // indexes
+  @@index([caseReference])
 }
 
 model Rule6ProofOfEvidenceSubmission {
@@ -941,6 +999,9 @@ model Rule6ProofOfEvidenceSubmission {
 
   // Uploaded documents and details linked to this proof of evidence
   SubmissionDocumentUpload SubmissionDocumentUpload[]
+
+  // indexes
+  @@index([caseReference])
 }
 
 model LPAProofOfEvidenceSubmission {
@@ -963,6 +1024,9 @@ model LPAProofOfEvidenceSubmission {
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
+
+  // indexes
+  @@index([caseReference])
 }
 
 model LPAFinalCommentSubmission {
@@ -986,6 +1050,9 @@ model LPAFinalCommentSubmission {
 
   // Uploaded documents and details linked to this final comment
   SubmissionDocumentUpload SubmissionDocumentUpload[]
+
+  // indexes
+  @@index([caseReference])
 }
 
 model AppellantFinalCommentSubmission {
@@ -1009,6 +1076,9 @@ model AppellantFinalCommentSubmission {
 
   // Uploaded documents and details linked to this final comment
   SubmissionDocumentUpload SubmissionDocumentUpload[]
+
+  // indexes
+  @@index([caseReference])
 }
 
 model SubmissionDocumentUpload {
@@ -1047,6 +1117,17 @@ model SubmissionDocumentUpload {
   location         String
   type             String
   storageId        String @default("")
+
+  // indexes
+  @@index([questionnaireId])
+  @@index([appellantSubmissionId])
+  @@index([lpaStatementId])
+  @@index([appellantFinalCommentId])
+  @@index([lpaFinalCommentId])
+  @@index([appellantProofOfEvidenceId])
+  @@index([lpaProofOfEvidenceId])
+  @@index([rule6ProofOfEvidenceSubmissionId])
+  @@index([rule6StatementSubmissionId])
 }
 
 model SubmissionAddress {
@@ -1066,6 +1147,10 @@ model SubmissionAddress {
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering
   fieldName String
+
+  // indexes
+  @@index([questionnaireId])
+  @@index([appellantSubmissionId])
 }
 
 model SubmissionLinkedCase {
@@ -1081,6 +1166,10 @@ model SubmissionLinkedCase {
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering
   fieldName String
+
+  // indexes
+  @@index([lPAQuestionnaireSubmissionId])
+  @@index([appellantSubmissionId])
 }
 
 model SubmissionListedBuilding {
@@ -1098,6 +1187,10 @@ model SubmissionListedBuilding {
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering
   fieldName String
+
+  // indexes
+  @@index([lPAQuestionnaireSubmissionId])
+  @@index([appellantSubmissionId])
 }
 
 /// Proofs of Evidence, Final Comments, Statements, Planning Obligations and Interested Party Comments
@@ -1122,6 +1215,9 @@ model Representation {
   representationType              String? /// The type of representation, ["statement", "comment", "final_comment", "proofs_evidence", null]
   dateReceived                    DateTime?
   RepresentationDocuments         RepresentationDocument[]
+
+  // indexes
+  @@index([caseReference])
 }
 
 /// Join table to link document to representation
@@ -1130,4 +1226,26 @@ model RepresentationDocument {
   representationId String         @db.UniqueIdentifier
   documentId       String         @db.UniqueIdentifier
   Representation   Representation @relation(fields: [representationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  // indexes
+  @@index([representationId])
+  @@index([documentId])
+}
+
+/// Proofs of Evidence, Final Comments, Statements, Planning Obligations and Interested Party Comments
+/// Received from BO will share this model and table
+model LPA {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  objectId String?
+  lpa19CD  String?
+  lpaCode  String?
+  name     String?
+  email    String?
+  domain   String?
+  inTrial  Boolean
+
+  // indexes
+  @@index([lpaCode])
+  @@index([lpa19CD])
 }

@@ -11,12 +11,13 @@ exports.put = (data) => {
 };
 
 /**
- * @param {string} serviceUserId
+ * @param {string} email
  * @param {string} caseReference
- * @returns {Promise<import("#repositories/sql/service-user-repository").ServiceUserName|null>}
+ * @param {Array.<string>} serviceUserTypes
+ * @returns {Promise<import("#repositories/sql/service-user-repository").ServiceUser|null>}
  */
-exports.getServiceUserByIdAndCaseReference = (serviceUserId, caseReference) => {
-	return serviceUserRepository.getServiceUserByIdAndCaseReference(serviceUserId, caseReference);
+exports.getForEmailCaseAndType = (email, caseReference, serviceUserTypes) => {
+	return serviceUserRepository.getForEmailCaseAndType(email, caseReference, serviceUserTypes);
 };
 
 /**

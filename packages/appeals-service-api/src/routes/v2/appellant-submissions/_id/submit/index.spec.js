@@ -3,7 +3,6 @@ const http = require('http');
 const app = require('../../../../../app');
 const { sendEvents } = require('../../../../../../src/infrastructure/event-client');
 const { createPrismaClient } = require('#db-client');
-const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const crypto = require('crypto');
 
 const server = http.createServer(app);
@@ -90,7 +89,8 @@ const formattedHAS1 = {
 		siteAddressTown: 'Somewhereville',
 		siteAreaSquareMetres: 22,
 		siteSafetyDetails: ["It's dangerous"],
-		isGreenBelt: false
+		isGreenBelt: false,
+		typeOfPlanningApplication: null
 	},
 	documents: [
 		{
@@ -151,7 +151,8 @@ const formattedHAS2 = {
 		siteAddressTown: 'Somewhereville',
 		siteAreaSquareMetres: 25,
 		siteSafetyDetails: ["It's dangerous"],
-		isGreenBelt: false
+		isGreenBelt: false,
+		typeOfPlanningApplication: null
 	},
 	documents: [
 		{
@@ -234,8 +235,9 @@ const formattedS78 = {
 		appellantProcedurePreference: 'inquiry',
 		appellantProcedurePreferenceDetails: 'details',
 		appellantProcedurePreferenceDuration: 13,
-		inquiryHowManyWitnesses: 3,
-		developmentType: null
+		appellantProcedurePreferenceWitnessCount: 3,
+		developmentType: null,
+		typeOfPlanningApplication: null
 	},
 	documents: [
 		{
@@ -276,8 +278,6 @@ let appeal2;
 let appeal3;
 
 beforeAll(async () => {
-	await seedStaticData(sqlClient);
-
 	const user = await sqlClient.appealUser.create({
 		data: { email: crypto.randomUUID() + '@example.com' }
 	});

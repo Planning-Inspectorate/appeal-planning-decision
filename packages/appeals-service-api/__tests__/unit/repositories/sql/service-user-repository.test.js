@@ -13,58 +13,74 @@ describe('ServiceUserRepository', () => {
 		mockReset(mockPrismaClient);
 	});
 
-	describe('getServiceUserByIdAndCaseReference', () => {
-		it('should return service user when found', async () => {
-			const serviceUserId = 'user-id';
+	describe('getForEmailCaseAndType', () => {
+		it('should return service users for given email, case reference and types', async () => {
+			const email = 'test@example.com';
 			const caseReference = 'case-ref';
-			const expectedUser = { firstName: 'John', lastName: 'Doe' };
+			const serviceUserTypes = [SERVICE_USER_TYPE.APPELLANT, SERVICE_USER_TYPE.AGENT];
+			const expectedUsers = {
+				firstName: 'John',
+				lastName: 'Doe',
+				emailAddress: email,
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+				id: '123'
+			};
 
-			mockPrismaClient.serviceUser.findFirst.mockResolvedValue(expectedUser);
+			mockPrismaClient.serviceUser.findFirst.mockResolvedValue(expectedUsers);
 
-			const result = await repository.getServiceUserByIdAndCaseReference(
-				serviceUserId,
-				caseReference
+			const result = await repository.getForEmailCaseAndType(
+				email,
+				caseReference,
+				serviceUserTypes
 			);
 
-			expect(result).toEqual(expectedUser);
+			expect(result).toEqual(expectedUsers);
 			expect(mockPrismaClient.serviceUser.findFirst).toHaveBeenCalledWith({
 				where: {
-					AND: {
-						id: serviceUserId,
-						caseReference
-					}
+					OR: serviceUserTypes.map((type) => ({
+						emailAddress: email,
+						caseReference,
+						serviceUserType: type
+					}))
 				},
 				select: {
+					emailAddress: true,
+					serviceUserType: true,
+					id: true,
 					firstName: true,
-					lastName: true,
-					serviceUserType: true
+					lastName: true
 				}
 			});
 		});
 
-		it('should return null when service user not found', async () => {
-			const serviceUserId = 'user-id';
+		it('should return null when no service user found', async () => {
+			const email = 'test@example.com';
 			const caseReference = 'case-ref';
+			const serviceUserTypes = [SERVICE_USER_TYPE.APPELLANT, SERVICE_USER_TYPE.AGENT];
 
 			mockPrismaClient.serviceUser.findFirst.mockResolvedValue(null);
 
-			const result = await repository.getServiceUserByIdAndCaseReference(
-				serviceUserId,
-				caseReference
+			const result = await repository.getForEmailCaseAndType(
+				email,
+				caseReference,
+				serviceUserTypes
 			);
 
-			expect(result).toBeNull();
+			expect(result).toEqual(null);
 			expect(mockPrismaClient.serviceUser.findFirst).toHaveBeenCalledWith({
 				where: {
-					AND: {
-						id: serviceUserId,
-						caseReference
-					}
+					OR: serviceUserTypes.map((type) => ({
+						emailAddress: email,
+						caseReference,
+						serviceUserType: type
+					}))
 				},
 				select: {
+					emailAddress: true,
+					serviceUserType: true,
+					id: true,
 					firstName: true,
-					lastName: true,
-					serviceUserType: true
+					lastName: true
 				}
 			});
 		});

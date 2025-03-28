@@ -147,7 +147,7 @@ describe('constraintsRows', () => {
 		expect(rows[0].keyText).toEqual('Is this the correct type of appeal');
 		expect(rows[0].valueText).toEqual('No');
 
-		expect(rows[1].condition()).toEqual(false);
+		expect(rows[1].condition()).toEqual(true);
 		expect(rows[1].keyText).toEqual('Changes a listed building');
 		expect(rows[1].valueText).toEqual('No');
 
@@ -155,7 +155,7 @@ describe('constraintsRows', () => {
 		expect(rows[2].keyText).toEqual('Listed building details');
 		expect(rows[2].valueText).toEqual('');
 
-		expect(rows[3].condition()).toEqual(false);
+		expect(rows[3].condition()).toEqual(true);
 		expect(rows[3].keyText).toEqual('Affects a listed building');
 		expect(rows[3].valueText).toEqual('No');
 
@@ -219,9 +219,9 @@ describe('constraintsRows', () => {
 		const rows = constraintsRows({ appealTypeCode: CASE_TYPES.S78.processCode, Documents: [] });
 		expect(rows.length).toEqual(17);
 		expect(rows[0].condition()).toEqual(false);
-		expect(rows[1].condition()).toEqual(false);
+		expect(rows[1].condition()).toEqual(true);
 		expect(rows[2].condition()).toEqual(false);
-		expect(rows[3].condition()).toEqual(false);
+		expect(rows[3].condition()).toEqual(true);
 		expect(rows[4].condition()).toEqual(false);
 		expect(rows[5].condition()).toEqual(false);
 		expect(rows[6].condition()).toEqual(true);
@@ -283,7 +283,7 @@ describe('constraintsRows', () => {
 		expect(rows[0].keyText).toEqual('Is this the correct type of appeal');
 		expect(rows[0].valueText).toEqual('Yes');
 
-		expect(rows[1].condition()).toEqual(true);
+		expect(rows[1].condition()).toEqual(false);
 		expect(rows[1].keyText).toEqual('Changes a listed building');
 		expect(rows[1].valueText).toEqual('Yes');
 

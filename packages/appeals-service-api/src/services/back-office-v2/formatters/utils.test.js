@@ -193,6 +193,39 @@ describe('utils.js', () => {
 				organisation: null
 			});
 		});
+
+		it('should return include provided address for formatted ip new user', () => {
+			const data = {
+				id: '123',
+				caseReference: '987',
+				firstName: 'Testy',
+				lastName: 'McTest',
+				addressLine1: 'test',
+				addressLine2: 'test2',
+				townCity: 'test3',
+				county: 'test4',
+				postcode: 'test5',
+				emailAddress: 'testEmail@test.com',
+				comments: 'some test comments',
+				createdAt: new Date(),
+				AppealCase: { LPACode: 'test456', appealTypeCode: 'S78' }
+			};
+			const result = createInterestedPartyNewUser(data);
+			expect(result).toEqual({
+				salutation: null,
+				firstName: 'Testy',
+				lastName: 'McTest',
+				emailAddress: 'testEmail@test.com',
+				serviceUserType: SERVICE_USER_TYPE.INTERESTED_PARTY,
+				telephoneNumber: null,
+				organisation: null,
+				addressLine1: data.addressLine1,
+				addressLine2: data.addressLine2,
+				addressTown: data.townCity,
+				addressCounty: data.county,
+				addressPostcode: data.postcode
+			});
+		});
 	});
 
 	describe('getDevelopmentType', () => {

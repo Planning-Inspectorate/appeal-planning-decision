@@ -1,8 +1,9 @@
 const supertest = require('supertest');
 const app = require('../../../../../app');
 const { createPrismaClient } = require('../../../../../db/db-client');
-const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { APPEAL_USER_ROLES, REPRESENTATION_TYPES } = require('@pins/common/src/constants');
+const { SERVICE_USER_TYPE } = require('pins-data-model');
+
 const crypto = require('crypto');
 const {
 	createTestAppealCase
@@ -59,6 +60,11 @@ jest.mock('@pins/common/src/middleware/validate-token', () => {
 });
 
 jest.setTimeout(30000);
+
+const testCase1 = '7845678';
+const testCase2 = '7834587';
+const testCase3 = '7834588';
+
 beforeAll(async () => {
 	///////////////////////////////
 	///// SETUP TEST DATABASE ////
@@ -68,12 +74,36 @@ beforeAll(async () => {
 	///// SETUP APP ////
 	///////////////////
 	appealsApi = supertest(app);
-	await seedStaticData(sqlClient);
+	const email = crypto.randomUUID() + '@example.com';
 	const user = await sqlClient.appealUser.create({
 		data: {
-			email: crypto.randomUUID() + '@example.com',
-			serviceUserId: 'userID'
+			email
 		}
+	});
+	await sqlClient.serviceUser.createMany({
+		data: [
+			{
+				internalId: crypto.randomUUID(),
+				emailAddress: email,
+				id: crypto.randomUUID(),
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+				caseReference: testCase1
+			},
+			{
+				internalId: crypto.randomUUID(),
+				emailAddress: email,
+				id: crypto.randomUUID(),
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+				caseReference: testCase2
+			},
+			{
+				internalId: crypto.randomUUID(),
+				emailAddress: email,
+				id: crypto.randomUUID(),
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+				caseReference: testCase3
+			}
+		]
 	});
 	validUser = user.id;
 });
@@ -116,21 +146,20 @@ describe('/appeal-cases/{caseReference}/representations', () => {
 	describe('put', () => {
 		it('should upsert a representation', async () => {
 			const testRepId = '12345';
-			const testCaseRef = '7845678';
 
-			await createAppeal(testCaseRef);
+			await createAppeal(testCase1);
 
 			const testPutRepresentation = createTestRepresentationPayload(
 				testRepId,
-				testCaseRef,
+				testCase1,
 				REPRESENTATION_TYPES.STATEMENT
 			);
 
 			const response = await appealsApi
-				.put(`/api/v2/appeal-cases/${testCaseRef}/representations/${testRepId}`)
+				.put(`/api/v2/appeal-cases/${testCase1}/representations/${testRepId}`)
 				.send(testPutRepresentation);
 			expect(response.status).toBe(200);
-			expect(response.body).toHaveProperty('caseReference', testCaseRef);
+			expect(response.body).toHaveProperty('caseReference', testCase1);
 			expect(response.body).toHaveProperty('representationId', testRepId);
 			const repDocs = await sqlClient.representationDocument.findMany({
 				where: {
@@ -143,44 +172,43 @@ describe('/appeal-cases/{caseReference}/representations', () => {
 
 	describe('get', () => {
 		it('should retrieve all representations for the given case reference', async () => {
-			const testCaseRef = '7834587';
 			const testRepId1 = '23456';
 			const testRepId2 = '34567';
-			await createAppeal(testCaseRef);
+			await createAppeal(testCase2);
 
 			const testGetRepresentation1 = createTestRepresentationPayload(
 				testRepId1,
-				testCaseRef,
+				testCase2,
 				REPRESENTATION_TYPES.STATEMENT
 			);
 			const testGetRepresentation2 = createTestRepresentationPayload(
 				testRepId2,
-				testCaseRef,
+				testCase2,
 				REPRESENTATION_TYPES.FINAL_COMMENT,
 				'citizen'
 			);
 
 			await appealsApi
-				.put(`/api/v2/appeal-cases/${testCaseRef}/representations/${testRepId1}`)
+				.put(`/api/v2/appeal-cases/${testCase2}/representations/${testRepId1}`)
 				.send(testGetRepresentation1);
 
 			await appealsApi
-				.put(`/api/v2/appeal-cases/${testCaseRef}/representations/${testRepId2}`)
+				.put(`/api/v2/appeal-cases/${testCase2}/representations/${testRepId2}`)
 				.send(testGetRepresentation2);
 
-			const response = await appealsApi.get(`/api/v2/appeal-cases/${testCaseRef}/representations`);
+			const response = await appealsApi.get(`/api/v2/appeal-cases/${testCase2}/representations`);
 			expect(response.status).toEqual(200);
 			expect(response.body.Representations.length).toBe(2);
 			expect(response.body.Representations).toEqual(
 				expect.arrayContaining([
 					expect.objectContaining({
-						caseReference: testCaseRef,
+						caseReference: testCase2,
 						representationId: testRepId1,
 						source: 'lpa',
 						representationType: REPRESENTATION_TYPES.STATEMENT
 					}),
 					expect.objectContaining({
-						caseReference: testCaseRef,
+						caseReference: testCase2,
 						representationId: testRepId2,
 						source: 'citizen',
 						representationType: REPRESENTATION_TYPES.FINAL_COMMENT
@@ -190,38 +218,37 @@ describe('/appeal-cases/{caseReference}/representations', () => {
 		});
 
 		it('should retrieve representations filtered by type', async () => {
-			const testCaseRef = '7834588';
 			const testRepId3 = '45678';
 			const testRepId4 = '56789';
-			await createAppeal(testCaseRef);
+			await createAppeal(testCase3);
 
 			const testGetRepresentation3 = createTestRepresentationPayload(
 				testRepId3,
-				testCaseRef,
+				testCase3,
 				REPRESENTATION_TYPES.STATEMENT
 			);
 			const testGetRepresentation4 = createTestRepresentationPayload(
 				testRepId4,
-				testCaseRef,
+				testCase3,
 				REPRESENTATION_TYPES.FINAL_COMMENT,
 				'citizen'
 			);
 
 			await appealsApi
-				.put(`/api/v2/appeal-cases/${testCaseRef}/representations/${testRepId3}`)
+				.put(`/api/v2/appeal-cases/${testCase3}/representations/${testRepId3}`)
 				.send(testGetRepresentation3);
 
 			await appealsApi
-				.put(`/api/v2/appeal-cases/${testCaseRef}/representations/${testRepId4}`)
+				.put(`/api/v2/appeal-cases/${testCase3}/representations/${testRepId4}`)
 				.send(testGetRepresentation4);
 
 			const response = await appealsApi.get(
-				`/api/v2/appeal-cases/${testCaseRef}/representations?type=statement`
+				`/api/v2/appeal-cases/${testCase3}/representations?type=statement`
 			);
 			expect(response.status).toEqual(200);
 			expect(response.body.Representations.length).toBe(1);
 			expect(response.body.Representations[0]).toMatchObject({
-				caseReference: testCaseRef,
+				caseReference: testCase3,
 				representationId: testRepId3,
 				representationType: REPRESENTATION_TYPES.STATEMENT
 			});

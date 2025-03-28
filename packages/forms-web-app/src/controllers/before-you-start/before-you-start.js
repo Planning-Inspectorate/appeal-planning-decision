@@ -7,5 +7,5 @@ exports.getBeforeYouStartFirstPage = async (_, res) => {
 
 exports.postBeforeYouStartFirstPage = async (req, res) => {
 	req.session.appeal = undefined;
-	res.redirect('/before-you-start/local-planning-department');
+	res.redirect('/before-you-start/local-planning-authority');
 };

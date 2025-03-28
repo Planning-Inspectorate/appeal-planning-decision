@@ -5,7 +5,7 @@ const { SchemaValidator } = require('./validate');
 const { isFeatureActive } = require('../../configuration/featureFlag');
 
 const { getUserById } = require('../../routes/v2/users/service');
-const { getServiceUserByIdAndCaseReference } = require('../../routes/v2/service-users/service');
+const { getForEmailCaseAndType } = require('../../routes/v2/service-users/service');
 
 const { markAppealAsSubmitted } = require('../../routes/v2/appellant-submissions/_id/service');
 const {
@@ -99,7 +99,7 @@ describe('BackOfficeV2Service', () => {
 	beforeEach(() => {
 		backOfficeV2Service = new BackOfficeV2Service();
 		getUserById.mockResolvedValue(mockUser);
-		getServiceUserByIdAndCaseReference.mockResolvedValue(mockServiceUser);
+		getForEmailCaseAndType.mockResolvedValue(mockServiceUser);
 		isFeatureActive.mockResolvedValue(true);
 		mockValidator.mockReturnValue(true);
 	});
@@ -486,32 +486,22 @@ describe('BackOfficeV2Service', () => {
 			);
 		});
 
-		it('should handle no service user details', async () => {
+		it('should error if no service user details', async () => {
 			getAppellantFinalCommentByAppealId.mockResolvedValue(mockAppealFinalComment);
-			getServiceUserByIdAndCaseReference.mockResolvedValue(null);
+			getForEmailCaseAndType.mockResolvedValue(null);
 
-			await backOfficeV2Service.submitAppellantFinalCommentSubmission(
-				testCaseRef,
-				testUserID,
-				mockAppealFinalCommentFormatter
-			);
-
-			expect(getAppellantFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
-			expect(getUserById).toHaveBeenCalledWith(testUserID);
-			expect(markAppellantFinalCommentAsSubmitted).toHaveBeenCalledWith(
-				testCaseRef,
-				expect.any(String)
-			);
-			expect(sendAppellantFinalCommentSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
-				mockAppealFinalComment,
-				mockUser.email,
-				'Appellant'
-			);
+			await expect(
+				backOfficeV2Service.submitAppellantFinalCommentSubmission({
+					testCaseRef,
+					testUserID,
+					mockAppealFinalCommentFormatter
+				})
+			).rejects.toThrow(`cannot find appellant service user`);
 		});
 
 		it('should handle service user with no name', async () => {
 			getAppellantFinalCommentByAppealId.mockResolvedValue(mockAppealFinalComment);
-			getServiceUserByIdAndCaseReference.mockResolvedValue({});
+			getForEmailCaseAndType.mockResolvedValue({});
 
 			await backOfficeV2Service.submitAppellantFinalCommentSubmission(
 				testCaseRef,
@@ -576,32 +566,22 @@ describe('BackOfficeV2Service', () => {
 			);
 		});
 
-		it('should handle no service user details', async () => {
+		it('should error if no service user', async () => {
 			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockAppellantProofs);
-			getServiceUserByIdAndCaseReference.mockResolvedValue(null);
+			getForEmailCaseAndType.mockResolvedValue(null);
 
-			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(
-				testCaseRef,
-				testUserID,
-				mockAppellantProofsFormatter
-			);
-
-			expect(getAppellantProofOfEvidenceByAppealId).toHaveBeenCalledWith(testCaseRef);
-			expect(getUserById).toHaveBeenCalledWith(testUserID);
-			expect(markAppellantProofOfEvidenceAsSubmitted).toHaveBeenCalledWith(
-				testCaseRef,
-				expect.any(String)
-			);
-			expect(sendAppellantProofEvidenceSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
-				mockAppellantProofs,
-				mockUser.email,
-				'Appellant'
-			);
+			await expect(
+				backOfficeV2Service.submitAppellantProofEvidenceSubmission(
+					testCaseRef,
+					testUserID,
+					mockAppellantProofsFormatter
+				)
+			).rejects.toThrow(`cannot find appellant service user`);
 		});
 
 		it('should handle service user with no name', async () => {
 			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockAppellantProofs);
-			getServiceUserByIdAndCaseReference.mockResolvedValue({});
+			getForEmailCaseAndType.mockResolvedValue({});
 
 			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(
 				testCaseRef,

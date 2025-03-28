@@ -4,10 +4,6 @@ import { isEmailLike } from '../validators/email.js';
 
 import Repository from './repository.js';
 const repo = new Repository();
-
-/** @type {Map<string, Account>} **/
-const store = new Map(); // user store cache, updates made outside of this class won't be reflected in tokens
-
 class Account {
 	/**
 	 * @param {string} id
@@ -17,7 +13,6 @@ class Account {
 		user.email = user.email?.trim();
 		this.accountId = id;
 		this.user = user;
-		store.set(this.user.email, this);
 	}
 
 	async enrolUser() {
@@ -70,8 +65,6 @@ class Account {
 	 * @returns {Promise<Account>}
 	 */ // eslint-disable-next-line no-unused-vars
 	static async findAccount(ctx, id, token) {
-		if (store.get(id)) return store.get(id);
-
 		let user;
 
 		if (isEmailLike(id)) {

@@ -463,7 +463,8 @@ exports.appellantStartAppeal = async (req, res) => {
 		appealTypeCode: appealTypeDetails.appealTypeCode,
 		applicationDecisionDate: appeal.decisionDate,
 		applicationReference: appeal.planningApplicationNumber,
-		applicationDecision: appeal.eligibility.applicationDecision
+		applicationDecision: appeal.eligibility.applicationDecision,
+		typeOfPlanningApplication: appeal.typeOfPlanningApplication
 	});
 
 	await deleteAppeal(appeal.id);
@@ -493,6 +494,8 @@ exports.submitAppellantSubmission = async (req, res) => {
 			return 'householder';
 		} else if (journeyId === 's78-appeal-form') {
 			return 'full-planning';
+		} else if (journeyId === 's20-appeal-form') {
+			return 'listed-building';
 		} else return '';
 	};
 

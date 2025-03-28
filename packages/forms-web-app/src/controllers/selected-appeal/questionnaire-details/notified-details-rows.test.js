@@ -3,6 +3,13 @@ const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-sta
 const { notifiedRows } = require('./notified-details-rows');
 
 describe('notifiedDetailsRows', () => {
+	const whoNotifiedRow = 0;
+	const typeRow = 1;
+	const noticeRow = 2;
+	const letterRow = 3;
+	const advertRow = 4;
+	const appealNotificatonRow = 5;
+
 	it('should create rows with correct data if relevant case data fields exist and files uploaded/field values otherwise populated', () => {
 		const caseData = {
 			AppealCaseLpaNotificationMethod: [
@@ -34,46 +41,60 @@ describe('notifiedDetailsRows', () => {
 					id: '12348',
 					filename: 'press.pdf',
 					redacted: true
+				},
+				{
+					documentType: APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION,
+					id: '12349',
+					filename: 'appeal-notifcation.pdf',
+					redacted: true
 				}
 			]
 		};
 
 		const rows = notifiedRows(caseData);
 
-		expect(rows.length).toEqual(5);
-		expect(rows[0].condition()).toEqual(true);
-		expect(rows[0].keyText).toEqual('Who was notified');
-		expect(rows[0].valueText).toEqual(
+		expect(rows.length).toEqual(6);
+
+		expect(rows[whoNotifiedRow].condition()).toEqual(true);
+		expect(rows[whoNotifiedRow].keyText).toEqual('Who was notified');
+		expect(rows[whoNotifiedRow].valueText).toEqual(
 			'<a href="/published-document/12345" class="govuk-link">whonotified1.pdf</a>'
 		);
-		expect(rows[0].isEscaped).toEqual(true);
+		expect(rows[whoNotifiedRow].isEscaped).toEqual(true);
 
-		expect(rows[1].condition()).toEqual(true);
-		expect(rows[1].keyText).toEqual('Type of Notification');
-		expect(rows[1].valueText).toEqual(
+		expect(rows[typeRow].condition()).toEqual(true);
+		expect(rows[typeRow].keyText).toEqual('Type of Notification');
+		expect(rows[typeRow].valueText).toEqual(
 			'A site notice\nLetter/email to interested parties\nA press advert'
 		);
 
-		expect(rows[2].condition()).toEqual(true);
-		expect(rows[2].keyText).toEqual('Site notice');
-		expect(rows[2].valueText).toEqual(
+		expect(rows[noticeRow].condition()).toEqual(true);
+		expect(rows[noticeRow].keyText).toEqual('Site notice');
+		expect(rows[noticeRow].valueText).toEqual(
 			'<a href="/published-document/12346" class="govuk-link">sitenotice1.pdf</a>'
 		);
-		expect(rows[2].isEscaped).toEqual(true);
+		expect(rows[noticeRow].isEscaped).toEqual(true);
 
-		expect(rows[3].condition()).toEqual(true);
-		expect(rows[3].keyText).toEqual('Letter sent to neighbours');
-		expect(rows[3].valueText).toEqual(
+		expect(rows[letterRow].condition()).toEqual(true);
+		expect(rows[letterRow].keyText).toEqual('Letter sent to neighbours');
+		expect(rows[letterRow].valueText).toEqual(
 			'<a href="/published-document/12347" class="govuk-link">neighbours.pdf</a>'
 		);
-		expect(rows[3].isEscaped).toEqual(true);
+		expect(rows[letterRow].isEscaped).toEqual(true);
 
-		expect(rows[4].condition()).toEqual(true);
-		expect(rows[4].keyText).toEqual('Press advert');
-		expect(rows[4].valueText).toEqual(
+		expect(rows[advertRow].condition()).toEqual(true);
+		expect(rows[advertRow].keyText).toEqual('Press advert');
+		expect(rows[advertRow].valueText).toEqual(
 			'<a href="/published-document/12348" class="govuk-link">press.pdf</a>'
 		);
-		expect(rows[4].isEscaped).toEqual(true);
+		expect(rows[advertRow].isEscaped).toEqual(true);
+
+		expect(rows[appealNotificatonRow].condition()).toEqual(true);
+		expect(rows[appealNotificatonRow].keyText).toEqual('Appeal notification letter');
+		expect(rows[appealNotificatonRow].valueText).toEqual(
+			'<a href="/published-document/12349" class="govuk-link">appeal-notifcation.pdf</a>'
+		);
+		expect(rows[appealNotificatonRow].isEscaped).toEqual(true);
 	});
 
 	it('should not display if no fields/files exist', () => {
@@ -82,11 +103,12 @@ describe('notifiedDetailsRows', () => {
 			Documents: []
 		});
 
-		expect(rows.length).toEqual(5);
-		expect(rows[0].condition()).toEqual(false);
-		expect(rows[1].condition()).toEqual(false);
-		expect(rows[2].condition()).toEqual(false);
-		expect(rows[3].condition()).toEqual(false);
-		expect(rows[4].condition()).toEqual(false);
+		expect(rows.length).toEqual(6);
+		expect(rows[whoNotifiedRow].condition()).toEqual(false);
+		expect(rows[typeRow].condition()).toEqual(false);
+		expect(rows[noticeRow].condition()).toEqual(false);
+		expect(rows[letterRow].condition()).toEqual(false);
+		expect(rows[advertRow].condition()).toEqual(false);
+		expect(rows[appealNotificatonRow].condition()).toEqual(false);
 	});
 });

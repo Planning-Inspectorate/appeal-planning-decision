@@ -45,6 +45,12 @@ exports.notifiedRows = (caseData) => {
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_PRESS_ADVERT),
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_PRESS_ADVERT),
 			isEscaped: true
+		},
+		{
+			keyText: 'Appeal notification letter',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION),
+			isEscaped: true
 		}
 	];
 };

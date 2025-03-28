@@ -10,6 +10,7 @@ const lpaOwner = 'LPAUser';
 const appellantOwner = 'Appellant';
 const pinsOwner = 'PINs';
 const rule6Owner = 'Rule6Party';
+const interestedParty = 'InterestedParty';
 const { CASE_TYPES } = require('./database/data-static');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
@@ -20,7 +21,7 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
  * @property {boolean} multiple if this is a multi-file or single-file upload
  * @property {string} [displayName] a user friendly name for the doc type, has been defined on all docs
  * @property {'LPA'|'Appellant'|''} involvement currently unsure what this is used for?
- * @property {function(string): 'LPAUser'|'Appellant'|'PINs'|'Rule6Party'} owner who owns/uploads this document type
+ * @property {function(string): 'LPAUser'|'Appellant'|'PINs'|'Rule6Party'|'InterestedParty'} owner who owns/uploads this document type
  * @property {boolean} publiclyAccessible if, when published, this document can be accessed without a user needing to log in
  * @property {string} horizonDocumentType name used in horizon
  * @property {string} horizonDocumentGroupType group type used in horizon
@@ -774,6 +775,17 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	interestedPartyComment: {
+		name: 'interestedPartyComment',
+		dataModelName: APPEAL_DOCUMENT_TYPE.INTERESTED_PARTY_COMMENT,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => interestedParty,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon

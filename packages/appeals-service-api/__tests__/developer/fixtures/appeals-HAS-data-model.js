@@ -7,6 +7,7 @@ const exampleHASDataModel = {
 	caseStatus: 'assign_case_officer',
 	caseType: 'D',
 	caseProcedure: 'written',
+	developmentType: 'major-industry-storage',
 	lpaCode: 'qui',
 	caseOfficerId: 'asfasg',
 	inspectorId: 'abc',

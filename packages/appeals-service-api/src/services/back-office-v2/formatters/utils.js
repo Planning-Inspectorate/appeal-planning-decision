@@ -218,6 +218,16 @@ function isValidYesNoSomeKey(key) {
  * @returns {IPNewUser}
  */
 exports.createInterestedPartyNewUser = (interestedPartySubmission) => {
+	let address = {};
+	if (interestedPartySubmission.addressLine1) {
+		address = {
+			addressLine1: interestedPartySubmission.addressLine1,
+			addressLine2: interestedPartySubmission.addressLine2,
+			addressTown: interestedPartySubmission.townCity,
+			addressCounty: interestedPartySubmission.county,
+			addressPostcode: interestedPartySubmission.postcode
+		};
+	}
 	return {
 		salutation: null,
 		firstName: interestedPartySubmission.firstName,
@@ -225,7 +235,8 @@ exports.createInterestedPartyNewUser = (interestedPartySubmission) => {
 		emailAddress: interestedPartySubmission.emailAddress,
 		telephoneNumber: null,
 		organisation: null,
-		serviceUserType: SERVICE_USER_TYPE.INTERESTED_PARTY
+		serviceUserType: SERVICE_USER_TYPE.INTERESTED_PARTY,
+		...address
 	};
 };
 
@@ -258,6 +269,7 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
 	return {
 		submissionId: appellantSubmission.appealId,
 		caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
+		typeOfPlanningApplication: appellantSubmission.typeOfPlanningApplication ?? null,
 		lpaCode: lpa.getLpaCode(),
 		caseSubmittedDate: new Date().toISOString(),
 		enforcementNotice: false, // this will eventually come from before you start
@@ -338,7 +350,7 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
 
 /**
  * @param {FullAppellantSubmission} appellantSubmission
- * @returns {{appellantProcedurePreference: 'written'|'hearing'|'inquiry', appellantProcedurePreferenceDetails: string|null, appellantProcedurePreferenceDuration: Number|null, inquiryHowManyWitnesses: Number|null}}
+ * @returns {{appellantProcedurePreference: 'written'|'hearing'|'inquiry', appellantProcedurePreferenceDetails: string|null, appellantProcedurePreferenceDuration: Number|null, appellantProcedurePreferenceWitnessCount: Number|null}}
  */
 const getAppellantProcedurePreference = (appellantSubmission) => {
 	switch (appellantSubmission.appellantProcedurePreference) {
@@ -347,14 +359,14 @@ const getAppellantProcedurePreference = (appellantSubmission) => {
 				appellantProcedurePreference: APPEAL_LPA_PROCEDURE_PREFERENCE.WRITTEN,
 				appellantProcedurePreferenceDetails: null,
 				appellantProcedurePreferenceDuration: null,
-				inquiryHowManyWitnesses: null
+				appellantProcedurePreferenceWitnessCount: null
 			};
 		case APPEAL_CASE_PROCEDURE.HEARING:
 			return {
 				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.HEARING,
 				appellantProcedurePreferenceDetails: appellantSubmission.appellantPreferHearingDetails,
 				appellantProcedurePreferenceDuration: null,
-				inquiryHowManyWitnesses: null
+				appellantProcedurePreferenceWitnessCount: null
 			};
 		case APPEAL_CASE_PROCEDURE.INQUIRY:
 			return {
@@ -362,7 +374,9 @@ const getAppellantProcedurePreference = (appellantSubmission) => {
 				appellantProcedurePreferenceDetails: appellantSubmission.appellantPreferInquiryDetails,
 				appellantProcedurePreferenceDuration:
 					Number(appellantSubmission.appellantPreferInquiryDuration) || null,
-				inquiryHowManyWitnesses: Number(appellantSubmission.appellantPreferInquiryWitnesses)
+				appellantProcedurePreferenceWitnessCount: Number(
+					appellantSubmission.appellantPreferInquiryWitnesses
+				)
 			};
 		default:
 			throw new Error('unknown appellantProcedurePreference');
@@ -430,7 +444,12 @@ exports.getCommonLPAQSubmissionFields = (caseReference, answers) => ({
 		? [answers.lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails]
 		: null,
 	neighbouringSiteAddresses: answers.SubmissionAddress?.filter((address) => {
-		return address.fieldName === 'neighbourSiteAddress';
+		return (
+			address.fieldName === 'neighbourSiteAddress' &&
+			address.addressLine1 &&
+			address.townCity &&
+			address.postcode
+		);
 	}).map((address) => {
 		return {
 			neighbouringSiteAddressLine1: address.addressLine1,
@@ -442,13 +461,16 @@ exports.getCommonLPAQSubmissionFields = (caseReference, answers) => ({
 			neighbouringSiteSafetyDetails: null // not asked
 		};
 	}),
+	reasonForNeighbourVisits: answers.neighbourSiteAccess_neighbourSiteAccessDetails
+		? answers.neighbourSiteAccess_neighbourSiteAccessDetails
+		: null,
 	nearbyCaseReferences: answers.SubmissionLinkedCase?.map(({ caseReference }) => caseReference)
 });
 
 /**
  *
  * @param {import('@prisma/client').SubmissionListedBuilding[]} listedBuildings
- * @param {string} type
+ * @param {import('@pins/common/src/dynamic-forms/field-names').DynamicFormFieldName} type
  * @returns {string[]}
  */
 const getListedBuildingByType = (listedBuildings, type) => {

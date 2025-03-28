@@ -1,10 +1,9 @@
 const supertest = require('supertest');
 const app = require('../../../../../../app');
 const { createPrismaClient } = require('../../../../../../db/db-client');
-const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE, SERVICE_USER_TYPE } = require('pins-data-model');
 const crypto = require('crypto');
 const {
 	createTestAppealCase
@@ -66,12 +65,29 @@ beforeAll(async () => {
 	///// SETUP APP ////
 	///////////////////
 	appealsApi = supertest(app);
-	await seedStaticData(sqlClient);
+	const email = crypto.randomUUID() + '@example.com';
 	const user = await sqlClient.appealUser.create({
 		data: {
-			email: crypto.randomUUID() + '@example.com',
-			serviceUserId: testServiceUserId
+			email
 		}
+	});
+	await sqlClient.serviceUser.createMany({
+		data: [
+			{
+				internalId: crypto.randomUUID(),
+				emailAddress: email,
+				id: testServiceUserId,
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+				caseReference: '207'
+			},
+			{
+				internalId: crypto.randomUUID(),
+				emailAddress: email,
+				id: testServiceUserId,
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+				caseReference: '208'
+			}
+		]
 	});
 	validUser = user.id;
 });
@@ -164,6 +180,7 @@ const formattedProofs2 = {
 		}
 	]
 };
+
 describe('/api/v2/appeal-cases/:caseReference/appellant-proof-evidence-submission/submit', () => {
 	it('Formats S78 appellant proof of evidence submission with one doc type for case 207', async () => {
 		utils.getDocuments.mockReturnValue([

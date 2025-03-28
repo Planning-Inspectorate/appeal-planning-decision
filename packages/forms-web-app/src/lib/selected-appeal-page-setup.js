@@ -56,17 +56,9 @@ const getFinalCommentUserGroup = (url, user, userType) => {
 		return APPEAL_USER_ROLES.APPELLANT;
 	} else if (user.lpaCode && url.includes('final-comments')) {
 		return LPA_USER_ROLE;
-	} else if (
-		user.serviceUserId &&
-		userType === APPEAL_USER_ROLES.APPELLANT &&
-		url.includes('final-comments')
-	) {
+	} else if (userType === APPEAL_USER_ROLES.APPELLANT && url.includes('final-comments')) {
 		return APPEAL_USER_ROLES.APPELLANT;
-	} else if (
-		user.serviceUserId &&
-		userType === APPEAL_USER_ROLES.RULE_6_PARTY &&
-		url.includes('final-comments') // cant see the copy deck for this
-	) {
+	} else if (userType === APPEAL_USER_ROLES.RULE_6_PARTY && url.includes('final-comments')) {
 		return APPEAL_USER_ROLES.RULE_6_PARTY;
 	} else {
 		throw new Error('Unable to determine final comment type');
@@ -101,11 +93,7 @@ const getStatementType = (url, user, userType) => {
 		return STATEMENT_TYPE.LPA;
 	} else if (user.lpaCode && url.includes('statement')) {
 		return STATEMENT_TYPE.LPA;
-	} else if (
-		user.serviceUserId &&
-		userType === APPEAL_USER_ROLES.RULE_6_PARTY &&
-		url.includes('statement')
-	) {
+	} else if (userType === APPEAL_USER_ROLES.RULE_6_PARTY && url.includes('statement')) {
 		return STATEMENT_TYPE.RULE_6;
 	} else {
 		throw new Error('Unable to determine statement type');
