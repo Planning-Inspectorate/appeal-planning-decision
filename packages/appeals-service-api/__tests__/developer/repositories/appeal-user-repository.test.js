@@ -45,8 +45,7 @@ it('should create user with given details', async () => {
 
 	delete user.id;
 	expect(user).toEqual({
-		...TEST_USER,
-		serviceUserId: null
+		...TEST_USER
 	});
 });
 
@@ -62,8 +61,7 @@ it('should get user with email', async () => {
 
 	delete user.id;
 	expect(user).toEqual({
-		...TEST_USER,
-		serviceUserId: null
+		...TEST_USER
 	});
 });
 
