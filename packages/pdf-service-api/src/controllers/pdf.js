@@ -6,7 +6,8 @@ const postGeneratePdf = async (req, res) => {
 		body: { html }
 	} = req;
 
-	logger.info({ body: req.body }, 'POST request to generate pdf');
+	logger.info('POST request to generate pdf');
+	logger.debug({ body: req.body }, 'html to convert to pdf:');
 
 	try {
 		const pdfBuffer = await generatePdf(html);

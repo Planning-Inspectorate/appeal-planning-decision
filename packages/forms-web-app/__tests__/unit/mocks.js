@@ -8,7 +8,8 @@ const mockReq = (appeal = householderAppeal) => ({
 	params: {},
 	session: {
 		appeal
-	}
+	},
+	headers: {}
 });
 
 const mockReqWithApiClient = (appeal = householderAppeal) => ({

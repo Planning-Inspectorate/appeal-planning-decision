@@ -52,8 +52,8 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 			const mockRequest = {
 				...req,
 				body: {},
-				cookies: {
-					['connect.sid']: 'test'
+				headers: {
+					cookie: "connect.sid='test'"
 				}
 			};
 
@@ -68,7 +68,11 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(storePdfAppeal).toHaveBeenCalledWith({ appeal, fileName, sid: 'test' });
+			expect(storePdfAppeal).toHaveBeenCalledWith({
+				appeal,
+				fileName,
+				cookieString: mockRequest.headers.cookie
+			});
 
 			expect(submitAppealForBackOfficeProcessing).toHaveBeenCalledWith({
 				...appeal,
@@ -93,8 +97,8 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 			const mockRequest = {
 				...req,
 				body: {},
-				cookies: {
-					['connect.sid']: 'test'
+				headers: {
+					cookie: "connect.sid='test'"
 				}
 			};
 
@@ -109,7 +113,11 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
 			expect(submitAppealForBackOfficeProcessing).not.toHaveBeenCalled();
 
-			expect(storePdfAppeal).toHaveBeenCalledWith({ appeal, fileName, sid: 'test' });
+			expect(storePdfAppeal).toHaveBeenCalledWith({
+				appeal,
+				fileName,
+				cookieString: mockRequest.headers.cookie
+			});
 
 			expect(res.render).toHaveBeenCalledWith(DECLARATION, {
 				errors: {},

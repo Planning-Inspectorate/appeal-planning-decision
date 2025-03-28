@@ -22,7 +22,7 @@ services:
     command: npm run start
 
   pdf-service-api:
-    profiles: ['all', 'appeals']
+    profiles: ['all', 'appeals', 'pdf']
     image: node:22-alpine
     ports:
       - 3004:3000

@@ -66,8 +66,8 @@ describe('controllers/appellant-submission/submission', () => {
 				body: {
 					'appellant-confirmation': 'i-agree'
 				},
-				cookies: {
-					['connect.sid']: 'test'
+				headers: {
+					cookie: "connect.sid='test'"
 				}
 			};
 
@@ -82,7 +82,10 @@ describe('controllers/appellant-submission/submission', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(storePdfAppeal).toHaveBeenCalledWith({ appeal, sid: 'test' });
+			expect(storePdfAppeal).toHaveBeenCalledWith({
+				appeal,
+				cookieString: mockRequest.headers.cookie
+			});
 
 			expect(submitAppealForBackOfficeProcessing).toHaveBeenCalledWith({
 				...appeal,
@@ -109,8 +112,8 @@ describe('controllers/appellant-submission/submission', () => {
 				body: {
 					'appellant-confirmation': 'i-agree'
 				},
-				cookies: {
-					['connect.sid']: 'test'
+				headers: {
+					cookie: "connect.sid='test'"
 				}
 			};
 
@@ -125,7 +128,10 @@ describe('controllers/appellant-submission/submission', () => {
 
 			expect(submitAppealForBackOfficeProcessing).not.toHaveBeenCalled();
 
-			expect(storePdfAppeal).toHaveBeenCalledWith({ appeal, sid: 'test' });
+			expect(storePdfAppeal).toHaveBeenCalledWith({
+				appeal,
+				cookieString: mockRequest.headers.cookie
+			});
 
 			expect(res.render).toHaveBeenCalledWith(SUBMISSION, {
 				errors: {},

@@ -12,7 +12,6 @@ const {
 	VIEW: { FULL_APPEAL }
 } = require('../lib/full-appeal/views');
 const logger = require('../lib/logger');
-const { CONSTS } = require('../consts');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const { addCSStoHtml } = require('#lib/add-css-to-html');
@@ -36,9 +35,9 @@ const buildAppealUrl = (appeal) => {
 /**
  * @param {string} id -  id for appeal, submission etc
  * @param {string} url - url to fetch HTML from
- * @param {string} sid - session cookie
+ * @param {string} [cookieString] - cookies
  */
-const getHtml = async (id, url, sid) => {
+const getHtml = async (id, url, cookieString) => {
 	const log = logger.child({
 		id,
 		uuid: uuid.v4()
@@ -51,7 +50,7 @@ const getHtml = async (id, url, sid) => {
 
 		const opts = {
 			headers: {
-				cookie: `${CONSTS.SESSION_COOKIE_NAME}=${sid}`
+				cookie: cookieString
 			}
 		};
 
@@ -87,16 +86,16 @@ const getHtml = async (id, url, sid) => {
  * @param {Object} params
  * @param {*} params.appeal - appeal
  * @param {string} [params.fileName] - optional filename
- * @param {string} params.sid - session cookie
+ * @param {string} [params.cookieString] - session cookie
  */
-const storePdfAppeal = async ({ appeal, fileName, sid }) => {
+const storePdfAppeal = async ({ appeal, fileName, cookieString }) => {
 	const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
 
 	log.info('Attempting to store PDF document');
 
 	try {
 		const url = buildAppealUrl(appeal);
-		const htmlContent = await getHtml(appeal.id, url, sid);
+		const htmlContent = await getHtml(appeal.id, url, cookieString);
 
 		log.debug('Generating PDF of appeal');
 
@@ -134,13 +133,13 @@ const typeCodeToAppealUrlStub = {
  * @param {string} params.appellantSubmissionId - appellant Submission Id
  * @param {string} params.appealTypeCode - appeal type code
  * @param {string} [params.fileName] - optional filename
- * @param {string} params.sid - session cookie
+ * @param {string} [params.cookieString] - session cookie
  */
 const storePdfAppellantSubmission = async ({
 	appellantSubmissionId,
 	appealTypeCode,
 	fileName,
-	sid
+	cookieString
 }) => {
 	const log = logger.child({
 		appellantSubmissionId,
@@ -153,7 +152,7 @@ const storePdfAppellantSubmission = async ({
 	const url = buildAppellantSubmissionUrl(appellantSubmissionId, appealTypeCode);
 
 	try {
-		const htmlContent = await getHtml(appellantSubmissionId, url, sid);
+		const htmlContent = await getHtml(appellantSubmissionId, url, cookieString);
 
 		log.debug('Generating PDF of appeal');
 
@@ -197,13 +196,13 @@ const buildAppellantSubmissionUrl = (appellantSubmissionId, appealTypeCode) => {
  * @param {Object} params
  * @param {*} params.submissionJourney - LPA questionnaire submission journey
  * @param {string} [params.fileName] - optional filename
- * @param {string} params.sid - session cookie
+ * @param {string} [params.cookieString] - session cookie
  * @param {string} params.appealTypeUrl - appealType passed from dynamic forms controller
  */
 const storePdfQuestionnaireSubmission = async ({
 	submissionJourney,
 	fileName,
-	sid,
+	cookieString,
 	appealTypeUrl
 }) => {
 	const appealReferenceId = submissionJourney.response.referenceId;
@@ -219,7 +218,7 @@ const storePdfQuestionnaireSubmission = async ({
 	log.info('Attempting to store PDF document');
 
 	try {
-		const htmlContent = await getHtml(submissionJourney, url, sid);
+		const htmlContent = await getHtml(submissionJourney, url, cookieString);
 		const htmlContentWithCSS = await addCSStoHtml(htmlContent);
 
 		log.debug('Generating PDF of questionnaire');

@@ -23,14 +23,14 @@ describe('services/pdf.service', () => {
 	let mockAppeal;
 	let id;
 	let url;
-	let sid;
+	let cookieString;
 	let htmlContent;
 
 	beforeEach(() => {
 		id = '123';
 		mockAppeal = { id };
 		url = '/mock/url';
-		sid = 'test';
+		cookieString = "sid='test'";
 		htmlContent = '<html><h1>Simple html file</h1></html>';
 		fetch.resetMocks();
 	});
@@ -38,23 +38,23 @@ describe('services/pdf.service', () => {
 	describe('getHtml', () => {
 		it('should throw if fetch fails', async () => {
 			fetch.mockReject(new Error('fake error message'));
-			expect(getHtml(id, url, sid)).rejects.toThrow('fake error message');
+			expect(getHtml(id, url, cookieString)).rejects.toThrow('fake error message');
 		});
 
 		it('should throw if the remote API response is not ok', () => {
 			fetch.mockResponse('fake response body', { status: 400 });
-			expect(getHtml(id, url, sid)).rejects.toThrow('Bad Request');
+			expect(getHtml(id, url, cookieString)).rejects.toThrow('Bad Request');
 		});
 
 		it('should throw if the response code is anything other than a 202', async () => {
 			fetch.mockResponse('a response body', { status: 204 });
-			expect(getHtml(id, url, sid)).rejects.toThrow('No Content');
+			expect(getHtml(id, url, cookieString)).rejects.toThrow('No Content');
 		});
 
 		it('should return the expected response if the fetch status is 200', async () => {
 			fetch.mockResponse(htmlContent, { status: 200 });
-			expect(await getHtml(id, url, sid)).toEqual(htmlContent);
-			expect(fetch).toBeCalledWith(url, { headers: { cookie: 'connect.sid=test' } });
+			expect(await getHtml(id, url, cookieString)).toEqual(htmlContent);
+			expect(fetch).toBeCalledWith(url, { headers: { cookie: cookieString } });
 		});
 	});
 
