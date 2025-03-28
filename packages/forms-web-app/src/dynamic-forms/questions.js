@@ -49,7 +49,7 @@ const {
 		stringValidation: {
 			appealReferenceNumber: appealReferenceNumberValidation,
 			listedBuildingNumber: listedBuildingNumberValidation,
-			appealSiteArea: { minValue, maxValue },
+			appealSiteArea: { minValue, maxValue, minValueHectres },
 			numberOfWitnesses: { maxWitnesses },
 			lengthOfInquiry: { minDays, maxDays }
 		}
@@ -1787,11 +1787,7 @@ exports.questionProps = {
 			),
 			new UnitOptionEntryValidator({
 				errorMessage: 'Enter the area of the appeal site',
-				unit: 'Appeal site area',
-				regex: new RegExp(`^[0-9]{0,${appealFormV2.textInputMaxLength}}$`, 'gi'),
-				regexMessage: 'Enter the area of the site using numbers 0 to 9',
-				min: minValue,
-				max: maxValue
+				unit: 'Appeal site area'
 			})
 		],
 		options: [
@@ -1802,6 +1798,16 @@ exports.questionProps = {
 					label: 'Site area, in square metres',
 					fieldName: 'siteAreaSquareMetres_m\u00B2',
 					suffix: 'm\u00B2'
+				},
+				validator: {
+					min: minValue,
+					max: maxValue,
+					regexps: [
+						{
+							regex: new RegExp(`^[0-9]{0,${appealFormV2.textInputMaxLength}}$`, 'gi'),
+							regexMessage: 'Enter the area of the site using numbers 0 to 9'
+						}
+					]
 				}
 			},
 			{
@@ -1812,6 +1818,21 @@ exports.questionProps = {
 					fieldName: 'siteAreaSquareMetres_hectares',
 					suffix: 'ha',
 					conversionFactor: 10000
+				},
+				validator: {
+					min: minValueHectres,
+					max: maxValue,
+					regexps: [
+						{
+							regex: new RegExp('^\\d+(\\.\\d+)?$'),
+							regexMessage: 'Enter the area of the site using numbers 0 to 9'
+						},
+
+						{
+							regex: new RegExp('^\\d+(\\.\\d{1,2})?$'),
+							regexMessage: 'Site area must not include more than 2 decimals, like 30 or 30.12'
+						}
+					]
 				}
 			}
 		]

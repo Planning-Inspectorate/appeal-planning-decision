@@ -43,39 +43,65 @@ class UnitOptionEntryValidator extends BaseValidator {
 					.withMessage(this.errorMessage)
 			);
 
-			if (this.regex) {
-				schema.push(
-					body(option.conditional.fieldName)
-						.if(this.isValueIncluded(questionObj, option.value))
-						.matches(new RegExp(this.regex))
-						.withMessage(this.regexMessage)
-				);
-			}
+			this.validateRegex(schema, option, this.regex, this.regexMessage, questionObj);
 
-			if (this.min !== undefined) {
-				const minMessage = `${this.unit} must be at least ${this.min.toLocaleString()}`;
+			this.validateMin(schema, option, this.min, questionObj);
 
-				schema.push(
-					body(option.conditional.fieldName)
-						.if(this.isValueIncluded(questionObj, option.value))
-						.isFloat({ min: this.min })
-						.withMessage(minMessage)
-				);
-			}
+			this.validateMax(schema, option, this.max, questionObj);
 
-			if (this.max !== undefined) {
-				const maxMessage = `${this.unit} must be ${this.max.toLocaleString()} or less`;
-
-				schema.push(
-					body(option.conditional.fieldName)
-						.if(this.isValueIncluded(questionObj, option.value))
-						.isFloat({ max: this.max })
-						.withMessage(maxMessage)
-				);
+			if (option.validator) {
+				option.validator?.regexps.forEach((regexValidator) => {
+					this.validateRegex(
+						schema,
+						option,
+						regexValidator.regex,
+						regexValidator.regexMessage,
+						questionObj
+					);
+				});
+				this.validateMin(schema, option, option.validator.min, questionObj);
+				this.validateMax(schema, option, option.validator.max, questionObj);
 			}
 
 			return schema;
 		}, []);
+	}
+
+	validateRegex(schema, option, regex, regexMessage, questionObj) {
+		if (regex) {
+			schema.push(
+				body(option.conditional.fieldName)
+					.if(this.isValueIncluded(questionObj, option.value))
+					.matches(new RegExp(regex))
+					.withMessage(regexMessage)
+			);
+		}
+	}
+
+	validateMin(schema, option, min, questionObj) {
+		if (min !== undefined) {
+			const minMessage = `${this.unit} must be at least ${min.toLocaleString()}`;
+
+			schema.push(
+				body(option.conditional.fieldName)
+					.if(this.isValueIncluded(questionObj, option.value))
+					.isFloat({ min: min })
+					.withMessage(minMessage)
+			);
+		}
+	}
+
+	validateMax(schema, option, max, questionObj) {
+		if (max !== undefined) {
+			const maxMessage = `${this.unit} must be ${max.toLocaleString()} or less`;
+			console.log('my value: ', option.value);
+			schema.push(
+				body(option.conditional.fieldName)
+					.if(this.isValueIncluded(questionObj, option.value))
+					.isFloat({ max: max })
+					.withMessage(maxMessage)
+			);
+		}
 	}
 
 	isValueIncluded(questionObj, value) {
