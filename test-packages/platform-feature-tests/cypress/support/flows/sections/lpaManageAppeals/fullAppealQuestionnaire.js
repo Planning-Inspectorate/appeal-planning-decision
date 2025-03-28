@@ -23,15 +23,14 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 	let appealId;
 	let counter = 0;
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-		const rowtext = $row.text();		
+		const rowtext = $row.text();
 		if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
-			if (counter === 1) {				
+			if (counter === 1) {
 				cy.wrap($row).within(() => {
-					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');					
+					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
 					cy.get('a').each(($link) => {
 						if ($link.attr('href')?.includes(lpaManageAppealsData?.todoQuestionnaire)) {
 							appealId = $link.attr('href')?.split('/').pop();
-							cy.log(appealId);							
 							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
 							return false;
 						}
@@ -86,7 +85,7 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 		siteAccess.selectLpaSiteSafetyRisks(context, lpaManageAppealsData);
 		// Appeals Access
 		appealProcess.selectProcedureType(context, lpaManageAppealsData);
-		appealProcess.selectOngoingAppealsNextToSite(context, lpaManageAppealsData,lpaManageAppealsData?.s78AppealType);		
+		appealProcess.selectOngoingAppealsNextToSite(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
 	});
 	// commented for test during coding
