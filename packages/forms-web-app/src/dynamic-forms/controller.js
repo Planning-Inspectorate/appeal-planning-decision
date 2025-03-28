@@ -20,7 +20,6 @@ const { APPEAL_CASE_STAGE } = require('pins-data-model');
 const { PassThrough } = require('node:stream');
 const buildZipFilename = require('#lib/build-zip-filename');
 const { getUserFromSession } = require('../services/user.service');
-const { CONSTS } = require('../consts');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 
 const appealTypeToDetails = {
@@ -339,7 +338,7 @@ exports.submit = async (req, res) => {
 
 	const storedPdf = await storePdfQuestionnaireSubmission({
 		submissionJourney: journey,
-		sid: req.cookies[CONSTS.SESSION_COOKIE_NAME],
+		cookieString: req.headers.cookie,
 		appealTypeUrl: journeyUrl(journeyResponse.journeyId)
 	});
 

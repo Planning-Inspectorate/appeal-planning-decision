@@ -6,7 +6,6 @@ const {
 	}
 } = require('@pins/business-rules');
 const logger = require('../lib/logger');
-const { CONSTS } = require('../../src/consts');
 const { storePdfAppellantSubmission } = require('../../src/services/pdf.service');
 
 /**
@@ -84,7 +83,7 @@ const getAppellantSubmissionPDFV2 = async (req, res) => {
 			const storedPdf = await storePdfAppellantSubmission({
 				appellantSubmissionId: appellantSubmissionDetails.id,
 				appealTypeCode: appellantSubmissionDetails.appealTypeCode,
-				sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
+				cookieString: req.headers.cookie
 			});
 			await req.appealsApiClient.updateAppellantSubmission(appellantSubmissionId, {
 				submissionPdfId: storedPdf.id
