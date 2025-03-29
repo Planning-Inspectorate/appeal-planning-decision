@@ -30,6 +30,8 @@ export const houseHolderAppealGrantedTestCases = [
             isAgriculturalHolding: false,
             isTenantAgricultureHolding: true,
             anyOtherTenants: true,
+            majorMionorDevelopmentData: 'major',
+            applicationAboutData: 'householder',
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
