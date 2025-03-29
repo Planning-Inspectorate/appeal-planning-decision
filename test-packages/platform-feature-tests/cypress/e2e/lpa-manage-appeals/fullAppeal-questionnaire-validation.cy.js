@@ -46,12 +46,9 @@ describe('LPA Manage Full Apppeal Questionnaire validation', () => {
     cy.containsMessage(basePage?._selectors.govukLink, lpaManageAppealsData?.addAndRemoveUsers);
   });
 
-
   it(`Waiting for review tab`, () => {
     cy.containsMessage(basePage?._selectors.govukLink, lpaManageAppealsData?.addAndRemoveUsers);
   });
-
-
 });
 
 describe('Full appleal questionnaire validation', () => {
@@ -98,9 +95,7 @@ describe('Full appleal questionnaire validation', () => {
     });
   })
   it(`Full appleal questionnaire url`, () => {
-
     cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
-
   });
 
   it(`Validate Full appeal questionnaire appeal type answer link`, () => {
