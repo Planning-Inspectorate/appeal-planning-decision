@@ -39,7 +39,8 @@ exports.postEnforcementNotice = async (req, res) => {
 				}
 			},
 			errors,
-			errorSummary
+			errorSummary,
+			focusErrorSummary: !!errors
 		});
 		return;
 	}
