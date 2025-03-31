@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
   pdf-service-api:
-    profiles: ['all', 'appeals']
+    profiles: ['all', 'appeals', 'pdf']
     # platform required to build chromium on Apple Silicon Macs
     platform: 'linux/amd64' 
     build:
