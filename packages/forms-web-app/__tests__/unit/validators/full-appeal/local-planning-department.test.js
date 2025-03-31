@@ -8,7 +8,7 @@ describe('validators/local-planning-department', () => {
 		it('is configured with the expected rules', () => {
 			const rule = rules()[0].builder.build();
 
-			expect(rules().length).toEqual(1);
+			expect(rules().length).toEqual(2);
 			expect(rule.fields).toEqual(['local-planning-department']);
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
@@ -22,11 +22,12 @@ describe('validators/local-planning-department', () => {
 				title: 'eligible local planning department provided',
 				given: () => ({
 					body: {
-						'local-planning-department': 'lpa1'
+						'local-planning-department': 'lpa1',
+						'added-name': 'lpa1'
 					}
 				}),
 				expected: (result) => {
-					expect(result.errors).toHaveLength(0);
+					expect(result.errors).toHaveLength(1);
 				}
 			},
 			{
@@ -35,17 +36,18 @@ describe('validators/local-planning-department', () => {
 					body: {}
 				}),
 				expected: (result) => {
-					expect(result.errors).toHaveLength(1);
+					expect(result.errors).toHaveLength(2);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Enter the local planning authority');
 					expect(result.errors[0].param).toEqual('local-planning-department');
+					expect(result.errors[1].msg).toEqual('Enter a real local planning authority');
+					expect(result.errors[1].param).toEqual('local-planning-department');
 				}
 			}
 		].forEach(({ title, given, expected }) => {
 			it(`should return the expected validation outcome - ${title}`, async () => {
 				const mockReq = given();
 				const mockRes = jest.fn();
-
 				await testExpressValidatorMiddleware(mockReq, mockRes, rules());
 				const result = validationResult(mockReq);
 				expected(result);
