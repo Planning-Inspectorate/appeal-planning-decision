@@ -207,9 +207,8 @@ class HorizonGateway {
 		const url = `${config.services.horizon.url}/${endpoint}`;
 		logger.debug(body, `Sending ${descriptionOfRequest} request to ${url} with body`);
 
-		// set request timeout
-		// TODO: enable this when we know how long requests need, document updates could be slow
-		// options.timeout = config.services.horizon.timeout;
+		// set request timeout in milliseconds
+		options.timeout = config.services.horizon.timeout;
 
 		try {
 			const requestStart = Date.now();

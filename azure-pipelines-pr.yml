@@ -27,15 +27,15 @@ extends:
         steps:
           - template: ../steps/node_script.yml
             parameters:
-              nodeVersion: 20
+              nodeVersion: 22
               script: npm ci
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
               script: npm run lint
-              nodeVersion: 20
+              nodeVersion: 22
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
               script: npm run test
-              nodeVersion: 20
+              nodeVersion: 22

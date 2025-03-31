@@ -39,6 +39,11 @@ documents:
 	docker compose --profile documents -f docker-compose.yml -f docker-compose.slim.yml up
 .PHONY: documents
 
+# only pdf service
+pdf:
+	docker compose --profile pdf -f docker-compose.yml -f docker-compose.full.yml up
+.PHONY: pdf
+
 database:
 	docker compose --profile database -f docker-compose.yml -f docker-compose.slim.yml up
 .PHONY: database

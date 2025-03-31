@@ -54,18 +54,18 @@ extends:
         steps:
           - template: ../steps/node_script.yml
             parameters:
-              nodeVersion: 20
+              nodeVersion: 22
               script: npm ci
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
               script: npm run lint
-              nodeVersion: 20
+              nodeVersion: 22
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
               script: npm run test
-              nodeVersion: 20
+              nodeVersion: 22
           - template: ../steps/check_changed_files.yml
             parameters:
               pathFilters:
@@ -201,7 +201,7 @@ extends:
         steps:
           - template: ../steps/node_script.yml
             parameters:
-              nodeVersion: 20
+              nodeVersion: 22
               script: npm ci --omit=dev --workspace=integration-functions --workspace=@pins/common
               workingDirectory: $(Build.Repository.LocalPath)
           - script: |
