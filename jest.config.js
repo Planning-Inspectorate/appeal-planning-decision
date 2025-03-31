@@ -4,6 +4,5 @@ module.exports = {
 	moduleFileExtensions: ['js', 'json'],
 	reporters: ['default', ['jest-junit', { outputDirectory: '<rootDir>/jest-reports' }]],
 	testEnvironment: 'node',
-	testMatch: ['**/?(*.)+(spec|test).js'],
-	collectCoverage: process.env.COVERAGE === 'true'
+	testMatch: ['**/?(*.)+(spec|test).js']
 };
