@@ -78,7 +78,8 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 					}
 				},
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
-				errors: { a: 'b' }
+				errors: { a: 'b' },
+				focusErrorSummary: true
 			});
 		});
 
