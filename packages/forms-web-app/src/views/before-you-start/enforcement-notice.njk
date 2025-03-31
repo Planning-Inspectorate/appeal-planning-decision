@@ -18,12 +18,13 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-
       {% if errors %}
+      <div {% if focusErrorSummary %} tabindex="-1" autofocus {% endif %}>
         {{ govukErrorSummary({
           titleText: "There is a problem",
           errorList: errorSummary
         }) }}
+        </div>
       {% endif %}
 
       <form action="" method="post" novalidate>
