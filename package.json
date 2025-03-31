@@ -98,7 +98,7 @@
 		"ajv-errors": "^3.0.0",
 		"applicationinsights": "^3.5.0",
 		"archiver": "^7.0.1",
-		"axios": "^1.7.4",
+		"axios": "^1.8.4",
 		"body-parser": "^1.19.1",
 		"clamscan": "^2.4.0",
 		"compression": "^1.7.4",
