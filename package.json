@@ -101,7 +101,7 @@
 		"axios": "^1.7.4",
 		"body-parser": "^1.19.1",
 		"clamscan": "^2.4.0",
-		"compression": "^1.7.4",
+		"compression": "^1.8.0",
 		"connect-mongodb-session": "^4.0.0",
 		"cookie-parser": "^1.4.6",
 		"cors": "^2.8.5",
