@@ -661,7 +661,7 @@ exports.questionProps = {
 		title: 'Upload any other relevant policies',
 		question: 'Upload any other relevant policies',
 		fieldName: 'uploadOtherPolicies',
-		url: 'upload-other-policies',
+		url: 'upload-other-relevant-policies',
 		validators: [
 			new RequiredFileUploadValidator('Select any other relevant policies'),
 			new MultifileUploadValidator()
