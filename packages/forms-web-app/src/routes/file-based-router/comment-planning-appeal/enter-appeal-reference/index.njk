@@ -1,12 +1,12 @@
 {% extends "layouts/comment-planning-appeal/index.njk" %}
-{% set title = "Enter the appeal reference" %}
+{% set title = "Enter the appeal reference number - Comment on a planning appeal" %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% block content %}
     <form method="post">
 <input type="hidden" name="_csrf" value="{{_csrf}}">
         <div class="govuk-form-group">
-            <label class="govuk-label govuk-label--l" for="appeal-reference">Enter the appeal reference</label>
+            <label class="govuk-label govuk-label--l" for="appeal-reference">Enter the appeal reference number</label>
             <p class="govuk-body">Enter the reference number from the local planning authority.</p>
             {{ govukInput({
                         "classes": "govuk-input--width-10",
@@ -23,7 +23,7 @@
             }}
         </div>
         <p class="govuk-body">
-            <a href="enter-postcode">I do not have an appeal reference</a>
+            <a href="enter-postcode">I do not have an appeal reference number</a>
         </p>
         {{ govukButton({"text": "Continue", "type": "submit"}) }}
     </form>
