@@ -1063,7 +1063,6 @@ export interface LPAQuestionnaireSubmission {
 	listedBuildingGrade?: string;
 	uploadHistoricEnglandConsultation?: boolean | null;
 	section3aGrant?: boolean;
-	correctAppealTypeDetails?: string;
 }
 
 export interface LpaRecord {
