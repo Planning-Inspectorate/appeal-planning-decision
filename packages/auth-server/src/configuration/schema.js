@@ -82,7 +82,8 @@ export default joi
 					}),
 					SAVE_AND_RETURN: joi.object({
 						enterCodeIntoServiceEmail: joi.string()
-					})
+					}),
+					generic: joi.string()
 				})
 			}
 		})

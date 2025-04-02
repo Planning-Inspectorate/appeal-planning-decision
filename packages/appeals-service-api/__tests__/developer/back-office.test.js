@@ -96,6 +96,7 @@ beforeAll(async () => {
 	appConfiguration.services.notify.templates['1005'].appealSubmissionReceivedEmailToAppellant = 8;
 	appConfiguration.services.notify.templates['1005'].appealNotificationEmailToLpa = 4;
 	appConfiguration.services.notify.templates.ERROR_MONITORING.failureToUploadToHorizon = 6;
+	appConfiguration.services.notify.templates.generic = 7;
 	appConfiguration.services.notify.emails.adminMonitoringEmail = 'test@pins.gov.uk';
 	appConfiguration.documents.url = mockedExternalApis.getDocumentsAPIUrl();
 
