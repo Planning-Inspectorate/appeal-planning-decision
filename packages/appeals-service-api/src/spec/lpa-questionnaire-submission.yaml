@@ -231,5 +231,3 @@ components:
           nullable: true
         section3aGrant:
           type: boolean
-        correctAppealTypeDetails:
-          type: string
