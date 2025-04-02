@@ -9,8 +9,8 @@
 	"main": "src/index.js",
 	"scripts": {
 		"lint": "eslint ./",
-		"test": "jest --verbose",
-		"test:cov": "jest --verbose --coverage"
+		"test": "jest --ci --verbose",
+		"test:cov": "jest --ci --verbose --coverage"
 	},
 	"author": "",
 	"dependencies": {

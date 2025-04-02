@@ -9,8 +9,8 @@
 		"lint": "eslint ./",
 		"start": "node ./",
 		"start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
-		"test": "jest --verbose",
-		"test:cov": "jest --verbose --coverage",
+		"test": "jest --ci --verbose",
+		"test:cov": "jest --ci --verbose --coverage",
 		"test:watch": "jest --watchAll --runInBand"
 	},
 	"dependencies": {
