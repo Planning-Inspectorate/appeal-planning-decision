@@ -82,7 +82,8 @@ const { value, error } = schema.validate({
 				SAVE_AND_RETURN: {
 					enterCodeIntoServiceEmail:
 						process.env.SRV_NOTIFY_SAVE_AND_RETURN_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID
-				}
+				},
+				generic: process.env.SRV_NOTIFY_FRONT_OFFICE_GENERIC_TEMPLATE_ID
 			}
 		}
 	}
