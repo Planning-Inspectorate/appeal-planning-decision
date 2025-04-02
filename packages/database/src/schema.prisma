@@ -885,6 +885,7 @@ model LPAQuestionnaireSubmission {
   listedBuildingGrade                             String?
   uploadHistoricEnglandConsultation               Boolean?
   section3aGrant                                  Boolean?
+  correctAppealType_correctAppealTypeDetails      String?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
