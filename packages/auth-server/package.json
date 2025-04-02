@@ -18,8 +18,8 @@
 		"start": "node ./src/main.js",
 		"start:dev": "npm run db:generate && nodemon ./src/main.js | pino-pretty -tlc",
 		"start:dev:debug": "npm run db:generate && nodemon --inspect=0.0.0.0 ./src/main.js",
-		"test": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --verbose",
-		"test:cov": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage"
+		"test": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose",
+		"test:cov": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --coverage"
 	},
 	"dependencies": {
 		"@pins/common": "file:../common",
