@@ -276,7 +276,10 @@ exports.questionProps = {
 		question: 'Upload the site notice',
 		fieldName: 'uploadSiteNotice',
 		url: 'upload-site-notice',
-		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
+		validators: [
+			new RequiredFileUploadValidator('Select the site notice'),
+			new MultifileUploadValidator()
+		],
 		documentType: documentTypes.uploadSiteNotice,
 		actionHiddenText: 'the site notice'
 	},
@@ -697,7 +700,9 @@ exports.questionProps = {
 		question: 'Is the community infrastructure levy formally adopted?',
 		fieldName: 'infrastructureLevyAdopted',
 		url: 'community-infrastructure-levy-adopted',
-		validators: [new RequiredValidator()]
+		validators: [
+			new RequiredValidator('Select yes if the community infrastructure levy is formally adopted')
+		]
 	},
 	communityInfrastructureLevyAdoptedDate: {
 		type: 'date',
@@ -744,7 +749,11 @@ exports.questionProps = {
 		question: 'Does a Tree Preservation Order (TPO) apply to any part of the appeal site?',
 		fieldName: 'treePreservationOrder',
 		url: 'tree-preservation-order',
-		validators: [new RequiredValidator()]
+		validators: [
+			new RequiredValidator(
+				'Select yes if a Tree Preservation Order (TPO) applies to any part of the site'
+			)
+		]
 	},
 	treePreservationPlanUpload: {
 		type: 'multi-file-upload',
@@ -818,7 +827,11 @@ exports.questionProps = {
 		question: 'Does the development relate to anyone claiming to be a Gypsy or Traveller?',
 		fieldName: 'gypsyTraveller',
 		url: 'gypsy-traveller',
-		validators: [new RequiredValidator()]
+		validators: [
+			new RequiredValidator(
+				'Select yes if the development relates to anyone claiming to be a Gypsy or Traveller'
+			)
+		]
 	},
 	statutoryConsultees: {
 		type: 'radio',
