@@ -111,7 +111,7 @@ exports.questionProps = {
 		question: 'Does the proposed development change a listed building?',
 		fieldName: 'changesListedBuilding',
 		url: 'changes-listed-building',
-		validators: [new RequiredValidator()]
+		validators: [new RequiredValidator('Select yes if the development changes a listed building')]
 	},
 	changedListedBuildings: {
 		type: 'list-add-more',
@@ -169,7 +169,9 @@ exports.questionProps = {
 		question: 'Is the site in, or next to a conservation area?',
 		fieldName: 'conservationArea',
 		url: 'conservation-area',
-		validators: [new RequiredValidator()]
+		validators: [
+			new RequiredValidator('Select yes if the site is in, or next to a conservation area')
+		]
 	},
 	conservationAreaUpload: {
 		type: 'multi-file-upload',
