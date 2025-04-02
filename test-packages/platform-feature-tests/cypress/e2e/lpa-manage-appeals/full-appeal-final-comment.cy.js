@@ -1,7 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { fullAppealFinalCommentTestCases } from "../../helpers/lpaManageAppeals/fullAppealFinalCommentData";
-const { fullAppealStatement } = require('../../support/flows/sections/lpaManageAppeals/fullAppealStatement');
+const { fullAppealFinalComment } = require('../../support/flows/sections/lpaManageAppeals/fullAppealFinalComment');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('Full Planning Final comment Test Cases', () => {
