@@ -1,5 +1,4 @@
 const supertest = require('supertest');
-const http = require('http');
 const app = require('../../../../../../app');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { markQuestionnaireAsSubmitted } = require('../service');
@@ -7,8 +6,7 @@ const { LPA_NOTIFICATION_METHODS, CASE_TYPES } = require('@pins/common/src/datab
 const { sendLPAHASQuestionnaireSubmittedEmailV2 } = require('#lib/notify');
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 
-const server = http.createServer(app);
-const appealsApi = supertest(server);
+const appealsApi = supertest(app);
 
 /**
  * @typedef {import('../../../../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission

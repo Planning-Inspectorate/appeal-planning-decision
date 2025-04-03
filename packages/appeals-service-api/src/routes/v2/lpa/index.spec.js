@@ -1,4 +1,3 @@
-const http = require('http');
 const supertest = require('supertest');
 
 const app = require('../../../app');
@@ -48,8 +47,7 @@ beforeAll(async () => {
 	/////////////////////
 	///// SETUP APP ////
 	///////////////////
-	let server = http.createServer(app);
-	lpaApi = supertest(server);
+	lpaApi = supertest(app);
 });
 
 beforeEach(async () => {
