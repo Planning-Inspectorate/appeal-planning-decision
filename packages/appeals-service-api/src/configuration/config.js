@@ -160,7 +160,8 @@ let config = {
 				INTERESTED_PARTIES: {
 					ipCommentSubmissionConfirmationEmail:
 						process.env.SRV_NOTIFY_IP_COMMENT_SUBMISSION_CONFIRMATION_EMAIL_TO_IP_TEMPLATE_ID
-				}
+				},
+				generic: process.env.SRV_NOTIFY_FRONT_OFFICE_GENERIC_TEMPLATE_ID
 			},
 			emails: {
 				adminMonitoringEmail: process.env.SRV_ADMIN_MONITORING_EMAIL
