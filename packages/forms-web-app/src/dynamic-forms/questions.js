@@ -92,7 +92,32 @@ exports.questionProps = {
 		question: `Is a ${QUESTION_VARIABLES.APPEAL_TYPE} appeal the correct type of appeal?`,
 		fieldName: 'correctAppealType',
 		url: 'correct-appeal-type',
-		validators: [new RequiredValidator('Select yes if this is the correct type of appeal')],
+		validators: [
+			new RequiredValidator('Select yes if this is the correct type of appeal'),
+			new ConditionalRequiredValidator('Enter the reason'),
+			new StringValidator({
+				maxLength: {
+					maxLength: inputMaxCharacters,
+					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
+				},
+				fieldName: getConditionalFieldName('correctAppealType', 'correctAppealTypeDetails')
+			})
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes'
+			},
+			{
+				text: 'No',
+				value: 'no',
+				conditional: {
+					question: 'Enter the reason',
+					fieldName: 'correctAppealTypeDetails',
+					type: 'textarea'
+				}
+			}
+		],
 		variables: [QUESTION_VARIABLES.APPEAL_TYPE]
 	},
 	listedBuildingCheck: {
