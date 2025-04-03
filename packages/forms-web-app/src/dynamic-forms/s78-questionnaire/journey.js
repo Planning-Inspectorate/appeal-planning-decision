@@ -6,6 +6,7 @@ const {
 } = require('../dynamic-components/utils/question-has-answer');
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -19,6 +20,7 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
 const sections = [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
+		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: 'full planning' })
 		.addQuestion(questions.changesListedBuilding)
 		.addQuestion(questions.changedListedBuildings)
 		.withCondition((response) =>

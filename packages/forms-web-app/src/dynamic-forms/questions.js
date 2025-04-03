@@ -56,6 +56,7 @@ const {
 	}
 } = require('../config');
 const { createQuestions } = require('./create-questions');
+const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 
 // method overrides
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
@@ -87,8 +88,8 @@ const getExampleDate = (tense, days = 60) =>
 exports.questionProps = {
 	appealTypeAppropriate: {
 		type: 'boolean',
-		title: 'Is this the correct type of appeal?',
-		question: 'Is this the correct type of appeal?',
+		title: `Is a ${QUESTION_VARIABLES.APPEAL_TYPE} appeal the correct type of appeal?`,
+		question: `Is a ${QUESTION_VARIABLES.APPEAL_TYPE} appeal the correct type of appeal?`,
 		fieldName: 'correctAppealType',
 		url: 'correct-appeal-type',
 		validators: [
@@ -116,7 +117,8 @@ exports.questionProps = {
 					type: 'textarea'
 				}
 			}
-		]
+		],
+		variables: [QUESTION_VARIABLES.APPEAL_TYPE]
 	},
 	listedBuildingCheck: {
 		type: 'boolean',
