@@ -18,6 +18,9 @@ variables:
 
 jobs:
 - job: LintAndTest
+  timeoutInMinutes: 30
+  workspace:
+    clean: all
   steps:  
   - task: UseNode@1
     inputs:
