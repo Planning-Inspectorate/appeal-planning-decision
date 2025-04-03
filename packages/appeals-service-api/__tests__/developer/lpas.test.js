@@ -1,4 +1,3 @@
-const http = require('http');
 const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
 
@@ -37,9 +36,7 @@ beforeAll(async () => {
 	/////////////////////
 	///// SETUP APP /////
 	/////////////////////
-
-	let server = http.createServer(app);
-	appealsApi = supertest(server);
+	appealsApi = supertest(app);
 });
 
 beforeEach(async () => {

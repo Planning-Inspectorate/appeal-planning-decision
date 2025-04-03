@@ -1,4 +1,3 @@
-import http from 'http';
 import supertest from 'supertest';
 
 import { jest } from '@jest/globals';
@@ -32,8 +31,7 @@ beforeAll(async () => {
 	/////////////////////
 	///// SETUP APP ////
 	///////////////////
-	const server = http.createServer(app);
-	authServer = supertest(server);
+	authServer = supertest(app);
 
 	await seedStaticData(sqlClient);
 });
