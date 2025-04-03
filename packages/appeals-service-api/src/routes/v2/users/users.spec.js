@@ -1,5 +1,4 @@
 const crypto = require('crypto');
-const http = require('http');
 const supertest = require('supertest');
 
 const app = require('../../../app');
@@ -32,8 +31,7 @@ beforeAll(async () => {
 	/////////////////////
 	///// SETUP APP ////
 	///////////////////
-	let server = http.createServer(app);
-	appealsApi = supertest(server);
+	appealsApi = supertest(app);
 });
 
 beforeEach(async () => {

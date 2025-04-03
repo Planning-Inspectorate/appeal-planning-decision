@@ -1,12 +1,10 @@
 const supertest = require('supertest');
-const http = require('http');
 const app = require('../../../../../app');
 const { sendEvents } = require('../../../../../../src/infrastructure/event-client');
 const { createPrismaClient } = require('#db-client');
 const crypto = require('crypto');
 
-const server = http.createServer(app);
-const appealsApi = supertest(server);
+const appealsApi = supertest(app);
 let validUser;
 const sqlClient = createPrismaClient();
 
