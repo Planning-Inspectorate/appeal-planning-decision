@@ -53,7 +53,7 @@ extends:
     globalVariables:
       - template: azure-pipelines-variables.yml@self
     validationJobs:
-      - name: Run Linting & Tests
+      - name: Run checking
         variables:
         - name: check
           value: echo $(Build.SourceBranchName)
