@@ -61,7 +61,13 @@ extends:
             value: npm run test-cov
           ${{ else }}:
             value: npm run test
+        - name: check
+          value: echo $(Build.SourceBranchName)
         steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: $(check)
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
