@@ -55,14 +55,19 @@ extends:
     validationJobs:
       - name: Run Linting & Tests
         variables:
-          - name: check
-            value: echo $(Build.SourceBranchName)
+        - name: check
+          value: echo $(Build.SourceBranchName)
+        - name: check2
+          value: echo $(Build.SourceBranch)
         steps:
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
               script: $(check)
-
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: $(check2)
       - name: Run Linting & Tests
         condition: ${{ eq(parameters.runValidation, true) }}
         variables:
@@ -71,8 +76,6 @@ extends:
             value: npm run test-cov
           ${{ else }}:
             value: npm run test
-        - name: check
-          value: echo $(Build.SourceBranchName)
         steps:
           - template: ../steps/node_script.yml
             parameters:
