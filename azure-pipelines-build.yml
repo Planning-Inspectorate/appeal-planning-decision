@@ -54,6 +54,16 @@ extends:
       - template: azure-pipelines-variables.yml@self
     validationJobs:
       - name: Run Linting & Tests
+        variables:
+          - name: check
+            value: echo $(Build.SourceBranchName)
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: $(check)
+
+      - name: Run Linting & Tests
         condition: ${{ eq(parameters.runValidation, true) }}
         variables:
         - name: test-script
@@ -64,10 +74,6 @@ extends:
         - name: check
           value: echo $(Build.SourceBranchName)
         steps:
-          - template: ../steps/node_script.yml
-            parameters:
-              nodeVersion: 22
-              script: $(check)
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
