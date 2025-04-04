@@ -30,16 +30,6 @@ const appealOverviewUrl = APPEAL_OVERVIEW;
 
 const router = express.Router();
 
-
-/** @type {import('express').RequestHandler} */
-router.get(
-	'/:referenceId/entry',
-	getJourneyResponse(),
-	getJourney(journeys),
-	checkNotSubmitted(appealOverviewUrl),
-	shortJourneyEntry
-);
-
 /**
  * @type {import('express').Handler}
  */
