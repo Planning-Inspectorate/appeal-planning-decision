@@ -852,3 +852,19 @@ exports.bulkDownloadSubmissionDocuments = async (req, res) => {
 
 	return res.status(200);
 };
+
+/** @type {import('express').RequestHandler } */
+exports.shortJourneyEntry = async (req, res) => {
+	req.session.navigationHistory.shift();
+	const { journey, journeyResponse } = res.locals;
+
+	// if complete, go to first question
+	if (journey.isComplete()) return res.redirect(journey.getFirstQuestionUrl());
+
+	// otherwise, go to first unanswered question
+	const firstUnansweredQuestionUrl = journey.getFirstUnansweredQuestionUrl(journeyResponse);
+	if (firstUnansweredQuestionUrl) return res.redirect(firstUnansweredQuestionUrl);
+
+	// fallback to task list
+	return res.redirect(journey.taskListUrl);
+};

@@ -522,6 +522,13 @@ class Question {
 	}
 
 	/**
+	 * @returns {string} url if set otherwise defaults to fieldname
+	 */
+	getUrlSlug() {
+		return this.url ?? this.fieldName;
+	}
+
+	/**
 	 * @param {Journey} journey
 	 * @param {Section} section
 	 * @returns {string}

@@ -25,11 +25,11 @@ const NO_LINE_2_ADDRESS = {
 const testCaseRef = '1010101';
 
 const questionnaireBaseUrl = `/manage-appeals/questionnaire/${testCaseRef}`;
-const statementBaseUrl = `/manage-appeals/appeal-statement/${testCaseRef}/appeal-statement`;
-const finalCommentBaseUrl = `/manage-appeals/final-comments/${testCaseRef}`;
-const proofsBaseUrl = `/manage-appeals/proof-evidence/${testCaseRef}`;
-const rule6StatementBaseUrl = '/rule-6/appeal-statement/';
-const rule6ProofsBaseUrl = '/rule-6/proof-evidence/';
+const statementBaseUrl = `/manage-appeals/appeal-statement/${testCaseRef}/entry`;
+const finalCommentBaseUrl = `/manage-appeals/final-comments/${testCaseRef}/entry`;
+const proofsBaseUrl = `/manage-appeals/proof-evidence/${testCaseRef}/entry`;
+const rule6StatementBaseUrl = `/rule-6/appeal-statement/${testCaseRef}/entry`;
+const rule6ProofsBaseUrl = `/rule-6/proof-evidence/${testCaseRef}/entry`;
 
 describe('lib/dashboard-functions', () => {
 	beforeEach(() => {
@@ -212,7 +212,7 @@ describe('lib/dashboard-functions', () => {
 				deadline: '2023-07-07T13:53:31.6003126+00:00',
 				dueInDays: 13,
 				journeyDue: 'Statement',
-				baseUrl: `${rule6StatementBaseUrl}${testCaseRef}`
+				baseUrl: `${rule6StatementBaseUrl}`
 			};
 
 			calculateDueInDays.mockReturnValue(13);
@@ -234,7 +234,7 @@ describe('lib/dashboard-functions', () => {
 				deadline: '2023-07-27T13:53:31.6003126+00:00',
 				dueInDays: 23,
 				journeyDue: 'Proof of Evidence',
-				baseUrl: `${rule6ProofsBaseUrl}${testCaseRef}`
+				baseUrl: `${rule6ProofsBaseUrl}`
 			};
 
 			calculateDueInDays.mockReturnValue(23);

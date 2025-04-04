@@ -689,4 +689,19 @@ describe('./src/dynamic-forms/question.js', () => {
 			expect(backLink).toBe('/appeals/full-planning/1234/task-list');
 		});
 	});
+
+	describe('getUrlSlug', () => {
+		it('should use url', () => {
+			const question = getTestQuestion();
+			const urlSlug = question.getUrlSlug();
+			expect(urlSlug).toBe(URL);
+		});
+
+		it('should fallback to fieldname', () => {
+			const question = getTestQuestion();
+			question.url = undefined;
+			const urlSlug = question.getUrlSlug();
+			expect(urlSlug).toBe(FIELDNAME);
+		});
+	});
 });
