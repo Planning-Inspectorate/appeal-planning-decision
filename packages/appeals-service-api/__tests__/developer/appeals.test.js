@@ -1,5 +1,4 @@
 const crypto = require('crypto');
-const http = require('http');
 const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
 const container = require('rhea');
@@ -97,9 +96,7 @@ beforeAll(async () => {
 	/////////////////////
 	///// SETUP APP /////
 	/////////////////////
-
-	let server = http.createServer(app);
-	appealsApi = supertest(server);
+	appealsApi = supertest(app);
 
 	/////////////////////////////////
 	///// POPULATE STATIC DATA /////
