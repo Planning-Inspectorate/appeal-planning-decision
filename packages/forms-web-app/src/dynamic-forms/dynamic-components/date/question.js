@@ -60,14 +60,21 @@ class DateQuestion extends Question {
 
 	/**
 	 * gets the view model for this question
-	 * @param {Section} section - the current section
-	 * @param {Journey} journey - the journey we are in
-	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
-	 * @param {Record<string, unknown>} [payload]
+	 * @param {Object} options - the current section
+	 * @param {Section} options.section - the current section
+	 * @param {Journey} options.journey - the journey we are in
+	 * @param {Record<string, unknown>} [options.customViewData] additional data to send to view
+	 * @param {Record<string, unknown>} [options.payload]
+	 * @param {string} [options.sessionBackLink]
 	 * @returns {QuestionViewModel & { answer: Record<string, unknown> }}
 	 */
-	prepQuestionForRendering(section, journey, customViewData, payload) {
-		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
+	prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
+		const viewModel = super.prepQuestionForRendering({
+			section,
+			journey,
+			customViewData,
+			sessionBackLink
+		});
 
 		/** @type {Record<string, unknown>} */
 		let answer = {};

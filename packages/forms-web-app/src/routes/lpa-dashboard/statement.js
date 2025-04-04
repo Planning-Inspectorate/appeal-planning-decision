@@ -5,7 +5,8 @@ const {
 	save,
 	remove,
 	submitLpaStatement,
-	appealStatementSubmitted
+	appealStatementSubmitted,
+	shortJourneyEntry
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -13,10 +14,6 @@ const {
 } = require('../../dynamic-forms/validator/validation-error-handler');
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-lpa-statement');
 const setDefaultSection = require('../../dynamic-forms/middleware/set-default-section');
-const redirectToUnansweredQuestion = require('../../dynamic-forms/middleware/redirect-to-unanswered-question');
-const {
-	skipIfNoAdditionalDocuments
-} = require('../../dynamic-forms/middleware/redirect-middleware-conditions');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
@@ -67,9 +64,18 @@ router.get(
 	'/appeal-statement/:referenceId',
 	getJourneyResponse(),
 	getJourney(journeys),
-	redirectToUnansweredQuestion([skipIfNoAdditionalDocuments]),
 	checkNotSubmitted(appealOverviewUrl),
 	statementTaskList
+);
+
+// entry
+/** @type {import('express').RequestHandler} */
+router.get(
+	'/appeal-statement/:referenceId/entry',
+	getJourneyResponse(),
+	getJourney(journeys),
+	checkNotSubmitted(appealOverviewUrl),
+	shortJourneyEntry
 );
 
 router.get(

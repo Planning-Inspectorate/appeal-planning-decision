@@ -73,14 +73,21 @@ class MultiFileUploadQuestion extends Question {
 
 	/**
 	 * gets the view model for this question
-	 * @param {Section} section - the current section
-	 * @param {Journey} journey - the journey we are in
-	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
+	 * @param {Object} options - the current section
+	 * @param {Section} options.section - the current section
+	 * @param {Journey} options.journey - the journey we are in
+	 * @param {Record<string, unknown>} [options.customViewData] additional data to send to view
+	 * @param {string} options.sessionBackLink
 	 * @returns {QuestionViewModel & { uploadedFiles?: unknown }}
 	 */
-	prepQuestionForRendering(section, journey, customViewData) {
+	prepQuestionForRendering({ section, journey, customViewData, sessionBackLink }) {
 		/** @type {QuestionViewModel & { uploadedFiles?: unknown }} */
-		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
+		const viewModel = super.prepQuestionForRendering({
+			section,
+			journey,
+			customViewData,
+			sessionBackLink
+		});
 
 		const relevantUploadedFiles = this.getRelevantUploadedFiles(journey.response);
 

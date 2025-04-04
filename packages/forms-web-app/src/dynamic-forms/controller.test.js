@@ -483,6 +483,8 @@ describe('dynamic-form/controller', () => {
 
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleListAddMoreObj);
+			mockJourney.getCurrentQuestionUrl = jest.fn();
+			mockJourney.getCurrentQuestionUrl.mockReturnValueOnce('test');
 
 			await remove(req, res);
 

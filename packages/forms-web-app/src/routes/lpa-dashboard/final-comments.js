@@ -3,9 +3,9 @@ const {
 	list,
 	question,
 	save,
-	// remove,
 	submitLpaFinalComment,
-	lpaFinalCommentSubmitted
+	lpaFinalCommentSubmitted,
+	shortJourneyEntry
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -15,10 +15,6 @@ const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-r
 const { getJourney } = require('../../dynamic-forms/middleware/get-journey');
 const { journeys } = require('../../journeys');
 const setDefaultSection = require('../../dynamic-forms/middleware/set-default-section');
-const redirectToUnansweredQuestion = require('../../dynamic-forms/middleware/redirect-to-unanswered-question');
-const {
-	lpaFinalCommentSkipConditions
-} = require('../../dynamic-forms/middleware/redirect-middleware-conditions');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
@@ -67,9 +63,18 @@ router.get(
 	'/final-comments/:referenceId',
 	getJourneyResponse(),
 	getJourney(journeys),
-	redirectToUnansweredQuestion([lpaFinalCommentSkipConditions]),
 	checkNotSubmitted(appealOverviewUrl),
 	lpaFinalCommentTaskList
+);
+
+// entry
+/** @type {import('express').RequestHandler} */
+router.get(
+	'/final-comments/:referenceId/entry',
+	getJourneyResponse(),
+	getJourney(journeys),
+	checkNotSubmitted(appealOverviewUrl),
+	shortJourneyEntry
 );
 
 // submit
@@ -113,15 +118,5 @@ router.post(
 	validationErrorHandler,
 	save
 );
-
-// // remove answer - only available for some question types
-// router.get(
-// 	'/appeal-statement/:referenceId/:question/:answerId',
-// 	setDefaultSection(),
-// 	getJourneyResponse(),
-//  getJourney(journeys),
-// 	checkNotSubmitted(dashboardUrl),
-// 	remove
-// );
 
 module.exports = router;

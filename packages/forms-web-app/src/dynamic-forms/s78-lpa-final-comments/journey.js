@@ -3,6 +3,11 @@ const { Section } = require('../section');
 const config = require('../../config');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
+const {
+	VIEW: {
+		LPA_DASHBOARD: { DASHBOARD }
+	}
+} = require('#lib/views');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -36,6 +41,7 @@ const makeBaseUrl = (response) =>
 	`${baseS78LPAFinalCommentsUrl}/${encodeURIComponent(response.referenceId)}`;
 
 const params = {
+	initialBackLink: `/${DASHBOARD}`,
 	journeyId: JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS,
 	journeyTemplate: 'statement-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/final-comments',

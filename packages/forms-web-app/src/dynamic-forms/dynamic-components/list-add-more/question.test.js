@@ -108,7 +108,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 						]
 					}
 				},
-				getNextQuestionUrl: () => {
+				getBackLink: () => {
 					return 'back';
 				},
 				addToCurrentQuestionUrl: () => {
@@ -116,7 +116,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				}
 			};
 
-			const result = question.prepQuestionForRendering({}, journey);
+			const result = question.prepQuestionForRendering({ section: {}, journey });
 
 			expect(result).toEqual(
 				expect.objectContaining({
@@ -205,7 +205,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const journey = {
 				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				response: { answers: {} },
-				getNextQuestionUrl: jest.fn(() => expectedBackLink),
+				getBackLink: jest.fn(() => expectedBackLink),
 				getCurrentQuestionUrl: jest.fn(() => expectedBackLink)
 			};
 			const section = {};

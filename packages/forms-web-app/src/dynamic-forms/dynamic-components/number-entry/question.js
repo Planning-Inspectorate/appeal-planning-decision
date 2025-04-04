@@ -39,14 +39,22 @@ class NumberEntryQuestion extends Question {
 
 	/**
 	 * adds label and suffix property to view model
-	 * @param {import('../../section').Section} section - the current section
-	 * @param {import('../../journey').Journey} journey - the journey we are in
-	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
-	 * @param {Record<string, unknown>} [payload]
+	 * @param {Object} options - the current section
+	 * @param {import('../../section').Section} options.section - the current section
+	 * @param {import('../../journey').Journey} options.journey - the journey we are in
+	 * @param {Record<string, unknown>} [options.customViewData] additional data to send to view
+	 * @param {Record<string, unknown>} [options.payload]
+	 * @param {string} [options.sessionBackLink]
 	 * @returns {NumberViewModel}
 	 */
-	prepQuestionForRendering(section, journey, customViewData, payload) {
-		let viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
+	prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
+		let viewModel = super.prepQuestionForRendering({
+			section,
+			journey,
+			customViewData,
+			payload,
+			sessionBackLink
+		});
 
 		const answer = journey.response.answers[this.fieldName];
 		const persistedAnswer = getPersistedNumberAnswer(answer);

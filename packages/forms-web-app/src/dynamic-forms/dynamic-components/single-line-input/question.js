@@ -44,14 +44,21 @@ class SingleLineInputQuestion extends Question {
 
 	/**
 	 * gets the view model for this question
-	 * @param {Section} section - the current section
-	 * @param {Journey} journey - the journey we are in
-	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
-	 * @param {Record<string, unknown>} [payload]
+	 * @param {Object} options
+	 * @param {Section} options.section - the current section
+	 * @param {Journey} options.journey - the journey we are in
+	 * @param {Record<string, unknown>} [options.customViewData] additional data to send to view
+	 * @param {Record<string, unknown>} [options.payload]
+	 * @param {string} [options.sessionBackLink]
 	 * @returns {SingleLineViewModel}
 	 */
-	prepQuestionForRendering(section, journey, customViewData, payload) {
-		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
+	prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
+		let viewModel = super.prepQuestionForRendering({
+			section,
+			journey,
+			customViewData,
+			sessionBackLink
+		});
 		const questionLabel = this.label;
 		const questionValue = payload
 			? payload[viewModel.question.fieldName]

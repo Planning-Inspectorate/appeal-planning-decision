@@ -209,13 +209,13 @@ describe('MultiFileUploadQuestion', () => {
 						SubmissionDocumentUpload: [uploadedDocument]
 					}
 				},
-				getNextQuestionUrl: () => {
+				getBackLink: () => {
 					return 'back';
 				}
 			};
 
 			const customViewData = { hello: 'hi' };
-			const result = question.prepQuestionForRendering({}, journey, customViewData);
+			const result = question.prepQuestionForRendering({ section: {}, journey, customViewData });
 
 			expect(result).toEqual(
 				expect.objectContaining({

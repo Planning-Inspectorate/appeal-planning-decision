@@ -45,7 +45,7 @@ const JOURNEY = {
 	getCurrentQuestionUrl: () => {
 		return '/';
 	},
-	getNextQuestionUrl: () => {
+	getBackLink: () => {
 		return 'back';
 	},
 	getSection: jest.fn()
@@ -91,11 +91,11 @@ describe('./src/dynamic-forms/dynamic-components/radio/question.js', () => {
 
 			const customViewData = { hello: 'hi' };
 
-			const preppedQuestion = radioQuestion.prepQuestionForRendering(
-				SECTION,
-				JOURNEY,
+			const preppedQuestion = radioQuestion.prepQuestionForRendering({
+				section: SECTION,
+				journey: JOURNEY,
 				customViewData
-			);
+			});
 
 			expect(preppedQuestion.question.label).toEqual(LABEL);
 		});

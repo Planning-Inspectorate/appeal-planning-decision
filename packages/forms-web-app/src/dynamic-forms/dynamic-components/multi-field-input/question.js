@@ -74,10 +74,12 @@ class MultiFieldInputQuestion extends Question {
 
 	/**
 	 * gets the view model for this question
-	 * @param {Section} section - the current section
-	 * @param {Journey} journey - the journey we are in
-	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
-	 * @param {Record<string, unknown>} [payload]
+	 * @param {Object} options - the current section
+	 * @param {Section} options.section - the current section
+	 * @param {Journey} options.journey - the journey we are in
+	 * @param {string} [options.sessionBackLink]
+	 * @param {Record<string, unknown>} [options.customViewData] additional data to send to view
+	 * @param {Record<string, unknown>} [options.payload]
 	 * @returns {QuestionViewModel & {
 	 *   question: QuestionViewModel['question'] & {
 	 *     inputFields: Array<InputField & { value: string | unknown }>;
@@ -86,8 +88,13 @@ class MultiFieldInputQuestion extends Question {
 	 *   }
 	 * }}
 	 */
-	prepQuestionForRendering(section, journey, customViewData, payload) {
-		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
+	prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
+		const viewModel = super.prepQuestionForRendering({
+			section,
+			journey,
+			customViewData,
+			sessionBackLink
+		});
 
 		const inputFields = this.inputFields.map((inputField) => {
 			return payload

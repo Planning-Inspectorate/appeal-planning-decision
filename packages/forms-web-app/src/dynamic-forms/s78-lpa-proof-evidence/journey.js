@@ -3,6 +3,11 @@ const { Section } = require('../section');
 const config = require('../../config');
 const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const {
+	VIEW: {
+		LPA_DASHBOARD: { DASHBOARD }
+	}
+} = require('#lib/views');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -32,6 +37,7 @@ const makeBaseUrl = (response) =>
 
 /** @type {JourneyParameters} */
 const params = {
+	initialBackLink: `/${DASHBOARD}`,
 	journeyId: JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE,
 	journeyTemplate: 'lpa-proof-evidence-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/proof-evidence',
