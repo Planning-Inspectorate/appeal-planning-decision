@@ -1,45 +1,53 @@
 const { Journey } = require('./journey');
 
+// sadly copied
+const getUrlSlug = function () {
+	return this.url ?? this.fieldName;
+};
+
 const mockSections = [
 	{
 		segment: 'section1',
 		questions: [
-			{ fieldName: 'question1', text: 'Question 1', shouldDisplay: () => true },
+			{ fieldName: 'question1', text: 'Question 1', shouldDisplay: () => true, getUrlSlug },
 			{
 				fieldName: 'question2',
 				text: 'Question 2',
 				prepQuestionForRendering: jest.fn(),
-				shouldDisplay: () => true
+				shouldDisplay: () => true,
+				getUrlSlug
 			},
 			{
 				fieldName: 'question3',
 				text: 'Question 3',
 				shouldDisplay: () => true,
-				subQuestion: { fieldName: 'question3subquestion' }
+				subQuestion: { fieldName: 'question3subquestion' },
+				getUrlSlug
 			},
-			{ fieldName: 'question4', text: 'Question 4', shouldDisplay: () => true }
+			{ fieldName: 'question4', text: 'Question 4', shouldDisplay: () => true, getUrlSlug }
 		]
 	},
 	{
 		segment: 'section2',
 		questions: [
-			{ fieldName: 'question3', text: 'Question 3', shouldDisplay: () => true },
-			{ fieldName: 'question4', text: 'Question 4', shouldDisplay: () => true }
+			{ fieldName: 'question3', text: 'Question 3', shouldDisplay: () => true, getUrlSlug },
+			{ fieldName: 'question4', text: 'Question 4', shouldDisplay: () => true, getUrlSlug }
 		]
 	},
 	{
 		segment: 'section3',
 		questions: [
-			{ fieldName: 'question5', text: 'Question 5', shouldDisplay: () => true },
-			{ fieldName: 'question6', text: 'Question 6', shouldDisplay: () => true },
+			{ fieldName: 'question5', text: 'Question 5', shouldDisplay: () => true, getUrlSlug },
+			{ fieldName: 'question6', text: 'Question 6', shouldDisplay: () => true, getUrlSlug },
 			{
 				fieldName: 'question7',
 				text: 'Question 7',
 				url: 'q7_alternative_url',
-				shouldDisplay: () => true
+				shouldDisplay: () => true,
+				getUrlSlug
 			},
-			{ fieldName: 'question8', text: 'Question 8', shouldDisplay: () => true },
-			{ fieldName: 'question9', text: 'Question 9', shouldDisplay: () => true }
+			{ fieldName: 'question8', text: 'Question 8', shouldDisplay: () => true, getUrlSlug },
+			{ fieldName: 'question9', text: 'Question 9', shouldDisplay: () => true, getUrlSlug }
 		]
 	}
 ];

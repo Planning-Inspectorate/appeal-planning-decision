@@ -243,22 +243,21 @@ const determineJourneyToDisplayLPADashboard = (appealCaseData) => {
 			deadline: appealCaseData.statementDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.statementDueDate),
 			journeyDue: 'Statement',
-			// direct straight to first question of statement journey
-			baseUrl: `${statementBaseUrl}/${appealCaseData.caseReference}/appeal-statement`
+			baseUrl: `${statementBaseUrl}/${appealCaseData.caseReference}/entry`
 		};
 	} else if (isLPAFinalCommentOpen(appealCaseData)) {
 		return {
 			deadline: appealCaseData.finalCommentsDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.finalCommentsDueDate),
 			journeyDue: 'Final comment',
-			baseUrl: `${finalCommentBaseUrl}/${appealCaseData.caseReference}`
+			baseUrl: `${finalCommentBaseUrl}/${appealCaseData.caseReference}/entry`
 		};
 	} else if (isLPAProofsOfEvidenceOpen(appealCaseData)) {
 		return {
 			deadline: appealCaseData.proofsOfEvidenceDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.proofsOfEvidenceDueDate),
 			journeyDue: 'Proofs of Evidence',
-			baseUrl: `${proofsBaseUrl}/${appealCaseData.caseReference}`
+			baseUrl: `${proofsBaseUrl}/${appealCaseData.caseReference}/entry`
 		};
 	}
 
@@ -301,14 +300,14 @@ const determineJourneyToDisplayAppellantDashboard = (caseOrSubmission) => {
 			deadline: caseOrSubmission.finalCommentsDueDate,
 			dueInDays: calculateDueInDays(caseOrSubmission.finalCommentsDueDate),
 			journeyDue: 'Final comments',
-			baseUrl: `${appellantFinalCommentBaseUrl}/${caseOrSubmission.caseReference}`
+			baseUrl: `${appellantFinalCommentBaseUrl}/${caseOrSubmission.caseReference}/entry`
 		};
 	} else if (isAppellantProofsOfEvidenceOpen(caseOrSubmission)) {
 		return {
 			deadline: caseOrSubmission.proofsOfEvidenceDueDate,
 			dueInDays: calculateDueInDays(caseOrSubmission.proofsOfEvidenceDueDate),
 			journeyDue: 'Proofs of evidence',
-			baseUrl: `${appellantProofsBaseUrl}/${caseOrSubmission.caseReference}`
+			baseUrl: `${appellantProofsBaseUrl}/${caseOrSubmission.caseReference}/entry`
 		};
 	}
 
@@ -330,14 +329,14 @@ const determineJourneyToDisplayRule6Dashboard = (appealCaseData) => {
 			deadline: appealCaseData.statementDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.statementDueDate),
 			journeyDue: 'Statement',
-			baseUrl: `${rule6StatementBaseUrl}/${appealCaseData.caseReference}`
+			baseUrl: `${rule6StatementBaseUrl}/${appealCaseData.caseReference}/entry`
 		};
 	} else if (isRule6ProofsOfEvidenceOpen(appealCaseData)) {
 		return {
 			deadline: appealCaseData.proofsOfEvidenceDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.proofsOfEvidenceDueDate),
 			journeyDue: 'Proof of Evidence',
-			baseUrl: `${rule6ProofsBaseUrl}/${appealCaseData.caseReference}`
+			baseUrl: `${rule6ProofsBaseUrl}/${appealCaseData.caseReference}/entry`
 		};
 	}
 

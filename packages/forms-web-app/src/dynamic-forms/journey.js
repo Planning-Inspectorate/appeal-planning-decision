@@ -186,6 +186,30 @@ class Journey {
 	}
 
 	/**
+	 * @returns {string} url for the first question
+	 */
+	getFirstQuestionUrl() {
+		const firstSection = this.sections[0];
+		const firstQuestion = this.sections[0].questions[0];
+		return this.#buildQuestionUrl(firstSection.segment, firstQuestion.getUrlSlug());
+	}
+
+	/**
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {string|undefined} url for the first unanswered question
+	 */
+	getFirstUnansweredQuestionUrl(journeyResponse) {
+		for (const section of this.sections) {
+			for (const question of section.questions) {
+				if (question.isAnswered(journeyResponse)) continue;
+				if (!question.shouldDisplay(journeyResponse)) continue;
+
+				return this.#buildQuestionUrl(section.segment, question.getUrlSlug());
+			}
+		}
+	}
+
+	/**
 	 * Get url for the next question in this section
 	 * @param {string} sectionSegment - section segment
 	 * @param {string} questionSegment - question segment
@@ -223,10 +247,7 @@ class Journey {
 				) {
 					const question = currentSection.questions[j];
 					if (takeNextQuestion && question.shouldDisplay(this.response)) {
-						return this.#buildQuestionUrl(
-							currentSection.segment,
-							question.url ? question.url : question.fieldName
-						);
+						return this.#buildQuestionUrl(currentSection.segment, question.getUrlSlug());
 					}
 
 					if (
@@ -263,10 +284,7 @@ class Journey {
 			return unmatchedUrl;
 		}
 
-		return this.#buildQuestionUrl(
-			matchingSection.segment,
-			matchingQuestion.url ? matchingQuestion.url : matchingQuestion.fieldName
-		);
+		return this.#buildQuestionUrl(matchingSection.segment, matchingQuestion.getUrlSlug());
 	};
 
 	/**
@@ -300,9 +318,10 @@ class Journey {
 			return unmatchedUrl;
 		}
 
-		const questionUrl = matchingQuestion.url ?? matchingQuestion.fieldName;
-
-		return this.#buildQuestionUrl(matchingSection.segment, questionUrl + addition);
+		return this.#buildQuestionUrl(
+			matchingSection.segment,
+			matchingQuestion.getUrlSlug() + addition
+		);
 	};
 
 	/**
