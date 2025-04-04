@@ -17,7 +17,8 @@ describe('./src/dynamic-forms/question.js', () => {
 		},
 		getNextQuestionUrl: jest.fn(),
 		getCurrentQuestionUrl: jest.fn(),
-		getSection: jest.fn()
+		getSection: jest.fn(),
+		getBackLink: jest.fn()
 	};
 
 	const getTestQuestion = ({ options = [] } = {}) => {
@@ -66,7 +67,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			journey.response.answers = {};
 
 			const customViewData = { hello: 'hi' };
-			const result = question.prepQuestionForRendering({}, journey, customViewData);
+			const result = question.prepQuestionForRendering({ section: {}, journey, customViewData });
 
 			expect(result).toEqual(
 				expect.objectContaining({
@@ -87,7 +88,11 @@ describe('./src/dynamic-forms/question.js', () => {
 				[question.fieldName]: ['yes', 'maybe']
 			};
 
-			const result = question.prepQuestionForRendering({}, journey, {});
+			const result = question.prepQuestionForRendering({
+				section: {},
+				journey,
+				customViewData: {}
+			});
 
 			expectedData.options[0].checked = true;
 			expectedData.options[1].checked = true;
@@ -138,7 +143,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			journey.response.answers = {};
 
 			const customViewData = { hello: 'hi' };
-			const result = question.prepQuestionForRendering({}, journey, customViewData);
+			const result = question.prepQuestionForRendering({ section: {}, journey, customViewData });
 
 			expect(nunjucks.render).toHaveBeenCalledWith(`./dynamic-components/conditional/${type}.njk`, {
 				fieldName: `${FIELDNAME}_${options[0].conditional.fieldName}`,
@@ -196,7 +201,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			};
 
 			const customViewData = { hello: 'hi' };
-			const result = question.prepQuestionForRendering({}, journey, customViewData);
+			const result = question.prepQuestionForRendering({ section: {}, journey, customViewData });
 
 			expect(nunjucks.render).toHaveBeenCalledWith(`./dynamic-components/conditional/${type}.njk`, {
 				fieldName: `${FIELDNAME}_${options[0].conditional.fieldName}`,

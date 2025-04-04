@@ -40,6 +40,7 @@ const appealTypeToDetails = {
 /**
  * @typedef {import('@pins/common/src/dynamic-forms/journey-types').JourneyType} JourneyType
  * @typedef {import('./journey').Journey} Journey
+ * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('./question')} Question
  * @typedef {import('./section').Section} Section
  */
@@ -246,7 +247,13 @@ exports.question = async (req, res) => {
 		return res.redirect(journey.taskListUrl);
 	}
 
-	const viewModel = questionObj.prepQuestionForRendering(sectionObj, journey);
+	const sessionBackLink = getJourneyEntryFromSession(req, journey);
+
+	const viewModel = questionObj.prepQuestionForRendering({
+		section: sectionObj,
+		journey,
+		sessionBackLink
+	});
 	return questionObj.renderAction(res, viewModel);
 };
 
@@ -270,8 +277,12 @@ exports.save = async (req, res) => {
 	} catch (err) {
 		logger.error(err);
 
-		const viewModel = questionObj.prepQuestionForRendering(sectionObj, journey, {
-			errorSummary: [{ text: err.toString(), href: '#' }]
+		const viewModel = questionObj.prepQuestionForRendering({
+			section: sectionObj,
+			journey,
+			customViewData: {
+				errorSummary: [{ text: err.toString(), href: '#' }]
+			}
 		});
 		return questionObj.renderAction(res, viewModel);
 	}
@@ -305,8 +316,12 @@ exports.remove = async (req, res) => {
 	} catch (err) {
 		logger.error(err);
 
-		const viewModel = questionObj.prepQuestionForRendering(sectionObj, journey, {
-			errorSummary: [{ text: 'Failed to remove answer', href: '#' }]
+		const viewModel = questionObj.prepQuestionForRendering({
+			section: sectionObj,
+			journey,
+			customViewData: {
+				errorSummary: [{ text: 'Failed to remove answer', href: '#' }]
+			}
 		});
 
 		return questionObj.renderAction(res, viewModel);
@@ -858,6 +873,9 @@ exports.shortJourneyEntry = async (req, res) => {
 	req.session.navigationHistory.shift();
 	const { journey, journeyResponse } = res.locals;
 
+	// store entry point to journey in session, for exit path
+	setJourneyEntryOnSession(req, journey, req.session?.navigationHistory[0]);
+
 	// if complete, go to first question
 	if (journey.isComplete()) return res.redirect(journey.getFirstQuestionUrl());
 
@@ -867,4 +885,27 @@ exports.shortJourneyEntry = async (req, res) => {
 
 	// fallback to task list
 	return res.redirect(journey.taskListUrl);
+};
+
+/**
+ * @param {import('express').Request} req
+ * @param {Journey} journey
+ * @param {string} [entryUrl]
+ */
+const setJourneyEntryOnSession = (req, journey, entryUrl) => {
+	if (journey.baseUrl && entryUrl && !entryUrl.includes(journey.baseUrl)) {
+		req.session.journeyEntry = {
+			...req.session.journeyEntry,
+			[journey.baseUrl]: entryUrl
+		};
+	}
+};
+
+/**
+ * @param {import('express').Request} req
+ * @param {Journey} journey
+ * @returns {string}
+ */
+const getJourneyEntryFromSession = (req, journey) => {
+	return req.session?.journeyEntry?.[journey.baseUrl];
 };

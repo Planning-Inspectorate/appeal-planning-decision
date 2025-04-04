@@ -73,7 +73,8 @@ const appellantSubmissionTaskList = async (req, res) => {
 
 	return list(req, res, typeCodeToTaskListDetails[appealType].pageCaption, {
 		declarationUrl,
-		formattedDeadline
+		formattedDeadline,
+		navigation: ['', dashboardUrl]
 	});
 };
 

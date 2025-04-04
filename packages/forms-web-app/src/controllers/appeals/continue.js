@@ -23,6 +23,8 @@ exports.get = async (req, res) => {
 		params: { appealId }
 	} = req;
 
+	req.session.navigationHistory.shift();
+
 	if (!appealId)
 		throw new Error(`Continue your appeal cannot be invoked without specifying an appeal id`);
 

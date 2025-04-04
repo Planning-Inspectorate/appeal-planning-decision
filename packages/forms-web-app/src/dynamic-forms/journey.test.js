@@ -252,7 +252,7 @@ describe('Journey class', () => {
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
 
-				expect(nextQuestionUrl).toBe(journey.taskListUrl);
+				expect(nextQuestionUrl).toBe(null);
 			}
 		);
 
@@ -268,7 +268,7 @@ describe('Journey class', () => {
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
 
-				expect(nextQuestionUrl).toBe(journey.taskListUrl);
+				expect(nextQuestionUrl).toBe(null);
 			}
 		);
 
@@ -375,7 +375,7 @@ describe('Journey class', () => {
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
 
-				expect(nextQuestionUrl).toBe(journey.taskListUrl);
+				expect(nextQuestionUrl).toBe(null);
 			}
 		);
 
@@ -411,7 +411,7 @@ describe('Journey class', () => {
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
 
-				expect(nextQuestionUrl).toBe(journey.taskListUrl);
+				expect(nextQuestionUrl).toBe(null);
 			}
 		);
 
@@ -426,7 +426,7 @@ describe('Journey class', () => {
 				journey.returnToListing = true;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
-				expect(nextQuestionUrl).toBe(journey.taskListUrl);
+				expect(nextQuestionUrl).toBe(null);
 			}
 		);
 
@@ -442,7 +442,7 @@ describe('Journey class', () => {
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
 
-				expect(nextQuestionUrl).toBe(journey.taskListUrl);
+				expect(nextQuestionUrl).toBe(null);
 			}
 		);
 

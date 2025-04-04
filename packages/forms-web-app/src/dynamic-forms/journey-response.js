@@ -1,5 +1,5 @@
 /**
- * @typedef {import('./journey-factory').JourneyType} JourneyType
+ * @typedef {import('@pins/common/src/dynamic-forms/journey-types').JourneyType} JourneyType
  */
 
 /**

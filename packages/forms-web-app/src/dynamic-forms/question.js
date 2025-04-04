@@ -5,7 +5,6 @@ const escape = require('escape-html');
 const { nl2br } = require('@pins/common/src/utils');
 const RequiredValidator = require('./validator/required-validator');
 const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
-const SessionHelper = require('../middleware/session-helper');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
@@ -147,15 +146,17 @@ class Question {
 
 	/**
 	 * gets the view model for this question
-	 * @param {Section} section - the current section
-	 * @param {Journey} journey - the journey we are in
-	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
-	 * @param {unknown} [payload]
+	 * @param {Object} options - the current section
+	 * @param {Section} options.section - the current section
+	 * @param {Journey} options.journey - the journey we are in
+	 * @param {Record<string, unknown>} [options.customViewData] additional data to send to view
+	 * @param {unknown} [options.payload]
+	 * @param {string} [options.sessionBackLink]
 	 * @returns {QuestionViewModel}
 	 */
-	prepQuestionForRendering(section, journey, customViewData, payload) {
+	prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
 		const answer = journey.response.answers[this.fieldName] || '';
-		const backLink = this.getBackLink(journey, section);
+		const backLink = journey.getBackLink(section.segment, this.fieldName, sessionBackLink);
 
 		const viewModel = {
 			question: this.getQuestionModel(section, answer),
@@ -176,6 +177,7 @@ class Question {
 
 		return viewModel;
 	}
+
 	/**
 	 * gets the view model for this question
 	 * @param {Section | undefined} section - the current section
@@ -396,7 +398,11 @@ class Question {
 	 * @returns {void}
 	 */
 	handleNextQuestion(res, journey, sectionSegment, questionSegment) {
-		return res.redirect(journey.getNextQuestionUrl(sectionSegment, questionSegment, false));
+		let next = journey.getNextQuestionUrl(sectionSegment, questionSegment, false);
+		if (next === null) {
+			next = journey.taskListUrl;
+		}
+		return res.redirect(next);
 	}
 
 	/**
@@ -526,40 +532,6 @@ class Question {
 	 */
 	getUrlSlug() {
 		return this.url ?? this.fieldName;
-	}
-
-	/**
-	 * @param {Journey} journey
-	 * @param {Section} section
-	 * @returns {string}
-	 */
-	getBackLink(journey, section) {
-		const answer = journey.response.answers[this.fieldName] || '';
-
-		if (this.isShortJourney(journey) && this.isFirstQuestion(journey, section)) {
-			const navigationHistory = SessionHelper.getNavigationHistory();
-			let previousPage;
-
-			if (
-				navigationHistory[1] === journey.baseUrl &&
-				navigationHistory[2].includes('your-appeals')
-			) {
-				previousPage = navigationHistory[2];
-			} else if (navigationHistory[1].endsWith(journey.response.referenceId) && !answer) {
-				previousPage = this.getDashboardUrl(journey.journeyId);
-			} else {
-				previousPage = navigationHistory[1];
-			}
-
-			if (previousPage && previousPage.includes('/your-appeals')) {
-				return this.getDashboardUrl(journey.journeyId);
-			} else {
-				return previousPage;
-			}
-		} else {
-			// For long journeys/ other questions, get the previous question URL
-			return journey.getNextQuestionUrl(section.segment, this.fieldName, true);
-		}
 	}
 }
 
