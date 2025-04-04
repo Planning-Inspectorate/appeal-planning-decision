@@ -71,14 +71,14 @@ describe('./src/dynamic-forms/dynamic-components/single-line-input/question.js',
 				response: {
 					answers: {}
 				},
-				getNextQuestionUrl: () => {
+				getBackLink: () => {
 					return 'back';
 				}
 			};
 
 			const customViewData = { hello: 'hi' };
 
-			const result = question.prepQuestionForRendering({}, journey, customViewData);
+			const result = question.prepQuestionForRendering({ section: {}, journey, customViewData });
 
 			expect(result).toEqual(
 				expect.objectContaining({

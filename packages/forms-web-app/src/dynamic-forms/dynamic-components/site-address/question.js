@@ -61,13 +61,20 @@ class SiteAddressQuestion extends Question {
 	}
 
 	/**
-	 * @param {Section} section
-	 * @param {Journey} journey
-	 * @param {Record<string, unknown>} customViewData
+	 * @param {Object} options
+	 * @param {Section} options.section
+	 * @param {Journey} options.journey
+	 * @param {Record<string, unknown>} [options.customViewData]
+	 * @param {string} [options.sessionBackLink]
 	 * @returns {QuestionViewModel}
 	 */
-	prepQuestionForRendering(section, journey, customViewData) {
-		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
+	prepQuestionForRendering({ section, journey, customViewData, sessionBackLink }) {
+		const viewModel = super.prepQuestionForRendering({
+			section,
+			journey,
+			customViewData,
+			sessionBackLink
+		});
 
 		const address = this.#getExistingAddress(journey.response);
 

@@ -17,11 +17,13 @@ router.use('/householder', dynamicSubmission);
 
 // s78 appeals
 router.use('/full-planning', dynamicSubmission);
-router.use('/final-comments', finalCommentsRouter);
-router.use('/proof-evidence', proofEvidenceRouter);
 
 // s20 appeals
 router.use('/listed-building', dynamicSubmission);
+
+// reps
+router.use('/final-comments', finalCommentsRouter);
+router.use('/proof-evidence', proofEvidenceRouter);
 
 // todo: leave at end or fix the urls defined in these routes, currently catches anything else as :appealNumber
 router.use('/', selectedAppealRouter);
