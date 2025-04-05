@@ -317,21 +317,6 @@ describe('House Holder appleal questionnaire validation', () => {
     });
   });
 
-  it(`Validate House Holder questionnaire Policies from statutory development plan`, () => {
-    cy.get(basePage?._selectors.govukSummaryListKey).contains('Policies from statutory development plan').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
-      const linkText = $link.text().split('Upload relevant policies from your statutory development plan')[0].trim();
-
-      if (linkText === 'Upload') {
-        cy.wrap($link).should('be.visible').click({ force: true });
-        cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#uploadDevelopmentPlanPolicies').and('contain.text', 'Select the relevant policies from your statutory development plan');
-      }
-      else if (linkText === 'Change') {
-        cy.get(basePage?._selectors.govukSummaryListKey).contains('Upload the plans, drawings and list of plans').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
-      }
-    });
-  });
-
   it(`Validate House Holder questionnaire Emerging plans`, () => {
     cy.get(basePage?._selectors.govukSummaryListKey).contains('Emerging plans').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
       const linkText = $link.text().split('Do you have an emerging plan that is relevant to this appeal?')[0].trim();

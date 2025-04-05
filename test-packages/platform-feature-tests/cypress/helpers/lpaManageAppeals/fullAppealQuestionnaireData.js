@@ -22,13 +22,13 @@ const documents = {
 };
 
 export const fullAppealQuestionnaireTestCases = [
-    {  
-        constraintsAndDesignations:{
+    {
+        constraintsAndDesignations: {
             isCorrectTypeOfAppeal: true,
             isChangesListedBuilding: true,
-            isAffectListedBuildings: true,            
+            isAffectListedBuildings: true,
             isAffectedListedBuildings: true,
-            isScheduleMonument:true,
+            isScheduleMonument: true,
             isConservationArea: true,
             isProtectedSpecies: true,
             isGreenBelt: true,
@@ -38,8 +38,8 @@ export const fullAppealQuestionnaireTestCases = [
             isGypsyTraveller: true,
             isPublicRightOfWay: true
         },
-        environmentalImpact:{            
-            isSchedule: 'one',            
+        environmentalImpact: {
+            isSchedule: 'one',
             isEnvStmt: true,
             // isAgricultureAquaculture: true,
             // isChangeExtensions: false,
@@ -55,45 +55,47 @@ export const fullAppealQuestionnaireTestCases = [
             // isTextileIndustries: false,
             // isTourismLeisure: false,
             //isSensitiveArea:true,
-             // isColumn2Threshold: true,
+            // isColumn2Threshold: true,
             // isScreeningOpinion: true,
             // isScreenOpenionEnvStmt: true,
             // isLpaSiteSafetyRisks: true,
         },
-        notifyParties:{
+        notifyParties: {
         },
-        consultResponseAndRepresent:{
+        consultResponseAndRepresent: {
             isStatutoryConsultees: true,
             isConsultationResponses: true,
             isOtherPartyRepresentations: true,
         },
-        poReportAndSupportDocs:{
+        poReportAndSupportDocs: {
+            isSelectStatuaryPlan: true,
             isEmergingPlan: true,
+            isOtherRelaventPolicies: true,
             isSupplementaryPlanningDocs: true,
             isCommunityInfrastructureLevy: true,
             isCommunityInfrastructureLevyAdopted: true,
         },
-        siteAccess:{
+        siteAccess: {
             isLpaSiteAccess: true,
             isNeighbourSiteAccess: true,
             isLpaSiteSafetyRisks: true,
         },
-        appealProcess:{
+        appealProcess: {
             isProcedureType: 'written',
             isOngoingAppeals: true,
             isNearbyAppeals: true,
-            isNewConditions: true,                    
+            isNewConditions: true,
         },
         documents,
-        submit:{}
+        submit: {}
     },
-    {  
-        constraintsAndDesignations:{
+    {
+        constraintsAndDesignations: {
             isCorrectTypeOfAppeal: false,
             isChangesListedBuilding: false,
-            isAffectListedBuildings: false,            
+            isAffectListedBuildings: false,
             isAffectedListedBuildings: false,
-            isScheduleMonument:false,
+            isScheduleMonument: false,
             isConservationArea: false,
             isProtectedSpecies: false,
             isGreenBelt: false,
@@ -103,8 +105,8 @@ export const fullAppealQuestionnaireTestCases = [
             isGypsyTraveller: false,
             isPublicRightOfWay: false
         },
-        environmentalImpact:{            
-            isSchedule: 'one',            
+        environmentalImpact: {
+            isSchedule: 'one',
             isEnvStmt: false,
             // isAgricultureAquaculture: true,
             // isChangeExtensions: false,
@@ -120,45 +122,47 @@ export const fullAppealQuestionnaireTestCases = [
             // isTextileIndustries: false,
             // isTourismLeisure: false,
             //isSensitiveArea:true,
-             // isColumn2Threshold: true,
+            // isColumn2Threshold: true,
             // isScreeningOpinion: true,
             // isScreenOpenionEnvStmt: true,
             // isLpaSiteSafetyRisks: true,
         },
-        notifyParties:{
+        notifyParties: {
         },
-        consultResponseAndRepresent:{
+        consultResponseAndRepresent: {
             isStatutoryConsultees: false,
             isConsultationResponses: false,
             isOtherPartyRepresentations: false,
         },
-        poReportAndSupportDocs:{
+        poReportAndSupportDocs: {
+            isSelectStatuaryPlan: true,
             isEmergingPlan: false,
+            isOtherRelaventPolicies: true,
             isSupplementaryPlanningDocs: false,
             isCommunityInfrastructureLevy: false,
             isCommunityInfrastructureLevyAdopted: false,
         },
-        siteAccess:{
+        siteAccess: {
             isLpaSiteAccess: false,
             isNeighbourSiteAccess: false,
             isLpaSiteSafetyRisks: false,
         },
-        appealProcess:{
+        appealProcess: {
             isProcedureType: 'written',
             isOngoingAppeals: false,
             isNearbyAppeals: false,
-            isNewConditions: false,                    
+            isNewConditions: false,
         },
         documents,
-        submit:{}
+        submit: {}
     },
-    {  
-        constraintsAndDesignations:{
+    {
+        constraintsAndDesignations: {
             isCorrectTypeOfAppeal: false,
             isChangesListedBuilding: true,
-            isAffectListedBuildings: true,            
+            isAffectListedBuildings: true,
             isAffectedListedBuildings: true,
-            isScheduleMonument:true,
+            isScheduleMonument: true,
             isConservationArea: true,
             isProtectedSpecies: true,
             isGreenBelt: true,
@@ -168,8 +172,8 @@ export const fullAppealQuestionnaireTestCases = [
             isGypsyTraveller: true,
             isPublicRightOfWay: true
         },
-        environmentalImpact:{            
-            isSchedule: 'one',            
+        environmentalImpact: {
+            isSchedule: 'one',
             isEnvStmt: false,
             // isAgricultureAquaculture: true,
             // isChangeExtensions: false,
@@ -191,33 +195,35 @@ export const fullAppealQuestionnaireTestCases = [
             // isScreenOpenionEnvStmt: true,
             // isLpaSiteSafetyRisks: true,
         },
-        notifyParties:{
+        notifyParties: {
         },
-        consultResponseAndRepresent:{
+        consultResponseAndRepresent: {
             isStatutoryConsultees: false,
             isConsultationResponses: true,
             isOtherPartyRepresentations: true,
         },
-        poReportAndSupportDocs:{
+        poReportAndSupportDocs: {
+            isSelectStatuaryPlan: true,
             isEmergingPlan: false,
+            isOtherRelaventPolicies: true,
             isSupplementaryPlanningDocs: true,
             isCommunityInfrastructureLevy: true,
             isCommunityInfrastructureLevyAdopted: true,
         },
-        siteAccess:{
+        siteAccess: {
             isLpaSiteAccess: false,
             isNeighbourSiteAccess: true,
             isLpaSiteSafetyRisks: true,
         },
-        appealProcess:{
+        appealProcess: {
             isProcedureType: 'written',
             isOngoingAppeals: false,
             isNearbyAppeals: true,
-            isNewConditions: true,                    
+            isNewConditions: true,
         },
         documents,
-        submit:{}
-    }    
+        submit: {}
+    }
     // {  
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
@@ -413,7 +419,7 @@ export const fullAppealQuestionnaireTestCases = [
     //     },
     //     submit:{}
     // },
-        
+
     // {  
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
