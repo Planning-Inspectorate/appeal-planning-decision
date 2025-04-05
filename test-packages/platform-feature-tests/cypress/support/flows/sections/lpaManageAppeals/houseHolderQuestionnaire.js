@@ -71,10 +71,10 @@ export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 		siteAccess.selectNeighbourSiteAccess(context, lpaManageAppealsData);
 		siteAccess.selectLpaSiteSafetyRisks(context, lpaManageAppealsData);
 		// Appeals Access
-		appealProcess.selectNearbyAppeals(context, lpaManageAppealsData,lpaManageAppealsData?.hasAppealType);
+		appealProcess.selectNearbyAppeals(context, lpaManageAppealsData, lpaManageAppealsData?.hasAppealType);
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
 	});
-	//commented for test during codding
-		// cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-		// cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
+	//commented for test during coding
+	// cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
+	// cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
 };

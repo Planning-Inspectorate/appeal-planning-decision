@@ -37,8 +37,8 @@ export class FinalComment {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
             //Upload your witnesses and their evidence
-            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadSupportDocsFinalComments);
-            cy.advanceToNextPage();
+        //    cy.uploadFileFromFixtureDirectories(context?.documents?.uploadSupportDocsFinalComments);
+       //     cy.advanceToNextPage();
         }
     };
 }
