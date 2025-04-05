@@ -5,6 +5,12 @@
     "s78AppealType":"S78",
     "todoInvalid":"INVALID",
     "todoQuestionnaire": "questionnaire",
+    "todoProofsOfEvidence": "Proofs of Evidence",
+    "todoStatement": "Statement",
+    "todoFinalcomment": "Final comment",
+    "proofsOfEvidenceLink": "proof-evidence",
+    "appealStatementLink": "appeal-statement",
+    "appealFinalcommentsLink": "final-comments",    
     "appealType": "Appeal type",
     "appealTypeHouseholder":"Householder",
     "appealTypeFullPlanning":"Full Planning",
@@ -12,6 +18,7 @@
     "questionnaireAnswer":"Answer",
     "submitQuestionnaire":"submit-questionnaire",
     "questionnaireSubmitted":"Questionnaire submitted",
+    "submitAppealStatement":"Submit appeal statement",
     "addAndRemoveUsers":"Add and remove users",
     "written":"written",
     "inquiry":"inquiry",
@@ -69,5 +76,9 @@
         "lpaPreferHearingDetails":"Lpa Pefer Hearing Details !£$%^&*(123456789 ",
         "lpaProcedurePreferenceLpaPreferInquiryDuration":"99",
         "lpaPreferInquiryDetails":"Lpa Pefer Inquiry Details !£$%^&*(123456789 "
+    },   
+    "proofsOfEvidence":{
+
     }
+
 }
