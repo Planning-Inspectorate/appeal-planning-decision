@@ -112,6 +112,8 @@ env.addGlobal('googleAnalyticsId', config.server.googleAnalyticsId);
 env.addGlobal('googleTagManagerId', config.server.googleTagManagerId);
 env.addGlobal('featureFlag', config.featureFlag);
 env.addGlobal('feedbackUrl', config.feedbackUrl);
+env.addGlobal('feedbackUrlComment', config.feedbackUrlComment);
+env.addGlobal('feedbackUrlLPA', config.feedbackUrlLPA);
 env.addGlobal('betaBannerFeedback', config.betaBannerText + config.betaBannerFeedbackLink);
 env.addGlobal(
 	'betaBannerCommentFeedback',
