@@ -22,6 +22,9 @@ const feedbackUrl =
 const feedbackUrlComment =
 	process.env.FEEDBACK_URL_COMMENT ||
 	'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UQVU3UkdCT0FPVlYwQUsxUDYySDA1V1NXWC4u';
+const feedbackUrlLPA =
+	process.env.FEEDBACK_URL_LPA ||
+	'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UNzVFTElMSEJIWlhXWkZFM1E1WDg3RTFPUy4u';
 
 module.exports = {
 	gitSha: process.env.GIT_SHA ?? 'NO GIT SHA FOUND',
@@ -203,6 +206,8 @@ module.exports = {
 		clientSecret: process.env.CLIENT_SECRET
 	},
 	feedbackUrl: feedbackUrl,
+	feedbackUrlComment: feedbackUrlComment,
+	feedbackUrlLPA: feedbackUrlLPA,
 	betaBannerText: 'This is a beta service',
 	betaBannerFeedbackLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrl}">feedback</a> will help us to improve it.`,
 	betaBannerFeedbackCommentLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrlComment}">feedback</a> will help us to improve it.`
