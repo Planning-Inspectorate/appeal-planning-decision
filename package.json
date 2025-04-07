@@ -195,6 +195,6 @@
 		"testcontainers": "^10.23.0",
 		"webpack": "^5.99.0",
 		"webpack-cli": "^4.9.2",
-		"webpack-merge": "^5.8.0"
+		"webpack-merge": "^6.0.1"
 	}
 }
