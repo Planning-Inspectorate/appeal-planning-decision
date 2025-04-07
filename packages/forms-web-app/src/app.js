@@ -114,11 +114,8 @@ env.addGlobal('featureFlag', config.featureFlag);
 env.addGlobal('feedbackUrl', config.feedbackUrl);
 env.addGlobal('feedbackUrlComment', config.feedbackUrlComment);
 env.addGlobal('feedbackUrlLPA', config.feedbackUrlLPA);
+env.addGlobal('betaBannerText', config.betaBannerText);
 env.addGlobal('betaBannerFeedback', config.betaBannerText + config.betaBannerFeedbackLink);
-env.addGlobal(
-	'betaBannerCommentFeedback',
-	config.betaBannerText + config.betaBannerFeedbackCommentLink
-);
 env.addGlobal('contactEmail', config.contact.email);
 env.addGlobal('contactPhone', config.contact.phone);
 env.addGlobal('contactForm', config.contact.form);
