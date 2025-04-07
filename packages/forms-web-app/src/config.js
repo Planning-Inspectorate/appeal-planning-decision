@@ -209,6 +209,5 @@ module.exports = {
 	feedbackUrlComment: feedbackUrlComment,
 	feedbackUrlLPA: feedbackUrlLPA,
 	betaBannerText: 'This is a beta service',
-	betaBannerFeedbackLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrl}">feedback</a> will help us to improve it.`,
-	betaBannerFeedbackCommentLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrlComment}">feedback</a> will help us to improve it.`
+	betaBannerFeedbackLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrl}">feedback</a> will help us to improve it.`
 };
