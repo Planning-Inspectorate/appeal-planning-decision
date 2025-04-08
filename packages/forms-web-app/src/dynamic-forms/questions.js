@@ -1849,7 +1849,7 @@ exports.questionProps = {
 
 						{
 							regex: new RegExp('^\\d+(\\.\\d{1,2})?$'),
-							regexMessage: 'Site area must not include more than 2 decimals, like 30 or 30.12'
+							regexMessage: 'Appeal site area must be 2 decimal places or less, like 2 or 2.13'
 						}
 					]
 				}
