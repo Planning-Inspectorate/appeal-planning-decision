@@ -22,6 +22,7 @@ const {
 
 const { VIEW } = require('../../lib/views');
 const { determineUser } = require('../../lib/determine-user');
+const { getUserDashboardLink } = require('../../lib/get-user-dashboard');
 const { sections: appellantSections } = require('./appellant-sections');
 const { sections: lpaUserSections } = require('./lpa-user-sections');
 const { mapDecisionTag } = require('@pins/business-rules/src/utils/decision-outcome');
@@ -48,6 +49,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const appealNumber = req.params.appealNumber;
 		const trailingSlashRegex = /\/$/;
 		const userRouteUrl = req.originalUrl.replace(trailingSlashRegex, '');
+		const backLinkToDashboard = getUserDashboardLink(userRouteUrl);
 
 		// determine user based on route to selected appeal
 		// i.e '/appeals/' = appellant | agent
@@ -79,6 +81,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const viewContext = {
 			layoutTemplate,
 			titleSuffix: formatTitleSuffix(userType),
+			backLinkToDashboard,
 
 			shouldDisplayQuestionnaireDueNotification: isLPA && isLPAQuestionnaireDue(caseData),
 			shouldDisplayStatementsDueBannerLPA: isLPA && isLPAStatementOpen(caseData),
