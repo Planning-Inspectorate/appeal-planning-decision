@@ -1,7 +1,9 @@
 const { formatAddress } = require('@pins/common/src/lib/format-address');
 const { sortByCaseDecisionDate } = require('#utils/appeal-sorting');
-const { mapDecisionColour } = require('@pins/business-rules/src/utils/decision-outcome');
-const { APPEAL_CASE_DECISION_OUTCOME } = require('pins-data-model');
+const {
+	mapDecisionColour,
+	mapDecisionLabel
+} = require('@pins/business-rules/src/utils/decision-outcome');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
@@ -28,9 +30,7 @@ const decidedAppeals = async (req, res) => {
 			appeal.formattedDecisionColour = mapDecisionColour(appeal.caseDecisionOutcome);
 			appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
 			appeal.caseDecisionOutcome =
-				appeal.caseDecisionOutcome in APPEAL_CASE_DECISION_OUTCOME
-					? APPEAL_CASE_DECISION_OUTCOME[appeal.caseDecisionOutcome].name
-					: appeal.caseDecisionOutcome;
+				mapDecisionLabel(appeal.caseDecisionOutcome) ?? appeal.caseDecisionOutcome;
 		});
 		decidedAppeals.sort(sortByCaseDecisionDate);
 	}
