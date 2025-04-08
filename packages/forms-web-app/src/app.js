@@ -80,7 +80,7 @@ const nunjucksConfig = {
 };
 
 // resolve the govuk-frontend module folder
-// */govuk-frontend/govuk/all.js -> */govuk-frontend/
+// */govuk-frontend/dist/govuk/all.js -> */govuk-frontend/
 const govukFrontEndRoot = path.join(require.resolve('govuk-frontend'), '..', '..');
 
 const viewPaths = [
@@ -152,7 +152,7 @@ app.use(
 );
 app.use(
 	'/assets/govuk/all.js',
-	express.static(path.join(govukFrontEndRoot, 'govuk', 'all.js'), staticOptions)
+	express.static(path.join(govukFrontEndRoot, 'govuk', 'govuk-frontend.min.js'), staticOptions)
 );
 
 app.use(fileUpload({ ...config.fileUpload /*useTempFiles: true*/ }));

@@ -1,5 +1,5 @@
 const { formatCommentDecidedData } = require('./format-comment-decided-data');
-const { APPEAL_CASE_DECISION_OUTCOME, APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 describe('formatCommentDecidedData', () => {
 	const appeal = {
@@ -21,7 +21,7 @@ describe('formatCommentDecidedData', () => {
 		expect(result).toEqual({
 			formattedCaseDecisionDate: '31 Dec 2024',
 			formattedDecisionColour: 'green',
-			caseDecisionOutcome: APPEAL_CASE_DECISION_OUTCOME.ALLOWED,
+			caseDecisionOutcome: 'Allowed',
 			decisionDocuments: [{ documentType: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER, id: 'doc1' }]
 		});
 	});
