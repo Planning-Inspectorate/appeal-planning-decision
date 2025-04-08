@@ -7,7 +7,7 @@
   {% set ariaLabel = 'Cookies on %serviceName%' | replace('%serviceName%', serviceName) %}
 
   {% set rejectedHtml %}
-    <p>You’ve rejected analytics cookies. You can <a class="govuk-link" href="{{ cookiePagePath }}">change your cookie settings</a> at any time.</p>
+    <p class="govuk-body">You’ve rejected analytics cookies. You can <a class="govuk-link" href="{{ cookiePagePath }}">change your cookie settings</a> at any time.</p>
   {% endset %}
 
   {{ govukCookieBanner({
