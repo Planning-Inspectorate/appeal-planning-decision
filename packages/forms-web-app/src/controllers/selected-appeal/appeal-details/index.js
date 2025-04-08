@@ -7,7 +7,7 @@ const { getUserFromSession } = require('../../../services/user.service');
 const { detailsRows } = require('./appeal-details-rows');
 const { documentsRows } = require('./appeal-documents-rows');
 const { getDepartmentFromCode } = require('../../../services/department.service');
-const { generatePDF } = require('#lib/pdf-api-wrapper');
+const { generatePDF, sanitizeHtmlforPDF } = require('#lib/pdf-api-wrapper');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 
 const logger = require('#lib/logger');
@@ -84,7 +84,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		await req.app.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext, async (_, html) => {
 			if (!isPagePdfDownload) return res.send(html);
 
-			const pdfHtml = await addCSStoHtml(html);
+			const sanitizedHtml = sanitizeHtmlforPDF(html);
+			const pdfHtml = await addCSStoHtml(sanitizedHtml);
 			const pdf = await generatePDF(pdfHtml);
 
 			res.set('Content-disposition', `attachment; filename="Appeal ${appealNumber}.pdf"`);

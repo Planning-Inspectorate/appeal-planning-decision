@@ -21,7 +21,7 @@ const { siteAccessRows } = require('./site-access-details-rows');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
-const { generatePDF } = require('#lib/pdf-api-wrapper');
+const { generatePDF, sanitizeHtmlforPDF } = require('#lib/pdf-api-wrapper');
 
 jest.mock('@pins/common');
 jest.mock('#lib/determine-user');
@@ -148,6 +148,7 @@ describe('controllers/selected-appeal/questionnaire-details/index', () => {
 
 			addCSStoHtml.mockReturnValue(testHtmlWithCSS);
 			const testBuffer = Buffer.from(testHtmlWithCSS);
+			sanitizeHtmlforPDF.mockReturnValue(testHtml);
 			generatePDF.mockReturnValue(testBuffer);
 
 			const indexGetController = indexController.get();

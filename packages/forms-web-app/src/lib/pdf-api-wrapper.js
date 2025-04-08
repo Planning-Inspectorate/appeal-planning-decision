@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 const uuid = require('uuid');
+const { JSDOM } = require('jsdom');
 
 const config = require('../config');
 const parentLogger = require('./logger');
@@ -43,4 +44,20 @@ exports.generatePDF = async (htmlContent) => {
 	}
 
 	return apiResponse.buffer();
+};
+
+/**
+ * Sanitize html content in preparation for pdf creation
+ * @param {string} html - html
+ * @returns {string}
+ */
+exports.sanitizeHtmlforPDF = (html) => {
+	const dom = new JSDOM(html);
+	const document = dom.window.document;
+	//Remove backlink, phase banner and footer elements
+	document.querySelector('.govuk-back-link')?.remove();
+	document.querySelector('.govuk-phase-banner')?.remove();
+	document.querySelector('footer')?.remove();
+	const sanitizedHtml = dom.serialize();
+	return sanitizedHtml;
 };

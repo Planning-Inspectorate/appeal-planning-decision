@@ -9,7 +9,7 @@ const { detailsRows } = require('./appeal-details-rows');
 const { documentsRows } = require('./appeal-documents-rows');
 const { formatRows, formatHeadlineData } = require('@pins/common');
 const { VIEW } = require('#lib/views');
-const { generatePDF } = require('#lib/pdf-api-wrapper');
+const { generatePDF, sanitizeHtmlforPDF } = require('#lib/pdf-api-wrapper');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 
 jest.mock('#lib/determine-user');
@@ -119,6 +119,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 				pdfDownloadUrl: undefined
 			};
 
+			sanitizeHtmlforPDF.mockReturnValue(testHtml);
 			addCSStoHtml.mockReturnValue(testHtmlWithCSS);
 			const testBuffer = Buffer.from(testHtmlWithCSS);
 			generatePDF.mockReturnValue(testBuffer);

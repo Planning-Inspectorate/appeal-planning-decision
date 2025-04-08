@@ -17,7 +17,7 @@ const { siteAccessRows } = require('./site-access-details-rows');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
-const { generatePDF } = require('#lib/pdf-api-wrapper');
+const { generatePDF, sanitizeHtmlforPDF } = require('#lib/pdf-api-wrapper');
 const { APPEAL_CASE_STAGE } = require('pins-data-model');
 
 /**
@@ -118,7 +118,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			async (_, html) => {
 				if (!isPagePdfDownload) return res.send(html);
 
-				const pdfHtml = await addCSStoHtml(html);
+				const sanitizedHtml = sanitizeHtmlforPDF(html);
+				const pdfHtml = await addCSStoHtml(sanitizedHtml);
 				const pdf = await generatePDF(pdfHtml);
 
 				res.set(

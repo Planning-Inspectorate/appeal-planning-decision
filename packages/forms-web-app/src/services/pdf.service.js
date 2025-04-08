@@ -6,7 +6,7 @@ const uuid = require('uuid');
 const { documentTypes } = require('@pins/common');
 const config = require('../config');
 const { createDocument } = require('../lib/documents-api-wrapper');
-const { generatePDF } = require('../lib/pdf-api-wrapper');
+const { generatePDF, sanitizeHtmlforPDF } = require('../lib/pdf-api-wrapper');
 const { VIEW } = require('../lib/views');
 const {
 	VIEW: { FULL_APPEAL }
@@ -96,10 +96,11 @@ const storePdfAppeal = async ({ appeal, fileName, cookieString }) => {
 	try {
 		const url = buildAppealUrl(appeal);
 		const htmlContent = await getHtml(appeal.id, url, cookieString);
+		const sanitizedHtml = sanitizeHtmlforPDF(htmlContent);
 
 		log.debug('Generating PDF of appeal');
 
-		const pdfBuffer = await generatePDF(htmlContent);
+		const pdfBuffer = await generatePDF(sanitizedHtml);
 
 		log.debug('Creating document from PDF buffer');
 
@@ -153,10 +154,10 @@ const storePdfAppellantSubmission = async ({
 
 	try {
 		const htmlContent = await getHtml(appellantSubmissionId, url, cookieString);
-
+		const sanitizedHtml = sanitizeHtmlforPDF(htmlContent);
 		log.debug('Generating PDF of appeal');
 
-		const pdfBuffer = await generatePDF(htmlContent);
+		const pdfBuffer = await generatePDF(sanitizedHtml);
 
 		log.debug('Creating document from PDF buffer');
 
@@ -219,7 +220,8 @@ const storePdfQuestionnaireSubmission = async ({
 
 	try {
 		const htmlContent = await getHtml(submissionJourney, url, cookieString);
-		const htmlContentWithCSS = await addCSStoHtml(htmlContent);
+		const sanitizedHtml = sanitizeHtmlforPDF(htmlContent);
+		const htmlContentWithCSS = await addCSStoHtml(sanitizedHtml);
 
 		log.debug('Generating PDF of questionnaire');
 		const pdfBuffer = await generatePDF(htmlContentWithCSS);
