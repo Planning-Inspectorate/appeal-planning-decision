@@ -1,5 +1,8 @@
-const { mapDecisionColour } = require('@pins/business-rules/src/utils/decision-outcome');
-const { APPEAL_CASE_DECISION_OUTCOME, APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const {
+	mapDecisionColour,
+	mapDecisionLabel
+} = require('@pins/business-rules/src/utils/decision-outcome');
+const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 /**
@@ -13,10 +16,7 @@ exports.formatCommentDecidedData = (appeal) => {
 	return {
 		formattedCaseDecisionDate: formatDateForDisplay(appeal.caseDecisionOutcomeDate),
 		formattedDecisionColour: mapDecisionColour(appeal.caseDecisionOutcome),
-		caseDecisionOutcome:
-			appeal.caseDecisionOutcome in APPEAL_CASE_DECISION_OUTCOME
-				? APPEAL_CASE_DECISION_OUTCOME[appeal.caseDecisionOutcome].name
-				: appeal.caseDecisionOutcome,
+		caseDecisionOutcome: mapDecisionLabel(appeal.caseDecisionOutcome) ?? appeal.caseDecisionOutcome,
 		decisionDocuments: filterDecisionDocuments(appeal.Documents)
 	};
 };
