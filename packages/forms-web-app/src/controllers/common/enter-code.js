@@ -431,6 +431,8 @@ const postEnterCodeLPA = (views) => {
 
 		const isV2DocRequest = req.session?.loginRedirect?.startsWith('/lpa-questionnaire-document/');
 
+		const isSelectedPageRequest = req.session?.loginRedirect?.startsWith('/manage-appeals/');
+
 		let user;
 
 		try {
@@ -468,6 +470,19 @@ const postEnterCodeLPA = (views) => {
 		}
 
 		if (isV2DocRequest) {
+			const redirect = req.session.loginRedirect;
+			delete req.session.loginRedirect;
+			return res.redirect(redirect);
+		}
+
+		if (isSelectedPageRequest) {
+			if (req.session.tempBackLink) {
+				req.session.navigationHistory = [
+					req.session.tempBackLink,
+					...req.session.navigationHistory
+				];
+				delete req.session.tempBackLink;
+			}
 			const redirect = req.session.loginRedirect;
 			delete req.session.loginRedirect;
 			return res.redirect(redirect);
