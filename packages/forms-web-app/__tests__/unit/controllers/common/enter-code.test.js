@@ -469,7 +469,7 @@ describe('controllers/common/enter-code', () => {
 			});
 
 			it('should handle selected page request without tempBackLink', async () => {
-				const redirectPath = '/appeals/1234567/appeal-details';
+				const redirectPath = '/appeals/1234567';
 				req.session.enterCode = {
 					action: enterCodeConfig.actions.confirmEmail
 				};
@@ -812,6 +812,57 @@ describe('controllers/common/enter-code', () => {
 			expect(getLPAUserStatus).toHaveBeenCalledWith(req, userId);
 			expect(setLPAUserStatus).toHaveBeenCalledWith(req, userId, STATUS_CONSTANTS.CONFIRMED);
 			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/your-appeals');
+		});
+
+		it('should handle selected page request and push tempBackLink to navigationHistory', async () => {
+			const views = {};
+			const userId = '649418158b915f0018524cb7';
+			const code = '12345';
+
+			isTokenValid.mockResolvedValue({ valid: true });
+			getLPAUser.mockResolvedValue({ email: 'lpa@example.com' });
+			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
+
+			req.params.id = userId;
+			req.body = { 'email-code': code };
+
+			req.session.loginRedirect = '/manage-appeals/1234567/appeal-details';
+			req.session.tempBackLink = '/manage-appeals/1234567';
+			req.session.navigationHistory = [];
+
+			const returnedFunction = postEnterCodeLPA(views);
+
+			await returnedFunction(req, res);
+
+			expect(req.session.navigationHistory).toEqual(['/manage-appeals/1234567']);
+			expect(req.session.tempBackLink).toBeUndefined();
+			expect(req.session.loginRedirect).toBeUndefined();
+			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/1234567/appeal-details');
+		});
+
+		it('should handle selected page request without tempBackLink', async () => {
+			const views = {};
+			const userId = '649418158b915f0018524cb7';
+			const code = '12345';
+
+			isTokenValid.mockResolvedValue({ valid: true });
+			getLPAUser.mockResolvedValue({ email: 'lpa@example.com' });
+			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
+
+			req.params.id = userId;
+			req.body = { 'email-code': code };
+
+			req.session.loginRedirect = '/manage-appeals/1234567/';
+			req.session.navigationHistory = ['already-there'];
+
+			const returnedFunction = postEnterCodeLPA(views);
+
+			await returnedFunction(req, res);
+
+			expect(req.session.navigationHistory).toEqual(['already-there']);
+			expect(req.session.tempBackLink).toBeUndefined(); // never set
+			expect(req.session.loginRedirect).toBeUndefined();
+			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/1234567/');
 		});
 	});
 });
