@@ -156,7 +156,7 @@ class Question {
 	 */
 	prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
 		const answer = journey.response.answers[this.fieldName] || '';
-		const backLink = journey.getBackLink(section?.segment, this.fieldName, sessionBackLink);
+		const backLink = journey.getBackLink(section.segment, this.fieldName, sessionBackLink);
 
 		const viewModel = {
 			question: this.getQuestionModel(section, answer),
