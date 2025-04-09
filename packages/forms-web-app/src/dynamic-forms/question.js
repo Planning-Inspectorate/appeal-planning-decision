@@ -156,7 +156,7 @@ class Question {
 	 */
 	prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
 		const answer = journey.response.answers[this.fieldName] || '';
-		const backLink = journey.getBackLink(section.segment, this.fieldName, sessionBackLink);
+		const backLink = journey.getBackLink(section?.segment, this.fieldName, sessionBackLink);
 
 		const viewModel = {
 			question: this.getQuestionModel(section, answer),
@@ -201,22 +201,40 @@ class Question {
 	/**
 	 * replace the key of each variable to required text
 	 * @param {Section | undefined} section - the current section
+	 * @param {any} item - object item
 	 * @returns {any} item
 	 */
 	replaceVariables(section, item) {
-		if (this.variables && section?.sectionVariables) {
-			this.variables.forEach((variable) => {
-				const variableValue = section?.sectionVariables[variable];
-				if (variableValue) {
-					Object.keys(item).forEach((prop) => {
-						if (typeof item[prop] === 'string') {
-							item[prop] = item[prop].replace(variable, variableValue);
-						}
-					});
-				}
-			});
-		}
-		return item;
+		if (!this.variables || !section?.sectionVariables) return item;
+
+		/**
+		 * Replace variables in string
+		 * @param {string} str - object item
+		 * @returns {any} item
+		 */
+		const replaceInString = (str) =>
+			this.variables?.reduce((s, variable) => {
+				const value = section.sectionVariables[variable];
+				return value ? s.replace(new RegExp(variable, 'g'), value) : s;
+			}, str);
+
+		/**
+		 * Replace variables of objects and children
+		 * @param {any} input - object item
+		 * @returns {any} item
+		 */
+		const walk = (input) => {
+			if (Array.isArray(input)) {
+				return input.map(walk);
+			} else if (input && typeof input === 'object') {
+				return Object.fromEntries(Object.entries(input).map(([key, value]) => [key, walk(value)]));
+			} else if (typeof input === 'string') {
+				return replaceInString(input);
+			}
+			return input;
+		};
+
+		return walk(item);
 	}
 
 	/**
@@ -268,18 +286,19 @@ class Question {
 	 */
 	checkForValidationErrors(req, sectionObj, journey) {
 		const { body } = req;
-		const { errors = {}, errorSummary = [] } = body;
+		let { errors = {}, errorSummary = [] } = body;
+		const customViewData = this.replaceVariables(sectionObj, {
+			errors,
+			errorSummary
+		});
 
 		if (Object.keys(errors).length > 0) {
-			return this.prepQuestionForRendering(
-				sectionObj,
+			return this.prepQuestionForRendering({
+				section: sectionObj,
 				journey,
-				{
-					errors,
-					errorSummary
-				},
-				body
-			);
+				customViewData,
+				payload: body
+			});
 		}
 	}
 

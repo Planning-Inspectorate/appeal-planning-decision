@@ -92,7 +92,11 @@ exports.questionProps = {
 		question: `Is a ${QUESTION_VARIABLES.APPEAL_TYPE} appeal the correct type of appeal?`,
 		fieldName: 'correctAppealType',
 		url: 'correct-appeal-type',
-		validators: [new RequiredValidator('Select yes if this is the correct type of appeal')],
+		validators: [
+			new RequiredValidator(
+				`Select yes if ${QUESTION_VARIABLES.APPEAL_TYPE} is the correct type of appeal`
+			)
+		],
 		variables: [QUESTION_VARIABLES.APPEAL_TYPE]
 	},
 	listedBuildingCheck: {
