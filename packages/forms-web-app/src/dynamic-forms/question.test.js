@@ -605,4 +605,79 @@ describe('./src/dynamic-forms/question.js', () => {
 			expect(urlSlug).toBe(FIELDNAME);
 		});
 	});
+
+	describe('replaceVariables', () => {
+		const question = getTestQuestion();
+		let section;
+		beforeEach(() => {
+			question.variables = [QUESTION_VARIABLES.APPEAL_TYPE];
+			section = {
+				name: 'section-name',
+				sectionVariables: { [QUESTION_VARIABLES.APPEAL_TYPE]: 'Last Name' }
+			};
+		});
+
+		it('should replace all variables in object properties', () => {
+			const testObject = {
+				name: `tester ${QUESTION_VARIABLES.APPEAL_TYPE}`,
+				address: 'tester'
+			};
+			const result = question.replaceVariables(section, testObject);
+			expect(result).toEqual({
+				name: 'tester Last Name',
+				address: 'tester'
+			});
+		});
+		it('should replace all variables in array properties', () => {
+			const testObject = [
+				{
+					name: `tester ${QUESTION_VARIABLES.APPEAL_TYPE}`,
+					address: 'tester'
+				}
+			];
+			const result = question.replaceVariables(section, testObject);
+			expect(result).toEqual([
+				{
+					name: 'tester Last Name',
+					address: 'tester'
+				}
+			]);
+		});
+
+		it('should replace all variables in string', () => {
+			const testString = 'tester Last Name';
+			const result = question.replaceVariables(section, testString);
+			expect(result).toEqual('tester Last Name');
+		});
+
+		it('should replace all variables in child objects', () => {
+			const testObject = {
+				name: `tester ${QUESTION_VARIABLES.APPEAL_TYPE}`,
+				address: {
+					postcode: 'fg45 5gh',
+					address1: `tester main address ${QUESTION_VARIABLES.APPEAL_TYPE}`
+				},
+				moreInfo: [
+					{
+						place: `test place ${QUESTION_VARIABLES.APPEAL_TYPE}`,
+						address: `test address ${QUESTION_VARIABLES.APPEAL_TYPE}`
+					}
+				]
+			};
+			const result = question.replaceVariables(section, testObject);
+			expect(result).toEqual({
+				name: 'tester Last Name',
+				address: {
+					postcode: 'fg45 5gh',
+					address1: 'tester main address Last Name'
+				},
+				moreInfo: [
+					{
+						place: 'test place Last Name',
+						address: 'test address Last Name'
+					}
+				]
+			});
+		});
+	});
 });
