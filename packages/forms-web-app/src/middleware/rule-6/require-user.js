@@ -11,6 +11,7 @@ const {
 const {
 	server: { sessionIdleTimeoutLPA, sessionIdleTimeoutDelay }
 } = require('../../config');
+const { storeAppealPageRedirect } = require('#lib/login-redirect');
 
 /**
  * @type {import('express').Handler}
@@ -27,10 +28,20 @@ const requireUser = (req, res, next) => {
 		return next();
 	}
 
+	let requestedPageRedirect;
+
+	if (req.originalUrl.startsWith('/rule-6/')) {
+		requestedPageRedirect = req.originalUrl;
+	}
+
 	logger.info('Rule 6 user not logged in');
 	req.session.regenerate((err) => {
 		if (err) {
 			req.session = {};
+		}
+
+		if (requestedPageRedirect) {
+			storeAppealPageRedirect('rule-6')(req, res);
 		}
 
 		return res.redirect(`/${EMAIL_ADDRESS}`);
