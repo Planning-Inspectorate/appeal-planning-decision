@@ -442,6 +442,54 @@ describe('controllers/common/enter-code', () => {
 				expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
 				expect(req.session.appeal).toEqual(appealLookup);
 			});
+
+			it('should handle selected page request and push tempBackLink to navigationHistory', async () => {
+				const redirectPath = '/appeals/1234567/appeal-details';
+				req.session.enterCode = {
+					action: enterCodeConfig.actions.confirmEmail
+				};
+
+				req.session.loginRedirect = redirectPath;
+				req.session.tempBackLink = '/appeals/1234567';
+				req.session.navigationHistory = [];
+
+				isTokenValid.mockResolvedValue({
+					valid: true,
+					access_token: 'access',
+					id_token: 'id',
+					access_token_expiry: 'expiry'
+				});
+
+				const returnedFunction = postEnterCode(fullAppealViews, { isGeneralLogin: false });
+				await returnedFunction(req, res);
+
+				expect(req.session.navigationHistory).toEqual(['/appeals/1234567']);
+				expect(req.session.tempBackLink).toBeUndefined();
+				expect(res.redirect).toHaveBeenCalledWith(redirectPath);
+			});
+
+			it('should handle selected page request without tempBackLink', async () => {
+				const redirectPath = '/appeals/1234567/appeal-details';
+				req.session.enterCode = {
+					action: enterCodeConfig.actions.confirmEmail
+				};
+
+				req.session.loginRedirect = redirectPath;
+				req.session.navigationHistory = ['existing/path'];
+
+				isTokenValid.mockResolvedValue({
+					valid: true,
+					access_token: 'access',
+					id_token: 'id',
+					access_token_expiry: 'expiry'
+				});
+
+				const returnedFunction = postEnterCode(fullAppealViews, { isGeneralLogin: false });
+				await returnedFunction(req, res);
+
+				expect(req.session.navigationHistory).toEqual(['existing/path']); // unchanged
+				expect(res.redirect).toHaveBeenCalledWith(redirectPath);
+			});
 		});
 	});
 
