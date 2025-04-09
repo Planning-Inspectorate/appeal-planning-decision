@@ -111,7 +111,7 @@
 		"body-parser": "^1.19.1",
 		"clamscan": "^2.4.0",
 		"compression": "^1.8.0",
-		"connect-mongodb-session": "^4.0.0",
+		"connect-mongodb-session": "^5.0.0",
 		"cookie-parser": "^1.4.6",
 		"cors": "^2.8.5",
 		"date-fns": "^2.30.0",
