@@ -16,6 +16,31 @@ const setCommentDeadline = async (req, res) => {
 	return res.sendStatus(200);
 };
 
+const radios = async (req, res) => {
+	res.render('debug-radios');
+};
+
+const radios2 = async (req, res) => {
+	res.render('debug-radios2');
+};
+
+const radios3 = async (req, res) => {
+	res.render('debug-radios3');
+};
+
+const radios4 = async (req, res) => {
+	res.render('debug-radios4');
+};
+
+const radios5 = async (req, res) => {
+	res.render('debug-radios5');
+};
+
 module.exports = {
-	setCommentDeadline
+	setCommentDeadline,
+	radios,
+	radios2,
+	radios3,
+	radios4,
+	radios5
 };

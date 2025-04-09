@@ -1,0 +1,386 @@
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% extends "layouts/main.njk" %}
+
+{% block before_content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+      {{ govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: errorSummary,
+        attributes: {"data-cy": "error-wrapper"}
+      }) }}
+  </div>
+</div>
+{{ super() }}
+{% endblock before_content %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <ul>
+            <li><a href="/debug/radios">radios</a></li>
+            <li><a href="/debug/radios2">radios2</a></li>
+            <li><a href="/debug/radios3">radios3</a></li>
+            <li><a href="/debug/radios4">radios4</a></li>
+            <li><a href="/debug/radios5">radios5</a></li>
+        </ul>
+
+      <form action="" method="post" novalidate>
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
+        {{ govukRadios({
+            classes: "govuk-radios",
+            idPrefix: 'question.fieldName',
+            name: 'question.fieldName',
+            errorMessage: errors['question.fieldName'] and {
+                text: errors['question.fieldName'].msg
+            },
+            fieldset: {
+                legend: {
+                text: 'question.question',
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: { html: htmlHint },
+            items: [
+                {
+                value: "government-gateway",
+                text: "Sign in with Government Gateway",
+                hint: {
+                    text: "You’ll have a user ID if you’ve registered for Self Assessment or filed a tax return online before"
+                }
+                },
+                {
+                value: "govuk-one-login",
+                text: "Sign in with GOV.UK One Login",
+                hint: {
+                    text: "If you don’t have a GOV.UK One Login, you can create one"
+                }
+                }
+            ]
+            }) }}      
+
+    {{ govukRadios({
+        name: "whereDoYouLive1",
+        fieldset: {
+            legend: {
+            text: "Where do you live1?",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--l"
+            }
+        },
+        items: [
+            {
+            value: "england",
+            text: "England"
+            },
+            {
+            value: "scotland",
+            text: "Scotland"
+            },
+            {
+            value: "wales",
+            text: "Wales"
+            },
+            {
+            value: "northern-ireland",
+            text: "Northern Ireland"
+            }
+        ]
+        }) }}
+    
+    
+        {{ govukRadios({
+            name: "whereDoYouLive2",
+            fieldset: {
+                legend: {
+                text: "Where do you live2?",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--l"
+                }
+            },
+            items: [
+                {
+                value: "england",
+                text: "England"
+                },
+                {
+                value: "scotland",
+                text: "Scotland"
+                },
+                {
+                value: "wales",
+                text: "Wales"
+                },
+                {
+                value: "northern-ireland",
+                text: "Northern Ireland"
+                }
+            ]
+        }) }}
+
+        {{ govukRadios({
+        name: "whereDoYouLive3",
+        fieldset: {
+            legend: {
+            text: "Where do you live3?"
+            }
+        },
+        items: [
+            {
+            value: "england",
+            text: "England"
+            },
+            {
+            value: "scotland",
+            text: "Scotland"
+            },
+            {
+            value: "wales",
+            text: "Wales"
+            },
+            {
+            value: "northern-ireland",
+            text: "Northern Ireland"
+            }
+        ]
+        }) }}
+
+        {{ govukRadios({
+            classes: "govuk-radios--inline",
+            name: "changedName",
+            fieldset: {
+                legend: {
+                text: "Have you changed your name?",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+                text: "This includes changing your last name or spelling your name differently"
+            },
+            items: [
+                {
+                value: "yes",
+                text: "Yes"
+                },
+                {
+                value: "no",
+                text: "No"
+                }
+            ]
+        }) }}
+
+        {{ govukRadios({
+            name: "signIn",
+            fieldset: {
+                legend: {
+                text: "How do you want to sign in?",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--l"
+                }
+            },
+            hint: {
+                text: "You’ll need an account to prove your identity and complete your Self Assessment"
+            },
+            items: [
+                {
+                value: "government-gateway",
+                text: "Sign in with Government Gateway",
+                hint: {
+                    text: "You’ll have a user ID if you’ve registered for Self Assessment or filed a tax return online before"
+                }
+                },
+                {
+                value: "govuk-one-login",
+                text: "Sign in with GOV.UK One Login",
+                hint: {
+                    text: "If you don’t have a GOV.UK One Login, you can create one"
+                }
+                }
+            ]
+        }) }}
+
+        {{ govukRadios({
+            name: "whereDoYouLive4",
+            fieldset: {
+                legend: {
+                text: "Where do you live?",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--l"
+                }
+            },
+            items: [
+                {
+                value: "england",
+                text: "England"
+                },
+                {
+                value: "scotland",
+                text: "Scotland"
+                },
+                {
+                value: "wales",
+                text: "Wales"
+                },
+                {
+                value: "northern-ireland",
+                text: "Northern Ireland"
+                },
+                {
+                divider: "or"
+                },
+                {
+                value: "abroad",
+                text: "I am a British citizen living abroad"
+                }
+            ]
+            }) }}
+
+
+            {% set emailHtml %}
+            {{ govukInput({
+            id: "contact-by-email",
+            name: "contactByEmail",
+            type: "email",
+            autocomplete: "email",
+            spellcheck: false,
+            classes: "govuk-!-width-one-third",
+            label: {
+                text: "Email address"
+            }
+            }) }}
+            {% endset -%}
+
+            {% set phoneHtml %}
+            {{ govukInput({
+            id: "contact-by-phone",
+            name: "contactByPhone",
+            type: "tel",
+            autocomplete: "tel",
+            classes: "govuk-!-width-one-third",
+            label: {
+                text: "Phone number"
+            }
+            }) }}
+            {% endset -%}
+
+            {% set textHtml %}
+            {{ govukInput({
+            id: "contact-by-text",
+            name: "contactByText",
+            type: "tel",
+            autocomplete: "tel",
+            classes: "govuk-!-width-one-third",
+            label: {
+                text: "Mobile phone number"
+            }
+            }) }}
+            {% endset -%}
+
+        {{ govukRadios({
+        name: "contact",
+        fieldset: {
+            legend: {
+            text: "How would you prefer to be contacted?",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--l"
+            }
+        },
+        hint: {
+            text: "Select one option"
+        },
+        items: [
+            {
+            value: "email",
+            text: "Email",
+            conditional: {
+                html: emailHtml
+            }
+            },
+            {
+            value: "phone",
+            text: "Phone",
+            conditional: {
+                html: phoneHtml
+            }
+            },
+            {
+            value: "text",
+            text: "Text message",
+            conditional: {
+                html: textHtml
+            }
+            }
+        ]
+        }) }}
+
+        {{ govukRadios({
+        classes: "govuk-radios--small",
+        name: "changedName2",
+        fieldset: {
+            legend: {
+            text: "Filter",
+            isPageHeading: false,
+            classes: "govuk-fieldset__legend--m"
+            }
+        },
+        items: [
+            {
+            value: "month",
+            text: "Monthly"
+            },
+            {
+            value: "year",
+            text: "Yearly"
+            }
+        ]
+        }) }}
+
+
+        {{ govukRadios({
+            name: "whereDoYouLive5",
+            fieldset: {
+                legend: {
+                text: "Where do you live5?",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--l"
+                }
+            },
+            items: [
+                {
+                value: "england",
+                text: "England"
+                },
+                {
+                value: "scotland",
+                text: "Scotland"
+                },
+                {
+                value: "wales",
+                text: "Wales"
+                },
+                {
+                value: "northern-ireland",
+                text: "Northern Ireland"
+                }
+            ],
+            errorMessage: {
+                text: "Select the country where you live"
+            }
+            }) }}
+
+            
+            {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+        </form>
+    </div>
+  </div>
+{% endblock %}
