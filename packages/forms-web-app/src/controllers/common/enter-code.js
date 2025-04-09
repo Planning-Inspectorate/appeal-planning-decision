@@ -168,6 +168,8 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 
 		const isV2DocRequest = req.session?.loginRedirect?.startsWith('/appeal-document/');
 
+		const isSelectedPageRequest = req.session?.loginRedirect?.startsWith('/appeals/');
+
 		const sessionEmail = getSessionEmail(req.session, isAppealConfirmation);
 
 		const tokenValid = await isTokenValid(token, sessionEmail, action);
@@ -196,6 +198,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		logger.info(
 			{
 				isV2DocRequest,
+				isSelectedPageRequest,
 				isGeneralLogin,
 				isAppealConfirmation,
 				isReturningFromEmail,
@@ -205,6 +208,17 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		);
 
 		if (isV2DocRequest) {
+			return handleCustomRedirect();
+		}
+
+		if (isSelectedPageRequest) {
+			if (req.session.tempBackLink) {
+				req.session.navigationHistory = [
+					req.session.tempBackLink,
+					...req.session.navigationHistory
+				];
+				delete req.session.tempBackLink;
+			}
 			return handleCustomRedirect();
 		}
 

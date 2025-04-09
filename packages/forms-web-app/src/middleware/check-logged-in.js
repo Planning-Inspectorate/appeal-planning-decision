@@ -1,4 +1,5 @@
 const { getUserFromSession } = require('../services/user.service');
+const { storeAppealPageRedirect } = require('../lib/login-redirect');
 const {
 	constants: { NEW_OR_SAVED_APPEAL_OPTION }
 } = require('@pins/business-rules');
@@ -31,6 +32,7 @@ const checkLoggedIn = async (req, res, next) => {
 
 	let docRedirectUrl;
 	let v2docRedirect;
+	let requestedPageRedirect;
 
 	if (req.originalUrl.startsWith('/document/') && req.params?.appealOrQuestionnaireId) {
 		docRedirectUrl = await createSaveAndReturnUrl(req.params?.appealOrQuestionnaireId);
@@ -45,6 +47,10 @@ const checkLoggedIn = async (req, res, next) => {
 
 	if (req.originalUrl.startsWith('/lpa-questionnaire-document/') && req.params?.caseReference) {
 		v2docRedirect = req.originalUrl;
+	}
+
+	if (req.originalUrl.startsWith('/appeals/')) {
+		requestedPageRedirect = req.originalUrl;
 	}
 
 	// reset session
@@ -68,6 +74,10 @@ const checkLoggedIn = async (req, res, next) => {
 
 		if (req.originalUrl.startsWith('/lpa-questionnaire-document/')) {
 			return res.redirect('/manage-appeals/your-email-address');
+		}
+
+		if (requestedPageRedirect) {
+			storeAppealPageRedirect('appeals')(req, res);
 		}
 
 		req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.RETURN;
