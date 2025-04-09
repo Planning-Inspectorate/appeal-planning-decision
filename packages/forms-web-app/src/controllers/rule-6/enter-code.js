@@ -106,6 +106,8 @@ const postEnterCodeR6 = (views) => {
 
 		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.confirmEmail;
 
+		const isSelectedPageRequest = req.session?.loginRedirect?.startsWith('/rule-6/');
+
 		const sessionEmail = getSessionEmail(req.session, false);
 
 		const tokenValid = await isTokenValid(token, sessionEmail, action);
@@ -139,6 +141,19 @@ const postEnterCodeR6 = (views) => {
 			},
 			`postEnterCode`
 		);
+
+		if (isSelectedPageRequest) {
+			if (req.session.tempBackLink) {
+				req.session.navigationHistory = [
+					req.session.tempBackLink,
+					...req.session.navigationHistory
+				];
+				delete req.session.tempBackLink;
+			}
+			const redirect = req.session.loginRedirect;
+			delete req.session.loginRedirect;
+			return res.redirect(redirect);
+		}
 
 		deleteTempSessionValues();
 		return res.redirect(`/${views.DASHBOARD}`);
