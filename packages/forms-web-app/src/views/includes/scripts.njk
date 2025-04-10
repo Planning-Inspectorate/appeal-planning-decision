@@ -1,6 +1,6 @@
 <!-- Javascript -->
 <script type="module" src="/assets/govuk/all.js?v={{ cacheBustVersion }}"></script>
 <script type="module" {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>
-  import { initAll } from '/assets/govuk/all.js'
+  import { initAll } from '/assets/govuk/all.js?v={{ cacheBustVersion }}'
   initAll()
 </script>
