@@ -5,15 +5,21 @@ const appConfiguration = require('../../../../../src/configuration/config');
 module.exports = class NotifyInteraction {
 	static getAppealSubmittedEmailForAppellantInteraction(appeal, appellantName) {
 		return new Interaction('Send appeal successfully submitted email to appellant')
-			.setNumberOfKeysExpectedInJson(5)
+			.setNumberOfKeysExpectedInJson(6)
 			.addJsonValueExpectation(
 				JsonPathExpression.create('$.template_id'),
-				appConfiguration.services.notify.templates.APPEAL_SUBMISSION.V1_HORIZON
-					.appellantAppealSubmissionInitialConfirmation
+				appConfiguration.services.notify.templates.generic
 			)
 			.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), appeal.email)
 			.addJsonValueExpectation(JsonPathExpression.create('$.reference'), appeal.id)
-			.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.name'), appellantName);
+			.addJsonValueExpectation(
+				JsonPathExpression.create('$.personalisation.subject'),
+				'We have received your appeal'
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create('$.personalisation.content'),
+				new RegExp(appellantName)
+			);
 	}
 
 	static getAppealReceivedEmailForAppellantInteraction(appeal, appellantName, lpaName) {

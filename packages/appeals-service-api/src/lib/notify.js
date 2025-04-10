@@ -5,6 +5,7 @@ const {
 	rules
 } = require('@pins/business-rules');
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
+const NotifyService = require('@pins/common/src/lib/notify/notify-service');
 const config = require('../configuration/config');
 const logger = require('./logger');
 const LpaService = require('../services/lpa.service');
@@ -44,11 +45,30 @@ const appealTypeCodeToAppealText = {
 	S78: 'full planning'
 };
 
+/** @type {NotifyService|null} */ // todo: use dependency injection instead
+let notifyServiceInstance;
+/** @returns {NotifyService} */
+const getNotifyService = () => {
+	if (notifyServiceInstance) return notifyServiceInstance;
+
+	notifyServiceInstance = new NotifyService({
+		logger,
+		notifyClient: NotifyBuilder.getNotifyClient(
+			config.services.notify.baseUrl,
+			config.services.notify.serviceId,
+			config.services.notify.apiKey
+		)
+	});
+
+	return notifyServiceInstance;
+};
+
 //v1 appellant submission initial
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
 		const recipientEmail = appeal.email;
-		let variables = {
+		const variables = {
+			...config.services.notify.templateVariables,
 			name:
 				appeal.appealType == '1001'
 					? appeal.aboutYouSection.yourDetails.name
@@ -62,18 +82,20 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 			'Sending submission confirmation email to appellant'
 		);
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates.APPEAL_SUBMISSION.V1_HORIZON.appellantAppealSubmissionInitialConfirmation
-			)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.appealSubmission.v1Initial,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We have received your appeal`,
+				content
+			},
+			destinationEmail: recipientEmail,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error(
 			{ err, appealId: appeal.id },
