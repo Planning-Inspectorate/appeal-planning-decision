@@ -22,44 +22,50 @@ module.exports = class NotifyInteraction {
 			);
 	}
 
-	static getAppealReceivedEmailForAppellantInteraction(appeal, appellantName, lpaName) {
+	static getAppealReceivedEmailForAppellantInteraction(appeal, lpaName) {
 		return new Interaction('Send appeal successfully received email to appellant')
-			.setNumberOfKeysExpectedInJson(10)
+			.setNumberOfKeysExpectedInJson(6)
 			.addJsonValueExpectation(
 				JsonPathExpression.create('$.template_id'),
-				appConfiguration.services.notify.templates.APPEAL_SUBMISSION.V1_HORIZON
-					.appellantAppealSubmissionFollowUpConfirmation
+				appConfiguration.services.notify.templates.generic
 			)
 			.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), appeal.email)
 			.addJsonValueExpectation(JsonPathExpression.create('$.reference'), appeal.id)
-			.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.name'), appellantName)
 			.addJsonValueExpectation(
-				JsonPathExpression.create("$.personalisation['appeal reference number']"),
-				appeal.horizonIdFull
+				JsonPathExpression.create('$.personalisation.subject'),
+				`We have processed your appeal: ${appeal.horizonIdFull}`
 			)
 			.addJsonValueExpectation(
-				JsonPathExpression.create("$.personalisation['appeal site address']"),
-				appeal.appealSiteSection.siteAddress.addressLine1 +
-					'\n' +
-					appeal.appealSiteSection.siteAddress.addressLine2 +
-					'\n' +
-					appeal.appealSiteSection.siteAddress.town +
-					'\n' +
-					appeal.appealSiteSection.siteAddress.county +
-					'\n' +
-					appeal.appealSiteSection.siteAddress.postcode
+				JsonPathExpression.create('$.personalisation.content'),
+				new RegExp(appeal.horizonIdFull)
 			)
 			.addJsonValueExpectation(
-				JsonPathExpression.create("$.personalisation['local planning department']"),
-				lpaName
+				JsonPathExpression.create('$.personalisation.content'),
+				new RegExp(
+					appeal.appealSiteSection.siteAddress.addressLine1 +
+						'\n' +
+						appeal.appealSiteSection.siteAddress.addressLine2 +
+						'\n' +
+						appeal.appealSiteSection.siteAddress.town +
+						'\n' +
+						appeal.appealSiteSection.siteAddress.county +
+						'\n' +
+						appeal.appealSiteSection.siteAddress.postcode
+				)
 			)
 			.addJsonValueExpectation(
-				JsonPathExpression.create("$.personalisation['link to pdf']"),
-				`${process.env.APP_APPEALS_BASE_URL}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+				JsonPathExpression.create('$.personalisation.content'),
+				new RegExp(lpaName)
 			)
 			.addJsonValueExpectation(
-				JsonPathExpression.create("$.personalisation['lpa reference']"),
-				appeal.planningApplicationNumber
+				JsonPathExpression.create('$.personalisation.content'),
+				new RegExp(
+					`${process.env.APP_APPEALS_BASE_URL}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+				)
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create('$.personalisation.content'),
+				new RegExp(appeal.planningApplicationNumber)
 			);
 	}
 

@@ -167,7 +167,10 @@ let config = {
 				adminMonitoringEmail: process.env.SRV_ADMIN_MONITORING_EMAIL
 			},
 			templateVariables: {
-				contactEmail: process.env.CONTACT_EMAIL || 'caseofficers@planninginspectorate.gov.uk'
+				contactEmail: process.env.CONTACT_EMAIL || 'caseofficers@planninginspectorate.gov.uk',
+				feedbackUrl:
+					process.env.FEEDBACK_URL ||
+					'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UOUlNRkhaQjNXTDQyNEhSRExNOFVGSkNJTS4u&route=shorturl'
 			}
 		},
 		osPlaces: {

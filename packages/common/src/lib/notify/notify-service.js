@@ -7,7 +7,8 @@ const templateCache = {};
 class NotifyService {
 	static templates = {
 		appealSubmission: {
-			v1Initial: '/appeal-submission/v1-submission-email.md'
+			v1Initial: '/appeal-submission/v1-submission-email.md',
+			v1FollowUp: '/appeal-submission/v1-follow-up-email.md'
 		}
 	};
 
