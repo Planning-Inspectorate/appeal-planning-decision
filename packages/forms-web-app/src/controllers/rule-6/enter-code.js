@@ -6,6 +6,7 @@ const logger = require('../../lib/logger');
 const { getSessionEmail } = require('#lib/session-helper');
 const { getAuthClient, createOTPGrant } = require('@pins/common/src/client/auth-client');
 const config = require('../../config');
+const { handleCustomRedirect } = require('#lib/handle-custom-redirect');
 
 /**
  * @typedef {import('#lib/is-token-valid').TokenValidResult} TokenValidResult
@@ -106,7 +107,7 @@ const postEnterCodeR6 = (views) => {
 
 		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.confirmEmail;
 
-		const isSelectedPageRequest = req.session?.loginRedirect?.startsWith('/rule-6/');
+		const isLoginRedirect = Boolean(req.session?.loginRedirect);
 
 		const sessionEmail = getSessionEmail(req.session, false);
 
@@ -142,17 +143,8 @@ const postEnterCodeR6 = (views) => {
 			`postEnterCode`
 		);
 
-		if (isSelectedPageRequest) {
-			if (req.session.tempBackLink) {
-				req.session.navigationHistory = [
-					req.session.tempBackLink,
-					...req.session.navigationHistory
-				];
-				delete req.session.tempBackLink;
-			}
-			const redirect = req.session.loginRedirect;
-			delete req.session.loginRedirect;
-			return res.redirect(redirect);
+		if (isLoginRedirect) {
+			return handleCustomRedirect(req, res);
 		}
 
 		deleteTempSessionValues();
