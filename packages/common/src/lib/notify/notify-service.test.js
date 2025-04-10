@@ -95,23 +95,24 @@ describe('NotifyService', () => {
 
 	describe('populateTemplate', () => {
 		it('should populate the template with personalisation', () => {
-			const templateName = 'template';
-			const templateContent = 'Hello ((name)) ((number))';
-			const personalisation = { name: 'John', number: 1 };
-
-			jest.spyOn(fs, 'readFileSync').mockReturnValueOnce(templateContent);
+			const templateName = 'test template 1';
+			const templateContent = 'Hello ((name)) ((number)) [link title](((linkUrl)))';
+			const personalisation = { name: 'John', number: 1, linkUrl: 'https://example.com' };
+			const fsSpy = jest.spyOn(fs, 'readFileSync');
+			fsSpy.mockReturnValueOnce(templateContent);
 
 			const result = notifyService.populateTemplate(templateName, personalisation);
 
-			expect(result).toBe('Hello John 1');
+			expect(result).toBe('Hello John 1 [link title](https://example.com)');
 		});
 
 		it('should throw an error if personalisation value is not a string', () => {
-			const templateName = 'template';
+			const templateName = 'test template 2';
 			const templateContent = 'Hello ((name))';
 			const personalisation = { name: [1, 2] };
 
-			jest.spyOn(fs, 'readFileSync').mockReturnValueOnce(templateContent);
+			const fsSpy = jest.spyOn(fs, 'readFileSync');
+			fsSpy.mockReturnValueOnce(templateContent);
 
 			expect(() => notifyService.populateTemplate(templateName, personalisation)).toThrow(
 				'value must be a string or number'
@@ -119,14 +120,15 @@ describe('NotifyService', () => {
 		});
 
 		it('should throw an error if personalisation parameters are missing', () => {
-			const templateName = 'template';
+			const templateName = 'test template 3';
 			const templateContent = 'Hello ((name))';
 			const personalisation = {};
 
-			jest.spyOn(fs, 'readFileSync').mockReturnValueOnce(templateContent);
+			const fsSpy = jest.spyOn(fs, 'readFileSync');
+			fsSpy.mockReturnValueOnce(templateContent);
 
 			expect(() => notifyService.populateTemplate(templateName, personalisation)).toThrow(
-				'populateTemplate: personalisation parameters for template missing personalisation parameters: (name)'
+				'populateTemplate: personalisation parameters for test template 3 missing personalisation parameters: (name)'
 			);
 		});
 	});
@@ -169,7 +171,7 @@ describe('NotifyService', () => {
 			const result = notifyService.populateTemplate(template, personalisation);
 			expectMessage(
 				result,
-				`To test-name
+				`To ${personalisation.name}
 
 			We have received your appeal.
 			
@@ -179,7 +181,45 @@ describe('NotifyService', () => {
 			*a copy of your appeal form
 			
 			The Planning Inspectorate
-			test email address`
+			${personalisation.contactEmail}`
+			);
+		});
+
+		it('should populate appealSubmission.v1FollowUp ', () => {
+			const template = NotifyService.templates.appealSubmission.v1FollowUp;
+			const personalisation = {
+				appealReferenceNumber: 'abc',
+				appealSiteAddress: 'd\ne\nf',
+				lpaReference: 'ghi',
+				pdfLink: 'test.pdf',
+				lpaName: 'System Test',
+				feedbackUrl: 'https://example.com/feedback',
+				contactEmail: 'test email address'
+			};
+
+			const result = notifyService.populateTemplate(template, personalisation);
+			expectMessage(
+				result,
+				`We have processed your appeal.
+
+				#Appeal details
+				^Appeal reference number: ${personalisation.appealReferenceNumber}
+				Site address: ${personalisation.appealSiteAddress}
+				Planning application reference: ${personalisation.lpaReference}
+				
+				#What happens next
+				1. Download a copy of your appeal form ${personalisation.pdfLink}.
+				2. [Find the email address for your local planning authority.](https://www.gov.uk/government/publications/sending-a-copy-of-the-appeal-form-to-the-council/sending-a-copy-to-the-council)
+				3. Email the copy of your appeal form and the documents you uploaded to: ${personalisation.lpaName}.
+				4. We will check and confirm that your appeal form has everything that we need.
+				
+				You must send a copy of your appeal form and documents to the local planning authority, it’s a legal requirement.
+				
+				#Give feedback
+				[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes) 
+				
+				The Planning Inspectorate
+				${personalisation.contactEmail}`
 			);
 		});
 	});

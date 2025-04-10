@@ -105,22 +105,19 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 };
 
 // v1 appellant submission follow up
-const sendSubmissionReceivedEmailToAppellant = async (appeal) => {
+const sendSubmissionFollowUpEmailToAppellant = async (appeal) => {
 	try {
 		const lpa = await lpaService.getLpaById(appeal.lpaCode);
 		const appealRef = appeal.horizonIdFull ?? 'ID not provided';
 
 		const recipientEmail = appeal.email;
-		let variables = {
-			name:
-				appeal.appealType == '1001'
-					? appeal.aboutYouSection.yourDetails.name
-					: appeal.contactDetailsSection.contact.name,
-			'appeal reference number': appealRef,
-			'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
-			'lpa reference': appeal.planningApplicationNumber,
-			'local planning department': lpa.getName(),
-			'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+		const variables = {
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: appealRef,
+			appealSiteAddress: _formatAddress(appeal.appealSiteSection.siteAddress),
+			lpaReference: appeal.planningApplicationNumber,
+			lpaName: lpa.getName(),
+			pdfLink: `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
 		};
 
 		const reference = appeal.id;
@@ -130,18 +127,20 @@ const sendSubmissionReceivedEmailToAppellant = async (appeal) => {
 			'Sending submission received email to appellant'
 		);
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates.APPEAL_SUBMISSION.V1_HORIZON.appellantAppealSubmissionFollowUpConfirmation
-			)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.appealSubmission.v1FollowUp,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We have processed your appeal: ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: recipientEmail,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error(
 			{ err, appealId: appeal.id },
@@ -1014,7 +1013,7 @@ const _getYesOrNoForBoolean = (booleanToUse) => {
 
 module.exports = {
 	sendSubmissionReceivedEmailToLpa,
-	sendSubmissionReceivedEmailToAppellant,
+	sendSubmissionFollowUpEmailToAppellant,
 	sendSubmissionConfirmationEmailToAppellant,
 
 	sendSubmissionReceivedEmailToLpaV2,

@@ -609,7 +609,6 @@ describe('Back Office', () => {
 				const emailToReceivedAppellantInteraction =
 					NotifyInteraction.getAppealReceivedEmailForAppellantInteraction(
 						condition.appeal,
-						condition.expectations.emailToAppellant.name,
 						condition.lpa.name
 					);
 				const emailToLpaInteraction = NotifyInteraction.getAppealSubmittedEmailForLpaInteraction(
