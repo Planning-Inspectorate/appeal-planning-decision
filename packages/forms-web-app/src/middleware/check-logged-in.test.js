@@ -7,17 +7,11 @@ const { getUserFromSession } = require('../services/user.service');
 const isIdle = require('../lib/check-session-idle');
 const checkLoggedIn = require('./check-logged-in');
 const { getExistingAppeal } = require('../lib/appeals-api-wrapper');
-const { storeAppealPageRedirect } = require('../lib/login-redirect');
 
 jest.mock('../featureFlag');
 jest.mock('../services/user.service');
 jest.mock('../lib/check-session-idle');
 jest.mock('../lib/appeals-api-wrapper');
-jest.mock('../lib/login-redirect', () => {
-	return {
-		storeAppealPageRedirect: jest.fn(() => jest.fn())
-	};
-});
 
 describe('checkLoggedIn middleware', () => {
 	let req;
@@ -126,22 +120,13 @@ describe('checkLoggedIn middleware', () => {
 	});
 
 	it('handles specific page request redirect', async () => {
-		const redirectMiddleware = jest.fn((req) => {
-			req.session.loginRedirect = req.originalUrl;
-			req.session.tempBackLink = '/appeals/1234567';
-		});
-
-		storeAppealPageRedirect.mockReturnValue(redirectMiddleware);
-
 		const mockUser = null;
 		getUserFromSession.mockReturnValue(mockUser);
+
 		req.originalUrl = '/appeals/1234567/appeal-details';
 
 		await checkLoggedIn(req, res, next);
 
-		expect(storeAppealPageRedirect).toHaveBeenCalledWith('appeals');
-		expect(redirectMiddleware).toHaveBeenCalledWith(req, res);
 		expect(req.session.loginRedirect).toBe('/appeals/1234567/appeal-details');
-		expect(req.session.tempBackLink).toBe('/appeals/1234567');
 	});
 });

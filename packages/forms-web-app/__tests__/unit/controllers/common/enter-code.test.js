@@ -394,6 +394,7 @@ describe('controllers/common/enter-code', () => {
 					action: enterCodeConfig.actions.saveAndReturn
 				};
 				req.session.loginRedirect = '/test';
+				req.params = { enterCodeId: 'abc123' };
 
 				const appealLookup = { state: 'DRAFT' };
 
@@ -443,32 +444,7 @@ describe('controllers/common/enter-code', () => {
 				expect(req.session.appeal).toEqual(appealLookup);
 			});
 
-			it('should handle selected page request and push tempBackLink to navigationHistory', async () => {
-				const redirectPath = '/appeals/1234567/appeal-details';
-				req.session.enterCode = {
-					action: enterCodeConfig.actions.confirmEmail
-				};
-
-				req.session.loginRedirect = redirectPath;
-				req.session.tempBackLink = '/appeals/1234567';
-				req.session.navigationHistory = [];
-
-				isTokenValid.mockResolvedValue({
-					valid: true,
-					access_token: 'access',
-					id_token: 'id',
-					access_token_expiry: 'expiry'
-				});
-
-				const returnedFunction = postEnterCode(fullAppealViews, { isGeneralLogin: false });
-				await returnedFunction(req, res);
-
-				expect(req.session.navigationHistory).toEqual(['/appeals/1234567']);
-				expect(req.session.tempBackLink).toBeUndefined();
-				expect(res.redirect).toHaveBeenCalledWith(redirectPath);
-			});
-
-			it('should handle selected page request without tempBackLink', async () => {
+			it('should handle selected page request', async () => {
 				const redirectPath = '/appeals/1234567';
 				req.session.enterCode = {
 					action: enterCodeConfig.actions.confirmEmail
@@ -786,61 +762,7 @@ describe('controllers/common/enter-code', () => {
 			expect(req.session.loginRedirect).toEqual(undefined);
 		});
 
-		it('does not redirect using session property if not a document request', async () => {
-			const { DASHBOARD } = lpaViews;
-			const views = { DASHBOARD };
-			const userId = '649418158b915f0018524cb7';
-			const code = '12345';
-			isTokenValid.mockResolvedValue({
-				valid: true
-			});
-			const mockUser = {
-				email: 'a',
-				enabled: true
-			};
-			getLPAUser.mockResolvedValue(mockUser);
-
-			const returnedFunction = postEnterCodeLPA(views);
-
-			req.session.loginRedirect = '/not-a-document-url/1010101';
-			req.params.id = userId;
-			req.body = {
-				'email-code': code
-			};
-			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
-			await returnedFunction(req, res);
-			expect(getLPAUserStatus).toHaveBeenCalledWith(req, userId);
-			expect(setLPAUserStatus).toHaveBeenCalledWith(req, userId, STATUS_CONSTANTS.CONFIRMED);
-			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/your-appeals');
-		});
-
-		it('should handle selected page request and push tempBackLink to navigationHistory', async () => {
-			const views = {};
-			const userId = '649418158b915f0018524cb7';
-			const code = '12345';
-
-			isTokenValid.mockResolvedValue({ valid: true });
-			getLPAUser.mockResolvedValue({ email: 'lpa@example.com' });
-			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
-
-			req.params.id = userId;
-			req.body = { 'email-code': code };
-
-			req.session.loginRedirect = '/manage-appeals/1234567/appeal-details';
-			req.session.tempBackLink = '/manage-appeals/1234567';
-			req.session.navigationHistory = [];
-
-			const returnedFunction = postEnterCodeLPA(views);
-
-			await returnedFunction(req, res);
-
-			expect(req.session.navigationHistory).toEqual(['/manage-appeals/1234567']);
-			expect(req.session.tempBackLink).toBeUndefined();
-			expect(req.session.loginRedirect).toBeUndefined();
-			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/1234567/appeal-details');
-		});
-
-		it('should handle selected page request without tempBackLink', async () => {
+		it('should handle selected page request', async () => {
 			const views = {};
 			const userId = '649418158b915f0018524cb7';
 			const code = '12345';
@@ -860,7 +782,6 @@ describe('controllers/common/enter-code', () => {
 			await returnedFunction(req, res);
 
 			expect(req.session.navigationHistory).toEqual(['already-there']);
-			expect(req.session.tempBackLink).toBeUndefined(); // never set
 			expect(req.session.loginRedirect).toBeUndefined();
 			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/1234567/');
 		});
