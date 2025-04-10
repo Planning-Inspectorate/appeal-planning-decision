@@ -165,6 +165,9 @@ let config = {
 			},
 			emails: {
 				adminMonitoringEmail: process.env.SRV_ADMIN_MONITORING_EMAIL
+			},
+			templateVariables: {
+				contactEmail: process.env.CONTACT_EMAIL || 'caseofficers@planninginspectorate.gov.uk'
 			}
 		},
 		osPlaces: {

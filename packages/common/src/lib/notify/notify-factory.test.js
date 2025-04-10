@@ -16,7 +16,7 @@ describe('lib/notify/notify-factory', () => {
 	describe('getNotifyClientArguments', () => {
 		describe('Using mock service ', () => {
 			test('if `baseUrl` is provided then push `baseUrl` and `serviceId`', () => {
-				expect(getNotifyClientArguments(baseUrl, serviceId, apiKey)).toEqual([
+				expect(getNotifyClientArguments(apiKey, baseUrl, serviceId)).toEqual([
 					baseUrl,
 					serviceId,
 					apiKey
@@ -24,7 +24,7 @@ describe('lib/notify/notify-factory', () => {
 			});
 
 			test('throws if `serviceId` is undefined', () => {
-				expect(() => getNotifyClientArguments(baseUrl, undefined, apiKey)).toThrow(
+				expect(() => getNotifyClientArguments(apiKey, baseUrl, undefined)).toThrow(
 					'If baseUrl is provided, serviceId must be provided also.'
 				);
 			});
@@ -36,7 +36,7 @@ describe('lib/notify/notify-factory', () => {
 			{ baseUrl: undefined, serviceId }
 		].forEach(({ baseUrl: burl, serviceId: sid }) => {
 			test('Using real service', () => {
-				expect(getNotifyClientArguments(burl, sid, apiKey)).toEqual([apiKey]);
+				expect(getNotifyClientArguments(apiKey, burl, sid)).toEqual([apiKey]);
 			});
 		});
 	});
