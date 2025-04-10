@@ -22,7 +22,7 @@ const {
 
 const { VIEW } = require('../../lib/views');
 const { determineUser } = require('../../lib/determine-user');
-const { getUserDashboardLink } = require('../../lib/get-user-dashboard');
+const { getUserDashboardLink } = require('../../lib/get-user-back-links');
 const { sections: appellantSections } = require('./appellant-sections');
 const { sections: lpaUserSections } = require('./lpa-user-sections');
 const { mapDecisionTag } = require('@pins/business-rules/src/utils/decision-outcome');

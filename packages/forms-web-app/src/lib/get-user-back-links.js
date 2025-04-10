@@ -20,4 +20,15 @@ const getUserDashboardLink = (baseUrl) => {
 	}
 };
 
-module.exports = { getUserDashboardLink };
+/**
+ * takes a user back to appeal overview from a subsection
+ * @param {string} url
+ * @returns {string}
+ */
+const getParentPathLink = (url) => {
+	const urlParts = url.replace(/\/$/, '').split('/');
+	urlParts.pop();
+	return urlParts.join('/');
+};
+
+module.exports = { getUserDashboardLink, getParentPathLink };

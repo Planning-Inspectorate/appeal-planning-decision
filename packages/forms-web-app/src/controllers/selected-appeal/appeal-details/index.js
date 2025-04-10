@@ -3,6 +3,7 @@ const { formatHeadlineData, formatRows } = require('@pins/common');
 
 const { VIEW } = require('#lib/views');
 const { determineUser } = require('#lib/determine-user');
+const { getParentPathLink } = require('../../../lib/get-user-back-links');
 const { getUserFromSession } = require('../../../services/user.service');
 const { detailsRows } = require('./appeal-details-rows');
 const { documentsRows } = require('./appeal-documents-rows');
@@ -22,6 +23,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const appealNumber = req.params.appealNumber;
 		const trailingSlashRegex = /\/$/;
 		const userRouteUrl = req.originalUrl.replace(trailingSlashRegex, '');
+		const backToAppealOverviewLink = getParentPathLink(userRouteUrl);
 
 		// determine user based on route to selected appeal
 		// i.e '/appeals/' = appellant | agent
@@ -70,6 +72,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 		const viewContext = {
 			layoutTemplate,
+			backToAppealOverviewLink,
 			titleSuffix: formatTitleSuffix(userType),
 			appealDetailsSuffix: formatDetailsSuffix(userType),
 			appeal: {
