@@ -833,47 +833,55 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 	try {
 		const lpa = await lpaService.getLpaById(appeal.lpaCode);
 		const lpaEmail = lpa.getEmail();
+		const isHAS = appeal.appealType == APPEAL_ID.HOUSEHOLDER;
 
-		const appealRef = appeal.horizonId ?? 'ID not provided';
-		// TODO: put inside an appeal model
-		let variables = {
-			'planning application number': appeal.planningApplicationNumber,
-			'site address': _formatAddress(appeal.appealSiteSection.siteAddress),
-			'appeal reference': appealRef
+		const getApplicationDecision = () => {
+			if (
+				isHAS ||
+				appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED
+			)
+				return 'the refusal of';
+			if (appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.GRANTED)
+				return 'conditions for the granted';
+			if (
+				appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.NODECISIONRECEIVED
+			)
+				return 'the non-determination of';
+			logger.error(
+				`unknown ApplicationDecision in v1 LPA notification email: ${appeal.eligibility.applicationDecision}`
+			);
+			return '';
 		};
 
-		if (appeal.appealType == '1001') {
-			(variables.LPA = lpa.getName()),
-				(variables.date = format(appeal.submissionDate, 'dd MMMM yyyy'));
-		} else if (appeal.appealType == '1005') {
-			(variables['loca planning department'] = lpa.getName()),
-				(variables['submission date'] = format(appeal.submissionDate, 'dd MMMM yyyy')),
-				(variables.refused = _getYesOrNoForBoolean(
-					appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED
-				)),
-				(variables.granted = _getYesOrNoForBoolean(
-					appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.GRANTED
-				)),
-				(variables['non-determination'] = _getYesOrNoForBoolean(
-					appeal.eligibility.applicationDecision ===
-						constants.APPLICATION_DECISION.NODECISIONRECEIVED
-				));
-		}
+		const variables = {
+			...config.services.notify.templateVariables,
+			lpaName: lpa.getName(),
+			appealType: isHAS ? appealTypeCodeToAppealText.HAS : appealTypeCodeToAppealText.S78,
+			applicationDecision: getApplicationDecision(),
+			lpaReference: appeal.planningApplicationNumber,
+			appealReferenceNumber: appeal.horizonId ?? 'ID not provided',
+			appealSiteAddress: _formatAddress(appeal.appealSiteSection.siteAddress),
+			submissionDate: format(appeal.submissionDate, 'dd MMMM yyyy')
+		};
 
 		const reference = appeal.id;
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(templates[appeal.appealType].appealNotificationEmailToLpa)
-			.setDestinationEmailAddress(lpaEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.appealSubmission.v1LPANotification,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We’ve received a ${variables.appealType} appeal`,
+				content
+			},
+			destinationEmail: lpaEmail,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error(
 			{ err, lpaCode: appeal.lpaCode },

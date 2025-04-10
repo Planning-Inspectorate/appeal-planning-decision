@@ -222,5 +222,43 @@ describe('NotifyService', () => {
 				${personalisation.contactEmail}`
 			);
 		});
+
+		it('should populate appealSubmission.v1LPANotification', () => {
+			const template = NotifyService.templates.appealSubmission.v1LPANotification;
+			const personalisation = {
+				lpaName: 'Test LPA',
+				appealType: 'householder planning',
+				applicationDecision: 'the refusal of',
+				lpaReference: 'abc',
+				appealReferenceNumber: 'horizonRef',
+				appealSiteAddress: 'a\nb\nc',
+				submissionDate: '10 April 2025',
+				contactEmail: 'test email address'
+			};
+
+			const result = notifyService.populateTemplate(template, personalisation);
+			expectMessage(
+				result,
+				`Dear ${personalisation.lpaName}
+				We’ve received a ${personalisation.appealType} appeal against ${personalisation.applicationDecision} planning application ${personalisation.lpaReference}.
+
+				#Appeal reference:
+				${personalisation.appealReferenceNumber}
+
+				#Appeal site:
+				${personalisation.appealSiteAddress}
+
+				#Appeal received on:
+				${personalisation.submissionDate}
+
+				#What happens next?
+				The appellant will send you a copy of their appeal. If you do not receive this, contact the appellant to request it.
+
+				We’ll contact you again when we start the appeal.
+
+				The Planning Inspectorate
+				${personalisation.contactEmail}`
+			);
+		});
 	});
 });
