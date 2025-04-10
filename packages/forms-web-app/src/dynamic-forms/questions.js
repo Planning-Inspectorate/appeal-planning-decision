@@ -1159,7 +1159,7 @@ exports.questionProps = {
 	},
 	submitEnvironmentalStatement: {
 		type: 'radio',
-		title: 'Did environmental statement',
+		title: 'Did the applicant submit an environmental statement?',
 		question: 'Did the applicant submit an environmental statement?',
 		fieldName: 'applicantSubmittedEnvironmentalStatement',
 		url: 'environmental-statement',
