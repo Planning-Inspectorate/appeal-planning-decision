@@ -43,7 +43,7 @@ const requireUser = (req, res, next) => {
 		}
 
 		if (requestedPageRedirect) {
-			storeAppealPageRedirect('manage-appeals')(req, res);
+			storeAppealPageRedirect('manage-appeals', req);
 		}
 
 		return res.redirect(`/${YOUR_EMAIL_ADDRESS}`);

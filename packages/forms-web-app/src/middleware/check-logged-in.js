@@ -77,7 +77,7 @@ const checkLoggedIn = async (req, res, next) => {
 		}
 
 		if (requestedPageRedirect) {
-			storeAppealPageRedirect('appeals')(req, res);
+			storeAppealPageRedirect('appeals', req);
 		}
 
 		req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.RETURN;
