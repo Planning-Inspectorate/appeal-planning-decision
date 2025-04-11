@@ -3,9 +3,9 @@ const app = require('../../../../../app');
 const { sendEvents } = require('../../../../../../src/infrastructure/event-client');
 const { createPrismaClient } = require('#db-client');
 const crypto = require('crypto');
+const config = require('../../../../../configuration/config');
 
 const appealsApi = supertest(app);
-let validUser;
 const sqlClient = createPrismaClient();
 
 jest.setTimeout(30000);
@@ -13,6 +13,10 @@ jest.setTimeout(30000);
 /**
  * @typedef {import('../appellant-submission').AppellantSubmission} AppellantSubmission
  */
+
+const lpaEmail = 'lpa@example.com';
+let validUser;
+let validEmail;
 
 jest.mock('../../../../../../src/configuration/featureFlag', () => ({
 	isFeatureActive() {
@@ -27,13 +31,14 @@ jest.mock('../../../../../../src/services/lpa.service', () => {
 	class LpaService {
 		getLpaByCode() {
 			return {
-				getLpaCode: () => 'LPA_001'
+				getLpaCode: () => 'LPA_001',
+				getEmail: () => lpaEmail,
+				getName: () => 'System Test'
 			};
 		}
 	}
 	return LpaService;
 });
-jest.mock('#lib/notify');
 jest.mock('express-oauth2-jwt-bearer', () => {
 	let currentSub = '';
 
@@ -53,7 +58,15 @@ jest.mock('express-oauth2-jwt-bearer', () => {
 		}
 	};
 });
-jest.mock('express-oauth2-jwt-bearer');
+
+const mockNotifyClient = {
+	sendEmail: jest.fn()
+};
+jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
+	return {
+		getNotifyClient: () => mockNotifyClient
+	};
+});
 
 /** @type {import('pins-data-model/src/schemas').AppellantSubmissionCommand} */
 const formattedHAS1 = {
@@ -282,6 +295,7 @@ beforeAll(async () => {
 		data: { email: crypto.randomUUID() + '@example.com' }
 	});
 	validUser = user.id;
+	validEmail = user.email;
 
 	const appeals = [
 		{ id: 'f70dd26f-3776-4685-a79c-a81dbe8790b6' },
@@ -515,7 +529,45 @@ afterAll(async () => {
 	await sqlClient.$disconnect();
 });
 
+beforeEach(() => {
+	jest.clearAllMocks();
+});
+
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
+	/**
+	 * @param {string} appealType
+	 */
+	const expectEmails = (appealType) => {
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(2);
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+			config.services.notify.templates.generic,
+			validEmail,
+			{
+				personalisation: {
+					subject: `We have received your appeal`,
+					content: expect.stringContaining(
+						'We will process your appeal and send a confirmation email.'
+					)
+				},
+				reference: expect.any(String),
+				emailReplyToId: undefined
+			}
+		);
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+			config.services.notify.templates.generic,
+			lpaEmail,
+			{
+				personalisation: {
+					subject: `We have received a ${appealType} appeal`,
+					content: expect.stringContaining('We have received an appeal against this decision.')
+				},
+				reference: expect.any(String),
+				emailReplyToId: undefined
+			}
+		);
+		mockNotifyClient.sendEmail.mockClear();
+	};
+
 	it('should format appeals and send to service bus', async () => {
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 		setCurrentSub(validUser);
@@ -527,6 +579,8 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 			[formattedHAS1],
 			'Create'
 		);
+		sendEvents.mockClear();
+		expectEmails('householder planning');
 
 		await appealsApi.post(`/api/v2/appellant-submissions/${appeal2.id}/submit`).expect(200);
 
@@ -535,6 +589,8 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 			[formattedHAS2],
 			'Create'
 		);
+		sendEvents.mockClear();
+		expectEmails('householder planning');
 
 		await appealsApi.post(`/api/v2/appellant-submissions/${appeal3.id}/submit`).expect(200);
 
@@ -543,6 +599,8 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 			[formattedS78],
 			'Create'
 		);
+		sendEvents.mockClear();
+		expectEmails('full planning');
 	});
 
 	it('404s if the appeal submission can not be found', () => {

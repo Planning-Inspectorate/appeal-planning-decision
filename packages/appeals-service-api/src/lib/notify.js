@@ -163,8 +163,9 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 		const formattedAddress = formatSubmissionAddress(address);
 
 		const variables = {
-			site_Address: formattedAddress,
-			lpa_reference: appellantSubmission.applicationReference
+			...config.services.notify.templateVariables,
+			appealSiteAddress: formattedAddress,
+			lpaReference: appellantSubmission.applicationReference
 		};
 
 		const reference = appellantSubmission.id;
@@ -174,18 +175,20 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 			'Sending submission received email to appellant'
 		);
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates.APPEAL_SUBMISSION.V2_BACK_OFFICE.appellantAppealSubmissionInitialConfirmation
-			)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.appealSubmission.v2Initial,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We have received your appeal`,
+				content
+			},
+			destinationEmail: recipientEmail,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error(
 			{ err, appealId: appellantSubmission.id },
@@ -216,10 +219,11 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
 		});
 
 		const variables = {
-			appeal_reference_number: appealCase.caseReference,
-			site_address: formattedAddress,
-			lpa_reference: appealCase.applicationReference,
-			pdf_link: `${config.apps.appeals.baseUrl}/appeal-document/${appellantSubmission.id}`
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: appealCase.caseReference,
+			appealSiteAddress: formattedAddress,
+			lpaReference: appealCase.applicationReference,
+			pdfLink: `${config.apps.appeals.baseUrl}/appeal-document/${appellantSubmission.id}`
 		};
 
 		const reference = appealCase.id;
@@ -229,18 +233,20 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
 			'Sending submission confirmation email to appellant v2'
 		);
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates.APPEAL_SUBMISSION.V2_BACK_OFFICE.appellantAppealSubmissionFollowUpConfirmation
-			)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.appealSubmission.v2FollowUp,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We have processed your appeal: ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: recipientEmail,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error(
 			{ err, appealId: appealCase.id },
@@ -251,9 +257,8 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
 
 /**
  * @param { FullAppellantSubmission } appellantSubmission
- * @param { string } email
  */
-const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission, email) => {
+const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
 	try {
 		let lpa;
 		try {
@@ -264,28 +269,30 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission, email) =>
 		const lpaEmail = lpa.getEmail();
 
 		const reference = appellantSubmission.id;
-		// TODO: put inside an appeal model
-		let variables = {
-			lpa_reference: appellantSubmission.applicationReference,
-			appellant_email_address: email,
-			'appeal type': appealTypeCodeToAppealText[appellantSubmission.appealTypeCode]
+
+		const appealType = appealTypeCodeToAppealText[appellantSubmission.appealTypeCode];
+		const variables = {
+			...config.services.notify.templateVariables,
+			loginUrl: `${config.apps.appeals.baseUrl}/manage-appeals/your-appeals`,
+			lpaReference: appellantSubmission.applicationReference
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]]
-					.appealNotificationEmailToLpaV2
-			)
-			.setDestinationEmailAddress(lpaEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.appealSubmission.v2LPANotification,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We have received a ${appealType} appeal`,
+				content
+			},
+			destinationEmail: lpaEmail,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error(
 			{ err, lpaCode: appellantSubmission.LPACode },
@@ -1013,10 +1020,6 @@ const _formatAddress = (addressJson) => {
 	address += addressJson.county && `\n${addressJson.county}`;
 	address += `\n${addressJson.postcode}`;
 	return address;
-};
-
-const _getYesOrNoForBoolean = (booleanToUse) => {
-	return booleanToUse ? 'yes' : 'no';
 };
 
 module.exports = {
