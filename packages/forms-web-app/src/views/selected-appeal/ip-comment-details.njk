@@ -40,6 +40,19 @@
 				rows: appeal.headlineData
 			}) }}
 
+
+			{% if pdfDownloadUrl %}
+				<p class="govuk-body">
+					<a href="{{ pdfDownloadUrl }}">Download interested party comments (PDF)</a>
+				</p>
+			{% endif %}
+
+			{% if zipDownloadUrl %}
+				<p class="govuk-body">
+					<a href="{{ zipDownloadUrl }}">Download interested party comments documents (ZIP)</a>
+				</p>
+			{% endif %}
+
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 
 			{% for comment in appeal.representations %}
