@@ -1,8 +1,10 @@
 {
     "emailAddress":"admin2@planninginspectorate.gov.uk",
     "rule6EmailAddress":"r6-1@planninginspectorate.gov.uk",
+    "rule6EmailAddress":"r6-1@planninginspectorate.gov.uk",
     "emailCode":"12345",    
     "hasAppealType":"HAS",
+    "s78AppealType":"S78",    
     "s78AppealType":"S78",    
     "todoInvalid":"INVALID",
     "todoQuestionnaire": "questionnaire",
