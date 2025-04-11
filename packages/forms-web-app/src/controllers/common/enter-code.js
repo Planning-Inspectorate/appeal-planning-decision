@@ -166,28 +166,14 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
 		const isReturningFromEmail = action === enterCodeConfig.actions.saveAndReturn;
 		const isAppealConfirmation = !isGeneralLogin && !isReturningFromEmail;
-
 		const isLoginRedirect = Boolean(req.session?.loginRedirect);
-
-		if (isLoginRedirect) {
-			isGeneralLogin = false;
-		}
 
 		const sessionEmail = getSessionEmail(req.session, isAppealConfirmation);
 
 		const tokenValid = await isTokenValid(token, sessionEmail, action);
-
-		if (tokenValid.tooManyAttempts) {
-			return res.redirect(`/${views.NEED_NEW_CODE}`);
-		}
-
-		if (tokenValid.expired) {
-			return res.redirect(`/${views.CODE_EXPIRED}`);
-		}
-
-		if (!tokenValid.valid) {
-			return renderError('Enter the correct code');
-		}
+		if (tokenValid.tooManyAttempts) return res.redirect(`/${views.NEED_NEW_CODE}`);
+		if (tokenValid.expired) return res.redirect(`/${views.CODE_EXPIRED}`);
+		if (!tokenValid.valid) return renderError('Enter the correct code');
 
 		// is valid so set user in session
 		createAppealUserSession(
@@ -209,25 +195,8 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 			`postEnterCode`
 		);
 
-		if (isGeneralLogin) {
-			deleteTempSessionValues();
-			return res.redirect(`/${views.YOUR_APPEALS}`);
-		}
-
-		if (isAppealConfirmation) {
-			await req.appealsApiClient.linkUserToV2Appeal(
-				sessionEmail,
-				getSessionAppealSqlId(req.session)
-			);
-
-			deleteTempSessionValues();
-
-			if (isLoginRedirect) {
-				return handleCustomRedirect(req, res);
-			} else {
-				return res.redirect(`/${views.EMAIL_CONFIRMED}`);
-			}
-		}
+		/** @type {string|undefined} */
+		let redirect;
 
 		if (isReturningFromEmail) {
 			try {
@@ -236,26 +205,33 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 				return renderError('We did not find your appeal. Enter the correct code');
 			}
 
-			deleteTempSessionValues();
-
-			// redirect
-			if (isLoginRedirect) {
-				return handleCustomRedirect(req, res);
-			} else if (req.session.appeal.state === 'SUBMITTED') {
-				return res.redirect(`/${views.APPEAL_ALREADY_SUBMITTED}`);
-			} else {
-				return res.redirect(`/${views.TASK_LIST}`);
-			}
+			redirect =
+				req.session.appeal.state === 'SUBMITTED'
+					? `/${views.APPEAL_ALREADY_SUBMITTED}`
+					: `/${views.TASK_LIST}`;
+		} else if (isAppealConfirmation) {
+			await req.appealsApiClient.linkUserToV2Appeal(
+				sessionEmail,
+				getSessionAppealSqlId(req.session)
+			);
+			redirect = `/${views.EMAIL_CONFIRMED}`;
+		} else if (isGeneralLogin) {
+			redirect = `/${views.YOUR_APPEALS}`;
+		} else {
+			throw new Error('unhandled journey for POST: enter-code');
 		}
 
+		deleteTempSessionValues();
+
+		// use login redirect
 		if (isLoginRedirect) {
 			return handleCustomRedirect(req, res);
 		}
 
-		throw new Error('unhandled journey for POST: enter-code');
+		return res.redirect(redirect);
 
 		function deleteTempSessionValues() {
-			delete req.session.enterCodeId;
+			delete req.session?.enterCodeId;
 			delete req.session?.enterCode?.action;
 		}
 
@@ -456,8 +432,7 @@ const postEnterCodeLPA = (views) => {
 			return handleCustomRedirect(req, res);
 		}
 
-		redirectToLPADashboard(res, views);
-		return;
+		return redirectToLPADashboard(res, views);
 	};
 };
 
