@@ -10,6 +10,7 @@ const {
 	formatRepresentationHeading,
 	formatRepresentations
 } = require('../../../lib/representation-functions');
+const { getParentPathLink } = require('../../../lib/get-user-back-links');
 const {
 	APPEAL_USER_ROLES,
 	LPA_USER_ROLE,
@@ -20,6 +21,7 @@ jest.mock('../../../services/department.service');
 jest.mock('../../../lib/selected-appeal-page-setup');
 jest.mock('../../../lib/representation-functions');
 jest.mock('../../../services/user.service');
+jest.mock('../../../lib/get-user-back-links');
 
 jest.mock('@pins/common');
 
@@ -68,6 +70,8 @@ describe('controllers/selected-appeal/representations', () => {
 
 		await representationFunction(req, res);
 
+		getParentPathLink.mockReturnValue('/appeals/ABC123');
+
 		expect(req.appealsApiClient.getAppealCaseWithRepresentationsByType).toHaveBeenCalledWith(
 			'ABC123',
 			testParams.representationType
@@ -103,6 +107,8 @@ describe('controllers/selected-appeal/representations', () => {
 
 		await representationFunction(req, res);
 
+		getParentPathLink.mockReturnValue('/appeals/ABC123');
+
 		expect(req.appealsApiClient.getAppealCaseWithRepresentationsByType).toHaveBeenCalledWith(
 			'ABC123',
 			testParams.representationType
@@ -114,6 +120,7 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS, {
 			layoutTemplate: testLayoutTemplate,
 			titleSuffix: 'test title suffix',
+			backToAppealOverviewLink: '/appeals/ABC123',
 			heading: 'test representation heading',
 			showLabel: false,
 			appeal: {
