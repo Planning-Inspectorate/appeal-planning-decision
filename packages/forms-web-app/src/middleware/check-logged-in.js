@@ -30,6 +30,8 @@ const checkLoggedIn = async (req, res, next) => {
 	if (req.originalUrl.startsWith('/rule-6/')) loginPage = '/rule-6/email-address'; // rule6
 	else if (req.originalUrl.startsWith('/document/') && req.params?.appealOrQuestionnaireId) {
 		loginPage = await createSaveAndReturnUrl(req.params?.appealOrQuestionnaireId); // document
+	} else if (req.originalUrl.startsWith('/lpa-questionnaire-document/')) {
+		loginPage = '/manage-appeals/your-email-address';
 	}
 
 	req.session.regenerate((err) => {
