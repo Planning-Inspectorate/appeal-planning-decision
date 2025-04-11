@@ -53,7 +53,8 @@ const expectedViewContext = {
 		appealDetails: 'some formatted row data',
 		appealDocuments: 'some formatted row data'
 	},
-	pdfDownloadUrl: 'a/fake/url?pdf=true'
+	pdfDownloadUrl: 'a/fake/url?pdf=true',
+	backToAppealOverviewLink: 'a/fake'
 };
 
 describe('controllers/selected-appeal/appeal-details/index', () => {
