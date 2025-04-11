@@ -144,6 +144,7 @@ const postEnterCodeR6 = (views) => {
 		);
 
 		if (isLoginRedirect) {
+			deleteTempSessionValues();
 			return handleCustomRedirect(req, res);
 		}
 
