@@ -140,10 +140,7 @@ describe('BackOfficeV2Service', () => {
 			expect(mockValidator).toHaveBeenCalledWith(mockFormattedAppeal);
 			expect(forwarders.appeal).toHaveBeenCalledWith([mockFormattedAppeal]);
 			expect(markAppealAsSubmitted).toHaveBeenCalledWith(mockAppealSubmission.id);
-			expect(sendSubmissionReceivedEmailToLpaV2).toHaveBeenCalledWith(
-				mockAppealSubmission,
-				mockUser.email
-			);
+			expect(sendSubmissionReceivedEmailToLpaV2).toHaveBeenCalledWith(mockAppealSubmission);
 			expect(sendSubmissionReceivedEmailToAppellantV2).toHaveBeenCalledWith(
 				mockAppealSubmission,
 				mockUser.email

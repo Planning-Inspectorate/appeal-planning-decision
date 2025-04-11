@@ -168,6 +168,9 @@ let config = {
 			},
 			templateVariables: {
 				contactEmail: process.env.CONTACT_EMAIL || 'caseofficers@planninginspectorate.gov.uk',
+				contactForm:
+					process.env.CONTACT_FORM ||
+					'https://contact-us.planninginspectorate.gov.uk/hc/en-gb/requests/new',
 				feedbackUrl:
 					process.env.FEEDBACK_URL ||
 					'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UOUlNRkhaQjNXTDQyNEhSRExNOFVGSkNJTS4u&route=shorturl'
@@ -181,9 +184,6 @@ let config = {
 	apps: {
 		appeals: {
 			baseUrl: process.env.APP_APPEALS_BASE_URL
-		},
-		lpaQuestionnaire: {
-			baseUrl: process.env.APP_LPA_QUESTIONNAIRE_BASE_URL
 		}
 	},
 	tasks: {

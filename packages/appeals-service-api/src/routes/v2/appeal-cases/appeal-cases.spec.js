@@ -3,7 +3,7 @@ const { buildQueryString } = require('@pins/common/src/client/utils');
 const app = require('../../../app');
 const { createPrismaClient } = require('../../../db/db-client');
 const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
-
+const config = require('../../../configuration/config');
 const { isFeatureActive } = require('../../../configuration/featureFlag');
 const {
 	createTestAppealCase
@@ -59,6 +59,15 @@ jest.mock('@pins/common/src/middleware/validate-token', () => {
 		setCurrentLpa: (newLpa) => {
 			currentLpa = newLpa;
 		}
+	};
+});
+
+const mockNotifyClient = {
+	sendEmail: jest.fn()
+};
+jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
+	return {
+		getNotifyClient: () => mockNotifyClient
 	};
 });
 
@@ -327,8 +336,65 @@ describe('appeal-cases', () => {
 	});
 
 	describe('put', () => {
+		const expectEmail = (email, appealReferenceNumber) => {
+			expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
+			expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+				config.services.notify.templates.generic,
+				email,
+				{
+					personalisation: {
+						subject: `We have processed your appeal: ${appealReferenceNumber}`,
+						content: expect.stringContaining('We have processed your appeal.')
+					},
+					reference: expect.any(String),
+					emailReplyToId: undefined
+				}
+			);
+			mockNotifyClient.sendEmail.mockClear();
+		};
+
 		afterAll(async () => {
 			await _clearSqlData();
+		});
+
+		it(`creates initial case`, async () => {
+			const data = structuredClone(hasExample);
+			const testCaseRef = 'put-initial-case-test';
+			const submission = await sqlClient.appellantSubmission.create({
+				data: {
+					appealTypeCode: 'HAS',
+					LPACode: 'Q1111',
+					Appeal: { create: {} }
+				},
+				select: {
+					id: true,
+					Appeal: {
+						select: {
+							id: true
+						}
+					}
+				}
+			});
+			const email = 'test@example.com';
+			const user = await sqlClient.appealUser.upsert({
+				where: { email },
+				create: { email },
+				update: {}
+			});
+
+			await sqlClient.appealToUser.create({
+				data: {
+					userId: user.id,
+					appealId: submission.Appeal.id,
+					role: 'Appellant'
+				}
+			});
+			data.submissionId = submission.Appeal.id;
+			data.caseReference = testCaseRef;
+			const response = await appealsApi.put(`/api/v2/appeal-cases/` + testCaseRef).send(data);
+			expect(response.status).toBe(200);
+			expect(response.body).toHaveProperty('caseReference', testCaseRef);
+			expectEmail(email, testCaseRef);
 		});
 
 		const hasExample = { ...exampleHASDataModel };
