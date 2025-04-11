@@ -68,15 +68,23 @@ class RadioQuestion extends OptionsQuestion {
 
 	/**
 	 * adds label property to view model
-	 * @param {import('../../section').Section} section - the current section
-	 * @param {import('../../journey').Journey} journey - the journey we are in
-	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
-	 * @param {Record<string, unknown>} [payload]
+	 * @param {Object} options
+	 * @param {import('../../section').Section} options.section - the current section
+	 * @param {import('../../journey').Journey} options.journey - the journey we are in
+	 * @param {Record<string, unknown>} [options.customViewData] additional data to send to view
+	 * @param {Record<string, unknown>} [options.payload]
+	 * @param {string} [options.sessionBackLink]
 	 * @returns {RadioViewModel}
 	 */
-	prepQuestionForRendering(section, journey, customViewData, payload) {
+	prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
 		/** @type {RadioViewModel} */
-		let viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
+		let viewModel = super.prepQuestionForRendering({
+			section,
+			journey,
+			customViewData,
+			payload,
+			sessionBackLink
+		});
 		viewModel.question.label = this.label;
 		viewModel.question.legend = this.legend;
 		return viewModel;

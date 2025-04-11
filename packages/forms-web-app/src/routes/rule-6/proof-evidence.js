@@ -3,9 +3,9 @@ const {
 	list,
 	question,
 	save,
-	// remove,
 	submitRule6ProofEvidence,
-	rule6ProofEvidenceSubmitted
+	rule6ProofEvidenceSubmitted,
+	shortJourneyEntry
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -15,15 +15,9 @@ const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-r
 const { getJourney } = require('../../dynamic-forms/middleware/get-journey');
 const { journeys } = require('../../journeys');
 const setDefaultSection = require('../../dynamic-forms/middleware/set-default-section');
-const redirectToUnansweredQuestion = require('../../dynamic-forms/middleware/redirect-to-unanswered-question');
-const {
-	rule6ProofEvidenceSkipConditions
-} = require('../../dynamic-forms/middleware/redirect-middleware-conditions');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
-
-// const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 const {
 	VIEW: {
@@ -53,9 +47,18 @@ router.get(
 	'/proof-evidence/:referenceId',
 	getJourneyResponse(),
 	getJourney(journeys),
-	redirectToUnansweredQuestion([rule6ProofEvidenceSkipConditions]),
 	checkNotSubmitted(appealOverviewUrl),
 	proofOfEvidenceTaskList
+);
+
+// entry
+/** @type {import('express').RequestHandler} */
+router.get(
+	'/proof-evidence/:referenceId/entry',
+	getJourneyResponse(),
+	getJourney(journeys),
+	checkNotSubmitted(appealOverviewUrl),
+	shortJourneyEntry
 );
 
 // submit
@@ -98,13 +101,5 @@ router.post(
 	validationErrorHandler,
 	save
 );
-
-// // remove answer - only available for some question types
-// router.get(
-// 	'/appeal-statement/:referenceId/:section/:question/:answerId',
-// 	getJourneyResponse(),
-// 	checkNotSubmitted(dashboardUrl),
-// 	remove
-// );
 
 module.exports = router;

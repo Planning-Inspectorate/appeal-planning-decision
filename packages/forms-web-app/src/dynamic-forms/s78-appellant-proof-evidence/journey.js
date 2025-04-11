@@ -3,6 +3,11 @@ const { Section } = require('../section');
 const config = require('../../config');
 const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const {
+	VIEW: {
+		APPEALS: { YOUR_APPEALS }
+	}
+} = require('#lib/views');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -34,6 +39,7 @@ const makeBaseUrl = (response) =>
 
 /** @type {JourneyParameters} */
 const params = {
+	initialBackLink: `/${YOUR_APPEALS}`,
 	journeyId: JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE,
 	journeyTemplate: 'proof-evidence-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/proof-evidence',

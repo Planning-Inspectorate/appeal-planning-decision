@@ -3,9 +3,9 @@ const {
 	list,
 	question,
 	save,
-	// remove,
 	submitAppellantFinalComment,
-	appellantFinalCommentSubmitted
+	appellantFinalCommentSubmitted,
+	shortJourneyEntry
 } = require('../../../dynamic-forms/controller');
 const validate = require('../../../dynamic-forms/validator/validator');
 const {
@@ -15,10 +15,6 @@ const getJourneyResponse = require('../../../dynamic-forms/middleware/get-journe
 const { getJourney } = require('../../../dynamic-forms/middleware/get-journey');
 const { journeys } = require('../../../journeys');
 const setDefaultSection = require('../../../dynamic-forms/middleware/set-default-section');
-const redirectToUnansweredQuestion = require('../../../dynamic-forms/middleware/redirect-to-unanswered-question');
-const {
-	appellantFinalCommentSkipConditions
-} = require('../../../dynamic-forms/middleware/redirect-middleware-conditions');
 const dynamicReqFilesToReqBodyFiles = require('../../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
@@ -34,9 +30,7 @@ const appealOverviewUrl = APPEAL_OVERVIEW;
 
 const router = express.Router();
 
-/**
- * @type {import('express').Handler}
- */
+/** @type {import('express').RequestHandler} */
 const finalCommentsTaskList = async (req, res) => {
 	const referenceId = res.locals.journeyResponse.referenceId;
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
@@ -54,16 +48,27 @@ const finalCommentsTaskList = async (req, res) => {
 };
 
 // list
+/** @type {import('express').RequestHandler} */
 router.get(
 	'/:referenceId',
 	getJourneyResponse(),
 	getJourney(journeys),
-	redirectToUnansweredQuestion([appellantFinalCommentSkipConditions]),
 	checkNotSubmitted(appealOverviewUrl),
 	finalCommentsTaskList
 );
 
+// entry
+/** @type {import('express').RequestHandler} */
+router.get(
+	'/:referenceId/entry',
+	getJourneyResponse(),
+	getJourney(journeys),
+	checkNotSubmitted(appealOverviewUrl),
+	shortJourneyEntry
+);
+
 // submit
+/** @type {import('express').RequestHandler} */
 router.post(
 	'/:referenceId',
 	getJourneyResponse(),
@@ -73,6 +78,7 @@ router.post(
 	submitAppellantFinalComment
 );
 
+/** @type {import('express').RequestHandler} */
 router.get(
 	'/:referenceId/submitted',
 	setDefaultSection(),
@@ -82,6 +88,7 @@ router.get(
 );
 
 // question
+/** @type {import('express').RequestHandler} */
 router.get(
 	'/:referenceId/:question',
 	setDefaultSection(),
@@ -92,6 +99,7 @@ router.get(
 );
 
 // save
+/** @type {import('express').RequestHandler} */
 router.post(
 	'/:referenceId/:question',
 	setDefaultSection(),
@@ -103,13 +111,5 @@ router.post(
 	validationErrorHandler,
 	save
 );
-
-// // remove answer - only available for some question types
-// router.get(
-// 	'/appeal-statement/:referenceId/:section/:question/:answerId',
-// 	getJourneyResponse(),
-// 	checkNotSubmitted(dashboardUrl),
-// 	remove
-// );
 
 module.exports = router;

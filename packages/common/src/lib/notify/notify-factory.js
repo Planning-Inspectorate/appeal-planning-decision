@@ -1,6 +1,12 @@
 const { NotifyClient } = require('notifications-node-client');
 
-function getNotifyClientArguments(baseUrl, serviceId, apiKey) {
+/**
+ * @param {string} apiKey
+ * @param {string} [baseUrl]
+ * @param {string} [serviceId]
+ * @returns {[string, string?, string?]}
+ */
+function getNotifyClientArguments(apiKey, baseUrl, serviceId) {
 	const args = [];
 	if (baseUrl) {
 		if (!serviceId) {
@@ -13,9 +19,7 @@ function getNotifyClientArguments(baseUrl, serviceId, apiKey) {
 }
 
 function createNotifyClient(notifyUrl, serviceId, apiKey) {
-	return new NotifyClient(
-		...getNotifyClientArguments(notifyUrl, serviceId, apiKey)
-	);
+	return new NotifyClient(...getNotifyClientArguments(apiKey, notifyUrl, serviceId));
 }
 
 module.exports = {

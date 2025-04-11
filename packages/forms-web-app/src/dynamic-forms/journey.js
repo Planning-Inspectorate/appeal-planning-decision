@@ -54,6 +54,7 @@ class Journey {
 	 * @param {string} options.journeyTitle - part of the title in the njk view
 	 * @param {boolean} [options.returnToListing] - defines how the next/previous question handles end of sections
 	 * @param {Section[]} options.sections
+	 * @param {string} options.initialBackLink - back link when on the first question
 	 */
 	constructor({
 		journeyId,
@@ -65,7 +66,8 @@ class Journey {
 		informationPageViewPath,
 		journeyTitle,
 		returnToListing,
-		sections
+		sections,
+		initialBackLink
 	}) {
 		if (!journeyId || typeof journeyId !== 'string') {
 			throw new Error('journeyId should be a string.');
@@ -104,6 +106,8 @@ class Journey {
 		this.response = response;
 
 		this.sections = sections;
+
+		this.initialBackLink = initialBackLink ?? this.taskListUrl;
 	}
 
 	/**
@@ -186,14 +190,52 @@ class Journey {
 	}
 
 	/**
+	 * @returns {string} url for the first question
+	 */
+	getFirstQuestionUrl() {
+		const firstSection = this.sections[0];
+		const firstQuestion = this.sections[0].questions[0];
+		return this.#buildQuestionUrl(firstSection.segment, firstQuestion.getUrlSlug());
+	}
+
+	/**
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {string|undefined} url for the first unanswered question
+	 */
+	getFirstUnansweredQuestionUrl(journeyResponse) {
+		for (const section of this.sections) {
+			for (const question of section.questions) {
+				if (question.isAnswered(journeyResponse)) continue;
+				if (!question.shouldDisplay(journeyResponse)) continue;
+
+				return this.#buildQuestionUrl(section.segment, question.getUrlSlug());
+			}
+		}
+	}
+
+	/**
+	 * Get the back link for the journey - e.g. the previous question
+	 * @param {string} sectionSegment - section segment
+	 * @param {string} questionSegment - question segment
+	 * @param {string} [sessionBackLink] - initial back link from session
+	 * @returns {string|null} url for the next question, or null if unmatched
+	 */
+	getBackLink(sectionSegment, questionSegment, sessionBackLink) {
+		const previousQuestion = this.getNextQuestionUrl(sectionSegment, questionSegment, true);
+		if (!previousQuestion) {
+			return sessionBackLink ?? this.initialBackLink;
+		}
+		return previousQuestion;
+	}
+
+	/**
 	 * Get url for the next question in this section
 	 * @param {string} sectionSegment - section segment
 	 * @param {string} questionSegment - question segment
-	 * @param {boolean} reverse - if passed in this will get the previous question
-	 * @returns {string} url for the next question
+	 * @param {boolean} [reverse] - if passed in this will get the previous question
+	 * @returns {string|null} url for the next question, or null if unmatched
 	 */
 	getNextQuestionUrl(sectionSegment, questionSegment, reverse) {
-		const unmatchedUrl = this.taskListUrl;
 		const numberOfSections = this.sections.length;
 		const sectionsStart = reverse ? numberOfSections - 1 : 0;
 
@@ -212,7 +254,7 @@ class Journey {
 
 			if (foundSection) {
 				if (this.returnToListing && i !== currentSectionIndex) {
-					return unmatchedUrl;
+					return null;
 				}
 
 				const questionsStart = reverse ? numberOfQuestions - 1 : 0;
@@ -223,10 +265,7 @@ class Journey {
 				) {
 					const question = currentSection.questions[j];
 					if (takeNextQuestion && question.shouldDisplay(this.response)) {
-						return this.#buildQuestionUrl(
-							currentSection.segment,
-							question.url ? question.url : question.fieldName
-						);
+						return this.#buildQuestionUrl(currentSection.segment, question.getUrlSlug());
 					}
 
 					if (
@@ -239,7 +278,7 @@ class Journey {
 			}
 		}
 
-		return unmatchedUrl;
+		return null;
 	}
 
 	/**
@@ -263,10 +302,7 @@ class Journey {
 			return unmatchedUrl;
 		}
 
-		return this.#buildQuestionUrl(
-			matchingSection.segment,
-			matchingQuestion.url ? matchingQuestion.url : matchingQuestion.fieldName
-		);
+		return this.#buildQuestionUrl(matchingSection.segment, matchingQuestion.getUrlSlug());
 	};
 
 	/**
@@ -300,9 +336,10 @@ class Journey {
 			return unmatchedUrl;
 		}
 
-		const questionUrl = matchingQuestion.url ?? matchingQuestion.fieldName;
-
-		return this.#buildQuestionUrl(matchingSection.segment, questionUrl + addition);
+		return this.#buildQuestionUrl(
+			matchingSection.segment,
+			matchingQuestion.getUrlSlug() + addition
+		);
 	};
 
 	/**

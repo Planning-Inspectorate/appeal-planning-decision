@@ -3,9 +3,9 @@ const {
 	list,
 	question,
 	save,
-	// remove,
 	submitAppellantProofEvidence,
-	appellantProofEvidenceSubmitted
+	appellantProofEvidenceSubmitted,
+	shortJourneyEntry
 } = require('../../../dynamic-forms/controller');
 const validate = require('../../../dynamic-forms/validator/validator');
 const {
@@ -15,10 +15,6 @@ const getJourneyResponse = require('../../../dynamic-forms/middleware/get-journe
 const { getJourney } = require('../../../dynamic-forms/middleware/get-journey');
 const { journeys } = require('../../../journeys');
 const setDefaultSection = require('../../../dynamic-forms/middleware/set-default-section');
-const redirectToUnansweredQuestion = require('../../../dynamic-forms/middleware/redirect-to-unanswered-question');
-const {
-	appellantProofEvidenceSkipConditions
-} = require('../../../dynamic-forms/middleware/redirect-middleware-conditions');
 const dynamicReqFilesToReqBodyFiles = require('../../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
@@ -58,9 +54,18 @@ router.get(
 	'/:referenceId',
 	getJourneyResponse(),
 	getJourney(journeys),
-	redirectToUnansweredQuestion([appellantProofEvidenceSkipConditions]),
 	checkNotSubmitted(appealOverviewUrl),
 	proofOfEvidenceTaskList
+);
+
+// entry
+/** @type {import('express').RequestHandler} */
+router.get(
+	'/:referenceId/entry',
+	getJourneyResponse(),
+	getJourney(journeys),
+	checkNotSubmitted(appealOverviewUrl),
+	shortJourneyEntry
 );
 
 // submit
@@ -103,13 +108,5 @@ router.post(
 	validationErrorHandler,
 	save
 );
-
-// // remove answer - only available for some question types
-// router.get(
-// 	'/appeal-statement/:referenceId/:section/:question/:answerId',
-// 	getJourneyResponse(),
-// 	checkNotSubmitted(dashboardUrl),
-// 	remove
-// );
 
 module.exports = router;

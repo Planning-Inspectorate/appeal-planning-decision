@@ -110,12 +110,14 @@ class ListAddMoreQuestion extends Question {
 
 	/**
 	 * gets the view model for this question
-	 * @param {Section} section - the current section
-	 * @param {Journey} journey - the journey we are in
-	 * @param {Object} [customViewData] additional data to send to view
+	 * @param {Object} options - the current section
+	 * @param {Section} options.section - the current section
+	 * @param {Journey} options.journey - the journey we are in
+	 * @param {Object} [options.customViewData] additional data to send to view
+	 * @param {string} [options.sessionBackLink] additional data to send to view
 	 * @returns {ListAddModeViewModel}
 	 */
-	prepQuestionForRendering(section, journey, customViewData) {
+	prepQuestionForRendering({ section, journey, customViewData, sessionBackLink }) {
 		const answers = this.subQuestion.getAddMoreAnswers(
 			journey.response,
 			this.subQuestion.fieldName
@@ -123,18 +125,28 @@ class ListAddMoreQuestion extends Question {
 
 		// get viewModel for listing component
 		if (this.#hasAtLeastOneAnswer(answers)) {
-			const viewModel = super.prepQuestionForRendering(section, journey, {
-				...customViewData,
-				width: this.width
+			const viewModel = super.prepQuestionForRendering({
+				section,
+				journey,
+				sessionBackLink,
+				customViewData: {
+					...customViewData,
+					width: this.width
+				}
 			});
 			const addMoreAnswers = this.#addListingDataToViewModel(journey, section);
 			return { ...viewModel, addMoreAnswers };
 		}
 
 		// get viewModel for addMore subquestion
-		const viewModel = this.subQuestion.prepQuestionForRendering(section, journey, {
-			...customViewData,
-			width: this.width
+		const viewModel = this.subQuestion.prepQuestionForRendering({
+			section,
+			journey,
+			sessionBackLink,
+			customViewData: {
+				...customViewData,
+				width: this.width
+			}
 		});
 
 		return {
@@ -296,7 +308,7 @@ class ListAddMoreQuestion extends Question {
 			const addMoreAnswer = req.body[this.fieldName];
 
 			if (addMoreAnswer === 'yes') {
-				const viewModel = this.subQuestion.prepQuestionForRendering(section, journey);
+				const viewModel = this.subQuestion.prepQuestionForRendering({ section, journey });
 				const backLink = journey.getCurrentQuestionUrl(section.segment, this.fieldName);
 				const navigation = ['', viewModel.backLink];
 				const questionLabel = this.subQuestionFieldLabel;

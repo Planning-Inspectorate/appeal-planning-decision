@@ -5,7 +5,6 @@ const escape = require('escape-html');
 const { nl2br } = require('@pins/common/src/utils');
 const RequiredValidator = require('./validator/required-validator');
 const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
-const SessionHelper = require('../middleware/session-helper');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
@@ -147,15 +146,17 @@ class Question {
 
 	/**
 	 * gets the view model for this question
-	 * @param {Section} section - the current section
-	 * @param {Journey} journey - the journey we are in
-	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
-	 * @param {unknown} [payload]
+	 * @param {Object} options - the current section
+	 * @param {Section} options.section - the current section
+	 * @param {Journey} options.journey - the journey we are in
+	 * @param {Record<string, unknown>} [options.customViewData] additional data to send to view
+	 * @param {unknown} [options.payload]
+	 * @param {string} [options.sessionBackLink]
 	 * @returns {QuestionViewModel}
 	 */
-	prepQuestionForRendering(section, journey, customViewData, payload) {
+	prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
 		const answer = journey.response.answers[this.fieldName] || '';
-		const backLink = this.getBackLink(journey, section);
+		const backLink = journey.getBackLink(section.segment, this.fieldName, sessionBackLink);
 
 		const viewModel = {
 			question: this.getQuestionModel(section, answer),
@@ -176,6 +177,7 @@ class Question {
 
 		return viewModel;
 	}
+
 	/**
 	 * gets the view model for this question
 	 * @param {Section | undefined} section - the current section
@@ -199,22 +201,40 @@ class Question {
 	/**
 	 * replace the key of each variable to required text
 	 * @param {Section | undefined} section - the current section
+	 * @param {any} item - object item
 	 * @returns {any} item
 	 */
 	replaceVariables(section, item) {
-		if (this.variables && section?.sectionVariables) {
-			this.variables.forEach((variable) => {
-				const variableValue = section?.sectionVariables[variable];
-				if (variableValue) {
-					Object.keys(item).forEach((prop) => {
-						if (typeof item[prop] === 'string') {
-							item[prop] = item[prop].replace(variable, variableValue);
-						}
-					});
-				}
-			});
-		}
-		return item;
+		if (!this.variables || !section?.sectionVariables) return item;
+
+		/**
+		 * Replace variables in string
+		 * @param {string} str - object item
+		 * @returns {any} item
+		 */
+		const replaceInString = (str) =>
+			this.variables?.reduce((s, variable) => {
+				const value = section.sectionVariables[variable];
+				return value ? s.replace(new RegExp(variable, 'g'), value) : s;
+			}, str);
+
+		/**
+		 * Replace variables of objects and children
+		 * @param {any} input - object item
+		 * @returns {any} item
+		 */
+		const walk = (input) => {
+			if (Array.isArray(input)) {
+				return input.map(walk);
+			} else if (input && typeof input === 'object') {
+				return Object.fromEntries(Object.entries(input).map(([key, value]) => [key, walk(value)]));
+			} else if (typeof input === 'string') {
+				return replaceInString(input);
+			}
+			return input;
+		};
+
+		return walk(item);
 	}
 
 	/**
@@ -266,18 +286,19 @@ class Question {
 	 */
 	checkForValidationErrors(req, sectionObj, journey) {
 		const { body } = req;
-		const { errors = {}, errorSummary = [] } = body;
+		let { errors = {}, errorSummary = [] } = body;
+		const customViewData = this.replaceVariables(sectionObj, {
+			errors,
+			errorSummary
+		});
 
 		if (Object.keys(errors).length > 0) {
-			return this.prepQuestionForRendering(
-				sectionObj,
+			return this.prepQuestionForRendering({
+				section: sectionObj,
 				journey,
-				{
-					errors,
-					errorSummary
-				},
-				body
-			);
+				customViewData,
+				payload: body
+			});
 		}
 	}
 
@@ -396,7 +417,11 @@ class Question {
 	 * @returns {void}
 	 */
 	handleNextQuestion(res, journey, sectionSegment, questionSegment) {
-		return res.redirect(journey.getNextQuestionUrl(sectionSegment, questionSegment, false));
+		let next = journey.getNextQuestionUrl(sectionSegment, questionSegment, false);
+		if (next === null) {
+			next = journey.taskListUrl;
+		}
+		return res.redirect(next);
 	}
 
 	/**
@@ -522,37 +547,10 @@ class Question {
 	}
 
 	/**
-	 * @param {Journey} journey
-	 * @param {Section} section
-	 * @returns {string}
+	 * @returns {string} url if set otherwise defaults to fieldname
 	 */
-	getBackLink(journey, section) {
-		const answer = journey.response.answers[this.fieldName] || '';
-
-		if (this.isShortJourney(journey) && this.isFirstQuestion(journey, section)) {
-			const navigationHistory = SessionHelper.getNavigationHistory();
-			let previousPage;
-
-			if (
-				navigationHistory[1] === journey.baseUrl &&
-				navigationHistory[2].includes('your-appeals')
-			) {
-				previousPage = navigationHistory[2];
-			} else if (navigationHistory[1].endsWith(journey.response.referenceId) && !answer) {
-				previousPage = this.getDashboardUrl(journey.journeyId);
-			} else {
-				previousPage = navigationHistory[1];
-			}
-
-			if (previousPage && previousPage.includes('/your-appeals')) {
-				return this.getDashboardUrl(journey.journeyId);
-			} else {
-				return previousPage;
-			}
-		} else {
-			// For long journeys/ other questions, get the previous question URL
-			return journey.getNextQuestionUrl(section.segment, this.fieldName, true);
-		}
+	getUrlSlug() {
+		return this.url ?? this.fieldName;
 	}
 }
 

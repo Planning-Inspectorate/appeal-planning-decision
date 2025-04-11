@@ -92,7 +92,11 @@ exports.questionProps = {
 		question: `Is a ${QUESTION_VARIABLES.APPEAL_TYPE} appeal the correct type of appeal?`,
 		fieldName: 'correctAppealType',
 		url: 'correct-appeal-type',
-		validators: [new RequiredValidator('Select yes if this is the correct type of appeal')],
+		validators: [
+			new RequiredValidator(
+				`Select yes if ${QUESTION_VARIABLES.APPEAL_TYPE} is the correct type of appeal`
+			)
+		],
 		variables: [QUESTION_VARIABLES.APPEAL_TYPE]
 	},
 	listedBuildingCheck: {
@@ -1155,7 +1159,7 @@ exports.questionProps = {
 	},
 	submitEnvironmentalStatement: {
 		type: 'radio',
-		title: 'Did environmental statement',
+		title: 'Did the applicant submit an environmental statement?',
 		question: 'Did the applicant submit an environmental statement?',
 		fieldName: 'applicantSubmittedEnvironmentalStatement',
 		url: 'environmental-statement',
@@ -1849,7 +1853,7 @@ exports.questionProps = {
 
 						{
 							regex: new RegExp('^\\d+(\\.\\d{1,2})?$'),
-							regexMessage: 'Site area must not include more than 2 decimals, like 30 or 30.12'
+							regexMessage: 'Appeal site area must be 2 decimal places or less, like 2 or 2.13'
 						}
 					]
 				}

@@ -87,12 +87,12 @@ describe('DateQuestion', () => {
 						[FIELDNAME]: date
 					}
 				},
-				getNextQuestionUrl: () => {
+				getBackLink: () => {
 					return 'back';
 				}
 			};
 
-			const preppedQuestionViewModel = dateQuestion.prepQuestionForRendering(section, journey);
+			const preppedQuestionViewModel = dateQuestion.prepQuestionForRendering({ section, journey });
 
 			expect(preppedQuestionViewModel).toEqual(
 				expect.objectContaining({
@@ -150,17 +150,17 @@ describe('DateQuestion', () => {
 						[`${[FIELDNAME]}_year`]: '2022'
 					}
 				},
-				getNextQuestionUrl: () => {
+				getBackLink: () => {
 					return 'back';
 				}
 			};
 
-			const preppedQuestionViewModel = dateQuestion.prepQuestionForRendering(
+			const preppedQuestionViewModel = dateQuestion.prepQuestionForRendering({
 				section,
 				journey,
-				{},
-				formattedDate
-			);
+				customViewData: {},
+				payload: formattedDate
+			});
 
 			expect(preppedQuestionViewModel).toEqual(
 				expect.objectContaining({
@@ -208,7 +208,7 @@ describe('DateQuestion', () => {
 				response: {
 					answers: {}
 				},
-				getNextQuestionUrl: () => {
+				getBackLink: () => {
 					return 'back';
 				}
 			};
@@ -219,7 +219,7 @@ describe('DateQuestion', () => {
 				[`${[FIELDNAME]}_year`]: undefined
 			};
 
-			const preppedQuestionViewModel = dateQuestion.prepQuestionForRendering(section, journey);
+			const preppedQuestionViewModel = dateQuestion.prepQuestionForRendering({ section, journey });
 
 			expect(preppedQuestionViewModel).toEqual(
 				expect.objectContaining({
@@ -300,12 +300,12 @@ describe('DateQuestion', () => {
 						[FIELDNAME]: date
 					}
 				},
-				getNextQuestionUrl: () => {
+				getBackLink: () => {
 					return 'back';
 				}
 			};
 
-			const preppedQuestionViewModel = dateQuestion.prepQuestionForRendering(section, journey);
+			const preppedQuestionViewModel = dateQuestion.prepQuestionForRendering({ section, journey });
 
 			expect(preppedQuestionViewModel.question.value).toEqual(expected);
 			expect(preppedQuestionViewModel.answer).toEqual(expected);
