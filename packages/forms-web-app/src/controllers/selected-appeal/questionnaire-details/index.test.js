@@ -64,6 +64,7 @@ const expectedViewContext = {
 	layoutTemplate: 'layouts/no-banner-link/main.njk',
 	titleSuffix: 'formatted title suffix',
 	mainHeading: 'formatted questionnaire heading',
+	backToAppealOverviewLink: 'a/fake',
 	appeal: {
 		appealNumber: 123456,
 		headlineData: 'some headline data',
