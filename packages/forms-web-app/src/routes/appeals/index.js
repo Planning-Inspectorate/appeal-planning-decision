@@ -9,6 +9,7 @@ const finalCommentsRouter = require('./final-comments/index');
 const dynamicSubmission = require('../appellant-submission/submission-form');
 const proofEvidenceRouter = require('./proof-evidence/index');
 
+router.get('/', (_, res) => res.redirect('/appeals/your-appeals'));
 router.use('/your-appeals', yourAppealsRouter);
 router.get('/no-appeals', noAppealsController.get);
 
