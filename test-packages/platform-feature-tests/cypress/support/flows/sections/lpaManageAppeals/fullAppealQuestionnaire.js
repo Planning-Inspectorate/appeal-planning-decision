@@ -10,6 +10,7 @@ import { ConsultResponseAndRepresent } from "../../pages/lpa-manage-appeals/cons
 import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
+import { waitingForReview} from "./waitingForReview";
 
 export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 	const basePage = new BasePage();
@@ -90,7 +91,10 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 		appealProcess.selectOngoingAppealsNextToSite(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
 	});
+
 	// commented for test during coding
-	// 	cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-	// 	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
+	cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
+	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
+	cy.get('a[data-cy="Feedback-Page-Body"]').first().click();		
+	waitingForReview(appealId);	
 };
