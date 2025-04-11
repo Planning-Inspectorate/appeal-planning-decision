@@ -45,9 +45,9 @@
 										{# if appeal is invalid this column left blank #}
 										{% if item.displayInvalid %}
 										{% elif item.isNewAppeal %}
-                      <strong class='govuk-tag govuk-tag--green'>NEW</strong>
+                      <strong class='govuk-tag govuk-tag--green'>New</strong>
 										{% elif item.nextJourneyDue.dueInDays < 0 %}
-                      <strong class='govuk-tag govuk-tag--red'>OVERDUE</strong>
+                      <strong class='govuk-tag govuk-tag--red'>Overdue</strong>
                     {% else %}
                       {{item.nextJourneyDue.dueInDays}}
                       {% if item.nextJourneyDue.dueInDays == 1 %}
@@ -59,7 +59,7 @@
                   </td>
                   <td class="govuk-table__cell govuk-table__cell--numeric">
 										{% if item.displayInvalid %}
-											<strong class='govuk-tag govuk-tag--grey'>INVALID</strong>
+											<strong class='govuk-tag govuk-tag--grey'>Invalid</strong>
                     {% else %}
                       <a href="{{item.nextJourneyDue.baseUrl}}" class="govuk-link">
                           {{item.nextJourneyDue.journeyDue}}
@@ -99,7 +99,7 @@
                 <td class="govuk-table__cell">{{item.address}}</td>
 								<td class="govuk-table__cell">{{item.appealType}}</td>
                 <td class="govuk-table__cell">
-                  <strong class='govuk-tag govuk-tag--blue'>WITH CASE OFFICER</strong>
+                  <strong class='govuk-tag govuk-tag--blue'>With case officer</strong>
 								</td>
               </tr>
             {% endfor %}

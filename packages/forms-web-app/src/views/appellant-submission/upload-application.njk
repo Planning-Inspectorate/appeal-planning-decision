@@ -58,9 +58,9 @@
             Upload a file
           </label>
           {% if errors['file-upload'] %}
-            <span id="application-upload-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> {{ errors['file-upload'].msg }}
-          </span>
+            <p id="application-upload-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> {{ errors['file-upload'].msg }}
+            </p>
           {% endif %}
           <input class="govuk-file-upload" id="file-upload" name="file-upload" type="file" aria-labelledby="application-upload-label" />
         </div>
