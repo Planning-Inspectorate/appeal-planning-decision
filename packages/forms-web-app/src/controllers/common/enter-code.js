@@ -206,7 +206,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 			}
 
 			redirect =
-				req.session.appeal.state === 'SUBMITTED'
+				req.session.appeal?.state === 'SUBMITTED'
 					? `/${views.APPEAL_ALREADY_SUBMITTED}`
 					: `/${views.TASK_LIST}`;
 		} else if (isAppealConfirmation) {
