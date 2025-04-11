@@ -118,4 +118,15 @@ describe('checkLoggedIn middleware', () => {
 		expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/your-email-address');
 		expect(req.session.loginRedirect).toBe(req.originalUrl);
 	});
+
+	it('handles specific page request redirect', async () => {
+		const mockUser = null;
+		getUserFromSession.mockReturnValue(mockUser);
+
+		req.originalUrl = '/appeals/1234567/appeal-details';
+
+		await checkLoggedIn(req, res, next);
+
+		expect(req.session.loginRedirect).toBe('/appeals/1234567/appeal-details');
+	});
 });

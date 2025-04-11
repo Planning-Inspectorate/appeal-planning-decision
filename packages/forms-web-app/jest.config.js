@@ -18,5 +18,9 @@ module.exports = {
 			lines: 82
 		}
 	},
-	setupFilesAfterEnv: ['<rootDir>/__tests__/setupTests.js']
+	setupFilesAfterEnv: ['<rootDir>/__tests__/setupTests.js'],
+	moduleNameMapper: {
+		'^@pins/common(.*)$': '<rootDir>/../common$1',
+		'^@pins/business-rules(.*)$': '<rootDir>/../business-rules$1'
+	}
 };

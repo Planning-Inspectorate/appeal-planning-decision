@@ -8,6 +8,16 @@
 
 {% set title="Interested party comments " + appeal.appealNumber + " - " + titleSuffix + " - GOV.UK" %}
 
+{% block backButton %}
+	{{ govukBackLink({
+		text: "Back",
+		href: backToAppealOverviewLink,
+		attributes: {
+			'data-cy': 'back'
+		}
+	}) }}
+{% endblock %}
+
 {% block pageTitle %}
 	{{ title }}
 {% endblock %}

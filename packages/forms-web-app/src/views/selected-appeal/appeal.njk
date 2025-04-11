@@ -8,6 +8,16 @@
 
 {% set title="Appeal " + appeal.appealNumber + " - " + titleSuffix + " - GOV.UK" %}
 
+{% block backButton %}
+	{{ govukBackLink({
+		text: "Return to your appeals",
+		href: backLinkToDashboard,
+		attributes: {
+			'data-cy': 'back'
+		}
+	}) }}
+{% endblock %}
+
 {% block pageTitle %}
 	{{ title }}
 {% endblock %}

@@ -6,6 +6,7 @@ const {
 	formatPlanningObligationTitlePrefix
 } = require('../../../lib/selected-appeal-page-setup');
 const { determineUser } = require('../../../lib/determine-user');
+const { getParentPathLink } = require('../../../lib/get-user-back-links');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 
@@ -19,6 +20,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const appealNumber = req.params.appealNumber;
 		const trailingSlashRegex = /\/$/;
 		const userRouteUrl = req.originalUrl.replace(trailingSlashRegex, '');
+		const backToAppealOverviewLink = getParentPathLink(userRouteUrl);
 
 		// determine user based on route to selected appeal
 		// i.e '/appeals/' = appellant | agent
@@ -51,6 +53,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 		const viewContext = {
 			layoutTemplate,
+			backToAppealOverviewLink,
 			titlePrefix: formatPlanningObligationTitlePrefix(userType),
 			titleSuffix: formatTitleSuffix(userType),
 

@@ -394,6 +394,7 @@ describe('controllers/common/enter-code', () => {
 					action: enterCodeConfig.actions.saveAndReturn
 				};
 				req.session.loginRedirect = '/test';
+				req.params = { enterCodeId: 'abc123' };
 
 				const appealLookup = { state: 'DRAFT' };
 
@@ -441,6 +442,29 @@ describe('controllers/common/enter-code', () => {
 
 				expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
 				expect(req.session.appeal).toEqual(appealLookup);
+			});
+
+			it('should handle selected page request', async () => {
+				const redirectPath = '/appeals/1234567';
+				req.session.enterCode = {
+					action: enterCodeConfig.actions.confirmEmail
+				};
+
+				req.session.loginRedirect = redirectPath;
+				req.session.navigationHistory = ['existing/path'];
+
+				isTokenValid.mockResolvedValue({
+					valid: true,
+					access_token: 'access',
+					id_token: 'id',
+					access_token_expiry: 'expiry'
+				});
+
+				const returnedFunction = postEnterCode(fullAppealViews, { isGeneralLogin: false });
+				await returnedFunction(req, res);
+
+				expect(req.session.navigationHistory).toEqual(['existing/path']); // unchanged
+				expect(res.redirect).toHaveBeenCalledWith(redirectPath);
 			});
 		});
 	});
@@ -738,32 +762,28 @@ describe('controllers/common/enter-code', () => {
 			expect(req.session.loginRedirect).toEqual(undefined);
 		});
 
-		it('does not redirect using session property if not a document request', async () => {
-			const { DASHBOARD } = lpaViews;
-			const views = { DASHBOARD };
+		it('should handle selected page request', async () => {
+			const views = {};
 			const userId = '649418158b915f0018524cb7';
 			const code = '12345';
-			isTokenValid.mockResolvedValue({
-				valid: true
-			});
-			const mockUser = {
-				email: 'a',
-				enabled: true
-			};
-			getLPAUser.mockResolvedValue(mockUser);
+
+			isTokenValid.mockResolvedValue({ valid: true });
+			getLPAUser.mockResolvedValue({ email: 'lpa@example.com' });
+			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
+
+			req.params.id = userId;
+			req.body = { 'email-code': code };
+
+			req.session.loginRedirect = '/manage-appeals/1234567/';
+			req.session.navigationHistory = ['already-there'];
 
 			const returnedFunction = postEnterCodeLPA(views);
 
-			req.session.loginRedirect = '/not-a-document-url/1010101';
-			req.params.id = userId;
-			req.body = {
-				'email-code': code
-			};
-			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
 			await returnedFunction(req, res);
-			expect(getLPAUserStatus).toHaveBeenCalledWith(req, userId);
-			expect(setLPAUserStatus).toHaveBeenCalledWith(req, userId, STATUS_CONSTANTS.CONFIRMED);
-			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/your-appeals');
+
+			expect(req.session.navigationHistory).toEqual(['already-there']);
+			expect(req.session.loginRedirect).toBeUndefined();
+			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/1234567/');
 		});
 	});
 });

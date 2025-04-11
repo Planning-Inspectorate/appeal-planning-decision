@@ -2,6 +2,7 @@ const { formatHeadlineData } = require('@pins/common');
 const { VIEW } = require('../../../lib/views');
 const { formatTitleSuffix } = require('../../../lib/selected-appeal-page-setup');
 const { getDepartmentFromCode } = require('../../../services/department.service');
+const { getParentPathLink } = require('../../../lib/get-user-back-links');
 const { REPRESENTATION_TYPES, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const {
 	formatRepresentationHeading,
@@ -53,6 +54,8 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			representationParams
 		);
 
+		const backToAppealOverviewLink = getParentPathLink(req.originalUrl);
+
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
 		const formattedRepresentations = formatRepresentations(caseData, representationsForDisplay);
@@ -70,6 +73,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 
 		const viewContext = {
 			layoutTemplate,
+			backToAppealOverviewLink,
 			titleSuffix: formatTitleSuffix(userType),
 			heading: formatRepresentationHeading(representationParams),
 			showLabel,

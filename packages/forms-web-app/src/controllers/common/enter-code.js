@@ -1,4 +1,5 @@
 const { getExistingAppeal } = require('#lib/appeals-api-wrapper');
+const { handleCustomRedirect } = require('../../lib/handle-custom-redirect');
 const {
 	getLPAUser,
 	createLPAUserSession,
@@ -166,7 +167,11 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		const isReturningFromEmail = action === enterCodeConfig.actions.saveAndReturn;
 		const isAppealConfirmation = !isGeneralLogin && !isReturningFromEmail;
 
-		const isV2DocRequest = req.session?.loginRedirect?.startsWith('/appeal-document/');
+		const isLoginRedirect = Boolean(req.session?.loginRedirect);
+
+		if (isLoginRedirect) {
+			isGeneralLogin = false;
+		}
 
 		const sessionEmail = getSessionEmail(req.session, isAppealConfirmation);
 
@@ -195,7 +200,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 
 		logger.info(
 			{
-				isV2DocRequest,
+				isLoginRedirect,
 				isGeneralLogin,
 				isAppealConfirmation,
 				isReturningFromEmail,
@@ -203,10 +208,6 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 			},
 			`postEnterCode`
 		);
-
-		if (isV2DocRequest) {
-			return handleCustomRedirect();
-		}
 
 		if (isGeneralLogin) {
 			deleteTempSessionValues();
@@ -221,8 +222,8 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 
 			deleteTempSessionValues();
 
-			if (req.session.loginRedirect) {
-				return handleCustomRedirect();
+			if (isLoginRedirect) {
+				return handleCustomRedirect(req, res);
 			} else {
 				return res.redirect(`/${views.EMAIL_CONFIRMED}`);
 			}
@@ -238,13 +239,17 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 			deleteTempSessionValues();
 
 			// redirect
-			if (req.session.loginRedirect) {
-				return handleCustomRedirect();
+			if (isLoginRedirect) {
+				return handleCustomRedirect(req, res);
 			} else if (req.session.appeal.state === 'SUBMITTED') {
 				return res.redirect(`/${views.APPEAL_ALREADY_SUBMITTED}`);
 			} else {
 				return res.redirect(`/${views.TASK_LIST}`);
 			}
+		}
+
+		if (isLoginRedirect) {
+			return handleCustomRedirect(req, res);
 		}
 
 		throw new Error('unhandled journey for POST: enter-code');
@@ -269,12 +274,6 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 				errors,
 				errorSummary
 			});
-		}
-
-		function handleCustomRedirect() {
-			const redirect = req.session.loginRedirect;
-			delete req.session.loginRedirect;
-			res.redirect(redirect);
 		}
 	};
 };
@@ -415,7 +414,7 @@ const postEnterCodeLPA = (views) => {
 			});
 		}
 
-		const isV2DocRequest = req.session?.loginRedirect?.startsWith('/lpa-questionnaire-document/');
+		const isLoginRedirect = Boolean(req.session?.loginRedirect);
 
 		let user;
 
@@ -453,10 +452,8 @@ const postEnterCodeLPA = (views) => {
 			throw err;
 		}
 
-		if (isV2DocRequest) {
-			const redirect = req.session.loginRedirect;
-			delete req.session.loginRedirect;
-			return res.redirect(redirect);
+		if (isLoginRedirect) {
+			return handleCustomRedirect(req, res);
 		}
 
 		redirectToLPADashboard(res, views);

@@ -8,6 +8,16 @@
 
 {% set title= titlePrefix + " planning obligation " + appeal.appealNumber + " - " + titleSuffix + " - GOV.UK" %}
 
+{% block backButton %}
+	{{ govukBackLink({
+		text: "Back",
+		href: backToAppealOverviewLink,
+		attributes: {
+			'data-cy': 'back'
+		}
+	}) }}
+{% endblock %}
+
 {% block pageTitle %}
 	{{ title }}
 {% endblock %}
