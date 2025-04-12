@@ -36,7 +36,7 @@ export const waitingForReview = (appealId)=>{
     // })
 
     cy.get(`a[href*="/manage-appeals/${appealId}/download/back-office/documents/lpa-questionnaire"]`).click();    
-    cy.verifyDownload(`appeal_${appealId}_lpa-questionnaire.zip`,{contains:true});
+    cy.verifyDownload(`appeal_${appealId}_lpa-questionnaire`,{contains:true});
     // cy.waitUntil(()=>cy.task('isFileExist',`cypress/downloads/appeal_${appealId}_lpa-questionnaire`),{
     //     timeout: 100000,
     //     interval: 5000
