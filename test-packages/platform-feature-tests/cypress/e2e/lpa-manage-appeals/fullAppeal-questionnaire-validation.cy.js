@@ -113,8 +113,8 @@ describe('Full appleal questionnaire validation', () => {
 
   //  1. Constraints, designations and other issues section validations
   it(`Validate Full appeal questionnaire appeal type error validation`, () => {
-    cy.get(basePage?._selectors.govukSummaryListKey).contains('Is this the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
-      const linkText = $link.text().split('Is this the correct type of appeal?')[0].trim();
+    cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a full planning appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
+      const linkText = $link.text().split('Is a full planning appeal the correct type of appeal?')[0].trim();
 
       if (linkText === 'Answer') {
         cy.wrap($link).should('be.visible').click({ force: true });
@@ -122,7 +122,7 @@ describe('Full appleal questionnaire validation', () => {
         cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#correctAppealType').and('contain.text', 'Select yes if this is the correct type of appeal');
       }
       else if (linkText === 'Change') {
-        cy.get(basePage?._selectors.govukSummaryListKey).contains('Is this the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a full planning appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
       }
     });
   });
