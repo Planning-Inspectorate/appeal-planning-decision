@@ -38,9 +38,12 @@ export class EnvImpactAssess {
         cy.advanceToNextPage();
         // cy.getByData(basePage?._selectors.answerYes).click();
         // cy.advanceToNextPage();
-        // //Upload your screening opinion and any correspondence
-       // cy.uploadFileFromFixtureDirectories(context?.documents?.uploadScreeningOpinion);
-       // cy.advanceToNextPage();
+        //Upload your screening opinion and any correspondence
+        // cy.uploadFileFromFixtureDirectories(context?.documents?.uploadScreeningOpinion);
+        // cy.advanceToNextPage();
+
+        // cy.getByData(basePage?._selectors.answerYes).click();
+        // cy.advanceToNextPage();
         
         this.selectEnvironmentalStatement(context);
         //this.selectScreeningOpinionEnvStmt(context);
