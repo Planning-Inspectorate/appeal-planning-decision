@@ -1,7 +1,7 @@
 const representationsController = require('./index');
 const { VIEW } = require('../../../lib/views');
 
-const { mockReq, mockRes } = require('../../../../__tests__/unit/mocks');
+const { mockRes } = require('../../../../__tests__/unit/mocks');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { formatTitleSuffix } = require('../../../lib/selected-appeal-page-setup');
 const { formatHeadlineData } = require('@pins/common');
@@ -16,29 +16,62 @@ const {
 	LPA_USER_ROLE,
 	REPRESENTATION_TYPES
 } = require('@pins/common/src/constants');
+const { generatePDF } = require('#lib/pdf-api-wrapper');
+const { addCSStoHtml } = require('#lib/add-css-to-html');
 
 jest.mock('../../../services/department.service');
 jest.mock('../../../lib/selected-appeal-page-setup');
 jest.mock('../../../lib/representation-functions');
 jest.mock('../../../services/user.service');
 jest.mock('../../../lib/get-user-back-links');
+jest.mock('#lib/add-css-to-html');
+jest.mock('#lib/pdf-api-wrapper');
 
 jest.mock('@pins/common');
 
 describe('controllers/selected-appeal/representations', () => {
-	let req;
-	let res;
 	const appealNumber = 'ABC123';
 	const testCaseData = {
-		LPACode: 'ABC',
+		LPACode: 'Q9999',
 		appealNumber,
 		someOtherData: 'test',
 		Representations: []
 	};
 
+	const mockReq = () => {
+		return {
+			originalUrl: 'a/fake/url',
+			params: { appealNumber: 123456 },
+			query: { pdf: '' },
+			appealsApiClient: {
+				getUserByEmailV2: jest.fn(),
+				getUsersAppealCase: jest.fn()
+			},
+			app: { render: jest.fn() }
+		};
+	};
+	let res = mockRes();
+	let req = mockReq();
+
+	const expectedViewContext = {
+		layoutTemplate: 'layouts/test/test.njk',
+		backToAppealOverviewLink: '/appeals/ABC123',
+		titleSuffix: 'test title suffix',
+		heading: 'test representation heading',
+		showLabel: false,
+		appeal: {
+			appealNumber: 'ABC123',
+			headlineData: { title: 'Appeal Headline Data' },
+			representations: ['test reps']
+		},
+		pdfDownloadUrl: 'a/fake/url?pdf=true',
+		zipDownloadUrl: 'a/fake/download/back-office/documents/third-party-comments'
+	};
+	const testHtml = '<head></head><h1>Test Html</h1>';
+	const testCSS = 'css data';
+	const testHtmlWithCSS = '<head><style>' + testCSS + '</style></head><h1>Test Html</h1>';
+
 	beforeEach(() => {
-		req = mockReq();
-		res = mockRes();
 		req.params.appealNumber = appealNumber;
 		req.appealsApiClient = {
 			getAppealCaseWithRepresentationsByType: jest.fn()
@@ -53,6 +86,10 @@ describe('controllers/selected-appeal/representations', () => {
 		filterRepresentationsForDisplay.mockImplementation(() => []);
 		formatRepresentationHeading.mockImplementation(() => 'test representation heading');
 		formatRepresentations.mockImplementation(() => ['test reps']);
+		req.app.render.mockImplementation(async (view, locals, callback) => {
+			/* eslint-disable-next-line no-undef */
+			callback((err = null), (html = testHtml));
+		});
 	});
 
 	it('renders the representation page with the correct data', async () => {
@@ -79,17 +116,11 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(formatRepresentations).toHaveBeenCalledWith(testCaseData, []);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
 		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
-		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS, {
-			layoutTemplate: testLayoutTemplate,
-			showLabel: false,
-			titleSuffix: 'test title suffix',
-			heading: 'test representation heading',
-			appeal: {
-				appealNumber: 'ABC123',
-				headlineData: { title: 'Appeal Headline Data' },
-				representations: ['test reps']
-			}
-		});
+		expect(req.app.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS,
+			{ ...expectedViewContext, backToAppealOverviewLink: undefined },
+			expect.any(Function)
+		);
 	});
 
 	it('renders the representation page with the correct data for interested party comments', async () => {
@@ -117,17 +148,87 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(formatRepresentations).toHaveBeenCalledWith(testCaseData, []);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
 		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
-		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS, {
-			layoutTemplate: testLayoutTemplate,
-			titleSuffix: 'test title suffix',
-			backToAppealOverviewLink: '/appeals/ABC123',
-			heading: 'test representation heading',
-			showLabel: false,
-			appeal: {
-				appealNumber: 'ABC123',
-				headlineData: { title: 'Appeal Headline Data' },
-				representations: ['test reps']
-			}
-		});
+		expect(req.app.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
+			expectedViewContext,
+			expect.any(Function)
+		);
+	});
+
+	it('renders page if URL does not have PDF query', async () => {
+		const controller = representationsController;
+
+		const testParams = {
+			userType: APPEAL_USER_ROLES.APPELLANT,
+			representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+			submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+		};
+
+		addCSStoHtml.mockReturnValue(testHtmlWithCSS);
+		const testBuffer = Buffer.from(testHtmlWithCSS);
+		generatePDF.mockReturnValue(testBuffer);
+
+		const testLayoutTemplate = 'layouts/test/test.njk';
+
+		const representationFunction = controller.get(testParams, testLayoutTemplate);
+
+		await representationFunction(req, res);
+
+		expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
+
+		expect(generatePDF).not.toHaveBeenCalled();
+		expect(addCSStoHtml).not.toHaveBeenCalled();
+
+		expect(req.app.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
+			expectedViewContext,
+			expect.any(Function)
+		);
+		expect(res.send).toHaveBeenCalledWith(testHtml);
+	});
+	it('generates and downloads PDF and does not render HTML if URL has ?pdf=true query', async () => {
+		req.query.pdf = 'true';
+
+		const pdfExpectedViewContext = {
+			...expectedViewContext,
+			pdfDownloadUrl: undefined,
+			zipDownloadUrl: undefined
+		};
+
+		addCSStoHtml.mockReturnValue(testHtmlWithCSS);
+		const testBuffer = Buffer.from(testHtmlWithCSS);
+		generatePDF.mockReturnValue(testBuffer);
+
+		const controller = representationsController;
+
+		const testParams = {
+			userType: APPEAL_USER_ROLES.APPELLANT,
+			representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+			submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+		};
+
+		const testLayoutTemplate = 'layouts/test/test.njk';
+
+		const representationFunction = controller.get(testParams, testLayoutTemplate);
+		await representationFunction(req, res);
+
+		expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
+
+		expect(addCSStoHtml).toHaveBeenCalledWith(testHtml);
+		expect(generatePDF).toHaveBeenCalledWith(testHtmlWithCSS);
+
+		expect(req.app.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
+			pdfExpectedViewContext,
+			expect.any(Function)
+		);
+
+		expect(res.set).toHaveBeenNthCalledWith(
+			1,
+			'Content-disposition',
+			'attachment; filename="Appeal Interested Party Comments ABC123.pdf"'
+		);
+		expect(res.set).toHaveBeenNthCalledWith(2, 'Content-type', 'application/pdf');
+		expect(res.send).toHaveBeenCalledWith(testBuffer);
 	});
 });
