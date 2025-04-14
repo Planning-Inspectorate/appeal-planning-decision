@@ -145,7 +145,7 @@
 		"pino": "^9.2.0",
 		"pino-http": "^10.4.0",
 		"pins-data-model": "github:Planning-Inspectorate/data-model#1.9.19",
-		"puppeteer-core": "^23.11.1",
+		"puppeteer-core": "^24.6.1",
 		"stream-json": "^1.8.0",
 		"swagger-jsdoc": "^6.2.8",
 		"swagger-typescript-api": "^13.0.23",
