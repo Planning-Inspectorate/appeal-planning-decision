@@ -13,6 +13,9 @@ class NotifyService {
 			v2Initial: '/appeal-submission/v2-submission-email.md',
 			v2FollowUp: '/appeal-submission/v2-follow-up-email.md',
 			v2LPANotification: '/appeal-submission/v2-lpa-notification.md'
+		},
+		representations: {
+			v2AppellantFinalComment: '/representations/v2-appellant-final-comments.md'
 		}
 	};
 

@@ -478,8 +478,7 @@ describe('BackOfficeV2Service', () => {
 			);
 			expect(sendAppellantFinalCommentSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
 				mockAppealFinalComment,
-				mockUser.email,
-				`${mockServiceUser.firstName} ${mockServiceUser.lastName}`
+				mockUser.email
 			);
 		});
 
@@ -494,29 +493,6 @@ describe('BackOfficeV2Service', () => {
 					mockAppealFinalCommentFormatter
 				})
 			).rejects.toThrow(`cannot find appellant service user`);
-		});
-
-		it('should handle service user with no name', async () => {
-			getAppellantFinalCommentByAppealId.mockResolvedValue(mockAppealFinalComment);
-			getForEmailCaseAndType.mockResolvedValue({});
-
-			await backOfficeV2Service.submitAppellantFinalCommentSubmission(
-				testCaseRef,
-				testUserID,
-				mockAppealFinalCommentFormatter
-			);
-
-			expect(getAppellantFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
-			expect(getUserById).toHaveBeenCalledWith(testUserID);
-			expect(markAppellantFinalCommentAsSubmitted).toHaveBeenCalledWith(
-				testCaseRef,
-				expect.any(String)
-			);
-			expect(sendAppellantFinalCommentSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
-				mockAppealFinalComment,
-				mockUser.email,
-				'Appellant'
-			);
 		});
 	});
 

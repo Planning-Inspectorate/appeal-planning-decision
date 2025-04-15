@@ -10,6 +10,7 @@ const {
 	createTestAppealCase
 } = require('../../../../../../../__tests__/developer/fixtures/appeals-case-data');
 
+const config = require('../../../../../../configuration/config');
 const { isFeatureActive } = require('../../../../../../configuration/featureFlag');
 
 /** @type {import('@prisma/client').PrismaClient} */
@@ -18,6 +19,7 @@ let sqlClient;
 let appealsApi;
 
 let validUser;
+let email;
 const validLpa = 'Q9999';
 
 const testCase1 = '001';
@@ -67,6 +69,16 @@ jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
 	sendEvents: jest.fn()
 }));
 
+const mockNotifyClient = {
+	sendEmail: jest.fn()
+};
+
+jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
+	return {
+		getNotifyClient: () => mockNotifyClient
+	};
+});
+
 jest.setTimeout(30000);
 
 beforeAll(async () => {
@@ -80,7 +92,7 @@ beforeAll(async () => {
 	///////////////////
 	appealsApi = supertest(app);
 
-	const email = crypto.randomUUID() + '@example.com';
+	email = crypto.randomUUID() + '@example.com';
 	const user = await sqlClient.appealUser.create({
 		data: {
 			email
@@ -180,6 +192,22 @@ const formattedFinalComment2 = {
 };
 
 describe('/api/v2/appeal-cases/:caseReference/appellant-final-comment-submissions/submit', () => {
+	const expectEmail = (email, appealReferenceNumber) => {
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+			config.services.notify.templates.generic,
+			email,
+			{
+				personalisation: {
+					subject: `We have received your final comments: ${appealReferenceNumber}`,
+					content: expect.stringContaining('We have received your final comments.')
+				},
+				reference: expect.any(String),
+				emailReplyToId: undefined
+			}
+		);
+		mockNotifyClient.sendEmail.mockClear();
+	};
 	it('Formats S78 appellant final comment submission without docs for case 001', async () => {
 		utils.getDocuments.mockReturnValue([]);
 		await createAppeal(testCase1);
@@ -208,6 +236,8 @@ describe('/api/v2/appeal-cases/:caseReference/appellant-final-comment-submission
 			[formattedFinalComment1],
 			'Create'
 		);
+
+		expectEmail(email, testCase1);
 	});
 	it('Formats S78 appellant final comment submission with docs for case 002', async () => {
 		utils.getDocuments.mockReturnValue([
@@ -249,6 +279,8 @@ describe('/api/v2/appeal-cases/:caseReference/appellant-final-comment-submission
 			[formattedFinalComment2],
 			'Create'
 		);
+
+		expectEmail(email, testCase2);
 	});
 	it('404s if the final comment submission cannot be found', async () => {
 		await appealsApi
