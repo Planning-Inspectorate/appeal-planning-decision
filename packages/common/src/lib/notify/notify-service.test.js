@@ -368,8 +368,37 @@ describe('NotifyService', () => {
 									^Appeal reference number: ${personalisation.appealReferenceNumber}
 									Address: ${personalisation.appealSiteAddress}
 
-									## What happens next
+									##What happens next
 									We will contact you if the local planning authority submits final comments. The deadline for the local planning authority’s final comments is ${personalisation.deadlineDate}.
+
+									The Planning Inspectorate
+									caseofficers@planninginspectorate.gov.uk`
+			);
+		});
+
+		it('should populate representation.v2LpaFinalComments ', () => {
+			const template = NotifyService.templates.representations.v2LpaFinalComment;
+			const personalisation = {
+				LPA: 'Test LPA',
+				appealReferenceNumber: 'ABC123',
+				appealSiteAddress: 'd\ne\nf',
+				deadlineDate: '22 April 2025'
+			};
+
+			const result = notifyService.populateTemplate(template, personalisation);
+			expectMessage(
+				result,
+				`To ${personalisation.LPA}
+
+									We’ve received your final comments.
+
+									#Appeal details
+
+									^Appeal reference number: ${personalisation.appealReferenceNumber}
+									Appeal site: ${personalisation.appealSiteAddress}
+
+									##What happens next
+									We will contact you when the appellant submits their final comments. The deadline for the appellant’s final comments is ${personalisation.deadlineDate}.
 
 									The Planning Inspectorate
 									caseofficers@planninginspectorate.gov.uk`
