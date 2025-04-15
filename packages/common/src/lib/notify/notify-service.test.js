@@ -355,7 +355,8 @@ describe('NotifyService', () => {
 			const personalisation = {
 				appealReferenceNumber: 'ABC123',
 				appealSiteAddress: 'd\ne\nf',
-				deadlineDate: '22 April 2025'
+				deadlineDate: '22 April 2025',
+				contactEmail: 'test@exmaple.com'
 			};
 
 			const result = notifyService.populateTemplate(template, personalisation);
@@ -372,7 +373,7 @@ describe('NotifyService', () => {
 									We will contact you if the local planning authority submits final comments. The deadline for the local planning authority’s final comments is ${personalisation.deadlineDate}.
 
 									The Planning Inspectorate
-									caseofficers@planninginspectorate.gov.uk`
+									${personalisation.contactEmail}`
 			);
 		});
 
@@ -382,7 +383,8 @@ describe('NotifyService', () => {
 				LPA: 'Test LPA',
 				appealReferenceNumber: 'ABC123',
 				appealSiteAddress: 'd\ne\nf',
-				deadlineDate: '22 April 2025'
+				deadlineDate: '22 April 2025',
+				contactEmail: 'test@exmaple.com'
 			};
 
 			const result = notifyService.populateTemplate(template, personalisation);
@@ -401,7 +403,7 @@ describe('NotifyService', () => {
 									We will contact you when the appellant submits their final comments. The deadline for the appellant’s final comments is ${personalisation.deadlineDate}.
 
 									The Planning Inspectorate
-									caseofficers@planninginspectorate.gov.uk`
+									${personalisation.contactEmail}`
 			);
 		});
 	});

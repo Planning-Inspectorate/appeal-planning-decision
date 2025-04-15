@@ -10,4 +10,4 @@ Appeal site: ((appealSiteAddress))
 We will contact you when the appellant submits their final comments. The deadline for the appellant’s final comments is ((deadlineDate)).
 
 The Planning Inspectorate
-caseofficers@planninginspectorate.gov.uk
+((contactEmail))
