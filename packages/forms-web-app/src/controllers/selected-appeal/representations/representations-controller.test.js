@@ -19,6 +19,7 @@ const {
 const { generatePDF } = require('#lib/pdf-api-wrapper');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { documentTypes } = require('@pins/common');
+const { documentTypes } = require('@pins/common');
 
 jest.mock('../../../services/department.service');
 jest.mock('../../../lib/selected-appeal-page-setup');
@@ -41,8 +42,7 @@ describe('controllers/selected-appeal/representations', () => {
 			{
 				id: 'testDocId',
 				documentType: documentTypes.interestedPartyComment.name,
-				published: true,
-				redacted: true
+				redacted: false
 			}
 		]
 	};
@@ -195,7 +195,6 @@ describe('controllers/selected-appeal/representations', () => {
 		);
 		expect(res.send).toHaveBeenCalledWith(testHtml);
 	});
-
 	it('renders page without zip download url if there is no caseData interested party document but another document', async () => {
 		req.appealsApiClient.getAppealCaseWithRepresentationsByType.mockImplementation(() =>
 			Promise.resolve({
@@ -205,7 +204,7 @@ describe('controllers/selected-appeal/representations', () => {
 						{
 							id: 'testDocId',
 							documentType: documentTypes.originalApplication.name,
-							published: false
+							redacted: false
 						}
 					]
 				}
@@ -235,7 +234,7 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(generatePDF).not.toHaveBeenCalled();
 		expect(addCSStoHtml).not.toHaveBeenCalled();
 
-		expect(res.render).toHaveBeenCalledWith(
+		expect(req.app.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
 			{ ...expectedViewContext, zipDownloadUrl: undefined },
 			expect.any(Function)
@@ -276,7 +275,7 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(generatePDF).not.toHaveBeenCalled();
 		expect(addCSStoHtml).not.toHaveBeenCalled();
 
-		expect(res.render).toHaveBeenCalledWith(
+		expect(req.app.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
 			{ ...expectedViewContext, zipDownloadUrl: undefined },
 			expect.any(Function)
@@ -284,7 +283,7 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(res.send).toHaveBeenCalledWith(testHtml);
 	});
 
-	it('renders page without zip download url if there there is a interested party document but is not published', async () => {
+	it('renders page without zip download url if there there is a interested party document but is redacted', async () => {
 		req.appealsApiClient.getAppealCaseWithRepresentationsByType.mockImplementation(() =>
 			Promise.resolve({
 				...testCaseData,
@@ -293,7 +292,7 @@ describe('controllers/selected-appeal/representations', () => {
 						{
 							id: 'testDocId',
 							documentType: documentTypes.interestedPartyComment.name,
-							published: false
+							redacted: true
 						}
 					]
 				}
@@ -323,7 +322,7 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(generatePDF).not.toHaveBeenCalled();
 		expect(addCSStoHtml).not.toHaveBeenCalled();
 
-		expect(res.render).toHaveBeenCalledWith(
+		expect(req.app.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
 			{ ...expectedViewContext, zipDownloadUrl: undefined },
 			expect.any(Function)
