@@ -372,7 +372,6 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 	const {
 		LPACode: lpaCode,
 		finalCommentsDueDate,
-		appealTypeCode,
 		siteAddressLine1,
 		siteAddressLine2,
 		siteAddressTown,
@@ -405,26 +404,27 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 
 		let variables = {
 			LPA: lpaName,
-			appeal_reference_number: caseReference,
-			'appeal site address': formattedAddress,
-			'deadline date': format(finalCommentsDueDate, 'dd MMMM yyyy')
+			appealReferenceNumber: caseReference,
+			appealSiteAddress: formattedAddress,
+			deadlineDate: format(finalCommentsDueDate, 'dd MMMM yyyy')
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appealTypeCode]]
-					.lpaFinalCommentsSubmissionConfirmationEmailToLpaV2
-			)
-			.setDestinationEmailAddress(lpaEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2LpaFinalComment,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We’ve received your final comments: ${caseReference}`,
+				content
+			},
+			destinationEmail: lpaEmail,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error({ err, lpaCode: lpaCode }, 'Unable to send final comment submission email to LPA');
 	}
