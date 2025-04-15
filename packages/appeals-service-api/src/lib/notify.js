@@ -566,16 +566,14 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 /**
  * @param { AppellantFinalCommentSubmission } appellantFinalCommentSubmission
  * @param {string} emailAddress
- * @param {string} appellantName
  */
 const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 	appellantFinalCommentSubmission,
-	emailAddress,
-	appellantName
+	emailAddress
 ) => {
 	try {
+		const recipientEmail = emailAddress;
 		const {
-			appealTypeCode,
 			siteAddressLine1,
 			siteAddressLine2,
 			siteAddressTown,
@@ -597,27 +595,27 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 		const reference = appellantFinalCommentSubmission.id;
 
 		let variables = {
-			appeal_reference_number: caseReference,
-			'appellant name': appellantName,
-			'appeal site address': formattedAddress,
-			'deadline date': format(finalCommentsDueDate, 'dd MMMM yyyy')
+			appealReferenceNumber: caseReference,
+			appealSiteAddress: formattedAddress,
+			deadlineDate: format(finalCommentsDueDate, 'dd MMMM yyyy')
 		};
 
 		logger.debug({ variables }, 'Sending final comment email to appellant');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appealTypeCode]]
-					.appellantFinalCommentsSubmissionConfirmationEmailToAppellantV2
-			)
-			.setDestinationEmailAddress(emailAddress)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2AppellantFinalComment,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We have received your final comments: ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: recipientEmail,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error({ err }, 'Unable to send final comment submission email to appellant');
 	}
