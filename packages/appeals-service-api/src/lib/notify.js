@@ -403,6 +403,7 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 		const reference = lpaFinalCommentSubmission.id;
 
 		let variables = {
+			...config.services.notify.templateVariables,
 			LPA: lpaName,
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
@@ -595,6 +596,7 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 		const reference = appellantFinalCommentSubmission.id;
 
 		let variables = {
+			...config.services.notify.templateVariables,
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
 			deadlineDate: format(finalCommentsDueDate, 'dd MMMM yyyy')
