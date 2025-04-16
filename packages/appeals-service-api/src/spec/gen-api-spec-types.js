@@ -14,7 +14,7 @@ exports.generateApiSpecTypes = async () => {
 	const spec = generateOpenApiSpec();
 
 	const { files } = await generateApi({
-		name: path.basename(typesFile),
+		fileName: path.basename(typesFile),
 		spec,
 		output: false,
 		generateClient: false
