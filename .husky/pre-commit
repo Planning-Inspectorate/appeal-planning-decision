@@ -2,3 +2,16 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 npx lint-staged
+
+before_status=$(git status --porcelain)
+
+npm run doc
+
+after_status=$(git status --porcelain)
+
+# Compare the statuses and exit if there are changes
+if [ "$before_status" != "$after_status" ]; then
+  echo "Changes detected in documentation"
+  # Fail the commit
+  exit 1
+fi
