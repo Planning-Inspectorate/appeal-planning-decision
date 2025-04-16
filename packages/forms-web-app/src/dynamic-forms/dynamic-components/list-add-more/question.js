@@ -324,7 +324,9 @@ class ListAddMoreQuestion extends Question {
 					}
 				});
 			} else if (addMoreAnswer === 'no') {
-				return res.redirect(journey.getNextQuestionUrl(section.segment, this.fieldName, false));
+				const next =
+					journey.getNextQuestionUrl(section.segment, this.fieldName, false) || journey.taskListUrl;
+				return res.redirect(next);
 			}
 		}
 
