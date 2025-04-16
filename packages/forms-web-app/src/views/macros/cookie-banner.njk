@@ -9,8 +9,8 @@
   {% set ariaLabel = 'Cookies on %serviceName%' | replace('%serviceName%', serviceName) %}
 
   {% set html %}
-    <p>We use some essential cookies to make this service work.</p>
-    <p>We'd also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
+    <p class="govuk-body">We use some essential cookies to make this service work.</p>
+    <p class="govuk-body">We'd also like to use analytics cookies so we can understand how you use the service and make improvements.</p>
   {% endset %}
 
   {{ govukCookieBanner({

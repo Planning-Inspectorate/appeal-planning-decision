@@ -9,7 +9,14 @@ class NotifyService {
 		appealSubmission: {
 			v1Initial: '/appeal-submission/v1-submission-email.md',
 			v1FollowUp: '/appeal-submission/v1-follow-up-email.md',
-			v1LPANotification: '/appeal-submission/v1-lpa-notification.md'
+			v1LPANotification: '/appeal-submission/v1-lpa-notification.md',
+			v2Initial: '/appeal-submission/v2-submission-email.md',
+			v2FollowUp: '/appeal-submission/v2-follow-up-email.md',
+			v2LPANotification: '/appeal-submission/v2-lpa-notification.md'
+		},
+		representations: {
+			v2AppellantFinalComment: '/representations/v2-appellant-final-comments.md',
+			v2LpaFinalComment: '/representations/v2-lpa-final-comments.md'
 		}
 	};
 

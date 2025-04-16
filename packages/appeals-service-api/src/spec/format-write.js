@@ -13,6 +13,6 @@ exports.formatWrite = async (filePath, content) => {
 		throw new Error(`no prettier config for ${filePath}`);
 	}
 	options.filepath = filePath;
-	const formatted = prettier.format(content, options);
+	const formatted = await prettier.format(content, options);
 	await fs.writeFile(filePath, formatted);
 };

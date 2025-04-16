@@ -6,6 +6,7 @@ const logger = require('../../lib/logger');
 const { getSessionEmail } = require('#lib/session-helper');
 const { getAuthClient, createOTPGrant } = require('@pins/common/src/client/auth-client');
 const config = require('../../config');
+const { handleCustomRedirect } = require('#lib/handle-custom-redirect');
 
 /**
  * @typedef {import('#lib/is-token-valid').TokenValidResult} TokenValidResult
@@ -106,6 +107,8 @@ const postEnterCodeR6 = (views) => {
 
 		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.confirmEmail;
 
+		const isLoginRedirect = Boolean(req.session?.loginRedirect);
+
 		const sessionEmail = getSessionEmail(req.session, false);
 
 		const tokenValid = await isTokenValid(token, sessionEmail, action);
@@ -139,6 +142,11 @@ const postEnterCodeR6 = (views) => {
 			},
 			`postEnterCode`
 		);
+
+		if (isLoginRedirect) {
+			deleteTempSessionValues();
+			return handleCustomRedirect(req, res);
+		}
 
 		deleteTempSessionValues();
 		return res.redirect(`/${views.DASHBOARD}`);

@@ -283,5 +283,26 @@ describe('controllers/rule-6/enter-code', () => {
 			expect(res.redirect).toHaveBeenCalledWith(`/${rule6Views.DASHBOARD}`);
 			expectUserInSession();
 		});
+
+		it('should handle selected page request', async () => {
+			isTokenValid.mockResolvedValue({
+				valid: true,
+				access_token: 'access',
+				id_token: 'id',
+				access_token_expiry: 'expiry'
+			});
+			getSessionEmail.mockReturnValue(TEST_EMAIL);
+			isRule6UserByEmail.mockResolvedValue(true);
+
+			req.session.loginRedirect = '/rule-6/1234567';
+			req.session.navigationHistory = ['already-there'];
+
+			const returnedFunction = postEnterCodeR6(rule6Views);
+			await returnedFunction(req, res);
+
+			expect(req.session.navigationHistory).toEqual(['already-there']); // unchanged
+			expect(req.session.loginRedirect).toBeUndefined();
+			expect(res.redirect).toHaveBeenCalledWith('/rule-6/1234567');
+		});
 	});
 });

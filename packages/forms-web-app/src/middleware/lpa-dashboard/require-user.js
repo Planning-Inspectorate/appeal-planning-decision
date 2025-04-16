@@ -35,6 +35,8 @@ const requireUser = (req, res, next) => {
 			req.session = {};
 		}
 
+		req.session.loginRedirect = req.originalUrl;
+
 		return res.redirect(`/${YOUR_EMAIL_ADDRESS}`);
 	});
 };

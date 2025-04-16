@@ -24,12 +24,12 @@
       {% endif %}
 
         {%- if item.status %}
-        {%- if item.status == 'COMPLETED' %}
+        {%- if item.status == 'Completed' %}
           {{ govukTag({
             text: item.status,
             classes: 'moj-task-list__task-completed'
           }) }}
-          {%- elif item.status == 'IN PROGRESS' %}
+          {%- elif item.status == 'In progress' %}
           {{ govukTag({
             text: item.status,
             classes: 'govuk-tag--blue moj-task-list__task-completed'

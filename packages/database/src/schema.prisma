@@ -253,7 +253,7 @@ model AppealCase {
   isCorrectAppealType           Boolean? /// Indicates if the LPA considers the appeal type appropriate
   lpaCostsAppliedFor            Boolean? /// Indicates if the LPA has applied for costs
   changedDevelopmentDescription Boolean? /// Indicates that the LPA has changed the development description
-  newConditionDetails           String? /// New conditions details provided by the LPA
+  newConditionDetails           String?  @db.NVarChar(Max) /// New conditions details provided by the LPA
 
   // todo: remove this column is an rep
   lpaStatement String? /// A statement provided by the LPA
@@ -841,7 +841,7 @@ model LPAQuestionnaireSubmission {
   nearbyAppeals                                   Boolean?
   addNearbyAppeal                                 Boolean?
   newConditions                                   String?
-  newConditions_newConditionDetails               String?
+  newConditions_newConditionDetails               String?   @db.NVarChar(Max)
   emergingPlan                                    Boolean?
   uploadEmergingPlan                              Boolean?
   developmentPlanPolicies                         Boolean?

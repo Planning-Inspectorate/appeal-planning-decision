@@ -1,7 +1,4 @@
 const { getUserFromSession } = require('../services/user.service');
-const {
-	constants: { NEW_OR_SAVED_APPEAL_OPTION }
-} = require('@pins/business-rules');
 
 const { saveAppeal, getExistingAppeal } = require('../lib/appeals-api-wrapper');
 const {
@@ -29,49 +26,22 @@ const checkLoggedIn = async (req, res, next) => {
 		return next();
 	}
 
-	let docRedirectUrl;
-	let v2docRedirect;
-
-	if (req.originalUrl.startsWith('/document/') && req.params?.appealOrQuestionnaireId) {
-		docRedirectUrl = await createSaveAndReturnUrl(req.params?.appealOrQuestionnaireId);
+	let loginPage = '/appeal/email-address'; // appellant
+	if (req.originalUrl.startsWith('/rule-6/')) loginPage = '/rule-6/email-address'; // rule6
+	else if (req.originalUrl.startsWith('/document/') && req.params?.appealOrQuestionnaireId) {
+		loginPage = await createSaveAndReturnUrl(req.params?.appealOrQuestionnaireId); // document
+	} else if (req.originalUrl.startsWith('/lpa-questionnaire-document/')) {
+		loginPage = '/manage-appeals/your-email-address';
 	}
 
-	if (
-		req.originalUrl.startsWith('/appeal-document/') &&
-		(req.params?.appealOrQuestionnaireId || req.params?.appellantSubmissionId)
-	) {
-		v2docRedirect = req.originalUrl;
-	}
-
-	if (req.originalUrl.startsWith('/lpa-questionnaire-document/') && req.params?.caseReference) {
-		v2docRedirect = req.originalUrl;
-	}
-
-	// reset session
 	req.session.regenerate((err) => {
 		if (err) {
 			req.session = {};
 		}
 
-		if (docRedirectUrl) {
-			req.session.loginRedirect = req.originalUrl;
-			return res.redirect(docRedirectUrl);
-		}
+		req.session.loginRedirect = req.originalUrl;
 
-		if (v2docRedirect) {
-			req.session.loginRedirect = req.originalUrl;
-		}
-
-		if (req.originalUrl.startsWith('/rule-6/')) {
-			return res.redirect('email-address');
-		}
-
-		if (req.originalUrl.startsWith('/lpa-questionnaire-document/')) {
-			return res.redirect('/manage-appeals/your-email-address');
-		}
-
-		req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.RETURN;
-		return res.redirect('/appeal/email-address');
+		return res.redirect(loginPage);
 	});
 };
 
