@@ -1,10 +1,12 @@
 const requireUser = require('../../../../src/middleware/lpa-dashboard/require-user');
+const { getUserFromSession } = require('../../../../src/services/user.service');
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('#lib/views');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const isIdle = require('../../../../src/lib/check-session-idle');
 
 jest.mock('../../../../src/lib/check-session-idle');
+jest.mock('../../../../src/services/user.service');
 
 describe('requireUser', () => {
 	let req;
@@ -20,7 +22,8 @@ describe('requireUser', () => {
 				regenerate: (callback) => {
 					callback();
 				}
-			}
+			},
+			originalUrl: '/'
 		};
 		res = mockRes();
 		next = jest.fn();
@@ -29,10 +32,10 @@ describe('requireUser', () => {
 	});
 
 	it('calls next if user is in session', () => {
-		req.session.user = {
+		getUserFromSession.mockReturnValue({
 			isLpaUser: true,
 			expiry: new Date(Date.now() + 1000)
-		};
+		});
 
 		requireUser(req, res, next);
 
@@ -86,5 +89,16 @@ describe('requireUser', () => {
 
 		expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.YOUR_EMAIL_ADDRESS}`);
 		expect(next).not.toHaveBeenCalled();
+	});
+
+	it('handles specific LPA page request redirect', () => {
+		getUserFromSession.mockReturnValue(null);
+
+		req.originalUrl = '/manage-appeals/1234567/appeal-details';
+
+		requireUser(req, res, next);
+
+		expect(req.session.loginRedirect).toBe('/manage-appeals/1234567/appeal-details');
+		expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.YOUR_EMAIL_ADDRESS}`);
 	});
 });

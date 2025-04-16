@@ -4,16 +4,16 @@ const { APPEAL_CASE_DECISION_OUTCOME } = require('pins-data-model');
 jest.mock('#utils/appeal-sorting');
 jest.mock('pins-data-model');
 
-const appeal = {
+const appeal = Object.freeze({
 	caseDecisionOutcomeDate: '2024-12-31',
-	caseDecisionOutcome: 'allowed',
+	caseDecisionOutcome: APPEAL_CASE_DECISION_OUTCOME.ALLOWED,
 	appealTypeCode: 'HAS',
 	Documents: [{ documentType: 'CASE_DECISION_LETTER', id: 'doc1' }],
 	siteAddressLine1: 'a',
 	siteAddressLine2: 'b',
 	siteAddressTown: 'c',
 	siteAddressPostcode: 'd'
-};
+});
 
 describe('decidedAppeals', () => {
 	let req, res;
@@ -34,7 +34,7 @@ describe('decidedAppeals', () => {
 
 	it('should format and sort appeals correctly and render the results', async () => {
 		req.session = { interestedParty: { searchPostcode: 'AB12 3CD' } };
-		req.appealsApiClient.getPostcodeSearchResults.mockResolvedValue([appeal]);
+		req.appealsApiClient.getPostcodeSearchResults.mockResolvedValue([structuredClone(appeal)]);
 
 		await decidedAppeals(req, res);
 
@@ -47,7 +47,7 @@ describe('decidedAppeals', () => {
 					formattedCaseDecisionDate: '31 Dec 2024',
 					formattedDecisionColour: 'green',
 					appealTypeName: 'Householder',
-					caseDecisionOutcome: APPEAL_CASE_DECISION_OUTCOME.ALLOWED
+					caseDecisionOutcome: 'Allowed'
 				}
 			]
 		});
@@ -80,7 +80,7 @@ describe('decidedAppeals', () => {
 
 	it('should override default backlink if no postcode in session', async () => {
 		req.session = { navigationHistory: ['thispage', 'lastpage'] };
-		req.appealsApiClient.getPostcodeSearchResults.mockResolvedValue([appeal]);
+		req.appealsApiClient.getPostcodeSearchResults.mockResolvedValue([structuredClone(appeal)]);
 
 		await decidedAppeals(req, res);
 
@@ -93,7 +93,7 @@ describe('decidedAppeals', () => {
 					formattedCaseDecisionDate: '31 Dec 2024',
 					formattedDecisionColour: 'green',
 					appealTypeName: 'Householder',
-					caseDecisionOutcome: APPEAL_CASE_DECISION_OUTCOME.ALLOWED
+					caseDecisionOutcome: 'Allowed'
 				}
 			],
 			navigation: ['thispage', 'lastpage?search=AB12 3CD']

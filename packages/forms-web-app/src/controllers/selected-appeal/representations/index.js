@@ -2,12 +2,16 @@ const { formatHeadlineData } = require('@pins/common');
 const { VIEW } = require('../../../lib/views');
 const { formatTitleSuffix } = require('../../../lib/selected-appeal-page-setup');
 const { getDepartmentFromCode } = require('../../../services/department.service');
+const { getParentPathLink } = require('../../../lib/get-user-back-links');
 const { REPRESENTATION_TYPES, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const {
 	formatRepresentationHeading,
 	filterRepresentationsForDisplay,
 	formatRepresentations
 } = require('../../../lib/representation-functions');
+const { APPEAL_CASE_STAGE } = require('pins-data-model');
+const { addCSStoHtml } = require('#lib/add-css-to-html');
+const { generatePDF } = require('#lib/pdf-api-wrapper');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
@@ -37,10 +41,25 @@ const {
 exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 	return async (req, res) => {
 		const appealNumber = req.params.appealNumber;
+		const trailingSlashRegex = /\/$/;
+		const userRouteUrl = req.originalUrl.replace(trailingSlashRegex, '').split('?')[0];
 
 		const { userType, representationType, submittingParty, rule6OwnRepresentations } =
 			representationParams;
 
+		if (userType === null) {
+			throw new Error('Unknown role');
+		}
+
+		const isPagePdfDownload = req.query.pdf === 'true' && userType === APPEAL_USER_ROLES.APPELLANT;
+		let pdfDownloadUrl;
+		let zipDownloadUrl;
+		if (userType === APPEAL_USER_ROLES.APPELLANT && !isPagePdfDownload) {
+			pdfDownloadUrl = userRouteUrl + '?pdf=true';
+			zipDownloadUrl =
+				req.originalUrl.substring(0, req.originalUrl.lastIndexOf('/')) +
+				`/download/back-office/documents/${APPEAL_CASE_STAGE.THIRD_PARTY_COMMENTS}`;
+		}
 		// Retrieves an AppealCase with an array of Representations of the specified type
 		// Representations will have a 'userOwnsRepresentation' field
 		const caseData = await req.appealsApiClient.getAppealCaseWithRepresentationsByType(
@@ -52,6 +71,8 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			caseData,
 			representationParams
 		);
+
+		const backToAppealOverviewLink = getParentPathLink(req.originalUrl);
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
@@ -70,6 +91,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 
 		const viewContext = {
 			layoutTemplate,
+			backToAppealOverviewLink,
 			titleSuffix: formatTitleSuffix(userType),
 			heading: formatRepresentationHeading(representationParams),
 			showLabel,
@@ -77,9 +99,23 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 				appealNumber,
 				headlineData,
 				representations: formattedRepresentations
-			}
+			},
+			pdfDownloadUrl,
+			zipDownloadUrl
 		};
 
-		res.render(representationView, viewContext);
+		await req.app.render(representationView, viewContext, async (_, html) => {
+			if (!isPagePdfDownload) return res.send(html);
+
+			const pdfHtml = await addCSStoHtml(html);
+			const pdf = await generatePDF(pdfHtml);
+
+			res.set(
+				'Content-disposition',
+				`attachment; filename="Appeal Interested Party Comments ${appealNumber}.pdf"`
+			);
+			res.set('Content-type', 'application/pdf');
+			return res.send(pdf);
+		});
 	};
 };

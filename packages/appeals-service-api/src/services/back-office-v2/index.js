@@ -125,7 +125,7 @@ class BackOfficeV2Service {
 		logger.info(`sending appeal submitted email for ${appellantSubmission.appealId}`);
 
 		try {
-			await sendSubmissionReceivedEmailToLpaV2(appellantSubmission, email);
+			await sendSubmissionReceivedEmailToLpaV2(appellantSubmission);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendSubmissionReceivedEmailToLpaV2');
 			throw new Error('failed to send submission email to LPA');
@@ -440,8 +440,6 @@ class BackOfficeV2Service {
 
 		if (!serviceUser) throw new Error('cannot find appellant service user');
 
-		const appellantName = this.#getNameFromServiceUser(serviceUser) || 'Appellant';
-
 		let result;
 		let mappedData;
 		if (appealTypeCode === CASE_TYPES.S78.processCode) {
@@ -478,8 +476,7 @@ class BackOfficeV2Service {
 		try {
 			await sendAppellantFinalCommentSubmissionEmailToAppellantV2(
 				appellantFinalCommentSubmission,
-				email,
-				appellantName
+				email
 			);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendAppellantFinalCommentSubmissionEmailToAppellantV2');

@@ -8,6 +8,16 @@
 
 {% set title="Interested party comments " + appeal.appealNumber + " - " + titleSuffix + " - GOV.UK" %}
 
+{% block backButton %}
+	{{ govukBackLink({
+		text: "Back",
+		href: backToAppealOverviewLink,
+		attributes: {
+			'data-cy': 'back'
+		}
+	}) }}
+{% endblock %}
+
 {% block pageTitle %}
 	{{ title }}
 {% endblock %}
@@ -29,6 +39,18 @@
 				classes: "appeal-headlines govuk-summary-list--no-border",
 				rows: appeal.headlineData
 			}) }}
+
+			{% if pdfDownloadUrl %}
+				<p class="govuk-body">
+					<a href="{{ pdfDownloadUrl }}">Download interested party comments (PDF)</a>
+				</p>
+			{% endif %}
+
+			{% if zipDownloadUrl %}
+				<p class="govuk-body">
+					<a href="{{ zipDownloadUrl }}">Download interested party comments documents (ZIP)</a>
+				</p>
+			{% endif %}
 
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 

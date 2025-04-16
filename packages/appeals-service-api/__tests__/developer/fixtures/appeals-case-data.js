@@ -36,6 +36,7 @@ function createTestAppealCase(
 		caseDecisionOutcomeDate: null,
 		caseCreatedDate: now,
 		caseSubmittedDate: now,
+		finalCommentsDueDate: new Date().toISOString(),
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
 		}

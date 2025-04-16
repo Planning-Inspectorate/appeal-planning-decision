@@ -15,6 +15,7 @@ router.use(require('./your-email-address'));
 router.use(requireLpaUser);
 
 // appeals
+router.get('/', (_, res) => res.redirect('/manage-appeals/your-appeals'));
 router.use(require('./your-appeals'));
 router.use(require('./questionnaire'));
 router.use(require('./decided-appeals'));
