@@ -64,7 +64,7 @@ export interface AppealCase {
 	 * @example "Q9999"
 	 */
 	LPACode: string;
-	appealTypeCode: 'HAS' | 'S78';
+	appealTypeCode: 'HAS' | 'S78' | 'S20';
 	/** The processing status for the appeal */
 	caseStatus?:
 		| 'assign_case_officer'
