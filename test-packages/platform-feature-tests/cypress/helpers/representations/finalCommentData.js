@@ -14,7 +14,7 @@ export const finalCommentTestCases = [
             selectAnswer: true,
         },
         additionalDocuments:{
-            selectAnswer: true,
+            selectAnswer: false,
         },
         documents,
     },
@@ -23,7 +23,7 @@ export const finalCommentTestCases = [
             selectAnswer: true,
         },
         additionalDocuments:{
-            selectAnswer: false,
+            selectAnswer: true,
         },
         documents,
     }

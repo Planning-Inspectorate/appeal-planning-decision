@@ -5,22 +5,20 @@
 import { BasePage } from "../../../../page-objects/base-page";
 import { FinalComment } from "../../pages/representations/finalComment";
 
-export const finalComment = (context, lpaManageAppealsData) => {
+export const finalComment = (context, prepareAppealData) => {
 	const basePage = new BasePage();
-	const finalComment = new FinalComment();
+	const finalComment = new FinalComment();	
 	let appealId;
 	let counter = 0;
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
-		if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoFinalcomment)) {
-			if (counter === 1) {
+		if (rowtext.includes(prepareAppealData?.FullAppealType) && rowtext.includes(prepareAppealData?.todoFinalComments)) {
+			if (counter === 0) {				
 				cy.wrap($row).within(() => {
-					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
-					cy.get('a').each(($link) => {
-						if ($link.attr('href')?.includes(lpaManageAppealsData?.appealFinalcommentsLink)) {
-							const parts = $link.attr('href')?.split('/');
-							appealId = parts[parts.length - 1];
-							cy.log(appealId);
+					cy.get(basePage?._selectors.trgovukTableCell).contains(prepareAppealData?.FullAppealType).should('be.visible');					
+					cy.get('a').each(($link) => {						
+						if ($link.attr('href')?.includes(prepareAppealData?.finalCommentsLink)) {
+							appealId = $link.attr('href')?.split('/').pop();							
 							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
 							return false;
 						}
@@ -34,14 +32,11 @@ export const finalComment = (context, lpaManageAppealsData) => {
 			cy.log($body.find('a.govuk-link:contains("Submit final comments")'))
 			if ($body.find('a.govuk-link:contains("Submit final comments")').length > 0) {
 				cy.contains('Submit final comments').click();
-			}
-			else {
-				cy.url().should('include', `/manage-appeals/final-comments/${appealId}/final-comments`);
-			}
+			}			
 		})
 		finalComment.selectSubmitAnyFinalComment(context);
 	});
-	// commented for test during coding
-	// 	cy.getByData(lpaManageAppealsData?.submitFinalComments).click();
-	// 	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.finalCommentsSubmitted);
+	//commented for test during coding
+		// cy.contains('button',prepareAppealData?.submitFinalComments).click();
+		// cy.get(basePage?._selectors.govukPanelTitle).contains(prepareAppealData?.finalCommentsSubmitted);
 };

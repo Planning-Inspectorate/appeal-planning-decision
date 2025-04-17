@@ -2,10 +2,12 @@
    
     "FullAppealType":"Full Planning appeal",    
     "todoProofsOfEvidence": "Proofs of evidence",
-    "proofsOfEvidenceLink": "proof-evidence",      
+    "todoFinalComments": "Final comments",
+    "proofsOfEvidenceLink": "proof-evidence",
+    "finalCommentsLink": "final-comments",       
     "button":"Continue to my appeal",   
     "email":{
-        "emailAddress":"appellant1@planninginspectorate.gov.uk",
+        "emailAddress":"appellant2@planninginspectorate.gov.uk",
         "emailCode":"12345"
     },
     "applicationName":{
@@ -36,7 +38,8 @@
     "develpmentDescriptionOriginal":"developmentDescriptionOriginal-hint123456789!£$%&*j",
     "acceptAndSubmitButton":"Accept and submit",
     "appealSubmitted": "Appeal submitted",
-    
+    "submitFinalComments": "Submit final comments", 
+    "finalCommentsSubmitted": "Final comments submitted",   
     "decisionAllowed": "Allowed",
     "decisionAllowedInPart": "Allowed in part",
     "decisionDismissed": "Dismissed"
