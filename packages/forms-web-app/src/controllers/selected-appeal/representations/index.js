@@ -3,7 +3,11 @@ const { VIEW } = require('../../../lib/views');
 const { formatTitleSuffix } = require('../../../lib/selected-appeal-page-setup');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { getParentPathLink } = require('../../../lib/get-user-back-links');
-const { REPRESENTATION_TYPES, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const {
+	REPRESENTATION_TYPES,
+	APPEAL_USER_ROLES,
+	LPA_USER_ROLE
+} = require('@pins/common/src/constants');
 const {
 	formatRepresentationHeading,
 	filterRepresentationsForDisplay,
@@ -12,6 +16,7 @@ const {
 const { APPEAL_CASE_STAGE } = require('pins-data-model');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
+const { documentTypes } = require('@pins/common');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
@@ -51,21 +56,32 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			throw new Error('Unknown role');
 		}
 
-		const isPagePdfDownload = req.query.pdf === 'true' && userType === APPEAL_USER_ROLES.APPELLANT;
-		let pdfDownloadUrl;
-		let zipDownloadUrl;
-		if (userType === APPEAL_USER_ROLES.APPELLANT && !isPagePdfDownload) {
-			pdfDownloadUrl = userRouteUrl + '?pdf=true';
-			zipDownloadUrl =
-				req.originalUrl.substring(0, req.originalUrl.lastIndexOf('/')) +
-				`/download/back-office/documents/${APPEAL_CASE_STAGE.THIRD_PARTY_COMMENTS}`;
-		}
 		// Retrieves an AppealCase with an array of Representations of the specified type
 		// Representations will have a 'userOwnsRepresentation' field
 		const caseData = await req.appealsApiClient.getAppealCaseWithRepresentationsByType(
 			appealNumber,
 			representationType
 		);
+
+		const isPagePdfDownload =
+			req.query.pdf === 'true' &&
+			(userType === APPEAL_USER_ROLES.APPELLANT || userType === LPA_USER_ROLE);
+		let pdfDownloadUrl;
+		let zipDownloadUrl;
+		const ipDocuments = caseData?.Documents?.filter(
+			(doc) => doc.documentType === documentTypes.interestedPartyComment.name && !doc.redacted
+		);
+		if (
+			(userType === APPEAL_USER_ROLES.APPELLANT || userType === LPA_USER_ROLE) &&
+			!isPagePdfDownload
+		) {
+			pdfDownloadUrl = userRouteUrl + '?pdf=true';
+			if (ipDocuments?.length) {
+				zipDownloadUrl =
+					req.originalUrl.substring(0, req.originalUrl.lastIndexOf('/')) +
+					`/download/back-office/documents/${APPEAL_CASE_STAGE.THIRD_PARTY_COMMENTS}`;
+			}
+		}
 
 		const representationsForDisplay = filterRepresentationsForDisplay(
 			caseData,

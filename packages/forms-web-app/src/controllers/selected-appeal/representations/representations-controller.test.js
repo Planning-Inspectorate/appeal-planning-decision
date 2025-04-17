@@ -18,6 +18,7 @@ const {
 } = require('@pins/common/src/constants');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
+const { documentTypes } = require('@pins/common');
 
 jest.mock('../../../services/department.service');
 jest.mock('../../../lib/selected-appeal-page-setup');
@@ -35,7 +36,14 @@ describe('controllers/selected-appeal/representations', () => {
 		LPACode: 'Q9999',
 		appealNumber,
 		someOtherData: 'test',
-		Representations: []
+		Representations: [],
+		Documents: [
+			{
+				id: 'testDocId',
+				documentType: documentTypes.interestedPartyComment.name,
+				redacted: false
+			}
+		]
 	};
 
 	const mockReq = () => {
@@ -186,6 +194,141 @@ describe('controllers/selected-appeal/representations', () => {
 		);
 		expect(res.send).toHaveBeenCalledWith(testHtml);
 	});
+	it('renders page without zip download url if there is no caseData interested party document but another document', async () => {
+		req.appealsApiClient.getAppealCaseWithRepresentationsByType.mockImplementation(() =>
+			Promise.resolve({
+				...testCaseData,
+				...{
+					Documents: [
+						{
+							id: 'testDocId',
+							documentType: documentTypes.originalApplication.name,
+							redacted: false
+						}
+					]
+				}
+			})
+		);
+
+		const controller = representationsController;
+
+		const testParams = {
+			userType: APPEAL_USER_ROLES.APPELLANT,
+			representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+			submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+		};
+
+		addCSStoHtml.mockReturnValue(testHtmlWithCSS);
+		const testBuffer = Buffer.from(testHtmlWithCSS);
+		generatePDF.mockReturnValue(testBuffer);
+
+		const testLayoutTemplate = 'layouts/test/test.njk';
+
+		const representationFunction = controller.get(testParams, testLayoutTemplate);
+
+		await representationFunction(req, res);
+
+		expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
+
+		expect(generatePDF).not.toHaveBeenCalled();
+		expect(addCSStoHtml).not.toHaveBeenCalled();
+
+		expect(req.app.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
+			{ ...expectedViewContext, zipDownloadUrl: undefined },
+			expect.any(Function)
+		);
+		expect(res.send).toHaveBeenCalledWith(testHtml);
+	});
+
+	it('renders page without zip download url if there is no caseData doocument present', async () => {
+		req.appealsApiClient.getAppealCaseWithRepresentationsByType.mockImplementation(() =>
+			Promise.resolve({
+				...testCaseData,
+				...{
+					Documents: []
+				}
+			})
+		);
+
+		const controller = representationsController;
+
+		const testParams = {
+			userType: APPEAL_USER_ROLES.APPELLANT,
+			representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+			submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+		};
+
+		addCSStoHtml.mockReturnValue(testHtmlWithCSS);
+		const testBuffer = Buffer.from(testHtmlWithCSS);
+		generatePDF.mockReturnValue(testBuffer);
+
+		const testLayoutTemplate = 'layouts/test/test.njk';
+
+		const representationFunction = controller.get(testParams, testLayoutTemplate);
+
+		await representationFunction(req, res);
+
+		expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
+
+		expect(generatePDF).not.toHaveBeenCalled();
+		expect(addCSStoHtml).not.toHaveBeenCalled();
+
+		expect(req.app.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
+			{ ...expectedViewContext, zipDownloadUrl: undefined },
+			expect.any(Function)
+		);
+		expect(res.send).toHaveBeenCalledWith(testHtml);
+	});
+
+	it('renders page without zip download url if there there is a interested party document but is redacted', async () => {
+		req.appealsApiClient.getAppealCaseWithRepresentationsByType.mockImplementation(() =>
+			Promise.resolve({
+				...testCaseData,
+				...{
+					Documents: [
+						{
+							id: 'testDocId',
+							documentType: documentTypes.interestedPartyComment.name,
+							redacted: true
+						}
+					]
+				}
+			})
+		);
+
+		const controller = representationsController;
+
+		const testParams = {
+			userType: APPEAL_USER_ROLES.APPELLANT,
+			representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+			submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+		};
+
+		addCSStoHtml.mockReturnValue(testHtmlWithCSS);
+		const testBuffer = Buffer.from(testHtmlWithCSS);
+		generatePDF.mockReturnValue(testBuffer);
+
+		const testLayoutTemplate = 'layouts/test/test.njk';
+
+		const representationFunction = controller.get(testParams, testLayoutTemplate);
+
+		await representationFunction(req, res);
+
+		expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
+
+		expect(generatePDF).not.toHaveBeenCalled();
+		expect(addCSStoHtml).not.toHaveBeenCalled();
+
+		expect(req.app.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
+			{ ...expectedViewContext, zipDownloadUrl: undefined },
+			expect.any(Function)
+		);
+		expect(res.send).toHaveBeenCalledWith(testHtml);
+	});
+
 	it('generates and downloads PDF and does not render HTML if URL has ?pdf=true query', async () => {
 		req.query.pdf = 'true';
 
