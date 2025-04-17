@@ -21,6 +21,12 @@ exports.constraintsRows = (caseData) => {
 
 	const isHASAppeal = caseData.appealTypeCode === CASE_TYPES.HAS.processCode;
 
+	const typeCodeToAppealDescription = {
+		[CASE_TYPES.HAS.processCode]: 'householder',
+		[CASE_TYPES.S78.processCode]: 'full planning',
+		[CASE_TYPES.S20.processCode]: 'listed building'
+	};
+
 	const affectedListedBuildings = caseData.ListedBuildings?.filter(
 		(x) => x.type === LISTED_RELATION_TYPES.affected
 	);
@@ -37,7 +43,9 @@ exports.constraintsRows = (caseData) => {
 
 	const rows = [
 		{
-			keyText: 'Is this the correct type of appeal',
+			keyText: `Is a ${
+				typeCodeToAppealDescription[caseData.appealTypeCode]
+			} appeal the correct type of appeal?`,
 			valueText: formatYesOrNo(caseData, 'isCorrectAppealType'),
 			condition: () => isNotUndefinedOrNull(caseData.isCorrectAppealType)
 		},
