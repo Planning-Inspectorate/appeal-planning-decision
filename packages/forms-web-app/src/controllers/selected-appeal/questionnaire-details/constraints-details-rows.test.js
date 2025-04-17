@@ -52,7 +52,7 @@ describe('constraintsRows', () => {
 		const rows = constraintsRows(caseData);
 		expect(rows.length).toEqual(17);
 		expect(rows[0].condition()).toEqual(true);
-		expect(rows[0].keyText).toEqual('Is this the correct type of appeal');
+		expect(rows[0].keyText).toEqual('Is a full planning appeal the correct type of appeal?');
 		expect(rows[0].valueText).toEqual('Yes');
 
 		expect(rows[1].condition()).toEqual(true);
@@ -144,7 +144,7 @@ describe('constraintsRows', () => {
 		const rows = constraintsRows(caseData);
 		expect(rows.length).toEqual(17);
 		expect(rows[0].condition()).toEqual(true);
-		expect(rows[0].keyText).toEqual('Is this the correct type of appeal');
+		expect(rows[0].keyText).toEqual('Is a full planning appeal the correct type of appeal?');
 		expect(rows[0].valueText).toEqual('No');
 
 		expect(rows[1].condition()).toEqual(true);
@@ -280,7 +280,7 @@ describe('constraintsRows', () => {
 
 		expect(rows.length).toEqual(17);
 		expect(rows[0].condition()).toEqual(true);
-		expect(rows[0].keyText).toEqual('Is this the correct type of appeal');
+		expect(rows[0].keyText).toEqual('Is a householder appeal the correct type of appeal?');
 		expect(rows[0].valueText).toEqual('Yes');
 
 		expect(rows[1].condition()).toEqual(false);
