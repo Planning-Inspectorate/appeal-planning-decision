@@ -518,7 +518,6 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 		logger.warn({ err, lpaCode }, 'Failed to retrieve LPA by code, falling back to ID');
 		lpa = await lpaService.getLpaById(lpaCode);
 	}
-
 	if (!lpa) {
 		throw new Error(`LPA not found for code: ${lpaCode}`);
 	}
@@ -532,13 +531,15 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 	const url = `${config.apps.appeals.baseUrl}/lpa-questionnaire-document/${caseReference}`;
 
 	const variables = {
-		appeal_reference_number: caseReference,
-		'Name of local planning department': lpaName,
-		lpa_reference: applicationReference,
-		site_address: formattedAddress,
-		appeal_start_date: formattedDate,
-		'link to copy of questionnaire': url,
-		'appellant email address': appellantOrAgentEmailAddress
+		...config.services.notify.templateVariables,
+		appealReferenceNumber: caseReference,
+
+		lpaName: lpaName,
+		lpaReference: applicationReference,
+		siteAddress: formattedAddress,
+		appealStartDate: formattedDate,
+		questionnaireLink: url,
+		appellantEmailAddress: appellantOrAgentEmailAddress
 	};
 
 	const reference = appealCase.id;
@@ -546,16 +547,20 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 	logger.debug({ variables }, 'Sending HAS questionnaire submitted email to LPA');
 
 	try {
-		await NotifyBuilder.reset()
-			.setTemplateId(templates.LPA_DASHBOARD.lpaHASQuestionnaireSubmissionConfirmationEmail)
-			.setDestinationEmailAddress(lpaEmailAddress)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.lpaq.v2LPAQSubmitted,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We’ve received your questionnaire: ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: lpaEmailAddress,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error(
 			{ err, lpaCode: lpaCode },
