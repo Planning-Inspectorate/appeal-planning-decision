@@ -493,9 +493,8 @@ class BackOfficeV2Service {
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitAppellantProofEvidenceSubmission(caseReference, userId, formatter) {
-		const appellantProofEvidenceSubmission = await getAppellantProofOfEvidenceByAppealId(
-			caseReference
-		);
+		const appellantProofEvidenceSubmission =
+			await getAppellantProofOfEvidenceByAppealId(caseReference);
 
 		if (!appellantProofEvidenceSubmission) {
 			throw new Error('No appellant proofs of evidence found');
@@ -520,8 +519,6 @@ class BackOfficeV2Service {
 		]);
 
 		if (!serviceUser) throw new Error('cannot find appellant service user');
-
-		const appellantName = this.#getNameFromServiceUser(serviceUser) || 'Appellant';
 
 		logger.info(`mapping appellant proofs for ${caseReference} to ${appealTypeCode} schema`);
 		const mappedData = await formatter({
@@ -555,8 +552,7 @@ class BackOfficeV2Service {
 		try {
 			await sendAppellantProofEvidenceSubmissionEmailToAppellantV2(
 				appellantProofEvidenceSubmission,
-				email,
-				appellantName
+				email
 			);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendAppellantProofEvidenceSubmissionEmailToAppellantV2');
