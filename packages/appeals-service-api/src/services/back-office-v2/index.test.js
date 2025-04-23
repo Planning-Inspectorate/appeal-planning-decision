@@ -534,8 +534,7 @@ describe('BackOfficeV2Service', () => {
 			);
 			expect(sendAppellantProofEvidenceSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
 				mockAppellantProofs,
-				mockUser.email,
-				`${mockServiceUser.firstName} ${mockServiceUser.lastName}`
+				mockUser.email
 			);
 		});
 
@@ -550,29 +549,6 @@ describe('BackOfficeV2Service', () => {
 					mockAppellantProofsFormatter
 				)
 			).rejects.toThrow(`cannot find appellant service user`);
-		});
-
-		it('should handle service user with no name', async () => {
-			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockAppellantProofs);
-			getForEmailCaseAndType.mockResolvedValue({});
-
-			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(
-				testCaseRef,
-				testUserID,
-				mockAppellantProofsFormatter
-			);
-
-			expect(getAppellantProofOfEvidenceByAppealId).toHaveBeenCalledWith(testCaseRef);
-			expect(getUserById).toHaveBeenCalledWith(testUserID);
-			expect(markAppellantProofOfEvidenceAsSubmitted).toHaveBeenCalledWith(
-				testCaseRef,
-				expect.any(String)
-			);
-			expect(sendAppellantProofEvidenceSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
-				mockAppellantProofs,
-				mockUser.email,
-				'Appellant'
-			);
 		});
 	});
 

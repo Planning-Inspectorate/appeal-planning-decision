@@ -626,16 +626,13 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 /**
  * @param { AppellantProofOfEvidenceSubmission } appellantProofEvidenceSubmission
  * @param {string} emailAddress
- * @param {string} appellantName
  */
 const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 	appellantProofEvidenceSubmission,
-	emailAddress,
-	appellantName
+	emailAddress
 ) => {
 	try {
 		const {
-			appealTypeCode,
 			applicationReference,
 			siteAddressLine1,
 			siteAddressLine2,
@@ -658,28 +655,30 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 		const reference = appellantProofEvidenceSubmission.id;
 
 		let variables = {
-			appeal_reference_number: caseReference,
-			'appellant name': appellantName,
-			site_address: formattedAddress,
-			lpa_reference: applicationReference,
-			'deadline date': formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy')
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: caseReference,
+			siteAddress: formattedAddress,
+			lpaReference: applicationReference || '',
+			deadlineDate: proofsOfEvidenceDueDate
+				? formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy')
+				: 'Not provided'
 		};
 
 		logger.debug({ variables }, 'Sending proof of evidence email to appellant');
-
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appealTypeCode]]
-					.appellantProofEvidenceSubmissionConfirmationEmailToAppellantV2
-			)
-			.setDestinationEmailAddress(emailAddress)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2ProofOfEvidenceSubmitted,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We have received your proof of evidence and witnesses: ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: emailAddress,
+			templateId: templates.generic || '',
+			reference
+		});
 	} catch (err) {
 		logger.error({ err }, 'Unable to send proof of evidence submission email to appellant');
 	}
