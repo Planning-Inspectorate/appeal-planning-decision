@@ -17,6 +17,9 @@ class NotifyService {
 		lpaq: {
 			v2LPAQSubmitted: 'lpaq/v2-lpaq-submitted.md'
 		},
+		lpaq: {
+			v2LPAQSubmitted: '/lpaq/v2-lpaq-submitted.md'
+		},
 		representations: {
 			v2LpaStatement: 'representations/v2-lpa-statement.md',
 			v2AppellantFinalComment: 'representations/v2-appellant-final-comments.md',
