@@ -387,6 +387,33 @@ describe('NotifyService', () => {
 			);
 		});
 
+		it('should populate representation.v2LpaStatement', () => {
+			const template = NotifyService.templates.representations.v2LpaStatement;
+			const personalisation = {
+				appealReferenceNumber: 'ABC123',
+				appealSiteAddress: 'd\ne\nf',
+				deadlineDate: '28 April 2025',
+				contactEmail: 'example@test.com'
+			};
+
+			const result = notifyService.populateTemplate(template, personalisation);
+			expectMessage(
+				result,
+				`We’ve received your statement.
+
+				#Appeal details
+
+				^Appeal reference number: ${personalisation.appealReferenceNumber}
+				Address: ${personalisation.appealSiteAddress}
+
+				## What happens next
+				We will contact you when the appellant has submitted their final comments. The deadline is ${personalisation.deadlineDate}.
+
+				The Planning Inspectorate
+				${personalisation.contactEmail}`
+			);
+		});
+
 		it('should populate representation.v2AppellantFinalComments ', () => {
 			const template = NotifyService.templates.representations.v2AppellantFinalComment;
 			const personalisation = {
