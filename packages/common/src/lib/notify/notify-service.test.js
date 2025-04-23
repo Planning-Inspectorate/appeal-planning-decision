@@ -350,6 +350,43 @@ describe('NotifyService', () => {
 			);
 		});
 
+		it('should populate lpaq.v2LPAQSubmitted', () => {
+			const template = NotifyService.templates.lpaq.v2LPAQSubmitted;
+			const personalisation = {
+				appealReferenceNumber: 'ABC123',
+				lpaName: 'This LPA',
+				lpaReference: 'abc',
+				siteAddress: 'd\ne\nf',
+				appealStartDate: '22 April 2025',
+				questionnaireLink: 'download/questionnaire/here',
+				appellantEmailAddress: 'appellant@exmaple.com',
+				contactEmail: 'example@test.com'
+			};
+
+			const result = notifyService.populateTemplate(template, personalisation);
+			expectMessage(
+				result,
+				`To ${personalisation.lpaName}
+
+				We’ve received your questionnaire for the planning application ${personalisation.lpaReference}.
+
+				#Appeal details
+
+				^Appeal reference number: ${personalisation.appealReferenceNumber}
+				Address: ${personalisation.siteAddress}
+				Planning application reference: ${personalisation.lpaReference}
+				Start date: ${personalisation.appealStartDate}
+
+				# What happens next
+				1. Download a copy of your questionnaire at ${personalisation.questionnaireLink}
+				2. Email a copy of the questionnaire and any documents to the appellant: ${personalisation.appellantEmailAddress}
+				3. We will review your questionnaire and contact you if we need any further information.
+
+				The Planning Inspectorate
+				${personalisation.contactEmail}`
+			);
+		});
+
 		it('should populate representation.v2AppellantFinalComments ', () => {
 			const template = NotifyService.templates.representations.v2AppellantFinalComment;
 			const personalisation = {
