@@ -309,7 +309,6 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		LPACode: lpaCode,
 		caseReference,
 		finalCommentsDueDate,
-		appealTypeCode,
 		siteAddressLine1,
 		siteAddressLine2,
 		siteAddressTown,
@@ -334,32 +333,31 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		}
 		const lpaEmail = lpa.getEmail();
 
-		const lpaName = lpa.getName();
-
 		const reference = lpaStatementSubmission.id;
 		// TODO: put inside an appeal model
 		let variables = {
-			LPA: lpaName,
-			appeal_reference_number: caseReference,
-			'appeal site address': formattedAddress,
-			'deadline date': format(finalCommentsDueDate, 'dd MMMM yyyy')
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: caseReference,
+			appealSiteAddress: formattedAddress,
+			deadlineDate: format(finalCommentsDueDate, 'dd MMMM yyyy')
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appealTypeCode]]
-					.lpaStatementSubmissionConfirmationEmailToLpaV2
-			)
-			.setDestinationEmailAddress(lpaEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2LpaStatement,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We’ve received your statement: ${caseReference}`,
+				content
+			},
+			destinationEmail: lpaEmail,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error({ err, lpaCode: lpaCode }, 'Unable to send submission received email to LPA');
 	}
@@ -533,7 +531,6 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 	const variables = {
 		...config.services.notify.templateVariables,
 		appealReferenceNumber: caseReference,
-
 		lpaName: lpaName,
 		lpaReference: applicationReference,
 		siteAddress: formattedAddress,
