@@ -5,6 +5,7 @@ const { sendEvents } = require('../../../../../../../src/infrastructure/event-cl
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { APPEAL_DOCUMENT_TYPE, SERVICE_USER_TYPE } = require('pins-data-model');
 const crypto = require('crypto');
+const config = require('../../../../../../configuration/config');
 const {
 	createTestAppealCase
 } = require('../../../../../../../__tests__/developer/fixtures/appeals-case-data');
@@ -13,15 +14,27 @@ const { isFeatureActive } = require('../../../../../../configuration/featureFlag
 let sqlClient;
 /** @type {import('supertest').SuperTest<import('supertest').Test>} */
 let appealsApi;
+/**
+ * @type {string}
+ */
 let validUser;
 const validLpa = 'Q9999';
+/**
+ * @type {string}
+ */
+let validEmail;
+
 jest.mock('../../../../../../configuration/featureFlag');
 jest.mock('../../../../../../../src/services/object-store');
 jest.mock('express-oauth2-jwt-bearer', () => {
 	let currentSub = '';
 	return {
 		auth: jest.fn(() => {
-			return (req, _res, next) => {
+			return (
+				/** @type {{ auth: { payload: { sub: string; }; }; }} */ req,
+				/** @type {any} */ _res,
+				/** @type {() => void} */ next
+			) => {
 				req.auth = {
 					payload: {
 						sub: currentSub
@@ -30,7 +43,7 @@ jest.mock('express-oauth2-jwt-bearer', () => {
 				next();
 			};
 		}),
-		setCurrentSub: (newSub) => {
+		setCurrentSub: (/** @type {string} */ newSub) => {
 			currentSub = newSub;
 		}
 	};
@@ -39,14 +52,18 @@ jest.mock('@pins/common/src/middleware/validate-token', () => {
 	let currentLpa = validLpa;
 	return {
 		validateToken: jest.fn(() => {
-			return (req, _res, next) => {
+			return (
+				/** @type {{ id_token: { lpaCode: string; }; }} */ req,
+				/** @type {any} */ _res,
+				/** @type {() => void} */ next
+			) => {
 				req.id_token = {
 					lpaCode: currentLpa
 				};
 				next();
 			};
 		}),
-		setCurrentLpa: (newLpa) => {
+		setCurrentLpa: (/** @type {string} */ newLpa) => {
 			currentLpa = newLpa;
 		}
 	};
@@ -54,6 +71,14 @@ jest.mock('@pins/common/src/middleware/validate-token', () => {
 jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
 	sendEvents: jest.fn()
 }));
+const mockNotifyClient = {
+	sendEmail: jest.fn()
+};
+jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
+	return {
+		getNotifyClient: () => mockNotifyClient
+	};
+});
 const testServiceUserId = 'testAppUserId1';
 jest.setTimeout(30000);
 beforeAll(async () => {
@@ -90,6 +115,7 @@ beforeAll(async () => {
 		]
 	});
 	validUser = user.id;
+	validEmail = user.email;
 });
 jest.mock('../../../../../../services/back-office-v2/formatters/utils', () => ({
 	getDocuments: jest.fn(() => [])
@@ -101,6 +127,9 @@ beforeEach(async () => {
 	});
 	utils.getDocuments.mockReset();
 });
+beforeEach(() => {
+	jest.clearAllMocks();
+});
 afterEach(async () => {
 	jest.clearAllMocks();
 });
@@ -110,7 +139,7 @@ afterAll(async () => {
 /**
  * @returns {Promise<string|undefined>}
  */
-const createAppeal = async (caseRef) => {
+const createAppeal = async (/** @type {string} */ caseRef) => {
 	const appeal = await sqlClient.appeal.create({
 		include: {
 			AppealCase: true
@@ -182,6 +211,24 @@ const formattedProofs2 = {
 };
 
 describe('/api/v2/appeal-cases/:caseReference/appellant-proof-evidence-submission/submit', () => {
+	const expectEmails = (/** @type {string} */ caseRef) => {
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+			config.services.notify.templates.generic,
+			validEmail,
+			{
+				personalisation: {
+					subject: `We have received your proof of evidence and witnesses: ${caseRef}`,
+					content: expect.stringContaining(
+						'We will contact you when the local planning authority and any other parties submit their proof of evidence and witnesses.'
+					)
+				},
+				reference: expect.any(String),
+				emailReplyToId: undefined
+			}
+		);
+		mockNotifyClient.sendEmail.mockClear();
+	};
 	it('Formats S78 appellant proof of evidence submission with one doc type for case 207', async () => {
 		utils.getDocuments.mockReturnValue([
 			{
@@ -195,7 +242,8 @@ describe('/api/v2/appeal-cases/:caseReference/appellant-proof-evidence-submissio
 				mime: 'doc'
 			}
 		]);
-		await createAppeal('207');
+		const caseRef = '207';
+		await createAppeal(caseRef);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
@@ -215,6 +263,8 @@ describe('/api/v2/appeal-cases/:caseReference/appellant-proof-evidence-submissio
 			[formattedProofs1],
 			'Create'
 		);
+		sendEvents.mockClear();
+		expectEmails(caseRef);
 	});
 	it('Formats S78 appellant proof of evidence submission with both doc types for case 208', async () => {
 		utils.getDocuments.mockReturnValue([
@@ -239,7 +289,8 @@ describe('/api/v2/appeal-cases/:caseReference/appellant-proof-evidence-submissio
 				mime: 'doc'
 			}
 		]);
-		await createAppeal('208');
+		const caseRef = '208';
+		await createAppeal(caseRef);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
@@ -260,6 +311,8 @@ describe('/api/v2/appeal-cases/:caseReference/appellant-proof-evidence-submissio
 			[formattedProofs2],
 			'Create'
 		);
+		sendEvents.mockClear();
+		expectEmails(caseRef);
 	});
 	it('404s if the proof of evidence submission cannot be found', async () => {
 		await appealsApi
