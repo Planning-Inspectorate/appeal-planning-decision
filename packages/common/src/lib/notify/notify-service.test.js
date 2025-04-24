@@ -499,5 +499,34 @@ describe('NotifyService', () => {
 				${personalisation.contactEmail}`
 			);
 		});
+
+		it('should populate representation.v2LpaProofsEvidence', () => {
+			const template = NotifyService.templates.representations.v2LpaProofsEvidence;
+			const personalisation = {
+				appealReferenceNumber: 'ABC123',
+				lpaReference: 'abc',
+				appealSiteAddress: 'd\ne\nf',
+				deadlineDate: '28 April 2025',
+				contactEmail: 'example@test.com'
+			};
+
+			const result = notifyService.populateTemplate(template, personalisation);
+			expectMessage(
+				result,
+				`We’ve received your proof of evidence and witnesses.
+
+				#Appeal details
+
+				^Appeal reference number: ${personalisation.appealReferenceNumber}
+				Address: ${personalisation.appealSiteAddress}
+				Planning application reference: ${personalisation.lpaReference}
+
+				## What happens next
+				We will contact you when the appellant and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
+
+				The Planning Inspectorate
+				${personalisation.contactEmail}`
+			);
+		});
 	});
 });
