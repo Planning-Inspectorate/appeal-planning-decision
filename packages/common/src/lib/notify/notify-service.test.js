@@ -470,6 +470,7 @@ describe('NotifyService', () => {
 									${personalisation.contactEmail}`
 			);
 		});
+
 		it('should populate representation.v2ProofOfEvidenceSubmitted ', () => {
 			const template = NotifyService.templates.representations.v2ProofOfEvidenceSubmitted;
 			const personalisation = {
