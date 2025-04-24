@@ -437,7 +437,6 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 		LPACode: lpaCode,
 		applicationReference,
 		proofsOfEvidenceDueDate,
-		appealTypeCode,
 		siteAddressLine1,
 		siteAddressLine2,
 		siteAddressTown,
@@ -464,33 +463,32 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 		}
 		const lpaEmail = lpa.getEmail();
 
-		const lpaName = lpa.getName();
-
 		const reference = lpaProofEvidenceSubmission.id;
 
 		let variables = {
-			LPA: lpaName,
-			appeal_reference_number: caseReference,
-			site_address: formattedAddress,
-			'deadline date': formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy'),
-			lpa_reference: applicationReference
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: caseReference,
+			appealSiteAddress: formattedAddress,
+			deadlineDate: formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy'),
+			lpaReference: applicationReference
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending proof of evidence email to LPA');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appealTypeCode]]
-					.lpaProofEvidenceSubmissionConfirmationEmailToLpaV2
-			)
-			.setDestinationEmailAddress(lpaEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2LpaProofsEvidence,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We’ve received your proof of evidence and witnesses: ${caseReference}`,
+				content
+			},
+			destinationEmail: lpaEmail,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error(
 			{ err, lpaCode: lpaCode },
