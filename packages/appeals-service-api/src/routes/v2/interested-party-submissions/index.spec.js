@@ -3,16 +3,16 @@ const app = require('../../../app');
 const { createPrismaClient } = require('../../../db/db-client');
 const { sendEvents } = require('../../../../src/infrastructure/event-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const config = require('../../../configuration/config');
 const crypto = require('crypto');
 const {
 	createTestAppealCase
 } = require('../../../../__tests__/developer/fixtures/appeals-case-data');
 const { isFeatureActive } = require('../../../configuration/featureFlag');
-/** @type {import('@prisma/client').PrismaClient} */
-let sqlClient;
-/** @type {import('supertest').SuperTest<import('supertest').Test>} */
-let appealsApi;
-let validUser;
+/** @type {import('@prisma/client').PrismaClient} */ let sqlClient;
+/** @type {import('supertest').SuperTest<import('supertest').Test>} */ let appealsApi;
+/** @type {string} */ let validUser;
+
 const validLpa = 'Q9999';
 jest.mock('../../../configuration/featureFlag');
 jest.mock('../../../../src/services/object-store');
@@ -56,6 +56,17 @@ beforeEach(async () => {
 	});
 	utils.getDocuments.mockReset();
 	utils.createInterestedPartyNewUser.mockReset();
+});
+const mockNotifyClient = {
+	sendEmail: jest.fn()
+};
+jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
+	return {
+		getNotifyClient: () => mockNotifyClient
+	};
+});
+beforeEach(() => {
+	jest.clearAllMocks();
 });
 afterEach(async () => {
 	jest.clearAllMocks();
@@ -105,10 +116,29 @@ const formattedComment1 = {
 };
 
 describe('/api/v2/interested-party-submissions', () => {
+	const expectEmails = (/** @type {string} */ caseRef) => {
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+			config.services.notify.templates.generic,
+			testIPSubmissionData.emailAddress,
+			{
+				personalisation: {
+					subject: `We’ve received your comment: ${caseRef}`,
+					content: expect.stringContaining(
+						`The inspector will review all of the evidence. We will contact you by email when we make a decision.`
+					)
+				},
+				reference: expect.any(String),
+				emailReplyToId: undefined
+			}
+		);
+		mockNotifyClient.sendEmail.mockClear();
+	};
 	it('creates an interested party submission and formats that submission', async () => {
 		utils.getDocuments.mockReturnValue([]);
 		utils.createInterestedPartyNewUser.mockReturnValue(expectedNewIPUser);
-		await createAppeal('808');
+		const caseRef = '808';
+		await createAppeal(caseRef);
 		const response = await appealsApi
 			.post(`/api/v2/interested-party-submissions`)
 			.send(testIPSubmissionData);
@@ -125,5 +155,6 @@ describe('/api/v2/interested-party-submissions', () => {
 			[formattedComment1],
 			'Create'
 		);
+		expectEmails(caseRef);
 	});
 });

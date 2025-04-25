@@ -22,6 +22,7 @@ class NotifyService {
 			v2AppellantFinalComment: '/representations/v2-appellant-final-comments.md',
 			v2LpaFinalComment: '/representations/v2-lpa-final-comments.md',
 			v2ProofOfEvidenceSubmitted: '/representations/v2-proof-of-evidence-submitted.md',
+			v2IpCommentSubmitted: '/representations/v2-ip-comment-submitted.md',
 			v2LpaProofsEvidence: '/representations/v2-lpa-proofs-evidence.md'
 		}
 	};
