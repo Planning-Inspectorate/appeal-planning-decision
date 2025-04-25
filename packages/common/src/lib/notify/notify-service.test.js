@@ -529,5 +529,29 @@ describe('NotifyService', () => {
 				${personalisation.contactEmail}`
 			);
 		});
+
+		it('should populate representation.v2IpCommentSubmitted ', () => {
+			const template = NotifyService.templates.representations.v2IpCommentSubmitted;
+			const personalisation = {
+				appealReferenceNumber: 'ABC123',
+				name: 'Geoff',
+				contactEmail: 'test@exmaple.com'
+			};
+
+			const result = notifyService.populateTemplate(template, personalisation);
+			expectMessage(
+				result,
+				`To ${personalisation.name}
+
+				We’ve received your comment for the appeal: ${personalisation.appealReferenceNumber}.
+
+				# What happens next
+
+				The inspector will review all of the evidence. We will contact you by email when we make a decision.
+
+				The Planning Inspectorate
+				${personalisation.contactEmail}`
+			);
+		});
 	});
 });
