@@ -989,24 +989,37 @@ const sendLPADashboardInviteEmail = async (user) => {
 const sendCommentSubmissionConfirmationEmailToIp = async (interestedPartySubmission) => {
 	try {
 		const { emailAddress, caseReference, firstName, lastName } = interestedPartySubmission;
+		const reference = interestedPartySubmission.id;
+
+		if (!emailAddress) {
+			logger.warn(
+				{ caseReference, interestedPartyId: reference },
+				'Skipping comment submission confirmation email as email address is missing.'
+			);
+			return;
+		}
 
 		let variables = {
+			...config.services.notify.templateVariables,
 			name: `${firstName} ${lastName}`,
-			'appeal reference': caseReference
+			appealReferenceNumber: caseReference
 		};
-
 		logger.debug({ variables }, 'Sending email to Interested Party');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(templates.INTERESTED_PARTIES.ipCommentSubmissionConfirmationEmail)
-			.setDestinationEmailAddress(emailAddress)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(caseReference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2IpCommentSubmitted,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We’ve received your comment: ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: emailAddress,
+			templateId: templates.generic || '',
+			reference
+		});
 	} catch (err) {
 		logger.error({ err }, 'Unable to send comment submission received email to IP');
 	}
