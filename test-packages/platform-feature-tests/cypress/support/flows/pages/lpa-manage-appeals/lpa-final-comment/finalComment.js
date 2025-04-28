@@ -26,6 +26,11 @@ export class FinalComment {
             if (context?.additionalDocument?.selectAnswer) {
                 cy.getByData(basePage?._selectors?.answerYes).click();
                 cy.advanceToNextPage();
+                cy.contains('button[name="delete"]', 'Remove', { timeout: 0, log: false }).then($btn => {
+                    if ($btn.length > 0) {
+                        cy.wrap($btn).click();
+                    }
+                })
                 cy.uploadFileFromFixtureDirectories(context?.documents?.uploadAdditionalDocsSupportFinalComments);
                 cy.advanceToNextPage();
             } else {
@@ -37,8 +42,8 @@ export class FinalComment {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
             //Upload your witnesses and their evidence
-        //    cy.uploadFileFromFixtureDirectories(context?.documents?.uploadSupportDocsFinalComments);
-       //     cy.advanceToNextPage();
+            //    cy.uploadFileFromFixtureDirectories(context?.documents?.uploadSupportDocsFinalComments);
+            //     cy.advanceToNextPage();
         }
     };
 }
