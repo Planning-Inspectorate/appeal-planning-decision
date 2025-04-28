@@ -70,6 +70,14 @@ jest.mock('../../../../../../models/entities/lpa-entity', () => ({
 		getEmail: jest.fn(() => 'test@example.com')
 	}))
 }));
+const mockNotifyClient = {
+	sendEmail: jest.fn()
+};
+jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
+	return {
+		getNotifyClient: () => mockNotifyClient
+	};
+});
 jest.setTimeout(30000);
 beforeAll(async () => {
 	///////////////////////////////
@@ -91,6 +99,7 @@ jest.mock('../../../../../../services/back-office-v2/formatters/utils', () => ({
 	getDocuments: jest.fn(() => [])
 }));
 const utils = require('../../../../../../services/back-office-v2/formatters/utils');
+const config = require('../../../../../../configuration/config');
 beforeEach(async () => {
 	isFeatureActive.mockImplementation(() => {
 		return true;
@@ -177,6 +186,22 @@ const formattedStatement2 = {
 	]
 };
 describe('/api/v2/appeal-cases/:caseReference/lpa-proof-evidence-submission/submit', () => {
+	const expectEmail = (email, appealReferenceNumber) => {
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+			config.services.notify.templates.generic,
+			email,
+			{
+				personalisation: {
+					subject: `We’ve received your proof of evidence and witnesses: ${appealReferenceNumber}`,
+					content: expect.stringContaining('We’ve received your proof of evidence and witnesses.')
+				},
+				reference: expect.any(String),
+				emailReplyToId: undefined
+			}
+		);
+		mockNotifyClient.sendEmail.mockClear();
+	};
 	it('Formats S78 lpa proof of evidence submission with one doc type for case 007', async () => {
 		utils.getDocuments.mockReturnValue([
 			{
@@ -210,6 +235,7 @@ describe('/api/v2/appeal-cases/:caseReference/lpa-proof-evidence-submission/subm
 			[formattedStatement1],
 			'Create'
 		);
+		expectEmail('test@example.com', '007');
 	});
 	it('Formats S78 lpa proof of evidence submission with both doc types for case 008', async () => {
 		utils.getDocuments.mockReturnValue([
@@ -255,6 +281,7 @@ describe('/api/v2/appeal-cases/:caseReference/lpa-proof-evidence-submission/subm
 			[formattedStatement2],
 			'Create'
 		);
+		expectEmail('test@example.com', '008');
 	});
 	it('404s if the proof of evidence submission cannot be found', async () => {
 		await appealsApi

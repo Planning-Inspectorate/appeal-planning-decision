@@ -309,7 +309,6 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		LPACode: lpaCode,
 		caseReference,
 		finalCommentsDueDate,
-		appealTypeCode,
 		siteAddressLine1,
 		siteAddressLine2,
 		siteAddressTown,
@@ -334,32 +333,31 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		}
 		const lpaEmail = lpa.getEmail();
 
-		const lpaName = lpa.getName();
-
 		const reference = lpaStatementSubmission.id;
 		// TODO: put inside an appeal model
 		let variables = {
-			LPA: lpaName,
-			appeal_reference_number: caseReference,
-			'appeal site address': formattedAddress,
-			'deadline date': format(finalCommentsDueDate, 'dd MMMM yyyy')
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: caseReference,
+			appealSiteAddress: formattedAddress,
+			deadlineDate: format(finalCommentsDueDate, 'dd MMMM yyyy')
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appealTypeCode]]
-					.lpaStatementSubmissionConfirmationEmailToLpaV2
-			)
-			.setDestinationEmailAddress(lpaEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2LpaStatement,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We’ve received your statement: ${caseReference}`,
+				content
+			},
+			destinationEmail: lpaEmail,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error({ err, lpaCode: lpaCode }, 'Unable to send submission received email to LPA');
 	}
@@ -439,7 +437,6 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 		LPACode: lpaCode,
 		applicationReference,
 		proofsOfEvidenceDueDate,
-		appealTypeCode,
 		siteAddressLine1,
 		siteAddressLine2,
 		siteAddressTown,
@@ -466,33 +463,32 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 		}
 		const lpaEmail = lpa.getEmail();
 
-		const lpaName = lpa.getName();
-
 		const reference = lpaProofEvidenceSubmission.id;
 
 		let variables = {
-			LPA: lpaName,
-			appeal_reference_number: caseReference,
-			site_address: formattedAddress,
-			'deadline date': formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy'),
-			lpa_reference: applicationReference
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: caseReference,
+			appealSiteAddress: formattedAddress,
+			deadlineDate: formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy'),
+			lpaReference: applicationReference
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending proof of evidence email to LPA');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appealTypeCode]]
-					.lpaProofEvidenceSubmissionConfirmationEmailToLpaV2
-			)
-			.setDestinationEmailAddress(lpaEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2LpaProofsEvidence,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We’ve received your proof of evidence and witnesses: ${caseReference}`,
+				content
+			},
+			destinationEmail: lpaEmail,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error(
 			{ err, lpaCode: lpaCode },
@@ -518,7 +514,6 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 		logger.warn({ err, lpaCode }, 'Failed to retrieve LPA by code, falling back to ID');
 		lpa = await lpaService.getLpaById(lpaCode);
 	}
-
 	if (!lpa) {
 		throw new Error(`LPA not found for code: ${lpaCode}`);
 	}
@@ -532,13 +527,14 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 	const url = `${config.apps.appeals.baseUrl}/lpa-questionnaire-document/${caseReference}`;
 
 	const variables = {
-		appeal_reference_number: caseReference,
-		'Name of local planning department': lpaName,
-		lpa_reference: applicationReference,
-		site_address: formattedAddress,
-		appeal_start_date: formattedDate,
-		'link to copy of questionnaire': url,
-		'appellant email address': appellantOrAgentEmailAddress
+		...config.services.notify.templateVariables,
+		appealReferenceNumber: caseReference,
+		lpaName: lpaName,
+		lpaReference: applicationReference,
+		siteAddress: formattedAddress,
+		appealStartDate: formattedDate,
+		questionnaireLink: url,
+		appellantEmailAddress: appellantOrAgentEmailAddress
 	};
 
 	const reference = appealCase.id;
@@ -546,16 +542,20 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 	logger.debug({ variables }, 'Sending HAS questionnaire submitted email to LPA');
 
 	try {
-		await NotifyBuilder.reset()
-			.setTemplateId(templates.LPA_DASHBOARD.lpaHASQuestionnaireSubmissionConfirmationEmail)
-			.setDestinationEmailAddress(lpaEmailAddress)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.lpaq.v2LPAQSubmitted,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We’ve received your questionnaire: ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: lpaEmailAddress,
+			templateId: templates.generic,
+			reference
+		});
 	} catch (err) {
 		logger.error(
 			{ err, lpaCode: lpaCode },
@@ -626,16 +626,13 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 /**
  * @param { AppellantProofOfEvidenceSubmission } appellantProofEvidenceSubmission
  * @param {string} emailAddress
- * @param {string} appellantName
  */
 const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 	appellantProofEvidenceSubmission,
-	emailAddress,
-	appellantName
+	emailAddress
 ) => {
 	try {
 		const {
-			appealTypeCode,
 			applicationReference,
 			siteAddressLine1,
 			siteAddressLine2,
@@ -658,28 +655,30 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 		const reference = appellantProofEvidenceSubmission.id;
 
 		let variables = {
-			appeal_reference_number: caseReference,
-			'appellant name': appellantName,
-			site_address: formattedAddress,
-			lpa_reference: applicationReference,
-			'deadline date': formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy')
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: caseReference,
+			siteAddress: formattedAddress,
+			lpaReference: applicationReference || '',
+			deadlineDate: proofsOfEvidenceDueDate
+				? formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy')
+				: 'Not provided'
 		};
 
 		logger.debug({ variables }, 'Sending proof of evidence email to appellant');
-
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appealTypeCode]]
-					.appellantProofEvidenceSubmissionConfirmationEmailToAppellantV2
-			)
-			.setDestinationEmailAddress(emailAddress)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2ProofOfEvidenceSubmitted,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We have received your proof of evidence and witnesses: ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: emailAddress,
+			templateId: templates.generic || '',
+			reference
+		});
 	} catch (err) {
 		logger.error({ err }, 'Unable to send proof of evidence submission email to appellant');
 	}
@@ -990,24 +989,37 @@ const sendLPADashboardInviteEmail = async (user) => {
 const sendCommentSubmissionConfirmationEmailToIp = async (interestedPartySubmission) => {
 	try {
 		const { emailAddress, caseReference, firstName, lastName } = interestedPartySubmission;
+		const reference = interestedPartySubmission.id;
+
+		if (!emailAddress) {
+			logger.warn(
+				{ caseReference, interestedPartyId: reference },
+				'Skipping comment submission confirmation email as email address is missing.'
+			);
+			return;
+		}
 
 		let variables = {
+			...config.services.notify.templateVariables,
 			name: `${firstName} ${lastName}`,
-			'appeal reference': caseReference
+			appealReferenceNumber: caseReference
 		};
-
 		logger.debug({ variables }, 'Sending email to Interested Party');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(templates.INTERESTED_PARTIES.ipCommentSubmissionConfirmationEmail)
-			.setDestinationEmailAddress(emailAddress)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(caseReference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2IpCommentSubmitted,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We’ve received your comment: ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: emailAddress,
+			templateId: templates.generic || '',
+			reference
+		});
 	} catch (err) {
 		logger.error({ err }, 'Unable to send comment submission received email to IP');
 	}

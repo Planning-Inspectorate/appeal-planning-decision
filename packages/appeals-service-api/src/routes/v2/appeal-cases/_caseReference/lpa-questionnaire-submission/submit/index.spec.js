@@ -3,8 +3,8 @@ const app = require('../../../../../../app');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { markQuestionnaireAsSubmitted } = require('../service');
 const { LPA_NOTIFICATION_METHODS, CASE_TYPES } = require('@pins/common/src/database/data-static');
-const { sendLPAHASQuestionnaireSubmittedEmailV2 } = require('#lib/notify');
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
+const config = require('../../../../../../../src/configuration/config');
 
 const appealsApi = supertest(app);
 
@@ -13,14 +13,72 @@ const appealsApi = supertest(app);
  */
 
 jest.mock('../../../service', () => ({
-	getCaseAndAppellant: () => {
-		return {};
-	}
+	getCaseAndAppellant: jest.fn((params) => {
+		switch (params.caseReference) {
+			case '001':
+				return {
+					id: 'appeal-001',
+					appealTypeCode: 'HAS',
+					LPACode: 'LPA_001',
+					caseReference: '001',
+					applicationReference: 'APP/001',
+					caseStartedDate: new Date(),
+					users: [
+						{
+							serviceUserType: 'Appellant',
+							emailAddress: 'test@example.com'
+						}
+					],
+					siteAddressLine1: '123 Test Road',
+					siteAddressTown: 'Testville',
+					siteAddressPostcode: 'T35 T1N'
+				};
+			case '002':
+				return {
+					id: 'appeal-002',
+					appealTypeCode: 'S78',
+					LPACode: 'LPA_001',
+					caseReference: '002',
+					applicationReference: 'APP/002',
+					caseStartedDate: new Date(),
+					users: [
+						{
+							serviceUserType: 'Appellant',
+							emailAddress: 's78@example.com'
+						}
+					],
+					siteAddressLine1: '456 Another Rd',
+					siteAddressTown: 'Townsville',
+					siteAddressPostcode: 'S78 1AB'
+				};
+			default:
+				return null;
+		}
+	})
 }));
 
-jest.mock('#lib/notify', () => ({
-	sendLPAHASQuestionnaireSubmittedEmailV2: jest.fn()
-}));
+jest.mock('../../../../../../services/lpa.service', () => {
+	return jest.fn(() => ({
+		getLpaByCode: jest.fn().mockResolvedValue({
+			getEmail: jest.fn(() => 'test@example.com'),
+			getName: jest.fn(() => 'lpaName')
+		}),
+		getLpaById: jest.fn().mockResolvedValue({
+			getEmail: jest.fn(() => 'test@example.com'),
+			getName: jest.fn(() => 'lpaName')
+		})
+	}));
+});
+
+const mockNotifyClient = {
+	sendEmail: jest.fn()
+};
+
+jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
+	return {
+		getNotifyClient: () => mockNotifyClient
+	};
+});
 
 const hasCase = {
 	correctAppealType: true,
@@ -261,11 +319,28 @@ const formattedS78 = [
 ];
 
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
+	const expectEmail = (email, appealReferenceNumber) => {
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+			config.services.notify.templates.generic,
+			email,
+			{
+				personalisation: {
+					subject: `We’ve received your questionnaire: ${appealReferenceNumber}`,
+					content: expect.stringContaining(`We’ve received your questionnaire`)
+				},
+				reference: expect.any(String),
+				emailReplyToId: undefined
+			}
+		);
+	};
 	beforeAll(async () => {});
 	it.each([
 		['HAS', '001', formattedHAS],
 		['S78', '002', formattedS78]
 	])('Formats %s questionnaires then sends it to back office', async (_, id, expectation) => {
+		mockNotifyClient.sendEmail.mockClear();
+
 		await appealsApi
 			.post(`/api/v2/appeal-cases/${id}/lpa-questionnaire-submission/submit`)
 			.expect(200);
@@ -277,7 +352,7 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 		);
 
 		expect(markQuestionnaireAsSubmitted).toHaveBeenCalled();
-		expect(sendLPAHASQuestionnaireSubmittedEmailV2).toHaveBeenCalled();
+		expectEmail('test@example.com', id);
 	});
 
 	it('404s if the questionnaire can not be found', () => {
