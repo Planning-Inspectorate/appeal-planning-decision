@@ -20,6 +20,7 @@ const { getDepartmentFromCode } = require('../../../services/department.service'
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
 const { APPEAL_CASE_STAGE } = require('pins-data-model');
+const logger = require('../../../lib/logger');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -120,8 +121,9 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			viewContext,
 			async (_, html) => {
 				if (!isPagePdfDownload) return res.send(html);
-
+				logger.debug({ html }, 'html:');
 				const pdfHtml = await addCSStoHtml(html);
+				logger.debug({ html: pdfHtml }, 'pdfHtml:');
 				const pdf = await generatePDF(pdfHtml);
 
 				res.set(
