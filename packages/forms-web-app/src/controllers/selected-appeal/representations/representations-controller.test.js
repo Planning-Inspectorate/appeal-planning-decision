@@ -41,7 +41,7 @@ describe('controllers/selected-appeal/representations', () => {
 			{
 				id: 'testDocId',
 				documentType: documentTypes.interestedPartyComment.name,
-				redacted: false
+				published: true
 			}
 		]
 	};
@@ -203,7 +203,7 @@ describe('controllers/selected-appeal/representations', () => {
 						{
 							id: 'testDocId',
 							documentType: documentTypes.originalApplication.name,
-							redacted: false
+							published: false
 						}
 					]
 				}
@@ -282,7 +282,7 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(res.send).toHaveBeenCalledWith(testHtml);
 	});
 
-	it('renders page without zip download url if there there is a interested party document but is redacted', async () => {
+	it('renders page without zip download url if there there is a interested party document but is not published', async () => {
 		req.appealsApiClient.getAppealCaseWithRepresentationsByType.mockImplementation(() =>
 			Promise.resolve({
 				...testCaseData,
@@ -291,7 +291,7 @@ describe('controllers/selected-appeal/representations', () => {
 						{
 							id: 'testDocId',
 							documentType: documentTypes.interestedPartyComment.name,
-							redacted: true
+							published: false
 						}
 					]
 				}
