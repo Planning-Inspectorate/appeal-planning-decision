@@ -15,6 +15,12 @@ It currently accepts html as a request to body
 
 ## Testing
 
+As multipart
+```shell
+curl -X POST --form-string "html=<style>h1 { font-style: italic; }</style><h1>h1</h1><b>test</b>" http://localhost:3004/api/v1/generate --output result-multi.pdf
+```
+
+As JSON
 ```shell
 curl -X POST -H "Content-Type: application/json" --data '{"html":"<style>h1 { font-style: italic; }</style><h1>h1</h1><b>test</b>"}' http://localhost:3004/api/v1/generate --output result.pdf
 ```
