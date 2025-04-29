@@ -9,9 +9,7 @@ describe('lib/flash-message', () => {
 
 	beforeEach(() => {
 		req = {
-			session: {
-				flashMessages: []
-			}
+			session: {}
 		};
 
 		message1 = { a: 'b' };
