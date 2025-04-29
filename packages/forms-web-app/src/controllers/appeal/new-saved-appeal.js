@@ -8,7 +8,6 @@ const {
 exports.get = async (req, res) => {
 	const { newOrSavedAppeal } = req.session;
 	res.render(VIEW.APPEAL.NEW_OR_SAVED_APPEAL, {
-		bannerHtmlOverride: config.betaBannerText,
 		newOrSavedAppeal
 	});
 };
@@ -19,7 +18,6 @@ exports.post = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		res.render(VIEW.APPEAL.NEW_OR_SAVED_APPEAL, {
-			bannerHtmlOverride: config.betaBannerText,
 			errors,
 			errorSummary,
 			newOrSavedAppeal: body['new-or-saved-appeal']
@@ -33,7 +31,6 @@ exports.post = async (req, res) => {
 		logger.error(e);
 
 		res.render(VIEW.APPEAL.NEW_OR_SAVED_APPEAL, {
-			bannerHtmlOverride: config.betaBannerText,
 			errors,
 			errorSummary: [{ text: e.toString(), href: 'new-or-saved-appeal' }]
 		});
