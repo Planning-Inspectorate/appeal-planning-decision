@@ -3,6 +3,10 @@ const config = {
 	auth: {
 		authServerUrl: process.env.AUTH_BASE_URL
 	},
+	fileUpload: {
+		maxSizeInBytes: Number(process.env.FILE_MAX_SIZE_IN_BYTES || 1000000),
+		path: process.env.FILE_UPLOAD_PATH || '/tmp'
+	},
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info'
 	},
