@@ -21,8 +21,6 @@ exports.generatePDF = async (htmlContent) => {
 		const fd = new FormData();
 		fd.append('html', htmlContent);
 
-		logger.debug({ data: fd }, 'PDF form data');
-
 		apiResponse = await fetch(url, {
 			method: 'POST',
 			responseType: 'application/pdf',
