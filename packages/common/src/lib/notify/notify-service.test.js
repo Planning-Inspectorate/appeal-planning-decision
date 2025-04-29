@@ -553,5 +553,25 @@ describe('NotifyService', () => {
 				${personalisation.contactEmail}`
 			);
 		});
+
+		it('should populate appealSubmission.v2SignInToAppealADecision', () => {
+			const template = NotifyService.templates.appealSubmission.v2signInToAppealDecision;
+			const personalisation = {
+				link: 'https://example.com/login',
+				name: 'Barry',
+				contactEmail: 'test@exmaple.com'
+			};
+
+			const result = notifyService.populateTemplate(template, personalisation);
+			expectMessage(
+				result,
+				`Sign in to appeal a planning decision: ${personalisation.link}
+
+				We will send a code to your email address, so that you can sign in to the service.
+
+				Planning Inspectorate
+				${personalisation.contactEmail}`
+			);
+		});
 	});
 });

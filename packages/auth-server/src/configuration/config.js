@@ -74,6 +74,15 @@ const { value, error } = schema.validate({
 			baseUrl: process.env.SRV_NOTIFY_BASE_URL,
 			serviceId: process.env.SRV_NOTIFY_SERVICE_ID,
 			apiKey: process.env.SRV_NOTIFY_API_KEY,
+			templateVariables: {
+				contactEmail: process.env.CONTACT_EMAIL || 'caseofficers@planninginspectorate.gov.uk',
+				contactForm:
+					process.env.CONTACT_FORM ||
+					'https://contact-us.planninginspectorate.gov.uk/hc/en-gb/requests/new',
+				feedbackUrl:
+					process.env.FEEDBACK_URL ||
+					'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UOUlNRkhaQjNXTDQyNEhSRExNOFVGSkNJTS4u&route=shorturl'
+			},
 			templates: {
 				APPELLANT_LOGIN: {
 					confirmRegistrationEmailToAppellant:
