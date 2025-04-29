@@ -76,6 +76,11 @@ export default joi
 				baseUrl: joi.string().uri(),
 				serviceId: joi.string(),
 				apiKey: joi.string(),
+				templateVariables: joi.object({
+					contactEmail: joi.string().email(),
+					contactForm: joi.string().uri(),
+					feedbackUrl: joi.string().uri()
+				}),
 				templates: joi.object({
 					APPELLANT_LOGIN: joi.object({
 						confirmRegistrationEmailToAppellant: joi.string()

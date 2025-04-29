@@ -1,3 +1,4 @@
+import { jest } from '@jest/globals';
 // Hosts
 process.env.APP_APPEALS_BASE_URL = 'http://localhost:9003';
 process.env.OIDC_HOST = 'http://localhost';
@@ -30,3 +31,13 @@ process.env.FORMS_WEB_APP_REDIRECT_URI = 'http://localhost:9003/oidc';
 process.env.FUNCTIONS_CLIENT_ID = '2f20d0bb-2f07-4797-9a4d-34b11b8f9936';
 process.env.FUNCTIONS_CLIENT_SECRET = 'functions-local-secret';
 process.env.FUNCTIONS_REDIRECT_URI = 'http://localhost:9999/oidc';
+
+export const mockNotifyClient = {
+	sendEmail: jest.fn()
+};
+jest.mock('@pins/common/src/lib/notify/notify-builder.js', () => {
+	// Return a constructor that returns the mock instance
+	return {
+		getNotifyClient: jest.fn(() => mockNotifyClient)
+	};
+});

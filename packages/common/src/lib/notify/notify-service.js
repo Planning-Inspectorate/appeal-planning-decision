@@ -12,7 +12,8 @@ class NotifyService {
 			v1LPANotification: '/appeal-submission/v1-lpa-notification.md',
 			v2Initial: '/appeal-submission/v2-submission-email.md',
 			v2FollowUp: '/appeal-submission/v2-follow-up-email.md',
-			v2LPANotification: '/appeal-submission/v2-lpa-notification.md'
+			v2LPANotification: '/appeal-submission/v2-lpa-notification.md',
+			v2signInToAppealDecision: '/appeal-submission/v2-sign-in-to-appeal-decision.md'
 		},
 		lpaq: {
 			v2LPAQSubmitted: '/lpaq/v2-lpaq-submitted.md'
