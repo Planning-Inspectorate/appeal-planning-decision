@@ -69,7 +69,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 		let pdfDownloadUrl;
 		let zipDownloadUrl;
 		const ipDocuments = caseData?.Documents?.filter(
-			(doc) => doc.documentType === documentTypes.interestedPartyComment.name && !doc.redacted
+			(doc) => doc.documentType === documentTypes.interestedPartyComment.name && doc.published
 		);
 		if (
 			(userType === APPEAL_USER_ROLES.APPELLANT || userType === LPA_USER_ROLE) &&
