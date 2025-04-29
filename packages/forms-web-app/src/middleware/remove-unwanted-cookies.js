@@ -23,7 +23,9 @@ module.exports = (req, res, next) => {
 
 	let activeCookiePolicy;
 	try {
-		activeCookiePolicy = JSON.parse(req.cookies[cookieConfig.COOKIE_POLICY_KEY]);
+		activeCookiePolicy = JSON.parse(
+			decodeURIComponent(req.cookies[cookieConfig.COOKIE_POLICY_KEY])
+		);
 	} catch (e) {
 		// something went wrong decoding the cookie policy JSON, so lets wipe it and start again
 		removeUnwantedCookies(req, res, [CONSTS.SESSION_COOKIE_NAME, CONSTS.EASY_AUTH_COOKIE_NAME]);

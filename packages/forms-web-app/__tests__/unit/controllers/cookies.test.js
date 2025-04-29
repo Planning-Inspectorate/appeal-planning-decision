@@ -109,7 +109,12 @@ describe('controllers/cookies', () => {
 						...cookieConfig.DEFAULT_COOKIE_POLICY,
 						usage
 					}),
-					{ encode: String, expires: new Date('2021-11-18T00:00:00.000Z'), sameSite: 'Lax', secure }
+					{
+						encode: encodeURIComponent,
+						expires: new Date('2021-11-18T00:00:00.000Z'),
+						sameSite: 'Lax',
+						secure
+					}
 				);
 			};
 
