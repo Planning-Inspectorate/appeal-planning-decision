@@ -40,7 +40,7 @@ export const sendConfirmRegistrationEmailToAppellant = async (recipientEmail, us
 
 		const notifyService = getNotifyService();
 		const content = notifyService.populateTemplate(
-			NotifyService.templates.appealSubmission.v2signInToAppealDecision,
+			NotifyService.templates.appealSubmission.v2registrationConfirmation,
 			variables
 		);
 		await notifyService.sendEmail({
