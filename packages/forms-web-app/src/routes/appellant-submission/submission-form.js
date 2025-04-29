@@ -33,6 +33,8 @@ const {
 		APPEALS: { YOUR_APPEALS }
 	}
 } = require('#lib/views');
+const config = require('../../config');
+
 const dashboardUrl = `/${YOUR_APPEALS}`;
 
 const typeCodeToTaskListDetails = {
@@ -48,6 +50,15 @@ const typeCodeToTaskListDetails = {
 		stub: 'listed-building',
 		pageCaption: 'Planning Listed Building Appeal'
 	}
+};
+
+const betaBannnerOverride = {
+	[CASE_TYPES.HAS.processCode]:
+		config.betaBannerText + config.generateBetaBannerFeedbackLink(config.feedbackUrlHAS),
+	[CASE_TYPES.S78.processCode]:
+		config.betaBannerText + config.generateBetaBannerFeedbackLink(config.feedbackUrlS78),
+	[CASE_TYPES.S20.processCode]:
+		config.betaBannerText + config.generateBetaBannerFeedbackLink(config.feedbackUrlS20)
 };
 
 const router = express.Router();
@@ -74,7 +85,8 @@ const appellantSubmissionTaskList = async (req, res) => {
 	return list(req, res, typeCodeToTaskListDetails[appealType].pageCaption, {
 		declarationUrl,
 		formattedDeadline,
-		navigation: ['', dashboardUrl]
+		navigation: ['', dashboardUrl],
+		bannerHtmlOverride: betaBannnerOverride[appealType]
 	});
 };
 

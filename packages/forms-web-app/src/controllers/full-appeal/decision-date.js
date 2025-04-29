@@ -1,7 +1,6 @@
 const { isValid, parseISO } = require('date-fns');
 const { rules, validation } = require('@pins/business-rules');
 const logger = require('../../lib/logger');
-const config = require('../../config');
 
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
@@ -17,7 +16,6 @@ exports.getDecisionDate = async (req, res) => {
 	const decisionDate = isValid(appealDecisionDate) ? appealDecisionDate : null;
 
 	res.render(currentPage, {
-		bannerHtmlOverride: config.betaBannerText,
 		decisionDate: decisionDate && {
 			day: `0${decisionDate?.getDate()}`.slice(-2),
 			month: `0${decisionDate?.getMonth() + 1}`.slice(-2),
@@ -33,7 +31,6 @@ exports.postDecisionDate = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(currentPage, {
-			bannerHtmlOverride: config.betaBannerText,
 			decisionDate: {
 				day: body['decision-date-day'],
 				month: body['decision-date-month'],
@@ -82,7 +79,6 @@ exports.postDecisionDate = async (req, res) => {
 		logger.error(e);
 
 		return res.render(currentPage, {
-			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: 'decision-date' }]

@@ -8,12 +8,10 @@ const {
 const {
 	validEnforcementNoticeOptions
 } = require('../../validators/before-you-start/enforcement-notice');
-const config = require('../../config');
 
 exports.getEnforcementNotice = (req, res) => {
 	const { appeal } = req.session;
 	res.render(ENFORCEMENT_NOTICE, {
-		bannerHtmlOverride: config.betaBannerText,
 		appeal
 	});
 };
@@ -30,7 +28,6 @@ exports.postEnforcementNotice = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		res.render(ENFORCEMENT_NOTICE, {
-			bannerHtmlOverride: config.betaBannerText,
 			appeal: {
 				...appeal,
 				eligibility: {
@@ -57,7 +54,6 @@ exports.postEnforcementNotice = async (req, res) => {
 		logger.error(e);
 
 		res.render(ENFORCEMENT_NOTICE, {
-			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]

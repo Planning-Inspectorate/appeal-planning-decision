@@ -5,6 +5,7 @@ const {
 	questionsHaveAnswers
 } = require('../dynamic-components/utils/question-has-answer');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const config = require('../../config');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -149,7 +150,9 @@ const params = {
 	informationPageViewPath: 'dynamic-components/submission-information/index',
 	journeyTitle: 'Appeal a planning decision',
 	returnToListing: true,
-	makeBaseUrl
+	makeBaseUrl,
+	bannerHtmlOverride:
+		config.betaBannerText + config.generateBetaBannerFeedbackLink(config.feedbackUrlHAS)
 };
 
 module.exports = {
