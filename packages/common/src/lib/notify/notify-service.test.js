@@ -555,7 +555,7 @@ describe('NotifyService', () => {
 		});
 
 		it('should populate appealSubmission.v2SignInToAppealADecision', () => {
-			const template = NotifyService.templates.appealSubmission.v2signInToAppealDecision;
+			const template = NotifyService.templates.appealSubmission.v2registrationConfirmation;
 			const personalisation = {
 				link: 'https://example.com/login',
 				name: 'Barry',
