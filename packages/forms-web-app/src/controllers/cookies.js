@@ -7,12 +7,11 @@ const { removeUnwantedCookies } = require('../lib/remove-unwanted-cookies');
 
 const getExistingCookiePolicy = (req) => {
 	let cookiePolicy = {};
-
 	try {
 		cookiePolicy =
 			req.cookies &&
 			req.cookies[cookieConfig.COOKIE_POLICY_KEY] &&
-			JSON.parse(req.cookies[cookieConfig.COOKIE_POLICY_KEY]);
+			JSON.parse(decodeURIComponent(req.cookies[cookieConfig.COOKIE_POLICY_KEY]));
 	} catch (e) {
 		req.log.warn(e, 'Get cookies.');
 	}
@@ -53,7 +52,7 @@ exports.postCookies = (req, res) => {
 	};
 
 	res.cookie(cookieConfig.COOKIE_POLICY_KEY, JSON.stringify(updatedCookiePolicy), {
-		encode: String,
+		encode: encodeURIComponent,
 		expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
 		secure: appConfig.isProduction,
 		sameSite: 'Lax'
