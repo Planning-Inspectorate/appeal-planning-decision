@@ -26,7 +26,8 @@ class NotifyService {
 			v2ProofOfEvidenceSubmitted: '/representations/v2-proof-of-evidence-submitted.md',
 			v2IpCommentSubmitted: '/representations/v2-ip-comment-submitted.md',
 			v2LpaProofsEvidence: '/representations/v2-lpa-proofs-evidence.md',
-			v2R6ProofsEvidence: '/representations/v2-r6-proofs-evidence.md'
+			v2R6ProofsEvidence: '/representations/v2-r6-proofs-evidence.md',
+			v2Rule6StatementSubmission: '/representations/v2-rule6-statement-submission.md'
 		}
 	};
 

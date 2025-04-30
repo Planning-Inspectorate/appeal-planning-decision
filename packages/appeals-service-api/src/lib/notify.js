@@ -35,12 +35,6 @@ const { templates } = config.services.notify;
  */
 
 /** @type {Record<AppealTypeCode, string>} */
-const appealTypeCodeToAppealId = {
-	HAS: APPEAL_ID.HOUSEHOLDER,
-	S78: APPEAL_ID.PLANNING_SECTION_78
-};
-
-/** @type {Record<AppealTypeCode, string>} */
 const appealTypeCodeToAppealText = {
 	HAS: 'householder planning',
 	S78: 'full planning'
@@ -756,7 +750,6 @@ const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
 ) => {
 	try {
 		const {
-			appealTypeCode,
 			applicationReference,
 			siteAddressLine1,
 			siteAddressLine2,
@@ -778,26 +771,28 @@ const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
 		const reference = rule6StatementSubmission.id;
 
 		let variables = {
-			appeal_reference_number: caseReference,
-			site_address: formattedAddress,
-			lpa_reference: applicationReference
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: caseReference,
+			siteAddress: formattedAddress,
+			lpaReference: applicationReference
 		};
 
 		logger.debug({ variables }, 'Sending statement submission email to rule 6 party');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appealTypeCode]]
-					.rule6StatementSubmissionConfirmationEmailToRule6PartyV2
-			)
-			.setDestinationEmailAddress(emailAddress)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2Rule6StatementSubmission,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We have received your statement: ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: emailAddress,
+			templateId: templates.generic || '',
+			reference
+		});
 	} catch (err) {
 		logger.error({ err }, 'Unable to send statement submission email to rule 6 party');
 	}
