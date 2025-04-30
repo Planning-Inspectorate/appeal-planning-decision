@@ -905,20 +905,37 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 			appeal.eligibility.applicationDecision
 		);
 
-		const { recipientEmail, variables, reference } = appealTypeConfig[
-			appeal.appealType
-		].email.saveAndReturnContinueAppeal(appeal, baseUrl, deadlineDate);
+		const {
+			recipientEmail,
+			variables: configVars,
+			reference
+		} = appealTypeConfig[appeal.appealType].email.saveAndReturnContinueAppeal(
+			appeal,
+			baseUrl,
+			deadlineDate
+		);
+
+		const variables = {
+			...configVars,
+			...config.services.notify.templateVariables
+		};
+
 		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
-		await NotifyBuilder.reset()
-			.setTemplateId(templates.SAVE_AND_RETURN.continueWithAppealEmailToAppellant)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.appealSubmission.v1SaveAndReturnContinueAppeal,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `Continue with your appeal for ${variables.applicationNumber}`,
+				content
+			},
+			destinationEmail: recipientEmail,
+			templateId: templates.generic || '',
+			reference
+		});
 	} catch (err) {
 		logger.error(
 			{ err, appealId: appeal.id },

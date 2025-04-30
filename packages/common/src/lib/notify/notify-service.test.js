@@ -164,6 +164,26 @@ describe('NotifyService', () => {
 			);
 		};
 
+		it('should populate appealSubmission.v1SaveAndReturnContinueAppeal ', () => {
+			const template = NotifyService.templates.appealSubmission.v1SaveAndReturnContinueAppeal;
+			const personalisation = {
+				date: '30 April 2025',
+				link: 'this/is/the/link',
+				contactEmail: 'test email address'
+			};
+
+			const result = notifyService.populateTemplate(template, personalisation);
+			expectMessage(
+				result,
+				`We’ve saved your appeal. You have until ${personalisation.date} to submit the appeal.
+
+				Sign in to view your appeals and continue: ${personalisation.link}
+				
+				The Planning Inspectorate
+				${personalisation.contactEmail}`
+			);
+		});
+
 		it('should populate appealSubmission.v1Initial ', () => {
 			const template = NotifyService.templates.appealSubmission.v1Initial;
 			const personalisation = { name: 'test-name', contactEmail: 'test email address' };
