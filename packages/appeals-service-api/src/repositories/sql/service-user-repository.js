@@ -111,7 +111,8 @@ class ServiceUserRepository {
 				serviceUserType: true,
 				id: true,
 				firstName: true,
-				lastName: true
+				lastName: true,
+				organisation: true
 			}
 		});
 	}

@@ -493,8 +493,9 @@ class BackOfficeV2Service {
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitAppellantProofEvidenceSubmission(caseReference, userId, formatter) {
-		const appellantProofEvidenceSubmission =
-			await getAppellantProofOfEvidenceByAppealId(caseReference);
+		const appellantProofEvidenceSubmission = await getAppellantProofOfEvidenceByAppealId(
+			caseReference
+		);
 
 		if (!appellantProofEvidenceSubmission) {
 			throw new Error('No appellant proofs of evidence found');
@@ -626,7 +627,8 @@ class BackOfficeV2Service {
 		try {
 			await sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2(
 				rule6ProofOfEvidenceSubmission,
-				email
+				email,
+				serviceUser
 			);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendRule6ProofOfEvidenceSubmissionEmailToRule6PartyV2');
