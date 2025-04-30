@@ -178,7 +178,7 @@ describe('NotifyService', () => {
 				`We’ve saved your appeal. You have until ${personalisation.date} to submit the appeal.
 
 				Sign in to view your appeals and continue: ${personalisation.link}
-				
+
 				The Planning Inspectorate
 				${personalisation.contactEmail}`
 			);
@@ -608,16 +608,46 @@ describe('NotifyService', () => {
 			expectMessage(
 				result,
 				`${personalisation.rule6RecipientLine}
-				
+
 				We’ve received your proof of evidence and witnesses.
 
 				# Appeal details
 				^Appeal reference number: ${personalisation.appealReferenceNumber}
 				Site address: ${personalisation.siteAddress}
-				
+
 				## What happens next
 				We will contact you when the appellant and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
-				
+					The Planning Inspectorate
+				${personalisation.contactEmail}`
+			);
+		});
+
+		it('should populate representation.v2Rule6StatementSubmission', () => {
+			const template = NotifyService.templates.representations.v2Rule6StatementSubmission;
+			const personalisation = {
+				appealReferenceNumber: 'ABC123',
+				lpaReference: 'abc',
+				siteAddress: 'd\ne\nf',
+				contactEmail: 'example@test.com'
+			};
+			const result = notifyService.populateTemplate(template, personalisation);
+			expectMessage(
+				result,
+				`We have received your statement.
+
+				# Appeal details
+
+				^Appeal reference number: ${personalisation.appealReferenceNumber}
+				Address: ${personalisation.siteAddress}
+				Planning application reference: ${personalisation.lpaReference}
+
+				# What happens next
+
+				We will contact you when:
+
+				- local planning authority and any other parties have submitted their statements
+				- we have received comments from interested parties
+
 				The Planning Inspectorate
 				${personalisation.contactEmail}`
 			);
