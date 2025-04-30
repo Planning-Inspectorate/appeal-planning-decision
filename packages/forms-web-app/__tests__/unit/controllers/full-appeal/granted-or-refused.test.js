@@ -12,7 +12,6 @@ const {
 } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../mocks');
-const config = require('../../../../src/config');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -33,7 +32,6 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 			getGrantedOrRefused(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED, {
-				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal
 			});
 		});
@@ -87,7 +85,6 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 
 			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED, {
-				bannerHtmlOverride: config.betaBannerText,
 				appeal: {
 					...req.session.appeal,
 					eligibility: {
@@ -116,7 +113,6 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED, {
-				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

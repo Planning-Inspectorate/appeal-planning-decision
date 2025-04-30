@@ -11,7 +11,6 @@ const {
 		FULL_APPEAL: { PRIOR_APPROVAL_EXISTING_HOME }
 	}
 } = require('../../../../src/lib/views');
-const config = require('../../../../src/config');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -44,7 +43,6 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 			getPriorApprovalExistingHome(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(PRIOR_APPROVAL_EXISTING_HOME, {
-				bannerHtmlOverride: config.betaBannerText,
 				hasPriorApprovalForExistingHome: true
 			});
 		});
@@ -65,7 +63,6 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(PRIOR_APPROVAL_EXISTING_HOME, {
-				bannerHtmlOverride: config.betaBannerText,
 				errors,
 				errorSummary
 			});
@@ -89,7 +86,6 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(PRIOR_APPROVAL_EXISTING_HOME, {
-				bannerHtmlOverride: config.betaBannerText,
 				hasPriorApprovalForExistingHome: true,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
