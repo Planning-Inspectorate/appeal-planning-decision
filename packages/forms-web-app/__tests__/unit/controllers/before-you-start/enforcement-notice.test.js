@@ -9,7 +9,6 @@ const {
 		BEFORE_YOU_START: { ENFORCEMENT_NOTICE }
 	}
 } = require('../../../../src/lib/views');
-const config = require('../../../../src/config');
 
 const navigationPages = {
 	nextPage: '/before-you-start/type-of-planning-application',
@@ -45,7 +44,6 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 			getEnforcementNotice(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE, {
-				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal
 			});
 		});
@@ -69,7 +67,6 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE, {
-				bannerHtmlOverride: config.betaBannerText,
 				appeal: {
 					...req.session.appeal,
 					eligibility: {
@@ -101,7 +98,6 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE, {
-				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
