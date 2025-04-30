@@ -80,7 +80,7 @@ class UnitOptionEntryValidator extends BaseValidator {
 
 	validateMin(schema, option, min, questionObj) {
 		if (min !== undefined) {
-			const minMessage = `${this.unit} must be at least ${min.toLocaleString()}`;
+			const minMessage = `${this.unit} must be at least ${min.toString()}`;
 
 			schema.push(
 				body(option.conditional.fieldName)
@@ -93,7 +93,7 @@ class UnitOptionEntryValidator extends BaseValidator {
 
 	validateMax(schema, option, max, questionObj) {
 		if (max !== undefined) {
-			const maxMessage = `${this.unit} must be ${max.toLocaleString()} or less`;
+			const maxMessage = `${this.unit} must be ${max.toString()} or less`;
 			console.log('my value: ', option.value);
 			schema.push(
 				body(option.conditional.fieldName)
