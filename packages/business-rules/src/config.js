@@ -70,7 +70,7 @@ const config = {
 					saveAndReturnContinueAppeal: (appeal, baseUrl, deadlineDate) => ({
 						recipientEmail: appeal.email,
 						variables: {
-							'application number': appeal.planningApplicationNumber,
+							applicationNumber: appeal.planningApplicationNumber,
 							date: format(deadlineDate, 'dd MMMM yyyy'),
 							link: `${baseUrl}/appeal-householder-decision/enter-code/${appeal.id}`
 						},
@@ -179,7 +179,7 @@ const config = {
 					saveAndReturnContinueAppeal: (appeal, baseUrl, deadlineDate) => ({
 						recipientEmail: appeal.email,
 						variables: {
-							'application number': appeal.planningApplicationNumber,
+							applicationNumber: appeal.planningApplicationNumber,
 							date: format(deadlineDate, 'dd MMMM yyyy'),
 							link: `${baseUrl}/full-appeal/submit-appeal/enter-code/${appeal.id}`
 						},
