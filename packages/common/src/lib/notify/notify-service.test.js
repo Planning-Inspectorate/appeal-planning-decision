@@ -593,5 +593,34 @@ describe('NotifyService', () => {
 				${personalisation.contactEmail}`
 			);
 		});
+
+		it('should populate representations.v2R6ProofsEvidence', () => {
+			const template = NotifyService.templates.representations.v2R6ProofsEvidence;
+			const personalisation = {
+				appealReferenceNumber: '1010101',
+				siteAddress: 'a\nb\nc',
+				deadlineDate: '30 April 2025',
+				contactEmail: 'test@exmaple.com',
+				rule6RecipientLine: 'To Rule 6 party'
+			};
+
+			const result = notifyService.populateTemplate(template, personalisation);
+			expectMessage(
+				result,
+				`${personalisation.rule6RecipientLine}
+				
+				We’ve received your proof of evidence and witnesses.
+
+				# Appeal details
+				^Appeal reference number: ${personalisation.appealReferenceNumber}
+				Site address: ${personalisation.siteAddress}
+				
+				## What happens next
+				We will contact you when the appellant and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
+				
+				The Planning Inspectorate
+				${personalisation.contactEmail}`
+			);
+		});
 	});
 });

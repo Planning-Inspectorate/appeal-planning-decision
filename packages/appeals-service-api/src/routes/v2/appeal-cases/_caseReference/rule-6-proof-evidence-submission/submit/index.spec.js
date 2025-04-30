@@ -5,6 +5,7 @@ const { sendEvents } = require('../../../../../../../src/infrastructure/event-cl
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { APPEAL_DOCUMENT_TYPE, SERVICE_USER_TYPE } = require('pins-data-model');
 const crypto = require('crypto');
+const config = require('../../../../../../configuration/config');
 const {
 	createTestAppealCase
 } = require('../../../../../../../__tests__/developer/fixtures/appeals-case-data');
@@ -14,6 +15,7 @@ let sqlClient;
 /** @type {import('supertest').SuperTest<import('supertest').Test>} */
 let appealsApi;
 let validUser;
+let validEmail;
 const validLpa = 'Q9999';
 jest.mock('../../../../../../configuration/featureFlag');
 jest.mock('../../../../../../../src/services/object-store');
@@ -54,6 +56,15 @@ jest.mock('@pins/common/src/middleware/validate-token', () => {
 jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
 	sendEvents: jest.fn()
 }));
+const mockNotifyClient = {
+	sendEmail: jest.fn()
+};
+
+jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
+	return {
+		getNotifyClient: () => mockNotifyClient
+	};
+});
 const testR6ServiceUser1 = 'testR6ServiceUserID1';
 
 jest.setTimeout(30000);
@@ -91,6 +102,7 @@ beforeAll(async () => {
 		]
 	});
 	validUser = user.id;
+	validEmail = user.email;
 });
 jest.mock('../../../../../../services/back-office-v2/formatters/utils', () => ({
 	getDocuments: jest.fn(() => [])
@@ -182,6 +194,22 @@ const formattedProofs2 = {
 	]
 };
 describe('/api/v2/appeal-cases/:caseReference/rule-6-proof-evidence-submission/submit', () => {
+	const expectEmail = (caseRef) => {
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
+		expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+			config.services.notify.templates.generic,
+			validEmail,
+			{
+				personalisation: {
+					subject: `We’ve received your proof of evidence and witnesses - ${caseRef}`,
+					content: expect.stringContaining('We’ve received your proof of evidence and witnesses.')
+				},
+				reference: expect.any(String),
+				emailReplyToId: undefined
+			}
+		);
+		mockNotifyClient.sendEmail.mockClear();
+	};
 	it('Formats S78 rule 6 proof of evidence submission with one doc type for case 307', async () => {
 		utils.getDocuments.mockReturnValue([
 			{
@@ -215,6 +243,7 @@ describe('/api/v2/appeal-cases/:caseReference/rule-6-proof-evidence-submission/s
 			[formattedProofs1],
 			'Create'
 		);
+		expectEmail('307');
 	});
 	it('Formats S78 rule 6 proof of evidence submission with both doc types for case 308', async () => {
 		utils.getDocuments.mockReturnValue([
@@ -260,6 +289,7 @@ describe('/api/v2/appeal-cases/:caseReference/rule-6-proof-evidence-submission/s
 			[formattedProofs2],
 			'Create'
 		);
+		expectEmail('308');
 	});
 	it('404s if the proof of evidence submission cannot be found', async () => {
 		await appealsApi

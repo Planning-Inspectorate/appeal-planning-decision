@@ -31,6 +31,7 @@ const { templates } = config.services.notify;
  * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
+ * @typedef {import('@prisma/client').ServiceUser} ServiceUser
  */
 
 /** @type {Record<AppealTypeCode, string>} */
@@ -687,15 +688,15 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 /**
  * @param { Rule6ProofOfEvidenceSubmission } rule6ProofEvidenceSubmission
  * @param {string} emailAddress
+ * @param { ServiceUser } serviceUser
  */
 const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 	rule6ProofEvidenceSubmission,
-	emailAddress
+	emailAddress,
+	serviceUser
 ) => {
 	try {
 		const {
-			appealTypeCode,
-			applicationReference,
 			siteAddressLine1,
 			siteAddressLine2,
 			siteAddressTown,
@@ -717,27 +718,29 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 		const reference = rule6ProofEvidenceSubmission.id;
 
 		let variables = {
-			appeal_reference_number: caseReference,
-			site_address: formattedAddress,
-			lpa_reference: applicationReference,
-			'deadline date': formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy')
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: caseReference,
+			siteAddress: formattedAddress,
+			deadlineDate: formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy'),
+			rule6RecipientLine: serviceUser?.organisation ? `To ${serviceUser.organisation},` : ''
 		};
 
 		logger.debug({ variables }, 'Sending proof of evidence email to rule 6 party');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appealTypeCode]]
-					.rule6ProofEvidenceSubmissionConfirmationEmailToRule6PartyV2
-			)
-			.setDestinationEmailAddress(emailAddress)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2R6ProofsEvidence,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We’ve received your proof of evidence and witnesses - ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: emailAddress,
+			templateId: templates.generic || '',
+			reference
+		});
 	} catch (err) {
 		logger.error({ err }, 'Unable to send proof of evidence submission email to rule 6 party');
 	}
