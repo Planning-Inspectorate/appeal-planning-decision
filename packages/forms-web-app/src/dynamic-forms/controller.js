@@ -228,7 +228,8 @@ exports.list = async (req, res, pageCaption, viewData) => {
 		summaryListData,
 		journeyComplete: journey.isComplete(),
 		layoutTemplate: journey.journeyTemplate,
-		journeyTitle: journey.journeyTitle
+		journeyTitle: journey.journeyTitle,
+		bannerHtmlOverride: journey.bannerHtmlOverride
 	});
 };
 
@@ -542,7 +543,8 @@ exports.appellantSubmissionDeclaration = async (req, res) => {
 	}
 
 	return res.render('./dynamic-components/submission-declaration/index', {
-		layoutTemplate: journey.journeyTemplate
+		layoutTemplate: journey.journeyTemplate,
+		bannerHtmlOverride: journey.bannerHtmlOverride
 	});
 };
 
@@ -582,7 +584,8 @@ exports.appellantSubmissionInformation = async (req, res) => {
 		layoutTemplate: journey.journeyTemplate,
 		journeyTitle: journey.journeyTitle,
 		css,
-		displayCookieBanner: false
+		displayCookieBanner: false,
+		bannerHtmlOverride: journey.bannerHtmlOverride
 	});
 };
 
