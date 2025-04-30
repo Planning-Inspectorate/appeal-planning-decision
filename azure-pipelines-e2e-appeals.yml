@@ -1,0 +1,61 @@
+parameters:
+  - name: Environment
+    type: string
+    default: 'Test'
+    values:
+      - 'dev'
+      - 'test'
+
+variables:
+  - name: APP
+    value: 'appeals'
+  - group: e2e-${{ parameters.Environment }}
+
+# PR trigger disabled, until process has been agreed by team
+pr: none
+
+# pr:
+#   branches:
+#     include:
+#       - main
+#   paths:
+#     include:
+#       - test-packages/platform-feature-tests
+
+trigger: none
+
+jobs:
+  - job: Run_Cypress_Tests_For_Appeals
+    pool: pins-odt-agent-pool-tests
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "22.x"
+        displayName: "Install Node.js"
+
+      - task: ShellScript@2
+        inputs:
+          scriptPath: 'test-packages/platform-feature-tests/install-chromium.sh'
+        displayName: 'Install Chromium'
+        condition: eq(variables['agent.os'], 'Linux')
+
+      - task: Npm@1
+        inputs:
+          command: "install"
+          workingDir: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
+        displayName: "Install Dependencies"
+
+      - task: ShellScript@2
+        inputs:
+          scriptPath: 'test-packages/platform-feature-tests/run-tests.sh'
+        env:
+          CYPRESS_APPEALS_BETA_BASE_URL: $(APPEALS_BASE_URL)
+        displayName: "Run Cypress Tests"
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          pathToPublish: 'appeals/e2e/cypress/screenshots'
+          artifactName: 'FailedTests'
+        displayName: "Publish Failed Tests Artifacts"
+        condition: failed()
