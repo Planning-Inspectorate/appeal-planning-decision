@@ -41,7 +41,8 @@ describe('controllers/selected-appeal/representations', () => {
 			{
 				id: 'testDocId',
 				documentType: documentTypes.interestedPartyComment.name,
-				published: true
+				published: true,
+				redacted: true
 			}
 		]
 	};
