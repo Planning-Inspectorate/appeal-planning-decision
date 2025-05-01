@@ -85,13 +85,31 @@ condition: (response) =>
 - multi-file-upload `/upload-screening-opinion/` Upload your screening opinion and any correspondence
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.screeningOpinion, 'yes');
+condition: (response) =>
+	questionHasAnswer(response, questions.screeningOpinion, 'yes') &&
+	questionsHaveAnswers(
+		response,
+		[
+			[questions.environmentalImpactSchedule, 'schedule-2'],
+			[questions.environmentalImpactSchedule, 'no']
+		],
+		{ logicalCombinator: 'or' }
+	);
 ```
 
 - boolean `/screening-opinion-environmental-statement/` Did your screening opinion say the development needed an environmental statement?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.screeningOpinion, 'yes');
+condition: (response) =>
+	questionHasAnswer(response, questions.screeningOpinion, 'yes') &&
+	questionsHaveAnswers(
+		response,
+		[
+			[questions.environmentalImpactSchedule, 'schedule-2'],
+			[questions.environmentalImpactSchedule, 'no']
+		],
+		{ logicalCombinator: 'or' }
+	);
 ```
 
 - radio `/environmental-statement/` Did the applicant submit an environmental statement?

@@ -81,9 +81,31 @@ const sections = [
 			)
 		)
 		.addQuestion(questions.screeningOpinionUpload)
-		.withCondition((response) => questionHasAnswer(response, questions.screeningOpinion, 'yes'))
+		.withCondition(
+			(response) =>
+				questionHasAnswer(response, questions.screeningOpinion, 'yes') &&
+				questionsHaveAnswers(
+					response,
+					[
+						[questions.environmentalImpactSchedule, 'schedule-2'],
+						[questions.environmentalImpactSchedule, 'no']
+					],
+					{ logicalCombinator: 'or' }
+				)
+		)
 		.addQuestion(questions.screeningOpinionEnvironmentalStatement)
-		.withCondition((response) => questionHasAnswer(response, questions.screeningOpinion, 'yes'))
+		.withCondition(
+			(response) =>
+				questionHasAnswer(response, questions.screeningOpinion, 'yes') &&
+				questionsHaveAnswers(
+					response,
+					[
+						[questions.environmentalImpactSchedule, 'schedule-2'],
+						[questions.environmentalImpactSchedule, 'no']
+					],
+					{ logicalCombinator: 'or' }
+				)
+		)
 		.addQuestion(questions.submitEnvironmentalStatement)
 		.addQuestion(questions.uploadEnvironmentalStatement)
 		.withCondition((response) =>
