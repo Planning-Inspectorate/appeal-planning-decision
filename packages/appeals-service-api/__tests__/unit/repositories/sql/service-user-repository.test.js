@@ -48,7 +48,8 @@ describe('ServiceUserRepository', () => {
 					serviceUserType: true,
 					id: true,
 					firstName: true,
-					lastName: true
+					lastName: true,
+					organisation: true
 				}
 			});
 		});
@@ -80,7 +81,8 @@ describe('ServiceUserRepository', () => {
 					serviceUserType: true,
 					id: true,
 					firstName: true,
-					lastName: true
+					lastName: true,
+					organisation: true
 				}
 			});
 		});

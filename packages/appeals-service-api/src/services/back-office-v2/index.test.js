@@ -590,7 +590,8 @@ describe('BackOfficeV2Service', () => {
 			);
 			expect(sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2).toHaveBeenCalledWith(
 				mockR6Proofs,
-				mockUser.email
+				mockUser.email,
+				mockServiceUser
 			);
 		});
 	});
