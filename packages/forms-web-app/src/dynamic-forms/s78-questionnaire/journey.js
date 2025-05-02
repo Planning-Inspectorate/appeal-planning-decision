@@ -7,7 +7,7 @@ const {
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
-
+const config = require('../../config');
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
  * @typedef {Omit<ConstructorParameters<typeof import('../journey').Journey>[0], 'response'>} JourneyParameters
@@ -108,7 +108,8 @@ const sections = [
 						[questions.environmentalImpactSchedule, 'no']
 					],
 					{ logicalCombinator: 'or' }
-				)
+				) &&
+				config.featureFlag.scopingOpinionEnabled
 		)
 		.addQuestion(questions.submitEnvironmentalStatement)
 		.addQuestion(questions.uploadEnvironmentalStatement)

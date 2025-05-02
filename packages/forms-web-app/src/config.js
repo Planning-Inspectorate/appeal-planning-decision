@@ -129,7 +129,8 @@ module.exports = {
 	featureFlag: {
 		commentsEnabled: process.env.COMMENTS_ENABLED === 'true',
 		googleTagManager: process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true',
-		rule6Enabled: process.env.RULE_6_ENABLED === 'true'
+		rule6Enabled: process.env.RULE_6_ENABLED === 'true',
+		scopingOpinionEnabled: process.env.SCOPING_OPINION_ENABLED === 'true'
 	},
 	validation: {
 		characterLimits: {

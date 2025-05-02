@@ -139,7 +139,8 @@ condition: (response) =>
 			[questions.environmentalImpactSchedule, 'no']
 		],
 		{ logicalCombinator: 'or' }
-	);
+	) &&
+	config.featureFlag.scopingOpinionEnabled;
 ```
 
 - radio `/environmental-statement/` Did the applicant submit an environmental statement?
