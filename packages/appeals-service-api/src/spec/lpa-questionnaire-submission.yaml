@@ -177,6 +177,8 @@ components:
           type: string
         screeningOpinion:
           type: boolean
+        scopingOpinion:
+          type: boolean
         environmentalStatement:
           type: boolean
         environmentalImpactSchedule:
@@ -231,3 +233,4 @@ components:
           nullable: true
         section3aGrant:
           type: boolean
+

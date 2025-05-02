@@ -112,6 +112,21 @@ condition: (response) =>
 	);
 ```
 
+- boolean `/scoping-opinion/` Did you receive a scoping opinion?
+
+```js
+condition: (response) =>
+	questionHasAnswer(response, questions.screeningOpinionEnvironmentalStatement, 'yes') &&
+	questionsHaveAnswers(
+		response,
+		[
+			[questions.environmentalImpactSchedule, 'schedule-2'],
+			[questions.environmentalImpactSchedule, 'no']
+		],
+		{ logicalCombinator: 'or' }
+	);
+```
+
 - radio `/environmental-statement/` Did the applicant submit an environmental statement?
 - multi-file-upload `/upload-environmental-statement/` Upload the environmental statement and supporting information
 
