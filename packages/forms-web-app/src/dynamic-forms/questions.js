@@ -980,6 +980,14 @@ exports.questionProps = {
 			)
 		]
 	},
+	scopingOpinion: {
+		type: 'boolean',
+		title: 'Received scoping opinion',
+		question: 'Did you receive a scoping opinion?',
+		fieldName: 'scopingOpinion',
+		url: 'scoping-opinion',
+		validators: [new RequiredValidator('Select yes if you have issued a scoping opinion')]
+	},
 	environmentalImpactSchedule: {
 		type: 'radio',
 		title: 'Schedule type',

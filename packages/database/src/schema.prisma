@@ -869,6 +869,7 @@ model LPAQuestionnaireSubmission {
   designatedSites                                 String?
   designatedSites_otherDesignations               String?
   screeningOpinion                                Boolean?
+  scopingOpinion                                  Boolean?
   environmentalStatement                          Boolean?
   environmentalImpactSchedule                     String?
   uploadEnvironmentalStatement                    Boolean?
