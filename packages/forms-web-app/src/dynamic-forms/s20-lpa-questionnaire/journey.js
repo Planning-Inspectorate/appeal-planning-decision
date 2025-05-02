@@ -120,6 +120,20 @@ const sections = [
 				) &&
 				config.featureFlag.scopingOpinionEnabled
 		)
+		.addQuestion(questions.scopingOpinionUpload)
+		.withCondition(
+			(response) =>
+				questionHasAnswer(response, questions.scopingOpinion, 'yes') &&
+				questionsHaveAnswers(
+					response,
+					[
+						[questions.environmentalImpactSchedule, 'schedule-2'],
+						[questions.environmentalImpactSchedule, 'no']
+					],
+					{ logicalCombinator: 'or' }
+				) &&
+				config.featureFlag.scopingOpinionEnabled
+		)
 		.addQuestion(questions.submitEnvironmentalStatement)
 		.addQuestion(questions.uploadEnvironmentalStatement)
 		.withCondition((response) =>

@@ -479,6 +479,17 @@ const documentTypes = {
 		horizonDocumentType: 'LPA Questionnaire Documents',
 		horizonDocumentGroupType: 'Evidence'
 	},
+	scopingOpinionUpload: {
+		name: 'scopingOpinionUpload',
+		dataModelName: APPEAL_DOCUMENT_TYPE.EIA_SCOPING_OPINION,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: 'LPA Questionnaire Documents',
+		horizonDocumentGroupType: 'Evidence'
+	},
 	uploadScreeningDirection: {
 		name: 'uploadScreeningDirection',
 		dataModelName: APPEAL_DOCUMENT_TYPE.EIA_SCREENING_DIRECTION,

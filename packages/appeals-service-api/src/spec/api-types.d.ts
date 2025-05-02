@@ -1051,6 +1051,7 @@ export interface LPAQuestionnaireSubmission {
 	sensitiveArea?: boolean;
 	sensitiveAreaDetails?: string;
 	uploadScreeningOpinion?: boolean | null;
+	uploadScopingOpinion?: boolean | null;
 	uploadScreeningDirection?: boolean | null;
 	developmentDescription?: string;
 	applicantSubmittedEnvironmentalStatement?: boolean;

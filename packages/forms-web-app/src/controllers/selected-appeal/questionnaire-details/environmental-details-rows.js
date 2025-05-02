@@ -60,6 +60,17 @@ exports.environmentalRows = (caseData) => {
 			isEscaped: true
 		},
 		{
+			keyText: 'Recived scoping opinion',
+			valueText: formatYesOrNo(caseData, 'scopingOpinion'),
+			condition: () => !isSchedule1
+		},
+		{
+			keyText: 'Uploaded scoping opinion',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.EIA_SCOPING_OPINION),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.EIA_SCOPING_OPINION),
+			isEscaped: true
+		},
+		{
 			keyText: 'Screening opinion indicated environmental statement needed',
 			valueText: formatYesOrNo(caseData, 'requiresEnvironmentalStatement'),
 			condition: () => caseData.screeningOpinion
