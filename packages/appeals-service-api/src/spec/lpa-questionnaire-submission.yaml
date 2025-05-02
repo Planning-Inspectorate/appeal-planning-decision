@@ -195,6 +195,9 @@ components:
         uploadScreeningOpinion:
           type: boolean
           nullable: true
+        uploadScopingOpinion:
+          type: boolean
+          nullable: true
         uploadScreeningDirection:
           type: boolean
           nullable: true

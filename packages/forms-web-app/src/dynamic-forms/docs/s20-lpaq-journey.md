@@ -143,6 +143,22 @@ condition: (response) =>
 	config.featureFlag.scopingOpinionEnabled;
 ```
 
+- multi-file-upload `/upload-scoping-opinion/` Upload your screening opinion and any correspondence
+
+```js
+condition: (response) =>
+	questionHasAnswer(response, questions.scopingOpinion, 'yes') &&
+	questionsHaveAnswers(
+		response,
+		[
+			[questions.environmentalImpactSchedule, 'schedule-2'],
+			[questions.environmentalImpactSchedule, 'no']
+		],
+		{ logicalCombinator: 'or' }
+	) &&
+	config.featureFlag.scopingOpinionEnabled;
+```
+
 - radio `/environmental-statement/` Did the applicant submit an environmental statement?
 - multi-file-upload `/upload-environmental-statement/` Upload the environmental statement and supporting information
 

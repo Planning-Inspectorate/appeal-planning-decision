@@ -1088,6 +1088,19 @@ exports.questionProps = {
 		documentType: documentTypes.screeningOpinionUpload,
 		actionHiddenText: 'your screening opinion and any correspondence'
 	},
+	scopingOpinionUpload: {
+		type: 'multi-file-upload',
+		title: 'Screening opinion',
+		question: 'Upload your screening opinion and any correspondence',
+		fieldName: 'uploadScopingOpinion',
+		url: 'upload-scoping-opinion',
+		validators: [
+			new RequiredFileUploadValidator('Select your screening opinion and any correspondence'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.screeningOpinionUpload,
+		actionHiddenText: 'your screening opinion and any correspondence'
+	},
 	uploadScreeningDirection: {
 		type: 'multi-file-upload',
 		title: 'Upload the screening direction',
