@@ -121,7 +121,7 @@
 		"date-fns-tz": "^2.0.0",
 		"dotenv": "^16.3.1",
 		"escape-html": "^1.0.3",
-		"express": "^4.21.2",
+		"express": "^5.1.0",
 		"express-async-errors": "^3.1.1",
 		"express-fileupload": "^1.4.3",
 		"express-oauth2-jwt-bearer": "^1.6.1",
