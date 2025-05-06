@@ -69,7 +69,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 		formatHeadlineData.mockReturnValue('formatted headline data');
 		req.appealsApiClient.getUserByEmailV2.mockReturnValue({ id: '123' });
 		req.appealsApiClient.getUsersAppealCase.mockReturnValue(caseData);
-		req.app.render.mockImplementation(async (view, locals, callback) => {
+		res.render.mockImplementation(async (view, locals, callback) => {
 			/* eslint-disable-next-line no-undef */
 			callback((err = null), (html = testHtml));
 		});
@@ -104,7 +104,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			expect(generatePDF).not.toHaveBeenCalled();
 			expect(addCSStoHtml).not.toHaveBeenCalled();
 
-			expect(req.app.render).toHaveBeenCalledWith(
+			expect(res.render).toHaveBeenCalledWith(
 				VIEW.SELECTED_APPEAL.APPEAL_DETAILS,
 				expectedViewContext,
 				expect.any(Function)
@@ -141,7 +141,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			expect(formatRows).toHaveBeenCalledWith('returned details rows', caseData);
 			expect(formatHeadlineData).toHaveBeenCalledWith(caseData, 'Test LPA', LPA_USER_ROLE);
 
-			expect(req.app.render).toHaveBeenCalledWith(
+			expect(res.render).toHaveBeenCalledWith(
 				VIEW.SELECTED_APPEAL.APPEAL_DETAILS,
 				pdfExpectedViewContext,
 				expect.any(Function)
