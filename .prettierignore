@@ -5,3 +5,4 @@ README.md
 tmp
 *.njk
 *.bundle.js
+packages/common/src/lib/notify/templates/**/*.md
