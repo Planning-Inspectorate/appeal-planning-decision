@@ -123,7 +123,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			zipDownloadUrl
 		};
 
-		await req.app.render(representationView, viewContext, async (_, html) => {
+		await res.render(representationView, viewContext, async (_, html) => {
 			if (!isPagePdfDownload) return res.send(html);
 
 			const pdfHtml = await addCSStoHtml(html);

@@ -92,7 +92,7 @@ describe('controllers/selected-appeal/questionnaire-details/index', () => {
 		formatQuestionnaireRows.mockReturnValue('some formatted row data');
 		req.appealsApiClient.getUserByEmailV2.mockReturnValue({ id: '123' });
 		req.appealsApiClient.getUsersAppealCase.mockReturnValue(caseData);
-		req.app.render.mockImplementation(async (view, locals, callback) => {
+		res.render.mockImplementation(async (view, locals, callback) => {
 			/* eslint-disable-next-line no-undef */
 			callback((err = null), (html = testHtml));
 		});
@@ -131,7 +131,7 @@ describe('controllers/selected-appeal/questionnaire-details/index', () => {
 			expect(generatePDF).not.toHaveBeenCalled();
 			expect(addCSStoHtml).not.toHaveBeenCalled();
 
-			expect(req.app.render).toHaveBeenCalledWith(
+			expect(res.render).toHaveBeenCalledWith(
 				VIEW.SELECTED_APPEAL.APPEAL_QUESTIONNAIRE,
 				expectedViewContext,
 				expect.any(Function)
@@ -175,7 +175,7 @@ describe('controllers/selected-appeal/questionnaire-details/index', () => {
 			expect(addCSStoHtml).toHaveBeenCalledWith(testHtml);
 			expect(generatePDF).toHaveBeenCalledWith(testHtmlWithCSS);
 
-			expect(req.app.render).toHaveBeenCalledWith(
+			expect(res.render).toHaveBeenCalledWith(
 				VIEW.SELECTED_APPEAL.APPEAL_QUESTIONNAIRE,
 				pdfExpectedViewContext,
 				expect.any(Function)

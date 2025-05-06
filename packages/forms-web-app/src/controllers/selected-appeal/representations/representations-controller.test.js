@@ -95,7 +95,7 @@ describe('controllers/selected-appeal/representations', () => {
 		filterRepresentationsForDisplay.mockImplementation(() => []);
 		formatRepresentationHeading.mockImplementation(() => 'test representation heading');
 		formatRepresentations.mockImplementation(() => ['test reps']);
-		req.app.render.mockImplementation(async (view, locals, callback) => {
+		res.render.mockImplementation(async (view, locals, callback) => {
 			/* eslint-disable-next-line no-undef */
 			callback((err = null), (html = testHtml));
 		});
@@ -125,7 +125,7 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(formatRepresentations).toHaveBeenCalledWith(testCaseData, []);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
 		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
-		expect(req.app.render).toHaveBeenCalledWith(
+		expect(res.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS,
 			{ ...expectedViewContext, backToAppealOverviewLink: undefined },
 			expect.any(Function)
@@ -157,7 +157,7 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(formatRepresentations).toHaveBeenCalledWith(testCaseData, []);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
 		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
-		expect(req.app.render).toHaveBeenCalledWith(
+		expect(res.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
 			expectedViewContext,
 			expect.any(Function)
@@ -188,13 +188,14 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(generatePDF).not.toHaveBeenCalled();
 		expect(addCSStoHtml).not.toHaveBeenCalled();
 
-		expect(req.app.render).toHaveBeenCalledWith(
+		expect(res.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
 			expectedViewContext,
 			expect.any(Function)
 		);
 		expect(res.send).toHaveBeenCalledWith(testHtml);
 	});
+
 	it('renders page without zip download url if there is no caseData interested party document but another document', async () => {
 		req.appealsApiClient.getAppealCaseWithRepresentationsByType.mockImplementation(() =>
 			Promise.resolve({
@@ -234,7 +235,7 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(generatePDF).not.toHaveBeenCalled();
 		expect(addCSStoHtml).not.toHaveBeenCalled();
 
-		expect(req.app.render).toHaveBeenCalledWith(
+		expect(res.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
 			{ ...expectedViewContext, zipDownloadUrl: undefined },
 			expect.any(Function)
@@ -275,7 +276,7 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(generatePDF).not.toHaveBeenCalled();
 		expect(addCSStoHtml).not.toHaveBeenCalled();
 
-		expect(req.app.render).toHaveBeenCalledWith(
+		expect(res.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
 			{ ...expectedViewContext, zipDownloadUrl: undefined },
 			expect.any(Function)
@@ -322,7 +323,7 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(generatePDF).not.toHaveBeenCalled();
 		expect(addCSStoHtml).not.toHaveBeenCalled();
 
-		expect(req.app.render).toHaveBeenCalledWith(
+		expect(res.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
 			{ ...expectedViewContext, zipDownloadUrl: undefined },
 			expect.any(Function)
@@ -332,6 +333,8 @@ describe('controllers/selected-appeal/representations', () => {
 
 	it('generates and downloads PDF and does not render HTML if URL has ?pdf=true query', async () => {
 		req.query.pdf = 'true';
+
+		getParentPathLink.mockReturnValue('/appeals/ABC123');
 
 		const pdfExpectedViewContext = {
 			...expectedViewContext,
@@ -361,7 +364,7 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(addCSStoHtml).toHaveBeenCalledWith(testHtml);
 		expect(generatePDF).toHaveBeenCalledWith(testHtmlWithCSS);
 
-		expect(req.app.render).toHaveBeenCalledWith(
+		expect(res.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS,
 			pdfExpectedViewContext,
 			expect.any(Function)
