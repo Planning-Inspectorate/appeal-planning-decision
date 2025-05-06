@@ -9,6 +9,7 @@ const loggerMock = jest.fn().mockImplementation(() => ({
 	debug: jest.fn(),
 	error: jest.fn()
 }));
+const escape = require('escape-html');
 
 describe('NotifyService', () => {
 	let notifyService;
@@ -93,46 +94,6 @@ describe('NotifyService', () => {
 		});
 	});
 
-	describe('populateTemplate', () => {
-		it('should populate the template with personalisation', () => {
-			const templateName = 'test template 1';
-			const templateContent = 'Hello ((name)) ((number)) [link title](((linkUrl)))';
-			const personalisation = { name: 'John', number: 1, linkUrl: 'https://example.com' };
-			const fsSpy = jest.spyOn(fs, 'readFileSync');
-			fsSpy.mockReturnValueOnce(templateContent);
-
-			const result = notifyService.populateTemplate(templateName, personalisation);
-
-			expect(result).toBe('Hello John 1 [link title](https://example.com)');
-		});
-
-		it('should throw an error if personalisation value is not a string', () => {
-			const templateName = 'test template 2';
-			const templateContent = 'Hello ((name))';
-			const personalisation = { name: [1, 2] };
-
-			const fsSpy = jest.spyOn(fs, 'readFileSync');
-			fsSpy.mockReturnValueOnce(templateContent);
-
-			expect(() => notifyService.populateTemplate(templateName, personalisation)).toThrow(
-				'value must be a string or number'
-			);
-		});
-
-		it('should throw an error if personalisation parameters are missing', () => {
-			const templateName = 'test template 3';
-			const templateContent = 'Hello ((name))';
-			const personalisation = {};
-
-			const fsSpy = jest.spyOn(fs, 'readFileSync');
-			fsSpy.mockReturnValueOnce(templateContent);
-
-			expect(() => notifyService.populateTemplate(templateName, personalisation)).toThrow(
-				'populateTemplate: personalisation parameters for test template 3 missing personalisation parameters: (name)'
-			);
-		});
-	});
-
 	describe('templates', () => {
 		it('should verify all templates exist', () => {
 			const templates = NotifyService.templates;
@@ -151,10 +112,16 @@ describe('NotifyService', () => {
 			templateNames.forEach((templateName) => {
 				expect(() => notifyService.populateTemplate(templateName, {})).toThrow(
 					new RegExp(
-						`^populateTemplate: personalisation parameters for ${templateName} missing personalisation parameters: `
+						`^populateTemplate error: missing parameter at line #\\d+ and column #\\d+ in template: ${templateName}`
 					)
 				);
 			});
+		});
+
+		it('should error for missing template', () => {
+			expect(() => notifyService.populateTemplate('nope.njk', {})).toThrow(
+				'populateTemplate error: template not found: nope.njk'
+			);
 		});
 
 		const whiteSpaceReplace = /\s+/g;
@@ -163,6 +130,26 @@ describe('NotifyService', () => {
 				expected.replace(whiteSpaceReplace, ' ')
 			);
 		};
+
+		it('should escape html', () => {
+			const template = NotifyService.templates.appealSubmission.v1Initial;
+			const personalisation = { name: '<script>alert(1)</script>', contactEmail: '<tag>' };
+			const result = notifyService.populateTemplate(template, personalisation);
+			expectMessage(
+				result,
+				`To ${escape(personalisation.name)}
+
+			We have received your appeal.
+
+			We will process your appeal and send a confirmation email. This will include:
+
+			*your appeal reference number
+			*a copy of your appeal form
+
+			The Planning Inspectorate
+			${escape(personalisation.contactEmail)}`
+			);
+		});
 
 		it('should populate appealSubmission.v1SaveAndReturnContinueAppeal ', () => {
 			const template = NotifyService.templates.appealSubmission.v1SaveAndReturnContinueAppeal;

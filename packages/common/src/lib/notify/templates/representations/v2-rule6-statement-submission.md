@@ -2,9 +2,9 @@ We have received your statement.
 
 # Appeal details
 
-^Appeal reference number: ((appealReferenceNumber))
-Address: ((siteAddress))
-Planning application reference: ((lpaReference))
+^Appeal reference number: {{appealReferenceNumber}}
+Address: {{siteAddress}}
+Planning application reference: {{lpaReference}}
 
 # What happens next
 
@@ -14,4 +14,4 @@ We will contact you when:
 - we have received comments from interested parties
 
 The Planning Inspectorate
-((contactEmail))
+{{contactEmail}}
