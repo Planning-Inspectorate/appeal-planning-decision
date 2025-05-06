@@ -92,7 +92,7 @@ exports.questionProps = {
 		url: 'correct-appeal-type',
 		validators: [
 			new RequiredValidator(
-				`Select yes if ${QUESTION_VARIABLES.APPEAL_TYPE} is the correct type of appeal`
+				`Select yes if ${QUESTION_VARIABLES.APPEAL_TYPE} appeal is the correct type of appeal`
 			)
 		],
 		variables: [QUESTION_VARIABLES.APPEAL_TYPE]
@@ -979,6 +979,14 @@ exports.questionProps = {
 				'Select yes if your screening opinion says the development needs an environmental statement'
 			)
 		]
+	},
+	scopingOpinion: {
+		type: 'boolean',
+		title: 'Received scoping opinion',
+		question: 'Did you receive a scoping opinion?',
+		fieldName: 'scopingOpinion',
+		url: 'scoping-opinion',
+		validators: [new RequiredValidator('Select yes if you have issued a scoping opinion')]
 	},
 	environmentalImpactSchedule: {
 		type: 'radio',
