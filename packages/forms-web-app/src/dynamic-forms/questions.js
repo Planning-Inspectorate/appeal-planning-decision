@@ -92,7 +92,7 @@ exports.questionProps = {
 		url: 'correct-appeal-type',
 		validators: [
 			new RequiredValidator(
-				`Select yes if ${QUESTION_VARIABLES.APPEAL_TYPE} is the correct type of appeal`
+				`Select yes if ${QUESTION_VARIABLES.APPEAL_TYPE} appeal is the correct type of appeal`
 			)
 		],
 		variables: [QUESTION_VARIABLES.APPEAL_TYPE]
