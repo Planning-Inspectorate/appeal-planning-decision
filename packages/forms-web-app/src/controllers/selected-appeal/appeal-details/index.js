@@ -84,7 +84,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			pdfDownloadUrl
 		};
 
-		await req.app.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext, async (_, html) => {
+		await res.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext, async (_, html) => {
 			if (!isPagePdfDownload) return res.send(html);
 
 			const pdfHtml = await addCSStoHtml(html);
