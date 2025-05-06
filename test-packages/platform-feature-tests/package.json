@@ -4,6 +4,7 @@
 	"description": "## Why do you exist?",
 	"main": "cypress.config.js",
 	"scripts": {
+		"cy:ci": "npx cypress run --env isCI=true",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"merge-reports": "mochawesome-merge cypress/reports/*.json > cypress/reports/reports.json",
 		"generate-report": "merge cypress/reports/report.json -f report -o cypress/reports"
