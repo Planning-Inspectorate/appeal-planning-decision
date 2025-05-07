@@ -21,6 +21,24 @@ const generateBetaBannerFeedbackLink = (feedbackUrl) => {
 	return ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrl}">feedback</a> will help us to improve it.`;
 };
 
+/**
+ *
+ * @param {string} appealTypeCode
+ * @returns {string}
+ */
+const getAppealTypeFeedbackUrl = (appealTypeCode) => {
+	switch (appealTypeCode) {
+		case 'S78':
+			return feedbackUrlS78;
+		case 'S20':
+			return feedbackUrlS20;
+		case 'HAS':
+			return feedbackUrlHAS;
+		default:
+			return feedbackUrl;
+	}
+};
+
 const oneGigabyte = 1024 * 1024 * 1024;
 const ninetyMinsInMs = 90 * 60 * 1000;
 const httpPort = numberWithDefault(process.env.PORT, 3000);
@@ -227,10 +245,8 @@ module.exports = {
 	feedbackUrl: feedbackUrl,
 	feedbackUrlComment: feedbackUrlComment,
 	feedbackUrlLPA: feedbackUrlLPA,
-	feedbackUrlHAS: feedbackUrlHAS,
-	feedbackUrlS78: feedbackUrlS78,
-	feedbackUrlS20: feedbackUrlS20,
 	betaBannerText: 'This is a beta service',
 	betaBannerFeedbackLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrl}">feedback</a> will help us to improve it.`,
-	generateBetaBannerFeedbackLink: generateBetaBannerFeedbackLink
+	generateBetaBannerFeedbackLink: generateBetaBannerFeedbackLink,
+	getAppealTypeFeedbackUrl: getAppealTypeFeedbackUrl
 };

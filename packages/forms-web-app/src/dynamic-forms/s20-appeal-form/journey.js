@@ -256,7 +256,8 @@ const params = {
 	returnToListing: true,
 	makeBaseUrl,
 	bannerHtmlOverride:
-		config.betaBannerText + config.generateBetaBannerFeedbackLink(config.feedbackUrlS78)
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S20'))
 };
 
 module.exports = {
