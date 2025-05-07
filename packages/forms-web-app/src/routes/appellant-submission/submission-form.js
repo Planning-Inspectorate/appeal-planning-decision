@@ -52,15 +52,6 @@ const typeCodeToTaskListDetails = {
 	}
 };
 
-const betaBannnerOverride = {
-	[CASE_TYPES.HAS.processCode]:
-		config.betaBannerText + config.generateBetaBannerFeedbackLink(config.feedbackUrlHAS),
-	[CASE_TYPES.S78.processCode]:
-		config.betaBannerText + config.generateBetaBannerFeedbackLink(config.feedbackUrlS78),
-	[CASE_TYPES.S20.processCode]:
-		config.betaBannerText + config.generateBetaBannerFeedbackLink(config.feedbackUrlS20)
-};
-
 const router = express.Router();
 
 /**
@@ -86,7 +77,9 @@ const appellantSubmissionTaskList = async (req, res) => {
 		declarationUrl,
 		formattedDeadline,
 		navigation: ['', dashboardUrl],
-		bannerHtmlOverride: betaBannnerOverride[appealType]
+		bannerHtmlOverride:
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 	});
 };
 

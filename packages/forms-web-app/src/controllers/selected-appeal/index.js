@@ -31,6 +31,7 @@ const { formatInTimeZone } = require('date-fns-tz');
 const targetTimezone = 'Europe/London';
 const { getDepartmentFromCode } = require('../../services/department.service');
 const logger = require('#lib/logger');
+const config = require('../../config');
 
 /** @type {import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict} */
 const userSectionsDict = {
@@ -78,6 +79,15 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const sections = userSectionsDict[userType];
 		if (!isSection(sections)) throw new Error(`No sections configured for user type ${userType}`);
 
+		let bannerHtmlOverride;
+		if (!isLPA) {
+			bannerHtmlOverride =
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(
+					config.getAppealTypeFeedbackUrl(caseData.appealTypeCode)
+				);
+		}
+
 		const viewContext = {
 			layoutTemplate,
 			titleSuffix: formatTitleSuffix(userType),
@@ -111,10 +121,11 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				finalCommentDueDate: formatDateForNotification(caseData.finalCommentsDueDate),
 				proofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate),
 				rule6ProofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate)
-			}
+			},
+			bannerHtmlOverride
 		};
 
-		logger.debug({ viewContext }, 'viewContext');
+		logger.info({ viewContext }, 'viewContext');
 
 		res.render(VIEW.SELECTED_APPEAL.APPEAL, viewContext);
 	};
