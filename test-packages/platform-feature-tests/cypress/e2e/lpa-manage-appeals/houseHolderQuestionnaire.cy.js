@@ -15,8 +15,8 @@ describe('House Holder Questionnaire Test Cases', () => {
                 cy.url().then((url) => {
                         if (url.includes('/manage-appeals/your-email-address')) {
                                 cy.getByData(yourAppealsSelector?._selectors?.emailAddress).clear();
-                                cy.getByData(yourAppealsSelector?._selectors?.emailAddress).type(lpaManageAppealsData?.emailAddress);                               
-                                cy.advanceToNextPage();                               
+                                cy.getByData(yourAppealsSelector?._selectors?.emailAddress).type(lpaManageAppealsData?.emailAddress);
+                                cy.advanceToNextPage();
                                 cy.get(yourAppealsSelector?._selectors?.emailCode).type(lpaManageAppealsData?.emailCode);
                                 cy.advanceToNextPage();
                         }
@@ -43,7 +43,7 @@ describe('House Holder Questionnaire Test Cases', () => {
             - User selects nearby appeals${context.appealProcess?.isNearbyAppeals}
             - User selects new conditions${context.appealProcess?.isNewConditions}          
              `, () => {
-                householderQuestionnaire(context, lpaManageAppealsData);
+                        householderQuestionnaire(context, lpaManageAppealsData);
                 });
         });
 });

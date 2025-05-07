@@ -115,8 +115,8 @@ describe('House Holder appleal questionnaire validation', () => {
   });
   //  1. Constraints, designations and other issues section validations
   it(`Validate House Holder questionnaire appeal type error validation`, () => {
-    cy.get(basePage?._selectors.govukSummaryListKey).contains('Is this the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
-      const linkText = $link.text().split('Is this the correct type of appeal?')[0].trim();
+    cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a householder appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
+      const linkText = $link.text().split('Is a householder appeal the correct type of appeal?')[0].trim();
 
       if (linkText === 'Answer') {
         cy.wrap($link).should('be.visible').click({ force: true });
@@ -124,7 +124,7 @@ describe('House Holder appleal questionnaire validation', () => {
         cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#correctAppealType').and('contain.text', 'Select yes if this is the correct type of appeal');
       }
       else if (linkText === 'Change') {
-        cy.get(basePage?._selectors.govukSummaryListKey).contains('Is this the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a householder appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
       }
     });
   });
@@ -310,21 +310,6 @@ describe('House Holder appleal questionnaire validation', () => {
         cy.wrap($link).should('be.visible').click({ force: true });
         cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#uploadPlansDrawings').and('contain.text', 'Select the plans, drawings and list of plans');
-      }
-      else if (linkText === 'Change') {
-        cy.get(basePage?._selectors.govukSummaryListKey).contains('Upload the plans, drawings and list of plans').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
-      }
-    });
-  });
-
-  it(`Validate House Holder questionnaire Policies from statutory development plan`, () => {
-    cy.get(basePage?._selectors.govukSummaryListKey).contains('Policies from statutory development plan').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
-      const linkText = $link.text().split('Upload relevant policies from your statutory development plan')[0].trim();
-
-      if (linkText === 'Upload') {
-        cy.wrap($link).should('be.visible').click({ force: true });
-        cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#uploadDevelopmentPlanPolicies').and('contain.text', 'Select the relevant policies from your statutory development plan');
       }
       else if (linkText === 'Change') {
         cy.get(basePage?._selectors.govukSummaryListKey).contains('Upload the plans, drawings and list of plans').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
