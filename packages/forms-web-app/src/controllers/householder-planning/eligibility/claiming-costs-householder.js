@@ -9,7 +9,6 @@ const {
 		}
 	}
 } = require('../../../lib/views');
-const config = require('../../../config');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 const nextPage = `/before-you-start/can-use-service`;
@@ -26,7 +25,6 @@ exports.getClaimingCostsHouseholder = async (req, res) => {
 	}
 
 	res.render(claimingCosts, {
-		bannerHtmlOverride: config.betaBannerText,
 		isClaimingCosts: appeal.eligibility.isClaimingCosts
 	});
 };
@@ -49,7 +47,6 @@ exports.postClaimingCostsHouseholder = async (req, res) => {
 
 	if (errors['claiming-costs-householder']) {
 		return res.render(claimingCosts, {
-			bannerHtmlOverride: config.betaBannerText,
 			isClaimingCosts: appeal.eligibility.isClaimingCosts,
 			errors,
 			errorSummary
@@ -68,7 +65,6 @@ exports.postClaimingCostsHouseholder = async (req, res) => {
 		logger.error(e);
 
 		return res.render(claimingCosts, {
-			bannerHtmlOverride: config.betaBannerText,
 			isClaimingCosts: appeal.eligibility.isClaimingCosts,
 			errors,
 			errorSummary: [{ text: e.toString(), href: 'pageId' }]

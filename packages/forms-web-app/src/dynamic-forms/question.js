@@ -171,7 +171,7 @@ class Question {
 			listLink: journey.taskListUrl,
 			journeyTitle: journey.journeyTitle,
 			payload,
-
+			bannerHtmlOverride: journey.bannerHtmlOverride,
 			...customViewData
 		};
 
@@ -442,7 +442,7 @@ class Question {
 	formatAnswerForSummary(sectionSegment, journey, answer, capitals = true) {
 		const formattedAnswer = capitals
 			? capitalize(answer ?? this.NOT_STARTED)
-			: answer ?? this.NOT_STARTED;
+			: (answer ?? this.NOT_STARTED);
 		const action = this.getAction(sectionSegment, journey, answer);
 		const section = journey.getSection(sectionSegment);
 		const model = this.replaceVariables(section, { title: this.title, question: this.question });

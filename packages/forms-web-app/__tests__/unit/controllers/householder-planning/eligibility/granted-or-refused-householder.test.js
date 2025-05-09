@@ -14,7 +14,6 @@ const {
 } = require('../../../../../src/lib/views');
 const logger = require('../../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../../mocks');
-const config = require('../../../../../src/config');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
@@ -40,7 +39,6 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 			getGrantedOrRefusedHouseholder(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED_HOUSEHOLDER, {
-				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal
 			});
 		});
@@ -63,7 +61,6 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 			expect(res.redirect).not.toHaveBeenCalled();
 
 			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED_HOUSEHOLDER, {
-				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
@@ -89,7 +86,6 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED_HOUSEHOLDER, {
-				bannerHtmlOverride: config.betaBannerText,
 				appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

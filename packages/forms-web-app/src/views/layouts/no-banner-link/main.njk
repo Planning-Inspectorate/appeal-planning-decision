@@ -27,7 +27,7 @@
 {% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}
 
 {% set bannerHtml %}
-  {{ bannerHtmlOverride if bannerHtmlOverride else betaBannerFeedback | safe}}
+  {{ (bannerHtmlOverride | safe) if bannerHtmlOverride else (betaBannerFeedback | safe) }}
 {% endset %}
 
 {% block main %}

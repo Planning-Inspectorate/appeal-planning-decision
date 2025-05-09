@@ -8,7 +8,6 @@ const {
 	}
 } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
-const config = require('../../../../src/config');
 
 describe('controllers/full-appeal/use-existing-service-application-type', () => {
 	const req = mockReq();
@@ -18,7 +17,6 @@ describe('controllers/full-appeal/use-existing-service-application-type', () => 
 		await getUseExistingServiceApplicationType(req, res);
 
 		expect(res.render).toHaveBeenCalledWith(USE_EXISTING_SERVICE_APPLICATION_TYPE, {
-			bannerHtmlOverride: config.betaBannerText,
 			acpLink: 'https://acp.planninginspectorate.gov.uk/'
 		});
 	});

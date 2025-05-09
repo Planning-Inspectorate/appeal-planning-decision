@@ -21,6 +21,7 @@ const { PassThrough } = require('node:stream');
 const buildZipFilename = require('#lib/build-zip-filename');
 const { getUserFromSession } = require('../services/user.service');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
+const config = require('../config');
 
 const appealTypeToDetails = {
 	[CASE_TYPES.HAS.id.toString()]: {
@@ -228,7 +229,8 @@ exports.list = async (req, res, pageCaption, viewData) => {
 		summaryListData,
 		journeyComplete: journey.isComplete(),
 		layoutTemplate: journey.journeyTemplate,
-		journeyTitle: journey.journeyTitle
+		journeyTitle: journey.journeyTitle,
+		bannerHtmlOverride: journey.bannerHtmlOverride
 	});
 };
 
@@ -542,7 +544,8 @@ exports.appellantSubmissionDeclaration = async (req, res) => {
 	}
 
 	return res.render('./dynamic-components/submission-declaration/index', {
-		layoutTemplate: journey.journeyTemplate
+		layoutTemplate: journey.journeyTemplate,
+		bannerHtmlOverride: journey.bannerHtmlOverride
 	});
 };
 
@@ -582,7 +585,8 @@ exports.appellantSubmissionInformation = async (req, res) => {
 		layoutTemplate: journey.journeyTemplate,
 		journeyTitle: journey.journeyTitle,
 		css,
-		displayCookieBanner: false
+		displayCookieBanner: false,
+		bannerHtmlOverride: journey.bannerHtmlOverride
 	});
 };
 
@@ -616,7 +620,9 @@ exports.appellantSubmitted = async (req, res) => {
 	}
 
 	return res.render('./dynamic-components/submission-screen/appellant', {
-		caseReference: journey.response.answers.applicationReference
+		caseReference: journey.response.answers.applicationReference,
+		bannerHtmlOverride: journey.bannerHtmlOverride,
+		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
 
@@ -663,7 +669,9 @@ exports.appellantFinalCommentSubmitted = async (req, res) => {
 	}
 
 	return res.render('./dynamic-components/submission-screen/appellant-final-comment', {
-		caseReference
+		caseReference,
+		bannerHtmlOverride: journey.bannerHtmlOverride,
+		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
 
@@ -698,7 +706,9 @@ exports.appellantProofEvidenceSubmitted = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-screen/appellant-proof-evidence', {
 		caseReference,
-		dashboardUrl: '/appeals/your-appeals'
+		dashboardUrl: '/appeals/your-appeals',
+		bannerHtmlOverride: journey.bannerHtmlOverride,
+		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
 
@@ -733,7 +743,9 @@ exports.rule6ProofEvidenceSubmitted = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-screen/appellant-proof-evidence', {
 		caseReference,
-		dashboardUrl: '/rule-6/your-appeals'
+		dashboardUrl: '/rule-6/your-appeals',
+		bannerHtmlOverride: journey.bannerHtmlOverride,
+		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
 
@@ -767,7 +779,9 @@ exports.rule6StatementSubmitted = async (req, res) => {
 	}
 
 	return res.render('./dynamic-components/submission-screen/rule-6-statement', {
-		caseReference
+		caseReference,
+		bannerHtmlOverride: journey.bannerHtmlOverride,
+		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
 

@@ -43,7 +43,10 @@ const params = {
 	listingPageViewPath: 'dynamic-components/task-list/proof-evidence',
 	journeyTitle: 'Appeal a planning decision',
 	sections,
-	makeBaseUrl
+	makeBaseUrl,
+	bannerHtmlOverride:
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'))
 };
 
 module.exports = { baseRule6ProofEvidenceUrl, ...params };

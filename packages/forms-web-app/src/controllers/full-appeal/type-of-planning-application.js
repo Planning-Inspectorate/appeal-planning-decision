@@ -18,7 +18,6 @@ const {
 	}
 } = require('../../lib/views');
 const { mapPlanningApplication } = require('../../lib/full-appeal/map-planning-application');
-const config = require('../../config');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const {
@@ -31,7 +30,6 @@ const getTypeOfPlanningApplication = async (req, res) => {
 	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
 
 	res.render(TYPE_OF_PLANNING_APPLICATION, {
-		bannerHtmlOverride: config.betaBannerText,
 		typeOfPlanningApplication: appeal.typeOfPlanningApplication,
 		radioItems: typeOfPlanningApplicationRadioItems(isV2forS20, appeal.typeOfPlanningApplication)
 	});
@@ -53,7 +51,6 @@ const postTypeOfPlanningApplication = async (req, res) => {
 
 	if (errors['type-of-planning-application']) {
 		return res.render(TYPE_OF_PLANNING_APPLICATION, {
-			bannerHtmlOverride: config.betaBannerText,
 			typeOfPlanningApplication,
 			radioItems: typeOfPlanningApplicationRadioItems(isV2forS20, appeal.typeOfPlanningApplication),
 			errors,
@@ -71,7 +68,6 @@ const postTypeOfPlanningApplication = async (req, res) => {
 	} catch (err) {
 		logger.error(err);
 		return res.render(TYPE_OF_PLANNING_APPLICATION, {
-			bannerHtmlOverride: config.betaBannerText,
 			typeOfPlanningApplication,
 			radioItems: typeOfPlanningApplicationRadioItems(isV2forS20, appeal.typeOfPlanningApplication),
 			errors,

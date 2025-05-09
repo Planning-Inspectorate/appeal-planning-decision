@@ -45,7 +45,10 @@ const params = {
 	listingPageViewPath: 'dynamic-components/task-list/statement',
 	journeyTitle: 'Appeal a planning decision',
 	sections,
-	makeBaseUrl
+	makeBaseUrl,
+	bannerHtmlOverride:
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'))
 };
 
 module.exports = { baseRule6StatementUrl, ...params };

@@ -9,7 +9,6 @@ const {
 } = require('../../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
-const config = require('../../../../../src/config');
 
 describe('getUseExistingServiceCosts', () => {
 	const req = mockReq();
@@ -19,7 +18,6 @@ describe('getUseExistingServiceCosts', () => {
 		await useExistingServiceCostsController.getUseExistingServiceCosts(req, res);
 
 		expect(res.render).toBeCalledWith(USE_EXISTING_SERVICE_COSTS, {
-			bannerHtmlOverride: config.betaBannerText,
 			acpLink: 'https://acp.planninginspectorate.gov.uk/'
 		});
 	});

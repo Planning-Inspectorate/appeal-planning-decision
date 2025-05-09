@@ -55,6 +55,7 @@ class Journey {
 	 * @param {boolean} [options.returnToListing] - defines how the next/previous question handles end of sections
 	 * @param {Section[]} options.sections
 	 * @param {string} options.initialBackLink - back link when on the first question
+	 * @param {string} options.bannerHtmlOverride - html to override the beta banner
 	 */
 	constructor({
 		journeyId,
@@ -67,7 +68,8 @@ class Journey {
 		journeyTitle,
 		returnToListing,
 		sections,
-		initialBackLink
+		initialBackLink,
+		bannerHtmlOverride
 	}) {
 		if (!journeyId || typeof journeyId !== 'string') {
 			throw new Error('journeyId should be a string.');
@@ -108,6 +110,8 @@ class Journey {
 		this.sections = sections;
 
 		this.initialBackLink = initialBackLink ?? this.taskListUrl;
+
+		this.bannerHtmlOverride = bannerHtmlOverride ?? '';
 	}
 
 	/**

@@ -9,6 +9,8 @@ const { determineUser } = require('../../../lib/determine-user');
 const { getParentPathLink } = require('../../../lib/get-user-back-links');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
+const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+const config = require('../../../config');
 
 /**
  * Shared controller for /appeals/:caseRef/planning-obligation, manage-appeals/:caseRef/appellant-planning-obligation
@@ -51,6 +53,15 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
 
+		let bannerHtmlOverride;
+		if (userType !== LPA_USER_ROLE) {
+			bannerHtmlOverride =
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(
+					config.getAppealTypeFeedbackUrl(caseData.appealTypeCode)
+				);
+		}
+
 		const viewContext = {
 			layoutTemplate,
 			backToAppealOverviewLink,
@@ -61,7 +72,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				appealNumber,
 				headlineData,
 				planningObligationDetails
-			}
+			},
+			bannerHtmlOverride
 		};
 
 		res.render(VIEW.SELECTED_APPEAL.APPEAL_PLANNING_OBLIGATION, viewContext);

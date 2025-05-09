@@ -54,7 +54,6 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 			decisionDateHouseholderController.getDecisionDateHouseholder(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(DECISION_DATE_HOUSEHOLDER, {
-				bannerHtmlOverride: 'some text',
 				decisionDate: null
 			});
 		});
@@ -65,7 +64,6 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 			decisionDateHouseholderController.getDecisionDateHouseholder(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(DECISION_DATE_HOUSEHOLDER, {
-				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: '04',
 					month: '03',
@@ -185,7 +183,6 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 			await decisionDateHouseholderController.postDecisionDateHouseholder(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(DECISION_DATE_HOUSEHOLDER, {
-				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: undefined,
 					month: undefined,
@@ -218,7 +215,6 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 			expect(res.redirect).not.toHaveBeenCalled();
 
 			expect(res.render).toHaveBeenCalledWith(DECISION_DATE_HOUSEHOLDER, {
-				bannerHtmlOverride: 'some text',
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: 'decision-date-householder' }]

@@ -20,7 +20,6 @@ const {
 		}
 	}
 } = require('../../lib/views');
-const config = require('../../config');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const {
@@ -64,7 +63,6 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 			: null;
 
 	res.render(canUseServiceHouseholder, {
-		bannerHtmlOverride: config.betaBannerText,
 		deadlineDate,
 		appealLPD,
 		applicationType,
@@ -101,7 +99,6 @@ const canUseServiceFullAppeal = async (req, res) => {
 	const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
 	res.render(canUseServiceFullAppealUrl, {
-		bannerHtmlOverride: config.betaBannerText,
 		deadlineDate,
 		appealLPD,
 		applicationType,
@@ -149,7 +146,6 @@ const canUseServicePriorApproval = async (req, res) => {
 				: null;
 
 		res.render(canUseServicePriorApprovalHouseholder, {
-			bannerHtmlOverride: config.betaBannerText,
 			deadlineDate,
 			appealLPD,
 			applicationType,
@@ -172,7 +168,6 @@ const canUseServicePriorApproval = async (req, res) => {
 		const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
 		res.render(canUseServicePriorApprovalFull, {
-			bannerHtmlOverride: config.betaBannerText,
 			deadlineDate,
 			appealLPD,
 			applicationType,
@@ -221,7 +216,6 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 				: null;
 
 		res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
-			bannerHtmlOverride: config.betaBannerText,
 			deadlineDate,
 			appealLPD,
 			applicationType,
@@ -244,7 +238,6 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 		const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
 		res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
-			bannerHtmlOverride: config.betaBannerText,
 			deadlineDate,
 			appealLPD,
 			applicationType,

@@ -9,7 +9,6 @@ const {
 } = require('../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../mocks');
-const config = require('../../../../src/config');
 
 describe('controllers/full-appeal/use-existing-service-enforcement-notice', () => {
 	const req = mockReq();
@@ -19,7 +18,6 @@ describe('controllers/full-appeal/use-existing-service-enforcement-notice', () =
 		await getUseExistingServiceEnforcementNotice(req, res);
 
 		expect(res.render).toBeCalledWith(USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE, {
-			bannerHtmlOverride: config.betaBannerText,
 			acpLink: 'https://acp.planninginspectorate.gov.uk/'
 		});
 	});

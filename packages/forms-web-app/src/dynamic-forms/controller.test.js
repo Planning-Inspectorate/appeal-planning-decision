@@ -259,7 +259,8 @@ describe('dynamic-form/controller', () => {
 				layoutTemplate: mockTemplateUrl,
 				journeyComplete: false,
 				pageCaption: pageCaption,
-				journeyTitle: mockJourneyTitle
+				journeyTitle: mockJourneyTitle,
+				bannerHtmlOverride: ''
 			});
 		});
 

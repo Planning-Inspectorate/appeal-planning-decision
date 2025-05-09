@@ -14,7 +14,6 @@ const { mockReq, mockRes } = require('../../mocks');
 const {
 	mapPlanningApplication
 } = require('../../../../src/lib/full-appeal/map-planning-application');
-const config = require('../../../../src/config');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const {
 	typeOfPlanningApplicationRadioItems
@@ -53,7 +52,6 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
 			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(false, 'full-appeal');
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
-				bannerHtmlOverride: config.betaBannerText,
 				typeOfPlanningApplication: 'full-appeal',
 				radioItems: mockRadioItems
 			});
@@ -66,7 +64,6 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
 			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, 'full-appeal');
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
-				bannerHtmlOverride: config.betaBannerText,
 				typeOfPlanningApplication: 'full-appeal',
 				radioItems: mockRadioItems
 			});
@@ -384,7 +381,6 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
-				bannerHtmlOverride: config.betaBannerText,
 				typeOfPlanningApplication: undefined,
 				radioItems: mockRadioItems,
 				errors: {
@@ -414,7 +410,6 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
-				bannerHtmlOverride: config.betaBannerText,
 				typeOfPlanningApplication: 'outline-planning',
 				radioItems: mockRadioItems,
 				errors: {},
