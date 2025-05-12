@@ -33,8 +33,14 @@ Sure! Start off looking in the `e2e` directory, this directory contains the main
 Then, if you want to dig into details, check out `support/flows`, the files in here are flows through the
 platform. These flows are composed of sections, which can be found in `support/flows/sections`.
 The helper functions can be found in `support/flows/pages`.
-The dummy json data can be found in `fixtures` folder, and 
-The testcase flows can be found in `helpers`.
+The dummy json data can be found in `fixtures`  
+The testcase flows can be found in `helpers`
+Utility files can be found in `utils`
+Test cases selector constants canbe be found in `page-obejcts` 
+Generated test reports can be found in `reports`
+Failure test screenshots can be found in `screenshots` folder, and
+Downloaded files can be verify in `downloads`
+
 Finally,
 sections can contain somewhat repetitive actions, which are defined in `support/commands.js`.
 

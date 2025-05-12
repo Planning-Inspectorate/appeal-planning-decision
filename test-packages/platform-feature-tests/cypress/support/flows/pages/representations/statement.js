@@ -1,6 +1,6 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { BasePage } from "../../../../../page-objects/base-page";
+import { BasePage } from "../../../../page-objects/base-page";
 export class Statement {
     _selectors = {
 

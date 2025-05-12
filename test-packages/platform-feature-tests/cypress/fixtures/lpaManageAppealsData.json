@@ -36,7 +36,7 @@
         "correctTypeOfAppealHouseHolder":"Is a householder appeal the correct type of appeal?",
         
         "addChangedListedBuilding":"Add another building or site?",
-        "changedListedBuildingNumber":"1010101",
+        "changedListedBuildingNumber":"1118437",
         "chagesListedBuilding":"Does the proposed development change a listed building?",
         "changedListedBuildings":"Listed building or site has been added to the case",        
         "addAnotherBuilding":"Add another building or site?",        
@@ -44,7 +44,7 @@
         "affectListedBuilding":"Does the proposed development affect the setting of listed buildings?",
         "affectListedBuildingAddedCase ":"Listed building or site has been added to the case",
         "affectListedBuildingTell":"Tell us the list entry number",
-        "listedBuildingNumber":"1010103",
+        "listedBuildingNumber":"1118407",
         "affectsScheduledMonument":"Would the development affect a scheduled monument?",
         "conservationArea":"Is the site in, or next to a conservation area?",
         "protectedSpecies":"Would the development affect a protected species?",
@@ -89,6 +89,9 @@
     },   
     "proofsOfEvidence":{
 
+    },
+    "statements":{
+        "lpaStatementTextInput":"Final comment test"
     }
 
 }

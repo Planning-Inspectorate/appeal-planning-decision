@@ -34,11 +34,11 @@ export class FinalComment {
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
-            cy.contains('button[name="delete"]','Remove',{timeout:0,log:false}).then($btn => {
-                if ($btn.length > 0) {
-                    cy.advanceToNextPage();
-                }
-            })
+        //     cy.contains('button[name="delete"]','Remove',{timeout:0,log:false}).then($btn => {
+        //         if ($btn.length > 0) {
+        //             cy.advanceToNextPage();
+        //         }
+        //     })
         }
     };
 }

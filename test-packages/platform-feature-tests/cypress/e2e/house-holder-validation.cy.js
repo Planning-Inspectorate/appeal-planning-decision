@@ -360,8 +360,8 @@ describe('Returns to pre appels validations', () => {
             let counter = 0;
             cy.get('.govuk-table__row').each(($row) => {
                 const rowtext = $row.text();
-
-                if (rowtext.includes('Householder appeal')) {
+               // if (rowtext.includes(lpaManageAppealsData?.hasAppealType) && !rowtext.includes(prepareAppealData?.todoInvalid)) {
+                if (rowtext.includes('Householder appeal')  && !rowtext.includes(prepareAppealData?.todoInvalid)) {
                     if (counter == 0) {
                         const $link = cy.wrap($row).find('.govuk-table__cell a.govuk-link:contains("Continue")');
                         $link.scrollIntoView();
@@ -455,7 +455,7 @@ describe('House Holder Task Page Validations', () => {
             cy.get('.govuk-table__row').each(($row) => {
                 const rowtext = $row.text();
 
-                if (rowtext.includes('Householder appeal')) {
+                if (rowtext.includes('Householder appeal')  && !rowtext.includes(prepareAppealData?.todoInvalid)) {
                     if (counter == 0) {
                         const $link = cy.wrap($row).find('.govuk-table__cell a.govuk-link:contains("Continue")');
                         $link.scrollIntoView();

@@ -5,7 +5,8 @@
     "todoFinalComments": "Final comments",
     "proofsOfEvidenceLink": "proof-evidence",
     "finalCommentsLink": "final-comments",       
-    "button":"Continue to my appeal",   
+    "button":"Continue to my appeal",
+    "todoInvalid":"Invalid",   
     "email":{
         "emailAddress":"appellant2@planninginspectorate.gov.uk",
         "emailCode":"12345"
