@@ -81,6 +81,7 @@ describe('Full appleal questionnaire validation', () => {
           cy.wrap($row).within(() => {
             cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
             cy.get('a').each(($link) => {
+              cy.log($link.attr('href'));
               if ($link.attr('href')?.includes(lpaManageAppealsData?.todoQuestionnaire)) {
                 appealId = $link.attr('href')?.split('/').pop();
                 cy.log(appealId);
@@ -134,7 +135,7 @@ describe('Full appleal questionnaire validation', () => {
       if (linkText === 'Answer') {
         cy.wrap($link).should('be.visible').click({ force: true });
         cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#changesListedBuilding').and('contain.text', 'You must select an answer');
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#changesListedBuilding').and('contain.text', 'Select yes if the development changes a listed building');
       }
       else if (linkText === 'Change') {
         cy.get(basePage?._selectors.govukSummaryListKey).contains('Changes a listed building').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
@@ -246,7 +247,7 @@ describe('Full appleal questionnaire validation', () => {
       if (linkText === 'Answer') {
         cy.wrap($link).should('be.visible').click({ force: true });
         cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#conservationArea').and('contain.text', 'You must select an answer');
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#conservationArea').and('contain.text', 'Select yes if the site is in, or next to a conservation area');
       }
       else if (linkText === 'Change') {
         cy.get(basePage?._selectors.govukSummaryListKey).contains('Conservation area').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
@@ -345,7 +346,7 @@ describe('Full appleal questionnaire validation', () => {
       if (linkText === 'Answer') {
         cy.wrap($link).should('be.visible').click({ force: true });
         cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#treePreservationOrder').and('contain.text', 'You must select an answer');
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#treePreservationOrder').and('contain.text', 'Select yes if a Tree Preservation Order (TPO) applies to any part of the site');
       }
       else if (linkText === 'Change') {
         cy.get(basePage?._selectors.govukSummaryListKey).contains('Tree Preservation Order').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
@@ -384,7 +385,7 @@ describe('Full appleal questionnaire validation', () => {
       if (linkText === 'Answer') {
         cy.wrap($link).should('be.visible').click({ force: true });
         cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#gypsyTraveller').and('contain.text', 'You must select an answer');
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#gypsyTraveller').and('contain.text', 'Select yes if the development relates to anyone claiming to be a Gypsy or Traveller');
       }
       else if (linkText === 'Change') {
         cy.get(basePage?._selectors.govukSummaryListKey).contains('Gypsy or Traveller').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
@@ -450,7 +451,7 @@ describe('Full appleal questionnaire validation', () => {
   });
 
   it(`Validate Full appeal questionnaire Did environmental statement`, () => {
-    cy.get(basePage?._selectors.govukSummaryListKey).contains('Did environmental statement').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
+    cy.get(basePage?._selectors.govukSummaryListKey).contains('Did the applicant submit an environmental statement?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
       const linkText = $link.text().split('Did the applicant submit an environmental statement?')[0].trim();
 
       if (linkText === 'Answer') {
@@ -459,7 +460,7 @@ describe('Full appleal questionnaire validation', () => {
         cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#applicantSubmittedEnvironmentalStatement').and('contain.text', 'Select yes if the applicant submitted an environmental statement');
       }
       else if (linkText === 'Change') {
-        cy.get(basePage?._selectors.govukSummaryListKey).contains('Did environmental statement').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Did the applicant submit an environmental statement?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
       }
     });
   });
@@ -567,7 +568,7 @@ describe('Full appleal questionnaire validation', () => {
       if (linkText === 'Answer') {
         cy.wrap($link).should('be.visible').click({ force: true });
         cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#uploadConsultationResponses').and('contain.text', 'Select the consultation responses and standing advice');
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#consultationResponses').and('contain.text', 'Select yes if you have any consultation responses or standing advice from statutory consultees to upload');
       }
       else if (linkText === 'Change') {
         cy.get(basePage?._selectors.govukSummaryListKey).contains('Responses or standing advice to upload').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
@@ -692,7 +693,7 @@ describe('Full appleal questionnaire validation', () => {
       if (linkText === 'Answer') {
         cy.wrap($link).should('be.visible').click({ force: true });
         cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#uploadOtherPolicies').and('contain.text', 'Select yes if you have any other relevant policies');
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#otherRelevantPolicies').and('contain.text', 'Select yes if you have any other relevant policies');
       }
       else if (linkText === 'Change') {
         cy.get(basePage?._selectors.govukSummaryListKey).contains('Do you have any other relevant policies?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');

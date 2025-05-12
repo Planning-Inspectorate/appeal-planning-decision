@@ -79,7 +79,7 @@ describe('House Holder appleal questionnaire validation', () => {
     cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
       const rowtext = $row.text();
       if (rowtext.includes(lpaManageAppealsData?.hasAppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
-        if (counter === 0) {
+        if (counter === 1) {
           cy.wrap($row).within(() => {
             cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.hasAppealType).should('be.visible');
             cy.get('a').each(($link) => {
@@ -170,7 +170,7 @@ describe('House Holder appleal questionnaire validation', () => {
       if (linkText === 'Answer') {
         cy.wrap($link).should('be.visible').click({ force: true });
         cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#conservationArea').and('contain.text', 'You must select an answer');
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#conservationArea').and('contain.text', 'Select yes if the site is in, or next to a conservation area');
       }
       else if (linkText === 'Change') {
         cy.get(basePage?._selectors.govukSummaryListKey).contains('Conservation area').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
@@ -185,7 +185,7 @@ describe('House Holder appleal questionnaire validation', () => {
       if (linkText === 'Answer') {
         cy.wrap($link).should('be.visible').click({ force: true });
         cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#conservationArea').and('contain.text', 'You must select an answer');
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#conservationArea').and('contain.text', 'Select yes if the site is in, or next to a conservation area');
       }
       else if (linkText === 'Change') {
         cy.wrap($link).should('be.visible').click({ force: true });

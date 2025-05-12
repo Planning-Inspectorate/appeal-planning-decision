@@ -8,7 +8,7 @@ const documents = {
     uploadCommunityInfrastructureLevy: 'community-infrastructure-levy.pdf'
 };
 
-export const fullAppealStatementTestCases = [
+export const statementTestCases = [
     {  
         additionalDocument:{
             selectAnswer: false

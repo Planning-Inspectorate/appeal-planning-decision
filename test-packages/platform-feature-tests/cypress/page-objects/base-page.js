@@ -33,7 +33,8 @@ export class BasePage {
 		agovukLink:"a.govuk-link",		
 		govukSummaryListValue:".govuk-summary-list__value",
 		govukErrorSummaryList:".govuk-list.govuk-error-summary__list",
-		govukFieldsetHeading:".govuk-fieldset__heading"		
+		govukFieldsetHeading:".govuk-fieldset__heading",
+		govukSummaryListActionsagovuklink:"dd.govuk-summary-list__actions a.govuk-link"
 	}
 
 	basePageElements = {

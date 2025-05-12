@@ -13,7 +13,7 @@ export const fullAppealStatement = (context, lpaManageAppealsData) => {
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
 		if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoStatement)) {
-			if (counter === 0) {
+			if (counter === 3) {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
 					cy.get('a').each(($link) => {
@@ -33,7 +33,8 @@ export const fullAppealStatement = (context, lpaManageAppealsData) => {
 		statement.addStatement(context);
 		statement.haveAdditionalDocumentforStatement(context);
 	});
-	// commented for test during coding
-	// 	cy.getByData(lpaManageAppealsData?.submitAppealStatement).click();
-	// 	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
+
+// commented for test during coding
+		cy.get('.govuk-button').contains('Submit appeal statement').click();		
+		cy.get(basePage?._selectors.govukPanelTitle).contains('Appeal statement submitted');
 };

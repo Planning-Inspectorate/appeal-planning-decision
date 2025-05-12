@@ -28,7 +28,7 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
 		if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
-			if (counter === 2) {
+			if (counter === 1) {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
 					cy.get('a').each(($link) => {
@@ -92,11 +92,12 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 		appealProcess.selectProcedureType(context, lpaManageAppealsData);
 		appealProcess.selectOngoingAppealsNextToSite(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
-	});
+	
 
-	// commented for test during coding
-	cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
-	cy.get('a[data-cy="Feedback-Page-Body"]').first().click();		
-	waitingForReview(appealId);	
+		// commented for test during coding
+		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
+		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
+		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();		
+		waitingForReview(appealId);	
+	});
 };

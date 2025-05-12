@@ -25,8 +25,7 @@ describe('Full Planning Statement Test Cases', () => {
         fullAppealStatementTestCases.forEach((context) => {
 
                 it(`
-            Should validate Full appeal LPA Proof of evidence, Appeal Type: Full Planning
-            - User selects add witnesses ${context.proofsOfEvidence?.isAddWitness}
+            Should validate Full appeal LPA final comments ${context.proofsOfEvidence?.isAddWitness}
              `, () => {
                         fullAppealStatement(context, lpaManageAppealsData);
                 });

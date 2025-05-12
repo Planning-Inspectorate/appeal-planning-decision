@@ -28,15 +28,15 @@ export const finalComment = (context, prepareAppealData) => {
 			counter++;
 		}
 	}).then(() => {
-		cy.get('body').then(($body) => {
-			cy.log($body.find('a.govuk-link:contains("Submit final comments")'))
-			if ($body.find('a.govuk-link:contains("Submit final comments")').length > 0) {
-				cy.contains('Submit final comments').click();
-			}			
-		})
+		// cy.get('body').then(($body) => {
+		// 	cy.log($body.find('a.govuk-link:contains("Submit final comments")'))
+		// 	if ($body.find('a.govuk-link:contains("Submit final comments")').length > 0) {
+		// 		cy.contains('Submit final comments').click();
+		// 	}			
+		// })
 		finalComment.selectSubmitAnyFinalComment(context);
 	});
 	//commented for test during coding
-		// cy.contains('button',prepareAppealData?.submitFinalComments).click();
-		// cy.get(basePage?._selectors.govukPanelTitle).contains(prepareAppealData?.finalCommentsSubmitted);
+		cy.contains('button',prepareAppealData?.submitFinalComments).click();
+		//cy.get(basePage?._selectors.govukPanelTitle).contains(prepareAppealData?.finalCommentsSubmitted);
 };

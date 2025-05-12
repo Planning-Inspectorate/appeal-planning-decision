@@ -25,10 +25,7 @@ describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
         });
         finalCommentTestCases.forEach((context) => {
 
-                it(`
-            Should validate Appelant Full appeal Proof of evidence, Appeal Type: Full Planning
-            - User selects add witnesses
-             `, () => {
+                it(`Should validate Appellant Full appeal final comments`, () => {
                 finalComment(context, prepareAppealData);
                 });
         });

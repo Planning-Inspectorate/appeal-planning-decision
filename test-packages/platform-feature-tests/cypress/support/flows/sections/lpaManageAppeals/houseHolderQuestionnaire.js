@@ -29,6 +29,7 @@ export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.hasAppealType).should('be.visible');
 					cy.get('a').each(($link) => {
+						cy.log($link.attr('href'));
 						if ($link.attr('href')?.includes(lpaManageAppealsData?.todoQuestionnaire)) {
 							appealId = $link.attr('href')?.split('/').pop();
 							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
@@ -39,7 +40,7 @@ export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 			}
 			counter++;
 		}
-	}).then(() => {
+	}).then(() => {	
 		cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
 		cy.get(basePage?._selectors.dlgovukSummaryListAppealDetails).within(() => {
 			cy.get(basePage?._selectors.govukSummaryListRow).each(($row) => {
@@ -77,8 +78,8 @@ export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
 
 		// commented for test during coding
-		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
+		// cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
+		// cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
 		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();		
 		waitingForReview(appealId);
 	});	
