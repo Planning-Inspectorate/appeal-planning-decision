@@ -193,7 +193,7 @@
 		"rhea": "^3.0.4",
 		"sass": "^1.85.1",
 		"sinon": "^20.0.0",
-		"supertest": "^6.2.4",
+		"supertest": "^7.1.0",
 		"swagger-cli": "^4.0.4",
 		"testcontainers": "^10.25.0",
 		"webpack": "^5.99.7",
