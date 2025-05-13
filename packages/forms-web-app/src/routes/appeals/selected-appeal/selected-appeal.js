@@ -4,6 +4,7 @@ const selectedAppealController = require('../../../controllers/selected-appeal')
 const appealDetailsController = require('../../../controllers/selected-appeal/appeal-details');
 const questionnaireDetailsController = require('../../../controllers/selected-appeal/questionnaire-details');
 const planningObligationDetailsController = require('../../../controllers/selected-appeal/planning-obligation-details');
+const downloadDocumentsController = require('../../../controllers/selected-appeal/downloads/documents');
 
 const representationsController = require('../../../controllers/selected-appeal/representations');
 const {
@@ -96,5 +97,10 @@ router.get(
 );
 
 router.get('/:appealNumber/planning-obligation', planningObligationDetailsController.get());
+
+router.get(
+	`/:appealNumber/download/:documentsLocation/documents/:appealCaseStage`,
+	downloadDocumentsController.get()
+);
 
 module.exports = router;
