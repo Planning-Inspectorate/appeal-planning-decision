@@ -14,6 +14,8 @@ const { testLPACode2 } = require('@pins/common/src/utils');
 const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const config = require('../configuration/config.js');
 const { lpasDev } = require('./lpa-dev');
+const { getAppealInState, generateCaseRef } = require('./seed-appeal');
+const { TEST_LPA_CODES } = require('@pins/common/src/constants');
 
 // some data here so we can reference in multiple places
 // IDs have no specific meaning, just valid UUIDs and used for upsert/relations
@@ -105,7 +107,7 @@ const lpaUsers = {
 		email: 'user1@planninginspectorate.gov.uk',
 		isLpaUser: true,
 		isLpaAdmin: false,
-		lpaCode: 'Q9999',
+		lpaCode: TEST_LPA_CODES.Q9999,
 		lpaStatus: 'added'
 	},
 	lpaUser2: {
@@ -113,7 +115,7 @@ const lpaUsers = {
 		email: 'user2@planninginspectorate.gov.uk',
 		isLpaUser: true,
 		isLpaAdmin: false,
-		lpaCode: 'Q1111',
+		lpaCode: TEST_LPA_CODES.Q1111,
 		lpaStatus: 'added'
 	},
 	lpaAdmin: {
@@ -121,7 +123,7 @@ const lpaUsers = {
 		email: 'admin1@planninginspectorate.gov.uk',
 		isLpaUser: true,
 		isLpaAdmin: true,
-		lpaCode: 'Q9999',
+		lpaCode: TEST_LPA_CODES.Q9999,
 		lpaStatus: 'confirmed'
 	},
 	lpaAdmin2: {
@@ -129,7 +131,7 @@ const lpaUsers = {
 		email: 'admin2@planninginspectorate.gov.uk',
 		isLpaUser: true,
 		isLpaAdmin: true,
-		lpaCode: 'Q1111',
+		lpaCode: TEST_LPA_CODES.Q1111,
 		lpaStatus: 'confirmed'
 	}
 };
@@ -243,7 +245,7 @@ const appeals = [
 ];
 
 const commonAppealProperties = {
-	LPACode: 'Q1111',
+	LPACode: TEST_LPA_CODES.Q1111,
 	siteAddressLine1: '123 Fake Street',
 	siteAddressTown: 'Testville',
 	siteAddressCounty: 'Countyshire',
@@ -271,7 +273,7 @@ const appealCases = [
 		},
 		caseReference: caseReferences.caseReferenceNine,
 		caseId: 131313,
-		LPACode: 'Q1111',
+		LPACode: TEST_LPA_CODES.Q1111,
 		CaseType: {
 			connect: { processCode: 'HAS' }
 		},
@@ -512,7 +514,7 @@ const appealCases = [
 		Appeal: {
 			connect: { id: appealIds.appeal12 }
 		},
-		LPACode: 'Q1111',
+		LPACode: TEST_LPA_CODES.Q1111,
 		siteAddressLine1: '123 Fake Street',
 		siteAddressTown: 'Birmingham',
 		siteAddressCounty: 'West Midlands',
@@ -542,7 +544,7 @@ const appealCases = [
 		Appeal: {
 			connect: { id: appealIds.appeal13 }
 		},
-		LPACode: 'Q1111',
+		LPACode: TEST_LPA_CODES.Q1111,
 		siteAddressLine1: '124 Fake Street',
 		siteAddressTown: 'Bristol',
 		siteAddressCounty: 'Bristolshire',
@@ -572,7 +574,7 @@ const appealCases = [
 		Appeal: {
 			connect: { id: appealIds.appeal14 }
 		},
-		LPACode: 'Q1111',
+		LPACode: TEST_LPA_CODES.Q1111,
 		siteAddressLine1: '124 Fake Street',
 		siteAddressTown: 'Bristol',
 		siteAddressCounty: 'Bristolshire',
@@ -605,7 +607,7 @@ const appealCases = [
 		Appeal: {
 			connect: { id: appealIds.appeal15 }
 		},
-		LPACode: 'Q1111',
+		LPACode: TEST_LPA_CODES.Q1111,
 		siteAddressLine1: '125 Fake Street',
 		siteAddressTown: 'Bristol',
 		siteAddressCounty: 'Bristolshire',
@@ -642,7 +644,7 @@ const appealCases = [
 		Appeal: {
 			connect: { id: appealIds.appeal16 }
 		},
-		LPACode: 'Q1111',
+		LPACode: TEST_LPA_CODES.Q1111,
 		siteAddressLine1: '124 Fake Street',
 		siteAddressTown: 'Bristol',
 		siteAddressCounty: 'Bristolshire',
@@ -1293,7 +1295,7 @@ const appellantSubmissions = [
 	// v2 appellant submissions
 	{
 		id: appellantSubmissionIds.appellantSubmissionOne,
-		LPACode: 'Q1111',
+		LPACode: TEST_LPA_CODES.Q1111,
 		appealTypeCode: 'HAS',
 		Appeal: {
 			connect: { id: appealIds.appealOne }
@@ -1302,7 +1304,7 @@ const appellantSubmissions = [
 	},
 	{
 		id: appellantSubmissionIds.appellantSubmissionTwo,
-		LPACode: 'Q1111',
+		LPACode: TEST_LPA_CODES.Q1111,
 		appealTypeCode: 'HAS',
 		applicationDecisionDate: new Date(),
 		Appeal: {
@@ -1311,7 +1313,7 @@ const appellantSubmissions = [
 	},
 	{
 		id: appellantSubmissionIds.appellantSubmissionThree,
-		LPACode: 'Q1111',
+		LPACode: TEST_LPA_CODES.Q1111,
 		appealTypeCode: 'HAS',
 		applicationDecisionDate: new Date('2024-03-01'),
 		Appeal: {
@@ -1577,10 +1579,180 @@ async function seedDev(dbClient) {
 		});
 	}
 
-	// todo: link some appellant/agent users to some appeals
+	await createCasesInState(dbClient);
 
-	// todo: seed more data needed for local dev
 	console.log('dev seed complete');
+}
+
+/**
+ * @param {import('@prisma/client').PrismaClient} dbClient
+ */
+async function createCasesInState(dbClient) {
+	const existingRefs = await dbClient.appealCase.findMany({
+		distinct: ['caseReference'],
+		select: {
+			caseReference: true
+		}
+	});
+	const refSet = new Set(
+		existingRefs.map((ref) => parseInt(ref.caseReference, 10)).filter((ref) => !isNaN(ref))
+	);
+
+	const states = [
+		APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE,
+		APPEAL_CASE_STATUS.STATEMENTS,
+		APPEAL_CASE_STATUS.EVIDENCE,
+		APPEAL_CASE_STATUS.FINAL_COMMENTS
+	];
+	const variations = [
+		{ type: CASE_TYPES.HAS, process: APPEAL_CASE_PROCEDURE.WRITTEN },
+		{ type: CASE_TYPES.S78, process: APPEAL_CASE_PROCEDURE.WRITTEN },
+		{ type: CASE_TYPES.S78, process: APPEAL_CASE_PROCEDURE.HEARING },
+		{ type: CASE_TYPES.S78, process: APPEAL_CASE_PROCEDURE.INQUIRY },
+		{ type: CASE_TYPES.S20, process: APPEAL_CASE_PROCEDURE.WRITTEN },
+		{ type: CASE_TYPES.S20, process: APPEAL_CASE_PROCEDURE.HEARING },
+		{ type: CASE_TYPES.S20, process: APPEAL_CASE_PROCEDURE.INQUIRY }
+	];
+
+	for (const state of states) {
+		for (const variation of variations) {
+			if (variation.type.processCode === 'HAS' && state !== APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE) {
+				// skip invalid states
+				continue;
+			}
+
+			const friendlyName = `${state}-${variation.type.processCode}-${variation.process}`;
+
+			try {
+				const generatedCaseRef = generateCaseRef(4000000, refSet);
+				const generatedCase = getAppealInState({
+					friendlyName,
+					caseReference: generatedCaseRef.toString(),
+					processCode: variation.type.processCode,
+					lpaCode: TEST_LPA_CODES.Q1111,
+					submittingUser: appellants.appellantOne,
+					appealCaseProcedure: variation.process,
+					appealCaseStatus: state
+				});
+				refSet.add(generatedCaseRef);
+
+				// case
+				const existingCase = await dbClient.appealCase.findFirst({
+					where: {
+						siteAddressLine1: friendlyName
+					},
+					select: {
+						id: true,
+						caseReference: true
+					}
+				});
+
+				if (existingCase) {
+					await dbClient.appealCase.update({
+						data: { ...generatedCase.appeal, id: undefined, caseReference: undefined },
+						where: { id: existingCase.id }
+					});
+					await deleteSubmissionForCase(dbClient, existingCase.caseReference);
+				} else {
+					const createdCase = await dbClient.appealCase.create({
+						data: {
+							Appeal: { create: {} },
+							...generatedCase.appeal
+						}
+					});
+
+					await dbClient.serviceUser.createMany({
+						data: [generatedCase.appellant, generatedCase.agent].filter(Boolean)
+					});
+
+					const users = [
+						{
+							appealId: createdCase.appealId,
+							role: APPEAL_USER_ROLES.AGENT,
+							userId: appellants.appellantOne.id
+						}
+					];
+
+					// rule 6 user
+					if (generatedCase.canHaveRule6) {
+						await dbClient.serviceUser.create({
+							data: {
+								...rule6Parties.r6One,
+								serviceUserType: APPEAL_USER_ROLES.RULE_6_PARTY,
+								caseReference: generatedCaseRef.toString(),
+								firstName: 'rule6',
+								lastName: 'test'
+							}
+						});
+
+						users.push({
+							appealId: createdCase.appealId,
+							role: APPEAL_USER_ROLES.RULE_6_PARTY,
+							userId: rule6Parties.r6One.id
+						});
+					}
+
+					await dbClient.appealToUser.createMany({
+						data: users
+					});
+				}
+			} catch {
+				console.warn(`failed to generate case: ${friendlyName}`);
+			}
+		}
+	}
+}
+
+/**
+ * @param {import('@prisma/client').PrismaClient} dbClient
+ * @param {string} caseReference
+ */
+async function deleteSubmissionForCase(dbClient, caseReference) {
+	await dbClient.interestedPartySubmission.deleteMany({
+		where: {
+			caseReference: caseReference
+		}
+	});
+	await dbClient.lPAQuestionnaireSubmission.deleteMany({
+		where: {
+			appealCaseReference: caseReference
+		}
+	});
+	await dbClient.lPAStatementSubmission.deleteMany({
+		where: {
+			appealCaseReference: caseReference
+		}
+	});
+	await dbClient.lPAProofOfEvidenceSubmission.deleteMany({
+		where: {
+			caseReference: caseReference
+		}
+	});
+	await dbClient.lPAFinalCommentSubmission.deleteMany({
+		where: {
+			caseReference: caseReference
+		}
+	});
+	await dbClient.appellantFinalCommentSubmission.deleteMany({
+		where: {
+			caseReference: caseReference
+		}
+	});
+	await dbClient.appellantProofOfEvidenceSubmission.deleteMany({
+		where: {
+			caseReference: caseReference
+		}
+	});
+	await dbClient.rule6ProofOfEvidenceSubmission.deleteMany({
+		where: {
+			caseReference: caseReference
+		}
+	});
+	await dbClient.rule6StatementSubmission.deleteMany({
+		where: {
+			caseReference: caseReference
+		}
+	});
 }
 
 module.exports = {
