@@ -4,10 +4,9 @@
 /// <reference types="cypress"/>
 import { fullAppealFinalCommentTestCases } from "../../helpers/lpaManageAppeals/fullAppealFinalCommentData";
 import { BasePage } from "../../page-objects/base-page";
-const { fullAppealFinalComment } = require('../../support/flows/sections/lpaManageAppeals/fullAppealFinalComment');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('Full Planning Final comment Test Cases', () => {
+describe('LPA Full Planning Final comment Test Cases', () => {
         const yourAppealsSelector = new YourAppealsSelector();
         const basePage = new BasePage();
         let lpaManageAppealsData;
@@ -28,21 +27,16 @@ describe('Full Planning Final comment Test Cases', () => {
                         }
                 });
                 let counter = 0;
-                cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-                        // cy.log($row);
+                cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {                       
                         const rowtext = $row.text();
-                        if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoFinalcomment)) {
-                                cy.log(lpaManageAppealsData?.s78AppealType);
-                                if (counter === 0) {
-                                        cy.log(rowtext);
+                        if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoFinalcomment)) {                              
+                                if (counter === 0) {                                       
                                         cy.wrap($row).within(() => {
                                                 cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
                                                 cy.get('a').each(($link) => {
-                                                        if ($link.attr('href')?.includes('final-comments')) {
-                                                                cy.log(lpaManageAppealsData?.todoFinalcomment);
+                                                        if ($link.attr('href')?.includes('final-comments')) {                                                              
                                                                 const parts = $link.attr('href')?.split('/');
-                                                                appealId = parts?.[parts.length - 2];
-                                                                cy.log(appealId);
+                                                                appealId = parts?.[parts.length - 2];                                                               
                                                                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                                                                 return false;
                                                         }
@@ -61,7 +55,8 @@ describe('Full Planning Final comment Test Cases', () => {
                 cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you want to submit any final comments?');
                 cy.get("#lpaFinalComment").then(($radoButton) => {
                         if ($radoButton.is(':checked')) {
-                                cy.log("Radio Button already selected");
+                                //cy.log("Radio Button already selected");
+                                return;
                         } else {
                                 cy.advanceToNextPage();
                                 cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#lpaFinalComment').and('contain.text', 'Select yes if you want to submit any final comments');
@@ -148,10 +143,8 @@ describe('Full Planning Final comment Test Cases', () => {
                                 .click()
                 })
 
-                cy.advanceToNextPage();               
-                // cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
+                cy.advanceToNextPage();
                 cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
-
         });
 
         it(`Validate user should not be allowed to upload wrong format file`, () => {

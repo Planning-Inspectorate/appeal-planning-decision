@@ -6,8 +6,8 @@ export class Statement {
 
     }
     addStatement(context) {
-        cy.get('#lpaStatement').clear();
-        cy.get('#lpaStatement').type("Statement test");
+        cy.get('#appellantStatement').clear();
+        cy.get('#appellantStatement').type("Statement test");
         cy.advanceToNextPage();
 
     }

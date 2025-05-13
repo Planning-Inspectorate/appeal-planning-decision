@@ -63,15 +63,10 @@ describe('Full Planning Statement Test Cases', () => {
         basePage?.basePageElements?.pageHeading().contains('Appeal statement');
         cy.get('#lpaStatement').clear();
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter your statement');
-        //cy.get('#lpaStatement').type(lpaManageAppealsData?.statements?.lpaStatementTextInput);
-       // cy.advanceToNextPage();
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter your statement');        
     });
-    it(`Validate Appeal statement more than 32500 cahracters validation`, () => {  
-        //const longText = 'a'.repeat(32501);
-        //const longText = () => Cypress._.random(0,32501) 
-        const longText = stringUtils.generateLongString(32501);  
-        //cy.get('#lpaStatement').type(longText);
+    it(`Validate Appeal statement more than 32500 cahracters validation`, () => {        
+        const longText = stringUtils.generateLongString(32501);       
         cy.get('#lpaStatement').invoke('val',longText).trigger('input');
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Your statement must be 32,500 characters or less');
@@ -81,12 +76,11 @@ describe('Full Planning Statement Test Cases', () => {
     it(`Validate Additional Document statement error validation`, () => {
         cy.get('#lpaStatement').clear();
         cy.get('#lpaStatement').type("Final comment test");
-        cy.advanceToNextPage();
-       // cy.advanceToNextPage();
+        cy.advanceToNextPage();      
         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you have additional documents to support your appeal statement?');
         cy.get('input[name="additionalDocuments"]:checked').then(($checked) => {
             if ($checked.length > 0) {
-                cy.log("Radio Button already selected");
+                //cy.log("Radio Button already selected");
                 return;
             }
             else {
@@ -119,8 +113,7 @@ describe('Full Planning Statement Test Cases', () => {
       });
   
 
-    it(`Validate multiple uploading documents`, () => {      
-        //const expectedFileNames = ['emerging-plan.pdf', 'other-policies.pdf'];
+    it(`Validate multiple uploading documents`, () => {       
         const expectedFileNames = [fullAppealStatementTestCases[0]?.documents?.uploadEmergingPlan, fullAppealStatementTestCases[0]?.documents?.uploadOtherPolicies];
         
         expectedFileNames.forEach((fileName) => {

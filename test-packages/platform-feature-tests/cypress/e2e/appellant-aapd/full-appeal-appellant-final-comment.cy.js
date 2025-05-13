@@ -1,11 +1,10 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { finalCommentTestCases } from "../../helpers/representations/finalCommentData";
-//appeal-planning-decision\test-packages\platform-feature-tests\cypress\helpers\representations\finalCommentData.js
 const { finalComment } = require('../../support/flows/sections/representations/finalComment');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
+describe('Appellant Full Planning Final Comment Test Cases', () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
         beforeEach(() => {

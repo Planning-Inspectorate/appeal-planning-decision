@@ -4,16 +4,13 @@
 /// <reference types="cypress"/>
 import { finalCommentTestCases } from "../../helpers/representations/finalCommentData";
 import { BasePage } from "../../page-objects/base-page";
-import { FinalComment } from "../../support/flows/pages/representations/finalComment";
-//const { finalComment } = require('../../support/flows/sections/representations/finalComment');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
 
-describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
+describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
-        const basePage = new BasePage();
-        const finalComment = new FinalComment();	
+        const basePage = new BasePage();	
         let appealId;
         beforeEach(() => {
                 cy.fixture('prepareAppealData').then(data => {
@@ -38,12 +35,9 @@ describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
                                         cy.wrap($row).within(() => {
                                                 cy.get(basePage?._selectors.trgovukTableCell).contains(prepareAppealData?.FullAppealType).should('be.visible');					
                                                 cy.get('a').each(($link) => {					
-                                                        if ($link.attr('href')?.includes(prepareAppealData?.finalCommentsLink)) {
-                                                                cy.log($link.attr('href'));
-                                                                // appealId = $link.attr('href')?.split('/').pop();
+                                                        if ($link.attr('href')?.includes(prepareAppealData?.finalCommentsLink)) {                                                                
                                                                 const parts = $link.attr('href')?.split('/');
-                                                                appealId = parts?.[parts.length - 2];
-                                                                cy.log(appealId);							
+                                                                appealId = parts?.[parts.length - 2];                                                               							
                                                                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                                                                 return false;
                                                         }
@@ -63,7 +57,7 @@ describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
                 cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you want to submit any final comments?');
                 cy.get('input[name="appellantFinalComment"]:checked').then(($checked) => {
                         if ($checked.length > 0) {
-                                cy.log("Radio Button already selected");
+                                //cy.log("Radio Button already selected");
                                 return;
                         }
                         else {
@@ -130,8 +124,7 @@ describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
                         .click()
                 })               
                     
-                cy.advanceToNextPage();
-                //  cy.advanceToNextPage();
+                cy.advanceToNextPage();              
                 cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
  });
         it(`Validate user should not be allowed to upload wrong format file`, () => {
