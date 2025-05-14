@@ -40,34 +40,36 @@ afterAll(async () => {
 	await dbClient.$disconnect();
 });
 
-it('should create user with given details', async () => {
-	const user = await repo.createUser(TEST_USER);
+describe('AppealUserRepository', () => {
+	it('should create user with given details', async () => {
+		const user = await repo.createUser(TEST_USER);
 
-	delete user.id;
-	expect(user).toEqual({
-		...TEST_USER
+		delete user.id;
+		expect(user).toEqual({
+			...TEST_USER
+		});
 	});
-});
 
-it('should throw error when trying to create user already in the database', async () => {
-	await repo.createUser(TEST_USER);
+	it('should throw error when trying to create user already in the database', async () => {
+		await repo.createUser(TEST_USER);
 
-	await expect(repo.createUser(TEST_USER)).rejects.toThrow(new Error('errorDuplicate'));
-});
-
-it('should get user with email', async () => {
-	await repo.createUser(TEST_USER);
-	const user = await repo.getByEmail(TEST_EMAIL);
-
-	delete user.id;
-	expect(user).toEqual({
-		...TEST_USER
+		await expect(repo.createUser(TEST_USER)).rejects.toThrow(new Error('errorDuplicate'));
 	});
-});
 
-it('should count number of users with rule 6 role by email', async () => {
-	await repo.createUser(TEST_USER);
-	const count = await repo.countUsersWhereEmailAndRule6Party(TEST_EMAIL);
+	it('should get user with email', async () => {
+		await repo.createUser(TEST_USER);
+		const user = await repo.getByEmail(TEST_EMAIL);
 
-	expect(count).toEqual(0);
+		delete user.id;
+		expect(user).toEqual({
+			...TEST_USER
+		});
+	});
+
+	it('should count number of users with rule 6 role by email', async () => {
+		await repo.createUser(TEST_USER);
+		const count = await repo.countUsersWhereEmailAndRule6Party(TEST_EMAIL);
+
+		expect(count).toEqual(0);
+	});
 });
