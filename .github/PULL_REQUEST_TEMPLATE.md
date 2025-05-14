@@ -1,23 +1,15 @@
-## Ticket Number
-
-<!-- Add the number from the Jira board -->
-
-https://pins-ds.atlassian.net/browse/A2-
-
-## Description of change
+### Description of change
 
 <!-- Please describe the change -->
 
-## Checklist
+Ticket: https://pins-ds.atlassian.net/browse/A2-
 
-<!-- Put an `x` in all the boxes that apply: -->
+### Checklist
 
+- [ ] Feature complete and ready for users, or behind feature-flag
+- [ ] Commit history is linear with no merge commits
 - [ ] Requires infrastructure changes
-- [ ] I have updated the documentation accordingly
-- [ ] My commit history in this PR is linear
-- [ ] New features have tests
-- [ ] Breaking change (team conversation required)
 
-## Important
+### Important
 
 Please do not merge from `main` (please only [rebase](https://github.com/Planning-Inspectorate/appeal-planning-decision/wiki/An-intro-to-Git-Rebase)). This keeps the history linear and easier to debug.
