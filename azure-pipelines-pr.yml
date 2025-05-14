@@ -1,13 +1,24 @@
-trigger:
-  branches:
-    include:
-      # trigger for merge queue branches
-      - gh-readonly-queue/*
-
+# any PR
 pr:
   branches:
     include:
-      - '*'
+      - '*'  
+  paths:
+    include:
+    - package.json
+    - package-lock.json
+    - packages/**
+
+# trigger for merge queue branches (PR has been approved, pipeline has already run as per above trigger)
+trigger:
+  branches:
+    include:
+      - gh-readonly-queue/*
+  paths:
+    include:
+    - package.json
+    - package-lock.json
+    - packages/**
 
 resources:
   repositories:
