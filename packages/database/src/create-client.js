@@ -1,4 +1,4 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('./generated/prisma/client');
 
 /** @typedef {import('@prisma/client').Prisma.PrismaClientOptions} prismaConfig */
 

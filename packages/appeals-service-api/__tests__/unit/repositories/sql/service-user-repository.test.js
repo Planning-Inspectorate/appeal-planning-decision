@@ -1,5 +1,5 @@
 const { mockDeep, mockReset } = require('jest-mock-extended');
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('@pins/database/src/generated/prisma/client');
 const { ServiceUserRepository } = require('#repositories/sql/service-user-repository');
 const { SERVICE_USER_TYPE } = require('pins-data-model');
 jest.mock('#repositories/sql/appeal-user-repository');

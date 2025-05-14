@@ -1,5 +1,5 @@
 const { mockDeep, mockReset } = require('jest-mock-extended');
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('@pins/database/src/generated/prisma/client');
 const { APPEAL_USER_ROLES, STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const { AppealUserRepository } = require('#repositories/sql/appeal-user-repository');
 

@@ -1,5 +1,5 @@
 const { createPrismaClient } = require('../../db/db-client');
-const { Prisma } = require('@prisma/client');
+const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 const logger = require('../../lib/logger');
 const ApiError = require('../../errors/apiError');
 
@@ -28,7 +28,7 @@ class AppealsRepository {
 			});
 		} catch (err) {
 			logger.error(err);
-			if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+			if (err instanceof PrismaClientKnownRequestError && err.code === 'P2002') {
 				throw ApiError.appealDuplicate();
 			}
 			throw err;
@@ -51,7 +51,7 @@ class AppealsRepository {
 			});
 		} catch (err) {
 			logger.error(err);
-			if (err instanceof Prisma.PrismaClientKnownRequestError) {
+			if (err instanceof PrismaClientKnownRequestError) {
 				throw ApiError.appealNotFound();
 			}
 			throw err;
