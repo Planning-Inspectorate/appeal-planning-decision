@@ -114,10 +114,11 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
         cy.advanceToNextPage();
         //cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you need to add any witnesses?');
-        cy.get('input[name="appellantWitnesses"]:checked').then(($checked) => {
-            if ($checked.length > 0) {
+        cy.get('input[name="appellantWitnesses"]').then(($input) => {
+            const checked = $input.filter(':checked')
+            if (checked.length > 0) {
                 cy.log("Radio Button already selected");
-                return;
+                cy.getByData(basePage?._selectors?.answerYes).click();
             }
             else {
                 cy.advanceToNextPage();

@@ -98,10 +98,11 @@ describe('Rule 6 Proof of Evidence Validations', () => {
         cy.advanceToNextPage();
         //cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you need to add any witnesses?');
-        cy.get('input[name="rule6Witnesses"]:checked').then(($checked) => {
-            if ($checked.length > 0) {
+        cy.get('input[name="rule6Witnesses"]').then(($input) => {
+            const checked = $input.filter(':checked')
+            if (checked.length > 0) {
                 cy.log("Radio Button already selected");
-                return;
+                cy.getByData(basePage?._selectors?.answerYes).click();
             }
             else {
                 cy.advanceToNextPage();
