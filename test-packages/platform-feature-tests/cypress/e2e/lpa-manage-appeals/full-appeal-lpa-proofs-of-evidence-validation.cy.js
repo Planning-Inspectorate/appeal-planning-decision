@@ -26,7 +26,7 @@ describe('LPA Proof of Evidence Validations', () => {
         });
         let counter = 0;
         cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-            const rowtext = $row.text();           
+            const rowtext = $row.text();
             if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.lpaTodoProofsOfEvidence)) {
                 if (counter === 0) {
                     cy.wrap($row).within(() => {
@@ -37,7 +37,7 @@ describe('LPA Proof of Evidence Validations', () => {
                                 const parts = $link.attr('href')?.split('/');
                                 appealId = parts?.[parts.length - 2];
                                 //appealId = $link.attr('href')?.split('/').pop();
-                                cy.log(appealId);						
+                                cy.log(appealId);
                                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                                 return false;
                             }
@@ -55,16 +55,16 @@ describe('LPA Proof of Evidence Validations', () => {
     });
 
     it(`Validate Upload Proof of Evidence page error validation`, () => {
-        
-        cy.get(basePage?._selectors.govukHeadingOne).contains('Upload your proof of evidence and summary');        
+
+        cy.get(basePage?._selectors.govukHeadingOne).contains('Upload your proof of evidence and summary');
         //basePage.verifyPageHeading('Upload your proof of evidence and summary');
         // <a href="#uploadRule6ProofOfEvidenceDocuments">Select your proof of evidence and summary</a>
-         if(cy.get(basePage?._selectors.govukHeadingM).contains('Files added')){   
-            cy.advanceToNextPage();             
-         }
-         else{
+        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
+            cy.advanceToNextPage();
+        }
+        else {
             cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your proof of evidence and summary');
-         }
+        }
     });
 
     it(`Validate user should not be allowed to upload wrong format file`, () => {
@@ -102,13 +102,13 @@ describe('LPA Proof of Evidence Validations', () => {
         cy.get('input[name="lpaWitnesses"]').then(($input) => {
             const checked = $input.filter(':checked')
             if (checked.length > 0) {
-                cy.log("Radio Button already selected");               
+                cy.log("Radio Button already selected");
             }
             else {
                 cy.advanceToNextPage();
                 cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you need to add any witnesses');
             }
-        })      
+        })
     });
     // it(`Validate Upload your witnesses and their evidence validation`, () => {
     //     cy.getByData(basePage?._selectors.answerYes).click({ force: true });
@@ -122,12 +122,12 @@ describe('LPA Proof of Evidence Validations', () => {
         //basePage.verifyPageHeading('Upload your witnesses and their evidence');
         //cy.advanceToNextPage();    
         // <a href="#uploadLpaWitnessesEvidence">Select your proof of evidence and summary</a>
-        if(cy.get(basePage?._selectors.govukHeadingM).contains('Files added')){   
-            cy.advanceToNextPage();             
-         }
-         else{
+        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
+            cy.advanceToNextPage();
+        }
+        else {
             cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your witnesses and their evidence');
-         }        
+        }
     });
 
 
@@ -156,7 +156,7 @@ describe('LPA Proof of Evidence Validations', () => {
         expectedFileNames.forEach((fileName, index) => {
             cy.get('.moj-multi-file-upload__filename')
                 .eq(index)
-                .should('contain.text', fileName);           
+                .should('contain.text', fileName);
         });
         cy.advanceToNextPage();
     });
@@ -168,32 +168,32 @@ describe('LPA Proof of Evidence Validations', () => {
         cy.get(basePage?._selectors.govukHeadingOne).contains('Check your answers and submit your proof of evidence');
         //basePage.verifyPageHeading('Check your answers and submit your proof of evidence');
         const expectedRows = [
-                {
-                        key: 'Your proof of evidence and summary',
-                        hrefContains: `/manage-appeals/proof-evidence/${appealId}/upload-proof-evidence`                       
-                },
-                {
-                        key: 'Added witnesses',
-                        hrefContains: `/manage-appeals/proof-evidence/${appealId}/add-witnesses`
-                },
-                {
-                        key: 'Witness proof of evidence and summary',
-                        hrefContains: `/manage-appeals/proof-evidence/${appealId}/upload-witnesses-evidence`,
-                        optional: true
-                }
+            {
+                key: 'Your proof of evidence and summary',
+                hrefContains: `/manage-appeals/proof-evidence/${appealId}/upload-proof-evidence`
+            },
+            {
+                key: 'Added witnesses',
+                hrefContains: `/manage-appeals/proof-evidence/${appealId}/add-witnesses`
+            },
+            {
+                key: 'Witness proof of evidence and summary',
+                hrefContains: `/manage-appeals/proof-evidence/${appealId}/upload-witnesses-evidence`,
+                optional: true
+            }
         ];
         cy.get(basePage?._selectors.govukSummaryListRow).each(($row, index) => {
-                const expected = expectedRows[index];
-                if (!expected) return;
-                const rowText = $row.text().trim();
-                if (expected.optional && !rowText.includes(expected.key)) {
-                        cy.log('Skipping optional row:${expected.key}');
-                        return;
-                }
-                expect(rowText).to.include(expected.key);
-                cy.wrap($row).find(basePage?._selectors.govukSummaryListActionsagovuklink).should('contain.text', 'Change').and('have.attr', 'href').then((href) => {
-                        expect(href).to.include(expected.hrefContains);
-                });
+            const expected = expectedRows[index];
+            if (!expected) return;
+            const rowText = $row.text().trim();
+            if (expected.optional && !rowText.includes(expected.key)) {
+                cy.log('Skipping optional row:${expected.key}');
+                return;
+            }
+            expect(rowText).to.include(expected.key);
+            cy.wrap($row).find(basePage?._selectors.govukSummaryListActionsagovuklink).should('contain.text', 'Change').and('have.attr', 'href').then((href) => {
+                expect(href).to.include(expected.hrefContains);
+            });
         });
     });
 

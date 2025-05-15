@@ -117,13 +117,13 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
         cy.get('input[name="appellantWitnesses"]:checked').then(($checked) => {
             if ($checked.length > 0) {
                 cy.log("Radio Button already selected");
-                return;             
+                return;
             }
             else {
                 cy.advanceToNextPage();
                 cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you need to add any witnesses');
             }
-        })      
+        })
     });
     it(`Validate Upload Witnesses Evidence page error validation`, () => {
         cy.advanceToNextPage();
@@ -145,13 +145,13 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
         cy.shouldHaveErrorMessage('a[href*="#uploadAppellantWitnessesEvidence"]', `${appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
     });
 
-// it(`Validate user should not be able to uploading document(s) greater than 25 MB for Upload your witnesses and their evidence`, () => {
-//     cy.advanceToNextPage();
-//     cy.advanceToNextPage();
-//     cy.uploadFileFromFixtureDirectory(appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb);
-//     cy.advanceToNextPage();
-//     cy.shouldHaveErrorMessage('a[href*="#uploadAppellantWitnessesEvidence"]', `${appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
-// });
+    // it(`Validate user should not be able to uploading document(s) greater than 25 MB for Upload your witnesses and their evidence`, () => {
+    //     cy.advanceToNextPage();
+    //     cy.advanceToNextPage();
+    //     cy.uploadFileFromFixtureDirectory(appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb);
+    //     cy.advanceToNextPage();
+    //     cy.shouldHaveErrorMessage('a[href*="#uploadAppellantWitnessesEvidence"]', `${appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
+    // });
     it(`Validate multiple uploading documents for Upload your witnesses and their evidence`, () => {
         const expectedFileNames = [appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         cy.advanceToNextPage();
@@ -168,38 +168,38 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
     });
 
     it(`Validate Proof of evidence summary before submit`, () => {
-    cy.advanceToNextPage();
-    cy.advanceToNextPage();
-    cy.advanceToNextPage();
-    cy.get(basePage?._selectors.govukHeadingOne).contains('Check your answers and submit your proof of evidence');
-    //basePage.verifyPageHeading('Check your answers and submit your proof of evidence');
-    const expectedRows = [
-        {
-            key: 'Your proof of evidence and summary',
-            hrefContains: `/appeals/proof-evidence/${appealId}/upload-proof-evidence`
-        },
-        {
-            key: 'Added witnesses',
-            hrefContains: `/appeals/proof-evidence/${appealId}/add-witnesses`
-        },
-        {
-            key: 'Witness proof of evidence and summary',
-            hrefContains: `/appeals/proof-evidence/${appealId}/upload-witnesses-evidence`,
-            optional: true
-        }
-    ];
-    cy.get(basePage?._selectors.govukSummaryListRow).each(($row, index) => {
-        const expected = expectedRows[index];
-        if (!expected) return;
-        const rowText = $row.text().trim();
-        if (expected.optional && !rowText.includes(expected.key)) {
-            cy.log('Skipping optional row:${expected.key}');
-            return;
-        }
-        expect(rowText).to.include(expected.key);
-        cy.wrap($row).find(basePage?._selectors.govukSummaryListActionsagovuklink).should('contain.text', 'Change').and('have.attr', 'href').then((href) => {
-            expect(href).to.include(expected.hrefContains);
+        cy.advanceToNextPage();
+        cy.advanceToNextPage();
+        cy.advanceToNextPage();
+        cy.get(basePage?._selectors.govukHeadingOne).contains('Check your answers and submit your proof of evidence');
+        //basePage.verifyPageHeading('Check your answers and submit your proof of evidence');
+        const expectedRows = [
+            {
+                key: 'Your proof of evidence and summary',
+                hrefContains: `/appeals/proof-evidence/${appealId}/upload-proof-evidence`
+            },
+            {
+                key: 'Added witnesses',
+                hrefContains: `/appeals/proof-evidence/${appealId}/add-witnesses`
+            },
+            {
+                key: 'Witness proof of evidence and summary',
+                hrefContains: `/appeals/proof-evidence/${appealId}/upload-witnesses-evidence`,
+                optional: true
+            }
+        ];
+        cy.get(basePage?._selectors.govukSummaryListRow).each(($row, index) => {
+            const expected = expectedRows[index];
+            if (!expected) return;
+            const rowText = $row.text().trim();
+            if (expected.optional && !rowText.includes(expected.key)) {
+                cy.log('Skipping optional row:${expected.key}');
+                return;
+            }
+            expect(rowText).to.include(expected.key);
+            cy.wrap($row).find(basePage?._selectors.govukSummaryListActionsagovuklink).should('contain.text', 'Change').and('have.attr', 'href').then((href) => {
+                expect(href).to.include(expected.hrefContains);
+            });
         });
-    });
     });
 });
