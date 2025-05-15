@@ -103,6 +103,7 @@ describe('LPA Proof of Evidence Validations', () => {
             const checked = $input.filter(':checked')
             if (checked.length > 0) {
                 cy.log("Radio Button already selected");
+                cy.getByData(basePage?._selectors?.answerYes).click();
             }
             else {
                 cy.advanceToNextPage();
@@ -115,7 +116,7 @@ describe('LPA Proof of Evidence Validations', () => {
     //     cy.advanceToNextPage();
     // });
 
-    it(`Validate Upload Witnesses Evidence page error validation`, () => {
+    it(`Validate Upload Witnesses Evidence page error validation`, () => {       
         cy.advanceToNextPage();
         cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukHeadingOne).contains('Upload your witnesses and their evidence');
