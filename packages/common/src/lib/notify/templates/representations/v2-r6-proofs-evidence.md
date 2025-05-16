@@ -6,6 +6,7 @@ We’ve received your proof of evidence and witnesses.
 
 ^Appeal reference number: {{appealReferenceNumber}}
 Site address: {{siteAddress}}
+Planning application reference: {{lpaReference}}
 
 ## What happens next
 

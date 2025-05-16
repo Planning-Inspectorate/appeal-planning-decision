@@ -696,7 +696,8 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 			siteAddressTown,
 			siteAddressCounty,
 			siteAddressPostcode,
-			proofsOfEvidenceDueDate
+			proofsOfEvidenceDueDate,
+			applicationReference
 		} = rule6ProofEvidenceSubmission.AppealCase;
 
 		const caseReference = rule6ProofEvidenceSubmission.caseReference;
@@ -715,6 +716,7 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 			...config.services.notify.templateVariables,
 			appealReferenceNumber: caseReference,
 			siteAddress: formattedAddress,
+			lpaReference: applicationReference || '',
 			deadlineDate: formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy'),
 			rule6RecipientLine: serviceUser?.organisation ? `To ${serviceUser.organisation},` : ''
 		};

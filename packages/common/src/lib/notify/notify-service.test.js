@@ -588,7 +588,8 @@ describe('NotifyService', () => {
 				siteAddress: 'a\nb\nc',
 				deadlineDate: '30 April 2025',
 				contactEmail: 'test@exmaple.com',
-				rule6RecipientLine: 'To Rule 6 party'
+				rule6RecipientLine: 'To Rule 6 party',
+				lpaReference: 'qwerty'
 			};
 
 			const result = notifyService.populateTemplate(template, personalisation);
@@ -601,6 +602,7 @@ describe('NotifyService', () => {
 				# Appeal details
 				^Appeal reference number: ${personalisation.appealReferenceNumber}
 				Site address: ${personalisation.siteAddress}
+				Planning application reference: ${personalisation.lpaReference}
 
 				## What happens next
 				We will contact you when the appellant and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
