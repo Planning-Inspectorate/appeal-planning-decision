@@ -25,6 +25,7 @@ async function getBlobCollection(caseStage, caseReference) {
 		)
 	)
 		.flat()
+		.filter((doc) => doc.redacted)
 		.map((document) => {
 			const { filename, documentURI, documentType } = document;
 			return {
