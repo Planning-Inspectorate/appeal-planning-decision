@@ -1,6 +1,6 @@
-const documents = {    
+const documents = {
     uploadStatement: 'upload-statement.pdf',
-    uploadFileGreaterThan25mb:'greater-than-25-mb.docx',
+    uploadFileGreaterThan25mb: 'greater-than-25-mb.docx',
     uploadWrongFormatFile: 'wrongFormatFile.xps',
     uploadEmergingPlan: 'emerging-plan.pdf',
     uploadOtherPolicies: 'other-policies.pdf',
@@ -9,14 +9,14 @@ const documents = {
 };
 
 export const statementTestCases = [
-    {  
-        additionalDocument:{
+    {
+        additionalDocument: {
             selectAnswer: false
         },
         documents,
     },
-    {  
-        additionalDocument:{
+    {
+        additionalDocument: {
             selectAnswer: true
         },
         documents,

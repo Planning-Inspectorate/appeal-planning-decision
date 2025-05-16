@@ -5,7 +5,7 @@ export class NotifyParties {
     _selectors = {
 
     }
-    selectAndNotifyParties(context, lpaManageAppealsData) {        
+    selectAndNotifyParties(context, lpaManageAppealsData) {
         //Who did you notify about this application
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadNotifyParties);
         cy.advanceToNextPage();

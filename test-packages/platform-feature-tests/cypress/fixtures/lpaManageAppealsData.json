@@ -7,7 +7,7 @@
     "todoInvalid":"INVALID",
     "decisionAllowed": "Allowed",
     "decisionAllowedInPart": "Allowed in part",
-    "decisionDismissed": "Dismissed", 
+    "decisionDismissed": "Dismissed",
     "todoQuestionnaire": "questionnaire",
     "lpaTodoProofsOfEvidence": "Proofs of Evidence",
     "todoStatement": "Statement",
@@ -20,50 +20,49 @@
     "appealFinalcommentsLink": "final-comments",
     "statementLink": "appeal-statement",
     "appealType": "Appeal type",
-    "appealTypeHouseholder":"Householder",
-    "appealTypeFullPlanning":"Full Planning",
-    "questionnaireChange":"Change",
-    "questionnaireAnswer":"Answer",
-    "submitQuestionnaire":"submit-questionnaire",
-    "questionnaireSubmitted":"Questionnaire submitted",
-    "submitAppealStatement":"Submit appeal statement",
-    "addAndRemoveUsers":"Add and remove users",
-    "written":"written",
-    "inquiry":"inquiry",
-    "hearing":"hearing",
-    "constraintsAndDesignations":{
-        "correctTypeOfAppealFullPlanning":"Is a full planning appeal the correct type of appeal?",
-        "correctTypeOfAppealHouseHolder":"Is a householder appeal the correct type of appeal?",
-        
-        "addChangedListedBuilding":"Add another building or site?",
-        "changedListedBuildingNumber":"1118437",
-        "chagesListedBuilding":"Does the proposed development change a listed building?",
-        "changedListedBuildings":"Listed building or site has been added to the case",        
-        "addAnotherBuilding":"Add another building or site?",        
-        "changedListedBuildingsTell":"Tell us the list entry number",
-        "affectListedBuilding":"Does the proposed development affect the setting of listed buildings?",
-        "affectListedBuildingAddedCase ":"Listed building or site has been added to the case",
-        "affectListedBuildingTell":"Tell us the list entry number",
-        "listedBuildingNumber":"1118407",
-        "affectsScheduledMonument":"Would the development affect a scheduled monument?",
-        "conservationArea":"Is the site in, or next to a conservation area?",
-        "protectedSpecies":"Would the development affect a protected species?",
-        "areaOutstandingBeauty":"Is the appeal site in an area of outstanding natural beauty?",
-        "designatedSitesOtherDesignations":"Other designations",
-        "treePreservationOrder":"Does a Tree Preservation Order (TPO) apply to any part of the appeal site?",
-        "gypsyTraveller":"Does the development relate to anyone claiming to be a Gypsy or Traveller?",
-        "publicRightOfWay":"Would a public right of way need to be removed or diverted?"
+    "appealTypeHouseholder": "Householder",
+    "appealTypeFullPlanning": "Full Planning",
+    "questionnaireChange": "Change",
+    "questionnaireAnswer": "Answer",
+    "submitQuestionnaire": "submit-questionnaire",
+    "questionnaireSubmitted": "Questionnaire submitted",
+    "submitAppealStatement": "Submit appeal statement",
+    "addAndRemoveUsers": "Add and remove users",
+    "written": "written",
+    "inquiry": "inquiry",
+    "hearing": "hearing",
+    "constraintsAndDesignations": {
+        "correctTypeOfAppealFullPlanning": "Is a full planning appeal the correct type of appeal?",
+        "correctTypeOfAppealHouseHolder": "Is a householder appeal the correct type of appeal?",
+        "addChangedListedBuilding": "Add another building or site?",
+        "changedListedBuildingNumber": "1118437",
+        "chagesListedBuilding": "Does the proposed development change a listed building?",
+        "changedListedBuildings": "Listed building or site has been added to the case",
+        "addAnotherBuilding": "Add another building or site?",
+        "changedListedBuildingsTell": "Tell us the list entry number",
+        "affectListedBuilding": "Does the proposed development affect the setting of listed buildings?",
+        "affectListedBuildingAddedCase ": "Listed building or site has been added to the case",
+        "affectListedBuildingTell": "Tell us the list entry number",
+        "listedBuildingNumber": "1118407",
+        "affectsScheduledMonument": "Would the development affect a scheduled monument?",
+        "conservationArea": "Is the site in, or next to a conservation area?",
+        "protectedSpecies": "Would the development affect a protected species?",
+        "areaOutstandingBeauty": "Is the appeal site in an area of outstanding natural beauty?",
+        "designatedSitesOtherDesignations": "Other designations",
+        "treePreservationOrder": "Does a Tree Preservation Order (TPO) apply to any part of the appeal site?",
+        "gypsyTraveller": "Does the development relate to anyone claiming to be a Gypsy or Traveller?",
+        "publicRightOfWay": "Would a public right of way need to be removed or diverted?"
     },
-    "environmentlImpact":{
-        "scheduleOneOrTwoOrNo":"Is the development a schedule 1 or schedule 2 development?",
-        "sensitiveAreaSensitiveAreaDetails":"sensitive Area Sensitive Area Details"
+    "environmentlImpact": {
+        "scheduleOneOrTwoOrNo": "Is the development a schedule 1 or schedule 2 development?",
+        "sensitiveAreaSensitiveAreaDetails": "sensitive Area Sensitive Area Details"
     },
-    "notifyParties":{
-        "siteNotice":"A site notice",
-        "lettersEmailsToParties":"Letters or emails to interested parties",
-        "advertInLocalPress":"An advert in the local press"
+    "notifyParties": {
+        "siteNotice": "A site notice",
+        "lettersEmailsToParties": "Letters or emails to interested parties",
+        "advertInLocalPress": "An advert in the local press"
     },
-    "consultResponseAndRepresent":{
+    "consultResponseAndRepresent": {
         "statutoryConsulteesConsultedBodiesDetails": "Consulted Bodies"
     },
     "poReportAndSupportDocs":{
@@ -79,19 +78,16 @@
         "addressPostCode":"ab1 2cd",
         "siteSafetyRiskDerails":"lpaSiteSafetyRisks lpaSiteSafetyRiskDetails"
     },
-    "appealProcess":{
-        "addAnotherAppeal":"Add another appeal?",
-        "nearByAppealReference":"1234567",
-        "conditionsAndDetails":"newConditions newConditionDetails",
-        "lpaPreferHearingDetails":"Lpa Pefer Hearing Details !£$%^&*(123456789 ",
-        "lpaProcedurePreferenceLpaPreferInquiryDuration":"99",
-        "lpaPreferInquiryDetails":"Lpa Pefer Inquiry Details !£$%^&*(123456789 "
-    },   
-    "proofsOfEvidence":{
-
+    "appealProcess": {
+        "addAnotherAppeal": "Add another appeal?",
+        "nearByAppealReference": "1234567",
+        "conditionsAndDetails": "newConditions newConditionDetails",
+        "lpaPreferHearingDetails": "Lpa Pefer Hearing Details !£$%^&*(123456789 ",
+        "lpaProcedurePreferenceLpaPreferInquiryDuration": "99",
+        "lpaPreferInquiryDetails": "Lpa Pefer Inquiry Details !£$%^&*(123456789 "
     },
-    "statements":{
-        "lpaStatementTextInput":"Final comment test"
+    "proofsOfEvidence": {},
+    "statements": {
+        "lpaStatementTextInput": "Final comment test"
     }
-
 }

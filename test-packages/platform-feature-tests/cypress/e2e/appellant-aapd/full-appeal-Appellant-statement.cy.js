@@ -9,7 +9,7 @@ describe('Full Planning Statement Test Cases', () => {
         let prepareAppealData;
         beforeEach(() => {
                 cy.fixture('prepareAppealData').then(data => {
-                    prepareAppealData = data;
+                        prepareAppealData = data;
                 })
                 cy.visit(`${Cypress.config('appeals_beta_base_url')}/appeal/email-address`);
                 cy.url().then((url) => {
@@ -27,7 +27,7 @@ describe('Full Planning Statement Test Cases', () => {
                 it(`
             Should validate Full appeal Statemnet ${context.proofsOfEvidence?.isAddWitness}
              `, () => {
-                    statement(context, prepareAppealData);
+                        statement(context, prepareAppealData);
                 });
         });
 });

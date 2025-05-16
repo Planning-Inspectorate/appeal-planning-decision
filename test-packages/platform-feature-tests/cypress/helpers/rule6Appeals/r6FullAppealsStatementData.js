@@ -1,18 +1,18 @@
-const documents = {    
-    uploadStatement: 'upload-proof-evidence.pdf', 
+const documents = {
+    uploadStatement: 'upload-proof-evidence.pdf',
     uploadWitnessesStatement: 'witnesses-evidence.pdf'
 
 };
 
 export const r6FullAppealsStatementTestCases = [
-    {  
-        statement:{
+    {
+        statement: {
             isAddWitness: true
         },
         documents,
     },
-    {  
-        statement:{
+    {
+        statement: {
             isAddWitness: false
         },
         documents,

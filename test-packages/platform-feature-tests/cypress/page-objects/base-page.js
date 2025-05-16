@@ -1,9 +1,9 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 export class BasePage {
-	_selectors={
+	_selectors = {
 		answerYes: "answer-yes",
-		answerNo:  "answer-no",
+		answerNo: "answer-no",
 		applicationType: "application-type",
 		localPlanningDpmt: "local-planning-department",
 		listedBuilding: "listed-building",
@@ -20,22 +20,22 @@ export class BasePage {
 		answerRefused: "answer-refused",
 		answerNodecisionreceived: "answer-nodecisionreceived",
 		answerGranted: "answer-granted",
-		siteSelectionSeven: "#site-selection-7",		
+		siteSelectionSeven: "#site-selection-7",
 		govukErrorSummaryBody: ".govuk-error-summary__body  > ul > li > a",
 		govukHeadingOne: ".govuk-heading-l",
 		govukBody: ".govuk-body",
 		govukLink: ".govuk-link",
 		govukSummaryListKey: ".govuk-summary-list__key",
-		trgovukTableRow:"tr.govuk-table__row",
-		trgovukTableCell:"td.govuk-table__cell",
-		dlgovukSummaryListAppealDetails:"dl.govuk-summary-list.appeal-details",
-		govukSummaryListRow:'.govuk-summary-list__row',
-		agovukLink:"a.govuk-link",		
-		govukSummaryListValue:".govuk-summary-list__value",
-		govukErrorSummaryList:".govuk-list.govuk-error-summary__list",
-		govukFieldsetHeading:".govuk-fieldset__heading",
-		govukSummaryListActionsagovuklink:"dd.govuk-summary-list__actions a.govuk-link",
-		govukHeadingM:".govuk-heading-m"
+		trgovukTableRow: "tr.govuk-table__row",
+		trgovukTableCell: "td.govuk-table__cell",
+		dlgovukSummaryListAppealDetails: "dl.govuk-summary-list.appeal-details",
+		govukSummaryListRow: '.govuk-summary-list__row',
+		agovukLink: "a.govuk-link",
+		govukSummaryListValue: ".govuk-summary-list__value",
+		govukErrorSummaryList: ".govuk-list.govuk-error-summary__list",
+		govukFieldsetHeading: ".govuk-fieldset__heading",
+		govukSummaryListActionsagovuklink: "dd.govuk-summary-list__actions a.govuk-link",
+		govukHeadingM: ".govuk-heading-m"
 	}
 
 	basePageElements = {

@@ -31,14 +31,11 @@ describe('Rule 6 Proof of Evidence Validations', () => {
             if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.rule6todoProofOfEvidence)) {
                 if (counter === 0) {
                     cy.wrap($row).within(() => {
-                        //cy.log($row);
                         cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
                         cy.get('a').each(($link) => {
                             if ($link.attr('href')?.includes(lpaManageAppealsData?.proofsOfEvidenceLink)) {
                                 const parts = $link.attr('href')?.split('/');
                                 appealId = parts?.[parts.length - 2];
-                                //appealId = $link.attr('href')?.split('/').pop();
-                                cy.log(appealId);
                                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                                 return false;
                             }
@@ -58,8 +55,6 @@ describe('Rule 6 Proof of Evidence Validations', () => {
     it(`Validate Upload Proof of Evidence page error validation`, () => {
 
         cy.get(basePage?._selectors.govukHeadingOne).contains('Upload your proof of evidence and summary');
-        //basePage.verifyPageHeading('Upload your proof of evidence and summary');
-        // <a href="#uploadRule6ProofOfEvidenceDocuments">Select your proof of evidence and summary</a>
         if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
             cy.advanceToNextPage();
         }
@@ -96,7 +91,6 @@ describe('Rule 6 Proof of Evidence Validations', () => {
 
     it(`Validate add witnesses`, () => {
         cy.advanceToNextPage();
-        //cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you need to add any witnesses?');
         cy.get('input[name="rule6Witnesses"]').then(($input) => {
             const checked = $input.filter(':checked')
@@ -114,9 +108,6 @@ describe('Rule 6 Proof of Evidence Validations', () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukHeadingOne).contains('Upload your witnesses and their evidence');
-        //basePage.verifyPageHeading('Upload your witnesses and their evidence');
-        //cy.advanceToNextPage();
-        // <a href="#uploadRule6WitnessesEvidence">Select your proof of evidence and summary</a>
         if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
             cy.advanceToNextPage();
         }
@@ -125,8 +116,6 @@ describe('Rule 6 Proof of Evidence Validations', () => {
         }
     });
 
-
-    // {/* <a href="#uploadRule6WitnessesEvidence">Select your witnesses and their evidence</a> */}
     it(`Validate user should not be allowed to upload wrong format file for Upload your witnesses and their evidence`, () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage();
@@ -161,7 +150,6 @@ describe('Rule 6 Proof of Evidence Validations', () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukHeadingOne).contains('Check your answers and submit your proof of evidence');
-        //basePage.verifyPageHeading('Check your answers and submit your proof of evidence');
         const expectedRows = [
             {
                 key: 'Your proof of evidence and summary',

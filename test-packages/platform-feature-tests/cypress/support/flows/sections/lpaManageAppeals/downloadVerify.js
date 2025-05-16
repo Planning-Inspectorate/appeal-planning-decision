@@ -104,6 +104,5 @@ export const decisionDismissedVerification = (lpaManageAppealsData) => {
         }
     }).then(() => {
         cy.validateURL(`/manage-appeals/${appealId}`);
-
     });
 }

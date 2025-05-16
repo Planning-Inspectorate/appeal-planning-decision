@@ -11,8 +11,6 @@ import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
 import { waitingForReview} from "../../pages/lpa-manage-appeals/waitingForReview";
-//cypress\support\flows\pages\lpa-manage-appeals\waitingForReview.js
-
 
 export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 	const basePage = new BasePage();
@@ -92,8 +90,6 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 		appealProcess.selectProcedureType(context, lpaManageAppealsData);
 		appealProcess.selectOngoingAppealsNextToSite(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
-	
-
 		// commented for test during coding
 		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
 		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		

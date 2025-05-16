@@ -26,10 +26,10 @@ describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
         appellantFullAppealProofsOfEvidenceTestCases.forEach((context) => {
 
                 it(`
-            Should validate Appelant Full appeal Proof of evidence, Appeal Type: Full Planning
-            - User selects add witnesses ${context.proofsOfEvidence?.isAddWitness}
-             `, () => {
-                appellantFullAppealProofsOfEvidence(context, prepareAppealData);
+                Should validate Appelant Full appeal Proof of evidence, Appeal Type: Full Planning
+                - User selects add witnesses ${context.proofsOfEvidence?.isAddWitness}
+                `, () => {
+                        appellantFullAppealProofsOfEvidence(context, prepareAppealData);
                 });
         });
 });

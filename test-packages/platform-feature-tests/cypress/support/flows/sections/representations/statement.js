@@ -33,8 +33,7 @@ export const statement = (context, prepareAppealData) => {
 		statement.addStatement(context);
 		statement.haveAdditionalDocumentforStatement(context);
 	});
-
-// commented for test during coding
-		cy.get('.govuk-button').contains('Submit appeal statement').click();		
-		cy.get(basePage?._selectors.govukPanelTitle).contains('Appeal statement submitted');
+	// commented for test during coding
+	cy.get('.govuk-button').contains('Submit appeal statement').click();
+	cy.get(basePage?._selectors.govukPanelTitle).contains('Appeal statement submitted');
 };
