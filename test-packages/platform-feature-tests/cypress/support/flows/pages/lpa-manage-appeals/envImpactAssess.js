@@ -32,8 +32,8 @@ export class EnvImpactAssess {
         }
     };
 
-    selectScheduleOne(context) {  
-        const basePage = new BasePage();   
+    selectScheduleOne(context) {
+        const basePage = new BasePage();
         cy.getByData(this?._selectors.yesScheduleOne).click();
         cy.advanceToNextPage();
         // cy.getByData(basePage?._selectors.answerYes).click();
@@ -44,7 +44,7 @@ export class EnvImpactAssess {
 
         // cy.getByData(basePage?._selectors.answerYes).click();
         // cy.advanceToNextPage();
-        
+
         this.selectEnvironmentalStatement(context);
         //this.selectScreeningOpinionEnvStmt(context);
     };

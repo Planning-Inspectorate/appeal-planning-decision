@@ -36,7 +36,6 @@ describe('LPA Proof of Evidence Validations', () => {
                             if ($link.attr('href')?.includes(lpaManageAppealsData?.proofsOfEvidenceLink)) {
                                 const parts = $link.attr('href')?.split('/');
                                 appealId = parts?.[parts.length - 2];
-                                //appealId = $link.attr('href')?.split('/').pop();
                                 cy.log(appealId);
                                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                                 return false;
@@ -57,8 +56,6 @@ describe('LPA Proof of Evidence Validations', () => {
     it(`Validate Upload Proof of Evidence page error validation`, () => {
 
         cy.get(basePage?._selectors.govukHeadingOne).contains('Upload your proof of evidence and summary');
-        //basePage.verifyPageHeading('Upload your proof of evidence and summary');
-        // <a href="#uploadRule6ProofOfEvidenceDocuments">Select your proof of evidence and summary</a>
         if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
             cy.advanceToNextPage();
         }
@@ -68,8 +65,6 @@ describe('LPA Proof of Evidence Validations', () => {
     });
 
     it(`Validate user should not be allowed to upload wrong format file`, () => {
-        // cy.advanceToNextPage();
-        // cy.advanceToNextPage();
         cy.uploadFileFromFixtureDirectory(fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage('a[href*="#uploadLpaProofOfEvidenceDocuments"]', `${fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
@@ -97,7 +92,6 @@ describe('LPA Proof of Evidence Validations', () => {
 
     it(`Validate add witnesses`, () => {
         cy.advanceToNextPage();
-        //cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you need to add any witnesses?');
         cy.get('input[name="lpaWitnesses"]').then(($input) => {
             const checked = $input.filter(':checked')
@@ -111,18 +105,11 @@ describe('LPA Proof of Evidence Validations', () => {
             }
         })
     });
-    // it(`Validate Upload your witnesses and their evidence validation`, () => {
-    //     cy.getByData(basePage?._selectors.answerYes).click({ force: true });
-    //     cy.advanceToNextPage();
-    // });
 
-    it(`Validate Upload Witnesses Evidence page error validation`, () => {       
+    it(`Validate Upload Witnesses Evidence page error validation`, () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukHeadingOne).contains('Upload your witnesses and their evidence');
-        //basePage.verifyPageHeading('Upload your witnesses and their evidence');
-        //cy.advanceToNextPage();    
-        // <a href="#uploadLpaWitnessesEvidence">Select your proof of evidence and summary</a>
         if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
             cy.advanceToNextPage();
         }
@@ -131,8 +118,6 @@ describe('LPA Proof of Evidence Validations', () => {
         }
     });
 
-
-    // {/* <a href="#uploadLpaWitnessesEvidence">Select your witnesses and their evidence</a> */}
     it(`Validate user should not be allowed to upload wrong format file for Upload your witnesses and their evidence`, () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage();

@@ -37,10 +37,10 @@ describe('House Holder Date Validations', () => {
         cy.advanceToNextPage();
 
         cy.getByData(basePage?._selectors.answerNo).click();
-	    cy.advanceToNextPage();
+        cy.advanceToNextPage();
 
         cy.getByData(basePage?._selectors?.answerHouseholderPlanning).click();
-        cy.advanceToNextPage();        
+        cy.advanceToNextPage();
 
         cy.getByData(basePage?._selectors?.answerRefused).click();
         cy.advanceToNextPage();
@@ -103,9 +103,9 @@ describe('House Holder Date Validations', () => {
 
         cy.getByData(basePage?._selectors.localPlanningDpmt).should('have.text', prepareAppealSelector?._selectors?.systemTest2BoroughCouncil);
         cy.getByData(basePage?._selectors.enforcementNotice).should('have.text', 'No');
-        cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.householderPlanningText);       
+        cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.householderPlanningText);
         cy.getByData(basePage?._selectors.applicaitonDecision).should('have.text', 'Refused');
-        cy.getByData(basePage?._selectors.decisionDate).should('have.text', `${date.today() > 9 ? date.today() : `0${date.today()}`} ${monthNames[date.currentMonth() - 1]} ${date.currentYear()}`);      
+        cy.getByData(basePage?._selectors.decisionDate).should('have.text', `${date.today() > 9 ? date.today() : `0${date.today()}`} ${monthNames[date.currentMonth() - 1]} ${date.currentYear()}`);
     });
 });
 
@@ -138,22 +138,22 @@ describe('House Holder Validations for enforcement', () => {
             .get(basePage?._selectors?.localPlanningDepartmentOptionZero)
             .click();
         cy.advanceToNextPage();
-       
-    })   
 
-    it(`Validate error message when user tries to navigate next page without selecting mandatory fields for enforcement`, () => {    
-    cy.advanceToNextPage();
+    })
 
-    cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you have received an enforcement notice');
-     });
+    it(`Validate error message when user tries to navigate next page without selecting mandatory fields for enforcement`, () => {
+        cy.advanceToNextPage();
 
-    it(`Validate Back button when user tries to navigate previous page from enforcement page`, () => {    
-    cy.advanceToNextPage();
-    cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you have received an enforcement notice');
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you have received an enforcement notice');
+    });
 
-    basePage.backBtn();
-    cy.containsMessage(prepareAppealSelector?._selectors?.govukLabelGovUkLabel1, "Which local planning authority (LPA) do you want to appeal against?");
-     });
+    it(`Validate Back button when user tries to navigate previous page from enforcement page`, () => {
+        cy.advanceToNextPage();
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you have received an enforcement notice');
+
+        basePage.backBtn();
+        cy.containsMessage(prepareAppealSelector?._selectors?.govukLabelGovUkLabel1, "Which local planning authority (LPA) do you want to appeal against?");
+    });
 
     it(`Validate exiting service page and button when user tries to use exiting appeals case work portal`, () => {
         cy.getByData(basePage._selectors?.answerYes).click();
@@ -196,7 +196,7 @@ describe('House Holder Validations', () => {
         cy.advanceToNextPage();
 
         cy.getByData(basePage?._selectors.answerNo).click();
-	    cy.advanceToNextPage();
+        cy.advanceToNextPage();
 
         cy.getByData(basePage?._selectors?.answerHouseholderPlanning).click();
         cy.advanceToNextPage();
@@ -207,12 +207,12 @@ describe('House Holder Validations', () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.today());
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth());
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
-        cy.advanceToNextPage();   
-        cy.advanceToNextPage();   
-    })  
+        cy.advanceToNextPage();
+        cy.advanceToNextPage();
+    })
 
     it(`Validate emails address with correct email format`, () => {
-        
+
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
@@ -224,7 +224,7 @@ describe('House Holder Validations', () => {
     });
 
     it(`Validate correct email code received `, () => {
-        
+
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
@@ -239,7 +239,7 @@ describe('House Holder Validations', () => {
     });
 
     it(`Validate error message when incorrect email code received `, () => {
-        
+
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
@@ -255,7 +255,7 @@ describe('House Holder Validations', () => {
 
     it(`Validate change URL for application name in task link page `, () => {
         const applicationNamePage = new ApplicationNamePage();
-        
+
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
@@ -280,7 +280,7 @@ describe('House Holder Validations', () => {
 
     it(`Validate data entered while adding the prepare appeal form `, () => {
         const applicationNamePage = new ApplicationNamePage();
-        
+
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
@@ -360,8 +360,8 @@ describe('Returns to pre appels validations', () => {
             let counter = 0;
             cy.get('.govuk-table__row').each(($row) => {
                 const rowtext = $row.text();
-               // if (rowtext.includes(lpaManageAppealsData?.hasAppealType) && !rowtext.includes(prepareAppealData?.todoInvalid)) {
-                if (rowtext.includes('Householder appeal')  && !rowtext.includes(prepareAppealData?.todoInvalid)) {
+                // if (rowtext.includes(lpaManageAppealsData?.hasAppealType) && !rowtext.includes(prepareAppealData?.todoInvalid)) {
+                if (rowtext.includes('Householder appeal') && !rowtext.includes(prepareAppealData?.todoInvalid)) {
                     if (counter == 0) {
                         const $link = cy.wrap($row).find('.govuk-table__cell a.govuk-link:contains("Continue")');
                         $link.scrollIntoView();
@@ -455,7 +455,7 @@ describe('House Holder Task Page Validations', () => {
             cy.get('.govuk-table__row').each(($row) => {
                 const rowtext = $row.text();
 
-                if (rowtext.includes('Householder appeal')  && !rowtext.includes(prepareAppealData?.todoInvalid)) {
+                if (rowtext.includes('Householder appeal') && !rowtext.includes(prepareAppealData?.todoInvalid)) {
                     if (counter == 0) {
                         const $link = cy.wrap($row).find('.govuk-table__cell a.govuk-link:contains("Continue")');
                         $link.scrollIntoView();

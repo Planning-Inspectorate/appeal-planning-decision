@@ -10,7 +10,7 @@ const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/pre
 describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
-        const basePage = new BasePage();	
+        const basePage = new BasePage();
         let appealId;
         beforeEach(() => {
                 cy.fixture('prepareAppealData').then(data => {
@@ -26,18 +26,18 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
                                 cy.advanceToNextPage();
                         }
                 });
-                
+
                 let counter = 0;
                 cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
                         const rowtext = $row.text();
                         if (rowtext.includes(prepareAppealData?.FullAppealType) && rowtext.includes(prepareAppealData?.todoFinalComments)) {
-                                if (counter === 0) {				
+                                if (counter === 0) {
                                         cy.wrap($row).within(() => {
-                                                cy.get(basePage?._selectors.trgovukTableCell).contains(prepareAppealData?.FullAppealType).should('be.visible');					
-                                                cy.get('a').each(($link) => {					
-                                                        if ($link.attr('href')?.includes(prepareAppealData?.finalCommentsLink)) {                                                                
+                                                cy.get(basePage?._selectors.trgovukTableCell).contains(prepareAppealData?.FullAppealType).should('be.visible');
+                                                cy.get('a').each(($link) => {
+                                                        if ($link.attr('href')?.includes(prepareAppealData?.finalCommentsLink)) {
                                                                 const parts = $link.attr('href')?.split('/');
-                                                                appealId = parts?.[parts.length - 2];                                                               							
+                                                                appealId = parts?.[parts.length - 2];
                                                                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                                                                 return false;
                                                         }
@@ -52,7 +52,7 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
         it(`Final Comment url`, () => {
                 cy.url().should('include', `/appeals/final-comments/${appealId}/submit-final-comments`);
         });
-       
+
         it(`Validate to submit any Final comments error validation`, () => {
                 cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you want to submit any final comments?');
                 cy.get('input[name="appellantFinalComment"]:checked').then(($checked) => {
@@ -106,34 +106,34 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
                 cy.advanceToNextPage();
                 cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you have additional documents to support your final comments?');
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
-                cy.advanceToNextPage();                
+                cy.advanceToNextPage();
                 // Added below to test remove exisiting uploaded file to test error message
                 const expectedFileNames = [finalCommentTestCases[0]?.documents?.uploadSupportDocsFinalComments, finalCommentTestCases[0]?.documents?.uploadAdditionalDocsSupportFinalComments];
                 expectedFileNames.forEach((fileName) => {
-                        cy.uploadFileFromFixtureDirectory(fileName);               
-                });               
-                
+                        cy.uploadFileFromFixtureDirectory(fileName);
+                });
+
                 expectedFileNames.forEach((fileName, index) => {
-                    cy.get('.moj-multi-file-upload__filename')
-                        .eq(index)
-                        .should('contain.text', fileName);
-                });               
-                expectedFileNames.forEach((filename,index) => {
-                    cy.get('.moj-multi-file-upload__delete')
-                        .eq(expectedFileNames.length-1-index)
-                        .click()
-                })               
-                    
-                cy.advanceToNextPage();              
+                        cy.get('.moj-multi-file-upload__filename')
+                                .eq(index)
+                                .should('contain.text', fileName);
+                });
+                expectedFileNames.forEach((filename, index) => {
+                        cy.get('.moj-multi-file-upload__delete')
+                                .eq(expectedFileNames.length - 1 - index)
+                                .click()
+                })
+
+                cy.advanceToNextPage();
                 cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
- });
+        });
         it(`Validate user should not be allowed to upload wrong format file`, () => {
                 cy.uploadFileFromFixtureDirectory(finalCommentTestCases[0]?.documents?.uploadWrongFormatFile);
                 cy.advanceToNextPage();
                 cy.shouldHaveErrorMessage('a[href*="#uploadAppellantFinalCommentDocuments"]', `${finalCommentTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
         });
 
-        it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {               
+        it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {
                 cy.uploadFileFromFixtureDirectory(finalCommentTestCases[0]?.documents?.uploadFileGreaterThan25mb);
                 cy.advanceToNextPage();
                 cy.shouldHaveErrorMessage('a[href*="#uploadAppellantFinalCommentDocuments"]', `${finalCommentTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);

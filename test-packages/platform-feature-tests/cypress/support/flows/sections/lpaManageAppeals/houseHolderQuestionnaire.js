@@ -9,8 +9,7 @@ import { ConsultResponseAndRepresent } from "../../pages/lpa-manage-appeals/cons
 import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
-import { waitingForReview} from "../../pages/lpa-manage-appeals/waitingForReview";
-//import { waitingForReview} from "./downloadVerify";
+import { waitingForReview } from "../../pages/lpa-manage-appeals/waitingForReview";
 
 export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 	const basePage = new BasePage();
@@ -40,7 +39,7 @@ export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 			}
 			counter++;
 		}
-	}).then(() => {	
+	}).then(() => {
 		cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
 		cy.get(basePage?._selectors.dlgovukSummaryListAppealDetails).within(() => {
 			cy.get(basePage?._selectors.govukSummaryListRow).each(($row) => {
@@ -80,7 +79,7 @@ export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 		// commented for test during coding
 		// cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
 		// cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
-		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();		
+		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();
 		waitingForReview(appealId);
-	});	
+	});
 };

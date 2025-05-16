@@ -1,4 +1,4 @@
-const documents = {    
+const documents = {
     uploadSupportDocsFinalComments: 'upload-support-docs-final-comments.pdf',
     uploadAdditionalDocsSupportFinalComments: 'upload-additional-docs-support-final-comments.pdf',
     uploadFileGreaterThan25mb: 'greater-than-25-mb.docx',
@@ -6,26 +6,26 @@ const documents = {
 };
 
 export const finalCommentTestCases = [
-    {  
-        submitFinalComments:{
+    {
+        submitFinalComments: {
             selectAnswer: false,
         },
         documents,
     },
-    {  
-        submitFinalComments:{
+    {
+        submitFinalComments: {
             selectAnswer: true,
         },
-        additionalDocuments:{
+        additionalDocuments: {
             selectAnswer: true,
         },
         documents,
     },
-    {  
-        submitFinalComments:{
+    {
+        submitFinalComments: {
             selectAnswer: true,
         },
-        additionalDocuments:{
+        additionalDocuments: {
             selectAnswer: false,
         },
         documents,

@@ -25,7 +25,7 @@ describe('Appellant Full Planning Final Comment Test Cases', () => {
         finalCommentTestCases.forEach((context) => {
 
                 it(`Should validate Appellant Full appeal final comments`, () => {
-                finalComment(context, prepareAppealData);
+                        finalComment(context, prepareAppealData);
                 });
         });
 });

@@ -29,19 +29,10 @@ export const fullAppealFinalComment = (context, lpaManageAppealsData) => {
 			counter++;
 		}
 	}).then(() => {
-		// cy.get('body').then(($body) => {
-		// 	cy.log($body.find('a.govuk-link:contains("Submit final comments")'))
-		// 	if ($body.find('a.govuk-link:contains("Submit final comments")').length > 0) {
-		// 		cy.contains('Submit final comments').click();
-		// 	}
-		// 	else {
-		// 		cy.url().should('include', `/manage-appeals/final-comments/${appealId}/submit-final-comments`);
-		// 	}
-		// })
 		finalComment.selectSubmitAnyFinalComment(context);
 	});
 	//commented for test during coding
-		//cy.contains('button',lpaManageAppealsData?.submitFinalComments).click();
-		//cy.getByData(lpaManageAppealsData?.submitFinalComments).click();
-		//cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.finalCommentsSubmitted);
+	//cy.contains('button',lpaManageAppealsData?.submitFinalComments).click();
+	//cy.getByData(lpaManageAppealsData?.submitFinalComments).click();
+	//cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.finalCommentsSubmitted);
 };

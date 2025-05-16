@@ -27,16 +27,16 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                         }
                 });
                 let counter = 0;
-                cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {                       
+                cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
                         const rowtext = $row.text();
-                        if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoFinalcomment)) {                              
-                                if (counter === 0) {                                       
+                        if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoFinalcomment)) {
+                                if (counter === 0) {
                                         cy.wrap($row).within(() => {
                                                 cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
                                                 cy.get('a').each(($link) => {
-                                                        if ($link.attr('href')?.includes('final-comments')) {                                                              
+                                                        if ($link.attr('href')?.includes('final-comments')) {
                                                                 const parts = $link.attr('href')?.split('/');
-                                                                appealId = parts?.[parts.length - 2];                                                               
+                                                                appealId = parts?.[parts.length - 2];
                                                                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                                                                 return false;
                                                         }
@@ -63,26 +63,6 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                         }
 
                 });
-           //below code added to handle page flow issue that navigation starting form previous navigation instead of start.      
-                // cy.get('input[name="lpaFinalComment"]:checked').then(($checked) => {
-                // //cy.get('input[type="radio"]').filter(':visible').filter('[value="yes"]').should(($radio) => {
-                //         if($radio.prop('checked')){
-                //                 cy.log("Radio Button already selected");   
-                //         }
-                //         else {
-                //                 cy.advanceToNextPage();
-                //                 cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#lpaFinalComment').and('contain.text', 'Select yes if you want to submit any final comments');
-                //         }
-                // });
-                // if ($checked.length > 0) {
-                //         cy.log("Radio Button already selected");
-                //         return;
-                // }
-                // else {
-                //         cy.advanceToNextPage();
-                //         cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#lpaFinalComment').and('contain.text', 'Select yes if you want to submit any final comments');
-                // }
-                // })
         });
 
         it(`Validate sensitive information text`, () => {
@@ -153,7 +133,7 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.shouldHaveErrorMessage('a[href*="#uploadLPAFinalCommentDocuments"]', `${fullAppealFinalCommentTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
         });
 
-        it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {               
+        it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {
                 cy.uploadFileFromFixtureDirectory(fullAppealFinalCommentTestCases[0]?.documents?.uploadFileGreaterThan25mb);
                 cy.advanceToNextPage();
                 cy.shouldHaveErrorMessage('a[href*="#uploadLPAFinalCommentDocuments"]', `${fullAppealFinalCommentTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);

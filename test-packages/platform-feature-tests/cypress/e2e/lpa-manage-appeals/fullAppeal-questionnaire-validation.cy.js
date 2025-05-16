@@ -75,7 +75,6 @@ describe('Full appleal questionnaire validation', () => {
     let counter = 0;
     cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
       const rowtext = $row.text();
-      // if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)  && rowtext.includes('6011965')) {
       if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
         if (counter === 1) {
           cy.wrap($row).within(() => {
@@ -889,4 +888,3 @@ describe('Full appleal questionnaire validation', () => {
   // });
 
 });
-

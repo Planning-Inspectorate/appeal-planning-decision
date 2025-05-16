@@ -1,8 +1,8 @@
-const documents = {    
-    uploadProofEvidence: 'upload-proof-evidence.pdf', 
+const documents = {
+    uploadProofEvidence: 'upload-proof-evidence.pdf',
     uploadWitnessesEvidence: 'witnesses-evidence.pdf',
     uploadStatement: 'upload-statement.pdf',
-    uploadFileGreaterThan25mb:'greater-than-25-mb.docx',
+    uploadFileGreaterThan25mb: 'greater-than-25-mb.docx',
     uploadWrongFormatFile: 'wrongFormatFile.xps',
     uploadEmergingPlan: 'emerging-plan.pdf',
     uploadOtherPolicies: 'other-policies.pdf',
@@ -12,14 +12,14 @@ const documents = {
 };
 
 export const r6FullAppealsProofsOfEvidenceTestCases = [
-    {  
-        proofsOfEvidence:{
+    {
+        proofsOfEvidence: {
             isAddWitness: true
         },
         documents,
     },
-    {  
-        proofsOfEvidence:{
+    {
+        proofsOfEvidence: {
             isAddWitness: false
         },
         documents,
