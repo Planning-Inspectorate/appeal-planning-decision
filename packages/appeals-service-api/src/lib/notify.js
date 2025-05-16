@@ -745,10 +745,12 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 /**
  * @param { Rule6StatementSubmission } rule6StatementSubmission
  * @param {string} emailAddress
+ * @param {ServiceUser} serviceUser
  */
 const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
 	rule6StatementSubmission,
-	emailAddress
+	emailAddress,
+	serviceUser
 ) => {
 	try {
 		const {
@@ -776,7 +778,8 @@ const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
 			...config.services.notify.templateVariables,
 			appealReferenceNumber: caseReference,
 			siteAddress: formattedAddress,
-			lpaReference: applicationReference
+			lpaReference: applicationReference,
+			rule6RecipientLine: serviceUser?.organisation ? `To ${serviceUser.organisation},` : ''
 		};
 
 		logger.debug({ variables }, 'Sending statement submission email to rule 6 party');
