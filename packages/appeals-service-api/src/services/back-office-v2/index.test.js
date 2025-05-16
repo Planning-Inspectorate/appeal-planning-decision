@@ -631,7 +631,8 @@ describe('BackOfficeV2Service', () => {
 			expect(markRule6StatementAsSubmitted).toHaveBeenCalledWith(testUserID, testCaseRef);
 			expect(sendRule6StatementSubmissionEmailToRule6PartyV2).toHaveBeenCalledWith(
 				mockR6Statement,
-				mockUser.email
+				mockUser.email,
+				mockServiceUser
 			);
 		});
 	});

@@ -617,12 +617,15 @@ describe('NotifyService', () => {
 				appealReferenceNumber: 'ABC123',
 				lpaReference: 'abc',
 				siteAddress: 'd\ne\nf',
-				contactEmail: 'example@test.com'
+				contactEmail: 'example@test.com',
+				rule6RecipientLine: 'To Rule 6 party'
 			};
 			const result = notifyService.populateTemplate(template, personalisation);
 			expectMessage(
 				result,
-				`We have received your statement.
+				`${personalisation.rule6RecipientLine}
+				
+				We have received your statement.
 
 				# Appeal details
 

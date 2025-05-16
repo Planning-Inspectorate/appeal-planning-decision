@@ -1,3 +1,5 @@
+{{rule6RecipientLine}}
+
 We have received your statement.
 
 # Appeal details
