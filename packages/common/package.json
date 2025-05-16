@@ -25,6 +25,7 @@
 		"jose": "*",
 		"node-fetch": "*",
 		"notifications-node-client": "*",
+		"nunjucks": "*",
 		"openid-client": "*",
 		"pino": "*",
 		"pins-data-model": "*"
