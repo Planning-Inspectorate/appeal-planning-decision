@@ -31,7 +31,14 @@ jest.mock('../../../../../../db/repos/repository', () => ({
 			{
 				documentURI,
 				documentType,
-				filename: 'document.pdf'
+				filename: 'document.pdf',
+				redacted: true
+			},
+			{
+				documentURI,
+				documentType,
+				filename: 'document2.pdf',
+				redacted: false
 			}
 		])
 	}))
@@ -76,7 +83,7 @@ describe('/v2/back-office/{caseReference}/case_stage/{caseStage}', () => {
 		expect(res.status).toHaveBeenCalledWith(200);
 	});
 
-	it('should expect 3 blob streams to be appended', async () => {
+	it('should expect 3 blob streams to be appended instead of 6 due to one document being unredacted', async () => {
 		await getDocumentsByCaseReferenceAndCaseStage(req, res);
 
 		// Testing archive append was called correctly 3 times
