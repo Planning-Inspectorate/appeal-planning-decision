@@ -196,7 +196,7 @@ exports.questionProps = {
 		question: 'Is the site in a green belt?',
 		fieldName: 'greenBelt',
 		url: 'green-belt',
-		validators: [new RequiredValidator()]
+		validators: [new RequiredValidator('Select yes if the site is in a green belt')]
 	},
 	whoWasNotified: {
 		type: 'multi-file-upload',
