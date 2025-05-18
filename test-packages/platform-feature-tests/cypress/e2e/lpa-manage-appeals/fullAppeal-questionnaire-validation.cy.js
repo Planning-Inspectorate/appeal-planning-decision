@@ -75,13 +75,14 @@ describe('Full appleal questionnaire validation', () => {
     let counter = 0;
     cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
       const rowtext = $row.text();
+      // if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)  && rowtext.includes('6011965')) {
       if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
         if (counter === 1) {
           cy.wrap($row).within(() => {
             cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
             cy.get('a').each(($link) => {
               cy.log($link.attr('href'));
-              if ($link.attr('href')?.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+              if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
                 appealId = $link.attr('href')?.split('/').pop();
                 cy.log(appealId);
                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
@@ -888,3 +889,4 @@ describe('Full appleal questionnaire validation', () => {
   // });
 
 });
+

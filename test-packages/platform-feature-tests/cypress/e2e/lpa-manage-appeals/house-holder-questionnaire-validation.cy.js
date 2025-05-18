@@ -83,7 +83,7 @@ describe('House Holder appleal questionnaire validation', () => {
           cy.wrap($row).within(() => {
             cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.hasAppealType).should('be.visible');
             cy.get('a').each(($link) => {
-              if ($link.attr('href')?.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+              if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
                 appealId = $link.attr('href')?.split('/').pop();
                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                 return false;

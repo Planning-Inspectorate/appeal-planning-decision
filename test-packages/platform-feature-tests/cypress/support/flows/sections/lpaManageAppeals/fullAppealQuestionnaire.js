@@ -25,12 +25,12 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 	let counter = 0;
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
-		if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
+		if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoQuestionnaire)) {
 			if (counter === 1) {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
 					cy.get('a').each(($link) => {
-						if ($link.attr('href')?.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+						if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
 							appealId = $link.attr('href')?.split('/').pop();
 							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
 							return false;

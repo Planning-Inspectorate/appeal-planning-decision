@@ -42,6 +42,7 @@ describe('Full Planning Questionnaire Test Cases', () => {
             - User selects schedule type ${context.environmentalImpact?.isSchedule}
             - User selects environmant statement ${context.environmentalImpact?.isEnvStmt}
             - User selects screen openion environment statement ${context.environmentalImpact?.isScreenOpenionEnvStmt}
+            - User selects received scoping opinion ${context.environmentalImpact?.isReceivedScopingOpinion}
             - User selects agriculture aquaculture ${context.environmentalImpact?.isAgricultureAquaculture}
             - User selects change extensions ${context.environmentalImpact?.isChangeExtensions}
             - User selects chemical industry ${context.environmentalImpact?.isChemicalIndustry}
