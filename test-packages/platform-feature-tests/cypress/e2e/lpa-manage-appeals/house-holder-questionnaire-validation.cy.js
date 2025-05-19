@@ -78,8 +78,8 @@ describe('House Holder appleal questionnaire validation', () => {
     let counter = 0;
     cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
       const rowtext = $row.text();
-      if (rowtext.includes(lpaManageAppealsData?.hasAppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
-        if (counter === 1) {
+      if (rowtext.includes(lpaManageAppealsData?.hasAppealType) && rowtext.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+        if (counter === 0) {
           cy.wrap($row).within(() => {
             cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.hasAppealType).should('be.visible');
             cy.get('a').each(($link) => {
