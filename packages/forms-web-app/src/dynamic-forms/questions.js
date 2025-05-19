@@ -982,7 +982,7 @@ exports.questionProps = {
 	},
 	scopingOpinion: {
 		type: 'boolean',
-		title: 'Received scoping opinion',
+		title: 'Did you receive a scoping opinion?',
 		question: 'Did you receive a scoping opinion?',
 		fieldName: 'scopingOpinion',
 		url: 'scoping-opinion',
