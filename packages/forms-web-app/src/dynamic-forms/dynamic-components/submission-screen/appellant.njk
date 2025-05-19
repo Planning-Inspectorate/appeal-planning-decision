@@ -1,23 +1,36 @@
 {% extends "layouts/full-appeal-banner/main-no-back-link.njk" %} {% from
 "govuk/components/panel/macro.njk" import govukPanel %} {% block pageTitle %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
 Appeal Submitted - Appeal a planning decision - GOV.UK {% endblock %} {% block
 content %}
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    {{ govukPanel({ titleText: "Appeal submitted" }) }}
+		{% set panelHtml %}Appeal reference number<br><strong>{{ appealReferenceNumber }}</strong>{% endset %}
+		{{ govukPanel({
+			titleText: "Appeal submitted",
+			html: panelHtml
+		}) }}
 
-    <h2 class="govuk-heading-m">What happens next</h2>
-
-    <p class="govuk-body">
-      We will send you a confirmation email with your appeal reference number and a link to download a copy of your
-      appeal.
-    </p>
 
     <p class="govuk-body">
-			You must send your appeal and supporting documents to the local planning authority.
+			We've sent you a confirmation email with a link to download a copy of your appeal.
     </p>
 
+		{{ govukInsetText({
+			text: "You need to send a copy of your appeal to the local planning authority."
+		}) }}
+		<p class="govuk-body">
+			If you need to contact us, include your appeal reference number.
+		</p>
+
+		<h2 class="govuk-heading-m">What happens next</h2>
+
+		<p class="govuk-body">
+			We'll check you've submitted everything we need to progress your appeal.
+			We'll contact you once we've done this.
+		</p>
     <p class="govuk-body govuk-!-margin-bottom-5">
       <a href="/appeals/your-appeals">View your appeals</a>
     </p>
