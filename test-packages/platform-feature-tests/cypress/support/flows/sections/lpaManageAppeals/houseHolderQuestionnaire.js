@@ -77,8 +77,8 @@ export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
 
 		// commented for test during coding
-		// cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-		// cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
+		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
+		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
 		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();
 		waitingForReview(appealId);
 	});
