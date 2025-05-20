@@ -806,7 +806,7 @@ const documentTypes = {
 /**
  * @param {any} value value to lookup
  * @param {string} lookupProp property to check
- * @returns {DocType} result based on the returnProp
+ * @returns {DocType|null} result based on the returnProp
  */
 const getDocType = (value, lookupProp) => {
 	for (const docType in documentTypes) {
@@ -815,7 +815,7 @@ const getDocType = (value, lookupProp) => {
 		}
 	}
 
-	throw new Error(`unknown document type: ${value}`);
+	return null;
 };
 
 module.exports = {

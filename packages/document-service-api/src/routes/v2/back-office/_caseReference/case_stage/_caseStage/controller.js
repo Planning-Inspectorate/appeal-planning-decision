@@ -7,13 +7,25 @@ const repo = new DocumentsRepository();
 const { boStorage } = require('#config/config');
 const logger = require('#lib/logger');
 const getAzureBlobPathFromUri = require('@pins/common/src/lib/getAzureBlobPathFromUri');
+const { checkDocAccess } = require('#lib/access-rules');
 
 /**
  * @param {string} caseStage
- * @param {string} caseReference *
- * @returns {Promise[]}
+ * @param {string} caseReference
+ * @param {import('@prisma/client').AppealCase} appealCase
+ * @param {import("@prisma/client").AppealToUser[]} appealUserRoles
+ * @param {import('express-oauth2-jwt-bearer').JWTPayload|undefined} access_token
+ * @param {object} id_token
+ * @returns {Promise<Array<{fullName: string, blobStorageContainer: string | undefined, blobStoragePath: string, documentURI: string}>>}
  */
-async function getBlobCollection(caseStage, caseReference) {
+async function getBlobCollection(
+	caseStage,
+	caseReference,
+	appealCase,
+	appealUserRoles,
+	access_token,
+	id_token
+) {
 	const folders = FOLDERS.filter((folder) => folder.startsWith(`${caseStage}/`));
 
 	return (
@@ -25,15 +37,25 @@ async function getBlobCollection(caseStage, caseReference) {
 		)
 	)
 		.flat()
+		.filter((document) =>
+			checkDocAccess(
+				{ ...document, AppealCase: appealCase },
+				appealUserRoles,
+				access_token,
+				id_token
+			)
+		)
 		.map((document) => {
 			const { filename, documentURI, documentType } = document;
+			if (!documentType) return null;
 			return {
 				fullName: `${kebabCase(documentType)}/${filename}`,
 				blobStorageContainer: boStorage.container,
 				blobStoragePath: getAzureBlobPathFromUri(documentURI, boStorage.host, boStorage.container),
 				documentURI
 			};
-		});
+		})
+		.filter(Boolean);
 }
 
 /**
@@ -66,6 +88,7 @@ async function createBlobDownloadStream(blobStorageContainer, blobStoragePath) {
 		// @ts-ignore
 		return blobDownloadResponseParsed.blobDownloadStream;
 	} catch (error) {
+		logger.error(error, 'createBlobDownloadStream failed');
 		return null;
 	}
 }
@@ -74,14 +97,24 @@ async function createBlobDownloadStream(blobStorageContainer, blobStoragePath) {
  * @type {import('express').Handler}
  */
 async function getDocumentsByCaseReferenceAndCaseStage(req, res) {
-	const { caseStage, caseReference } = req.params ?? {};
+	const { caseReference, caseStage } = req.params ?? {};
+	const { appealCase, appealUserRoles } = res.locals;
+	const access_token = req.auth?.payload;
+	const id_token = req.id_token;
 
-	if (!caseStage || !caseReference) {
+	if (!caseStage || !appealCase || !caseReference) {
 		res.sendStatus(400);
 		return;
 	}
 
-	const blobCollection = await getBlobCollection(caseStage, caseReference);
+	const blobCollection = await getBlobCollection(
+		caseStage,
+		caseReference,
+		appealCase,
+		appealUserRoles,
+		access_token,
+		id_token
+	);
 
 	const archive = archiver('zip', {
 		zlib: { level: 9 } // Sets the compression level.
