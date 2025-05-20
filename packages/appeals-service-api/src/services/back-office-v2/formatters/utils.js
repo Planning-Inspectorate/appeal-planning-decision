@@ -77,7 +77,7 @@ exports.getDocuments = async ({ SubmissionDocumentUpload }, defaultDocType) => {
 			mime: mime_type,
 			documentURI: _response.request.url,
 			dateCreated: new Date(createdOn).toISOString(),
-			documentType: getDocType(document_type, 'name').dataModelName ?? defaultDocType // todo: this errors so will never get default
+			documentType: getDocType(document_type, 'name')?.dataModelName ?? defaultDocType
 		})
 	);
 };

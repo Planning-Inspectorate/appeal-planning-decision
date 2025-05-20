@@ -13,7 +13,8 @@ describe('caseAccess Middleware', () => {
 			auth: { payload: {} }
 		};
 		res = {
-			sendStatus: jest.fn()
+			sendStatus: jest.fn(),
+			locals: {}
 		};
 		next = jest.fn();
 	});
@@ -61,12 +62,16 @@ describe('caseAccess Middleware', () => {
 	it('should call next if appealUserRoles are found', async () => {
 		req.params.caseReference = '123';
 		req.auth.payload.sub = 'user123';
-		DocumentsRepository.prototype.getAppealCase.mockResolvedValue({
+		const appealCase = {
 			appealId: 'appeal123',
 			LPACode: 'LPA456'
-		});
-		DocumentsRepository.prototype.getAppealUserRoles.mockResolvedValue([{ role: 'user' }]);
+		};
+		const userRoles = [{ role: 'user' }];
+		DocumentsRepository.prototype.getAppealCase.mockResolvedValue(appealCase);
+		DocumentsRepository.prototype.getAppealUserRoles.mockResolvedValue(userRoles);
 		await caseAccess(req, res, next);
 		expect(next).toHaveBeenCalled();
+		expect(res.locals.appealCase).toEqual(appealCase);
+		expect(res.locals.appealUserRoles).toEqual(userRoles);
 	});
 });
