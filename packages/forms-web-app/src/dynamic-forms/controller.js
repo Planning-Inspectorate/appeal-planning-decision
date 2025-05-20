@@ -619,9 +619,14 @@ exports.appellantSubmitted = async (req, res) => {
 		return res.status(400).render('./error/not-found.njk');
 	}
 
+	const { caseReference } = await req.appealsApiClient.getAppellantSubmissionCaseReference(
+		journey.response.answers.id
+	);
+
 	return res.render('./dynamic-components/submission-screen/appellant', {
 		caseReference: journey.response.answers.applicationReference,
 		bannerHtmlOverride: journey.bannerHtmlOverride,
+		appealReferenceNumber: caseReference,
 		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
