@@ -17,30 +17,21 @@ const {
 	}
 } = require('../../../../../src/lib/views');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
-
+const config = require('../../../../../src/config');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
-jest.mock('../../../../../src/config', () => ({
-	logger: {
-		level: 'info'
-	},
-	server: {
-		limitedRouting: {
-			serviceUrl: 'example-url'
-		}
-	},
-	betaBannerText: 'some text'
-}));
 jest.mock('../../../../../src/lib/is-lpa-in-feature-flag');
 
 describe('controllers/householder-planning/eligibility/decision-date-householder', () => {
 	let req;
 	let res;
-
 	const appeal = {
 		...householderAppeal,
 		appealType: APPEAL_ID.PLANNING_SECTION_78
 	};
+	const bannerHtmlOverride =
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'));
 
 	beforeEach(() => {
 		req = mockReq(appeal);
@@ -54,7 +45,8 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 			decisionDateHouseholderController.getDecisionDateHouseholder(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(DECISION_DATE_HOUSEHOLDER, {
-				decisionDate: null
+				decisionDate: null,
+				bannerHtmlOverride
 			});
 		});
 
@@ -68,7 +60,8 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 					day: '04',
 					month: '03',
 					year: '2022'
-				}
+				},
+				bannerHtmlOverride
 			});
 		});
 	});
@@ -193,7 +186,8 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 					'decision-date-householder-day': {
 						msg: 'You need to provide a date'
 					}
-				}
+				},
+				bannerHtmlOverride
 			});
 		});
 
@@ -217,7 +211,8 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 			expect(res.render).toHaveBeenCalledWith(DECISION_DATE_HOUSEHOLDER, {
 				appeal: req.session.appeal,
 				errors: {},
-				errorSummary: [{ text: error.toString(), href: 'decision-date-householder' }]
+				errorSummary: [{ text: error.toString(), href: 'decision-date-householder' }],
+				bannerHtmlOverride
 			});
 		});
 	});

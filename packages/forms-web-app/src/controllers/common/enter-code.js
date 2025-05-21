@@ -16,6 +16,9 @@ const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const { getSessionEmail, setSessionEmail, getSessionAppealSqlId } = require('#lib/session-helper');
 const { getAuthClient, createOTPGrant } = require('@pins/common/src/client/auth-client');
 const config = require('../../config');
+const {
+	typeOfPlanningApplicationToAppealTypeMapper
+} = require('#lib/full-appeal/map-planning-application');
 
 /**
  * @typedef {import('#lib/is-token-valid').TokenValidResult} TokenValidResult
@@ -46,6 +49,11 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
 		const isReturningFromEmail = action === enterCodeConfig.actions.saveAndReturn;
 		const isAppealConfirmation = !isGeneralLogin && !isReturningFromEmail;
+		const appealType =
+			typeOfPlanningApplicationToAppealTypeMapper[req.session?.appeal?.typeOfPlanningApplication];
+		const bannerHtmlOverride =
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
 
 		// show new code success message only once
 		const newCode = req.session?.enterCode?.newCode;
@@ -131,7 +139,8 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 			res.render(views.ENTER_CODE, {
 				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`,
 				confirmEmailLink: confirmEmailUrl,
-				showNewCode: newCode
+				showNewCode: newCode,
+				bannerHtmlOverride
 			});
 		}
 	};

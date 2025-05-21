@@ -11,6 +11,7 @@ const {
 		FULL_APPEAL: { PLANNING_APPLICATION_NUMBER, EMAIL_ADDRESS }
 	}
 } = require('../../../../../src/lib/views');
+const config = require('../../../../../src/config');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
@@ -21,6 +22,9 @@ const applicationNumber = 'ABCDE12345';
 describe('controllers/full-appeal/submit-appeal/planning-application-number', () => {
 	let req;
 	let res;
+	const bannerHtmlOverride =
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'));
 
 	beforeEach(() => {
 		req = mockReq(appeal);
@@ -36,7 +40,8 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 			const controllerFunction = getPlanningApplicationNumber();
 			controllerFunction(req, res);
 			expect(res.render).toHaveBeenCalledWith(PLANNING_APPLICATION_NUMBER, {
-				planningApplicationNumber: applicationNumber
+				planningApplicationNumber: applicationNumber,
+				bannerHtmlOverride
 			});
 		});
 
@@ -47,7 +52,8 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 			});
 			controllerFunction(req, res);
 			expect(res.render).toHaveBeenCalledWith('test1/url', {
-				planningApplicationNumber: applicationNumber
+				planningApplicationNumber: applicationNumber,
+				bannerHtmlOverride
 			});
 		});
 	});
@@ -68,7 +74,8 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 			expect(res.render).toHaveBeenCalledWith(PLANNING_APPLICATION_NUMBER, {
 				planningApplicationNumber: applicationNumber,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
-				errors: { a: 'b' }
+				errors: { a: 'b' },
+				bannerHtmlOverride
 			});
 		});
 
@@ -157,7 +164,8 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 			expect(res.render).toHaveBeenCalledWith('test1/url', {
 				planningApplicationNumber: applicationNumber,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
-				errors: { a: 'b' }
+				errors: { a: 'b' },
+				bannerHtmlOverride
 			});
 		});
 	});

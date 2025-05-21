@@ -15,6 +15,7 @@ const {
 	}
 } = require('../../../../../src/lib/views');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const config = require('../../../../../src/config');
 
 jest.mock('../../../../../src/lib/is-lpa-in-feature-flag');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
@@ -27,6 +28,9 @@ describe('controllers/householder-planning/eligibility/conditions-householder-pe
 	const sectionName = 'eligibility';
 	const errors = { 'conditions-householder-permission': 'Select an option' };
 	const errorSummary = [{ text: 'There was an error', href: '#' }];
+	const bannerHtmlOverride =
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'));
 
 	beforeEach(() => {
 		req = v8.deserialize(
@@ -44,7 +48,8 @@ describe('controllers/householder-planning/eligibility/conditions-householder-pe
 			getConditionsHouseholderPermission(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(CONDITIONS_HOUSEHOLDER_PERMISSION, {
-				hasHouseholderPermissionConditions: true
+				hasHouseholderPermissionConditions: true,
+				bannerHtmlOverride
 			});
 		});
 	});
@@ -65,7 +70,8 @@ describe('controllers/householder-planning/eligibility/conditions-householder-pe
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(CONDITIONS_HOUSEHOLDER_PERMISSION, {
 				errors,
-				errorSummary
+				errorSummary,
+				bannerHtmlOverride
 			});
 		});
 
@@ -89,7 +95,8 @@ describe('controllers/householder-planning/eligibility/conditions-householder-pe
 			expect(res.render).toHaveBeenCalledWith(CONDITIONS_HOUSEHOLDER_PERMISSION, {
 				hasHouseholderPermissionConditions: true,
 				errors: {},
-				errorSummary: [{ text: error.toString(), href: '#' }]
+				errorSummary: [{ text: error.toString(), href: '#' }],
+				bannerHtmlOverride
 			});
 		});
 

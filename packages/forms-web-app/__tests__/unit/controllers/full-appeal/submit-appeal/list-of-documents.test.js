@@ -18,6 +18,7 @@ const {
 } = require('../../../../../src/dynamic-forms/s78-appeal-form/journey');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const config = require('../../../../../src/config');
 
 const apiClient = {
 	createAppellantSubmission: jest.fn()
@@ -61,7 +62,12 @@ describe('controllers/full-appeal/submit-appeal/list-of-documents', () => {
 
 			await getListOfDocuments(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(LIST_OF_DOCUMENTS, { usingV2Form: false });
+			expect(res.render).toHaveBeenCalledWith(LIST_OF_DOCUMENTS, {
+				usingV2Form: false,
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
+			});
 		});
 	});
 
