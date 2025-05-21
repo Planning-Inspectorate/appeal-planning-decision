@@ -2,8 +2,6 @@
 /// <reference types="cypress"/>
 import { appellantFullAppealProofsOfEvidenceTestCases } from "../../helpers/appellantAAPD/appellantFullAppealProofsOfEvidenceData";
 import { BasePage } from "../../page-objects/base-page";
-//import { StringUtils } from "../../utils/StringUtils";
-const { appellantFullAppealProofsOfEvidence } = require('../../support/flows/sections/appellantAAPD/appellantFullAppealProofsOfEvidence');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
 
@@ -37,8 +35,7 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
                         cy.get('a').each(($link) => {
                             if ($link.attr('href')?.includes(prepareAppealData?.proofsOfEvidenceLink)) {
                                 const parts = $link.attr('href')?.split('/');
-                                appealId = parts?.[parts.length - 2];
-                                //appealId = $link.attr('href')?.split('/').pop();							
+                                appealId = parts?.[parts.length - 2];                               						
                                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                                 return false;
                             }
