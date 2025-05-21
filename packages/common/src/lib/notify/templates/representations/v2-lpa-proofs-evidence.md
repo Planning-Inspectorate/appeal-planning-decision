@@ -1,8 +1,8 @@
 We’ve received your proof of evidence and witnesses.
 
-#Appeal details
+# Appeal details
 
-^Appeal reference number: {{appealReferenceNumber}}
+^ Appeal reference number: {{appealReferenceNumber}}
 Address: {{appealSiteAddress}}
 Planning application reference: {{lpaReference}}
 
