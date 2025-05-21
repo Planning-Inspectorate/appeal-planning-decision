@@ -115,22 +115,17 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			zipDownloadUrl
 		};
 
-		await req.app.render(
-			VIEW.SELECTED_APPEAL.APPEAL_QUESTIONNAIRE,
-			viewContext,
-			async (_, html) => {
-				if (!isPagePdfDownload) return res.send(html);
+		await res.render(VIEW.SELECTED_APPEAL.APPEAL_QUESTIONNAIRE, viewContext, async (_, html) => {
+			if (!isPagePdfDownload) return res.send(html);
+			const pdfHtml = await addCSStoHtml(html);
+			const pdf = await generatePDF(pdfHtml);
 
-				const pdfHtml = await addCSStoHtml(html);
-				const pdf = await generatePDF(pdfHtml);
-
-				res.set(
-					'Content-disposition',
-					`attachment; filename="Appeal Questionnaire ${appealNumber}.pdf"`
-				);
-				res.set('Content-type', 'application/pdf');
-				return res.send(pdf);
-			}
-		);
+			res.set(
+				'Content-disposition',
+				`attachment; filename="Appeal Questionnaire ${appealNumber}.pdf"`
+			);
+			res.set('Content-type', 'application/pdf');
+			return res.send(pdf);
+		});
 	};
 };

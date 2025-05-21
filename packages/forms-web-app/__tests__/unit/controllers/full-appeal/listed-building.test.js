@@ -11,7 +11,6 @@ const {
 } = require('../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../mocks');
-const config = require('../../../../src/config');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
@@ -41,7 +40,6 @@ describe('controllers/full-appeal/listed-building', () => {
 			await getListedBuilding(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(LISTED_BUILDING, {
-				bannerHtmlOverride: config.betaBannerText,
 				isListedBuilding: appeal.eligibility.isListedBuilding
 			});
 		});
@@ -53,7 +51,6 @@ describe('controllers/full-appeal/listed-building', () => {
 			await getListedBuilding(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(LISTED_BUILDING, {
-				bannerHtmlOverride: config.betaBannerText,
 				isListedBuilding: false
 			});
 		});
@@ -65,7 +62,6 @@ describe('controllers/full-appeal/listed-building', () => {
 			await getListedBuilding(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(LISTED_BUILDING, {
-				bannerHtmlOverride: config.betaBannerText,
 				isListedBuilding: true
 			});
 		});
@@ -142,7 +138,6 @@ describe('controllers/full-appeal/listed-building', () => {
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
 			expect(res.render).toHaveBeenCalledWith(LISTED_BUILDING, {
-				bannerHtmlOverride: config.betaBannerText,
 				isListedBuilding: null,
 				errors: {
 					'listed-building': {
@@ -170,7 +165,6 @@ describe('controllers/full-appeal/listed-building', () => {
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(LISTED_BUILDING, {
-				bannerHtmlOverride: config.betaBannerText,
 				isListedBuilding: appeal.eligibility.isListedBuilding,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

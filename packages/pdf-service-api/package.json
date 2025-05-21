@@ -18,6 +18,7 @@
 		"body-parser": "*",
 		"cors": "*",
 		"express": "*",
+		"multer": "*",
 		"pino": "*",
 		"puppeteer-core": "*"
 	},

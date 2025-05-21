@@ -7,7 +7,7 @@ const {
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
-
+const config = require('../../config');
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
  * @typedef {Omit<ConstructorParameters<typeof import('../journey').Journey>[0], 'response'>} JourneyParameters
@@ -72,9 +72,59 @@ const sections = [
 			)
 		)
 		.addQuestion(questions.screeningOpinionUpload)
-		.withCondition((response) => questionHasAnswer(response, questions.screeningOpinion, 'yes'))
+		.withCondition(
+			(response) =>
+				questionHasAnswer(response, questions.screeningOpinion, 'yes') &&
+				questionsHaveAnswers(
+					response,
+					[
+						[questions.environmentalImpactSchedule, 'schedule-2'],
+						[questions.environmentalImpactSchedule, 'no']
+					],
+					{ logicalCombinator: 'or' }
+				)
+		)
 		.addQuestion(questions.screeningOpinionEnvironmentalStatement)
-		.withCondition((response) => questionHasAnswer(response, questions.screeningOpinion, 'yes'))
+		.withCondition(
+			(response) =>
+				questionHasAnswer(response, questions.screeningOpinion, 'yes') &&
+				questionsHaveAnswers(
+					response,
+					[
+						[questions.environmentalImpactSchedule, 'schedule-2'],
+						[questions.environmentalImpactSchedule, 'no']
+					],
+					{ logicalCombinator: 'or' }
+				)
+		)
+		.addQuestion(questions.scopingOpinion)
+		.withCondition(
+			(response) =>
+				questionHasAnswer(response, questions.screeningOpinionEnvironmentalStatement, 'yes') &&
+				questionsHaveAnswers(
+					response,
+					[
+						[questions.environmentalImpactSchedule, 'schedule-2'],
+						[questions.environmentalImpactSchedule, 'no']
+					],
+					{ logicalCombinator: 'or' }
+				) &&
+				config.featureFlag.scopingOpinionEnabled
+		)
+		.addQuestion(questions.scopingOpinionUpload)
+		.withCondition(
+			(response) =>
+				questionHasAnswer(response, questions.scopingOpinion, 'yes') &&
+				questionsHaveAnswers(
+					response,
+					[
+						[questions.environmentalImpactSchedule, 'schedule-2'],
+						[questions.environmentalImpactSchedule, 'no']
+					],
+					{ logicalCombinator: 'or' }
+				) &&
+				config.featureFlag.scopingOpinionEnabled
+		)
 		.addQuestion(questions.submitEnvironmentalStatement)
 		.addQuestion(questions.uploadEnvironmentalStatement)
 		.withCondition((response) =>

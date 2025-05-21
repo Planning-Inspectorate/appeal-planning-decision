@@ -33,6 +33,8 @@ const {
 		APPEALS: { YOUR_APPEALS }
 	}
 } = require('#lib/views');
+const config = require('../../config');
+
 const dashboardUrl = `/${YOUR_APPEALS}`;
 
 const typeCodeToTaskListDetails = {
@@ -74,7 +76,10 @@ const appellantSubmissionTaskList = async (req, res) => {
 	return list(req, res, typeCodeToTaskListDetails[appealType].pageCaption, {
 		declarationUrl,
 		formattedDeadline,
-		navigation: ['', dashboardUrl]
+		navigation: ['', dashboardUrl],
+		bannerHtmlOverride:
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 	});
 };
 

@@ -1,29 +1,31 @@
 const path = require('path');
-const fs = require('fs');
-
-/** @type {Record<string, string>} */
-const templateCache = {};
+const nunjucks = require('nunjucks');
+const templatesDir = path.join(__dirname, 'templates');
 
 class NotifyService {
 	static templates = {
 		appealSubmission: {
-			v1Initial: '/appeal-submission/v1-submission-email.md',
-			v1FollowUp: '/appeal-submission/v1-follow-up-email.md',
-			v1LPANotification: '/appeal-submission/v1-lpa-notification.md',
-			v2Initial: '/appeal-submission/v2-submission-email.md',
-			v2FollowUp: '/appeal-submission/v2-follow-up-email.md',
-			v2LPANotification: '/appeal-submission/v2-lpa-notification.md'
+			v1SaveAndReturnContinueAppeal: 'appeal-submission/v1-save-and-return-continue-appeal.md',
+			v1Initial: 'appeal-submission/v1-submission-email.md',
+			v1FollowUp: 'appeal-submission/v1-follow-up-email.md',
+			v1LPANotification: 'appeal-submission/v1-lpa-notification.md',
+			v2Initial: 'appeal-submission/v2-submission-email.md',
+			v2FollowUp: 'appeal-submission/v2-follow-up-email.md',
+			v2LPANotification: 'appeal-submission/v2-lpa-notification.md',
+			v2registrationConfirmation: 'appeal-submission/v2-registration-confirmation.md'
 		},
 		lpaq: {
-			v2LPAQSubmitted: '/lpaq/v2-lpaq-submitted.md'
+			v2LPAQSubmitted: 'lpaq/v2-lpaq-submitted.md'
 		},
 		representations: {
-			v2LpaStatement: '/representations/v2-lpa-statement.md',
-			v2AppellantFinalComment: '/representations/v2-appellant-final-comments.md',
-			v2LpaFinalComment: '/representations/v2-lpa-final-comments.md',
-			v2ProofOfEvidenceSubmitted: '/representations/v2-proof-of-evidence-submitted.md',
-			v2IpCommentSubmitted: '/representations/v2-ip-comment-submitted.md',
-			v2LpaProofsEvidence: '/representations/v2-lpa-proofs-evidence.md'
+			v2LpaStatement: 'representations/v2-lpa-statement.md',
+			v2AppellantFinalComment: 'representations/v2-appellant-final-comments.md',
+			v2LpaFinalComment: 'representations/v2-lpa-final-comments.md',
+			v2ProofOfEvidenceSubmitted: 'representations/v2-proof-of-evidence-submitted.md',
+			v2IpCommentSubmitted: 'representations/v2-ip-comment-submitted.md',
+			v2LpaProofsEvidence: 'representations/v2-lpa-proofs-evidence.md',
+			v2R6ProofsEvidence: 'representations/v2-r6-proofs-evidence.md',
+			v2Rule6StatementSubmission: 'representations/v2-rule6-statement-submission.md'
 		}
 	};
 
@@ -31,8 +33,8 @@ class NotifyService {
 	#client;
 	/** @type {import('pino').Logger} */
 	#logger;
-
-	#personalisationRegex = /\((\w+)\)/g;
+	/** @type {import('nunjucks').Environment} */
+	nunjucksEnv;
 
 	/**
 	 * @param {Object} options
@@ -43,6 +45,10 @@ class NotifyService {
 		logger.info('creating new NotifyService');
 		this.#client = notifyClient;
 		this.#logger = logger;
+		this.nunjucksEnv = nunjucks.configure([templatesDir], {
+			throwOnUndefined: true,
+			autoescape: true
+		});
 	}
 
 	/**
@@ -113,46 +119,40 @@ class NotifyService {
 	}
 
 	/**
-	 * replaces personalisation in local template
+	 * replaces personalisation in local template using nunjucks rendering engine
 	 * @param {string} templateName
 	 * @param {Object<string, string>} personalisation
 	 * @returns {string} populated template
 	 */
 	populateTemplate(templateName, personalisation) {
-		const template = this.#getLocalTemplate(templateName);
-		const content = Object.keys(personalisation).reduce((result, key) => {
-			const value = personalisation[key];
-			if (typeof value !== 'string' && typeof value !== 'number')
-				throw new TypeError('value must be a string or number');
-			return result.replaceAll(`((${key}))`, value);
-		}, template);
+		try {
+			return this.nunjucksEnv.render(templateName, personalisation).trim();
+		} catch (/** @type {any} */ e) {
+			this.#logger.error({ error: e, template: templateName }, 'failed to render template');
+			const message = e?.message || '';
 
-		if (content.includes('((') && content.includes('))')) {
-			const message =
-				'missing personalisation parameters: ' + content.match(this.#personalisationRegex);
-			throw new Error(
-				`populateTemplate: personalisation parameters for ${templateName} ${message}`
-			);
-		}
-
-		return content.trim();
-	}
-
-	/**
-	 * Retrieves template, stores templates in a cache
-	 * @param {string} templateName
-	 * @returns {string} template content
-	 */
-	#getLocalTemplate(templateName) {
-		if (!templateCache[templateName]) {
-			const templatePath = path.join(__dirname, 'templates', `${templateName}`);
-			try {
-				templateCache[templateName] = fs.readFileSync(templatePath, { encoding: 'utf8' }).trim();
-			} catch {
-				throw new Error(`getLocalTemplate: missing template "${templateName}`);
+			// notify error messages are in the form:
+			// [template path] [Line X, Column Y]
+			// error message
+			const matches = message.match(/\[Line (\d+), Column (\d+)\]\s+(.*)/);
+			if (matches) {
+				const line = matches[1];
+				const column = matches[2];
+				const errorMessage = matches[3] || 'issue';
+				if (message.includes('attempted to output null or undefined value')) {
+					throw new Error(
+						`populateTemplate error: missing parameter at line #${line} and column #${column} in template: ${templateName}`
+					);
+				}
+				throw new Error(
+					`populateTemplate error: '${errorMessage}' at line #${line} and column #${column} in template: ${templateName}`
+				);
+			} else if (message.includes('template not found')) {
+				throw new Error(`populateTemplate error: template not found: ${templateName}`);
 			}
+
+			throw new Error(`populateTemplate error: ${message}`);
 		}
-		return templateCache[templateName];
 	}
 }
 

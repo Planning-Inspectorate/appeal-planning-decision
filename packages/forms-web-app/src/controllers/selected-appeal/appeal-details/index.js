@@ -12,6 +12,7 @@ const { generatePDF } = require('#lib/pdf-api-wrapper');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 
 const logger = require('#lib/logger');
+const config = require('../..//../config');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -70,6 +71,15 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const appealDocumentsRows = documentsRows(caseData);
 		const appealDocuments = formatRows(appealDocumentsRows, caseData);
 
+		let bannerHtmlOverride;
+		if (userType !== LPA_USER_ROLE) {
+			bannerHtmlOverride =
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(
+					config.getAppealTypeFeedbackUrl(caseData.appealTypeCode)
+				);
+		}
+
 		const viewContext = {
 			layoutTemplate,
 			backToAppealOverviewLink,
@@ -81,10 +91,11 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				appealDetails,
 				appealDocuments
 			},
-			pdfDownloadUrl
+			pdfDownloadUrl,
+			bannerHtmlOverride
 		};
 
-		await req.app.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext, async (_, html) => {
+		await res.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext, async (_, html) => {
 			if (!isPagePdfDownload) return res.send(html);
 
 			const pdfHtml = await addCSStoHtml(html);

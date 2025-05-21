@@ -1,10 +1,23 @@
 const supertest = require('supertest');
+const mockNotifyClient = {
+	sendEmail: jest.fn()
+};
+jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
+	// Return a constructor that returns the mock instance
+	return {
+		getNotifyClient: jest.fn(() => mockNotifyClient)
+	};
+});
 const app = require('../../../../../../app');
+const config = require('../../../../../../configuration/config');
 const { createPrismaClient } = require('../../../../../../db/db-client');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { APPEAL_DOCUMENT_TYPE, SERVICE_USER_TYPE } = require('pins-data-model');
-
+/**
+ * @type {string}
+ */
+let validEmail;
 const crypto = require('crypto');
 const {
 	createTestAppealCase
@@ -60,6 +73,24 @@ jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
 }));
 const testR6ServiceUserID2 = 'testR6ServiceUserId2';
 jest.setTimeout(30000);
+const expectEmails = () => {
+	expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
+	expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+		config.services.notify.templates.generic,
+		validEmail,
+		{
+			personalisation: {
+				subject: expect.stringContaining(`We have received your statement: 405`),
+				content: expect.stringContaining(
+					'local planning authority and any other parties have submitted their statements'
+				)
+			},
+			reference: expect.any(String),
+			emailReplyToId: undefined
+		}
+	);
+	mockNotifyClient.sendEmail.mockClear();
+};
 beforeAll(async () => {
 	///////////////////////////////
 	///// SETUP TEST DATABASE ////
@@ -70,6 +101,7 @@ beforeAll(async () => {
 	///////////////////
 	appealsApi = supertest(app);
 	const email = crypto.randomUUID() + '@example.com';
+	validEmail = email;
 	const user = await sqlClient.appealUser.create({
 		data: {
 			email
@@ -94,6 +126,7 @@ beforeAll(async () => {
 		]
 	});
 	validUser = user.id;
+	validEmail = user.email;
 });
 jest.mock('../../../../../../services/back-office-v2/formatters/utils', () => ({
 	getDocuments: jest.fn(() => [])
@@ -181,6 +214,7 @@ describe('/api/v2/appeal-cases/:caseReference/rule-6-statement-submission/submit
 		await appealsApi
 			.post(`/api/v2/appeal-cases/${testCase1}/rule-6-statement-submission/submit`)
 			.expect(200);
+		expectEmails();
 		expect(sendEvents).toHaveBeenCalledWith(
 			'appeal-fo-representation-submission',
 			[formattedStatement1],

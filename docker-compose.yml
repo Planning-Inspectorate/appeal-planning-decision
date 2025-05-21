@@ -197,7 +197,8 @@ services:
       CLIENT_SECRET: 'forms-web-app-local-secret'
       COMMENTS_ENABLED: 'true'
       DASHBOARDS_ENABLED: 'true'
-      RULE_6_ENABLED: 'true'      
+      RULE_6_ENABLED: 'true'
+      SCOPING_OPINION_ENABLED: 'true'
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FEATURE_FLAGS_SETTING: 'ALL_ON'
       FILE_UPLOAD_DEBUG: 'false'

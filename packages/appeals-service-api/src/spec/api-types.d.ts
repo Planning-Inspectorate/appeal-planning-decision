@@ -1043,6 +1043,7 @@ export interface LPAQuestionnaireSubmission {
 	designatedSites?: string;
 	otherDesignations?: string;
 	screeningOpinion?: boolean;
+	scopingOpinion?: boolean;
 	environmentalStatement?: boolean;
 	environmentalImpactSchedule?: string;
 	uploadEnvironmentalStatement?: boolean | null;
@@ -1050,6 +1051,7 @@ export interface LPAQuestionnaireSubmission {
 	sensitiveArea?: boolean;
 	sensitiveAreaDetails?: string;
 	uploadScreeningOpinion?: boolean | null;
+	uploadScopingOpinion?: boolean | null;
 	uploadScreeningDirection?: boolean | null;
 	developmentDescription?: string;
 	applicantSubmittedEnvironmentalStatement?: boolean;

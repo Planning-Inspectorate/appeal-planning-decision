@@ -1,6 +1,6 @@
 import supertest from 'supertest';
-
 import { jest } from '@jest/globals';
+import { mockNotifyClient } from './setup-jest.js';
 
 import consts from '@pins/common/src/constants.js';
 import { dayInSeconds, config } from '../src/configuration/config.js';
@@ -35,8 +35,6 @@ beforeAll(async () => {
 
 	await seedStaticData(sqlClient);
 });
-
-beforeEach(async () => {});
 
 afterEach(async () => {
 	jest.clearAllMocks();
@@ -450,7 +448,54 @@ describe('auth server', () => {
 			expect(response.status).toEqual(400);
 		});
 	});
+	describe('Notify email', () => {
+		it('should send confirmation on first successful ROPC login', async () => {
+			const user = await _createSqlUser(TEST_EMAIL);
+			expect(user.isEnrolled).toEqual(false);
+
+			await performOTP({ email: TEST_EMAIL });
+
+			const securityToken = await sqlClient.securityToken.findFirstOrThrow({
+				where: {
+					appealUserId: user.id
+				}
+			});
+			const otp = securityToken.token;
+
+			const response = await performROPC({
+				email: TEST_EMAIL,
+				otp: otp
+			});
+
+			expect(response.status).toEqual(200);
+			expect(response.body.access_token).toEqual(expect.any(String));
+			const recheckUser = await sqlClient.appealUser.findFirstOrThrow({
+				where: {
+					id: user.id
+				}
+			});
+			expect(recheckUser.isEnrolled).toEqual(true);
+			await expectEmails(); // Use the new helper
+		});
+	});
 });
+
+const expectEmails = () => {
+	expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
+	expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+		config.services.notify.templates.generic,
+		TEST_EMAIL,
+		{
+			personalisation: {
+				subject: expect.stringContaining(`Sign in to appeal a planning decision:`),
+				content: expect.stringContaining('Sign in to appeal a planning decision:')
+			},
+			reference: expect.any(String),
+			emailReplyToId: undefined
+		}
+	);
+	mockNotifyClient.sendEmail.mockClear();
+};
 
 /**
  * @returns {Promise.<void>}

@@ -80,7 +80,7 @@ async function userDelete(req, res) {
  */
 async function userLink(req, res) {
 	const { userLookup, appealId } = req.params;
-	const role = req.body.role;
+	const role = req.body?.role;
 
 	const user = await resolveUser(userLookup);
 	const result = await linkUserToAppeal(user.id, appealId, role);

@@ -1,5 +1,4 @@
 const logger = require('../../lib/logger');
-const config = require('../../config');
 const {
 	getDepartmentFromName,
 	getDepartmentFromId,
@@ -23,7 +22,6 @@ exports.getPlanningDepartment = async (req, res) => {
 	}
 
 	res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
-		bannerHtmlOverride: config.betaBannerText,
 		appealLPD,
 		departments: departmentsToNunjucksItems(eligibleDepartments, appealLPD)
 	});
@@ -37,7 +35,6 @@ exports.postPlanningDepartment = async (req, res) => {
 
 	if (errors['local-planning-department']) {
 		return res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
-			bannerHtmlOverride: config.betaBannerText,
 			appealLPD: '',
 			departments: departmentsToNunjucksItems(eligibleDepartments),
 			errors,
@@ -55,7 +52,6 @@ exports.postPlanningDepartment = async (req, res) => {
 		logger.error(e);
 
 		return res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
-			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			departments: departmentsToNunjucksItems(eligibleDepartments, lpaName),
 			errors,

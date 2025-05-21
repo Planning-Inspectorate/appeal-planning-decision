@@ -626,7 +626,8 @@ class BackOfficeV2Service {
 		try {
 			await sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2(
 				rule6ProofOfEvidenceSubmission,
-				email
+				email,
+				serviceUser
 			);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendRule6ProofOfEvidenceSubmissionEmailToRule6PartyV2');
@@ -689,25 +690,13 @@ class BackOfficeV2Service {
 		await markRule6StatementAsSubmitted(userId, caseReference);
 
 		try {
-			await sendRule6StatementSubmissionEmailToRule6PartyV2(rule6Statement, email);
+			await sendRule6StatementSubmissionEmailToRule6PartyV2(rule6Statement, email, serviceUser);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendRule6StatementSubmissionEmailToRule6PartyV2');
 			throw new Error('failed to send rule 6 statement submission email');
 		}
 
 		return result;
-	}
-
-	/**
-	 * @param {import("#repositories/sql/service-user-repository").ServiceUser|null} serviceUserDetails
-	 * @returns {string|null}
-	 */
-	#getNameFromServiceUser(serviceUserDetails) {
-		if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
-			return serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
-		}
-
-		return null;
 	}
 }
 

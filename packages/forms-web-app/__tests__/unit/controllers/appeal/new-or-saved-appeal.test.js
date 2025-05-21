@@ -4,7 +4,6 @@ const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
-const config = require('../../../../src/config');
 
 describe('controllers/appeal/new-or-saved-appeal', () => {
 	let req;
@@ -23,7 +22,6 @@ describe('controllers/appeal/new-or-saved-appeal', () => {
 		await get(req, res);
 
 		expect(res.render).toBeCalledWith(VIEW.APPEAL.NEW_OR_SAVED_APPEAL, {
-			bannerHtmlOverride: config.betaBannerText,
 			newOrSavedAppeal: 'save-new'
 		});
 	});
@@ -37,7 +35,6 @@ describe('controllers/appeal/new-or-saved-appeal', () => {
 		await post(req, res);
 
 		expect(res.render).toBeCalledWith(VIEW.APPEAL.NEW_OR_SAVED_APPEAL, {
-			bannerHtmlOverride: config.betaBannerText,
 			errors: { fieldName: 'an error occured' },
 			errorSummary: ['an error occured'],
 			newOrSavedAppeal: 'save-new'

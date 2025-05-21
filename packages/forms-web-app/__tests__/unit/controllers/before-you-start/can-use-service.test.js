@@ -6,7 +6,6 @@ const priorApprovalHASAppeal = require('../../../mockData/prior-approval/prior-a
 const removalOrVariationOfConditionsFPAppeal = require('../../../mockData/removal-or-variation-of-conditions/removal-or-variation-of-conditions-fp-route');
 const removalOrVariationOfConditionsHASAppeal = require('../../../mockData/removal-or-variation-of-conditions/removal-or-variation-of-conditions-has-route');
 const { getDepartmentFromId } = require('../../../../src/services/department.service');
-const config = require('../../../../src/config');
 
 const {
 	VIEW: {
@@ -56,7 +55,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceHouseholder, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Householder planning',
@@ -78,7 +76,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceHouseholder, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'No decision received',
 				applicationType: 'Householder planning',
@@ -100,7 +97,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceHouseholder, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'No decision received',
 				applicationType: 'Householder planning',
@@ -121,7 +117,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceHouseholder, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Householder planning',
@@ -143,7 +138,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServicePriorApprovalFull, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Refused',
 				applicationType: 'Prior approval',
@@ -165,7 +159,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServicePriorApprovalFull, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Refused',
 				applicationType: 'Prior approval',
@@ -188,7 +181,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServicePriorApprovalFull, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Refused',
 				applicationType: 'Prior approval',
@@ -209,7 +201,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServicePriorApprovalHouseholder, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Refused',
 				applicationType: 'Prior approval',
@@ -230,7 +221,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 
 			await getCanUseService(req, res);
 			expect(res.render).toHaveBeenCalledWith(canUseServicePriorApprovalHouseholder, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Refused',
 				applicationType: 'Prior approval',
@@ -255,7 +245,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			expect(res.render).toHaveBeenCalledWith(
 				canUseServiceRemovalOrVariationOfConditionsFullAppeal,
 				{
-					bannerHtmlOverride: config.betaBannerText,
 					appealLPD: 'Bradford',
 					applicationDecision: 'Refused',
 					applicationType: 'Removal or variation of conditions',
@@ -278,7 +267,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			expect(res.render).toHaveBeenCalledWith(
 				canUseServiceRemovalOrVariationOfConditionsFullAppeal,
 				{
-					bannerHtmlOverride: config.betaBannerText,
 					appealLPD: 'Bradford',
 					applicationDecision: 'Refused',
 					applicationType: 'Removal or variation of conditions',
@@ -301,7 +289,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			expect(res.render).toHaveBeenCalledWith(
 				canUseServiceRemovalOrVariationOfConditionsHouseholder,
 				{
-					bannerHtmlOverride: config.betaBannerText,
 					appealLPD: 'Bradford',
 					applicationDecision: 'Refused',
 					applicationType: 'Removal or variation of conditions',
@@ -325,7 +312,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Full appeal',
@@ -346,7 +332,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Full appeal',
@@ -368,7 +353,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Full appeal',
@@ -390,7 +374,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'No decision received',
 				applicationType: 'Full appeal',
@@ -413,7 +396,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'No decision received',
 				applicationType: 'Full appeal',
@@ -437,7 +419,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'No decision received',
 				applicationType: 'Full appeal',
@@ -467,7 +448,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'Bradford',
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Listed building consent',

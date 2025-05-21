@@ -11,8 +11,7 @@ jest.mock('../../../../src/config', () => ({
 		limitedRouting: {
 			serviceUrl: 'example-url'
 		}
-	},
-	betaBannerText: 'some text'
+	}
 }));
 
 const sinon = require('sinon');
@@ -48,7 +47,6 @@ describe('controllers/full-appeal/decision-date', () => {
 			decisionDateController.getDecisionDate(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(DECISION_DATE, {
-				bannerHtmlOverride: 'some text',
 				decisionDate: null
 			});
 		});
@@ -59,7 +57,6 @@ describe('controllers/full-appeal/decision-date', () => {
 			decisionDateController.getDecisionDate(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(DECISION_DATE, {
-				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: '04',
 					month: '03',
@@ -124,7 +121,6 @@ describe('controllers/full-appeal/decision-date', () => {
 			await decisionDateController.postDecisionDate(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(DECISION_DATE, {
-				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: undefined,
 					month: undefined,
@@ -157,7 +153,6 @@ describe('controllers/full-appeal/decision-date', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 
 			expect(res.render).toHaveBeenCalledWith(DECISION_DATE, {
-				bannerHtmlOverride: 'some text',
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: 'decision-date' }]

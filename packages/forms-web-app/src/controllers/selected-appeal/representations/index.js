@@ -69,7 +69,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 		let pdfDownloadUrl;
 		let zipDownloadUrl;
 		const ipDocuments = caseData?.Documents?.filter(
-			(doc) => doc.documentType === documentTypes.interestedPartyComment.name && !doc.redacted
+			(doc) => doc.documentType === documentTypes.interestedPartyComment.name && doc.redacted
 		);
 		if (
 			(userType === APPEAL_USER_ROLES.APPELLANT || userType === LPA_USER_ROLE) &&
@@ -120,7 +120,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			zipDownloadUrl
 		};
 
-		await req.app.render(representationView, viewContext, async (_, html) => {
+		await res.render(representationView, viewContext, async (_, html) => {
 			if (!isPagePdfDownload) return res.send(html);
 
 			const pdfHtml = await addCSStoHtml(html);

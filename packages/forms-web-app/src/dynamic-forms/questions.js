@@ -92,7 +92,7 @@ exports.questionProps = {
 		url: 'correct-appeal-type',
 		validators: [
 			new RequiredValidator(
-				`Select yes if ${QUESTION_VARIABLES.APPEAL_TYPE} is the correct type of appeal`
+				`Select yes if ${QUESTION_VARIABLES.APPEAL_TYPE} appeal is the correct type of appeal`
 			)
 		],
 		variables: [QUESTION_VARIABLES.APPEAL_TYPE]
@@ -196,7 +196,7 @@ exports.questionProps = {
 		question: 'Is the site in a green belt?',
 		fieldName: 'greenBelt',
 		url: 'green-belt',
-		validators: [new RequiredValidator()]
+		validators: [new RequiredValidator('Select yes if the site is in a green belt')]
 	},
 	whoWasNotified: {
 		type: 'multi-file-upload',
@@ -980,6 +980,14 @@ exports.questionProps = {
 			)
 		]
 	},
+	scopingOpinion: {
+		type: 'boolean',
+		title: 'Did you receive a scoping opinion?',
+		question: 'Did you receive a scoping opinion?',
+		fieldName: 'scopingOpinion',
+		url: 'scoping-opinion',
+		validators: [new RequiredValidator('Select yes if you have issued a scoping opinion')]
+	},
 	environmentalImpactSchedule: {
 		type: 'radio',
 		title: 'Schedule type',
@@ -1079,6 +1087,19 @@ exports.questionProps = {
 		],
 		documentType: documentTypes.screeningOpinionUpload,
 		actionHiddenText: 'your screening opinion and any correspondence'
+	},
+	scopingOpinionUpload: {
+		type: 'multi-file-upload',
+		title: 'Scoping opinion',
+		question: 'Upload your scoping opinion',
+		fieldName: 'uploadScopingOpinion',
+		url: 'upload-scoping-opinion',
+		validators: [
+			new RequiredFileUploadValidator('Select your scoping opinion'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.scopingOpinionUpload,
+		actionHiddenText: 'your scoping opinion'
 	},
 	uploadScreeningDirection: {
 		type: 'multi-file-upload',

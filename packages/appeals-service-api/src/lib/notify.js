@@ -31,13 +31,8 @@ const { templates } = config.services.notify;
  * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
+ * @typedef {import('@prisma/client').ServiceUser} ServiceUser
  */
-
-/** @type {Record<AppealTypeCode, string>} */
-const appealTypeCodeToAppealId = {
-	HAS: APPEAL_ID.HOUSEHOLDER,
-	S78: APPEAL_ID.PLANNING_SECTION_78
-};
 
 /** @type {Record<AppealTypeCode, string>} */
 const appealTypeCodeToAppealText = {
@@ -687,21 +682,22 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 /**
  * @param { Rule6ProofOfEvidenceSubmission } rule6ProofEvidenceSubmission
  * @param {string} emailAddress
+ * @param { ServiceUser } serviceUser
  */
 const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 	rule6ProofEvidenceSubmission,
-	emailAddress
+	emailAddress,
+	serviceUser
 ) => {
 	try {
 		const {
-			appealTypeCode,
-			applicationReference,
 			siteAddressLine1,
 			siteAddressLine2,
 			siteAddressTown,
 			siteAddressCounty,
 			siteAddressPostcode,
-			proofsOfEvidenceDueDate
+			proofsOfEvidenceDueDate,
+			applicationReference
 		} = rule6ProofEvidenceSubmission.AppealCase;
 
 		const caseReference = rule6ProofEvidenceSubmission.caseReference;
@@ -717,27 +713,30 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 		const reference = rule6ProofEvidenceSubmission.id;
 
 		let variables = {
-			appeal_reference_number: caseReference,
-			site_address: formattedAddress,
-			lpa_reference: applicationReference,
-			'deadline date': formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy')
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: caseReference,
+			siteAddress: formattedAddress,
+			lpaReference: applicationReference || '',
+			deadlineDate: formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy'),
+			rule6RecipientLine: serviceUser?.organisation ? `To ${serviceUser.organisation},` : ''
 		};
 
 		logger.debug({ variables }, 'Sending proof of evidence email to rule 6 party');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appealTypeCode]]
-					.rule6ProofEvidenceSubmissionConfirmationEmailToRule6PartyV2
-			)
-			.setDestinationEmailAddress(emailAddress)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2R6ProofsEvidence,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We’ve received your proof of evidence and witnesses - ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: emailAddress,
+			templateId: templates.generic || '',
+			reference
+		});
 	} catch (err) {
 		logger.error({ err }, 'Unable to send proof of evidence submission email to rule 6 party');
 	}
@@ -746,14 +745,15 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 /**
  * @param { Rule6StatementSubmission } rule6StatementSubmission
  * @param {string} emailAddress
+ * @param {ServiceUser} serviceUser
  */
 const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
 	rule6StatementSubmission,
-	emailAddress
+	emailAddress,
+	serviceUser
 ) => {
 	try {
 		const {
-			appealTypeCode,
 			applicationReference,
 			siteAddressLine1,
 			siteAddressLine2,
@@ -775,26 +775,29 @@ const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
 		const reference = rule6StatementSubmission.id;
 
 		let variables = {
-			appeal_reference_number: caseReference,
-			site_address: formattedAddress,
-			lpa_reference: applicationReference
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: caseReference,
+			siteAddress: formattedAddress,
+			lpaReference: applicationReference,
+			rule6RecipientLine: serviceUser?.organisation ? `To ${serviceUser.organisation},` : ''
 		};
 
 		logger.debug({ variables }, 'Sending statement submission email to rule 6 party');
 
-		await NotifyBuilder.reset()
-			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appealTypeCode]]
-					.rule6StatementSubmissionConfirmationEmailToRule6PartyV2
-			)
-			.setDestinationEmailAddress(emailAddress)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2Rule6StatementSubmission,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We have received your statement: ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: emailAddress,
+			templateId: templates.generic || '',
+			reference
+		});
 	} catch (err) {
 		logger.error({ err }, 'Unable to send statement submission email to rule 6 party');
 	}
@@ -905,20 +908,37 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 			appeal.eligibility.applicationDecision
 		);
 
-		const { recipientEmail, variables, reference } = appealTypeConfig[
-			appeal.appealType
-		].email.saveAndReturnContinueAppeal(appeal, baseUrl, deadlineDate);
+		const {
+			recipientEmail,
+			variables: configVars,
+			reference
+		} = appealTypeConfig[appeal.appealType].email.saveAndReturnContinueAppeal(
+			appeal,
+			baseUrl,
+			deadlineDate
+		);
+
+		const variables = {
+			...configVars,
+			...config.services.notify.templateVariables
+		};
+
 		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
-		await NotifyBuilder.reset()
-			.setTemplateId(templates.SAVE_AND_RETURN.continueWithAppealEmailToAppellant)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+
+		const notifyService = getNotifyService();
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.appealSubmission.v1SaveAndReturnContinueAppeal,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `Continue with your appeal for ${variables.applicationNumber}`,
+				content
+			},
+			destinationEmail: recipientEmail,
+			templateId: templates.generic || '',
+			reference
+		});
 	} catch (err) {
 		logger.error(
 			{ err, appealId: appeal.id },

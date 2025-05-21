@@ -12,6 +12,33 @@ function numberWithDefault(value, fallback) {
 	return num;
 }
 
+/**
+ *
+ * @param {string} feedbackUrl
+ * @returns {string}
+ */
+const generateBetaBannerFeedbackLink = (feedbackUrl) => {
+	return ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrl}">feedback</a> will help us to improve it.`;
+};
+
+/**
+ *
+ * @param {string} appealTypeCode
+ * @returns {string}
+ */
+const getAppealTypeFeedbackUrl = (appealTypeCode) => {
+	switch (appealTypeCode) {
+		case 'S78':
+			return feedbackUrlS78;
+		case 'S20':
+			return feedbackUrlS20;
+		case 'HAS':
+			return feedbackUrlHAS;
+		default:
+			return feedbackUrl;
+	}
+};
+
 const oneGigabyte = 1024 * 1024 * 1024;
 const ninetyMinsInMs = 90 * 60 * 1000;
 const httpPort = numberWithDefault(process.env.PORT, 3000);
@@ -25,6 +52,15 @@ const feedbackUrlComment =
 const feedbackUrlLPA =
 	process.env.FEEDBACK_URL_LPA ||
 	'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UNzVFTElMSEJIWlhXWkZFM1E1WDg3RTFPUy4u';
+const feedbackUrlHAS =
+	process.env.FEEDBACK_URL_HAS ||
+	'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UQ0wyTE9UVDIyWlVaQlBBTEM0TFYyU01YVC4u&route=shorturl';
+const feedbackUrlS78 =
+	process.env.FEEDBACK_URL_S78 ||
+	'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UQzg1SlNPQjA3V0FDNUFJTldHMlEzMDdMRS4u&route=shorturl';
+const feedbackUrlS20 =
+	process.env.FEEDBACK_URL_S20 ||
+	'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UQjI0R09ONVRVNVJZVk9XMzBYTFo2RDlQUy4u&route=shorturl';
 
 module.exports = {
 	gitSha: process.env.GIT_SHA ?? 'NO GIT SHA FOUND',
@@ -129,7 +165,8 @@ module.exports = {
 	featureFlag: {
 		commentsEnabled: process.env.COMMENTS_ENABLED === 'true',
 		googleTagManager: process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true',
-		rule6Enabled: process.env.RULE_6_ENABLED === 'true'
+		rule6Enabled: process.env.RULE_6_ENABLED === 'true',
+		scopingOpinionEnabled: process.env.SCOPING_OPINION_ENABLED === 'true'
 	},
 	validation: {
 		characterLimits: {
@@ -209,5 +246,7 @@ module.exports = {
 	feedbackUrlComment: feedbackUrlComment,
 	feedbackUrlLPA: feedbackUrlLPA,
 	betaBannerText: 'This is a beta service',
-	betaBannerFeedbackLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrl}">feedback</a> will help us to improve it.`
+	betaBannerFeedbackLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrl}">feedback</a> will help us to improve it.`,
+	generateBetaBannerFeedbackLink: generateBetaBannerFeedbackLink,
+	getAppealTypeFeedbackUrl: getAppealTypeFeedbackUrl
 };

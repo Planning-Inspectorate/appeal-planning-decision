@@ -5,7 +5,6 @@ const {
 		BEFORE_YOU_START: { LISTED_BUILDING }
 	}
 } = require('../../lib/views');
-const config = require('../../config');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
@@ -32,7 +31,6 @@ const getListedBuilding = async (req, res) => {
 	}
 
 	res.render(LISTED_BUILDING, {
-		bannerHtmlOverride: config.betaBannerText,
 		isListedBuilding
 	});
 };
@@ -52,7 +50,6 @@ const postListedBuilding = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(LISTED_BUILDING, {
-			bannerHtmlOverride: config.betaBannerText,
 			isListedBuilding,
 			errors,
 			errorSummary
@@ -65,8 +62,8 @@ const postListedBuilding = async (req, res) => {
 		appeal.appealType = isListedBuilding
 			? APPEAL_ID.PLANNING_LISTED_BUILDING
 			: appeal.eligibility.hasHouseholderPermissionConditions
-			? APPEAL_ID.HOUSEHOLDER
-			: APPEAL_ID.PLANNING_SECTION_78;
+				? APPEAL_ID.HOUSEHOLDER
+				: APPEAL_ID.PLANNING_SECTION_78;
 	}
 
 	try {
@@ -76,7 +73,6 @@ const postListedBuilding = async (req, res) => {
 		logger.error(err);
 
 		return res.render(LISTED_BUILDING, {
-			bannerHtmlOverride: config.betaBannerText,
 			isListedBuilding,
 			errors,
 			errorSummary: [{ text: err.toString(), href: '#' }]

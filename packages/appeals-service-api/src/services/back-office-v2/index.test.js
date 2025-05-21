@@ -590,7 +590,8 @@ describe('BackOfficeV2Service', () => {
 			);
 			expect(sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2).toHaveBeenCalledWith(
 				mockR6Proofs,
-				mockUser.email
+				mockUser.email,
+				mockServiceUser
 			);
 		});
 	});
@@ -630,7 +631,8 @@ describe('BackOfficeV2Service', () => {
 			expect(markRule6StatementAsSubmitted).toHaveBeenCalledWith(testUserID, testCaseRef);
 			expect(sendRule6StatementSubmissionEmailToRule6PartyV2).toHaveBeenCalledWith(
 				mockR6Statement,
-				mockUser.email
+				mockUser.email,
+				mockServiceUser
 			);
 		});
 	});

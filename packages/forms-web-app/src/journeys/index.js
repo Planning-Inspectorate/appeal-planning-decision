@@ -10,7 +10,7 @@ const s78LpaProofEvidenceParams = require('../dynamic-forms/s78-lpa-proof-eviden
 const s78Rule6ProofEvidenceParams = require('../dynamic-forms/s78-rule-6-proof-evidence/journey');
 const s78Rule6StatementParams = require('../dynamic-forms/s78-rule-6-statement/journey');
 const s20AppealParams = require('../dynamic-forms/s20-appeal-form/journey');
-const s20QuestionnaireParams = require('../dynamic-forms/s20-lpa-questionairre/journey');
+const s20QuestionnaireParams = require('../dynamic-forms/s20-lpa-questionnaire/journey');
 
 const { Journeys } = require('../dynamic-forms/journeys');
 
