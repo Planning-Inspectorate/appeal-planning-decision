@@ -103,6 +103,15 @@ describe('view-model-maps/events', () => {
 			]);
 		});
 
+		it('returns correct array if valid user and access subtype (no end date)', () => {
+			const events = [{ ...siteVisitEvent, endDate: null, subtype: EVENT_SUB_TYPES.ACCESS }];
+			const role = LPA_USER_ROLE;
+
+			expect(formatSiteVisits(events, role)).toEqual([
+				'Our inspector will visit the site at 9am on 29 December 2024. Someone must be at the site to give our inspector access.'
+			]);
+		});
+
 		it('returns correct array if valid user and accompanied subtype', () => {
 			const events = [{ ...siteVisitEvent, subtype: EVENT_SUB_TYPES.ACCOMPANIED }];
 			const role = APPEAL_USER_ROLES.APPELLANT;
