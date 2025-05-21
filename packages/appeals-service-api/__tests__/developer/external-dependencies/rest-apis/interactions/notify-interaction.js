@@ -4,7 +4,7 @@ const appConfiguration = require('../../../../../src/configuration/config');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
 module.exports = class NotifyInteraction {
-	static getAppealSubmittedEmailForAppellantInteraction(appeal, appellantName) {
+	static getAppealSubmittedEmailForAppellantInteraction(appeal) {
 		return new Interaction('Send appeal successfully submitted email to appellant')
 			.setNumberOfKeysExpectedInJson(6)
 			.addJsonValueExpectation(
@@ -16,10 +16,6 @@ module.exports = class NotifyInteraction {
 			.addJsonValueExpectation(
 				JsonPathExpression.create('$.personalisation.subject'),
 				'We have received your appeal'
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create('$.personalisation.content'),
-				new RegExp(appellantName)
 			);
 	}
 

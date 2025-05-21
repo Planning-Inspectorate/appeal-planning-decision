@@ -369,7 +369,8 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 		siteAddressLine2,
 		siteAddressTown,
 		siteAddressCounty,
-		siteAddressPostcode
+		siteAddressPostcode,
+		applicationReference
 	} = lpaFinalCommentSubmission.AppealCase;
 
 	const caseReference = lpaFinalCommentSubmission.caseReference;
@@ -400,7 +401,8 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 			LPA: lpaName,
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
-			deadlineDate: format(finalCommentsDueDate, 'dd MMMM yyyy')
+			deadlineDate: format(finalCommentsDueDate, 'dd MMMM yyyy'),
+			lpaReference: applicationReference
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
@@ -575,7 +577,8 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 			siteAddressTown,
 			siteAddressCounty,
 			siteAddressPostcode,
-			finalCommentsDueDate
+			finalCommentsDueDate,
+			applicationReference
 		} = appellantFinalCommentSubmission.AppealCase;
 
 		const caseReference = appellantFinalCommentSubmission.caseReference;
@@ -594,7 +597,8 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 			...config.services.notify.templateVariables,
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
-			deadlineDate: format(finalCommentsDueDate, 'dd MMMM yyyy')
+			deadlineDate: format(finalCommentsDueDate, 'dd MMMM yyyy'),
+			lpaReference: applicationReference
 		};
 
 		logger.debug({ variables }, 'Sending final comment email to appellant');

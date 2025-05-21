@@ -2,9 +2,9 @@ To {{lpaName}}
 
 We’ve received your questionnaire for the planning application {{lpaReference}}.
 
-#Appeal details
+# Appeal details
 
-^Appeal reference number: {{appealReferenceNumber}}
+^ Appeal reference number: {{appealReferenceNumber}}
 Address: {{siteAddress}}
 Planning application reference: {{lpaReference}}
 Start date: {{appealStartDate}}

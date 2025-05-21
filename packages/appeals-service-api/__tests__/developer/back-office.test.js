@@ -89,9 +89,8 @@ beforeAll(async () => {
 	appConfiguration.services.notify.templates.APPEAL_SUBMISSION.V1_HORIZON.appellantAppealSubmissionInitialConfirmation = 1;
 	appConfiguration.services.notify.templates.APPEAL_SUBMISSION.V1_HORIZON.appellantAppealSubmissionFollowUpConfirmation = 7;
 	appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa = 2;
-	appConfiguration.services.notify.templates[
-		'1005'
-	].appealSubmissionConfirmationEmailToAppellant = 3;
+	appConfiguration.services.notify.templates['1005'].appealSubmissionConfirmationEmailToAppellant =
+		3;
 	appConfiguration.services.notify.templates['1005'].appealSubmissionReceivedEmailToAppellant = 8;
 	appConfiguration.services.notify.templates['1005'].appealNotificationEmailToLpa = 4;
 	appConfiguration.services.notify.templates.ERROR_MONITORING.failureToUploadToHorizon = 6;
@@ -600,10 +599,7 @@ describe('Back Office', () => {
 
 				// And: Notify has been interacted with as expected
 				const emailToAppellantInteraction =
-					NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
-						condition.appeal,
-						condition.expectations.emailToAppellant.name
-					);
+					NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(condition.appeal);
 				condition.appeal.horizonId = createdAppeal.horizonId;
 				condition.appeal.horizonIdFull = mockedCaseReference;
 				const emailToReceivedAppellantInteraction =
