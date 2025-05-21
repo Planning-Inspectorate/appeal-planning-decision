@@ -25,7 +25,7 @@ describe('Full Planning Statement Test Cases', () => {
         fullAppealStatementTestCases.forEach((context) => {
 
                 it(`
-            Should validate Full appeal LPA final comments ${context.proofsOfEvidence?.isAddWitness}
+            Should validate Full appeal LPA final comments submission ${context.proofsOfEvidence?.isAddWitness}
              `, () => {
                         fullAppealStatement(context, lpaManageAppealsData);
                 });

@@ -24,7 +24,7 @@ describe('Full Planning Final comment Test Cases', () => {
         });
         fullAppealFinalCommentTestCases.forEach((context) => {
                 it(`
-            Should validate Full appeal LPA Final comment, Appeal Type: Full Planning       
+            Should validate Full appeal LPA Final comment Submission, Appeal Type: Full Planning       
              `, () => {
                         fullAppealFinalComment(context, lpaManageAppealsData);
                 });
