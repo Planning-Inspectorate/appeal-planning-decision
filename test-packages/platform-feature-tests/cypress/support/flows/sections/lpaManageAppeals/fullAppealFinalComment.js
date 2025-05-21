@@ -32,7 +32,6 @@ export const fullAppealFinalComment = (context, lpaManageAppealsData) => {
 		finalComment.selectSubmitAnyFinalComment(context);
 	});
 	//commented for test during coding
-	//cy.contains('button',lpaManageAppealsData?.submitFinalComments).click();
-	//cy.getByData(lpaManageAppealsData?.submitFinalComments).click();
-	//cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.finalCommentsSubmitted);
+	cy.get('.govuk-button').contains('Submit final comments').click();
+	cy.get(basePage?._selectors.govukPanelTitle).contains('Final comments submitted');
 };
