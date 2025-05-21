@@ -5,12 +5,22 @@ const {
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
+const config = require('../../../config');
+const {
+	typeOfPlanningApplicationToAppealTypeMapper
+} = require('#lib/full-appeal/map-planning-application');
 
 exports.getPlanningApplicationNumber = (views = { PLANNING_APPLICATION_NUMBER, EMAIL_ADDRESS }) => {
 	return (req, res) => {
-		const { planningApplicationNumber } = req.session.appeal;
+		const { appeal } = req.session;
+		const { planningApplicationNumber } = appeal;
+		const appealType =
+			typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
 		res.render(views.PLANNING_APPLICATION_NUMBER, {
-			planningApplicationNumber
+			planningApplicationNumber,
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 		});
 	};
 };
@@ -26,12 +36,17 @@ exports.postPlanningApplicationNumber = (
 			appeal,
 			appeal: { planningApplicationNumber }
 		} = req.session;
+		const appealType =
+			typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
 
 		if (Object.keys(errors).length > 0) {
 			return res.render(views.PLANNING_APPLICATION_NUMBER, {
 				planningApplicationNumber,
 				errors,
-				errorSummary
+				errorSummary,
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 			});
 		}
 

@@ -12,6 +12,7 @@ const {
 } = require('../../../lib/views');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { FLAG } = require('@pins/common/src/feature-flags');
+const config = require('../../../config');
 
 const sectionName = 'eligibility';
 
@@ -22,7 +23,10 @@ const getConditionsHouseholderPermission = (req, res) => {
 		}
 	} = req.session;
 	res.render(CONDITIONS_HOUSEHOLDER_PERMISSION, {
-		hasHouseholderPermissionConditions
+		hasHouseholderPermissionConditions,
+		bannerHtmlOverride:
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
 	});
 };
 
@@ -36,7 +40,10 @@ const postConditionsHouseholderPermission = async (req, res) => {
 	if (Object.keys(errors).length > 0) {
 		return res.render(CONDITIONS_HOUSEHOLDER_PERMISSION, {
 			errors,
-			errorSummary
+			errorSummary,
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
 		});
 	}
 
@@ -68,7 +75,10 @@ const postConditionsHouseholderPermission = async (req, res) => {
 		return res.render(CONDITIONS_HOUSEHOLDER_PERMISSION, {
 			hasHouseholderPermissionConditions,
 			errors,
-			errorSummary: [{ text: err.toString(), href: '#' }]
+			errorSummary: [{ text: err.toString(), href: '#' }],
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
 		});
 	}
 

@@ -11,6 +11,10 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
 	validApplicationDecisionOptions
 } = require('../../validators/full-appeal/granted-or-refused');
+const config = require('../../config');
+const {
+	typeOfPlanningApplicationToAppealTypeMapper
+} = require('#lib/full-appeal/map-planning-application');
 
 exports.forwardPage = (status) => {
 	const statuses = {
@@ -25,8 +29,13 @@ exports.forwardPage = (status) => {
 };
 
 exports.getGrantedOrRefused = async (req, res) => {
+	const { appeal } = req.session;
+	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
 	res.render(currentPage, {
-		appeal: req.session.appeal
+		appeal,
+		bannerHtmlOverride:
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 	});
 };
 
@@ -44,12 +53,16 @@ exports.postGrantedOrRefused = async (req, res) => {
 	}
 
 	appeal.eligibility.applicationDecision = selectedApplicationStatus;
+	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
 
 	if (Object.keys(errors).length > 0) {
 		res.render(currentPage, {
 			appeal,
 			errors,
-			errorSummary
+			errorSummary,
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 		});
 		return;
 	}
@@ -62,7 +75,10 @@ exports.postGrantedOrRefused = async (req, res) => {
 		res.render(currentPage, {
 			appeal,
 			errors,
-			errorSummary: [{ text: e.toString(), href: '#' }]
+			errorSummary: [{ text: e.toString(), href: '#' }],
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 		});
 		return;
 	}

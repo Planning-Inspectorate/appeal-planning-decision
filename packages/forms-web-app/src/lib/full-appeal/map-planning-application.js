@@ -45,8 +45,18 @@ const getAppealTypeNameByTypeCode = (typeCode) => {
 	}
 };
 
+/**
+ * @type {Object.<string, string>}
+ */
+const typeOfPlanningApplicationToAppealTypeMapper = {
+	'full-appeal': 'S78',
+	'householder-planning': 'HAS',
+	'listed-building': 'S20'
+};
+
 module.exports = {
 	getAppealTypeName,
 	getAppealTypeNameByTypeCode,
-	mapPlanningApplication
+	mapPlanningApplication,
+	typeOfPlanningApplicationToAppealTypeMapper
 };
