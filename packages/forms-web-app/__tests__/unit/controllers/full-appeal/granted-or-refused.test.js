@@ -12,6 +12,7 @@ const {
 } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../mocks');
+const config = require('../../../../src/config');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -19,6 +20,9 @@ jest.mock('../../../../src/lib/logger');
 describe('controllers/full-appeal/granted-or-refused', () => {
 	let req;
 	let res;
+	const bannerHtmlOverride =
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'));
 
 	beforeEach(() => {
 		req = mockReq(appeal);
@@ -32,7 +36,8 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 			getGrantedOrRefused(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED, {
-				appeal: req.session.appeal
+				appeal: req.session.appeal,
+				bannerHtmlOverride
 			});
 		});
 	});
@@ -93,7 +98,8 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 					}
 				},
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
-				errors: { a: 'b' }
+				errors: { a: 'b' },
+				bannerHtmlOverride
 			});
 		});
 
@@ -115,7 +121,8 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED, {
 				appeal: req.session.appeal,
 				errors: {},
-				errorSummary: [{ text: error.toString(), href: '#' }]
+				errorSummary: [{ text: error.toString(), href: '#' }],
+				bannerHtmlOverride
 			});
 		});
 

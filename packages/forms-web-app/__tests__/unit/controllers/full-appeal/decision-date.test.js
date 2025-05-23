@@ -3,16 +3,6 @@ const { subDays, addDays, startOfDay, getYear, getMonth, getDate } = require('da
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
-jest.mock('../../../../src/config', () => ({
-	logger: {
-		level: 'info'
-	},
-	server: {
-		limitedRouting: {
-			serviceUrl: 'example-url'
-		}
-	}
-}));
 
 const sinon = require('sinon');
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
@@ -24,10 +14,14 @@ const {
 		FULL_APPEAL: { DECISION_DATE }
 	}
 } = require('../../../../src/lib/views');
+const config = require('../../../../src/config');
 
 describe('controllers/full-appeal/decision-date', () => {
 	let req;
 	let res;
+	const bannerHtmlOverride =
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'));
 
 	const appeal = {
 		...fullAppeal,
@@ -47,7 +41,8 @@ describe('controllers/full-appeal/decision-date', () => {
 			decisionDateController.getDecisionDate(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(DECISION_DATE, {
-				decisionDate: null
+				decisionDate: null,
+				bannerHtmlOverride
 			});
 		});
 
@@ -61,7 +56,8 @@ describe('controllers/full-appeal/decision-date', () => {
 					day: '04',
 					month: '03',
 					year: '2022'
-				}
+				},
+				bannerHtmlOverride
 			});
 		});
 	});
@@ -131,7 +127,8 @@ describe('controllers/full-appeal/decision-date', () => {
 					'decision-date-day': {
 						msg: 'You need to provide a date'
 					}
-				}
+				},
+				bannerHtmlOverride
 			});
 		});
 
@@ -155,7 +152,8 @@ describe('controllers/full-appeal/decision-date', () => {
 			expect(res.render).toHaveBeenCalledWith(DECISION_DATE, {
 				appeal: req.session.appeal,
 				errors: {},
-				errorSummary: [{ text: error.toString(), href: 'decision-date' }]
+				errorSummary: [{ text: error.toString(), href: 'decision-date' }],
+				bannerHtmlOverride
 			});
 		});
 	});

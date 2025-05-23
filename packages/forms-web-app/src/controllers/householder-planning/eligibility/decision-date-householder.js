@@ -12,6 +12,7 @@ const {
 } = require('../../../lib/views');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { FLAG } = require('@pins/common/src/feature-flags');
+const config = require('../../../config');
 
 exports.getDecisionDateHouseholder = async (req, res) => {
 	const { appeal } = req.session;
@@ -24,7 +25,10 @@ exports.getDecisionDateHouseholder = async (req, res) => {
 			day: `0${decisionDate?.getDate()}`.slice(-2),
 			month: `0${decisionDate?.getMonth() + 1}`.slice(-2),
 			year: String(decisionDate?.getFullYear())
-		}
+		},
+		bannerHtmlOverride:
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
 	});
 };
 
@@ -41,7 +45,10 @@ exports.postDecisionDateHouseholder = async (req, res) => {
 				year: body['decision-date-householder-year']
 			},
 			errors,
-			errorSummary
+			errorSummary,
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
 		});
 	}
 
@@ -92,7 +99,10 @@ exports.postDecisionDateHouseholder = async (req, res) => {
 		return res.render(currentPage, {
 			appeal,
 			errors,
-			errorSummary: [{ text: e.toString(), href: 'decision-date-householder' }]
+			errorSummary: [{ text: e.toString(), href: 'decision-date-householder' }],
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
 		});
 	}
 };

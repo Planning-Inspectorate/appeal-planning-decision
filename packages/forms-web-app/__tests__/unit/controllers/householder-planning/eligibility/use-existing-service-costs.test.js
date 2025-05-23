@@ -1,4 +1,5 @@
 const useExistingServiceCostsController = require('../../../../../src/controllers/householder-planning/eligibility/use-existing-service-costs');
+const config = require('../../../../../src/config');
 
 const {
 	VIEW: {
@@ -17,8 +18,11 @@ describe('getUseExistingServiceCosts', () => {
 	it('Test the getUseExistingServiceCosts method calls the correct template', async () => {
 		await useExistingServiceCostsController.getUseExistingServiceCosts(req, res);
 
-		expect(res.render).toBeCalledWith(USE_EXISTING_SERVICE_COSTS, {
-			acpLink: 'https://acp.planninginspectorate.gov.uk/'
+		expect(res.render).toHaveBeenCalledWith(USE_EXISTING_SERVICE_COSTS, {
+			acpLink: 'https://acp.planninginspectorate.gov.uk/',
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
 		});
 	});
 });

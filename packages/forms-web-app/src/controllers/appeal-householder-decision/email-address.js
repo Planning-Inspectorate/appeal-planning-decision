@@ -3,11 +3,22 @@ const logger = require('../../lib/logger');
 const { enterCodeConfig } = require('@pins/common');
 const { VIEW } = require('../../lib/views');
 const { logoutUser } = require('../../services/user.service');
+const config = require('../../config');
+const {
+	typeOfPlanningApplicationToAppealTypeMapper
+} = require('#lib/full-appeal/map-planning-application');
 
 const getEmailAddress = (req, res) => {
-	const { email } = req.session.appeal;
+	const {
+		appeal,
+		appeal: { email }
+	} = req.session;
+	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
 	return res.render(VIEW.APPELLANT_SUBMISSION.EMAIL_ADDRESS, {
-		email
+		email,
+		bannerHtmlOverride:
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 	});
 };
 
@@ -19,12 +30,15 @@ const postEmailAddress = async (req, res) => {
 		appeal,
 		appeal: { email }
 	} = req.session;
-
+	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
 	if (Object.keys(errors).length > 0) {
 		return res.render(VIEW.APPELLANT_SUBMISSION.EMAIL_ADDRESS, {
 			email,
 			errors,
-			errorSummary
+			errorSummary,
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 		});
 	}
 
@@ -36,7 +50,10 @@ const postEmailAddress = async (req, res) => {
 		return res.render(VIEW.APPELLANT_SUBMISSION.EMAIL_ADDRESS, {
 			email,
 			errors,
-			errorSummary: [{ text: e.toString(), href: '#' }]
+			errorSummary: [{ text: e.toString(), href: '#' }],
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 		});
 	}
 

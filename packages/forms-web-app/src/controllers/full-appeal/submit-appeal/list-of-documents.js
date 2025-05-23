@@ -11,18 +11,25 @@ const {
 const { postSaveAndReturn } = require('../../save');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
-
 const {
 	baseS78SubmissionUrl,
 	taskListUrl
 } = require('../../../dynamic-forms/s78-appeal-form/journey');
+const config = require('../../../config');
+const {
+	typeOfPlanningApplicationToAppealTypeMapper
+} = require('#lib/full-appeal/map-planning-application');
 
 const getListOfDocuments = async (req, res) => {
 	const appeal = req.session.appeal;
+	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
+	const bannerHtmlOverride =
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
 
 	const usingV2Form = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
-	res.render(currentPage, { usingV2Form });
+	res.render(currentPage, { usingV2Form, bannerHtmlOverride });
 };
 
 const postListOfDocuments = async (req, res) => {

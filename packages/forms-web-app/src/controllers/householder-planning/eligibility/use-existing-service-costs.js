@@ -5,9 +5,13 @@ const {
 		}
 	}
 } = require('../../../lib/views');
+const config = require('../../../config');
 
 exports.getUseExistingServiceCosts = async (_, res) => {
 	res.render(useExistingServiceCosts, {
-		acpLink: 'https://acp.planninginspectorate.gov.uk/'
+		acpLink: 'https://acp.planninginspectorate.gov.uk/',
+		bannerHtmlOverride:
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
 	});
 };

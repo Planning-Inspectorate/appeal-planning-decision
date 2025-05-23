@@ -23,6 +23,7 @@ const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const { isFeatureActive } = require('../../../../src/featureFlag');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error');
 let { getAuthClient, createOTPGrant } = require('@pins/common/src/client/auth-client');
+const config = require('../../../../src/config');
 
 jest.mock('#lib/appeals-api-wrapper');
 jest.mock('#lib/is-token-valid');
@@ -73,6 +74,9 @@ const mockGrant = (succeed = true) => {
 describe('controllers/common/enter-code', () => {
 	let req;
 	let res;
+	const bannerHtmlOverride =
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(''));
 
 	beforeEach(() => {
 		req = mockReq();
@@ -112,7 +116,8 @@ describe('controllers/common/enter-code', () => {
 			expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
 				requestNewCodeLink: `/${householderAppealViews.REQUEST_NEW_CODE}`,
 				confirmEmailLink: `/${householderAppealViews.EMAIL_ADDRESS}`,
-				showNewCode: newCode
+				showNewCode: newCode,
+				bannerHtmlOverride
 			});
 
 			if (newCode) {
@@ -146,7 +151,8 @@ describe('controllers/common/enter-code', () => {
 			expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
 				requestNewCodeLink: `/${householderAppealViews.REQUEST_NEW_CODE}`,
 				confirmEmailLink: undefined,
-				showNewCode: newCode
+				showNewCode: newCode,
+				bannerHtmlOverride
 			});
 
 			if (newCode) {
@@ -174,7 +180,8 @@ describe('controllers/common/enter-code', () => {
 			expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
 				confirmEmailLink: `/${householderAppealViews.EMAIL_ADDRESS}`,
 				requestNewCodeLink: `/${householderAppealViews.REQUEST_NEW_CODE}`,
-				showNewCode: undefined
+				showNewCode: undefined,
+				bannerHtmlOverride
 			});
 		});
 
