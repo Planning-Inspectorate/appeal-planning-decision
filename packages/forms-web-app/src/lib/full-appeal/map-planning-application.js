@@ -1,6 +1,10 @@
 const { APPEAL_ID, TYPE_OF_PLANNING_APPLICATION } = require('@pins/business-rules/src/constants');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
+/** BYS
+ * @param {string} application
+ * @returns {string|undefined}
+ */
 const mapPlanningApplication = (application) => {
 	switch (application) {
 		case TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL:
@@ -21,6 +25,10 @@ const mapPlanningApplication = (application) => {
 	}
 };
 
+/** DASHBOARD (v1)
+ * @param {string} appealId
+ * @returns {string}
+ */
 const getAppealTypeName = (appealId) => {
 	switch (appealId) {
 		case APPEAL_ID.PLANNING_SECTION_78:
@@ -32,17 +40,14 @@ const getAppealTypeName = (appealId) => {
 	}
 };
 
+/** DASHBOARD (v2)
+ * @param {string} typeCode
+ * @returns {string}
+ */
 const getAppealTypeNameByTypeCode = (typeCode) => {
-	switch (typeCode) {
-		case CASE_TYPES.S78.processCode:
-			return 'Planning appeal';
-		case CASE_TYPES.HAS.processCode:
-			return 'Householder appeal';
-		case CASE_TYPES.S20.processCode:
-			return 'Planning Listed Building appeal';
-		default:
-			return '';
-	}
+	const caseType = caseTypeLookup(typeCode, 'processCode');
+	if (!caseType) return '';
+	return `${caseType.caption} appeal`;
 };
 
 module.exports = {

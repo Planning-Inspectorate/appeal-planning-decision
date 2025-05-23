@@ -1,5 +1,5 @@
 const { JourneyResponse } = require('../journey-response');
-const { APPELLANT_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const logger = require('#lib/logger');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const {
@@ -30,7 +30,7 @@ module.exports =
 			return res.redirect(appealOverviewUrl);
 		}
 
-		const journeyType = APPELLANT_JOURNEY_TYPES_FORMATTED.FINAL_COMMENTS;
+		const journeyType = JOURNEY_TYPES.APPELLANT_FINAL_COMMENTS.id;
 
 		try {
 			const dbResponse = await req.appealsApiClient.getAppellantFinalCommentSubmission(referenceId);

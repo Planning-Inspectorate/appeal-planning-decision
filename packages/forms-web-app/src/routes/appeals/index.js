@@ -1,4 +1,5 @@
 const express = require('express');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const router = express.Router();
 
@@ -14,13 +15,19 @@ router.use('/your-appeals', yourAppealsRouter);
 router.get('/no-appeals', noAppealsController.get);
 
 // householder appeals
-router.use('/householder', dynamicSubmission);
+router.use(`/${CASE_TYPES.HAS.friendlyUrl}`, dynamicSubmission);
 
 // s78 appeals
-router.use('/full-planning', dynamicSubmission);
+router.use(`/${CASE_TYPES.S78.friendlyUrl}`, dynamicSubmission);
 
 // s20 appeals
-router.use('/listed-building', dynamicSubmission);
+router.use(`/${CASE_TYPES.S20.friendlyUrl}`, dynamicSubmission);
+
+// adverts
+router.use(`/${CASE_TYPES.ADVERTS.friendlyUrl}`, dynamicSubmission);
+
+// cas planning (minor commercial)
+router.use(`/${CASE_TYPES.CAS_PLANNING.friendlyUrl}`, dynamicSubmission);
 
 // reps
 router.use('/final-comments', finalCommentsRouter);

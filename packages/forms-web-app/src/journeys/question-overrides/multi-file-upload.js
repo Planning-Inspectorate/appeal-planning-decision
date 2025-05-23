@@ -7,7 +7,14 @@ const {
 } = require('#lib/multi-file-upload-helpers');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { mapMultiFileDocumentToSavedDocument } = require('../../mappers/document-mapper');
-const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const {
+	JOURNEY_TYPE,
+	getJourneyTypeById
+} = require('@pins/common/src/dynamic-forms/journey-types');
+const {
+	APPEAL_USER_ROLES: { APPELLANT, RULE_6_PARTY },
+	LPA_USER_ROLE
+} = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('../../dynamic-forms/journey').Journey} Journey
@@ -157,41 +164,31 @@ async function saveFilesToBlobStorage(files, journeyResponse) {
  * @returns {Promise<any> | void}
  */
 function uploadDocuments(apiClient, referenceId, journeyId, data) {
-	switch (journeyId) {
-		case JOURNEY_TYPES.HAS_QUESTIONNAIRE:
-		case JOURNEY_TYPES.S78_QUESTIONNAIRE:
-		case JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE: {
-			return apiClient.postLPASubmissionDocumentUpload(referenceId, data);
-		}
-		case JOURNEY_TYPES.HAS_APPEAL_FORM:
-		case JOURNEY_TYPES.S20_APPEAL_FORM:
-		case JOURNEY_TYPES.S78_APPEAL_FORM: {
-			return apiClient.postAppellantSubmissionDocumentUpload(referenceId, data);
-		}
-		case JOURNEY_TYPES.S78_LPA_STATEMENT: {
-			return apiClient.postLPAStatementDocumentUpload(referenceId, data);
-		}
-		case JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE: {
-			return apiClient.postLpaProofOfEvidenceDocumentUpload(referenceId, data);
-		}
-		case JOURNEY_TYPES.S78_RULE_6_STATEMENT: {
-			return apiClient.postRule6StatementDocumentUpload(referenceId, data);
-		}
-		case JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS: {
-			return apiClient.postAppellantFinalCommentDocumentUpload(referenceId, data);
-		}
-		case JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS: {
-			return apiClient.postLPAFinalCommentDocumentUpload(referenceId, data);
-		}
-		case JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE: {
-			return apiClient.postAppellantProofOfEvidenceDocumentUpload(referenceId, data);
-		}
-		case JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE: {
-			return apiClient.postRule6ProofOfEvidenceDocumentUpload(referenceId, data);
-		}
-		default:
-			throw new Error('Unrecognised journey type');
-	}
+	const journeyType = getJourneyTypeById(journeyId);
+
+	if (!journeyType) throw new Error(`Journey type: ${journeyId} not found`);
+
+	const key = `${journeyType.type}_${journeyType.userType}`;
+
+	const saveMethodMap = {
+		[`${JOURNEY_TYPE.questionnaire}_${LPA_USER_ROLE}`]: apiClient.postLPASubmissionDocumentUpload,
+		[`${JOURNEY_TYPE.appealForm}_${APPELLANT}`]: apiClient.postAppellantSubmissionDocumentUpload,
+		[`${JOURNEY_TYPE.statement}_${LPA_USER_ROLE}`]: apiClient.postLPAStatementDocumentUpload,
+		[`${JOURNEY_TYPE.statement}_${RULE_6_PARTY}`]: apiClient.postRule6StatementDocumentUpload,
+		[`${JOURNEY_TYPE.finalComments}_${APPELLANT}`]:
+			apiClient.postAppellantFinalCommentDocumentUpload,
+		[`${JOURNEY_TYPE.finalComments}_${LPA_USER_ROLE}`]: apiClient.postLPAFinalCommentDocumentUpload,
+		[`${JOURNEY_TYPE.proofEvidence}_${APPELLANT}`]:
+			apiClient.postAppellantProofOfEvidenceDocumentUpload,
+		[`${JOURNEY_TYPE.proofEvidence}_${LPA_USER_ROLE}`]:
+			apiClient.postLpaProofOfEvidenceDocumentUpload,
+		[`${JOURNEY_TYPE.proofEvidence}_${RULE_6_PARTY}`]:
+			apiClient.postRule6ProofOfEvidenceDocumentUpload
+	};
+
+	const save = saveMethodMap[key];
+	if (!save) throw new Error(`No save function found for journey type: ${key}`);
+	return save(referenceId, data);
 }
 
 /**
@@ -201,41 +198,34 @@ function uploadDocuments(apiClient, referenceId, journeyId, data) {
  */
 function removeDocuments(apiClient, journeyId) {
 	return (submissionId, documentId) => {
-		switch (journeyId) {
-			case JOURNEY_TYPES.HAS_QUESTIONNAIRE:
-			case JOURNEY_TYPES.S78_QUESTIONNAIRE:
-			case JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE: {
-				return apiClient.deleteLPASubmissionDocumentUpload(submissionId, documentId);
-			}
-			case JOURNEY_TYPES.HAS_APPEAL_FORM:
-			case JOURNEY_TYPES.S78_APPEAL_FORM:
-			case JOURNEY_TYPES.S20_APPEAL_FORM: {
-				return apiClient.deleteAppellantSubmissionDocumentUpload(submissionId, documentId);
-			}
-			case JOURNEY_TYPES.S78_LPA_STATEMENT: {
-				return apiClient.deleteLPAStatementDocumentUpload(submissionId, documentId);
-			}
-			case JOURNEY_TYPES.S78_RULE_6_STATEMENT: {
-				return apiClient.deleteRule6StatementDocumentUpload(submissionId, documentId);
-			}
-			case JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS: {
-				return apiClient.deleteAppellantFinalCommentDocumentUpload(submissionId, documentId);
-			}
-			case JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS: {
-				return apiClient.deleteLPAFinalCommentDocumentUpload(submissionId, documentId);
-			}
-			case JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE: {
-				return apiClient.deleteAppellantProofOfEvidenceDocumentUpload(submissionId, documentId);
-			}
-			case JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE: {
-				return apiClient.deleteLpaProofOfEvidenceDocumentUpload(submissionId, documentId);
-			}
-			case JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE: {
-				return apiClient.deleteRule6ProofOfEvidenceDocumentUpload(submissionId, documentId);
-			}
-			default:
-				throw new Error('Unrecognised journey type');
-		}
+		const journeyType = getJourneyTypeById(journeyId);
+
+		if (!journeyType) throw new Error(`Journey type: ${journeyId} not found`);
+
+		const key = `${journeyType.type}_${journeyType.userType}`;
+
+		const saveMethodMap = {
+			[`${JOURNEY_TYPE.questionnaire}_${LPA_USER_ROLE}`]:
+				apiClient.deleteLPASubmissionDocumentUpload,
+			[`${JOURNEY_TYPE.appealForm}_${APPELLANT}`]:
+				apiClient.deleteAppellantSubmissionDocumentUpload,
+			[`${JOURNEY_TYPE.statement}_${LPA_USER_ROLE}`]: apiClient.deleteLPAStatementDocumentUpload,
+			[`${JOURNEY_TYPE.statement}_${RULE_6_PARTY}`]: apiClient.deleteRule6StatementDocumentUpload,
+			[`${JOURNEY_TYPE.finalComments}_${APPELLANT}`]:
+				apiClient.deleteAppellantFinalCommentDocumentUpload,
+			[`${JOURNEY_TYPE.finalComments}_${LPA_USER_ROLE}`]:
+				apiClient.deleteLPAFinalCommentDocumentUpload,
+			[`${JOURNEY_TYPE.proofEvidence}_${APPELLANT}`]:
+				apiClient.deleteAppellantProofOfEvidenceDocumentUpload,
+			[`${JOURNEY_TYPE.proofEvidence}_${LPA_USER_ROLE}`]:
+				apiClient.deleteLpaProofOfEvidenceDocumentUpload,
+			[`${JOURNEY_TYPE.proofEvidence}_${RULE_6_PARTY}`]:
+				apiClient.deleteRule6ProofOfEvidenceDocumentUpload
+		};
+
+		const deleteFile = saveMethodMap[key];
+		if (!deleteFile) throw new Error(`No delete function found for journey type: ${key}`);
+		return deleteFile(submissionId, documentId);
 	};
 }
 
