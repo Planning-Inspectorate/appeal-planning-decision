@@ -9,6 +9,11 @@ const {
 	LPA_USER_ROLE
 } = require('@pins/common/src/constants');
 const {
+	REPRESENTATION_TYPES,
+	APPEAL_USER_ROLES,
+	LPA_USER_ROLE
+} = require('@pins/common/src/constants');
+const {
 	formatRepresentationHeading,
 	filterRepresentationsForDisplay,
 	formatRepresentations
@@ -16,6 +21,7 @@ const {
 const { APPEAL_CASE_STAGE } = require('pins-data-model');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
+const { documentTypes } = require('@pins/common');
 const { documentTypes } = require('@pins/common');
 
 /**
@@ -69,7 +75,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 		let pdfDownloadUrl;
 		let zipDownloadUrl;
 		const ipDocuments = caseData?.Documents?.filter(
-			(doc) => doc.documentType === documentTypes.interestedPartyComment.name && doc.redacted
+			(doc) => doc.documentType === documentTypes.interestedPartyComment.name && !doc.redacted
 		);
 		if (
 			(userType === APPEAL_USER_ROLES.APPELLANT || userType === LPA_USER_ROLE) &&
