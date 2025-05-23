@@ -507,7 +507,8 @@ exports.submitAppellantSubmission = async (req, res) => {
 	const { journey, journeyResponse } = res.locals;
 	const id = res.locals.journeyResponse.referenceId;
 
-	// todo: duplication
+	// todo: duplication - need a lookup that goes from journey -> baseurl
+	// should also error for non appeal form journeys
 	const journeyUrl = (journeyId) => {
 		if (journeyId === 'has-appeal-form') {
 			return 'householder';
@@ -515,10 +516,10 @@ exports.submitAppellantSubmission = async (req, res) => {
 			return 'full-planning';
 		} else if (journeyId === 's20-appeal-form') {
 			return 'listed-building';
-		} else if (journeyId === 'cas-appeal-form') {
-			return 'commercial';
-		} else if (journeyId === 'minor-cas-appeal-form') {
-			return 'minor-commercial';
+		} else if (journeyId === 'adverts-appeal-form') {
+			return 'adverts';
+		} else if (journeyId === 'cas-planning-appeal-form') {
+			return 'cas-planning';
 		} else return '';
 	};
 
