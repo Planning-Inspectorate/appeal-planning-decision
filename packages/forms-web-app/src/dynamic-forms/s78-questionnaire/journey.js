@@ -8,6 +8,9 @@ const {
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
+const {
+	CASE_TYPES: { S78 }
+} = require('@pins/common/src/database/data-static');
 const config = require('../../config');
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -21,7 +24,7 @@ const config = require('../../config');
 const sections = [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
-		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: 'planning' })
+		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: S78.caption.toLowerCase() })
 		.addQuestion(questions.changesListedBuilding)
 		.addQuestion(questions.changedListedBuildings)
 		.withCondition((response) =>
