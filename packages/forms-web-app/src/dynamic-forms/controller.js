@@ -11,7 +11,7 @@ const {
 } = require('./dynamic-components/utils/submission-information-utils');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 const { getDepartmentFromId } = require('../services/department.service');
 const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
@@ -22,34 +22,6 @@ const buildZipFilename = require('#lib/build-zip-filename');
 const { getUserFromSession } = require('../services/user.service');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 const config = require('../config');
-
-// todo: duplication
-const appealTypeToDetails = {
-	[CASE_TYPES.HAS.id.toString()]: {
-		appealTypeCode: CASE_TYPES.HAS.processCode,
-		taskListUrlStub: 'householder'
-	},
-	[CASE_TYPES.S78.id.toString()]: {
-		appealTypeCode: CASE_TYPES.S78.processCode,
-		taskListUrlStub: 'full-planning'
-	},
-	[CASE_TYPES.S20.id.toString()]: {
-		appealTypeCode: CASE_TYPES.S20.processCode,
-		taskListUrlStub: 'listed-building'
-	},
-	[CASE_TYPES.ADVERTS.id.toString()]: {
-		appealTypeCode: CASE_TYPES.ADVERTS.processCode,
-		taskListUrlStub: 'adverts'
-	},
-	[CASE_TYPES.CAS_ADVERTS.id.toString()]: {
-		appealTypeCode: CASE_TYPES.CAS_ADVERTS.processCode,
-		taskListUrlStub: 'adverts'
-	},
-	[CASE_TYPES.CAS_PLANNING.id.toString()]: {
-		appealTypeCode: CASE_TYPES.CAS_PLANNING.processCode,
-		taskListUrlStub: 'cas-planning'
-	}
-};
 
 /**
  * @typedef {import('@pins/common/src/dynamic-forms/journey-types').JourneyType} JourneyType
@@ -485,13 +457,14 @@ exports.appellantStartAppeal = async (req, res) => {
 	const lpa = await getDepartmentFromId(appeal.lpaCode);
 	const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
 
-	const appealTypeDetails = appealTypeToDetails[appealType];
+	const caseType = caseTypeLookup(appealType, 'processCode');
+	if (!caseType) throw new Error(`No case type found for appeal type ${appealType}`);
 
 	// todo: convert before sending
 	const appealSubmission = await req.appealsApiClient.createAppellantSubmission({
 		appealId: appeal.appealSqlId,
 		LPACode: lpaCode,
-		appealTypeCode: appealTypeDetails.appealTypeCode,
+		appealTypeCode: caseType.processCode,
 		applicationDecisionDate: appeal.decisionDate,
 		applicationReference: appeal.planningApplicationNumber,
 		applicationDecision: appeal.eligibility.applicationDecision,
@@ -508,7 +481,7 @@ exports.appellantStartAppeal = async (req, res) => {
 	});
 
 	return res.redirect(
-		`/appeals/${appealTypeDetails.taskListUrlStub}/appeal-form/your-appeal?id=${appealSubmission.id}`
+		`/appeals/${caseType.friendlyUrl}/appeal-form/your-appeal?id=${appealSubmission.id}`
 	);
 };
 
