@@ -131,32 +131,29 @@ condition: (response) =>
 
 ```js
 condition: (response) =>
-	questionHasAnswer(response, questions.screeningOpinionEnvironmentalStatement, 'yes') &&
 	questionsHaveAnswers(
 		response,
 		[
-			[questions.environmentalImpactSchedule, 'schedule-2'],
-			[questions.environmentalImpactSchedule, 'no']
+			[questions.screeningOpinion, 'yes'],
+			[questions.screeningOpinionEnvironmentalStatement, 'yes']
 		],
-		{ logicalCombinator: 'or' }
-	) &&
-	config.featureFlag.scopingOpinionEnabled;
+		{ logicalCombinator: 'and' }
+	) && config.featureFlag.scopingOpinionEnabled;
 ```
 
 - multi-file-upload `/upload-scoping-opinion/` Upload your scoping opinion
 
 ```js
 condition: (response) =>
-	questionHasAnswer(response, questions.scopingOpinion, 'yes') &&
 	questionsHaveAnswers(
 		response,
 		[
-			[questions.environmentalImpactSchedule, 'schedule-2'],
-			[questions.environmentalImpactSchedule, 'no']
+			[questions.scopingOpinion, 'yes'],
+			[questions.screeningOpinion, 'yes'],
+			[questions.screeningOpinionEnvironmentalStatement, 'yes']
 		],
-		{ logicalCombinator: 'or' }
-	) &&
-	config.featureFlag.scopingOpinionEnabled;
+		{ logicalCombinator: 'and' }
+	) && config.featureFlag.scopingOpinionEnabled;
 ```
 
 - radio `/environmental-statement/` Did the applicant submit an environmental statement?

@@ -100,30 +100,27 @@ const sections = [
 		.addQuestion(questions.scopingOpinion)
 		.withCondition(
 			(response) =>
-				questionHasAnswer(response, questions.screeningOpinionEnvironmentalStatement, 'yes') &&
 				questionsHaveAnswers(
 					response,
 					[
-						[questions.environmentalImpactSchedule, 'schedule-2'],
-						[questions.environmentalImpactSchedule, 'no']
+						[questions.screeningOpinion, 'yes'],
+						[questions.screeningOpinionEnvironmentalStatement, 'yes']
 					],
-					{ logicalCombinator: 'or' }
-				) &&
-				config.featureFlag.scopingOpinionEnabled
+					{ logicalCombinator: 'and' }
+				) && config.featureFlag.scopingOpinionEnabled
 		)
 		.addQuestion(questions.scopingOpinionUpload)
 		.withCondition(
 			(response) =>
-				questionHasAnswer(response, questions.scopingOpinion, 'yes') &&
 				questionsHaveAnswers(
 					response,
 					[
-						[questions.environmentalImpactSchedule, 'schedule-2'],
-						[questions.environmentalImpactSchedule, 'no']
+						[questions.scopingOpinion, 'yes'],
+						[questions.screeningOpinion, 'yes'],
+						[questions.screeningOpinionEnvironmentalStatement, 'yes']
 					],
-					{ logicalCombinator: 'or' }
-				) &&
-				config.featureFlag.scopingOpinionEnabled
+					{ logicalCombinator: 'and' }
+				) && config.featureFlag.scopingOpinionEnabled
 		)
 		.addQuestion(questions.submitEnvironmentalStatement)
 		.addQuestion(questions.uploadEnvironmentalStatement)
