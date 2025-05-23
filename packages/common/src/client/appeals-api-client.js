@@ -2,7 +2,7 @@ const { default: fetch } = require('node-fetch');
 const crypto = require('crypto');
 const { handleApiErrors, ApiClientError } = require('./api-client-error');
 const { buildQueryString } = require('./utils');
-const { JOURNEY_TYPES } = require('../dynamic-forms/journey-types');
+const { JOURNEY_TYPE, getJourneyTypeById } = require('../dynamic-forms/journey-types');
 
 const parentLogger = require('../lib/logger');
 
@@ -942,26 +942,11 @@ class AppealsApiClient {
 	 */
 	async postSubmissionAddress(journeyId, referenceId, data) {
 		let endpoint;
+		const journeyType = getJourneyTypeById(journeyId);
 
-		if (
-			[
-				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
-				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
-				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
-			].includes(journeyId)
-		) {
+		if (journeyType?.type === JOURNEY_TYPE.questionnaire) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/address`;
-		} else if (
-			[
-				JOURNEY_TYPES.HAS_APPEAL_FORM,
-				JOURNEY_TYPES.S78_APPEAL_FORM,
-				JOURNEY_TYPES.S20_APPEAL_FORM,
-				JOURNEY_TYPES.ADVERTS_APPEAL_FORM,
-				JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM
-			].includes(journeyId)
-		) {
+		} else if (journeyType?.type === JOURNEY_TYPE.appealForm) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/address`;
 		}
 
@@ -981,26 +966,11 @@ class AppealsApiClient {
 	 */
 	async deleteSubmissionAddress(journeyId, referenceId, addressId) {
 		let endpoint;
+		const journeyType = getJourneyTypeById(journeyId);
 
-		if (
-			[
-				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
-				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
-				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
-			].includes(journeyId)
-		) {
+		if (journeyType?.type === JOURNEY_TYPE.questionnaire) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/address/${addressId}`;
-		} else if (
-			[
-				JOURNEY_TYPES.HAS_APPEAL_FORM,
-				JOURNEY_TYPES.S78_APPEAL_FORM,
-				JOURNEY_TYPES.S20_APPEAL_FORM,
-				JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM,
-				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
-			].includes(journeyId)
-		) {
+		} else if (journeyType?.type === JOURNEY_TYPE.appealForm) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/address/${addressId}`;
 		}
 
@@ -1020,25 +990,11 @@ class AppealsApiClient {
 	 */
 	async postSubmissionLinkedCase(journeyId, referenceId, data) {
 		let endpoint;
-		if (
-			[
-				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
-				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
-				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
-			].includes(journeyId)
-		) {
+		const journeyType = getJourneyTypeById(journeyId);
+
+		if (journeyType?.type === JOURNEY_TYPE.questionnaire) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/linked-case`;
-		} else if (
-			[
-				JOURNEY_TYPES.HAS_APPEAL_FORM,
-				JOURNEY_TYPES.S78_APPEAL_FORM,
-				JOURNEY_TYPES.S20_APPEAL_FORM,
-				JOURNEY_TYPES.ADVERTS_APPEAL_FORM,
-				JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM
-			].includes(journeyId)
-		) {
+		} else if (journeyType?.type === JOURNEY_TYPE.appealForm) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/linked-case`;
 		}
 
@@ -1059,25 +1015,11 @@ class AppealsApiClient {
 	 */
 	async deleteSubmissionLinkedCase(journeyId, referenceId, linkedCaseId) {
 		let endpoint;
-		if (
-			[
-				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
-				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
-				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
-			].includes(journeyId)
-		) {
+		const journeyType = getJourneyTypeById(journeyId);
+
+		if (journeyType?.type === JOURNEY_TYPE.questionnaire) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/linked-case/${linkedCaseId}`;
-		} else if (
-			[
-				JOURNEY_TYPES.HAS_APPEAL_FORM,
-				JOURNEY_TYPES.S78_APPEAL_FORM,
-				JOURNEY_TYPES.S20_APPEAL_FORM,
-				JOURNEY_TYPES.ADVERTS_APPEAL_FORM,
-				JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM
-			].includes(journeyId)
-		) {
+		} else if (journeyType?.type === JOURNEY_TYPE.appealForm) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/linked-case/${linkedCaseId}`;
 		}
 
@@ -1097,15 +1039,9 @@ class AppealsApiClient {
 	 */
 	async postSubmissionListedBuilding(journeyId, referenceId, data) {
 		let endpoint;
-		if (
-			[
-				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
-				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
-				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
-			].includes(journeyId)
-		) {
+		const journeyType = getJourneyTypeById(journeyId);
+
+		if (journeyType?.type === JOURNEY_TYPE.questionnaire) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/listed-building`;
 		}
 
@@ -1125,15 +1061,9 @@ class AppealsApiClient {
 	 */
 	async deleteSubmissionListedBuilding(journeyId, referenceId, listedBuildingId) {
 		let endpoint;
-		if (
-			[
-				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
-				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
-				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
-			].includes(journeyId)
-		) {
+		const journeyType = getJourneyTypeById(journeyId);
+
+		if (journeyType?.type === JOURNEY_TYPE.questionnaire) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/listed-building/${listedBuildingId}`;
 		}
 
