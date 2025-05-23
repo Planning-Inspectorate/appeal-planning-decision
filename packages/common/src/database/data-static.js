@@ -17,6 +17,12 @@ const {
  * @typedef {import('@prisma/client').Prisma.CaseDecisionOutcomeCreateInput} CaseDecisionOutcomeCreateInput
  * @typedef {import('@prisma/client').Prisma.CaseValidationOutcomeCreateInput} CaseValidationOutcomeCreateInput
  * @typedef {import('@prisma/client').Prisma.LPAQuestionnaireValidationOutcomeCreateInput} LPAQuestionnaireValidationOutcomeCreateInput
+ * @typedef {CaseTypeCreateInput & {
+ * 	processCode: "HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING",
+ *  friendlyUrl: string,
+ *  caption: string,
+ *  expedited: boolean
+ * }} CASE_TYPE
  */
 
 /**
@@ -41,58 +47,70 @@ const APPEAL_TO_USER_ROLES = {
 	}
 };
 
-// mappings:
-// processCode -> formatter
-// processCode exists map
-// processCode -> friendly name
-// feature flag names
-// feedback urls - could vary by journey
-// url stubs for journeys
-// id to processCode and url
-//
 // journey names - multiple per appeal type
 // journey name -> journey url
 // journeys grouped by user type
 // journey type -> api endpoints (use groups?)
 // journey type -> form name
+// feedback urls
 
 /**
- * @type {Object<string, CaseTypeCreateInput>}
+ * @type {Object<string, CASE_TYPE>}
  */
 const CASE_TYPES = {
-	HAS: { id: 1001, key: APPEAL_CASE_TYPE.D, type: 'Householder', processCode: 'HAS' },
-	S78: { id: 1005, key: APPEAL_CASE_TYPE.W, type: 'Full Planning', processCode: 'S78' },
+	HAS: {
+		id: 1001,
+		key: APPEAL_CASE_TYPE.D,
+		type: 'Householder',
+		caption: 'Householder',
+		processCode: 'HAS',
+		friendlyUrl: 'householder',
+		expedited: true
+	},
+	S78: {
+		id: 1005,
+		key: APPEAL_CASE_TYPE.W,
+		type: 'Full planning',
+		caption: 'Planning',
+		processCode: 'S78',
+		friendlyUrl: 'full-planning',
+		expedited: false
+	},
 	S20: {
 		id: 1006,
 		key: APPEAL_CASE_TYPE.Y,
-		type: 'Planned listed building and conservation area appeal',
-		processCode: 'S20'
+		type: 'Listed building',
+		caption: 'Planning Listed Building',
+		processCode: 'S20',
+		friendlyUrl: 'listed-building',
+		expedited: false
 	},
-	// only one with statements etc
 	ADVERTS: {
 		id: 1003,
 		key: APPEAL_CASE_TYPE.H,
 		type: 'Advertisement',
-		processCode: 'ADVERTS'
-		// /adverts
-		// application name: advertisement
+		caption: 'Advertisement',
+		processCode: 'ADVERTS',
+		friendlyUrl: 'adverts', // shares appeal form with CAS_ADVERTS
+		expedited: false
 	},
 	CAS_ADVERTS: {
 		id: 1007,
-		key: APPEAL_CASE_TYPE.Z,
+		key: APPEAL_CASE_TYPE.Z, // shares same key as CAS_PLANNING
 		type: 'Minor commercial advertisement',
-		processCode: 'CAS_ADVERTS'
-		// /adverts (is same url ok?)
-		// application name: minor commercial advertisement
+		caption: 'Minor Commercial Advertisement',
+		processCode: 'CAS_ADVERTS',
+		friendlyUrl: 'adverts', // shares appeal form with ADVERTS
+		expedited: true
 	},
 	CAS_PLANNING: {
 		id: 1008,
-		key: APPEAL_CASE_TYPE.Z,
+		key: APPEAL_CASE_TYPE.Z, // shares same key as CAS_ADVERTS
 		type: 'Minor commercial',
-		processCode: 'CAS_PLANNING'
-		// url: cas-planning
-		// application name: minor commercial development
-		// appeal name: minor commercial appeal
+		caption: 'Minor Commercial',
+		processCode: 'CAS_PLANNING',
+		friendlyUrl: 'cas-planning',
+		expedited: true
 	}
 	// { id: 1000, key: 'C', type: 'Enforcement notice appeal' },
 	// { id: 1002, key: 'F', type: 'Enforcement listed building and conservation area appeal' },
@@ -102,6 +120,25 @@ const CASE_TYPES = {
 	// { key: 'S', type: 'Affordable housing obligation appeal' },
 	// { key: 'V', type: 'Call-in application' },
 	// { key: 'X', type: 'Lawful development certificate appeal' },
+};
+
+/**
+ * @param {any} value value to lookup
+ * @param {'processCode'|'id'|'type'} lookupProp property to check
+ * @returns {CASE_TYPE|undefined} result based on the returnProp
+ */
+const caseTypeLookup = (value, lookupProp) => {
+	// ensure lookup is on a unique value
+	if (!['processCode', 'id', 'type'].includes(lookupProp)) {
+		throw new Error(`Invalid lookup property: ${lookupProp}`);
+	}
+
+	// handle id as string
+	if (lookupProp === 'id' && typeof value === 'string') {
+		value = parseInt(value, 10);
+	}
+
+	return Object.values(CASE_TYPES).find((caseType) => caseType[lookupProp] === value);
 };
 
 /**
@@ -198,5 +235,6 @@ module.exports = {
 	CASE_VALIDATION_OUTCOMES,
 	LPAQ_VALIDATION_OUTCOMES,
 	CASE_RELATION_TYPES,
-	LISTED_RELATION_TYPES
+	LISTED_RELATION_TYPES,
+	caseTypeLookup
 };

@@ -6,6 +6,9 @@ const {
 	questionsHaveAnswers
 } = require('../dynamic-components/utils/question-has-answer');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const {
+	CASE_TYPES: { HAS }
+} = require('@pins/common/src/database/data-static');
 const config = require('../../config');
 
 /**
@@ -134,7 +137,7 @@ const sections = [
 		.withCondition((response) => questionHasAnswer(response, questions.costApplication, 'yes'))
 ];
 
-const baseHASSubmissionUrl = '/appeals/householder'; // this is a non standard naming and I'd like to remove it
+const baseHASSubmissionUrl = `/appeals/${HAS.friendlyUrl}`;
 
 /**
  * @param {JourneyResponse} response
@@ -154,7 +157,7 @@ const params = {
 	makeBaseUrl,
 	bannerHtmlOverride:
 		config.betaBannerText +
-		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(HAS.processCode))
 };
 
 module.exports = {

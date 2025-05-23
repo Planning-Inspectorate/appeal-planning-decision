@@ -3,6 +3,9 @@ const questions = getQuestions();
 const { Section } = require('../section');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
+const {
+	CASE_TYPES: { ADVERTS }
+} = require('@pins/common/src/database/data-static');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -16,7 +19,7 @@ const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-
 const sections = [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
-		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: 'adverts' })
+		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: ADVERTS.type.toLowerCase() })
 ];
 
 const baseAdvertsMinorUrl = '/manage-appeals/questionnaire';

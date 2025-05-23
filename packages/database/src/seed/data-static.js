@@ -10,7 +10,12 @@ const {
 } = require('@pins/common/src/database/data-static');
 
 const APPEAL_USER_ROLES_ARRAY = Object.values(APPEAL_TO_USER_ROLES);
-const CASE_TYPES_ARRAY = Object.values(CASE_TYPES);
+const CASE_TYPES_ARRAY = Object.values(CASE_TYPES).map((caseType) => ({
+	id: caseType.id,
+	key: caseType.key,
+	type: caseType.type,
+	processCode: caseType.processCode
+}));
 const PROCEDURE_TYPES_ARRAY = Object.values(PROCEDURE_TYPES);
 const LPA_NOTIFICATION_METHODS_ARRAY = Object.values(LPA_NOTIFICATION_METHODS);
 const CASE_STATUSES_ARRAY = Object.values(CASE_STATUSES);
