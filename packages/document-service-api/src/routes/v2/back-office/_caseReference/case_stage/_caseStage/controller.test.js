@@ -10,8 +10,12 @@ jest.mock('../../../../../../configuration/featureFlag', () => ({
 }));
 
 jest.mock('@pins/common/src/constants', () => ({
+	...jest.requireActual('@pins/common/src/constants'),
 	FOLDERS: testDocumentTypes.map((documentType) => `${testCaseStage}/${documentType}`)
 }));
+
+const { checkDocAccess } = require('#lib/access-rules');
+jest.mock('#lib/access-rules');
 
 const mockAppend = jest.fn();
 
@@ -31,7 +35,14 @@ jest.mock('../../../../../../db/repos/repository', () => ({
 			{
 				documentURI,
 				documentType,
-				filename: 'document.pdf'
+				filename: 'document.pdf',
+				redacted: true
+			},
+			{
+				documentURI,
+				documentType,
+				filename: 'document2.pdf',
+				redacted: false
 			}
 		])
 	}))
@@ -58,12 +69,35 @@ describe('/v2/back-office/{caseReference}/case_stage/{caseStage}', () => {
 			params: {
 				caseReference: testCaseReference,
 				caseStage: testCaseStage
+			},
+			auth: {
+				payload: {
+					sub: '456'
+				}
+			},
+			id_token: {
+				b: 2
 			}
 		};
 		res = {
 			...mockRes,
 			sendStatus: jest.fn(),
-			status: jest.fn()
+			status: jest.fn(),
+			locals: {
+				appealCase: {
+					appealId: '123',
+					caseReference: 'ABC',
+					LPACode: 'Q1111',
+					appealTypeCode: 'HAS'
+				},
+				appealUserRoles: [
+					{
+						appealId: '123',
+						userId: '456',
+						role: 'Appellant'
+					}
+				]
+			}
 		};
 	});
 
@@ -76,18 +110,24 @@ describe('/v2/back-office/{caseReference}/case_stage/{caseStage}', () => {
 		expect(res.status).toHaveBeenCalledWith(200);
 	});
 
-	it('should expect 3 blob streams to be appended', async () => {
+	it('should expect 2 blob streams to be appended, 4 not included due to access rules', async () => {
+		checkDocAccess.mockImplementation(
+			(appealWithDoc) => appealWithDoc.documentType === testDocumentTypes[0]
+		);
+
 		await getDocumentsByCaseReferenceAndCaseStage(req, res);
 
-		// Testing archive append was called correctly 3 times
-		expect(mockAppend).toBeCalledTimes(3);
+		// only adds
+		expect(mockAppend).toBeCalledTimes(2);
 
-		testDocumentTypes.map((documentType, index) => {
-			expect(mockAppend).toHaveBeenNthCalledWith(
-				index + 1,
-				{ stream: documentURI },
-				{ name: `${documentType}/document.pdf` }
-			);
-		});
+		testDocumentTypes
+			.filter((x) => x === testDocumentTypes[0])
+			.map((documentType, index) => {
+				expect(mockAppend).toHaveBeenNthCalledWith(
+					index + 1,
+					{ stream: documentURI },
+					{ name: `${documentType}/document.pdf` }
+				);
+			});
 	});
 });

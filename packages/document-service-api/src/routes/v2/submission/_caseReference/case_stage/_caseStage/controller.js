@@ -10,7 +10,7 @@ const getAzureBlobPathFromUri = require('@pins/common/src/lib/getAzureBlobPathFr
 /**
  * @param {string} caseStage
  * @param {string} caseReference *
- * @returns {Promise[]}
+ * @returns {Promise<Array<{fullName: string, blobStorageContainer: string | undefined, blobStoragePath: string, documentURI: string}>>}
  */
 async function getBlobCollection(caseStage, caseReference) {
 	let documents;
