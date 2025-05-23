@@ -1,5 +1,12 @@
 const { capitalize } = require('../lib/string-functions');
-const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const {
+	JOURNEY_TYPE,
+	getJourneyTypeById
+} = require('@pins/common/src/dynamic-forms/journey-types');
+const {
+	APPEAL_USER_ROLES: { APPELLANT, RULE_6_PARTY },
+	LPA_USER_ROLE
+} = require('@pins/common/src/constants');
 const { numericFields } = require('./dynamic-components/utils/numeric-fields');
 const escape = require('escape-html');
 const { nl2br } = require('@pins/common/src/utils');
@@ -341,65 +348,35 @@ class Question {
 	 * @param {{ answers: Record<string, unknown> }} responseToSave
 	 */
 	async saveResponseToDB(apiClient, journeyResponse, responseToSave) {
-		const journeyType = journeyResponse.journeyId;
+		const journeyType = getJourneyTypeById(journeyResponse.journeyId);
 
-		// todo: duplication
-		if (
-			[
-				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
-				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
-				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
-			].includes(journeyType)
-		) {
-			await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave.answers);
-		} else if (
-			[
-				JOURNEY_TYPES.HAS_APPEAL_FORM,
-				JOURNEY_TYPES.S78_APPEAL_FORM,
-				JOURNEY_TYPES.S20_APPEAL_FORM,
-				JOURNEY_TYPES.ADVERTS_APPEAL_FORM,
-				JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM
-			].includes(journeyType)
-		) {
-			await apiClient.updateAppellantSubmission(
-				journeyResponse.referenceId,
-				responseToSave.answers
-			);
-		} else if ([JOURNEY_TYPES.S78_LPA_STATEMENT].includes(journeyType)) {
-			await apiClient.patchLPAStatement(journeyResponse.referenceId, responseToSave.answers);
-		} else if ([JOURNEY_TYPES.S78_RULE_6_STATEMENT].includes(journeyType)) {
-			await apiClient.patchRule6StatementSubmission(
-				journeyResponse.referenceId,
-				responseToSave.answers
-			);
-		} else if ([JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS].includes(journeyType)) {
-			await apiClient.patchAppellantFinalCommentSubmission(
-				journeyResponse.referenceId,
-				responseToSave.answers
-			);
-		} else if ([JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS].includes(journeyType)) {
-			await apiClient.patchLPAFinalCommentSubmission(
-				journeyResponse.referenceId,
-				responseToSave.answers
-			);
-		} else if ([JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE].includes(journeyType)) {
-			await apiClient.patchAppellantProofOfEvidenceSubmission(
-				journeyResponse.referenceId,
-				responseToSave.answers
-			);
-		} else if ([JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE].includes(journeyType)) {
-			await apiClient.patchLpaProofOfEvidenceSubmission(
-				journeyResponse.referenceId,
-				responseToSave.answers
-			);
-		} else if ([JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE].includes(journeyType)) {
-			await apiClient.patchRule6ProofOfEvidenceSubmission(
-				journeyResponse.referenceId,
-				responseToSave.answers
-			);
-		}
+		if (!journeyType) throw new Error(`Journey type: ${journeyResponse.journeyId} not found`);
+
+		const key = `${journeyType.type}_${journeyType.userType}`;
+
+		const saveMethodMap = {
+			[`${JOURNEY_TYPE.questionnaire}_${LPA_USER_ROLE}`]:
+				apiClient.patchLPAQuestionnaire?.bind(apiClient),
+			[`${JOURNEY_TYPE.appealForm}_${APPELLANT}`]:
+				apiClient.updateAppellantSubmission?.bind(apiClient),
+			[`${JOURNEY_TYPE.statement}_${LPA_USER_ROLE}`]: apiClient.patchLPAStatement?.bind(apiClient),
+			[`${JOURNEY_TYPE.statement}_${RULE_6_PARTY}`]:
+				apiClient.patchRule6StatementSubmission?.bind(apiClient),
+			[`${JOURNEY_TYPE.finalComments}_${APPELLANT}`]:
+				apiClient.patchAppellantFinalCommentSubmission?.bind(apiClient),
+			[`${JOURNEY_TYPE.finalComments}_${LPA_USER_ROLE}`]:
+				apiClient.patchLPAFinalCommentSubmission?.bind(apiClient),
+			[`${JOURNEY_TYPE.proofEvidence}_${APPELLANT}`]:
+				apiClient.patchAppellantProofOfEvidenceSubmission?.bind(apiClient),
+			[`${JOURNEY_TYPE.proofEvidence}_${LPA_USER_ROLE}`]:
+				apiClient.patchLpaProofOfEvidenceSubmission?.bind(apiClient),
+			[`${JOURNEY_TYPE.proofEvidence}_${RULE_6_PARTY}`]:
+				apiClient.patchRule6ProofOfEvidenceSubmission?.bind(apiClient)
+		};
+
+		const save = saveMethodMap[key];
+		if (!save) throw new Error(`No save function found for journey type: ${key}`);
+		return save(journeyResponse.referenceId, responseToSave.answers);
 	}
 
 	/**
@@ -523,20 +500,15 @@ class Question {
 	 * @returns {boolean}
 	 */
 	isShortJourney(journey) {
-		const longForms = [
-			JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-			JOURNEY_TYPES.S78_QUESTIONNAIRE,
-			JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
-			JOURNEY_TYPES.HAS_APPEAL_FORM,
-			JOURNEY_TYPES.S78_APPEAL_FORM,
-			JOURNEY_TYPES.S20_APPEAL_FORM,
-			JOURNEY_TYPES.ADVERTS_APPEAL_FORM,
-			JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
-			JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM,
-			JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
-		];
+		const journeyType = getJourneyTypeById(journey.journeyId);
 
-		return !longForms.includes(journey.journeyId);
+		if (!journeyType) return false;
+
+		return (
+			journeyType.type === JOURNEY_TYPE.finalComments ||
+			journeyType.type === JOURNEY_TYPE.proofEvidence ||
+			journeyType.type === JOURNEY_TYPE.statement
+		);
 	}
 
 	/**
@@ -545,13 +517,21 @@ class Question {
 	 * @returns {string}
 	 */
 	getDashboardUrl(journeyId) {
-		if (journeyId.includes('appellant')) {
+		// lookup type by submission type code
+		const appealType = getJourneyTypeById(journeyId);
+
+		if (!appealType) {
+			return '/';
+		}
+
+		if (appealType.userType === APPELLANT) {
 			return '/appeals/your-appeals';
-		} else if (journeyId.includes('lpa')) {
+		} else if (appealType.userType === LPA_USER_ROLE) {
 			return '/manage-appeals/your-appeals';
-		} else if (journeyId.includes('rule-6')) {
+		} else if (appealType.userType === RULE_6_PARTY) {
 			return '/rule-6/your-appeals';
 		}
+
 		return '/';
 	}
 

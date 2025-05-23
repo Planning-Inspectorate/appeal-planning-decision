@@ -39,7 +39,7 @@ const makeBaseUrl = (response) =>
 /** @type {JourneyParameters} */
 const params = {
 	initialBackLink: `/${DASHBOARD}`,
-	journeyId: JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE,
+	journeyId: JOURNEY_TYPES.LPA_PROOF_EVIDENCE.id,
 	journeyTemplate: 'lpa-proof-evidence-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/proof-evidence',
 	journeyTitle: 'Manage your appeals',

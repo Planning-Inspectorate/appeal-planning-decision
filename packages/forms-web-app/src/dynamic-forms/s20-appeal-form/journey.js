@@ -250,7 +250,7 @@ const makeBaseUrl = (response) => `${baseS20SubmissionUrl}?id=${response.referen
 
 /** @type {JourneyParameters} */
 const params = {
-	journeyId: JOURNEY_TYPES.S20_APPEAL_FORM,
+	journeyId: JOURNEY_TYPES.S20_APPEAL_FORM.id,
 	sections,
 	taskListUrl: 'appeal-form/your-appeal',
 	journeyTemplate: 'submission-form-template.njk',

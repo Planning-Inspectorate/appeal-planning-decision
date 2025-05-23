@@ -288,7 +288,7 @@ const makeBaseUrl = (response) => `${baseS78SubmissionUrl}?id=${response.referen
 
 /** @type {JourneyParameters} */
 const params = {
-	journeyId: JOURNEY_TYPES.S78_APPEAL_FORM,
+	journeyId: JOURNEY_TYPES.S78_APPEAL_FORM.id,
 	sections,
 	taskListUrl: 'appeal-form/your-appeal',
 	journeyTemplate: 'submission-form-template.njk',

@@ -95,7 +95,7 @@ describe('./src/dynamic-forms/question.js', () => {
 				taskListUrl: 'task',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 				section,
 				variables: [[QUESTION_VARIABLES.APPEAL_TYPE]],
 				response: {
@@ -155,7 +155,7 @@ describe('./src/dynamic-forms/question.js', () => {
 				taskListUrl: 'task',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 				response: {
 					answers: {
 						[question.fieldName]: { a: 1 }
@@ -204,7 +204,7 @@ describe('./src/dynamic-forms/question.js', () => {
 				taskListUrl: 'task',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
-				journeyId: JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE,
+				journeyId: JOURNEY_TYPES.LPA_PROOF_EVIDENCE.id,
 				sections: [section],
 				response: {
 					answers: {
@@ -531,12 +531,13 @@ describe('./src/dynamic-forms/question.js', () => {
 		it('should return true for a short journey', () => {
 			const question = getTestQuestion();
 
-			const journey = { journeyId: JOURNEY_TYPES.S78_LPA_STATEMENT };
-			const journey2 = { journeyId: JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS };
-			const journey3 = { journeyId: JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS };
-			const journey4 = { journeyId: JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE };
-			const journey5 = { journeyId: JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE };
-			const journey6 = { journeyId: JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE };
+			const journey = { journeyId: JOURNEY_TYPES.LPA_STATEMENT.id };
+			const journey2 = { journeyId: JOURNEY_TYPES.APPELLANT_FINAL_COMMENTS.id };
+			const journey3 = { journeyId: JOURNEY_TYPES.LPA_FINAL_COMMENTS.id };
+			const journey4 = { journeyId: JOURNEY_TYPES.APPELLANT_PROOF_EVIDENCE.id };
+			const journey5 = { journeyId: JOURNEY_TYPES.LPA_PROOF_EVIDENCE.id };
+			const journey6 = { journeyId: JOURNEY_TYPES.RULE_6_PROOF_EVIDENCE.id };
+			const journey7 = { journeyId: JOURNEY_TYPES.RULE_6_STATEMENT.id };
 
 			expect(question.isShortJourney(journey)).toBe(true);
 			expect(question.isShortJourney(journey2)).toBe(true);
@@ -544,19 +545,20 @@ describe('./src/dynamic-forms/question.js', () => {
 			expect(question.isShortJourney(journey4)).toBe(true);
 			expect(question.isShortJourney(journey5)).toBe(true);
 			expect(question.isShortJourney(journey6)).toBe(true);
+			expect(question.isShortJourney(journey7)).toBe(true);
 		});
 		it('should return false for a long journey', () => {
 			const question = getTestQuestion();
 
-			const journey = { journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE };
-			const journey2 = { journeyId: JOURNEY_TYPES.S78_QUESTIONNAIRE };
-			const journey3 = { journeyId: JOURNEY_TYPES.HAS_APPEAL_FORM };
-			const journey4 = { journeyId: JOURNEY_TYPES.S78_APPEAL_FORM };
-			const journey5 = { journeyId: JOURNEY_TYPES.S20_APPEAL_FORM };
-			const journey6 = { journeyId: JOURNEY_TYPES.ADVERTS_APPEAL_FORM };
-			const journey7 = { journeyId: JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE };
-			const journey8 = { journeyId: JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM };
-			const journey9 = { journeyId: JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE };
+			const journey = { journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id };
+			const journey2 = { journeyId: JOURNEY_TYPES.S78_QUESTIONNAIRE.id };
+			const journey3 = { journeyId: JOURNEY_TYPES.HAS_APPEAL_FORM.id };
+			const journey4 = { journeyId: JOURNEY_TYPES.S78_APPEAL_FORM.id };
+			const journey5 = { journeyId: JOURNEY_TYPES.S20_APPEAL_FORM.id };
+			const journey6 = { journeyId: JOURNEY_TYPES.ADVERTS_APPEAL_FORM.id };
+			const journey7 = { journeyId: JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE.id };
+			const journey8 = { journeyId: JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM.id };
+			const journey9 = { journeyId: JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE.id };
 
 			expect(question.isShortJourney(journey)).toBe(false);
 			expect(question.isShortJourney(journey2)).toBe(false);
@@ -574,21 +576,21 @@ describe('./src/dynamic-forms/question.js', () => {
 		it('should return the correct URL for an appellant journey', () => {
 			const question = getTestQuestion();
 
-			expect(question.getDashboardUrl(JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS)).toBe(
+			expect(question.getDashboardUrl(JOURNEY_TYPES.APPELLANT_FINAL_COMMENTS.id)).toBe(
 				'/appeals/your-appeals'
 			);
 		});
 		it('should return the correct URL for an LPA journey', () => {
 			const question = getTestQuestion();
 
-			expect(question.getDashboardUrl(JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS)).toBe(
+			expect(question.getDashboardUrl(JOURNEY_TYPES.LPA_FINAL_COMMENTS.id)).toBe(
 				'/manage-appeals/your-appeals'
 			);
 		});
 		it('should return the correct URL for a Rule 6 journey', () => {
 			const question = getTestQuestion();
 
-			expect(question.getDashboardUrl(JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE)).toBe(
+			expect(question.getDashboardUrl(JOURNEY_TYPES.RULE_6_PROOF_EVIDENCE.id)).toBe(
 				'/rule-6/your-appeals'
 			);
 		});

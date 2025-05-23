@@ -102,7 +102,7 @@ const makeBaseUrl = (response) => `${baseHASUrl}/${encodeURIComponent(response.r
 
 /** @type {JourneyParameters} */
 const params = {
-	journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+	journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 	sections,
 	journeyTemplate: 'questionnaire-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/questionnaire',

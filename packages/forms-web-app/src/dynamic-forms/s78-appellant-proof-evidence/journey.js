@@ -41,7 +41,7 @@ const makeBaseUrl = (response) =>
 /** @type {JourneyParameters} */
 const params = {
 	initialBackLink: `/${YOUR_APPEALS}`,
-	journeyId: JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE,
+	journeyId: JOURNEY_TYPES.APPELLANT_PROOF_EVIDENCE.id,
 	journeyTemplate: 'proof-evidence-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/proof-evidence',
 	journeyTitle: 'Appeal a planning decision',

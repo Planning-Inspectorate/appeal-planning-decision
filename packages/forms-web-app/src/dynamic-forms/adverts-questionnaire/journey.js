@@ -33,7 +33,7 @@ const makeBaseUrl = (response) =>
 
 /** @type {JourneyParameters} */
 const params = {
-	journeyId: JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
+	journeyId: JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE.id,
 	sections,
 	journeyTemplate: 'questionnaire-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/questionnaire',

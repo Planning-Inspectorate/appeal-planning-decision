@@ -11,7 +11,7 @@ describe('./src/dynamic-forms/question.js', () => {
 	const FIELDNAME = 'favouriteColour';
 
 	const journey = {
-		journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+		journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 		response: {
 			answers: {}
 		},
