@@ -471,7 +471,7 @@ exports.appellantStartAppeal = async (req, res) => {
 	const lpa = await getDepartmentFromId(appeal.lpaCode);
 	const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
 
-	const caseType = caseTypeLookup(appealType, 'processCode');
+	const caseType = caseTypeLookup(appealType, 'id');
 	if (!caseType) throw new Error(`No case type found for appeal type ${appealType}`);
 
 	// todo: convert before sending
