@@ -1,5 +1,5 @@
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { isAppealSubmission, isV2Submission } = require('@pins/common/src/lib/format-address');
@@ -7,16 +7,6 @@ const { isAppealSubmission, isV2Submission } = require('@pins/common/src/lib/for
 const appealSubmissionContinueUrls = {
 	[APPEAL_ID.HOUSEHOLDER]: '/appeal-householder-decision/task-list',
 	[APPEAL_ID.PLANNING_SECTION_78]: '/full-appeal/submit-appeal/task-list'
-};
-
-// todo: duplication
-const typeCodeToAppealUrlStub = {
-	[CASE_TYPES.HAS.processCode]: 'householder',
-	[CASE_TYPES.S78.processCode]: 'full-planning',
-	[CASE_TYPES.S20.processCode]: 'listed-building',
-	[CASE_TYPES.ADVERTS.processCode]: 'adverts',
-	[CASE_TYPES.CAS_ADVERTS.processCode]: 'adverts',
-	[CASE_TYPES.CAS_PLANNING.processCode]: 'cas-planning'
 };
 
 /**
@@ -59,10 +49,11 @@ exports.get = async (req, res) => {
 
 		const appealTypeCode = appealSubmission?.AppellantSubmission?.appealTypeCode;
 
-		if (!appealTypeCode) throw new Error(`Appeal ${appealId} does not have an appeal type code`);
+		const friendlyUrl = caseTypeLookup(appealTypeCode, 'processCode')?.friendlyUrl;
+		if (!friendlyUrl) throw new Error(`Appeal ${appealId} does not have a valid appeal type code`);
 
 		const redirectUrl = v2SubmissionDynamicContinueUrls(
-			typeCodeToAppealUrlStub[appealTypeCode],
+			friendlyUrl,
 			appealSubmission?.AppellantSubmission?.id
 		);
 

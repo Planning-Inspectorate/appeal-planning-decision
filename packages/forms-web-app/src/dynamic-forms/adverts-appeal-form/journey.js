@@ -1,6 +1,9 @@
 const { questions } = require('../questions');
 const { Section } = require('../section');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const {
+	CASE_TYPES: { ADVERTS }
+} = require('@pins/common/src/database/data-static');
 const config = require('../../config');
 
 /**
@@ -16,7 +19,7 @@ const sections = [
 	new Section('Prepare appeal', 'prepare-appeal').addQuestion(questions.applicationName)
 ];
 
-const baseAdvertsSubmissionUrl = '/appeals/adverts';
+const baseAdvertsSubmissionUrl = `/appeals/${ADVERTS.friendlyUrl}`;
 
 /**
  * @param {JourneyResponse} response
@@ -37,7 +40,7 @@ const params = {
 	makeBaseUrl,
 	bannerHtmlOverride:
 		config.betaBannerText +
-		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ADVERTS'))
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(ADVERTS.processCode))
 };
 
 module.exports = {
