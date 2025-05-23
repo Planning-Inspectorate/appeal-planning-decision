@@ -37,6 +37,7 @@ const config = require('../../config');
 
 const dashboardUrl = `/${YOUR_APPEALS}`;
 
+// todo: more duplication
 const typeCodeToTaskListDetails = {
 	[CASE_TYPES.HAS.processCode]: {
 		stub: 'householder',
@@ -49,6 +50,18 @@ const typeCodeToTaskListDetails = {
 	[CASE_TYPES.S20.processCode]: {
 		stub: 'listed-building',
 		pageCaption: 'Planning Listed Building Appeal'
+	},
+	[CASE_TYPES.ADVERTS.processCode]: {
+		stub: 'adverts',
+		pageCaption: 'Advertisement Appeal'
+	},
+	[CASE_TYPES.CAS_ADVERTS.processCode]: {
+		stub: 'adverts',
+		pageCaption: 'Minor Commercial Advertisement Appeal'
+	},
+	[CASE_TYPES.CAS_PLANNING.processCode]: {
+		stub: 'cas-planning',
+		pageCaption: 'Minor Commercial Appeal'
 	}
 };
 

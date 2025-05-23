@@ -34,6 +34,7 @@ const getAppealTypeFeedbackUrl = (appealTypeCode) => {
 			return feedbackUrlS20;
 		case 'HAS':
 			return feedbackUrlHAS;
+		// todo - add feedback url for CAS and ADVERTS, use consts for codes
 		default:
 			return feedbackUrl;
 	}

@@ -9,10 +9,14 @@ const appealSubmissionContinueUrls = {
 	[APPEAL_ID.PLANNING_SECTION_78]: '/full-appeal/submit-appeal/task-list'
 };
 
+// todo: duplication
 const typeCodeToAppealUrlStub = {
 	[CASE_TYPES.HAS.processCode]: 'householder',
 	[CASE_TYPES.S78.processCode]: 'full-planning',
-	[CASE_TYPES.S20.processCode]: 'listed-building'
+	[CASE_TYPES.S20.processCode]: 'listed-building',
+	[CASE_TYPES.ADVERTS.processCode]: 'adverts',
+	[CASE_TYPES.CAS_ADVERTS.processCode]: 'adverts',
+	[CASE_TYPES.CAS_PLANNING.processCode]: 'cas-planning'
 };
 
 /**
