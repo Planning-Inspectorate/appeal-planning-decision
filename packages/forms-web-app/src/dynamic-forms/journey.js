@@ -54,8 +54,8 @@ class Journey {
 	 * @param {string} options.journeyTitle - part of the title in the njk view
 	 * @param {boolean} [options.returnToListing] - defines how the next/previous question handles end of sections
 	 * @param {Section[]} options.sections
-	 * @param {string} options.initialBackLink - back link when on the first question
-	 * @param {string} options.bannerHtmlOverride - html to override the beta banner
+	 * @param {string} [options.initialBackLink] - back link when on the first question
+	 * @param {string} [options.bannerHtmlOverride] - html to override the beta banner
 	 */
 	constructor({
 		journeyId,
