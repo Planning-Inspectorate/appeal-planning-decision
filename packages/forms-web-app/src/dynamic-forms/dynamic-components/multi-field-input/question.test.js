@@ -67,7 +67,7 @@ describe('./src/dynamic-forms/dynamic-components/single-line-input/question.js',
 			const question = createMultiFieldInputQuestion();
 
 			const journey = {
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 				response: {
 					answers: {}
 				},

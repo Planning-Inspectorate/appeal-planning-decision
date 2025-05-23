@@ -100,7 +100,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 		it('should add addMoreAnswers data to model', () => {
 			const question = getTestQuestion();
 			const journey = {
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 				response: {
 					answers: {
 						[question.fieldName]: [
@@ -203,7 +203,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const expectedBackLink = 'back';
 			const req = { body: { 'add-more-question': 1, [question.fieldName]: 'yes' } };
 			const journey = {
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 				response: { answers: {} },
 				getBackLink: jest.fn(() => expectedBackLink),
 				getCurrentQuestionUrl: jest.fn(() => expectedBackLink)
