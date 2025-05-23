@@ -1,8 +1,8 @@
 We’ve received your statement.
 
-#Appeal details
+# Appeal details
 
-^Appeal reference number: {{appealReferenceNumber}}
+^ Appeal reference number: {{appealReferenceNumber}}
 Address: {{appealSiteAddress}}
 
 ## What happens next

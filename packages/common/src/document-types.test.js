@@ -3,12 +3,12 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 describe('document-types.js', () => {
 	describe('getDocType', () => {
-		it('errors for unknown lookups', () => {
-			expect(() => getDocType('unknown', 'name')).toThrow();
-			expect(() => getDocType(null, 'name')).toThrow();
-			expect(() => getDocType(undefined, 'name')).toThrow();
-			expect(() => getDocType('', 'name')).toThrow();
-			expect(() => getDocType(true, 'unknown')).toThrow();
+		it('returns null for unknown lookups', () => {
+			expect(getDocType('unknown', 'name')).toEqual(null);
+			expect(getDocType(null, 'name')).toEqual(null);
+			expect(getDocType(undefined, 'name')).toEqual(null);
+			expect(getDocType('', 'name')).toEqual(null);
+			expect(getDocType(true, 'unknown')).toEqual(null);
 		});
 
 		it('returns doc type for name', () => {

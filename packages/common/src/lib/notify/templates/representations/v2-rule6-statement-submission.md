@@ -4,7 +4,7 @@ We have received your statement.
 
 # Appeal details
 
-^Appeal reference number: {{appealReferenceNumber}}
+^ Appeal reference number: {{appealReferenceNumber}}
 Address: {{siteAddress}}
 Planning application reference: {{lpaReference}}
 
@@ -12,7 +12,7 @@ Planning application reference: {{lpaReference}}
 
 We will contact you when:
 
-- local planning authority and any other parties have submitted their statements
+- the local planning authority and any other parties have submitted their statements
 - we have received comments from interested parties
 
 The Planning Inspectorate

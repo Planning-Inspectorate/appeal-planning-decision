@@ -27,21 +27,27 @@ const formatSiteVisits = (events, role) => {
 					return 'Our inspector will visit the site. You do not need to attend.';
 				}
 
-				const { formattedTime: formattedStartTime, formattedDate: formattedStartDate } =
-					getFormattedTimeAndDate(siteVisit.startDate);
-				const { formattedTime: formattedEndTime, formattedDate: formattedEndDate } =
-					getFormattedTimeAndDate(siteVisit.endDate);
+				const formattedStart = getFormattedTimeAndDate(siteVisit.startDate);
+				const formattedEnd = getFormattedTimeAndDate(siteVisit.endDate);
+
+				if (!formattedStart) return null; // shouldn't happen, can't show an accompanied site visit without a date to be present for
+
+				const startOnlyWhen = `at ${formattedStart.formattedTime} on ${formattedStart.formattedDate}`;
 
 				switch (siteVisit.subtype) {
 					case EVENT_SUB_TYPES.ACCESS: {
-						const when =
-							formattedStartDate === formattedEndDate
-								? `between ${formattedStartTime} and ${formattedEndTime} on ${formattedStartDate}`
-								: `between ${formattedStartTime} on ${formattedStartDate} and ${formattedEndTime} on ${formattedEndDate}`;
+						let when = startOnlyWhen;
+						if (formattedEnd) {
+							when =
+								formattedStart.formattedDate === formattedEnd.formattedDate
+									? `between ${formattedStart.formattedTime} and ${formattedEnd.formattedTime} on ${formattedStart.formattedDate}`
+									: `between ${formattedStart.formattedTime} on ${formattedStart.formattedDate} and ${formattedEnd.formattedTime} on ${formattedEnd.formattedDate}`;
+						}
+
 						return `Our inspector will visit the site ${when}. Someone must be at the site to give our inspector access.`;
 					}
 					case EVENT_SUB_TYPES.ACCOMPANIED: {
-						return `Our inspector will visit the site at ${formattedStartTime} on ${formattedStartDate}. You and the other main party must attend the site visit.`;
+						return `Our inspector will visit the site ${startOnlyWhen}. You and the other main party must attend the site visit.`;
 					}
 					default: {
 						return null;
@@ -89,9 +95,11 @@ const formatInquiries = (events, role) => {
 
 /**
  * @param {string} date
- * @returns {formattedTimeAndDate}
+ * @returns {formattedTimeAndDate|null}
  */
 function getFormattedTimeAndDate(date) {
+	if (!date) return null;
+
 	const ukDate = utcToZonedTime(date, targetTimezone);
 	return {
 		formattedTime: formatDate(ukDate, 'h:mmaaa')?.replace(':00', ''),

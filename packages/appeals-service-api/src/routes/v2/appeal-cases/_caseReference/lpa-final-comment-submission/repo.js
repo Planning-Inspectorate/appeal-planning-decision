@@ -41,7 +41,8 @@ class LPAFinalCommentSubmissionRepository {
 							siteAddressLine2: true,
 							siteAddressTown: true,
 							siteAddressCounty: true,
-							siteAddressPostcode: true
+							siteAddressPostcode: true,
+							applicationReference: true
 						}
 					},
 					SubmissionDocumentUpload: true

@@ -35,7 +35,7 @@ class DocumentsRepository {
 
 	/**
 	 * @param {string} caseRef
-	 * @returns {Promise<import("@prisma/client").SubmissionDocumentUpload>[]} documents
+	 * @returns {Promise<Array<{location: string, type: string, originalFileName: string }>>} documents
 	 */
 	async getSubmissionDocumentsByCaseRef(caseRef) {
 		return this.dbClient.submissionDocumentUpload.findMany({
@@ -85,12 +85,19 @@ class DocumentsRepository {
 
 	/**
 	 *
-	 * @param params
+	 * @param {object} params
+	 * @param {string} params.documentType
+	 * @param {string} params.caseReference
 	 * @returns {Promise<import("@prisma/client").Document[]>}
 	 */
-	async getDocuments(params) {
+	async getDocuments({ documentType, caseReference }) {
+		if (!caseReference) throw new Error('caseReference required');
+
 		return await this.dbClient.document.findMany({
-			where: params
+			where: {
+				documentType: documentType,
+				caseReference: caseReference
+			}
 		});
 	}
 
@@ -106,7 +113,8 @@ class DocumentsRepository {
 			},
 			select: {
 				appealId: true,
-				LPACode: true
+				LPACode: true,
+				appealTypeCode: true
 			}
 		});
 	}

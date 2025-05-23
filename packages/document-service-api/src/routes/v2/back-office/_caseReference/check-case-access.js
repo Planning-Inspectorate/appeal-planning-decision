@@ -22,7 +22,10 @@ const checkCaseAccess = async (req, res, next) => {
 	}
 
 	// if token has lpa code then an lpa user
-	if (id_token.lpaCode === appealCase.LPACode) return next();
+	if (id_token.lpaCode === appealCase.LPACode) {
+		res.locals.appealCase = appealCase;
+		return next();
+	}
 
 	// if we have an lpa then it's the wrong one
 	if (id_token.lpaCode) {
@@ -42,7 +45,10 @@ const checkCaseAccess = async (req, res, next) => {
 		return;
 	}
 
-	// otherwise has a role on appeal
+	// store appeal case and roles for any further checks
+	res.locals.appealCase = appealCase;
+	res.locals.appealUserRoles = appealUserRoles;
+
 	return next();
 };
 
