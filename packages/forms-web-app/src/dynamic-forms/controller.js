@@ -26,6 +26,7 @@ const {
 	typeOfPlanningApplicationToAppealTypeMapper
 } = require('#lib/full-appeal/map-planning-application');
 
+// todo: duplication
 const appealTypeToDetails = {
 	[CASE_TYPES.HAS.id.toString()]: {
 		appealTypeCode: CASE_TYPES.HAS.processCode,
@@ -38,6 +39,18 @@ const appealTypeToDetails = {
 	[CASE_TYPES.S20.id.toString()]: {
 		appealTypeCode: CASE_TYPES.S20.processCode,
 		taskListUrlStub: 'listed-building'
+	},
+	[CASE_TYPES.ADVERTS.id.toString()]: {
+		appealTypeCode: CASE_TYPES.ADVERTS.processCode,
+		taskListUrlStub: 'adverts'
+	},
+	[CASE_TYPES.CAS_ADVERTS.id.toString()]: {
+		appealTypeCode: CASE_TYPES.CAS_ADVERTS.processCode,
+		taskListUrlStub: 'adverts'
+	},
+	[CASE_TYPES.CAS_PLANNING.id.toString()]: {
+		appealTypeCode: CASE_TYPES.CAS_PLANNING.processCode,
+		taskListUrlStub: 'cas-planning'
 	}
 };
 
@@ -521,6 +534,7 @@ exports.submitAppellantSubmission = async (req, res) => {
 	const { journey, journeyResponse } = res.locals;
 	const id = res.locals.journeyResponse.referenceId;
 
+	// todo: duplication
 	const journeyUrl = (journeyId) => {
 		if (journeyId === 'has-appeal-form') {
 			return 'householder';
@@ -528,6 +542,10 @@ exports.submitAppellantSubmission = async (req, res) => {
 			return 'full-planning';
 		} else if (journeyId === 's20-appeal-form') {
 			return 'listed-building';
+		} else if (journeyId === 'cas-appeal-form') {
+			return 'commercial';
+		} else if (journeyId === 'minor-cas-appeal-form') {
+			return 'minor-commercial';
 		} else return '';
 	};
 
