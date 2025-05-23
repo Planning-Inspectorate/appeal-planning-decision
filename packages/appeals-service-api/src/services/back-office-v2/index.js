@@ -81,11 +81,17 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
 
 const { getValidator } = new SchemaValidator();
 
+// todo: duplication
 /** @type {(maybeTypeCode: string) => maybeTypeCode is AppealTypeCode} */
 const isValidAppealTypeCode = (maybeTypeCode) =>
-	[CASE_TYPES.HAS.processCode, CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode].includes(
-		maybeTypeCode
-	);
+	[
+		CASE_TYPES.HAS.processCode,
+		CASE_TYPES.S78.processCode,
+		CASE_TYPES.S20.processCode,
+		CASE_TYPES.ADVERTS.processCode,
+		CASE_TYPES.CAS_ADVERTS.processCode,
+		CASE_TYPES.CAS_PLANNING.processCode
+	].includes(maybeTypeCode);
 
 class BackOfficeV2Service {
 	constructor() {}

@@ -10,24 +10,33 @@ Section.prototype.withCondition = function (condition) {
 	return this;
 };
 
+// todo: duplication
 const appealJourneys = async () => {
 	const { sections: hasSections } = require('../has-appeal-form/journey');
 	const { sections: s78Sections } = require('../s78-appeal-form/journey');
 	const { sections: s20Sections } = require('../s20-appeal-form/journey');
+	const { sections: advertsSections } = require('../adverts-appeal-form/journey');
+	const { sections: casPlanningSections } = require('../cas-planning-appeal-form/journey');
 
 	await getJourneyDetails('has-appeal-form', hasSections);
 	await getJourneyDetails('s78-appeal-form', s78Sections);
 	await getJourneyDetails('s20-appeal-form', s20Sections);
+	await getJourneyDetails('adverts-appeal-form', advertsSections);
+	await getJourneyDetails('cas-planning-appeal-form', casPlanningSections);
 };
 
 const lpaqJourneys = async () => {
 	const { sections: hasSections } = require('../has-questionnaire/journey');
 	const { sections: s78Sections } = require('../s78-questionnaire/journey');
 	const { sections: s20Sections } = require('../s20-lpa-questionnaire/journey');
+	const { sections: advertsSections } = require('../adverts-questionnaire/journey');
+	const { sections: casPlanningSections } = require('../cas-planning-questionnaire/journey');
 
 	await getJourneyDetails('has-lpaq', hasSections);
 	await getJourneyDetails('s78-lpaq', s78Sections);
 	await getJourneyDetails('s20-lpaq', s20Sections);
+	await getJourneyDetails('adverts-lpaq', advertsSections);
+	await getJourneyDetails('cas-planning-lpaq', casPlanningSections);
 };
 
 /**

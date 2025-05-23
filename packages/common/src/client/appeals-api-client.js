@@ -947,7 +947,9 @@ class AppealsApiClient {
 			[
 				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
+				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
+				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
 			].includes(journeyId)
 		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/address`;
@@ -955,7 +957,9 @@ class AppealsApiClient {
 			[
 				JOURNEY_TYPES.HAS_APPEAL_FORM,
 				JOURNEY_TYPES.S78_APPEAL_FORM,
-				JOURNEY_TYPES.S20_APPEAL_FORM
+				JOURNEY_TYPES.S20_APPEAL_FORM,
+				JOURNEY_TYPES.ADVERTS_APPEAL_FORM,
+				JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM
 			].includes(journeyId)
 		) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/address`;
@@ -982,7 +986,9 @@ class AppealsApiClient {
 			[
 				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
+				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
+				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
 			].includes(journeyId)
 		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/address/${addressId}`;
@@ -990,7 +996,9 @@ class AppealsApiClient {
 			[
 				JOURNEY_TYPES.HAS_APPEAL_FORM,
 				JOURNEY_TYPES.S78_APPEAL_FORM,
-				JOURNEY_TYPES.S20_APPEAL_FORM
+				JOURNEY_TYPES.S20_APPEAL_FORM,
+				JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM,
+				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
 			].includes(journeyId)
 		) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/address/${addressId}`;
@@ -1016,7 +1024,9 @@ class AppealsApiClient {
 			[
 				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
+				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
+				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
 			].includes(journeyId)
 		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/linked-case`;
@@ -1024,7 +1034,9 @@ class AppealsApiClient {
 			[
 				JOURNEY_TYPES.HAS_APPEAL_FORM,
 				JOURNEY_TYPES.S78_APPEAL_FORM,
-				JOURNEY_TYPES.S20_APPEAL_FORM
+				JOURNEY_TYPES.S20_APPEAL_FORM,
+				JOURNEY_TYPES.ADVERTS_APPEAL_FORM,
+				JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM
 			].includes(journeyId)
 		) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/linked-case`;
@@ -1038,6 +1050,7 @@ class AppealsApiClient {
 		return response.json();
 	}
 
+	// todo: duplication
 	/**
 	 * @param {string} journeyId
 	 * @param {string} referenceId
@@ -1050,7 +1063,9 @@ class AppealsApiClient {
 			[
 				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
+				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
+				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
 			].includes(journeyId)
 		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/linked-case/${linkedCaseId}`;
@@ -1058,7 +1073,9 @@ class AppealsApiClient {
 			[
 				JOURNEY_TYPES.HAS_APPEAL_FORM,
 				JOURNEY_TYPES.S78_APPEAL_FORM,
-				JOURNEY_TYPES.S20_APPEAL_FORM
+				JOURNEY_TYPES.S20_APPEAL_FORM,
+				JOURNEY_TYPES.ADVERTS_APPEAL_FORM,
+				JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM
 			].includes(journeyId)
 		) {
 			endpoint = `${v2}/appellant-submissions/${referenceId}/linked-case/${linkedCaseId}`;
@@ -1084,7 +1101,9 @@ class AppealsApiClient {
 			[
 				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
+				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
+				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
 			].includes(journeyId)
 		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/listed-building`;
@@ -1110,7 +1129,9 @@ class AppealsApiClient {
 			[
 				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
+				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
+				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
 			].includes(journeyId)
 		) {
 			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/listed-building/${listedBuildingId}`;

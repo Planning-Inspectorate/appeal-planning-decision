@@ -22,6 +22,12 @@ router.use('/full-planning', dynamicSubmission);
 // s20 appeals
 router.use('/listed-building', dynamicSubmission);
 
+// adverts
+router.use('/adverts', dynamicSubmission);
+
+// cas planning (minor commercial)
+router.use('/cas-planning', dynamicSubmission);
+
 // reps
 router.use('/final-comments', finalCommentsRouter);
 router.use('/proof-evidence', proofEvidenceRouter);
