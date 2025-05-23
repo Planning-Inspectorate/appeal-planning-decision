@@ -5,8 +5,6 @@ const ValidOptionValidator = require('./valid-option-validator');
 const ListAddMoreQuestion = require('../dynamic-components/list-add-more/question');
 const AddressValidator = require('./address-validator');
 
-jest.mock('../journey-factory');
-
 describe('./src/dynamic-forms/validator/validator.js', () => {
 	let mockRes;
 	beforeEach(() => {

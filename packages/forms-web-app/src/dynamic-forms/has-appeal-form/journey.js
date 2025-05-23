@@ -146,7 +146,7 @@ const baseHASSubmissionUrl = `/appeals/${HAS.friendlyUrl}`;
 const makeBaseUrl = (response) => `${baseHASSubmissionUrl}?id=${response.referenceId}`;
 
 const params = {
-	journeyId: JOURNEY_TYPES.HAS_APPEAL_FORM,
+	journeyId: JOURNEY_TYPES.HAS_APPEAL_FORM.id,
 	sections,
 	taskListUrl: 'appeal-form/your-appeal',
 	journeyTemplate: 'submission-form-template.njk',

@@ -30,7 +30,7 @@ const makeBaseUrl = (response) => `${baseAdvertsSubmissionUrl}?id=${response.ref
 
 /** @type {JourneyParameters} */
 const params = {
-	journeyId: JOURNEY_TYPES.ADVERTS_APPEAL_FORM,
+	journeyId: JOURNEY_TYPES.ADVERTS_APPEAL_FORM.id,
 	sections,
 	taskListUrl: 'appeal-form/your-appeal',
 	journeyTemplate: 'submission-form-template.njk',

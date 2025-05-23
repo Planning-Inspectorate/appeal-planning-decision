@@ -1,3 +1,6 @@
+// todo: combine with packages/common/src/dynamic-forms/journey-types.js
+// todo: move journeys/questions out of dynamic forms directory as dynamic forms should move to be a stand-alone package
+// todo: this should be held in common so that it can be used in both the web app and the API
 const hasAppealParams = require('../dynamic-forms/has-appeal-form/journey');
 const hasQuestionnaireParams = require('../dynamic-forms/has-questionnaire/journey');
 const s78AppealParams = require('../dynamic-forms/s78-appeal-form/journey');

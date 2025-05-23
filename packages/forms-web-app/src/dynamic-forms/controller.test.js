@@ -205,7 +205,6 @@ jest.mock('../services/pdf.service');
 jest.mock('../services/department.service');
 jest.mock('#lib/appeals-api-wrapper');
 jest.mock('../services/user.service');
-jest.mock('./journey-factory');
 
 describe('dynamic-form/controller', () => {
 	let req;

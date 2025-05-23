@@ -246,7 +246,7 @@ const makeBaseUrl = (response) => `${baseS78Url}/${encodeURIComponent(response.r
 
 /** @type {JourneyParameters} */
 const params = {
-	journeyId: JOURNEY_TYPES.S78_QUESTIONNAIRE,
+	journeyId: JOURNEY_TYPES.S78_QUESTIONNAIRE.id,
 	sections,
 	journeyTemplate: 'questionnaire-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/questionnaire',

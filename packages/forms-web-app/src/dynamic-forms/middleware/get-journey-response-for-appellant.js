@@ -1,6 +1,6 @@
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { JourneyResponse } = require('../journey-response');
-const { APPELLANT_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
+const { JOURNEY_TYPES, JOURNEY_TYPE } = require('@pins/common/src/dynamic-forms/journey-types');
 const logger = require('#lib/logger');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
@@ -39,7 +39,10 @@ module.exports = async (request, response, next) => {
 		return response.status(404).render('error/not-found');
 	}
 
-	const appealType = APPELLANT_JOURNEY_TYPES_FORMATTED[submission.appealTypeCode];
+	// lookup type by submission type code
+	const appealType = Object.values(JOURNEY_TYPES).find(
+		(x) => x.type === JOURNEY_TYPE.appealForm && x.caseType === submission.appealTypeCode
+	)?.id;
 
 	if (typeof appealType === 'undefined') {
 		throw new Error('appealType is undefined');

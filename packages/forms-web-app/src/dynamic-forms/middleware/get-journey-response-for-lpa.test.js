@@ -1,7 +1,7 @@
 const getJourneyResponse = require('./get-journey-response-for-lpa');
 const { JourneyResponse } = require('../journey-response');
 const { getUserFromSession } = require('../../services/user.service');
-const { LPA_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
@@ -69,12 +69,7 @@ describe('getJourneyResponse', () => {
 		});
 		expect(req.appealsApiClient.getLPAQuestionnaire).toHaveBeenCalledWith(refId);
 		expect(res.locals.journeyResponse).toEqual(
-			new JourneyResponse(
-				LPA_JOURNEY_TYPES_FORMATTED[mockAppeal.appealTypeCode],
-				refId,
-				testDBResponse,
-				testLPACode
-			)
+			new JourneyResponse(JOURNEY_TYPES.HAS_QUESTIONNAIRE.id, refId, testDBResponse, testLPACode)
 		);
 		expect(next).toHaveBeenCalled();
 	});

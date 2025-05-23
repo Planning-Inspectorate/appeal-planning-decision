@@ -31,7 +31,7 @@ const makeBaseUrl = (response) => `${baseCASPlanningSubmissionUrl}?id=${response
 
 /** @type {JourneyParameters} */
 const params = {
-	journeyId: JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM,
+	journeyId: JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM.id,
 	sections,
 	taskListUrl: 'appeal-form/your-appeal',
 	journeyTemplate: 'submission-form-template.njk',

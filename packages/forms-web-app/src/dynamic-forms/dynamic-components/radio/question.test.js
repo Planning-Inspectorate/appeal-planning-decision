@@ -36,7 +36,7 @@ const JOURNEY = {
 	taskListUrl: 'list',
 	journeyTemplate: 'template',
 	journeyTitle: 'title',
-	journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+	journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 	response: {
 		answers: {
 			[FIELDNAME]: { a: 1 }

@@ -253,7 +253,7 @@ const makeBaseUrl = (response) => `${baseS20LpaqUrl}/${encodeURIComponent(respon
 
 /** @type {JourneyParameters} */
 const params = {
-	journeyId: JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
+	journeyId: JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE.id,
 	sections,
 	journeyTemplate: 'questionnaire-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
