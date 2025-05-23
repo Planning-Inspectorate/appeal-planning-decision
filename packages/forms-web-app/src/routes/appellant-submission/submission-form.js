@@ -21,7 +21,7 @@ const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-subm
 const { businessRulesDeadline } = require('../../lib/calculate-deadline');
 const { mapTypeCodeToAppealId } = require('@pins/common');
 const { format } = require('date-fns');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 const { getJourney } = require('../../dynamic-forms/middleware/get-journey');
 const { journeys } = require('../../journeys');
@@ -36,34 +36,6 @@ const {
 const config = require('../../config');
 
 const dashboardUrl = `/${YOUR_APPEALS}`;
-
-// todo: more duplication
-const typeCodeToTaskListDetails = {
-	[CASE_TYPES.HAS.processCode]: {
-		stub: 'householder',
-		pageCaption: 'Householder Appeal'
-	},
-	[CASE_TYPES.S78.processCode]: {
-		stub: 'full-planning',
-		pageCaption: 'Planning Appeal'
-	},
-	[CASE_TYPES.S20.processCode]: {
-		stub: 'listed-building',
-		pageCaption: 'Planning Listed Building Appeal'
-	},
-	[CASE_TYPES.ADVERTS.processCode]: {
-		stub: 'adverts',
-		pageCaption: 'Advertisement Appeal'
-	},
-	[CASE_TYPES.CAS_ADVERTS.processCode]: {
-		stub: 'adverts',
-		pageCaption: 'Minor Commercial Advertisement Appeal'
-	},
-	[CASE_TYPES.CAS_PLANNING.processCode]: {
-		stub: 'cas-planning',
-		pageCaption: 'Minor Commercial Appeal'
-	}
-};
 
 const router = express.Router();
 
@@ -84,15 +56,18 @@ const appellantSubmissionTaskList = async (req, res) => {
 	);
 	const formattedDeadline = format(deadline, 'dd MMM yyyy');
 
-	const declarationUrl = `/appeals/${typeCodeToTaskListDetails[appealType].stub}/submit/declaration?id=${journey.response.referenceId}`;
+	const caseType = caseTypeLookup(appealType, 'processCode');
+	if (!caseType) throw new Error(`Appeal type ${appealType} does not exist`);
 
-	return list(req, res, typeCodeToTaskListDetails[appealType].pageCaption, {
+	const declarationUrl = `/appeals/${caseType.friendlyUrl}/submit/declaration?id=${journey.response.referenceId}`;
+
+	return list(req, res, `${caseType.caption} Appeal`, {
 		declarationUrl,
 		formattedDeadline,
 		navigation: ['', dashboardUrl],
 		bannerHtmlOverride:
 			config.betaBannerText +
-			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(caseType.processCode))
 	});
 };
 
