@@ -157,15 +157,20 @@ async function saveFilesToBlobStorage(files, journeyResponse) {
  * @returns {Promise<any> | void}
  */
 function uploadDocuments(apiClient, referenceId, journeyId, data) {
+	//todo: duplication - single map between journey type and urls, avoid duplication LPAQs should all be handled by the same endpoint
 	switch (journeyId) {
 		case JOURNEY_TYPES.HAS_QUESTIONNAIRE:
 		case JOURNEY_TYPES.S78_QUESTIONNAIRE:
-		case JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE: {
+		case JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE:
+		case JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE:
+		case JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE: {
 			return apiClient.postLPASubmissionDocumentUpload(referenceId, data);
 		}
 		case JOURNEY_TYPES.HAS_APPEAL_FORM:
 		case JOURNEY_TYPES.S20_APPEAL_FORM:
-		case JOURNEY_TYPES.S78_APPEAL_FORM: {
+		case JOURNEY_TYPES.S78_APPEAL_FORM:
+		case JOURNEY_TYPES.ADVERTS_APPEAL_FORM:
+		case JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM: {
 			return apiClient.postAppellantSubmissionDocumentUpload(referenceId, data);
 		}
 		case JOURNEY_TYPES.S78_LPA_STATEMENT: {

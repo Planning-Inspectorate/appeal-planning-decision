@@ -64,7 +64,7 @@ export interface AppealCase {
 	 * @example "Q9999"
 	 */
 	LPACode: string;
-	appealTypeCode: 'HAS' | 'S78' | 'S20';
+	appealTypeCode: 'HAS' | 'S78' | 'S20' | 'ADVERTS' | 'CAS_ADVERTS' | 'CAS_PLANNING';
 	/** The processing status for the appeal */
 	caseStatus?:
 		| 'assign_case_officer'
@@ -573,7 +573,7 @@ export interface AppellantSubmission {
 	/** @format uuid */
 	id?: string;
 	LPACode?: string;
-	appealTypeCode?: 'HAS' | 'S78' | 'S20';
+	appealTypeCode?: 'HAS' | 'S78' | 'S20' | 'ADVERTS' | 'CAS_ADVERTS' | 'CAS_PLANNING';
 	/** @format date-time */
 	applicationDecisionDate?: string;
 	applicationDecision?: string;

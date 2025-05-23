@@ -41,6 +41,21 @@ const APPEAL_TO_USER_ROLES = {
 	}
 };
 
+// mappings:
+// processCode -> formatter
+// processCode exists map
+// processCode -> friendly name
+// feature flag names
+// feedback urls - could vary by journey
+// url stubs for journeys
+// id to processCode and url
+//
+// journey names - multiple per appeal type
+// journey name -> journey url
+// journeys grouped by user type
+// journey type -> api endpoints (use groups?)
+// journey type -> form name
+
 /**
  * @type {Object<string, CaseTypeCreateInput>}
  */
@@ -52,17 +67,41 @@ const CASE_TYPES = {
 		key: APPEAL_CASE_TYPE.Y,
 		type: 'Planned listed building and conservation area appeal',
 		processCode: 'S20'
+	},
+	// only one with statements etc
+	ADVERTS: {
+		id: 1003,
+		key: APPEAL_CASE_TYPE.H,
+		type: 'Advertisement',
+		processCode: 'ADVERTS'
+		// /adverts
+		// application name: advertisement
+	},
+	CAS_ADVERTS: {
+		id: 1007,
+		key: APPEAL_CASE_TYPE.Z,
+		type: 'Minor commercial advertisement',
+		processCode: 'CAS_ADVERTS'
+		// /adverts (is same url ok?)
+		// application name: minor commercial advertisement
+	},
+	CAS_PLANNING: {
+		id: 1008,
+		key: APPEAL_CASE_TYPE.Z,
+		type: 'Minor commercial',
+		processCode: 'CAS_PLANNING'
+		// url: cas-planning
+		// application name: minor commercial development
+		// appeal name: minor commercial appeal
 	}
 	// { id: 1000, key: 'C', type: 'Enforcement notice appeal' },
 	// { id: 1002, key: 'F', type: 'Enforcement listed building and conservation area appeal' },
 	// { key: 'G', type: 'Discontinuance notice appeal' },
-	// { id: 1003, key: 'H', type: 'Advertisement appeal' },
 	// { key: 'L', type: 'Community infrastructure levy' },
 	// { id: 1004, key: 'Q', type: 'Planning obligation appeal' },
 	// { key: 'S', type: 'Affordable housing obligation appeal' },
 	// { key: 'V', type: 'Call-in application' },
 	// { key: 'X', type: 'Lawful development certificate appeal' },
-	// { id: 1007, key: 'Z', type: 'Commercial (CAS) appeal' }
 };
 
 /**

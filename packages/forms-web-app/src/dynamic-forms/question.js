@@ -343,11 +343,14 @@ class Question {
 	async saveResponseToDB(apiClient, journeyResponse, responseToSave) {
 		const journeyType = journeyResponse.journeyId;
 
+		// todo: duplication
 		if (
 			[
 				JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				JOURNEY_TYPES.S78_QUESTIONNAIRE,
-				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE
+				JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
+				JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
+				JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
 			].includes(journeyType)
 		) {
 			await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave.answers);
@@ -355,7 +358,9 @@ class Question {
 			[
 				JOURNEY_TYPES.HAS_APPEAL_FORM,
 				JOURNEY_TYPES.S78_APPEAL_FORM,
-				JOURNEY_TYPES.S20_APPEAL_FORM
+				JOURNEY_TYPES.S20_APPEAL_FORM,
+				JOURNEY_TYPES.ADVERTS_APPEAL_FORM,
+				JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM
 			].includes(journeyType)
 		) {
 			await apiClient.updateAppellantSubmission(
@@ -524,7 +529,11 @@ class Question {
 			JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
 			JOURNEY_TYPES.HAS_APPEAL_FORM,
 			JOURNEY_TYPES.S78_APPEAL_FORM,
-			JOURNEY_TYPES.S20_APPEAL_FORM
+			JOURNEY_TYPES.S20_APPEAL_FORM,
+			JOURNEY_TYPES.ADVERTS_APPEAL_FORM,
+			JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE,
+			JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM,
+			JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE
 		];
 
 		return !longForms.includes(journey.journeyId);

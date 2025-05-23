@@ -553,12 +553,20 @@ describe('./src/dynamic-forms/question.js', () => {
 			const journey3 = { journeyId: JOURNEY_TYPES.HAS_APPEAL_FORM };
 			const journey4 = { journeyId: JOURNEY_TYPES.S78_APPEAL_FORM };
 			const journey5 = { journeyId: JOURNEY_TYPES.S20_APPEAL_FORM };
+			const journey6 = { journeyId: JOURNEY_TYPES.ADVERTS_APPEAL_FORM };
+			const journey7 = { journeyId: JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE };
+			const journey8 = { journeyId: JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM };
+			const journey9 = { journeyId: JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE };
 
 			expect(question.isShortJourney(journey)).toBe(false);
 			expect(question.isShortJourney(journey2)).toBe(false);
 			expect(question.isShortJourney(journey3)).toBe(false);
 			expect(question.isShortJourney(journey4)).toBe(false);
 			expect(question.isShortJourney(journey5)).toBe(false);
+			expect(question.isShortJourney(journey6)).toBe(false);
+			expect(question.isShortJourney(journey7)).toBe(false);
+			expect(question.isShortJourney(journey8)).toBe(false);
+			expect(question.isShortJourney(journey9)).toBe(false);
 		});
 	});
 

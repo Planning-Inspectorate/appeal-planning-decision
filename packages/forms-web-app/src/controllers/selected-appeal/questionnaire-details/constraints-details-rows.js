@@ -21,10 +21,14 @@ exports.constraintsRows = (caseData) => {
 
 	const isHASAppeal = caseData.appealTypeCode === CASE_TYPES.HAS.processCode;
 
+	// todo: duplication
 	const typeCodeToAppealDescription = {
 		[CASE_TYPES.HAS.processCode]: 'householder',
 		[CASE_TYPES.S78.processCode]: 'planning',
-		[CASE_TYPES.S20.processCode]: 'listed building'
+		[CASE_TYPES.S20.processCode]: 'listed building',
+		[CASE_TYPES.ADVERTS.processCode]: 'advertisement',
+		[CASE_TYPES.CAS_ADVERTS.processCode]: 'minor commercial advertisement',
+		[CASE_TYPES.CAS_PLANNING.processCode]: 'minor commercial appeal'
 	};
 
 	const affectedListedBuildings = caseData.ListedBuildings?.filter(
