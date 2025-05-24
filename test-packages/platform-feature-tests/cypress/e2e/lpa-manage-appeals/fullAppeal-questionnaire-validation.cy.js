@@ -79,36 +79,32 @@ describe('Full appleal questionnaire validation', () => {
 			}
 		});
 
-		let counter = 0;
-		cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-			const rowtext = $row.text();
-			// if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)  && rowtext.includes('6011965')) {
-			if (
-				rowtext.includes(lpaManageAppealsData?.s78AppealType) &&
-				!rowtext.includes(lpaManageAppealsData?.todoInvalid)
-			) {
-				if (counter === 1) {
-					cy.wrap($row).within(() => {
-						cy.get(basePage?._selectors.trgovukTableCell)
-							.contains(lpaManageAppealsData?.s78AppealType)
-							.should('be.visible');
-						cy.get('a').each(($link) => {
-							if ($link.attr('href')?.includes(lpaManageAppealsData?.todoQuestionnaire)) {
-								appealId = $link.attr('href')?.split('/').pop();
-								cy.log(appealId);
-								cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
-								return false;
-							}
-						});
-					});
-				}
-				counter++;
-			}
-		});
-	});
-	it(`Full appleal questionnaire url`, () => {
-		cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
-	});
+    let counter = 0;
+    cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
+      const rowtext = $row.text();
+      // if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)  && rowtext.includes('6011965')) {
+      if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+        if (counter === 1) {
+          cy.wrap($row).within(() => {
+            cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
+            cy.get('a').each(($link) => {
+              cy.log($link.attr('href'));
+              if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
+                appealId = $link.attr('href')?.split('/').pop();
+                cy.log(appealId);
+                cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
+                return false;
+              }
+            });
+          });
+        }
+        counter++;
+      }
+    });
+  })
+  it(`Full appleal questionnaire url`, () => {
+    cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
+  });
 
 	it(`Validate Full appeal questionnaire appeal type answer link`, () => {
 		cy.get(basePage?._selectors.agovukLink)
@@ -127,32 +123,21 @@ describe('Full appleal questionnaire validation', () => {
 			});
 	});
 
-	//  1. Constraints, designations and other issues section validations
-	it(`Validate Full appeal questionnaire appeal type error validation`, () => {
-		cy.get(basePage?._selectors.govukSummaryListKey)
-			.contains('Is this the correct type of appeal?')
-			.closest(basePage?._selectors.govukSummaryListRow)
-			.find(basePage?._selectors.agovukLink)
-			.then(($link) => {
-				const linkText = $link.text().split('Is this the correct type of appeal?')[0].trim();
+  //  1. Constraints, designations and other issues section validations
+  it(`Validate Full appeal questionnaire appeal type error validation`, () => {
+    cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a full planning appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
+      const linkText = $link.text().split('Is a full planning appeal the correct type of appeal?')[0].trim();
 
-				if (linkText === 'Answer') {
-					cy.wrap($link).should('be.visible').click({ force: true });
-					cy.advanceToNextPage();
-					cy.get(basePage?._selectors.govukErrorSummaryList)
-						.find('a')
-						.should('have.attr', 'href', '#correctAppealType')
-						.and('contain.text', 'Select yes if this is the correct type of appeal');
-				} else if (linkText === 'Change') {
-					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Is this the correct type of appeal?')
-						.closest(basePage?._selectors.govukSummaryListRow)
-						.find(basePage?._selectors.govukSummaryListValue)
-						.should('not.have.text', 'Not started')
-						.and('be.visible');
-				}
-			});
-	});
+      if (linkText === 'Answer') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#correctAppealType').and('contain.text', 'Select yes if this is the correct type of appeal');
+      }
+      else if (linkText === 'Change') {
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a full planning appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
 
 	it(`Validate Full appeal questionnaire changes a listed building validation`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
@@ -165,23 +150,16 @@ describe('Full appleal questionnaire validation', () => {
 					.split('Does the proposed development change a listed building?')[0]
 					.trim();
 
-				if (linkText === 'Answer') {
-					cy.wrap($link).should('be.visible').click({ force: true });
-					cy.advanceToNextPage();
-					cy.get(basePage?._selectors.govukErrorSummaryList)
-						.find('a')
-						.should('have.attr', 'href', '#changesListedBuilding')
-						.and('contain.text', 'You must select an answer');
-				} else if (linkText === 'Change') {
-					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Changes a listed building')
-						.closest(basePage?._selectors.govukSummaryListRow)
-						.find(basePage?._selectors.govukSummaryListValue)
-						.should('not.have.text', 'Not started')
-						.and('be.visible');
-				}
-			});
-	});
+      if (linkText === 'Answer') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#changesListedBuilding').and('contain.text', 'Select yes if the development changes a listed building');
+      }
+      else if (linkText === 'Change') {
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Changes a listed building').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
 
 	// Commented to implement partially completed questionnaire validations later
 
@@ -322,23 +300,16 @@ describe('Full appleal questionnaire validation', () => {
 					.split(' Is the site in, or next to a conservation area?')[0]
 					.trim();
 
-				if (linkText === 'Answer') {
-					cy.wrap($link).should('be.visible').click({ force: true });
-					cy.advanceToNextPage();
-					cy.get(basePage?._selectors.govukErrorSummaryList)
-						.find('a')
-						.should('have.attr', 'href', '#conservationArea')
-						.and('contain.text', 'You must select an answer');
-				} else if (linkText === 'Change') {
-					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Conservation area')
-						.closest(basePage?._selectors.govukSummaryListRow)
-						.find(basePage?._selectors.govukSummaryListValue)
-						.should('not.have.text', 'Not started')
-						.and('be.visible');
-				}
-			});
-	});
+      if (linkText === 'Answer') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#conservationArea').and('contain.text', 'Select yes if the site is in, or next to a conservation area');
+      }
+      else if (linkText === 'Change') {
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Conservation area').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
 
 	// Commented to implement partially completed questionnaire validations later
 
@@ -494,23 +465,16 @@ describe('Full appleal questionnaire validation', () => {
 					.split('Does a Tree Preservation Order (TPO) apply to any part of the appeal site?')[0]
 					.trim();
 
-				if (linkText === 'Answer') {
-					cy.wrap($link).should('be.visible').click({ force: true });
-					cy.advanceToNextPage();
-					cy.get(basePage?._selectors.govukErrorSummaryList)
-						.find('a')
-						.should('have.attr', 'href', '#treePreservationOrder')
-						.and('contain.text', 'You must select an answer');
-				} else if (linkText === 'Change') {
-					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Tree Preservation Order')
-						.closest(basePage?._selectors.govukSummaryListRow)
-						.find(basePage?._selectors.govukSummaryListValue)
-						.should('not.have.text', 'Not started')
-						.and('be.visible');
-				}
-			});
-	});
+      if (linkText === 'Answer') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#treePreservationOrder').and('contain.text', 'Select yes if a Tree Preservation Order (TPO) applies to any part of the site');
+      }
+      else if (linkText === 'Change') {
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Tree Preservation Order').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
 
 	// Commented to implement partially completed questionnaire validations later
 
@@ -547,23 +511,16 @@ describe('Full appleal questionnaire validation', () => {
 					.split('Does the development relate to anyone claiming to be a Gypsy or Traveller?')[0]
 					.trim();
 
-				if (linkText === 'Answer') {
-					cy.wrap($link).should('be.visible').click({ force: true });
-					cy.advanceToNextPage();
-					cy.get(basePage?._selectors.govukErrorSummaryList)
-						.find('a')
-						.should('have.attr', 'href', '#gypsyTraveller')
-						.and('contain.text', 'You must select an answer');
-				} else if (linkText === 'Change') {
-					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Gypsy or Traveller')
-						.closest(basePage?._selectors.govukSummaryListRow)
-						.find(basePage?._selectors.govukSummaryListValue)
-						.should('not.have.text', 'Not started')
-						.and('be.visible');
-				}
-			});
-	});
+      if (linkText === 'Answer') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#gypsyTraveller').and('contain.text', 'Select yes if the development relates to anyone claiming to be a Gypsy or Traveller');
+      }
+      else if (linkText === 'Change') {
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Gypsy or Traveller').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
 
 	it(`Validate Full appeal questionnaire public right of way need to be removed or diverted`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
@@ -652,37 +609,21 @@ describe('Full appleal questionnaire validation', () => {
 			});
 	});
 
-	it(`Validate Full appeal questionnaire Did environmental statement`, () => {
-		cy.get(basePage?._selectors.govukSummaryListKey)
-			.contains('Did environmental statement')
-			.closest(basePage?._selectors.govukSummaryListRow)
-			.find(basePage?._selectors.agovukLink)
-			.then(($link) => {
-				const linkText = $link
-					.text()
-					.split('Did the applicant submit an environmental statement?')[0]
-					.trim();
+  it(`Validate Full appeal questionnaire Did environmental statement`, () => {
+    cy.get(basePage?._selectors.govukSummaryListKey).contains('Did the applicant submit an environmental statement?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
+      const linkText = $link.text().split('Did the applicant submit an environmental statement?')[0].trim();
 
-				if (linkText === 'Answer') {
-					cy.wrap($link).should('be.visible').click({ force: true });
-					cy.advanceToNextPage();
-					cy.get(basePage?._selectors.govukErrorSummaryList)
-						.find('a')
-						.should('have.attr', 'href', '#applicantSubmittedEnvironmentalStatement')
-						.and(
-							'contain.text',
-							'Select yes if the applicant submitted an environmental statement'
-						);
-				} else if (linkText === 'Change') {
-					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Did environmental statement')
-						.closest(basePage?._selectors.govukSummaryListRow)
-						.find(basePage?._selectors.govukSummaryListValue)
-						.should('not.have.text', 'Not started')
-						.and('be.visible');
-				}
-			});
-	});
+      if (linkText === 'Answer') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#applicantSubmittedEnvironmentalStatement').and('contain.text', 'Select yes if the applicant submitted an environmental statement');
+      }
+      else if (linkText === 'Change') {
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Did the applicant submit an environmental statement?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
+
 
 	// 3. Notifying relevant parties of the application section validations
 	it(`Validate Full appeal questionnaire Who was notified`, () => {
@@ -833,23 +774,16 @@ describe('Full appleal questionnaire validation', () => {
 					)[0]
 					.trim();
 
-				if (linkText === 'Answer') {
-					cy.wrap($link).should('be.visible').click({ force: true });
-					cy.advanceToNextPage();
-					cy.get(basePage?._selectors.govukErrorSummaryList)
-						.find('a')
-						.should('have.attr', 'href', '#uploadConsultationResponses')
-						.and('contain.text', 'Select the consultation responses and standing advice');
-				} else if (linkText === 'Change') {
-					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Responses or standing advice to upload')
-						.closest(basePage?._selectors.govukSummaryListRow)
-						.find(basePage?._selectors.govukSummaryListValue)
-						.should('not.have.text', 'Not started')
-						.and('be.visible');
-				}
-			});
-	});
+      if (linkText === 'Answer') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#consultationResponses').and('contain.text', 'Select yes if you have any consultation responses or standing advice from statutory consultees to upload');
+      }
+      else if (linkText === 'Change') {
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Responses or standing advice to upload').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
 
 	it(`Validate Full appeal questionnaire Representations from other parties`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
@@ -942,37 +876,20 @@ describe('Full appleal questionnaire validation', () => {
 			});
 	});
 
-	it(`Validate Full appeal questionnaire Policies from statutory development plan`, () => {
-		cy.get(basePage?._selectors.govukSummaryListKey)
-			.contains('Policies from statutory development plan')
-			.closest(basePage?._selectors.govukSummaryListRow)
-			.find(basePage?._selectors.agovukLink)
-			.then(($link) => {
-				const linkText = $link
-					.text()
-					.split('Upload relevant policies from your statutory development plan')[0]
-					.trim();
+  it(`Validate Full appeal questionnaire Policies from statutory development plan`, () => {
+    cy.get(basePage?._selectors.govukSummaryListKey).contains('Do you have any relevant policies from your statutory development plan?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
+      const linkText = $link.text().split('Upload relevant policies from your statutory development plan')[0].trim();
 
-				if (linkText === 'Upload') {
-					cy.wrap($link).should('be.visible').click({ force: true });
-					cy.advanceToNextPage();
-					cy.get(basePage?._selectors.govukErrorSummaryList)
-						.find('a')
-						.should('have.attr', 'href', '#uploadDevelopmentPlanPolicies')
-						.and(
-							'contain.text',
-							'Select the relevant policies from your statutory development plan'
-						);
-				} else if (linkText === 'Change') {
-					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Upload the plans, drawings and list of plans')
-						.closest(basePage?._selectors.govukSummaryListRow)
-						.find(basePage?._selectors.govukSummaryListValue)
-						.should('not.have.text', 'Not started')
-						.and('be.visible');
-				}
-			});
-	});
+      if (linkText === 'Answer') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#uploadDevelopmentPlanPolicies').and('contain.text', 'Select yes if you have any relevant policies from your statutory development plan');
+      }
+      else if (linkText === 'Change') {
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Upload relevant policies from your statutory development plan').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
 
 	it(`Validate Full appeal questionnaire Emerging plans`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
@@ -1030,31 +947,20 @@ describe('Full appleal questionnaire validation', () => {
 	//   });
 	// });
 
-	it(`Validate Full appeal questionnaire Upload any other relevant policies`, () => {
-		cy.get(basePage?._selectors.govukSummaryListKey)
-			.contains('Upload any other relevant policies')
-			.closest(basePage?._selectors.govukSummaryListRow)
-			.find(basePage?._selectors.agovukLink)
-			.then(($link) => {
-				const linkText = $link.text().split('Upload any other relevant policies')[0].trim();
+  it(`Validate Full appeal questionnaire Upload any other relevant policies`, () => {
+    cy.get(basePage?._selectors.govukSummaryListKey).contains('Do you have any other relevant policies?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
+      const linkText = $link.text().split('Do you have any other relevant policies to upload?')[0].trim();
 
-				if (linkText === 'Upload') {
-					cy.wrap($link).should('be.visible').click({ force: true });
-					cy.advanceToNextPage();
-					cy.get(basePage?._selectors.govukErrorSummaryList)
-						.find('a')
-						.should('have.attr', 'href', '##uploadOtherPolicies')
-						.and('contain.text', 'Select any other relevant policies');
-				} else if (linkText === 'Change') {
-					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Upload any other relevant policies')
-						.closest(basePage?._selectors.govukSummaryListRow)
-						.find(basePage?._selectors.govukSummaryListValue)
-						.should('not.have.text', 'Not started')
-						.and('be.visible');
-				}
-			});
-	});
+      if (linkText === 'Answer') {
+        cy.wrap($link).should('be.visible').click({ force: true });
+        cy.advanceToNextPage();
+        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#otherRelevantPolicies').and('contain.text', 'Select yes if you have any other relevant policies');
+      }
+      else if (linkText === 'Change') {
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Do you have any other relevant policies?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+      }
+    });
+  });
 
 	it(`Validate Full appeal questionnaire Supplementary planning documents`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
