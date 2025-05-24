@@ -12,22 +12,34 @@ export class PoReportAndSupportDocs {
         infrastructureLevyExpectedDateMonth: '#infrastructureLevyExpectedDate_month',
         infrastructureLevyExpectedDateYear: '#infrastructureLevyExpectedDate_year'
     }
-    selectPOReportAndSupportDocsHas(context) {        
+    selectPOReportAndSupportDocsHas(context) {
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
         cy.advanceToNextPage();
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPlansDrawings);
         cy.advanceToNextPage();
-        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadDevelopmentPlanPolicies);
-        cy.advanceToNextPage();
+        //     cy.uploadFileFromFixtureDirectories(context?.documents?.uploadDevelopmentPlanPolicies);
+        //     cy.advanceToNextPage();
     };
-    selectPOReportAndSupportDocsS78(context) {       
+    selectPOReportAndSupportDocsS78(context) {
         //Upload the planning officer’s report or what your decision notice would have said
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
         cy.advanceToNextPage();
         //Upload relevant policies from your statutory development plan
-        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadDevelopmentPlanPolicies);
-        cy.advanceToNextPage();
+        // cy.uploadFileFromFixtureDirectories(context?.documents?.uploadDevelopmentPlanPolicies);
+        // cy.advanceToNextPage();
     };
+    selectStatuorydevelopmentplan(context) {
+        const basePage = new BasePage();
+        if (context?.poReportAndSupportDocs?.isSelectStatuaryPlan) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadEmergingPlan);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    }
     selectEmergingPlansHas(context) {
         const basePage = new BasePage();
         if (context?.poReportAndSupportDocs?.isEmergingPlan) {
@@ -54,9 +66,27 @@ export class PoReportAndSupportDocs {
             cy.advanceToNextPage();
         }
         //Upload any other relevant policies
-        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadOtherPolicies);
-        cy.advanceToNextPage();
+        //  cy.uploadFileFromFixtureDirectories(context?.documents?.uploadOtherPolicies);
+        //  cy.advanceToNextPage();
     };
+
+    selectOtherRelevantPolicies(context) {
+        const basePage = new BasePage();
+        if (context?.poReportAndSupportDocs?.isOtherRelaventPolicies) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            //Upload the emerging plan and supporting information
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadEmergingPlan);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+        //Upload any other relevant policies
+        // cy.uploadFileFromFixtureDirectories(context?.documents?.uploadOtherPolicies);
+        // cy.advanceToNextPage();
+    };
+
     selectSupplementaryPlanningDocs(context) {
         const basePage = new BasePage();
         if (context?.poReportAndSupportDocs?.isSupplementaryPlanningDocs) {

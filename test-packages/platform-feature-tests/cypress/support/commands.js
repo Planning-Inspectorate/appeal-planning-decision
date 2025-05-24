@@ -34,6 +34,10 @@ Cypress.Commands.add('getByData', (value) => {
 	return cy.get(`[data-cy="${value}"]`);
 });
 
+Cypress.Commands.add('getById', (value) => {
+	return cy.get(`#${value}`);
+});
+
 Cypress.Commands.add('shouldHaveErrorMessage', (selector, message) => {
 	return cy.get(selector).should('have.text', message);
 });
