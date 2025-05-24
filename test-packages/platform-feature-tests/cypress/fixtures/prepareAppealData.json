@@ -1,36 +1,45 @@
 {
-    "button":"Continue to my appeal",   
-    "email":{
-        "emailAddress":"appellant2@planninginspectorate.gov.uk",
-        "emailCode":"12345"
+    "FullAppealType": "Full Planning appeal",
+    "todoProofsOfEvidence": "Proofs of evidence",
+    "todoFinalComments": "Final comments",
+    "proofsOfEvidenceLink": "proof-evidence",
+    "finalCommentsLink": "final-comments",
+    "button": "Continue to my appeal",
+    "todoInvalid": "Invalid",
+    "email": {
+        "emailAddress": "appellant2@planninginspectorate.gov.uk",
+        "emailCode": "12345"
     },
-    "applicationName":{
+    "applicationName": {
         "firstName": "Test FirstName",
         "lastName": "Test LastName",
         "companyName": "Test CompanyName"
     },
-    "contactDetails":{
+    "contactDetails": {
         "firstName": "Test FirstName",
         "lastName": "Test LastName",
         "companyName": "Test CompanyName",
         "contactPhoneNumber": "07654321000"
     },
-    "appealSiteAddress":{
-        "addressLine1":"Site Address Lane1",
-        "addressLine2":"Site Address Lane2",
-        "testTown":"Site Town",
-        "testCounty":"Site County",
-        "addressPostcode":"SW7 9PB"
+    "appealSiteAddress": {
+        "addressLine1": "Site Address Lane1",
+        "addressLine2": "Site Address Lane2",
+        "testTown": "Site Town",
+        "testCounty": "Site County",
+        "addressPostcode": "SW7 9PB"
     },
-    "siteArea":{
-        "squareMetres":"10001",
-        "squareHectares":"10001"
+    "siteArea": {
+        "squareMetres": "10001",
+        "squareHectares": "10001"
     },
-    "accessAppellantSiteAccessDetails":"the appeal site is at the rear of a terraced property123456789aAbcdEF!\"£$%QA",
+    "accessAppellantSiteAccessDetails": "the appeal site is at the rear of a terraced property123456789aAbcdEF!\"£$%QA",
     "appellantSiteSafetyDetails": "appellantSiteSafety_appellantSiteSafetyDetails1234567890!\"£$%^&*(10)",
-    
-    "develpmentDescriptionOriginal":"developmentDescriptionOriginal-hint123456789!£$%&*j",
-    "acceptAndSubmitButton":"Accept and submit",
-    "appealSubmitted": "Appeal submitted"   
-
+    "develpmentDescriptionOriginal": "developmentDescriptionOriginal-hint123456789!£$%&*j",
+    "acceptAndSubmitButton": "Accept and submit",
+    "appealSubmitted": "Appeal submitted",
+    "submitFinalComments": "Submit final comments",
+    "finalCommentsSubmitted": "Final comments submitted",
+    "decisionAllowed": "Allowed",
+    "decisionAllowedInPart": "Allowed in part",
+    "decisionDismissed": "Dismissed"
 }
