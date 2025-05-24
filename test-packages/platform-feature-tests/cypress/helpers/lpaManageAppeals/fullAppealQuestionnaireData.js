@@ -4,6 +4,7 @@ const documents = {
     uploadPlanExtentOrder: 'plan-extent-order.pdf',
     uploadDefinitiveMapStmt: 'definitive-map-stmt.pdf',
     uploadScreeningOpinion: 'screening-openion.pdf',
+    uploadReceivedScopingOpinion: 'received-scoping-opinion.pdf',
     uploadEnvironmentalStmt: 'environmental-statement.pdf',
     uploadScreeningDirection: 'screening-direction.pdf',
     uploadNotifyParties: 'notify-parties.pdf',
@@ -22,13 +23,13 @@ const documents = {
 };
 
 export const fullAppealQuestionnaireTestCases = [
-    {  
-        constraintsAndDesignations:{
+    {
+        constraintsAndDesignations: {
             isCorrectTypeOfAppeal: true,
             isChangesListedBuilding: true,
-            isAffectListedBuildings: true,            
+            isAffectListedBuildings: true,
             isAffectedListedBuildings: true,
-            isScheduleMonument:true,
+            isScheduleMonument: true,
             isConservationArea: true,
             isProtectedSpecies: true,
             isGreenBelt: true,
@@ -38,8 +39,8 @@ export const fullAppealQuestionnaireTestCases = [
             isGypsyTraveller: true,
             isPublicRightOfWay: true
         },
-        environmentalImpact:{            
-            isSchedule: 'one',            
+        environmentalImpact: {
+            isSchedule: 'one',
             isEnvStmt: true,
             // isAgricultureAquaculture: true,
             // isChangeExtensions: false,
@@ -55,45 +56,184 @@ export const fullAppealQuestionnaireTestCases = [
             // isTextileIndustries: false,
             // isTourismLeisure: false,
             //isSensitiveArea:true,
-             // isColumn2Threshold: true,
+            // isColumn2Threshold: true,
             // isScreeningOpinion: true,
             // isScreenOpenionEnvStmt: true,
+            // isReceivedScopingOpinion: true, 
             // isLpaSiteSafetyRisks: true,
         },
-        notifyParties:{
+        notifyParties: {
         },
-        consultResponseAndRepresent:{
+        consultResponseAndRepresent: {
             isStatutoryConsultees: true,
             isConsultationResponses: true,
             isOtherPartyRepresentations: true,
         },
-        poReportAndSupportDocs:{
+        poReportAndSupportDocs: {
+            isSelectStatuaryPlan: true,
             isEmergingPlan: true,
+            isOtherRelaventPolicies: true,
             isSupplementaryPlanningDocs: true,
             isCommunityInfrastructureLevy: true,
             isCommunityInfrastructureLevyAdopted: true,
         },
-        siteAccess:{
+        siteAccess: {
             isLpaSiteAccess: true,
             isNeighbourSiteAccess: true,
             isLpaSiteSafetyRisks: true,
         },
-        appealProcess:{
+        appealProcess: {
             isProcedureType: 'written',
             isOngoingAppeals: true,
             isNearbyAppeals: true,
-            isNewConditions: true,                    
+            isNewConditions: true,
         },
         documents,
-        submit:{}
+        submit: {}
     },
-    {  
-        constraintsAndDesignations:{
+    {
+        constraintsAndDesignations: {
+            isCorrectTypeOfAppeal: true,
+            isChangesListedBuilding: false,
+            isAffectListedBuildings: false,
+            isAffectedListedBuildings: false,
+            isScheduleMonument: false,
+            isConservationArea: false,
+            isProtectedSpecies: true,
+            isGreenBelt: true,
+            isAreaOutstandingBeauty: true,
+            isAllDesignatedSite: true,
+            isTreePreservationOrder: true,
+            isGypsyTraveller: true,
+            isPublicRightOfWay: true
+        },
+        environmentalImpact: {
+            isSchedule: 'two',
+            isEnvStmt: true,
+            isAgricultureAquaculture: true,
+            isChangeExtensions: false,
+            isChemicalIndustry: false,
+            isEnergyIndustry: false,
+            isExtractiveIndustry: false,
+            isFoodIndustry: false,
+            isInfrastructureProjects: false,
+            isMineralIndustry: false,
+            isOtherProjects: false,
+            isProductionProcessingOfMetals: false,
+            isRubberIndustry: false,
+            isTextileIndustries: false,
+            isTourismLeisure: false,
+            isSensitiveArea:true,
+            isColumn2Threshold: true,
+            isScreeningOpinion: true,
+            isScreenOpenionEnvStmt: true,
+            isReceivedScopingOpinion: true,
+            isLpaSiteSafetyRisks: true,
+        },
+        notifyParties: {
+        },
+        consultResponseAndRepresent: {
+            isStatutoryConsultees: true,
+            isConsultationResponses: true,
+            isOtherPartyRepresentations: true,
+        },
+        poReportAndSupportDocs: {
+            isSelectStatuaryPlan: true,
+            isEmergingPlan: true,
+            isOtherRelaventPolicies: true,
+            isSupplementaryPlanningDocs: true,
+            isCommunityInfrastructureLevy: true,
+            isCommunityInfrastructureLevyAdopted: true,
+        },
+        siteAccess: {
+            isLpaSiteAccess: true,
+            isNeighbourSiteAccess: false,
+            isLpaSiteSafetyRisks: true,
+        },
+        appealProcess: {
+            isProcedureType: 'written',
+            isOngoingAppeals: true,
+            isNearbyAppeals: true,
+            isNewConditions: false,
+        },
+        documents,
+        submit: {}
+    },
+    {
+        constraintsAndDesignations: {
+            isCorrectTypeOfAppeal: true,
+            isChangesListedBuilding: false,
+            isAffectListedBuildings: false,
+            isAffectedListedBuildings: false,
+            isScheduleMonument: false,
+            isConservationArea: false,
+            isProtectedSpecies: true,
+            isGreenBelt: true,
+            isAreaOutstandingBeauty: true,
+            isAllDesignatedSite: true,
+            isTreePreservationOrder: true,
+            isGypsyTraveller: true,
+            isPublicRightOfWay: true
+        },
+        environmentalImpact: {
+            isSchedule: 'no',
+            isEnvStmt: true,
+            isAgricultureAquaculture: true,
+            isChangeExtensions: false,
+            isChemicalIndustry: false,
+            isEnergyIndustry: false,
+            isExtractiveIndustry: false,
+            isFoodIndustry: false,
+            isInfrastructureProjects: false,
+            isMineralIndustry: false,
+            isOtherProjects: false,
+            isProductionProcessingOfMetals: false,
+            isRubberIndustry: false,
+            isTextileIndustries: false,
+            isTourismLeisure: false,
+            isSensitiveArea:true,
+            isColumn2Threshold: true,
+            isScreeningOpinion: true,
+            isScreenOpenionEnvStmt: true,
+            isReceivedScopingOpinion: true,
+            isLpaSiteSafetyRisks: true,
+        },
+        notifyParties: {
+        },
+        consultResponseAndRepresent: {
+            isStatutoryConsultees: true,
+            isConsultationResponses: true,
+            isOtherPartyRepresentations: true,
+        },
+        poReportAndSupportDocs: {
+            isSelectStatuaryPlan: true,
+            isEmergingPlan: true,
+            isOtherRelaventPolicies: true,
+            isSupplementaryPlanningDocs: true,
+            isCommunityInfrastructureLevy: true,
+            isCommunityInfrastructureLevyAdopted: true,
+        },
+        siteAccess: {
+            isLpaSiteAccess: true,
+            isNeighbourSiteAccess: false,
+            isLpaSiteSafetyRisks: true,
+        },
+        appealProcess: {
+            isProcedureType: 'written',
+            isOngoingAppeals: true,
+            isNearbyAppeals: true,
+            isNewConditions: false,
+        },
+        documents,
+        submit: {}
+    },
+    {
+        constraintsAndDesignations: {
             isCorrectTypeOfAppeal: false,
             isChangesListedBuilding: false,
-            isAffectListedBuildings: false,            
+            isAffectListedBuildings: false,
             isAffectedListedBuildings: false,
-            isScheduleMonument:false,
+            isScheduleMonument: false,
             isConservationArea: false,
             isProtectedSpecies: false,
             isGreenBelt: false,
@@ -103,8 +243,8 @@ export const fullAppealQuestionnaireTestCases = [
             isGypsyTraveller: false,
             isPublicRightOfWay: false
         },
-        environmentalImpact:{            
-            isSchedule: 'one',            
+        environmentalImpact: {
+            isSchedule: 'one',
             isEnvStmt: false,
             // isAgricultureAquaculture: true,
             // isChangeExtensions: false,
@@ -120,104 +260,110 @@ export const fullAppealQuestionnaireTestCases = [
             // isTextileIndustries: false,
             // isTourismLeisure: false,
             //isSensitiveArea:true,
-             // isColumn2Threshold: true,
+            // isColumn2Threshold: true,
             // isScreeningOpinion: true,
             // isScreenOpenionEnvStmt: true,
+            // isReceivedScopingOpinion: true,
             // isLpaSiteSafetyRisks: true,
         },
-        notifyParties:{
+        notifyParties: {
         },
-        consultResponseAndRepresent:{
+        consultResponseAndRepresent: {
             isStatutoryConsultees: false,
             isConsultationResponses: false,
             isOtherPartyRepresentations: false,
         },
-        poReportAndSupportDocs:{
+        poReportAndSupportDocs: {
+            isSelectStatuaryPlan: true,
             isEmergingPlan: false,
+            isOtherRelaventPolicies: true,
             isSupplementaryPlanningDocs: false,
             isCommunityInfrastructureLevy: false,
             isCommunityInfrastructureLevyAdopted: false,
         },
-        siteAccess:{
+        siteAccess: {
             isLpaSiteAccess: false,
             isNeighbourSiteAccess: false,
             isLpaSiteSafetyRisks: false,
         },
-        appealProcess:{
+        appealProcess: {
             isProcedureType: 'written',
             isOngoingAppeals: false,
             isNearbyAppeals: false,
-            isNewConditions: false,                    
+            isNewConditions: false,
         },
         documents,
-        submit:{}
-    },
-    {  
-        constraintsAndDesignations:{
-            isCorrectTypeOfAppeal: false,
-            isChangesListedBuilding: true,
-            isAffectListedBuildings: true,            
-            isAffectedListedBuildings: true,
-            isScheduleMonument:true,
-            isConservationArea: true,
-            isProtectedSpecies: true,
-            isGreenBelt: true,
-            isAreaOutstandingBeauty: true,
-            isAllDesignatedSite: true,
-            isTreePreservationOrder: true,
-            isGypsyTraveller: true,
-            isPublicRightOfWay: true
-        },
-        environmentalImpact:{            
-            isSchedule: 'one',            
-            isEnvStmt: false,
-            // isAgricultureAquaculture: true,
-            // isChangeExtensions: false,
-            // isChemicalIndustry: false,
-            // isEnergyIndustry: false,
-            // isExtractiveIndustry: false,
-            // isFoodIndustry: false,
-            // isInfrastructureProjects: false,
-            // isMineralIndustry: false,
-            // isOtherProjects: false,
-            // isProductionProcessingOfMetals: false,
-            // isRubberIndustry: false,
-            // isTextileIndustries: false,
-            // isTourismLeisure: false,
+        submit: {}
+    }
+    // {
+    //     constraintsAndDesignations: {
+    //         isCorrectTypeOfAppeal: false,
+    //         isChangesListedBuilding: true,
+    //         isAffectListedBuildings: true,
+    //         isAffectedListedBuildings: true,
+    //         isScheduleMonument: true,
+    //         isConservationArea: true,
+    //         isProtectedSpecies: true,
+    //         isGreenBelt: true,
+    //         isAreaOutstandingBeauty: true,
+    //         isAllDesignatedSite: true,
+    //         isTreePreservationOrder: true,
+    //         isGypsyTraveller: true,
+    //         isPublicRightOfWay: true
+    //     },
+    //     environmentalImpact: {
+    //         isSchedule: 'one',
+    //         isEnvStmt: false,
+    //         // isAgricultureAquaculture: true,
+    //         // isChangeExtensions: false,
+    //         // isChemicalIndustry: false,
+    //         // isEnergyIndustry: false,
+    //         // isExtractiveIndustry: false,
+    //         // isFoodIndustry: false,
+    //         // isInfrastructureProjects: false,
+    //         // isMineralIndustry: false,
+    //         // isOtherProjects: false,
+    //         // isProductionProcessingOfMetals: false,
+    //         // isRubberIndustry: false,
+    //         // isTextileIndustries: false,
+    //         // isTourismLeisure: false,
 
-            // isSensitiveArea: true,
-            // isColumn2Threshold: true,
-            // isScreeningOpinion: true,
-            // isScreenOpenionEnvStmt: true,
-            // isLpaSiteSafetyRisks: true,
-        },
-        notifyParties:{
-        },
-        consultResponseAndRepresent:{
-            isStatutoryConsultees: false,
-            isConsultationResponses: true,
-            isOtherPartyRepresentations: true,
-        },
-        poReportAndSupportDocs:{
-            isEmergingPlan: false,
-            isSupplementaryPlanningDocs: true,
-            isCommunityInfrastructureLevy: true,
-            isCommunityInfrastructureLevyAdopted: true,
-        },
-        siteAccess:{
-            isLpaSiteAccess: false,
-            isNeighbourSiteAccess: true,
-            isLpaSiteSafetyRisks: true,
-        },
-        appealProcess:{
-            isProcedureType: 'written',
-            isOngoingAppeals: false,
-            isNearbyAppeals: true,
-            isNewConditions: true,                    
-        },
-        documents,
-        submit:{}
-    }    
+    //         // isSensitiveArea: true,
+    //         // isColumn2Threshold: true,
+    //         // isScreeningOpinion: true,
+    //         // isScreenOpenionEnvStmt: true,
+    //         // isReceivedScopingOpinion: true,
+    //         // isLpaSiteSafetyRisks: true,
+    //     },
+    //     notifyParties: {
+    //     },
+    //     consultResponseAndRepresent: {
+    //         isStatutoryConsultees: false,
+    //         isConsultationResponses: true,
+    //         isOtherPartyRepresentations: true,
+    //     },
+    //     poReportAndSupportDocs: {
+    //         isSelectStatuaryPlan: true,
+    //         isEmergingPlan: false,
+    //         isOtherRelaventPolicies: true,
+    //         isSupplementaryPlanningDocs: true,
+    //         isCommunityInfrastructureLevy: true,
+    //         isCommunityInfrastructureLevyAdopted: true,
+    //     },
+    //     siteAccess: {
+    //         isLpaSiteAccess: false,
+    //         isNeighbourSiteAccess: true,
+    //         isLpaSiteSafetyRisks: true,
+    //     },
+    //     appealProcess: {
+    //         isProcedureType: 'written',
+    //         isOngoingAppeals: false,
+    //         isNearbyAppeals: true,
+    //         isNewConditions: true,
+    //     },
+    //     documents,
+    //     submit: {}
+    // }
     // {  
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
@@ -255,6 +401,7 @@ export const fullAppealQuestionnaireTestCases = [
     //         // isColumn2Threshold: true,
     //         // isScreeningOpinion: true,
     //         // isScreenOpenionEnvStmt: true,
+    //         // isReceivedScopingOpinion: true,
     //         // isLpaSiteSafetyRisks: true,
     //     },
     //     notifyParties:{
@@ -320,6 +467,7 @@ export const fullAppealQuestionnaireTestCases = [
     //          isColumn2Threshold: true,
     //          isScreeningOpinion: true,
     //          isScreenOpenionEnvStmt: true,
+    //          isReceivedScopingOpinion: true,
     //          isLpaSiteSafetyRisks: true,
     //     },
     //     notifyParties:{
@@ -385,6 +533,7 @@ export const fullAppealQuestionnaireTestCases = [
     //          isColumn2Threshold: true,
     //          isScreeningOpinion: true,
     //          isScreenOpenionEnvStmt: true,
+    //          isReceivedScopingOpinion: true,
     //          isLpaSiteSafetyRisks: true,
     //     },
     //     notifyParties:{
@@ -413,7 +562,7 @@ export const fullAppealQuestionnaireTestCases = [
     //     },
     //     submit:{}
     // },
-        
+
     // {  
     //     constraintsAndDesignations:{
     //         isCorrectTypeOfAppeal: true,
@@ -432,6 +581,7 @@ export const fullAppealQuestionnaireTestCases = [
     //     environmentalImpact:{           
     //         isSchedule: 'one',
     //         isScreenOpenionEnvStmt: true,
+    //         isReceivedScopingOpinion: true,
     //         isEnvStmt: true,
     //         isAgricultureAquaculture: true,
     //         isChangeExtensions: false,
@@ -491,6 +641,7 @@ export const fullAppealQuestionnaireTestCases = [
     //     environmentalImpact:{           
     //         isSchedule: 'one',
     //         isScreenOpenionEnvStmt: true,
+    //         isReceivedScopingOpinion: true,
     //         isEnvStmt: true,
     //         isAgricultureAquaculture: true,
     //         isChangeExtensions: false,
