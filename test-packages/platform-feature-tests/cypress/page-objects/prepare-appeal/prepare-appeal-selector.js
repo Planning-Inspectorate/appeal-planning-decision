@@ -11,7 +11,7 @@ export class PrepareAppealSelector {
         onApplicationDateYear: '#onApplicationDate_year',
         developmentDescriptionOriginal: '#developmentDescriptionOriginal',
         govukFieldsetHeading: ".govuk-fieldset__heading",
-        govukLabelGovUkLabel1:"label.govuk-label.govuk-label--l",
+        govukLabelGovUkLabel1: "label.govuk-label.govuk-label--l",
         fullPlanningApplicaitonType: "full-planning",
         houseHolderApplicaitonType: "householder",
         appellantOther: "other",
@@ -37,13 +37,13 @@ export class PrepareAppealSelector {
     }
     _houseHolderURLs = {
         beforeYouStart: '/before-you-start',
-       // beforeYouStartDecisionDateHouseholder: '/before-you-start/decision-date-householder',
+        // beforeYouStartDecisionDateHouseholder: '/before-you-start/decision-date-householder',
         appealHouseholderDecison: '/appeal-householder-decision',
         appealsHouseholderAppealForm: '/appeals/householder/appeal-form',
         appealsHouseholderPrepareAppeal: '/appeals/householder/prepare-appeal',
         appealsHouseholderUploadDocuments: '/appeals/householder/upload-documents'
     }
-    _fullAppealURLs ={
+    _fullAppealURLs = {
         beforeYouStart: '/before-you-start',
         fullAppealSubmit: '/full-appeal/submit-appeal',
         appealsFullPlanningAppealForm: '/appeals/full-planning/appeal-form',
