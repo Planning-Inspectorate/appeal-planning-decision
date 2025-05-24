@@ -14,7 +14,7 @@ export class ConsultResponseAndRepresent {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.get(this._selectors?.statutoryConsulteesConsultedBodiesDetails).clear();
             cy.get(this._selectors?.statutoryConsulteesConsultedBodiesDetails).type(lpaManageAppealsData?.consultResponseAndRepresent?.statutoryConsulteesConsultedBodiesDetails);
-            cy.advanceToNextPage();            
+            cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();

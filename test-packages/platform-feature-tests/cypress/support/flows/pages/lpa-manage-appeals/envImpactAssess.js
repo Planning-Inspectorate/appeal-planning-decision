@@ -32,18 +32,11 @@ export class EnvImpactAssess {
         }
     };
 
-    selectScheduleOne(context) {  
-        const basePage = new BasePage();   
+    selectScheduleOne(context) {
+        const basePage = new BasePage();
         cy.getByData(this?._selectors.yesScheduleOne).click();
         cy.advanceToNextPage();
-        // cy.getByData(basePage?._selectors.answerYes).click();
-        // cy.advanceToNextPage();
-        // //Upload your screening opinion and any correspondence
-       // cy.uploadFileFromFixtureDirectories(context?.documents?.uploadScreeningOpinion);
-       // cy.advanceToNextPage();
-        
         this.selectEnvironmentalStatement(context);
-        //this.selectScreeningOpinionEnvStmt(context);
     };
 
     selectEnvironmentalStatement(context) {
@@ -126,7 +119,7 @@ export class EnvImpactAssess {
         const basePage = new BasePage();
         if (context?.environmentalImpact?.isColumn2Threshold) {
             cy.getByData(basePage?._selectors.answerYes).click();
-            cy.advanceToNextPage();
+            //cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
         }
@@ -141,6 +134,7 @@ export class EnvImpactAssess {
             //Upload your screening opinion and any correspondence
             cy.uploadFileFromFixtureDirectories(context?.documents?.uploadScreeningOpinion);
             cy.advanceToNextPage();
+            //Screening opinion environmental statement
             this.selectScreeningOpinionEnvStmt(context);
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
@@ -152,11 +146,25 @@ export class EnvImpactAssess {
         if (context?.environmentalImpact?.isScreenOpenionEnvStmt) {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
+            this.selectReceivedScopingOpinion(context);
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
         }
     };
+
+    selectReceivedScopingOpinion(context){
+        const basePage = new BasePage();
+        if (context?.environmentalImpact?.isReceivedScopingOpinion) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadReceivedScopingOpinion);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    }
 
     selectEnvironmentalImpactAsses(context, lpaManageAppealsData) {
         const basePage = new BasePage();

@@ -10,6 +10,7 @@ import { ConsultResponseAndRepresent } from "../../pages/lpa-manage-appeals/cons
 import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
+import { waitingForReview} from "../../pages/lpa-manage-appeals/waitingForReview";
 
 export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 	const basePage = new BasePage();
@@ -24,12 +25,12 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 	let counter = 0;
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
-		if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && !rowtext.includes(lpaManageAppealsData?.todoInvalid)) {
+		if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoQuestionnaire)) {
 			if (counter === 1) {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
 					cy.get('a').each(($link) => {
-						if ($link.attr('href')?.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+						if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
 							appealId = $link.attr('href')?.split('/').pop();
 							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
 							return false;
@@ -51,7 +52,7 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 				}
 			});
 		});
-		cy.contains(lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppeal).closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then($link => {
+		cy.contains(lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealFullPlanning).closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then($link => {
 			if ($link.text().includes(lpaManageAppealsData?.questionnaireAnswer)) {
 				cy.wrap($link).contains(lpaManageAppealsData?.questionnaireAnswer).click();
 			} else {
@@ -76,7 +77,9 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 		consultResponseAndRepresent.selectOtherPartyRepresentations(context);
 		//Planning officer's report and supplementary documents
 		poReportAndSupportDocs.selectPOReportAndSupportDocsS78(context);
+		poReportAndSupportDocs.selectStatuorydevelopmentplan(context);
 		poReportAndSupportDocs.selectEmergingPlansS78(context);
+		poReportAndSupportDocs.selectOtherRelevantPolicies(context);
 		poReportAndSupportDocs.selectSupplementaryPlanningDocs(context);
 		poReportAndSupportDocs.selectCommunityInfraLevy(context);
 		//Site access
@@ -87,8 +90,10 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 		appealProcess.selectProcedureType(context, lpaManageAppealsData);
 		appealProcess.selectOngoingAppealsNextToSite(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
+		// commented for test during coding
+		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
+		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
+		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();		
+		waitingForReview(appealId);	
 	});
-	// commented for test during coding
-	// 	cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-	// 	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
 };
