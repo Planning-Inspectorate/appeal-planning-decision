@@ -1,24 +1,20 @@
 const fs = require('fs');
-const yaml = require('js-yaml');
 const getYamlAsJson = require('./getYamlAsJson');
 
-const mockFileContents = { mocked: true };
 const mockFilePath = '../../api/openapi.yaml';
+const mockFileContents = `mocked: true
+test:
+  nested: 1
+`;
 
 jest.mock('fs', () => ({
 	readFileSync: jest.fn()
-}));
-
-jest.mock('js-yaml', () => ({
-	safeLoad: jest.fn()
 }));
 
 jest.mock('../lib/logger', () => ({
 	debug: jest.fn(),
 	error: jest.fn()
 }));
-
-yaml.safeLoad.mockReturnValue(mockFileContents);
 
 describe('lib/getYamlAsJson', () => {
 	afterEach(() => {
@@ -30,13 +26,15 @@ describe('lib/getYamlAsJson', () => {
 
 		const result = getYamlAsJson(mockFilePath);
 
-		expect(fs.readFileSync).toBeCalledTimes(1);
-		expect(fs.readFileSync).toBeCalledWith(mockFilePath, 'utf8');
+		expect(fs.readFileSync).toHaveBeenCalledTimes(1);
+		expect(fs.readFileSync).toHaveBeenCalledWith(mockFilePath, 'utf8');
 
-		expect(yaml.safeLoad).toBeCalledTimes(1);
-		expect(yaml.safeLoad).toBeCalledWith(mockFileContents);
-
-		expect(result).toEqual(mockFileContents);
+		expect(result).toEqual({
+			mocked: true,
+			test: {
+				nested: 1
+			}
+		});
 	});
 
 	it('should return null when the file cannot be loaded', () => {
@@ -46,10 +44,8 @@ describe('lib/getYamlAsJson', () => {
 
 		const result = getYamlAsJson(mockFilePath);
 
-		expect(fs.readFileSync).toBeCalledTimes(1);
-		expect(fs.readFileSync).toBeCalledWith(mockFilePath, 'utf8');
-
-		expect(yaml.safeLoad).not.toBeCalled();
+		expect(fs.readFileSync).toHaveBeenCalledTimes(1);
+		expect(fs.readFileSync).toHaveBeenCalledWith(mockFilePath, 'utf8');
 
 		expect(result).toBeNull();
 	});

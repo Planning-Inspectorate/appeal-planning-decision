@@ -6,7 +6,7 @@ const getFileContents = (filePath) => {
 	try {
 		const fileContents = fs.readFileSync(filePath, 'utf8');
 		logger.debug('Successfully loaded file');
-		return yaml.safeLoad(fileContents);
+		return yaml.load(fileContents);
 	} catch (err) {
 		logger.error(`Failed to load file\n${err}`);
 		return null;
