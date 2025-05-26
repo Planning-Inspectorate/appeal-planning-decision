@@ -11,6 +11,7 @@ export class BasePage {
 		decisionDate: "decision-date",
 		enforcementNotice: "enforcement-notice",
 		govukButton: ".govuk-button",
+		govukBodyGovukLabelm: ".govuk-body.govuk-label--m",		
 		govukPanelTitle: ".govuk-panel__title",
 		localPlanningDepartment: "#local-planning-department",
 		localPlanningDepartmentOptionZero: "#local-planning-department__option--0",
@@ -34,7 +35,9 @@ export class BasePage {
 		govukSummaryListValue:".govuk-summary-list__value",
 		govukErrorSummaryList:".govuk-list.govuk-error-summary__list",
 		govukHeaderLinkGovukHeaderServiceName:".govuk-header__link.govuk-header__service-name",
-		govukLabelGovukLabel:".govuk-label.govuk-label--l"
+		govukLabelGovukLabel:".govuk-label.govuk-label--l",
+		govukFieldsetHeading: ".govuk-fieldset__heading",
+        govukLabelGovUkLabel1:"label.govuk-label.govuk-label--l",
 	}
 
 	basePageElements = {
