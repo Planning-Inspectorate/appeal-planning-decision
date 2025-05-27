@@ -13,13 +13,13 @@ const documents = {
 export const proofsOfEvidenceTestCases = [
     {
         proofsOfEvidence: {
-            isAddWitness: true
+            isAddWitness: false
         },
         documents,
     },
     {
         proofsOfEvidence: {
-            isAddWitness: false
+            isAddWitness: true
         },
         documents,
     }

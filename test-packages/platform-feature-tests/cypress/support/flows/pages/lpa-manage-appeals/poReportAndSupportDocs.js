@@ -28,6 +28,7 @@ export class PoReportAndSupportDocs {
         cy.advanceToNextPage();
     };
     selectPOReportAndSupportDocsS78(context) {
+        const basePage = new BasePage();
         //Upload the planning officer’s report or what your decision notice would have said
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
         cy.advanceToNextPage();       
@@ -79,9 +80,10 @@ export class PoReportAndSupportDocs {
         if (context?.poReportAndSupportDocs?.isOtherRelaventPolicies) {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
-            //Upload the emerging plan and supporting information
-            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadEmergingPlan);
+            //Upload any other relevant policies
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadOtherPolicies);
             cy.advanceToNextPage();
+
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();

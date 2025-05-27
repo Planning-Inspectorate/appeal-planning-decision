@@ -2,14 +2,17 @@
 /// <reference types="cypress"/>
 
 import { houseHolderAppealRefusedTestCases } from "../../../helpers/appellantAAPD/houseHolderAppeal/houseHolderAppealRefusedData";
+import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
 describe('Submit House Holder Appeal Refused Test Cases', () => {
 	let prepareAppealData;
 	beforeEach(() => {
-        cy.fixture('prepareAppealData').then(data => {
-            prepareAppealData = data;
-        })
+		cy.login(users.appeals.authUser);
+		// Load the fixture data for prepareAppealData
+		cy.fixture('prepareAppealData').then(data => {
+			prepareAppealData = data;
+		})
 	});
 	houseHolderAppealRefusedTestCases.forEach((context) => {
 		const {

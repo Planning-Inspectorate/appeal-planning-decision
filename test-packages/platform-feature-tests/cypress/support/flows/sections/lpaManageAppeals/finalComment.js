@@ -7,9 +7,9 @@ import { FinalComment } from "../../pages/lpa-manage-appeals/lpa-final-comment/f
 
 export const finalComment = (context, lpaManageAppealsData, appealType) => {
 	const basePage = new BasePage();
-	const finalComment = new FinalComment();
-	let appealId;
+	const finalComment = new FinalComment();	
 	let counter = 0;
+	let appealId;
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
 		if (rowtext.includes(appealType) && rowtext.includes(lpaManageAppealsData?.todoFinalcomment)) {
@@ -30,8 +30,7 @@ export const finalComment = (context, lpaManageAppealsData, appealType) => {
 		}
 	}).then(() => {
 		finalComment.selectSubmitAnyFinalComment(context);
-	});
-	//commented for test during coding
+	});	
 	cy.get('.govuk-button').contains('Submit final comments').click();
 	cy.get(basePage?._selectors.govukPanelTitle).contains('Final comments submitted');
 };

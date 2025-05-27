@@ -32,10 +32,10 @@ export const statement = (context, lpaManageAppealsData, appealType) => {
 	}).then(() => {
 		cy.url().should('include', `/rule-6/appeal-statement/${appealId}/appeal-statement`);
 		cy.get('#rule6Statement').type('Statement for full appleal');
-		cy.advanceToNextPage();		
-		statement.selectAddWitnesses(context);		
+		cy.advanceToNextPage();
+		statement.selectAddWitnesses(context);
 	});
-	// commented for test during coding
-	// 	cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-	// 	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
+
+	cy.get('.govuk-button').contains('Submit appeal statement').click();
+	cy.get(basePage?._selectors.govukPanelTitle).contains('Appeal statement submitted');
 };

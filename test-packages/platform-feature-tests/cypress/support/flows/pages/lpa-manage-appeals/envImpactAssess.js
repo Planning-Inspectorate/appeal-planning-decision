@@ -134,7 +134,6 @@ export class EnvImpactAssess {
         const basePage = new BasePage();
         if (context?.environmentalImpact?.isColumn2Threshold) {
             cy.getByData(basePage?._selectors.answerYes).click();
-            //cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
         }
@@ -168,7 +167,7 @@ export class EnvImpactAssess {
         }
     };
 
-    selectReceivedScopingOpinion(context){
+    selectReceivedScopingOpinion(context) {
         const basePage = new BasePage();
         if (context?.environmentalImpact?.isReceivedScopingOpinion) {
             cy.getByData(basePage?._selectors.answerYes).click();

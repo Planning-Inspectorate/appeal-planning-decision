@@ -5,7 +5,7 @@ import { BasePage } from "../../../../page-objects/base-page";
 const initialiseHouseHolderPlanning = require("./initialiseHouseHolderPlanning");
 const initialiseFullPlanning = require("./initialiseFullPlanning");
 const initialiseListedBuilding = require("./initialiseListedBuilding");
-module.exports = (statusOfOriginalApplication, planning, context, prepareAppealData) => {
+module.exports = (statusOfOriginalApplication, planning, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases = [], fullAppealStatementTestCases = []) => {
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const basePage = new BasePage();
 	// Visit the "Before You Start" page
@@ -28,15 +28,15 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 	if (statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused) {
 		grantedOrRefusedId = basePage._selectors?.answerRefused;
 	} else if (statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationNoDecision) {
-		grantedOrRefusedId =  basePage._selectors?.answerNodecisionreceived;
+		grantedOrRefusedId = basePage._selectors?.answerNodecisionreceived;
 	} else {
 		grantedOrRefusedId =  basePage._selectors?.answerGranted;
 	}	
 	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal) {		
-		initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.fullAppealText, context, prepareAppealData);
+		initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.fullAppealText, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases, fullAppealStatementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerListedBuilding) {		
 		initialiseListedBuilding(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.listedBuildingText, context, prepareAppealData);
 	} else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {
-		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? initialiseHouseHolderPlanning(planning, grantedOrRefusedId, context, prepareAppealData) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData);
+		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? initialiseHouseHolderPlanning(planning, grantedOrRefusedId, context, prepareAppealData) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases, fullAppealStatementTestCases);
 	}
 };

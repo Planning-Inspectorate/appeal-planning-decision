@@ -59,7 +59,7 @@ TL;DR
 
 ## How to generate HTML reports?
 
-- `npx cypress --e2e`
+- `npx cypress run --e2e`
 - `npx cypress run --spec "cypress/e2e/*.cy.js"`
 
 ## Known issues and work-arounds
