@@ -18,6 +18,7 @@ describe('Full Planning Statement Test Cases', () => {
     let appealId;
 
     beforeEach(() => {
+        cy.login(users.appeals.authUser);
         cy.fixture('lpaManageAppealsData').then(data => {
             lpaManageAppealsData = data;
         })
@@ -80,7 +81,7 @@ describe('Full Planning Statement Test Cases', () => {
         cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you have additional documents to support your appeal statement?');
         cy.get('input[name="additionalDocuments"]').then(($input) => {
-            const isChecked = $input.toArray().some(input=>input.checked);
+            const isChecked = $input.toArray().some(input => input.checked);
             if (isChecked) {
                 return;
             }

@@ -5,6 +5,7 @@
 import { finalCommentTestCases } from "../../helpers/lpaManageAppeals/finalCommentData";
 import { BasePage } from "../../page-objects/base-page";
 import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
+import { users } from '../../fixtures/users.js';
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('LPA Full Planning Final comment Test Cases', () => {
@@ -14,6 +15,7 @@ describe('LPA Full Planning Final comment Test Cases', () => {
         let appealId;
 
         beforeEach(() => {
+                cy.login(users.appeals.authUser);
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })
@@ -128,13 +130,13 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
         });
 
-        it(`Validate user should not be allowed to upload wrong format file`, () => {               
+        it(`Validate user should not be allowed to upload wrong format file`, () => {
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
                 cy.get('#lpaFinalCommentDetails').clear();
                 cy.get('#lpaFinalCommentDetails').type("Final comment test");
                 cy.get('#sensitiveInformationCheckbox').check({ force: true });
-                cy.advanceToNextPage();               
+                cy.advanceToNextPage();
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
                 cy.uploadFileFromFixtureDirectory(finalCommentTestCases[0]?.documents?.uploadWrongFormatFile);
@@ -148,7 +150,7 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.get('#lpaFinalCommentDetails').clear();
                 cy.get('#lpaFinalCommentDetails').type("Final comment test");
                 cy.get('#sensitiveInformationCheckbox').check({ force: true });
-                cy.advanceToNextPage();               
+                cy.advanceToNextPage();
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
                 cy.uploadFileFromFixtureDirectory(finalCommentTestCases[0]?.documents?.uploadFileGreaterThan25mb);
@@ -162,7 +164,7 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.get('#lpaFinalCommentDetails').clear();
                 cy.get('#lpaFinalCommentDetails').type("Final comment test");
                 cy.get('#sensitiveInformationCheckbox').check({ force: true });
-                cy.advanceToNextPage();               
+                cy.advanceToNextPage();
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
                 const expectedFileNames = [finalCommentTestCases[0]?.documents?.uploadSupportDocsFinalComments, finalCommentTestCases[0]?.documents?.uploadAdditionalDocsSupportFinalComments];

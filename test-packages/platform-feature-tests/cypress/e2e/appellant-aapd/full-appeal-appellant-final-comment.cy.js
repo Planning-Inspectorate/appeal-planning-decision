@@ -1,6 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { finalCommentTestCases } from "../../helpers/appellantAAPD/finalCommentData";
+import { users } from '../../fixtures/users.js';
 const { finalComment } = require('../../support/flows/sections/appellantAAPD/finalComment');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
@@ -8,6 +9,7 @@ describe('Appellant Full Planning Final Comment Test Cases', () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
         beforeEach(() => {
+                cy.login(users.appeals.authUser);
                 cy.fixture('prepareAppealData').then(data => {
                         prepareAppealData = data;
                 })

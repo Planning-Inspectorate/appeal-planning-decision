@@ -2,12 +2,14 @@
 /// <reference types="cypress"/>
 import { statementTestCases } from "../../helpers/lpaManageAppeals/statementData";
 const { statement } = require('../../support/flows/sections/lpaManageAppeals/statement');
+import { users } from '../../fixtures/users.js';
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('Full Planning Statement Test Cases', () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;        
         beforeEach(() => {
+                cy.login(users.appeals.authUser);
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })

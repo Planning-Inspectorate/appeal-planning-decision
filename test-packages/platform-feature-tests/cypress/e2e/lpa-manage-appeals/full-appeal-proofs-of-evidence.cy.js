@@ -1,6 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { proofsOfEvidenceTestCases } from "../../helpers/lpaManageAppeals/proofsOfEvidenceData";
+import { users } from '../../fixtures/users.js';
 const { proofsOfEvidence } = require('../../support/flows/sections/lpaManageAppeals/proofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
@@ -8,6 +9,7 @@ describe('Full Planning Questionnaire Test Cases', () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;      
         beforeEach(() => {
+                cy.login(users.appeals.authUser);
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })

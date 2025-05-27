@@ -17,7 +17,7 @@ export const proofsOfEvidence = (context, lpaManageAppealsData, appealType) => {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(appealType).should('be.visible');
 					cy.get('a').each(($link) => {
-						if ($link.attr('href')?.includes(lpaManageAppealsData?.proofsOfEvidenceLink)) {							
+						if ($link.attr('href')?.includes(lpaManageAppealsData?.proofsOfEvidenceLink)) {
 							const parts = $link.attr('href')?.split('/');
 							appealId = parts?.[parts.length - 2];
 							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
@@ -32,8 +32,7 @@ export const proofsOfEvidence = (context, lpaManageAppealsData, appealType) => {
 		cy.url().should('include', `/manage-appeals/proof-evidence/${appealId}`);
 		proofsOfEvidence.selectUploadProofEvidence(context);
 		proofsOfEvidence.selectAddWitnesses(context);
-	});
-	// commented for test during coding
-	// 	cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-	// 	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
+	});	
+	cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
+	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
 };

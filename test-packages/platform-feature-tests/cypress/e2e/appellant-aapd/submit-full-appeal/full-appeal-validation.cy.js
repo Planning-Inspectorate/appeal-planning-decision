@@ -4,6 +4,7 @@
 import { BasePage } from "../../../page-objects/base-page";
 import { fullAppealRefusedTestCases } from "../../../helpers/appellantAAPD/fullAppeal/fullAppealRefusedData";
 import { DateService } from "../../../utils/dateService";
+import { users } from "../../../fixtures/users.js";
 const { ContactDetailsPage } = require("../../../support/flows/pages/appellant-aapd/prepare-appeal/contactDetailsPage");
 const { AppealSiteAddressPage } = require("../../../support/flows/pages/appellant-aapd/prepare-appeal/appealSiteAddressPage");
 const { SiteAreaPage } = require("../../../support/flows/pages/appellant-aapd/prepare-appeal/siteAreaPage");
@@ -24,14 +25,16 @@ const { ApplicationAboutPage } = require("../../../support/flows/pages/appellant
 
 describe('Full Appeal Validations for enforcement', () => {
     const prepareAppealSelector = new PrepareAppealSelector();
-    const basePage = new BasePage();    
+    const basePage = new BasePage();
 
-    beforeEach(() => {       
+    beforeEach(() => {
+        cy.login(users.appeals.authUser);
+
         cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
         cy.advanceToNextPage();
         // eslint-disable-next-line cypress/unsafe-to-chain-command
         cy.get(basePage?._selectors?.localPlanningDepartment).type(prepareAppealSelector?._selectors?.systemTest2BoroughCouncil).get(basePage?._selectors?.localPlanningDepartmentOptionZero).click();
-        cy.advanceToNextPage();        
+        cy.advanceToNextPage();
     })
 
     it(`Validate error message when user tries to navigate next page without selecting mandatory fields for enforecement`, () => {
@@ -51,7 +54,7 @@ describe('Full Appeal Validations for enforcement', () => {
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage._selectors?.govukHeadingOne, 'You need to use the existing service');
         cy.containsMessage(basePage._selectors?.govukButton, 'Continue to the Appeals Casework Portal');
-    });    
+    });
 });
 describe('Full Appeal Validations', () => {
     const prepareAppealSelector = new PrepareAppealSelector();
@@ -64,8 +67,8 @@ describe('Full Appeal Validations', () => {
     const ownSomeLandPage = new OwnSomeLandPage();
     const inspectorNeedAccessPage = new InspectorNeedAccessPage();
     const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
-    const majorMinorDevelopmentPage =  new MajorMinorDevelopmentPage();
-	const applicationAboutPage =  new ApplicationAboutPage();
+    const majorMinorDevelopmentPage = new MajorMinorDevelopmentPage();
+    const applicationAboutPage = new ApplicationAboutPage();
     const otherAppealsPage = new OtherAppealsPage();
     const context = fullAppealRefusedTestCases[0];
     const decideAppealsPage = new DecideAppealsPage();
@@ -85,7 +88,7 @@ describe('Full Appeal Validations', () => {
         cy.advanceToNextPage();
 
         cy.getByData(basePage?._selectors.answerNo).click();
-	    cy.advanceToNextPage();
+        cy.advanceToNextPage();
 
         cy.getByData(basePage?._selectors?.answerFullAppeal).click();
         cy.advanceToNextPage();
@@ -97,17 +100,17 @@ describe('Full Appeal Validations', () => {
         cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateMonth).type(date.currentMonth());
         cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateYear).type(date.currentYear());
         cy.advanceToNextPage();
-    })    
+    })
 
     it(`Validate emails address with correct email format`, () => {
-        cy.advanceToNextPage(prepareAppealData?.button);        
+        cy.advanceToNextPage(prepareAppealData?.button);
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type('abcdtestemail');
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter an email address in the correct format, like name@example.com');
     });
 
     it(`Validate correct email code received `, () => {
-        cy.advanceToNextPage(prepareAppealData?.button);        
+        cy.advanceToNextPage(prepareAppealData?.button);
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
         cy.advanceToNextPage();
         cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
@@ -116,7 +119,7 @@ describe('Full Appeal Validations', () => {
     });
 
     it(`Validate error message when incorrect email code received `, () => {
-        cy.advanceToNextPage(prepareAppealData?.button);  
+        cy.advanceToNextPage(prepareAppealData?.button);
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
         cy.advanceToNextPage();
         cy.get(prepareAppealSelector?._selectors?.emailCode).type('@12345');
@@ -147,7 +150,7 @@ describe('Full Appeal Validations', () => {
 
     it(`Validate data entered while adding the prepare appeal form `, () => {
         const applicationNamePage = new ApplicationNamePage();
-        cy.advanceToNextPage(prepareAppealData?.button);       
+        cy.advanceToNextPage(prepareAppealData?.button);
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
         cy.advanceToNextPage();
         cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);

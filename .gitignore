@@ -113,6 +113,7 @@ web_modules/
 
 # dotenv environment variables file
 .env
+.env.local
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -183,6 +184,11 @@ junit.xml
 packages/platform-feature-tests/cypress/screenshots/
 packages/platform-feature-tests/cypress/videos/
 packages/platform-feature-tests/cypress/reports/
+
+cypress/support/browserAuthData
+cypress/downloads
+cypress/reports
+cypress/screenshots
 
 init/mssql
 !init/mssql/mssql.conf

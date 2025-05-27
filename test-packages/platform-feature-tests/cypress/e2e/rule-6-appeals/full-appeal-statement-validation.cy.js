@@ -7,6 +7,7 @@ import { BasePage } from "../../page-objects/base-page";
 import { upload25MBFileValidation } from "../../utils/uploadService";
 import { StringUtils } from "../../utils/StringUtils";
 import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
+import { users } from '../../fixtures/users.js';
 const { statement } = require('../../support/flows/sections/lpaManageAppeals/statement');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
@@ -14,10 +15,12 @@ describe('Full Planning Statement Test Cases', () => {
     const yourAppealsSelector = new YourAppealsSelector();
     const basePage = new BasePage();
     const stringUtils = new StringUtils();
+    //const deleteUploadedDocuments = new DeleteUploadedDocuments();
     let lpaManageAppealsData;
     let appealId;
 
     beforeEach(() => {
+        cy.login(users.appeals.authUser);
         cy.fixture('lpaManageAppealsData').then(data => {
             lpaManageAppealsData = data;
         })
@@ -80,7 +83,7 @@ describe('Full Planning Statement Test Cases', () => {
         cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you have additional documents to support your appeal statement?');
         cy.get('input[name="rule6AdditionalDocuments"]:checked').then(($checked) => {
-            if ($checked.length > 0) {               
+            if ($checked.length > 0) {
                 return;
             }
             else {
@@ -90,7 +93,7 @@ describe('Full Planning Statement Test Cases', () => {
         })
     });
 
-    it(`Validate upload your new supporting documents Error message and remove if exists`, () => {       
+    it(`Validate upload your new supporting documents Error message and remove if exists`, () => {
         cy.advanceToNextPage();
         cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
         cy.advanceToNextPage();

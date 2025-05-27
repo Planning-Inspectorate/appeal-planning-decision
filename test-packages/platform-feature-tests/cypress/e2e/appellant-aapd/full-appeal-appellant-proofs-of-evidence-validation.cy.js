@@ -3,8 +3,8 @@
 import { proofsOfEvidenceTestCases } from "../../helpers/appellantAAPD/proofsOfEvidenceData";
 import { BasePage } from "../../page-objects/base-page";
 import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
+import { users } from '../../fixtures/users.js';
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
-
 
 describe('Appellant Full Planning Proof Of Evidence Validations', () => {
     const prepareAppealSelector = new PrepareAppealSelector();
@@ -13,6 +13,7 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
     let prepareAppealData;
     let appealId;
     beforeEach(() => {
+        cy.login(users.appeals.authUser);
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         })
