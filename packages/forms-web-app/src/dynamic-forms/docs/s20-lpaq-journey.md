@@ -17,13 +17,6 @@ condition: (response) => questionHasAnswer(response, questions.changesListedBuil
 condition: (response) => questionHasAnswer(response, questions.listedBuildingCheck, 'yes');
 ```
 
-- boolean `/demolish-alter-extend/` Does the proposed development demolish, alter or extend a listed building?
-- radio `/listed-building-grade/` What grade is the listed building?
-
-```js
-condition: (response) => questionHasAnswer(response, questions.demolishAlterExtend, 'yes');
-```
-
 - boolean `/preserve-grant-loan/` Was a grant or loan made to preserve the listed building?
 - boolean `/consult-historic-england/` Did you consult Historic England?
 - multi-file-upload `/historic-england-consultation/` Upload your consultation with Historic England

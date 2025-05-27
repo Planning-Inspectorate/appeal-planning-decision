@@ -2540,30 +2540,6 @@ exports.questionProps = {
 		documentType: documentTypes.uploadRule6WitnessesEvidence,
 		actionHiddenText: 'your witnesses and their evidence'
 	},
-	demolishAlterExtend: {
-		type: 'boolean',
-		title: 'Does the proposed development demolish, alter or extend a listed building?',
-		question: 'Does the proposed development demolish, alter or extend a listed building?',
-		fieldName: 'demolishAlterExtend',
-		url: 'demolish-alter-extend',
-		validators: [
-			new RequiredValidator(
-				'Select yes if the proposed development demolishes, alters or extends a listed building'
-			)
-		],
-		options: [
-			{
-				text: 'Yes',
-				value: 'yes',
-				attributes: { 'data-cy': 'answer-yes' }
-			},
-			{
-				text: 'No',
-				value: 'no',
-				attributes: { 'data-cy': 'answer-no' }
-			}
-		]
-	},
 	consultHistoricEngland: {
 		type: 'boolean',
 		title: 'Did you consult Historic England?',
@@ -2571,28 +2547,6 @@ exports.questionProps = {
 		fieldName: 'consultHistoricEngland',
 		url: 'consult-historic-england',
 		validators: [new RequiredValidator('Select yes if you consulted Historic England')]
-	},
-	listedBuildingGrade: {
-		type: 'radio',
-		title: 'What grade is the listed building?',
-		question: 'What grade is the listed building?',
-		fieldName: 'listedBuildingGrade',
-		url: 'listed-building-grade',
-		validators: [new RequiredValidator('Select the grade of the listed building')],
-		options: [
-			{
-				text: 'Grade I',
-				value: 'Grade I'
-			},
-			{
-				text: 'Grade II*',
-				value: 'Grade II*'
-			},
-			{
-				text: 'Grade II',
-				value: 'Grade II'
-			}
-		]
 	},
 	uploadHistoricEnglandConsultation: {
 		type: 'multi-file-upload',
