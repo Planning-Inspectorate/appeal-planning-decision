@@ -10,10 +10,14 @@ const {
 	}
 } = require('../../../lib/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
+const config = require('../../../config');
 
 const getGrantedOrRefusedHouseholder = async (req, res) => {
 	res.render(GRANTED_OR_REFUSED_HOUSEHOLDER, {
-		appeal: req.session.appeal
+		appeal: req.session.appeal,
+		bannerHtmlOverride:
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
 	});
 };
 
@@ -28,7 +32,10 @@ const postGrantedOrRefusedHouseholder = async (req, res) => {
 		return res.render(GRANTED_OR_REFUSED_HOUSEHOLDER, {
 			appeal,
 			errors,
-			errorSummary
+			errorSummary,
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
 		});
 	}
 
@@ -45,7 +52,10 @@ const postGrantedOrRefusedHouseholder = async (req, res) => {
 		return res.render(GRANTED_OR_REFUSED_HOUSEHOLDER, {
 			appeal,
 			errors,
-			errorSummary: [{ text: err.toString(), href: '#' }]
+			errorSummary: [{ text: err.toString(), href: '#' }],
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
 		});
 	}
 

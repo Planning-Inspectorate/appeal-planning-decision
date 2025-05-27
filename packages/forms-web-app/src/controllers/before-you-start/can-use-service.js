@@ -32,6 +32,10 @@ const {
 		LISTED_BUILDING
 	}
 } = require('@pins/business-rules/src/constants');
+const config = require('../../config');
+const {
+	typeOfPlanningApplicationToAppealTypeMapper
+} = require('#lib/full-appeal/map-planning-application');
 
 const canUseServiceHouseholderPlanning = async (req, res) => {
 	const { appeal } = req.session;
@@ -61,6 +65,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 				? 'Yes'
 				: 'No'
 			: null;
+	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
 
 	res.render(canUseServiceHouseholder, {
 		deadlineDate,
@@ -72,7 +77,10 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 		enforcementNotice,
 		claimingCosts,
 		dateOfDecisionLabel,
-		nextPageUrl
+		nextPageUrl,
+		bannerHtmlOverride:
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 	});
 };
 
@@ -97,6 +105,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
 	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 	const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
+	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
 
 	res.render(canUseServiceFullAppealUrl, {
 		deadlineDate,
@@ -108,7 +117,10 @@ const canUseServiceFullAppeal = async (req, res) => {
 		dateOfDecisionLabel,
 		isListedBuilding,
 		isV2forS78,
-		nextPageUrl
+		nextPageUrl,
+		bannerHtmlOverride:
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 	});
 };
 

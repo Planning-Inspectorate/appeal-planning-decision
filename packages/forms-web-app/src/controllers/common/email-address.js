@@ -11,12 +11,21 @@ const {
 	getSessionAppealId
 } = require('../../lib/session-helper');
 const { logoutUser } = require('../../services/user.service');
+const config = require('../../config');
+const {
+	typeOfPlanningApplicationToAppealTypeMapper
+} = require('#lib/full-appeal/map-planning-application');
 
 const getEmailAddress = (views, appealInSession) => {
 	return (req, res) => {
 		const { email } = appealInSession ? req.session.appeal : req.session;
+		const appealType =
+			typeOfPlanningApplicationToAppealTypeMapper[req.session.appeal.typeOfPlanningApplication];
 		res.render(views.EMAIL_ADDRESS, {
-			email
+			email,
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 		});
 	};
 };
@@ -32,12 +41,16 @@ const postEmailAddress = (views, appealInSession) => {
 		if (appealInSession) {
 			appeal = getSessionAppeal(req.session);
 		}
-
+		const appealType =
+			typeOfPlanningApplicationToAppealTypeMapper[req.session.appeal.typeOfPlanningApplication];
 		if (Object.keys(errors).length > 0) {
 			res.render(views.EMAIL_ADDRESS, {
 				email,
 				errors,
-				errorSummary
+				errorSummary,
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 			});
 			return;
 		}
@@ -53,7 +66,10 @@ const postEmailAddress = (views, appealInSession) => {
 				res.render(views.EMAIL_ADDRESS, {
 					email,
 					errors,
-					errorSummary: [{ text: e.toString(), href: '#' }]
+					errorSummary: [{ text: e.toString(), href: '#' }],
+					bannerHtmlOverride:
+						config.betaBannerText +
+						config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 				});
 				return;
 			}

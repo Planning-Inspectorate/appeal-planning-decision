@@ -11,6 +11,7 @@ const {
 	}
 } = require('../../lib/views');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const config = require('../../config');
 
 const getYourAppealsR6 = async (req, res) => {
 	let viewContext = {};
@@ -51,8 +52,11 @@ const getYourAppealsR6 = async (req, res) => {
 		toDoAppeals.sort((a, b) => a.nextJourneyDue.dueInDays - b.nextJourneyDue.dueInDays);
 		waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
 		const noToDoAppeals = !arrayHasItems(toDoAppeals);
+		const bannerHtmlOverride =
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'));
 
-		viewContext = { toDoAppeals, waitingForReviewAppeals, noToDoAppeals };
+		viewContext = { toDoAppeals, waitingForReviewAppeals, noToDoAppeals, bannerHtmlOverride };
 
 		res.render(DASHBOARD, viewContext);
 	} catch (error) {

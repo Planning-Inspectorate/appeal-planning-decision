@@ -22,6 +22,9 @@ const buildZipFilename = require('#lib/build-zip-filename');
 const { getUserFromSession } = require('../services/user.service');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 const config = require('../config');
+const {
+	typeOfPlanningApplicationToAppealTypeMapper
+} = require('#lib/full-appeal/map-planning-application');
 
 const appealTypeToDetails = {
 	[CASE_TYPES.HAS.id.toString()]: {
@@ -447,15 +450,26 @@ exports.lpaQuestionnaireSubmissionInformation = async (req, res) => {
  */
 exports.appellantBYSListOfDocuments = (req, res) => {
 	const appeal = req.session.appeal;
+	const appealType =
+		typeOfPlanningApplicationToAppealTypeMapper[req.session.appeal.typeOfPlanningApplication];
+	const bannerHtmlOverride =
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
 
 	const usingV2Form = true;
 
 	switch (appeal.appealType) {
 		case APPEAL_ID.HOUSEHOLDER:
-			return res.render('appeal-householder-decision/list-of-documents', { usingV2Form });
+			return res.render('appeal-householder-decision/list-of-documents', {
+				usingV2Form,
+				bannerHtmlOverride
+			});
 		case APPEAL_ID.PLANNING_SECTION_78:
 		case APPEAL_ID.PLANNING_LISTED_BUILDING:
-			return res.render('full-appeal/submit-appeal/list-of-documents', { usingV2Form });
+			return res.render('full-appeal/submit-appeal/list-of-documents', {
+				usingV2Form,
+				bannerHtmlOverride
+			});
 		default:
 			return res.render('./error/not-found.njk');
 	}

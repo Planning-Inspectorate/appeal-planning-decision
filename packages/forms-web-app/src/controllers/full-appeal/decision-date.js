@@ -8,19 +8,27 @@ const {
 		FULL_APPEAL: { DECISION_DATE: currentPage }
 	}
 } = require('../../lib/views');
+const config = require('../../config');
+const {
+	typeOfPlanningApplicationToAppealTypeMapper
+} = require('#lib/full-appeal/map-planning-application');
 
 exports.getDecisionDate = async (req, res) => {
 	const { appeal } = req.session;
 
 	const appealDecisionDate = parseISO(appeal.decisionDate);
 	const decisionDate = isValid(appealDecisionDate) ? appealDecisionDate : null;
+	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
 
 	res.render(currentPage, {
 		decisionDate: decisionDate && {
 			day: `0${decisionDate?.getDate()}`.slice(-2),
 			month: `0${decisionDate?.getMonth() + 1}`.slice(-2),
 			year: String(decisionDate?.getFullYear())
-		}
+		},
+		bannerHtmlOverride:
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 	});
 };
 
@@ -28,6 +36,7 @@ exports.postDecisionDate = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 	const { appeal } = req.session;
+	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(currentPage, {
@@ -37,7 +46,10 @@ exports.postDecisionDate = async (req, res) => {
 				year: body['decision-date-year']
 			},
 			errors,
-			errorSummary
+			errorSummary,
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 		});
 	}
 
@@ -81,7 +93,10 @@ exports.postDecisionDate = async (req, res) => {
 		return res.render(currentPage, {
 			appeal,
 			errors,
-			errorSummary: [{ text: e.toString(), href: 'decision-date' }]
+			errorSummary: [{ text: e.toString(), href: 'decision-date' }],
+			bannerHtmlOverride:
+				config.betaBannerText +
+				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 		});
 	}
 };

@@ -31,12 +31,19 @@ jest.mock('../../../../src/services/department.service');
 jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
 
 const { mockReq, mockRes } = require('../../mocks');
+const config = require('../../../../src/config');
 
 describe('controllers/before-you-start/can-use-service', () => {
 	let req;
 	let res;
 	let fullAppeal;
 	let householderAppeal;
+	const bannerHtmlOverrideHAS =
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'));
+	const bannerHtmlOverride =
+		config.betaBannerText +
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'));
 
 	beforeEach(() => {
 		jest.isolateModules(() => {
@@ -64,7 +71,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				bannerHtmlOverride: bannerHtmlOverrideHAS
 			});
 		});
 
@@ -85,7 +93,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				dateOfDecisionLabel: 'Date decision due',
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				bannerHtmlOverride: bannerHtmlOverrideHAS
 			});
 		});
 		it('renders page - HAS - date decision due - v2 - s20 flag', async () => {
@@ -106,7 +115,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				dateOfDecisionLabel: 'Date decision due',
 				enforcementNotice: 'No',
 				isListedBuilding: null,
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				bannerHtmlOverride: bannerHtmlOverrideHAS
 			});
 		});
 
@@ -126,7 +136,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
 				isListedBuilding: null,
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				bannerHtmlOverride: bannerHtmlOverrideHAS
 			});
 		});
 	});
@@ -320,7 +331,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				bannerHtmlOverride
 			});
 		});
 
@@ -341,7 +353,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
 				isV2forS78: true,
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				bannerHtmlOverride
 			});
 		});
 
@@ -362,7 +375,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				isListedBuilding: null,
 				isV2forS78: true,
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				bannerHtmlOverride
 			});
 		});
 
@@ -382,7 +396,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				dateOfDecisionLabel: 'Date decision due',
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				bannerHtmlOverride
 			});
 		});
 
@@ -405,7 +420,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
 				isV2forS78: true,
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				bannerHtmlOverride
 			});
 		});
 
@@ -428,7 +444,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				isListedBuilding: null,
 				isV2forS78: true,
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				bannerHtmlOverride
 			});
 		});
 	});
@@ -456,7 +473,11 @@ describe('controllers/before-you-start/can-use-service', () => {
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
 				isListedBuilding: null,
-				nextPageUrl: '/listed-building/planning-application-number'
+				nextPageUrl: '/listed-building/planning-application-number',
+				isV2forS78: undefined,
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S20'))
 			});
 		});
 	});
