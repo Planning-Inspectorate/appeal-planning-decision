@@ -3,7 +3,8 @@
 import { proofsOfEvidenceTestCases } from "../../helpers/lpaManageAppeals/proofsOfEvidenceData";
 import { BasePage } from "../../page-objects/base-page";
 import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
-const { fullAppealProofsOfEvidence } = require('../../support/flows/sections/lpaManageAppeals/proofsOfEvidence');
+import { users } from '../../fixtures/users.js';
+//const { ProofsOfEvidence } = require('../../support/flows/sections/lpaManageAppeals/proofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('LPA Proof of Evidence Validations', () => {
@@ -12,6 +13,7 @@ describe('LPA Proof of Evidence Validations', () => {
     let lpaManageAppealsData;
     let appealId;
     beforeEach(() => {
+        cy.login(users.appeals.authUser);
         cy.fixture('lpaManageAppealsData').then(data => {
             lpaManageAppealsData = data;
         })

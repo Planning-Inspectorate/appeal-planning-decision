@@ -3,7 +3,7 @@
 const initialiseApplicationTypeAppeal = require('./initialiseApplicationTypeAppeal');
 
 function submitAppealFlow(appealOptions) {
-	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, planning, context, prepareAppealData } =
+	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, planning, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases, fullAppealStatementTestCases } =
 		appealOptions;
 
 	if (['granted', 'refused', 'no decision'].includes(statusOfOriginalApplication) === false) {
@@ -24,7 +24,7 @@ function submitAppealFlow(appealOptions) {
 		);
 	}
 
-	initialiseApplicationTypeAppeal(statusOfOriginalApplication, planning, context, prepareAppealData);
+	initialiseApplicationTypeAppeal(statusOfOriginalApplication, planning, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases, fullAppealStatementTestCases);
 }
 
 module.exports = {

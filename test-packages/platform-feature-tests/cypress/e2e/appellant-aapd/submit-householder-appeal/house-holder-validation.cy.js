@@ -4,6 +4,7 @@
 import { BasePage } from "../../../page-objects/base-page";
 import { houseHolderAppealRefusedTestCases } from "../../../helpers/appellantAAPD/houseHolderAppeal/houseHolderAppealRefusedData";
 import { DateService } from "../../../utils/dateService";
+import { users } from "../../../fixtures/users.js";
 const { ContactDetailsPage } = require("../../../support/flows/pages/appellant-aapd/prepare-appeal/contactDetailsPage");
 const { AppealSiteAddressPage } = require("../../../support/flows/pages/appellant-aapd/prepare-appeal/appealSiteAddressPage");
 const { SiteAreaPage } = require("../../../support/flows/pages/appellant-aapd/prepare-appeal/siteAreaPage");
@@ -24,6 +25,7 @@ describe('House Holder Date Validations', () => {
     let prepareAppealData;
 
     beforeEach(() => {
+        cy.login(users.appeals.authUser);
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         })
@@ -111,20 +113,9 @@ describe('House Holder Date Validations', () => {
 
 describe('House Holder Validations for enforcement', () => {
     const prepareAppealSelector = new PrepareAppealSelector();
-    const basePage = new BasePage();
-    const contactDetailsPage = new ContactDetailsPage();
-    const appealSiteAddressPage = new AppealSiteAddressPage();
-    const siteAreaPage = new SiteAreaPage();
-    const greenBeltPage = new GreenBeltPage();
-    const ownAllLandPage = new OwnAllLandPage();
-    const ownSomeLandPage = new OwnSomeLandPage();
-    const inspectorNeedAccessPage = new InspectorNeedAccessPage();
-    const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
-    const otherAppealsPage = new OtherAppealsPage();
-    const context = houseHolderAppealRefusedTestCases[0];
+    const basePage = new BasePage();   
 
-    let prepareAppealData;
-    const date = new DateService();
+    let prepareAppealData;   
 
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {

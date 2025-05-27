@@ -1,6 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { fullAppealQuestionnaireTestCases } from "../../helpers/lpaManageAppeals/fullAppealQuestionnaireData";
+import { users } from '../../fixtures/users.js';
 const { questionnaire } = require('../../support/flows/sections/lpaManageAppeals/questionnaire');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
@@ -8,6 +9,7 @@ describe('Full Planning Questionnaire Test Cases', () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;     
         beforeEach(() => {
+                cy.login(users.appeals.authUser);
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })
