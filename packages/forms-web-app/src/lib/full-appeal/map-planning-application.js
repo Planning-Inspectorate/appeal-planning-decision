@@ -1,5 +1,5 @@
 const { APPEAL_ID, TYPE_OF_PLANNING_APPLICATION } = require('@pins/business-rules/src/constants');
-const { caseTypeLookup } = require('@pins/common/src/database/data-static');
+const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /** BYS
  * @param {string} application
@@ -54,9 +54,9 @@ const getAppealTypeNameByTypeCode = (typeCode) => {
  * @type {Object.<string, string>}
  */
 const typeOfPlanningApplicationToAppealTypeMapper = {
-	'full-appeal': 'S78',
-	'householder-planning': 'HAS',
-	'listed-building': 'S20'
+	[TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL]: CASE_TYPES.S78.processCode,
+	[TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING]: CASE_TYPES.HAS.processCode,
+	[TYPE_OF_PLANNING_APPLICATION.LISTED_BUILDING]: CASE_TYPES.S20.processCode
 };
 
 module.exports = {
