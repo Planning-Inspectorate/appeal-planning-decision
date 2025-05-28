@@ -1006,7 +1006,6 @@ class AppealsApiClient {
 		return response.json();
 	}
 
-	// todo: duplication
 	/**
 	 * @param {string} journeyId
 	 * @param {string} referenceId
