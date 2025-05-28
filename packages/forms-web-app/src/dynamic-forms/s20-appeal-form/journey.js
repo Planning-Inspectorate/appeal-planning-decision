@@ -8,6 +8,9 @@ const {
 } = require('../dynamic-components/utils/question-has-answer');
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const {
+	CASE_TYPES: { S20 }
+} = require('@pins/common/src/database/data-static');
 const config = require('../../config');
 
 /**
@@ -236,7 +239,7 @@ const sections = [
 		.withCondition((response) => questionHasAnswer(response, questions.otherNewDocuments, 'yes'))
 ];
 
-const baseS20SubmissionUrl = '/appeals/listed-building';
+const baseS20SubmissionUrl = `/appeals/${S20.friendlyUrl}`;
 
 /**
  * @param {JourneyResponse} response
@@ -257,7 +260,7 @@ const params = {
 	makeBaseUrl,
 	bannerHtmlOverride:
 		config.betaBannerText +
-		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S20'))
+		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(S20.processCode))
 };
 
 module.exports = {

@@ -83,9 +83,9 @@ const { getValidator } = new SchemaValidator();
 
 /** @type {(maybeTypeCode: string) => maybeTypeCode is AppealTypeCode} */
 const isValidAppealTypeCode = (maybeTypeCode) =>
-	[CASE_TYPES.HAS.processCode, CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode].includes(
-		maybeTypeCode
-	);
+	Object.values(CASE_TYPES)
+		.map((x) => x.processCode)
+		.includes(maybeTypeCode);
 
 class BackOfficeV2Service {
 	constructor() {}
