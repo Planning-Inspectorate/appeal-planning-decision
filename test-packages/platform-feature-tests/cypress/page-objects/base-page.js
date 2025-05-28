@@ -35,8 +35,12 @@ export class BasePage {
 		govukErrorSummaryList: ".govuk-list.govuk-error-summary__list",
 		govukFieldsetHeading: ".govuk-fieldset__heading",
 		govukSummaryListActionsagovuklink: "dd.govuk-summary-list__actions a.govuk-link",
-		govukHeadingM: ".govuk-heading-m"
-	}
+		govukHeadingM: ".govuk-heading-m",
+		govukBodyGovukLabelm: ".govuk-body.govuk-label--m",
+		govukLabelGovukLabel:".govuk-label.govuk-label--l",		
+        govukLabelGovUkLabel1:"label.govuk-label.govuk-label--l",
+		govukHeaderLinkGovukHeaderServiceName:".govuk-header__link.govuk-header__service-name",
+	};
 
 	basePageElements = {
 		acceptCookiesBtn: () => cy.get('[data-cy="cookie-banner-accept-analytics-cookies"]'),
