@@ -47,13 +47,6 @@ const APPEAL_TO_USER_ROLES = Object.freeze({
 	}
 });
 
-// journey names - multiple per appeal type
-// journey name -> journey url
-// journeys grouped by user type
-// journey type -> api endpoints (use groups?)
-// journey type -> form name
-// feedback urls
-
 /**
  * @type {Object<string, CASE_TYPE>}
  */
