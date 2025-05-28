@@ -62,7 +62,7 @@ module.exports = async (request, response, next) => {
 };
 
 /**
- * @param {'HAS' | 'S78' | 'S20' | undefined } appealTypeCode
+ * @param {'HAS' | 'S78' | 'S20' | 'ADVERTS' | 'CAS_ADVERTS' | 'CAS_PLANNING' | undefined } appealTypeCode
  * @param { string | undefined } LPACode
  * @returns {Promise<boolean>}
  */
