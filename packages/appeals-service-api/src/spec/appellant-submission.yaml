@@ -15,6 +15,9 @@ components:
             - 'HAS'
             - 'S78'
             - 'S20'
+            - 'ADVERTS'
+            - 'CAS_ADVERTS'
+            - 'CAS_PLANNING'
 
         applicationDecisionDate:
           type: string

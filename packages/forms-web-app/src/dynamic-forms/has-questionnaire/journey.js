@@ -3,6 +3,9 @@ const { Section } = require('../section');
 const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
+const {
+	CASE_TYPES: { HAS }
+} = require('@pins/common/src/database/data-static');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -16,7 +19,7 @@ const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-
 const sections = [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
-		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: 'householder' })
+		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: HAS.type.toLowerCase() })
 		.addQuestion(questions.listedBuildingCheck)
 		.addQuestion(questions.affectedListedBuildings)
 		.withCondition(
@@ -94,7 +97,7 @@ const makeBaseUrl = (response) => `${baseHASUrl}/${encodeURIComponent(response.r
 
 /** @type {JourneyParameters} */
 const params = {
-	journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+	journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 	sections,
 	journeyTemplate: 'questionnaire-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/questionnaire',

@@ -34,6 +34,8 @@ const getAppealTypeFeedbackUrl = (appealTypeCode) => {
 			return feedbackUrlS20;
 		case 'HAS':
 			return feedbackUrlHAS;
+		// todo - add feedback url for CAS and ADVERTS
+		// we could move these to static data but then we lose the ability to override the URLs in config?
 		default:
 			return feedbackUrl;
 	}
