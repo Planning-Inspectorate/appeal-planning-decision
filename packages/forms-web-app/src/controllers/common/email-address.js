@@ -20,7 +20,7 @@ const getEmailAddress = (views, appealInSession) => {
 	return (req, res) => {
 		const { email } = appealInSession ? req.session.appeal : req.session;
 		const appealType =
-			typeOfPlanningApplicationToAppealTypeMapper[req.session.appeal.typeOfPlanningApplication];
+			typeOfPlanningApplicationToAppealTypeMapper[req.session?.appeal?.typeOfPlanningApplication];
 		res.render(views.EMAIL_ADDRESS, {
 			email,
 			bannerHtmlOverride:
@@ -42,7 +42,7 @@ const postEmailAddress = (views, appealInSession) => {
 			appeal = getSessionAppeal(req.session);
 		}
 		const appealType =
-			typeOfPlanningApplicationToAppealTypeMapper[req.session.appeal.typeOfPlanningApplication];
+			typeOfPlanningApplicationToAppealTypeMapper[req.session?.appeal?.typeOfPlanningApplication];
 		if (Object.keys(errors).length > 0) {
 			res.render(views.EMAIL_ADDRESS, {
 				email,
