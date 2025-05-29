@@ -199,7 +199,8 @@ describe('/appellant-submissions', () => {
 				LPACode: 'Q9999',
 				appealTypeCode: 'HAS',
 				appealId: appealId,
-				applicationDecisionDate: new Date()
+				applicationDecisionDate: new Date(),
+				siteAreaSquareMetres: 64.68
 			});
 
 			const createdAppellantSubmissionId = putResponse.body.id;

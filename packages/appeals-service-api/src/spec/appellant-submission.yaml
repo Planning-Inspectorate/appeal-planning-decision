@@ -126,7 +126,7 @@ components:
           type: string
 
         siteAreaSquareMetres:
-          type: integer
+          type: number
         siteAreaUnits:
           type: string
         appellantPreferInquiryDuration:
