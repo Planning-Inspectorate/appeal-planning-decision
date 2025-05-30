@@ -16,6 +16,7 @@ const {
 	formatSections,
 	formatSiteVisits,
 	formatInquiries,
+	formatHearings,
 	isSection,
 	displayHeadlinesByUser
 } = require('@pins/common');
@@ -111,6 +112,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				headlineData,
 				siteVisits: formatSiteVisits(events, userType),
 				inquiries: formatInquiries(events, userType),
+				hearings: formatHearings(events, userType),
 				sections: formatSections({ caseData, sections }),
 				baseUrl: userRouteUrl,
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),
