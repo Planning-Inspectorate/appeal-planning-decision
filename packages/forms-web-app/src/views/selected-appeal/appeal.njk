@@ -228,8 +228,26 @@
 			{% for inquiry in appeal.inquiries %}
 				<div class="govuk-inset-text">
 					<p class="govuk-body">
-						{{inquiry}}
+						{{inquiry.lineOne}}
 					</p>
+					{% if inquiry.lineTwo %}
+						<p class="govuk-body">
+							{{inquiry.lineTwo}}
+						</p>
+					{% endif %}
+				</div>
+			{% endfor %}
+
+			{% for hearing in appeal.hearings %}
+				<div class="govuk-inset-text">
+					<p class="govuk-body">
+						{{hearing.lineOne}}
+					</p>
+					{% if hearing.lineTwo %}
+						<p class="govuk-body">
+							{{hearing.lineTwo}}
+						</p>
+					{% endif %}
 				</div>
 			{% endfor %}
 

@@ -78,9 +78,53 @@ const formatInquiries = (events, role) => {
 				role === APPEAL_USER_ROLES.AGENT ||
 				role === APPEAL_USER_ROLES.RULE_6_PARTY
 			) {
-				return `The inquiry will start at ${formattedStartTime} on ${formattedStartDate}. You must attend the inquiry ${
-					address ? `at ${address}.` : '- address to be confirmed.'
-				}`;
+				if (address) {
+					return {
+						lineOne:
+							`The inquiry will start at ${formattedStartTime} on ${formattedStartDate}. ` +
+							`You must attend the inquiry at ${address}.`
+					};
+				} else {
+					return {
+						lineOne:
+							`The inquiry will start at ${formattedStartTime} on ${formattedStartDate}. ` +
+							`We will contact you when we confirm the venue address.`,
+						lineTwo: 'You must attend the inquiry.'
+					};
+				}
+			}
+			return;
+		})
+		.filter(Boolean);
+};
+
+/**
+ * @param {Array<Event>} events
+ * @param {string} role
+ * @returns {Array<string|undefined>}
+ */
+const formatHearings = (events, role) => {
+	let hearings = events.filter((item) => item.type === EVENT_TYPES.HEARING);
+	return hearings
+		.map((hearing) => {
+			const { formattedTime: formattedStartTime, formattedDate: formattedStartDate } =
+				getFormattedTimeAndDate(hearing.startDate);
+			const address = formatEventAddress(hearing);
+			if (role === LPA_USER_ROLE) {
+				if (address) {
+					return {
+						lineOne:
+							`The hearing will start at ${formattedStartTime} on ${formattedStartDate}. ` +
+							`You must attend the hearing at ${address}.`
+					};
+				} else {
+					return {
+						lineOne:
+							`The hearing will start at ${formattedStartTime} on ${formattedStartDate}. ` +
+							`We will contact you when we confirm the venue address.`,
+						lineTwo: 'You must attend the hearing.'
+					};
+				}
 			}
 			return;
 		})
@@ -107,4 +151,4 @@ function getFormattedTimeAndDate(date) {
 	};
 }
 
-module.exports = { formatSiteVisits, formatInquiries };
+module.exports = { formatSiteVisits, formatInquiries, formatHearings };
