@@ -1093,6 +1093,7 @@ export interface LPAStatementSubmission {
 		siteAddressTown?: string;
 		siteAddressCounty?: string;
 		siteAddressPostcode?: string;
+		applicationReference?: string;
 	};
 	/** whether the statement has been submitted to BO */
 	submitted?: boolean;

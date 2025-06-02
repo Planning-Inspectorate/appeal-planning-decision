@@ -309,7 +309,8 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		siteAddressLine2,
 		siteAddressTown,
 		siteAddressCounty,
-		siteAddressPostcode
+		siteAddressPostcode,
+		applicationReference
 	} = lpaStatementSubmission.AppealCase;
 
 	const formattedAddress = formatSubmissionAddress({
@@ -337,7 +338,8 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 			appealSiteAddress: formattedAddress,
 			deadlineDate: finalCommentsDueDate
 				? formatInTimeZone(finalCommentsDueDate, ukTimeZone, 'dd MMMM yyyy')
-				: ''
+				: '',
+			lpaReference: applicationReference
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
