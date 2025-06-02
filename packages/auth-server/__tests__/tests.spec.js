@@ -475,7 +475,7 @@ describe('auth server', () => {
 				}
 			});
 			expect(recheckUser.isEnrolled).toEqual(true);
-			await expectEmails(); // Use the new helper
+			expectEmails();
 		});
 	});
 });
@@ -487,7 +487,7 @@ const expectEmails = () => {
 		TEST_EMAIL,
 		{
 			personalisation: {
-				subject: expect.stringContaining(`Sign in to appeal a planning decision:`),
+				subject: expect.stringMatching(`Sign in to appeal a planning decision`),
 				content: expect.stringContaining('Sign in to appeal a planning decision:')
 			},
 			reference: expect.any(String),

@@ -45,7 +45,7 @@ export const sendConfirmRegistrationEmailToAppellant = async (recipientEmail, us
 		);
 		await notifyService.sendEmail({
 			personalisation: {
-				subject: `Sign in to appeal a planning decision: ${variables.link}`,
+				subject: `Sign in to appeal a planning decision`,
 				content
 			},
 			destinationEmail: recipientEmail,
