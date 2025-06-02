@@ -4,6 +4,7 @@ We’ve received your statement.
 
 ^ Appeal reference number: {{appealReferenceNumber}}
 Address: {{appealSiteAddress}}
+Planning application reference: {{lpaReference}}
 
 ## What happens next
 

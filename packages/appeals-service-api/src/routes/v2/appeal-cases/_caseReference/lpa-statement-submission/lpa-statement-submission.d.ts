@@ -13,6 +13,7 @@ export type LPAStatementSubmission = Prisma.LPAStatementSubmissionGetPayload<{
 				siteAddressTown: true;
 				siteAddressCounty: true;
 				siteAddressPostcode: true;
+				applicationReference: true;
 			};
 		};
 		SubmissionDocumentUpload: true;
