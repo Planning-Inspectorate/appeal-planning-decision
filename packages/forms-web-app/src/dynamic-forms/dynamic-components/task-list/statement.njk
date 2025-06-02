@@ -12,19 +12,61 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-		<h1 class="govuk-heading-l">Check your answers and submit your appeal statement</h1>
-		<form method="post">
-		<input type="hidden" name="_csrf" value="{{_csrf}}">
-      <div class="govuk-form-group">
-        {{ govukSummaryList({
-					rows: summaryListData.sections[0].list.rows
-				  }) }}
-      </div>
-			<div class="govuk-button-group">
-        {{ govukButton({text: "Submit appeal statement", type: "submit"}) }}
-			</div>
-    </form>
+			<h1 class="govuk-heading-l">Check your answers and submit your appeal statement</h1>
+			<form method="post">
+				<input type="hidden" name="_csrf" value="{{_csrf}}">
+				<div class="govuk-form-group">
+					<dl class="govuk-summary-list">
+						{% for row in summaryListData.sections[0].list.rows %}
+							{% set rawHtml = row.value.html | default('') %}
+							{% set plainText = rawHtml | striptags | trim %}
+							{% set needsTruncation = plainText | length > 150 %}
+							{% set truncatedText = plainText | truncate(150, true, '...') %}
+							<div class="govuk-summary-list__row">
+								<dt class="govuk-summary-list__key">
+								{{ row.key.text or row.key }}
+								</dt>
+								<dd class="govuk-summary-list__value">
+								{% if row.value.html %}
+									{% if needsTruncation %}
+										<span id="comment-text-{{ loop.index }}" class="comment-text"
+													data-truncated-text="{{ truncatedText }}"
+													data-full-text="{{ plainText }}">
+											{{ truncatedText }}
+										</span>
+										<a href="#" id="toggle-button-{{ loop.index }}" class="toggle-button expand-collapse-button">Read more</a>
+									{% else %}
+										{{ rawHtml | safe }}
+									{% endif %}
+								{% elif row.value.text %}
+									{{ row.value.text }}
+								{% else %}
+									{{ row.value }}
+								{% endif %}
+								</dd>
+								{% if row.actions?.items?.length > 0 %}
+									<dd class="govuk-summary-list__actions">
+										{% for action in row.actions.items %}
+											{% if action.href %}
+												<a class="govuk-link" href="{{ action.href }}">
+													{{ action.text | default('Change') }}
+													{% if action.visuallyHiddenText %}
+														<span class="govuk-visually-hidden">{{ action.visuallyHiddenText }}</span>
+													{% endif %}
+												</a>{% if not loop.last %}<br>{% endif %}
+											{% endif %}
+										{% endfor %}
+									</dd>
+								{% endif %}
+							</div>
+						{% endfor %}
+					</dl>
+				</div>
+				<div class="govuk-button-group">
+					{{ govukButton({ text: "Submit appeal statement", type: "submit" }) }}
+				</div>
+			</form>
 		</div>
 	</div>
-
+	<script src="/public/javascripts/commentActions.bundle.js" defer></script>
 {% endblock content %}
