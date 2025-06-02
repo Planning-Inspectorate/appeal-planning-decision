@@ -2,47 +2,48 @@ import { InvalidClient, UnknownUserId } from 'oidc-provider/lib/helpers/errors.j
 
 import config from '../configuration/config.js';
 import { InvalidOtpGrant } from './custom-grant-errors.js';
-import { sendSecurityCodeEmail } from '../lib/notify.js';
-import createPrismaClient from '../adapter/prisma-client.js';
-import { TokenRepository } from './token-repo.js';
-import UserRepository from '../account/repository.js';
 import { isEmailLike } from '../validators/email.js';
 
 export const parameters = new Set(['resource', 'email', 'action']);
 
-const tokenRepo = new TokenRepository(createPrismaClient());
-const userRepo = new UserRepository();
-
 /**
- * @param {import('oidc-provider').KoaContextWithOIDC} ctx
- * @param {function} next
+ * @param {import('../dependencies.js').lifetimeDependencies} dependencies
  */
-export const handler = async function (ctx, next) {
-	const { client, params } = ctx.oidc;
+export const handler = (dependencies) => {
+	/**
+	 * @param {import('oidc-provider').KoaContextWithOIDC} ctx
+	 * @param {function} next
+	 */
+	return async function (ctx, next) {
+		const { client, params } = ctx.oidc;
 
-	if (!params || !params.email) {
-		throw new InvalidOtpGrant('params missing');
-	}
+		if (!params || !params.email) {
+			throw new InvalidOtpGrant('params missing');
+		}
 
-	if (!isEmailLike(params.email)) {
-		throw new InvalidOtpGrant('invalid email format');
-	}
+		if (!isEmailLike(params.email)) {
+			throw new InvalidOtpGrant('invalid email format');
+		}
 
-	if (!client) {
-		throw new InvalidClient('client not set');
-	}
+		if (!client) {
+			throw new InvalidClient('client not set');
+		}
 
-	ctx.body = await performOtpGrant(ctx);
+		ctx.body = await performOtpGrant(ctx, dependencies);
 
-	await next();
+		await next();
+	};
 };
 
 /**
  * @param {import('oidc-provider').KoaContextWithOIDC} ctx
+ * @param {import('../dependencies.js').lifetimeDependencies} dependencies
  * @returns {Promise<{expires_at: number}>}
  */
-const performOtpGrant = async (ctx) => {
+const performOtpGrant = async (ctx, dependencies) => {
 	const { email, action } = ctx.oidc.params;
+
+	const { accountRepo, tokenRepo } = dependencies;
 
 	let accountId;
 	try {
@@ -55,7 +56,7 @@ const performOtpGrant = async (ctx) => {
 		}
 
 		// unfortunately seem unable to use ctx.oidc.provider.Account here
-		const user = await userRepo.createUser({
+		const user = await accountRepo.createUser({
 			email: email.trim(),
 			isEnrolled: false
 		});
@@ -66,7 +67,8 @@ const performOtpGrant = async (ctx) => {
 	const token = await tokenRepo.createOrUpdate(accountId, action);
 
 	if (token) {
-		await sendSecurityCodeEmail(email, token, accountId);
+		if (!ctx.req.dependencies?.notify) throw new InvalidOtpGrant('notify dependency not available');
+		await ctx.req.dependencies.notify.sendSecurityCodeEmail(email, token, accountId);
 	}
 
 	return {

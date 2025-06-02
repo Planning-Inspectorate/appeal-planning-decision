@@ -17,5 +17,10 @@ export default {
 			functions: 72,
 			lines: 72
 		}
-	}
+	},
+	coveragePathIgnorePatterns: [
+		'node_modules',
+		'<rootDir>/src/.*\\.spec\\.js$',
+		'<rootDir>/src/.*\\.test\\.js$'
+	]
 };

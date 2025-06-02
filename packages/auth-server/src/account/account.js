@@ -1,9 +1,11 @@
 import { UnknownUserId } from 'oidc-provider/lib/helpers/errors.js';
-import { sendConfirmRegistrationEmailToAppellant } from '../lib/notify.js';
 import { isEmailLike } from '../validators/email.js';
 
-import Repository from './repository.js';
-const repo = new Repository();
+/** @type {import('./repository.js').default} */
+let repo;
+/** @type {import('../lib/notify.js').default} */
+let notify;
+
 class Account {
 	/**
 	 * @param {string} id
@@ -22,7 +24,7 @@ class Account {
 		) {
 			this.user.isEnrolled = true;
 			await repo.updateUser(this.user);
-			await sendConfirmRegistrationEmailToAppellant(this.user.email, this.accountId);
+			await notify.sendConfirmRegistrationEmailToAppellant(this.user.email, this.accountId);
 		}
 	}
 
@@ -60,8 +62,6 @@ class Account {
 	/**
 	 * @param {import('oidc-provider').KoaContextWithOIDC} ctx
 	 * @param {string} id
-	 * @param {import('oidc-provider/lib/models/base_token.js') | undefined} token // token is a reference to the token used for which a given account is being loaded,
-	 *  it is undefined in scenarios where account claims are returned from authorization endpoint
 	 * @returns {Promise<Account>}
 	 */ // eslint-disable-next-line no-unused-vars
 	static async findAccount(ctx, id, token) {
@@ -77,6 +77,14 @@ class Account {
 		if (!user) throw new UnknownUserId(id);
 
 		return new Account(user.id, user);
+	}
+
+	/**
+	 * @param {import('../dependencies.js').allDependencies} dependencies
+	 */
+	static setDependencies(dependencies) {
+		repo = dependencies.accountRepo;
+		notify = dependencies.notify;
 	}
 }
 
