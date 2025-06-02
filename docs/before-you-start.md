@@ -20,24 +20,27 @@ flowchart TD
     refusedHouseHolder[granted/refused?]
     refusedHouseHolderV2[granted/refused?]
     refusedListedV2[granted/refused?]
+
+    %% simplified - no decision has different wording for date
     date[date of decision?]
     dateV2[date of decision?]
     dateHouseHolder[date of decision?]
     dateHouseHolderV2[date of decision?]
     dateListedV2[date of decision?]
 
-    %% forms multiple acp nodes to simplify graph rendering
+    %% Exit paths, multiple acp nodes to simplify graph rendering
     deadline(((-> deadline)))
     deadline2(((-> deadline)))
-    style deadline stroke:#ff0000,stroke-width:1px
+    deadline3(((-> deadline)))
     acp(((-> ACP)))
     acp2(((-> ACP)))
     acp3(((-> ACP)))
     acp4(((-> ACP)))
     acp5(((-> ACP)))
-    classDef acpStyle stroke:#ff0000,stroke-width:1px;
-    class acp,acp2,acp3,acp4,acp5 acpStyle;
+    classDef exitStyle stroke:#ff0000,stroke-width:1px;
+    class acp,acp2,acp3,acp4,acp5,deadline,deadline2,deadline3 exitStyle;
 
+    %% Forms
     v1HAS@{ shape: doc, label: "-> V1 HAS Appeal" }
     v1S78@{ shape: doc, label: "-> V1 S78 Appeal" }
     v2HAS@{ shape: doc, label: "-> V2 HAS Appeal" }
@@ -74,8 +77,7 @@ flowchart TD
 
     refused --> date
 
-    refusedHouseHolder -- granted --> date
-    refusedHouseHolder -- no decision --> date
+    refusedHouseHolder -- granted/no decision --> date
     refusedHouseHolder -- refused --> dateHouseHolder
 
     date -- missed --> deadline
@@ -111,7 +113,8 @@ flowchart TD
     dateV2 -- missed --> deadline2
     dateV2 -- in time --> v2S78
 
-    dateListedV2 --> v2S20
+    dateListedV2 -- missed --> deadline3
+    dateListedV2 -- in time --> v2S20
 
     dateHouseHolderV2 -- in time --> v2HAS
     dateHouseHolderV2 -- missed --> deadline2
