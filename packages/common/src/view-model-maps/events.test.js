@@ -157,7 +157,8 @@ describe('view-model-maps/events', () => {
 			expect(formatInquiries(events, role)).toEqual([
 				{
 					lineOne:
-						'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
+						'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.',
+					lineTwo: null
 				}
 			]);
 		});
@@ -169,7 +170,8 @@ describe('view-model-maps/events', () => {
 			expect(formatInquiries(events, role)).toEqual([
 				{
 					lineOne:
-						'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
+						'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.',
+					lineTwo: null
 				}
 			]);
 		});
@@ -181,7 +183,8 @@ describe('view-model-maps/events', () => {
 			expect(formatInquiries(events, role)).toEqual([
 				{
 					lineOne:
-						'Your inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
+						'Your inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.',
+					lineTwo: null
 				}
 			]);
 		});
@@ -193,7 +196,8 @@ describe('view-model-maps/events', () => {
 			expect(formatInquiries(events, role)).toEqual([
 				{
 					lineOne:
-						'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
+						'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.',
+					lineTwo: null
 				}
 			]);
 		});
@@ -267,7 +271,8 @@ describe('view-model-maps/events', () => {
 			expect(formatHearings(events, role)).toEqual([
 				{
 					lineOne:
-						'Your hearing will start at 9am on 29 December 2025. You must attend the hearing at 101 The Street, Flat 2, Town, County, AB1 2CD.'
+						'Your hearing will start at 9am on 29 December 2025. You must attend the hearing at 101 The Street, Flat 2, Town, County, AB1 2CD.',
+					lineTwo: null
 				}
 			]);
 		});
@@ -279,7 +284,8 @@ describe('view-model-maps/events', () => {
 			expect(formatHearings(events, role)).toEqual([
 				{
 					lineOne:
-						'The hearing will start at 9am on 29 December 2025. You must attend the hearing at 101 The Street, Flat 2, Town, County, AB1 2CD.'
+						'The hearing will start at 9am on 29 December 2025. You must attend the hearing at 101 The Street, Flat 2, Town, County, AB1 2CD.',
+					lineTwo: null
 				}
 			]);
 		});
