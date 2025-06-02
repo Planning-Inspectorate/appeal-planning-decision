@@ -74,38 +74,16 @@ const formatInquiries = (events, role) => {
 
 			if (
 				role === LPA_USER_ROLE ||
+				role === APPEAL_USER_ROLES.APPELLANT ||
 				role === APPEAL_USER_ROLES.AGENT ||
 				role === APPEAL_USER_ROLES.RULE_6_PARTY
 			) {
-				if (address) {
-					return {
-						lineOne:
-							`The inquiry will start at ${formattedStartTime} on ${formattedStartDate}. ` +
-							`You must attend the inquiry at ${address}.`
-					};
-				} else {
-					return {
-						lineOne:
-							`The inquiry will start at ${formattedStartTime} on ${formattedStartDate}. ` +
-							`We will contact you when we confirm the venue address.`,
-						lineTwo: 'You must attend the inquiry.'
-					};
-				}
-			} else if (role === APPEAL_USER_ROLES.APPELLANT) {
-				if (address) {
-					return {
-						lineOne:
-							`Your inquiry will start at ${formattedStartTime} on ${formattedStartDate}. ` +
-							`You must attend the inquiry at ${address}.`
-					};
-				} else {
-					return {
-						lineOne:
-							`Your inquiry will start at ${formattedStartTime} on ${formattedStartDate}. ` +
-							`We will contact you when we confirm the venue address.`,
-						lineTwo: 'You must attend the inquiry.'
-					};
-				}
+				return {
+					lineOne:
+						`${role === APPEAL_USER_ROLES.APPELLANT ? `Your` : `The`} inquiry will start at ${formattedStartTime} on ${formattedStartDate}. ` +
+						`${address ? `You must attend the inquiry at ${address}.` : 'We will contact you when we confirm the venue address.'}`,
+					lineTwo: address ? null : 'You must attend the inquiry.'
+				};
 			}
 			return;
 		})
@@ -124,36 +102,13 @@ const formatHearings = (events, role) => {
 			const { formattedTime: formattedStartTime, formattedDate: formattedStartDate } =
 				getFormattedTimeAndDate(hearing.startDate);
 			const address = formatEventAddress(hearing);
-			if (role === LPA_USER_ROLE) {
-				if (address) {
-					return {
-						lineOne:
-							`The hearing will start at ${formattedStartTime} on ${formattedStartDate}. ` +
-							`You must attend the hearing at ${address}.`
-					};
-				} else {
-					return {
-						lineOne:
-							`The hearing will start at ${formattedStartTime} on ${formattedStartDate}. ` +
-							`We will contact you when we confirm the venue address.`,
-						lineTwo: 'You must attend the hearing.'
-					};
-				}
-			} else if (role === APPEAL_USER_ROLES.APPELLANT) {
-				if (address) {
-					return {
-						lineOne:
-							`Your hearing will start at ${formattedStartTime} on ${formattedStartDate}. ` +
-							`You must attend the hearing at ${address}.`
-					};
-				} else {
-					return {
-						lineOne:
-							`Your hearing will start at ${formattedStartTime} on ${formattedStartDate}. ` +
-							`We will contact you when we confirm the venue address.`,
-						lineTwo: 'You must attend the hearing.'
-					};
-				}
+			if (role === LPA_USER_ROLE || role === APPEAL_USER_ROLES.APPELLANT) {
+				return {
+					lineOne:
+						`${role === APPEAL_USER_ROLES.APPELLANT ? `Your` : `The`} hearing will start at ${formattedStartTime} on ${formattedStartDate}. ` +
+						`${address ? `You must attend the hearing at ${address}.` : 'We will contact you when we confirm the venue address.'}`,
+					lineTwo: address ? null : 'You must attend the hearing.'
+				};
 			}
 			return;
 		})
