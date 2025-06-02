@@ -11,12 +11,14 @@ flowchart TD
     enf[enforcement?]
     app[application type?]
     appAbout[application about?]
+    appAboutCAS[application about?]
     listed[is listed building?]
     existingHome[existing-home?]
     conditionsHouseHolder[conditions for householder?]
     costsHouseHolder[applying for costs?]
     refused[granted/refused?]
     refusedV2[granted/refused?]
+    refusedV2CAS[granted/refused?]
     refusedHouseHolder[granted/refused?]
     refusedHouseHolderV2[granted/refused?]
     refusedListedV2[granted/refused?]
@@ -27,18 +29,20 @@ flowchart TD
     dateHouseHolder[date of decision?]
     dateHouseHolderV2[date of decision?]
     dateListedV2[date of decision?]
+    dateV2CAS[date of decision?]
 
     %% Exit paths, multiple acp nodes to simplify graph rendering
     deadline(((-> deadline)))
     deadline2(((-> deadline)))
     deadline3(((-> deadline)))
+    deadline4(((-> deadline)))
     acp(((-> ACP)))
     acp2(((-> ACP)))
     acp3(((-> ACP)))
     acp4(((-> ACP)))
     acp5(((-> ACP)))
     classDef exitStyle stroke:#ff0000,stroke-width:1px;
-    class acp,acp2,acp3,acp4,acp5,deadline,deadline2,deadline3 exitStyle;
+    class acp,acp2,acp3,acp4,acp5,deadline,deadline2,deadline3,deadline4 exitStyle;
 
     %% Forms
     v1HAS@{ shape: doc, label: "-> V1 HAS Appeal" }
@@ -94,6 +98,14 @@ flowchart TD
     app -- v2 listed building consent --> refusedListedV2
     app -- v2 householder --> refusedHouseHolderV2
     app -- conditions --> conditionsHouseHolder
+    app -- v2 minor commercial --> appAboutCAS
+
+    appAboutCAS -- none --> test
+    appAboutCAS -- any other -->  refusedV2CAS
+    refusedV2 --> dateV2CAS
+
+    dateV2CAS -- missed --> deadline4
+    dateV2CAS -- in time --> v2CAS
 
     listed -- v2 yes --> refusedListedV2
     listed -- v2 no --> refusedHouseHolder
