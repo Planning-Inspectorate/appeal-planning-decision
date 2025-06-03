@@ -1153,7 +1153,7 @@ export interface Representation {
 	/** Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ] */
 	representationStatus?: string;
 	/** The original representation */
-	originalRepresentation?: boolean;
+	originalRepresentation?: string;
 	/** Indicates if the representation is redacted */
 	redacted?: boolean;
 	/** The redacted version of the representation */
