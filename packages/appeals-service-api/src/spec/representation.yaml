@@ -27,7 +27,7 @@ components:
           type: string
           description: Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ]
         originalRepresentation:
-          type: boolean
+          type: string
           description: The original representation
         redacted:
           type: boolean
