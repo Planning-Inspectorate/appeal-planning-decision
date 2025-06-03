@@ -31,11 +31,11 @@ This repo is designed to provide a front end for various users involved in makin
 __Requirements__
 
 - Docker
-- Node 20 (recommended to install via nvm) 
+- Node 22 (recommended to install via nvm) 
 
 ```sh
-nvm install 20
-nvm use 20
+nvm install 22
+nvm use 22
 ```
 
 __Initial setup__
