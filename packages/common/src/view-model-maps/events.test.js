@@ -1,5 +1,5 @@
 const { LPA_USER_ROLE, APPEAL_USER_ROLES, EVENT_SUB_TYPES } = require('../constants');
-const { formatInquiries, formatSiteVisits } = require('./events');
+const { formatInquiries, formatSiteVisits, formatHearings } = require('./events');
 
 describe('view-model-maps/events', () => {
 	const siteVisitEvent = {
@@ -27,6 +27,19 @@ describe('view-model-maps/events', () => {
 		addressCounty: 'County',
 		addressPostcode: 'AB1 2CD'
 	};
+	const hearingEvent = {
+		internalId: 'test123',
+		published: true,
+		type: 'hearing',
+		subtype: null,
+		startDate: new Date(2025, 11, 29, 9),
+		endDate: new Date(2025, 11, 30, 9),
+		addressLine1: '101 The Street',
+		addressLine2: 'Flat 2',
+		addressTown: 'Town',
+		addressCounty: 'County',
+		addressPostcode: 'AB1 2CD'
+	};
 
 	describe('formatSiteVisits', () => {
 		it('returns empty array if not a valid user', () => {
@@ -37,7 +50,7 @@ describe('view-model-maps/events', () => {
 		});
 
 		it('returns empty array if valid user and no site visit in events array', () => {
-			const events = [inquiryEvent, inquiryEvent];
+			const events = [inquiryEvent, inquiryEvent, hearingEvent];
 			const role = APPEAL_USER_ROLES.APPELLANT;
 
 			expect(formatSiteVisits(events, role)).toHaveLength(0);
@@ -131,7 +144,7 @@ describe('view-model-maps/events', () => {
 		});
 
 		it('returns empty array if valid user and no inquiries in events', () => {
-			const events = [siteVisitEvent];
+			const events = [siteVisitEvent, hearingEvent];
 			const role = LPA_USER_ROLE;
 
 			expect(formatInquiries(events, role)).toHaveLength(0);
@@ -142,7 +155,11 @@ describe('view-model-maps/events', () => {
 			const role = LPA_USER_ROLE;
 
 			expect(formatInquiries(events, role)).toEqual([
-				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
+				{
+					lineOne:
+						'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.',
+					lineTwo: null
+				}
 			]);
 		});
 
@@ -151,7 +168,11 @@ describe('view-model-maps/events', () => {
 			const role = APPEAL_USER_ROLES.RULE_6_PARTY;
 
 			expect(formatInquiries(events, role)).toEqual([
-				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
+				{
+					lineOne:
+						'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.',
+					lineTwo: null
+				}
 			]);
 		});
 
@@ -160,7 +181,11 @@ describe('view-model-maps/events', () => {
 			const role = APPEAL_USER_ROLES.APPELLANT;
 
 			expect(formatInquiries(events, role)).toEqual([
-				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
+				{
+					lineOne:
+						'Your inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.',
+					lineTwo: null
+				}
 			]);
 		});
 
@@ -169,11 +194,15 @@ describe('view-model-maps/events', () => {
 			const role = APPEAL_USER_ROLES.AGENT;
 
 			expect(formatInquiries(events, role)).toEqual([
-				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
+				{
+					lineOne:
+						'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.',
+					lineTwo: null
+				}
 			]);
 		});
 
-		it('returns correct string array if inquiry missing address', () => {
+		it('returns correct string array if inquiry missing address & appellant user', () => {
 			const events = [
 				siteVisitEvent,
 				{
@@ -185,10 +214,121 @@ describe('view-model-maps/events', () => {
 					addressPostcode: null
 				}
 			];
-			const role = LPA_USER_ROLE;
+			const role = APPEAL_USER_ROLES.APPELLANT;
 
 			expect(formatInquiries(events, role)).toEqual([
-				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry - address to be confirmed.'
+				{
+					lineOne:
+						'Your inquiry will start at 9am on 29 December 2024. We will contact you when we confirm the venue address.',
+					lineTwo: 'You must attend the inquiry.'
+				}
+			]);
+		});
+	});
+
+	it('returns correct string array if inquiry missing address & LPA user', () => {
+		const events = [
+			siteVisitEvent,
+			{
+				...inquiryEvent,
+				addressLine1: null,
+				addressLine2: null,
+				addressTown: null,
+				addressCounty: null,
+				addressPostcode: null
+			}
+		];
+		const role = LPA_USER_ROLE;
+
+		expect(formatInquiries(events, role)).toEqual([
+			{
+				lineOne:
+					'The inquiry will start at 9am on 29 December 2024. We will contact you when we confirm the venue address.',
+				lineTwo: 'You must attend the inquiry.'
+			}
+		]);
+	});
+
+	describe('formatHearings', () => {
+		it('returns empty array if not a valid user', () => {
+			const events = [hearingEvent];
+			const role = 'not a valid user';
+
+			expect(formatHearings(events, role)).toHaveLength(0);
+		});
+
+		it('returns empty array if valid user and no hearings in events', () => {
+			const events = [siteVisitEvent, inquiryEvent];
+			const role = LPA_USER_ROLE;
+
+			expect(formatHearings(events, role)).toHaveLength(0);
+		});
+
+		it('returns correct string array if valid hearing & appellant user', () => {
+			const events = [siteVisitEvent, inquiryEvent, hearingEvent];
+			const role = APPEAL_USER_ROLES.APPELLANT;
+
+			expect(formatHearings(events, role)).toEqual([
+				{
+					lineOne:
+						'Your hearing will start at 9am on 29 December 2025. You must attend the hearing at 101 The Street, Flat 2, Town, County, AB1 2CD.',
+					lineTwo: null
+				}
+			]);
+		});
+
+		it('returns correct string array if valid hearing & LPA user', () => {
+			const events = [siteVisitEvent, inquiryEvent, hearingEvent];
+			const role = LPA_USER_ROLE;
+
+			expect(formatHearings(events, role)).toEqual([
+				{
+					lineOne:
+						'The hearing will start at 9am on 29 December 2025. You must attend the hearing at 101 The Street, Flat 2, Town, County, AB1 2CD.',
+					lineTwo: null
+				}
+			]);
+		});
+
+		it('returns correct string array if valid hearing without an address & appellant user', () => {
+			const events = [
+				{
+					...hearingEvent,
+					addressLine1: null,
+					addressLine2: null,
+					addressTown: null,
+					addressCounty: null,
+					addressPostcode: null
+				}
+			];
+			const role = APPEAL_USER_ROLES.APPELLANT;
+			expect(formatHearings(events, role)).toEqual([
+				{
+					lineOne:
+						'Your hearing will start at 9am on 29 December 2025. We will contact you when we confirm the venue address.',
+					lineTwo: 'You must attend the hearing.'
+				}
+			]);
+		});
+
+		it('returns correct string array if valid hearing without an address & LPA user', () => {
+			const events = [
+				{
+					...hearingEvent,
+					addressLine1: null,
+					addressLine2: null,
+					addressTown: null,
+					addressCounty: null,
+					addressPostcode: null
+				}
+			];
+			const role = LPA_USER_ROLE;
+			expect(formatHearings(events, role)).toEqual([
+				{
+					lineOne:
+						'The hearing will start at 9am on 29 December 2025. We will contact you when we confirm the venue address.',
+					lineTwo: 'You must attend the hearing.'
+				}
 			]);
 		});
 	});
