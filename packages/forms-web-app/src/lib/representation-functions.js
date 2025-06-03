@@ -5,6 +5,7 @@ const {
 	REPRESENTATION_TYPES
 } = require('@pins/common/src/constants');
 const escape = require('escape-html');
+const { nl2br } = require('@pins/common/src/utils');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
@@ -202,8 +203,10 @@ const formatRepresentations = (caseData, representations) => {
 		const fullText = representation.redacted
 			? representation.redactedRepresentation
 			: representation.originalRepresentation;
-		const truncated = fullText ? fullText.length > 150 : false;
-		const truncatedText = truncated ? fullText.substring(0, 150) + '...' : fullText;
+		const escaped = fullText ? escape(fullText) : undefined;
+		const newLined = escaped ? nl2br(escaped) : undefined;
+		const truncated = (newLined && newLined.length > 150) || false;
+		const truncatedText = truncated ? newLined.substring(0, 150) + '...' : newLined;
 
 		const rowLabel = formatRowLabelAndKey(representation.representationType);
 
@@ -225,7 +228,7 @@ const formatRepresentations = (caseData, representations) => {
 			key: { text: `${rowLabel} ${index + 1}` },
 			rowLabel,
 			value: {
-				text: fullText,
+				text: newLined,
 				truncatedText: truncatedText,
 				truncated: truncated,
 				documents: formattedDocuments
