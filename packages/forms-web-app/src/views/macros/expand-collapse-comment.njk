@@ -1,19 +1,26 @@
 {% macro renderComment(comment, index, key) %}
     <dl class="govuk-summary-list">
-			{% if comment.truncatedText %}
-        <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">{{ key }}</dt>
-            <dd class="govuk-summary-list__value">
-                <span id="comment-text-{{ index }}" class="comment-text" data-truncated-text="{{ comment.truncatedText }}" data-full-text="{{ comment.text }}">
-                    {{ comment.text }}
-                </span>
-                {% if comment.truncated %}
-                    <a href="#" id="toggle-button-{{ index }}" class="toggle-button expand-collapse-button">Read more</a>
-                {% endif %}
-            </dd>
-        </div>
-
-			{% endif %}
+        {% if comment.truncatedText %}
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">{{ key }}</dt>
+                <dd class="govuk-summary-list__value">
+                    <span id="truncated-text-{{ index }}" class="truncated-text">
+                        <span class="data-truncated-text">
+                            {{ comment.truncatedText | safe }}
+                        </span>
+                        <span class="data-full-text">
+                            {{ comment.text | safe  }}
+                        </span>
+                        <span class="data-visible-text">
+                            {{ comment.text | safe  }}
+                        </span>
+                    </span>
+                    {% if comment.truncated %}
+                        <a href="#" id="toggle-button-{{ index }}" class="toggle-button expand-collapse-button">Read more</a>
+                    {% endif %}
+                </dd>
+            </div>
+        {% endif %}
 
         {% if comment.documents %}
             {% for document in comment.documents %}
