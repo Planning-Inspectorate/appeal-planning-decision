@@ -4,24 +4,28 @@ document.addEventListener('DOMContentLoaded', () => {
 			const target = event.target;
 
 			const index = target?.id.split('-').pop();
-			const commentTextElement = document.getElementById(`comment-text-${index}`);
+			const commentTextElement = document.getElementById(`truncated-text-${index}`);
 			event.preventDefault();
 
 			if (commentTextElement) {
 				const isExpanded = target?.textContent === 'Close';
-				const textToShow = isExpanded
-					? commentTextElement.getAttribute('data-truncated-text')
-					: commentTextElement.getAttribute('data-full-text');
-				commentTextElement.textContent = textToShow;
+				const truncatedText = commentTextElement.querySelector('.data-truncated-text')?.innerHTML;
+				const fullText = commentTextElement.querySelector('.data-full-text')?.innerHTML;
+				const visibleText = commentTextElement.querySelector('.data-visible-text');
+
+				if (!target || !visibleText || !truncatedText || !fullText) return;
+
+				visibleText.innerHTML = isExpanded ? truncatedText : fullText;
 				target.textContent = isExpanded ? 'Read more' : 'Close';
 			}
 		}
 	});
 
-	document.querySelectorAll('.comment-text').forEach((element) => {
-		const truncatedText = element.getAttribute('data-truncated-text');
-		if (truncatedText) {
-			element.textContent = truncatedText;
+	document.querySelectorAll('.truncated-text').forEach((element) => {
+		const truncatedText = element.querySelector('.data-truncated-text')?.innerHTML;
+		const visibleText = element.querySelector('.data-visible-text');
+		if (truncatedText && visibleText) {
+			visibleText.innerHTML = truncatedText;
 			const toggleButton = document.querySelector(`#toggle-button-${element.id.split('-').pop()}`);
 			if (toggleButton) {
 				toggleButton.textContent = 'Read more';
