@@ -409,7 +409,7 @@ components:
         screeningOpinion:
           type: boolean
           description: Have you issued a screening opinion
-        scopingOpinion:
+        eiaScopingOpinion:
           type: boolean
           description: Have you issued a scoping opinion
         requiresEnvironmentalStatement:

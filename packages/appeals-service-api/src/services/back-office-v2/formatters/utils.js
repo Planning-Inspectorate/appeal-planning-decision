@@ -530,7 +530,7 @@ exports.getS78LPAQSubmissionFields = (answers) => {
 		eiaSensitiveAreaDetails: answers.sensitiveArea_sensitiveAreaDetails || null,
 		eiaColumnTwoThreshold: answers.columnTwoThreshold,
 		eiaScreeningOpinion: answers.screeningOpinion,
-		eiaScopingOpinion: answers.scopingOpinion,
+		eiaScopingOpinion: answers.eiaScopingOpinion,
 		eiaRequiresEnvironmentalStatement: answers.environmentalStatement,
 		eiaCompletedEnvironmentalStatement: exports.toBool(
 			answers.applicantSubmittedEnvironmentalStatement
