@@ -88,7 +88,7 @@ const CASE_TYPES = Object.freeze({
 		expedited: false
 	},
 	CAS_ADVERTS: {
-		id: 1008,
+		id: 1007,
 		key: APPEAL_CASE_TYPE.Z, // shares same key as CAS_PLANNING
 		type: 'Minor commercial advertisement',
 		caption: 'Minor Commercial Advertisement',
@@ -97,7 +97,7 @@ const CASE_TYPES = Object.freeze({
 		expedited: true
 	},
 	CAS_PLANNING: {
-		id: 1007,
+		id: 1008,
 		key: APPEAL_CASE_TYPE.Z, // shares same key as CAS_ADVERTS
 		type: 'Minor commercial',
 		caption: 'Minor Commercial',

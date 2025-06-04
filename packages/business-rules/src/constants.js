@@ -38,6 +38,7 @@ const TYPE_OF_PLANNING_APPLICATION = {
 	PRIOR_APPROVAL: 'prior-approval',
 	RESERVED_MATTERS: 'reserved-matters',
 	REMOVAL_OR_VARIATION_OF_CONDITIONS: 'removal-or-variation-of-conditions',
+	MINOR_COMMERCIAL_DEVELOPMENT: 'minor-commercial-development',
 	SOMETHING_ELSE: 'something-else',
 	I_HAVE_NOT_MADE_A_PLANNING_APPLICATION: 'i-have-not-made-a-planning-application'
 };

@@ -3,6 +3,7 @@ const {
 		TYPE_OF_PLANNING_APPLICATION: {
 			HOUSEHOLDER_PLANNING,
 			LISTED_BUILDING,
+			MINOR_COMMERCIAL_DEVELOPMENT,
 			I_HAVE_NOT_MADE_A_PLANNING_APPLICATION,
 			PRIOR_APPROVAL,
 			REMOVAL_OR_VARIATION_OF_CONDITIONS,
@@ -42,7 +43,13 @@ const postTypeOfPlanningApplication = async (req, res) => {
 
 	const typeOfPlanningApplication = body['type-of-planning-application'];
 
+	// should promise.all this
 	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
+	const isV2forCASPlanning = await isLpaInFeatureFlag(
+		appeal.lpaCode,
+		FLAG.CAS_PLANNING_APPEAL_FORM_V2
+	);
+	const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
 	let isListedBuilding = null;
 	if (isV2forS20 && typeOfPlanningApplication !== REMOVAL_OR_VARIATION_OF_CONDITIONS) {
@@ -75,8 +82,6 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		});
 	}
 
-	const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
-
 	switch (typeOfPlanningApplication) {
 		case HOUSEHOLDER_PLANNING:
 			return isV2forS20
@@ -88,6 +93,10 @@ const postTypeOfPlanningApplication = async (req, res) => {
 			return isV2forS20
 				? res.redirect('/before-you-start/granted-or-refused')
 				: res.redirect('/before-you-start/listed-building');
+		case MINOR_COMMERCIAL_DEVELOPMENT:
+			return isV2forCASPlanning
+				? res.redirect('/before-you-start/planning-application-about')
+				: res.redirect('/before-you-start/use-existing-service-application-type');
 		case PRIOR_APPROVAL:
 			return res.redirect('/before-you-start/prior-approval-existing-home');
 		case REMOVAL_OR_VARIATION_OF_CONDITIONS:

@@ -1,0 +1,78 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% set applicationCategories = applicationCategories or [] %}
+{% set title = "Was your application about any of the following? - Before you start - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}
+  {% if errors %}
+    {% set title = "Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+{% block content %}
+  {% if errorSummary %}
+    {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: errorSummary
+        }) }}
+  {% endif %}
+  <form action="" method="post" novalidate>
+    <input type="hidden" name="_csrf" value="{{ _csrf }}" />
+    <span class="govuk-caption-l">Before you start</span>
+    {{ govukCheckboxes({
+          idPrefix: "application-about",
+          name: "application-about",
+          fieldset: {
+              legend: {
+                  text: "Was your application about any of the following?",
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+              }
+          },
+          hint: {
+              text: "Select all that apply."
+          },
+          items: [
+              {
+                  value: "change_of_use",
+                  text: "Change of use",
+                  checked: true if "change_of_use" in [application-about]
+              },
+              {
+                  value: "change_units_in_building",
+                  text: "A change to the number of units in a building",
+                  checked: true if "change_units_in_building" in [application-about]
+              },
+              {
+                  value: "not_wholly_ground_floor",
+                  text: "Development that is not wholly at ground floor level",
+                  checked: true if "not_wholly_ground_floor" in [application-about]
+              },
+              {
+                  value: "gross_internal_area",
+                  text: "Development that would increase the gross internal area of a building",
+                  checked: true if "gross_internal_area" in [application-about]
+              },
+              {
+                  divider: "or"
+              },
+              {
+                  value: "none_of_these",
+                  text: "None of these",
+                  checked: true if "none_of_these" in [application-about],
+                  behaviour: "exclusive"
+              }
+          ],
+          errorMessage: errors['application-about'] and {
+              text: errors['application-about'].msg
+          }
+        }) }}
+    {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+      }) }}
+  </form>
+{% endblock %}

@@ -5,6 +5,7 @@ const {
 			HOUSEHOLDER_PLANNING,
 			LISTED_BUILDING,
 			I_HAVE_NOT_MADE_A_PLANNING_APPLICATION,
+			MINOR_COMMERCIAL_DEVELOPMENT,
 			OUTLINE_PLANNING,
 			PRIOR_APPROVAL,
 			RESERVED_MATTERS,
@@ -46,6 +47,15 @@ exports.typeOfPlanningApplicationRadioItems = (isS20featureFlag, typeOfPlanningA
 			checked: typeOfPlanningApplication === LISTED_BUILDING,
 			hint: {
 				text: 'Applications involving a listed building.'
+			}
+		},
+		{
+			value: MINOR_COMMERCIAL_DEVELOPMENT,
+			text: 'Minor commercial development',
+			attributes: { 'data-cy': 'answer-minor-commercial-development' },
+			checked: typeOfPlanningApplication === MINOR_COMMERCIAL_DEVELOPMENT,
+			hint: {
+				text: 'To develop or alter an existing building (or part of a building) for certain commercial purposes.'
 			}
 		},
 		{
