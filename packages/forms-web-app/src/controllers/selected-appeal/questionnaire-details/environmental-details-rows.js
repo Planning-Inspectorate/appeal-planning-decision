@@ -61,7 +61,7 @@ exports.environmentalRows = (caseData) => {
 		},
 		{
 			keyText: 'Received scoping opinion',
-			valueText: formatYesOrNo(caseData, 'scopingOpinion'),
+			valueText: formatYesOrNo(caseData, 'eiaScopingOpinion'),
 			condition: () => !isSchedule1
 		},
 		{
