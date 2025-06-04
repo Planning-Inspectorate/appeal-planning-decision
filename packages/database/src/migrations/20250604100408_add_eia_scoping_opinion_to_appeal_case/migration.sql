@@ -3,7 +3,7 @@ BEGIN TRY
 BEGIN TRAN;
 
 -- AlterTable
-ALTER TABLE [dbo].[AppealCase] ADD [scopingOpinion] BIT;
+ALTER TABLE [dbo].[AppealCase] ADD [eiaScopingOpinion] BIT;
 
 COMMIT TRAN;
 

@@ -354,7 +354,7 @@ export interface AppealCase {
 	/** Have you issued a screening opinion */
 	screeningOpinion?: boolean;
 	/** Have you issued a scoping opinion */
-	scopingOpinion?: boolean;
+	eiaScopingOpinion?: boolean;
 	/** Did your screening opinion say the development needed an environmental statement */
 	requiresEnvironmentalStatement?: boolean;
 	/** Did the applicant submit an environmental statement */
