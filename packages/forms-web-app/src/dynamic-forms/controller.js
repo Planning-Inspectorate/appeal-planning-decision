@@ -917,6 +917,14 @@ exports.shortJourneyEntry = async (req, res) => {
 	return res.redirect(journey.taskListUrl);
 };
 
+/** @type {import('express').RequestHandler } */
+exports.startJourneyFromBeginning = async (req, res) => {
+	const { journey } = res.locals;
+
+	// always go to the first question
+	return res.redirect(journey.getFirstQuestionUrl());
+};
+
 /**
  * @param {import('express').Request} req
  * @param {Journey} journey
