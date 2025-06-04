@@ -282,7 +282,7 @@ const mapS78DataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	sensitiveAreaDetails: dataModel.eiaSensitiveAreaDetails, // todo: rename
 	columnTwoThreshold: dataModel.eiaColumnTwoThreshold, // todo: rename
 	screeningOpinion: dataModel.eiaScreeningOpinion, // todo: rename
-	scopingOpinion: dataModel.eiaScopingOpinion, // todo: rename
+	eiaScopingOpinion: dataModel.eiaScopingOpinion, // todo: rename
 	requiresEnvironmentalStatement: dataModel.eiaRequiresEnvironmentalStatement, // todo: rename
 	completedEnvironmentalStatement: dataModel.eiaCompletedEnvironmentalStatement, // todo: rename
 	statutoryConsultees: dataModel.hasStatutoryConsultees, // todo: rename
