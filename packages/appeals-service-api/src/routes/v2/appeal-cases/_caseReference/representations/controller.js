@@ -1,11 +1,14 @@
 const {
 	getAppealCaseWithAllRepresentations,
 	getAppealCaseWithRepresentationsByType,
-	addOwnershipAndSubmissionDetailsToRepresentations,
+	getServiceUsersWithEmails,
 	putRepresentation
 } = require('./service');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
+const {
+	addOwnershipAndSubmissionDetailsToRepresentations
+} = require('@pins/common/src/access/representation-ownership');
 
 const { AppealCaseRepository } = require('../../repo');
 const caseRepo = new AppealCaseRepository();
@@ -62,13 +65,24 @@ async function getAppealCaseWithRepresentations(req, res) {
 			caseWithRepresentations = await getAppealCaseWithAllRepresentations(caseReference);
 		}
 
-		caseWithRepresentations.Representations =
-			await addOwnershipAndSubmissionDetailsToRepresentations(
-				caseWithRepresentations.Representations,
+		if (
+			caseWithRepresentations.Representations &&
+			caseWithRepresentations.Representations.length > 0
+		) {
+			const usersWithEmails = await getServiceUsersWithEmails(
 				caseReference,
-				email,
-				isLpa
+				caseWithRepresentations.Representations
 			);
+			caseWithRepresentations.Representations = addOwnershipAndSubmissionDetailsToRepresentations(
+				caseWithRepresentations.Representations,
+				email,
+				isLpa,
+				usersWithEmails
+			);
+		} else {
+			caseWithRepresentations.Representations = [];
+		}
+
 		res.status(200).send(caseWithRepresentations);
 	} catch (error) {
 		logger.error(`Failed to get case with representations for ${caseReference}: ${error}`);
