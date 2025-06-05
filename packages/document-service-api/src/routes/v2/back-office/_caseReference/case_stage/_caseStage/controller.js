@@ -1,14 +1,14 @@
-const kebabCase = require('lodash.kebabcase');
 const blobClient = require('#lib/back-office-storage-client');
 const archiver = require('archiver');
 const { FOLDERS } = require('@pins/common/src/constants');
 const { DocumentsRepository } = require('../../../../../../db/repos/repository');
 const repo = new DocumentsRepository();
-const { boStorage } = require('#config/config');
 const logger = require('#lib/logger');
-const getAzureBlobPathFromUri = require('@pins/common/src/lib/getAzureBlobPathFromUri');
 const { checkDocAccess } = require('#lib/access-rules');
-
+const {
+	checkDocumentAccessByRepresentationOwner,
+	mapDocumentToBlobInfo
+} = require('#lib/document-access-utils');
 /**
  * @param {string} caseStage
  * @param {string} caseReference
@@ -26,17 +26,29 @@ async function getBlobCollection(
 	access_token,
 	id_token
 ) {
-	const folders = FOLDERS.filter((folder) => folder.startsWith(`${caseStage}/`));
+	const { email, lpaCode } = id_token;
+	const isLpa = !!lpaCode;
 
-	return (
-		await Promise.all(
-			folders.map(async (folder) => {
-				const [, documentType] = folder.split('/');
-				return await repo.getDocuments({ documentType, caseReference });
-			})
-		)
-	)
-		.flat()
+	const folders = FOLDERS.filter((folder) => folder.startsWith(`${caseStage}/`));
+	if (!folders.length) return [];
+	const documentTypes = folders.map((folder) => folder.split('/')[1]);
+
+	const [representations, allDocuments] = await Promise.all([
+		repo.getRepresentationDocsByCaseReference({
+			caseReference,
+			email,
+			isLpa
+		}),
+		repo.getDocumentsByTypes({
+			documentTypes,
+			caseReference
+		})
+	]);
+
+	const representationMap = new Map(representations.map((rep) => [rep.documentId, rep]));
+
+	return allDocuments
+		.filter((document) => checkDocumentAccessByRepresentationOwner(document, representationMap))
 		.filter((document) =>
 			checkDocAccess(
 				{ ...document, AppealCase: appealCase },
@@ -45,16 +57,7 @@ async function getBlobCollection(
 				id_token
 			)
 		)
-		.map((document) => {
-			const { filename, documentURI, documentType } = document;
-			if (!documentType) return null;
-			return {
-				fullName: `${kebabCase(documentType)}/${filename}`,
-				blobStorageContainer: boStorage.container,
-				blobStoragePath: getAzureBlobPathFromUri(documentURI, boStorage.host, boStorage.container),
-				documentURI
-			};
-		})
+		.map(mapDocumentToBlobInfo)
 		.filter(Boolean);
 }
 

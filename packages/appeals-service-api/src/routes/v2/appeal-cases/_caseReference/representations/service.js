@@ -2,13 +2,8 @@ const { RepresentationsRepository } = require('./repo');
 const { appendAppellantAndAgent } = require('../../service');
 const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
 const ApiError = require('#errors/apiError');
-const {
-	REPRESENTATION_TYPES,
-	LPA_USER_ROLE,
-	APPEAL_USER_ROLES
-} = require('@pins/common/src/constants');
+const { REPRESENTATION_TYPES } = require('@pins/common/src/constants');
 const { getServiceUsersWithEmailsByIdAndCaseReference } = require('../../../service-users/service');
-const { APPEAL_SOURCE } = require('pins-data-model');
 const repo = new RepresentationsRepository();
 
 const { SchemaValidator } = require('../../../../../services/back-office-v2/validate');
@@ -35,9 +30,8 @@ const { getValidator } = new SchemaValidator();
  * @returns {Promise<import('./repo').AppealWithRepresentations>}
  */
 async function getAppealCaseWithAllRepresentations(caseReference) {
-	const appealCaseWithRepresentations = await repo.getAppealCaseWithAllRepresentations(
-		caseReference
-	);
+	const appealCaseWithRepresentations =
+		await repo.getAppealCaseWithAllRepresentations(caseReference);
 	if (!appealCaseWithRepresentations) throw ApiError.appealsCaseDataNotFound();
 
 	const appealCaseWithApplicant = await appendAppellantAndAgent(appealCaseWithRepresentations);
@@ -65,19 +59,10 @@ async function getAppealCaseWithRepresentationsByType(caseReference, type) {
 }
 
 /**
- *
- * @param {Representation[]} representations
  * @param {string} caseReference
- * @param {string} email
- * @param {boolean} isLpa
- * @returns {Promise<Representation[]>}
+ * @param {Representation[]} representations
  */
-async function addOwnershipAndSubmissionDetailsToRepresentations(
-	representations,
-	caseReference,
-	email,
-	isLpa
-) {
+async function getServiceUsersWithEmails(caseReference, representations) {
 	// get unique list of service user ids for any non-ip comment representations
 	// ip comments are ignored as they have no associated login and so ownership always false
 	const serviceUserIds = new Set(
@@ -92,44 +77,7 @@ async function addOwnershipAndSubmissionDetailsToRepresentations(
 	);
 
 	// call to service user repo, return serviceUserId and email if id is serviceUserIds array.
-	const serviceUsersWithEmails = await getServiceUsersWithEmailsByIdAndCaseReference(
-		[...serviceUserIds],
-		caseReference
-	);
-
-	// find the service user ids that have matching email with logged in user
-	const loggedInUserIds = new Set(
-		serviceUsersWithEmails
-			.filter((serviceUser) => serviceUser.emailAddress == email)
-			.map((serviceUser) => serviceUser.id)
-	);
-
-	// map userOwnsRepresentation onto the representations based on the logged in user
-	return representations.map((rep) => ({
-		...rep,
-		userOwnsRepresentation:
-			(rep.source === APPEAL_SOURCE.LPA && isLpa) ||
-			(rep.source !== APPEAL_SOURCE.LPA &&
-				!!rep.serviceUserId &&
-				loggedInUserIds.has(rep.serviceUserId)),
-		submittingPartyType: ascertainSubmittingParty(rep, serviceUsersWithEmails)
-	}));
-}
-
-/**
- *
- * @param {Representation} representation
- * @param {import("#repositories/sql/service-user-repository").BasicServiceUser[]|[]} serviceUsersWithEmails
- * @returns {LpaUserRole | AppealToUserRoles | undefined}
- */
-function ascertainSubmittingParty(representation, serviceUsersWithEmails) {
-	if (representation.representationType === REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT)
-		return APPEAL_USER_ROLES.INTERESTED_PARTY;
-
-	if (representation.source === APPEAL_SOURCE.LPA) return LPA_USER_ROLE;
-
-	return serviceUsersWithEmails.find((user) => user.id === representation.serviceUserId)
-		?.serviceUserType;
+	return await getServiceUsersWithEmailsByIdAndCaseReference([...serviceUserIds], caseReference);
 }
 
 /**
@@ -162,6 +110,6 @@ async function putRepresentation(representationId, data) {
 module.exports = {
 	getAppealCaseWithAllRepresentations,
 	getAppealCaseWithRepresentationsByType,
-	addOwnershipAndSubmissionDetailsToRepresentations,
+	getServiceUsersWithEmails,
 	putRepresentation
 };
