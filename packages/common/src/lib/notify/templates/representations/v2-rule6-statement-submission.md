@@ -8,7 +8,7 @@ We have received your statement.
 Address: {{siteAddress}}
 Planning application reference: {{lpaReference}}
 
-# What happens next
+## What happens next
 
 We will contact you when:
 

@@ -9,8 +9,9 @@ const NotifyService = require('@pins/common/src/lib/notify/notify-service');
 const config = require('../configuration/config');
 const logger = require('./logger');
 const LpaService = require('../services/lpa.service');
-const { format, parseISO } = require('date-fns');
+const { parseISO } = require('date-fns');
 const { formatInTimeZone } = require('date-fns-tz');
+const ukTimeZone = 'Europe/London';
 const constants = require('@pins/business-rules/src/constants');
 const { formatSubmissionAddress, formatAddress } = require('@pins/common/src/lib/format-address');
 const lpaService = new LpaService();
@@ -308,7 +309,8 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		siteAddressLine2,
 		siteAddressTown,
 		siteAddressCounty,
-		siteAddressPostcode
+		siteAddressPostcode,
+		applicationReference
 	} = lpaStatementSubmission.AppealCase;
 
 	const formattedAddress = formatSubmissionAddress({
@@ -334,7 +336,10 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 			...config.services.notify.templateVariables,
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
-			deadlineDate: format(finalCommentsDueDate, 'dd MMMM yyyy')
+			deadlineDate: finalCommentsDueDate
+				? formatInTimeZone(finalCommentsDueDate, ukTimeZone, 'dd MMMM yyyy')
+				: '',
+			lpaReference: applicationReference
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
@@ -401,7 +406,9 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 			LPA: lpaName,
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
-			deadlineDate: format(finalCommentsDueDate, 'dd MMMM yyyy'),
+			deadlineDate: finalCommentsDueDate
+				? formatInTimeZone(finalCommentsDueDate, ukTimeZone, 'dd MMMM yyyy')
+				: '',
 			lpaReference: applicationReference
 		};
 
@@ -466,7 +473,9 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 			...config.services.notify.templateVariables,
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
-			deadlineDate: formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy'),
+			deadlineDate: proofsOfEvidenceDueDate
+				? formatInTimeZone(proofsOfEvidenceDueDate, ukTimeZone, 'dd MMMM yyyy')
+				: '',
 			lpaReference: applicationReference
 		};
 
@@ -519,7 +528,9 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 	const lpaName = lpa.getName();
 
 	const formattedAddress = formatAddress(appealCase);
-	const formattedDate = caseStartedDate ? format(caseStartedDate, 'dd MMMM yyyy') : '';
+	const formattedDate = caseStartedDate
+		? formatInTimeZone(caseStartedDate, ukTimeZone, 'dd MMMM yyyy')
+		: '';
 
 	const url = `${config.apps.appeals.baseUrl}/lpa-questionnaire-document/${caseReference}`;
 
@@ -597,7 +608,9 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 			...config.services.notify.templateVariables,
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
-			deadlineDate: format(finalCommentsDueDate, 'dd MMMM yyyy'),
+			deadlineDate: finalCommentsDueDate
+				? formatInTimeZone(finalCommentsDueDate, ukTimeZone, 'dd MMMM yyyy')
+				: '',
 			lpaReference: applicationReference
 		};
 
@@ -659,7 +672,7 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 			siteAddress: formattedAddress,
 			lpaReference: applicationReference || '',
 			deadlineDate: proofsOfEvidenceDueDate
-				? formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy')
+				? formatInTimeZone(proofsOfEvidenceDueDate, ukTimeZone, 'dd MMMM yyyy')
 				: 'Not provided'
 		};
 
@@ -721,7 +734,9 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 			appealReferenceNumber: caseReference,
 			siteAddress: formattedAddress,
 			lpaReference: applicationReference || '',
-			deadlineDate: formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy'),
+			deadlineDate: proofsOfEvidenceDueDate
+				? formatInTimeZone(proofsOfEvidenceDueDate, ukTimeZone, 'dd MMMM yyyy')
+				: '',
 			rule6RecipientLine: serviceUser?.organisation ? `To ${serviceUser.organisation},` : ''
 		};
 
@@ -874,7 +889,7 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 			lpaReference: appeal.planningApplicationNumber,
 			appealReferenceNumber: appeal.horizonId ?? 'ID not provided',
 			appealSiteAddress: _formatAddress(appeal.appealSiteSection.siteAddress),
-			submissionDate: format(appeal.submissionDate, 'dd MMMM yyyy')
+			submissionDate: formatInTimeZone(appeal.submissionDate, ukTimeZone, 'dd MMMM yyyy')
 		};
 
 		const reference = appeal.id;

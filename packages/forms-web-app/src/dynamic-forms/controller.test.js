@@ -715,6 +715,25 @@ describe('dynamic-form/controller', () => {
 			expect(res.render).toHaveBeenCalledWith('./error/not-found.njk');
 		});
 	});
+
+	describe('startJourneyFromBeginning', () => {
+		it('always redirects to the first question', async () => {
+			req.session = {
+				navigationHistory: ['/previous-page']
+			};
+
+			const mockFirstQuestionUrl = '/some/path/to/first-question';
+			mockJourney.getFirstQuestionUrl = jest.fn(() => mockFirstQuestionUrl);
+
+			res.locals.journey = mockJourney;
+
+			const { startJourneyFromBeginning } = require('./controller');
+			await startJourneyFromBeginning(req, res);
+
+			expect(mockJourney.getFirstQuestionUrl).toHaveBeenCalled();
+			expect(res.redirect).toHaveBeenCalledWith(mockFirstQuestionUrl);
+		});
+	});
 });
 
 const _getmockSummaryListData = (mockJourney) => {

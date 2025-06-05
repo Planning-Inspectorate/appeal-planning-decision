@@ -207,10 +207,10 @@ describe('NotifyService', () => {
 
 				# Appeal details
 				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Site address: ${personalisation.appealSiteAddress}
+				Address: ${personalisation.appealSiteAddress}
 				Planning application reference: ${personalisation.lpaReference}
 
-				# What happens next
+				## What happens next
 				1. Download a copy of your appeal form ${personalisation.pdfLink}.
 				2. [Find the email address for your local planning authority.](https://www.gov.uk/government/publications/sending-a-copy-of-the-appeal-form-to-the-council/sending-a-copy-to-the-council)
 				3. Email the copy of your appeal form and the documents you uploaded to: ${personalisation.lpaName}.
@@ -254,7 +254,7 @@ describe('NotifyService', () => {
 				# Appeal received on:
 				${personalisation.submissionDate}
 
-				# What happens next?
+				## What happens next
 				The appellant will send you a copy of their appeal. If you do not receive this, contact the appellant to request it.
 
 				We’ll contact you again when we start the appeal.
@@ -282,7 +282,7 @@ describe('NotifyService', () => {
 				^ Address: ${personalisation.appealSiteAddress}
 				Planning application reference: ${personalisation.lpaReference}
 
-				# What happens next
+				## What happens next
 				We will process your appeal and send a confirmation email. This will include your appeal reference number.
 
 				# Give feedback
@@ -314,7 +314,7 @@ describe('NotifyService', () => {
 				Address: ${personalisation.appealSiteAddress}
 				Planning application reference: ${personalisation.lpaReference}
 
-				# What happens next
+				## What happens next
 
 				1. Download a copy of your appeal form ${personalisation.pdfLink}.
 				2. [Find the email address for your local planning authority.](https://www.gov.uk/government/publications/sending-a-copy-of-the-appeal-form-to-the-council/sending-a-copy-to-the-council)
@@ -380,7 +380,7 @@ describe('NotifyService', () => {
 				Planning application reference: ${personalisation.lpaReference}
 				Start date: ${personalisation.appealStartDate}
 
-				# What happens next
+				## What happens next
 				1. Download a copy of your questionnaire at ${personalisation.questionnaireLink}
 				2. Email a copy of the questionnaire and any documents to the appellant: ${personalisation.appellantEmailAddress}
 				3. We will review your questionnaire and contact you if we need any further information.
@@ -396,7 +396,8 @@ describe('NotifyService', () => {
 				appealReferenceNumber: 'ABC123',
 				appealSiteAddress: 'd\ne\nf',
 				deadlineDate: '28 April 2025',
-				contactEmail: 'example@test.com'
+				contactEmail: 'example@test.com',
+				lpaReference: 'abc'
 			};
 
 			const result = notifyService.populateTemplate(template, personalisation);
@@ -408,6 +409,7 @@ describe('NotifyService', () => {
 
 				^ Appeal reference number: ${personalisation.appealReferenceNumber}
 				Address: ${personalisation.appealSiteAddress}
+				Planning application reference: ${personalisation.lpaReference}
 
 				## What happens next
 				We will contact you when the appellant has submitted their final comments. The deadline is ${personalisation.deadlineDate}.
@@ -432,17 +434,17 @@ describe('NotifyService', () => {
 				result,
 				`We have received your final comments.
 
-									# Appeal details
+				# Appeal details
 
-									^ Appeal reference number: ${personalisation.appealReferenceNumber}
-									Address: ${personalisation.appealSiteAddress}
-									Planning application reference: ${personalisation.lpaReference}
+				^ Appeal reference number: ${personalisation.appealReferenceNumber}
+				Address: ${personalisation.appealSiteAddress}
+				Planning application reference: ${personalisation.lpaReference}
 
-									## What happens next
-									We will contact you if the local planning authority submits final comments. The deadline for the local planning authority’s final comments is ${personalisation.deadlineDate}.
+				## What happens next
+				We will contact you if the local planning authority submits final comments. The deadline for the local planning authority’s final comments is ${personalisation.deadlineDate}.
 
-									The Planning Inspectorate
-									${personalisation.contactEmail}`
+				The Planning Inspectorate
+				${personalisation.contactEmail}`
 			);
 		});
 
@@ -462,17 +464,17 @@ describe('NotifyService', () => {
 				result,
 				`We’ve received your final comments.
 
-									# Appeal details
+				# Appeal details
 
-									^ Appeal reference number: ${personalisation.appealReferenceNumber}
-									Appeal site: ${personalisation.appealSiteAddress}
-									Planning application reference: ${personalisation.lpaReference}
+				^ Appeal reference number: ${personalisation.appealReferenceNumber}
+				Appeal site: ${personalisation.appealSiteAddress}
+				Planning application reference: ${personalisation.lpaReference}
 
-									## What happens next
-									We will contact you when the appellant submits their final comments. The deadline for the appellant’s final comments is ${personalisation.deadlineDate}.
+				## What happens next
+				We will contact you when the appellant submits their final comments. The deadline for the appellant’s final comments is ${personalisation.deadlineDate}.
 
-									The Planning Inspectorate
-									${personalisation.contactEmail}`
+				The Planning Inspectorate
+				${personalisation.contactEmail}`
 			);
 		});
 
@@ -497,7 +499,7 @@ describe('NotifyService', () => {
 				Address: ${personalisation.siteAddress}
 				Planning application reference: ${personalisation.lpaReference}
 
-				# What happens next
+				## What happens next
 
 				We will contact you when the local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
 
@@ -599,7 +601,7 @@ describe('NotifyService', () => {
 
 				# Appeal details
 				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Site address: ${personalisation.siteAddress}
+				Address: ${personalisation.siteAddress}
 				Planning application reference: ${personalisation.lpaReference}
 
 				## What happens next
@@ -631,7 +633,7 @@ describe('NotifyService', () => {
 				Address: ${personalisation.siteAddress}
 				Planning application reference: ${personalisation.lpaReference}
 
-				# What happens next
+				## What happens next
 
 				We will contact you when:
 

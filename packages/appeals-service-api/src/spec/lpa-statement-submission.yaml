@@ -35,6 +35,8 @@ components:
               type: string
             siteAddressPostcode:
               type: string
+            applicationReference:
+              type: string
         submitted:
           type: boolean
           description: whether the statement has been submitted to BO
