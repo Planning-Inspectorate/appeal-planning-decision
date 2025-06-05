@@ -7,14 +7,16 @@
 - list-add-more `/affected-listed-buildings/` Add another building or site?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.listedBuildingCheck, 'yes');
+condition: (response) =>
+	response.answers && response.answers[questions.listedBuildingCheck.fieldName] == 'yes';
 ```
 
 - boolean `/conservation-area/` Is the site in, or next to a conservation area?
 - multi-file-upload `/upload-conservation-area-map-guidance/` Upload conservation map and guidance
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.conservationArea, 'yes');
+condition: (response) =>
+	response.answers && response.answers[questions.conservationArea.fieldName] == 'yes';
 ```
 
 - boolean `/green-belt/` Is the site in a green belt?
@@ -50,7 +52,8 @@ condition: (response) => questionHasAnswer(response, questions.howYouNotifiedPeo
 - multi-file-upload `/upload-representations/` Upload the representations
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.representationsFromOthers, 'yes');
+condition: (response) =>
+	response.answers && response.answers[questions.representationsFromOthers.fieldName] == 'yes';
 ```
 
 ## Planning officer's report and supporting documents
@@ -58,11 +61,6 @@ condition: (response) => questionHasAnswer(response, questions.representationsFr
 - multi-file-upload `/upload-planning-officers-report-decision-notice/` Upload the planning officer’s report or what your decision notice would have said
 - multi-file-upload `/upload-plans-drawings/` Upload the plans, drawings and list of plans
 - multi-file-upload `/upload-development-plan-policies/` Upload relevant policies from your statutory development plan
-
-```js
-condition: (response) => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes');
-```
-
 - boolean `/emerging-plan/` Do you have an emerging plan that is relevant to this appeal?
 - multi-file-upload `/upload-emerging-plan/` Upload the emerging plan and supporting information
 
@@ -84,7 +82,8 @@ condition: (response) => questionHasAnswer(response, questions.supplementaryPlan
 - list-add-more `/neighbour-address/` Do you want to add another neighbour to be visited?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.neighbouringSite, 'yes');
+condition: (response) =>
+	response.answers && response.answers[questions.neighbouringSite.fieldName] == 'yes';
 ```
 
 - radio `/potential-safety-risks/` Add potential safety risks
@@ -95,7 +94,8 @@ condition: (response) => questionHasAnswer(response, questions.neighbouringSite,
 - list-add-more `/appeal-reference-number/` Add another appeal?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.appealsNearSite, 'yes');
+condition: (response) =>
+	response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes';
 ```
 
 - radio `/add-new-planning-conditions/` Add new planning conditions to this appeal

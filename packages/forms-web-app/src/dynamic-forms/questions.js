@@ -2656,7 +2656,8 @@ const questionClasses = {
 	'list-add-more': ListAddMoreQuestion
 };
 
-exports.questions = createQuestions(exports.questionProps, questionClasses, {
-	'multi-file-upload': multiFileUploadOverrides,
-	'site-address': siteAddressOverrides
-});
+exports.getQuestions = () =>
+	createQuestions(exports.questionProps, questionClasses, {
+		'multi-file-upload': multiFileUploadOverrides,
+		'site-address': siteAddressOverrides
+	});
