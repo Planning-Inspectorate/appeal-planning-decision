@@ -28,7 +28,7 @@ const {
 /**
  * @type {Object<string, AppealToUserRoleCreateInput>}
  */
-const APPEAL_TO_USER_ROLES = {
+const APPEAL_TO_USER_ROLES = Object.freeze({
 	appellant: {
 		name: APPEAL_USER_ROLES.APPELLANT,
 		description: `Appellant is the person who's planning application decision is being appealed`
@@ -45,7 +45,7 @@ const APPEAL_TO_USER_ROLES = {
 		name: APPEAL_USER_ROLES.RULE_6_PARTY,
 		description: `A rule 6 party is a group who are considered a main party for an appeal`
 	}
-};
+});
 
 // journey names - multiple per appeal type
 // journey name -> journey url
@@ -57,7 +57,7 @@ const APPEAL_TO_USER_ROLES = {
 /**
  * @type {Object<string, CASE_TYPE>}
  */
-const CASE_TYPES = {
+const CASE_TYPES = Object.freeze({
 	HAS: {
 		id: 1001,
 		key: APPEAL_CASE_TYPE.D,
@@ -120,7 +120,7 @@ const CASE_TYPES = {
 	// { key: 'S', type: 'Affordable housing obligation appeal' },
 	// { key: 'V', type: 'Call-in application' },
 	// { key: 'X', type: 'Lawful development certificate appeal' },
-};
+});
 
 /**
  * @param {any} value value to lookup
@@ -144,25 +144,25 @@ const caseTypeLookup = (value, lookupProp) => {
 /**
  * @type {Object<string, ProcedureTypeCreateInput>}
  */
-const PROCEDURE_TYPES = {
+const PROCEDURE_TYPES = Object.freeze({
 	hearing: { key: APPEAL_CASE_PROCEDURE.HEARING, name: 'Hearing' },
 	inquiry: { key: APPEAL_CASE_PROCEDURE.INQUIRY, name: 'Inquiry' },
 	written: { key: APPEAL_CASE_PROCEDURE.WRITTEN, name: 'Written' }
-};
+});
 
 /**
  * @type {Object<string, LPANotificationMethodsCreateInput>}
  */
-const LPA_NOTIFICATION_METHODS = {
+const LPA_NOTIFICATION_METHODS = Object.freeze({
 	notice: { key: 'notice', name: 'A site notice' },
 	letter: { key: 'letter', name: 'Letter/email to interested parties' },
 	pressAdvert: { key: 'advert', name: 'A press advert' }
-};
+});
 
 /**
  * @type {Object<string, CaseStatusCreateInput>}
  */
-const CASE_STATUSES = {
+const CASE_STATUSES = Object.freeze({
 	ASSIGN_CASE_OFFICER: { key: APPEAL_CASE_STATUS.ASSIGN_CASE_OFFICER, name: 'Assign case officer' },
 	AWAITING_EVENT: { key: APPEAL_CASE_STATUS.AWAITING_EVENT, name: 'Awaiting event' },
 	AWAITING_TRANSFER: { key: APPEAL_CASE_STATUS.AWAITING_TRANSFER, name: 'Awaiting transfer' },
@@ -180,50 +180,50 @@ const CASE_STATUSES = {
 	VALIDATION: { key: APPEAL_CASE_STATUS.VALIDATION, name: 'Validation' },
 	WITHDRAWN: { key: APPEAL_CASE_STATUS.WITHDRAWN, name: 'Withdrawn' },
 	WITNESSES: { key: APPEAL_CASE_STATUS.WITNESSES, name: 'Witnesses' }
-};
+});
 
 /**
  * @type {Object<string, CaseDecisionOutcomeCreateInput>}
  */
-const CASE_OUTCOMES = {
+const CASE_OUTCOMES = Object.freeze({
 	ALLOWED: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED, name: 'Allowed' },
 	SPLIT_DECISION: { key: APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION, name: 'Split decision' },
 	DISMISSED: { key: APPEAL_CASE_DECISION_OUTCOME.DISMISSED, name: 'Dismissed' },
 	INVALID: { key: APPEAL_CASE_DECISION_OUTCOME.INVALID, name: 'Invalid' }
-};
+});
 
 /**
  * @type {Object<string, CaseValidationOutcomeCreateInput>}
  */
-const CASE_VALIDATION_OUTCOMES = {
+const CASE_VALIDATION_OUTCOMES = Object.freeze({
 	INCOMPLETE: { key: APPEAL_CASE_VALIDATION_OUTCOME.INCOMPLETE, name: 'Incomplete' },
 	INVALID: { key: APPEAL_CASE_VALIDATION_OUTCOME.INVALID, name: 'Invalid' },
 	VALID: { key: APPEAL_CASE_VALIDATION_OUTCOME.VALID, name: 'Valid' }
-};
+});
 
 /**
  * @type {Object<string, LPAQuestionnaireValidationOutcomeCreateInput>}
  */
-const LPAQ_VALIDATION_OUTCOMES = {
+const LPAQ_VALIDATION_OUTCOMES = Object.freeze({
 	COMPLETE: { key: APPEAL_LPA_QUESTIONNAIRE_VALIDATION_OUTCOME.COMPLETE, name: 'Complete' },
 	INCOMPLETE: { key: APPEAL_LPA_QUESTIONNAIRE_VALIDATION_OUTCOME.INCOMPLETE, name: 'Incomplete' }
-};
+});
 
 /**
  * @type {Object<string, 'linked'|'nearby'>}
  */
-const CASE_RELATION_TYPES = {
+const CASE_RELATION_TYPES = Object.freeze({
 	linked: 'linked',
 	nearby: 'nearby'
-};
+});
 
 /**
  * @type {Object<string, 'affected'|'changed'>}
  */
-const LISTED_RELATION_TYPES = {
+const LISTED_RELATION_TYPES = Object.freeze({
 	affected: 'affected',
 	changed: 'changed'
-};
+});
 
 module.exports = {
 	APPEAL_TO_USER_ROLES,
