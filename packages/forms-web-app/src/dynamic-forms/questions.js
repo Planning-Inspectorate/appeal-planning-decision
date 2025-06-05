@@ -1188,7 +1188,7 @@ exports.questionProps = {
 				value: 'yes'
 			},
 			{
-				text: 'No, they have a negative screening direction',
+				text: 'No',
 				value: 'no'
 			}
 		],

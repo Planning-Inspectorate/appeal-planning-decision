@@ -129,7 +129,15 @@ const sections = [
 		)
 		.addQuestion(questions.uploadScreeningDirection)
 		.withCondition((response) =>
-			questionHasAnswer(response, questions.submitEnvironmentalStatement, 'no')
+			questionsHaveAnswers(
+				response,
+				[
+					[questions.submitEnvironmentalStatement, 'no'],
+					[questions.environmentalImpactSchedule, 'schedule-2'],
+					[questions.screeningOpinion, 'yes']
+				],
+				{ logicalCombinator: 'and' }
+			)
 		),
 	new Section('Notifying relevant parties', 'notified')
 		.addQuestion(questions.whoWasNotified)
