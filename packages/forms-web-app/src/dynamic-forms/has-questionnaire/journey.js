@@ -57,7 +57,11 @@ const sections = [
 	new Section("Planning officer's report and supporting documents", 'planning-officer-report')
 		.addQuestion(questions.planningOfficersReportUpload)
 		.addQuestion(questions.uploadPlansDrawingsHAS)
+		.addQuestion(questions.developmentPlanPolicies)
 		.addQuestion(questions.uploadDevelopmentPlanPolicies)
+		.withCondition((response) =>
+			questionHasAnswer(response, questions.developmentPlanPolicies, 'yes')
+		)
 		.addQuestion(questions.emergingPlan)
 		.addQuestion(questions.emergingPlanUpload)
 		.withCondition((response) => questionHasAnswer(response, questions.emergingPlan, 'yes'))
