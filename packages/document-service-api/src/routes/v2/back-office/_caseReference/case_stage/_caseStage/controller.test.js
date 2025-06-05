@@ -1,9 +1,14 @@
 const { mockReq, mockRes } = require('../../../../../../../test/utils/mocks');
-const { getDocumentsByCaseReferenceAndCaseStage } = require('./controller');
 
 const testCaseReference = '1234567890';
 const testCaseStage = 'lpa-questionnaire';
 const testDocumentTypes = ['doctype-one', 'doc-type-two', 'doc-type-three'];
+
+jest.mock('@pins/common/src/lib/getAzureBlobPathFromUri', () =>
+	jest.fn().mockImplementation((uri) => {
+		return uri;
+	})
+);
 
 jest.mock('../../../../../../configuration/featureFlag', () => ({
 	isFeatureActive: jest.fn().mockResolvedValue(true)
@@ -31,18 +36,60 @@ const documentURI = 'https://some-url.com/document.pdf';
 
 jest.mock('../../../../../../db/repos/repository', () => ({
 	DocumentsRepository: jest.fn().mockImplementation(() => ({
-		getDocuments: jest.fn().mockImplementation(async ({ documentType }) => [
+		getDocumentsByTypes: jest.fn().mockImplementation(async ({ documentTypes }) => [
 			{
+				id: 'doc1',
 				documentURI,
-				documentType,
+				documentType: documentTypes[0],
 				filename: 'document.pdf',
 				redacted: true
 			},
 			{
+				id: 'doc2',
 				documentURI,
-				documentType,
+				documentType: documentTypes[0],
 				filename: 'document2.pdf',
 				redacted: false
+			},
+			{
+				id: 'doc3',
+				documentURI,
+				documentType: documentTypes[0],
+				filename: 'document3.pdf',
+				redacted: true
+			},
+			{
+				id: 'doc4',
+				documentURI,
+				documentType: documentTypes[0],
+				filename: 'document4.pdf',
+				redacted: true
+			}
+		]),
+		getRepresentationDocsByCaseReference: jest.fn().mockImplementation(async () => [
+			{
+				documentId: 'doc1',
+				userOwnsRepresentation: true,
+				representationStatus: 'DRAFT',
+				documentType: testDocumentTypes[0]
+			},
+			{
+				documentId: 'doc2',
+				userOwnsRepresentation: true,
+				representationStatus: 'PUBLISHED',
+				documentType: testDocumentTypes[0]
+			},
+			{
+				documentId: 'doc3',
+				userOwnsRepresentation: false,
+				representationStatus: 'PUBLISHED',
+				documentType: testDocumentTypes[0]
+			},
+			{
+				documentId: 'doc4',
+				userOwnsRepresentation: false,
+				representationStatus: 'DRAFT',
+				documentType: testDocumentTypes[0]
 			}
 		])
 	}))
@@ -57,6 +104,8 @@ jest.mock('#lib/back-office-storage-client', () => ({
 		};
 	})
 }));
+
+const { getDocumentsByCaseReferenceAndCaseStage } = require('./controller');
 
 describe('/v2/back-office/{caseReference}/case_stage/{caseStage}', () => {
 	let res = mockRes();
@@ -118,11 +167,11 @@ describe('/v2/back-office/{caseReference}/case_stage/{caseStage}', () => {
 		await getDocumentsByCaseReferenceAndCaseStage(req, res);
 
 		// only adds
-		expect(mockAppend).toBeCalledTimes(2);
+		expect(mockAppend).toHaveBeenCalledTimes(2);
 
 		testDocumentTypes
 			.filter((x) => x === testDocumentTypes[0])
-			.map((documentType, index) => {
+			.forEach((documentType, index) => {
 				expect(mockAppend).toHaveBeenNthCalledWith(
 					index + 1,
 					{ stream: documentURI },
