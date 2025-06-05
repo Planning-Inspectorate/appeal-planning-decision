@@ -23,7 +23,7 @@ exports.constraintsRows = (caseData) => {
 
 	const typeCodeToAppealDescription = {
 		[CASE_TYPES.HAS.processCode]: 'householder',
-		[CASE_TYPES.S78.processCode]: 'full planning',
+		[CASE_TYPES.S78.processCode]: 'planning',
 		[CASE_TYPES.S20.processCode]: 'listed building'
 	};
 
