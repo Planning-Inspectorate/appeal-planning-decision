@@ -1,5 +1,33 @@
 const { createPrismaClient } = require('../db-client');
-const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { APPEAL_USER_ROLES, REPRESENTATION_TYPES } = require('@pins/common/src/constants');
+const {
+	addOwnershipAndSubmissionDetailsToRepresentations
+} = require('@pins/common/src/access/representation-ownership');
+
+/**
+ * @typedef {import('@prisma/client').Representation} Representation
+ * @typedef {import('@prisma/client').ServiceUser} ServiceUser
+ * @typedef {Pick<ServiceUser, 'id' | 'emailAddress' | 'serviceUserType'>} BasicServiceUser
+ * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
+ * @typedef { 'LPAUser' } LpaUserRole
+ * @typedef { {
+ *   serviceUserId: string|null,
+ *   representationType: string|null,
+ *   representationStatus: string|null,
+ * 	 source: string|null
+ *   RepresentationDocuments: {documentId: string}[]
+ * } } RepresentationWithDocuments
+ * @typedef { RepresentationWithDocuments & {
+ *   userOwnsRepresentation: boolean,
+ *   submittingPartyType: AppealToUserRoles | LpaUserRole | undefined
+ * }} RepresentationWithDocumentsAndOwnership
+ * @typedef { {
+ *   representationStatus: string|null,
+ *   documentId: string,
+ *   userOwnsRepresentation: boolean,
+ *   submittingPartyType: string | undefined
+ * } } FlatRepDocOwnership
+ */
 
 const logger = require('#lib/logger');
 
@@ -97,6 +125,115 @@ class DocumentsRepository {
 			where: {
 				documentType: documentType,
 				caseReference: caseReference
+			}
+		});
+	}
+
+	/**
+	 * Get documents by multiple types for a single caseReference
+	 * @param {object} params
+	 * @param {string[]} params.documentTypes
+	 * @param {string} params.caseReference
+	 * @returns {Promise<import("@prisma/client").Document[]>}
+	 */
+	async getDocumentsByTypes({ documentTypes, caseReference }) {
+		if (!caseReference) throw new Error('caseReference required');
+		if (!Array.isArray(documentTypes) || !documentTypes.length)
+			throw new Error('documentTypes required');
+
+		return await this.dbClient.document.findMany({
+			where: {
+				documentType: { in: documentTypes },
+				caseReference: caseReference
+			}
+		});
+	}
+
+	/**
+	 * @param {object} params
+	 * @param {string} params.caseReference
+	 * @param {string} params.email
+	 * @param {boolean} params.isLpa
+	 * @returns {Promise<FlatRepDocOwnership[]>}
+	 */
+	async getRepresentationDocsByCaseReference({ caseReference, email, isLpa }) {
+		if (!caseReference) throw new Error('caseReference required');
+
+		const representations = await this.dbClient.representation.findMany({
+			where: {
+				caseReference: caseReference
+			},
+			select: {
+				serviceUserId: true,
+				representationStatus: true,
+				source: true,
+				representationType: true,
+				RepresentationDocuments: {
+					select: {
+						documentId: true
+					}
+				}
+			}
+		});
+
+		// get unique list of service user ids for any non-ip comment representations
+		// ip comments are ignored as they have no associated login and so ownership always false
+		const serviceUserIds = new Set(
+			representations
+				.filter(
+					(rep) =>
+						rep.serviceUserId &&
+						rep.representationType !== REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
+				)
+				.map((rep) => rep.serviceUserId)
+				.filter(Boolean)
+		);
+
+		const serviceUsersWithEmails = await this.getServiceUsersWithEmailsByIdAndCaseReference(
+			[...serviceUserIds],
+			caseReference
+		);
+
+		const withOwnership = addOwnershipAndSubmissionDetailsToRepresentations(
+			representations,
+			email,
+			isLpa,
+			serviceUsersWithEmails
+		);
+
+		return withOwnership.flatMap((rep) =>
+			rep.RepresentationDocuments.map((doc) => ({
+				documentId: doc.documentId,
+				userOwnsRepresentation: rep.userOwnsRepresentation,
+				submittingPartyType: rep.submittingPartyType,
+				representationStatus: rep.representationStatus
+			}))
+		);
+	}
+
+	/**
+	 * Get service user emails by array of ids
+	 *
+	 * @param {string[]} serviceUserIds
+	 * @param {string} caseReference
+	 * @returns {Promise<BasicServiceUser[]>|[]}
+	 */
+	getServiceUsersWithEmailsByIdAndCaseReference(serviceUserIds, caseReference) {
+		if (!caseReference || !serviceUserIds || serviceUserIds.length === 0) return [];
+
+		return this.dbClient.serviceUser.findMany({
+			where: {
+				AND: {
+					id: {
+						in: serviceUserIds
+					},
+					caseReference
+				}
+			},
+			select: {
+				id: true,
+				emailAddress: true,
+				serviceUserType: true
 			}
 		});
 	}

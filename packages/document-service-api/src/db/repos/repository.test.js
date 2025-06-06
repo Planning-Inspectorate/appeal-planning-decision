@@ -8,6 +8,12 @@ const mockDbClient = {
 		findFirstOrThrow: jest.fn(),
 		findMany: jest.fn()
 	},
+	representation: {
+		findMany: jest.fn()
+	},
+	serviceUser: {
+		findMany: jest.fn()
+	},
 	appealCase: {
 		findFirst: jest.fn(),
 		findUniqueOrThrow: jest.fn()
@@ -136,6 +142,153 @@ describe('DocumentsRepository', () => {
 				where: { documentType: 't', caseReference: 'ref' }
 			});
 			expect(result).toBe(expected);
+		});
+	});
+
+	describe('getDocumentsByTypes', () => {
+		it('should throw if caseReference missing', async () => {
+			await expect(repo.getDocumentsByTypes({ documentTypes: ['t'] })).rejects.toThrow(
+				'caseReference required'
+			);
+		});
+
+		it('should call findMany with correct params', async () => {
+			const params = { documentTypes: ['t'], caseReference: 'ref' };
+			const expected = [{ id: 1 }];
+			mockDbClient.document.findMany.mockResolvedValue(expected);
+
+			const result = await repo.getDocumentsByTypes(params);
+
+			expect(mockDbClient.document.findMany).toHaveBeenCalledWith({
+				where: { documentType: { in: params.documentTypes }, caseReference: params.caseReference }
+			});
+			expect(result).toBe(expected);
+		});
+	});
+
+	describe('getRepresentationDocsByCaseReference', () => {
+		it('should throw if caseReference missing', async () => {
+			await expect(repo.getRepresentationDocsByCaseReference({})).rejects.toThrow(
+				'caseReference required'
+			);
+		});
+
+		it('should return representation documents for a valid caseReference', async () => {
+			const params = { caseReference: 'ref', email: 'test@example.com', isLpa: false };
+			const representations = [
+				{
+					serviceUserId: 'user1',
+					representationStatus: 'VALID',
+					source: 'PORTAL',
+					representationType: 'APPELLANT',
+					RepresentationDocuments: [{ documentId: 'doc1' }, { documentId: 'doc2' }]
+				},
+				{
+					serviceUserId: 'user2',
+					representationStatus: 'INVALID',
+					source: 'EMAIL',
+					representationType: 'AGENT',
+					RepresentationDocuments: [{ documentId: 'doc3' }]
+				}
+			];
+			const serviceUsersWithEmails = [
+				{ id: 'user1', emailAddress: 'a@example.com', serviceUserType: 'Appellant' },
+				{ id: 'user2', emailAddress: 'b@example.com', serviceUserType: 'Agent' }
+			];
+			mockDbClient.representation.findMany.mockResolvedValue(representations);
+			mockDbClient.serviceUser.findMany.mockResolvedValue(serviceUsersWithEmails);
+
+			const result = await repo.getRepresentationDocsByCaseReference(params);
+
+			expect(result).toEqual([
+				{
+					documentId: 'doc1',
+					userOwnsRepresentation: false,
+					submittingPartyType: 'Appellant',
+					representationStatus: 'VALID'
+				},
+				{
+					documentId: 'doc2',
+					userOwnsRepresentation: false,
+					submittingPartyType: 'Appellant',
+					representationStatus: 'VALID'
+				},
+				{
+					documentId: 'doc3',
+					userOwnsRepresentation: false,
+					submittingPartyType: 'Agent',
+					representationStatus: 'INVALID'
+				}
+			]);
+		});
+
+		it('should set userOwnsRepresentation true if user email matches service user', async () => {
+			const params = { caseReference: 'ref', email: 'a@example.com', isLpa: false };
+			const representations = [
+				{
+					serviceUserId: 'user1',
+					representationStatus: 'VALID',
+					source: 'PORTAL',
+					representationType: 'APPELLANT',
+					RepresentationDocuments: [{ documentId: 'doc1' }]
+				}
+			];
+			const serviceUsersWithEmails = [
+				{ id: 'user1', emailAddress: 'a@example.com', serviceUserType: 'Appellant' }
+			];
+			mockDbClient.representation.findMany.mockResolvedValue(representations);
+			mockDbClient.serviceUser.findMany.mockResolvedValue(serviceUsersWithEmails);
+
+			const result = await repo.getRepresentationDocsByCaseReference(params);
+
+			expect(result).toEqual([
+				{
+					documentId: 'doc1',
+					userOwnsRepresentation: true,
+					submittingPartyType: 'Appellant',
+					representationStatus: 'VALID'
+				}
+			]);
+		});
+
+		it('should return empty array if no representations found', async () => {
+			const params = { caseReference: 'ref', email: 'test@example.com', isLpa: false };
+			mockDbClient.representation.findMany.mockResolvedValue([]);
+
+			const result = await repo.getRepresentationDocsByCaseReference(params);
+
+			expect(result).toEqual([]);
+		});
+	});
+
+	describe('getServiceUsersWithEmailsByIdAndCaseReference', () => {
+		it('should return empty array if no serviceUserIds or caseReference', async () => {
+			const result = await repo.getServiceUsersWithEmailsByIdAndCaseReference([], '');
+			expect(result).toEqual([]);
+		});
+
+		it('should call findMany with correct params', async () => {
+			const serviceUserIds = ['user1', 'user2'];
+			const caseReference = 'ref123';
+			const expected = [
+				{ id: 'user1', emailAddress: '' },
+				{ id: 'user2', emailAddress: '' }
+			];
+			mockDbClient.serviceUser.findMany.mockResolvedValue(expected);
+			const result = await repo.getServiceUsersWithEmailsByIdAndCaseReference(
+				serviceUserIds,
+				caseReference
+			);
+			expect(mockDbClient.serviceUser.findMany).toHaveBeenCalledWith({
+				where: {
+					AND: {
+						id: { in: serviceUserIds },
+						caseReference
+					}
+				},
+				select: { id: true, emailAddress: true, serviceUserType: true }
+			});
+			expect(result).toEqual(expected);
 		});
 	});
 
