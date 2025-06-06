@@ -19,6 +19,7 @@
 		"doc": "cross-env run-s --continue-on-error --print-label \"doc:*\"",
 		"doc:appeals-api": "cd packages/appeals-service-api && npm run doc",
 		"doc:web": "cd packages/forms-web-app && npm run doc",
+		"docs-changed": "cd packages/forms-web-app && npm run doc-changes",
 		"commit": "cz",
 		"commitlint": "commitlint --from=$(git log origin/main..$(git rev-parse HEAD) --pretty=format:\"%H\" | tail -n 1)",
 		"db:migrate:dev": "npm run migrate:dev --workspace @pins/database",

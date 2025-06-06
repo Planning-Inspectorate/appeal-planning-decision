@@ -6,7 +6,8 @@
 		"node": ">=22.0.0 <23.0.0"
 	},
 	"scripts": {
-		"doc": "node ./src/dynamic-forms/docs/journey-docs.js && npx prettier --write './**/docs/*.md' --list-different",
+		"doc": "node ./src/dynamic-forms/docs/journey-docs.js && npx prettier --write \"./src/dynamic-forms/docs/*.md\" --list-different",
+		"doc-changes": "node ./src/dynamic-forms/docs/check-docs-changed.js",
 		"prebuild": "rm -Rf ./dist",
 		"build": "npm run build:client && npm run build:sass && npm run build:app",
 		"build:app": "cp -Rf ./src ./dist && find ./dist -name '*.test.js' -delete",
