@@ -5,6 +5,19 @@ describe('environmentalRows', () => {
 	it('should create rows', () => {
 		const rows = environmentalRows({});
 		expect(rows.length).toEqual(12);
+
+		expect(rows[0].keyText).toEqual('Schedule type');
+		expect(rows[1].keyText).toEqual('Development description');
+		expect(rows[2].keyText).toEqual('In, partly in, or likely to affect sensitive area');
+		expect(rows[3].keyText).toEqual('Meets or exceeds threshold or criteria in column 2');
+		expect(rows[4].keyText).toEqual('Issued screening opinion');
+		expect(rows[5].keyText).toEqual('Uploaded screening opinion');
+		expect(rows[6].keyText).toEqual('Received scoping opinion');
+		expect(rows[7].keyText).toEqual('Uploaded scoping opinion');
+		expect(rows[8].keyText).toEqual('Screening opinion indicated environmental statement needed');
+		expect(rows[9].keyText).toEqual('Did Environmental statement');
+		expect(rows[10].keyText).toEqual('Uploaded environmental statement');
+		expect(rows[11].keyText).toEqual('Uploaded screening direction');
 	});
 
 	it('should show a document', () => {
