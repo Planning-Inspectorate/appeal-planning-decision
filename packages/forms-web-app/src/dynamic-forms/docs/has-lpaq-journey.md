@@ -60,7 +60,13 @@ condition: (response) =>
 
 - multi-file-upload `/upload-planning-officers-report-decision-notice/` Upload the planning officer’s report or what your decision notice would have said
 - multi-file-upload `/upload-plans-drawings/` Upload the plans, drawings and list of plans
+- boolean `/other-development-plan-policies/` Do you have any relevant policies from your statutory development plan?
 - multi-file-upload `/upload-development-plan-policies/` Upload relevant policies from your statutory development plan
+
+```js
+condition: (response) => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes');
+```
+
 - boolean `/emerging-plan/` Do you have an emerging plan that is relevant to this appeal?
 - multi-file-upload `/upload-emerging-plan/` Upload the emerging plan and supporting information
 
