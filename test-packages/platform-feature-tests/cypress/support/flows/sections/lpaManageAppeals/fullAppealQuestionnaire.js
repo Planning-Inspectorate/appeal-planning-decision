@@ -10,7 +10,7 @@ import { ConsultResponseAndRepresent } from "../../pages/lpa-manage-appeals/cons
 import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
-import { waitingForReview} from "../../pages/lpa-manage-appeals/waitingForReview";
+import { waitingForReview } from "../../pages/lpa-manage-appeals/waitingForReview";
 
 export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 	const basePage = new BasePage();
@@ -23,23 +23,31 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 	const poReportAndSupportDocs = new PoReportAndSupportDocs();
 	let appealId;
 	let counter = 0;
+	let linkFound = false;
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-		const rowtext = $row.text();
-		if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoQuestionnaire)) {
-			if (counter === 1) {
-				cy.wrap($row).within(() => {
-					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
-					cy.get('a').each(($link) => {
-						if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
-							appealId = $link.attr('href')?.split('/').pop();
-							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
-							return false;
-						}
-					});
-				});
-			}
-			counter++;
+		if (linkFound) return false;		
+		if ($row.find('th').length > 0) {			
+			return;
 		}
+		const rowtext = $row.text();
+		if (linkFound) return false;
+		return Cypress.Promise.resolve().then(() => {
+			const $tds = $row.find('td');			
+			const todoText = $tds.eq(5).text().trim();
+			if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && todoText.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+				if (counter === 1) {
+					const $link = $tds.eq(5).find('a')
+					if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
+						appealId = $link.attr('href')?.split('/').pop();						
+						$link[0].scrollIntoView();
+						$link[0].click();
+						linkFound = true;											
+						return false;
+					}
+				}
+				counter++;
+			}
+		})
 	}).then(() => {
 
 		cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
@@ -92,8 +100,8 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
 		// commented for test during coding
 		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
-		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();		
-		waitingForReview(appealId);	
+		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
+		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();
+		waitingForReview(appealId);
 	});
 };
