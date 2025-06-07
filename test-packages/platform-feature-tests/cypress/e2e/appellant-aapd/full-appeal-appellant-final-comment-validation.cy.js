@@ -4,6 +4,8 @@
 /// <reference types="cypress"/>
 import { finalCommentTestCases } from "../../helpers/representations/finalCommentData";
 import { BasePage } from "../../page-objects/base-page";
+import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
+import { users } from '../../fixtures/users.js';
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
 describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
@@ -12,6 +14,7 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
         const basePage = new BasePage();
         let appealId;
         beforeEach(() => {
+                cy.login(users.appeals.authUser);
                 cy.fixture('prepareAppealData').then(data => {
                         prepareAppealData = data;
                 })
@@ -27,8 +30,8 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
                 });
                 let counter = 0;
                 cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-                        const rowtext = $row.text();                       
-                        if (rowtext.toLowerCase().includes(prepareAppealData?.FullAppealType.toLowerCase()) && rowtext.includes(prepareAppealData?.todoFinalComments)) {                              
+                        const rowtext = $row.text();
+                        if (rowtext.toLowerCase().includes(prepareAppealData?.FullAppealType.toLowerCase()) && rowtext.includes(prepareAppealData?.todoFinalComments)) {
                                 if (counter === 0) {
                                         cy.wrap($row).within(() => {
                                                 cy.get(basePage?._selectors.trgovukTableCell).contains(prepareAppealData?.FullAppealType).should('be.visible');
@@ -52,17 +55,50 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
         });
 
         it(`Validate to submit any Final comments error validation`, () => {
+                // cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you want to submit any final comments?');
+                // cy.get('input[name="appellantFinalComment"]:checked').then(($checked) => {
+                //         if ($checked.length > 0) {
+                //                 return;
+                //         }
+                //         else {
+                //                 cy.advanceToNextPage();
+                //                 cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#appellantFinalComment').and('contain.text', 'Select yes if you want to submit any final comments');
+                //         }
+                // })
                 cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you want to submit any final comments?');
-                cy.get('input[name="appellantFinalComment"]:checked').then(($checked) => {
-                        if ($checked.length > 0) {
-                                return;
-                        }
-                        else {
+                cy.get('input[name="appellantFinalComment"]').should('exist');
+                // Check if any radio is already selected
+                //         cy.get('input[name="appellantFinalComment"]:checked').then($checked => {
+                //                 if ($checked.length > 0) {
+                //                         // If already selected, you can optionally unselect or just proceed
+                //                         cy.log('A radio button is already selected.');
+                //                         // Optionally, you could unselect if your UI allows, or just proceed
+                //                 } else {
+                //                         // If none selected, assert not.exist and proceed with validation
+                //                         cy.get('input[name="appellantFinalComment"]:checked').should('not.exist');
+                //                 }
+                //         });
+                //         cy.advanceToNextPage();
+                //         cy.get(basePage?._selectors.govukErrorSummaryList)
+                //                 .find('a')
+                //                 .should('have.attr', 'href', '#appellantFinalComment')
+                //                 .and('contain.text', 'Select yes if you want to submit any final comments');
+
+                cy.get('input[name="appellantFinalComment"]').then(($radoButton) => {
+                        const checked = $radoButton.filter(':checked')
+                        if (checked.length > 0) {
+                                cy.log("Radio Button already selected");
+                                cy.getByData(basePage?._selectors?.answerYes).click();
+                        } else {
                                 cy.advanceToNextPage();
                                 cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#appellantFinalComment').and('contain.text', 'Select yes if you want to submit any final comments');
                         }
-                })
+
+                });
         });
+
+
+
 
         it(`Validate sensitive information text`, () => {
                 cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you want to submit any final comments?');
@@ -114,24 +150,18 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
                                 .eq(index)
                                 .should('contain.text', fileName);
                 });
-                if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
-                        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                            if ($buttons.length) {
-                                    cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                            }
-                        })
-                }
+                deleteUploadedDocuments();
 
                 cy.advanceToNextPage();
                 cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
         });
-        it(`Validate user should not be allowed to upload wrong format file`, () => {                
+        it(`Validate user should not be allowed to upload wrong format file`, () => {
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
                 cy.get('#appellantFinalCommentDetails').clear();
                 cy.get('#appellantFinalCommentDetails').type("Final comment test");
                 cy.get('#sensitiveInformationCheckbox').check({ force: true });
-                cy.advanceToNextPage();               
+                cy.advanceToNextPage();
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
                 cy.uploadFileFromFixtureDirectory(finalCommentTestCases[0]?.documents?.uploadWrongFormatFile);
@@ -145,7 +175,7 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
                 cy.get('#appellantFinalCommentDetails').clear();
                 cy.get('#appellantFinalCommentDetails').type("Final comment test");
                 cy.get('#sensitiveInformationCheckbox').check({ force: true });
-                cy.advanceToNextPage();               
+                cy.advanceToNextPage();
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
                 cy.uploadFileFromFixtureDirectory(finalCommentTestCases[0]?.documents?.uploadFileGreaterThan25mb);
@@ -159,7 +189,7 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
                 cy.get('#appellantFinalCommentDetails').clear();
                 cy.get('#appellantFinalCommentDetails').type("Final comment test");
                 cy.get('#sensitiveInformationCheckbox').check({ force: true });
-                cy.advanceToNextPage();               
+                cy.advanceToNextPage();
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
                 const expectedFileNames = [finalCommentTestCases[0]?.documents?.uploadSupportDocsFinalComments, finalCommentTestCases[0]?.documents?.uploadAdditionalDocsSupportFinalComments];

@@ -8,16 +8,16 @@ import { R6FullAppealsStatement } from "../../pages/rule-6-appeals/r6FullAppeals
 
 export const r6FullAppealsStatement = (context, lpaManageAppealsData) => {
 	const basePage = new BasePage();
-	const statement = new R6FullAppealsStatement();	
+	const statement = new R6FullAppealsStatement();
 	let appealId;
 	let counter = 0;
 	cy.get(`#to-do .govuk-table ${basePage?._selectors.trgovukTableRow}`).each(($row) => {
-		const rowtext = $row.text();				
-			if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.rule6todoStatement)) {
-			if (counter === 0) {					
+		const rowtext = $row.text();
+		if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.rule6todoStatement)) {
+			if (counter === 0) {
 				cy.wrap($row).within(() => {
-					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');					
-					cy.get('a').each(($link) => {					
+					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
+					cy.get('a').each(($link) => {
 						if ($link.attr('href')?.includes(lpaManageAppealsData?.statementLink)) {
 							const parts = $link.attr('href')?.split('/');
 							appealId = parts[parts.length - 2];
@@ -32,10 +32,11 @@ export const r6FullAppealsStatement = (context, lpaManageAppealsData) => {
 	}).then(() => {
 		cy.url().should('include', `/rule-6/appeal-statement/${appealId}/appeal-statement`);
 		cy.get('#rule6Statement').type('Statement for full appleal');
-		cy.advanceToNextPage();		
-		statement.selectAddWitnesses(context);		
+		cy.advanceToNextPage();
+		statement.selectAddWitnesses(context);
 	});
 	// commented for test during coding
-	// 	cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-	// 	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
+
+	cy.get('.govuk-button').contains('Submit appeal statement').click();
+	cy.get(basePage?._selectors.govukPanelTitle).contains('Appeal statement submitted');
 };

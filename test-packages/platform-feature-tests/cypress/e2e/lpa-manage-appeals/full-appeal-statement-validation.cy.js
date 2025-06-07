@@ -6,6 +6,8 @@ import { fullAppealStatementTestCases } from "../../helpers/lpaManageAppeals/ful
 import { BasePage } from "../../page-objects/base-page";
 import { upload25MBFileValidation } from "../../utils/uploadService";
 import { StringUtils } from "../../utils/StringUtils";
+import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
+import { users } from '../../fixtures/users.js';
 const { fullAppealStatement } = require('../../support/flows/sections/lpaManageAppeals/fullAppealStatement');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
@@ -17,6 +19,7 @@ describe('Full Planning Statement Test Cases', () => {
     let appealId;
 
     beforeEach(() => {
+        cy.login(users.appeals.authUser);
         cy.fixture('lpaManageAppealsData').then(data => {
             lpaManageAppealsData = data;
         })
@@ -79,7 +82,7 @@ describe('Full Planning Statement Test Cases', () => {
         cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you have additional documents to support your appeal statement?');
         cy.get('input[name="additionalDocuments"]').then(($input) => {
-            const isChecked = $input.toArray().some(input=>input.checked);
+            const isChecked = $input.toArray().some(input => input.checked);
             if (isChecked) {
                 return;
             }
@@ -94,14 +97,8 @@ describe('Full Planning Statement Test Cases', () => {
         cy.advanceToNextPage();
         cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
         cy.advanceToNextPage();
-        basePage?.basePageElements?.pageHeading().contains('Upload your new supporting documents');        
-        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
-            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                if ($buttons.length) {
-                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                }
-            })
-        }        
+        basePage?.basePageElements?.pageHeading().contains('Upload your new supporting documents');
+        deleteUploadedDocuments();
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
     });

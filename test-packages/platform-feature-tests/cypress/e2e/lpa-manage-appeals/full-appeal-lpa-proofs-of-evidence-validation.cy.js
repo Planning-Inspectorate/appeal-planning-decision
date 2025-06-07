@@ -2,6 +2,8 @@
 /// <reference types="cypress"/>
 import { fullAppealProofsOfEvidenceTestCases } from "../../helpers/lpaManageAppeals/fullAppealProofsOfEvidenceData";
 import { BasePage } from "../../page-objects/base-page";
+import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
+import { users } from '../../fixtures/users.js';
 const { fullAppealProofsOfEvidence } = require('../../support/flows/sections/lpaManageAppeals/fullAppealProofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
@@ -11,6 +13,7 @@ describe('LPA Proof of Evidence Validations', () => {
     let lpaManageAppealsData;
     let appealId;
     beforeEach(() => {
+        cy.login(users.appeals.authUser);
         cy.fixture('lpaManageAppealsData').then(data => {
             lpaManageAppealsData = data;
         })
@@ -77,14 +80,8 @@ describe('LPA Proof of Evidence Validations', () => {
 
     it(`Validate multiple uploading documents`, () => {
         const expectedFileNames = [fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
-        
-        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
-            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                if ($buttons.length) {
-                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                }
-            })
-        }
+
+        deleteUploadedDocuments();
         cy.advanceToNextPage();
         cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your proof of evidence and summary');
         expectedFileNames.forEach((fileName) => {
@@ -146,13 +143,7 @@ describe('LPA Proof of Evidence Validations', () => {
         const expectedFileNames = [fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         cy.advanceToNextPage();
         cy.advanceToNextPage();
-        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
-            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                if ($buttons.length) {
-                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                }
-            })
-        }        
+        deleteUploadedDocuments()
         cy.advanceToNextPage();
         cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your witnesses and their evidence');
         expectedFileNames.forEach((fileName) => {

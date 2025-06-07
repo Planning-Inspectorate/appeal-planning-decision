@@ -3,13 +3,16 @@
 
 import { houseHolderAppealRefusedTestCases } from "../../helpers/houseHolderAppeal/houseHolderAppealRefusedData";
 const { submitAppealFlow } = require('../../support/flows/appeal');
+import { users } from "../../fixtures/users.js";
 
 describe('Submit House Holder Appeal Refused Test Cases', () => {
 	let prepareAppealData;
 	beforeEach(() => {
-        cy.fixture('prepareAppealData').then(data => {
-            prepareAppealData = data;
-        })
+		cy.login(users.appeals.authUser);
+		// Load the fixture data for prepareAppealData
+		cy.fixture('prepareAppealData').then(data => {
+			prepareAppealData = data;
+		})
 	});
 	houseHolderAppealRefusedTestCases.forEach((context) => {
 		const {

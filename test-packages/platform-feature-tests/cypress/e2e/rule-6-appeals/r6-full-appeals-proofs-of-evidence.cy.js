@@ -1,6 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { r6FullAppealsProofsOfEvidenceTestCases } from "../../helpers/rule6Appeals/r6FullAppealsProofsOfEvidenceData";
+import { users } from '../../fixtures/users.js';
 const { r6FullAppealsProofsOfEvidence } = require('../../support/flows/sections/rule6Appeals/r6FullAppealsProofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
@@ -8,6 +9,7 @@ describe('Rule 6 Proof of Evidence Test Cases', () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;
         beforeEach(() => {
+                cy.login(users.appeals.authUser);
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })

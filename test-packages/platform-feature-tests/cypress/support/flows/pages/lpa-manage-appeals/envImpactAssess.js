@@ -36,7 +36,22 @@ export class EnvImpactAssess {
         const basePage = new BasePage();
         cy.getByData(this?._selectors.yesScheduleOne).click();
         cy.advanceToNextPage();
-        this.selectEnvironmentalStatement(context);
+        // this.selectReceivedScopingOpinion(context);
+        this.selectEnvironmentalStatementForScheduleOne(context);
+    };
+
+    selectEnvironmentalStatementForScheduleOne(context) {
+        const basePage = new BasePage();
+        if (context?.environmentalImpact?.isEnvStmt) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            //Upload the environmental statement and supporting information
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadEnvironmentalStmt);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
     };
 
     selectEnvironmentalStatement(context) {
@@ -119,7 +134,6 @@ export class EnvImpactAssess {
         const basePage = new BasePage();
         if (context?.environmentalImpact?.isColumn2Threshold) {
             cy.getByData(basePage?._selectors.answerYes).click();
-            //cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
         }
@@ -153,7 +167,7 @@ export class EnvImpactAssess {
         }
     };
 
-    selectReceivedScopingOpinion(context){
+    selectReceivedScopingOpinion(context) {
         const basePage = new BasePage();
         if (context?.environmentalImpact?.isReceivedScopingOpinion) {
             cy.getByData(basePage?._selectors.answerYes).click();

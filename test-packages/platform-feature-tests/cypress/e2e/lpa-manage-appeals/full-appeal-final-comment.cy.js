@@ -1,6 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { fullAppealFinalCommentTestCases } from "../../helpers/lpaManageAppeals/fullAppealFinalCommentData";
+import { users } from '../../fixtures/users.js';
 const { fullAppealFinalComment } = require('../../support/flows/sections/lpaManageAppeals/fullAppealFinalComment');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
@@ -8,6 +9,7 @@ describe('Full Planning Final comment Test Cases', () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;
         beforeEach(() => {
+                cy.login(users.appeals.authUser);
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })

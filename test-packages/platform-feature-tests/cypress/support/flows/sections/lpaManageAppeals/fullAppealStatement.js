@@ -38,3 +38,16 @@ export const fullAppealStatement = (context, lpaManageAppealsData) => {
 	cy.get('.govuk-button').contains('Submit appeal statement').click();
 	cy.get(basePage?._selectors.govukPanelTitle).contains('Appeal statement submitted');
 };
+
+export const fullAppealStatementForCaseRef = (context, appealId) => {
+	const basePage = new BasePage();
+	const statement = new Statement();
+	//cy.url().should('include', `/manage-appeals/appeal-statement/${appealId}/appeal-statement`);
+	cy.get(`a[href*="/manage-appeals/appeal-statement/${appealId}/entry"]`).click();
+	statement.addStatement(context);
+	statement.haveAdditionalDocumentforStatement(context);
+
+	// commented for test during coding
+	cy.get('.govuk-button').contains('Submit appeal statement').click();
+	cy.get(basePage?._selectors.govukPanelTitle).contains('Appeal statement submitted');
+};

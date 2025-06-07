@@ -1,24 +1,19 @@
 export const users = {
 	appeals: {
-		validationOfficer: {
-			email: Cypress.env('VALIDATION_OFFICER_EMAIL'),
-			id: 'validation-officer',
-			typeName: 'Validation officer'
+		appellant: {
+			email: Cypress.env('APPELLANT_EMAIL'),
+			id: 'appellant',
+			typeName: 'Appellant'
+		},
+		authUser: {
+			email: Cypress.env('AUTH_EMAIL'),
+			id: 'auth-user',
+			typeName: 'Auth User'
 		},
 		caseAdmin: {
 			email: Cypress.env('CASE_ADMIN_EMAIL'),
 			id: 'case-admin',
 			typeName: 'Case admin'
-		},
-		inspector: {
-			email: Cypress.env('INSPECTOR_EMAIL'),
-			id: 'inspector',
-			typeName: 'Inspector'
-		},
-		happyPath: {
-			email: Cypress.env('HAPPY_PATH_EMAIL'),
-			id: 'happy-path',
-			typeName: 'Test user'
 		}
 	}
 };

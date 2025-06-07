@@ -13,11 +13,11 @@ export const fullAppealProofsOfEvidence = (context, lpaManageAppealsData) => {
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
 		if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.lpaTodoProofsOfEvidence)) {
-			if (counter === 0) {
+			if (counter === 1) {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
 					cy.get('a').each(($link) => {
-						if ($link.attr('href')?.includes(lpaManageAppealsData?.proofsOfEvidenceLink)) {							
+						if ($link.attr('href')?.includes(lpaManageAppealsData?.proofsOfEvidenceLink)) {
 							const parts = $link.attr('href')?.split('/');
 							appealId = parts?.[parts.length - 2];
 							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });

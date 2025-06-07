@@ -1,14 +1,16 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { fullAppealNoDecisionTestCases } from "../../helpers/fullAppeal/fullAppealNoDecisionData";
+import { users } from '../../fixtures/users.js';
 const { submitAppealFlow } = require('../../support/flows/appeal');
 
 describe('Submit Full Appeal No Decison Test cases', () => {
 	let prepareAppealData;
 	beforeEach(() => {
-        cy.fixture('prepareAppealData').then(data => {
-            prepareAppealData = data;
-        })
+		cy.login(users.appeals.authUser);
+		cy.fixture('prepareAppealData').then(data => {
+			prepareAppealData = data;
+		})
 	});
 
 	fullAppealNoDecisionTestCases.forEach((context) => {

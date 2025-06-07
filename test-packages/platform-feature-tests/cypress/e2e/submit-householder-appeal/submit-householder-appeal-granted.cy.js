@@ -2,14 +2,22 @@
 /// <reference types="cypress"/>
 
 import { houseHolderAppealGrantedTestCases } from "../../helpers/houseHolderAppeal/houseHolderAppealGrantedData";
+import { fullAppealQuestionnaireTestCases } from "../../helpers/lpaManageAppeals/fullAppealQuestionnaireData";
+import { fullAppealStatementTestCases } from "../../helpers/lpaManageAppeals/fullAppealStatementData";
 const { submitAppealFlow } = require('../../support/flows/appeal');
+import { users } from "../../fixtures/users.js";
 
 describe('Submit House Holder Appeal Granted Test Cases', () => {
 	let prepareAppealData;
+	let lpaManageAppealsData;
 	beforeEach(() => {
-        cy.fixture('prepareAppealData').then(data => {
-            prepareAppealData = data;
-        })
+		cy.login(users.appeals.authUser);
+		cy.fixture('prepareAppealData').then(data => {
+			prepareAppealData = data;
+		})
+		cy.fixture('lpaManageAppealsData').then(data => {
+			lpaManageAppealsData = data;
+		})
 	});
 	houseHolderAppealGrantedTestCases.forEach((context) => {
 		const {
@@ -48,7 +56,10 @@ describe('Submit House Holder Appeal Granted Test Cases', () => {
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
 				context,
-				prepareAppealData
+				prepareAppealData,
+				lpaManageAppealsData,
+				fullAppealQuestionnaireTestCases,
+				fullAppealStatementTestCases
 			});
 		});
 	});

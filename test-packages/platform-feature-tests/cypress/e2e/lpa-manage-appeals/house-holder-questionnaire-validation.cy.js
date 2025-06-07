@@ -4,7 +4,7 @@
 
 import { BasePage } from '../../page-objects/base-page';
 import { houseHolderQuestionnaireTestCases } from '../../helpers/lpaManageAppeals/houseHolderQuestionnaireData';
-
+import { users } from '../../fixtures/users.js';
 const {
 	YourAppealsSelector
 } = require('../../page-objects/lpa-manage-appeals/your-appeals-selector');
@@ -14,6 +14,7 @@ describe('LPA Manage House Holder Apppeal Questionnaire validation', () => {
 	const yourAppealsSelector = new YourAppealsSelector();
 	let lpaManageAppealsData;
 	beforeEach(() => {
+		cy.login(users.appeals.authUser);
 		cy.fixture('lpaManageAppealsData').then((data) => {
 			lpaManageAppealsData = data;
 		});
@@ -62,73 +63,73 @@ describe('House Holder appleal questionnaire validation', () => {
 	let lpaManageAppealsData;
 	let appealId;
 
-  beforeEach(() => {
-    cy.fixture('lpaManageAppealsData').then(data => {
-      lpaManageAppealsData = data;
-    })
-    cy.visit(`${Cypress.config('appeals_beta_base_url')}/manage-appeals/your-email-address`);
-    cy.url().then((url) => {
-      if (url.includes('/manage-appeals/your-email-address')) {
-        cy.getByData(yourAppealsSelector?._selectors?.emailAddress).clear();
-        cy.getByData(yourAppealsSelector?._selectors?.emailAddress).type(lpaManageAppealsData?.emailAddress);
-        cy.advanceToNextPage();
-        cy.get(yourAppealsSelector?._selectors?.emailCode).type(lpaManageAppealsData?.emailCode);
-        cy.advanceToNextPage();
-      }
-    });
-    let counter = 0;
-    cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-      const rowtext = $row.text();
-      if (rowtext.includes(lpaManageAppealsData?.hasAppealType) && rowtext.includes(lpaManageAppealsData?.todoQuestionnaire)) {
-        if (counter === 0) {
-          cy.wrap($row).within(() => {
-            cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.hasAppealType).should('be.visible');
-            cy.get('a').each(($link) => {
-              if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
-                appealId = $link.attr('href')?.split('/').pop();
-                cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
-                return false;
-              }
-            });
-          });
-        }
-        counter++;
-      }
-    });
-  })
-  it(`House Holder appleal questionnaire url`, () => {
+	beforeEach(() => {
+		cy.fixture('lpaManageAppealsData').then(data => {
+			lpaManageAppealsData = data;
+		})
+		cy.visit(`${Cypress.config('appeals_beta_base_url')}/manage-appeals/your-email-address`);
+		cy.url().then((url) => {
+			if (url.includes('/manage-appeals/your-email-address')) {
+				cy.getByData(yourAppealsSelector?._selectors?.emailAddress).clear();
+				cy.getByData(yourAppealsSelector?._selectors?.emailAddress).type(lpaManageAppealsData?.emailAddress);
+				cy.advanceToNextPage();
+				cy.get(yourAppealsSelector?._selectors?.emailCode).type(lpaManageAppealsData?.emailCode);
+				cy.advanceToNextPage();
+			}
+		});
+		let counter = 0;
+		cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
+			const rowtext = $row.text();
+			if (rowtext.includes(lpaManageAppealsData?.hasAppealType) && rowtext.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+				if (counter === 0) {
+					cy.wrap($row).within(() => {
+						cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.hasAppealType).should('be.visible');
+						cy.get('a').each(($link) => {
+							if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
+								appealId = $link.attr('href')?.split('/').pop();
+								cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
+								return false;
+							}
+						});
+					});
+				}
+				counter++;
+			}
+		});
+	})
+	it(`House Holder appleal questionnaire url`, () => {
 
-    cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
+		cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
 
-  });
+	});
 
-  it(`Validate House Holder questionnaire appeal type answer link`, () => {
-    cy.get(basePage?._selectors.agovukLink).should('exist').each(($link) => {
-      if ($link.is(':visible')) {
-        cy.wrap($link).invoke('text').then((text) => {
-          const trimmedText = text.trim()
-          if (trimmedText === 'Answer') {
-            cy.wrap($link).should('have.text', 'Answer').and('be.visible')
-          }
-        })
-      }
-    })
-  });
-  //  1. Constraints, designations and other issues section validations
-  it(`Validate House Holder questionnaire appeal type error validation`, () => {
-    cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a householder appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
-      const linkText = $link.text().split('Is a householder appeal the correct type of appeal?')[0].trim();
+	it(`Validate House Holder questionnaire appeal type answer link`, () => {
+		cy.get(basePage?._selectors.agovukLink).should('exist').each(($link) => {
+			if ($link.is(':visible')) {
+				cy.wrap($link).invoke('text').then((text) => {
+					const trimmedText = text.trim()
+					if (trimmedText === 'Answer') {
+						cy.wrap($link).should('have.text', 'Answer').and('be.visible')
+					}
+				})
+			}
+		})
+	});
+	//  1. Constraints, designations and other issues section validations
+	it(`Validate House Holder questionnaire appeal type error validation`, () => {
+		cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a householder appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
+			const linkText = $link.text().split('Is a householder appeal the correct type of appeal?')[0].trim();
 
-      if (linkText === 'Answer') {
-        cy.wrap($link).should('be.visible').click({ force: true });
-        cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#correctAppealType').and('contain.text', 'Select yes if this is the correct type of appeal');
-      }
-      else if (linkText === 'Change') {
-        cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a householder appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
-      }
-    });
-  });
+			if (linkText === 'Answer') {
+				cy.wrap($link).should('be.visible').click({ force: true });
+				cy.advanceToNextPage();
+				cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#correctAppealType').and('contain.text', 'Select yes if this is the correct type of appeal');
+			}
+			else if (linkText === 'Change') {
+				cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a householder appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+			}
+		});
+	});
 
 	it(`Validate House Holder questionnaire Affects a listed building`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
@@ -197,19 +198,19 @@ describe('House Holder appleal questionnaire validation', () => {
 			});
 	});
 
-  it(`Validate House Holder questionnaire Conversation Area`, () => {
-    cy.get(basePage?._selectors.govukSummaryListKey).contains('Conservation area').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
-      const linkText = $link.text().split(' Is the site in, or next to a conservation area?')[0].trim();
-      if (linkText === 'Answer') {
-        cy.wrap($link).should('be.visible').click({ force: true });
-        cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#conservationArea').and('contain.text', 'Select yes if the site is in, or next to a conservation area');
-      }
-      else if (linkText === 'Change') {
-        cy.get(basePage?._selectors.govukSummaryListKey).contains('Conservation area').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
-      }
-    });
-  });
+	it(`Validate House Holder questionnaire Conversation Area`, () => {
+		cy.get(basePage?._selectors.govukSummaryListKey).contains('Conservation area').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
+			const linkText = $link.text().split(' Is the site in, or next to a conservation area?')[0].trim();
+			if (linkText === 'Answer') {
+				cy.wrap($link).should('be.visible').click({ force: true });
+				cy.advanceToNextPage();
+				cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#conservationArea').and('contain.text', 'Select yes if the site is in, or next to a conservation area');
+			}
+			else if (linkText === 'Change') {
+				cy.get(basePage?._selectors.govukSummaryListKey).contains('Conservation area').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+			}
+		});
+	});
 
 	it(`Validate House Holder questionnaire Conservation area map and guidance`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
@@ -222,14 +223,14 @@ describe('House Holder appleal questionnaire validation', () => {
 					.split(' Is the site in, or next to a conservation area?')[0]
 					.trim();
 
-      if (linkText === 'Answer') {
-        cy.wrap($link).should('be.visible').click({ force: true });
-        cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#conservationArea').and('contain.text', 'Select yes if the site is in, or next to a conservation area');
-      }
-      else if (linkText === 'Change') {
-        cy.wrap($link).should('be.visible').click({ force: true });
-        cy.advanceToNextPage();
+				if (linkText === 'Answer') {
+					cy.wrap($link).should('be.visible').click({ force: true });
+					cy.advanceToNextPage();
+					cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#conservationArea').and('contain.text', 'Select yes if the site is in, or next to a conservation area');
+				}
+				else if (linkText === 'Change') {
+					cy.wrap($link).should('be.visible').click({ force: true });
+					cy.advanceToNextPage();
 
 					if (context?.constraintsAndDesignations?.isConservationArea) {
 						cy.advanceToNextPage();
@@ -443,16 +444,16 @@ describe('House Holder appleal questionnaire validation', () => {
 					.split('Upload the plans, drawings and list of plans')[0]
 					.trim();
 
-      if (linkText === 'Upload') {
-        cy.wrap($link).should('be.visible').click({ force: true });
-        cy.advanceToNextPage();
-        cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#uploadPlansDrawings').and('contain.text', 'Select the plans, drawings and list of plans');
-      }
-      else if (linkText === 'Change') {
-        cy.get(basePage?._selectors.govukSummaryListKey).contains('Upload the plans, drawings and list of plans').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
-      }
-    });
-  });
+				if (linkText === 'Upload') {
+					cy.wrap($link).should('be.visible').click({ force: true });
+					cy.advanceToNextPage();
+					cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#uploadPlansDrawings').and('contain.text', 'Select the plans, drawings and list of plans');
+				}
+				else if (linkText === 'Change') {
+					cy.get(basePage?._selectors.govukSummaryListKey).contains('Upload the plans, drawings and list of plans').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+				}
+			});
+	});
 
 	it(`Validate House Holder questionnaire Emerging plans`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
