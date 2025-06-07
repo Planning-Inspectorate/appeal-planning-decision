@@ -4,16 +4,15 @@
 import { BasePage } from '../page-objects/base-page';
 import { EnterLpa } from '../page-objects/before-you-start/select-lpa';
 import { localPlanningAuthorities } from '../fixtures/lpas.json';
+import { users } from '../fixtures/users.js';
 
 const basePage = new BasePage();
 const enterLpa = new EnterLpa();
 
 describe('Check access to appeals service for granted LPAs', () => {
 	beforeEach(() => {
-		// Step 1: Visit the appeals service before you start page
+		cy.login(users.appeals.appellant);
 		cy.visit('https://appeals-service-test.planninginspectorate.gov.uk/before-you-start');
-
-		// Step 2: Selects the contiune button on before you start page
 		basePage.clickContinueBtn();
 
 		// Step 3: Checks we are on the local planning authority page
