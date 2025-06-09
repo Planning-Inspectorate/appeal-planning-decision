@@ -10,7 +10,7 @@ const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const { isRule6UserByEmail } = require('../../../../src/services/user.service');
 
-let { getAuthClient, createOTPGrant } = require('@pins/common/src/client/auth-client');
+let { createOTPGrant } = require('@pins/common/src/client/auth-client');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/is-token-valid');
@@ -43,21 +43,6 @@ jest.mock('@pins/common/src/client/auth-client');
 const TEST_EMAIL = 'test@example.com';
 const TEST_ID = '89aa8504-773c-42be-bb68-029716ad9756';
 
-let mockedGrant = jest.fn().mockResolvedValue();
-/**
- * @param {boolean} [succeed]
- * @returns {void}
- */
-const mockGrant = (succeed = true) => {
-	mockedGrant = succeed
-		? jest.fn().mockResolvedValue()
-		: jest.fn().mockRejectedValue(new Error('auth error'));
-
-	getAuthClient.mockResolvedValue({
-		grant: mockedGrant
-	});
-};
-
 describe('controllers/rule-6/enter-code', () => {
 	let req;
 	let res;
@@ -88,15 +73,10 @@ describe('controllers/rule-6/enter-code', () => {
 			};
 			isRule6UserByEmail.mockResolvedValue(true);
 			const returnedFunction = getEnterCodeR6(rule6Views);
-			mockGrant();
 
 			await returnedFunction(req, res);
 
-			expect(createOTPGrant).toHaveBeenCalledWith(
-				{ grant: mockedGrant },
-				TEST_EMAIL,
-				enterCodeConfig.actions.confirmEmail
-			);
+			expect(createOTPGrant).toHaveBeenCalledWith(TEST_EMAIL, enterCodeConfig.actions.confirmEmail);
 
 			expect(res.render).toHaveBeenCalledWith(`${rule6Views.ENTER_CODE}`, {
 				requestNewCodeLink: `/${rule6Views.REQUEST_NEW_CODE}`,
@@ -113,13 +93,11 @@ describe('controllers/rule-6/enter-code', () => {
 			it('should handle general log in for rule 6 user', async () => {
 				getSessionEmail.mockReturnValue(TEST_EMAIL);
 				const returnedFunction = getEnterCodeR6(rule6Views);
-				mockGrant();
 				isRule6UserByEmail.mockResolvedValue(true);
 
 				await returnedFunction(req, res);
 
 				expect(createOTPGrant).toHaveBeenCalledWith(
-					{ grant: mockedGrant },
 					TEST_EMAIL,
 					enterCodeConfig.actions.confirmEmail
 				);
@@ -134,7 +112,6 @@ describe('controllers/rule-6/enter-code', () => {
 			it('should not generate a token if not a rule 6 user', async () => {
 				getSessionEmail.mockReturnValue(TEST_EMAIL);
 				const returnedFunction = getEnterCodeR6(rule6Views);
-				mockGrant();
 				isRule6UserByEmail.mockResolvedValue(false);
 
 				await returnedFunction(req, res);

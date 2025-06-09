@@ -1,5 +1,5 @@
 const { createApiClients } = require('#middleware/create-api-clients');
-const { getAuthClient } = require('@pins/common/src/client/auth-client');
+const { createClientCredentialsGrant } = require('@pins/common/src/client/auth-client');
 
 // Mocking dependencies
 jest.mock('@pins/common/src/client/appeals-api-client', () => ({
@@ -10,18 +10,7 @@ jest.mock('@pins/common/src/client/documents-api-client', () => ({
 	DocumentsApiClient: jest.fn().mockImplementation(() => ({}))
 }));
 
-jest.mock('@pins/common/src/client/auth-client', () => ({
-	getAuthClient: jest.fn()
-}));
-
-const { TokenSet } = require('openid-client');
-const mockedGrant = jest.fn().mockImplementation(async () => {
-	return new TokenSet({ access_token: 'clientCredentialsToken', expires_in: 3600 });
-});
-
-getAuthClient.mockResolvedValue({
-	grant: mockedGrant
-});
+jest.mock('@pins/common/src/client/auth-client');
 
 jest.mock('../services/user.service', () => ({
 	getUserFromSession: jest.fn()
@@ -36,6 +25,15 @@ describe('createApiClients middleware', () => {
 		req = {};
 		res = {};
 		next = jest.fn();
+		createClientCredentialsGrant.mockImplementation(async () => {
+			return {
+				access_token: 'clientCredentialsToken',
+				token_type: 'Bearer',
+				expires_in: 3600,
+				expires_at: Math.floor(Date.now() / 1000) + 3600,
+				scope: 'your_scope_here'
+			};
+		});
 	});
 
 	afterEach(() => {
@@ -76,6 +74,8 @@ describe('createApiClients middleware', () => {
 			config.documents.timeout
 		);
 
+		expect(createClientCredentialsGrant).not.toHaveBeenCalled();
+
 		// Ensure next() is called
 		expect(next).toHaveBeenCalled();
 	});
@@ -111,6 +111,8 @@ describe('createApiClients middleware', () => {
 			},
 			config.documents.timeout
 		);
+
+		expect(createClientCredentialsGrant).toHaveBeenCalled();
 
 		expect(next).toHaveBeenCalled();
 	});

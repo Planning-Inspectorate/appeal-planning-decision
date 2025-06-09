@@ -1,44 +1,53 @@
 const { isTokenValid } = require('../../../src/lib/is-token-valid');
-const { getAuthClient } = require('@pins/common/src/client/auth-client');
+const { getAuthClientConfig, createROPCGrant } = require('@pins/common/src/client/auth-client');
 
 jest.mock('@pins/common/src/client/auth-client');
-const mockGrant = jest.fn();
 
 const code = '63654';
 const email = 'test@example.com';
 
 describe('lib/is-token-valid', () => {
+	beforeAll(() => {
+		jest.useFakeTimers();
+		jest.setSystemTime(new Date('2025-06-09T12:00:00Z'));
+	});
+
+	afterAll(() => {
+		jest.useRealTimers();
+	});
+
 	beforeEach(() => {
 		jest.resetAllMocks();
 	});
 
 	describe('isTokenValid', () => {
-		it('should return false without calling getAuthClient if emailAddress parameter is missing', async () => {
+		it('should return false without calling getAuthClientConfig if emailAddress parameter is missing', async () => {
 			const result = await isTokenValid(code);
 			expect(result.valid).toBe(false);
-			expect(getAuthClient).not.toBeCalled();
+			expect(getAuthClientConfig).not.toHaveBeenCalled();
 		});
 
 		it('should return false without calling getAuthClient if code parameter is missing', async () => {
 			const result = await isTokenValid(undefined);
 			expect(result.valid).toBe(false);
-			expect(getAuthClient).not.toBeCalled();
+			expect(getAuthClientConfig).not.toHaveBeenCalled();
 		});
 
 		it('should return result of getAuthToken', async () => {
 			const action = 'testAction';
 			const date = new Date();
-			mockGrant.mockResolvedValue({
+			const expiresIn = 3600;
+
+			createROPCGrant.mockResolvedValue({
 				access_token: 'access_token',
 				id_token: 'id_token',
-				expires_at: date.getTime() / 1000
+				expires_in: expiresIn
 			});
-			getAuthClient.mockResolvedValue({ grant: mockGrant });
 
 			const result = await isTokenValid(code, email, action);
 			expect(result).toEqual({
 				access_token: 'access_token',
-				access_token_expiry: date,
+				access_token_expiry: new Date(date.getTime() + expiresIn * 1000),
 				action: action,
 				id_token: 'id_token',
 				valid: true
@@ -47,8 +56,7 @@ describe('lib/is-token-valid', () => {
 
 		it('should return throw unhandled error', async () => {
 			const errorMessage = 'error';
-			mockGrant.mockRejectedValueOnce(new Error(errorMessage));
-			getAuthClient.mockResolvedValue({ grant: mockGrant });
+			createROPCGrant.mockRejectedValueOnce(new Error(errorMessage));
 
 			expect(async () => await isTokenValid(code, email)).rejects.toThrow(errorMessage);
 		});
@@ -59,8 +67,7 @@ describe('lib/is-token-valid', () => {
 				statusCode: 429
 			};
 
-			mockGrant.mockRejectedValueOnce(error);
-			getAuthClient.mockResolvedValue({ grant: mockGrant });
+			createROPCGrant.mockRejectedValueOnce(error);
 
 			const result = await isTokenValid(code, email);
 			expect(result.valid).toEqual(false);
@@ -73,8 +80,7 @@ describe('lib/is-token-valid', () => {
 				statusMessage: 'CodeExpired'
 			};
 
-			mockGrant.mockRejectedValueOnce(error);
-			getAuthClient.mockResolvedValue({ grant: mockGrant });
+			createROPCGrant.mockRejectedValueOnce(error);
 
 			const result = await isTokenValid(code, email);
 			expect(result.valid).toEqual(false);
@@ -87,8 +93,7 @@ describe('lib/is-token-valid', () => {
 				statusMessage: 'IncorrectCode'
 			};
 
-			mockGrant.mockRejectedValueOnce(error);
-			getAuthClient.mockResolvedValue({ grant: mockGrant });
+			createROPCGrant.mockRejectedValueOnce(error);
 
 			const result = await isTokenValid(code, email);
 			expect(result.valid).toEqual(false);
