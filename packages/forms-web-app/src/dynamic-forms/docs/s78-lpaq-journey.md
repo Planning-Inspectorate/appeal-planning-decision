@@ -151,7 +151,16 @@ condition: (response) => questionHasAnswer(response, questions.submitEnvironment
 - multi-file-upload `/upload-screening-direction/` Upload the screening direction
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.submitEnvironmentalStatement, 'no');
+condition: (response) =>
+	questionsHaveAnswers(
+		response,
+		[
+			[questions.submitEnvironmentalStatement, 'no'],
+			[questions.environmentalImpactSchedule, 'schedule-2'],
+			[questions.screeningOpinion, 'yes']
+		],
+		{ logicalCombinator: 'and' }
+	);
 ```
 
 ## Notifying relevant parties

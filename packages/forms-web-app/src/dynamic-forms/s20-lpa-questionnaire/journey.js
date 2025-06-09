@@ -1,4 +1,5 @@
-const { questions } = require('../questions');
+const { getQuestions } = require('../questions');
+const questions = getQuestions();
 const { Section } = require('../section');
 const {
 	questionHasAnswer,
@@ -7,7 +8,11 @@ const {
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
+const {
+	CASE_TYPES: { S20 }
+} = require('@pins/common/src/database/data-static');
 const config = require('../../config');
+
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
  * @typedef {Omit<ConstructorParameters<typeof import('../journey').Journey>[0], 'response'>} JourneyParameters
@@ -20,7 +25,7 @@ const config = require('../../config');
 const sections = [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
-		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: 'listed building consent' })
+		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: `${S20.type.toLowerCase()} consent` })
 		.addQuestion(questions.changesListedBuilding)
 		.addQuestion(questions.changedListedBuildings)
 		.withCondition((response) =>
@@ -135,7 +140,15 @@ const sections = [
 		)
 		.addQuestion(questions.uploadScreeningDirection)
 		.withCondition((response) =>
-			questionHasAnswer(response, questions.submitEnvironmentalStatement, 'no')
+			questionsHaveAnswers(
+				response,
+				[
+					[questions.submitEnvironmentalStatement, 'no'],
+					[questions.environmentalImpactSchedule, 'schedule-2'],
+					[questions.screeningOpinion, 'yes']
+				],
+				{ logicalCombinator: 'and' }
+			)
 		),
 	new Section('Notifying relevant parties', 'notified')
 		.addQuestion(questions.whoWasNotified)
@@ -230,7 +243,7 @@ const sections = [
 		.addQuestion(questions.addNewConditions)
 ];
 
-const baseS20LpaqUrl = '/manage-appeals/questionnaire'; // TODO: To be changed to '/manage-appeals/listed-building';
+const baseS20LpaqUrl = '/manage-appeals/questionnaire';
 
 /**
  * @param {JourneyResponse} response
@@ -240,7 +253,7 @@ const makeBaseUrl = (response) => `${baseS20LpaqUrl}/${encodeURIComponent(respon
 
 /** @type {JourneyParameters} */
 const params = {
-	journeyId: JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE,
+	journeyId: JOURNEY_TYPES.S20_LPA_QUESTIONNAIRE.id,
 	sections,
 	journeyTemplate: 'questionnaire-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/questionnaire',

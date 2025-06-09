@@ -1,4 +1,5 @@
-const { questions } = require('../questions');
+const { getQuestions } = require('../questions');
+const questions = getQuestions();
 const { Section } = require('../section');
 const config = require('../../config');
 const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
@@ -40,7 +41,7 @@ const makeBaseUrl = (response) =>
 /** @type {JourneyParameters} */
 const params = {
 	initialBackLink: `/${DASHBOARD}`,
-	journeyId: JOURNEY_TYPES.S78_RULE_6_STATEMENT,
+	journeyId: JOURNEY_TYPES.RULE_6_STATEMENT.id,
 	journeyTemplate: 'rule-6-statement-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/statement',
 	journeyTitle: 'Appeal a planning decision',

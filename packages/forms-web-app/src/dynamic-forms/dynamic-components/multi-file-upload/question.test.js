@@ -203,7 +203,7 @@ describe('MultiFileUploadQuestion', () => {
 			};
 
 			const journey = {
-				journeyId: JOURNEY_TYPES.S78_APPEAL_FORM,
+				journeyId: JOURNEY_TYPES.S78_APPEAL_FORM.id,
 				response: {
 					answers: {
 						SubmissionDocumentUpload: [uploadedDocument]

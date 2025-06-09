@@ -1,5 +1,5 @@
 const { JourneyResponse } = require('../journey-response');
-const { LPA_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
+const { JOURNEY_TYPES, JOURNEY_TYPE } = require('@pins/common/src/dynamic-forms/journey-types');
 const logger = require('#lib/logger');
 const { getUserFromSession } = require('../../services/user.service');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
@@ -38,7 +38,10 @@ module.exports =
 			return res.redirect('/' + DASHBOARD);
 		}
 
-		const appealType = LPA_JOURNEY_TYPES_FORMATTED[appeal.appealTypeCode];
+		// lookup type by submission type code
+		const appealType = Object.values(JOURNEY_TYPES).find(
+			(x) => x.type === JOURNEY_TYPE.questionnaire && x.caseType === appeal.appealTypeCode
+		)?.id;
 
 		if (typeof appealType === 'undefined') {
 			throw new Error('appealType is undefined');

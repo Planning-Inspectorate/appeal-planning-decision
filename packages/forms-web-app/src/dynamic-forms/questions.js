@@ -1188,7 +1188,7 @@ exports.questionProps = {
 				value: 'yes'
 			},
 			{
-				text: 'No, they have a negative screening direction',
+				text: 'No',
 				value: 'no'
 			}
 		],
@@ -2656,7 +2656,8 @@ const questionClasses = {
 	'list-add-more': ListAddMoreQuestion
 };
 
-exports.questions = createQuestions(exports.questionProps, questionClasses, {
-	'multi-file-upload': multiFileUploadOverrides,
-	'site-address': siteAddressOverrides
-});
+exports.getQuestions = () =>
+	createQuestions(exports.questionProps, questionClasses, {
+		'multi-file-upload': multiFileUploadOverrides,
+		'site-address': siteAddressOverrides
+	});
