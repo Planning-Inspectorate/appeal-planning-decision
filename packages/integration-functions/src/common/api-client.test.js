@@ -1,6 +1,8 @@
 const { AppealsApiClient } = require('@pins/common/src/client/appeals-api-client');
-const { getAuthClient } = require('@pins/common/src/client/auth-client');
-const { AUTH } = require('@pins/common/src/constants');
+const {
+	getAuthClientConfig,
+	createClientCredentialsGrant
+} = require('@pins/common/src/client/auth-client');
 const config = require('./config');
 const createApiClient = require('./api-client');
 
@@ -9,14 +11,7 @@ jest.mock('@pins/common/src/client/auth-client');
 jest.mock('../../src/common/config');
 
 describe('createApiClient', () => {
-	let mockClient;
-
 	beforeEach(() => {
-		mockClient = {
-			grant: jest.fn()
-		};
-
-		getAuthClient.mockResolvedValue(mockClient);
 		config.oauth = {
 			baseUrl: 'mockBaseUrl',
 			clientID: 'mockClientID',
@@ -34,22 +29,19 @@ describe('createApiClient', () => {
 
 	it('should create an AppealsApiClient instance and handle caching', async () => {
 		// next instance is not cached
-		mockClient.grant.mockResolvedValue({
+		createClientCredentialsGrant.mockResolvedValue({
 			access_token: 'mockAccessToken',
 			expires_in: 599
 		});
 
 		const apiClient = await createApiClient();
 
-		expect(getAuthClient).toHaveBeenCalledWith(
+		expect(getAuthClientConfig).toHaveBeenCalledWith(
 			config.oauth.baseUrl,
 			config.oauth.clientID,
 			config.oauth.clientSecret
 		);
-		expect(mockClient.grant).toHaveBeenCalledWith({
-			resource: AUTH.RESOURCE,
-			grant_type: AUTH.GRANT_TYPE.CLIENT_CREDENTIALS
-		});
+		expect(createClientCredentialsGrant).toHaveBeenCalledWith();
 		expect(apiClient).toBeInstanceOf(AppealsApiClient);
 		expect(AppealsApiClient).toHaveBeenCalledWith(
 			config.API.HOSTNAME,
@@ -62,19 +54,19 @@ describe('createApiClient', () => {
 		);
 
 		// next instance is cached
-		mockClient.grant.mockResolvedValue({
+		createClientCredentialsGrant.mockResolvedValue({
 			access_token: 'mockAccessToken',
 			expires_in: 601
 		});
 		const apiClient2 = await createApiClient();
-		expect(getAuthClient).toHaveBeenCalledTimes(2);
-		expect(mockClient.grant).toHaveBeenCalledTimes(2);
+		expect(getAuthClientConfig).toHaveBeenCalledTimes(2);
+		expect(createClientCredentialsGrant).toHaveBeenCalledTimes(2);
 		expect(apiClient2).toBeInstanceOf(AppealsApiClient);
 
 		// gets cached instance so no more calls to auth
 		const apiClient3 = await createApiClient();
-		expect(getAuthClient).toHaveBeenCalledTimes(2);
-		expect(mockClient.grant).toHaveBeenCalledTimes(2);
+		expect(getAuthClientConfig).toHaveBeenCalledTimes(2);
+		expect(createClientCredentialsGrant).toHaveBeenCalledTimes(2);
 		expect(apiClient3).toBeInstanceOf(AppealsApiClient);
 	});
 });
