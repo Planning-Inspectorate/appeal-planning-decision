@@ -30,7 +30,7 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
                         const rowtext = $row.text();
                         if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoFinalcomment)) {
-                                if (counter === 0) {
+                                if (counter === 3) {
                                         cy.wrap($row).within(() => {
                                                 cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
                                                 cy.get('a').each(($link) => {
@@ -52,13 +52,13 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.url().should('include', `/manage-appeals/final-comments/${appealId}/submit-final-comments`);
         });
         it(`Validate to submit any Final comments error validation`, () => {
-                
+
                 cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you want to submit any final comments?');
                 cy.get('input[name="lpaFinalComment"]').then(($radoButton) => {
                         const checked = $radoButton.filter(':checked')
                         if (checked.length > 0) {
-                            cy.log("Radio Button already selected");
-                            cy.getByData(basePage?._selectors?.answerYes).click();
+                                cy.log("Radio Button already selected");
+                                cy.getByData(basePage?._selectors?.answerYes).click();
                         } else {
                                 cy.advanceToNextPage();
                                 cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#lpaFinalComment').and('contain.text', 'Select yes if you want to submit any final comments');
@@ -67,7 +67,7 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 });
         });
 
-        it(`Validate sensitive information text`, () => {           
+        it(`Validate sensitive information text`, () => {
                 cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you want to submit any final comments?');
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
@@ -119,10 +119,10 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                                 .should('contain.text', fileName);
                 });
 
-                expectedFileNames.forEach((filename, index) => {
-                        cy.get('.moj-multi-file-upload__delete')
-                                .eq(expectedFileNames.length - 1 - index)
-                                .click()
+                cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+                        if ($buttons.length) {
+                                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+                        }
                 })
 
                 cy.advanceToNextPage();

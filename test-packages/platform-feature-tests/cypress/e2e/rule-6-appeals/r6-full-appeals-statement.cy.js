@@ -23,7 +23,6 @@ describe('Rule 6 Full Appeal Statement Test Cases', () => {
                 });
         });
         r6FullAppealsStatementTestCases.forEach((context) => {
-
                 it(`
             Should validate Full appeal R6 Statement, Appeal Type: Rule 6 Appeals
             - User selects add witnesses ${context.proofsOfEvidence?.isAddWitness}

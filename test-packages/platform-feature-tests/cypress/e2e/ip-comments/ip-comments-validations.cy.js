@@ -195,6 +195,6 @@ describe('Comment on a planning appeal validations', () => {
                 expect(href).to.include(expected.hrefContains);
             });
         });
-        cy.get(basePage?._selectors?.govukButton).should('include.text', 'Submit comments').click();
+        cy.contains(basePage?._selectors?.govukButton, 'Submit comments').click();
     });
 });

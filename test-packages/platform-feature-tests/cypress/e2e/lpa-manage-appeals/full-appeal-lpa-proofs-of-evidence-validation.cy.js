@@ -30,7 +30,6 @@ describe('LPA Proof of Evidence Validations', () => {
             if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.lpaTodoProofsOfEvidence)) {
                 if (counter === 0) {
                     cy.wrap($row).within(() => {
-                        //cy.log($row);
                         cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
                         cy.get('a').each(($link) => {
                             if ($link.attr('href')?.includes(lpaManageAppealsData?.proofsOfEvidenceLink)) {
@@ -78,7 +77,13 @@ describe('LPA Proof of Evidence Validations', () => {
 
     it(`Validate multiple uploading documents`, () => {
         const expectedFileNames = [fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
-
+        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+            if ($buttons.length) {
+                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+            }
+        })
+        cy.advanceToNextPage();
+        cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your proof of evidence and summary');
         expectedFileNames.forEach((fileName) => {
             cy.uploadFileFromFixtureDirectory(fileName);
         })
@@ -102,6 +107,8 @@ describe('LPA Proof of Evidence Validations', () => {
             else {
                 cy.advanceToNextPage();
                 cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you need to add any witnesses');
+                cy.getByData(basePage?._selectors?.answerYes).click();
+                cy.advanceToNextPage();
             }
         })
     });
@@ -136,6 +143,13 @@ describe('LPA Proof of Evidence Validations', () => {
         const expectedFileNames = [fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         cy.advanceToNextPage();
         cy.advanceToNextPage();
+        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+            if ($buttons.length) {
+                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+            }
+        })
+        cy.advanceToNextPage();
+        cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your witnesses and their evidence');
         expectedFileNames.forEach((fileName) => {
             cy.uploadFileFromFixtureDirectory(fileName);
         })
@@ -152,7 +166,6 @@ describe('LPA Proof of Evidence Validations', () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukHeadingOne).contains('Check your answers and submit your proof of evidence');
-        //basePage.verifyPageHeading('Check your answers and submit your proof of evidence');
         const expectedRows = [
             {
                 key: 'Your proof of evidence and summary',

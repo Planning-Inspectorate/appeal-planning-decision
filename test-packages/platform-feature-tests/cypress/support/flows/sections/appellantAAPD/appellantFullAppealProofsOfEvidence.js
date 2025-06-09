@@ -17,8 +17,9 @@ export const appellantFullAppealProofsOfEvidence = (context, prepareAppealData) 
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(prepareAppealData?.FullAppealType).should('be.visible');
 					cy.get('a').each(($link) => {
-						if ($link.attr('href')?.includes(prepareAppealData?.proofsOfEvidenceLink)) {
-							appealId = $link.attr('href')?.split('/').pop();
+						if ($link.attr('href')?.includes(prepareAppealData?.proofsOfEvidenceLink)) {							
+							const parts = $link.attr('href')?.split('/');
+							appealId = parts?.[parts.length - 2];
 							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
 							return false;
 						}
