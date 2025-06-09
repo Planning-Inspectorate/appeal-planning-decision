@@ -77,7 +77,13 @@ describe('Rule 6 Proof of Evidence Validations', () => {
 
     it(`Validate multiple uploading documents`, () => {
         const expectedFileNames = [r6FullAppealsProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, r6FullAppealsProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
-
+        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+            if ($buttons.length) {
+                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+            }
+        })
+        cy.advanceToNextPage();
+        cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your proof of evidence and summary');
         expectedFileNames.forEach((fileName) => {
             cy.uploadFileFromFixtureDirectory(fileName);
         })
@@ -134,6 +140,13 @@ describe('Rule 6 Proof of Evidence Validations', () => {
         const expectedFileNames = [r6FullAppealsProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, r6FullAppealsProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         cy.advanceToNextPage();
         cy.advanceToNextPage();
+        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+            if ($buttons.length) {
+                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+            }
+        })
+        cy.advanceToNextPage();
+        cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your witnesses and their evidence');
         expectedFileNames.forEach((fileName) => {
             cy.uploadFileFromFixtureDirectory(fileName);
         })
@@ -179,5 +192,4 @@ describe('Rule 6 Proof of Evidence Validations', () => {
             });
         });
     });
-
 });

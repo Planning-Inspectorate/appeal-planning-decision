@@ -17,8 +17,9 @@ export const fullAppealProofsOfEvidence = (context, lpaManageAppealsData) => {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
 					cy.get('a').each(($link) => {
-						if ($link.attr('href')?.includes(lpaManageAppealsData?.proofsOfEvidenceLink)) {
-							appealId = $link.attr('href')?.split('/').pop();
+						if ($link.attr('href')?.includes(lpaManageAppealsData?.proofsOfEvidenceLink)) {							
+							const parts = $link.attr('href')?.split('/');
+							appealId = parts?.[parts.length - 2];
 							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
 							return false;
 						}

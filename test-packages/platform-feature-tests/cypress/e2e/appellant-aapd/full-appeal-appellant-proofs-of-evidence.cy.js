@@ -4,7 +4,6 @@ import { appellantFullAppealProofsOfEvidenceTestCases } from "../../helpers/appe
 const { appellantFullAppealProofsOfEvidence } = require('../../support/flows/sections/appellantAAPD/appellantFullAppealProofsOfEvidence');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-
 describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
@@ -16,7 +15,7 @@ describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
                 cy.url().then((url) => {
                         if (url.includes('/appeal/email-address')) {
                                 cy.getById(prepareAppealSelector?._selectors?.emailAddress).clear();
-                                cy.getById(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
+                                cy.getById(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress1);
                                 cy.advanceToNextPage();
                                 cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
                                 cy.advanceToNextPage();

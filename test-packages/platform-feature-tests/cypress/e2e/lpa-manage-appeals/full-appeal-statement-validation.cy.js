@@ -34,7 +34,7 @@ describe('Full Planning Statement Test Cases', () => {
         cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
             const rowtext = $row.text();
             if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoStatement)) {
-                if (counter === 2) {
+                if (counter === 5) {
                     cy.log(rowtext);
                     cy.wrap($row).within(() => {
                         cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
@@ -80,7 +80,6 @@ describe('Full Planning Statement Test Cases', () => {
         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you have additional documents to support your appeal statement?');
         cy.get('input[name="additionalDocuments"]:checked').then(($checked) => {
             if ($checked.length > 0) {
-                //cy.log("Radio Button already selected");
                 return;
             }
             else {
@@ -91,17 +90,16 @@ describe('Full Planning Statement Test Cases', () => {
     });
 
 
-    it(`Validate upload your new supporting documents Error message`, () => {
-        const expectedFileNames = [fullAppealStatementTestCases[0]?.documents?.uploadEmergingPlan, fullAppealStatementTestCases[0]?.documents?.uploadOtherPolicies];
+    it(`Validate upload your new supporting documents Error message and remove if exists`, () => {
         cy.advanceToNextPage();
         cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
         cy.advanceToNextPage();
         basePage?.basePageElements?.pageHeading().contains('Upload your new supporting documents');
-        expectedFileNames.forEach(() => {
-            cy.get('.moj-multi-file-upload__delete')
-                .eq(0)
-                .click()
-        });
+        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+            if ($buttons.length) {
+                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+            }
+        })
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
     });

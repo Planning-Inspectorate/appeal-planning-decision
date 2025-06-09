@@ -19,7 +19,7 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
         cy.url().then((url) => {
             if (url.includes('/appeal/email-address')) {
                 cy.getById(prepareAppealSelector?._selectors?.emailAddress).clear();
-                cy.getById(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
+                cy.getById(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress1);
                 cy.advanceToNextPage();
                 cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
                 cy.advanceToNextPage();
@@ -35,7 +35,7 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
                         cy.get('a').each(($link) => {
                             if ($link.attr('href')?.includes(prepareAppealData?.proofsOfEvidenceLink)) {
                                 const parts = $link.attr('href')?.split('/');
-                                appealId = parts?.[parts.length - 2];                               						
+                                appealId = parts?.[parts.length - 2];
                                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                                 return false;
                             }
@@ -76,6 +76,14 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
     it(`Validate multiple uploading documents`, () => {
         const expectedFileNames = [appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
 
+        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+            if ($buttons.length) {
+                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+            }
+        })
+        cy.advanceToNextPage();
+        cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your proof of evidence and summary');
+
         expectedFileNames.forEach((fileName) => {
             cy.uploadFileFromFixtureDirectory(fileName);
         })
@@ -87,39 +95,20 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
         cy.advanceToNextPage();
     });
 
-    // it(`Validate add witnesses`, () => {
-    //     cy.advanceToNextPage();
-    //     cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you need to add any witnesses?');
-    //     cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you need to add any witnesses');
-    //     it(`Validate add witnesses`, () => {
-    //         cy.advanceToNextPage();
-    //         //cy.advanceToNextPage();
-    //         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you need to add any witnesses?');
-    //         cy.get('input[name="appellantWitnesses"]:checked').then(($checked) => {
-    //             if ($checked.length > 0) {
-    //                 cy.log("Radio Button already selected");
-    //                 return;
-    //             }
-    //             else {
-    //                 cy.advanceToNextPage();
-    //                 cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you need to add any witnesses');
-    //             }
-    //         })
-    //     });
-    // });   
     it(`Validate add witnesses`, () => {
         cy.advanceToNextPage();
-        //cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you need to add any witnesses?');
         cy.get('input[name="appellantWitnesses"]').then(($input) => {
             const checked = $input.filter(':checked')
+            cy.log('Check status', checked);
             if (checked.length > 0) {
-                cy.log("Radio Button already selected");
                 cy.getByData(basePage?._selectors?.answerYes).click();
             }
             else {
                 cy.advanceToNextPage();
                 cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you need to add any witnesses');
+                cy.getByData(basePage?._selectors?.answerYes).click();
+                cy.advanceToNextPage();
             }
         })
     });
@@ -154,6 +143,14 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
         const expectedFileNames = [appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         cy.advanceToNextPage();
         cy.advanceToNextPage();
+        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+            if ($buttons.length) {
+                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+            }
+        })
+        cy.advanceToNextPage();
+        cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your witnesses and their evidence');
+
         expectedFileNames.forEach((fileName) => {
             cy.uploadFileFromFixtureDirectory(fileName);
         })
@@ -170,7 +167,6 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukHeadingOne).contains('Check your answers and submit your proof of evidence');
-        //basePage.verifyPageHeading('Check your answers and submit your proof of evidence');
         const expectedRows = [
             {
                 key: 'Your proof of evidence and summary',

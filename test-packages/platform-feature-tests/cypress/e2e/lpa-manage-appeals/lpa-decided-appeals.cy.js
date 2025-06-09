@@ -5,7 +5,6 @@ import { decisionAllowedDowloadVerify, decisionAllowedInPartDowloadVerify, decis
 
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-
 describe('LPA Manage Appeals Questionnaire', () => {
     const yourAppealsSelector = new YourAppealsSelector();
     let lpaManageAppealsData;

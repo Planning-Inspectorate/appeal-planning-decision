@@ -6,7 +6,6 @@ import { finalCommentTestCases } from "../../helpers/representations/finalCommen
 import { BasePage } from "../../page-objects/base-page";
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-
 describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
@@ -57,7 +56,6 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
                 cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you want to submit any final comments?');
                 cy.get('input[name="appellantFinalComment"]:checked').then(($checked) => {
                         if ($checked.length > 0) {
-                                //cy.log("Radio Button already selected");
                                 return;
                         }
                         else {
@@ -112,16 +110,15 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
                 expectedFileNames.forEach((fileName) => {
                         cy.uploadFileFromFixtureDirectory(fileName);
                 });
-
                 expectedFileNames.forEach((fileName, index) => {
                         cy.get('.moj-multi-file-upload__filename')
                                 .eq(index)
                                 .should('contain.text', fileName);
                 });
-                expectedFileNames.forEach((filename, index) => {
-                        cy.get('.moj-multi-file-upload__delete')
-                                .eq(expectedFileNames.length - 1 - index)
-                                .click()
+                cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+                        if ($buttons.length) {
+                                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+                        }
                 })
 
                 cy.advanceToNextPage();
