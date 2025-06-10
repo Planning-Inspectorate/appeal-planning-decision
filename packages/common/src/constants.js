@@ -76,18 +76,8 @@ module.exports = {
 			USER_DETAILS: {
 				OPENID: 'openid',
 				USER_INFO: 'userinfo',
-				EMAIL: 'email'
-			},
-			// APPEALS_API: {
-			// 	READ: 'appeals:read',
-			// 	WRITE: 'appeals:write'
-			// },
-			// DOCS_API: {
-			// 	READ: 'documents:read',
-			// 	WRITE: 'documents:write'
-			// },
-			BO_DOCS_API: {
-				READ: 'bo-documents:read'
+				EMAIL: 'email',
+				LPA: 'lpa'
 			}
 		},
 		GRANT_TYPE: {

@@ -176,7 +176,7 @@ describe('auth server', () => {
 		});
 
 		it('should include allowed scopes', async () => {
-			const testScopes = 'userinfo openid email';
+			const testScopes = 'userinfo openid email lpa';
 			const response = await performClientCreds({
 				scope: testScopes
 			});
@@ -311,7 +311,8 @@ describe('auth server', () => {
 		});
 
 		it('should return id token with openid scope', async () => {
-			const user = await _createSqlUser('id-token@example.com');
+			const email = 'id-token@example.com';
+			const user = await _createSqlUser(email, true);
 			await performOTP({ email: user.email });
 
 			const securityToken = await sqlClient.securityToken.findFirstOrThrow({
@@ -329,6 +330,34 @@ describe('auth server', () => {
 			expect(response.status).toEqual(200);
 			expect(response.body.access_token).toEqual(expect.any(String));
 			expect(response.body.id_token).toEqual(expect.any(String));
+			const idToken = decodeToken(response.body.id_token);
+			expect(idToken.email).toEqual(email);
+			expect(idToken.lpaCode).toEqual(undefined);
+		});
+
+		it('should return lpa details with lpa scope', async () => {
+			const email = 'lpa-token@example.com';
+			const user = await _createSqlUser(email, true);
+			await performOTP({ email: user.email });
+
+			const securityToken = await sqlClient.securityToken.findFirstOrThrow({
+				where: {
+					appealUserId: user.id
+				}
+			});
+
+			const response = await performROPC({
+				email: user.email,
+				otp: securityToken.token,
+				scope: 'openid lpa'
+			});
+
+			expect(response.status).toEqual(200);
+			expect(response.body.access_token).toEqual(expect.any(String));
+			expect(response.body.id_token).toEqual(expect.any(String));
+			const idToken = decodeToken(response.body.id_token);
+			expect(idToken.email).toEqual(email);
+			expect(idToken.lpaCode).toEqual('Q1111');
 		});
 
 		it('should return 400 with bad email', async () => {
@@ -448,6 +477,7 @@ describe('auth server', () => {
 			expect(response.status).toEqual(400);
 		});
 	});
+
 	describe('Notify email', () => {
 		it('should send confirmation on first successful ROPC login', async () => {
 			const user = await _createSqlUser(TEST_EMAIL);
@@ -507,16 +537,30 @@ const _clearSqlData = async () => {
 
 /**
  * @param {string} email
+ * @param {boolean} [lpaUser]
  * @returns {Promise.<import('@prisma/client').AppealUser>}
  */
-const _createSqlUser = async (email) => {
+const _createSqlUser = async (email, lpaUser = false) => {
+	let lpaDetails = {};
+
+	if (lpaUser) {
+		lpaDetails = {
+			isLpaUser: true,
+			isLpaAdmin: false,
+			lpaCode: 'Q1111',
+			lpaStatus: 'added'
+		};
+	}
+
 	const user = await sqlClient.appealUser.upsert({
 		create: {
 			email: email,
-			isEnrolled: false
+			isEnrolled: false,
+			...lpaDetails
 		},
 		update: {
-			isEnrolled: false
+			isEnrolled: false,
+			...lpaDetails
 		},
 		where: { email: email }
 	});
@@ -524,4 +568,13 @@ const _createSqlUser = async (email) => {
 	usersIds.push(user.id);
 
 	return user;
+};
+
+/**
+ * @param {string} tokenPayload
+ * @returns {Object}
+ */
+const decodeToken = (tokenPayload) => {
+	const body = tokenPayload.split('.')[1];
+	return JSON.parse(atob(body));
 };

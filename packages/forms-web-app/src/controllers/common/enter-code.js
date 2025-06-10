@@ -11,7 +11,7 @@ const { createAppealUserSession } = require('../../services/user.service');
 const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const logger = require('#lib/logger');
-const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
+const { STATUS_CONSTANTS, AUTH } = require('@pins/common/src/constants');
 
 const { getSessionEmail, setSessionEmail, getSessionAppealSqlId } = require('#lib/session-helper');
 const { getAuthClientConfig, createOTPGrant } = require('@pins/common/src/client/auth-client');
@@ -416,7 +416,9 @@ const postEnterCodeLPA = (views) => {
 		}
 
 		// check token
-		const tokenResult = await isTokenValid(emailCode, user.email);
+		const tokenResult = await isTokenValid(emailCode, user.email, undefined, [
+			AUTH.SCOPES.USER_DETAILS.LPA
+		]);
 
 		if (!lpaTokenVerification(res, tokenResult, views, id)) return;
 

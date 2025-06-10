@@ -18,9 +18,10 @@ const logger = require('#lib/logger');
  * @param {string} token
  * @param {string} [emailAddress]
  * @param {string} [action]
+ * @param {string[]} [additionalScopes]
  * @returns {Promise<TokenValidResult>}
  */
-const getAuthToken = async (token, emailAddress, action) => {
+const getAuthToken = async (token, emailAddress, action, additionalScopes) => {
 	const tooManyAttempts = {
 		valid: false,
 		action: action,
@@ -43,7 +44,7 @@ const getAuthToken = async (token, emailAddress, action) => {
 	await getAuthClientConfig(config.oauth.baseUrl, config.oauth.clientID, config.oauth.clientSecret);
 
 	try {
-		const authResult = await createROPCGrant(emailAddress, token);
+		const authResult = await createROPCGrant(emailAddress, token, additionalScopes);
 
 		valid.access_token = authResult.access_token;
 		valid.id_token = authResult.id_token;
@@ -69,9 +70,10 @@ const getAuthToken = async (token, emailAddress, action) => {
  * @param {string} token
  * @param {string} [emailAddress] - user's email
  * @param {string} [action] - token action
+ * @param {string[]} [additionalScopes]
  * @returns {Promise<TokenValidResult>}
  */
-const isTokenValid = async (token, emailAddress, action) => {
+const isTokenValid = async (token, emailAddress, action, additionalScopes) => {
 	/** @type {TokenValidResult} */
 	let result = {
 		valid: false
@@ -88,7 +90,7 @@ const isTokenValid = async (token, emailAddress, action) => {
 	if (!isNonEmptyString(token)) return result;
 	if (!isNonEmptyString(emailAddress)) return result;
 
-	return await getAuthToken(token, emailAddress, action);
+	return await getAuthToken(token, emailAddress, action, additionalScopes);
 };
 
 module.exports = {

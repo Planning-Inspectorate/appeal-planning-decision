@@ -19,7 +19,7 @@ const {
 } = require('../../../../src/services/user.service');
 const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
-const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
+const { STATUS_CONSTANTS, AUTH } = require('@pins/common/src/constants');
 const { isFeatureActive } = require('../../../../src/featureFlag');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error');
 let { createOTPGrant } = require('@pins/common/src/client/auth-client');
@@ -609,6 +609,9 @@ describe('controllers/common/enter-code', () => {
 			};
 			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
 			await returnedFunction(req, res);
+			expect(isTokenValid).toHaveBeenCalledWith(code, mockUser.email, undefined, [
+				AUTH.SCOPES.USER_DETAILS.LPA
+			]);
 			expect(getLPAUserStatus).toHaveBeenCalledWith(req, userId);
 			expect(setLPAUserStatus).toHaveBeenCalledWith(req, userId, STATUS_CONSTANTS.CONFIRMED);
 			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/your-appeals');
