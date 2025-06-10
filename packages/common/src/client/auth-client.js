@@ -72,19 +72,25 @@ exports.createOTPGrant = async (email, action) => {
 /**
  * @param {string} email
  * @param {string} token
+ * @param {string[]} [additionalScopes]
  * @returns {Promise<Token>}
  */
-exports.createROPCGrant = async (email, token) => {
+exports.createROPCGrant = async (email, token, additionalScopes) => {
 	if (!authClientConfig || !authClient) {
 		throw new Error(
 			'Auth client configuration is not initialized. Call getAuthClientConfig first.'
 		);
 	}
 
+	const scopes = [AUTH.SCOPES.USER_DETAILS.OPENID, AUTH.SCOPES.USER_DETAILS.EMAIL];
+	if (additionalScopes && additionalScopes.length > 0) {
+		scopes.push(...additionalScopes);
+	}
+
 	return authClient.genericGrantRequest(authClientConfig, AUTH.GRANT_TYPE.ROPC, {
 		email: email,
 		otp: token,
-		scope: 'openid email',
+		scope: scopes.join(' '),
 		resource: AUTH.RESOURCE
 	});
 };

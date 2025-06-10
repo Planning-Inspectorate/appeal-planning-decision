@@ -2,14 +2,8 @@ const mockDiscovery = jest.fn();
 const mockGenericGrantRequest = jest.fn();
 const mockClientCredentialsGrant = jest.fn();
 const mockAllowInsecureRequests = Symbol('allowInsecureRequests');
-const mockAUTH = {
-	GRANT_TYPE: { OTP: 'otp', ROPC: 'ropc' },
-	RESOURCE: 'test-resource'
-};
+const { AUTH } = require('../constants');
 
-jest.mock('../constants', () => ({
-	AUTH: mockAUTH
-}));
 jest.unstable_mockModule('openid-client', () => {
 	return {
 		discovery: mockDiscovery,
@@ -136,10 +130,10 @@ describe('Auth Client', () => {
 			const email = 'test@example.com';
 			const action = 'test-action';
 			await createOTPGrant(email, action);
-			expect(mockGenericGrantRequest).toHaveBeenCalledWith(authClientConfig, 'otp', {
+			expect(mockGenericGrantRequest).toHaveBeenCalledWith(authClientConfig, AUTH.GRANT_TYPE.OTP, {
 				email,
 				action,
-				resource: mockAUTH.RESOURCE
+				resource: AUTH.RESOURCE
 			});
 		});
 
@@ -148,10 +142,10 @@ describe('Auth Client', () => {
 			const email = 'test@example.com';
 			const action = 'test-action';
 			await createOTPGrant(email, action);
-			expect(mockGenericGrantRequest).toHaveBeenCalledWith(authClientConfig, 'otp', {
+			expect(mockGenericGrantRequest).toHaveBeenCalledWith(authClientConfig, AUTH.GRANT_TYPE.OTP, {
 				email,
 				action,
-				resource: mockAUTH.RESOURCE
+				resource: AUTH.RESOURCE
 			});
 		});
 	});
@@ -180,11 +174,11 @@ describe('Auth Client', () => {
 			const email = 'test@example.com';
 			const token = 'test-token';
 			await createROPCGrant(email, token);
-			expect(mockGenericGrantRequest).toHaveBeenCalledWith(authClientConfig, 'ropc', {
+			expect(mockGenericGrantRequest).toHaveBeenCalledWith(authClientConfig, AUTH.GRANT_TYPE.ROPC, {
 				email,
 				otp: token,
 				scope: 'openid email',
-				resource: mockAUTH.RESOURCE
+				resource: AUTH.RESOURCE
 			});
 		});
 
@@ -196,11 +190,24 @@ describe('Auth Client', () => {
 			const token = 'test-token';
 			const result = await createROPCGrant(email, token);
 			expect(result).toEqual(mockToken);
-			expect(mockGenericGrantRequest).toHaveBeenCalledWith(authClientConfig, 'ropc', {
+			expect(mockGenericGrantRequest).toHaveBeenCalledWith(authClientConfig, AUTH.GRANT_TYPE.ROPC, {
 				email,
 				otp: token,
 				scope: 'openid email',
-				resource: mockAUTH.RESOURCE
+				resource: AUTH.RESOURCE
+			});
+		});
+
+		it('calls genericGrantRequest with additional scopes', async () => {
+			await getAuthClientConfig('https://example.com', 'test-client-id', 'test-client-secret');
+			const email = 'test@example.com';
+			const token = 'test-token';
+			await createROPCGrant(email, token, ['custom-scope']);
+			expect(mockGenericGrantRequest).toHaveBeenCalledWith(authClientConfig, AUTH.GRANT_TYPE.ROPC, {
+				email,
+				otp: token,
+				scope: 'openid email custom-scope',
+				resource: AUTH.RESOURCE
 			});
 		});
 	});
@@ -228,7 +235,7 @@ describe('Auth Client', () => {
 			await getAuthClientConfig('https://example.com', 'test-client-id', 'test-client-secret');
 			await createClientCredentialsGrant();
 			expect(mockClientCredentialsGrant).toHaveBeenCalledWith(authClientConfig, {
-				resource: mockAUTH.RESOURCE
+				resource: AUTH.RESOURCE
 			});
 		});
 	});

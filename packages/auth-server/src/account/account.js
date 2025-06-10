@@ -1,6 +1,7 @@
 import { UnknownUserId } from 'oidc-provider/lib/helpers/errors.js';
 import { sendConfirmRegistrationEmailToAppellant } from '../lib/notify.js';
 import { isEmailLike } from '../validators/email.js';
+import consts from '@pins/common/src/constants.js';
 
 import Repository from './repository.js';
 const repo = new Repository();
@@ -44,7 +45,9 @@ class Account {
 			email: this.user.email
 		};
 
-		if (this.user.isLpaUser) {
+		const lpaScope = scope?.split(' ').includes(consts.AUTH.SCOPES.USER_DETAILS.LPA);
+
+		if (lpaScope && this.user.isLpaUser) {
 			details.lpaCode = this.user.lpaCode;
 			details.isLpaAdmin = this.user.isLpaAdmin;
 			details.lpaStatus = this.user.lpaStatus;

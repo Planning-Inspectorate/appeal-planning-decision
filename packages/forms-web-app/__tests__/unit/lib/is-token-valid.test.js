@@ -54,6 +54,17 @@ describe('lib/is-token-valid', () => {
 			});
 		});
 
+		it('should pass through scopes', async () => {
+			const action = 'testAction';
+			createROPCGrant.mockResolvedValue({
+				access_token: 'access_token',
+				id_token: 'id_token',
+				expires_in: 3600
+			});
+			await isTokenValid(code, email, action, ['scope1', 'scope2']);
+			expect(createROPCGrant).toHaveBeenCalledWith(email, code, ['scope1', 'scope2']);
+		});
+
 		it('should return throw unhandled error', async () => {
 			const errorMessage = 'error';
 			createROPCGrant.mockRejectedValueOnce(new Error(errorMessage));
