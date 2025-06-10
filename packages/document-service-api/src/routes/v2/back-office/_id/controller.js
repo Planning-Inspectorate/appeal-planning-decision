@@ -2,7 +2,7 @@ const blobClient = require('#lib/back-office-storage-client');
 const logger = require('#lib/logger');
 const config = require('#config/config');
 const BlobStorageError = require('@pins/common/src/client/blob-storage-error');
-const { checkDocAccess } = require('#lib/access-rules');
+const { checkDocAccess } = require('@pins/common/src/access/document-access');
 const { DocumentsRepository } = require('../../../../db/repos/repository');
 const repo = new DocumentsRepository();
 
@@ -33,7 +33,15 @@ async function getDocumentUrl(req, res) {
 		userId: access_token?.sub || ''
 	});
 
-	if (!(await checkDocAccess(documentWithAppeal, appealUserRoles, access_token, req.id_token))) {
+	if (
+		!checkDocAccess({
+			logger: logger,
+			documentWithAppeal: documentWithAppeal,
+			appealUserRoles: appealUserRoles,
+			access_token: access_token,
+			id_token: req.id_token
+		})
+	) {
 		res.sendStatus(401);
 		return;
 	}

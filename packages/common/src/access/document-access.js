@@ -3,7 +3,6 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
 const { APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
 
 const { getDocType } = require('@pins/common/src/document-types');
-const logger = require('#lib/logger');
 
 /**
  * @typedef {import('@pins/common/src/document-types').DocType} DocType
@@ -58,26 +57,36 @@ module.exports.canAccessBODocument = ({ docMetaData, role }) => {
 };
 
 /**
- * @param {import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string, appealTypeCode: string} }} documentWithAppeal
- * @param {import("@prisma/client").AppealToUser[]} appealUserRoles
- * @param {import('express-oauth2-jwt-bearer').JWTPayload} appealUserRoles
- * @param {import('express-oauth2-jwt-bearer').JWTPayload} access_token
- * @param {object} id_token
+ * @param { Object } params
+ * @param {import("pino").BaseLogger } [params.logger]
+ * @param {import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string, appealTypeCode: string} }} params.documentWithAppeal
+ * @param {import("@prisma/client").AppealToUser[]} params.appealUserRoles
+ * @param {import('express-oauth2-jwt-bearer').JWTPayload} params.appealUserRoles
+ * @param {import('express-oauth2-jwt-bearer').JWTPayload} params.access_token
+ * @param {object} params.id_token
  */
-module.exports.checkDocAccess = (documentWithAppeal, appealUserRoles, access_token, id_token) => {
+module.exports.checkDocAccess = ({
+	logger,
+	documentWithAppeal,
+	appealUserRoles,
+	access_token,
+	id_token
+}) => {
 	const role = getRole(documentWithAppeal, appealUserRoles, access_token, id_token);
 
-	logger.debug(
-		{ documentWithAppeal, access_token, id_token },
-		`attempt to access document with role: ${role}`
-	);
+	if (logger) {
+		logger.debug(
+			{ documentWithAppeal, access_token, id_token },
+			`attempt to access document with role: ${role}`
+		);
+	}
 
 	const canAccess = exports.canAccessBODocument({
 		docMetaData: documentWithAppeal,
 		role: role
 	});
 
-	if (!canAccess) {
+	if (!canAccess && logger) {
 		logger.error({ role: role, documentWithAppeal }, 'failed BO doc auth check');
 	}
 

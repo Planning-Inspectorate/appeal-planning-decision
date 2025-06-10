@@ -1,4 +1,4 @@
-const { canAccessBODocument, checkDocAccess, CLIENT_CREDS_ROLE } = require('./access-rules');
+const { canAccessBODocument, checkDocAccess, CLIENT_CREDS_ROLE } = require('./document-access');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
 
@@ -16,6 +16,13 @@ const validDoc = {
 	AppealCase: {
 		appealTypeCode: 'HAS'
 	}
+};
+
+const mockLogger = {
+	warn: jest.fn(),
+	error: jest.fn(),
+	info: jest.fn(),
+	debug: jest.fn()
 };
 
 describe('v2/back-office/access-rules', () => {
@@ -211,52 +218,124 @@ describe('v2/back-office/access-rules', () => {
 		const access_tk = { sub: userId };
 
 		it('should return false if no access token', () => {
-			expect(checkDocAccess(docWithAppeal, [], null, {})).toBe(false);
+			expect(
+				checkDocAccess({
+					logger: mockLogger,
+					documentWithAppeal: docWithAppeal,
+					appealUserRoles: [],
+					access_token: null,
+					id_token: {}
+				})
+			).toBe(false);
 		});
 
 		it('should return false with client creds', () => {
 			const roles = [];
-			expect(checkDocAccess(docWithAppeal, roles, access_tk, null)).toBe(false);
+			expect(
+				checkDocAccess({
+					logger: mockLogger,
+					documentWithAppeal: docWithAppeal,
+					appealUserRoles: roles,
+					access_token: access_tk,
+					id_token: null
+				})
+			).toBe(false);
 		});
 
 		it('should return true if LPA has access', () => {
 			const roles = [];
 			const id_tk = { sub: userId, lpaCode: docWithAppeal.AppealCase.LPACode };
-			expect(checkDocAccess(docWithAppeal, roles, access_tk, id_tk)).toBe(true);
+			expect(
+				checkDocAccess({
+					logger: mockLogger,
+					documentWithAppeal: docWithAppeal,
+					appealUserRoles: roles,
+					access_token: access_tk,
+					id_token: id_tk
+				})
+			).toBe(true);
 		});
 
 		it('should return false if wrong LPA', () => {
 			const roles = [];
 			const id_tk = { sub: userId, lpaCode: 'nope' };
-			expect(checkDocAccess(docWithAppeal, roles, access_tk, id_tk)).toBe(false);
+			expect(
+				checkDocAccess({
+					logger: mockLogger,
+					documentWithAppeal: docWithAppeal,
+					appealUserRoles: roles,
+					access_token: access_tk,
+					id_token: id_tk
+				})
+			).toBe(false);
 		});
 
 		it('should return false if no role', () => {
-			expect(checkDocAccess(docWithAppeal, [], access_tk, {})).toBe(false);
+			expect(
+				checkDocAccess({
+					logger: mockLogger,
+					documentWithAppeal: docWithAppeal,
+					appealUserRoles: [],
+					access_token: access_tk,
+					id_token: {}
+				})
+			).toBe(false);
 		});
 
 		it('should return true if appellant has access', () => {
 			const roles = [{ role: APPEAL_USER_ROLES.APPELLANT }];
 			const id_tk = { sub: userId };
-			expect(checkDocAccess(docWithAppeal, roles, access_tk, id_tk)).toBe(true);
+			expect(
+				checkDocAccess({
+					logger: mockLogger,
+					documentWithAppeal: docWithAppeal,
+					appealUserRoles: roles,
+					access_token: access_tk,
+					id_token: id_tk
+				})
+			).toBe(true);
 		});
 
 		it('should return true if agent has access', () => {
 			const roles = [{ role: APPEAL_USER_ROLES.AGENT }];
 			const id_tk = { sub: userId };
-			expect(checkDocAccess(docWithAppeal, roles, access_tk, id_tk)).toBe(true);
+			expect(
+				checkDocAccess({
+					logger: mockLogger,
+					documentWithAppeal: docWithAppeal,
+					appealUserRoles: roles,
+					access_token: access_tk,
+					id_token: id_tk
+				})
+			).toBe(true);
 		});
 
 		it('should return true if rule 6 has access', () => {
 			const roles = [{ role: APPEAL_USER_ROLES.RULE_6_PARTY }];
 			const id_tk = { sub: userId };
-			expect(checkDocAccess(docWithAppeal, roles, access_tk, id_tk)).toBe(true);
+			expect(
+				checkDocAccess({
+					logger: mockLogger,
+					documentWithAppeal: docWithAppeal,
+					appealUserRoles: roles,
+					access_token: access_tk,
+					id_token: id_tk
+				})
+			).toBe(true);
 		});
 
 		it('should error if unknown role', () => {
 			const roles = [{ role: 'nope' }];
 			const id_tk = { sub: userId };
-			expect(() => checkDocAccess(docWithAppeal, roles, access_tk, id_tk)).toThrow();
+			expect(() =>
+				checkDocAccess({
+					logger: mockLogger,
+					documentWithAppeal: docWithAppeal,
+					appealUserRoles: roles,
+					access_token: access_tk,
+					id_token: id_tk
+				})
+			).toThrow();
 		});
 	});
 });

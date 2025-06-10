@@ -7,8 +7,11 @@ const {
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
 const {
-	addOwnershipAndSubmissionDetailsToRepresentations
+	addOwnershipAndSubmissionDetailsToRepresentations,
+	checkDocumentAccessByRepresentationOwner
 } = require('@pins/common/src/access/representation-ownership');
+const { checkDocAccess } = require('@pins/common/src/access/document-access');
+const { APPEAL_REPRESENTATION_STATUS } = require('pins-data-model');
 
 const { AppealCaseRepository } = require('../../repo');
 const caseRepo = new AppealCaseRepository();
@@ -33,6 +36,10 @@ async function getAppealCaseWithRepresentations(req, res) {
 		throw ApiError.withMessage(400, 'logged-in email required');
 	}
 
+	/** @type { Array<import("@prisma/client").AppealToUser> } */
+	let appealUserRoles = [];
+
+	// todo: lpaCode scope + middleware
 	if (isLpa) {
 		try {
 			await submissionRepo.lpaCanModifyCase({
@@ -45,10 +52,11 @@ async function getAppealCaseWithRepresentations(req, res) {
 		}
 	} else {
 		try {
-			await caseRepo.userCanModifyCase({
+			const result = await caseRepo.userCanModifyCase({
 				caseReference: caseReference,
 				userId: req.auth?.payload.sub
 			});
+			appealUserRoles = result.roles;
 		} catch (error) {
 			logger.error({ error }, 'get representations: invalid user access');
 			throw ApiError.forbidden();
@@ -65,29 +73,101 @@ async function getAppealCaseWithRepresentations(req, res) {
 			caseWithRepresentations = await getAppealCaseWithAllRepresentations(caseReference);
 		}
 
-		if (
-			caseWithRepresentations.Representations &&
-			caseWithRepresentations.Representations.length > 0
-		) {
-			const usersWithEmails = await getServiceUsersWithEmails(
-				caseReference,
-				caseWithRepresentations.Representations
-			);
-			caseWithRepresentations.Representations = addOwnershipAndSubmissionDetailsToRepresentations(
-				caseWithRepresentations.Representations,
-				email,
-				isLpa,
-				usersWithEmails
-			);
-		} else {
-			caseWithRepresentations.Representations = [];
-		}
+		caseWithRepresentations.Representations = await filterRepresentations(
+			caseWithRepresentations,
+			email,
+			isLpa
+		);
+		caseWithRepresentations.Documents = filterDocuments(
+			caseWithRepresentations,
+			appealUserRoles,
+			req.auth?.payload,
+			req.id_token
+		);
 
 		res.status(200).send(caseWithRepresentations);
 	} catch (error) {
 		logger.error(`Failed to get case with representations for ${caseReference}: ${error}`);
 		throw error;
 	}
+}
+
+/**
+ * @param {import('./repo').AppealWithRepresentations} caseWithRepresentations
+ * @param {string} email
+ * @param {boolean} isLpa
+ * @returns {Promise<Array<import('@pins/common/src/access/representation-ownership').RepresentationResult>>}
+ */
+async function filterRepresentations(caseWithRepresentations, email, isLpa) {
+	if (
+		!caseWithRepresentations.Representations ||
+		caseWithRepresentations.Representations.length === 0
+	) {
+		return [];
+	}
+
+	const usersWithEmails = await getServiceUsersWithEmails(
+		caseWithRepresentations.caseReference,
+		caseWithRepresentations.Representations
+	);
+
+	const repsWithOwnership = addOwnershipAndSubmissionDetailsToRepresentations(
+		caseWithRepresentations.Representations,
+		email,
+		isLpa,
+		usersWithEmails
+	);
+
+	return repsWithOwnership.filter(
+		(rep) =>
+			rep.userOwnsRepresentation ||
+			rep.representationStatus === APPEAL_REPRESENTATION_STATUS.PUBLISHED
+	);
+}
+
+/**
+ * @param {Array<import('@prisma/client').Representation>} representations
+ * @returns {Map<string, import('@pins/common/src/access/representation-ownership').FlatRepDocOwnership>}
+ */
+function getRepDocOwnershipMap(representations) {
+	return new Map(
+		representations.flatMap((rep) =>
+			(Array.isArray(rep.RepresentationDocuments) ? rep.RepresentationDocuments : []).map((doc) => [
+				doc.documentId,
+				{
+					representationStatus: rep.representationStatus ?? null,
+					documentId: doc.documentId,
+					userOwnsRepresentation: rep.userOwnsRepresentation,
+					submittingPartyType: rep.submittingPartyType
+				}
+			])
+		)
+	);
+}
+
+function filterDocuments(caseWithRepresentations, appealUserRoles, access_token, id_token) {
+	if (!caseWithRepresentations.Documents || caseWithRepresentations.Documents.length === 0) {
+		return caseWithRepresentations.Documents;
+	}
+
+	const representationMap = getRepDocOwnershipMap(caseWithRepresentations.Documents);
+
+	const simpleCase = {
+		LPACode: caseWithRepresentations.LPACode,
+		appealId: caseWithRepresentations.appealId,
+		appealTypeCode: caseWithRepresentations.appealTypeCode
+	};
+
+	return caseWithRepresentations.Documents.filter((document) =>
+		checkDocumentAccessByRepresentationOwner(document, representationMap)
+	).filter((document) =>
+		checkDocAccess({
+			documentWithAppeal: { ...document, AppealCase: simpleCase },
+			appealUserRoles: appealUserRoles,
+			access_token: access_token,
+			id_token: id_token
+		})
+	);
 }
 
 /**

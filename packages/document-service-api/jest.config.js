@@ -19,8 +19,8 @@ module.exports = {
 			lines: 88
 		}
 	},
-	// globalSetup: '<rootDir>/test/developer/globalSetup.js',
-	// globalTeardown: '<rootDir>/test/developer/globalTeardown.js',
+	globalSetup: '<rootDir>/test/developer/globalSetup.js',
+	globalTeardown: '<rootDir>/test/developer/globalTeardown.js',
 	transform: {
 		'\\.[jt]sx?$': 'babel-jest'
 	}

@@ -1,9 +1,13 @@
-const { addOwnershipAndSubmissionDetailsToRepresentations } = require('./representation-ownership');
+const {
+	addOwnershipAndSubmissionDetailsToRepresentations,
+	checkDocumentAccessByRepresentationOwner
+} = require('./representation-ownership');
 const {
 	REPRESENTATION_TYPES,
 	APPEAL_USER_ROLES,
 	LPA_USER_ROLE
 } = require('@pins/common/src/constants');
+const { APPEAL_REPRESENTATION_STATUS } = require('pins-data-model');
 
 const testR6ServiceUserId1 = 'testR6ServiceUserId1';
 const testR6ServiceUserId2 = 'testR6ServiceUserId2';
@@ -160,6 +164,47 @@ describe('representations/service', () => {
 			expect(result).toContainEqual(expectedLpaRep);
 			expect(result).toContainEqual(expectedR6Party1Rep);
 			expect(result).toContainEqual(expectedR6Party2Rep);
+		});
+	});
+
+	describe('checkDocumentAccessByRepresentationOwner', () => {
+		it('should return true if representation is not in map', () => {
+			const doc = { id: 'doc1' };
+
+			expect(checkDocumentAccessByRepresentationOwner(doc, new Map())).toBe(true);
+		});
+
+		it('should return true if user owns representation and non published status', () => {
+			const doc = { id: 'doc1' };
+			const map = new Map();
+			map.set('doc1', {
+				userOwnsRepresentation: true,
+				representationStatus: APPEAL_REPRESENTATION_STATUS.DRAFT
+			});
+
+			expect(checkDocumentAccessByRepresentationOwner(doc, map)).toBe(true);
+		});
+
+		it('should return true if representation published for non owner', () => {
+			const doc = { id: 'doc1' };
+			const map = new Map();
+			map.set('doc1', {
+				userOwnsRepresentation: false,
+				representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED
+			});
+
+			expect(checkDocumentAccessByRepresentationOwner(doc, map)).toBe(true);
+		});
+
+		it('should return false if representation is not visible for user', () => {
+			const doc = { id: 'doc2' };
+			const map = new Map();
+			map.set('doc2', {
+				userOwnsRepresentation: false,
+				representationStatus: APPEAL_REPRESENTATION_STATUS.DRAFT
+			});
+
+			expect(checkDocumentAccessByRepresentationOwner(doc, map)).toBe(false);
 		});
 	});
 });

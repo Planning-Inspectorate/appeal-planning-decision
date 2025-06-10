@@ -11,6 +11,7 @@ const sanitizePostcode = require('#lib/sanitize-postcode');
 
 /**
  * @typedef {import("@prisma/client").Appeal} Appeal
+ * @typedef {import("@prisma/client").AppealToUser} AppealToUser
  * @typedef {import("@prisma/client").AppellantSubmission} AppellantSubmission
  * @typedef {import("@prisma/client").SubmissionLinkedCase} SubmissionLinkedCase
  * @typedef {import("@prisma/client").AppealCase} AppealCase
@@ -95,7 +96,9 @@ const DocumentsArgsPublishedOnly = {
 		filename: true,
 		documentType: true,
 		datePublished: true,
-		redacted: true
+		redacted: true,
+		virusCheckStatus: true,
+		published: true
 	}
 };
 
@@ -598,11 +601,11 @@ class AppealCaseRepository {
 	/**
 	 * checks user can modify case, does not work for LPA users
 	 * @param {{ caseReference: string, userId: string }} params
-	 * @returns {Promise<boolean>}
+	 * @returns {Promise<{ canModify: boolean, roles: AppealToUser[]}>}
 	 */
 	async userCanModifyCase({ caseReference, userId }) {
 		try {
-			await this.dbClient.appealCase.findUniqueOrThrow({
+			const caseAndRoles = await this.dbClient.appealCase.findUniqueOrThrow({
 				where: {
 					caseReference
 				},
@@ -627,7 +630,10 @@ class AppealCaseRepository {
 				}
 			});
 
-			return true;
+			return {
+				canModify: true,
+				roles: caseAndRoles?.Appeal?.Users || []
+			};
 		} catch (err) {
 			logger.error({ err }, 'invalid user access');
 			throw ApiError.forbidden();

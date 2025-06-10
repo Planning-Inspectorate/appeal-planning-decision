@@ -1,5 +1,5 @@
 const { REPRESENTATION_TYPES, LPA_USER_ROLE, APPEAL_USER_ROLES } = require('../constants');
-const { APPEAL_SOURCE } = require('pins-data-model');
+const { APPEAL_SOURCE, APPEAL_REPRESENTATION_STATUS } = require('pins-data-model');
 
 /**
  * @typedef {import('@prisma/client').Representation} Representation
@@ -9,6 +9,12 @@ const { APPEAL_SOURCE } = require('pins-data-model');
  * @typedef { 'LPAUser' } LpaUserRole
  * @typedef {import('@prisma/client').ServiceUser} ServiceUser
  * @typedef {Pick<ServiceUser, 'id' | 'emailAddress' | 'serviceUserType'>} BasicServiceUser
+ * @typedef { {
+ *   representationStatus: string|null,
+ *   documentId: string,
+ *   userOwnsRepresentation: boolean,
+ *   submittingPartyType: string | undefined
+ * } } FlatRepDocOwnership
  */
 
 /**
@@ -59,3 +65,25 @@ function ascertainSubmittingParty(representation, serviceUsersWithEmails) {
 	return serviceUsersWithEmails.find((user) => user.id === representation.serviceUserId)
 		?.serviceUserType;
 }
+
+/**
+ * Determines if a document is available for the user based on representation ownership and status.
+ * @param {import("@prisma/client").Document} document
+ * @param {Map<string, FlatRepDocOwnership>} representationMap
+ * @returns {boolean}
+ */
+exports.checkDocumentAccessByRepresentationOwner = (document, representationMap) => {
+	// see if the document belongs to a representation
+	const rep = representationMap.get(document.id);
+
+	// doc does not belong to a representation so we can skip representation checks
+	if (!rep) {
+		return true;
+	}
+
+	// return true if the user either owns the representation or it is published
+	return (
+		rep.userOwnsRepresentation ||
+		rep.representationStatus === APPEAL_REPRESENTATION_STATUS.PUBLISHED
+	);
+};

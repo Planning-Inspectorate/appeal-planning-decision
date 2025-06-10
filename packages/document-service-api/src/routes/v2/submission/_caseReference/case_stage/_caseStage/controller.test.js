@@ -10,6 +10,12 @@ jest.mock('../../../../../../configuration/featureFlag', () => ({
 	isFeatureActive: jest.fn().mockResolvedValue(true)
 }));
 
+jest.mock('@pins/common/src/lib/getAzureBlobPathFromUri', () =>
+	jest.fn().mockImplementation((uri) => {
+		return uri;
+	})
+);
+
 const mockAppend = jest.fn();
 
 jest.mock('archiver', () =>
@@ -75,9 +81,9 @@ describe('/v2/submission/{caseReference}/case_stage/{caseStage}', () => {
 		await getDocumentsByCaseReferenceAndCaseStage(req, res);
 
 		// Testing archive append was called correctly 3 times
-		expect(mockAppend).toBeCalledTimes(3);
+		expect(mockAppend).toHaveBeenCalledTimes(3);
 
-		testDocuments.map((testDocument, index) => {
+		testDocuments.forEach((testDocument, index) => {
 			const document = `${testCaseReference}-${testDocument}`;
 			expect(mockAppend).toHaveBeenNthCalledWith(
 				index + 1,
