@@ -19,8 +19,8 @@ jest.mock('@pins/common/src/constants', () => ({
 	FOLDERS: testDocumentTypes.map((documentType) => `${testCaseStage}/${documentType}`)
 }));
 
-const { checkDocAccess } = require('#lib/access-rules');
-jest.mock('#lib/access-rules');
+const { checkDocAccess } = require('@pins/common/src/access/document-access');
+jest.mock('@pins/common/src/access/document-access');
 
 const mockAppend = jest.fn();
 
@@ -161,7 +161,7 @@ describe('/v2/back-office/{caseReference}/case_stage/{caseStage}', () => {
 
 	it('should expect 2 blob streams to be appended, 4 not included due to access rules', async () => {
 		checkDocAccess.mockImplementation(
-			(appealWithDoc) => appealWithDoc.documentType === testDocumentTypes[0]
+			(params) => params.documentWithAppeal.documentType === testDocumentTypes[0]
 		);
 
 		await getDocumentsByCaseReferenceAndCaseStage(req, res);

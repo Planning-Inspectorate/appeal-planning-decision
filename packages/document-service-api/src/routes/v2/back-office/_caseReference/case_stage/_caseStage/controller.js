@@ -4,11 +4,12 @@ const { FOLDERS } = require('@pins/common/src/constants');
 const { DocumentsRepository } = require('../../../../../../db/repos/repository');
 const repo = new DocumentsRepository();
 const logger = require('#lib/logger');
-const { checkDocAccess } = require('#lib/access-rules');
+const { mapDocumentToBlobInfo } = require('#lib/document-utils');
 const {
-	checkDocumentAccessByRepresentationOwner,
-	mapDocumentToBlobInfo
-} = require('#lib/document-access-utils');
+	checkDocumentAccessByRepresentationOwner
+} = require('@pins/common/src/access/representation-ownership');
+const { checkDocAccess } = require('@pins/common/src/access/document-access');
+
 /**
  * @param {string} caseStage
  * @param {string} caseReference
@@ -50,12 +51,13 @@ async function getBlobCollection(
 	return allDocuments
 		.filter((document) => checkDocumentAccessByRepresentationOwner(document, representationMap))
 		.filter((document) =>
-			checkDocAccess(
-				{ ...document, AppealCase: appealCase },
-				appealUserRoles,
-				access_token,
-				id_token
-			)
+			checkDocAccess({
+				logger,
+				documentWithAppeal: { ...document, AppealCase: appealCase },
+				appealUserRoles: appealUserRoles,
+				access_token: access_token,
+				id_token: id_token
+			})
 		)
 		.map(mapDocumentToBlobInfo)
 		.filter(Boolean);
