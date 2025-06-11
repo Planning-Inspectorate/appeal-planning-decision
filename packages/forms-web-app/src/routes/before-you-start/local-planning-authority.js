@@ -1,6 +1,6 @@
 const express = require('express');
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
-const localPlanningDepartmentController = require('../../controllers/full-appeal/local-planning-authority');
+const localPlanningAuthorityController = require('../../controllers/full-appeal/local-planning-authority');
 const {
 	rules: localPlanningAuthorityValidationRules
 } = require('../../validators/full-appeal/local-planning-authority');
@@ -11,14 +11,14 @@ const router = express.Router();
 router.get(
 	'/local-planning-authority',
 	[fetchExistingAppealMiddleware],
-	localPlanningDepartmentController.getPlanningDepartment
+	localPlanningAuthorityController.getPlanningDepartment
 );
 
 router.post(
 	'/local-planning-authority',
 	localPlanningAuthorityValidationRules(),
 	validationErrorHandler,
-	localPlanningDepartmentController.postPlanningDepartment
+	localPlanningAuthorityController.postPlanningDepartment
 );
 
 module.exports = router;
