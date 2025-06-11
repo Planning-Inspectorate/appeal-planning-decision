@@ -13,7 +13,8 @@ const VIEW = {
 		USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building',
 		USE_EXISTING_SERVICE_APPLICATION_TYPE: 'before-you-start/use-existing-service-application-type',
 		LISTED_BUILDING: 'before-you-start/listed-building',
-		ENFORCEMENT_NOTICE: 'before-you-start/enforcement-notice'
+		ENFORCEMENT_NOTICE: 'before-you-start/enforcement-notice',
+		APPLICATION_ABOUT: 'before-you-start/planning-application-about'
 	},
 
 	APPELLANT_SUBMISSION: {

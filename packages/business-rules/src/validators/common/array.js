@@ -25,7 +25,22 @@ function allOfSelectedOptions(fieldName, validOptions) {
 	);
 }
 
+function maybeOption(fieldName, validOptions) {
+	return this.test(
+		'maybeOption',
+		`${fieldName} must be one or more of the following values: ${validOptions.join(', ')}`,
+		(value) => {
+			if (value == null) return true; // allow null or undefined
+			if (Array.isArray(value)) {
+				return value.every((item) => validOptions.includes(item));
+			}
+			return false;
+		}
+	);
+}
+
 module.exports = {
 	allOfValidOptions,
-	allOfSelectedOptions
+	allOfSelectedOptions,
+	maybeOption
 };
