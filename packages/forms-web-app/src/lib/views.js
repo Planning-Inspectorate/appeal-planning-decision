@@ -157,6 +157,14 @@ const VIEW = {
 		NEED_NEW_CODE: 'listed-building/need-new-code', // redirect only
 		EMAIL_CONFIRMED: 'listed-building/email-address-confirmed' // redirect only
 	},
+	CAS_PLANNING: {
+		EMAIL_ADDRESS: 'cas-planning/email-address', // redirect only
+		ENTER_CODE: 'cas-planning/enter-code', // redirect only
+		REQUEST_NEW_CODE: 'cas-planning/request-new-code', // redirect only
+		CODE_EXPIRED: 'cas-planning/code-expired', // redirect only
+		NEED_NEW_CODE: 'cas-planning/need-new-code', // redirect only
+		EMAIL_CONFIRMED: 'cas-planning/email-address-confirmed' // redirect only
+	},
 	COMMON: {
 		ENTER_CODE: 'common/enter-code',
 		REQUEST_NEW_CODE: 'common/request-new-code',
