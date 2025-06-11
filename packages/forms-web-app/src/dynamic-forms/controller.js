@@ -451,6 +451,7 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 			});
 		case APPEAL_ID.PLANNING_SECTION_78:
 		case APPEAL_ID.PLANNING_LISTED_BUILDING:
+		case APPEAL_ID.MINOR_COMMERCIAL:
 			return res.render('full-appeal/submit-appeal/list-of-documents', {
 				usingV2Form,
 				bannerHtmlOverride
