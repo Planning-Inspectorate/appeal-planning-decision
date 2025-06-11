@@ -17,7 +17,7 @@ describe('Comment on a planning appeal', () => {
 
   })
 
-  it('should allow a user to enter postcode and start the process', () => {
+  it('should allow a user to enter postcode and submit the IP comments', () => {
     // Validate I do not have an appeal reference number
     cy.get('a[href*="enter-postcode"]').click();
     // Validate URL
@@ -59,7 +59,7 @@ describe('Comment on a planning appeal', () => {
     cy.get(basePage?._selectors?.govukButton).should('include.text', 'Submit comments').click();
   });
 
-  it('should allow a user to enter a reference number and start the process', () => {
+  it('should allow a user to enter a reference number and submit the IP comment', () => {
     // Validate reference number text field label   
     cy.visit(`${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal`);
     cy.get(basePage?._selectors?.govukLabelGovukLabel).should('include.text', 'Enter the appeal reference number');
