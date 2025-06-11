@@ -229,7 +229,7 @@ const config = {
 				}
 			},
 			[APPEAL_ID.MINOR_COMMERCIAL]: {
-				id: '',
+				id: 'Z',
 				name: 'Minor Commercial (shopfront)',
 				procedureType: [WRITTEN_REPRESENTATION],
 				appealDue: {
