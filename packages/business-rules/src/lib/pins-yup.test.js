@@ -20,4 +20,8 @@ describe('pins-yup', () => {
 	it('should have a pinsYup.array().allOfSelectedOptions method defined', () => {
 		expect(typeof pinsYup.array().allOfSelectedOptions).toEqual('function');
 	});
+
+	it('should have a pinsYup.array().allOfSelectedOptions method defined', () => {
+		expect(typeof pinsYup.array().maybeOption).toEqual('function');
+	});
 });

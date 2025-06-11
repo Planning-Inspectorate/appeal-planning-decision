@@ -8,7 +8,8 @@ const {
 	PROCEDURE_TYPE,
 	SECTION_STATE,
 	STANDARD_TRIPLE_CONFIRM_OPTIONS,
-	TYPE_OF_PLANNING_APPLICATION
+	TYPE_OF_PLANNING_APPLICATION,
+	APPLICATION_ABOUT
 } = require('../../constants');
 
 describe('schemas/full-appeal/update', () => {
@@ -273,6 +274,31 @@ describe('schemas/full-appeal/update', () => {
 				await expect(() => update.validate(appeal, config)).rejects.toThrow(
 					'typeOfPlanningApplication is a required field'
 				);
+			});
+		});
+
+		describe('planningApplicationAbout', () => {
+			it('should throw an error when given an invalid value', async () => {
+				appeal.eligibility.planningApplicationAbout = ['nope'];
+
+				await expect(update.validate(appeal, config)).rejects.toThrow(
+					'planningApplicationAbout must be one or more of the following values: change_of_use, change_units_in_building, not_wholly_ground_floor, gross_internal_area, none_of_these'
+				);
+			});
+
+			it('should allow no value', async () => {
+				appeal.eligibility.planningApplicationAbout = null;
+				const result = await update.validate(appeal, config);
+				expect(result).toBe(appeal);
+			});
+
+			it('should allow valid value', async () => {
+				appeal.eligibility.planningApplicationAbout = [
+					APPLICATION_ABOUT.NON_OF_THESE,
+					APPLICATION_ABOUT.GROSS_INTERNAL_AREA
+				];
+				const result = await update.validate(appeal, config);
+				expect(result).toBe(appeal);
 			});
 		});
 
