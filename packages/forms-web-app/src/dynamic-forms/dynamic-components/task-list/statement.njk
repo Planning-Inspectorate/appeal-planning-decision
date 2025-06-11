@@ -20,7 +20,8 @@
 						{% for row in summaryListData.sections[0].list.rows %}
 							{% set rawHtml = row.value.html | default('') %}
 							{% set plainText = rawHtml | trim %}
-							{% set needsTruncation = plainText | length > 150 %}
+							{% set isAppealStatement = (row.key.text or row.key) == "Appeal statement" %}
+							{% set needsTruncation = isAppealStatement and (plainText | length > 150) %}
 							{% set truncatedText = plainText | truncate(150, true, '...') %}
 							<div class="govuk-summary-list__row">
 								<dt class="govuk-summary-list__key">
