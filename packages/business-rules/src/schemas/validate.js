@@ -16,7 +16,8 @@ const validate = (action, data, config = { abortEarly: false }) => {
 			return householderAppeal[action].validate(data, config);
 		case APPEAL_ID.PLANNING_SECTION_78:
 		case APPEAL_ID.PLANNING_LISTED_BUILDING:
-			// listed building appeal is v2 only - we use
+		case APPEAL_ID.MINOR_COMMERCIAL:
+			// listed building and MINOR_COMMERCIAL appeal is v2 only - we use
 			// full appeal validator here for BYS validation
 			return fullAppeal[action].validate(data, config);
 		default:

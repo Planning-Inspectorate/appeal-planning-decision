@@ -20,6 +20,9 @@ const mapPlanningApplication = (application) => {
 		case TYPE_OF_PLANNING_APPLICATION.LISTED_BUILDING:
 			return APPEAL_ID.PLANNING_LISTED_BUILDING;
 
+		case TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT:
+			return APPEAL_ID.MINOR_COMMERCIAL;
+
 		default:
 			return undefined;
 	}
