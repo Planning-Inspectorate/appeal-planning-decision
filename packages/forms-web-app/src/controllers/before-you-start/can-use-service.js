@@ -29,7 +29,8 @@ const {
 		RESERVED_MATTERS,
 		REMOVAL_OR_VARIATION_OF_CONDITIONS,
 		PRIOR_APPROVAL,
-		LISTED_BUILDING
+		LISTED_BUILDING,
+		MINOR_COMMERCIAL_DEVELOPMENT
 	}
 } = require('@pins/business-rules/src/constants');
 const config = require('../../config');
@@ -91,6 +92,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 	const {
 		appealLPD,
 		applicationType,
+		applicationAbout,
 		applicationDecision,
 		decisionDate,
 		enforcementNotice,
@@ -104,21 +106,27 @@ const canUseServiceFullAppeal = async (req, res) => {
 		appeal.eligibility.applicationDecision
 	);
 
-	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
+	const [isV2forS78, isV2forS20, isV2forCAS] = await Promise.all([
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2),
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2),
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2)
+	]);
+
 	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
-	const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
 
 	res.render(canUseServiceFullAppealView, {
 		deadlineDate,
 		appealLPD,
 		applicationType,
+		applicationAbout,
 		applicationDecision,
 		decisionDate,
 		enforcementNotice,
 		dateOfDecisionLabel,
 		isListedBuilding,
 		isV2forS78,
+		isV2forCAS,
 		nextPageUrl,
 		changeLpaUrl,
 		bannerHtmlOverride:
@@ -281,6 +289,7 @@ exports.getCanUseService = async (req, res) => {
 		case OUTLINE_PLANNING:
 		case RESERVED_MATTERS:
 		case LISTED_BUILDING:
+		case MINOR_COMMERCIAL_DEVELOPMENT:
 			await canUseServiceFullAppeal(req, res);
 			break;
 		case PRIOR_APPROVAL:
