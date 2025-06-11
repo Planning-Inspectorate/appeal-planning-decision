@@ -6,7 +6,7 @@ const VIEW = {
 
 	BEFORE_YOU_START: {
 		FIRST_PAGE: 'before-you-start/first-page',
-		LOCAL_PLANNING: 'before-you-start/local-planning-department',
+		LOCAL_PLANNING: 'before-you-start/local-planning-authority',
 		USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
 			'before-you-start/use-existing-service-enforcement-notice',
 		USE_EXISTING_SERVICE_DEVELOPMENT_TYPE: 'before-you-start/use-existing-service-development-type',
@@ -112,7 +112,7 @@ const VIEW = {
 		KNOW_THE_OWNERS: 'full-appeal/submit-appeal/know-the-owners',
 		LETTER_CONFIRMING_APPLICATION: 'full-appeal/submit-appeal/letter-confirming-application',
 		LIST_OF_DOCUMENTS: 'full-appeal/submit-appeal/list-of-documents',
-		LOCAL_PLANNING_DEPARTMENT: 'full-appeal/local-planning-department',
+		LOCAL_PLANNING_AUTHORITY: 'full-appeal/local-planning-authority',
 		NEW_PLANS_DRAWINGS: 'full-appeal/submit-appeal/new-plans-drawings',
 		NEW_DOCUMENTS: 'full-appeal/submit-appeal/new-documents',
 		ORIGINAL_DECISION_NOTICE: 'full-appeal/submit-appeal/original-decision-notice',

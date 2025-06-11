@@ -1,9 +1,9 @@
 jest.mock('../../../../src/services/department.service');
 const { validationResult } = require('express-validator');
-const { rules } = require('../../../../src/validators/full-appeal/local-planning-department');
+const { rules } = require('../../../../src/validators/full-appeal/local-planning-authority');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
-describe('validators/local-planning-department', () => {
+describe('validators/local-planning-authority', () => {
 	describe('rules', () => {
 		it('is configured with the expected rules', () => {
 			const rule = rules()[0].builder.build();
@@ -19,7 +19,7 @@ describe('validators/local-planning-department', () => {
 	describe('validator', () => {
 		[
 			{
-				title: 'eligible local planning department provided',
+				title: 'eligible local planning authority provided',
 				given: () => ({
 					body: {
 						'local-planning-department': 'lpa1',
@@ -31,7 +31,7 @@ describe('validators/local-planning-department', () => {
 				}
 			},
 			{
-				title: 'local planning department is not provided',
+				title: 'local planning authority is not provided',
 				given: () => ({
 					body: {}
 				}),
