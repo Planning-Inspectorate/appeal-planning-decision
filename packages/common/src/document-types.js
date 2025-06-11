@@ -781,7 +781,7 @@ const documentTypes = {
 	},
 	uploadHistoricEnglandConsultation: {
 		name: 'uploadHistoricEnglandConsultation',
-		dataModelName: 'lpaHistoricEnglandConsultation', // To be amended as needed once data model confirmed - APPEAL_DOCUMENT_TYPE.LPA_HISTORIC_ENGLAND_CONSULTATION,
+		dataModelName: APPEAL_DOCUMENT_TYPE.HISTORIC_ENGLAND_CONSULTATION, // To be amended as needed once data model confirmed - APPEAL_DOCUMENT_TYPE.LPA_HISTORIC_ENGLAND_CONSULTATION,
 		multiple: true,
 		displayName: '',
 		involvement: '',
