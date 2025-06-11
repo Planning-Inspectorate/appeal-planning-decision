@@ -1,5 +1,5 @@
 const { get, post } = require('../router-mock');
-const localPlanningDepartmentController = require('../../../../src/controllers/full-appeal/local-planning-authority');
+const localPlanningAuthorityController = require('../../../../src/controllers/full-appeal/local-planning-authority');
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 const {
@@ -18,14 +18,14 @@ describe('routes/full-appeal/local-planning-authority', () => {
 		expect(get).toHaveBeenCalledWith(
 			'/local-planning-authority',
 			[fetchExistingAppealMiddleware],
-			localPlanningDepartmentController.getPlanningDepartment
+			localPlanningAuthorityController.getPlanningDepartment
 		);
 
 		expect(post).toHaveBeenCalledWith(
 			'/local-planning-authority',
 			localPlanningDepartmentAuthorityRules(),
 			validationErrorHandler,
-			localPlanningDepartmentController.postPlanningDepartment
+			localPlanningAuthorityController.postPlanningDepartment
 		);
 	});
 });
