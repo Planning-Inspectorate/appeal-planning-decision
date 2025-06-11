@@ -16,18 +16,29 @@ const getEmailConfirmed = async (req, res) => {
 
 	const usingV2Form = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
-	const isS20 = appeal.appealType === APPEAL_ID.PLANNING_LISTED_BUILDING;
 	const appealType =
 		typeOfPlanningApplicationToAppealTypeMapper[req.session.appeal.typeOfPlanningApplication];
 	const bannerHtmlOverride =
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
 
-	const listOfDocumentsUrl = isS20
-		? '/appeals/listed-building/appeal-form/before-you-start'
-		: usingV2Form
-			? '/appeals/full-planning/appeal-form/before-you-start'
-			: `/${LIST_OF_DOCUMENTS}`;
+	let listOfDocumentsUrl = `/${LIST_OF_DOCUMENTS}`;
+
+	switch (appeal.appealType) {
+		case APPEAL_ID.PLANNING_SECTION_78:
+			if (usingV2Form) {
+				listOfDocumentsUrl = '/appeals/full-planning/appeal-form/before-you-start';
+			} else {
+				listOfDocumentsUrl = `/${LIST_OF_DOCUMENTS}`;
+			}
+			break;
+		case APPEAL_ID.PLANNING_LISTED_BUILDING:
+			listOfDocumentsUrl = '/appeals/listed-building/appeal-form/before-you-start';
+			break;
+		case APPEAL_ID.MINOR_COMMERCIAL:
+			listOfDocumentsUrl = '/appeals/cas-planning/appeal-form/before-you-start';
+			break;
+	}
 
 	res.render(EMAIL_CONFIRMED, {
 		listOfDocumentsUrl,
