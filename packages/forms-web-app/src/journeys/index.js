@@ -14,6 +14,8 @@ const s78Rule6ProofEvidenceParams = require('../dynamic-forms/s78-rule-6-proof-e
 const s78Rule6StatementParams = require('../dynamic-forms/s78-rule-6-statement/journey');
 const s20AppealParams = require('../dynamic-forms/s20-appeal-form/journey');
 const s20QuestionnaireParams = require('../dynamic-forms/s20-lpa-questionnaire/journey');
+const casPlanningAppealForm = require('../dynamic-forms/cas-planning-appeal-form/journey');
+const advertsAppealForm = require('../dynamic-forms/adverts-appeal-form/journey');
 
 const { Journeys } = require('../dynamic-forms/journeys');
 
@@ -32,5 +34,7 @@ journeys.registerJourney(s78Rule6ProofEvidenceParams);
 journeys.registerJourney(s78Rule6StatementParams);
 journeys.registerJourney(s20AppealParams);
 journeys.registerJourney(s20QuestionnaireParams);
+journeys.registerJourney(casPlanningAppealForm);
+journeys.registerJourney(advertsAppealForm);
 
 module.exports = { journeys };
