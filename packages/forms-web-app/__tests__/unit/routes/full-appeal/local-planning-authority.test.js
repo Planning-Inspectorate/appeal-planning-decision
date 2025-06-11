@@ -1,12 +1,12 @@
 const { get, post } = require('../router-mock');
-const localPlanningDepartmentController = require('../../../../src/controllers/full-appeal/local-planning-department');
+const localPlanningDepartmentController = require('../../../../src/controllers/full-appeal/local-planning-authority');
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 const {
-	rules: localPlanningDepartmentValidationRules
-} = require('../../../../src/validators/full-appeal/local-planning-department');
+	rules: localPlanningDepartmentAuthorityRules
+} = require('../../../../src/validators/full-appeal/local-planning-authority');
 
-jest.mock('../../../../src/validators/full-appeal/local-planning-department');
+jest.mock('../../../../src/validators/full-appeal/local-planning-authority');
 
 describe('routes/full-appeal/local-planning-authority', () => {
 	beforeEach(() => {
@@ -23,7 +23,7 @@ describe('routes/full-appeal/local-planning-authority', () => {
 
 		expect(post).toHaveBeenCalledWith(
 			'/local-planning-authority',
-			localPlanningDepartmentValidationRules(),
+			localPlanningDepartmentAuthorityRules(),
 			validationErrorHandler,
 			localPlanningDepartmentController.postPlanningDepartment
 		);

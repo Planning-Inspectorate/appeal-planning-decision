@@ -13,7 +13,7 @@ const {
 			}
 		},
 		FULL_APPEAL: {
-			CAN_USE_SERVICE_FULL_APPEAL: canUseServiceFullAppealUrl,
+			CAN_USE_SERVICE_FULL_APPEAL: canUseServiceFullAppealView,
 			CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalFull,
 			CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
 				canUseServiceRemovalOrVariationOfConditionsFullAppeal
@@ -36,6 +36,7 @@ const config = require('../../config');
 const {
 	typeOfPlanningApplicationToAppealTypeMapper
 } = require('#lib/full-appeal/map-planning-application');
+const changeLpaUrl = '/before-you-start/local-planning-authority';
 
 const canUseServiceHouseholderPlanning = async (req, res) => {
 	const { appeal } = req.session;
@@ -78,6 +79,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 		claimingCosts,
 		dateOfDecisionLabel,
 		nextPageUrl,
+		changeLpaUrl,
 		bannerHtmlOverride:
 			config.betaBannerText +
 			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
@@ -107,7 +109,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 	const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
 
-	res.render(canUseServiceFullAppealUrl, {
+	res.render(canUseServiceFullAppealView, {
 		deadlineDate,
 		appealLPD,
 		applicationType,
@@ -118,6 +120,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 		isListedBuilding,
 		isV2forS78,
 		nextPageUrl,
+		changeLpaUrl,
 		bannerHtmlOverride:
 			config.betaBannerText +
 			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
@@ -168,6 +171,7 @@ const canUseServicePriorApproval = async (req, res) => {
 			claimingCosts,
 			dateOfDecisionLabel,
 			hasPriorApprovalForExistingHome,
+			changeLpaUrl,
 			nextPageUrl
 		});
 	} else {
@@ -190,6 +194,7 @@ const canUseServicePriorApproval = async (req, res) => {
 			hasPriorApprovalForExistingHome,
 			isListedBuilding,
 			isV2forS78,
+			changeLpaUrl,
 			nextPageUrl
 		});
 	}
@@ -238,6 +243,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			claimingCosts,
 			dateOfDecisionLabel,
 			hasHouseholderPermissionConditions,
+			changeLpaUrl,
 			nextPageUrl
 		});
 	} else {
@@ -260,6 +266,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			hasHouseholderPermissionConditions,
 			isListedBuilding,
 			isV2,
+			changeLpaUrl,
 			nextPageUrl
 		});
 	}

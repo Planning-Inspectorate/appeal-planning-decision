@@ -21,7 +21,7 @@ exports.getPlanningDepartment = async (req, res) => {
 		}
 	}
 
-	res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
+	res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_AUTHORITY, {
 		appealLPD,
 		departments: departmentsToNunjucksItems(eligibleDepartments, appealLPD)
 	});
@@ -34,7 +34,7 @@ exports.postPlanningDepartment = async (req, res) => {
 	const { eligibleDepartments } = await getRefreshedDepartmentData();
 
 	if (errors['local-planning-department']) {
-		return res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
+		return res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_AUTHORITY, {
 			appealLPD: '',
 			departments: departmentsToNunjucksItems(eligibleDepartments),
 			errors,
@@ -51,7 +51,7 @@ exports.postPlanningDepartment = async (req, res) => {
 	} catch (e) {
 		logger.error(e);
 
-		return res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
+		return res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_AUTHORITY, {
 			appeal,
 			departments: departmentsToNunjucksItems(eligibleDepartments, lpaName),
 			errors,
