@@ -114,7 +114,8 @@ function isValidAppeal(appeal) {
 	// so we use full appeal validator in this context
 	if (
 		appeal.appealType === APPEAL_ID.PLANNING_SECTION_78 ||
-		appeal.appealType === APPEAL_ID.PLANNING_LISTED_BUILDING
+		appeal.appealType === APPEAL_ID.PLANNING_LISTED_BUILDING ||
+		appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL
 	) {
 		errors = validateFullAppeal(appeal);
 	} else {
