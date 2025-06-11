@@ -19,7 +19,8 @@ export const r6FullAppealsStatement = (context, lpaManageAppealsData) => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');					
 					cy.get('a').each(($link) => {					
 						if ($link.attr('href')?.includes(lpaManageAppealsData?.statementLink)) {
-							appealId = $link.attr('href')?.split('/').pop();												
+							const parts = $link.attr('href')?.split('/');
+							appealId = parts[parts.length - 2];
 							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
 							return false;
 						}
@@ -29,7 +30,7 @@ export const r6FullAppealsStatement = (context, lpaManageAppealsData) => {
 			counter++;
 		}
 	}).then(() => {
-		cy.url().should('include', `/rule-6/appeal-statement/${appealId}`);
+		cy.url().should('include', `/rule-6/appeal-statement/${appealId}/appeal-statement`);
 		cy.get('#rule6Statement').type('Statement for full appleal');
 		cy.advanceToNextPage();		
 		statement.selectAddWitnesses(context);		
