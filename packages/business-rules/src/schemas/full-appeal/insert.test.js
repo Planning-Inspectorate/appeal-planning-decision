@@ -5,6 +5,7 @@ const insert = require('./insert');
 const {
 	APPEAL_ID,
 	APPEAL_STATE,
+	APPLICATION_ABOUT,
 	APPLICATION_CATEGORIES,
 	APPLICATION_DECISION,
 	KNOW_THE_OWNERS,
@@ -424,6 +425,31 @@ describe('schemas/full-appeal/insert', () => {
 
 					const result = await insert.validate(appeal, config);
 					expect(result).toEqual(appeal);
+				});
+			});
+
+			describe('planningApplicationAbout', () => {
+				it('should throw an error when given an invalid value', async () => {
+					appeal.eligibility.planningApplicationAbout = ['nope'];
+
+					await expect(insert.validate(appeal, config)).rejects.toThrow(
+						'planningApplicationAbout must be one or more of the following values: change_of_use, change_units_in_building, not_wholly_ground_floor, gross_internal_area, none_of_these'
+					);
+				});
+
+				it('should allow no value', async () => {
+					appeal.eligibility.planningApplicationAbout = null;
+					const result = await insert.validate(appeal, config);
+					expect(result).toBe(appeal);
+				});
+
+				it('should allow valid value', async () => {
+					appeal.eligibility.planningApplicationAbout = [
+						APPLICATION_ABOUT.NON_OF_THESE,
+						APPLICATION_ABOUT.GROSS_INTERNAL_AREA
+					];
+					const result = await insert.validate(appeal, config);
+					expect(result).toBe(appeal);
 				});
 			});
 		});

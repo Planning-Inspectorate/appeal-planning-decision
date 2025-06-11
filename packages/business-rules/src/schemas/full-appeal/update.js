@@ -3,6 +3,7 @@ const parseDateString = require('../../utils/parse-date-string');
 const {
 	APPEAL_ID,
 	APPEAL_STATE,
+	APPLICATION_ABOUT,
 	APPLICATION_CATEGORIES,
 	APPLICATION_DECISION,
 	KNOW_THE_OWNERS,
@@ -48,7 +49,11 @@ const update = pinsYup
 			enforcementNotice: pinsYup.bool().required(),
 			hasPriorApprovalForExistingHome: pinsYup.bool().nullable(),
 			hasHouseholderPermissionConditions: pinsYup.bool().nullable(),
-			isListedBuilding: pinsYup.bool().nullable()
+			isListedBuilding: pinsYup.bool().nullable(),
+			planningApplicationAbout: pinsYup
+				.array()
+				.nullable()
+				.maybeOption('planningApplicationAbout', Object.values(APPLICATION_ABOUT))
 		}),
 		contactDetailsSection: pinsYup.object().shape({
 			isOriginalApplicant: pinsYup.bool().required(),

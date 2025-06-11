@@ -1,6 +1,6 @@
 const { isInThePast, isWithinDeadlinePeriod } = require('./appeal/decision-date');
 const conditionalText = require('./common/conditional-text');
-const { allOfValidOptions, allOfSelectedOptions } = require('./common/array');
+const { allOfValidOptions, allOfSelectedOptions, maybeOption } = require('./common/array');
 
 module.exports = {
 	appeal: {
@@ -10,6 +10,7 @@ module.exports = {
 		},
 		conditionalText,
 		allOfValidOptions,
-		allOfSelectedOptions
+		allOfSelectedOptions,
+		maybeOption
 	}
 };

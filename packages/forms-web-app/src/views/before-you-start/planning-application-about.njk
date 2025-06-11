@@ -1,0 +1,78 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% set applicationCategories = applicationCategories or [] %}
+{% set title = "Was your application about any of the following? - Before you start - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}
+  {% if errors %}
+    {% set title = "Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+{% block content %}
+  {% if errorSummary %}
+    {{ govukErrorSummary({
+            titleText: "There is a problem",
+            errorList: errorSummary
+        }) }}
+  {% endif %}
+  <form action="" method="post" novalidate>
+    <input type="hidden" name="_csrf" value="{{ _csrf }}" />
+    <span class="govuk-caption-l">Before you start</span>
+    {{ govukCheckboxes({
+          idPrefix: "planningApplicationAbout",
+          name: "planningApplicationAbout",
+          fieldset: {
+              legend: {
+                  text: "Was your application about any of the following?",
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+              }
+          },
+          hint: {
+              text: "Select all that apply."
+          },
+          items: [
+              {
+                  value: APPLICATION_ABOUT.CHANGE_OF_USE,
+                  text: APPLICATION_ABOUT_LABELS[APPLICATION_ABOUT.CHANGE_OF_USE],
+                  checked: true if APPLICATION_ABOUT.CHANGE_OF_USE in planningApplicationAbout
+              },
+              {
+                  value: APPLICATION_ABOUT.CHANGE_NUMBER_UNITS,
+                  text: APPLICATION_ABOUT_LABELS[APPLICATION_ABOUT.CHANGE_NUMBER_UNITS],
+                  checked: true if APPLICATION_ABOUT.CHANGE_NUMBER_UNITS in planningApplicationAbout
+              },
+              {
+                  value: APPLICATION_ABOUT.NOT_WHOLLY_GROUND_FLOOR,
+                  text: APPLICATION_ABOUT_LABELS[APPLICATION_ABOUT.NOT_WHOLLY_GROUND_FLOOR],
+                  checked: true if APPLICATION_ABOUT.NOT_WHOLLY_GROUND_FLOOR in planningApplicationAbout
+              },
+              {
+                  value: APPLICATION_ABOUT.GROSS_INTERNAL_AREA,
+                  text: APPLICATION_ABOUT_LABELS[APPLICATION_ABOUT.GROSS_INTERNAL_AREA],
+                  checked: true if APPLICATION_ABOUT.GROSS_INTERNAL_AREA in planningApplicationAbout
+              },
+              {
+                  divider: "or"
+              },
+              {
+                  value: APPLICATION_ABOUT.NON_OF_THESE,
+                  text: APPLICATION_ABOUT_LABELS[APPLICATION_ABOUT.NON_OF_THESE],
+                  checked: true if APPLICATION_ABOUT.NON_OF_THESE in planningApplicationAbout,
+                  behaviour: "exclusive"
+              }
+          ],
+          errorMessage: errors['planningApplicationAbout'] and {
+              text: errors['planningApplicationAbout'].msg
+          }
+        }) }}
+    {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+      }) }}
+  </form>
+{% endblock %}
