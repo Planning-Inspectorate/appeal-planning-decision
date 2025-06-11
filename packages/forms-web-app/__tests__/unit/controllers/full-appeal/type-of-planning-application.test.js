@@ -18,6 +18,12 @@ const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const {
 	typeOfPlanningApplicationRadioItems
 } = require('#lib/type-of-planning-application-radio-items');
+const { FLAG } = require('@pins/common/src/feature-flags');
+const {
+	constants: {
+		TYPE_OF_PLANNING_APPLICATION: { MINOR_COMMERCIAL_DEVELOPMENT }
+	}
+} = require('@pins/business-rules');
 
 const mockRadioItems = [
 	{
@@ -46,11 +52,11 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
 	describe('Type of Planning Application Controller Tests', () => {
 		it('should call the correct template on getTypeOfPlanningApplication - v1', async () => {
-			isLpaInFeatureFlag.mockReturnValueOnce(false);
+			isLpaInFeatureFlag.mockReturnValue(false);
 			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 			await getTypeOfPlanningApplication(req, res);
 
-			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(false, 'full-appeal');
+			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(false, false, 'full-appeal');
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				typeOfPlanningApplication: 'full-appeal',
 				radioItems: mockRadioItems
@@ -58,11 +64,11 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		});
 
 		it('should call the correct template on getTypeOfPlanningApplication - v2', async () => {
-			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			isLpaInFeatureFlag.mockReturnValue(true);
 			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 			await getTypeOfPlanningApplication(req, res);
 
-			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, 'full-appeal');
+			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, true, 'full-appeal');
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				typeOfPlanningApplication: 'full-appeal',
 				radioItems: mockRadioItems
@@ -189,8 +195,10 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		it.each(defaultTypes)(
 			'should redirect to the listed-building page if %s - v2 (s78 flag only)',
 			async (type) => {
-				isLpaInFeatureFlag.mockReturnValueOnce(false); // s20
-				isLpaInFeatureFlag.mockReturnValueOnce(true); // s78
+				isLpaInFeatureFlag.mockImplementation((_, flag) => {
+					return flag === FLAG.S78_APPEAL_FORM_V2;
+				});
+
 				typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 				const planningApplication = type;
 
@@ -216,8 +224,10 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		it.each(defaultTypes)(
 			'should redirect to the granted-or-refused page if %s - v2 (s20 flag only)',
 			async (type) => {
-				isLpaInFeatureFlag.mockReturnValueOnce(true); // s20
-				isLpaInFeatureFlag.mockReturnValueOnce(false); // s78
+				isLpaInFeatureFlag.mockImplementation((_, flag) => {
+					return flag === FLAG.S20_APPEAL_FORM_V2;
+				});
+
 				typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 				const planningApplication = type;
 
@@ -244,8 +254,9 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		it.each(defaultTypes)(
 			'should redirect to the granted-or-refused page if %s - v2 (s20 & s78 flags)',
 			async (type) => {
-				isLpaInFeatureFlag.mockReturnValueOnce(true); // s20
-				isLpaInFeatureFlag.mockReturnValueOnce(true); // s78
+				isLpaInFeatureFlag.mockImplementation((_, flag) => {
+					return flag === FLAG.S20_APPEAL_FORM_V2 || flag === FLAG.S78_APPEAL_FORM_V2;
+				});
 				typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 				const planningApplication = type;
 
@@ -314,7 +325,9 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		});
 
 		it('should redirect to the removal or variation of conditions page - s20', async () => {
-			isLpaInFeatureFlag.mockReturnValue(true); //s20
+			isLpaInFeatureFlag.mockImplementation((_, flag) => {
+				return flag === FLAG.S20_APPEAL_FORM_V2;
+			});
 
 			const planningApplication = 'removal-or-variation-of-conditions';
 
@@ -339,8 +352,35 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			);
 		});
 
+		it('should redirect to the application about page - cas planning', async () => {
+			isLpaInFeatureFlag.mockImplementation((_, flag) => {
+				return flag === FLAG.CAS_PLANNING_APPEAL_FORM_V2;
+			});
+
+			const planningApplication = MINOR_COMMERCIAL_DEVELOPMENT;
+
+			const mockRequest = {
+				...req,
+				body: { 'type-of-planning-application': planningApplication }
+			};
+
+			await postTypeOfPlanningApplication(mockRequest, res);
+
+			const updatedAppeal = appeal;
+			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+			updatedAppeal.typeOfPlanningApplication = planningApplication;
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...updatedAppeal
+			});
+
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/planning-application-about');
+		});
+
 		it('should redirect to granted-or-refused page if listed-building selected (v2 only)', async () => {
-			isLpaInFeatureFlag.mockReturnValue(true); //s20
+			isLpaInFeatureFlag.mockImplementation((_, flag) => {
+				return flag === FLAG.S20_APPEAL_FORM_V2;
+			});
 			const planningApplication = 'listed-building';
 
 			const mockRequest = {
