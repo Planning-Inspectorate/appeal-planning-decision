@@ -203,21 +203,6 @@ class Journey {
 	}
 
 	/**
-	 * @param {JourneyResponse} journeyResponse
-	 * @returns {string|undefined} url for the first unanswered question
-	 */
-	getFirstUnansweredQuestionUrl(journeyResponse) {
-		for (const section of this.sections) {
-			for (const question of section.questions) {
-				if (question.isAnswered(journeyResponse)) continue;
-				if (!question.shouldDisplay(journeyResponse)) continue;
-
-				return this.#buildQuestionUrl(section.segment, question.getUrlSlug());
-			}
-		}
-	}
-
-	/**
 	 * Get the back link for the journey - e.g. the previous question
 	 * @param {string} sectionSegment - section segment
 	 * @param {string} questionSegment - question segment

@@ -891,44 +891,11 @@ exports.bulkDownloadSubmissionDocuments = async (req, res) => {
 };
 
 /** @type {import('express').RequestHandler } */
-exports.shortJourneyEntry = async (req, res) => {
-	req.session.navigationHistory.shift();
-	const { journey, journeyResponse } = res.locals;
-
-	// store entry point to journey in session, for exit path
-	setJourneyEntryOnSession(req, journey, req.session?.navigationHistory[0]);
-
-	// if complete, go to first question
-	if (journey.isComplete()) return res.redirect(journey.getFirstQuestionUrl());
-
-	// otherwise, go to first unanswered question
-	const firstUnansweredQuestionUrl = journey.getFirstUnansweredQuestionUrl(journeyResponse);
-	if (firstUnansweredQuestionUrl) return res.redirect(firstUnansweredQuestionUrl);
-
-	// fallback to task list
-	return res.redirect(journey.taskListUrl);
-};
-
-/** @type {import('express').RequestHandler } */
 exports.startJourneyFromBeginning = async (req, res) => {
 	const { journey } = res.locals;
 
 	// always go to the first question
 	return res.redirect(journey.getFirstQuestionUrl());
-};
-
-/**
- * @param {import('express').Request} req
- * @param {Journey} journey
- * @param {string} [entryUrl]
- */
-const setJourneyEntryOnSession = (req, journey, entryUrl) => {
-	if (journey.baseUrl && entryUrl && !entryUrl.includes(journey.baseUrl)) {
-		req.session.journeyEntry = {
-			...req.session.journeyEntry,
-			[journey.baseUrl]: entryUrl
-		};
-	}
 };
 
 /**
