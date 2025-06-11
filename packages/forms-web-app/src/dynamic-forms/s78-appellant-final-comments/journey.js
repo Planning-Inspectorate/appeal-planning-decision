@@ -1,4 +1,5 @@
-const { questions } = require('../questions');
+const { getQuestions } = require('../questions');
+const questions = getQuestions();
 const { Section } = require('../section');
 const config = require('../../config');
 const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
@@ -47,7 +48,7 @@ const makeBaseUrl = (response) =>
 /** @type {JourneyParameters} */
 const params = {
 	initialBackLink: `/${YOUR_APPEALS}`,
-	journeyId: JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS,
+	journeyId: JOURNEY_TYPES.APPELLANT_FINAL_COMMENTS.id,
 	journeyTemplate: 'final-comments-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/final-comments',
 	journeyTitle: 'Appeal a planning decision',

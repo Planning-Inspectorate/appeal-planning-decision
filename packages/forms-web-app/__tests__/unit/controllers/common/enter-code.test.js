@@ -22,7 +22,7 @@ const { enterCodeConfig } = require('@pins/common');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const { isFeatureActive } = require('../../../../src/featureFlag');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error');
-let { getAuthClient, createOTPGrant } = require('@pins/common/src/client/auth-client');
+let { createOTPGrant } = require('@pins/common/src/client/auth-client');
 const config = require('../../../../src/config');
 
 jest.mock('#lib/appeals-api-wrapper');
@@ -56,21 +56,6 @@ jest.mock('@pins/common/src/client/auth-client');
 const TEST_EMAIL = 'test@example.com';
 const TEST_ID = '89aa8504-773c-42be-bb68-029716ad9756';
 
-let mockedGrant = jest.fn().mockResolvedValue();
-/**
- * @param {boolean} [succeed]
- * @returns {void}
- */
-const mockGrant = (succeed = true) => {
-	mockedGrant = succeed
-		? jest.fn().mockResolvedValue()
-		: jest.fn().mockRejectedValue(new Error('auth error'));
-
-	getAuthClient.mockResolvedValue({
-		grant: mockedGrant
-	});
-};
-
 describe('controllers/common/enter-code', () => {
 	let req;
 	let res;
@@ -103,15 +88,10 @@ describe('controllers/common/enter-code', () => {
 				session: { enterCode: { action: enterCodeConfig.actions.confirmEmail, newCode } }
 			};
 			const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: false });
-			mockGrant();
 
 			await returnedFunction(req, res);
 
-			expect(createOTPGrant).toHaveBeenCalledWith(
-				{ grant: mockedGrant },
-				TEST_EMAIL,
-				enterCodeConfig.actions.confirmEmail
-			);
+			expect(createOTPGrant).toHaveBeenCalledWith(TEST_EMAIL, enterCodeConfig.actions.confirmEmail);
 
 			expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
 				requestNewCodeLink: `/${householderAppealViews.REQUEST_NEW_CODE}`,
@@ -135,14 +115,12 @@ describe('controllers/common/enter-code', () => {
 				session: { enterCode: { action: enterCodeConfig.actions.saveAndReturn, newCode } }
 			};
 
-			mockGrant();
 			getExistingAppeal.mockResolvedValue(fullAppeal);
 
 			const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: false });
 			await returnedFunction(req, res);
 
 			expect(createOTPGrant).toHaveBeenCalledWith(
-				{ grant: mockedGrant },
 				fullAppeal.email,
 				enterCodeConfig.actions.saveAndReturn
 			);
@@ -167,12 +145,10 @@ describe('controllers/common/enter-code', () => {
 		it('should handle general log in', async () => {
 			getSessionEmail.mockReturnValue(TEST_EMAIL);
 			const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: true });
-			mockGrant();
 
 			await returnedFunction(req, res);
 
 			expect(createOTPGrant).toHaveBeenCalledWith(
-				{ grant: mockedGrant },
 				TEST_EMAIL,
 				enterCodeConfig.actions.saveAndReturn
 			);
@@ -564,7 +540,6 @@ describe('controllers/common/enter-code', () => {
 			};
 
 			getLPAUser.mockResolvedValue(fakeUserResponse);
-			mockGrant();
 
 			const returnedFunction = getEnterCodeLPA(views);
 			req.params.id = userId;
@@ -573,9 +548,6 @@ describe('controllers/common/enter-code', () => {
 
 			expect(res.render).toHaveBeenCalledWith(expectedURL, expectedContext);
 			expect(createOTPGrant).toHaveBeenCalledWith(
-				{
-					grant: mockedGrant
-				},
 				fakeUserResponse.email,
 				enterCodeConfig.actions.lpaDashboard
 			);

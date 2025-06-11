@@ -14,7 +14,7 @@ const logger = require('#lib/logger');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 const { getSessionEmail, setSessionEmail, getSessionAppealSqlId } = require('#lib/session-helper');
-const { getAuthClient, createOTPGrant } = require('@pins/common/src/client/auth-client');
+const { getAuthClientConfig, createOTPGrant } = require('@pins/common/src/client/auth-client');
 const config = require('../../config');
 const {
 	typeOfPlanningApplicationToAppealTypeMapper
@@ -70,12 +70,12 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 			const email = getSessionEmail(req.session, false);
 
 			try {
-				const authClient = await getAuthClient(
+				await getAuthClientConfig(
 					config.oauth.baseUrl,
 					config.oauth.clientID,
 					config.oauth.clientSecret
 				);
-				await createOTPGrant(authClient, email, action);
+				await createOTPGrant(email, action);
 			} catch (e) {
 				logger.error(e, 'failed to send token to general login user');
 			}
@@ -86,12 +86,12 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 		if (isAppealConfirmation) {
 			try {
 				const email = getSessionEmail(req.session, true);
-				const authClient = await getAuthClient(
+				await getAuthClientConfig(
 					config.oauth.baseUrl,
 					config.oauth.clientID,
 					config.oauth.clientSecret
 				);
-				await createOTPGrant(authClient, email, action);
+				await createOTPGrant(email, action);
 			} catch (e) {
 				logger.error(e, 'failed to send token for appeal email confirmation');
 			}
@@ -117,12 +117,12 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 
 			// attempt to send code email to user, render page on failure
 			try {
-				const authClient = await getAuthClient(
+				await getAuthClientConfig(
 					config.oauth.baseUrl,
 					config.oauth.clientID,
 					config.oauth.clientSecret
 				);
-				await createOTPGrant(authClient, savedAppeal.email, action);
+				await createOTPGrant(savedAppeal.email, action);
 			} catch (e) {
 				logger.error(e, 'failed to send token to returning user');
 			}
@@ -328,12 +328,12 @@ const sendTokenToLpaUser = async (req) => {
 	const user = await getLPAUser(req, req.params.id);
 
 	if (user?.email) {
-		const authClient = await getAuthClient(
+		await getAuthClientConfig(
 			config.oauth.baseUrl,
 			config.oauth.clientID,
 			config.oauth.clientSecret
 		);
-		await createOTPGrant(authClient, user.email, enterCodeConfig.actions.lpaDashboard);
+		await createOTPGrant(user.email, enterCodeConfig.actions.lpaDashboard);
 	}
 };
 

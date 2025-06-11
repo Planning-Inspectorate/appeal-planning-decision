@@ -1,4 +1,5 @@
-const { questions } = require('../questions');
+const { getQuestions } = require('../questions');
+const questions = getQuestions();
 const { Section } = require('../section');
 const config = require('../../config');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
@@ -42,7 +43,7 @@ const makeBaseUrl = (response) =>
 
 const params = {
 	initialBackLink: `/${DASHBOARD}`,
-	journeyId: JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS,
+	journeyId: JOURNEY_TYPES.LPA_FINAL_COMMENTS.id,
 	journeyTemplate: 'statement-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/final-comments',
 	journeyTitle: 'Manage your appeals',

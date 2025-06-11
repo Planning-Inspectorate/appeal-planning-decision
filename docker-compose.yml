@@ -191,6 +191,7 @@ services:
       ALLOW_TESTING_OVERRIDES: 'true'
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       AUTH_BASE_URL: http://auth-server:3000
+      IS_LOCALHOST: 'true'
       CLAMAV_HOST: clamav-server
       CLAMAV_PORT: 3310
       CLIENT_ID: '4dbd45cb-f591-414f-a6d9-34f1103b63fd'

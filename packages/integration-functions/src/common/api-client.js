@@ -1,6 +1,8 @@
 const { AppealsApiClient } = require('@pins/common/src/client/appeals-api-client');
-const { getAuthClient } = require('@pins/common/src/client/auth-client');
-const { AUTH } = require('@pins/common/src/constants');
+const {
+	getAuthClientConfig,
+	createClientCredentialsGrant
+} = require('@pins/common/src/client/auth-client');
 
 const config = require('./config');
 
@@ -19,16 +21,9 @@ const getClientCredentials = async () => {
 		}
 	}
 
-	const client = await getAuthClient(
-		config.oauth.baseUrl,
-		config.oauth.clientID,
-		config.oauth.clientSecret
-	);
+	await getAuthClientConfig(config.oauth.baseUrl, config.oauth.clientID, config.oauth.clientSecret);
 
-	clientCredentials = await client.grant({
-		resource: AUTH.RESOURCE,
-		grant_type: AUTH.GRANT_TYPE.CLIENT_CREDENTIALS
-	});
+	clientCredentials = await createClientCredentialsGrant();
 
 	return clientCredentials.access_token;
 };

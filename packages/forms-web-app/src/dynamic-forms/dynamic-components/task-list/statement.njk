@@ -50,7 +50,7 @@
 									{{ row.value }}
 								{% endif %}
 								</dd>
-								{% if row.actions?.items?.length > 0 %}
+									{% if row.actions.items.length > 0 %}
 									<dd class="govuk-summary-list__actions">
 										{% for action in row.actions.items %}
 											{% if action.href %}

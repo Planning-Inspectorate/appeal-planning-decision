@@ -81,7 +81,7 @@ describe('DateQuestion', () => {
 				taskListUrl: 'list',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 				response: {
 					answers: {
 						[FIELDNAME]: date
@@ -142,7 +142,7 @@ describe('DateQuestion', () => {
 				taskListUrl: 'list',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 				response: {
 					answers: {
 						[`${[FIELDNAME]}_day`]: '10',
@@ -204,7 +204,7 @@ describe('DateQuestion', () => {
 				taskListUrl: 'list',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 				response: {
 					answers: {}
 				},
@@ -294,7 +294,7 @@ describe('DateQuestion', () => {
 			};
 
 			const journey = {
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
 				response: {
 					answers: {
 						[FIELDNAME]: date

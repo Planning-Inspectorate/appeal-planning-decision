@@ -52,9 +52,20 @@ condition: (response) =>
 - boolean `/identifying-landowners/` Identifying the landowners
 
 ```js
-condition: (response) =>
-	shouldDisplayIdentifyingLandowners(response) &&
-	questionHasAnswer(response, questions.ownsAllLand, 'no');
+condition: (response) => {
+	if (questionHasAnswer(response, questions.ownsAllLand, 'yes')) return false;
+	if (
+		questionHasAnswer(response, questions.ownsSomeLand, 'yes') &&
+		questionHasAnswer(response, questions.knowsWhoOwnsRestOfLand, 'yes')
+	)
+		return false;
+	if (
+		questionHasAnswer(response, questions.ownsSomeLand, 'no') &&
+		questionHasAnswer(response, questions.knowsWhoOwnsLandInvolved, 'yes')
+	)
+		return false;
+	return true;
+};
 ```
 
 - boolean `/advertising-appeal/` Advertising your appeal
@@ -68,9 +79,29 @@ condition: (response) =>
 - boolean `/telling-landowners/` Telling the landowners
 
 ```js
-condition: (response) =>
-	shouldDisplayTellingLandowners(response) &&
-	questionHasAnswer(response, questions.ownsAllLand, 'no');
+condition: (response) => {
+	if (questionHasAnswer(response, questions.ownsAllLand, 'yes')) return false;
+	if (
+		questionsHaveAnswers(
+			response,
+			[
+				[questions.ownsSomeLand, 'yes'],
+				[questions.knowsWhoOwnsRestOfLand, 'no']
+			],
+			{ logicalCombinator: 'and' }
+		) ||
+		questionsHaveAnswers(
+			response,
+			[
+				[questions.ownsSomeLand, 'no'],
+				[questions.knowsWhoOwnsLandInvolved, 'no']
+			],
+			{ logicalCombinator: 'and' }
+		)
+	)
+		return false;
+	return true;
+};
 ```
 
 - radio `/inspector-need-access/` Will an inspector need to access your land or property?
@@ -96,13 +127,6 @@ condition: (response) => questionHasAnswer(response, questions.updateDevelopment
 ```
 
 - multi-file-upload `/upload-decision-letter/` Upload the decision letter from the local planning authority
-
-```js
-condition: (response) => {
-	return response.answers.applicationDecision !== 'nodecisionreceived';
-};
-```
-
 - multi-file-upload `/upload-appeal-statement/` Upload your appeal statement
 - boolean `/apply-appeal-costs/` Do you need to apply for an award of appeal costs?
 - multi-file-upload `/upload-appeal-costs-application/` Upload your application for an award of appeal costs

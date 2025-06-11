@@ -5,7 +5,7 @@ const {
 	documentExists,
 	boolToYesNo
 } = require('@pins/common');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { CASE_TYPES, caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
@@ -20,12 +20,6 @@ exports.constraintsRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
 	const isHASAppeal = caseData.appealTypeCode === CASE_TYPES.HAS.processCode;
-
-	const typeCodeToAppealDescription = {
-		[CASE_TYPES.HAS.processCode]: 'householder',
-		[CASE_TYPES.S78.processCode]: 'full planning',
-		[CASE_TYPES.S20.processCode]: 'listed building'
-	};
 
 	const affectedListedBuildings = caseData.ListedBuildings?.filter(
 		(x) => x.type === LISTED_RELATION_TYPES.affected
@@ -44,7 +38,7 @@ exports.constraintsRows = (caseData) => {
 	const rows = [
 		{
 			keyText: `Is a ${
-				typeCodeToAppealDescription[caseData.appealTypeCode]
+				caseTypeLookup(caseData.appealTypeCode, 'processCode')?.caption.toLowerCase() || 'unknown'
 			} appeal the correct type of appeal?`,
 			valueText: formatYesOrNo(caseData, 'isCorrectAppealType'),
 			condition: () => isNotUndefinedOrNull(caseData.isCorrectAppealType)

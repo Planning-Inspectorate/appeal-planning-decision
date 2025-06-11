@@ -1,4 +1,5 @@
-const { questions } = require('../questions');
+const { getQuestions } = require('../questions');
+const questions = getQuestions();
 const { Section } = require('../section');
 const {
 	questionHasAnswer,
@@ -7,6 +8,9 @@ const {
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
+const {
+	CASE_TYPES: { S78 }
+} = require('@pins/common/src/database/data-static');
 const config = require('../../config');
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -20,7 +24,7 @@ const config = require('../../config');
 const sections = [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
-		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: 'full planning' })
+		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: S78.caption.toLowerCase() })
 		.addQuestion(questions.changesListedBuilding)
 		.addQuestion(questions.changedListedBuildings)
 		.withCondition((response) =>
@@ -129,7 +133,15 @@ const sections = [
 		)
 		.addQuestion(questions.uploadScreeningDirection)
 		.withCondition((response) =>
-			questionHasAnswer(response, questions.submitEnvironmentalStatement, 'no')
+			questionsHaveAnswers(
+				response,
+				[
+					[questions.submitEnvironmentalStatement, 'no'],
+					[questions.environmentalImpactSchedule, 'schedule-2'],
+					[questions.screeningOpinion, 'yes']
+				],
+				{ logicalCombinator: 'and' }
+			)
 		),
 	new Section('Notifying relevant parties', 'notified')
 		.addQuestion(questions.whoWasNotified)
@@ -234,7 +246,7 @@ const makeBaseUrl = (response) => `${baseS78Url}/${encodeURIComponent(response.r
 
 /** @type {JourneyParameters} */
 const params = {
-	journeyId: JOURNEY_TYPES.S78_QUESTIONNAIRE,
+	journeyId: JOURNEY_TYPES.S78_QUESTIONNAIRE.id,
 	sections,
 	journeyTemplate: 'questionnaire-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/questionnaire',

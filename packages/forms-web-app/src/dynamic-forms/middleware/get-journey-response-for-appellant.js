@@ -1,6 +1,6 @@
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { JourneyResponse } = require('../journey-response');
-const { APPELLANT_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
+const { JOURNEY_TYPES, JOURNEY_TYPE } = require('@pins/common/src/dynamic-forms/journey-types');
 const logger = require('#lib/logger');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
@@ -39,7 +39,10 @@ module.exports = async (request, response, next) => {
 		return response.status(404).render('error/not-found');
 	}
 
-	const appealType = APPELLANT_JOURNEY_TYPES_FORMATTED[submission.appealTypeCode];
+	// lookup type by submission type code
+	const appealType = Object.values(JOURNEY_TYPES).find(
+		(x) => x.type === JOURNEY_TYPE.appealForm && x.caseType === submission.appealTypeCode
+	)?.id;
 
 	if (typeof appealType === 'undefined') {
 		throw new Error('appealType is undefined');
@@ -59,7 +62,7 @@ module.exports = async (request, response, next) => {
 };
 
 /**
- * @param {'HAS' | 'S78' | 'S20' | undefined } appealTypeCode
+ * @param {'HAS' | 'S78' | 'S20' | 'ADVERTS' | 'CAS_ADVERTS' | 'CAS_PLANNING' | undefined } appealTypeCode
  * @param { string | undefined } LPACode
  * @returns {Promise<boolean>}
  */
@@ -71,6 +74,12 @@ const appealTypeFlagActive = async (appealTypeCode, LPACode) => {
 			return await isFeatureActive(FLAG.S78_APPEAL_FORM_V2, LPACode);
 		case CASE_TYPES.S20.processCode:
 			return await isFeatureActive(FLAG.S20_APPEAL_FORM_V2, LPACode);
+		case CASE_TYPES.ADVERTS.processCode:
+			return await isFeatureActive(FLAG.ADVERTS_APPEAL_FORM_V2, LPACode);
+		case CASE_TYPES.CAS_ADVERTS.processCode:
+			return await isFeatureActive(FLAG.CAS_ADVERTS_APPEAL_FORM_V2, LPACode);
+		case CASE_TYPES.CAS_PLANNING.processCode:
+			return await isFeatureActive(FLAG.CAS_PLANNING_APPEAL_FORM_V2, LPACode);
 		default:
 			return false;
 	}

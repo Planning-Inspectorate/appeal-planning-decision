@@ -4,7 +4,7 @@ const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../lib/logger');
 
 const { getSessionEmail } = require('#lib/session-helper');
-const { getAuthClient, createOTPGrant } = require('@pins/common/src/client/auth-client');
+const { getAuthClientConfig, createOTPGrant } = require('@pins/common/src/client/auth-client');
 const config = require('../../config');
 const { handleCustomRedirect } = require('#lib/handle-custom-redirect');
 
@@ -56,12 +56,12 @@ const getEnterCodeR6 = (views) => {
 
 		if (isRule6User) {
 			try {
-				const authClient = await getAuthClient(
+				await getAuthClientConfig(
 					config.oauth.baseUrl,
 					config.oauth.clientID,
 					config.oauth.clientSecret
 				);
-				await createOTPGrant(authClient, email, action);
+				await createOTPGrant(email, action);
 			} catch (e) {
 				logger.error(e, 'failed to send token to general login user');
 			}
