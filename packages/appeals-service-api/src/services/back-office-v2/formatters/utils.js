@@ -331,14 +331,14 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
 	return {
 		agriculturalHolding: appellantSubmission.agriculturalHolding ?? null,
 		tenantAgriculturalHolding: appellantSubmission.agriculturalHolding
-			? appellantSubmission.tenantAgriculturalHolding ?? null
+			? (appellantSubmission.tenantAgriculturalHolding ?? null)
 			: null,
 		otherTenantsAgriculturalHolding:
 			appellantSubmission.agriculturalHolding && appellantSubmission.tenantAgriculturalHolding
-				? appellantSubmission.otherTenantsAgriculturalHolding ?? null
+				? (appellantSubmission.otherTenantsAgriculturalHolding ?? null)
 				: null,
 		informedTenantsAgriculturalHolding: appellantSubmission.agriculturalHolding
-			? appellantSubmission.informedTenantsAgriculturalHolding ?? null
+			? (appellantSubmission.informedTenantsAgriculturalHolding ?? null)
 			: null,
 
 		planningObligation: appellantSubmission.planningObligation ?? null,
@@ -530,7 +530,6 @@ exports.getS78LPAQSubmissionFields = (answers) => {
 		eiaSensitiveAreaDetails: answers.sensitiveArea_sensitiveAreaDetails || null,
 		eiaColumnTwoThreshold: answers.columnTwoThreshold,
 		eiaScreeningOpinion: answers.screeningOpinion,
-		eiaScopingOpinion: answers.eiaScopingOpinion,
 		eiaRequiresEnvironmentalStatement: answers.environmentalStatement,
 		eiaCompletedEnvironmentalStatement: exports.toBool(
 			answers.applicantSubmittedEnvironmentalStatement
