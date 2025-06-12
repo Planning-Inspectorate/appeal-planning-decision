@@ -278,7 +278,6 @@ model AppealCase {
   sensitiveAreaDetails            String?
   columnTwoThreshold              Boolean?
   screeningOpinion                Boolean?
-  eiaScopingOpinion               Boolean?
   requiresEnvironmentalStatement  Boolean?
   completedEnvironmentalStatement Boolean?
 
