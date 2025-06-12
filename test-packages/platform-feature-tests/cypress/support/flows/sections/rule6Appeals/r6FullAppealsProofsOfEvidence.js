@@ -33,6 +33,6 @@ export const r6FullAppealsProofsOfEvidence = (context, lpaManageAppealsData) => 
 		proofsOfEvidence.selectAddWitnesses(context);		
 	});
 	// commented for test during coding
-	// 	cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-	// 	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
+		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
+		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
 };

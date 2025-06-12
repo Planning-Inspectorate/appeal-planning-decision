@@ -19,17 +19,16 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
                 cy.url().then((url) => {
                         if (url.includes('/appeal/email-address')) {
                                 cy.getById(prepareAppealSelector?._selectors?.emailAddress).clear();
-                                cy.getById(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
+                                cy.getById(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress1);
                                 cy.advanceToNextPage();
                                 cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
                                 cy.advanceToNextPage();
                         }
                 });
-
                 let counter = 0;
                 cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-                        const rowtext = $row.text();
-                        if (rowtext.includes(prepareAppealData?.FullAppealType) && rowtext.includes(prepareAppealData?.todoFinalComments)) {
+                        const rowtext = $row.text();                       
+                        if (rowtext.toLowerCase().includes(prepareAppealData?.FullAppealType.toLowerCase()) && rowtext.includes(prepareAppealData?.todoFinalComments)) {                              
                                 if (counter === 0) {
                                         cy.wrap($row).within(() => {
                                                 cy.get(basePage?._selectors.trgovukTableCell).contains(prepareAppealData?.FullAppealType).should('be.visible');
@@ -115,28 +114,54 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
                                 .eq(index)
                                 .should('contain.text', fileName);
                 });
-                cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                        if ($buttons.length) {
-                                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                        }
-                })
+                if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
+                        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+                            if ($buttons.length) {
+                                    cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+                            }
+                        })
+                }
 
                 cy.advanceToNextPage();
                 cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
         });
-        it(`Validate user should not be allowed to upload wrong format file`, () => {
+        it(`Validate user should not be allowed to upload wrong format file`, () => {                
+                cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
+                cy.advanceToNextPage();
+                cy.get('#appellantFinalCommentDetails').clear();
+                cy.get('#appellantFinalCommentDetails').type("Final comment test");
+                cy.get('#sensitiveInformationCheckbox').check({ force: true });
+                cy.advanceToNextPage();               
+                cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
+                cy.advanceToNextPage();
                 cy.uploadFileFromFixtureDirectory(finalCommentTestCases[0]?.documents?.uploadWrongFormatFile);
                 cy.advanceToNextPage();
                 cy.shouldHaveErrorMessage('a[href*="#uploadAppellantFinalCommentDocuments"]', `${finalCommentTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
         });
 
         it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {
+                cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
+                cy.advanceToNextPage();
+                cy.get('#appellantFinalCommentDetails').clear();
+                cy.get('#appellantFinalCommentDetails').type("Final comment test");
+                cy.get('#sensitiveInformationCheckbox').check({ force: true });
+                cy.advanceToNextPage();               
+                cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
+                cy.advanceToNextPage();
                 cy.uploadFileFromFixtureDirectory(finalCommentTestCases[0]?.documents?.uploadFileGreaterThan25mb);
                 cy.advanceToNextPage();
                 cy.shouldHaveErrorMessage('a[href*="#uploadAppellantFinalCommentDocuments"]', `${finalCommentTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
         });
 
         it(`Validate final comments summary before submit final comments`, () => {
+                cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
+                cy.advanceToNextPage();
+                cy.get('#appellantFinalCommentDetails').clear();
+                cy.get('#appellantFinalCommentDetails').type("Final comment test");
+                cy.get('#sensitiveInformationCheckbox').check({ force: true });
+                cy.advanceToNextPage();               
+                cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
+                cy.advanceToNextPage();
                 const expectedFileNames = [finalCommentTestCases[0]?.documents?.uploadSupportDocsFinalComments, finalCommentTestCases[0]?.documents?.uploadAdditionalDocsSupportFinalComments];
                 expectedFileNames.forEach((fileName) => {
                         cy.uploadFileFromFixtureDirectory(fileName);
