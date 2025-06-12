@@ -4,7 +4,8 @@ const {
 	formatSensitiveArea,
 	formatYesOrNo,
 	formatDocumentDetails,
-	documentExists
+	documentExists,
+	boolToYesNo
 } = require('@pins/common');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const {
@@ -61,7 +62,7 @@ exports.environmentalRows = (caseData) => {
 		},
 		{
 			keyText: 'Received scoping opinion',
-			valueText: formatYesOrNo(caseData, 'scopingOpinion'),
+			valueText: boolToYesNo(documentExists(documents, APPEAL_DOCUMENT_TYPE.EIA_SCOPING_OPINION)),
 			condition: () => !isSchedule1
 		},
 		{
