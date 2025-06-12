@@ -353,8 +353,6 @@ export interface AppealCase {
 	columnTwoThreshold?: boolean;
 	/** Have you issued a screening opinion */
 	screeningOpinion?: boolean;
-	/** Have you issued a scoping opinion */
-	eiaScopingOpinion?: boolean;
 	/** Did your screening opinion say the development needed an environmental statement */
 	requiresEnvironmentalStatement?: boolean;
 	/** Did the applicant submit an environmental statement */

@@ -409,9 +409,6 @@ components:
         screeningOpinion:
           type: boolean
           description: Have you issued a screening opinion
-        eiaScopingOpinion:
-          type: boolean
-          description: Have you issued a scoping opinion
         requiresEnvironmentalStatement:
           type: boolean
           description: Did your screening opinion say the development needed an environmental statement
