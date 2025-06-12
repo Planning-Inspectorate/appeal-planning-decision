@@ -30,7 +30,6 @@ const exampleS78DataModel = {
 	eiaSensitiveAreaDetails: 'ad reprehenderit labore',
 	eiaColumnTwoThreshold: null,
 	eiaScreeningOpinion: null,
-	eiaScopingOpinion: null,
 	eiaRequiresEnvironmentalStatement: null,
 	eiaCompletedEnvironmentalStatement: null,
 	hasStatutoryConsultees: true,
