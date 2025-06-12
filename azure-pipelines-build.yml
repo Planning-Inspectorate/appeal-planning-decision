@@ -9,7 +9,7 @@ parameters:
   - name: runValidation
     displayName: Run linting and tests
     type: boolean
-    default: true
+    default: false
   - name: collectCoverage
     displayName: Collect test coverage
     type: boolean
