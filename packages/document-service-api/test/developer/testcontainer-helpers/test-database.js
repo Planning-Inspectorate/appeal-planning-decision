@@ -12,10 +12,14 @@ const create = async () => {
 async function startSql() {
 	const container = await new GenericContainer('mcr.microsoft.com/azure-sql-edge:latest')
 		.withName('docs-mssql-integration-tests')
-		.withExposedPorts(1433)
+		.withExposedPorts(1435)
 		.withAddedCapabilities('SYS_PTRACE')
 		.withUser('root')
-		.withEnvironment({ ACCEPT_EULA: '1', MSSQL_SA_PASSWORD: 'DockerDatabaseP@22word!' })
+		.withEnvironment({
+			ACCEPT_EULA: '1',
+			MSSQL_SA_PASSWORD: 'DockerDatabaseP@22word!',
+			MSSQL_TCP_PORT: '1435'
+		})
 		.withWaitStrategy(Wait.forListeningPorts())
 		.start();
 
@@ -23,7 +27,7 @@ async function startSql() {
 
 	const sqlDbName = 'pins_front_office_integration_test';
 	const connectionString = [
-		`sqlserver://localhost:${container.getMappedPort(1433)}`,
+		`sqlserver://localhost:${container.getMappedPort(1435)}`,
 		`database=${sqlDbName}`,
 		`user=sa`,
 		`password=DockerDatabaseP@22word!`,
