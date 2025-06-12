@@ -60,7 +60,6 @@ describe('formatter', () => {
 		sensitiveArea_sensitiveAreaDetails: 'sensitiveArea_sensitiveAreaDetails',
 		columnTwoThreshold: true,
 		screeningOpinion: true,
-		eiaScopingOpinion: true,
 		environmentalStatement: true,
 		applicantSubmittedEnvironmentalStatement: 'yes',
 		statutoryConsultees: 'yes',
@@ -120,7 +119,6 @@ describe('formatter', () => {
 			eiaEnvironmentalImpactSchedule: null,
 			eiaRequiresEnvironmentalStatement: undefined,
 			eiaScreeningOpinion: undefined,
-			eiaScopingOpinion: undefined,
 			eiaSensitiveAreaDetails: null,
 			hasConsultationResponses: undefined,
 			hasEmergingPlan: undefined,
@@ -175,7 +173,6 @@ describe('formatter', () => {
 				eiaSensitiveAreaDetails: s78Answers.sensitiveArea_sensitiveAreaDetails,
 				eiaColumnTwoThreshold: s78Answers.columnTwoThreshold,
 				eiaScreeningOpinion: s78Answers.screeningOpinion,
-				eiaScopingOpinion: s78Answers.eiaScopingOpinion,
 				eiaRequiresEnvironmentalStatement: s78Answers.environmentalStatement,
 				eiaCompletedEnvironmentalStatement: true,
 
