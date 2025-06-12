@@ -78,8 +78,9 @@ describe('Full Planning Statement Test Cases', () => {
         cy.get('#lpaStatement').type("Final comment test");
         cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you have additional documents to support your appeal statement?');
-        cy.get('input[name="additionalDocuments"]:checked').then(($checked) => {
-            if ($checked.length > 0) {
+        cy.get('input[name="additionalDocuments"]').then(($input) => {
+            const isChecked = $input.toArray().some(input=>input.checked);
+            if (isChecked) {
                 return;
             }
             else {
@@ -89,22 +90,25 @@ describe('Full Planning Statement Test Cases', () => {
         })
     });
 
-
     it(`Validate upload your new supporting documents Error message and remove if exists`, () => {
         cy.advanceToNextPage();
         cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
         cy.advanceToNextPage();
-        basePage?.basePageElements?.pageHeading().contains('Upload your new supporting documents');
-        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-            if ($buttons.length) {
-                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-            }
-        })
+        basePage?.basePageElements?.pageHeading().contains('Upload your new supporting documents');        
+        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
+            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+                if ($buttons.length) {
+                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+                }
+            })
+        }        
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
     });
 
     it(`Validate user should not be allowed to upload wrong format file`, () => {
+        cy.advanceToNextPage();
+        cy.advanceToNextPage();
         cy.uploadFileFromFixtureDirectory(fullAppealStatementTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${fullAppealStatementTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
@@ -112,6 +116,8 @@ describe('Full Planning Statement Test Cases', () => {
 
 
     it(`Validate multiple uploading documents`, () => {
+        cy.advanceToNextPage();
+        cy.advanceToNextPage();
         const expectedFileNames = [fullAppealStatementTestCases[0]?.documents?.uploadEmergingPlan, fullAppealStatementTestCases[0]?.documents?.uploadOtherPolicies];
 
         expectedFileNames.forEach((fileName) => {

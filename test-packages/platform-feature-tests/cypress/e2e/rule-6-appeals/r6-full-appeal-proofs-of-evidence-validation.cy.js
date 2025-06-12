@@ -29,7 +29,7 @@ describe('Rule 6 Proof of Evidence Validations', () => {
         cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
             const rowtext = $row.text();
             if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.rule6todoProofOfEvidence)) {
-                if (counter === 0) {
+                if (counter === 3) {
                     cy.wrap($row).within(() => {
                         cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
                         cy.get('a').each(($link) => {
@@ -77,11 +77,13 @@ describe('Rule 6 Proof of Evidence Validations', () => {
 
     it(`Validate multiple uploading documents`, () => {
         const expectedFileNames = [r6FullAppealsProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, r6FullAppealsProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
-        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-            if ($buttons.length) {
-                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-            }
-        })
+        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
+            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+                if ($buttons.length) {
+                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+                }
+            })
+        }
         cy.advanceToNextPage();
         cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your proof of evidence and summary');
         expectedFileNames.forEach((fileName) => {
@@ -140,11 +142,13 @@ describe('Rule 6 Proof of Evidence Validations', () => {
         const expectedFileNames = [r6FullAppealsProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, r6FullAppealsProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         cy.advanceToNextPage();
         cy.advanceToNextPage();
-        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-            if ($buttons.length) {
-                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-            }
-        })
+        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
+            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+                if ($buttons.length) {
+                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+                }
+            })
+        }
         cy.advanceToNextPage();
         cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your witnesses and their evidence');
         expectedFileNames.forEach((fileName) => {

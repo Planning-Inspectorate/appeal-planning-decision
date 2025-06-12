@@ -92,11 +92,13 @@ describe('Full Planning Statement Test Cases', () => {
         cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
         cy.advanceToNextPage();
         basePage?.basePageElements?.pageHeading().contains('Upload your new supporting documents');
-        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-            if ($buttons.length) {
-                cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-            }
-        })
+        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
+            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
+                if ($buttons.length) {
+                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
+                }
+            })
+        }
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
     });
