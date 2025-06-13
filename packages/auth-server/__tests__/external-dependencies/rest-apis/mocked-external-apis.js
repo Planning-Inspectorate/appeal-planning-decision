@@ -25,8 +25,9 @@ export class MockedExternalApis {
 		const instance = crypto.randomBytes(8).toString('hex');
 		const startedContainer = await new GenericContainer('mockserver/mockserver')
 			.withName(`mockserver-for-appeals-api-test-${instance}`)
-			.withExposedPorts(1080)
-			.withWaitStrategy(Wait.forLogMessage(/.*started on port: 1080.*/))
+			.withExposedPorts(1081)
+			.withEnvironment({ MOCKSERVER_SERVER_PORT: '1081' })
+			.withWaitStrategy(Wait.forLogMessage(/.*started on port: 1081.*/))
 			.start();
 
 		const mock = new MockedExternalApis(startedContainer);
@@ -38,7 +39,7 @@ export class MockedExternalApis {
 	}
 
 	constructor(container) {
-		this.baseUrl = `http://${container.getHost()}:${container.getMappedPort(1080)}`;
+		this.baseUrl = `http://${container.getHost()}:${container.getMappedPort(1081)}`;
 		this.container = container;
 		this.notifyUrl = `${this.baseUrl}/${this.notify}`;
 	}
