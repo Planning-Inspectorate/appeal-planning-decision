@@ -18,6 +18,13 @@ resources:
       name: Planning-Inspectorate/common-pipeline-templates
       ref: refs/tags/release/3.20.0
 
+variables:
+- name: test-script
+  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/gh-readonly-queue') }}:
+    value: npm run test
+  ${{ else }}:
+    value: npm run test-cov
+
 extends:
   template: stages/wrapper_ci.yml@templates
   parameters:
@@ -33,12 +40,31 @@ extends:
               pathFilters:
                 - name: source_code
                   path: packages
+                - name: business_rules
+                  path: packages/business-rules
+                - name: common
+                  path: packages/common
+                - name: database
+                  path: packages/database
                 - name: package_lock
                   path: package-lock.json
                 - name: package_json
                   path: package.json
+
+                - name: appeals_api
+                  path: packages/appeals-service-api
+                - name: auth_server
+                  path: packages/auth-server
+                - name: documents_api
+                  path: packages/document-service-api
+                - name: forms_web_app
+                  path: packages/forms-web-app
+                - name: integration_functions
+                  path: packages/integration-functions
+                - name: pdf_service_api
+                  path: packages/pdf-service-api
               stepName: check_files
-      - name: Run Linting & Tests
+      - name: Run Linting
         dependsOn:
           - Check Changes
         condition: >-
@@ -50,12 +76,6 @@ extends:
               eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
             )            
           )
-        variables:
-        - name: test-script
-          ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/gh-readonly-queue') }}:
-            value: npm run test
-          ${{ else }}:
-            value: npm run test-cov
         steps:
           - template: ../steps/node_script.yml
             parameters:
@@ -66,8 +86,239 @@ extends:
               condition: succeededOrFailed()
               script: npm run lint
               nodeVersion: 22
+      - name: Run Test API
+        dependsOn:
+          - Check Changes
+          - Run Linting
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              eq(dependencies.check_changes.outputs['check_files.appeals_api'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.business_rules'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.common'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.database'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
+            )
+          )
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
-              script: $(test-script)
+              script: $(test-script):appeals-api
               nodeVersion: 22
+      - name: Run Test Auth Server
+        dependsOn:
+          - Check Changes
+          - Run Linting
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              eq(dependencies.check_changes.outputs['check_files.auth_server'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.business_rules'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.common'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.database'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
+            )
+          )
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):auth-server
+              nodeVersion: 22
+      - name: Run Test Business Rules
+        dependsOn:
+          - Check Changes
+          - Run Linting
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              eq(dependencies.check_changes.outputs['check_files.source_code'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
+            )
+          )
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):business-rules
+              nodeVersion: 22
+      - name: Run Test Common
+        dependsOn:
+          - Check Changes
+          - Run Linting
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              eq(dependencies.check_changes.outputs['check_files.source_code'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
+            )
+          )
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):common
+              nodeVersion: 22
+      - name: Run Test Docs API
+        dependsOn:
+          - Check Changes
+          - Run Linting
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              eq(dependencies.check_changes.outputs['check_files.documents_api'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.database'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.common'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.business_rules'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
+            )
+          )
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):documents-api
+              nodeVersion: 22
+      - name: Run Test Forms Web App
+        dependsOn:
+          - Check Changes
+          - Run Linting
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              eq(dependencies.check_changes.outputs['check_files.forms_web_app'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.database'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.common'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.business_rules'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
+            )
+          )
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):web
+              nodeVersion: 22
+      - name: Run Test Functions
+        dependsOn:
+          - Check Changes
+          - Run Linting
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              eq(dependencies.check_changes.outputs['check_files.source_code'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
+            )
+          )
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):functions
+              nodeVersion: 22
+      - name: Run Test PDF Service
+        dependsOn:
+          - Check Changes
+          - Run Linting
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              eq(dependencies.check_changes.outputs['check_files.pdf_service_api'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
+            )
+          )
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):pdf-api
+              nodeVersion: 22
+
+# Code coverage publish example
+# jobs:
+# - job: LintAndTest
+#   steps:  
+#   - task: UseNode@1
+#     inputs:
+#       version: '22.x'
+#   - checkout: self
+#     clean: true
+#     persistCredentials: true
+#     fetchDepth: 1
+#     fetchTags: false
+#   - script: npm ci
+#     displayName: 'npm ci'
+#   - script: npm run lint
+#     displayName: 'npm run lint'
+
+#   - script: $(test-script):appeals-api
+#     displayName: 'test appeals-api'
+#   - script: $(test-script):auth-server
+#     displayName: 'test auth server'
+#   - script: $(test-script):business-rules
+#     displayName: 'test business-rules'
+#   - script: $(test-script):common
+#     displayName: 'test common'
+#   - script: $(test-script):documents-api
+#     displayName: 'test documents-api'
+#   - script: $(test-script):functions
+#     displayName: 'test functions'
+#   - script: $(test-script):pdf-api
+#     displayName: 'test pdf-api'
+#   - script: $(test-script):web
+#     displayName: 'test web'
+
+#   - task: PublishCodeCoverageResults@2
+#     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/heads/gh-readonly-queue')))
+#     inputs:
+#       summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage/cobertura-coverage.xml'
+#     displayName: 'Publish Code Coverage Results'
