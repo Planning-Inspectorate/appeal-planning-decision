@@ -9,7 +9,11 @@ async function startSql() {
 		.withExposedPorts(1434)
 		.withAddedCapabilities('SYS_PTRACE')
 		.withUser('root')
-		.withEnvironment({ ACCEPT_EULA: '1', MSSQL_SA_PASSWORD: 'DockerDatabaseP@22word!' })
+		.withEnvironment({
+			ACCEPT_EULA: '1',
+			MSSQL_SA_PASSWORD: 'DockerDatabaseP@22word!',
+			MSSQL_TCP_PORT: '1434'
+		})
 		.withWaitStrategy(Wait.forListeningPorts())
 		.start();
 

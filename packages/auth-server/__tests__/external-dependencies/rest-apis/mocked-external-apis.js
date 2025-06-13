@@ -26,6 +26,7 @@ export class MockedExternalApis {
 		const startedContainer = await new GenericContainer('mockserver/mockserver')
 			.withName(`mockserver-for-appeals-api-test-${instance}`)
 			.withExposedPorts(1081)
+			.withEnvironment({ MOCKSERVER_SERVER_PORT: '1081' })
 			.withWaitStrategy(Wait.forLogMessage(/.*started on port: 1081.*/))
 			.start();
 
