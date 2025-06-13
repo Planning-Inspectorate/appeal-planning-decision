@@ -33,22 +33,50 @@ extends:
               pathFilters:
                 - name: source_code
                   path: packages
+                - name: business_rules
+                  path: packages/business-rules
+                - name: common
+                  path: packages/common
+                - name: database
+                  path: packages/database
                 - name: package_lock
                   path: package-lock.json
                 - name: package_json
                   path: package.json
+
+                - name: appeals_api
+                  path: packages/appeals-service-api
+                - name: auth_server
+                  path: packages/auth-server
+                - name: documents_api
+                  path: packages/document-service-api
+                - name: forms_web_app
+                  path: packages/forms-web-app
               stepName: check_files
-      - name: Run Linting & Tests
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: npm run lint
+              nodeVersion: 22            
+
+      - name: Run Test API
         dependsOn:
           - Check Changes
         condition: >-
           and(
             succeeded(),
             or(
-              eq(dependencies.check_changes.outputs['check_files.source_code'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.appeals_api'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.business_rules'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.common'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.database'], 'true'),
               eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
               eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
-            )            
+            )
           )
         variables:
         - name: test-script
@@ -64,10 +92,146 @@ extends:
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
-              script: npm run lint
+              script: $(test-script):appeals-api
+              nodeVersion: 22
+      
+      - name: Run Test Forms Web App
+        dependsOn:
+          - Check Changes
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              eq(dependencies.check_changes.outputs['check_files.forms_web_app'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.database'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.common'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.business_rules'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
+            )
+          )
+        variables:
+        - name: test-script
+          ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/gh-readonly-queue') }}:
+            value: npm run test
+          ${{ else }}:
+            value: npm run test-cov
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):web
+              nodeVersion: 22   
+      
+      - name: Run Test Auth Server
+        dependsOn:
+          - Check Changes
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              eq(dependencies.check_changes.outputs['check_files.auth_server'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.business_rules'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.common'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.database'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
+            )
+          )
+        variables:
+        - name: test-script
+          ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/gh-readonly-queue') }}:
+            value: npm run test
+          ${{ else }}:
+            value: npm run test-cov
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):auth-server
+              nodeVersion: 22
+      
+      - name: Run Test Docs API
+        dependsOn:
+          - Check Changes
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              eq(dependencies.check_changes.outputs['check_files.documents_api'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.database'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.common'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.business_rules'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
+            )
+          )
+        variables:
+        - name: test-script
+          ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/gh-readonly-queue') }}:
+            value: npm run test
+          ${{ else }}:
+            value: npm run test-cov
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):documents-api
+              nodeVersion: 22
+      
+      - name: Run Test Other
+        # combined as these run quick and/or are shared so running on any change to source code
+        dependsOn:
+          - Check Changes
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              eq(dependencies.check_changes.outputs['check_files.source_code'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
+            )
+          )
+        variables:
+        - name: test-script
+          ${{ if startsWith(variables['Build.SourceBranch'], 'refs/heads/gh-readonly-queue') }}:
+            value: npm run test
+          ${{ else }}:
+            value: npm run test-cov
+        steps:
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm ci
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):common
               nodeVersion: 22
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
-              script: $(test-script)
+              script: $(test-script):business-rules
+              nodeVersion: 22
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):functions
+              nodeVersion: 22
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):pdf-api
               nodeVersion: 22

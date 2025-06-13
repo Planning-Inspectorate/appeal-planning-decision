@@ -143,6 +143,7 @@ extends:
               or(
                 eq(variables['Build.SourceBranchName'], 'main'),
                 eq(dependencies.run_linting_and_tests.outputs['check_files.auth-server'], 'true'),
+                eq(dependencies.run_linting_and_tests.outputs['check_files.business-rules'], 'true'),
                 eq(dependencies.run_linting_and_tests.outputs['check_files.common'], 'true'),
                 eq(dependencies.run_linting_and_tests.outputs['check_files.database'], 'true')
               )
@@ -173,7 +174,9 @@ extends:
                 or(
                   eq(variables['Build.SourceBranchName'], 'main'),
                   eq(dependencies.run_linting_and_tests.outputs['check_files.documents-api'], 'true'),
-                  eq(dependencies.run_linting_and_tests.outputs['check_files.common'], 'true')
+                  eq(dependencies.run_linting_and_tests.outputs['check_files.business-rules'], 'true'),
+                  eq(dependencies.run_linting_and_tests.outputs['check_files.common'], 'true'),
+                  eq(dependencies.run_linting_and_tests.outputs['check_files.database'], 'true')
                 )
               )
             )
