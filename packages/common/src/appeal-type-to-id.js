@@ -7,6 +7,7 @@ const { CASE_TYPES } = require('./database/data-static');
  */
 const mapTypeCodeToAppealId = (typeCode) => {
 	const caseType = CASE_TYPES[typeCode];
+
 	if (!caseType) {
 		throw new Error(`Unknown case type code: ${typeCode}`);
 	}
