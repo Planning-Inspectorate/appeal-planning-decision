@@ -28,8 +28,7 @@ module.exports = {
 	testMatch: [
 		'**/__tests__/unit/**/*.test.js',
 		'**/__tests__/developer/**/*.test.js',
-		'**/src/**/*.test.js',
-		'**/src/**/*.spec.js'
+		'**/src/**/*.test.js'
 	],
 	transform: {
 		'\\.[jt]sx?$': 'babel-jest'
