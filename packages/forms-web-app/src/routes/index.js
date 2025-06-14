@@ -19,6 +19,7 @@ const submission = require('./appellant-submission');
 const lpaDashboard = require('./lpa-dashboard');
 const rule6Appeals = require('./rule-6');
 const listedBuilding = require('./listed-building');
+const casPlanning = require('./cas-planning');
 const debug = require('./debug');
 const {
 	getDocument,
@@ -71,6 +72,9 @@ router.use('/full-appeal', fullAppeal);
 
 /// listed building ///
 router.use('/listed-building', listedBuilding);
+
+/// cas planning ///
+router.use('/cas-planning', casPlanning);
 
 /// appeal ///
 router.use('/appeal', appeal);

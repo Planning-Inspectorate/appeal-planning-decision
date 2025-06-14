@@ -5,6 +5,7 @@
 {% from "../macros/bool-to-sentence-case.njk" import boolToSentenceCaseField %}
 {% from "../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
 {% from "../macros/summary-field.njk" import summaryField %}
+{% from "../macros/array-new-line.njk" import arrayToNewLine %}
 
 {% set listedBuildingRow = {
   key: {
@@ -52,6 +53,33 @@
   {% set listedBuildingRow = null %}
 {% endif %}
 
+{% if applicationAbout %}
+  {% set applicationAboutRow = {
+    key: {
+      text: "Application about?"
+    },
+    value: {
+      text: arrayToNewLine(applicationAbout)
+    },
+    actions: {
+      items: [
+       {
+          href: "/before-you-start/planning-application-about",
+          text: "Change",
+          visuallyHiddenText: "Application about?",
+          attributes: { "data-cy":"applicationAbout"}
+        }
+      ]
+    }
+  }
+  %}
+{% endif %}
+
+{% if not applicationAbout %}
+  {% set applicationAboutRow = null %}
+{% endif %}
+
+
 {% block pageTitle %}
   You can appeal using this service - Before you start - Appeal a planning decision - GOV.UK
 {% endblock %}
@@ -61,7 +89,7 @@
     <div class="govuk-grid-column-two-thirds">
 
       <form action="" method="post">
-<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
         <h1 class="govuk-heading-l">
           You can appeal using this service
         </h1>
@@ -126,6 +154,7 @@
                 ]
               }
             },
+            applicationAboutRow,
             listedBuildingRow,
             {
               key: {
@@ -167,11 +196,11 @@
         }) }}
 
         {{ govukButton({
-                    text: "Continue to my appeal",
-                    type: "submit",
-                    href: nextPageUrl,
-                    attributes: { "data-cy":"button-save-and-continue"}
-                }) }}
+            text: "Continue to my appeal",
+            type: "submit",
+            href: nextPageUrl,
+            attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
       </form>
     </div>
   </div>

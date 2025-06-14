@@ -13,7 +13,8 @@ const VIEW = {
 		USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building',
 		USE_EXISTING_SERVICE_APPLICATION_TYPE: 'before-you-start/use-existing-service-application-type',
 		LISTED_BUILDING: 'before-you-start/listed-building',
-		ENFORCEMENT_NOTICE: 'before-you-start/enforcement-notice'
+		ENFORCEMENT_NOTICE: 'before-you-start/enforcement-notice',
+		APPLICATION_ABOUT: 'before-you-start/planning-application-about'
 	},
 
 	APPELLANT_SUBMISSION: {
@@ -155,6 +156,14 @@ const VIEW = {
 		CODE_EXPIRED: 'listed-building/code-expired', // redirect only
 		NEED_NEW_CODE: 'listed-building/need-new-code', // redirect only
 		EMAIL_CONFIRMED: 'listed-building/email-address-confirmed' // redirect only
+	},
+	CAS_PLANNING: {
+		EMAIL_ADDRESS: 'cas-planning/email-address', // redirect only
+		ENTER_CODE: 'cas-planning/enter-code', // redirect only
+		REQUEST_NEW_CODE: 'cas-planning/request-new-code', // redirect only
+		CODE_EXPIRED: 'cas-planning/code-expired', // redirect only
+		NEED_NEW_CODE: 'cas-planning/need-new-code', // redirect only
+		EMAIL_CONFIRMED: 'cas-planning/email-address-confirmed' // redirect only
 	},
 	COMMON: {
 		ENTER_CODE: 'common/enter-code',

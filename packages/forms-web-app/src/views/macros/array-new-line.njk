@@ -1,0 +1,7 @@
+{% macro arrayToNewLine(array) %}
+    {% if array %}
+        {% for item in array %}
+            <div>{{ item }}</div>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
