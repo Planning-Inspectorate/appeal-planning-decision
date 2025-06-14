@@ -52,6 +52,8 @@ extends:
   parameters:
     globalVariables:
       - template: azure-pipelines-variables.yml@self
+    gitFetchDepth: 1
+    skipAzureAuth: true
     validationJobs:
       - name: Run Linting & Tests
         condition: ${{ eq(parameters.runValidation, true) }}
