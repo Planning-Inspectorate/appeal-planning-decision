@@ -1,296 +1,224 @@
-const supertest = require('supertest');
-const app = require('../../../../../../app');
-const { createPrismaClient } = require('../../../../../../db/db-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const crypto = require('crypto');
 const {
 	createTestAppealCase
 } = require('../../../../../../../__tests__/developer/fixtures/appeals-case-data');
 
-const { isFeatureActive } = require('../../../../../../configuration/featureFlag');
-
-/** @type {import('@prisma/client').PrismaClient} */
-let sqlClient;
-/** @type {import('supertest').SuperTest<import('supertest').Test>} */
-let appealsApi;
-
-let validUser;
+let validUser = '';
 const validLpa = 'Q9999';
 const invalidLpa = 'nope';
 
-jest.mock('../../../../../../configuration/featureFlag');
-jest.mock('../../../../../../../src/services/object-store');
-jest.mock('express-oauth2-jwt-bearer', () => {
-	let currentSub = '';
-
-	return {
-		auth: jest.fn(() => {
-			return (req, _res, next) => {
-				req.auth = {
-					payload: {
-						sub: currentSub
-					}
-				};
-				next();
-			};
-		}),
-		setCurrentSub: (newSub) => {
-			currentSub = newSub;
-		}
-	};
-});
-
-jest.mock('@pins/common/src/middleware/validate-token', () => {
-	let currentLpa = validLpa;
-
-	return {
-		validateToken: jest.fn(() => {
-			return (req, _res, next) => {
-				req.id_token = {
-					lpaCode: currentLpa
-				};
-				next();
-			};
-		}),
-		setCurrentLpa: (newLpa) => {
-			currentLpa = newLpa;
-		}
-	};
-});
-
-jest.setTimeout(30000);
-
-beforeAll(async () => {
-	///////////////////////////////
-	///// SETUP TEST DATABASE ////
-	/////////////////////////////
-	sqlClient = createPrismaClient();
-
-	/////////////////////
-	///// SETUP APP ////
-	///////////////////
-	appealsApi = supertest(app);
-
-	const user = await sqlClient.appealUser.create({
-		data: {
-			email: crypto.randomUUID() + '@example.com'
-		}
-	});
-	validUser = user.id;
-});
-
-beforeEach(async () => {
-	// turn all feature flags on
-	isFeatureActive.mockImplementation(() => {
-		return true;
-	});
-});
-
-afterEach(async () => {
-	jest.clearAllMocks();
-});
-
-afterAll(async () => {
-	await sqlClient.$disconnect();
-});
-
 /**
- * @returns {Promise<string>}
+ * @param {Object} dependencies
+ * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(string): void} dependencies.setCurrentSub
+ * @param {function(string): void} dependencies.setCurrentLpa
+ * @param {import('supertest').Agent} dependencies.appealsApi
  */
-const createAppeal = async (caseRef) => {
-	const appeal = await sqlClient.appeal.create({
-		include: {
-			AppealCase: true
-		},
-		data: {
-			Users: {
-				create: {
-					userId: validUser,
-					role: APPEAL_USER_ROLES.APPELLANT
-				}
-			},
-			AppealCase: {
-				create: createTestAppealCase(caseRef, 'HAS', validLpa)
-			}
-		}
-	});
-	return appeal.AppealCase?.caseReference;
-};
+module.exports = ({ getSqlClient, setCurrentSub, setCurrentLpa, appealsApi }) => {
+	const sqlClient = getSqlClient();
 
-describe('/appeal-cases/_caseReference/lpa-questionnaire-submission/address', () => {
-	it('post creates or updates the address', async () => {
-		const testCaseRef = '3333333';
-		await createAppeal(testCaseRef);
-		await sqlClient.lPAQuestionnaireSubmission.create({
+	beforeAll(async () => {
+		const user = await sqlClient.appealUser.create({
 			data: {
-				appealCaseReference: testCaseRef
+				email: crypto.randomUUID() + '@example.com'
 			}
 		});
+		validUser = user.id;
+	});
 
-		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
-		setCurrentLpa(validLpa);
-		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
-		setCurrentSub(validUser);
+	/**
+	 * @returns {Promise<string>}
+	 */
+	const createAppeal = async (caseRef) => {
+		const appeal = await sqlClient.appeal.create({
+			include: {
+				AppealCase: true
+			},
+			data: {
+				Users: {
+					create: {
+						userId: validUser,
+						role: APPEAL_USER_ROLES.APPELLANT
+					}
+				},
+				AppealCase: {
+					create: createTestAppealCase(caseRef, 'HAS', validLpa)
+				}
+			}
+		});
+		return appeal.AppealCase?.caseReference;
+	};
 
-		const testAddress = {
-			addressLine1: 'line 1',
-			addressLine2: 'line 2',
-			townCity: 'test town',
-			postcode: 'postcode',
-			fieldName: 'question-field-name',
-			county: 'county'
-		};
-
-		// adds first address
-		const addressResponse = await appealsApi
-			.post(`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address`)
-			.send(testAddress);
-
-		expect(addressResponse.status).toEqual(200);
-		expect(addressResponse.body.SubmissionAddress.length).toBe(1);
-		expect(addressResponse.body.SubmissionAddress[0]).toEqual(expect.objectContaining(testAddress));
-
-		// updates address
-		const firstId = addressResponse.body.SubmissionAddress[0].id;
-		const addressResponse2 = await appealsApi
-			.post(`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address`)
-			.send({
-				id: firstId,
-				...testAddress,
-				addressLine1: 'changed'
+	describe('/appeal-cases/_caseReference/lpa-questionnaire-submission/address', () => {
+		it('post creates or updates the address', async () => {
+			const testCaseRef = '3333333';
+			await createAppeal(testCaseRef);
+			await sqlClient.lPAQuestionnaireSubmission.create({
+				data: {
+					appealCaseReference: testCaseRef
+				}
 			});
 
-		expect(addressResponse2.status).toEqual(200);
-		expect(addressResponse2.body.SubmissionAddress.length).toBe(1);
-		expect(addressResponse2.body.SubmissionAddress[0]).toEqual(
-			expect.objectContaining({
-				id: firstId,
-				addressLine1: 'changed'
-			})
-		);
+			setCurrentLpa(validLpa);
+			setCurrentSub(validUser);
 
-		// adds new address
-		const addressResponse3 = await appealsApi
-			.post(`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address`)
-			.send(testAddress);
+			const testAddress = {
+				addressLine1: 'line 1',
+				addressLine2: 'line 2',
+				townCity: 'test town',
+				postcode: 'postcode',
+				fieldName: 'question-field-name',
+				county: 'county'
+			};
 
-		expect(addressResponse3.status).toEqual(200);
-		expect(addressResponse3.body.SubmissionAddress.length).toBe(2);
-	});
+			// adds first address
+			const addressResponse = await appealsApi
+				.post(`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address`)
+				.send(testAddress);
 
-	it('post should 403 with user not from lpa user', async () => {
-		const testCaseRef = '4444444';
-		await createAppeal(testCaseRef);
-		await sqlClient.lPAQuestionnaireSubmission.create({
-			data: {
-				appealCaseReference: testCaseRef
-			}
+			expect(addressResponse.status).toEqual(200);
+			expect(addressResponse.body.SubmissionAddress.length).toBe(1);
+			expect(addressResponse.body.SubmissionAddress[0]).toEqual(
+				expect.objectContaining(testAddress)
+			);
+
+			// updates address
+			const firstId = addressResponse.body.SubmissionAddress[0].id;
+			const addressResponse2 = await appealsApi
+				.post(`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address`)
+				.send({
+					id: firstId,
+					...testAddress,
+					addressLine1: 'changed'
+				});
+
+			expect(addressResponse2.status).toEqual(200);
+			expect(addressResponse2.body.SubmissionAddress.length).toBe(1);
+			expect(addressResponse2.body.SubmissionAddress[0]).toEqual(
+				expect.objectContaining({
+					id: firstId,
+					addressLine1: 'changed'
+				})
+			);
+
+			// adds new address
+			const addressResponse3 = await appealsApi
+				.post(`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address`)
+				.send(testAddress);
+
+			expect(addressResponse3.status).toEqual(200);
+			expect(addressResponse3.body.SubmissionAddress.length).toBe(2);
 		});
 
-		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
-		setCurrentLpa(invalidLpa);
-		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
-		setCurrentSub(validUser);
+		it('post should 403 with user not from lpa user', async () => {
+			const testCaseRef = '4444444';
+			await createAppeal(testCaseRef);
+			await sqlClient.lPAQuestionnaireSubmission.create({
+				data: {
+					appealCaseReference: testCaseRef
+				}
+			});
 
-		const testAddress = {
-			addressLine1: 'line 1',
-			addressLine2: 'line 1',
-			townCity: 'test town',
-			postcode: 'postcode',
-			fieldName: 'question-field-name',
-			county: 'county'
-		};
+			setCurrentLpa(invalidLpa);
+			setCurrentSub(validUser);
 
-		// adds first address
-		const addressResponse = await appealsApi
-			.post(`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address`)
-			.send(testAddress);
+			const testAddress = {
+				addressLine1: 'line 1',
+				addressLine2: 'line 1',
+				townCity: 'test town',
+				postcode: 'postcode',
+				fieldName: 'question-field-name',
+				county: 'county'
+			};
 
-		expect(addressResponse.status).toEqual(403);
-	});
+			// adds first address
+			const addressResponse = await appealsApi
+				.post(`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address`)
+				.send(testAddress);
 
-	it('delete removes the address', async () => {
-		const testCaseRef = '5555555';
-		await createAppeal(testCaseRef);
-		await sqlClient.lPAQuestionnaireSubmission.create({
-			data: {
-				appealCaseReference: testCaseRef
-			}
+			expect(addressResponse.status).toEqual(403);
 		});
-		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
-		setCurrentLpa(validLpa);
-		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
-		setCurrentSub(validUser);
 
-		const testAddress = {
-			addressLine1: 'line 1',
-			addressLine2: 'line 1',
-			townCity: 'test town',
-			postcode: 'postcode',
-			fieldName: 'question-field-name',
-			county: 'county'
-		};
+		it('delete removes the address', async () => {
+			const testCaseRef = '5555555';
+			await createAppeal(testCaseRef);
+			await sqlClient.lPAQuestionnaireSubmission.create({
+				data: {
+					appealCaseReference: testCaseRef
+				}
+			});
+			setCurrentLpa(validLpa);
+			setCurrentSub(validUser);
 
-		// adds first address
-		const addressResponse = await appealsApi
-			.post(`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address`)
-			.send(testAddress);
+			const testAddress = {
+				addressLine1: 'line 1',
+				addressLine2: 'line 1',
+				townCity: 'test town',
+				postcode: 'postcode',
+				fieldName: 'question-field-name',
+				county: 'county'
+			};
 
-		expect(addressResponse.status).toEqual(200);
+			// adds first address
+			const addressResponse = await appealsApi
+				.post(`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address`)
+				.send(testAddress);
 
-		const addressId = addressResponse.body.SubmissionAddress[0].id;
-		const addressCount = addressResponse.body.SubmissionAddress.length;
+			expect(addressResponse.status).toEqual(200);
 
-		// delete address
-		const deleteResponse = await appealsApi
-			.delete(
-				`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address/${addressId}`
-			)
-			.send();
+			const addressId = addressResponse.body.SubmissionAddress[0].id;
+			const addressCount = addressResponse.body.SubmissionAddress.length;
 
-		expect(deleteResponse.body.SubmissionAddress.length).toBe(addressCount - 1);
-		expect(deleteResponse.status).toEqual(200);
-	});
+			// delete address
+			const deleteResponse = await appealsApi
+				.delete(
+					`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address/${addressId}`
+				)
+				.send();
 
-	it('delete should 403 with invalid user', async () => {
-		const testCaseRef = '6666666';
-		await createAppeal(testCaseRef);
-		await sqlClient.lPAQuestionnaireSubmission.create({
-			data: {
-				appealCaseReference: testCaseRef
-			}
+			expect(deleteResponse.body.SubmissionAddress.length).toBe(addressCount - 1);
+			expect(deleteResponse.status).toEqual(200);
 		});
-		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
-		setCurrentLpa(validLpa);
-		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
-		setCurrentSub(validUser);
 
-		const testAddress = {
-			addressLine1: 'line 1',
-			addressLine2: 'line 1',
-			townCity: 'test town',
-			postcode: 'postcode',
-			fieldName: 'question-field-name',
-			county: 'county'
-		};
+		it('delete should 403 with invalid user', async () => {
+			const testCaseRef = '6666666';
+			await createAppeal(testCaseRef);
+			await sqlClient.lPAQuestionnaireSubmission.create({
+				data: {
+					appealCaseReference: testCaseRef
+				}
+			});
+			setCurrentLpa(validLpa);
+			setCurrentSub(validUser);
 
-		// adds first address
-		const addressResponse = await appealsApi
-			.post(`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address`)
-			.send(testAddress);
+			const testAddress = {
+				addressLine1: 'line 1',
+				addressLine2: 'line 1',
+				townCity: 'test town',
+				postcode: 'postcode',
+				fieldName: 'question-field-name',
+				county: 'county'
+			};
 
-		expect(addressResponse.status).toEqual(200);
-		const addressId = addressResponse.body.SubmissionAddress[0].id;
+			// adds first address
+			const addressResponse = await appealsApi
+				.post(`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address`)
+				.send(testAddress);
 
-		setCurrentLpa(invalidLpa);
+			expect(addressResponse.status).toEqual(200);
+			const addressId = addressResponse.body.SubmissionAddress[0].id;
 
-		// delete address
-		const deleteResponse = await appealsApi
-			.delete(
-				`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address/${addressId}`
-			)
-			.send();
+			setCurrentLpa(invalidLpa);
 
-		expect(deleteResponse.status).toEqual(403);
+			// delete address
+			const deleteResponse = await appealsApi
+				.delete(
+					`/api/v2/appeal-cases/${testCaseRef}/lpa-questionnaire-submission/address/${addressId}`
+				)
+				.send();
+
+			expect(deleteResponse.status).toEqual(403);
+		});
 	});
-});
+};

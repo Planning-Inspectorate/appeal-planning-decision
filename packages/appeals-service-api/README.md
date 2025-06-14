@@ -2,6 +2,12 @@
 
 The microservice API for the appeals service
 
+## Tests
+
+unit tests `.test.js` should be written next to the file it is testing
+
+integration tests `.spec.js` should be written next to the endpoint it is testing, and are run by `/src/routes/v2/index.test.js`
+
 ## Feature Flag
 
 We have incorporated Azure feature flag functionality into this repo. Feature flags should be set up in the infra, and can be used by importing the `isFeatureActive` function from `src/configuration/featureFlag`, and specifying the name of the feature flag in the parameters, i.e.:

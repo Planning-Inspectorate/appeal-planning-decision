@@ -1,7 +1,3 @@
-const supertest = require('supertest');
-const app = require('../../../../../../app');
-const { createPrismaClient } = require('../../../../../../db/db-client');
-const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { APPEAL_DOCUMENT_TYPE, SERVICE_USER_TYPE } = require('pins-data-model');
 const crypto = require('crypto');
@@ -9,291 +5,269 @@ const config = require('../../../../../../configuration/config');
 const {
 	createTestAppealCase
 } = require('../../../../../../../__tests__/developer/fixtures/appeals-case-data');
-const { isFeatureActive } = require('../../../../../../configuration/featureFlag');
-/** @type {import('@prisma/client').PrismaClient} */
-let sqlClient;
-/** @type {import('supertest').SuperTest<import('supertest').Test>} */
-let appealsApi;
-let validUser;
-let validEmail;
+
+let validUser = '';
+let validEmail = '';
 const validLpa = 'Q9999';
-jest.mock('../../../../../../configuration/featureFlag');
-jest.mock('../../../../../../../src/services/object-store');
-jest.mock('express-oauth2-jwt-bearer', () => {
-	let currentSub = '';
-	return {
-		auth: jest.fn(() => {
-			return (req, _res, next) => {
-				req.auth = {
-					payload: {
-						sub: currentSub
-					}
-				};
-				next();
-			};
-		}),
-		setCurrentSub: (newSub) => {
-			currentSub = newSub;
-		}
-	};
-});
-jest.mock('@pins/common/src/middleware/validate-token', () => {
-	let currentLpa = validLpa;
-	return {
-		validateToken: jest.fn(() => {
-			return (req, _res, next) => {
-				req.id_token = {
-					lpaCode: currentLpa
-				};
-				next();
-			};
-		}),
-		setCurrentLpa: (newLpa) => {
-			currentLpa = newLpa;
-		}
-	};
-});
-jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
-	sendEvents: jest.fn()
-}));
-const mockNotifyClient = {
-	sendEmail: jest.fn()
-};
 
-jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
-	return {
-		getNotifyClient: () => mockNotifyClient
-	};
-});
-const testR6ServiceUser1 = 'testR6ServiceUserID1';
+/**
+ * @param {Object} dependencies
+ * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(string): void} dependencies.setCurrentSub
+ * @param {function(string): void} dependencies.setCurrentLpa
+ * @param {import('supertest').Agent} dependencies.appealsApi
+ * @param {import('../../../../index.test').BlobMetaGetterMock} dependencies.mockBlobMetaGetter
+ * @param {import('../../../../index.test').EventClientMock} dependencies.mockEventClient
+ * @param {import('../../../../index.test').NotifyClientMock} dependencies.mockNotifyClient
+ */
+module.exports = ({
+	getSqlClient,
+	setCurrentSub,
+	setCurrentLpa,
+	mockBlobMetaGetter,
+	mockEventClient,
+	mockNotifyClient,
+	appealsApi
+}) => {
+	const sqlClient = getSqlClient();
 
-jest.setTimeout(30000);
-beforeAll(async () => {
-	///////////////////////////////
-	///// SETUP TEST DATABASE ////
-	/////////////////////////////
-	sqlClient = createPrismaClient();
-	/////////////////////
-	///// SETUP APP ////
-	///////////////////
-	appealsApi = supertest(app);
-	const email = crypto.randomUUID() + '@example.com';
-	const user = await sqlClient.appealUser.create({
-		data: {
-			email
-		}
-	});
-	await sqlClient.serviceUser.createMany({
-		data: [
-			{
-				internalId: crypto.randomUUID(),
-				emailAddress: email,
-				id: testR6ServiceUser1,
-				serviceUserType: SERVICE_USER_TYPE.RULE_6_PARTY,
-				caseReference: '307'
+	const testR6ServiceUser1 = 'testR6ServiceUserID1';
+
+	/**
+	 * @returns {Promise<string|undefined>}
+	 */
+	const createAppeal = async (caseRef) => {
+		const appeal = await sqlClient.appeal.create({
+			include: {
+				AppealCase: true
 			},
+			data: {
+				Users: {
+					create: {
+						userId: validUser,
+						role: APPEAL_USER_ROLES.RULE_6_PARTY
+					}
+				},
+				AppealCase: {
+					create: {
+						...createTestAppealCase(caseRef, 'S78', validLpa),
+						proofsOfEvidenceDueDate: new Date().toISOString()
+					}
+				}
+			}
+		});
+		return appeal.AppealCase?.caseReference;
+	};
+
+	const formattedProofs1 = {
+		caseReference: '307',
+		representation: null,
+		representationSubmittedDate: expect.any(String),
+		representationType: 'proofs_evidence',
+		serviceUserId: testR6ServiceUser1,
+		documents: [
 			{
-				internalId: crypto.randomUUID(),
-				emailAddress: email,
-				id: testR6ServiceUser1,
-				serviceUserType: SERVICE_USER_TYPE.RULE_6_PARTY,
-				caseReference: '308'
+				dateCreated: expect.any(String),
+				documentId: expect.any(String),
+				documentType: APPEAL_DOCUMENT_TYPE.RULE_6_PROOF_OF_EVIDENCE,
+				documentURI: 'https://example.com',
+				filename: 'doc.pdf',
+				mime: 'doc',
+				originalFilename: 'mydoc.pdf',
+				size: 10293
 			}
 		]
-	});
-	validUser = user.id;
-	validEmail = user.email;
-});
-jest.mock('../../../../../../services/back-office-v2/formatters/utils', () => ({
-	getDocuments: jest.fn(() => [])
-}));
-const utils = require('../../../../../../services/back-office-v2/formatters/utils');
-beforeEach(async () => {
-	isFeatureActive.mockImplementation(() => {
-		return true;
-	});
-	utils.getDocuments.mockReset();
-});
-afterEach(async () => {
-	jest.clearAllMocks();
-});
-afterAll(async () => {
-	await sqlClient.$disconnect();
-});
-/**
- * @returns {Promise<string|undefined>}
- */
-const createAppeal = async (caseRef) => {
-	const appeal = await sqlClient.appeal.create({
-		include: {
-			AppealCase: true
-		},
-		data: {
-			Users: {
-				create: {
-					userId: validUser,
-					role: APPEAL_USER_ROLES.RULE_6_PARTY
-				}
-			},
-			AppealCase: {
-				create: {
-					...createTestAppealCase(caseRef, 'S78', validLpa),
-					proofsOfEvidenceDueDate: new Date().toISOString()
-				}
-			}
-		}
-	});
-	return appeal.AppealCase?.caseReference;
-};
-const formattedProofs1 = {
-	caseReference: '307',
-	representation: null,
-	representationSubmittedDate: expect.any(String),
-	representationType: 'proofs_evidence',
-	serviceUserId: testR6ServiceUser1,
-	documents: [
-		{
-			dateCreated: expect.any(String),
-			documentId: '307',
-			documentType: APPEAL_DOCUMENT_TYPE.RULE_6_PROOF_OF_EVIDENCE,
-			documentURI: 'https://example.com',
-			filename: 'doc.pdf',
-			mime: 'doc',
-			originalFilename: 'mydoc.pdf',
-			size: 10293
-		}
-	]
-};
-const formattedProofs2 = {
-	caseReference: '308',
-	representation: null,
-	representationSubmittedDate: expect.any(String),
-	representationType: 'proofs_evidence',
-	serviceUserId: testR6ServiceUser1,
-	documents: [
-		{
-			dateCreated: expect.any(String),
-			documentId: '308',
-			documentType: APPEAL_DOCUMENT_TYPE.RULE_6_PROOF_OF_EVIDENCE,
-			documentURI: 'https://example.com',
-			filename: 'doc.pdf',
-			mime: 'doc',
-			originalFilename: 'mydoc.pdf',
-			size: 10293
-		},
-		{
-			dateCreated: expect.any(String),
-			documentId: '309',
-			documentType: APPEAL_DOCUMENT_TYPE.RULE_6_WITNESSES_EVIDENCE,
-			documentURI: 'https://example.com',
-			filename: 'doc.pdf',
-			mime: 'doc',
-			originalFilename: 'mydoc.pdf',
-			size: 10293
-		}
-	]
-};
-describe('/api/v2/appeal-cases/:caseReference/rule-6-proof-evidence-submission/submit', () => {
-	const expectEmail = (caseRef) => {
-		expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
-		expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
-			config.services.notify.templates.generic,
-			validEmail,
-			{
-				personalisation: {
-					subject: `We’ve received your proof of evidence and witnesses - ${caseRef}`,
-					content: expect.stringContaining('We’ve received your proof of evidence and witnesses.')
-				},
-				reference: expect.any(String),
-				emailReplyToId: undefined
-			}
-		);
-		mockNotifyClient.sendEmail.mockClear();
 	};
-	it('Formats S78 rule 6 proof of evidence submission with one doc type for case 307', async () => {
-		utils.getDocuments.mockReturnValue([
+
+	const formattedProofs2 = {
+		caseReference: '308',
+		representation: null,
+		representationSubmittedDate: expect.any(String),
+		representationType: 'proofs_evidence',
+		serviceUserId: testR6ServiceUser1,
+		documents: expect.arrayContaining([
 			{
-				documentId: '307',
-				filename: 'doc.pdf',
-				originalFilename: 'mydoc.pdf',
+				dateCreated: expect.any(String),
+				documentId: expect.any(String),
 				documentType: APPEAL_DOCUMENT_TYPE.RULE_6_PROOF_OF_EVIDENCE,
 				documentURI: 'https://example.com',
-				size: 10293,
-				dateCreated: new Date().toISOString(),
-				mime: 'doc'
-			}
-		]);
-		await createAppeal('307');
-		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
-		setCurrentLpa(validLpa);
-		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
-		setCurrentSub(validUser);
-		const rule6ProofOfEvidenceData = {
-			uploadRule6ProofOfEvidenceDocuments: true,
-			rule6Witnesses: false
-		};
-		await appealsApi
-			.post(`/api/v2/appeal-cases/307/rule-6-proof-evidence-submission`)
-			.send(rule6ProofOfEvidenceData);
-		await appealsApi
-			.post(`/api/v2/appeal-cases/307/rule-6-proof-evidence-submission/submit`)
-			.expect(200);
-		expect(sendEvents).toHaveBeenCalledWith(
-			'appeal-fo-representation-submission',
-			[formattedProofs1],
-			'Create'
-		);
-		expectEmail('307');
-	});
-	it('Formats S78 rule 6 proof of evidence submission with both doc types for case 308', async () => {
-		utils.getDocuments.mockReturnValue([
-			{
-				documentId: '308',
 				filename: 'doc.pdf',
+				mime: 'doc',
 				originalFilename: 'mydoc.pdf',
-				documentType: APPEAL_DOCUMENT_TYPE.RULE_6_PROOF_OF_EVIDENCE,
-				documentURI: 'https://example.com',
-				size: 10293,
-				dateCreated: new Date().toISOString(),
-				mime: 'doc'
+				size: 10293
 			},
 			{
-				documentId: '309',
-				filename: 'doc.pdf',
-				originalFilename: 'mydoc.pdf',
+				dateCreated: expect.any(String),
+				documentId: expect.any(String),
 				documentType: APPEAL_DOCUMENT_TYPE.RULE_6_WITNESSES_EVIDENCE,
 				documentURI: 'https://example.com',
-				size: 10293,
-				dateCreated: new Date().toISOString(),
-				mime: 'doc'
+				filename: 'doc.pdf',
+				mime: 'doc',
+				originalFilename: 'mydoc.pdf',
+				size: 10293
 			}
-		]);
-		await createAppeal('308');
-		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
-		setCurrentLpa(validLpa);
-		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
-		setCurrentSub(validUser);
-		const rule6ProofOfEvidenceData = {
-			uploadRule6ProofOfEvidenceDocuments: true,
-			rule6Witnesses: true,
-			uploadRule6WitnessesEvidence: true
+		])
+	};
+
+	describe('/api/v2/appeal-cases/:caseReference/rule-6-proof-evidence-submission/submit', () => {
+		beforeAll(async () => {
+			const email = crypto.randomUUID() + '@example.com';
+			const user = await sqlClient.appealUser.create({
+				data: {
+					email
+				}
+			});
+			await sqlClient.serviceUser.createMany({
+				data: [
+					{
+						internalId: crypto.randomUUID(),
+						emailAddress: email,
+						id: testR6ServiceUser1,
+						serviceUserType: SERVICE_USER_TYPE.RULE_6_PARTY,
+						caseReference: '307'
+					},
+					{
+						internalId: crypto.randomUUID(),
+						emailAddress: email,
+						id: testR6ServiceUser1,
+						serviceUserType: SERVICE_USER_TYPE.RULE_6_PARTY,
+						caseReference: '308'
+					}
+				]
+			});
+			validUser = user.id;
+			validEmail = user.email;
+		});
+
+		const expectEmail = (caseRef) => {
+			expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
+			expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+				config.services.notify.templates.generic,
+				validEmail,
+				{
+					personalisation: {
+						subject: `We’ve received your proof of evidence and witnesses - ${caseRef}`,
+						content: expect.stringContaining('We’ve received your proof of evidence and witnesses.')
+					},
+					reference: expect.any(String),
+					emailReplyToId: undefined
+				}
+			);
+			mockNotifyClient.sendEmail.mockClear();
 		};
-		await appealsApi
-			.post('/api/v2/appeal-cases/308/rule-6-proof-evidence-submission')
-			.send(rule6ProofOfEvidenceData);
-		await appealsApi
-			.post(`/api/v2/appeal-cases/308/rule-6-proof-evidence-submission/submit`)
-			.expect(200);
-		expect(sendEvents).toHaveBeenCalledWith(
-			'appeal-fo-representation-submission',
-			[formattedProofs2],
-			'Create'
-		);
-		expectEmail('308');
+
+		it('Formats S78 rule 6 proof of evidence submission with one doc type for case 307', async () => {
+			mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
+				return async () => ({
+					lastModified: '2024-03-01T14:48:35.847Z',
+					createdOn: '2024-03-01T13:48:35.847Z',
+					metadata: {
+						mime_type: 'doc',
+						size: 10293,
+						document_type: 'uploadRule6ProofOfEvidenceDocuments'
+					},
+					_response: { request: { url: 'https://example.com' } }
+				});
+			});
+			await createAppeal('307');
+			setCurrentLpa(validLpa);
+			setCurrentSub(validUser);
+			const rule6ProofOfEvidenceData = {
+				uploadRule6ProofOfEvidenceDocuments: true,
+				rule6Witnesses: false
+			};
+			const result = await appealsApi
+				.post(`/api/v2/appeal-cases/307/rule-6-proof-evidence-submission`)
+				.send(rule6ProofOfEvidenceData);
+			await sqlClient.submissionDocumentUpload.create({
+				data: {
+					id: crypto.randomUUID(),
+					fileName: 'doc.pdf',
+					originalFileName: 'mydoc.pdf',
+					type: 'uploadRule6ProofOfEvidenceDocuments',
+					location: 'https://example.com',
+					name: 'doc.pdf',
+					rule6ProofOfEvidenceSubmissionId: result.body.id,
+					storageId: crypto.randomUUID()
+				}
+			});
+			await appealsApi
+				.post(`/api/v2/appeal-cases/307/rule-6-proof-evidence-submission/submit`)
+				.expect(200);
+			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
+				'appeal-fo-representation-submission',
+				[formattedProofs1],
+				'Create'
+			);
+			expectEmail('307');
+		});
+
+		it('Formats S78 rule 6 proof of evidence submission with both doc types for case 308', async () => {
+			mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
+				return async (location) => ({
+					lastModified: '2024-03-01T14:48:35.847Z',
+					createdOn: '2024-03-01T13:48:35.847Z',
+					metadata: {
+						mime_type: 'doc',
+						size: 10293,
+						document_type:
+							location === 'https://example.com/proof'
+								? 'uploadRule6ProofOfEvidenceDocuments'
+								: 'uploadRule6WitnessesEvidence'
+					},
+					_response: { request: { url: 'https://example.com' } }
+				});
+			});
+			await createAppeal('308');
+			setCurrentLpa(validLpa);
+			setCurrentSub(validUser);
+			const rule6ProofOfEvidenceData = {
+				uploadRule6ProofOfEvidenceDocuments: true,
+				rule6Witnesses: true,
+				uploadRule6WitnessesEvidence: true
+			};
+			const result = await appealsApi
+				.post('/api/v2/appeal-cases/308/rule-6-proof-evidence-submission')
+				.send(rule6ProofOfEvidenceData);
+			await sqlClient.submissionDocumentUpload.createMany({
+				data: [
+					{
+						id: crypto.randomUUID(),
+						fileName: 'doc.pdf',
+						originalFileName: 'mydoc.pdf',
+						type: 'uploadRule6ProofOfEvidenceDocuments',
+						location: 'https://example.com/proof',
+						name: 'doc.pdf',
+						rule6ProofOfEvidenceSubmissionId: result.body.id,
+						storageId: crypto.randomUUID()
+					},
+					{
+						id: crypto.randomUUID(),
+						fileName: 'doc.pdf',
+						originalFileName: 'mydoc.pdf',
+						type: 'uploadRule6WitnessesEvidence',
+						location: 'https://example.com',
+						name: 'doc.pdf',
+						rule6ProofOfEvidenceSubmissionId: result.body.id,
+						storageId: crypto.randomUUID()
+					}
+				]
+			});
+			await appealsApi
+				.post(`/api/v2/appeal-cases/308/rule-6-proof-evidence-submission/submit`)
+				.expect(200);
+			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
+				'appeal-fo-representation-submission',
+				[formattedProofs2],
+				'Create'
+			);
+			expectEmail('308');
+		});
+
+		it('404s if the proof of evidence submission cannot be found', async () => {
+			await appealsApi
+				.post('/api/v2/appeal-cases/nothere/rule-6-proof-evidence-submissions/submit')
+				.expect(404);
+		});
 	});
-	it('404s if the proof of evidence submission cannot be found', async () => {
-		await appealsApi
-			.post('/api/v2/appeal-cases/nothere/rule-6-proof-evidence-submissions/submit')
-			.expect(404);
-	});
-});
+};

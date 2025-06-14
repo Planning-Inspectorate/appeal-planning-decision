@@ -1,7 +1,3 @@
-const supertest = require('supertest');
-const app = require('../../../../../../app');
-const { createPrismaClient } = require('../../../../../../db/db-client');
-const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { SERVICE_USER_TYPE } = require('pins-data-model');
 
@@ -11,280 +7,218 @@ const {
 } = require('../../../../../../../__tests__/developer/fixtures/appeals-case-data');
 
 const config = require('../../../../../../configuration/config');
-const { isFeatureActive } = require('../../../../../../configuration/featureFlag');
 
-/** @type {import('@prisma/client').PrismaClient} */
-let sqlClient;
-/** @type {import('supertest').SuperTest<import('supertest').Test>} */
-let appealsApi;
-
-let validUser;
-let email;
+let validUser = '';
+let email = '';
 const validLpa = 'Q9999';
 
 const testCase1 = '001';
 const testCase2 = '002';
 
-jest.mock('../../../../../../configuration/featureFlag');
-jest.mock('../../../../../../../src/services/object-store');
-jest.mock('express-oauth2-jwt-bearer', () => {
-	let currentSub = '';
-
-	return {
-		auth: jest.fn(() => {
-			return (req, _res, next) => {
-				req.auth = {
-					payload: {
-						sub: currentSub
-					}
-				};
-				next();
-			};
-		}),
-		setCurrentSub: (newSub) => {
-			currentSub = newSub;
-		}
-	};
-});
-
-jest.mock('@pins/common/src/middleware/validate-token', () => {
-	let currentLpa = validLpa;
-
-	return {
-		validateToken: jest.fn(() => {
-			return (req, _res, next) => {
-				req.id_token = {
-					lpaCode: currentLpa
-				};
-				next();
-			};
-		}),
-		setCurrentLpa: (newLpa) => {
-			currentLpa = newLpa;
-		}
-	};
-});
-
-jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
-	sendEvents: jest.fn()
-}));
-
-const mockNotifyClient = {
-	sendEmail: jest.fn()
-};
-
-jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
-	return {
-		getNotifyClient: () => mockNotifyClient
-	};
-});
-
-jest.setTimeout(30000);
-
-beforeAll(async () => {
-	///////////////////////////////
-	///// SETUP TEST DATABASE ////
-	/////////////////////////////
-	sqlClient = createPrismaClient();
-
-	/////////////////////
-	///// SETUP APP ////
-	///////////////////
-	appealsApi = supertest(app);
-
-	email = crypto.randomUUID() + '@example.com';
-	const user = await sqlClient.appealUser.create({
-		data: {
-			email
-		}
-	});
-	await sqlClient.serviceUser.createMany({
-		data: [
-			{
-				internalId: crypto.randomUUID(),
-				emailAddress: email,
-				id: crypto.randomUUID(),
-				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
-				caseReference: testCase1
-			},
-			{
-				internalId: crypto.randomUUID(),
-				emailAddress: email,
-				id: crypto.randomUUID(),
-				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
-				caseReference: testCase2
-			}
-		]
-	});
-	validUser = user.id;
-});
-
-jest.mock('../../../../../../services/back-office-v2/formatters/utils', () => ({
-	getDocuments: jest.fn(() => [])
-}));
-const utils = require('../../../../../../services/back-office-v2/formatters/utils');
-
-beforeEach(async () => {
-	isFeatureActive.mockImplementation(() => {
-		return true;
-	});
-	utils.getDocuments.mockReset();
-});
-
-afterEach(async () => {
-	jest.clearAllMocks();
-});
-
-afterAll(async () => {
-	await sqlClient.$disconnect();
-});
-
 /**
- * @returns {Promise<string|undefined>}
+ * @param {Object} dependencies
+ * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(string): void} dependencies.setCurrentSub
+ * @param {function(string): void} dependencies.setCurrentLpa
+ * @param {import('supertest').Agent} dependencies.appealsApi
+ * @param {import('../../../../index.test').BlobMetaGetterMock} dependencies.mockBlobMetaGetter
+ * @param {import('../../../../index.test').EventClientMock} dependencies.mockEventClient
+ * @param {import('../../../../index.test').NotifyClientMock} dependencies.mockNotifyClient
  */
-const createAppeal = async (caseRef) => {
-	const appeal = await sqlClient.appeal.create({
-		include: {
-			AppealCase: true
-		},
-		data: {
-			Users: {
-				create: {
-					userId: validUser,
-					role: APPEAL_USER_ROLES.APPELLANT
-				}
-			},
-			AppealCase: {
-				create: createTestAppealCase(caseRef, 'S78', validLpa)
+module.exports = ({
+	getSqlClient,
+	setCurrentSub,
+	setCurrentLpa,
+	mockBlobMetaGetter,
+	mockEventClient,
+	mockNotifyClient,
+	appealsApi
+}) => {
+	const sqlClient = getSqlClient();
+
+	beforeAll(async () => {
+		email = crypto.randomUUID() + '@example.com';
+		const user = await sqlClient.appealUser.create({
+			data: {
+				email
 			}
-		}
-	});
-	return appeal.AppealCase?.caseReference;
-};
-
-const formattedFinalComment1 = {
-	caseReference: testCase1,
-	representation: 'This is a test comment',
-	representationSubmittedDate: expect.any(String),
-	representationType: 'final_comment',
-	serviceUserId: expect.any(String),
-	documents: []
-};
-
-const formattedFinalComment2 = {
-	caseReference: testCase2,
-	representation: 'Another final comment text for appellant case 002',
-	representationSubmittedDate: expect.any(String),
-	representationType: 'final_comment',
-	serviceUserId: expect.any(String),
-	documents: [
-		{
-			dateCreated: expect.any(String),
-			documentId: testCase2,
-			documentType: 'appellantFinalComment',
-			documentURI: 'https://example.com',
-			filename: 'doc.pdf',
-			mime: 'doc',
-			originalFilename: 'mydoc.pdf',
-			size: 10293
-		}
-	]
-};
-
-describe('/api/v2/appeal-cases/:caseReference/appellant-final-comment-submissions/submit', () => {
-	const expectEmail = (email, appealReferenceNumber) => {
-		expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
-		expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
-			config.services.notify.templates.generic,
-			email,
-			{
-				personalisation: {
-					subject: `We have received your final comments: ${appealReferenceNumber}`,
-					content: expect.stringContaining('We have received your final comments.')
+		});
+		await sqlClient.serviceUser.createMany({
+			data: [
+				{
+					internalId: crypto.randomUUID(),
+					emailAddress: email,
+					id: crypto.randomUUID(),
+					serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+					caseReference: testCase1
 				},
-				reference: expect.any(String),
-				emailReplyToId: undefined
-			}
-		);
-		mockNotifyClient.sendEmail.mockClear();
-	};
-	it('Formats S78 appellant final comment submission without docs for case 001', async () => {
-		utils.getDocuments.mockReturnValue([]);
-		await createAppeal(testCase1);
-
-		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
-		setCurrentLpa(validLpa);
-		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
-		setCurrentSub(validUser);
-
-		const appellantFinalCommentData = {
-			appellantFinalComment: true,
-			appellantFinalCommentDetails: 'This is a test comment',
-			appellantFinalCommentDocuments: false
-		};
-
-		await appealsApi
-			.post(`/api/v2/appeal-cases/001/appellant-final-comment-submission`)
-			.send(appellantFinalCommentData);
-
-		await appealsApi
-			.post(`/api/v2/appeal-cases/001/appellant-final-comment-submission/submit`)
-			.expect(200);
-
-		expect(sendEvents).toHaveBeenCalledWith(
-			'appeal-fo-representation-submission',
-			[formattedFinalComment1],
-			'Create'
-		);
-
-		expectEmail(email, testCase1);
+				{
+					internalId: crypto.randomUUID(),
+					emailAddress: email,
+					id: crypto.randomUUID(),
+					serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+					caseReference: testCase2
+				}
+			]
+		});
+		validUser = user.id;
 	});
-	it('Formats S78 appellant final comment submission with docs for case 002', async () => {
-		utils.getDocuments.mockReturnValue([
+
+	/**
+	 * @returns {Promise<string|undefined>}
+	 */
+	const createAppeal = async (caseRef) => {
+		const appeal = await sqlClient.appeal.create({
+			include: {
+				AppealCase: true
+			},
+			data: {
+				Users: {
+					create: {
+						userId: validUser,
+						role: APPEAL_USER_ROLES.APPELLANT
+					}
+				},
+				AppealCase: {
+					create: createTestAppealCase(caseRef, 'S78', validLpa)
+				}
+			}
+		});
+		return appeal.AppealCase?.caseReference;
+	};
+
+	const formattedFinalComment1 = {
+		caseReference: testCase1,
+		representation: 'This is a test comment',
+		representationSubmittedDate: expect.any(String),
+		representationType: 'final_comment',
+		serviceUserId: expect.any(String),
+		documents: []
+	};
+
+	const formattedFinalComment2 = {
+		caseReference: testCase2,
+		representation: 'Another final comment text for appellant case 002',
+		representationSubmittedDate: expect.any(String),
+		representationType: 'final_comment',
+		serviceUserId: expect.any(String),
+		documents: [
 			{
-				documentId: testCase2,
-				filename: 'doc.pdf',
-				originalFilename: 'mydoc.pdf',
+				dateCreated: expect.any(String),
+				documentId: expect.any(String),
 				documentType: 'appellantFinalComment',
 				documentURI: 'https://example.com',
-				size: 10293,
-				dateCreated: new Date().toISOString(),
-				mime: 'doc'
+				filename: 'doc.pdf',
+				mime: 'doc',
+				originalFilename: 'mydoc.pdf',
+				size: 10293
 			}
-		]);
+		]
+	};
 
-		await createAppeal(testCase2);
-		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
-		setCurrentLpa(validLpa);
-		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
-		setCurrentSub(validUser);
-
-		const appellantFinalCommentData = {
-			appellantFinalComment: true,
-			appellantFinalCommentDetails: 'Another final comment text for appellant case 002',
-			appellantFinalCommentDocuments: true,
-			uploadAppellantFinalCommentDocuments: true
+	describe('/api/v2/appeal-cases/:caseReference/appellant-final-comment-submissions/submit', () => {
+		const expectEmail = (email, appealReferenceNumber) => {
+			expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
+			expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+				config.services.notify.templates.generic,
+				email,
+				{
+					personalisation: {
+						subject: `We have received your final comments: ${appealReferenceNumber}`,
+						content: expect.stringContaining('We have received your final comments.')
+					},
+					reference: expect.any(String),
+					emailReplyToId: undefined
+				}
+			);
+			mockNotifyClient.sendEmail.mockClear();
 		};
+		it('Formats S78 appellant final comment submission without docs for case 001', async () => {
+			await createAppeal(testCase1);
 
-		await appealsApi
-			.post('/api/v2/appeal-cases/002/appellant-final-comment-submission')
-			.send(appellantFinalCommentData);
+			setCurrentLpa(validLpa);
+			setCurrentSub(validUser);
 
-		await appealsApi
-			.post(`/api/v2/appeal-cases/002/appellant-final-comment-submission/submit`)
-			.expect(200);
+			const appellantFinalCommentData = {
+				appellantFinalComment: true,
+				appellantFinalCommentDetails: 'This is a test comment',
+				appellantFinalCommentDocuments: false
+			};
 
-		expect(sendEvents).toHaveBeenCalledWith(
-			'appeal-fo-representation-submission',
-			[formattedFinalComment2],
-			'Create'
-		);
+			await appealsApi
+				.post(`/api/v2/appeal-cases/001/appellant-final-comment-submission`)
+				.send(appellantFinalCommentData);
 
-		expectEmail(email, testCase2);
+			await appealsApi
+				.post(`/api/v2/appeal-cases/001/appellant-final-comment-submission/submit`)
+				.expect(200);
+
+			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
+				'appeal-fo-representation-submission',
+				[formattedFinalComment1],
+				'Create'
+			);
+
+			expectEmail(email, testCase1);
+		});
+		it('Formats S78 appellant final comment submission with docs for case 002', async () => {
+			mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
+				return async () => ({
+					lastModified: '2024-03-01T14:48:35.847Z',
+					createdOn: '2024-03-01T13:48:35.847Z',
+					metadata: {
+						mime_type: 'doc',
+						size: 10293,
+						document_type: 'uploadAppellantFinalCommentDocuments'
+					},
+					_response: { request: { url: 'https://example.com' } }
+				});
+			});
+
+			await createAppeal(testCase2);
+			setCurrentLpa(validLpa);
+			setCurrentSub(validUser);
+
+			const appellantFinalCommentData = {
+				appellantFinalComment: true,
+				appellantFinalCommentDetails: 'Another final comment text for appellant case 002',
+				appellantFinalCommentDocuments: true,
+				uploadAppellantFinalCommentDocuments: true
+			};
+
+			const result = await appealsApi
+				.post('/api/v2/appeal-cases/002/appellant-final-comment-submission')
+				.send(appellantFinalCommentData);
+
+			await sqlClient.submissionDocumentUpload.create({
+				data: {
+					id: crypto.randomUUID(),
+					fileName: 'doc.pdf',
+					originalFileName: 'mydoc.pdf',
+					type: 'any',
+					location: 'https://example.com',
+					name: 'doc.pdf',
+					appellantFinalCommentId: result.body.id,
+					storageId: crypto.randomUUID()
+				}
+			});
+
+			await appealsApi
+				.post(`/api/v2/appeal-cases/002/appellant-final-comment-submission/submit`)
+				.expect(200);
+
+			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
+				'appeal-fo-representation-submission',
+				[formattedFinalComment2],
+				'Create'
+			);
+
+			expectEmail(email, testCase2);
+		});
+		it('404s if the final comment submission cannot be found', async () => {
+			await appealsApi
+				.post('/api/v2/appeal-cases/nothere/appellant-final-comment-submissions/submit')
+				.expect(404);
+		});
 	});
-	it('404s if the final comment submission cannot be found', async () => {
-		await appealsApi
-			.post('/api/v2/appeal-cases/nothere/appellant-final-comment-submissions/submit')
-			.expect(404);
-	});
-});
+};
