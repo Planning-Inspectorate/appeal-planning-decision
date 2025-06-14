@@ -25,6 +25,7 @@ extends:
       - template: azure-pipelines-variables.yml@self
     # Checking against main 50 commits back, this might not catch everything
     gitFetchDepth: 50
+    skipAzureAuth: true
     validationJobs:
       - name: Check Changes
         steps:
