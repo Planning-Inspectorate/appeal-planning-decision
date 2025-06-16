@@ -63,6 +63,8 @@ extends:
             value: npm run test-cov
           ${{ else }}:
             value: npm run test
+        - name: collectCoverage
+          value: ${{ parameters.collectCoverage }}
         steps:
           - template: ../steps/node_script.yml
             parameters:
@@ -78,6 +80,17 @@ extends:
               condition: succeededOrFailed()
               script: $(test-script)
               nodeVersion: 22
+          - task: UseDotNet@2
+            condition: and(succeeded(), eq(variables['collectCoverage'], 'true'))
+            displayName: 'Install latest .net'
+            inputs:
+              packageType: 'sdk'
+              version: '8.x'
+          - task: PublishCodeCoverageResults@2
+            condition: and(succeeded(), eq(variables['collectCoverage'], 'true'))
+            inputs:
+              summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage/cobertura-coverage.xml'
+            displayName: 'Publish Code Coverage Results'
           - template: ../steps/check_changed_files.yml
             parameters:
               pathFilters:
@@ -100,6 +113,7 @@ extends:
                 - name: web
                   path: packages/forms-web-app
               stepName: check_files
+      
       - name: Build Appeals API
         condition: >-
           and(
@@ -131,6 +145,7 @@ extends:
               repository: appeal-planning-decision/appeals-service-api
               buildArgs:
                 - GIT_SHA=$(Build.SourceVersion)
+      
       - name: Build Auth Server
         condition: >-
           and(
@@ -162,6 +177,7 @@ extends:
               repository: appeal-planning-decision/auth-server
               buildArgs:
                 - GIT_SHA=$(Build.SourceVersion)
+      
       - name: Build Documents API
         condition: >-
           and(
@@ -193,6 +209,7 @@ extends:
               repository: appeal-planning-decision/documents-api
               buildArgs:
                 - GIT_SHA=$(Build.SourceVersion)
+      
       - name: Build Integration Functions
         condition: >-
           and(
@@ -236,6 +253,7 @@ extends:
           - publish: $(System.DefaultWorkingDirectory)/functions.zip
             artifact: integration-functions
             displayName: Publish Functions Artifact
+      
       - name: Build PDF Service
         condition: >-
           and(
@@ -264,6 +282,7 @@ extends:
               repository: appeal-planning-decision/pdf-service-api
               buildArgs:
                 - GIT_SHA=$(Build.SourceVersion)
+      
       - name: Build Web
         condition: >-
           and(
