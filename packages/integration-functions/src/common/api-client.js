@@ -15,8 +15,12 @@ const TEN_MINS_IN_SECONDS = 600;
  * @returns {Promise<string|undefined>}
  */
 const getClientCredentials = async () => {
-	if (clientCredentials && clientCredentials.expires_in) {
-		if (clientCredentials.expires_in > TEN_MINS_IN_SECONDS) {
+	const now = Math.floor(Date.now() / 1000);
+
+	if (clientCredentials && clientCredentials.expiry) {
+		const secondsUntilExpiry = clientCredentials.expiry - now;
+
+		if (secondsUntilExpiry > TEN_MINS_IN_SECONDS) {
 			return clientCredentials.access_token;
 		}
 	}
@@ -24,6 +28,7 @@ const getClientCredentials = async () => {
 	await getAuthClientConfig(config.oauth.baseUrl, config.oauth.clientID, config.oauth.clientSecret);
 
 	clientCredentials = await createClientCredentialsGrant();
+	clientCredentials.expiry = now + clientCredentials.expires_in;
 
 	return clientCredentials.access_token;
 };

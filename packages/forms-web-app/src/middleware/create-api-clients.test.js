@@ -25,15 +25,6 @@ describe('createApiClients middleware', () => {
 		req = {};
 		res = {};
 		next = jest.fn();
-		createClientCredentialsGrant.mockImplementation(async () => {
-			return {
-				access_token: 'clientCredentialsToken',
-				token_type: 'Bearer',
-				expires_in: 3600,
-				expires_at: Math.floor(Date.now() / 1000) + 3600,
-				scope: 'your_scope_here'
-			};
-		});
 	});
 
 	afterEach(() => {
@@ -41,6 +32,11 @@ describe('createApiClients middleware', () => {
 	});
 
 	it('should create API clients with access tokens from request session', async () => {
+		createClientCredentialsGrant.mockResolvedValue({
+			access_token: 'mockAccessToken',
+			expires_in: 599
+		});
+
 		require('../services/user.service').getUserFromSession.mockReturnValueOnce({
 			access_token: 'appellantAccessToken'
 		});
@@ -83,6 +79,11 @@ describe('createApiClients middleware', () => {
 	it('should create API clients with client credentials if no access token in request session', async () => {
 		require('../services/user.service').getUserFromSession.mockReturnValueOnce(null);
 
+		createClientCredentialsGrant.mockResolvedValue({
+			access_token: 'clientCredentialsToken',
+			expires_in: 599
+		});
+
 		await createApiClients(req, res, next);
 
 		expect(req.appealsApiClient).toBeDefined();
@@ -115,5 +116,29 @@ describe('createApiClients middleware', () => {
 		expect(createClientCredentialsGrant).toHaveBeenCalled();
 
 		expect(next).toHaveBeenCalled();
+	});
+
+	it('should handle caching of client creds token', async () => {
+		require('../services/user.service').getUserFromSession.mockReturnValueOnce(null);
+
+		createClientCredentialsGrant.mockResolvedValueOnce({
+			access_token: 'clientCredentialsToken',
+			expires_in: 599
+		});
+
+		await createApiClients(req, res, next);
+
+		expect(createClientCredentialsGrant).toHaveBeenCalledTimes(1);
+
+		createClientCredentialsGrant.mockResolvedValueOnce({
+			access_token: 'clientCredentialsToken',
+			expires_in: 601
+		});
+
+		await createApiClients(req, res, next);
+		expect(createClientCredentialsGrant).toHaveBeenCalledTimes(2);
+
+		await createApiClients(req, res, next);
+		expect(createClientCredentialsGrant).toHaveBeenCalledTimes(2);
 	});
 });
