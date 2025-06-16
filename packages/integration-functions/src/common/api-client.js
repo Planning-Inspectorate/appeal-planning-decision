@@ -18,9 +18,9 @@ const getClientCredentials = async () => {
 	const now = Math.floor(Date.now() / 1000);
 
 	if (clientCredentials && clientCredentials.expiry) {
-		const secondsUntiExpiry = clientCredentials.expiry - now;
+		const secondsUntilExpiry = clientCredentials.expiry - now;
 
-		if (secondsUntiExpiry > TEN_MINS_IN_SECONDS) {
+		if (secondsUntilExpiry > TEN_MINS_IN_SECONDS) {
 			return clientCredentials.access_token;
 		}
 	}
