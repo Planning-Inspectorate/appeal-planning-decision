@@ -105,7 +105,7 @@ const formatHearings = (events, role) => {
 			if (role === LPA_USER_ROLE || role === APPEAL_USER_ROLES.APPELLANT) {
 				if (hearing.status === 'withdrawn') {
 					return {
-						lineOne: `We have cancelled your hearing on ${formattedStartTime}. We will contact you when we rearrange your hearing.`,
+						lineOne: `We have cancelled ${role === APPEAL_USER_ROLES.APPELLANT ? 'your' : 'the'} hearing on ${formattedStartDate}. We will contact you when we rearrange your hearing.`,
 						lineTwo: null
 					};
 				}

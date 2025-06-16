@@ -331,5 +331,39 @@ describe('view-model-maps/events', () => {
 				}
 			]);
 		});
+
+		it('returns correct string array if valid cancel hearing event & LPA user', () => {
+			const events = [
+				{
+					...hearingEvent,
+					status: 'withdrawn'
+				}
+			];
+			const role = LPA_USER_ROLE;
+			expect(formatHearings(events, role)).toEqual([
+				{
+					lineOne:
+						'We have cancelled the hearing on 29 December 2025. We will contact you when we rearrange your hearing.',
+					lineTwo: null
+				}
+			]);
+		});
+
+		it('returns correct string array if valid cancel hearing event & Appellant user', () => {
+			const events = [
+				{
+					...hearingEvent,
+					status: 'withdrawn'
+				}
+			];
+			const role = APPEAL_USER_ROLES.APPELLANT;
+			expect(formatHearings(events, role)).toEqual([
+				{
+					lineOne:
+						'We have cancelled your hearing on 29 December 2025. We will contact you when we rearrange your hearing.',
+					lineTwo: null
+				}
+			]);
+		});
 	});
 });
