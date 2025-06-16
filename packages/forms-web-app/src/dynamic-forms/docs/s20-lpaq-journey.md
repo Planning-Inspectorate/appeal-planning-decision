@@ -17,7 +17,7 @@ condition: (response) => questionHasAnswer(response, questions.changesListedBuil
 condition: (response) => questionHasAnswer(response, questions.listedBuildingCheck, 'yes');
 ```
 
-- boolean `/preserve-grant-loan/` Was a grant or loan made to preserve the listed building?
+- boolean `/preserve-grant-loan/` Was a grant or loan made to preserve the listed building at the appeal site?
 - boolean `/consult-historic-england/` Did you consult Historic England?
 - multi-file-upload `/historic-england-consultation/` Upload your consultation with Historic England
 

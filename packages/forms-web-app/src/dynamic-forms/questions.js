@@ -1543,8 +1543,8 @@ exports.questionProps = {
 	},
 	grantOrLoan: {
 		type: 'boolean',
-		title: 'Was a grant or loan made to preserve the listed building?',
-		question: 'Was a grant or loan made to preserve the listed building?',
+		title: 'Was a grant or loan made to preserve the listed building at the appeal site?',
+		question: 'Was a grant or loan made to preserve the listed building at the appeal site?',
 		fieldName: 'section3aGrant',
 		url: 'preserve-grant-loan',
 		hint: 'We only need to know about grants and loans made under section 3A or 4 of the Historic Buildings and Ancient Monuments Act 1953.',
