@@ -103,6 +103,12 @@ const formatHearings = (events, role) => {
 				getFormattedTimeAndDate(hearing.startDate);
 			const address = formatEventAddress(hearing);
 			if (role === LPA_USER_ROLE || role === APPEAL_USER_ROLES.APPELLANT) {
+				if (hearing.status === 'withdrawn') {
+					return {
+						lineOne: `We have cancelled your hearing on ${formattedStartTime}. We will contact you when we rearrange your hearing.`,
+						lineTwo: null
+					};
+				}
 				return {
 					lineOne:
 						`${role === APPEAL_USER_ROLES.APPELLANT ? `Your` : `The`} hearing will start at ${formattedStartTime} on ${formattedStartDate}. ` +
