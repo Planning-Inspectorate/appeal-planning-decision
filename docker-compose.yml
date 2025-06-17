@@ -56,8 +56,10 @@ services:
       # - 9229:9229
     working_dir: /opt/app
     depends_on:
-      - mock-notify
-      - mssql
+      mock-notify:
+        condition: service_started
+      mssql:
+        condition: service_healthy
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
@@ -322,7 +324,7 @@ services:
 
   mssql:
     profiles: ['all', 'api', 'appeals', 'comment', 'database']
-    image: mcr.microsoft.com/azure-sql-edge:latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     platform: 'linux/amd64' # force platform, ARM machines to use emulation
     container_name: appeals-mssql
     cap_add: ['SYS_PTRACE']
@@ -336,7 +338,12 @@ services:
     hostname: mssql
     volumes:
       - ./dev/mssql.conf:/var/opt/mssql/mssql.conf
-      - ./tmp/mssql-data:/var/opt/mssql/data
+      - ./tmp/mssql-data-2022:/var/opt/mssql/
+    healthcheck:
+      test: ['CMD', 'bash', '-c', 'echo > /dev/tcp/localhost/1433']
+      interval: 5s
+      timeout: 10s
+      retries: 10
 
   c4:
     profiles: ['c4']
