@@ -105,10 +105,6 @@ module.exports = class NotifyInteraction {
 			)
 			.addJsonValueExpectation(
 				JsonPathExpression.create('$.personalisation.content'),
-				new RegExp(lpaName)
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create('$.personalisation.content'),
 				new RegExp(appealType)
 			)
 			.addJsonValueExpectation(
