@@ -242,22 +242,18 @@ describe('NotifyService', () => {
 			const result = notifyService.populateTemplate(template, personalisation);
 			expectMessage(
 				result,
-				`Dear ${personalisation.lpaName}
-				We’ve received a ${personalisation.appealType} appeal against ${personalisation.applicationDecision} planning application ${personalisation.lpaReference}.
+				`We have received a ${personalisation.appealType} appeal against ${personalisation.applicationDecision} planning application ${personalisation.lpaReference}.
 
-				# Appeal reference:
-				${personalisation.appealReferenceNumber}
+				# Appeal details 
+				^ Appeal reference number: ${personalisation.appealReferenceNumber}
+				Address: ${personalisation.appealSiteAddress}
+				Planning application reference: ${personalisation.lpaReference}
+				Submitted date: ${personalisation.submissionDate}				
 
-				# Appeal site:
-				${personalisation.appealSiteAddress}
-
-				# Appeal received on:
-				${personalisation.submissionDate}
-
-				## What happens next
+				# What happens next
 				The appellant will send you a copy of their appeal. If you do not receive this, contact the appellant to request it.
 
-				We’ll contact you again when we start the appeal.
+				We will contact you again when we start the appeal.
 
 				The Planning Inspectorate
 				${personalisation.contactEmail}`
@@ -369,9 +365,7 @@ describe('NotifyService', () => {
 			const result = notifyService.populateTemplate(template, personalisation);
 			expectMessage(
 				result,
-				`To ${personalisation.lpaName}
-
-				We’ve received your questionnaire for the planning application ${personalisation.lpaReference}.
+				`We have received your questionnaire for the planning application ${personalisation.lpaReference}.
 
 				# Appeal details
 
@@ -462,7 +456,7 @@ describe('NotifyService', () => {
 			const result = notifyService.populateTemplate(template, personalisation);
 			expectMessage(
 				result,
-				`We’ve received your final comments.
+				`We have received your final comments.
 
 				# Appeal details
 
@@ -470,7 +464,7 @@ describe('NotifyService', () => {
 				Appeal site: ${personalisation.appealSiteAddress}
 				Planning application reference: ${personalisation.lpaReference}
 
-				## What happens next
+				# What happens next
 				We will contact you when the appellant submits their final comments. The deadline for the appellant’s final comments is ${personalisation.deadlineDate}.
 
 				The Planning Inspectorate
@@ -597,14 +591,14 @@ describe('NotifyService', () => {
 				result,
 				`${personalisation.rule6RecipientLine}
 
-				We’ve received your proof of evidence and witnesses.
+				We have received your proof of evidence and witnesses.
 
 				# Appeal details
 				^ Appeal reference number: ${personalisation.appealReferenceNumber}
 				Address: ${personalisation.siteAddress}
 				Planning application reference: ${personalisation.lpaReference}
 
-				## What happens next
+				# What happens next
 				We will contact you when the appellant, local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
 					The Planning Inspectorate
 				${personalisation.contactEmail}`
