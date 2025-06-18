@@ -5,7 +5,7 @@ We have received your appeal.
 ^ Address: {{appealSiteAddress}}
 Planning application reference: {{lpaReference}}
 
-## What happens next
+# What happens next
 
 We will process your appeal and send a confirmation email. This will include your appeal reference number.
 

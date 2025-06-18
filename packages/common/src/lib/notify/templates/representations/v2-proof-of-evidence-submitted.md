@@ -6,7 +6,7 @@ We have received your proof of evidence and witnesses.
 Address: {{siteAddress}}
 Planning application reference: {{lpaReference}}
 
-## What happens next
+# What happens next
 
 We will contact you when the local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is {{deadlineDate}}.
 
