@@ -3,7 +3,7 @@ We have received your final comments.
 # Appeal details
 
 ^ Appeal reference number: {{appealReferenceNumber}}
-Appeal site: {{appealSiteAddress}}
+Address: {{appealSiteAddress}}
 Planning application reference: {{lpaReference}}
 
 # What happens next
