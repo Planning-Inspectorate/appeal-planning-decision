@@ -461,7 +461,7 @@ describe('NotifyService', () => {
 				# Appeal details
 
 				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Appeal site: ${personalisation.appealSiteAddress}
+				Address: ${personalisation.appealSiteAddress}
 				Planning application reference: ${personalisation.lpaReference}
 
 				# What happens next
