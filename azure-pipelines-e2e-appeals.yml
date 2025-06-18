@@ -9,6 +9,7 @@ parameters:
 variables:
   - name: APP
     value: 'appeals'
+  - group: e2e
   - group: e2e-${{ parameters.Environment }}
 
 # PR trigger disabled, until process has been agreed by team
