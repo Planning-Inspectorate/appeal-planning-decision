@@ -101,7 +101,7 @@ module.exports = ({
 				{
 					personalisation: {
 						subject: `We’ve received your final comments: ${appealReferenceNumber}`,
-						content: expect.stringContaining('We’ve received your final comments.')
+						content: expect.stringContaining('We have received your final comments.')
 					},
 					reference: expect.any(String),
 					emailReplyToId: undefined

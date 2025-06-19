@@ -6,7 +6,7 @@ We have processed your appeal.
 Address: {{appealSiteAddress}}
 Planning application reference: {{lpaReference}}
 
-## What happens next
+# What happens next
 
 1. Download a copy of your appeal form {{pdfLink}}.
 2. [Find the email address for your local planning authority.](https://www.gov.uk/government/publications/sending-a-copy-of-the-appeal-form-to-the-council/sending-a-copy-to-the-council)

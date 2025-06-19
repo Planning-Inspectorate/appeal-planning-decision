@@ -1,6 +1,4 @@
-To {{lpaName}}
-
-We’ve received your questionnaire for the planning application {{lpaReference}}.
+We have received your questionnaire for the planning application {{lpaReference}}.
 
 # Appeal details
 
@@ -9,7 +7,7 @@ Address: {{siteAddress}}
 Planning application reference: {{lpaReference}}
 Start date: {{appealStartDate}}
 
-## What happens next
+# What happens next
 
 1. Download a copy of your questionnaire at {{questionnaireLink}}
 2. Email a copy of the questionnaire and any documents to the appellant: {{appellantEmailAddress}}
