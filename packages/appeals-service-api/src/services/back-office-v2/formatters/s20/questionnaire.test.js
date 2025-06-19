@@ -1,0 +1,329 @@
+const { formatter } = require(`./questionnaire`);
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const S20 = CASE_TYPES.S20.key;
+const { APPEAL_LPA_PROCEDURE_PREFERENCE } = require('pins-data-model');
+
+jest.mock('../../../../services/object-store');
+
+// Mock getDocuments
+jest.mock('../utils', () => {
+	const originalModule = jest.requireActual('../utils');
+	return {
+		...originalModule,
+		getDocuments: jest.fn(() => [1])
+	};
+});
+
+describe('formatter', () => {
+	const caseReference = '12345';
+	const answers = {
+		correctAppealType: true,
+		SubmissionListedBuilding: [{ reference: 'LB123', fieldName: 'affectedListedBuildingNumber' }],
+		conservationArea: true,
+		greenBelt: false,
+		notificationMethod: 'site-notice,letters-or-emails,advert',
+		lpaSiteAccess_lpaSiteAccessDetails: 'Access details',
+		lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails: 'Safety details',
+		SubmissionAddress: [
+			{
+				fieldName: 'neighbourSiteAddress',
+				addressLine1: 'Line 1',
+				addressLine2: 'Line 2',
+				townCity: 'Town',
+				county: 'County',
+				postcode: 'Postcode'
+			}
+		],
+		neighbourSiteAccess_neighbourSiteAccessDetails: 'check the impact',
+		SubmissionLinkedCase: [{ caseReference: 'CASE123' }],
+		newConditions_newConditionDetails: 'New condition details',
+		lpaProcedurePreference: 'written'
+	};
+	const s20Answers = {
+		...answers,
+		// Constraints, designations and other issues
+		SubmissionListedBuilding: [
+			...answers.SubmissionListedBuilding,
+			{ reference: 'LB456', fieldName: 'changedListedBuildingNumber' }
+		],
+		affectsScheduledMonument: true,
+		protectedSpecies: true,
+		areaOutstandingBeauty: true,
+		designatedSites: 'a,b',
+		designatedSites_otherDesignations: 'other',
+		treePreservationOrder: true,
+		gypsyTraveller: true,
+		publicRightOfWay: true,
+		section3aGrant: true,
+		consultHistoricEngland: true,
+
+		environmentalImpactSchedule: 'hello',
+		developmentDescription: 'eiaDevelopmentDescription',
+		sensitiveArea_sensitiveAreaDetails: 'sensitiveArea_sensitiveAreaDetails',
+		columnTwoThreshold: true,
+		screeningOpinion: true,
+		environmentalStatement: true,
+		applicantSubmittedEnvironmentalStatement: 'yes',
+		statutoryConsultees: 'yes',
+		statutoryConsultees_consultedBodiesDetails: 'statutoryConsultees_consultedBodiesDetails',
+		consultationResponses: true,
+		emergingPlan: true,
+		supplementaryPlanningDocs: true,
+
+		infrastructureLevy: true,
+		infrastructureLevyAdopted: true,
+		infrastructureLevyAdoptedDate: new Date(),
+		infrastructureLevyExpectedDate: new Date(),
+
+		// Appeal process
+		lpaProcedurePreference: APPEAL_LPA_PROCEDURE_PREFERENCE.INQUIRY,
+		lpaPreferInquiryDetails: 'lpaPreferInquiryDetails',
+		lpaProcedurePreference_lpaPreferInquiryDuration: '12'
+	};
+
+	const formattedAnswers = {
+		casedata: {
+			caseType: S20,
+			caseReference: '12345',
+			lpaQuestionnaireSubmittedDate: expect.any(String),
+			isCorrectAppealType: true,
+			affectedListedBuildingNumbers: ['LB123'],
+			inConservationArea: true,
+			isGreenBelt: false,
+			notificationMethod: ['notice', 'letter', 'advert'],
+			siteAccessDetails: ['Access details'],
+			siteSafetyDetails: ['Safety details'],
+			neighbouringSiteAddresses: [
+				{
+					neighbouringSiteAddressLine1: 'Line 1',
+					neighbouringSiteAddressLine2: 'Line 2',
+					neighbouringSiteAddressTown: 'Town',
+					neighbouringSiteAddressCounty: 'County',
+					neighbouringSiteAddressPostcode: 'Postcode',
+					neighbouringSiteAccessDetails: null,
+					neighbouringSiteSafetyDetails: null
+				}
+			],
+			reasonForNeighbourVisits: 'check the impact',
+			nearbyCaseReferences: ['CASE123'],
+			newConditionDetails: 'New condition details',
+			lpaStatement: '',
+
+			// s78
+			affectsScheduledMonument: undefined,
+			lpaCostsAppliedFor: null,
+			changedListedBuildingNumbers: [],
+			designatedSitesNames: [],
+			eiaColumnTwoThreshold: undefined,
+			eiaCompletedEnvironmentalStatement: false,
+			consultedBodiesDetails: null,
+			eiaDevelopmentDescription: null,
+			eiaEnvironmentalImpactSchedule: null,
+			eiaRequiresEnvironmentalStatement: undefined,
+			eiaScreeningOpinion: undefined,
+			eiaSensitiveAreaDetails: null,
+			hasConsultationResponses: undefined,
+			hasEmergingPlan: undefined,
+			hasInfrastructureLevy: false,
+			hasProtectedSpecies: undefined,
+			hasStatutoryConsultees: false,
+			hasSupplementaryPlanningDocs: undefined,
+			hasTreePreservationOrder: undefined,
+			infrastructureLevyAdoptedDate: null,
+			infrastructureLevyExpectedDate: null,
+			isAonbNationalLandscape: undefined,
+			isGypsyOrTravellerSite: undefined,
+			isInfrastructureLevyFormallyAdopted: null,
+			isPublicRightOfWay: undefined,
+			lpaProcedurePreference: 'written',
+			lpaProcedurePreferenceDetails: null,
+			lpaProcedurePreferenceDuration: null
+		},
+		documents: [1]
+	};
+
+	beforeEach(() => {
+		jest.clearAllMocks();
+	});
+
+	it('should format the HAS data correctly', async () => {
+		const result = await formatter(caseReference, answers);
+
+		expect(result).toEqual(formattedAnswers);
+	});
+
+	it('should format the S20 data correctly', async () => {
+		const result = await formatter(caseReference, s20Answers);
+
+		expect(result).toEqual({
+			casedata: {
+				...formattedAnswers.casedata,
+
+				// s78
+				changedListedBuildingNumbers: ['LB456'],
+				affectsScheduledMonument: s20Answers.affectsScheduledMonument,
+				hasProtectedSpecies: s20Answers.protectedSpecies,
+				isAonbNationalLandscape: s20Answers.areaOutstandingBeauty,
+				designatedSitesNames: ['a', 'b', 'other'],
+				hasTreePreservationOrder: s20Answers.treePreservationOrder,
+				isGypsyOrTravellerSite: s20Answers.gypsyTraveller,
+				isPublicRightOfWay: s20Answers.publicRightOfWay,
+				preserveGrantLoan: s20Answers.section3aGrant,
+				historicEnglandConsultation: s20Answers.consultHistoricEngland,
+
+				// Environmental impact assessment
+				eiaEnvironmentalImpactSchedule: s20Answers.environmentalImpactSchedule,
+				eiaDevelopmentDescription: s20Answers.developmentDescription,
+				eiaSensitiveAreaDetails: s20Answers.sensitiveArea_sensitiveAreaDetails,
+				eiaColumnTwoThreshold: s20Answers.columnTwoThreshold,
+				eiaScreeningOpinion: s20Answers.screeningOpinion,
+				eiaRequiresEnvironmentalStatement: s20Answers.environmentalStatement,
+				eiaCompletedEnvironmentalStatement: true,
+
+				// Consultation responses and representations
+				hasStatutoryConsultees: true,
+				consultedBodiesDetails: s20Answers.statutoryConsultees_consultedBodiesDetails,
+				hasConsultationResponses: s20Answers.consultationResponses,
+
+				// Planning officer’s report and supporting documents
+				hasEmergingPlan: s20Answers.emergingPlan,
+				hasSupplementaryPlanningDocs: s20Answers.supplementaryPlanningDocs,
+
+				// levy
+				hasInfrastructureLevy: s20Answers.infrastructureLevy,
+				isInfrastructureLevyFormallyAdopted: s20Answers.infrastructureLevyAdopted,
+				infrastructureLevyAdoptedDate: s20Answers.infrastructureLevyAdoptedDate.toISOString(),
+				infrastructureLevyExpectedDate: null,
+
+				// preference
+				lpaProcedurePreference: s20Answers.lpaProcedurePreference,
+				lpaProcedurePreferenceDetails: s20Answers.lpaPreferInquiryDetails,
+				lpaProcedurePreferenceDuration: Number(
+					s20Answers.lpaProcedurePreference_lpaPreferInquiryDuration
+				)
+			},
+			documents: [1]
+		});
+	});
+
+	it('should format hearing preference correctly', async () => {
+		const result = await formatter(caseReference, {
+			...s20Answers,
+			lpaProcedurePreference: 'hearing',
+			lpaPreferHearingDetails: 'hearing details'
+		});
+
+		expect(result.casedata.lpaProcedurePreference).toEqual('hearing');
+		expect(result.casedata.lpaProcedurePreferenceDetails).toEqual('hearing details');
+		expect(result.casedata.lpaProcedurePreferenceDuration).toEqual(null);
+	});
+
+	it('should format written preference correctly', async () => {
+		const result = await formatter(caseReference, {
+			...s20Answers,
+			lpaProcedurePreference: 'written',
+			lpaPreferHearingDetails: 'hearing details'
+		});
+
+		expect(result.casedata.lpaProcedurePreference).toEqual('written');
+		expect(result.casedata.lpaProcedurePreferenceDetails).toEqual(null);
+		expect(result.casedata.lpaProcedurePreferenceDuration).toEqual(null);
+	});
+
+	it('should format no levy correctly', async () => {
+		const result = await formatter(caseReference, {
+			...s20Answers,
+			infrastructureLevy: false
+		});
+
+		expect(result.casedata.hasInfrastructureLevy).toEqual(false);
+		expect(result.casedata.isInfrastructureLevyFormallyAdopted).toEqual(null);
+		expect(result.casedata.infrastructureLevyAdoptedDate).toEqual(null);
+		expect(result.casedata.infrastructureLevyExpectedDate).toEqual(null);
+	});
+
+	it('should format levy expected correctly', async () => {
+		const result = await formatter(caseReference, {
+			...s20Answers,
+			infrastructureLevyAdopted: false
+		});
+
+		expect(result.casedata.hasInfrastructureLevy).toEqual(true);
+		expect(result.casedata.isInfrastructureLevyFormallyAdopted).toEqual(false);
+		expect(result.casedata.infrastructureLevyAdoptedDate).toEqual(null);
+		expect(result.casedata.infrastructureLevyExpectedDate).toEqual(
+			s20Answers.infrastructureLevyExpectedDate.toISOString()
+		);
+	});
+
+	it('should handle missing optional fields', async () => {
+		const minimalAnswers = {
+			correctAppealType: true,
+			lpaProcedurePreference: 'written'
+		};
+		const result = await formatter(caseReference, minimalAnswers);
+
+		expect(result).toEqual({
+			casedata: {
+				caseType: S20,
+				caseReference: '12345',
+				lpaQuestionnaireSubmittedDate: expect.any(String),
+				isCorrectAppealType: true,
+				affectedListedBuildingNumbers: [],
+				inConservationArea: undefined,
+				isGreenBelt: undefined,
+				notificationMethod: null,
+				siteAccessDetails: null,
+				siteSafetyDetails: null,
+				neighbouringSiteAddresses: undefined,
+				reasonForNeighbourVisits: null,
+				nearbyCaseReferences: undefined,
+				newConditionDetails: null,
+				lpaStatement: '',
+				lpaCostsAppliedFor: null,
+
+				// s20
+				changedListedBuildingNumbers: [],
+				affectsScheduledMonument: undefined,
+				hasProtectedSpecies: undefined,
+				isAonbNationalLandscape: undefined,
+				designatedSitesNames: [],
+				hasTreePreservationOrder: undefined,
+				isGypsyOrTravellerSite: undefined,
+				isPublicRightOfWay: undefined,
+				preserveGrantLoan: undefined,
+				historicEnglandConsultation: undefined,
+
+				// Environmental impact assessment
+				eiaEnvironmentalImpactSchedule: null,
+				eiaDevelopmentDescription: null,
+				eiaSensitiveAreaDetails: null,
+				eiaColumnTwoThreshold: undefined,
+				eiaScreeningOpinion: undefined,
+				eiaRequiresEnvironmentalStatement: undefined,
+				eiaCompletedEnvironmentalStatement: false,
+
+				// Consultation responses and representations
+				hasStatutoryConsultees: false,
+				consultedBodiesDetails: null,
+				hasConsultationResponses: undefined,
+
+				// Planning officer’s report and supporting documents
+				hasEmergingPlan: undefined,
+				hasSupplementaryPlanningDocs: undefined,
+
+				// levy
+				hasInfrastructureLevy: false,
+				isInfrastructureLevyFormallyAdopted: null,
+				infrastructureLevyAdoptedDate: null,
+				infrastructureLevyExpectedDate: null,
+
+				// preference
+				lpaProcedurePreference: 'written',
+				lpaProcedurePreferenceDetails: null,
+				lpaProcedurePreferenceDuration: null
+			},
+			documents: [1]
+		});
+	});
+});
