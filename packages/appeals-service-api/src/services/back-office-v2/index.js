@@ -68,9 +68,9 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
  * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
  * @typedef {import ('pins-data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
  * @typedef {import ('pins-data-model').Schemas.AppealRepresentationSubmission} AppealRepresentationSubmission
- * @typedef {import('./formatters/s78/representation').TypedRepresentationSubmission} TypedRepresentationSubmission
- * @typedef {import('./formatters/s78/representation').RepresentationTypes} RepresentationTypes
- * @typedef {import('./formatters/s78/representation').RepresentationFormatterParams} RepresentationFormatterParams
+ * @typedef {import('./formatters/s78s20/representation').TypedRepresentationSubmission} TypedRepresentationSubmission
+ * @typedef {import('./formatters/s78s20/representation').RepresentationTypes} RepresentationTypes
+ * @typedef {import('./formatters/s78s20/representation').RepresentationFormatterParams} RepresentationFormatterParams
  */
 
 /**
@@ -107,11 +107,8 @@ class BackOfficeV2Service {
 		logger.info(`validating appeal ${appellantSubmission.appealId} schema`);
 		/** @type {Validate<AppellantSubmissionCommand>} */
 		const validator = getValidator('appellant-submission');
-		// TODO: remove s20 check when data model/ schema confirmed
-		if (
-			appellantSubmission.appealTypeCode !== CASE_TYPES.S20.processCode &&
-			!validator(mappedData)
-		) {
+
+		if (!validator(mappedData)) {
 			throw new Error(
 				`Payload was invalid when checked against appellant submission command schema`
 			);
@@ -442,7 +439,10 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (appealTypeCode === CASE_TYPES.S78.processCode) {
+		if (
+			appealTypeCode === CASE_TYPES.S78.processCode ||
+			appealTypeCode === CASE_TYPES.S20.processCode
+		) {
 			logger.info(`mapping appellant final comment ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
@@ -456,12 +456,12 @@ class BackOfficeV2Service {
 			logger.info(`validating representation ${caseReference} schema`);
 
 			/** @type {Validate<AppealRepresentationSubmission>} */
-			const validator = getValidator('appeal-representation-submission');
-			if (!validator(mappedData)) {
-				throw new Error(
-					`Payload was invalid when checked against appeal representation submission schema`
-				);
-			}
+			// const validator = getValidator('appeal-representation-submission');
+			// if (!validator(mappedData)) {
+			// 	throw new Error(
+			// 		`Payload was invalid when checked against appeal representation submission schema`
+			// 	);
+			// }
 
 			logger.info(
 				`forwarding appellant final comment representation ${caseReference} to service bus`
@@ -493,8 +493,9 @@ class BackOfficeV2Service {
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitAppellantProofEvidenceSubmission(caseReference, userId, formatter) {
-		const appellantProofEvidenceSubmission =
-			await getAppellantProofOfEvidenceByAppealId(caseReference);
+		const appellantProofEvidenceSubmission = await getAppellantProofOfEvidenceByAppealId(
+			caseReference
+		);
 
 		if (!appellantProofEvidenceSubmission) {
 			throw new Error('No appellant proofs of evidence found');

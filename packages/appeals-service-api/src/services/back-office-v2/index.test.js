@@ -109,10 +109,11 @@ describe('BackOfficeV2Service', () => {
 	});
 
 	describe('submitAppellantSubmission', () => {
-		const mockAppealSubmission = {
-			id: 'a1',
-			appealTypeCode: 'HAS'
-		};
+		const mockAppealSubmissions = [
+			{ id: 'a1', appealTypeCode: 'HAS' },
+			{ id: 'a2', appealTypeCode: 'S78' },
+			{ id: 'a3', appealTypeCode: 'S20' }
+		];
 
 		const mockFormattedAppeal = {};
 
@@ -126,23 +127,23 @@ describe('BackOfficeV2Service', () => {
 		forwarders.appeal = jest.fn();
 		forwarders.appeal.mockResolvedValue(mockResult);
 
-		it('should submit Appeal', async () => {
+		it.each(mockAppealSubmissions)('should submit Appeal', async (submission) => {
 			const lpa = { test: 1 };
 			const result = await backOfficeV2Service.submitAppellantSubmission({
-				appellantSubmission: mockAppealSubmission,
+				appellantSubmission: submission,
 				email: mockUser.email,
 				lpa,
 				formatter: mockAppealFormatter
 			});
 
-			expect(mockAppealFormatter).toHaveBeenCalledWith(mockAppealSubmission, lpa);
+			expect(mockAppealFormatter).toHaveBeenCalledWith(submission, lpa);
 			expect(mockGetValidator).toHaveBeenCalled();
 			expect(mockValidator).toHaveBeenCalledWith(mockFormattedAppeal);
 			expect(forwarders.appeal).toHaveBeenCalledWith([mockFormattedAppeal]);
-			expect(markAppealAsSubmitted).toHaveBeenCalledWith(mockAppealSubmission.id);
-			expect(sendSubmissionReceivedEmailToLpaV2).toHaveBeenCalledWith(mockAppealSubmission);
+			expect(markAppealAsSubmitted).toHaveBeenCalledWith(submission.id);
+			expect(sendSubmissionReceivedEmailToLpaV2).toHaveBeenCalledWith(submission);
 			expect(sendSubmissionReceivedEmailToAppellantV2).toHaveBeenCalledWith(
-				mockAppealSubmission,
+				submission,
 				mockUser.email
 			);
 			expect(result).toEqual(mockResult);
@@ -164,12 +165,12 @@ describe('BackOfficeV2Service', () => {
 			);
 		});
 
-		it('should error if validation fails', async () => {
+		it.each(mockAppealSubmissions)('should error if validation fails', async (submission) => {
 			mockValidator.mockReturnValue(false);
 
 			await expect(
 				backOfficeV2Service.submitAppellantSubmission({
-					appellantSubmission: mockAppealSubmission,
+					appellantSubmission: submission,
 					userId: testUserID,
 					formatter: mockAppealFormatter
 				})
@@ -182,12 +183,26 @@ describe('BackOfficeV2Service', () => {
 	});
 
 	describe('submitQuestionnaire', () => {
-		const mockLPAQ = {
-			AppealCase: {
-				LPACode: 'Q9999',
-				appealTypeCode: 'HAS'
+		const mockLPAQs = [
+			{
+				AppealCase: {
+					LPACode: 'Q9999',
+					appealTypeCode: 'HAS'
+				}
+			},
+			{
+				AppealCase: {
+					LPACode: 'Q9999',
+					appealTypeCode: 'S78'
+				}
+			},
+			{
+				AppealCase: {
+					LPACode: 'Q9999',
+					appealTypeCode: 'S20'
+				}
 			}
-		};
+		];
 
 		const mockFormattedLpaq = {
 			test: 1,
@@ -214,16 +229,16 @@ describe('BackOfficeV2Service', () => {
 		forwarders.questionnaire = jest.fn();
 		forwarders.questionnaire.mockResolvedValue(mockResult);
 
-		it('should submit LPAQ', async () => {
+		it.each(mockLPAQs)('should submit LPAQ', async (lpaq) => {
 			getCaseAndAppellant.mockResolvedValue(mockCaseAndAppellant);
 
 			const result = await backOfficeV2Service.submitQuestionnaire(
 				testCaseRef,
-				mockLPAQ,
+				lpaq,
 				mockFormatter
 			);
 
-			expect(mockFormatter).toHaveBeenCalledWith(testCaseRef, mockLPAQ);
+			expect(mockFormatter).toHaveBeenCalledWith(testCaseRef, lpaq);
 			expect(mockGetValidator).toHaveBeenCalled();
 			expect(mockValidator).toHaveBeenCalledWith(mockFormattedLpaq);
 			expect(forwarders.questionnaire).toHaveBeenCalledWith([mockFormattedLpaq]);
@@ -239,7 +254,7 @@ describe('BackOfficeV2Service', () => {
 			expect(result).toEqual(mockResult);
 		});
 
-		it('should use appellant email if no agent', async () => {
+		it.each(mockLPAQs)('should use appellant email if no agent', async (lpaq) => {
 			const mockCaseAndAppellant2 = {
 				users: [
 					{
@@ -251,7 +266,7 @@ describe('BackOfficeV2Service', () => {
 
 			getCaseAndAppellant.mockResolvedValue(mockCaseAndAppellant2);
 
-			await backOfficeV2Service.submitQuestionnaire(testCaseRef, mockLPAQ, mockFormatter);
+			await backOfficeV2Service.submitQuestionnaire(testCaseRef, lpaq, mockFormatter);
 
 			expect(sendLPAHASQuestionnaireSubmittedEmailV2).toHaveBeenCalledWith(
 				mockCaseAndAppellant2,
@@ -271,11 +286,11 @@ describe('BackOfficeV2Service', () => {
 			).rejects.toThrow("Questionnaire's associated AppealCase has an invalid appealTypeCode");
 		});
 
-		it('should error if validation fails', async () => {
+		it.each(mockLPAQs)('should error if validation fails', async (lpaq) => {
 			mockValidator.mockReturnValue(false);
 
 			await expect(
-				backOfficeV2Service.submitQuestionnaire(testCaseRef, mockLPAQ, mockFormatter)
+				backOfficeV2Service.submitQuestionnaire(testCaseRef, lpaq, mockFormatter)
 			).rejects.toThrow(
 				'Payload was invalid when checked against lpa questionnaire command schema'
 			);
@@ -334,12 +349,20 @@ describe('BackOfficeV2Service', () => {
 	});
 
 	describe('submitLPAStatementSubmission', () => {
-		const mockAppealStatement = {
-			AppealCase: {
-				id: 'a1',
-				appealTypeCode: 'S78'
+		const mockAppealStatements = [
+			{
+				AppealCase: {
+					id: 'a1',
+					appealTypeCode: 'S78'
+				}
+			},
+			{
+				AppealCase: {
+					id: 'a2',
+					appealTypeCode: 'S20'
+				}
 			}
-		};
+		];
 
 		const mockFormattedAppealFinalComment = {};
 
@@ -352,8 +375,8 @@ describe('BackOfficeV2Service', () => {
 		// forwarder
 		forwarders.representation = jest.fn();
 		forwarders.representation.mockResolvedValue(mockResult);
-		it('should submit lpa statement', async () => {
-			getLPAStatementByAppealId.mockResolvedValue(mockAppealStatement);
+		it.each(mockAppealStatements)('should submit lpa statement', async (statement) => {
+			getLPAStatementByAppealId.mockResolvedValue(statement);
 
 			await backOfficeV2Service.submitLPAStatementSubmission(
 				testCaseRef,
@@ -362,19 +385,25 @@ describe('BackOfficeV2Service', () => {
 
 			expect(getLPAStatementByAppealId).toHaveBeenCalledWith(testCaseRef);
 			expect(markStatementAsSubmitted).toHaveBeenCalledWith(testCaseRef, expect.any(String));
-			expect(sendLpaStatementSubmissionReceivedEmailToLpaV2).toHaveBeenCalledWith(
-				mockAppealStatement
-			);
+			expect(sendLpaStatementSubmissionReceivedEmailToLpaV2).toHaveBeenCalledWith(statement);
 		});
 	});
 
 	describe('submitLPAFinalCommentSubmission', () => {
-		const mockAppealFinalComment = {
-			AppealCase: {
-				id: 'a1',
-				appealTypeCode: 'S78'
+		const mockAppealFinalComments = [
+			{
+				AppealCase: {
+					id: 'a1',
+					appealTypeCode: 'S78'
+				}
+			},
+			{
+				AppealCase: {
+					id: 'a2',
+					appealTypeCode: 'S20'
+				}
 			}
-		};
+		];
 
 		const mockFormattedAppealFinalComment = {};
 
@@ -387,8 +416,8 @@ describe('BackOfficeV2Service', () => {
 		// forwarder
 		forwarders.representation = jest.fn();
 		forwarders.representation.mockResolvedValue(mockResult);
-		it('should submit lpa final comment', async () => {
-			getLPAFinalCommentByAppealId.mockResolvedValue(mockAppealFinalComment);
+		it.each(mockAppealFinalComments)('should submit lpa final comment', async (finalComment) => {
+			getLPAFinalCommentByAppealId.mockResolvedValue(finalComment);
 
 			await backOfficeV2Service.submitLPAFinalCommentSubmission(
 				testCaseRef,
@@ -397,19 +426,25 @@ describe('BackOfficeV2Service', () => {
 
 			expect(getLPAFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
 			expect(markLPAFinalCommentAsSubmitted).toHaveBeenCalledWith(testCaseRef, expect.any(String));
-			expect(sendLPAFinalCommentSubmissionEmailToLPAV2).toHaveBeenCalledWith(
-				mockAppealFinalComment
-			);
+			expect(sendLPAFinalCommentSubmissionEmailToLPAV2).toHaveBeenCalledWith(finalComment);
 		});
 	});
 
 	describe('submitLpaProofEvidenceSubmission', () => {
-		const mockAppealProofEvidence = {
-			AppealCase: {
-				id: 'a1',
-				appealTypeCode: 'S78'
+		const mockAppealProofEvidences = [
+			{
+				AppealCase: {
+					id: 'a1',
+					appealTypeCode: 'S78'
+				}
+			},
+			{
+				AppealCase: {
+					id: 'a2',
+					appealTypeCode: 'S20'
+				}
 			}
-		};
+		];
 
 		const mockFormattedAppealFinalComment = {};
 
@@ -422,8 +457,8 @@ describe('BackOfficeV2Service', () => {
 		// forwarder
 		forwarders.representation = jest.fn();
 		forwarders.representation.mockResolvedValue(mockResult);
-		it('should submit lpa proof', async () => {
-			getLpaProofOfEvidenceByAppealId.mockResolvedValue(mockAppealProofEvidence);
+		it.each(mockAppealProofEvidences)('should submit lpa proof', async (proofEvidence) => {
+			getLpaProofOfEvidenceByAppealId.mockResolvedValue(proofEvidence);
 
 			await backOfficeV2Service.submitLpaProofEvidenceSubmission(
 				testCaseRef,
@@ -435,20 +470,25 @@ describe('BackOfficeV2Service', () => {
 				testCaseRef,
 				expect.any(String)
 			);
-			expect(sendLPAProofEvidenceSubmissionEmailToLPAV2).toHaveBeenCalledWith(
-				mockAppealProofEvidence
-			);
+			expect(sendLPAProofEvidenceSubmissionEmailToLPAV2).toHaveBeenCalledWith(proofEvidence);
 		});
 	});
 
 	describe('submitAppellantFinalCommentSubmission', () => {
-		const mockAppealFinalComment = {
-			AppealCase: {
-				id: 'a1',
-				appealTypeCode: 'S78'
+		const mockAppealFinalComments = [
+			{
+				AppealCase: {
+					id: 'a1',
+					appealTypeCode: 'S78'
+				}
+			},
+			{
+				AppealCase: {
+					id: 'a2',
+					appealTypeCode: 'S20'
+				}
 			}
-		};
-
+		];
 		const mockFormattedAppealFinalComment = {};
 
 		const mockResult = { test: 1 };
@@ -461,49 +501,64 @@ describe('BackOfficeV2Service', () => {
 		forwarders.representation = jest.fn();
 		forwarders.representation.mockResolvedValue(mockResult);
 
-		it('should submit appellant final comment', async () => {
-			getAppellantFinalCommentByAppealId.mockResolvedValue(mockAppealFinalComment);
+		it.each(mockAppealFinalComments)(
+			'should submit appellant final comment',
+			async (finalComment) => {
+				getAppellantFinalCommentByAppealId.mockResolvedValue(finalComment);
 
-			await backOfficeV2Service.submitAppellantFinalCommentSubmission(
-				testCaseRef,
-				testUserID,
-				mockAppealFinalCommentFormatter
-			);
-
-			expect(getAppellantFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
-			expect(getUserById).toHaveBeenCalledWith(testUserID);
-			expect(markAppellantFinalCommentAsSubmitted).toHaveBeenCalledWith(
-				testCaseRef,
-				expect.any(String)
-			);
-			expect(sendAppellantFinalCommentSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
-				mockAppealFinalComment,
-				mockUser.email
-			);
-		});
-
-		it('should error if no service user details', async () => {
-			getAppellantFinalCommentByAppealId.mockResolvedValue(mockAppealFinalComment);
-			getForEmailCaseAndType.mockResolvedValue(null);
-
-			await expect(
-				backOfficeV2Service.submitAppellantFinalCommentSubmission({
+				await backOfficeV2Service.submitAppellantFinalCommentSubmission(
 					testCaseRef,
 					testUserID,
 					mockAppealFinalCommentFormatter
-				})
-			).rejects.toThrow(`cannot find appellant service user`);
-		});
+				);
+
+				expect(getAppellantFinalCommentByAppealId).toHaveBeenCalledWith(testCaseRef);
+				expect(getUserById).toHaveBeenCalledWith(testUserID);
+				expect(markAppellantFinalCommentAsSubmitted).toHaveBeenCalledWith(
+					testCaseRef,
+					expect.any(String)
+				);
+				expect(sendAppellantFinalCommentSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
+					finalComment,
+					mockUser.email
+				);
+			}
+		);
+
+		it.each(mockAppealFinalComments)(
+			'should error if no service user details',
+			async (finalComment) => {
+				getAppellantFinalCommentByAppealId.mockResolvedValue(finalComment);
+				getForEmailCaseAndType.mockResolvedValue(null);
+
+				await expect(
+					backOfficeV2Service.submitAppellantFinalCommentSubmission({
+						testCaseRef,
+						testUserID,
+						mockAppealFinalCommentFormatter
+					})
+				).rejects.toThrow(`cannot find appellant service user`);
+			}
+		);
 	});
 
 	describe('submitAppellantProofEvidenceSubmission', () => {
-		const mockAppellantProofs = {
-			AppealCase: {
-				id: 'a1',
-				appealTypeCode: 'S78',
-				LPACode: 'Q1111'
+		const mockAppellantProofs = [
+			{
+				AppealCase: {
+					id: 'a1',
+					appealTypeCode: 'S78',
+					LPACode: 'Q1111'
+				}
+			},
+			{
+				AppealCase: {
+					id: 'a1',
+					appealTypeCode: 'S20',
+					LPACode: 'Q1111'
+				}
 			}
-		};
+		];
 
 		const mockFormattedAppellantProofs = {};
 
@@ -517,8 +572,8 @@ describe('BackOfficeV2Service', () => {
 		forwarders.representation = jest.fn();
 		forwarders.representation.mockResolvedValue(mockResult);
 
-		it('should submit appellant proof', async () => {
-			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockAppellantProofs);
+		it.each(mockAppellantProofs)('should submit appellant proof', async (proof) => {
+			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(proof);
 
 			await backOfficeV2Service.submitAppellantProofEvidenceSubmission(
 				testCaseRef,
@@ -533,13 +588,13 @@ describe('BackOfficeV2Service', () => {
 				expect.any(String)
 			);
 			expect(sendAppellantProofEvidenceSubmissionEmailToAppellantV2).toHaveBeenCalledWith(
-				mockAppellantProofs,
+				proof,
 				mockUser.email
 			);
 		});
 
-		it('should error if no service user', async () => {
-			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(mockAppellantProofs);
+		it.each(mockAppellantProofs)('should error if no service user', async (proof) => {
+			getAppellantProofOfEvidenceByAppealId.mockResolvedValue(proof);
 			getForEmailCaseAndType.mockResolvedValue(null);
 
 			await expect(
