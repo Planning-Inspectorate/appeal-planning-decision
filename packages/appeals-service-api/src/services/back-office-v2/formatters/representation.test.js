@@ -1,4 +1,4 @@
-const { formatter } = require('../s78s20/representation');
+const { formatter } = require('../representation');
 const { APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
