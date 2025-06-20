@@ -38,12 +38,6 @@ const getBylpaCode = async (req, res) => {
 };
 
 const list = async (req, res) => {
-	const { name } = req.query;
-
-	const filter = {};
-	if (name) {
-		filter.name = new RegExp(name, 'i');
-	}
 	const data = await lpaService.getLpaList();
 
 	const output = {
