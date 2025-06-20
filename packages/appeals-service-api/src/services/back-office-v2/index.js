@@ -264,7 +264,10 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (appealTypeCode === CASE_TYPES.S78.processCode) {
+		if (
+			appealTypeCode === CASE_TYPES.S78.processCode ||
+			appealTypeCode === CASE_TYPES.S20.processCode
+		) {
 			logger.info(`mapping lpa statement ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
@@ -318,7 +321,10 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (appealTypeCode === CASE_TYPES.S78.processCode) {
+		if (
+			appealTypeCode === CASE_TYPES.S78.processCode ||
+			appealTypeCode === CASE_TYPES.S20.processCode
+		) {
 			logger.info(`mapping lpa final comment ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
@@ -372,7 +378,10 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (appealTypeCode === CASE_TYPES.S78.processCode) {
+		if (
+			appealTypeCode === CASE_TYPES.S78.processCode ||
+			appealTypeCode === CASE_TYPES.S20.processCode
+		) {
 			logger.info(`mapping lpa proof of evidence ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
