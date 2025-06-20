@@ -53,7 +53,7 @@ const {
 const { getForEmailCaseAndType } = require('../../routes/v2/service-users/service');
 const { getCaseAndAppellant } = require('../../routes/v2/appeal-cases/service');
 const { SERVICE_USER_TYPE, APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
@@ -68,9 +68,9 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
  * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
  * @typedef {import ('pins-data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
  * @typedef {import ('pins-data-model').Schemas.AppealRepresentationSubmission} AppealRepresentationSubmission
- * @typedef {import('./formatters/s78s20/representation').TypedRepresentationSubmission} TypedRepresentationSubmission
- * @typedef {import('./formatters/s78s20/representation').RepresentationTypes} RepresentationTypes
- * @typedef {import('./formatters/s78s20/representation').RepresentationFormatterParams} RepresentationFormatterParams
+ * @typedef {import('./formatters/representation').TypedRepresentationSubmission} TypedRepresentationSubmission
+ * @typedef {import('./formatters/representation').RepresentationTypes} RepresentationTypes
+ * @typedef {import('./formatters/representation').RepresentationFormatterParams} RepresentationFormatterParams
  */
 
 /**
@@ -264,10 +264,7 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (
-			appealTypeCode === CASE_TYPES.S78.processCode ||
-			appealTypeCode === CASE_TYPES.S20.processCode
-		) {
+		if (caseTypeLookup(appealTypeCode).expedited === false) {
 			logger.info(`mapping lpa statement ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
@@ -321,10 +318,7 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (
-			appealTypeCode === CASE_TYPES.S78.processCode ||
-			appealTypeCode === CASE_TYPES.S20.processCode
-		) {
+		if (caseTypeLookup(appealTypeCode).expedited === false) {
 			logger.info(`mapping lpa final comment ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
@@ -378,10 +372,7 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (
-			appealTypeCode === CASE_TYPES.S78.processCode ||
-			appealTypeCode === CASE_TYPES.S20.processCode
-		) {
+		if (caseTypeLookup(appealTypeCode).expedited === false) {
 			logger.info(`mapping lpa proof of evidence ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
@@ -448,10 +439,7 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (
-			appealTypeCode === CASE_TYPES.S78.processCode ||
-			appealTypeCode === CASE_TYPES.S20.processCode
-		) {
+		if (caseTypeLookup(appealTypeCode).expedited === false) {
 			logger.info(`mapping appellant final comment ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
