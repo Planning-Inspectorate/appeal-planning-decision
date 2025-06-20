@@ -465,12 +465,12 @@ class BackOfficeV2Service {
 			logger.info(`validating representation ${caseReference} schema`);
 
 			/** @type {Validate<AppealRepresentationSubmission>} */
-			// const validator = getValidator('appeal-representation-submission');
-			// if (!validator(mappedData)) {
-			// 	throw new Error(
-			// 		`Payload was invalid when checked against appeal representation submission schema`
-			// 	);
-			// }
+			const validator = getValidator('appeal-representation-submission');
+			if (!validator(mappedData)) {
+				throw new Error(
+					`Payload was invalid when checked against appeal representation submission schema`
+				);
+			}
 
 			logger.info(
 				`forwarding appellant final comment representation ${caseReference} to service bus`
