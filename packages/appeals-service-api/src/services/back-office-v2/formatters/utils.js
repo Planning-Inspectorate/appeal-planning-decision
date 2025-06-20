@@ -331,16 +331,31 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
 	return {
 		agriculturalHolding: appellantSubmission.agriculturalHolding ?? null,
 		tenantAgriculturalHolding: appellantSubmission.agriculturalHolding
-			? (appellantSubmission.tenantAgriculturalHolding ?? null)
+			? appellantSubmission.tenantAgriculturalHolding ?? null
 			: null,
 		otherTenantsAgriculturalHolding:
 			appellantSubmission.agriculturalHolding && appellantSubmission.tenantAgriculturalHolding
-				? (appellantSubmission.otherTenantsAgriculturalHolding ?? null)
+				? appellantSubmission.otherTenantsAgriculturalHolding ?? null
 				: null,
 		informedTenantsAgriculturalHolding: appellantSubmission.agriculturalHolding
-			? (appellantSubmission.informedTenantsAgriculturalHolding ?? null)
+			? appellantSubmission.informedTenantsAgriculturalHolding ?? null
 			: null,
 
+		planningObligation: appellantSubmission.planningObligation ?? null,
+		statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
+		developmentType: exports.getDevelopmentType(appellantSubmission),
+		...preference
+	};
+};
+
+/**
+ * @param {FullAppellantSubmission} appellantSubmission
+ * @returns {AppellantS78SubmissionProperties}
+ */
+exports.getS20AppellantSubmissionFields = (appellantSubmission) => {
+	const preference = getAppellantProcedurePreference(appellantSubmission);
+
+	return {
 		planningObligation: appellantSubmission.planningObligation ?? null,
 		statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
 		developmentType: exports.getDevelopmentType(appellantSubmission),
@@ -521,6 +536,59 @@ exports.getS78LPAQSubmissionFields = (answers) => {
 			answers.designatedSites_otherDesignations || null
 		].filter(Boolean),
 		hasTreePreservationOrder: answers.treePreservationOrder,
+		isGypsyOrTravellerSite: answers.gypsyTraveller,
+		isPublicRightOfWay: answers.publicRightOfWay,
+
+		// Environmental impact assessment, todo: handle dependent logic in journey so we don't send redundant data
+		eiaEnvironmentalImpactSchedule: getSchedule(answers),
+		eiaDevelopmentDescription: answers.developmentDescription || null,
+		eiaSensitiveAreaDetails: answers.sensitiveArea_sensitiveAreaDetails || null,
+		eiaColumnTwoThreshold: answers.columnTwoThreshold,
+		eiaScreeningOpinion: answers.screeningOpinion,
+		eiaRequiresEnvironmentalStatement: answers.environmentalStatement,
+		eiaCompletedEnvironmentalStatement: exports.toBool(
+			answers.applicantSubmittedEnvironmentalStatement
+		),
+
+		// Consultation responses and representations
+		hasStatutoryConsultees: exports.toBool(answers.statutoryConsultees),
+		consultedBodiesDetails: answers.statutoryConsultees_consultedBodiesDetails || null,
+		hasConsultationResponses: answers.consultationResponses,
+
+		// Planning officer’s report and supporting documents
+		hasEmergingPlan: answers.emergingPlan,
+		hasSupplementaryPlanningDocs: answers.supplementaryPlanningDocs,
+		...levy,
+
+		// Appeal process
+		...preference
+	};
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {LPAQS78SubmissionProperties}
+ */
+exports.getS20LPAQSubmissionFields = (answers) => {
+	const levy = getInfrastructureLevy(answers);
+	const preference = getLPAProcedurePreference(answers);
+
+	return {
+		// Constraints, designations and other issues
+		changedListedBuildingNumbers: getListedBuildingByType(
+			answers.SubmissionListedBuilding,
+			fieldNames.changedListedBuildingNumber
+		),
+		affectsScheduledMonument: answers.affectsScheduledMonument,
+		hasProtectedSpecies: answers.protectedSpecies,
+		isAonbNationalLandscape: answers.areaOutstandingBeauty,
+		designatedSitesNames: [
+			...(answers.designatedSites ? answers.designatedSites.split(',') : []),
+			answers.designatedSites_otherDesignations || null
+		].filter(Boolean),
+		hasTreePreservationOrder: answers.treePreservationOrder,
+		preserveGrantLoan: answers.section3aGrant,
+		historicEnglandConsultation: answers.consultHistoricEngland,
 		isGypsyOrTravellerSite: answers.gypsyTraveller,
 		isPublicRightOfWay: answers.publicRightOfWay,
 

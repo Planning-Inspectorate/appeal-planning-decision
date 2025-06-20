@@ -17,9 +17,10 @@ const { formatSubmissionAddress, formatAddress } = require('@pins/common/src/lib
 const lpaService = new LpaService();
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { templates } = config.services.notify;
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 /**
- * @typedef {"HAS" | "S78"} AppealTypeCode
+ * @typedef {"HAS" | "S78" | "S20"} AppealTypeCode
  * @typedef {import('@prisma/client').AppealCase } AppealCase
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import("@prisma/client").AppellantSubmission} AppellantSubmission
@@ -34,12 +35,6 @@ const { templates } = config.services.notify;
  * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
  * @typedef {import('@prisma/client').ServiceUser} ServiceUser
  */
-
-/** @type {Record<AppealTypeCode, string>} */
-const appealTypeCodeToAppealText = {
-	HAS: 'householder planning',
-	S78: 'full planning'
-};
 
 /** @type {NotifyService|null} */ // todo: use dependency injection instead
 let notifyServiceInstance;
@@ -266,7 +261,7 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
 
 		const reference = appellantSubmission.id;
 
-		const appealType = appealTypeCodeToAppealText[appellantSubmission.appealTypeCode];
+		const appealType = caseTypeLookup(appellantSubmission.appealTypeCode);
 		const variables = {
 			...config.services.notify.templateVariables,
 			loginUrl: `${config.apps.appeals.baseUrl}/manage-appeals/your-appeals`,
@@ -884,7 +879,7 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		const variables = {
 			...config.services.notify.templateVariables,
 			lpaName: lpa.getName(),
-			appealType: isHAS ? appealTypeCodeToAppealText.HAS : appealTypeCodeToAppealText.S78,
+			appealType: caseTypeLookup(appeal.appealType),
 			applicationDecision: getApplicationDecision(),
 			lpaReference: appeal.planningApplicationNumber,
 			appealReferenceNumber: appeal.horizonId ?? 'ID not provided',
