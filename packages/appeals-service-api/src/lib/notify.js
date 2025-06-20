@@ -19,7 +19,7 @@ const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { templates } = config.services.notify;
 
 /**
- * @typedef {"HAS" | "S78"} AppealTypeCode
+ * @typedef {"HAS" | "S78" | "S20"} AppealTypeCode
  * @typedef {import('@prisma/client').AppealCase } AppealCase
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import("@prisma/client").AppellantSubmission} AppellantSubmission
@@ -38,7 +38,8 @@ const { templates } = config.services.notify;
 /** @type {Record<AppealTypeCode, string>} */
 const appealTypeCodeToAppealText = {
 	HAS: 'householder planning',
-	S78: 'full planning'
+	S78: 'full planning',
+	S20: 'listed building'
 };
 
 /** @type {NotifyService|null} */ // todo: use dependency injection instead
