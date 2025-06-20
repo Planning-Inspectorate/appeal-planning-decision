@@ -51,6 +51,24 @@ jest.mock('../../../service', () => ({
 					siteAddressTown: 'Townsville',
 					siteAddressPostcode: 'S78 1AB'
 				};
+			case '003':
+				return {
+					id: 'appeal-003',
+					appealTypeCode: 'S20',
+					LPACode: 'LPA_001',
+					caseReference: '003',
+					applicationReference: 'APP/003',
+					caseStartedDate: new Date(),
+					users: [
+						{
+							serviceUserType: 'Appellant',
+							emailAddress: 's20@example.com'
+						}
+					],
+					siteAddressLine1: '456 Another Rd',
+					siteAddressTown: 'Townsville',
+					siteAddressPostcode: 'S78 1AB'
+				};
 			default:
 				return null;
 		}
@@ -196,6 +214,47 @@ jest.mock('../service', () => ({
 					supplementaryPlanningDocs: true,
 					treePreservationOrder: false
 				};
+			case '003':
+				return {
+					...hasCase,
+					AppealCase: {
+						LPACode: 'LPA_001',
+						appealTypeCode: 'S20'
+					},
+					addChangedListedBuilding: true,
+					areaOutstandingBeauty: true,
+					changesListedBuilding: true,
+					changedListedBuildingNumber: '010101',
+					columnTwoThreshold: true,
+					environmentalStatement: true,
+					consultationResponses: true,
+					statutoryConsultees_consultedBodiesDetails: 'consultation details',
+					designatedSites: 'yes',
+					developmentDescription: '',
+					emergingPlan: true,
+					environmentalImpactSchedule: '',
+					gypsyTraveller: true,
+					section3aGrant: true,
+					consultHistoricEngland: true,
+					infrastructureLevy: false,
+					infrastructureLevyAdopted: false,
+					infrastructureLevyAdoptedDate: null,
+					infrastructureLevyExpectedDate: null,
+					lpaPreferHearingDetails: 'Hearing details',
+					lpaPreferInquiryDetails: 'Inquiry details',
+					lpaProcedurePreference_lpaPreferInquiryDuration: '12',
+					lpaProcedurePreference: 'hearing',
+					designatedSites_otherDesignations: 'other designations',
+					protectedSpecies: false,
+					publicRightOfWay: true,
+					affectsScheduledMonument: true,
+					screeningOpinion: false,
+					sensitiveArea: 'yes',
+					sensitiveArea_sensitiveAreaDetails: 'Sensitive area details',
+					statutoryConsultees: 'Mrs Consultee',
+					supplementaryPlanningDocs: true,
+					treePreservationOrder: false
+				};
 			default:
 				return null;
 		}
@@ -317,6 +376,48 @@ const formattedS78 = [
 		documents: [...expectedHAS.documents]
 	})
 ];
+const formattedS20 = [
+	expect.objectContaining({
+		casedata: {
+			...expectedHAS.casedata,
+
+			caseType: CASE_TYPES.S20.key,
+			caseReference: '003',
+
+			lpaProcedurePreference: APPEAL_CASE_PROCEDURE.HEARING,
+			affectsScheduledMonument: true,
+			changedListedBuildingNumbers: [],
+			designatedSitesNames: ['yes', 'other designations'],
+			preserveGrantLoan: true,
+			historicEnglandConsultation: true,
+			eiaColumnTwoThreshold: true,
+			eiaCompletedEnvironmentalStatement: false,
+			consultedBodiesDetails: 'consultation details',
+			eiaDevelopmentDescription: null,
+			eiaEnvironmentalImpactSchedule: null,
+			eiaRequiresEnvironmentalStatement: true,
+			eiaScreeningOpinion: false,
+			eiaSensitiveAreaDetails: 'Sensitive area details',
+			hasConsultationResponses: true,
+			hasEmergingPlan: true,
+			hasInfrastructureLevy: false,
+			hasProtectedSpecies: false,
+			hasStatutoryConsultees: false,
+			hasSupplementaryPlanningDocs: true,
+			hasTreePreservationOrder: false,
+			infrastructureLevyAdoptedDate: null,
+			infrastructureLevyExpectedDate: null,
+			isAonbNationalLandscape: true,
+			isGypsyOrTravellerSite: true,
+			isInfrastructureLevyFormallyAdopted: null,
+			isPublicRightOfWay: true,
+			lpaProcedurePreferenceDetails: 'Hearing details',
+			lpaProcedurePreferenceDuration: null,
+			lpaQuestionnaireSubmittedDate: expect.any(String)
+		},
+		documents: [...expectedHAS.documents]
+	})
+];
 
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 	const expectEmail = (email, appealReferenceNumber) => {
@@ -337,7 +438,8 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 	beforeAll(async () => {});
 	it.each([
 		['HAS', '001', formattedHAS],
-		['S78', '002', formattedS78]
+		['S78', '002', formattedS78],
+		['S20', '003', formattedS20]
 	])('Formats %s questionnaires then sends it to back office', async (_, id, expectation) => {
 		mockNotifyClient.sendEmail.mockClear();
 

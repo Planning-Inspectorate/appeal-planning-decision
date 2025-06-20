@@ -41,7 +41,7 @@ module.exports = ({
 	/**
 	 * @returns {Promise<string|undefined>}
 	 */
-	const createAppeal = async (caseRef) => {
+	const createAppeal = async (caseRef, caseType) => {
 		const appeal = await sqlClient.appeal.create({
 			include: {
 				AppealCase: true
@@ -55,7 +55,7 @@ module.exports = ({
 				},
 				AppealCase: {
 					create: {
-						...createTestAppealCase(caseRef, 'S78', validLpa),
+						...createTestAppealCase(caseRef, caseType, validLpa),
 						finalCommentsDueDate: new Date().toISOString()
 					}
 				}
@@ -71,9 +71,37 @@ module.exports = ({
 		lpaCode: 'Q9999',
 		documents: []
 	};
+
 	const formattedStatement2 = {
 		caseReference: '006',
 		representation: 'Another statement text for lpa case 006',
+		representationSubmittedDate: expect.any(String),
+		representationType: 'statement',
+		lpaCode: 'Q9999',
+		documents: [
+			{
+				dateCreated: expect.any(String),
+				documentId: expect.any(String),
+				documentType: 'lpaStatement',
+				documentURI: 'https://example.com',
+				filename: 'doc.pdf',
+				mime: 'doc',
+				originalFilename: 'mydoc.pdf',
+				size: 10293
+			}
+		]
+	};
+	const formattedStatement3 = {
+		caseReference: '011',
+		representation: 'This is a test comment',
+		representationSubmittedDate: expect.any(String),
+		representationType: 'statement',
+		lpaCode: 'Q9999',
+		documents: []
+	};
+	const formattedStatement4 = {
+		caseReference: '012',
+		representation: 'Another statement text for lpa case 012',
 		representationSubmittedDate: expect.any(String),
 		representationType: 'statement',
 		lpaCode: 'Q9999',
@@ -108,7 +136,7 @@ module.exports = ({
 			mockNotifyClient.sendEmail.mockClear();
 		};
 		it('Formats S78 lpa statement submission without docs for case 005', async () => {
-			await createAppeal('005');
+			await createAppeal('005', 'S78');
 			setCurrentLpa(validLpa);
 			setCurrentSub(validUser);
 			const lpaStatementData = {
@@ -139,7 +167,7 @@ module.exports = ({
 					_response: { request: { url: 'https://example.com' } }
 				});
 			});
-			await createAppeal('006');
+			await createAppeal('006', 'S78');
 			setCurrentLpa(validLpa);
 			setCurrentSub(validUser);
 			const lpaFinalCommentData = {
@@ -169,6 +197,71 @@ module.exports = ({
 				'Create'
 			);
 			expectEmail('lpa@example.com', '006');
+		});
+
+		it('Formats S20 lpa statement submission without docs for case 011', async () => {
+			await createAppeal('011', 'S20');
+			setCurrentLpa(validLpa);
+			setCurrentSub(validUser);
+			const lpaStatementData = {
+				lpaStatement: 'This is a test comment',
+				additionalDocuments: false
+			};
+			await appealsApi
+				.post(`/api/v2/appeal-cases/011/lpa-statement-submission`)
+				.send(lpaStatementData);
+			await appealsApi.post(`/api/v2/appeal-cases/011/lpa-statement-submission/submit`).expect(200);
+			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
+				'appeal-fo-representation-submission',
+				[formattedStatement3],
+				'Create'
+			);
+			expectEmail('lpa@example.com', '011');
+		});
+
+		it('Formats S20 lpa statement submission with docs for case 012', async () => {
+			mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
+				return async () => ({
+					lastModified: '2024-03-01T14:48:35.847Z',
+					createdOn: '2024-03-01T13:48:35.847Z',
+					metadata: {
+						mime_type: 'doc',
+						size: 10293,
+						document_type: 'uploadLpaStatementDocuments'
+					},
+					_response: { request: { url: 'https://example.com' } }
+				});
+			});
+			await createAppeal('012', 'S20');
+			setCurrentLpa(validLpa);
+			setCurrentSub(validUser);
+			const lpaFinalCommentData = {
+				lpaStatement: 'Another statement text for lpa case 012',
+				additionalDocuments: true,
+				uploadLpaStatementDocuments: true
+			};
+			const result = await appealsApi
+				.post('/api/v2/appeal-cases/012/lpa-statement-submission')
+				.send(lpaFinalCommentData);
+			await sqlClient.submissionDocumentUpload.create({
+				data: {
+					id: crypto.randomUUID(),
+					fileName: 'doc.pdf',
+					originalFileName: 'mydoc.pdf',
+					type: 'uploadLpaStatementDocuments',
+					location: 'https://example.com',
+					name: 'doc.pdf',
+					lpaStatementId: result.body.id,
+					storageId: crypto.randomUUID()
+				}
+			});
+			await appealsApi.post(`/api/v2/appeal-cases/012/lpa-statement-submission/submit`).expect(200);
+			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
+				'appeal-fo-representation-submission',
+				[formattedStatement4],
+				'Create'
+			);
+			expectEmail('lpa@example.com', '012');
 		});
 		it('404s if the statement submission cannot be found', async () => {
 			await appealsApi
