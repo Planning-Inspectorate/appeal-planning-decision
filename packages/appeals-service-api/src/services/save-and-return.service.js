@@ -1,14 +1,19 @@
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 const { sendSaveAndReturnContinueWithAppealEmail } = require('../lib/notify');
+const uuid = require('uuid');
 
 const createSavedAppealDocument = async (appealId) => {
+	if (!uuid.validate(appealId)) {
+		throw new Error('createSavedAppealDocument: Invalid appealId');
+	}
+
 	try {
 		await mongodb
 			.get()
 			.collection('saveAndReturn')
 			.updateOne(
-				{ appealId },
+				{ appealId: { $eq: appealId } },
 				{
 					$set: {
 						appealId,
@@ -23,11 +28,15 @@ const createSavedAppealDocument = async (appealId) => {
 };
 
 const getSavedAppealDocument = async (appealId) => {
+	if (!uuid.validate(appealId)) {
+		throw new Error('getSavedAppealDocument: Invalid appealId');
+	}
+
 	let saved;
 	await mongodb
 		.get()
 		.collection('saveAndReturn')
-		.findOne({ appealId })
+		.findOne({ appealId: { $eq: appealId } })
 		.then((doc) => {
 			saved = doc;
 		})
