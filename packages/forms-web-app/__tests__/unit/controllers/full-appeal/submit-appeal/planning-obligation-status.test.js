@@ -38,7 +38,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-status', () 
 				planningObligationStatus: 'not_started'
 			};
 			await getPlanningObligationStatus(req, res);
-			expect(res.render).toBeCalledWith(PLANNING_OBLIGATION_STATUS, {
+			expect(res.render).toHaveBeenCalledWith(PLANNING_OBLIGATION_STATUS, {
 				planningObligationStatus: 'not_started'
 			});
 		});

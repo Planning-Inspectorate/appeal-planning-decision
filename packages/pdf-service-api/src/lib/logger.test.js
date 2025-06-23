@@ -12,8 +12,8 @@ describe('lib/logger', () => {
 	it('should call pino with the correct params', () => {
 		logger.info('Generating pdf');
 
-		expect(pino).toBeCalledTimes(1);
-		expect(pino).toBeCalledWith({
+		expect(pino).toHaveBeenCalledTimes(1);
+		expect(pino).toHaveBeenCalledWith({
 			level: config.logger.level
 		});
 	});

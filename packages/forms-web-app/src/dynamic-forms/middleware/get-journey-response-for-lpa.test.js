@@ -157,7 +157,7 @@ describe('getJourneyResponse', () => {
 			Promise.resolve({ appealTypeCode: 'nope', lpaQuestionnaireDueDate: new Date() })
 		);
 
-		await expect(getJourneyResponse()(req, res, next)).rejects.toThrowError('');
+		await expect(getJourneyResponse()(req, res, next)).rejects.toThrow('');
 
 		expect(req.appealsApiClient.getLPAQuestionnaire).not.toHaveBeenCalled();
 		expect(next).not.toHaveBeenCalled();

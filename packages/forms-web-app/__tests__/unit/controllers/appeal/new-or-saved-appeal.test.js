@@ -21,7 +21,7 @@ describe('controllers/appeal/new-or-saved-appeal', () => {
 	it('Test get method calls the correct template', async () => {
 		await get(req, res);
 
-		expect(res.render).toBeCalledWith(VIEW.APPEAL.NEW_OR_SAVED_APPEAL, {
+		expect(res.render).toHaveBeenCalledWith(VIEW.APPEAL.NEW_OR_SAVED_APPEAL, {
 			newOrSavedAppeal: 'save-new'
 		});
 	});
@@ -34,7 +34,7 @@ describe('controllers/appeal/new-or-saved-appeal', () => {
 		};
 		await post(req, res);
 
-		expect(res.render).toBeCalledWith(VIEW.APPEAL.NEW_OR_SAVED_APPEAL, {
+		expect(res.render).toHaveBeenCalledWith(VIEW.APPEAL.NEW_OR_SAVED_APPEAL, {
 			errors: { fieldName: 'an error occured' },
 			errorSummary: ['an error occured'],
 			newOrSavedAppeal: 'save-new'

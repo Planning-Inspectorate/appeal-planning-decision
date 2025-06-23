@@ -26,7 +26,7 @@ describe('Documents methods', () => {
 
 			expect(await obj.downloadFileBuffer()).toBe(fileBuffer);
 
-			expect(downloadFile).toBeCalledWith(location, connection);
+			expect(downloadFile).toHaveBeenCalledWith(location, connection);
 		});
 	});
 
@@ -39,7 +39,7 @@ describe('Documents methods', () => {
 
 			expect(obj.generateId()).toBe(obj);
 
-			expect(obj.set).toBeCalledWith('id', value);
+			expect(obj.set).toHaveBeenCalledWith('id', value);
 		});
 	});
 

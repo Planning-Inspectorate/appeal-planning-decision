@@ -13,7 +13,7 @@ describe('lib/encode', () => {
 		it(`should call encodeURIComponent`, () => {
 			jest.spyOn(global, 'encodeURIComponent');
 			encodeUrlSlug('@?');
-			expect(encodeURIComponent).toBeCalledWith('@?');
+			expect(encodeURIComponent).toHaveBeenCalledWith('@?');
 		});
 	});
 });

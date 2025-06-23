@@ -11,7 +11,7 @@ describe('clamav', () => {
 			tempFilePath: 'packages/common/__tests__/artifacts/eicar.com.txt'
 		};
 
-		await expect(() => clamAVClient.scan(file, file.name)).rejects.toThrowError(
+		await expect(() => clamAVClient.scan(file, file.name)).rejects.toThrow(
 			`${file.name} contains a virus`
 		);
 	});

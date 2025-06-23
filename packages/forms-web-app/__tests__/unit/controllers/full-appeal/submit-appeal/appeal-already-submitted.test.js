@@ -24,7 +24,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-already-submitted', () =>
 	describe('getAppealAlreadySubmitted', () => {
 		it('calls correct template', async () => {
 			await getAppealAlreadySubmitted(req, res);
-			expect(res.render).toBeCalledWith(APPEAL_ALREADY_SUBMITTED, {});
+			expect(res.render).toHaveBeenCalledWith(APPEAL_ALREADY_SUBMITTED, {});
 		});
 	});
 });

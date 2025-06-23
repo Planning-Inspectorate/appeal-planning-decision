@@ -54,7 +54,7 @@ describe('services/pdf.service', () => {
 		it('should return the expected response if the fetch status is 200', async () => {
 			fetch.mockResponse(htmlContent, { status: 200 });
 			expect(await getHtml(id, url, cookieString)).toEqual(htmlContent);
-			expect(fetch).toBeCalledWith(url, { headers: { cookie: cookieString } });
+			expect(fetch).toHaveBeenCalledWith(url, { headers: { cookie: cookieString } });
 		});
 	});
 

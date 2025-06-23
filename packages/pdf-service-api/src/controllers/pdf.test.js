@@ -30,12 +30,12 @@ describe('controllers/pdf', () => {
 
 			await postGeneratePdf(req, res);
 
-			expect(generatePdf).toBeCalledTimes(1);
-			expect(generatePdf).toBeCalledWith(html);
-			expect(res.contentType).toBeCalledTimes(1);
-			expect(res.contentType).toBeCalledWith('application/pdf');
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith(pdfBuffer);
+			expect(generatePdf).toHaveBeenCalledTimes(1);
+			expect(generatePdf).toHaveBeenCalledWith(html);
+			expect(res.contentType).toHaveBeenCalledTimes(1);
+			expect(res.contentType).toHaveBeenCalledWith('application/pdf');
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith(pdfBuffer);
 		});
 
 		it('should return an error when an error is thrown generating a pdf', async () => {
@@ -45,10 +45,10 @@ describe('controllers/pdf', () => {
 
 			await postGeneratePdf(req, res);
 
-			expect(res.status).toBeCalledTimes(1);
-			expect(res.status).toBeCalledWith(500);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith({
+			expect(res.status).toHaveBeenCalledTimes(1);
+			expect(res.status).toHaveBeenCalledWith(500);
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith({
 				message: 'Internal Server Error'
 			});
 		});

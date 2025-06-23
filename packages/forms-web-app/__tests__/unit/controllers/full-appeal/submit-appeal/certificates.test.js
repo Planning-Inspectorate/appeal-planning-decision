@@ -48,7 +48,7 @@ describe('controllers/full-appeal/submit-appeal/certificates', () => {
 	describe('getCertificates', () => {
 		it('calls correct template', async () => {
 			await getCertificates(req, res);
-			expect(res.render).toBeCalledWith(CERTIFICATES, {
+			expect(res.render).toHaveBeenCalledWith(CERTIFICATES, {
 				appealId: appeal.id,
 				uploadedFile: appeal[sectionName][taskName].uploadedFile
 			});

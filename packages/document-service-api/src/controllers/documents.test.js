@@ -69,10 +69,13 @@ describe('controllers/documents', () => {
 
 			await getDocumentsForApplication(req, res);
 
-			expect(BlobStorage.getMetadataForAllFiles).toBeCalledTimes(1);
-			expect(BlobStorage.getMetadataForAllFiles).toBeCalledWith(containerClient(), applicationId);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith(multipleFilesReturnValue);
+			expect(BlobStorage.getMetadataForAllFiles).toHaveBeenCalledTimes(1);
+			expect(BlobStorage.getMetadataForAllFiles).toHaveBeenCalledWith(
+				containerClient(),
+				applicationId
+			);
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith(multipleFilesReturnValue);
 		});
 
 		it('should return an error when given an invalid application id', async () => {
@@ -82,12 +85,12 @@ describe('controllers/documents', () => {
 
 			await getDocumentsForApplication(req, res);
 
-			expect(BlobStorage.getMetadataForAllFiles).toBeCalledTimes(1);
-			expect(BlobStorage.getMetadataForAllFiles).toBeCalledWith(containerClient(), undefined);
-			expect(res.status).toBeCalledTimes(1);
-			expect(res.status).toBeCalledWith(404);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith({
+			expect(BlobStorage.getMetadataForAllFiles).toHaveBeenCalledTimes(1);
+			expect(BlobStorage.getMetadataForAllFiles).toHaveBeenCalledWith(containerClient(), undefined);
+			expect(res.status).toHaveBeenCalledTimes(1);
+			expect(res.status).toHaveBeenCalledWith(404);
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith({
 				message: 'Invalid application id'
 			});
 		});
@@ -99,10 +102,10 @@ describe('controllers/documents', () => {
 
 			await getDocumentsForApplication(req, res);
 
-			expect(res.status).toBeCalledTimes(1);
-			expect(res.status).toBeCalledWith(500);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith({
+			expect(res.status).toHaveBeenCalledTimes(1);
+			expect(res.status).toHaveBeenCalledWith(500);
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith({
 				message: 'Internal Server Error'
 			});
 		});
@@ -117,14 +120,14 @@ describe('controllers/documents', () => {
 
 			await getDocumentById(req, res);
 
-			expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
-			expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+			expect(BlobStorage.getMetadataForSingleFile).toHaveBeenCalledTimes(1);
+			expect(BlobStorage.getMetadataForSingleFile).toHaveBeenCalledWith(
 				containerClient(),
 				applicationId,
 				documentId
 			);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith(singleFileReturnValue);
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith(singleFileReturnValue);
 		});
 
 		it('should return an error when given an invalid application id', async () => {
@@ -135,16 +138,16 @@ describe('controllers/documents', () => {
 
 			await getDocumentById(req, res);
 
-			expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
-			expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+			expect(BlobStorage.getMetadataForSingleFile).toHaveBeenCalledTimes(1);
+			expect(BlobStorage.getMetadataForSingleFile).toHaveBeenCalledWith(
 				containerClient(),
 				undefined,
 				documentId
 			);
-			expect(res.status).toBeCalledTimes(1);
-			expect(res.status).toBeCalledWith(404);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith({
+			expect(res.status).toHaveBeenCalledTimes(1);
+			expect(res.status).toHaveBeenCalledWith(404);
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith({
 				message: 'Invalid application or document id'
 			});
 		});
@@ -157,16 +160,16 @@ describe('controllers/documents', () => {
 
 			await getDocumentById(req, res);
 
-			expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
-			expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+			expect(BlobStorage.getMetadataForSingleFile).toHaveBeenCalledTimes(1);
+			expect(BlobStorage.getMetadataForSingleFile).toHaveBeenCalledWith(
 				containerClient(),
 				applicationId,
 				undefined
 			);
-			expect(res.status).toBeCalledTimes(1);
-			expect(res.status).toBeCalledWith(404);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith({
+			expect(res.status).toHaveBeenCalledTimes(1);
+			expect(res.status).toHaveBeenCalledWith(404);
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith({
 				message: 'Invalid application or document id'
 			});
 		});
@@ -178,10 +181,10 @@ describe('controllers/documents', () => {
 
 			await getDocumentById(req, res);
 
-			expect(res.status).toBeCalledTimes(1);
-			expect(res.status).toBeCalledWith(500);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith({
+			expect(res.status).toHaveBeenCalledTimes(1);
+			expect(res.status).toHaveBeenCalledWith(500);
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith({
 				message: 'Internal Server Error'
 			});
 		});
@@ -197,21 +200,21 @@ describe('controllers/documents', () => {
 
 			await deleteDocument(req, res);
 
-			expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
-			expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+			expect(BlobStorage.getMetadataForSingleFile).toHaveBeenCalledTimes(1);
+			expect(BlobStorage.getMetadataForSingleFile).toHaveBeenCalledWith(
 				containerClient(),
 				applicationId,
 				documentId
 			);
-			expect(BlobStorage.deleteFile).toBeCalledTimes(1);
-			expect(BlobStorage.deleteFile).toBeCalledWith(
+			expect(BlobStorage.deleteFile).toHaveBeenCalledTimes(1);
+			expect(BlobStorage.deleteFile).toHaveBeenCalledWith(
 				containerClient(),
 				singleFileReturnValue.metadata.location
 			);
-			expect(res.status).toBeCalledTimes(1);
-			expect(res.status).toBeCalledWith(204);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith();
+			expect(res.status).toHaveBeenCalledTimes(1);
+			expect(res.status).toHaveBeenCalledWith(204);
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith();
 		});
 
 		it('should return an error when no metadata is returned for the given document', async () => {
@@ -222,16 +225,16 @@ describe('controllers/documents', () => {
 
 			await deleteDocument(req, res);
 
-			expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
-			expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+			expect(BlobStorage.getMetadataForSingleFile).toHaveBeenCalledTimes(1);
+			expect(BlobStorage.getMetadataForSingleFile).toHaveBeenCalledWith(
 				containerClient(),
 				undefined,
 				documentId
 			);
-			expect(res.status).toBeCalledTimes(1);
-			expect(res.status).toBeCalledWith(404);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith({
+			expect(res.status).toHaveBeenCalledTimes(1);
+			expect(res.status).toHaveBeenCalledWith(404);
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith({
 				message: 'Invalid application or document id'
 			});
 		});
@@ -245,21 +248,21 @@ describe('controllers/documents', () => {
 
 			await deleteDocument(req, res);
 
-			expect(BlobStorage.getMetadataForSingleFile).toBeCalledTimes(1);
-			expect(BlobStorage.getMetadataForSingleFile).toBeCalledWith(
+			expect(BlobStorage.getMetadataForSingleFile).toHaveBeenCalledTimes(1);
+			expect(BlobStorage.getMetadataForSingleFile).toHaveBeenCalledWith(
 				containerClient(),
 				applicationId,
 				documentId
 			);
-			expect(BlobStorage.deleteFile).toBeCalledTimes(1);
-			expect(BlobStorage.deleteFile).toBeCalledWith(
+			expect(BlobStorage.deleteFile).toHaveBeenCalledTimes(1);
+			expect(BlobStorage.deleteFile).toHaveBeenCalledWith(
 				containerClient(),
 				singleFileReturnValue.metadata.location
 			);
-			expect(res.status).toBeCalledTimes(1);
-			expect(res.status).toBeCalledWith(500);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith({
+			expect(res.status).toHaveBeenCalledTimes(1);
+			expect(res.status).toHaveBeenCalledWith(500);
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith({
 				message: 'Failed to delete document'
 			});
 		});
@@ -271,10 +274,10 @@ describe('controllers/documents', () => {
 
 			await deleteDocument(req, res);
 
-			expect(res.status).toBeCalledTimes(1);
-			expect(res.status).toBeCalledWith(500);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith({
+			expect(res.status).toHaveBeenCalledTimes(1);
+			expect(res.status).toHaveBeenCalledWith(500);
+			expect(res.send).toHaveBeenCalledTimes(1);
+			expect(res.send).toHaveBeenCalledWith({
 				message: 'Internal Server Error'
 			});
 		});

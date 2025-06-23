@@ -46,7 +46,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 
 			await getClaimingCostsHouseholder(req, res);
 
-			expect(res.render).toBeCalledWith(CLAIMING_COSTS, {
+			expect(res.render).toHaveBeenCalledWith(CLAIMING_COSTS, {
 				isClaimingCosts: appeal.eligibility.isClaimingCosts
 			});
 		});
@@ -64,7 +64,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 			expect(appeal.eligibility.isClaimingCosts).toEqual(true);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({ ...appeal });
 
-			expect(res.redirect).toBeCalledWith(`/before-you-start/use-existing-service-costs`);
+			expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/use-existing-service-costs`);
 		});
 
 		it(`should redirect to the results-householder page if 'no' is selected`, async () => {
@@ -80,7 +80,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 				...appeal
 			});
 
-			expect(res.redirect).toBeCalledWith('/before-you-start/can-use-service');
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/can-use-service');
 		});
 
 		it('should render errors on the page if there are validation errors', async () => {
@@ -99,7 +99,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
-			expect(res.render).toBeCalledWith(`${CLAIMING_COSTS}`, {
+			expect(res.render).toHaveBeenCalledWith(`${CLAIMING_COSTS}`, {
 				isClaimingCosts: appeal.eligibility.isClaimingCosts,
 				errors: {
 					'claiming-costs-householder': {

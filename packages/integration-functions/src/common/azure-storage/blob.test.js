@@ -60,7 +60,7 @@ describe('downloadBlob', () => {
 	it('should throw an error if connectionString is missing and no environment variable is set', async () => {
 		delete process.env.AzureWebJobsStorage;
 
-		await expect(downloadBlob(containerName, blobName)).rejects.toThrowError(
+		await expect(downloadBlob(containerName, blobName)).rejects.toThrow(
 			'Could not retrive default function app connectionString'
 		);
 	});
@@ -82,7 +82,7 @@ describe('downloadBlob', () => {
 
 		BlobServiceClient.fromConnectionString.mockReturnValue(mockBlobServiceClient);
 
-		await expect(downloadBlob(containerName, blobName, connectionString)).rejects.toThrowError(
+		await expect(downloadBlob(containerName, blobName, connectionString)).rejects.toThrow(
 			`Failed to download blob: ${containerName}/${blobName}`
 		);
 	});

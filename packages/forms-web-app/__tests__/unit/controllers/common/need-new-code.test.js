@@ -27,7 +27,7 @@ describe('controllers/common/enter-code', () => {
 			const returnedFunction = getNeedNewCode(views);
 			await returnedFunction(req, res);
 
-			expect(res.render).toBeCalledWith(`${NEED_NEW_CODE}`);
+			expect(res.render).toHaveBeenCalledWith(`${NEED_NEW_CODE}`);
 		});
 	});
 
@@ -47,7 +47,7 @@ describe('controllers/common/enter-code', () => {
 			};
 			await returnedFunction(req, res);
 
-			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}/${tokenId}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${ENTER_CODE}/${tokenId}`);
 		});
 	});
 });

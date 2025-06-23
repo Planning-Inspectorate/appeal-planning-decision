@@ -6,7 +6,7 @@ describe('routes/index', () => {
 		// eslint-disable-next-line global-require
 		require('./index');
 
-		expect(mockUse).toBeCalledTimes(1);
-		expect(mockUse).toBeCalledWith('/api/v1', pdfRouter);
+		expect(mockUse).toHaveBeenCalledTimes(1);
+		expect(mockUse).toHaveBeenCalledWith('/api/v1', pdfRouter);
 	});
 });

@@ -31,7 +31,7 @@ describe('lib/deleteLocalFile', () => {
 	it('should delete the local file', async () => {
 		await deleteLocalFile(file);
 
-		expect(fs.promises.unlink).toBeCalledTimes(1);
+		expect(fs.promises.unlink).toHaveBeenCalledTimes(1);
 	});
 
 	it('should throw an error when an error occurs', async () => {

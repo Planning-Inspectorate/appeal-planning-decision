@@ -25,7 +25,7 @@ describe('routes/full-appeal/submit-appeal/telling-the-tenants', () => {
 			getTellingTheTenants
 		);
 
-		expect(buildCheckboxValidation).toBeCalledTimes(1);
+		expect(buildCheckboxValidation).toHaveBeenCalledTimes(1);
 
 		const firsCall = post.mock.calls[0];
 		expect(firsCall.length).toEqual(4);

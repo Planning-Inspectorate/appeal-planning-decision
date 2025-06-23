@@ -57,7 +57,7 @@ describe('LPAs controller test', () => {
 			const data = ['some array'];
 			await list(req, res);
 
-			expect(res.send).toBeCalledWith({
+			expect(res.send).toHaveBeenCalledWith({
 				data,
 				page: 1,
 				limit: data.length,
@@ -76,7 +76,7 @@ describe('LPAs controller test', () => {
 
 			await list(req, res);
 
-			expect(res.send).toBeCalledWith({
+			expect(res.send).toHaveBeenCalledWith({
 				data,
 				page: 1,
 				limit: data.length,

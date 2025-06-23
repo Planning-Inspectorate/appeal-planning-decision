@@ -17,7 +17,7 @@ describe('controllers/full-appeal/use-existing-service-enforcement-notice', () =
 	it('Test the getUseExistingServiceEnforcementNotice method calls the correct template', async () => {
 		await getUseExistingServiceEnforcementNotice(req, res);
 
-		expect(res.render).toBeCalledWith(USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE, {
+		expect(res.render).toHaveBeenCalledWith(USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE, {
 			acpLink: 'https://acp.planninginspectorate.gov.uk/'
 		});
 	});
