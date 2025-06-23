@@ -53,7 +53,7 @@ const {
 const { getForEmailCaseAndType } = require('../../routes/v2/service-users/service');
 const { getCaseAndAppellant } = require('../../routes/v2/appeal-cases/service');
 const { SERVICE_USER_TYPE, APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
-const { caseTypeLookup } = require('@pins/common/src/database/data-static');
+const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
