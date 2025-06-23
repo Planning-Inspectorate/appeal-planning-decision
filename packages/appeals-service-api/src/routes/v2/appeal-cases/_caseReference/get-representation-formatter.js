@@ -14,7 +14,8 @@ const {
  * @returns {function(string, string | null, RepresentationTypes, TypedRepresentationSubmission): *}
  */
 const getFormatter = (appealTypeCode) => {
-	if (caseTypeLookup(appealTypeCode).expedited === false) return representationFormatter;
+	if (caseTypeLookup(appealTypeCode, 'processCode').expedited === false)
+		return representationFormatter;
 	else throw new Error('unknown formatter');
 };
 
