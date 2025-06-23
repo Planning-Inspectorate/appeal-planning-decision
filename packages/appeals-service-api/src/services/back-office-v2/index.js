@@ -264,7 +264,7 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (caseTypeLookup(appealTypeCode).expedited === false) {
+		if (caseTypeLookup(appealTypeCode, 'processCode')?.expedited === false) {
 			logger.info(`mapping lpa statement ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
@@ -318,7 +318,7 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (caseTypeLookup(appealTypeCode).expedited === false) {
+		if (caseTypeLookup(appealTypeCode, 'processCode')?.expedited === false) {
 			logger.info(`mapping lpa final comment ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
@@ -372,7 +372,7 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (caseTypeLookup(appealTypeCode).expedited === false) {
+		if (caseTypeLookup(appealTypeCode, 'processCode')?.expedited === false) {
 			logger.info(`mapping lpa proof of evidence ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
@@ -439,7 +439,7 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (caseTypeLookup(appealTypeCode).expedited === false) {
+		if (caseTypeLookup(appealTypeCode, 'processCode')?.expedited === false) {
 			logger.info(`mapping appellant final comment ${caseReference} to ${appealTypeCode} schema`);
 			mappedData = await formatter({
 				caseReference,
