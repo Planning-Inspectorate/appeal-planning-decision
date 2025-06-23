@@ -261,7 +261,11 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
 
 		const reference = appellantSubmission.id;
 
-		const appealType = caseTypeLookup(appellantSubmission.appealTypeCode);
+		const appealType = caseTypeLookup(
+			appellantSubmission.appealTypeCode,
+			'processCode'
+		)?.type.toLowerCase();
+
 		const variables = {
 			...config.services.notify.templateVariables,
 			loginUrl: `${config.apps.appeals.baseUrl}/manage-appeals/your-appeals`,
@@ -879,7 +883,7 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		const variables = {
 			...config.services.notify.templateVariables,
 			lpaName: lpa.getName(),
-			appealType: caseTypeLookup(appeal.appealType),
+			appealType: caseTypeLookup(appeal.appealType, 'processCode')?.type.toLowerCase(),
 			applicationDecision: getApplicationDecision(),
 			lpaReference: appeal.planningApplicationNumber,
 			appealReferenceNumber: appeal.horizonId ?? 'ID not provided',
