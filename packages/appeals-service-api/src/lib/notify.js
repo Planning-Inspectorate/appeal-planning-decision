@@ -20,7 +20,6 @@ const { templates } = config.services.notify;
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 /**
- * @typedef {"HAS" | "S78" | "S20"} AppealTypeCode
  * @typedef {import('@prisma/client').AppealCase } AppealCase
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import("@prisma/client").AppellantSubmission} AppellantSubmission
