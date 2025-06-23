@@ -30,7 +30,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			req.session.email = testEmail;
 			const returnedFunction = getYourEmailAddress(lpaViews);
 			await returnedFunction(req, res);
-			expect(res.render).toBeCalledWith(`${lpaViews.YOUR_EMAIL_ADDRESS}`, {
+			expect(res.render).toHaveBeenCalledWith(`${lpaViews.YOUR_EMAIL_ADDRESS}`, {
 				email: testEmail
 			});
 		});
@@ -53,7 +53,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			req.body['email-address'] = testEmail;
 			const returnedFunction = postYourEmailAddress(lpaViews);
 			await returnedFunction(req, res);
-			expect(res.redirect).toBeCalledWith(`/${lpaViews.ENTER_CODE}/${testId}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${lpaViews.ENTER_CODE}/${testId}`);
 		});
 		it('should error with missing email address', async () => {
 			const customErrorSummary = [
@@ -64,7 +64,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			];
 			const returnedFunction = postYourEmailAddress(lpaViews);
 			await returnedFunction(req, res);
-			expect(res.render).toBeCalledWith(lpaViews.YOUR_EMAIL_ADDRESS, {
+			expect(res.render).toHaveBeenCalledWith(lpaViews.YOUR_EMAIL_ADDRESS, {
 				errors: {},
 				errorSummary: customErrorSummary
 			});

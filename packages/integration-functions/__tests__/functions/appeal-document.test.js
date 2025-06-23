@@ -82,13 +82,11 @@ describe('appeal-document', () => {
 			}
 		});
 
-		await expect(async () => handler(testData, ctx)).rejects.toThrowError('badness 10000');
+		await expect(async () => handler(testData, ctx)).rejects.toThrow('badness 10000');
 	});
 
 	it('should error if message schema is invalid', async () => {
-		await expect(async () => handler({ body: {} }, ctx)).rejects.toThrowError(
-			'Invalid message schema'
-		);
+		await expect(async () => handler({ body: {} }, ctx)).rejects.toThrow('Invalid message schema');
 		expect(mockClient.putAppealDocument).not.toHaveBeenCalled();
 	});
 

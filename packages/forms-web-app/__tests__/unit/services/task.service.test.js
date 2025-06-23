@@ -373,14 +373,14 @@ describe('services/task.service', () => {
 
 		it('should find the rule in the task object if there is a taskName', () => {
 			getTaskStatus({}, 'section1', 'task1', sections);
-			expect(ruleUnderTask).toBeCalledTimes(1);
-			expect(ruleUnderSection).toBeCalledTimes(0);
+			expect(ruleUnderTask).toHaveBeenCalledTimes(1);
+			expect(ruleUnderSection).toHaveBeenCalledTimes(0);
 		});
 
 		it('should find the rule in the section object if there is not a taskName', () => {
 			getTaskStatus({}, 'section1', undefined, sections);
-			expect(ruleUnderSection).toBeCalledTimes(1);
-			expect(ruleUnderTask).toBeCalledTimes(0);
+			expect(ruleUnderSection).toHaveBeenCalledTimes(1);
+			expect(ruleUnderTask).toHaveBeenCalledTimes(0);
 		});
 
 		it('should return null if there is an error', () => {
@@ -388,7 +388,7 @@ describe('services/task.service', () => {
 			ruleUnderSection.mockImplementation(() => {
 				throw new Error('Mock Error');
 			});
-			expect(ruleUnderSection).toBeCalledTimes(1);
+			expect(ruleUnderSection).toHaveBeenCalledTimes(1);
 			expect(taskStatus).toBeUndefined();
 		});
 	});

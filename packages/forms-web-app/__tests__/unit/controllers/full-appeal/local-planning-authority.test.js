@@ -64,7 +64,7 @@ describe('controllers/full-appeal/local-planning-authority', () => {
 				appeal.lpaCode = '';
 				await getPlanningDepartment(req, res);
 
-				expect(res.render).toBeCalledWith(LOCAL_PLANNING_AUTHORITY, {
+				expect(res.render).toHaveBeenCalledWith(LOCAL_PLANNING_AUTHORITY, {
 					appealLPD: '',
 					departments: departmentList
 				});
@@ -77,7 +77,7 @@ describe('controllers/full-appeal/local-planning-authority', () => {
 				appeal.lpaCode = 'unknown';
 				await getPlanningDepartment(req, res);
 
-				expect(res.render).toBeCalledWith(LOCAL_PLANNING_AUTHORITY, {
+				expect(res.render).toHaveBeenCalledWith(LOCAL_PLANNING_AUTHORITY, {
 					appealLPD: '',
 					departments: departmentList
 				});
@@ -90,7 +90,7 @@ describe('controllers/full-appeal/local-planning-authority', () => {
 				appeal.lpaCode = 'lpdCode';
 				await getPlanningDepartment(req, res);
 
-				expect(res.render).toBeCalledWith(LOCAL_PLANNING_AUTHORITY, {
+				expect(res.render).toHaveBeenCalledWith(LOCAL_PLANNING_AUTHORITY, {
 					appealLPD: 'lpdName',
 					departments: departmentList
 				});

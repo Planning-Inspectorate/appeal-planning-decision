@@ -30,7 +30,7 @@ describe('controllers/common/enter-code', () => {
 			const returnedFunction = getRequestNewCode(REQUEST_NEW_CODE);
 			returnedFunction(req, res);
 
-			expect(res.render).toBeCalledWith(`${REQUEST_NEW_CODE}`);
+			expect(res.render).toHaveBeenCalledWith(`${REQUEST_NEW_CODE}`);
 		});
 	});
 
@@ -45,7 +45,7 @@ describe('controllers/common/enter-code', () => {
 			const returnedFunction = getRequestNewCode(REQUEST_NEW_CODE);
 			returnedFunction(req, res);
 
-			expect(res.render).toBeCalledWith(`${REQUEST_NEW_CODE}`);
+			expect(res.render).toHaveBeenCalledWith(`${REQUEST_NEW_CODE}`);
 		});
 	});
 
@@ -64,7 +64,7 @@ describe('controllers/common/enter-code', () => {
 			const returnedFunction = postRequestNewCode(ENTER_CODE);
 			returnedFunction(req, res);
 
-			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}/${tokenId}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${ENTER_CODE}/${tokenId}`);
 			expect(req.session.enterCodeId).not.toBeDefined();
 			expect(req.session.enterCode.newCode).toBe(true);
 		});
@@ -96,9 +96,9 @@ describe('controllers/common/enter-code', () => {
 			};
 			const returnedFunction = postRequestNewCodeLPA(views);
 			await returnedFunction(req, res);
-			expect(req.appealsApiClient.getUserByEmailV2).toBeCalledWith(email_address);
+			expect(req.appealsApiClient.getUserByEmailV2).toHaveBeenCalledWith(email_address);
 			expect(res.render).not.toHaveBeenCalled();
-			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}/${user.id}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${ENTER_CODE}/${user.id}`);
 		});
 
 		it('should redirect to request-new-code page if the email is incorrect', async () => {
@@ -122,7 +122,7 @@ describe('controllers/common/enter-code', () => {
 
 			const returnedFunction = postRequestNewCodeLPA(views);
 			await returnedFunction(req, res);
-			expect(req.appealsApiClient.getUserByEmailV2).toBeCalledWith(email_address);
+			expect(req.appealsApiClient.getUserByEmailV2).toHaveBeenCalledWith(email_address);
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(`${REQUEST_NEW_CODE}`, {
 				errorSummary: customErrorSummary,

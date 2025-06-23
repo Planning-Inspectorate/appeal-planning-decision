@@ -26,7 +26,7 @@ describe('controllers/submit-appeal/enter-appeal-details', () => {
 		it('getEnterAppealDetails method calls the correct template', async () => {
 			await enterAppealDetailsController.getEnterAppealDetails(req, res);
 
-			expect(res.render).toBeCalledWith(VIEW.SUBMIT_APPEAL.ENTER_APPEAL_DETAILS);
+			expect(res.render).toHaveBeenCalledWith(VIEW.SUBMIT_APPEAL.ENTER_APPEAL_DETAILS);
 		});
 	});
 

@@ -34,7 +34,7 @@ describe('appeal-has', () => {
 	});
 
 	it('should error if message schema is invalid', async () => {
-		await expect(async () => handler({ body: {} }, ctx)).rejects.toThrowError(
+		await expect(async () => handler({ body: {} }, ctx)).rejects.toThrow(
 			'invalid message, caseReference is required'
 		);
 		expect(mockClient.putAppealCase).not.toHaveBeenCalled();

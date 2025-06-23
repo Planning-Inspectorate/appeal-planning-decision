@@ -94,7 +94,7 @@ describe('controllers/common/appeal-multi-file-upload', () => {
 			const returnedFunction = getAppealMultiFileUpload('fakeView');
 			await returnedFunction(req, res);
 
-			expect(res.render).toBeCalledWith('fakeView', {
+			expect(res.render).toHaveBeenCalledWith('fakeView', {
 				uploadedFiles: fullAppeal.appealDocumentsSection.draftPlanningObligations.uploadedFiles
 			});
 		});

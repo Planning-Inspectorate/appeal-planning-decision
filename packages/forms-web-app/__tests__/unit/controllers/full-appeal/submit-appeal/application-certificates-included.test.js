@@ -52,7 +52,7 @@ describe('controllers/full-appeal/submit-appeal/application-certificates-include
 			req.session.appeal.planningApplicationDocumentsSection.ownershipCertificate.submittedSeparateCertificate =
 				null;
 			await getApplicationCertificatesIncluded(req, res);
-			expect(res.render).toBeCalledWith(APPLICATION_CERTIFICATES_INCLUDED, {
+			expect(res.render).toHaveBeenCalledWith(APPLICATION_CERTIFICATES_INCLUDED, {
 				submittedSeparateCertificate: null
 			});
 		});

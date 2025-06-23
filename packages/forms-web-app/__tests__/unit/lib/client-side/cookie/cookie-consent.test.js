@@ -148,7 +148,7 @@ describe('lib/client-side/cookie/cookie-consent', () => {
 		expect(consentBanner).toHaveClass(govUkDisplayNoneCssClass);
 
 		expect(showCookieConsentAcceptedBanner).toHaveBeenCalledWith(document);
-		expect(initialiseOptionalJavaScripts).toBeCalled();
+		expect(initialiseOptionalJavaScripts).toHaveBeenCalled();
 	});
 
 	test('addRejectCookieConsentListener', () => {

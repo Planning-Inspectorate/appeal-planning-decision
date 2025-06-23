@@ -50,10 +50,10 @@ describe('lib/uploadLocalFile', () => {
 
 		uploadLocalFile(req, res);
 
-		expect(res.status).toBeCalledTimes(1);
-		expect(res.status).toBeCalledWith(422);
-		expect(res.send).toBeCalledTimes(1);
-		expect(res.send).toBeCalledWith({
+		expect(res.status).toHaveBeenCalledTimes(1);
+		expect(res.status).toHaveBeenCalledWith(422);
+		expect(res.send).toHaveBeenCalledTimes(1);
+		expect(res.send).toHaveBeenCalledWith({
 			message: 'File too large',
 			maxSize: config.fileUpload.maxSizeInBytes
 		});
@@ -80,11 +80,11 @@ describe('lib/uploadLocalFile', () => {
 
 		uploadLocalFile(req, res, mockNext);
 
-		expect(res.status).toBeCalledTimes(1);
-		expect(res.status).toBeCalledWith(400);
-		expect(res.send).toBeCalledTimes(1);
-		expect(res.send).toBeCalledWith({ message: 'No file uploaded' });
-		expect(mockNext).not.toBeCalled();
+		expect(res.status).toHaveBeenCalledTimes(1);
+		expect(res.status).toHaveBeenCalledWith(400);
+		expect(res.send).toHaveBeenCalledTimes(1);
+		expect(res.send).toHaveBeenCalledWith({ message: 'No file uploaded' });
+		expect(mockNext).not.toHaveBeenCalled();
 	});
 
 	it('should return an error when given a file with an invalid mime type', () => {
@@ -99,14 +99,14 @@ describe('lib/uploadLocalFile', () => {
 
 		uploadLocalFile(req, res, mockNext);
 
-		expect(res.status).toBeCalledTimes(1);
-		expect(res.status).toBeCalledWith(400);
-		expect(res.send).toBeCalledTimes(1);
-		expect(res.send).toBeCalledWith({
+		expect(res.status).toHaveBeenCalledTimes(1);
+		expect(res.status).toHaveBeenCalledWith(400);
+		expect(res.send).toHaveBeenCalledTimes(1);
+		expect(res.send).toHaveBeenCalledWith({
 			message: 'Invalid mime type',
 			mimeType: req.file.mimetype,
 			allowed: config.fileUpload.mimeTypes
 		});
-		expect(mockNext).not.toBeCalled();
+		expect(mockNext).not.toHaveBeenCalled();
 	});
 });

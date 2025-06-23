@@ -27,7 +27,7 @@ describe('middleware/set-locals-display-cookie-banner-value', () => {
 				});
 
 				it('should', () => {
-					expect(mockNext).toBeCalled();
+					expect(mockNext).toHaveBeenCalled();
 				});
 			});
 			describe('and the cookie policy is not defined', () => {
@@ -50,7 +50,7 @@ describe('middleware/set-locals-display-cookie-banner-value', () => {
 				});
 
 				it('should', () => {
-					expect(mockNext).toBeCalled();
+					expect(mockNext).toHaveBeenCalled();
 				});
 			});
 		});

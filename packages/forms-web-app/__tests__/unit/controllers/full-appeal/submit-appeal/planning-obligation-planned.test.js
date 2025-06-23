@@ -52,7 +52,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-planned', ()
 			req.session.appeal.appealDocumentsSection.planningObligations.plansPlanningObligation = null;
 			await getPlanningObligationPlanned(req, res);
 
-			expect(res.render).toBeCalledWith(PLANNING_OBLIGATION_PLANNED, {
+			expect(res.render).toHaveBeenCalledWith(PLANNING_OBLIGATION_PLANNED, {
 				plansPlanningObligation: null
 			});
 		});
@@ -61,7 +61,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-planned', ()
 			req.session.appeal.appealDocumentsSection.planningObligations.plansPlanningObligation = null;
 			await getPlanningObligationPlanned(req, res);
 
-			expect(res.render).toBeCalledWith(PLANNING_OBLIGATION_PLANNED, {
+			expect(res.render).toHaveBeenCalledWith(PLANNING_OBLIGATION_PLANNED, {
 				plansPlanningObligation: null
 			});
 		});

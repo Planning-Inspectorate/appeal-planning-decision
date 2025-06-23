@@ -14,8 +14,8 @@ describe('routes/pdf', () => {
 		// eslint-disable-next-line global-require
 		require('./pdf');
 
-		expect(mockPost).toBeCalledTimes(1);
-		expect(mockPost).toBeCalledWith(
+		expect(mockPost).toHaveBeenCalledTimes(1);
+		expect(mockPost).toHaveBeenCalledWith(
 			'/generate',
 			multer(config.fileUpload).single('html'),
 			postGeneratePdf

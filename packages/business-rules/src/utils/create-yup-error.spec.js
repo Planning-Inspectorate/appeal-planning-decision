@@ -10,8 +10,8 @@ describe('utils/create-yup-error', () => {
 
 		createYupError.call(context, errorMessage);
 
-		expect(context.createError).toBeCalledTimes(1);
-		expect(context.createError).toBeCalledWith({
+		expect(context.createError).toHaveBeenCalledTimes(1);
+		expect(context.createError).toHaveBeenCalledWith({
 			path: context.path,
 			message: `${context.path} ${errorMessage}`
 		});

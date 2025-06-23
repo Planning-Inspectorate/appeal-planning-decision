@@ -21,8 +21,8 @@ describe('lib/addFileMetadata', () => {
 
 		expect(req.file.id).toBeDefined();
 		expect(req.file.uploadDate).toBeDefined();
-		expect(next).toBeCalledTimes(1);
-		expect(next).toBeCalledWith();
+		expect(next).toHaveBeenCalledTimes(1);
+		expect(next).toHaveBeenCalledWith();
 	});
 
 	it('should add the file metadata when req.file does not exist', () => {
@@ -30,7 +30,7 @@ describe('lib/addFileMetadata', () => {
 
 		expect(req.file.id).toBeDefined();
 		expect(req.file.uploadDate).toBeDefined();
-		expect(next).toBeCalledTimes(1);
-		expect(next).toBeCalledWith();
+		expect(next).toHaveBeenCalledTimes(1);
+		expect(next).toHaveBeenCalledWith();
 	});
 });

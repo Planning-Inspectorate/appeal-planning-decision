@@ -70,7 +70,7 @@ describe('Save And Return API', () => {
 			req.body = appealStub;
 
 			updateAppeal.mockReturnValue(appealStub);
-			await (() => expect(createSavedAppealDocument).toBeCalledTimes(1));
+			await (() => expect(createSavedAppealDocument).toHaveBeenCalledTimes(1));
 
 			await saveAndReturnCreate(req, res);
 			expect(createSavedAppealDocument).toHaveBeenCalledWith(req.body.id);
@@ -81,9 +81,9 @@ describe('Save And Return API', () => {
 		it('should respond with - ERROR 400 when appealId is null', async () => {
 			req.body = { appealId: null };
 
-			await expect(async () => saveAndReturnCreate(req, res)).rejects.toThrowError('');
+			await expect(async () => saveAndReturnCreate(req, res)).rejects.toThrow('');
 			expect(res.status).toHaveBeenCalledWith(400);
-			expect(createSavedAppealDocument).toBeCalledTimes(0);
+			expect(createSavedAppealDocument).toHaveBeenCalledTimes(0);
 		});
 	});
 

@@ -37,7 +37,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-deadline', (
 	describe('getPlanningObligationDeadline', () => {
 		it('calls correct template', async () => {
 			await getPlanningObligationDeadline(req, res);
-			expect(res.render).toBeCalledWith(PLANNING_OBLIGATION_DEADLINE, {
+			expect(res.render).toHaveBeenCalledWith(PLANNING_OBLIGATION_DEADLINE, {
 				planningObligationDeadline: undefined
 			});
 		});
@@ -54,7 +54,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-deadline', (
 			createOrUpdateAppeal.mockImplementation(() => Promise.resolve(appeal));
 			await postPlanningObligationDeadline(req, res);
 
-			expect(res.redirect).toBeCalledWith(`/${NEW_DOCUMENTS}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${NEW_DOCUMENTS}`);
 		});
 
 		it('postPlanningObligationDeadline method calls the correct template if it contains errors', async () => {
@@ -68,7 +68,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-deadline', (
 
 			await postPlanningObligationDeadline(req, res);
 
-			expect(res.render).toBeCalledWith(PLANNING_OBLIGATION_DEADLINE, {
+			expect(res.render).toHaveBeenCalledWith(PLANNING_OBLIGATION_DEADLINE, {
 				appeal,
 				errors: { error: 'error' },
 				errorSummary: ['error']
@@ -86,7 +86,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-deadline', (
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(new Error()));
 			await postPlanningObligationDeadline(req, res);
 
-			expect(res.render).toBeCalledWith(PLANNING_OBLIGATION_DEADLINE, {
+			expect(res.render).toHaveBeenCalledWith(PLANNING_OBLIGATION_DEADLINE, {
 				planningObligationDeadline: {
 					plansPlanningObligation: true,
 					planningObligationStatus: PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED
