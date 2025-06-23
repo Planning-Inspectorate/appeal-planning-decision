@@ -7,5 +7,8 @@ module.exports = {
 	testEnvironment: 'node',
 	testMatch: ['**/?(*.)+(spec|test).js'],
 	workerThreads: true,
-	workerIdleMemoryLimit: '1000MB'
+	workerIdleMemoryLimit: '1000MB',
+	testEnvironmentOptions: {
+		globalsCleanup: 'on'
+	}
 };

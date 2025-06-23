@@ -17,5 +17,8 @@ export default {
 			functions: 72,
 			lines: 72
 		}
+	},
+	testEnvironmentOptions: {
+		globalsCleanup: 'on'
 	}
 };
