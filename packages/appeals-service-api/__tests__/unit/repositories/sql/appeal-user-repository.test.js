@@ -1,15 +1,26 @@
-const { mockDeep, mockReset } = require('jest-mock-extended');
-const { PrismaClient } = require('@prisma/client');
 const { APPEAL_USER_ROLES, STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const { AppealUserRepository } = require('#repositories/sql/appeal-user-repository');
 
 describe('AppealUserRepository', () => {
-	const mockPrismaClient = mockDeep(PrismaClient);
+	const mockPrismaClient = {
+		appealUser: {
+			create: jest.fn(),
+			update: jest.fn(),
+			findMany: jest.fn(),
+			findUnique: jest.fn(),
+			count: jest.fn()
+		},
+		appealToUser: {
+			findMany: jest.fn(),
+			create: jest.fn(),
+			update: jest.fn(),
+			deleteMany: jest.fn()
+		}
+	};
 	const repository = new AppealUserRepository(mockPrismaClient);
 
 	afterEach(() => {
 		jest.clearAllMocks();
-		mockReset(mockPrismaClient);
 	});
 
 	describe('createUser', () => {

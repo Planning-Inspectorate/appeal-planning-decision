@@ -1,16 +1,29 @@
-const { mockDeep, mockReset } = require('jest-mock-extended');
-const { PrismaClient } = require('@prisma/client');
 const { ServiceUserRepository } = require('#repositories/sql/service-user-repository');
 const { SERVICE_USER_TYPE } = require('pins-data-model');
 jest.mock('#repositories/sql/appeal-user-repository');
 
 describe('ServiceUserRepository', () => {
-	const mockPrismaClient = mockDeep(PrismaClient);
+	const mockPrismaClient = {
+		serviceUser: {
+			findFirst: jest.fn(),
+			findMany: jest.fn(),
+			create: jest.fn(),
+			update: jest.fn()
+		},
+		appealUser: {
+			findFirst: jest.fn(),
+			create: jest.fn()
+		},
+		appealCase: {
+			findFirst: jest.fn()
+		},
+		$transaction: jest.fn()
+	};
+
 	const repository = new ServiceUserRepository(mockPrismaClient);
 
 	afterEach(() => {
 		jest.clearAllMocks();
-		mockReset(mockPrismaClient);
 	});
 
 	describe('getForEmailCaseAndType', () => {
