@@ -182,7 +182,7 @@
 		"jest-environment-jsdom": "^29.7.0",
 		"jest-fetch-mock": "^3.0.3",
 		"jest-junit": "^16.0.0",
-		"jest-mock-extended": "^3.0.7",
+		"jest-mock-extended": "^4.0.0",
 		"json-server": "^0.17.4",
 		"lint-staged": "^15.5.2",
 		"nodemon": "3.1.10",
