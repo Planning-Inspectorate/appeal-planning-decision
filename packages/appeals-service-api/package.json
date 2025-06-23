@@ -60,7 +60,6 @@
 		"cross-env": "*",
 		"jest": "*",
 		"jest-junit": "*",
-		"jest-mock-extended": "*",
 		"nodemon": "*",
 		"pino-pretty": "*",
 		"rhea": "*",
