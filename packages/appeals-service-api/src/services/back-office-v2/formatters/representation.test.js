@@ -1,4 +1,4 @@
-const { formatter } = require('../representation');
+const { formatter } = require('./representation');
 const { APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
@@ -12,7 +12,7 @@ const expectedNewIPUser = {
 	organisation: null
 };
 
-jest.mock('../utils', () => ({
+jest.mock('./utils', () => ({
 	getDocuments: jest.fn(() => [1]),
 	createInterestedPartyNewUser: jest.fn(() => expectedNewIPUser)
 }));
