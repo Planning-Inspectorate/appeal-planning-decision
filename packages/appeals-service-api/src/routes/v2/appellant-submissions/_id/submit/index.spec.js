@@ -544,7 +544,7 @@ module.exports = ({
 				'Create'
 			);
 			mockEventClient.sendEvents.mockClear();
-			expectEmails('householder planning');
+			expectEmails('householder');
 
 			await appealsApi.post(`/api/v2/appellant-submissions/${appeal2.id}/submit`).expect(200);
 
@@ -554,7 +554,7 @@ module.exports = ({
 				'Create'
 			);
 			mockEventClient.sendEvents.mockClear();
-			expectEmails('householder planning');
+			expectEmails('householder');
 
 			await appealsApi.post(`/api/v2/appellant-submissions/${appeal3.id}/submit`).expect(200);
 
