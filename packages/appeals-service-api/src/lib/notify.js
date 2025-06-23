@@ -859,11 +859,11 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 	try {
 		const lpa = await lpaService.getLpaById(appeal.lpaCode);
 		const lpaEmail = lpa.getEmail();
-		const isHAS = appeal.appealType == APPEAL_ID.HOUSEHOLDER;
+		const appealType = caseTypeLookup(appeal.appealType, 'id');
 
 		const getApplicationDecision = () => {
 			if (
-				isHAS ||
+				appealType?.id.toString() === APPEAL_ID.HOUSEHOLDER ||
 				appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED
 			)
 				return 'the refusal of';
@@ -882,7 +882,7 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		const variables = {
 			...config.services.notify.templateVariables,
 			lpaName: lpa.getName(),
-			appealType: caseTypeLookup(appeal.appealType, 'processCode')?.type.toLowerCase(),
+			appealType: appealType?.type.toLowerCase(),
 			applicationDecision: getApplicationDecision(),
 			lpaReference: appeal.planningApplicationNumber,
 			appealReferenceNumber: appeal.horizonId ?? 'ID not provided',
