@@ -86,7 +86,7 @@ module.exports = class NotifyInteraction {
 
 	static getAppealSubmittedEmailForLpaInteraction(appeal, lpaName, lpaEmail) {
 		const isHAS = appeal.appealType == APPEAL_ID.HOUSEHOLDER;
-		const appealType = isHAS ? 'householder planning' : 'full planning';
+		const appealType = isHAS ? 'householder' : 'full planning';
 		const dateRegex = new RegExp(
 			/\d{2} (January|February|March|April|May|June|July|August|September|October|November|December) \d{4}/
 		);
