@@ -12,9 +12,6 @@ let validUser = '';
 let email = '';
 const validLpa = 'Q9999';
 
-const testCase1 = '001';
-const testCase2 = '002';
-
 /**
  * @param {Object} dependencies
  * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
@@ -43,31 +40,13 @@ module.exports = ({
 				email
 			}
 		});
-		await sqlClient.serviceUser.createMany({
-			data: [
-				{
-					internalId: crypto.randomUUID(),
-					emailAddress: email,
-					id: crypto.randomUUID(),
-					serviceUserType: SERVICE_USER_TYPE.APPELLANT,
-					caseReference: testCase1
-				},
-				{
-					internalId: crypto.randomUUID(),
-					emailAddress: email,
-					id: crypto.randomUUID(),
-					serviceUserType: SERVICE_USER_TYPE.APPELLANT,
-					caseReference: testCase2
-				}
-			]
-		});
 		validUser = user.id;
 	});
 
 	/**
-	 * @returns {Promise<string|undefined>}
+	 * @returns {Promise<void>}
 	 */
-	const createAppeal = async (caseRef) => {
+	const createAppeal = async (caseRef, caseType) => {
 		const appeal = await sqlClient.appeal.create({
 			include: {
 				AppealCase: true
@@ -80,41 +59,23 @@ module.exports = ({
 					}
 				},
 				AppealCase: {
-					create: createTestAppealCase(caseRef, 'S78', validLpa)
+					create: createTestAppealCase(caseRef, caseType, validLpa)
 				}
 			}
 		});
-		return appeal.AppealCase?.caseReference;
-	};
 
-	const formattedFinalComment1 = {
-		caseReference: testCase1,
-		representation: 'This is a test comment',
-		representationSubmittedDate: expect.any(String),
-		representationType: 'final_comment',
-		serviceUserId: expect.any(String),
-		documents: []
-	};
-
-	const formattedFinalComment2 = {
-		caseReference: testCase2,
-		representation: 'Another final comment text for appellant case 002',
-		representationSubmittedDate: expect.any(String),
-		representationType: 'final_comment',
-		serviceUserId: expect.any(String),
-		documents: [
-			{
-				dateCreated: expect.any(String),
-				documentId: expect.any(String),
-				documentType: 'appellantFinalComment',
-				documentURI: 'https://example.com',
-				filename: 'doc.pdf',
-				mime: 'doc',
-				originalFilename: 'mydoc.pdf',
-				size: 10293
+		await sqlClient.serviceUser.create({
+			data: {
+				internalId: crypto.randomUUID(),
+				emailAddress: email,
+				id: crypto.randomUUID(),
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+				caseReference: appeal.AppealCase?.caseReference
 			}
-		]
+		});
 	};
+
+	const appealTypes = ['S78', 'S20'];
 
 	describe('/api/v2/appeal-cases/:caseReference/appellant-final-comment-submissions/submit', () => {
 		const expectEmail = (email, appealReferenceNumber) => {
@@ -133,88 +94,127 @@ module.exports = ({
 			);
 			mockNotifyClient.sendEmail.mockClear();
 		};
-		it('Formats S78 appellant final comment submission without docs for case 001', async () => {
-			await createAppeal(testCase1);
 
-			setCurrentLpa(validLpa);
-			setCurrentSub(validUser);
+		it.each(appealTypes)(
+			'Formats appellant final comment submission for case %s',
+			async (caseType) => {
+				const caseRef = crypto.randomUUID();
+				await createAppeal(caseRef, caseType);
+				setCurrentLpa(validLpa);
+				setCurrentSub(validUser);
 
-			const appellantFinalCommentData = {
-				appellantFinalComment: true,
-				appellantFinalCommentDetails: 'This is a test comment',
-				appellantFinalCommentDocuments: false
-			};
+				const appellantFinalCommentData = {
+					appellantFinalComment: true,
+					appellantFinalCommentDetails: 'This is a test comment',
+					appellantFinalCommentDocuments: false
+				};
 
-			await appealsApi
-				.post(`/api/v2/appeal-cases/001/appellant-final-comment-submission`)
-				.send(appellantFinalCommentData);
+				await appealsApi
+					.post(`/api/v2/appeal-cases/${caseRef}/appellant-final-comment-submission`)
+					.send(appellantFinalCommentData);
 
-			await appealsApi
-				.post(`/api/v2/appeal-cases/001/appellant-final-comment-submission/submit`)
-				.expect(200);
+				await appealsApi
+					.post(`/api/v2/appeal-cases/${caseRef}/appellant-final-comment-submission/submit`)
+					.expect(200);
 
-			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
-				'appeal-fo-representation-submission',
-				[formattedFinalComment1],
-				'Create'
-			);
+				expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
+					'appeal-fo-representation-submission',
+					[
+						{
+							caseReference: caseRef,
+							representation: 'This is a test comment',
+							representationSubmittedDate: expect.any(String),
+							representationType: 'final_comment',
+							serviceUserId: expect.any(String),
+							documents: []
+						}
+					],
+					'Create'
+				);
 
-			expectEmail(email, testCase1);
-		});
-		it('Formats S78 appellant final comment submission with docs for case 002', async () => {
-			mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
-				return async () => ({
-					lastModified: '2024-03-01T14:48:35.847Z',
-					createdOn: '2024-03-01T13:48:35.847Z',
-					metadata: {
-						mime_type: 'doc',
-						size: 10293,
-						document_type: 'uploadAppellantFinalCommentDocuments'
-					},
-					_response: { request: { url: 'https://example.com' } }
+				expectEmail(email, caseRef);
+			}
+		);
+
+		it.each(appealTypes)(
+			'Formats appellant final comment submission with documents for case %s',
+			async (caseType) => {
+				mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
+					return async () => ({
+						lastModified: '2024-03-01T14:48:35.847Z',
+						createdOn: '2024-03-01T13:48:35.847Z',
+						metadata: {
+							mime_type: 'doc',
+							size: 10293,
+							document_type: 'uploadAppellantFinalCommentDocuments'
+						},
+						_response: { request: { url: 'https://example.com' } }
+					});
 				});
-			});
 
-			await createAppeal(testCase2);
-			setCurrentLpa(validLpa);
-			setCurrentSub(validUser);
+				const caseRef = crypto.randomUUID();
+				await createAppeal(caseRef, caseType);
+				setCurrentLpa(validLpa);
+				setCurrentSub(validUser);
 
-			const appellantFinalCommentData = {
-				appellantFinalComment: true,
-				appellantFinalCommentDetails: 'Another final comment text for appellant case 002',
-				appellantFinalCommentDocuments: true,
-				uploadAppellantFinalCommentDocuments: true
-			};
+				const appellantFinalCommentData = {
+					appellantFinalComment: true,
+					appellantFinalCommentDetails: 'Another final comment text for appellant case 002',
+					appellantFinalCommentDocuments: true,
+					uploadAppellantFinalCommentDocuments: true
+				};
 
-			const result = await appealsApi
-				.post('/api/v2/appeal-cases/002/appellant-final-comment-submission')
-				.send(appellantFinalCommentData);
+				const result = await appealsApi
+					.post(`/api/v2/appeal-cases/${caseRef}/appellant-final-comment-submission`)
+					.send(appellantFinalCommentData);
 
-			await sqlClient.submissionDocumentUpload.create({
-				data: {
-					id: crypto.randomUUID(),
-					fileName: 'doc.pdf',
-					originalFileName: 'mydoc.pdf',
-					type: 'any',
-					location: 'https://example.com',
-					name: 'doc.pdf',
-					appellantFinalCommentId: result.body.id,
-					storageId: crypto.randomUUID()
-				}
-			});
+				await sqlClient.submissionDocumentUpload.create({
+					data: {
+						id: crypto.randomUUID(),
+						fileName: 'doc.pdf',
+						originalFileName: 'mydoc.pdf',
+						type: 'any',
+						location: 'https://example.com',
+						name: 'doc.pdf',
+						appellantFinalCommentId: result.body.id,
+						storageId: crypto.randomUUID()
+					}
+				});
 
-			await appealsApi
-				.post(`/api/v2/appeal-cases/002/appellant-final-comment-submission/submit`)
-				.expect(200);
+				await appealsApi
+					.post(`/api/v2/appeal-cases/${caseRef}/appellant-final-comment-submission/submit`)
+					.expect(200);
 
-			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
-				'appeal-fo-representation-submission',
-				[formattedFinalComment2],
-				'Create'
-			);
+				expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
+					'appeal-fo-representation-submission',
+					[
+						{
+							caseReference: caseRef,
+							representation: 'Another final comment text for appellant case 002',
+							representationSubmittedDate: expect.any(String),
+							representationType: 'final_comment',
+							serviceUserId: expect.any(String),
+							documents: [
+								{
+									dateCreated: expect.any(String),
+									documentId: expect.any(String),
+									documentType: 'appellantFinalComment',
+									documentURI: 'https://example.com',
+									filename: 'doc.pdf',
+									mime: 'doc',
+									originalFilename: 'mydoc.pdf',
+									size: 10293
+								}
+							]
+						}
+					],
+					'Create'
+				);
 
-			expectEmail(email, testCase2);
-		});
+				expectEmail(email, caseRef);
+			}
+		);
+
 		it('404s if the final comment submission cannot be found', async () => {
 			await appealsApi
 				.post('/api/v2/appeal-cases/nothere/appellant-final-comment-submissions/submit')
