@@ -1,9 +1,12 @@
-# any PR
+# any PR except infrastructure
 pr:
   branches:
     include:
       - '*'
-      
+  paths:
+    exclude:
+      - infrastructure
+
 # trigger for merge queue branches (PR has been approved, pipeline has already run as per above trigger)
 trigger:
   branches:
@@ -62,7 +65,7 @@ extends:
             parameters:
               condition: succeededOrFailed()
               script: npm run lint
-              nodeVersion: 22            
+              nodeVersion: 22
 
       - name: Run Test API
         dependsOn:
@@ -95,7 +98,7 @@ extends:
               condition: succeededOrFailed()
               script: $(test-script):appeals-api
               nodeVersion: 22
-      
+
       - name: Run Test Forms Web App
         dependsOn:
           - Check Changes
@@ -126,8 +129,8 @@ extends:
             parameters:
               condition: succeededOrFailed()
               script: $(test-script):web
-              nodeVersion: 22   
-      
+              nodeVersion: 22
+
       - name: Run Test Auth Server
         dependsOn:
           - Check Changes
@@ -159,7 +162,7 @@ extends:
               condition: succeededOrFailed()
               script: $(test-script):auth-server
               nodeVersion: 22
-      
+
       - name: Run Test Docs API
         dependsOn:
           - Check Changes
@@ -191,7 +194,7 @@ extends:
               condition: succeededOrFailed()
               script: $(test-script):documents-api
               nodeVersion: 22
-      
+
       - name: Run Test Other
         # combined as these run quick and/or are shared so running on any change to source code
         dependsOn:
