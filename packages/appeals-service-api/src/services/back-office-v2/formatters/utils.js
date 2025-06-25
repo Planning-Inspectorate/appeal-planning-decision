@@ -35,6 +35,7 @@ const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-dat
  * @typedef {import ('pins-data-model').Schemas.LPAQHASSubmissionProperties} LPAQHASSubmissionProperties
  * @typedef {import ('pins-data-model').Schemas.LPAQS78SubmissionProperties} LPAQS78SubmissionProperties
  * @typedef {import ('pins-data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
+ * @typedef {function(FullAppellantSubmission, LPA): Promise<AppellantSubmissionCommand>} AppellantSubmissionMapper
  *
  * @typedef {import ('../../../models/entities/lpa-entity')} LPA
  *
@@ -331,14 +332,14 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
 	return {
 		agriculturalHolding: appellantSubmission.agriculturalHolding ?? null,
 		tenantAgriculturalHolding: appellantSubmission.agriculturalHolding
-			? appellantSubmission.tenantAgriculturalHolding ?? null
+			? (appellantSubmission.tenantAgriculturalHolding ?? null)
 			: null,
 		otherTenantsAgriculturalHolding:
 			appellantSubmission.agriculturalHolding && appellantSubmission.tenantAgriculturalHolding
-				? appellantSubmission.otherTenantsAgriculturalHolding ?? null
+				? (appellantSubmission.otherTenantsAgriculturalHolding ?? null)
 				: null,
 		informedTenantsAgriculturalHolding: appellantSubmission.agriculturalHolding
-			? appellantSubmission.informedTenantsAgriculturalHolding ?? null
+			? (appellantSubmission.informedTenantsAgriculturalHolding ?? null)
 			: null,
 
 		planningObligation: appellantSubmission.planningObligation ?? null,
@@ -356,6 +357,10 @@ exports.getS20AppellantSubmissionFields = (appellantSubmission) => {
 	const preference = getAppellantProcedurePreference(appellantSubmission);
 
 	return {
+		agriculturalHolding: null,
+		tenantAgriculturalHolding: null,
+		otherTenantsAgriculturalHolding: null,
+		informedTenantsAgriculturalHolding: null,
 		planningObligation: appellantSubmission.planningObligation ?? null,
 		statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
 		developmentType: exports.getDevelopmentType(appellantSubmission),

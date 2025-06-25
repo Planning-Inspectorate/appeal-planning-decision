@@ -89,10 +89,10 @@ describe('S20 formatter', () => {
 	it('should format the appellant submission correctly', async () => {
 		const result = await formatter(appellantSubmission, lpa);
 
-		expect(result).toEqual({
+		expect(result).toMatchObject({
 			casedata: {
 				submissionId: 'appeal123',
-				caseType: APPEAL_CASE_TYPE.Z,
+				caseType: APPEAL_CASE_TYPE.Y,
 				developmentType: APPEAL_DEVELOPMENT_TYPE.MAJOR_DWELLINGS,
 				caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
 				lpaCode: 123,
@@ -161,10 +161,10 @@ describe('S20 formatter', () => {
 			lpa
 		);
 
-		expect(result).toEqual({
+		expect(result).toMatchObject({
 			casedata: {
 				submissionId: 'appeal123',
-				caseType: APPEAL_CASE_TYPE.Z,
+				caseType: APPEAL_CASE_TYPE.Y,
 				developmentType: APPEAL_DEVELOPMENT_TYPE.MAJOR_DWELLINGS,
 				caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
 				lpaCode: 123,

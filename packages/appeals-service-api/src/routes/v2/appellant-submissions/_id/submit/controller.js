@@ -10,6 +10,9 @@ const {
 const {
 	formatter: s78Formatter
 } = require('../../../../../services/back-office-v2/formatters/s78/appeal');
+const {
+	formatter: s20Formatter
+} = require('../../../../../services/back-office-v2/formatters/s20/appeal');
 const { getUserById } = require('../../../users/service');
 
 const lpaService = new LpaService();
@@ -26,14 +29,14 @@ const backOfficeV2Service = new BackOfficeV2Service();
  * @returns {AppellantSubmissionMapper}
  */
 const getFormatter = (appealTypeCode) => {
+	// todo: think about simplifying this to less specific formatters? 1 expedited 1 full?
 	switch (appealTypeCode) {
 		case CASE_TYPES.HAS.processCode:
 			return hasFormatter;
 		case CASE_TYPES.S78.processCode:
 			return s78Formatter;
 		case CASE_TYPES.S20.processCode:
-			//TODO: update/ create new formatter when data model confirmed
-			return s78Formatter;
+			return s20Formatter;
 		case CASE_TYPES.ADVERTS.processCode:
 		case CASE_TYPES.CAS_ADVERTS.processCode:
 			//TODO: update/ create new formatter when data model confirmed

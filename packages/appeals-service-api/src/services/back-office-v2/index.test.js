@@ -82,7 +82,7 @@ jest.mock('../../routes/v2/appeal-cases/_caseReference/rule-6-statement-submissi
 jest.mock('../../db/db-client');
 
 describe('BackOfficeV2Service', () => {
-	/** @type {import('../../../../src/services/back-office-v2/index')} */
+	/** @type {import('./index')} */
 	let backOfficeV2Service;
 
 	const testCaseRef = 'abc';
