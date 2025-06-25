@@ -137,7 +137,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
 
       rule {
         # Possible Remote File Inclusion (RFI) Attack: Off-Domain Reference/Link
-        action  = "Block"
+        action  = "AnomalyScoring"
         enabled = true
         rule_id = "931130"
 
