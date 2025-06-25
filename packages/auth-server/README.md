@@ -76,3 +76,10 @@ prepend new values to array and subsequently drop old ones off
 - appeals-auth-server-jwks
   JSON Array of JWK, generate new by setting algorithm and calling node ./dev/gen-keys.js
   Ensure alg used is allowed by client.id_token_signed_response_alg
+  Check best practice on algorithm when updating
+- If changing algorithm will need new resource server and clients as they can only handle 1 signing algorithm at a time
+
+To allow existing tokens to remain valid until expiry some changes are required
+  
+  Resource server currently uses jwtSigningAlg: from `/src/configuration/config`
+  Clients use the default of RSA so new client will need to set id_token_signed_response_alg to the same value in `/src/oidc/clients.js`
