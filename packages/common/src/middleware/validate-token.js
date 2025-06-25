@@ -1,4 +1,10 @@
-const jose = require('jose');
+let joseImport = null;
+const getJose = async () => {
+	if (!joseImport) {
+		joseImport = await import('jose');
+	}
+	return joseImport;
+};
 
 /**
  * Validates a JWT token on an express request
@@ -13,6 +19,8 @@ const jose = require('jose');
 const validateToken = (options) => {
 	return async function (req, res, next) {
 		try {
+			const jose = await getJose();
+
 			// Extract JWT from header
 			const token = req.headers[options.headerName];
 
