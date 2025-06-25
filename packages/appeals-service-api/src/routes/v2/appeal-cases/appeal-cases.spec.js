@@ -10,6 +10,9 @@ const {
 const {
 	exampleS78DataModel
 } = require('../../../../__tests__/developer/fixtures/appeals-S78-data-model');
+const {
+	exampleS20DataModel
+} = require('../../../../__tests__/developer/fixtures/appeals-S20-data-model');
 
 /**
  * @param {Object} dependencies
@@ -321,6 +324,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 
 			const hasExample = { ...exampleHASDataModel };
 			const s78Example = { ...exampleS78DataModel };
+			const s20Example = { ...exampleS20DataModel };
 
 			for (const testCase of testCases) {
 				it(`upserts case for ${testCase.caseReference}`, async () => {
@@ -337,6 +341,15 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					const response = await appealsApi
 						.put(`/api/v2/appeal-cases/` + testCase.caseReference)
 						.send(s78Example);
+					expect(response.status).toBe(200);
+					expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
+				});
+
+				it(`upserts S20 case for ${testCase.caseReference}`, async () => {
+					s20Example.caseReference = testCase.caseReference;
+					const response = await appealsApi
+						.put(`/api/v2/appeal-cases/` + testCase.caseReference)
+						.send(s20Example);
 					expect(response.status).toBe(200);
 					expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
 				});
@@ -425,6 +438,49 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				expect(appealCase?.NeighbouringAddresses.length).toBe(4); // the number of neighbouring addresses in example json
 				expect(appealCase?.CaseType?.processCode).toBe('S78');
 				expect(appealCase?.ProcedureType?.name).toBe('Written');
+
+				const appealRelations = await sqlClient.appealCaseRelationship.findMany({
+					where: {
+						OR: [
+							{
+								caseReference: testCase1.caseReference
+							},
+							{
+								caseReference2: testCase1.caseReference
+							}
+						]
+					}
+				});
+				expect(appealRelations.length).toBe(5); // nearbyCaseReferences (linked bi-directional) + leadCaseReference (one-directional)
+			});
+
+			it('upserts all relational data for S20', async () => {
+				s20Example.caseReference = testCase1.caseReference;
+				await appealsApi.put(`/api/v2/appeal-cases/` + testCase1.caseReference).send(s20Example);
+
+				await appealsApi.put(`/api/v2/appeal-cases/` + testCase1.caseReference).send(s20Example);
+
+				const appealCase = await sqlClient.appealCase.findFirst({
+					where: { caseReference: testCase1.caseReference },
+					include: {
+						ListedBuildings: true,
+						AppealCaseLpaNotificationMethod: true,
+						NeighbouringAddresses: true,
+						CaseType: true,
+						ProcedureType: true
+					}
+				});
+
+				expect(
+					appealCase?.ListedBuildings.filter((x) => x.type === LISTED_RELATION_TYPES.affected)
+						.length
+				).toBe(3); // the number of listed buildings in example json
+				expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2); // the number of notification methods in example json
+				expect(appealCase?.NeighbouringAddresses.length).toBe(4); // the number of neighbouring addresses in example json
+				expect(appealCase?.CaseType?.processCode).toBe('S20');
+				expect(appealCase?.ProcedureType?.name).toBe('Written');
+				expect(appealCase?.preserveGrantLoan).toBe(true);
+				expect(appealCase?.consultHistoricEngland).toBe(true);
 
 				const appealRelations = await sqlClient.appealCaseRelationship.findMany({
 					where: {

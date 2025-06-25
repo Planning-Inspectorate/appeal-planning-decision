@@ -396,6 +396,8 @@ export interface AppealCase {
 	otherTenantsAgriculturalHolding?: boolean;
 	informedTenantsAgriculturalHolding?: boolean;
 	statusPlanningObligation?: string;
+	preserveGrantLoan?: boolean;
+	consultHistoricEngland?: boolean;
 	ListedBuildings?: object[];
 	Documents?: object[];
 	NeighbouringAddresses?: object[];
