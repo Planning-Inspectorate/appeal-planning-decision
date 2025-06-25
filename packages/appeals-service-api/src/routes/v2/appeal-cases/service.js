@@ -318,7 +318,10 @@ const mapS78DataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	siteGridReferenceEasting: dataModel.siteGridReferenceEasting,
 	siteGridReferenceNorthing: dataModel.siteGridReferenceNorthing,
 	siteViewableFromRoad: dataModel.siteViewableFromRoad,
-	siteWithinSSSI: dataModel.siteWithinSSSI
+	siteWithinSSSI: dataModel.siteWithinSSSI,
+	// s20 specific fields
+	preserveGrantLoan: dataModel.preserveGrantLoan,
+	consultHistoricEngland: dataModel.consultHistoricEngland
 });
 
 /**
@@ -386,6 +389,12 @@ const getMappedData = (data) => {
 			const s78Validator = getValidator('appeal-s78');
 			if (!s78Validator(data)) throw ApiError.badRequest('Payload was invalid');
 			return mapS78DataModelToAppealCase(CASE_TYPES.S78.processCode, data);
+		}
+		case CASE_TYPES.S20.key: {
+			// uses s78 data model
+			const s78Validator = getValidator('appeal-s78');
+			if (!s78Validator(data)) throw ApiError.badRequest('Payload was invalid');
+			return mapS78DataModelToAppealCase(CASE_TYPES.S20.processCode, data);
 		}
 		default:
 			throw Error(`putCase: unhandled casetype: ${data.caseType}`);

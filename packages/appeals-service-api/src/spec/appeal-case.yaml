@@ -326,7 +326,7 @@ components:
           format: date-time
           description: The date the LPA response was validated
 
-        # s78 fields - remove or rename to align with data model once created
+        # s78 fields
         interestedPartyRepsDueDate:
           type: string
           format: date-time
@@ -471,6 +471,12 @@ components:
           type: boolean
         statusPlanningObligation:
           type: string
+
+        # s20 specific fields
+        preserveGrantLoan:
+          type: boolean
+        consultHistoricEngland:
+          type: boolean
 
         # relations
         ListedBuildings:

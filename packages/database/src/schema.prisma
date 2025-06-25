@@ -359,7 +359,7 @@ model AppealCase {
   appellantProofsSubmittedDate DateTime? /// date appellant submitted their proofs-of-evidence/witnesses
 
   //***************************************************************************
-  // s78 fields - todo: question these with business
+  // s78 fields
   //***************************************************************************
 
   // todo: in data model but not asked or handled anywhere?
@@ -377,6 +377,12 @@ model AppealCase {
   targetDate                    DateTime?
   siteNoticesSentDate           DateTime?
   dateCostsReportDespatched     DateTime?
+
+  //***************************************************************************
+  // s20 fields
+  //***************************************************************************
+  preserveGrantLoan      Boolean?
+  consultHistoricEngland Boolean?
 
   //***************************************************************************
   // Relations
