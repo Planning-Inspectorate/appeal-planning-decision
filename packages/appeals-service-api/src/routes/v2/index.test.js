@@ -141,6 +141,8 @@ describe('integration tests', () => {
 			if (stat.isDirectory()) {
 				specFiles = specFiles.concat(getAllSpecFiles(fullPath));
 			} else if (file.endsWith('.spec.js')) {
+				// example to only run 1 integration test at a time
+				// if (!fullPath.includes('/appellant-submissions/_id/submit/index.spec.js')) continue;
 				specFiles.push(fullPath);
 			}
 		}
