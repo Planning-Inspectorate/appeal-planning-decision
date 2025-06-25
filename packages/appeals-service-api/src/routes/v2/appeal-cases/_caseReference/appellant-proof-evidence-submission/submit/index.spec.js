@@ -45,33 +45,16 @@ module.exports = ({
 				email
 			}
 		});
-		await sqlClient.serviceUser.createMany({
-			data: [
-				{
-					internalId: crypto.randomUUID(),
-					emailAddress: email,
-					id: testServiceUserId,
-					serviceUserType: SERVICE_USER_TYPE.APPELLANT,
-					caseReference: '207'
-				},
-				{
-					internalId: crypto.randomUUID(),
-					emailAddress: email,
-					id: testServiceUserId,
-					serviceUserType: SERVICE_USER_TYPE.APPELLANT,
-					caseReference: '208'
-				}
-			]
-		});
+
 		validUser = user.id;
 		validEmail = user.email;
 	});
 
 	/**
-	 * @returns {Promise<string|undefined>}
+	 * @returns {Promise<void>}
 	 */
-	const createAppeal = async (/** @type {string} */ caseRef) => {
-		const appeal = await sqlClient.appeal.create({
+	const createAppeal = async (/** @type {string} */ caseRef, caseType) => {
+		await sqlClient.appeal.create({
 			include: {
 				AppealCase: true
 			},
@@ -84,62 +67,25 @@ module.exports = ({
 				},
 				AppealCase: {
 					create: {
-						...createTestAppealCase(caseRef, 'S78', validLpa),
+						...createTestAppealCase(caseRef, caseType, validLpa),
 						proofsOfEvidenceDueDate: new Date().toISOString()
 					}
 				}
 			}
 		});
-		return appeal.AppealCase?.caseReference;
-	};
-	const formattedProofs1 = {
-		caseReference: '207',
-		representation: null,
-		representationSubmittedDate: expect.any(String),
-		representationType: 'proofs_evidence',
-		serviceUserId: testServiceUserId,
-		documents: [
-			{
-				dateCreated: expect.any(String),
-				documentId: expect.any(String),
-				documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_PROOF_OF_EVIDENCE,
-				documentURI: 'https://example.com',
-				filename: 'doc.pdf',
-				mime: 'doc',
-				originalFilename: 'mydoc.pdf',
-				size: 10293
+
+		await sqlClient.serviceUser.create({
+			data: {
+				internalId: crypto.randomUUID(),
+				emailAddress: validEmail,
+				id: testServiceUserId,
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+				caseReference: caseRef
 			}
-		]
+		});
 	};
-	const formattedProofs2 = {
-		caseReference: '208',
-		representation: null,
-		representationSubmittedDate: expect.any(String),
-		representationType: 'proofs_evidence',
-		serviceUserId: testServiceUserId,
-		documents: expect.arrayContaining([
-			{
-				dateCreated: expect.any(String),
-				documentId: expect.any(String),
-				documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_PROOF_OF_EVIDENCE,
-				documentURI: 'https://example.com',
-				filename: 'doc.pdf',
-				mime: 'doc',
-				originalFilename: 'mydoc.pdf',
-				size: 10293
-			},
-			{
-				dateCreated: expect.any(String),
-				documentId: expect.any(String),
-				documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_WITNESSES_EVIDENCE,
-				documentURI: 'https://example.com',
-				filename: 'doc.pdf',
-				mime: 'doc',
-				originalFilename: 'mydoc.pdf',
-				size: 10293
-			}
-		])
-	};
+
+	const appealTypes = ['S78', 'S20'];
 
 	describe('/api/v2/appeal-cases/:caseReference/appellant-proof-evidence-submission/submit', () => {
 		const expectEmails = (/** @type {string} */ caseRef) => {
@@ -160,117 +106,181 @@ module.exports = ({
 			);
 			mockNotifyClient.sendEmail.mockClear();
 		};
-		it('Formats S78 appellant proof of evidence submission with one doc type for case 207', async () => {
-			mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
-				return async () => ({
-					lastModified: '2024-03-01T14:48:35.847Z',
-					createdOn: '2024-03-01T13:48:35.847Z',
-					metadata: {
-						mime_type: 'doc',
-						size: 10293,
-						document_type: 'uploadAppellantProofOfEvidenceDocuments'
-					},
-					_response: { request: { url: 'https://example.com' } }
-				});
-			});
-			const caseRef = '207';
-			await createAppeal(caseRef);
-			setCurrentLpa(validLpa);
-			setCurrentSub(validUser);
-			const appellantProofOfEvidenceData = {
-				uploadAppellantProofOfEvidenceDocuments: true,
-				appellantWitnesses: false
-			};
-			const result = await appealsApi
-				.post(`/api/v2/appeal-cases/207/appellant-proof-evidence-submission`)
-				.send(appellantProofOfEvidenceData);
-			await sqlClient.submissionDocumentUpload.create({
-				data: {
-					id: crypto.randomUUID(),
-					fileName: 'doc.pdf',
-					originalFileName: 'mydoc.pdf',
-					type: 'uploadAppellantProofOfEvidenceDocuments',
-					location: 'https://example.com',
-					name: 'doc.pdf',
-					appellantProofOfEvidenceId: result.body.id,
-					storageId: crypto.randomUUID()
-				}
-			});
-			await appealsApi
-				.post(`/api/v2/appeal-cases/207/appellant-proof-evidence-submission/submit`)
-				.expect(200);
-			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
-				'appeal-fo-representation-submission',
-				[formattedProofs1],
-				'Create'
-			);
-			mockEventClient.sendEvents.mockClear();
-			expectEmails(caseRef);
-		});
-		it('Formats S78 appellant proof of evidence submission with both doc types for case 208', async () => {
-			mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
-				return async (location) => ({
-					lastModified: '2024-03-01T14:48:35.847Z',
-					createdOn: '2024-03-01T13:48:35.847Z',
-					metadata: {
-						mime_type: 'doc',
-						size: 10293,
-						document_type:
-							location === 'https://example.com/proof'
-								? 'uploadAppellantProofOfEvidenceDocuments'
-								: 'uploadAppellantWitnessesEvidence'
-					},
-					_response: { request: { url: 'https://example.com' } }
-				});
-			});
 
-			const caseRef = '208';
-			await createAppeal(caseRef);
-			setCurrentLpa(validLpa);
-			setCurrentSub(validUser);
-			const appellantProofOfEvidenceData = {
-				uploadAppellantProofOfEvidenceDocuments: true,
-				appellantWitnesses: true,
-				uploadAppellantWitnessesEvidence: true
-			};
-			const result = await appealsApi
-				.post('/api/v2/appeal-cases/208/appellant-proof-evidence-submission')
-				.send(appellantProofOfEvidenceData);
-			await sqlClient.submissionDocumentUpload.createMany({
-				data: [
-					{
+		it.each(appealTypes)(
+			'Formats appellant proof of evidence submission for case %s',
+			async (caseType) => {
+				mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
+					return async () => ({
+						lastModified: '2024-03-01T14:48:35.847Z',
+						createdOn: '2024-03-01T13:48:35.847Z',
+						metadata: {
+							mime_type: 'doc',
+							size: 10293,
+							document_type: 'uploadAppellantProofOfEvidenceDocuments'
+						},
+						_response: { request: { url: 'https://example.com' } }
+					});
+				});
+
+				const caseRef = crypto.randomUUID();
+				await createAppeal(caseRef, caseType);
+				setCurrentLpa(validLpa);
+				setCurrentSub(validUser);
+				const appellantProofOfEvidenceData = {
+					uploadAppellantProofOfEvidenceDocuments: true,
+					appellantWitnesses: false
+				};
+				const result = await appealsApi
+					.post(`/api/v2/appeal-cases/${caseRef}/appellant-proof-evidence-submission`)
+					.send(appellantProofOfEvidenceData);
+				await sqlClient.submissionDocumentUpload.create({
+					data: {
 						id: crypto.randomUUID(),
 						fileName: 'doc.pdf',
 						originalFileName: 'mydoc.pdf',
 						type: 'uploadAppellantProofOfEvidenceDocuments',
-						location: 'https://example.com/proof',
-						name: 'doc.pdf',
-						appellantProofOfEvidenceId: result.body.id,
-						storageId: crypto.randomUUID()
-					},
-					{
-						id: crypto.randomUUID(),
-						fileName: 'doc.pdf',
-						originalFileName: 'mydoc.pdf',
-						type: 'uploadAppellantWitnessesEvidence',
 						location: 'https://example.com',
 						name: 'doc.pdf',
 						appellantProofOfEvidenceId: result.body.id,
 						storageId: crypto.randomUUID()
 					}
-				]
-			});
-			await appealsApi
-				.post(`/api/v2/appeal-cases/208/appellant-proof-evidence-submission/submit`)
-				.expect(200);
-			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
-				'appeal-fo-representation-submission',
-				[formattedProofs2],
-				'Create'
-			);
-			mockEventClient.sendEvents.mockClear();
-			expectEmails(caseRef);
-		});
+				});
+
+				await appealsApi
+					.post(`/api/v2/appeal-cases/${caseRef}/appellant-proof-evidence-submission/submit`)
+					.expect(200);
+
+				expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
+					'appeal-fo-representation-submission',
+					[
+						{
+							caseReference: caseRef,
+							representation: null,
+							representationSubmittedDate: expect.any(String),
+							representationType: 'proofs_evidence',
+							serviceUserId: testServiceUserId,
+							documents: [
+								{
+									dateCreated: expect.any(String),
+									documentId: expect.any(String),
+									documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_PROOF_OF_EVIDENCE,
+									documentURI: 'https://example.com',
+									filename: 'doc.pdf',
+									mime: 'doc',
+									originalFilename: 'mydoc.pdf',
+									size: 10293
+								}
+							]
+						}
+					],
+					'Create'
+				);
+				mockEventClient.sendEvents.mockClear();
+				expectEmails(caseRef);
+			}
+		);
+
+		it.each(appealTypes)(
+			'Formats appellant proof of evidence submission with both docs for case %s',
+			async (caseType) => {
+				mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
+					return async (location) => ({
+						lastModified: '2024-03-01T14:48:35.847Z',
+						createdOn: '2024-03-01T13:48:35.847Z',
+						metadata: {
+							mime_type: 'doc',
+							size: 10293,
+							document_type:
+								location === 'https://example.com/proof'
+									? 'uploadAppellantProofOfEvidenceDocuments'
+									: 'uploadAppellantWitnessesEvidence'
+						},
+						_response: { request: { url: 'https://example.com' } }
+					});
+				});
+
+				const caseRef = crypto.randomUUID();
+				await createAppeal(caseRef, caseType);
+				setCurrentLpa(validLpa);
+				setCurrentSub(validUser);
+				const appellantProofOfEvidenceData = {
+					uploadAppellantProofOfEvidenceDocuments: true,
+					appellantWitnesses: true,
+					uploadAppellantWitnessesEvidence: true
+				};
+				const result = await appealsApi
+					.post(`/api/v2/appeal-cases/${caseRef}/appellant-proof-evidence-submission`)
+					.send(appellantProofOfEvidenceData);
+				await sqlClient.submissionDocumentUpload.createMany({
+					data: [
+						{
+							id: crypto.randomUUID(),
+							fileName: 'doc.pdf',
+							originalFileName: 'mydoc.pdf',
+							type: 'uploadAppellantProofOfEvidenceDocuments',
+							location: 'https://example.com/proof',
+							name: 'doc.pdf',
+							appellantProofOfEvidenceId: result.body.id,
+							storageId: crypto.randomUUID()
+						},
+						{
+							id: crypto.randomUUID(),
+							fileName: 'doc.pdf',
+							originalFileName: 'mydoc.pdf',
+							type: 'uploadAppellantWitnessesEvidence',
+							location: 'https://example.com',
+							name: 'doc.pdf',
+							appellantProofOfEvidenceId: result.body.id,
+							storageId: crypto.randomUUID()
+						}
+					]
+				});
+
+				await appealsApi
+					.post(`/api/v2/appeal-cases/${caseRef}/appellant-proof-evidence-submission/submit`)
+					.expect(200);
+
+				expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
+					'appeal-fo-representation-submission',
+					[
+						{
+							caseReference: caseRef,
+							representation: null,
+							representationSubmittedDate: expect.any(String),
+							representationType: 'proofs_evidence',
+							serviceUserId: testServiceUserId,
+							documents: expect.arrayContaining([
+								{
+									dateCreated: expect.any(String),
+									documentId: expect.any(String),
+									documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_PROOF_OF_EVIDENCE,
+									documentURI: 'https://example.com',
+									filename: 'doc.pdf',
+									mime: 'doc',
+									originalFilename: 'mydoc.pdf',
+									size: 10293
+								},
+								{
+									dateCreated: expect.any(String),
+									documentId: expect.any(String),
+									documentType: APPEAL_DOCUMENT_TYPE.APPELLANT_WITNESSES_EVIDENCE,
+									documentURI: 'https://example.com',
+									filename: 'doc.pdf',
+									mime: 'doc',
+									originalFilename: 'mydoc.pdf',
+									size: 10293
+								}
+							])
+						}
+					],
+					'Create'
+				);
+				mockEventClient.sendEvents.mockClear();
+				expectEmails(caseRef);
+			}
+		);
+
 		it('404s if the proof of evidence submission cannot be found', async () => {
 			await appealsApi
 				.post('/api/v2/appeal-cases/nothere/appellant-proof-evidence-submissions/submit')
