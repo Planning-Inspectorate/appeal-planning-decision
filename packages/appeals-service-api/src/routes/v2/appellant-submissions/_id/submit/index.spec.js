@@ -28,42 +28,151 @@ module.exports = ({
 	let validUser = '';
 	let validEmail = '';
 
-	/** @type {import('pins-data-model/src/schemas').AppellantSubmissionCommand} */
-	const formattedHAS1 = {
-		casedata: {
-			submissionId: expect.any(String),
-			advertisedAppeal: null,
-			appellantCostsAppliedFor: false,
-			applicationDate: '2024-01-01T00:00:00.000Z',
-			applicationDecision: 'refused',
-			applicationDecisionDate: '2024-01-01T00:00:00.000Z',
+	const submissionData = {
+		common: {
+			LPACode: '123',
+			appellantGreenBelt: true,
+			advertisedAppeal: true,
+			developmentDescriptionOriginal: 'Original description',
+			updateDevelopmentDescription: true,
+			costApplication: true
+		},
+		application: {
 			applicationReference: '123',
-			caseProcedure: 'written',
-			caseSubmissionDueDate: '2024-03-25T23:59:59.999Z',
-			caseSubmittedDate: expect.any(String), // it's based on a new Date() so we can't get it exactly
-			caseType: 'D',
-			changedDevelopmentDescription: false,
-			enforcementNotice: false,
-			floorSpaceSquareMetres: 22,
+			onApplicationDate: new Date(),
+			applicationDecision: 'refused',
+			applicationDecisionDate: new Date()
+		},
+		site: {
+			appellantSiteAccess_appellantSiteAccessDetails: 'Access details',
+			appellantSiteSafety_appellantSiteSafetyDetails: 'Safety details',
+			siteAreaSquareMetres: 100,
+			ownsAllLand: false,
+			ownsSomeLand: true,
+			knowsOtherOwners: 'yes',
 			knowsAllOwners: null,
-			knowsOtherOwners: 'Yes',
+			informedOwners: true
+		},
+		procedurePreference: {
+			appellantProcedurePreference: 'inquiry',
+			appellantPreferInquiryDetails: 'details',
+			appellantPreferInquiryDuration: 13,
+			appellantPreferInquiryWitnesses: 3
+		},
+		developmentType: {
+			majorMinorDevelopment: 'minor',
+			typeDevelopment: 'dwellings'
+		},
+		planningObligation: {
+			planningObligation: true,
+			statusPlanningObligation: 'test'
+		},
+		agricultural: {
+			agriculturalHolding: true,
+			tenantAgriculturalHolding: true,
+			otherTenantsAgriculturalHolding: true,
+			informedTenantsAgriculturalHolding: true
+		},
+		withAgent: {
+			appellantFirstName: 'Test App',
+			appellantLastName: 'Testington',
+			contactFirstName: 'Testy',
+			contactLastName: 'McTest',
+			contactPhoneNumber: '12345657',
+			contactCompanyName: 'Test',
+			isAppellant: false
+		},
+		withAppellant: {
+			isAppellant: true,
+			contactFirstName: 'Testy',
+			contactLastName: 'McTest',
+			contactCompanyName: 'Test',
+			contactPhoneNumber: '12345657'
+		},
+		address: {
+			addressLine1: 'Somewhere',
+			addressLine2: 'Somewhere St',
+			townCity: 'Somewhereville',
+			postcode: 'SOM3 W3R',
+			fieldName: 'siteAddress',
+			county: 'Somewhere'
+		},
+		document: {
+			fileName: 'img.jpg',
+			originalFileName: 'oimg.jpg',
+			name: 'img.jpg',
+			location: '/img.jpg',
+			type: 'jpg',
+			storageId: '001'
+		},
+		linkedCase: {
+			caseReference: 'case123',
+			fieldName: 'linked'
+		}
+	};
+
+	const expectedData = {
+		common: {
 			lpaCode: 'LPA_001',
-			nearbyCaseReferences: [],
+			submissionId: expect.any(String),
+			caseSubmissionDueDate: expect.any(String),
+			caseSubmittedDate: expect.any(String),
+			appellantCostsAppliedFor: true,
+			advertisedAppeal: true,
+			isGreenBelt: true,
+			changedDevelopmentDescription: true,
+			nearbyCaseReferences: ['case123'],
 			neighbouringSiteAddresses: null,
-			originalDevelopmentDescription: 'A test description',
-			ownersInformed: null,
-			ownsAllLand: true,
-			ownsSomeLand: null,
-			siteAccessDetails: ['Come and see'],
-			siteAddressCounty: 'Somewhere',
+			originalDevelopmentDescription: 'Original description',
+			caseProcedure: 'written',
+			enforcementNotice: false
+		},
+		application: {
+			applicationDate: expect.any(String),
+			applicationDecision: 'refused',
+			applicationDecisionDate: expect.any(String),
+			applicationReference: '123'
+		},
+		site: {
 			siteAddressLine1: 'Somewhere',
 			siteAddressLine2: 'Somewhere St',
-			siteAddressPostcode: 'SOM3 W3R',
 			siteAddressTown: 'Somewhereville',
-			siteAreaSquareMetres: 22,
-			siteSafetyDetails: ["It's dangerous"],
-			isGreenBelt: false,
-			typeOfPlanningApplication: null
+			siteAddressCounty: 'Somewhere',
+			siteAddressPostcode: 'SOM3 W3R',
+			siteAreaSquareMetres: 100,
+			floorSpaceSquareMetres: 100,
+			siteSafetyDetails: ['Safety details'],
+			siteAccessDetails: ['Access details'],
+			knowsAllOwners: null,
+			knowsOtherOwners: 'Yes',
+			ownersInformed: true,
+			ownsAllLand: false,
+			ownsSomeLand: true
+		},
+		agricultural: {
+			agriculturalHolding: true,
+			tenantAgriculturalHolding: true,
+			otherTenantsAgriculturalHolding: true,
+			informedTenantsAgriculturalHolding: true
+		},
+		nullAgricultural: {
+			agriculturalHolding: null,
+			tenantAgriculturalHolding: null,
+			otherTenantsAgriculturalHolding: null,
+			informedTenantsAgriculturalHolding: null
+		},
+		planningObligation: {
+			planningObligation: true,
+			statusPlanningObligation: 'test'
+		},
+		procedurePreference: {
+			appellantProcedurePreference: 'inquiry',
+			appellantProcedurePreferenceDetails: 'details',
+			appellantProcedurePreferenceDuration: 13,
+			appellantProcedurePreferenceWitnessCount: 3
+		},
+		developmentType: {
+			developmentType: 'minor-dwellings'
 		},
 		documents: [
 			{
@@ -77,7 +186,7 @@ module.exports = ({
 				size: 10293
 			}
 		],
-		users: [
+		appellantUsers: [
 			{
 				emailAddress: expect.any(String),
 				firstName: 'Testy',
@@ -87,59 +196,8 @@ module.exports = ({
 				telephoneNumber: '12345657',
 				organisation: 'Test'
 			}
-		]
-	};
-
-	/** @type {import('pins-data-model/src/schemas').AppellantSubmissionCommand} */
-	const formattedHAS2 = {
-		casedata: {
-			submissionId: expect.any(String),
-			advertisedAppeal: null,
-			appellantCostsAppliedFor: false,
-			applicationDate: '2024-01-01T00:00:00.000Z',
-			applicationDecision: 'refused',
-			applicationDecisionDate: '2024-01-01T00:00:00.000Z',
-			applicationReference: '234',
-			caseProcedure: 'written',
-			caseSubmissionDueDate: '2024-03-25T23:59:59.999Z',
-			caseSubmittedDate: expect.any(String), // it's based on a new Date() so we can't get it exactly
-			caseType: 'D',
-			changedDevelopmentDescription: false,
-			enforcementNotice: false,
-			floorSpaceSquareMetres: 25,
-			knowsAllOwners: null,
-			knowsOtherOwners: null,
-			lpaCode: 'LPA_001',
-			nearbyCaseReferences: [],
-			neighbouringSiteAddresses: null,
-			originalDevelopmentDescription: 'A test description',
-			ownersInformed: null,
-			ownsAllLand: true,
-			ownsSomeLand: null,
-			siteAccessDetails: ['Come and see'],
-			siteAddressCounty: 'Somewhere',
-			siteAddressLine1: 'Somewhere',
-			siteAddressLine2: 'Somewhere St',
-			siteAddressPostcode: 'SOM3 W3R',
-			siteAddressTown: 'Somewhereville',
-			siteAreaSquareMetres: 25,
-			siteSafetyDetails: ["It's dangerous"],
-			isGreenBelt: false,
-			typeOfPlanningApplication: null
-		},
-		documents: [
-			{
-				dateCreated: '2024-03-01T13:48:35.847Z',
-				documentId: '001',
-				documentType: 'appellantCostsApplication',
-				documentURI: 'https://example.com',
-				filename: 'img.jpg',
-				mime: 'image/jpeg',
-				originalFilename: 'oimg.jpg',
-				size: 10293
-			}
 		],
-		users: [
+		agentUsers: [
 			{
 				emailAddress: expect.any(String),
 				firstName: 'Testy',
@@ -147,7 +205,7 @@ module.exports = ({
 				salutation: null,
 				serviceUserType: 'Agent',
 				telephoneNumber: '12345657',
-				organisation: 'Test Agents'
+				organisation: 'Test'
 			},
 			{
 				emailAddress: null,
@@ -161,94 +219,139 @@ module.exports = ({
 		]
 	};
 
-	/** @type {import('pins-data-model/src/schemas').AppellantSubmissionCommand} */
-	const formattedS78 = {
-		casedata: {
-			submissionId: expect.any(String),
-			advertisedAppeal: true,
-			appellantCostsAppliedFor: true,
-			applicationDate: expect.any(String),
-			applicationDecision: 'granted',
-			applicationDecisionDate: expect.any(String),
-			applicationReference: '567',
-			caseProcedure: 'written',
-			caseSubmissionDueDate: expect.any(String),
-			caseSubmittedDate: expect.any(String), // it's based on a new Date() so we can't get it exactly
-			caseType: 'W',
-			changedDevelopmentDescription: true,
-			enforcementNotice: false,
-			floorSpaceSquareMetres: 100,
-			knowsAllOwners: 'No',
-			knowsOtherOwners: 'Yes',
-			lpaCode: 'LPA_001',
-			nearbyCaseReferences: ['case123'],
-			neighbouringSiteAddresses: null,
-			originalDevelopmentDescription: 'Original description',
-			ownersInformed: true,
-			ownsAllLand: true,
-			ownsSomeLand: false,
-			siteAccessDetails: ['Access details'],
-			siteAddressCounty: 'Somewhere',
-			siteAddressLine1: 'Somewhere',
-			siteAddressLine2: 'Somewhere St',
-			siteAddressPostcode: 'SOM3 W3R',
-			siteAddressTown: 'Somewhereville',
-			siteAreaSquareMetres: 100,
-			siteSafetyDetails: ['Safety details'],
-			isGreenBelt: true,
-
-			agriculturalHolding: true,
-			tenantAgriculturalHolding: true,
-			otherTenantsAgriculturalHolding: true,
-			informedTenantsAgriculturalHolding: true,
-
-			planningObligation: true,
-			statusPlanningObligation: 'test',
-
-			appellantProcedurePreference: 'inquiry',
-			appellantProcedurePreferenceDetails: 'details',
-			appellantProcedurePreferenceDuration: 13,
-			appellantProcedurePreferenceWitnessCount: 3,
-			developmentType: null,
-			typeOfPlanningApplication: null
-		},
-		documents: [
-			{
-				dateCreated: '2024-03-01T13:48:35.847Z',
-				documentId: '001',
-				documentType: 'appellantCostsApplication',
-				documentURI: 'https://example.com',
-				filename: 'img.jpg',
-				mime: 'image/jpeg',
-				originalFilename: 'oimg.jpg',
-				size: 10293
-			}
-		],
-		users: [
-			{
-				emailAddress: expect.any(String),
-				firstName: 'Testy',
-				lastName: 'McTest',
-				salutation: null,
-				serviceUserType: 'Agent',
-				telephoneNumber: '12345657',
-				organisation: null
+	/**
+	 * @type {Array<{
+	 * testName: string,
+	 * appeal: {id: string},
+	 * submission: import('@prisma/client').AppellantSubmission,
+	 * expectedData: import('pins-data-model/src/schemas').AppellantSubmissionCommand
+	 * }> }
+	 */
+	const testData = [
+		{
+			testName: 'HAS appellant',
+			appeal: {
+				id: crypto.randomUUID()
 			},
-			{
-				emailAddress: null,
-				firstName: 'Test App',
-				lastName: 'Testington',
-				salutation: null,
-				serviceUserType: 'Appellant',
-				telephoneNumber: null,
-				organisation: null
+			submission: {
+				...submissionData.application,
+				...submissionData.site,
+				...submissionData.common,
+				...submissionData.withAppellant,
+				id: crypto.randomUUID(),
+				appealTypeCode: 'HAS',
+				typeOfPlanningApplication: 'householder-planning'
+			},
+			expectedData: {
+				casedata: {
+					...expectedData.application,
+					...expectedData.site,
+					...expectedData.common,
+					caseType: 'D',
+					typeOfPlanningApplication: 'householder-planning'
+				},
+				documents: expectedData.documents,
+				users: expectedData.appellantUsers,
+				emailString: 'householder'
 			}
-		]
-	};
-
-	let appeal1;
-	let appeal2;
-	let appeal3;
+		},
+		{
+			testName: 'HAS agent',
+			appeal: {
+				id: crypto.randomUUID()
+			},
+			submission: {
+				...submissionData.application,
+				...submissionData.site,
+				...submissionData.common,
+				...submissionData.withAgent,
+				id: crypto.randomUUID(),
+				appealTypeCode: 'HAS',
+				typeOfPlanningApplication: 'householder-planning'
+			},
+			expectedData: {
+				casedata: {
+					...expectedData.application,
+					...expectedData.site,
+					...expectedData.common,
+					caseType: 'D',
+					typeOfPlanningApplication: 'householder-planning'
+				},
+				documents: expectedData.documents,
+				users: expectedData.agentUsers,
+				emailString: 'householder'
+			}
+		},
+		{
+			testName: 'S78',
+			appeal: {
+				id: crypto.randomUUID()
+			},
+			submission: {
+				...submissionData.application,
+				...submissionData.site,
+				...submissionData.common,
+				...submissionData.withAgent,
+				...submissionData.procedurePreference,
+				...submissionData.developmentType,
+				...submissionData.planningObligation,
+				...submissionData.agricultural,
+				id: crypto.randomUUID(),
+				appealTypeCode: 'S78',
+				typeOfPlanningApplication: 'reserved-matters'
+			},
+			expectedData: {
+				casedata: {
+					...expectedData.application,
+					...expectedData.site,
+					...expectedData.common,
+					...expectedData.agricultural,
+					...expectedData.planningObligation,
+					...expectedData.procedurePreference,
+					...expectedData.developmentType,
+					caseType: 'W',
+					typeOfPlanningApplication: 'reserved-matters'
+				},
+				documents: expectedData.documents,
+				users: expectedData.agentUsers,
+				emailString: 'full planning'
+			}
+		},
+		{
+			testName: 'S20',
+			appeal: {
+				id: crypto.randomUUID()
+			},
+			submission: {
+				...submissionData.application,
+				...submissionData.site,
+				...submissionData.common,
+				...submissionData.withAgent,
+				...submissionData.procedurePreference,
+				...submissionData.developmentType,
+				...submissionData.planningObligation,
+				id: crypto.randomUUID(),
+				appealTypeCode: 'S20',
+				typeOfPlanningApplication: 'listed-building'
+			},
+			expectedData: {
+				casedata: {
+					...expectedData.application,
+					...expectedData.site,
+					...expectedData.common,
+					...expectedData.planningObligation,
+					...expectedData.procedurePreference,
+					...expectedData.developmentType,
+					...expectedData.nullAgricultural,
+					caseType: 'Y',
+					typeOfPlanningApplication: 'listed-building'
+				},
+				documents: expectedData.documents,
+				users: expectedData.agentUsers,
+				emailString: 'listed building'
+			}
+		}
+	];
 
 	beforeAll(async () => {
 		const user = await sqlClient.appealUser.create({
@@ -257,231 +360,51 @@ module.exports = ({
 		validUser = user.id;
 		validEmail = user.email;
 
-		const appeals = [
-			{ id: crypto.randomUUID() },
-			{ id: crypto.randomUUID() },
-			{ id: crypto.randomUUID() }
-		];
-		await sqlClient.appeal.createMany({ data: appeals });
-
+		await sqlClient.appeal.createMany({ data: testData.map((x) => x.appeal) });
 		await sqlClient.appealToUser.createMany({
-			data: [
-				{
-					appealId: appeals[0].id,
-					userId: user.id,
+			data: testData.map((x) => {
+				return {
+					appealId: x.appeal.id,
+					userId: validUser,
 					role: 'Appellant'
-				},
-				{
-					appealId: appeals[1].id,
-					userId: user.id,
-					role: 'Appellant'
-				},
-				{
-					appealId: appeals[2].id,
-					userId: user.id,
-					role: 'Appellant'
-				}
-			]
+				};
+			})
 		});
 
 		await sqlClient.appellantSubmission.createMany({
-			data: [
-				{
-					appealId: appeals[0].id,
-					LPACode: 'LPA_001',
-					appealTypeCode: 'HAS',
-					applicationDecisionDate: new Date('2024-01-01'),
-					applicationDecision: 'refused',
-					onApplicationDate: new Date('2024-01-01'),
-					isAppellant: true,
-					contactFirstName: 'Testy',
-					contactLastName: 'McTest',
-					contactCompanyName: 'Test',
-					ownsAllLand: true,
-					appellantGreenBelt: false,
-					updateDevelopmentDescription: false,
-					knowsOtherOwners: 'yes',
-					costApplication: false,
-					appellantSiteSafety: 'yes',
-					appellantSiteSafety_appellantSiteSafetyDetails: "It's dangerous",
-					appellantSiteAccess: 'yes',
-					appellantSiteAccess_appellantSiteAccessDetails: 'Come and see',
-					applicationReference: '123',
-					developmentDescriptionOriginal: 'A test description',
-					appellantLinkedCaseReference: 'no',
-					contactPhoneNumber: '12345657',
-					siteAreaSquareMetres: 22,
-					appellantLinkedCaseAdd: false,
-					appellantLinkedCase: false,
-					uploadOriginalApplicationForm: true,
-					uploadApplicationDecisionLetter: false,
-					uploadAppellantStatement: false,
-					uploadCostApplication: false,
-					uploadChangeOfDescriptionEvidence: false
-				},
-				{
-					appealId: appeals[1].id,
-					LPACode: 'LPA_002',
-					appealTypeCode: 'HAS',
-					applicationDecisionDate: new Date('2024-01-01'),
-					applicationDecision: 'refused',
-					onApplicationDate: new Date('2024-01-01'),
-					isAppellant: false,
-					appellantFirstName: 'Test App',
-					appellantLastName: 'Testington',
-					contactFirstName: 'Testy',
-					contactLastName: 'McTest',
-					contactCompanyName: 'Test Agents',
-					ownsAllLand: true,
-					appellantGreenBelt: false,
-					updateDevelopmentDescription: false,
-					costApplication: false,
-					appellantSiteSafety: 'yes',
-					appellantSiteSafety_appellantSiteSafetyDetails: "It's dangerous",
-					appellantSiteAccess: 'yes',
-					appellantSiteAccess_appellantSiteAccessDetails: 'Come and see',
-					applicationReference: '234',
-					developmentDescriptionOriginal: 'A test description',
-					appellantLinkedCaseReference: 'no',
-					contactPhoneNumber: '12345657',
-					siteAreaSquareMetres: 25,
-					appellantLinkedCaseAdd: false,
-					appellantLinkedCase: false,
-					uploadOriginalApplicationForm: true,
-					uploadApplicationDecisionLetter: false,
-					uploadAppellantStatement: false,
-					uploadCostApplication: false,
-					uploadChangeOfDescriptionEvidence: false
-				},
-				{
-					appealId: appeals[2].id,
-					LPACode: '123',
-					appealTypeCode: 'S78',
-					applicationReference: '567',
-					onApplicationDate: new Date(),
-					applicationDecision: 'granted',
-					applicationDecisionDate: new Date(),
-					appellantSiteAccess_appellantSiteAccessDetails: 'Access details',
-					appellantSiteSafety_appellantSiteSafetyDetails: 'Safety details',
-					appellantGreenBelt: true,
-					siteAreaSquareMetres: 100,
-					ownsAllLand: true,
-					ownsSomeLand: false,
-					knowsOtherOwners: 'yes',
-					knowsAllOwners: 'no',
-					advertisedAppeal: true,
-					informedOwners: true,
-					developmentDescriptionOriginal: 'Original description',
-					updateDevelopmentDescription: true,
-					appellantFirstName: 'Test App',
-					appellantLastName: 'Testington',
-					contactFirstName: 'Testy',
-					contactLastName: 'McTest',
-					contactPhoneNumber: '12345657',
-					costApplication: true,
-					isAppellant: false,
-					agriculturalHolding: true,
-					tenantAgriculturalHolding: true,
-					otherTenantsAgriculturalHolding: true,
-					informedTenantsAgriculturalHolding: true,
-					planningObligation: true,
-					statusPlanningObligation: 'test',
-					appellantProcedurePreference: 'inquiry',
-					appellantPreferInquiryDetails: 'details',
-					appellantPreferInquiryDuration: 13,
-					appellantPreferInquiryWitnesses: 3
-				}
-			]
+			data: testData.map((x) => {
+				return {
+					...x.submission,
+					appealId: x.appeal.id
+				};
+			})
 		});
-
-		const submissions = await sqlClient.appellantSubmission.findMany({
-			where: {
-				appealId: {
-					in: appeals.map((a) => a.id)
-				}
-			},
-			select: {
-				id: true,
-				appealId: true
-			}
-		});
-
-		appeal1 = submissions.filter((x) => x.appealId === appeals[0].id)[0];
-		appeal2 = submissions.filter((x) => x.appealId === appeals[1].id)[0];
-		appeal3 = submissions.filter((x) => x.appealId === appeals[2].id)[0];
 
 		await sqlClient.submissionDocumentUpload.createMany({
-			data: [
-				{
-					fileName: 'img.jpg',
-					originalFileName: 'oimg.jpg',
-					appellantSubmissionId: appeal1.id,
-					name: 'img.jpg',
-					location: '/img.jpg',
-					type: 'jpg',
-					storageId: '001'
-				},
-				{
-					fileName: 'img.jpg',
-					originalFileName: 'oimg.jpg',
-					appellantSubmissionId: appeal2.id,
-					name: 'img.jpg',
-					location: '/img.jpg',
-					type: 'jpg',
-					storageId: '001'
-				},
-				{
-					fileName: 'img.jpg',
-					originalFileName: 'oimg.jpg',
-					appellantSubmissionId: appeal3.id,
-					name: 'img.jpg',
-					location: '/img.jpg',
-					type: 'jpg',
-					storageId: '001'
-				}
-			]
+			data: testData.map((x) => {
+				return {
+					...submissionData.document,
+					appellantSubmissionId: x.submission.id
+				};
+			})
 		});
 
 		await sqlClient.submissionAddress.createMany({
-			data: [
-				{
-					appellantSubmissionId: appeal1.id,
-					addressLine1: 'Somewhere',
-					addressLine2: 'Somewhere St',
-					townCity: 'Somewhereville',
-					postcode: 'SOM3 W3R',
-					fieldName: 'siteAddress',
-					county: 'Somewhere'
-				},
-				{
-					appellantSubmissionId: appeal2.id,
-					addressLine1: 'Somewhere',
-					addressLine2: 'Somewhere St',
-					townCity: 'Somewhereville',
-					postcode: 'SOM3 W3R',
-					fieldName: 'siteAddress',
-					county: 'Somewhere'
-				},
-				{
-					appellantSubmissionId: appeal3.id,
-					addressLine1: 'Somewhere',
-					addressLine2: 'Somewhere St',
-					townCity: 'Somewhereville',
-					postcode: 'SOM3 W3R',
-					fieldName: 'siteAddress',
-					county: 'Somewhere'
-				}
-			]
+			data: testData.map((x) => {
+				return {
+					...submissionData.address,
+					appellantSubmissionId: x.submission.id
+				};
+			})
 		});
 
 		await sqlClient.submissionLinkedCase.createMany({
-			data: [
-				{
-					caseReference: 'case123',
-					fieldName: 'linked',
-					appellantSubmissionId: appeal3.id
-				}
-			]
+			data: testData.map((x) => {
+				return {
+					...submissionData.linkedCase,
+					appellantSubmissionId: x.submission.id
+				};
+			})
 		});
 	});
 
@@ -520,52 +443,41 @@ module.exports = ({
 			mockNotifyClient.sendEmail.mockClear();
 		};
 
-		it('should format appeals and send to service bus', async () => {
-			mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
-				return async () => ({
-					lastModified: '2024-03-01T14:48:35.847Z',
-					createdOn: '2024-03-01T13:48:35.847Z',
-					metadata: {
-						mime_type: 'image/jpeg',
-						size: 10293,
-						document_type: 'uploadCostApplication'
-					},
-					_response: { request: { url: 'https://example.com' } }
+		it.each(testData)(
+			'should format %s appeal and send to service bus',
+			async ({ submission, expectedData }) => {
+				mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
+					return async () => ({
+						lastModified: '2024-03-01T14:48:35.847Z',
+						createdOn: '2024-03-01T13:48:35.847Z',
+						metadata: {
+							mime_type: 'image/jpeg',
+							size: 10293,
+							document_type: 'uploadCostApplication'
+						},
+						_response: { request: { url: 'https://example.com' } }
+					});
 				});
-			});
 
-			setCurrentSub(validUser);
+				setCurrentSub(validUser);
 
-			await appealsApi.post(`/api/v2/appellant-submissions/${appeal1.id}/submit`).expect(200);
+				await appealsApi.post(`/api/v2/appellant-submissions/${submission.id}/submit`).expect(200);
 
-			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
-				'appeal-fo-appellant-submission',
-				[formattedHAS1],
-				'Create'
-			);
-			mockEventClient.sendEvents.mockClear();
-			expectEmails('householder');
-
-			await appealsApi.post(`/api/v2/appellant-submissions/${appeal2.id}/submit`).expect(200);
-
-			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
-				'appeal-fo-appellant-submission',
-				[formattedHAS2],
-				'Create'
-			);
-			mockEventClient.sendEvents.mockClear();
-			expectEmails('householder');
-
-			await appealsApi.post(`/api/v2/appellant-submissions/${appeal3.id}/submit`).expect(200);
-
-			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
-				'appeal-fo-appellant-submission',
-				[formattedS78],
-				'Create'
-			);
-			mockEventClient.sendEvents.mockClear();
-			expectEmails('full planning');
-		});
+				expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
+					'appeal-fo-appellant-submission',
+					[
+						{
+							casedata: expectedData.casedata,
+							documents: expectedData.documents,
+							users: expectedData.users
+						}
+					],
+					'Create'
+				);
+				mockEventClient.sendEvents.mockClear();
+				expectEmails(expectedData.emailString);
+			}
+		);
 
 		it('404s if the appeal submission can not be found', () => {
 			appealsApi
