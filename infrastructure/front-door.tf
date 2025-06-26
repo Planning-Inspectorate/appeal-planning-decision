@@ -463,13 +463,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
       operator       = "Equals"
       selector       = "AppServiceAuthSession"
     }
-
-    # dynamic form uploads forced to use upload in name
-    exclusion {
-      match_variable = "RequestBodyPostArgNames"
-      operator       = "Contains"
-      selector       = "upload"
-    }
   }
 
   managed_rule {
