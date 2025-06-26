@@ -128,8 +128,8 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
   }
 
   managed_rule {
-    type    = "Microsoft_DefaultRuleSet"
-    version = "2.1"
+    type    = var.front_door_config.managed_rule_set
+    version = var.front_door_config.managed_rule_set_version
     action  = "Block"
 
     override {
