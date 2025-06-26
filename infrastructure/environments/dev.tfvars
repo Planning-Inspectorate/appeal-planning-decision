@@ -5,6 +5,9 @@ front_door_config = {
   rg          = "pins-rg-common-tooling"
   ep_name     = "pins-fde-appeals"
   use_tooling = true
+
+  managed_rule_set         = "Microsoft_DefaultRuleSet"
+  managed_rule_set_version = "2.1"
 }
 
 web_app_config = {
@@ -19,3 +22,4 @@ waf_rate_limits = {
 }
 
 web_domain = "appeals-service-dev.planninginspectorate.gov.uk"
+
