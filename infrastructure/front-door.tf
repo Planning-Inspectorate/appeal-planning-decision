@@ -477,6 +477,19 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
       operator       = "Equals"
       selector       = "AppServiceAuthSession"
     }
+
+    # v1+v2 upload fields
+    exclusion {
+      match_variable = "RequestBodyPostArgNames"
+      operator       = "Equals"
+      selector       = "file-upload"
+    }
+    # v1 other upload fields
+    exclusion {
+      match_variable = "RequestBodyPostArgNames"
+      operator       = "Equals"
+      selector       = "supporting-documents"
+    }
   }
 
   managed_rule {
