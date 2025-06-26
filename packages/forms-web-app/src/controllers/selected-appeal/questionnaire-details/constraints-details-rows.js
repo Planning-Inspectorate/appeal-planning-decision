@@ -64,6 +64,26 @@ exports.constraintsRows = (caseData) => {
 			condition: () => showAffectedListed
 		},
 		{
+			keyText: 'Was a grant or loan made to preserve the listed building at the appeal site?',
+			valueText: formatYesOrNo(caseData, 'preserveGrantLoan'),
+			condition: () => isNotUndefinedOrNull(caseData.preserveGrantLoan)
+		},
+		{
+			keyText: 'Was Historic England consulted?',
+			valueText: formatYesOrNo(caseData, 'consultHistoricEngland'),
+			condition: () => isNotUndefinedOrNull(caseData.consultHistoricEngland)
+		},
+		{
+			keyText: 'Uploaded consultation with Historic England',
+			valueText: formatDocumentDetails(
+				documents,
+				APPEAL_DOCUMENT_TYPE.HISTORIC_ENGLAND_CONSULTATION
+			),
+			condition: () =>
+				documentExists(documents, APPEAL_DOCUMENT_TYPE.HISTORIC_ENGLAND_CONSULTATION),
+			isEscaped: true
+		},
+		{
 			keyText: 'Affects a scheduled monument',
 			valueText: formatYesOrNo(caseData, 'scheduledMonument'),
 			condition: () => !isHASAppeal && isNotUndefinedOrNull(caseData.scheduledMonument)
