@@ -5,6 +5,28 @@ const { constraintsRows } = require('./constraints-details-rows');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 describe('constraintsRows', () => {
+	const ROW_COUNT = 20;
+	const CORRECT_APPEAL_TYPE_ROW = 0;
+	const CHANGES_LISTED_BUILDING_ROW = 1;
+	const CHANGED_LISTED_BUILDING_DETAILS_ROW = 2;
+	const AFFECTS_LISTED_BUILDING_ROW = 3;
+	const AFFECTED_LISTED_BUILDING_DETAILS_ROW = 4;
+	const PRESERVE_GRANT_LOAN_ROW = 5;
+	const CONSULT_HISTORIC_ENGLAND_ROW = 6;
+	const HISTORIC_ENGLAND_CONSULTATION_DOC_ROW = 7;
+	const AFFECTS_SCHEDULED_MONUMENT_ROW = 8;
+	const CONSERVATION_AREA_ROW = 9;
+	const CONSERVATION_MAP_DOC_ROW = 10;
+	const PROTECTED_SPECIES_ROW = 11;
+	const GREEN_BELT_ROW = 12;
+	const AREA_OUTSTANDING_BEAUTY_ROW = 13;
+	const DESIGNATED_SITES_ROW = 14;
+	const TREE_PRESERVATION_ORDER_ROW = 15;
+	const TREE_PRESERVATION_PLAN_DOC_ROW = 16;
+	const GYPSY_TRAVELLER_ROW = 17;
+	const PUBLIC_RIGHT_OF_WAY_ROW = 18;
+	const DEFINITIVE_MAP_STATEMENT_DOC_ROW = 19;
+
 	it('should create rows with correct data if relevant case data fields exist and field values true/files uploaded/otherwise populated', () => {
 		const caseData = {
 			appealTypeCode: CASE_TYPES.S78.processCode,
@@ -26,6 +48,8 @@ describe('constraintsRows', () => {
 					type: LISTED_RELATION_TYPES.changed
 				}
 			],
+			preserveGrantLoan: true,
+			consultHistoricEngland: true,
 			scheduledMonument: true,
 			isCorrectAppealType: true,
 			protectedSpecies: true,
@@ -46,91 +70,126 @@ describe('constraintsRows', () => {
 					id: '12348',
 					filename: 'definitive-statement.pdf',
 					redacted: true
+				},
+				{
+					documentType: APPEAL_DOCUMENT_TYPE.HISTORIC_ENGLAND_CONSULTATION,
+					id: '12349',
+					filename: 'consultation.pdf',
+					redacted: true
 				}
 			]
 		};
 		const rows = constraintsRows(caseData);
-		expect(rows.length).toEqual(17);
-		expect(rows[0].condition()).toEqual(true);
-		expect(rows[0].keyText).toEqual('Is a planning appeal the correct type of appeal?');
-		expect(rows[0].valueText).toEqual('Yes');
+		expect(rows.length).toEqual(ROW_COUNT);
+		expect(rows[CORRECT_APPEAL_TYPE_ROW].condition()).toEqual(true);
+		expect(rows[CORRECT_APPEAL_TYPE_ROW].keyText).toEqual(
+			'Is a planning appeal the correct type of appeal?'
+		);
+		expect(rows[CORRECT_APPEAL_TYPE_ROW].valueText).toEqual('Yes');
 
-		expect(rows[1].condition()).toEqual(true);
-		expect(rows[1].keyText).toEqual('Changes a listed building');
-		expect(rows[1].valueText).toEqual('Yes');
+		expect(rows[CHANGES_LISTED_BUILDING_ROW].condition()).toEqual(true);
+		expect(rows[CHANGES_LISTED_BUILDING_ROW].keyText).toEqual('Changes a listed building');
+		expect(rows[CHANGES_LISTED_BUILDING_ROW].valueText).toEqual('Yes');
 
-		expect(rows[2].condition()).toEqual(true);
-		expect(rows[2].keyText).toEqual('Listed building details');
-		expect(rows[2].valueText).toEqual('Building 3\nBuilding 4');
+		expect(rows[CHANGED_LISTED_BUILDING_DETAILS_ROW].condition()).toEqual(true);
+		expect(rows[CHANGED_LISTED_BUILDING_DETAILS_ROW].keyText).toEqual('Listed building details');
+		expect(rows[CHANGED_LISTED_BUILDING_DETAILS_ROW].valueText).toEqual('Building 3\nBuilding 4');
 
-		expect(rows[3].condition()).toEqual(true);
-		expect(rows[3].keyText).toEqual('Affects a listed building');
-		expect(rows[3].valueText).toEqual('Yes');
+		expect(rows[AFFECTS_LISTED_BUILDING_ROW].condition()).toEqual(true);
+		expect(rows[AFFECTS_LISTED_BUILDING_ROW].keyText).toEqual('Affects a listed building');
+		expect(rows[AFFECTS_LISTED_BUILDING_ROW].valueText).toEqual('Yes');
 
-		expect(rows[4].condition()).toEqual(true);
-		expect(rows[4].keyText).toEqual('Listed building details');
-		expect(rows[4].valueText).toEqual('Building 1\nBuilding 2');
+		expect(rows[AFFECTED_LISTED_BUILDING_DETAILS_ROW].condition()).toEqual(true);
+		expect(rows[AFFECTED_LISTED_BUILDING_DETAILS_ROW].keyText).toEqual('Listed building details');
+		expect(rows[AFFECTED_LISTED_BUILDING_DETAILS_ROW].valueText).toEqual('Building 1\nBuilding 2');
 
-		expect(rows[5].condition()).toEqual(true);
-		expect(rows[5].keyText).toEqual('Affects a scheduled monument');
-		expect(rows[5].valueText).toEqual('Yes');
+		expect(rows[PRESERVE_GRANT_LOAN_ROW].condition()).toEqual(true);
+		expect(rows[PRESERVE_GRANT_LOAN_ROW].keyText).toEqual(
+			'Was a grant or loan made to preserve the listed building at the appeal site?'
+		);
+		expect(rows[PRESERVE_GRANT_LOAN_ROW].valueText).toEqual('Yes');
 
-		expect(rows[6].condition()).toEqual(true);
-		expect(rows[6].keyText).toEqual('Conservation area');
-		expect(rows[6].valueText).toEqual('No');
+		expect(rows[CONSULT_HISTORIC_ENGLAND_ROW].condition()).toEqual(true);
+		expect(rows[CONSULT_HISTORIC_ENGLAND_ROW].keyText).toEqual('Was Historic England consulted?');
+		expect(rows[CONSULT_HISTORIC_ENGLAND_ROW].valueText).toEqual('Yes');
 
-		expect(rows[7].condition()).toEqual(false);
-		expect(rows[7].keyText).toEqual('Uploaded conservation area map and guidance');
-		expect(rows[7].valueText).toEqual('No');
-		expect(rows[7].isEscaped).toEqual(true);
+		expect(rows[HISTORIC_ENGLAND_CONSULTATION_DOC_ROW].condition()).toEqual(true);
+		expect(rows[HISTORIC_ENGLAND_CONSULTATION_DOC_ROW].keyText).toEqual(
+			'Uploaded consultation with Historic England'
+		);
+		expect(rows[HISTORIC_ENGLAND_CONSULTATION_DOC_ROW].valueText).toEqual(
+			'<a href="/published-document/12349" class="govuk-link">consultation.pdf</a>'
+		);
+		expect(rows[HISTORIC_ENGLAND_CONSULTATION_DOC_ROW].isEscaped).toEqual(true);
 
-		expect(rows[8].condition()).toEqual(true);
-		expect(rows[8].keyText).toEqual('Protected species');
-		expect(rows[8].valueText).toEqual('Yes');
+		expect(rows[AFFECTS_SCHEDULED_MONUMENT_ROW].condition()).toEqual(true);
+		expect(rows[AFFECTS_SCHEDULED_MONUMENT_ROW].keyText).toEqual('Affects a scheduled monument');
+		expect(rows[AFFECTS_SCHEDULED_MONUMENT_ROW].valueText).toEqual('Yes');
 
-		expect(rows[9].condition()).toEqual(true);
-		expect(rows[9].keyText).toEqual('Green belt');
-		expect(rows[9].valueText).toEqual('Yes');
+		expect(rows[CONSERVATION_AREA_ROW].condition()).toEqual(true);
+		expect(rows[CONSERVATION_AREA_ROW].keyText).toEqual('Conservation area');
+		expect(rows[CONSERVATION_AREA_ROW].valueText).toEqual('No');
 
-		expect(rows[10].condition()).toEqual(true);
-		expect(rows[10].keyText).toEqual('Area of outstanding natural beauty');
-		expect(rows[10].valueText).toEqual('Yes');
+		expect(rows[CONSERVATION_MAP_DOC_ROW].condition()).toEqual(false);
+		expect(rows[CONSERVATION_MAP_DOC_ROW].keyText).toEqual(
+			'Uploaded conservation area map and guidance'
+		);
+		expect(rows[CONSERVATION_MAP_DOC_ROW].valueText).toEqual('No');
+		expect(rows[CONSERVATION_MAP_DOC_ROW].isEscaped).toEqual(true);
 
-		expect(rows[11].condition()).toEqual(true);
-		expect(rows[11].keyText).toEqual('Designated sites');
-		expect(rows[11].valueText).toEqual('Yes');
+		expect(rows[PROTECTED_SPECIES_ROW].condition()).toEqual(true);
+		expect(rows[PROTECTED_SPECIES_ROW].keyText).toEqual('Protected species');
+		expect(rows[PROTECTED_SPECIES_ROW].valueText).toEqual('Yes');
 
-		expect(rows[12].condition()).toEqual(true);
-		expect(rows[12].keyText).toEqual('Tree Preservation Order');
-		expect(rows[12].valueText).toEqual('Yes');
+		expect(rows[GREEN_BELT_ROW].condition()).toEqual(true);
+		expect(rows[GREEN_BELT_ROW].keyText).toEqual('Green belt');
+		expect(rows[GREEN_BELT_ROW].valueText).toEqual('Yes');
 
-		expect(rows[13].condition()).toEqual(true);
-		expect(rows[13].keyText).toEqual('Uploaded Tree Preservation Order extent');
-		expect(rows[13].valueText).toEqual(
+		expect(rows[AREA_OUTSTANDING_BEAUTY_ROW].condition()).toEqual(true);
+		expect(rows[AREA_OUTSTANDING_BEAUTY_ROW].keyText).toEqual('Area of outstanding natural beauty');
+		expect(rows[AREA_OUTSTANDING_BEAUTY_ROW].valueText).toEqual('Yes');
+
+		expect(rows[DESIGNATED_SITES_ROW].condition()).toEqual(true);
+		expect(rows[DESIGNATED_SITES_ROW].keyText).toEqual('Designated sites');
+		expect(rows[DESIGNATED_SITES_ROW].valueText).toEqual('Yes');
+
+		expect(rows[TREE_PRESERVATION_ORDER_ROW].condition()).toEqual(true);
+		expect(rows[TREE_PRESERVATION_ORDER_ROW].keyText).toEqual('Tree Preservation Order');
+		expect(rows[TREE_PRESERVATION_ORDER_ROW].valueText).toEqual('Yes');
+
+		expect(rows[TREE_PRESERVATION_PLAN_DOC_ROW].condition()).toEqual(true);
+		expect(rows[TREE_PRESERVATION_PLAN_DOC_ROW].keyText).toEqual(
+			'Uploaded Tree Preservation Order extent'
+		);
+		expect(rows[TREE_PRESERVATION_PLAN_DOC_ROW].valueText).toEqual(
 			'<a href="/published-document/12347" class="govuk-link">tree.pdf</a>'
 		);
-		expect(rows[13].isEscaped).toEqual(true);
+		expect(rows[TREE_PRESERVATION_PLAN_DOC_ROW].isEscaped).toEqual(true);
 
-		expect(rows[14].condition()).toEqual(true);
-		expect(rows[14].keyText).toEqual('Gypsy or Traveller');
-		expect(rows[14].valueText).toEqual('Yes');
+		expect(rows[GYPSY_TRAVELLER_ROW].condition()).toEqual(true);
+		expect(rows[GYPSY_TRAVELLER_ROW].keyText).toEqual('Gypsy or Traveller');
+		expect(rows[GYPSY_TRAVELLER_ROW].valueText).toEqual('Yes');
 
-		expect(rows[15].condition()).toEqual(true);
-		expect(rows[15].keyText).toEqual('Public right of way');
-		expect(rows[15].valueText).toEqual('Yes');
+		expect(rows[PUBLIC_RIGHT_OF_WAY_ROW].condition()).toEqual(true);
+		expect(rows[PUBLIC_RIGHT_OF_WAY_ROW].keyText).toEqual('Public right of way');
+		expect(rows[PUBLIC_RIGHT_OF_WAY_ROW].valueText).toEqual('Yes');
 
-		expect(rows[16].condition()).toEqual(true);
-		expect(rows[16].keyText).toEqual('Uploaded definitive map and statement extract');
-		expect(rows[16].valueText).toEqual(
+		expect(rows[DEFINITIVE_MAP_STATEMENT_DOC_ROW].condition()).toEqual(true);
+		expect(rows[DEFINITIVE_MAP_STATEMENT_DOC_ROW].keyText).toEqual(
+			'Uploaded definitive map and statement extract'
+		);
+		expect(rows[DEFINITIVE_MAP_STATEMENT_DOC_ROW].valueText).toEqual(
 			'<a href="/published-document/12348" class="govuk-link">definitive-statement.pdf</a>'
 		);
-		expect(rows[16].isEscaped).toEqual(true);
+		expect(rows[DEFINITIVE_MAP_STATEMENT_DOC_ROW].isEscaped).toEqual(true);
 	});
 
 	it('should create rows with correct data if relevant case data fields and field values false/no files uploaded/otherwise not populated', () => {
 		const caseData = {
 			appealTypeCode: CASE_TYPES.S78.processCode,
 			ListedBuildings: [],
+			preserveGrantLoan: false,
+			consultHistoricEngland: false,
 			scheduledMonument: false,
 			isCorrectAppealType: false,
 			protectedSpecies: false,
@@ -142,99 +201,127 @@ describe('constraintsRows', () => {
 			Documents: []
 		};
 		const rows = constraintsRows(caseData);
-		expect(rows.length).toEqual(17);
-		expect(rows[0].condition()).toEqual(true);
-		expect(rows[0].keyText).toEqual('Is a planning appeal the correct type of appeal?');
-		expect(rows[0].valueText).toEqual('No');
+		expect(rows.length).toEqual(ROW_COUNT);
+		expect(rows[CORRECT_APPEAL_TYPE_ROW].condition()).toEqual(true);
+		expect(rows[CORRECT_APPEAL_TYPE_ROW].keyText).toEqual(
+			'Is a planning appeal the correct type of appeal?'
+		);
+		expect(rows[CORRECT_APPEAL_TYPE_ROW].valueText).toEqual('No');
 
-		expect(rows[1].condition()).toEqual(true);
-		expect(rows[1].keyText).toEqual('Changes a listed building');
-		expect(rows[1].valueText).toEqual('No');
+		expect(rows[CHANGES_LISTED_BUILDING_ROW].condition()).toEqual(true);
+		expect(rows[CHANGES_LISTED_BUILDING_ROW].keyText).toEqual('Changes a listed building');
+		expect(rows[CHANGES_LISTED_BUILDING_ROW].valueText).toEqual('No');
 
-		expect(rows[2].condition()).toEqual(false);
-		expect(rows[2].keyText).toEqual('Listed building details');
-		expect(rows[2].valueText).toEqual('');
+		expect(rows[CHANGED_LISTED_BUILDING_DETAILS_ROW].condition()).toEqual(false);
+		expect(rows[CHANGED_LISTED_BUILDING_DETAILS_ROW].keyText).toEqual('Listed building details');
+		expect(rows[CHANGED_LISTED_BUILDING_DETAILS_ROW].valueText).toEqual('');
 
-		expect(rows[3].condition()).toEqual(true);
-		expect(rows[3].keyText).toEqual('Affects a listed building');
-		expect(rows[3].valueText).toEqual('No');
+		expect(rows[AFFECTS_LISTED_BUILDING_ROW].condition()).toEqual(true);
+		expect(rows[AFFECTS_LISTED_BUILDING_ROW].keyText).toEqual('Affects a listed building');
+		expect(rows[AFFECTS_LISTED_BUILDING_ROW].valueText).toEqual('No');
 
-		expect(rows[4].condition()).toEqual(false);
-		expect(rows[4].keyText).toEqual('Listed building details');
-		expect(rows[4].valueText).toEqual('');
+		expect(rows[AFFECTED_LISTED_BUILDING_DETAILS_ROW].condition()).toEqual(false);
+		expect(rows[AFFECTED_LISTED_BUILDING_DETAILS_ROW].keyText).toEqual('Listed building details');
+		expect(rows[AFFECTED_LISTED_BUILDING_DETAILS_ROW].valueText).toEqual('');
 
-		expect(rows[5].condition()).toEqual(true);
-		expect(rows[5].keyText).toEqual('Affects a scheduled monument');
-		expect(rows[5].valueText).toEqual('No');
+		expect(rows[PRESERVE_GRANT_LOAN_ROW].condition()).toEqual(true);
+		expect(rows[PRESERVE_GRANT_LOAN_ROW].keyText).toEqual(
+			'Was a grant or loan made to preserve the listed building at the appeal site?'
+		);
+		expect(rows[PRESERVE_GRANT_LOAN_ROW].valueText).toEqual('No');
 
-		expect(rows[6].condition()).toEqual(true);
-		expect(rows[6].keyText).toEqual('Conservation area');
-		expect(rows[6].valueText).toEqual('No');
+		expect(rows[CONSULT_HISTORIC_ENGLAND_ROW].condition()).toEqual(true);
+		expect(rows[CONSULT_HISTORIC_ENGLAND_ROW].keyText).toEqual('Was Historic England consulted?');
+		expect(rows[CONSULT_HISTORIC_ENGLAND_ROW].valueText).toEqual('No');
 
-		expect(rows[7].condition()).toEqual(false);
-		expect(rows[7].keyText).toEqual('Uploaded conservation area map and guidance');
-		expect(rows[7].valueText).toEqual('No');
-		expect(rows[7].isEscaped).toEqual(true);
+		expect(rows[HISTORIC_ENGLAND_CONSULTATION_DOC_ROW].condition()).toEqual(false);
+		expect(rows[HISTORIC_ENGLAND_CONSULTATION_DOC_ROW].keyText).toEqual(
+			'Uploaded consultation with Historic England'
+		);
+		expect(rows[HISTORIC_ENGLAND_CONSULTATION_DOC_ROW].valueText).toEqual('No');
+		expect(rows[HISTORIC_ENGLAND_CONSULTATION_DOC_ROW].isEscaped).toEqual(true);
 
-		expect(rows[8].condition()).toEqual(true);
-		expect(rows[8].keyText).toEqual('Protected species');
-		expect(rows[8].valueText).toEqual('No');
+		expect(rows[AFFECTS_SCHEDULED_MONUMENT_ROW].condition()).toEqual(true);
+		expect(rows[AFFECTS_SCHEDULED_MONUMENT_ROW].keyText).toEqual('Affects a scheduled monument');
+		expect(rows[AFFECTS_SCHEDULED_MONUMENT_ROW].valueText).toEqual('No');
 
-		expect(rows[9].condition()).toEqual(true);
-		expect(rows[9].keyText).toEqual('Green belt');
-		expect(rows[9].valueText).toEqual('No');
+		expect(rows[CONSERVATION_AREA_ROW].condition()).toEqual(true);
+		expect(rows[CONSERVATION_AREA_ROW].keyText).toEqual('Conservation area');
+		expect(rows[CONSERVATION_AREA_ROW].valueText).toEqual('No');
 
-		expect(rows[10].condition()).toEqual(true);
-		expect(rows[10].keyText).toEqual('Area of outstanding natural beauty');
-		expect(rows[10].valueText).toEqual('No');
+		expect(rows[CONSERVATION_MAP_DOC_ROW].condition()).toEqual(false);
+		expect(rows[CONSERVATION_MAP_DOC_ROW].keyText).toEqual(
+			'Uploaded conservation area map and guidance'
+		);
+		expect(rows[CONSERVATION_MAP_DOC_ROW].valueText).toEqual('No');
+		expect(rows[CONSERVATION_MAP_DOC_ROW].isEscaped).toEqual(true);
 
-		expect(rows[11].condition()).toEqual(true);
-		expect(rows[11].keyText).toEqual('Designated sites');
-		expect(rows[11].valueText).toEqual('No');
+		expect(rows[PROTECTED_SPECIES_ROW].condition()).toEqual(true);
+		expect(rows[PROTECTED_SPECIES_ROW].keyText).toEqual('Protected species');
+		expect(rows[PROTECTED_SPECIES_ROW].valueText).toEqual('No');
 
-		expect(rows[12].condition()).toEqual(true);
-		expect(rows[12].keyText).toEqual('Tree Preservation Order');
-		expect(rows[12].valueText).toEqual('No');
+		expect(rows[GREEN_BELT_ROW].condition()).toEqual(true);
+		expect(rows[GREEN_BELT_ROW].keyText).toEqual('Green belt');
+		expect(rows[GREEN_BELT_ROW].valueText).toEqual('No');
 
-		expect(rows[13].condition()).toEqual(false);
-		expect(rows[13].keyText).toEqual('Uploaded Tree Preservation Order extent');
-		expect(rows[13].valueText).toEqual('No');
-		expect(rows[13].isEscaped).toEqual(true);
+		expect(rows[AREA_OUTSTANDING_BEAUTY_ROW].condition()).toEqual(true);
+		expect(rows[AREA_OUTSTANDING_BEAUTY_ROW].keyText).toEqual('Area of outstanding natural beauty');
+		expect(rows[AREA_OUTSTANDING_BEAUTY_ROW].valueText).toEqual('No');
 
-		expect(rows[14].condition()).toEqual(true);
-		expect(rows[14].keyText).toEqual('Gypsy or Traveller');
-		expect(rows[14].valueText).toEqual('No');
+		expect(rows[DESIGNATED_SITES_ROW].condition()).toEqual(true);
+		expect(rows[DESIGNATED_SITES_ROW].keyText).toEqual('Designated sites');
+		expect(rows[DESIGNATED_SITES_ROW].valueText).toEqual('No');
 
-		expect(rows[15].condition()).toEqual(true);
-		expect(rows[15].keyText).toEqual('Public right of way');
-		expect(rows[15].valueText).toEqual('No');
+		expect(rows[TREE_PRESERVATION_ORDER_ROW].condition()).toEqual(true);
+		expect(rows[TREE_PRESERVATION_ORDER_ROW].keyText).toEqual('Tree Preservation Order');
+		expect(rows[TREE_PRESERVATION_ORDER_ROW].valueText).toEqual('No');
 
-		expect(rows[16].condition()).toEqual(false);
-		expect(rows[16].keyText).toEqual('Uploaded definitive map and statement extract');
-		expect(rows[16].valueText).toEqual('No');
-		expect(rows[16].isEscaped).toEqual(true);
+		expect(rows[TREE_PRESERVATION_PLAN_DOC_ROW].condition()).toEqual(false);
+		expect(rows[TREE_PRESERVATION_PLAN_DOC_ROW].keyText).toEqual(
+			'Uploaded Tree Preservation Order extent'
+		);
+		expect(rows[TREE_PRESERVATION_PLAN_DOC_ROW].valueText).toEqual('No');
+		expect(rows[TREE_PRESERVATION_PLAN_DOC_ROW].isEscaped).toEqual(true);
+
+		expect(rows[GYPSY_TRAVELLER_ROW].condition()).toEqual(true);
+		expect(rows[GYPSY_TRAVELLER_ROW].keyText).toEqual('Gypsy or Traveller');
+		expect(rows[GYPSY_TRAVELLER_ROW].valueText).toEqual('No');
+
+		expect(rows[PUBLIC_RIGHT_OF_WAY_ROW].condition()).toEqual(true);
+		expect(rows[PUBLIC_RIGHT_OF_WAY_ROW].keyText).toEqual('Public right of way');
+		expect(rows[PUBLIC_RIGHT_OF_WAY_ROW].valueText).toEqual('No');
+
+		expect(rows[DEFINITIVE_MAP_STATEMENT_DOC_ROW].condition()).toEqual(false);
+		expect(rows[DEFINITIVE_MAP_STATEMENT_DOC_ROW].keyText).toEqual(
+			'Uploaded definitive map and statement extract'
+		);
+		expect(rows[DEFINITIVE_MAP_STATEMENT_DOC_ROW].valueText).toEqual('No');
+		expect(rows[DEFINITIVE_MAP_STATEMENT_DOC_ROW].isEscaped).toEqual(true);
 	});
 
 	it('should create rows with correct conditions if fields do not exist', () => {
 		const rows = constraintsRows({ appealTypeCode: CASE_TYPES.S78.processCode, Documents: [] });
-		expect(rows.length).toEqual(17);
-		expect(rows[0].condition()).toEqual(false);
-		expect(rows[1].condition()).toEqual(true);
-		expect(rows[2].condition()).toEqual(false);
-		expect(rows[3].condition()).toEqual(true);
-		expect(rows[4].condition()).toEqual(false);
-		expect(rows[5].condition()).toEqual(false);
-		expect(rows[6].condition()).toEqual(true);
-		expect(rows[7].condition()).toEqual(false);
-		expect(rows[8].condition()).toEqual(false);
-		expect(rows[9].condition()).toEqual(false);
-		expect(rows[10].condition()).toEqual(false);
-		expect(rows[11].condition()).toEqual(true);
-		expect(rows[12].condition()).toEqual(true);
-		expect(rows[13].condition()).toEqual(false);
-		expect(rows[14].condition()).toEqual(false);
-		expect(rows[15].condition()).toEqual(false);
-		expect(rows[16].condition()).toEqual(false);
+		expect(rows.length).toEqual(ROW_COUNT);
+		expect(rows[CORRECT_APPEAL_TYPE_ROW].condition()).toEqual(false);
+		expect(rows[CHANGES_LISTED_BUILDING_ROW].condition()).toEqual(true);
+		expect(rows[CHANGED_LISTED_BUILDING_DETAILS_ROW].condition()).toEqual(false);
+		expect(rows[AFFECTS_LISTED_BUILDING_ROW].condition()).toEqual(true);
+		expect(rows[AFFECTED_LISTED_BUILDING_DETAILS_ROW].condition()).toEqual(false);
+		expect(rows[PRESERVE_GRANT_LOAN_ROW].condition()).toEqual(false);
+		expect(rows[CONSULT_HISTORIC_ENGLAND_ROW].condition()).toEqual(false);
+		expect(rows[HISTORIC_ENGLAND_CONSULTATION_DOC_ROW].condition()).toEqual(false);
+		expect(rows[AFFECTS_SCHEDULED_MONUMENT_ROW].condition()).toEqual(false);
+		expect(rows[CONSERVATION_AREA_ROW].condition()).toEqual(true);
+		expect(rows[CONSERVATION_MAP_DOC_ROW].condition()).toEqual(false);
+		expect(rows[PROTECTED_SPECIES_ROW].condition()).toEqual(false);
+		expect(rows[GREEN_BELT_ROW].condition()).toEqual(false);
+		expect(rows[AREA_OUTSTANDING_BEAUTY_ROW].condition()).toEqual(false);
+		expect(rows[DESIGNATED_SITES_ROW].condition()).toEqual(true);
+		expect(rows[TREE_PRESERVATION_ORDER_ROW].condition()).toEqual(true);
+		expect(rows[TREE_PRESERVATION_PLAN_DOC_ROW].condition()).toEqual(false);
+		expect(rows[GYPSY_TRAVELLER_ROW].condition()).toEqual(false);
+		expect(rows[PUBLIC_RIGHT_OF_WAY_ROW].condition()).toEqual(false);
+		expect(rows[DEFINITIVE_MAP_STATEMENT_DOC_ROW].condition()).toEqual(false);
 	});
 
 	it('should create rows with correct data for HAS appeal', () => {
@@ -278,52 +365,56 @@ describe('constraintsRows', () => {
 		};
 		const rows = constraintsRows(caseData);
 
-		expect(rows.length).toEqual(17);
-		expect(rows[0].condition()).toEqual(true);
-		expect(rows[0].keyText).toEqual('Is a householder appeal the correct type of appeal?');
-		expect(rows[0].valueText).toEqual('Yes');
+		expect(rows.length).toEqual(ROW_COUNT);
+		expect(rows[CORRECT_APPEAL_TYPE_ROW].condition()).toEqual(true);
+		expect(rows[CORRECT_APPEAL_TYPE_ROW].keyText).toEqual(
+			'Is a householder appeal the correct type of appeal?'
+		);
+		expect(rows[CORRECT_APPEAL_TYPE_ROW].valueText).toEqual('Yes');
 
-		expect(rows[1].condition()).toEqual(false);
-		expect(rows[1].keyText).toEqual('Changes a listed building');
-		expect(rows[1].valueText).toEqual('Yes');
+		expect(rows[CHANGES_LISTED_BUILDING_ROW].condition()).toEqual(false);
+		expect(rows[CHANGES_LISTED_BUILDING_ROW].keyText).toEqual('Changes a listed building');
+		expect(rows[CHANGES_LISTED_BUILDING_ROW].valueText).toEqual('Yes');
 
-		expect(rows[2].condition()).toEqual(true);
-		expect(rows[2].keyText).toEqual('Listed building details');
-		expect(rows[2].valueText).toEqual('Building 3\nBuilding 4');
+		expect(rows[CHANGED_LISTED_BUILDING_DETAILS_ROW].condition()).toEqual(true);
+		expect(rows[CHANGED_LISTED_BUILDING_DETAILS_ROW].keyText).toEqual('Listed building details');
+		expect(rows[CHANGED_LISTED_BUILDING_DETAILS_ROW].valueText).toEqual('Building 3\nBuilding 4');
 
-		expect(rows[3].condition()).toEqual(true);
-		expect(rows[3].keyText).toEqual('Affects a listed building');
-		expect(rows[3].valueText).toEqual('Yes');
+		expect(rows[AFFECTS_LISTED_BUILDING_ROW].condition()).toEqual(true);
+		expect(rows[AFFECTS_LISTED_BUILDING_ROW].keyText).toEqual('Affects a listed building');
+		expect(rows[AFFECTS_LISTED_BUILDING_ROW].valueText).toEqual('Yes');
 
-		expect(rows[4].condition()).toEqual(true);
-		expect(rows[4].keyText).toEqual('Listed building details');
-		expect(rows[4].valueText).toEqual('Building 1\nBuilding 2');
+		expect(rows[AFFECTED_LISTED_BUILDING_DETAILS_ROW].condition()).toEqual(true);
+		expect(rows[AFFECTED_LISTED_BUILDING_DETAILS_ROW].keyText).toEqual('Listed building details');
+		expect(rows[AFFECTED_LISTED_BUILDING_DETAILS_ROW].valueText).toEqual('Building 1\nBuilding 2');
 
-		expect(rows[5].condition()).toEqual(false);
+		expect(rows[AFFECTS_SCHEDULED_MONUMENT_ROW].condition()).toEqual(false);
 
-		expect(rows[6].condition()).toEqual(true);
-		expect(rows[6].keyText).toEqual('Conservation area');
-		expect(rows[6].valueText).toEqual('Yes');
+		expect(rows[CONSERVATION_AREA_ROW].condition()).toEqual(true);
+		expect(rows[CONSERVATION_AREA_ROW].keyText).toEqual('Conservation area');
+		expect(rows[CONSERVATION_AREA_ROW].valueText).toEqual('Yes');
 
-		expect(rows[7].condition()).toEqual(true);
-		expect(rows[7].keyText).toEqual('Uploaded conservation area map and guidance');
-		expect(rows[7].valueText).toEqual(
+		expect(rows[CONSERVATION_MAP_DOC_ROW].condition()).toEqual(true);
+		expect(rows[CONSERVATION_MAP_DOC_ROW].keyText).toEqual(
+			'Uploaded conservation area map and guidance'
+		);
+		expect(rows[CONSERVATION_MAP_DOC_ROW].valueText).toEqual(
 			'<a href="/published-document/12345" class="govuk-link">conservationmap1.pdf</a>\n<a href="/published-document/12346" class="govuk-link">conservationmap2.pdf</a>'
 		);
-		expect(rows[7].isEscaped).toEqual(true);
+		expect(rows[CONSERVATION_MAP_DOC_ROW].isEscaped).toEqual(true);
 
-		expect(rows[8].condition()).toEqual(false);
+		expect(rows[PROTECTED_SPECIES_ROW].condition()).toEqual(false);
 
-		expect(rows[9].condition()).toEqual(true);
-		expect(rows[9].keyText).toEqual('Green belt');
-		expect(rows[9].valueText).toEqual('Yes');
+		expect(rows[GREEN_BELT_ROW].condition()).toEqual(true);
+		expect(rows[GREEN_BELT_ROW].keyText).toEqual('Green belt');
+		expect(rows[GREEN_BELT_ROW].valueText).toEqual('Yes');
 
-		expect(rows[10].condition()).toEqual(false);
-		expect(rows[11].condition()).toEqual(false);
-		expect(rows[12].condition()).toEqual(false);
-		expect(rows[13].condition()).toEqual(false);
-		expect(rows[14].condition()).toEqual(false);
-		expect(rows[15].condition()).toEqual(false);
-		expect(rows[16].condition()).toEqual(false);
+		expect(rows[AREA_OUTSTANDING_BEAUTY_ROW].condition()).toEqual(false);
+		expect(rows[DESIGNATED_SITES_ROW].condition()).toEqual(false);
+		expect(rows[TREE_PRESERVATION_ORDER_ROW].condition()).toEqual(false);
+		expect(rows[TREE_PRESERVATION_PLAN_DOC_ROW].condition()).toEqual(false);
+		expect(rows[GYPSY_TRAVELLER_ROW].condition()).toEqual(false);
+		expect(rows[PUBLIC_RIGHT_OF_WAY_ROW].condition()).toEqual(false);
+		expect(rows[DEFINITIVE_MAP_STATEMENT_DOC_ROW].condition()).toEqual(false);
 	});
 });
