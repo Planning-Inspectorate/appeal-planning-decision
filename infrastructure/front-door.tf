@@ -449,6 +449,35 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
       }
     }
 
+    override {
+      rule_group_name = "General"
+      rule {
+        # Multipart request body failed strict validation
+        rule_id = "200003"
+        action  = "Log"
+        enabled = true
+      }
+    }
+
+    override {
+      rule_group_name = "PHP"
+      # ignore PHP rules
+      exclusion {
+        match_variable = "RequestBodyPostArgNames"
+        operator       = "Equals"
+        selector       = "*"
+      }
+    }
+
+    override {
+      rule_group_name = "JAVA"
+      # ignore JAVA rules
+      exclusion {
+        match_variable = "RequestBodyPostArgNames"
+        operator       = "Equals"
+        selector       = "*"
+      }
+    }
 
     # cross site request forgery token
     exclusion {
@@ -483,6 +512,11 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
       match_variable = "RequestBodyPostArgNames"
       operator       = "Equals"
       selector       = "file-upload"
+    }
+    exclusion {
+      match_variable = "RequestBodyPostArgNames"
+      operator       = "Equals"
+      selector       = "removedFiles"
     }
     # v1 other upload fields
     exclusion {
