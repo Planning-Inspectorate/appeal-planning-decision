@@ -133,24 +133,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
     action  = "Block"
 
     override {
-      rule_group_name = "RFI"
-
-      rule {
-        # Possible Remote File Inclusion (RFI) Attack: Off-Domain Reference/Link
-        action  = "AnomalyScoring"
-        enabled = true
-        rule_id = "931130"
-
-        exclusion {
-          # Exclusion to fix BOAS-153
-          match_variable = "RequestBodyPostArgNames" # PostParamValue:applicant.website
-          operator       = "Equals"
-          selector       = "applicant.website"
-        }
-      }
-    }
-
-    override {
       rule_group_name = "LFI"
 
       rule {
@@ -158,13 +140,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
         action  = "Log"
         enabled = true
         rule_id = "930100"
-
-        exclusion {
-          # Exclusion to allow acceptance of cookies
-          match_variable = "RequestCookieNames" # "CookieValue:cookie_policy"
-          operator       = "Equals"
-          selector       = "cookie_policy"
-        }
       }
 
       rule {
@@ -172,13 +147,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
         action  = "Log"
         enabled = true
         rule_id = "930110"
-
-        exclusion {
-          # Exclusion to allow acceptance of cookies
-          match_variable = "RequestCookieNames" # "CookieValue:cookie_policy"
-          operator       = "Equals"
-          selector       = "cookie_policy"
-        }
       }
     }
 
@@ -197,13 +165,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
         action  = "Log"
         enabled = true
         rule_id = "942200"
-
-        exclusion {
-          # Exclusion to allow acceptance of cookies
-          match_variable = "RequestCookieNames" # "CookieValue:cookie_policy"
-          operator       = "Equals"
-          selector       = "cookie_policy"
-        }
       }
 
       rule {
@@ -211,13 +172,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
         action  = "Log"
         enabled = true
         rule_id = "942260"
-
-        exclusion {
-          # Exclusion to allow acceptance of cookies
-          match_variable = "RequestCookieNames" # "CookieValue:cookie_policy"
-          operator       = "Equals"
-          selector       = "cookie_policy"
-        }
       }
 
       rule {
@@ -267,13 +221,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
         action  = "Log"
         enabled = true
         rule_id = "942450"
-
-        exclusion {
-          # Exclusion to allow cookie connect.sid
-          match_variable = "RequestCookieNames" # "CookieValue:connect.sid"
-          operator       = "Equals"
-          selector       = "connect.sid"
-        }
       }
 
       rule {
@@ -488,12 +435,6 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
       }
     }
 
-    # Exception for ASB-2059 - Exclude all rules for this selector.
-    exclusion {
-      match_variable = "RequestBodyPostArgNames"
-      operator       = "Equals"
-      selector       = "comment"
-    }
 
     # cross site request forgery token
     exclusion {
@@ -507,6 +448,27 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
       match_variable = "RequestCookieNames"
       operator       = "Equals"
       selector       = "connect.sid"
+    }
+
+    # cookie policy
+    exclusion {
+      match_variable = "RequestCookieNames"
+      operator       = "Equals"
+      selector       = "cookie_policy"
+    }
+
+    # easy auth session cookie
+    exclusion {
+      match_variable = "RequestCookieNames"
+      operator       = "Equals"
+      selector       = "AppServiceAuthSession"
+    }
+
+    # dynamic form uploads forced to use upload in name
+    exclusion {
+      match_variable = "RequestBodyPostArgNames"
+      operator       = "Contains"
+      selector       = "upload"
     }
   }
 
