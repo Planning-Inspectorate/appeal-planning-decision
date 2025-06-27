@@ -4,8 +4,12 @@ jest-reports
 README.md
 tmp
 *.njk
-*.bundle.js
 packages/common/src/lib/notify/templates/**/*.md
 *.yml
 *.yaml
 test-packages
+*.min.js
+*.min.js.map
+*.bundle.js
+*.bundle.js.map
+*.min.css
