@@ -55,9 +55,9 @@ exports.postApplicationAbout = async (req, res) => {
 			...appeal,
 			eligibility: {
 				...appeal.eligibility,
-				...fullPlanningSwitch,
 				planningApplicationAbout: answerArray
-			}
+			},
+			...fullPlanningSwitch
 		};
 
 		req.session.appeal = await createOrUpdateAppeal(update);
