@@ -44,7 +44,7 @@ const getDeclarationInformation = async (req, res) => {
 	}
 
 	const css = fs.readFileSync(
-		path.resolve(__dirname, '../../../public/stylesheets/main.css'),
+		path.resolve(__dirname, '../../../public/stylesheets/main.min.css'),
 		'utf8'
 	);
 

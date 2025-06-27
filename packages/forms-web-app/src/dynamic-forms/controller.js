@@ -573,7 +573,10 @@ exports.appellantSubmissionInformation = async (req, res) => {
 
 	summaryListData.sections.unshift(beforeYouStartSection);
 
-	const css = fs.readFileSync(path.resolve(__dirname, '../public/stylesheets/main.css'), 'utf8');
+	const css = fs.readFileSync(
+		path.resolve(__dirname, '../public/stylesheets/main.min.css'),
+		'utf8'
+	);
 
 	const submissionDate = formatDateForDisplay(new Date(), { format: 'd MMMM yyyy' });
 

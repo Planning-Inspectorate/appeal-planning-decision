@@ -9,7 +9,7 @@ const addCSStoHtml = async (html) => {
 	const htmlArray = html.split('<head>');
 	if (htmlArray.length !== 2) return html;
 
-	const cssFilePath = path.join(__dirname, '../public/stylesheets', 'main.css');
+	const cssFilePath = path.join(__dirname, '../public/stylesheets', 'main.min.css');
 	const css = await fs.readFile(cssFilePath, 'utf8');
 
 	return htmlArray[0] + `<head><style>${css}</style>` + htmlArray[1];

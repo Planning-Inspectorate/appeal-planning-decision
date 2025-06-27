@@ -107,7 +107,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
 			await getDeclarationInformation(req, res);
 
 			const css = fs.readFileSync(
-				path.resolve(__dirname, '../../../../../src/public/stylesheets/main.css'),
+				path.resolve(__dirname, '../../../../../src/public/stylesheets/main.min.css'),
 				'utf8'
 			);
 

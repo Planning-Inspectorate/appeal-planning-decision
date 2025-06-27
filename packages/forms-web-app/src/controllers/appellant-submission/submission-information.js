@@ -43,7 +43,10 @@ exports.getSubmissionInformation = async (req, res) => {
 		});
 	}
 
-	const css = fs.readFileSync(path.resolve(__dirname, '../../public/stylesheets/main.css'), 'utf8');
+	const css = fs.readFileSync(
+		path.resolve(__dirname, '../../public/stylesheets/main.min.css'),
+		'utf8'
+	);
 
 	if (!appeal.submissionDate) {
 		log.debug(`The submission date default value is set`);
