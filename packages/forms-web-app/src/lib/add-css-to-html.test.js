@@ -2,7 +2,7 @@ const { addCSStoHtml } = require('./add-css-to-html');
 
 describe('lib/add-css-to-html', () => {
 	beforeEach(() => {});
-	it('adds main.css to HTML with valid <head> element', async () => {
+	it('adds main.min.css to HTML with valid <head> element', async () => {
 		const html =
 			'<head><title>test</title><link rel="stylesheet" href="style.css"></head><body><h1>test html</h2></body>';
 
