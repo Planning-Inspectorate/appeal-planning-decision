@@ -110,17 +110,17 @@ describe('Planning Application About Controller', () => {
 			createOrUpdateAppeal.mockResolvedValue({
 				id: 'appeal-id',
 				eligibility: {
-					planningApplicationAbout: ['optionA'],
-					appealType: APPEAL_ID.PLANNING_SECTION_78
-				}
+					planningApplicationAbout: ['optionA']
+				},
+				appealType: APPEAL_ID.PLANNING_SECTION_78
 			});
 			await postApplicationAbout(req, res);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(
 				expect.objectContaining({
 					eligibility: expect.objectContaining({
-						planningApplicationAbout: ['optionA'],
-						appealType: APPEAL_ID.PLANNING_SECTION_78
-					})
+						planningApplicationAbout: ['optionA']
+					}),
+					appealType: APPEAL_ID.PLANNING_SECTION_78
 				})
 			);
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
@@ -148,17 +148,17 @@ describe('Planning Application About Controller', () => {
 			createOrUpdateAppeal.mockResolvedValue({
 				id: 'appeal-id',
 				eligibility: {
-					planningApplicationAbout: ['optionA', 'optionB'],
-					appealType: APPEAL_ID.PLANNING_SECTION_78
-				}
+					planningApplicationAbout: ['optionA', 'optionB']
+				},
+				appealType: APPEAL_ID.PLANNING_SECTION_78
 			});
 			await postApplicationAbout(req, res);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(
 				expect.objectContaining({
 					eligibility: expect.objectContaining({
-						planningApplicationAbout: ['optionA', 'optionB'],
-						appealType: APPEAL_ID.PLANNING_SECTION_78
-					})
+						planningApplicationAbout: ['optionA', 'optionB']
+					}),
+					appealType: APPEAL_ID.PLANNING_SECTION_78
 				})
 			);
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
