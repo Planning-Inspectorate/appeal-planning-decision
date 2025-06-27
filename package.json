@@ -91,7 +91,7 @@
 			"eslint --fix"
 		],
 		"*.{js,ts,json,md,prisma}": [
-			"prettier --write"
+			"prettier --write --plugin=prettier-plugin-prisma"
 		]
 	},
 	"release": {
