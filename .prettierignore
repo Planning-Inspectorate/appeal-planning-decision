@@ -6,3 +6,6 @@ tmp
 *.njk
 *.bundle.js
 packages/common/src/lib/notify/templates/**/*.md
+*.yml
+*.yaml
+test-packages

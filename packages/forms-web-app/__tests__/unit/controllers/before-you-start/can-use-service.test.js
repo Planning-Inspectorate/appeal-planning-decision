@@ -565,7 +565,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
 				nextPageUrl: '/cas-planning/planning-application-number',
-				changeLpaUrl: "/before-you-start/local-planning-authority",
+				changeLpaUrl: '/before-you-start/local-planning-authority',
 				isV2forS78: false,
 				isV2forCAS: true,
 				bannerHtmlOverride:

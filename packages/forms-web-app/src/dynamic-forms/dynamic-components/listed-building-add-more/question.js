@@ -40,9 +40,8 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 		const listedBuildingReference = req.body[this.fieldName]?.trim();
 
 		try {
-			const listedBuildingData = await req.appealsApiClient.getListedBuilding(
-				listedBuildingReference
-			);
+			const listedBuildingData =
+				await req.appealsApiClient.getListedBuilding(listedBuildingReference);
 
 			const listedBuilding = new ListedBuilding(
 				listedBuildingReference,

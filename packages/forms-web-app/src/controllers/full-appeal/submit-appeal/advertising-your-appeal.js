@@ -1,11 +1,7 @@
 const { KNOW_THE_OWNERS } = require('@pins/business-rules/src/constants');
 const {
 	VIEW: {
-		FULL_APPEAL: {
-			ADVERTISING_YOUR_APPEAL,
-			TELLING_THE_LANDOWNERS,
-			AGRICULTURAL_HOLDING
-		}
+		FULL_APPEAL: { ADVERTISING_YOUR_APPEAL, TELLING_THE_LANDOWNERS, AGRICULTURAL_HOLDING }
 	}
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');

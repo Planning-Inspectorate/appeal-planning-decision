@@ -114,9 +114,8 @@ const getLPAQSubmissionPDFV2 = async (req, res) => {
 
 		// make api call to retrieve download data
 		// will error if LPA user does not have access to LPAQ submission
-		const submissionDetails = await req.appealsApiClient.checkOwnershipAndPdfDownloadDetailsLPAQ(
-			caseReference
-		);
+		const submissionDetails =
+			await req.appealsApiClient.checkOwnershipAndPdfDownloadDetailsLPAQ(caseReference);
 
 		logger.info('Attempting to fetch document');
 

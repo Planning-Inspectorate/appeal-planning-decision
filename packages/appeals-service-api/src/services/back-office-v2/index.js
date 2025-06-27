@@ -490,9 +490,8 @@ class BackOfficeV2Service {
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitAppellantProofEvidenceSubmission(caseReference, userId, formatter) {
-		const appellantProofEvidenceSubmission = await getAppellantProofOfEvidenceByAppealId(
-			caseReference
-		);
+		const appellantProofEvidenceSubmission =
+			await getAppellantProofOfEvidenceByAppealId(caseReference);
 
 		if (!appellantProofEvidenceSubmission) {
 			throw new Error('No appellant proofs of evidence found');

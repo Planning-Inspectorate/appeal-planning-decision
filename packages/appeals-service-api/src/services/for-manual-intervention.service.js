@@ -21,9 +21,8 @@ class ForManualInterventionService {
 
 	async getAppealForManualIntervention(id) {
 		logger.info(`Retrieving appeal ${id} ...`);
-		const document = await this.#forManualInterventionRepository.getAppealForManualInterventionById(
-			id
-		);
+		const document =
+			await this.#forManualInterventionRepository.getAppealForManualInterventionById(id);
 
 		if (document === null) {
 			logger.info(`Appeal ${id} not found`);

@@ -26,7 +26,7 @@ const appealSearchNoResults = async (req, res) => {
 			? await req.appealsApiClient.getPostcodeSearchResults({
 					postcode: searchQuery,
 					'decided-only': true
-			  })
+				})
 			: [];
 
 	const viewDecidedAppeals = !!decidedAppeals.length;

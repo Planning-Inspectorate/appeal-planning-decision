@@ -1,10 +1,9 @@
-const ApiError = require("../apiError");
+const ApiError = require('../apiError');
 
 class FinalCommentsSecureCodeExpired extends ApiError {
-
-    constructor () {
-        super(301, '')
-    }
+	constructor() {
+		super(301, '');
+	}
 }
 
-module.exports = { FinalCommentsSecureCodeExpired }
+module.exports = { FinalCommentsSecureCodeExpired };

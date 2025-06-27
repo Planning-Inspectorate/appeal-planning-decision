@@ -157,77 +157,80 @@ exports.getRouter = (
 	const routePaths = getRoutePaths(directory, getRoutePathsOptions)
 		// sorting ensures deeper routes are not overwritten by shallower routes
 		.sort((a, b) => b.split('/').length - a.split('/').length)
-		.reduce((router, dirName) => {
-			/** @type {RouterModule} */
-			const { middleware, ...module } = require(`${dirName}`);
-			// Convert a full file path to the path used in the URL, eg C:/users/projects/my-project/routes/sandwiches/_id/index.js -> /sandwiches/:id
-			const relativePath = dirName
-				.replace(new RegExp(`^${directory}/?`), '/') // just need relative path
-				.replace(/_/g, ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
-				.replace('/index.js', '');
+		.reduce(
+			(router, dirName) => {
+				/** @type {RouterModule} */
+				const { middleware, ...module } = require(`${dirName}`);
+				// Convert a full file path to the path used in the URL, eg C:/users/projects/my-project/routes/sandwiches/_id/index.js -> /sandwiches/:id
+				const relativePath = dirName
+					.replace(new RegExp(`^${directory}/?`), '/') // just need relative path
+					.replace(/_/g, ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
+					.replace('/index.js', '');
 
-			if (!isPathEnabled(relativePath)) {
-				loggables.disabledRoutes.push({ path: relativePath });
-				return router;
-			}
+				if (!isPathEnabled(relativePath)) {
+					loggables.disabledRoutes.push({ path: relativePath });
+					return router;
+				}
 
-			// apply top level middleware for all methods on the current path
-			if (middleware?.[0]) {
-				router.use(relativePath, ...middleware[0]);
-			}
+				// apply top level middleware for all methods on the current path
+				if (middleware?.[0]) {
+					router.use(relativePath, ...middleware[0]);
+				}
 
-			// Loop through each item exported by a module
-			Object.entries(module).forEach(([method, handler]) => {
-				// Support for V1 style routers
-				if (method === 'router') {
-					if (!backwardsCompatibilityModeEnabled) {
-						loggables.ignoredV1Routes.push({ dirName });
-						return;
-					}
-					router.use(relativePath, handler); // in this instance "handler" is actually a router
-					handler.stack.forEach((layer) => {
-						if (!layer?.route?.methods) {
-							loggables.methodlessRoutes.push({ path: relativePath });
+				// Loop through each item exported by a module
+				Object.entries(module).forEach(([method, handler]) => {
+					// Support for V1 style routers
+					if (method === 'router') {
+						if (!backwardsCompatibilityModeEnabled) {
+							loggables.ignoredV1Routes.push({ dirName });
 							return;
 						}
+						router.use(relativePath, handler); // in this instance "handler" is actually a router
+						handler.stack.forEach((layer) => {
+							if (!layer?.route?.methods) {
+								loggables.methodlessRoutes.push({ path: relativePath });
+								return;
+							}
 
-						Object.keys(layer.route.methods).forEach((method) => {
-							loggables.loggableRoutes.push({
-								path: relativePath,
-								method,
-								version: 1
+							Object.keys(layer.route.methods).forEach((method) => {
+								loggables.loggableRoutes.push({
+									path: relativePath,
+									method,
+									version: 1
+								});
 							});
 						});
+						return;
+					}
+
+					// Dismiss unexpected export names
+					if (!stringIsRecognisedExport(method)) {
+						loggables.unrecognisedFunctions.push({ method, dirName });
+						return;
+					}
+
+					// Gather middleware specific to the current method
+					/** @type {Handler[]} */
+					let applicableMiddleware = [];
+					if (!!middleware?.[1] && middleware[1][method]) {
+						applicableMiddleware = middleware[1][method];
+					}
+
+					loggables.loggableRoutes.push({
+						path: relativePath,
+						method,
+						innerMiddleware: middleware?.[1]?.[method],
+						outerMiddleware: middleware?.[0],
+						version: 2
 					});
-					return;
-				}
 
-				// Dismiss unexpected export names
-				if (!stringIsRecognisedExport(method)) {
-					loggables.unrecognisedFunctions.push({ method, dirName });
-					return;
-				}
-
-				// Gather middleware specific to the current method
-				/** @type {Handler[]} */
-				let applicableMiddleware = [];
-				if (!!middleware?.[1] && middleware[1][method]) {
-					applicableMiddleware = middleware[1][method];
-				}
-
-				loggables.loggableRoutes.push({
-					path: relativePath,
-					method,
-					innerMiddleware: middleware?.[1]?.[method],
-					outerMiddleware: middleware?.[0],
-					version: 2
+					router[method](relativePath, ...applicableMiddleware, handler);
 				});
 
-				router[method](relativePath, ...applicableMiddleware, handler);
-			});
-
-			return router;
-		}, Router({ mergeParams: true }));
+				return router;
+			},
+			Router({ mergeParams: true })
+		);
 
 	doLogging(loggables, logger);
 

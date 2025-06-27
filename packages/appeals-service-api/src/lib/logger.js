@@ -17,6 +17,6 @@ module.exports = pino({
 				options: {
 					colorize: true
 				}
-		  }
+			}
 		: undefined
 });
