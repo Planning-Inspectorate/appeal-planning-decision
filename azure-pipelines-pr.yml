@@ -66,6 +66,11 @@ extends:
               condition: succeededOrFailed()
               script: npm run lint
               nodeVersion: 22
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              nodeVersion: 22
+              script: npm run format-check
 
       - name: Run Test API
         dependsOn:
