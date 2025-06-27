@@ -3,9 +3,6 @@ const serviceUnavailableController = require('../../controllers/error/service-un
 
 const router = express.Router();
 
-router.get(
-	'/service-unavailable',
-	serviceUnavailableController.getServiceUnavailable
-);
+router.get('/service-unavailable', serviceUnavailableController.getServiceUnavailable);
 
 module.exports = router;

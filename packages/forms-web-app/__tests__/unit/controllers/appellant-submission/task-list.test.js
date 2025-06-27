@@ -1,6 +1,7 @@
 const {
 	getTaskList
-} = require('../../../../src/controllers/appeal-householder-decision/task-list');const {
+} = require('../../../../src/controllers/appeal-householder-decision/task-list');
+const {
 	VIEW: {
 		APPELLANT_SUBMISSION: {
 			TASK_LIST,
@@ -16,7 +17,8 @@ const {
 			CHECK_ANSWERS
 		}
 	}
-} = require('../../../../src/lib/views');const { mockReq, mockRes } = require('../../mocks');
+} = require('../../../../src/lib/views');
+const { mockReq, mockRes } = require('../../mocks');
 
 describe('controllers/appellant-submission/task-list', () => {
 	describe('getTaskList', () => {

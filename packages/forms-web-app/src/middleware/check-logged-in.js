@@ -27,7 +27,8 @@ const checkLoggedIn = async (req, res, next) => {
 	}
 
 	let loginPage = '/appeal/email-address'; // appellant
-	if (req.originalUrl.startsWith('/rule-6/')) loginPage = '/rule-6/email-address'; // rule6
+	if (req.originalUrl.startsWith('/rule-6/'))
+		loginPage = '/rule-6/email-address'; // rule6
 	else if (req.originalUrl.startsWith('/document/') && req.params?.appealOrQuestionnaireId) {
 		loginPage = await createSaveAndReturnUrl(req.params?.appealOrQuestionnaireId); // document
 	} else if (req.originalUrl.startsWith('/lpa-questionnaire-document/')) {

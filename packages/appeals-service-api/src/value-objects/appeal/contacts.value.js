@@ -1,25 +1,24 @@
 class AppealContactsValueObject {
+	#appellant;
+	#agent;
 
-    #appellant;
-    #agent;
+	/**
+	 *
+	 * @param {AppealContactValueObject} appellant
+	 * @param {AppealContactValueObject} agent
+	 */
+	constructor(appellant, agent) {
+		this.#appellant = appellant;
+		this.#agent = agent;
+	}
 
-    /**
-     * 
-     * @param {AppealContactValueObject} appellant
-     * @param {AppealContactValueObject} agent 
-     */
-    constructor(appellant, agent) {
-        this.#appellant = appellant;
-        this.#agent = agent;
-    }
+	getAppellant() {
+		return this.#appellant;
+	}
 
-    getAppellant() {
-        return this.#appellant;
-    }
-
-    getAgent() {
-        return this.#agent;
-    }
+	getAgent() {
+		return this.#agent;
+	}
 }
 
 module.exports = AppealContactsValueObject;

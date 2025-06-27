@@ -1,84 +1,84 @@
 .timeline {
-  list-style: none;
-  position: relative;
-  padding: 0;
-  margin: 0;
-  counter-reset: list-number;
+	list-style: none;
+	position: relative;
+	padding: 0;
+	margin: 0;
+	counter-reset: list-number;
 
-  &__header {
-    @extend .govuk-heading-m;
-    padding-top: govuk-spacing(1);
-    margin-bottom: 0;
-  }
+	&__header {
+		@extend .govuk-heading-m;
+		padding-top: govuk-spacing(1);
+		margin-bottom: 0;
+	}
 
-  &__sub-header {
-    @extend .govuk-caption-m;
-  }
+	&__sub-header {
+		@extend .govuk-caption-m;
+	}
 
-  &__content {
-    margin-bottom: govuk-spacing(5);
-  }
+	&__content {
+		margin-bottom: govuk-spacing(5);
+	}
 
-  &__entry {
-    position: relative;
-    padding-left: govuk-spacing(8);
-    padding-bottom: govuk-spacing(3);
-    counter-increment: list-number;
+	&__entry {
+		position: relative;
+		padding-left: govuk-spacing(8);
+		padding-bottom: govuk-spacing(3);
+		counter-increment: list-number;
 
-    &:before {
-      @include govuk-font(24, $weight: bold);
-      content: counter(list-number);
-      font-family: 'nta', Arial, sans-serif;
-      position: absolute;
-      padding: 0;
-      left: 0;
-      display: block;
-      width: govuk-spacing(7);
-      height: govuk-spacing(7);
-      border-radius: 50%;
-      border: 3px solid govuk-colour('mid-grey');
-      background-color: white;
-      z-index: 2;
-      line-height: govuk-spacing(6);
-      box-sizing: border-box;
-      text-align: center;
-      padding-top: 2px;
-    }
+		&:before {
+			@include govuk-font(24, $weight: bold);
+			content: counter(list-number);
+			font-family: 'nta', Arial, sans-serif;
+			position: absolute;
+			padding: 0;
+			left: 0;
+			display: block;
+			width: govuk-spacing(7);
+			height: govuk-spacing(7);
+			border-radius: 50%;
+			border: 3px solid govuk-colour('mid-grey');
+			background-color: white;
+			z-index: 2;
+			line-height: govuk-spacing(6);
+			box-sizing: border-box;
+			text-align: center;
+			padding-top: 2px;
+		}
 
-    &:after {
-      content: '';
-      box-sizing: border-box;
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 17px;
-      margin-left: 1px;
-      width: 4px;
-      height: 100%;
-      background-color: govuk-colour('mid-grey');
-      z-index: 1;
-    }
+		&:after {
+			content: '';
+			box-sizing: border-box;
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 17px;
+			margin-left: 1px;
+			width: 4px;
+			height: 100%;
+			background-color: govuk-colour('mid-grey');
+			z-index: 1;
+		}
 
-    &--current {
-      &:before {
-        border-color: govuk-colour('dark-blue');
-      }
-    }
+		&--current {
+			&:before {
+				border-color: govuk-colour('dark-blue');
+			}
+		}
 
-    &--complete {
-      &:before {
-        color: white;
-        background-color: govuk-colour('dark-blue');
-        border-color: govuk-colour('dark-blue');
-      }
-    }
+		&--complete {
+			&:before {
+				color: white;
+				background-color: govuk-colour('dark-blue');
+				border-color: govuk-colour('dark-blue');
+			}
+		}
 
-    &--complete:after {
-      background-color: govuk-colour('dark-blue');
-    }
+		&--complete:after {
+			background-color: govuk-colour('dark-blue');
+		}
 
-    &:last-child:after {
-      display: none;
-    }
-  }
+		&:last-child:after {
+			display: none;
+		}
+	}
 }

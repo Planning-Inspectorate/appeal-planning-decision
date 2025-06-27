@@ -17,6 +17,6 @@ exports.formatCommentHearingText = (events) => {
 				const date = hearing.startDate;
 				const formattedDate = formatDate(utcToZonedTime(date, 'Europe/London'), 'd LLLL yyyy');
 				return `The hearing will start on ${formattedDate}.`;
-		  })
+			})
 		: [];
 };

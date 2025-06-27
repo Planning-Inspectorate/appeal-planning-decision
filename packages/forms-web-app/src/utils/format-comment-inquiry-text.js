@@ -17,6 +17,6 @@ exports.formatCommentInquiryText = (events) => {
 				const date = inquiry.startDate;
 				const formattedDate = formatDate(utcToZonedTime(date, 'Europe/London'), 'd LLLL yyyy');
 				return `The inquiry will start on ${formattedDate}.`;
-		  })
+			})
 		: [];
 };

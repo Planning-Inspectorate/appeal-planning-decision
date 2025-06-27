@@ -36,7 +36,7 @@ const mapDataModelToFODBDocument = ({
 		redactedStatus === null
 			? null
 			: redactedStatus === APPEAL_REDACTED_STATUS.REDACTED ||
-			  redactedStatus === APPEAL_REDACTED_STATUS.NO_REDACTION_REQUIRED
+				redactedStatus === APPEAL_REDACTED_STATUS.NO_REDACTION_REQUIRED
 });
 
 module.exports = class Repo {

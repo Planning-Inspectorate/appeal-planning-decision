@@ -126,7 +126,7 @@ class ServiceUserRepository {
 			data.emailAddress
 				? this.dbClient.appealUser.findFirst({
 						where: { email: data.emailAddress }
-				  })
+					})
 				: Promise.resolve(null),
 
 			this.dbClient.appealCase.findFirst({

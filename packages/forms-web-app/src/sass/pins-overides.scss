@@ -1,6 +1,5 @@
 $pins-teal: #28a197;
 
-
 .pins-layout-header {
 	border-bottom-color: $pins-teal;
 	padding-top: 6px;
@@ -10,7 +9,7 @@ $pins-teal: #28a197;
 	}
 
 	.govuk-header__logo {
-		margin-bottom: 5px;	
+		margin-bottom: 5px;
 		padding-right: 50px;
 		white-space: nowrap;
 		width: auto;
@@ -33,8 +32,7 @@ $pins-teal: #28a197;
 		width: 40px;
 		position: relative;
 		top: -4px;
-		
-		
+
 		margin-right: 1px;
 		fill: currentColor;
 		vertical-align: top;
@@ -49,7 +47,7 @@ $pins-teal: #28a197;
 
 	.pins-header__crown {
 		display: inherit;
-		background-image: url("/public/images/govuk-crest-white.svg");
+		background-image: url('/public/images/govuk-crest-white.svg');
 		background-size: 100% 95%;
 		width: inherit;
 		height: inherit;
@@ -70,7 +68,7 @@ $pins-teal: #28a197;
 
 		@include govuk-media-query($from: tablet) {
 			position: initial;
-	
+
 			&:before {
 				display: inline-block;
 				content: '';
@@ -80,7 +78,7 @@ $pins-teal: #28a197;
 				position: relative;
 				top: 5px;
 				left: 0;
-				margin-right: 10px;				
+				margin-right: 10px;
 			}
 		}
 	}

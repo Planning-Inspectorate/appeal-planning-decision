@@ -14,6 +14,10 @@ describe('routes/appeal-householder-decision/email-address-confirmed', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/email-address-confirmed', [fetchExistingAppealMiddleware], getEmailConfirmed);
+		expect(get).toHaveBeenCalledWith(
+			'/email-address-confirmed',
+			[fetchExistingAppealMiddleware],
+			getEmailConfirmed
+		);
 	});
 });

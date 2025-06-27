@@ -10,24 +10,24 @@
 	$root: &;
 
 	&__dropzone {
-		outline-color: govuk-colour("blue");
+		outline-color: govuk-colour('blue');
 		outline-width: 4px;
 		padding: 80px 15px;
 
 		&--dragover {
-			background-color: govuk-colour("light-grey");;
-			color: govuk-colour("black");
-			outline-color: govuk-colour("yellow");
+			background-color: govuk-colour('light-grey');
+			color: govuk-colour('black');
+			outline-color: govuk-colour('yellow');
 		}
 	}
 
 	&__delete {
 		@extend %govuk-link;
-    background-color: transparent;
+		background-color: transparent;
 		border: none;
-    color: govuk-colour("blue");
+		color: govuk-colour('blue');
 		cursor: pointer;
-    font-size: inherit;
+		font-size: inherit;
 	}
 
 	&__list {
