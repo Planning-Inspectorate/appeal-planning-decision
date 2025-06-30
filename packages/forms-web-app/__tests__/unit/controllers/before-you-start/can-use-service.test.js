@@ -103,7 +103,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			});
 		});
 		it('renders page - HAS - date decision due - v2 - s20 flag', async () => {
-			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			isLpaInFeatureFlag.mockReturnValue(true);
 			const householderAppealNoDecisionReceived = { ...householderAppeal };
 			householderAppealNoDecisionReceived.eligibility.applicationDecision = 'nodecisionreceived';
 			req = mockReq(householderAppealNoDecisionReceived);
@@ -120,14 +120,14 @@ describe('controllers/before-you-start/can-use-service', () => {
 				dateOfDecisionLabel: 'Date decision due',
 				enforcementNotice: 'No',
 				isListedBuilding: null,
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				bannerHtmlOverride: bannerHtmlOverrideHAS
 			});
 		});
 
 		it('renders page - HAS - date of decision - v2 - s20 flag', async () => {
-			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			isLpaInFeatureFlag.mockReturnValue(true);
 			req = mockReq(householderAppeal);
 
 			await getCanUseService(req, res);
@@ -142,7 +142,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
 				isListedBuilding: null,
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				bannerHtmlOverride: bannerHtmlOverrideHAS
 			});
@@ -171,8 +171,13 @@ describe('controllers/before-you-start/can-use-service', () => {
 		});
 
 		it('renders page - s78 - no prior approval - v2 - s78 flag', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(true); //s20
+			isLpaInFeatureFlag.mockReturnValueOnce(false); //s78
+			isLpaInFeatureFlag.mockReturnValueOnce(false); //CAS
+			isLpaInFeatureFlag.mockReturnValueOnce(false); //HAS
 			isLpaInFeatureFlag.mockReturnValueOnce(false); //s20
 			isLpaInFeatureFlag.mockReturnValueOnce(true); //s78
+
 			req = mockReq(priorApprovalFPAppeal);
 
 			await getCanUseService(req, res);
@@ -188,14 +193,16 @@ describe('controllers/before-you-start/can-use-service', () => {
 				hasPriorApprovalForExistingHome: 'No',
 				isListedBuilding: 'No',
 				isV2forS78: true,
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority'
 			});
 		});
 
 		it('renders page - s78 - no prior approval - v2 - s78 and s20 flag', async () => {
-			isLpaInFeatureFlag.mockReturnValueOnce(true); //s20
-			isLpaInFeatureFlag.mockReturnValueOnce(true); //s78
+			isLpaInFeatureFlag.mockImplementation(() => {
+				return true;
+			});
+
 			req = mockReq(priorApprovalFPAppeal);
 
 			await getCanUseService(req, res);
@@ -212,7 +219,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				isListedBuilding: null,
 				isV2forS78: true,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+				nextPageUrl: '/full-appeal/submit-appeal/email-address'
 			});
 		});
 
@@ -238,7 +245,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 		});
 
 		it('renders page - HAS - prior approval - v2 - s20 flag', async () => {
-			isLpaInFeatureFlag.mockReturnValueOnce(true); //s20
+			isLpaInFeatureFlag.mockImplementation(() => {
+				return true;
+			});
+
 			req = mockReq(priorApprovalHASAppeal);
 
 			await getCanUseService(req, res);
@@ -254,7 +264,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				hasPriorApprovalForExistingHome: 'Yes',
 				isListedBuilding: null,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				nextPageUrl: '/appeal-householder-decision/planning-application-number'
+				nextPageUrl: '/appeal-householder-decision/email-address'
 			});
 		});
 	});
@@ -283,7 +293,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 			);
 		});
 		it('renders page - s78 - v2', async () => {
-			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			isLpaInFeatureFlag.mockImplementation(() => {
+				return true;
+			});
+
 			req = mockReq(removalOrVariationOfConditionsFPAppeal);
 
 			await getCanUseService(req, res);
@@ -302,7 +315,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 					isV2: true,
 					isListedBuilding: 'No',
 					changeLpaUrl: '/before-you-start/local-planning-authority',
-					nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
+					nextPageUrl: '/full-appeal/submit-appeal/email-address'
 				}
 			);
 		});
@@ -381,7 +394,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				isV2forCAS: false,
 				isV2forS78: true,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				bannerHtmlOverride
 			});
 		});
@@ -407,7 +420,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				isV2forCAS: false,
 				isV2forS78: true,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				bannerHtmlOverride
 			});
 		});
@@ -463,7 +476,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				isListedBuilding: 'No',
 				isV2forCAS: false,
 				isV2forS78: true,
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				bannerHtmlOverride
 			});
@@ -492,7 +505,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				isV2forCAS: false,
 				isV2forS78: true,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				bannerHtmlOverride
 			});
 		});
@@ -526,7 +539,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				isListedBuilding: null,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				nextPageUrl: '/listed-building/planning-application-number',
+				nextPageUrl: '/listed-building/email-address',
 				isV2forS78: false,
 				isV2forCAS: false,
 				bannerHtmlOverride:
@@ -564,7 +577,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
-				nextPageUrl: '/cas-planning/planning-application-number',
+				nextPageUrl: '/cas-planning/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				isV2forS78: false,
 				isV2forCAS: true,
