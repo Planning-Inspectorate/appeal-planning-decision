@@ -12,10 +12,10 @@ const {
 } = require('@pins/business-rules/src/constants');
 
 const nextPage = {
-	fullAppeal: '/full-appeal/submit-appeal/planning-application-number',
-	householderPlanning: '/appeal-householder-decision/planning-application-number',
-	listedBuilding: '/listed-building/planning-application-number',
-	casAppeal: '/cas-planning/planning-application-number'
+	fullAppeal: '/full-appeal/submit-appeal/email-address',
+	householderPlanning: '/appeal-householder-decision/email-address',
+	listedBuilding: '/listed-building/email-address',
+	casAppeal: '/cas-planning/email-address'
 };
 
 const getNextPageFromCanUseServicePage = (appeal) => {
