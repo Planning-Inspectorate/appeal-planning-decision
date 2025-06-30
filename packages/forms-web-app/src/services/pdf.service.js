@@ -12,7 +12,7 @@ const {
 	VIEW: { FULL_APPEAL }
 } = require('../lib/full-appeal/views');
 const logger = require('../lib/logger');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 
@@ -121,13 +121,6 @@ const storePdfAppeal = async ({ appeal, fileName, cookieString }) => {
 	}
 };
 
-// Functions relating to V2 appeal forms
-
-const typeCodeToAppealUrlStub = {
-	[CASE_TYPES.HAS.processCode]: 'householder',
-	[CASE_TYPES.S78.processCode]: 'full-planning'
-};
-
 /**
  * @param {Object} params
  * @param {string} params.appellantSubmissionId - appellant Submission Id
@@ -187,9 +180,8 @@ const storePdfAppellantSubmission = async ({
  * @returns {string} url
  */
 const buildAppellantSubmissionUrl = (appellantSubmissionId, appealTypeCode) => {
-	const urlPart =
-		typeCodeToAppealUrlStub[appealTypeCode] || appealTypeUrlMapping[APPEAL_ID.HOUSEHOLDER];
-	return `${config.server.host}/appeals/${urlPart}/submit/information?id=${appellantSubmissionId}`;
+	const caseTypeUrl = caseTypeLookup(appealTypeCode, 'processCode')?.friendlyUrl;
+	return `${config.server.host}/appeals/${caseTypeUrl}/submit/information?id=${appellantSubmissionId}`;
 };
 
 /**
