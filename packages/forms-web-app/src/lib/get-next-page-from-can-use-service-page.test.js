@@ -11,40 +11,49 @@ const {
 	APPLICATION_DECISION: { REFUSED, GRANTED, NODECISIONRECEIVED },
 	APPEAL_ID
 } = require('@pins/business-rules/src/constants');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+
 const { getNextPageFromCanUseServicePage } = require('./get-next-page-from-can-use-service-page');
 
-const householderNextPage = '/appeal-householder-decision/planning-application-number';
-const fullAppealNextPage = '/full-appeal/submit-appeal/planning-application-number';
-const listedBuildingNextPage = '/listed-building/planning-application-number';
+const householderNextPage = '/appeal-householder-decision/email-address';
+const fullAppealNextPage = '/full-appeal/submit-appeal/email-address';
+const listedBuildingNextPage = '/listed-building/email-address';
+
+jest.mock('../../src/lib/is-lpa-in-feature-flag.js');
 
 describe('getNextPageFromCanUseServicePage', () => {
-	it('returns correct page (householder) for householder application- refused', () => {
+	beforeEach(() => {
+		isLpaInFeatureFlag.mockReturnValue(true);
+	});
+
+	it('returns correct page (householder) for householder application- refused', async () => {
 		const appeal = {
 			typeOfPlanningApplication: HOUSEHOLDER_PLANNING,
 			eligibility: {
 				applicationDecision: REFUSED
 			}
 		};
-		expect(getNextPageFromCanUseServicePage(appeal)).toEqual(householderNextPage);
+		const result = await getNextPageFromCanUseServicePage(appeal);
+		expect(result).toEqual(householderNextPage);
 	});
-	it('returns correct page (full appeal) for householder application- granted', () => {
+	it('returns correct page (full appeal) for householder application- granted', async () => {
 		const appeal = {
 			typeOfPlanningApplication: HOUSEHOLDER_PLANNING,
 			eligibility: {
 				applicationDecision: GRANTED
 			}
 		};
-		expect(getNextPageFromCanUseServicePage(appeal)).toEqual(fullAppealNextPage);
+		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(fullAppealNextPage);
 	});
 
-	it('returns correct page (full appeal) for householder application - no decision received', () => {
+	it('returns correct page (full appeal) for householder application - no decision received', async () => {
 		const appeal = {
 			typeOfPlanningApplication: HOUSEHOLDER_PLANNING,
 			eligibility: {
 				applicationDecision: NODECISIONRECEIVED
 			}
 		};
-		expect(getNextPageFromCanUseServicePage(appeal)).toEqual(fullAppealNextPage);
+		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(fullAppealNextPage);
 	});
 	it.each([
 		[GRANTED, true],
@@ -54,7 +63,7 @@ describe('getNextPageFromCanUseServicePage', () => {
 		[NODECISIONRECEIVED, false]
 	])(
 		'returns correct page (full appeal) for prior approval application %s where prior approval for existing home is %s ',
-		(decision, existingHome) => {
+		async (decision, existingHome) => {
 			const appeal = {
 				typeOfPlanningApplication: PRIOR_APPROVAL,
 				eligibility: {
@@ -62,10 +71,10 @@ describe('getNextPageFromCanUseServicePage', () => {
 					hasPriorApprovalForExistingHome: existingHome
 				}
 			};
-			expect(getNextPageFromCanUseServicePage(appeal)).toEqual(fullAppealNextPage);
+			expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(fullAppealNextPage);
 		}
 	);
-	it('returns correct page (householder appeal) for prior approval - refused householder', () => {
+	it('returns correct page (householder appeal) for prior approval - refused householder', async () => {
 		const appeal = {
 			typeOfPlanningApplication: PRIOR_APPROVAL,
 			eligibility: {
@@ -73,19 +82,19 @@ describe('getNextPageFromCanUseServicePage', () => {
 				hasPriorApprovalForExistingHome: true
 			}
 		};
-		expect(getNextPageFromCanUseServicePage(appeal)).toEqual(householderNextPage);
+		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(householderNextPage);
 	});
 
-	it('returns correct page (listed building if removal or variation of conditions application and s20 appeal type', () => {
+	it('returns correct page (listed building if removal or variation of conditions application and s20 appeal type', async () => {
 		const appeal = {
 			appealType: APPEAL_ID.PLANNING_LISTED_BUILDING,
 			typeOfPlanningApplication: REMOVAL_OR_VARIATION_OF_CONDITIONS,
 			eligibility: {}
 		};
-		expect(getNextPageFromCanUseServicePage(appeal)).toEqual(listedBuildingNextPage);
+		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(listedBuildingNextPage);
 	});
 
-	it('returns correct page (householder) if removal or variation of conditions (refused) and householder permission conditions true', () => {
+	it('returns correct page (householder) if removal or variation of conditions (refused) and householder permission conditions true', async () => {
 		const appeal = {
 			typeOfPlanningApplication: REMOVAL_OR_VARIATION_OF_CONDITIONS,
 			eligibility: {
@@ -93,7 +102,7 @@ describe('getNextPageFromCanUseServicePage', () => {
 				applicationDecision: REFUSED
 			}
 		};
-		expect(getNextPageFromCanUseServicePage(appeal)).toEqual(householderNextPage);
+		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(householderNextPage);
 	});
 
 	it.each([
@@ -104,7 +113,7 @@ describe('getNextPageFromCanUseServicePage', () => {
 		[NODECISIONRECEIVED, false]
 	])(
 		'returns correct page (full appeal) for removal or variation of condition (%s) and householder permission conditions %s',
-		(decision, householderPermissionConditions) => {
+		async (decision, householderPermissionConditions) => {
 			const appeal = {
 				typeOfPlanningApplication: REMOVAL_OR_VARIATION_OF_CONDITIONS,
 				eligibility: {
@@ -112,26 +121,26 @@ describe('getNextPageFromCanUseServicePage', () => {
 					applicationDecision: decision
 				}
 			};
-			expect(getNextPageFromCanUseServicePage(appeal)).toEqual(fullAppealNextPage);
+			expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(fullAppealNextPage);
 		}
 	);
 
-	it('returns correct page (listed building) for s20 application', () => {
+	it('returns correct page (listed building) for s20 application', async () => {
 		const appeal = {
 			typeOfPlanningApplication: LISTED_BUILDING,
 			eligibility: {}
 		};
-		expect(getNextPageFromCanUseServicePage(appeal)).toEqual(listedBuildingNextPage);
+		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(listedBuildingNextPage);
 	});
 
 	it.each([[FULL_APPEAL], [OUTLINE_PLANNING, RESERVED_MATTERS]])(
 		'returns correct page (full appeal) for %s application',
-		(applicationType) => {
+		async (applicationType) => {
 			const appeal = {
 				typeOfPlanningApplication: applicationType,
 				eligibility: {}
 			};
-			expect(getNextPageFromCanUseServicePage(appeal)).toEqual(fullAppealNextPage);
+			expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(fullAppealNextPage);
 		}
 	);
 });

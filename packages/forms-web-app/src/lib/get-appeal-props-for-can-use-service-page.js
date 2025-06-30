@@ -38,7 +38,7 @@ const getAppealPropsForCanUseServicePage = async (appeal) => {
 		applicationDecision = removeDashesAndCapitaliseString(applicationDecision);
 	}
 
-	const nextPageUrl = getNextPageFromCanUseServicePage(appeal);
+	const nextPageUrl = await getNextPageFromCanUseServicePage(appeal);
 
 	const decisionDate = format(parseISO(appeal.decisionDate), 'dd MMMM yyyy');
 
