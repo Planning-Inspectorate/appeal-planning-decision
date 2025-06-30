@@ -12,6 +12,7 @@ const {
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
+const { getJourneyTypeById } = require('@pins/common/src/dynamic-forms/journey-types');
 
 const { getDepartmentFromId } = require('../services/department.service');
 const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
@@ -329,11 +330,9 @@ exports.submit = async (req, res) => {
 	const referenceId = res.locals.journeyResponse.referenceId;
 
 	const journeyUrl = (journeyId) => {
-		if (journeyId === 'has-questionnaire') {
-			return 'householder';
-		} else if (journeyId === 's78-questionnaire') {
-			return 'full-planning';
-		} else return '';
+		const caseCode = getJourneyTypeById(journeyId)?.caseType;
+		const caseType = caseTypeLookup(caseCode, 'processCode');
+		return caseType?.friendlyUrl;
 	};
 
 	if (!journey.isComplete()) {
@@ -346,7 +345,7 @@ exports.submit = async (req, res) => {
 	const storedPdf = await storePdfQuestionnaireSubmission({
 		submissionJourney: journey,
 		cookieString: req.headers.cookie,
-		appealTypeUrl: journeyUrl(journeyResponse.journeyId)
+		appealTypeUrl: journeyUrl(journeyResponse.journeyId) || 'appeal'
 	});
 
 	await req.appealsApiClient.patchLPAQuestionnaire(referenceId, { submissionPdfId: storedPdf.id });
