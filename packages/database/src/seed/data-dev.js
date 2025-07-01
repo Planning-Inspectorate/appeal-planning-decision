@@ -6,7 +6,9 @@ const {
 	APPEAL_CASE_DECISION_OUTCOME,
 	APPEAL_CASE_PROCEDURE,
 	APPEAL_CASE_STATUS,
-	APPEAL_CASE_VALIDATION_OUTCOME
+	APPEAL_CASE_VALIDATION_OUTCOME,
+	APPEAL_DOCUMENT_TYPE,
+	APPEAL_VIRUS_CHECK_STATUS
 } = require('pins-data-model');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
@@ -1602,7 +1604,8 @@ async function createCasesInState(dbClient) {
 		APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE,
 		APPEAL_CASE_STATUS.STATEMENTS,
 		APPEAL_CASE_STATUS.EVIDENCE,
-		APPEAL_CASE_STATUS.FINAL_COMMENTS
+		APPEAL_CASE_STATUS.FINAL_COMMENTS,
+		APPEAL_CASE_STATUS.COMPLETE
 	];
 	const variations = [
 		{ type: CASE_TYPES.HAS, process: APPEAL_CASE_PROCEDURE.WRITTEN },
@@ -1611,13 +1614,21 @@ async function createCasesInState(dbClient) {
 		{ type: CASE_TYPES.S78, process: APPEAL_CASE_PROCEDURE.INQUIRY },
 		{ type: CASE_TYPES.S20, process: APPEAL_CASE_PROCEDURE.WRITTEN },
 		{ type: CASE_TYPES.S20, process: APPEAL_CASE_PROCEDURE.HEARING },
-		{ type: CASE_TYPES.S20, process: APPEAL_CASE_PROCEDURE.INQUIRY }
+		{ type: CASE_TYPES.S20, process: APPEAL_CASE_PROCEDURE.INQUIRY },
+		{ type: CASE_TYPES.CAS_ADVERTS, process: APPEAL_CASE_PROCEDURE.WRITTEN },
+		{ type: CASE_TYPES.CAS_PLANNING, process: APPEAL_CASE_PROCEDURE.WRITTEN },
+		{ type: CASE_TYPES.ADVERTS, process: APPEAL_CASE_PROCEDURE.WRITTEN },
+		{ type: CASE_TYPES.ADVERTS, process: APPEAL_CASE_PROCEDURE.HEARING },
+		{ type: CASE_TYPES.ADVERTS, process: APPEAL_CASE_PROCEDURE.INQUIRY }
 	];
 
 	for (const state of states) {
 		for (const variation of variations) {
-			if (variation.type.processCode === 'HAS' && state !== APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE) {
-				// skip invalid states
+			if (
+				variation.type.expedited &&
+				![APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE, APPEAL_CASE_STATUS.COMPLETE].includes(state)
+			) {
+				// skip invalid states for expedited cases
 				continue;
 			}
 
@@ -1677,7 +1688,8 @@ async function createCasesInState(dbClient) {
 					if (generatedCase.canHaveRule6) {
 						await dbClient.serviceUser.create({
 							data: {
-								...rule6Parties.r6One,
+								id: rule6Parties.r6One.id,
+								emailAddress: rule6Parties.r6One.email,
 								serviceUserType: APPEAL_USER_ROLES.RULE_6_PARTY,
 								caseReference: generatedCaseRef.toString(),
 								firstName: 'rule6',
@@ -1695,64 +1707,127 @@ async function createCasesInState(dbClient) {
 					await dbClient.appealToUser.createMany({
 						data: users
 					});
+
+					// decision doc
+
+					if (createdCase.caseStatus === APPEAL_CASE_STATUS.COMPLETE) {
+						await dbClient.document.create({
+							data: {
+								dateCreated: new Date(),
+								documentURI: `${config.storage.boEndpoint}/example.txt`,
+								publishedDocumentURI: `${config.storage.boEndpoint}/example.txt`,
+								filename: 'decision-doc.txt',
+								originalFilename: 'example.txt',
+								caseReference: createdCase.caseReference,
+								documentType: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER,
+								size: 16,
+								mime: 'text/plain',
+								published: true,
+								redacted: true,
+								virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
+								sourceSystem: 'appeals',
+								origin: 'pins',
+								stage: 'decision'
+							}
+						});
+					}
 				}
-			} catch {
-				console.warn(`failed to generate case: ${friendlyName}`);
+			} catch (error) {
+				console.error(`Error generating case: ${friendlyName}`, error);
 			}
 		}
 	}
 }
 
 /**
- * @param {import('@prisma/client').PrismaClient} dbClient
- * @param {string} caseReference
+ * @param {import('@prisma/client').PrismaClient} db
+ * @param {string} caseRef
  */
-async function deleteSubmissionForCase(dbClient, caseReference) {
-	await dbClient.interestedPartySubmission.deleteMany({
-		where: {
-			caseReference: caseReference
-		}
-	});
-	await dbClient.lPAQuestionnaireSubmission.deleteMany({
-		where: {
-			appealCaseReference: caseReference
-		}
-	});
-	await dbClient.lPAStatementSubmission.deleteMany({
-		where: {
-			appealCaseReference: caseReference
-		}
-	});
-	await dbClient.lPAProofOfEvidenceSubmission.deleteMany({
-		where: {
-			caseReference: caseReference
-		}
-	});
-	await dbClient.lPAFinalCommentSubmission.deleteMany({
-		where: {
-			caseReference: caseReference
-		}
-	});
-	await dbClient.appellantFinalCommentSubmission.deleteMany({
-		where: {
-			caseReference: caseReference
-		}
-	});
-	await dbClient.appellantProofOfEvidenceSubmission.deleteMany({
-		where: {
-			caseReference: caseReference
-		}
-	});
-	await dbClient.rule6ProofOfEvidenceSubmission.deleteMany({
-		where: {
-			caseReference: caseReference
-		}
-	});
-	await dbClient.rule6StatementSubmission.deleteMany({
-		where: {
-			caseReference: caseReference
-		}
-	});
+async function deleteSubmissionForCase(db, caseRef) {
+	const [
+		lpaQuestionnaires,
+		lpaStatements,
+		lpaProofs,
+		lpaFinals,
+		appellantFinals,
+		appellantProofs,
+		rule6Proofs,
+		rule6Statements
+	] = await Promise.all([
+		db.lPAQuestionnaireSubmission.findMany({
+			where: { appealCaseReference: caseRef },
+			select: { id: true }
+		}),
+		db.lPAStatementSubmission.findMany({
+			where: { appealCaseReference: caseRef },
+			select: { id: true }
+		}),
+		db.lPAProofOfEvidenceSubmission.findMany({
+			where: { caseReference: caseRef },
+			select: { id: true }
+		}),
+		db.lPAFinalCommentSubmission.findMany({
+			where: { caseReference: caseRef },
+			select: { id: true }
+		}),
+		db.appellantFinalCommentSubmission.findMany({
+			where: { caseReference: caseRef },
+			select: { id: true }
+		}),
+		db.appellantProofOfEvidenceSubmission.findMany({
+			where: { caseReference: caseRef },
+			select: { id: true }
+		}),
+		db.rule6ProofOfEvidenceSubmission.findMany({
+			where: { caseReference: caseRef },
+			select: { id: true }
+		}),
+		db.rule6StatementSubmission.findMany({
+			where: { caseReference: caseRef },
+			select: { id: true }
+		})
+	]);
+
+	await Promise.all([
+		db.submissionDocumentUpload.deleteMany({
+			where: { questionnaireId: { in: lpaQuestionnaires.map((x) => x.id) } }
+		}),
+		db.submissionDocumentUpload.deleteMany({
+			where: { lpaStatementId: { in: lpaStatements.map((x) => x.id) } }
+		}),
+		db.submissionDocumentUpload.deleteMany({
+			where: { lpaProofOfEvidenceId: { in: lpaProofs.map((x) => x.id) } }
+		}),
+		db.submissionDocumentUpload.deleteMany({
+			where: { lpaFinalCommentId: { in: lpaFinals.map((x) => x.id) } }
+		}),
+		db.submissionDocumentUpload.deleteMany({
+			where: { appellantFinalCommentId: { in: appellantFinals.map((x) => x.id) } }
+		}),
+		db.submissionDocumentUpload.deleteMany({
+			where: { appellantProofOfEvidenceId: { in: appellantProofs.map((x) => x.id) } }
+		}),
+		db.submissionDocumentUpload.deleteMany({
+			where: { rule6ProofOfEvidenceSubmissionId: { in: rule6Proofs.map((x) => x.id) } }
+		}),
+		db.submissionDocumentUpload.deleteMany({
+			where: { rule6StatementSubmissionId: { in: rule6Statements.map((x) => x.id) } }
+		})
+	]);
+
+	await Promise.all([
+		db.interestedPartySubmission.deleteMany({ where: { caseReference: caseRef } }),
+		db.lPAQuestionnaireSubmission.deleteMany({
+			where: { appealCaseReference: caseRef }
+		}),
+		db.lPAStatementSubmission.deleteMany({ where: { appealCaseReference: caseRef } }),
+		db.lPAProofOfEvidenceSubmission.deleteMany({ where: { caseReference: caseRef } }),
+		db.lPAFinalCommentSubmission.deleteMany({ where: { caseReference: caseRef } }),
+		db.appellantFinalCommentSubmission.deleteMany({ where: { caseReference: caseRef } }),
+		db.appellantProofOfEvidenceSubmission.deleteMany({ where: { caseReference: caseRef } }),
+		db.rule6ProofOfEvidenceSubmission.deleteMany({ where: { caseReference: caseRef } }),
+		db.rule6StatementSubmission.deleteMany({ where: { caseReference: caseRef } })
+	]);
 }
 
 module.exports = {
