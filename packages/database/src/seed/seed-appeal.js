@@ -95,7 +95,6 @@ module.exports.getAppealInState = ({
 		case APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE:
 			appeal.lpaQuestionnaireDueDate = pickRandom(datesNMonthsAhead(1));
 			appeal.caseStartedDate = new Date();
-			appeal.lpaQuestionnaireDueDate = null;
 			break;
 		// Statements
 		case APPEAL_CASE_STATUS.STATEMENTS:
