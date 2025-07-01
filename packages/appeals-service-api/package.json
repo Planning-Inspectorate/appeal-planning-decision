@@ -25,9 +25,9 @@
 	"dependencies": {
 		"@azure/identity": "*",
 		"@azure/service-bus": "*",
-		"@pins/business-rules": "file:../business-rules",
-		"@pins/common": "file:../common",
-		"@pins/database": "file:../database",
+		"@pins/business-rules": "^0.0.0",
+		"@pins/common": "^0.0.0",
+		"@pins/database": "^0.0.0",
 		"@prisma/client": "*",
 		"ajv": "*",
 		"ajv-errors": "*",

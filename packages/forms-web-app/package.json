@@ -28,8 +28,8 @@
 	},
 	"dependencies": {
 		"@ministryofjustice/frontend": "*",
-		"@pins/business-rules": "file:../business-rules",
-		"@pins/common": "file:../common",
+		"@pins/business-rules": "^0.0.0",
+		"@pins/common": "^0.0.0",
 		"accessible-autocomplete": "*",
 		"applicationinsights": "*",
 		"compression": "*",
