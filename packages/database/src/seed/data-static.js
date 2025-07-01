@@ -38,7 +38,7 @@ async function seedStaticData(dbClient) {
 		await dbClient.caseType.upsert({
 			create: caseType,
 			update: caseType,
-			where: { key: caseType.key }
+			where: { id: caseType.id }
 		});
 	}
 	for (const procedure of PROCEDURE_TYPES_ARRAY) {

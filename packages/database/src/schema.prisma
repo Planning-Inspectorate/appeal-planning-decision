@@ -435,7 +435,7 @@ model AppealCaseRelationship {
 /// { id: 1001, key: 'D', type: 'Householder', processCode: 'HAS' },
 model CaseType {
   id          Int          @id /// used in v1 appeals see APPEAL_ID in /business-rules/src/constants.js
-  key         String       @unique /// horizon type letter, also used in BO + service bus messages
+  key         String /// horizon type letter, also used in BO + service bus messages (not unique)
   type        String       @unique /// a user friendly name for the case type
   processCode String?      @unique /// use this as foreign key, v2 appeals
   AppealCase  AppealCase[]

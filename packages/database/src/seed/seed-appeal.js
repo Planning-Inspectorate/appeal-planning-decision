@@ -125,6 +125,14 @@ module.exports.getAppealInState = ({
 			appeal.appellantCommentsSubmittedDate = null;
 			canHaveRule6 = true;
 			break;
+		// Decision
+		case APPEAL_CASE_STATUS.COMPLETE:
+			appeal.caseStartedDate = new Date();
+			appeal.lpaQuestionnaireDueDate = new Date();
+			appeal.CaseDecisionOutcome = { connect: { key: 'Allowed' } };
+			appeal.caseDecisionOutcomeDate = new Date();
+			appeal.caseDecisionPublishedDate = new Date();
+			break;
 		default:
 			break;
 	}
