@@ -7,5 +7,5 @@ npm repository. To use it, add this line to your `package.json` `dependencies`
 and run`npm install`.
 
 ```
-"@pins/business-rules": "file:../business-rules",
+"@pins/business-rules": "^0.0.0",
 ```

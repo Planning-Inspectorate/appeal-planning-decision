@@ -7,7 +7,7 @@ npm repository. To use it, add this line to your `package.json` `dependencies`
 and run`npm install`.
 
 ```
-"@pins/common": "file:../common",
+"@pins/common": "^0.0.0",
 ```
 
 ## Engineering Backlog

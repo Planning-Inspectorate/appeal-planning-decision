@@ -22,8 +22,8 @@
 		"test:cov": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --coverage"
 	},
 	"dependencies": {
-		"@pins/common": "file:../common",
-		"@pins/database": "file:../database",
+		"@pins/common": "^0.0.0",
+		"@pins/database": "^0.0.0",
 		"@prisma/client": "*",
 		"applicationinsights": "*",
 		"express": "*",

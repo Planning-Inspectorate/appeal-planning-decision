@@ -22,8 +22,8 @@
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {
 		"@azure/storage-blob": "*",
-		"@pins/common": "file:../common",
-		"@pins/database": "file:../database",
+		"@pins/common": "^0.0.0",
+		"@pins/database": "^0.0.0",
 		"@prisma/client": "*",
 		"applicationinsights": "*",
 		"archiver": "*",

@@ -24,7 +24,7 @@
 		"@azure/identity": "*",
 		"@azure/service-bus": "*",
 		"@azure/storage-blob": "*",
-		"@pins/common": "file:../common",
+		"@pins/common": "^0.0.0",
 		"stream-json": "*"
 	}
 }
