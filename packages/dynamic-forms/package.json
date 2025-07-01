@@ -1,0 +1,27 @@
+{
+	"name": "@pins/dynamic-forms",
+	"version": "0.0.0",
+	"description": "Dynamic forms solution",
+	"private": true,
+	"engines": {
+		"node": ">=22.0.0 <23.0.0"
+	},
+	"scripts": {
+		"lint": "eslint ./",
+		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --passWithNoTests",
+		"test:cov": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --coverage --passWithNoTests"
+	},
+	"author": "",
+	"dependencies": {
+		"date-fns": "*",
+		"date-fns-tz": "*",
+		"escape-html": "*",
+		"express-validator": "*",
+		"nunjucks": "*"
+	},
+	"devDependencies": {
+		"jest": "*",
+		"jest-fetch-mock": "*",
+		"jest-junit": "*"
+	}
+}

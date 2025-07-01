@@ -43,6 +43,8 @@ extends:
                   path: packages/common
                 - name: database
                   path: packages/database
+                - name: dynamic_forms
+                  path: packages/dynamic-forms
                 - name: package_lock
                   path: package-lock.json
                 - name: package_json
@@ -83,6 +85,7 @@ extends:
               eq(dependencies.check_changes.outputs['check_files.business_rules'], 'true'),
               eq(dependencies.check_changes.outputs['check_files.common'], 'true'),
               eq(dependencies.check_changes.outputs['check_files.database'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.dynamic_forms'], 'true'),
               eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
               eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
             )
@@ -115,6 +118,7 @@ extends:
               eq(dependencies.check_changes.outputs['check_files.database'], 'true'),
               eq(dependencies.check_changes.outputs['check_files.common'], 'true'),
               eq(dependencies.check_changes.outputs['check_files.business_rules'], 'true'),
+              eq(dependencies.check_changes.outputs['check_files.dynamic_forms'], 'true'),
               eq(dependencies.check_changes.outputs['check_files.package_lock'], 'true'),
               eq(dependencies.check_changes.outputs['check_files.package_json'], 'true')
             )
@@ -243,4 +247,9 @@ extends:
             parameters:
               condition: succeededOrFailed()
               script: $(test-script):pdf-api
+              nodeVersion: 
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: succeededOrFailed()
+              script: $(test-script):dynamic-forms
               nodeVersion: 22
