@@ -1,6 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { houseHolderQuestionnaireTestCases } from "../../helpers/lpaManageAppeals/houseHolderQuestionnaireData";
+import { users } from '../../fixtures/users.js';
 const { householderQuestionnaire } = require('../../support/flows/sections/lpaManageAppeals/houseHolderQuestionnaire');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
@@ -8,6 +9,8 @@ describe('House Holder Questionnaire Test Cases', () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;
         beforeEach(() => {
+                cy.login(users.appeals.authUser);
+                // Load the fixture data for LPA Manage Appeals
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })
@@ -23,6 +26,8 @@ describe('House Holder Questionnaire Test Cases', () => {
                 });
 
         });
+        // Iterate through each test case in the houseHolderQuestionnaireTestCases array
+        // Each test case will be executed with the provided context data
         houseHolderQuestionnaireTestCases.forEach((context) => {
 
                 it(`

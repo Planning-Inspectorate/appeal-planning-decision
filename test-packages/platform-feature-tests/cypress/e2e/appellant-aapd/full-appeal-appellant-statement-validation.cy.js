@@ -5,6 +5,8 @@
 import { statementTestCases } from "../../helpers/representations/statementData";
 import { BasePage } from "../../page-objects/base-page";
 import { StringUtils } from "../../utils/StringUtils";
+import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
+import { users } from '../../fixtures/users.js';
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
 describe('Full Planning Statement Test Cases', () => {
@@ -15,19 +17,21 @@ describe('Full Planning Statement Test Cases', () => {
     let appealId;
 
     beforeEach(() => {
+        cy.login(users.appeals.authUser);
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         })
-        cy.visit(`${Cypress.config('appeals_beta_base_url')}/appeals/your-email-address`);
+        cy.visit(`${Cypress.config('appeals_beta_base_url')}/appeal/email-address`);
         cy.url().then((url) => {
-            if (url.includes('/appeals/your-email-address')) {
-                cy.getByData(prepareAppealSelector?._selectors?.emailAddress).clear();
-                cy.getByData(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.emailAddress);
+            if (url.includes('/appeal/email-address')) {
+                cy.getById(prepareAppealSelector?._selectors?.emailAddress).clear();
+                cy.getById(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress1);
                 cy.advanceToNextPage();
-                cy.get(PrepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.emailCode);
+                cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
                 cy.advanceToNextPage();
             }
         });
+
         let counter = 0;
         cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
             const rowtext = $row.text();
@@ -62,7 +66,7 @@ describe('Full Planning Statement Test Cases', () => {
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter your statement');
     });
-    
+
     it(`Validate Appeal statement more than 32500 cahracters validation`, () => {
         const longText = stringUtils.generateLongString(32501);
         cy.get('#appellantStatement').invoke('val', longText).trigger('input');
@@ -92,13 +96,7 @@ describe('Full Planning Statement Test Cases', () => {
         cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
         cy.advanceToNextPage();
         basePage?.basePageElements?.pageHeading().contains('Upload your new supporting documents');
-        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
-            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                if ($buttons.length) {
-                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                }
-            })
-        }
+        deleteUploadedDocuments()
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
     });

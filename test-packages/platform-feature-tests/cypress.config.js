@@ -38,10 +38,12 @@ module.exports = defineConfig({
     },
     env: {
       PASSWORD: process.env.USER_PASSWORD,
-      APPELLANT_EMAIL: process.env.APPELLANT_EMAIL
+      AUTH_EMAIL: process.env.AUTH_EMAIL,
+      CASE_ADMIN_EMAIL: process.env.CASE_ADMIN_EMAIL
     },
     baseUrl: 'https://appeals-service-test.planninginspectorate.gov.uk',
     appeals_beta_base_url: 'https://appeals-service-test.planninginspectorate.gov.uk',
+    back_office_base_url: process.env.CYPRESS_BACK_OFFICE_BASE_URL || 'https://back-office-appeals-test.planninginspectorate.gov.uk',
     supportFile: 'cypress/support/e2e.js',
     testIsolation: false,
     experimetalSessionAndOrigin: true,
@@ -50,4 +52,7 @@ module.exports = defineConfig({
     experimentalRunAllSpecs: true,
     retries: 0
   }
+  // on('task',{isFileExist(filename){
+  //   return require('fs').existsSync(filename)
+  // }})
 });
