@@ -33,10 +33,10 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 	const uploadApplicationFormPage = new UploadApplicationFormPage();
 	const applyAppealCostsPage = new ApplyAppealCostsPage();
 	const date = new DateService();
-	
+
 	cy.getByData(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
-	
+
 	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.beforeYouStart}/decision-date-householder`);
 
 	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.today());
@@ -48,14 +48,16 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 	// cy.advanceToNextPage();
 
 	cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.householderPlanningText);
-	
+
 	cy.advanceToNextPage(prepareAppealData?.button);
 
-	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/planning-application-number`);
+	//commented this code as this page has been removed from the BYS flow
 
-	const applicationNumber = `TEST-${Date.now()}`;
-	cy.getByData(prepareAppealSelector?._selectors?.applicationNumber).type(applicationNumber);
-	cy.advanceToNextPage();
+	//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/planning-application-number`);
+
+	// const applicationNumber = `TEST-${Date.now()}`;
+	// cy.getByData(prepareAppealSelector?._selectors?.applicationNumber).type(applicationNumber);
+	// cy.advanceToNextPage();
 
 	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/email-address`);
 	console.log('Prepare Appeal Data', prepareAppealData);
@@ -70,21 +72,21 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 	cy.advanceToNextPage();
 
 	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderAppealForm}/before-you-start`);
-	cy.advanceToNextPage();	
+	cy.advanceToNextPage();
 	cy.location('search').then((search) => {
 		const params = new URLSearchParams(search);
 		const dynamicId = params.get('id');
 
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderAppealForm}/your-appeal`);
-		applicationFormPage(prepareAppealSelector?._selectors?.houseHolderApplicaitonType,prepareAppealSelector?._selectors?.appellantOther, dynamicId);
+		applicationFormPage(prepareAppealSelector?._selectors?.houseHolderApplicaitonType, prepareAppealSelector?._selectors?.appellantOther, dynamicId);
 
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/application-name`);
 		//Contact details
-		applicationNamePage.addApplicationNameData(context?.applicationForm?.isAppellant,prepareAppealData);
+		applicationNamePage.addApplicationNameData(context?.applicationForm?.isAppellant, prepareAppealData);
 
 
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/contact-details`);
-		contactDetailsPage.addContactDetailsData(context, prepareAppealSelector?._selectors?.houseHolderApplicaitonType,prepareAppealData);
+		contactDetailsPage.addContactDetailsData(context, prepareAppealSelector?._selectors?.houseHolderApplicaitonType, prepareAppealData);
 
 		//Site Details		
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/appeal-site-address`);
@@ -124,9 +126,12 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 		//What is the application reference number?
 
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/reference-number`);
-		cy.get(prepareAppealSelector?._selectors?.applicationReference).invoke('val').then((inputValue) => {
-			expect(inputValue).to.equal(applicationNumber);
-		});
+		const applicationNumber = `TEST-${Date.now()}`;
+		cy.get(prepareAppealSelector?._selectors?.applicationReference).type(applicationNumber);
+		// cy.advanceToNextPage();
+		// cy.get(prepareAppealSelector?._selectors?.applicationReference).invoke('val').then((inputValue) => {
+		// 	expect(inputValue).to.equal(applicationNumber);
+		// });
 
 		cy.advanceToNextPage();
 		//What date did you submit your application?
@@ -169,9 +174,9 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 		//submit
 		cy.get(`a[href*="/appeals/householder/submit/declaration?id=${dynamicId}"]`).click();
 
-		cy.containsMessage(basePage?._selectors.govukButton,prepareAppealData?.acceptAndSubmitButton).click();
+		cy.containsMessage(basePage?._selectors.govukButton, prepareAppealData?.acceptAndSubmitButton).click();
 
-		cy.get(basePage?._selectors.govukPanelTitle).invoke('text').should((text) => {		
+		cy.get(basePage?._selectors.govukPanelTitle).invoke('text').should((text) => {
 			expect(text.trim()).to.equal(prepareAppealData?.appealSubmitted);
 		});
 	});

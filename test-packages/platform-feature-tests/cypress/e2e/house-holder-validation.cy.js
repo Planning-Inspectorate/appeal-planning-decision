@@ -4,6 +4,7 @@
 import { BasePage } from "../page-objects/base-page";
 import { houseHolderAppealRefusedTestCases } from "../helpers/houseHolderAppeal/houseHolderAppealRefusedData";
 import { DateService } from "../support/flows/sections/dateService";
+import { users } from "../fixtures/users.js";
 const { ContactDetailsPage } = require("../support/flows/pages/prepare-appeal/contactDetailsPage");
 const { AppealSiteAddressPage } = require("../support/flows/pages/prepare-appeal/appealSiteAddressPage");
 const { SiteAreaPage } = require("../support/flows/pages/prepare-appeal/siteAreaPage");
@@ -24,6 +25,7 @@ describe('House Holder Date Validations', () => {
     let prepareAppealData;
 
     beforeEach(() => {
+        cy.login(users.appeals.authUser);
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         })
@@ -213,9 +215,9 @@ describe('House Holder Validations', () => {
 
     it(`Validate emails address with correct email format`, () => {
 
-        const applicationNumber = `TEST-${Date.now()}`;
-        cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
-        cy.advanceToNextPage();
+        // const applicationNumber = `TEST-${Date.now()}`;
+        // cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
+        // cy.advanceToNextPage();
 
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type('abcdtestemail');
         cy.advanceToNextPage();
@@ -225,9 +227,9 @@ describe('House Holder Validations', () => {
 
     it(`Validate correct email code received `, () => {
 
-        const applicationNumber = `TEST-${Date.now()}`;
-        cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
-        cy.advanceToNextPage();
+        // const applicationNumber = `TEST-${Date.now()}`;
+        // cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
+        // cy.advanceToNextPage();
 
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
         cy.advanceToNextPage();
@@ -240,9 +242,9 @@ describe('House Holder Validations', () => {
 
     it(`Validate error message when incorrect email code received `, () => {
 
-        const applicationNumber = `TEST-${Date.now()}`;
-        cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
-        cy.advanceToNextPage();
+        // const applicationNumber = `TEST-${Date.now()}`;
+        // cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
+        // cy.advanceToNextPage();
 
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
         cy.advanceToNextPage();
@@ -256,9 +258,9 @@ describe('House Holder Validations', () => {
     it(`Validate change URL for application name in task link page `, () => {
         const applicationNamePage = new ApplicationNamePage();
 
-        const applicationNumber = `TEST-${Date.now()}`;
-        cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
-        cy.advanceToNextPage();
+        // const applicationNumber = `TEST-${Date.now()}`;
+        // cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
+        // cy.advanceToNextPage();
 
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
         cy.advanceToNextPage();
@@ -281,9 +283,9 @@ describe('House Holder Validations', () => {
     it(`Validate data entered while adding the prepare appeal form `, () => {
         const applicationNamePage = new ApplicationNamePage();
 
-        const applicationNumber = `TEST-${Date.now()}`;
-        cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
-        cy.advanceToNextPage();
+        // const applicationNumber = `TEST-${Date.now()}`;
+        // cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
+        // cy.advanceToNextPage();
 
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
         cy.advanceToNextPage();
@@ -310,6 +312,10 @@ describe('House Holder Validations', () => {
             inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess, prepareAppealData);
             healthSafetyIssuesPage.addHealthSafetyIssuesData(context, prepareAppealData);
             cy.advanceToNextPage();
+            const applicationNumber = `TEST-${Date.now()}`;
+            cy.get(prepareAppealSelector._selectors?.applicationReference).type(applicationNumber);
+            cy.advanceToNextPage();
+
 
             cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(date.today());
             cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth());

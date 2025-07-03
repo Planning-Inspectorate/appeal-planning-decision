@@ -3,13 +3,15 @@
 
 import { houseHolderAppealNoDecisionTestCases } from "../../helpers/houseHolderAppeal/houseHolderAppealNoDecisionData";
 const { submitAppealFlow } = require('../../support/flows/appeal');
+import { users } from "../../fixtures/users.js";
 
 describe('Submit House Holder Appeal No Decision Test Cases', () => {
 	let prepareAppealData;
 	beforeEach(() => {
-        cy.fixture('prepareAppealData').then(data => {
-            prepareAppealData = data;
-        })
+		cy.login(users.appeals.authUser);
+		cy.fixture('prepareAppealData').then(data => {
+			prepareAppealData = data;
+		})
 	});
 	houseHolderAppealNoDecisionTestCases.forEach((context) => {
 		const {

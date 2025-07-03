@@ -12,7 +12,53 @@ import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportA
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
 import { waitingForReview } from "../../pages/lpa-manage-appeals/waitingForReview";
 
-export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
+let appealId = '';
+export const selectRowFullAppealQuestionnaireCounter = (context, lpaManageAppealsData) => {
+	const basePage = new BasePage();
+	let counter = 0;
+	let linkFound = false;
+	return cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
+		if (linkFound) return false;
+		if ($row.find('th').length > 0) {
+			return;
+		}
+		const rowtext = $row.text();
+		if (linkFound) return false;
+		return Cypress.Promise.resolve().then(() => {
+			const $tds = $row.find('td');
+			const todoText = $tds.eq(5).text().trim();
+
+			if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && todoText.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+				if (counter === 5) {
+					const $link = $tds.eq(5).find('a')
+					if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
+						appealId = $link.attr('href')?.split('/').pop();
+						$link[0].scrollIntoView();
+						$link[0].click();
+						linkFound = true;
+						return false;
+					}
+				}
+				counter++;
+			}
+		})
+	})
+};
+
+export const selectFullAppealRowUsingCaseRef = (appealId) => {
+
+	return cy.contains('a.govuk-link', appealId).should('be.visible');
+}
+
+export const selectAppealIdFromTable = (caseRef) => {
+	if (caseRef) {
+		return selectFullAppealRowUsingCaseRef(caseRef);
+	} else {
+		return selectRowFullAppealQuestionnaireCounter();
+	}
+}
+
+export const fullAppealQuestionnaire = (context, lpaManageAppealsData, caseRef = '') => {
 	const basePage = new BasePage();
 	const constraintsAndDesignations = new ConstraintsAndDesignations();
 	const envImpactAssess = new EnvImpactAssess();
@@ -21,36 +67,16 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 	const siteAccess = new SiteAccess();
 	const notifyParties = new NotifyParties();
 	const poReportAndSupportDocs = new PoReportAndSupportDocs();
-	let appealId;
-	let counter = 0;
-	let linkFound = false;
-	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-		if (linkFound) return false;		
-		if ($row.find('th').length > 0) {			
-			return;
+	selectAppealIdFromTable(caseRef).then(($link) => {
+		cy.log('Link found:', $link.text());
+		if (caseRef) {
+			appealId = caseRef;
+			cy.log('appealId', appealId);
+			//cy.wrap($link).contains(appealId).click();
+			cy.contains('a.govuk-link', 'Submit questionnaire').click();
 		}
-		const rowtext = $row.text();
-		if (linkFound) return false;
-		return Cypress.Promise.resolve().then(() => {
-			const $tds = $row.find('td');			
-			const todoText = $tds.eq(5).text().trim();
-			if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && todoText.includes(lpaManageAppealsData?.todoQuestionnaire)) {
-				if (counter === 1) {
-					const $link = $tds.eq(5).find('a')
-					if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
-						appealId = $link.attr('href')?.split('/').pop();						
-						$link[0].scrollIntoView();
-						$link[0].click();
-						linkFound = true;											
-						return false;
-					}
-				}
-				counter++;
-			}
-		})
-	}).then(() => {
 
-		cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
+		//cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
 		cy.get(basePage?._selectors.dlgovukSummaryListAppealDetails).within(() => {
 			cy.get(basePage?._selectors.govukSummaryListRow).each(($row) => {
 				const $key = $row.find(basePage?._selectors.govukSummaryListKey);

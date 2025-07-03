@@ -1,24 +1,30 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { fullAppealGrantedTestCases } from "../../helpers/fullAppeal/fullAppealGrantedData";
+import { users } from '../../fixtures/users.js';
+// Import the flow for submitting an appeal
 const { submitAppealFlow } = require('../../support/flows/appeal');
 
 describe('Submit Full Appeal Granted Test cases', () => {
 	let prepareAppealData;
 	beforeEach(() => {
-        cy.fixture('prepareAppealData').then(data => {
-            prepareAppealData = data;
-        })
+		cy.login(users.appeals.authUser);
+		// Load the fixture data for prepareAppealData
+		cy.fixture('prepareAppealData').then(data => {
+			prepareAppealData = data;
+		})
 	});
-    fullAppealGrantedTestCases.forEach((context) => {
-        const {
-            statusOfOriginalApplication,
-            typeOfDecisionRequested,
-            statusOfPlanningObligation,
-            typeOfPlanningApplication,
-            applicationForm
-        } = context;
-        it(`
+	// Iterate through each test case in the fullAppealGrantedTestCases array
+	fullAppealGrantedTestCases.forEach((context) => {
+		const {
+			statusOfOriginalApplication,
+			typeOfDecisionRequested,
+			statusOfPlanningObligation,
+			typeOfPlanningApplication,
+			applicationForm
+		} = context;
+		// Define the test case
+		it(`
 			- Should check the status of the original application,
 			- verify the status of planning obligation as "${statusOfPlanningObligation}",
 			- validate the type of planning application as "${typeOfPlanningApplication}",
@@ -39,14 +45,15 @@ describe('Submit Full Appeal Granted Test cases', () => {
 			* Is Appellant Linked Case Add: "${applicationForm?.isAppellantLinkedCaseAdd}"
 			* 		
 		 `, () => {
-            submitAppealFlow({
-                statusOfOriginalApplication,
-                typeOfDecisionRequested,
-                statusOfPlanningObligation,
-                planning: typeOfPlanningApplication,
-                context,
+			// Call the submitAppealFlow function with the context and prepareAppealData
+			submitAppealFlow({
+				statusOfOriginalApplication,
+				typeOfDecisionRequested,
+				statusOfPlanningObligation,
+				planning: typeOfPlanningApplication,
+				context,
 				prepareAppealData
-            });
-        });
-    });
+			});
+		});
+	});
 });

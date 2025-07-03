@@ -1,6 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { r6FullAppealsStatementTestCases } from "../../helpers/rule6Appeals/r6FullAppealsStatementData";
+import { users } from '../../fixtures/users.js';
 const { r6FullAppealsStatement } = require('../../support/flows/sections/rule6Appeals/r6FullAppealsStatement');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
@@ -8,6 +9,7 @@ describe('Rule 6 Full Appeal Statement Test Cases', () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;
         beforeEach(() => {
+                cy.login(users.appeals.authUser);
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })

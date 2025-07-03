@@ -113,7 +113,7 @@ Cypress.Commands.add('uploadFileFromFixtureDirectory', (filename) => {
 	// issues on tests that use the same fixtures as ones run before!!
 	cy.get('input[type="file"]').then($input => {
 		$input.removeAttr('hidden');
-	})
+	});
 	cy.get('input[type="file"]').selectFile(`cypress/fixtures/${filename}`, { force: true });
 });
 
@@ -168,6 +168,7 @@ Cypress.Commands.add('setCurrentCookies', (cookies) => {
 });
 
 Cypress.Commands.add('login', (user) => {
+	//cy.clearCookies();
 	cy.task('CookiesFileExists', user.id).then((exists) => {
 		if (!exists) {
 			cy.log(`No cookies 🍪 found!\nLogging in as: ${user.id}`);
