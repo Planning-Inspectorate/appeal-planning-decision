@@ -12,7 +12,10 @@
 			"localRoot": "${workspaceFolder}/packages/forms-web-app",
 			"restart": true,
 			"remoteRoot": "/opt/app",
-			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/opt/common/**"]
+			"skipFiles": ["<node_internals>/**"],
+			"sourceMapPathOverrides": {
+				"*/node_modules/@pins/dynamic-forms/*": "${workspaceFolder}/packages/dynamic-forms/*"
+			}
 		},
 		{
 			"type": "node",

@@ -6,6 +6,7 @@
 	"engines": {
 		"node": ">=22.0.0 <23.0.0"
 	},
+	"main": "src/index.js",
 	"scripts": {
 		"lint": "eslint ./",
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --passWithNoTests",
