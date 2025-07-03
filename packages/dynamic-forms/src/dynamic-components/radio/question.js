@@ -1,29 +1,18 @@
-const { OptionsQuestion } = require('../../options-question');
+const { OptionsQuestion } = require('../../questions/options-question');
 
 /**
- * @typedef {import('../../options-question').OptionsViewModel} OptionsViewModel
+ * @typedef {import('../../questions/options-question').OptionsViewModel} OptionsViewModel
  * @typedef {OptionsViewModel & { question: OptionsViewModel['question'] & { label?: string, legend?: string } }} RadioViewModel
  */
 
 class RadioQuestion extends OptionsQuestion {
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName
-	 * @param {string} [params.viewFolder]
-	 * @param {string} [params.url]
-	 * @param {string} [params.hint]
-	 * @param {string} [params.pageTitle]
-	 * @param {string} [params.description]
-	 * @param {string} [params.label]
-	 * @param {string} [params.html]
-	 * @param {Array<string>} [params.variables]
-	 * @param {string} [params.legend] - optional legend, used instead of h1
-	 * @param {Array.<import('../../options-question').Option>} [params.options]
-	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
-	 *
-	 * @param {Record<string, Function>} [methodOverrides]
+	 * @typedef {string} legend // optional legend, used instead of h1
+	 * @param {import('#question-types').OptionsQuestionParameters & {
+	 *  label?: string,
+	 *  legend?: legend
+	 * }} params
+	 * @param {import('#question-types').MethodOverrides} [methodOverrides]
 	 */
 	constructor(
 		{

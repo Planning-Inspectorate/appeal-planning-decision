@@ -1,3 +1,9 @@
+/**
+ * @param {string} dayInput
+ * @param {string} monthInput
+ * @param {string} yearInput
+ * @returns {Date}
+ */
 exports.dateInputsToDate = (dayInput, monthInput, yearInput) => {
 	const day = `0${dayInput}`.slice(-2);
 	const month = `0${monthInput}`.slice(-2);

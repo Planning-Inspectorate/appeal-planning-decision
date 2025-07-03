@@ -16,7 +16,7 @@ class BaseValidator {
 	}
 
 	/**
-	 * @param {import('../question')} _question
+	 * @param {import('../questions/question')} _question
 	 * @param {import('../journey-response').JourneyResponse} _journeyResponse
 	 * @returns {import('express-validator').ValidationChain | import('express-validator').ValidationChain[]}
 	 */

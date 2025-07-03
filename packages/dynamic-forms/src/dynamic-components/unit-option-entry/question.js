@@ -1,15 +1,16 @@
 const nunjucks = require('nunjucks');
-const Question = require('../../question');
+const Question = require('../../questions/question');
 const { conditionalIsJustHTML } = require('../utils/question-utils');
 
 const defaultOptionJoinString = ',';
 
 /**
- * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
+ * @typedef {import('../../questions/question').QuestionViewModel} QuestionViewModel
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../section').Section} Section
- * @typedef {import('../../question-props').UnitOption} UnitOption
+ * @typedef {import('../../questions/question-props').UnitOption} UnitOption
+ * @typedef {string} conditionalFieldName // will be the quantity and is captured by the conditional in the options
  */
 
 class UnitOptionEntryQuestion extends Question {
@@ -17,22 +18,12 @@ class UnitOptionEntryQuestion extends Question {
 	options;
 
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName // will be the unit type eg square metres, hectares
-	 * @param {string} [params.conditionalFieldName] // will be the quantity and is captured by the conditional in the options
-	 * @param {string} [params.viewFolder]
-	 * @param {string} [params.url]
-	 * @param {string} [params.hint]
-	 * @param {string} [params.pageTitle]
-	 * @param {string} [params.description]
-	 * @param {string} [params.label]
-	 * @param {string} [params.html]
-	 * @param {Array.<UnitOption>} [params.options]
-	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
-	 *
-	 * @param {Record<string, Function>} [methodOverrides]
+	 * @param {import('#question-types').OptionsQuestionParameters & {
+	 * 	label?: string
+	 * 	conditionalFieldName?: conditionalFieldName
+	 * 	options: Array<UnitOption>
+	 * }} params
+	 * @param {import('#question-types').MethodOverrides} [methodOverrides]
 	 */ constructor(
 		{
 			title,

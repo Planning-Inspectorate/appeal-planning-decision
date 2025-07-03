@@ -9,14 +9,7 @@ const { randomUUID } = require('crypto');
 
 class CaseAddMoreQuestion extends AddMoreQuestion {
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName
-	 * @param {string} params.viewFolder
-	 * @param {string} [params.hint]
-	 * @param {string} [params.html]
-	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
+	 * @param {import('#question-types').QuestionParameters} params
 	 */
 	constructor({ title, question, fieldName, viewFolder, hint, html, validators }) {
 		super({

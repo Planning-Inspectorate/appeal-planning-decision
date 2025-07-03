@@ -35,6 +35,9 @@ class NumericValidator extends BaseValidator {
 		this.fieldName = fieldName;
 	}
 
+	/**
+	 * @param {import('../questions/question')} questionObj
+	 */
 	validate(questionObj) {
 		let chain = body(this.fieldName ? this.fieldName : questionObj.fieldName);
 

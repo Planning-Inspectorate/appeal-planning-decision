@@ -3,7 +3,7 @@ const BaseValidator = require('./base-validator.js');
 const { optionIsDivider } = require('../dynamic-components/utils/question-utils.js');
 
 /**
- * @typedef {import('../options-question.js')} OptionsQuestion
+ * @typedef {import('../questions/options-question.js')} OptionsQuestion
  */
 
 /**
@@ -31,7 +31,7 @@ class ValidOptionValidator extends BaseValidator {
 	 * @returns {import('express-validator').ValidationChain}
 	 */
 	/**
-	 * @param {import('../options-question.js').OptionsQuestion} question
+	 * @param {import('../questions/options-question.js').OptionsQuestion} question
 	 * @param {import('../journey-response').JourneyResponse} _journeyResponse
 	 * @returns {import('express-validator').ValidationChain | import('express-validator').ValidationChain[]}
 	 */

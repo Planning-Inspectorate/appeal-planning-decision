@@ -89,6 +89,7 @@ const viewPaths = [
 	path.join(require.resolve('@ministryofjustice/frontend'), '..', '..'),
 	// */@pins/common/src/index.js -> */@pins/common/src/frontend
 	path.join(require.resolve('@pins/common'), '..', 'frontend'),
+	path.join(require.resolve('@pins/dynamic-forms'), '..'),
 	path.join(__dirname, 'views'),
 	path.join(__dirname, 'dynamic-forms'),
 	path.join(__dirname, 'routes/file-based-router'),

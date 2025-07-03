@@ -1,4 +1,4 @@
-const Question = require('../../question');
+const Question = require('./question');
 const DateQuestion = require('./question');
 
 describe('DateQuestion', () => {

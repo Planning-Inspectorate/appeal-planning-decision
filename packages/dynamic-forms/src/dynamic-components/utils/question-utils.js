@@ -44,7 +44,7 @@ exports.getListedBuildingForQuestion = (journeyResponse, fieldName) => {
 };
 
 exports.DIVIDER = 'divider';
-/** @type {(maybeDivider: import('../../question-props').Option) => maybeDivider is { divider: string }} */
+/** @type {(maybeDivider: import('../../questions/question-props').Option) => maybeDivider is { divider: string }} */
 exports.optionIsDivider = (maybeDivider) => Object.hasOwn(maybeDivider, exports.DIVIDER);
 
 /** @type {(conditional: unknown) => conditional is { html: string }} */

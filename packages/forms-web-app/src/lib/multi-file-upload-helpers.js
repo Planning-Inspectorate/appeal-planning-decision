@@ -2,7 +2,7 @@ const { removeDocument } = require('../lib/documents-api-wrapper');
 const logger = require('./logger');
 
 /**
- * @typedef {import('../dynamic-forms/journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  */
 
 /**
@@ -120,7 +120,7 @@ const removeFilesV2 = async (
 
 /**
  * @param {unknown} object
- * @returns {object is { uploadedFiles: import('src/dynamic-forms/dynamic-components/multi-file-upload/question').UploadedFiles }} // this'll become an FO only type
+ * @returns {object is { uploadedFiles: import('@pins/dynamic-forms/src/dynamic-components/multi-file-upload/question').UploadedFiles }} // this'll become an FO only type
  */
 const isObjectWithUploadedFiles = (object) => {
 	// todo check keys

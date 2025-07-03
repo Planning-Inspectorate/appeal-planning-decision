@@ -1,14 +1,15 @@
-const { capitalize, nl2br } = require('./lib/string-functions');
-const { numericFields } = require('./dynamic-components/utils/numeric-fields');
+const { capitalize, nl2br } = require('../lib/string-functions');
+const { numericFields } = require('../dynamic-components/utils/numeric-fields');
 const escape = require('escape-html');
-const RequiredValidator = require('./validator/required-validator');
-const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
+const RequiredValidator = require('../validator/required-validator');
+const RequiredFileUploadValidator = require('../validator/required-file-upload-validator');
 
 /**
- * @typedef {import('./validator/base-validator')} BaseValidator
- * @typedef {import('./journey').Journey} Journey
- * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
- * @typedef {import('./section').Section} Section
+ * @typedef {import('../validator/base-validator')} BaseValidator
+ * @typedef {import('../journey').Journey} Journey
+ * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('../section').Section} Section
+ * @typedef {string} QuestionVariables
  */
 
 /**
@@ -74,22 +75,8 @@ class Question {
 	};
 
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.viewFolder
-	 * @param {string} params.fieldName
-	 * @param {string} [params.url]
-	 * @param {string} [params.pageTitle]
-	 * @param {string} [params.description]
-	 * @param {Array.<BaseValidator>} [params.validators]
-	 * @param {string} [params.html]
-	 * @param {string} [params.hint]
-	 * @param {string} [params.interfaceType]
-	 * @param {(response: JourneyResponse) => boolean} [params.shouldDisplay]
-	 * @param {Array.<QUESTION_VARIABLES>} [params.variables]
-	 *
-	 * @param {Record<string, Function>} [methodOverrides]
+	 * @param {import('#question-types').QuestionParameters} params
+	 * @param {import('#question-types').MethodOverrides} [methodOverrides]
 	 */
 	constructor(
 		{
@@ -249,12 +236,13 @@ class Question {
 	 * Save the answer to the question
 	 * @param {import('express').Request} req
 	 * @param {import('express').Response} res
+	 * @param {function(string, Object): Promise<any>} saveFunction
 	 * @param {Journey} journey
 	 * @param {Section} section
 	 * @param {JourneyResponse} journeyResponse
 	 * @returns {Promise<void>}
 	 */
-	async saveAction(req, res, journey, section, journeyResponse) {
+	async saveAction(req, res, saveFunction, journey, section, journeyResponse) {
 		// check for validation errors
 		const errorViewModel = this.checkForValidationErrors(req, section, journey);
 		if (errorViewModel) {
@@ -263,7 +251,7 @@ class Question {
 
 		// save
 		const responseToSave = await this.getDataToSave(req, journeyResponse);
-		await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
+		await saveFunction(journeyResponse.referenceId, responseToSave.answers);
 
 		// check for saving errors
 		const saveViewModel = this.checkForSavingErrors(req, section, journey);
@@ -331,43 +319,6 @@ class Question {
 		journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
 
 		return responseToSave;
-	}
-
-	/**
-	 * @param {function} saveFunction
-	 * @param {JourneyResponse} journeyResponse
-	 * @param {{ answers: Record<string, unknown> }} responseToSave
-	 */ // todo: inject save function instead of apiClient
-	async saveResponseToDB(saveFunction, journeyResponse, responseToSave) {
-		// const journeyType = getJourneyTypeById(journeyResponse.journeyId);
-
-		// if (!journeyType) throw new Error(`Journey type: ${journeyResponse.journeyId} not found`);
-
-		// const key = `${journeyType.type}_${journeyType.userType}`;
-
-		// const saveMethodMap = {
-		// 	[`${JOURNEY_TYPE.questionnaire}_${LPA_USER_ROLE}`]:
-		// 		apiClient.patchLPAQuestionnaire?.bind(apiClient),
-		// 	[`${JOURNEY_TYPE.appealForm}_${APPELLANT}`]:
-		// 		apiClient.updateAppellantSubmission?.bind(apiClient),
-		// 	[`${JOURNEY_TYPE.statement}_${LPA_USER_ROLE}`]: apiClient.patchLPAStatement?.bind(apiClient),
-		// 	[`${JOURNEY_TYPE.statement}_${RULE_6_PARTY}`]:
-		// 		apiClient.patchRule6StatementSubmission?.bind(apiClient),
-		// 	[`${JOURNEY_TYPE.finalComments}_${APPELLANT}`]:
-		// 		apiClient.patchAppellantFinalCommentSubmission?.bind(apiClient),
-		// 	[`${JOURNEY_TYPE.finalComments}_${LPA_USER_ROLE}`]:
-		// 		apiClient.patchLPAFinalCommentSubmission?.bind(apiClient),
-		// 	[`${JOURNEY_TYPE.proofEvidence}_${APPELLANT}`]:
-		// 		apiClient.patchAppellantProofOfEvidenceSubmission?.bind(apiClient),
-		// 	[`${JOURNEY_TYPE.proofEvidence}_${LPA_USER_ROLE}`]:
-		// 		apiClient.patchLpaProofOfEvidenceSubmission?.bind(apiClient),
-		// 	[`${JOURNEY_TYPE.proofEvidence}_${RULE_6_PARTY}`]:
-		// 		apiClient.patchRule6ProofOfEvidenceSubmission?.bind(apiClient)
-		// };
-
-		// const save = saveMethodMap[key];
-		// if (!save) throw new Error(`No save function found for journey type: ${key}`);
-		return saveFunction(journeyResponse.referenceId, responseToSave.answers);
 	}
 
 	/**

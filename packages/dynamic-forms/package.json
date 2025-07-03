@@ -23,5 +23,8 @@
 		"jest": "*",
 		"jest-fetch-mock": "*",
 		"jest-junit": "*"
+	},
+	"imports": {
+		"#question-types": "./src/questions/question-types.d.ts"
 	}
 }

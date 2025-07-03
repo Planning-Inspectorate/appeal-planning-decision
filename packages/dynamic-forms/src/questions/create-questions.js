@@ -3,7 +3,7 @@
 /**
  * @param {{[questionName: string]: QuestionProps}} questionPropsRecord
  * @param {Record<string, typeof import('./question')>} questionClasses
- * @param {{[questionType: string]: Record<string, Function>}} questionMethodOverrides
+ * @param {{[questionType: string]: import('#question-types').MethodOverrides}} questionMethodOverrides
  */
 exports.createQuestions = (questionPropsRecord, questionClasses, questionMethodOverrides) => {
 	return Object.fromEntries(

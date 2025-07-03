@@ -1,7 +1,7 @@
-const ListAddMoreQuestion = require('../dynamic-components/list-add-more/question');
+const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
 
 /**
- * @typedef {import('../question')} Question
+ * @typedef {import('@pins/dynamic-forms/src/questions/question')} Question
  * @typedef {import('appeals-service-api/src/spec/api-types').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  */
 

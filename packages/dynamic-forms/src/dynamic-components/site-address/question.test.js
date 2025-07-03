@@ -75,4 +75,42 @@ describe('SiteAddressQuestion', () => {
 			expect(formattedAddress).toBe('123 Main St\nFloor 2\nTestville\nTestshire\nTE1 2ST');
 		});
 	});
+
+	describe('formatAnswerForSummary', () => {
+		it('should return formatted address in summary when address exists', () => {
+			const journey = {
+				response: {
+					answers: {
+						SubmissionAddress: [{ ...testAddress, fieldName: FIELDNAME }]
+					}
+				},
+				getCurrentQuestionUrl: jest.fn()
+			};
+
+			const summary = question.formatAnswerForSummary('section-segment', journey);
+
+			expect(summary[0].key).toBe(TITLE);
+			expect(summary[0].value).toContain('123 Main St');
+			expect(summary[0].value).toContain('Floor 2');
+			expect(summary[0].value).toContain('Testville');
+			expect(summary[0].value).toContain('Testshire');
+			expect(summary[0].value).toContain('TE1 2ST');
+			expect(typeof summary[0].action).toBe('object');
+		});
+
+		it('should return NOT_STARTED when no address exists', () => {
+			const journey = {
+				response: {
+					answers: {}
+				},
+				getCurrentQuestionUrl: jest.fn()
+			};
+
+			const summary = question.formatAnswerForSummary('section-segment', journey);
+
+			expect(summary[0].key).toBe(TITLE);
+			expect(summary[0].value).toBe(question.NOT_STARTED);
+			expect(typeof summary[0].action).toBe('object');
+		});
+	});
 });

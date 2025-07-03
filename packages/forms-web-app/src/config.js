@@ -1,5 +1,4 @@
 /**
- *
  * @param {*} value
  * @param {number} fallback
  * @returns {number}
@@ -175,16 +174,16 @@ module.exports = {
 			finalComment: process.env.CHARACTER_LIMIT_FINAL_COMMENT || 32500,
 			emailCode: process.env.CHARACTER_LIMIT_EMAIL_SECURITY_CODE || 5,
 			questionnaire: {
-				addressLine1MaxLength: process.env.ADDRESS_LINE_1_MAX_LENGTH || 255,
-				addressLine1MinLength: process.env.ADDRESS_LINE_1_MIN_LENGTH || 1,
-				addressLine2MaxLength: process.env.ADDRESS_LINE_2_MAX_LENGTH || 96,
-				addressLine2MinLength: process.env.ADDRESS_LINE_2_MIN_LENGTH || 0,
-				townCityMaxLength: process.env.TOWNCITY_MAX_LENGTH || 64,
-				townCityMinLength: process.env.TOWNCITY_MIN_LENGTH || 1,
-				countyMaxLength: process.env.COUNTY_MAX_LENGTH || 64,
-				countyMinLength: process.env.COUNTY_MIN_LENGTH || 0,
-				postcodeMaxLength: process.env.POSTCODE_MAX_LENGTH || 16,
-				postcodeMinLength: process.env.POSTCODE_MIN_LENGTH || 0
+				addressLine1MaxLength: 255,
+				addressLine1MinLength: 1,
+				addressLine2MaxLength: 96,
+				addressLine2MinLength: 0,
+				townCityMaxLength: 64,
+				townCityMinLength: 1,
+				countyMaxLength: 64,
+				countyMinLength: 0,
+				postcodeMaxLength: 16,
+				postcodeMinLength: 0
 			},
 			appealFormV2: {
 				textInputMaxLength: 1000,

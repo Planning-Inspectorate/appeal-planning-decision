@@ -1,5 +1,5 @@
 /**
- * @typedef {import('./question')} Question
+ * @typedef {import('./questions/question')} Question
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  */
 

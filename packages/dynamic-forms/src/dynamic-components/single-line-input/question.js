@@ -1,15 +1,17 @@
-const Question = require('../../question');
+const Question = require('../../questions/question');
 
 /**
- * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
+ * @typedef {import('../../questions/question').QuestionViewModel} QuestionViewModel
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../section').Section} Section
  * @typedef {import('../../validator/base-validator')} BaseValidator
+ * @typedef {string} label // if defined this show as a label for the input and the question will just be a standard h1
+ * @typedef {Record<string, string>} inputAttributes // html attributes to add to the input
  */
 
 /**
- * @typedef {QuestionViewModel & { question: QuestionViewModel['question'] & { label?: string, attributes?: Record<string, string> } }} SingleLineViewModel
+ * @typedef {QuestionViewModel & { question: QuestionViewModel['question'] & { label?: label, attributes?: inputAttributes } }} SingleLineViewModel
  */
 
 /**
@@ -20,17 +22,10 @@ class SingleLineInputQuestion extends Question {
 	inputAttributes;
 
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName
-	 * @param {string} [params.description]
-	 * @param {string} [params.url]
-	 * @param {string} [params.html]
-	 * @param {string} [params.hint]
-	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
-	 * @param {Array.<BaseValidator>} [params.validators]
-	 * @param {Record<string, string>} [params.inputAttributes] html attributes to add to the input
+	 * @param {import('#question-types').QuestionParameters & {
+	 *  label?: label,
+	 *  inputAttributes?: inputAttributes
+	 * }} params
 	 */
 	constructor(params) {
 		super({

@@ -42,3 +42,39 @@ describe('getSubquestionIfPresent', () => {
 		expect(result).toEqual(question);
 	});
 });
+
+describe('mapDBResponseToJourneyResponseFormat', () => {
+	const { mapDBResponseToJourneyResponseFormat } = require('./utils');
+
+	it('should convert true to "yes" and false to "no"', () => {
+		const dbResponse = {
+			field1: true,
+			field2: false,
+			field3: 'some string',
+			field4: 123
+		};
+		const result = mapDBResponseToJourneyResponseFormat(dbResponse);
+		expect(result).toEqual({
+			field1: 'yes',
+			field2: 'no',
+			field3: 'some string',
+			field4: 123
+		});
+	});
+
+	it('should handle empty object', () => {
+		const result = mapDBResponseToJourneyResponseFormat({});
+		expect(result).toEqual({});
+	});
+
+	it('should leave non-boolean values unchanged', () => {
+		const dbResponse = {
+			field1: null,
+			field2: undefined,
+			field3: [1, 2, 3],
+			field4: { a: 1 }
+		};
+		const result = mapDBResponseToJourneyResponseFormat(dbResponse);
+		expect(result).toEqual(dbResponse);
+	});
+});

@@ -4,7 +4,7 @@ const multifileUploadSchema = require('./schemas/multifile-upload-schema.js');
 const { checkSchema } = require('express-validator');
 
 /**
- * @typedef {import('../question.js')} Question
+ * @typedef {import('../questions/question.js')} Question
  */
 
 /**
@@ -20,7 +20,7 @@ class MultifileUploadValidator extends BaseValidator {
 	 * @param {number} params.maxUploadSize - The max size allowed for file uploads in bytes
 	 * @param {function} params.getClamAVClient - a function that returns a ClamAV client instance
 	 */
-	constructor({ allowedFileTypes, maxUploadSize, getClamAVClient, errorMessage }) {
+	constructor({ allowedFileTypes, maxUploadSize, getClamAVClient, errorMessage = undefined }) {
 		super();
 
 		// standard generic error messages for multifile upload are currently

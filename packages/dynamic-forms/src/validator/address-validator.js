@@ -11,16 +11,16 @@ class AddressValidator extends BaseValidator {
 	/**
 	 * creates an instance of an AddressValidator
 	 * @param {Object} params
-	 * @param {number} params.addressLine1MaxLength
-	 * @param {number} params.addressLine1MinLength
-	 * @param {number} params.addressLine2MaxLength
-	 * @param {number} params.addressLine2MinLength
-	 * @param {number} params.townCityMaxLength
-	 * @param {number} params.townCityMinLength
-	 * @param {number} params.countyMaxLength
-	 * @param {number} params.countyMinLength
-	 * @param {number} params.postcodeMaxLength
-	 * @param {number} params.postcodeMinLength
+	 * @param {number|undefined} params.addressLine1MaxLength
+	 * @param {number|undefined} params.addressLine1MinLength
+	 * @param {number|undefined} params.addressLine2MaxLength
+	 * @param {number|undefined} params.addressLine2MinLength
+	 * @param {number|undefined} params.townCityMaxLength
+	 * @param {number|undefined} params.townCityMinLength
+	 * @param {number|undefined} params.countyMaxLength
+	 * @param {number|undefined} params.countyMinLength
+	 * @param {number|undefined} params.postcodeMaxLength
+	 * @param {number|undefined} params.postcodeMinLength
 	 * @constructor
 	 */
 	constructor({
@@ -51,7 +51,7 @@ class AddressValidator extends BaseValidator {
 
 	/**
 	 * validates response body using questionObj fieldname
-	 * @param {import('../question')} questionObj
+	 * @param {import('../questions/question')} questionObj
 	 */
 	validate(questionObj) {
 		const fieldName = questionObj.fieldName;

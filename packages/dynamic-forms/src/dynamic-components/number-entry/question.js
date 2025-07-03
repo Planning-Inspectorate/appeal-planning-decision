@@ -1,25 +1,20 @@
-const Question = require('../../question');
+const Question = require('../../questions/question');
 const { getPersistedNumberAnswer } = require('../utils/persisted-number-answer');
 
 /**
  * @typedef {import('../../journey').Journey} Journey
- * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
+ * @typedef {import('../../questions/question').QuestionViewModel} QuestionViewModel
 
  * @typedef {QuestionViewModel & { answer?: string | number, question: QuestionViewModel['question'] & { label?: string, suffix?: string } }} NumberViewModel
  */
 
 class NumberEntryQuestion extends Question {
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName
-	 * @param {string} [params.url]
-	 * @param {string} [params.html]
-	 * @param {string} [params.hint]
-	 * @param {string} [params.suffix]
-	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
-	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 * @typedef {string|undefined} label //if defined this show as a label for the input and the question will just be a standard h1
+	 * @param {import('#question-types').QuestionParameters & {
+	 *  suffix?: string,
+	 *  label?: label
+	 * }} params
 	 */
 	constructor({ title, question, fieldName, url, hint, label, html, validators, suffix }) {
 		super({

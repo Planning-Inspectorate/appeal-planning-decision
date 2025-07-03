@@ -1,9 +1,9 @@
-const Question = require('../../question');
+const Question = require('../../questions/question');
 const escape = require('escape-html');
 const { nl2br } = require('../../lib/string-functions');
 
 /**
- * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
+ * @typedef {import('../../questions/question').QuestionViewModel} QuestionViewModel
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../section').Section} Section
@@ -26,19 +26,12 @@ class MultiFieldInputQuestion extends Question {
 	inputAttributes;
 
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName
-	 * @param {string} [params.description]
-	 * @param {string} [params.url]
-	 * @param {string} [params.html]
-	 * @param {string} [params.hint]
-	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
-	 * @param {Array.<BaseValidator>} [params.validators]
-	 * @param {Record<string, string>} [params.inputAttributes] html attributes to add to the input
-	 * @param {InputField[]} [params.inputFields] input fields
-	 * @param {'contactDetails' | 'standard' | null} [params.formatType] optional type field used for formatting for task list
+	 * @param {import('#question-types').QuestionParameters & {
+	 *  label: string,
+	 * 	inputAttributes?: Record<string, string>,
+	 * 	inputFields?: InputField[],
+	 *  formatType?: 'contactDetails' | 'standard' | null
+	 * }} params
 	 */
 	constructor({
 		title,
