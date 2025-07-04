@@ -60,7 +60,7 @@ See:
 
 - [Question components](https://pins-ds.atlassian.net/wiki/spaces/AAPDS/pages/1521877020/Question+components)
 - [Journey Types](/packages/common/src/dynamic-forms)
-- [Dynamic Forms](/packages/forms-web-app/src/dynamic-forms/readme.md)
+- [Dynamic Forms](/packages/dynamic-forms/readme.md)
 
 ## Dependencies
 

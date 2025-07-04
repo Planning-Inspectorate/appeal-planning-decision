@@ -17,6 +17,7 @@
 		"@azure/app-configuration": "*",
 		"@azure/identity": "*",
 		"@azure/storage-blob": "*",
+		"@pins/dynamic-forms": "^0.0.0",
 		"@planning-inspectorate/data-model": "*",
 		"clamscan": "*",
 		"date-fns": "*",
