@@ -1,10 +1,10 @@
-const Question = require('../../question');
+const Question = require('../../questions/question');
 
 /**
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../section').Section} Section
- * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
+ * @typedef {import('../../questions/question').QuestionViewModel} QuestionViewModel
  */
 
 /**
@@ -18,19 +18,12 @@ class MultiFileUploadQuestion extends Question {
 	documentType;
 
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName
-	 * @param {string} [params.url]
-	 * @param {string} [params.pageTitle]
-	 * @param {string} [params.description]
-	 * @param {string} [params.documentType]
-	 * @param {string} [params.html]
-	 * @param {string} [params.actionHiddenText] // text to be used for visually hidden text - primarily to avoid repetition of Upload with action
-	 * @param {Array<import('../../question').BaseValidator>} [params.validators]
-	 *
-	 * @param {Record<string, Function>} [methodOverrides]
+	 * @typedef {string} ActionHiddenText // text to be used for visually hidden text - primarily to avoid repetition of Upload with action
+	 * @param {import('#question-types').QuestionParameters & {
+	 *  documentType: string,
+	 * 	actionHiddenText?: ActionHiddenText
+	 * }} params
+	 * @param {import('#question-types').MethodOverrides} [methodOverrides]
 	 */
 	constructor(
 		{

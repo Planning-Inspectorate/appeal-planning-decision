@@ -9,11 +9,12 @@ const {
 	appellantBYSListOfDocuments
 } = require('./controller');
 const { getUserFromSession } = require('../services/user.service');
-const { Journey } = require('./journey');
-const { SECTION_STATUS } = require('./section');
+const { Journey } = require('@pins/dynamic-forms/src/journey');
+const { SECTION_STATUS } = require('@pins/dynamic-forms/src/section');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 const { getDepartmentFromId } = require('../services/department.service');
 const { deleteAppeal } = require('#lib/appeals-api-wrapper');
+const { getSaveFunction } = require('../journeys/get-journey-save');
 
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
@@ -27,8 +28,8 @@ const mockListingPath = 'mockListingPath.njk';
 const mockJourneyTitle = 'Mock Manage Appeals';
 const mockAnswer = 'Not started';
 
-const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
-const questionUtils = require('./dynamic-components/utils/question-utils');
+const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
+const questionUtils = require('@pins/dynamic-forms/src/dynamic-components/utils/question-utils');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const config = require('../../src/config');
 
@@ -205,6 +206,7 @@ jest.mock('../services/pdf.service');
 jest.mock('../services/department.service');
 jest.mock('#lib/appeals-api-wrapper');
 jest.mock('../services/user.service');
+jest.mock('../journeys/get-journey-save');
 
 describe('dynamic-form/controller', () => {
 	let req;
@@ -330,6 +332,14 @@ describe('dynamic-form/controller', () => {
 	});
 
 	describe('save', () => {
+		let mockSaveFn = jest.fn();
+		beforeEach(() => {
+			getSaveFunction.mockReturnValue(mockSaveFn);
+		});
+		afterEach(() => {
+			getSaveFunction.mockReset();
+		});
+
 		it('should use question saveAction', async () => {
 			const journeyId = 'has-questionnaire';
 			const sampleQuestionObjWithSaveAction = { ...sampleQuestionObj, saveAction: jest.fn() };
@@ -341,6 +351,7 @@ describe('dynamic-form/controller', () => {
 			};
 
 			res.locals.journeyResponse = {
+				journeyId,
 				answers: {}
 			};
 
@@ -353,11 +364,12 @@ describe('dynamic-form/controller', () => {
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObjWithSaveAction);
 
-			await save(req, res, journeyId);
+			await save(req, res);
 
 			expect(sampleQuestionObjWithSaveAction.saveAction).toHaveBeenCalledWith(
 				req,
 				res,
+				mockSaveFn,
 				mockJourney,
 				mockJourney.sections[0],
 				res.locals.journeyResponse
@@ -366,6 +378,7 @@ describe('dynamic-form/controller', () => {
 
 		it('should handle error', async () => {
 			const journeyId = 'has-questionnaire';
+
 			const expectedViewModel = { a: 1 };
 			const sampleQuestionObjWithActions = {
 				...sampleQuestionObj,
@@ -386,6 +399,7 @@ describe('dynamic-form/controller', () => {
 			};
 
 			res.locals.journeyResponse = {
+				journeyId,
 				answers: {}
 			};
 
@@ -398,11 +412,12 @@ describe('dynamic-form/controller', () => {
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObjWithActions);
 
-			await save(req, res, journeyId);
+			await save(req, res);
 
 			expect(sampleQuestionObjWithActions.saveAction).toHaveBeenCalledWith(
 				req,
 				res,
+				mockSaveFn,
 				mockJourney,
 				mockJourney.sections[0],
 				res.locals.journeyResponse

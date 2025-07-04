@@ -1,4 +1,4 @@
-const { JourneyResponse } = require('../journey-response');
+const { JourneyResponse } = require('@pins/dynamic-forms/src/journey-response');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const logger = require('#lib/logger');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
@@ -30,7 +30,7 @@ module.exports =
 			return res.redirect(appealOverviewUrl);
 		}
 
-		const journeyType = JOURNEY_TYPES.APPELLANT_PROOF_OF_EVIDENCE.id;
+		const journeyType = JOURNEY_TYPES.APPELLANT_PROOF_EVIDENCE.id;
 
 		try {
 			const dbResponse =

@@ -1,32 +1,5 @@
 const MultiFileUploadQuestion = require('./question');
 
-const { createDocument, removeDocument } = require('../../../lib/documents-api-wrapper');
-const { SECTION_STATUS } = require('../../section');
-const { Journey } = require('../../journey');
-
-jest.mock('../../../lib/appeals-api-wrapper');
-jest.mock('../../../lib/documents-api-wrapper', () => ({
-	...jest.requireActual('../../../lib/documents-api-wrapper'),
-	removeDocument: jest.fn(async () => {}),
-	createDocument: jest.fn(async (_, { name = 'test.png' }) => {
-		return {
-			id: 'id-1',
-			name: name,
-			fileName: 'test.png',
-			originalFileName: name,
-			message: {
-				text: 'test.png'
-			},
-			location: 'a/b',
-			size: 200
-		};
-	})
-}));
-// jest.mock('../../../mappers/document-mapper');
-
-const { mockReqWithApiClient: mockReq, mockRes } = require('../../../../__tests__/unit/mocks');
-const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
-
 const TITLE = 'A multifile question';
 const QUESTION = 'Do you like files?';
 const DESCRIPTION = 'File question';
@@ -34,58 +7,7 @@ const FIELDNAME = 'files';
 const URL = 'url';
 const VALIDATORS = [1, 2];
 const HTML = 'resources/question12/content.html';
-const DOCUMENT_TYPE = {
-	name: '1'
-};
-
-/**
- * @type {string | number | boolean}
- */
-let mockRef;
-const mockJourneyId = 'has-questionnaire';
-const mockSection = {
-	name: '123',
-	segment: 'segment-1'
-};
-const res = mockRes();
-const mockBaseUrl = '/manage-appeals/questionnaire';
-const mockTemplateUrl = 'template.njk';
-
-const sections = [
-	{
-		name: mockSection.name,
-		segment: mockSection.segment,
-		getStatus: () => {
-			return SECTION_STATUS.COMPLETE;
-		},
-		questions: [
-			{
-				title: FIELDNAME,
-				question: QUESTION,
-				taskList: true,
-				fieldName: FIELDNAME,
-				shouldDisplay: () => true
-			},
-			{
-				title: 'Title 1b',
-				question: 'Who?',
-				taskList: false,
-				fieldName: 'title-1b',
-				shouldDisplay: () => true
-			}
-		]
-	}
-];
-
-const journeyParams = {
-	journeyId: mockJourneyId,
-	sections,
-	makeBaseUrl: () => `${mockBaseUrl}/${encodeURIComponent(mockRef)}`,
-	taskListUrl: 'list',
-	journeyTemplate: mockTemplateUrl,
-	listingPageViewPath: 'mock path',
-	journeyTitle: 'mock title'
-};
+const DOCUMENT_TYPE = '1';
 
 const mockUploadedFile = (
 	{
@@ -98,7 +20,7 @@ const mockUploadedFile = (
 		},
 		location = 'a/b',
 		size = 200,
-		type = DOCUMENT_TYPE.name,
+		type = DOCUMENT_TYPE,
 		storageId = 'id-1'
 	} = {
 		id: 'id-1',
@@ -110,7 +32,7 @@ const mockUploadedFile = (
 		},
 		location: 'a/b',
 		size: 200,
-		type: DOCUMENT_TYPE.name,
+		type: DOCUMENT_TYPE,
 		storageId: 'id-1'
 	}
 ) => ({
@@ -151,27 +73,8 @@ function getMultiFileUpload(
 }
 
 describe('MultiFileUploadQuestion', () => {
-	let req;
-	let mockJourney;
-	let mockResponse;
-
 	beforeEach(() => {
 		jest.clearAllMocks();
-		mockRef = '123456';
-		mockResponse = {
-			referenceId: mockRef,
-			journeyId: mockJourneyId,
-			answers: {},
-			LPACode: 'Q9999'
-		};
-		mockJourney = new Journey({ ...journeyParams, response: mockResponse });
-		req = {
-			appealsApiClient: {
-				postLPASubmissionDocumentUpload: jest.fn(),
-				patchLPAQuestionnaire: jest.fn()
-			},
-			...mockReq(null)
-		};
 	});
 
 	it('should create', () => {
@@ -199,11 +102,11 @@ describe('MultiFileUploadQuestion', () => {
 
 			const uploadedDocument = {
 				name: 'test',
-				type: DOCUMENT_TYPE.name
+				type: DOCUMENT_TYPE
 			};
 
 			const journey = {
-				journeyId: JOURNEY_TYPES.S78_APPEAL_FORM.id,
+				journeyId: 'appeal',
 				response: {
 					answers: {
 						SubmissionDocumentUpload: [uploadedDocument]
@@ -294,374 +197,6 @@ describe('MultiFileUploadQuestion', () => {
 			expect(result[0].value).toEqual(expectedResult);
 			expect(result[0].key).toEqual(TITLE);
 			expect(result[0].action.href).toEqual(href);
-		});
-	});
-
-	// TODO: move these over to the method overrides folder once all the logic is ported
-	describe.skip('saveAction', () => {
-		it('works with no files', async () => {
-			req.body = {};
-
-			const multiFileQuestion = getMultiFileUpload();
-
-			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
-
-			expect(createDocument).not.toHaveBeenCalled();
-			expect(req.appealsApiClient.postLPASubmissionDocumentUpload).not.toHaveBeenCalled();
-			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalled();
-
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
-			);
-		});
-
-		it('works with a singular file', async () => {
-			mockRef = 'APP/Q9999/W/22/3221288';
-
-			mockResponse = {
-				referenceId: mockRef,
-				journeyId: mockJourneyId,
-				answers: {}
-			};
-			mockJourney = new Journey({ ...journeyParams, response: mockResponse });
-
-			const fileUploaded = {
-				name: 'test.png'
-			};
-			req.files = {
-				[FIELDNAME]: fileUploaded
-			};
-			req.body = {};
-
-			const encodedReferenceId = encodeURIComponent(mockResponse.referenceId);
-			const sanitisedResponse = mockResponse.referenceId.replaceAll('/', '_');
-
-			const multiFileQuestion = getMultiFileUpload();
-
-			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
-
-			expect(createDocument).toHaveBeenCalledWith(
-				{
-					id: `${mockJourneyId}:${sanitisedResponse}`,
-					referenceNumber: mockRef
-				},
-				fileUploaded,
-				fileUploaded.name,
-				DOCUMENT_TYPE.name
-			);
-
-			expect(req.appealsApiClient.postLPASubmissionDocumentUpload).toHaveBeenCalled();
-
-			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(
-				mockResponse.referenceId,
-				{
-					files: true
-				}
-			);
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/manage-appeals/questionnaire/${encodedReferenceId}/segment-1/title-1b`
-			);
-		});
-
-		it('works with multiple files', async () => {
-			req.files = {
-				[FIELDNAME]: [{ name: 'file-1' }, { name: 'file-2' }]
-			};
-			req.body = {};
-
-			const multiFileQuestion = getMultiFileUpload();
-
-			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
-
-			expect(createDocument).toHaveBeenCalledTimes(2);
-			expect(createDocument.mock.calls).toEqual([
-				[
-					{
-						id: `${mockJourneyId}:${mockRef}`,
-						referenceNumber: mockRef
-					},
-					{
-						name: 'file-1'
-					},
-					'file-1',
-					DOCUMENT_TYPE.name
-				],
-				[
-					{
-						id: `${mockJourneyId}:${mockRef}`,
-						referenceNumber: mockRef
-					},
-					{
-						name: 'file-2'
-					},
-					'file-2',
-					DOCUMENT_TYPE.name
-				]
-			]);
-			expect(req.appealsApiClient.postLPASubmissionDocumentUpload).toHaveBeenCalledTimes(2);
-
-			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(
-				mockResponse.referenceId,
-				{
-					files: true
-				}
-			);
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
-			);
-		});
-
-		it('works with existing files', async () => {
-			req.files = {
-				[FIELDNAME]: [{ name: 'file-1' }, { name: 'file-2' }]
-			};
-			req.body = {};
-
-			const multiFileQuestion = getMultiFileUpload();
-
-			const responseWithFiles = {
-				referenceId: mockRef,
-				journeyId: mockJourneyId,
-				answers: {
-					[FIELDNAME]: {
-						uploadedFiles: [
-							mockUploadedFile({
-								name: 'file-3',
-								fileName: 'file-3',
-								originalFileName: 'file-3',
-								message: { text: 'file-3' }
-							})
-						]
-					}
-				}
-			};
-
-			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, responseWithFiles);
-
-			expect(createDocument).toHaveBeenCalledTimes(2);
-			expect(req.appealsApiClient.postLPASubmissionDocumentUpload).toHaveBeenCalledTimes(3);
-
-			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(
-				mockResponse.referenceId,
-				{
-					files: true
-				}
-			);
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
-			);
-		});
-
-		it('will upload files to blob storage but not save to response if one fails', async () => {
-			// may wish to change this functionality to handle saving to blob + response file by file to avoid orphaned files
-			const fileUploaded = {
-				name: 'data'
-			};
-			req.files = {
-				[FIELDNAME]: [fileUploaded, fileUploaded]
-			};
-			req.body = {};
-
-			const expectedError = new Error('test');
-			createDocument.mockResolvedValueOnce();
-			createDocument.mockRejectedValueOnce(expectedError);
-
-			const multiFileQuestion = getMultiFileUpload();
-
-			try {
-				await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
-			} catch (err) {
-				expect(err.message).toEqual('test');
-			}
-
-			expect(createDocument).toHaveBeenCalledTimes(2);
-			expect(req.appealsApiClient.patchLPAQuestionnaire).not.toHaveBeenCalled();
-		});
-
-		it('can remove files and upload files', async () => {
-			const fileUploaded = {
-				name: 'test.png'
-			};
-			const upload = mockUploadedFile();
-			req.files = {
-				[FIELDNAME]: [fileUploaded]
-			};
-			req.body = {
-				removedFiles: JSON.stringify([{ name: upload.name }])
-			};
-
-			const multiFileQuestion = getMultiFileUpload();
-
-			const responseWithFiles = {
-				referenceId: mockRef,
-				journeyId: mockJourneyId,
-				answers: {
-					SubmissionDocumentUpload: [upload]
-				}
-			};
-
-			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, responseWithFiles);
-
-			expect(createDocument).toHaveBeenCalledTimes(1);
-			expect(removeDocument).toHaveBeenCalledTimes(1);
-
-			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(
-				responseWithFiles.referenceId,
-				{
-					files: true
-				}
-			);
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
-			);
-		});
-
-		it('can remove files', async () => {
-			const upload = mockUploadedFile();
-			req.body = {
-				removedFiles: JSON.stringify([{ name: upload.name }])
-			};
-
-			const multiFileQuestion = getMultiFileUpload();
-
-			const responseWithFiles = {
-				referenceId: mockRef,
-				journeyId: mockJourneyId,
-				answers: {
-					SubmissionDocumentUpload: [upload]
-				}
-			};
-
-			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, responseWithFiles);
-
-			expect(createDocument).toHaveBeenCalledTimes(0);
-			expect(removeDocument).toHaveBeenCalledTimes(1);
-
-			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(mockRef, {
-				files: true
-			});
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
-			);
-		});
-
-		it('handles failures when removing files', async () => {
-			const upload = mockUploadedFile();
-			req.body = {
-				removedFiles: JSON.stringify([{ name: upload.name }])
-			};
-
-			const error = new Error('Some error message');
-			removeDocument.mockRejectedValue(error);
-
-			const multiFileQuestion = getMultiFileUpload();
-
-			const responseWithFiles = {
-				referenceId: mockRef,
-				journeyId: mockJourneyId,
-				answers: {
-					SubmissionDocumentUpload: [upload]
-				}
-			};
-
-			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, responseWithFiles);
-
-			expect(createDocument).toHaveBeenCalledTimes(0);
-			expect(removeDocument).toHaveBeenCalledTimes(1);
-			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(mockRef, {
-				files: true
-			});
-
-			const expectedErrorMsg = `Failed to remove file: ${upload.originalFileName}`;
-			expect(res.render).toHaveBeenCalledWith(
-				expect.any(String),
-
-				expect.objectContaining({
-					errors: {
-						[upload.storageId]: {
-							value: { name: mockUploadedFile().originalFileName },
-							msg: expectedErrorMsg
-						}
-					},
-					errorSummary: [
-						{
-							href: '#files',
-							text: expectedErrorMsg
-						}
-					]
-				})
-			);
-		});
-
-		it('handles attempts to upload invalid files', async () => {
-			//given attempt to upload valid and invalid file
-			const validFileUploaded = {
-				name: 'test.png',
-				tempFilePath: '/tmp/tmp-4-134416293524'
-			};
-			const invalidFile = {
-				name: 'invalid',
-				tempFilePath: '/tmp/tmp-4-1694190443483'
-			};
-
-			req.files = {
-				[FIELDNAME]: [validFileUploaded, invalidFile]
-			};
-
-			//and given validator has returned relevant errors
-			const errors = {
-				[`files.${FIELDNAME}[1]`]: {
-					value: { name: invalidFile.name, tempFilePath: '/tmp/tmp-4-1694190443483' },
-					msg: `${invalidFile.name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`,
-					param: `files.${FIELDNAME}[1]`,
-					location: 'body'
-				}
-			};
-
-			const errorSummary = [
-				{
-					text: `${invalidFile.name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`,
-					href: '#files'
-				}
-			];
-
-			req.body = {
-				errors: errors,
-				errorSummary: errorSummary
-			};
-
-			removeDocument.mockResolvedValue();
-
-			const multiFileQuestion = getMultiFileUpload();
-
-			//when save action is called on multifile question
-			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
-
-			//then only the valid document will be saved
-			expect(createDocument).toHaveBeenCalledTimes(1);
-			expect(createDocument).toHaveBeenCalledWith(
-				{
-					id: `${mockJourneyId}:${mockRef}`,
-					referenceNumber: mockRef
-				},
-				validFileUploaded,
-				validFileUploaded.name,
-				DOCUMENT_TYPE.name
-			);
-
-			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(mockRef, {
-				files: true
-			});
-
-			//and the page will re-render with the valid file listed and the relevant error message(s)
-			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(
-				`dynamic-components/${multiFileQuestion.viewFolder}/index`,
-				expect.objectContaining({
-					errors: errors,
-					errorSummary: errorSummary
-				})
-			);
 		});
 	});
 

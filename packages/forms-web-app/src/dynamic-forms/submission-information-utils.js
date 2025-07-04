@@ -1,4 +1,4 @@
-const { getLPA, getLPAById } = require('../../../lib/appeals-api-wrapper');
+const { getLPA, getLPAById } = require('../lib/appeals-api-wrapper');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const { formatAddress } = require('@pins/common/src/lib/format-address');

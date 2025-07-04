@@ -1,4 +1,9 @@
-const { questionHasAnswer, questionsHaveAnswers } = require('./question-has-answer');
+const {
+	questionHasAnswer,
+	questionsHaveAnswers,
+	questionHasNonEmptyStringAnswer,
+	questionHasNonEmptyNumberAnswer
+} = require('./question-has-answer');
 
 const aTestQuestionExpectedResult = 'yes';
 const aTestQuestionUnexpectedResult = 'no';
@@ -141,5 +146,63 @@ describe('question-has-answer', () => {
 			expect(result).toBe(expectedResult);
 		}
 	);
+	});
+
+	describe('questionHasNonEmptyStringAnswer', () => {
+		const question = { fieldName: 'testField' };
+
+		it('returns true for non-empty string', () => {
+			const response = { answers: { testField: 'hello' } };
+			expect(questionHasNonEmptyStringAnswer(response, question)).toBe(true);
+		});
+
+		it('returns false for empty string', () => {
+			const response = { answers: { testField: '' } };
+			expect(questionHasNonEmptyStringAnswer(response, question)).toBe(false);
+		});
+
+		it('returns false for whitespace string', () => {
+			const response = { answers: { testField: '   ' } };
+			expect(questionHasNonEmptyStringAnswer(response, question)).toBe(false);
+		});
+
+		it('returns false if field is not a string', () => {
+			const response = { answers: { testField: 123 } };
+			expect(questionHasNonEmptyStringAnswer(response, question)).toBe(false);
+		});
+
+		it('returns false if answers missing', () => {
+			const response = {};
+			expect(questionHasNonEmptyStringAnswer(response, question)).toBe(false);
+		});
+	});
+
+	describe('questionHasNonEmptyNumberAnswer', () => {
+		const question = { fieldName: 'numField' };
+
+		it('returns true for a valid number', () => {
+			const response = { answers: { numField: 42 } };
+			expect(questionHasNonEmptyNumberAnswer(response, question)).toBe(true);
+		});
+
+		it('returns false for NaN', () => {
+			const response = { answers: { numField: NaN } };
+			expect(questionHasNonEmptyNumberAnswer(response, question)).toBe(false);
+		});
+
+		it('returns false for non-number', () => {
+			const response = { answers: { numField: 'not a number' } };
+			expect(questionHasNonEmptyNumberAnswer(response, question)).toBe(false);
+		});
+
+		it('returns false if field is undefined', () => {
+			const response = { answers: {} };
+			expect(questionHasNonEmptyNumberAnswer(response, question)).toBe(false);
+		});
+
+		it('returns false if answers missing', () => {
+			const response = {};
+			expect(questionHasNonEmptyNumberAnswer(response, question)).toBe(false);
+		});
 	});
 });

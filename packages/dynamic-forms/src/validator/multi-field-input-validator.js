@@ -45,16 +45,12 @@ class MultiFieldInputValidator extends BaseValidator {
 
 	/**
 	 * validates the response body, checking the value sent for the questionObj's fieldname is within the predefined list of options
-	 * @param {import('../question')} _question
+	 * @param {import('../questions/question')} _question
 	 * @param {import('../journey-response').JourneyResponse} _journeyResponse
 	 * @returns {import('express-validator').ValidationChain[]}
 	 */
 	validate(_question, _journeyResponse) {
-		// const requiredFieldNames = this.requiredFields.map((requiredField) => requiredField.fieldName);
-
 		let rules = [];
-
-		// results.push(body(requiredFieldNames).notEmpty().withMessage(this.noInputsMessage));
 
 		for (const requiredField of this.requiredFields) {
 			const { minLength, maxLength, regex, fieldName, errorMessage } = requiredField;

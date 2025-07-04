@@ -1,4 +1,4 @@
-const Question = require('../../question');
+const Question = require('../../questions/question');
 
 const CaseAddMoreQuestion = require('../case-add-more/question');
 const AddressAddMoreQuestion = require('../address-add-more/question');
@@ -8,7 +8,7 @@ const ListedBuildingAddMoreQuestion = require('../listed-building-add-more/quest
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../section').Section} Section
- * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
+ * @typedef {import('../../questions/question').QuestionViewModel} QuestionViewModel
  * @typedef {QuestionViewModel & { addMoreAnswers?: Array<AddMoreAnswer>, question: QuestionViewModel['question'] & { label?: string, inputClasses?: string } }} ListAddModeViewModel
  */
 
@@ -33,20 +33,14 @@ class ListAddMoreQuestion extends Question {
 	static TWO_THIRDS_WIDTH = 'govuk-grid-column-two-thirds';
 
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName
-	 * @param {string} [params.url]
-	 * @param {string} [params.pageTitle]
-	 * @param {string} [params.description]
-	 * @param {import('src/dynamic-forms/question-props').SubQuestionProps} [params.subQuestionProps]
-	 * @param {string} [params.subQuestionLabel]
-	 * @param {string} [params.subQuestionTitle] the text used as the key for display on task list
-	 * @param {string} [params.subQuestionFieldLabel]
-	 * @param {string} [params.subQuestionInputClasses]
-	 * @param {string} [params.width]
-	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 * @param {import('#question-types').QuestionParameters & {
+	 * 	subQuestionProps: import('../../questions/question-props').SubQuestionProps,
+	 * 	subQuestionLabel?: string,
+	 * 	subQuestionTitle?: string, // the text used as the key for display on task
+	 * 	subQuestionFieldLabel?: string,
+	 * 	subQuestionInputClasses?: string,
+	 * 	width?: string
+	 * }} params
 	 */
 	constructor({
 		title,
@@ -282,12 +276,13 @@ class ListAddMoreQuestion extends Question {
 	 * Save an uploaded file
 	 * @param {import('express').Request} req
 	 * @param {import('express').Response} res
+	 * @param {function(string, Object): Promise<any>} saveFunction
 	 * @param {Journey} journey
 	 * @param {Section} section
 	 * @param {JourneyResponse} journeyResponse
 	 * @returns {Promise<void>}
 	 */
-	saveAction = async (req, res, journey, section, journeyResponse) => {
+	saveAction = async (req, res, saveFunction, journey, section, journeyResponse) => {
 		let isAddMorePage = true;
 		if (!req.body[this.fieldName]) {
 			if (
@@ -356,11 +351,7 @@ class ListAddMoreQuestion extends Question {
 			}
 		};
 
-		await this.saveResponseToDB(
-			req.appealsApiClient,
-			{ ...journey.response, [this.fieldName]: responseToSave.answers[this.fieldName] },
-			responseToSave
-		);
+		await saveFunction(journeyResponse.referenceId, responseToSave.answers);
 
 		// check for saving errors
 		const saveViewModel = this.subQuestion.checkForSavingErrors(req, section, journey);

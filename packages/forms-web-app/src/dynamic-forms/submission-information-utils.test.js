@@ -2,11 +2,11 @@ const {
 	formatBeforeYouStartSection,
 	formatQuestionnaireAppealInformationSection
 } = require('./submission-information-utils');
-const { getLPA, getLPAById } = require('../../../lib/appeals-api-wrapper');
+const { getLPA, getLPAById } = require('../lib/appeals-api-wrapper');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
-jest.mock('../../../lib/appeals-api-wrapper');
+jest.mock('../lib/appeals-api-wrapper');
 
 describe('formatBeforeYouStartSection', () => {
 	const mockAppellantSubmission = {

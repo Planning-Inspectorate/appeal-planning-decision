@@ -59,6 +59,9 @@ class StringValidator extends BaseValidator {
 			: 'Please enter only the allowed characters';
 		this.fieldName = fieldName;
 	}
+	/**
+	 * @param {import('../questions/question')} questionObj
+	 */
 	validate(questionObj) {
 		const minLengthValidator = (chain) =>
 			chain

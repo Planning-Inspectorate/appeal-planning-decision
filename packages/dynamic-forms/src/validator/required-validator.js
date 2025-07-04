@@ -2,7 +2,7 @@ const { body } = require('express-validator');
 const BaseValidator = require('./base-validator.js');
 
 /**
- * @typedef {import('../question.js')} Question
+ * @typedef {import('../questions/question.js')} Question
  */
 
 /**

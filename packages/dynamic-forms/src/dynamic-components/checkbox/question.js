@@ -1,4 +1,4 @@
-const { OptionsQuestion } = require('../../options-question');
+const { OptionsQuestion } = require('../../questions/options-question');
 
 const defaultOptionJoinString = ',';
 
@@ -15,17 +15,8 @@ const defaultOptionJoinString = ',';
 
 class CheckboxQuestion extends OptionsQuestion {
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName
-	 * @param {string} [params.url]
-	 * @param {string} [params.pageTitle]
-	 * @param {string} [params.description]
-	 * @param {Array.<import('../../options-question').Option>} [params.options]
-	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
-	 *
-	 * @param {Record<string, Function>} [methodOverrides]
+	 * @param {import('#question-types').OptionsQuestionParameters} params
+	 * @param {import('#question-types').MethodOverrides} [methodOverrides]
 	 */
 	constructor(
 		{ title, question, fieldName, url, pageTitle, description, options, validators },

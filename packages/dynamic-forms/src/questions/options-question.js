@@ -1,19 +1,19 @@
 const nunjucks = require('nunjucks');
 const Question = require('./question');
-const ValidOptionValidator = require('./validator/valid-option-validator');
+const ValidOptionValidator = require('../validator/valid-option-validator');
 const {
 	getConditionalFieldName,
 	optionIsDivider,
 	conditionalIsJustHTML
-} = require('./dynamic-components/utils/question-utils');
+} = require('../dynamic-components/utils/question-utils');
 
 const defaultOptionJoinString = ',';
 
 /**
  * @typedef {import('./question').QuestionViewModel} QuestionViewModel
- * @typedef {import('./journey').Journey} Journey
- * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
- * @typedef {import('./section').Section} Section
+ * @typedef {import('../journey').Journey} Journey
+ * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('../section').Section} Section
  * @typedef {import('./question-props').Option} Option
  * @typedef {import('./question-props').OptionWithoutDivider} OptionWithoutDivider
  */
@@ -27,19 +27,7 @@ class OptionsQuestion extends Question {
 	options;
 
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.viewFolder
-	 * @param {string} params.fieldName
-	 * @param {string} [params.url]
-	 * @param {string} [params.hint]
-	 * @param {string} [params.pageTitle]
-	 * @param {string} [params.description]
-	 * @param {Array<Option>} [params.options]
-	 * @param {Array<string>} [params.variables]
-	 * @param {Array<import('./question').BaseValidator>} [params.validators]
-	 *
+	 * @param {import('#question-types').OptionsQuestionParameters} params
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
 	constructor(
@@ -168,7 +156,7 @@ class OptionsQuestion extends Question {
 	/**
 	 * returns the formatted answers values to be used to build task list elements
 	 * @param {String} sectionSegment
-	 * @param {import('./journey').Journey} journey
+	 * @param {import('../journey').Journey} journey
 	 * @param {string | OptionWithoutDivider | ConditionalAnswerObject | null} answer
 	 * @returns {Array<{
 	 *   key: string;
@@ -187,7 +175,7 @@ class OptionsQuestion extends Question {
 
 		//would only apply if particular answer has conditional
 		if (typeof answer !== 'string') {
-			/** @type {import('src/dynamic-forms/question-props').OptionWithoutDivider | undefined} */
+			/** @type {import('./question-props.d.ts').OptionWithoutDivider | undefined} */
 			// @ts-ignore
 			const selectedOption = this.options.find(
 				(option) => !optionIsDivider(option) && option.value === answer.value
@@ -215,7 +203,7 @@ class OptionsQuestion extends Question {
 			.filter((option) => !optionIsDivider(option) && answerArray.includes(option.value))
 			.map(
 				// @ts-ignore
-				(/** @type {import('src/dynamic-forms/question-props').OptionWithoutDivider} */ option) => {
+				(/** @type {import('../questions/question-props').OptionWithoutDivider} */ option) => {
 					if (option.conditional) {
 						if (conditionalIsJustHTML(option.conditional)) return '';
 						const conditionalAnswer =

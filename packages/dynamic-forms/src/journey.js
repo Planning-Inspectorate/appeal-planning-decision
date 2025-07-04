@@ -7,7 +7,7 @@
 /**
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('./section').Section} Section
- * @typedef {import('./question')} Question
+ * @typedef {import('./questions/question')} Question
  */
 
 /**

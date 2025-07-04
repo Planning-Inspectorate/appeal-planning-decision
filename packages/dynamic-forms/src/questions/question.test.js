@@ -5,11 +5,6 @@ const res = {
 	render: jest.fn()
 };
 
-const apiClient = {
-	patchLPAQuestionnaire: jest.fn(),
-	updateAppellantSubmission: jest.fn()
-};
-
 describe('./src/dynamic-forms/question.js', () => {
 	const TITLE = 'Question1';
 	const QUESTION_STRING = 'What is your favourite colour?';
@@ -20,7 +15,6 @@ describe('./src/dynamic-forms/question.js', () => {
 	const VALIDATORS = [1];
 	const HTML = 'resources/question12/content.html';
 	const HINT = 'This is how you submit the form';
-	const LPACode = 'Q9999';
 	const VARIABLES = [APPEAL_TYPE];
 
 	const getTestQuestion = ({
@@ -260,6 +254,8 @@ describe('./src/dynamic-forms/question.js', () => {
 	});
 
 	describe('saveAction', () => {
+		const mockSave = jest.fn();
+
 		it('should handle validation errors', async () => {
 			const expectedErrors = {
 				errorViewModel: 'mocked-validation-error'
@@ -275,7 +271,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			const journey = {};
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, mockSave, journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.viewFolder}/index`,
@@ -284,13 +280,15 @@ describe('./src/dynamic-forms/question.js', () => {
 		});
 
 		it('should handle saving errors', async () => {
+			const dataToSave = {
+				answers: {}
+			};
 			const expectedErrors = {
 				errorViewModel: 'mocked-validation-error'
 			};
 			const question = getTestQuestion();
 			question.checkForValidationErrors = jest.fn();
-			question.getDataToSave = jest.fn();
-			question.saveResponseToDB = jest.fn();
+			question.getDataToSave = jest.fn(() => dataToSave);
 			question.checkForSavingErrors = jest.fn(() => expectedErrors);
 
 			const res = {
@@ -298,10 +296,12 @@ describe('./src/dynamic-forms/question.js', () => {
 			};
 
 			const req = {};
-			const journey = {};
+			const journey = {
+				response: {}
+			};
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, mockSave, journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.viewFolder}/index`,
@@ -311,11 +311,12 @@ describe('./src/dynamic-forms/question.js', () => {
 
 		it('should handle saving', async () => {
 			const expectedUrl = 'redirect-url';
-
+			const dataToSave = {
+				answers: {}
+			};
 			const question = getTestQuestion();
 			question.checkForValidationErrors = jest.fn();
-			question.getDataToSave = jest.fn();
-			question.saveResponseToDB = jest.fn();
+			question.getDataToSave = jest.fn(() => dataToSave);
 			question.checkForSavingErrors = jest.fn();
 			const res = {
 				redirect: jest.fn()
@@ -329,7 +330,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			}
 			const journey = new TestJourney();
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, mockSave, journey, section, journey.response);
 
 			expect(res.redirect).toHaveBeenCalledWith(expectedUrl);
 		});
@@ -414,38 +415,6 @@ describe('./src/dynamic-forms/question.js', () => {
 			expect(result).toEqual(expectedResult);
 			expectedResult.answers.other = 'another-answer';
 			expect(journeyResponse).toEqual(expectedResult);
-		});
-	});
-
-	describe('saveResponseToDB', () => {
-		it('should call patchQuestionResponse with encoded ref', async () => {
-			const journeyResponse = {
-				referenceId: '/-123',
-				journeyId: 'has-questionnaire',
-				LPACode: LPACode
-			};
-			const responseToSave = { answers: { a: 1 } };
-
-			const question = getTestQuestion();
-			await question.saveResponseToDB(apiClient, journeyResponse, responseToSave);
-
-			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith('/-123', responseToSave.answers);
-		});
-		it('should call updateAppellantSubmission with encoded ref', async () => {
-			const journeyResponse = {
-				referenceId: '/-123',
-				journeyId: 'has-appeal-form',
-				LPACode: LPACode
-			};
-			const responseToSave = { answers: { a: 1 } };
-
-			const question = getTestQuestion();
-			await question.saveResponseToDB(apiClient, journeyResponse, responseToSave);
-
-			expect(apiClient.updateAppellantSubmission).toHaveBeenCalledWith(
-				'/-123',
-				responseToSave.answers
-			);
 		});
 	});
 

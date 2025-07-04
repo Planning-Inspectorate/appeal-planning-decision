@@ -1,5 +1,5 @@
 /** @typedef {import('../../journey-response').JourneyResponse} JourneyResponse */
-/** @typedef {import('../../question')} Question */
+/** @typedef {import('../../questions/question')} Question */
 
 /** @type {(response: JourneyResponse) => {and: (questionKeyTuples: [any, unknown][]) => boolean, or: (questionKeyTuples: [any, unknown][]) => boolean}} */
 const logicalCombinations = (response) => ({

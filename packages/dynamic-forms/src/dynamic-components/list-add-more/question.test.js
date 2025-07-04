@@ -184,7 +184,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const journey = {};
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, jest.fn(), journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.subQuestion.viewFolder}/index`,
@@ -210,7 +210,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			};
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, jest.fn(), journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.subQuestion.viewFolder}/index`,
@@ -234,7 +234,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const journey = { response: { answers: {} }, getNextQuestionUrl: jest.fn(() => expectedUrl) };
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, jest.fn(), journey, section, journey.response);
 
 			expect(res.redirect).toHaveBeenCalledWith(expectedUrl);
 		});
@@ -255,7 +255,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const journey = {};
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, jest.fn(), journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.subQuestion.viewFolder}/index`,
@@ -274,7 +274,6 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const question = getTestQuestion();
 			question.subQuestion.checkForValidationErrors = jest.fn();
 			question.getDataToSave = jest.fn(() => testResponseToSave);
-			question.saveResponseToDB = jest.fn();
 			question.subQuestion.checkForSavingErrors = jest.fn(() => expectedErrors);
 
 			const res = {
@@ -287,7 +286,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			};
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, jest.fn(), journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.subQuestion.viewFolder}/index`,
@@ -305,7 +304,6 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const question = getTestQuestion();
 			question.subQuestion.checkForValidationErrors = jest.fn();
 			question.getDataToSave = jest.fn(() => testResponseToSave);
-			question.saveResponseToDB = jest.fn();
 			question.subQuestion.checkForSavingErrors = jest.fn();
 			const res = {
 				redirect: jest.fn()
@@ -319,7 +317,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			}
 			const journey = new TestJourney();
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, jest.fn(), journey, section, journey.response);
 
 			expect(res.redirect).toHaveBeenCalledWith(expectedUrl);
 		});
@@ -333,7 +331,6 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 		};
 		it("should call sub-question's remove function", async () => {
 			const question = getTestQuestion();
-			question.saveResponseToDB = jest.fn();
 			const addMoreId = '123';
 
 			const answer0 = { addMoreId: addMoreId, data: { a: 1 } };

@@ -6,32 +6,32 @@
  *************************************************************/
 
 // question classes
-const CheckboxQuestion = require('./dynamic-components/checkbox/question');
-const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
-const BooleanQuestion = require('./dynamic-components/boolean/question');
-const RadioQuestion = require('./dynamic-components/radio/question');
-const DateQuestion = require('./dynamic-components/date/question');
-const TextEntryQuestion = require('./dynamic-components/text-entry/question');
-const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
-const MultiFieldInputQuestion = require('./dynamic-components/multi-field-input/question');
-const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
-const SiteAddressQuestion = require('./dynamic-components/site-address/question');
-const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
-const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
+const CheckboxQuestion = require('@pins/dynamic-forms/src/dynamic-components/checkbox/question');
+const MultiFileUploadQuestion = require('@pins/dynamic-forms/src/dynamic-components/multi-file-upload/question');
+const BooleanQuestion = require('@pins/dynamic-forms/src/dynamic-components/boolean/question');
+const RadioQuestion = require('@pins/dynamic-forms/src/dynamic-components/radio/question');
+const DateQuestion = require('@pins/dynamic-forms/src/dynamic-components/date/question');
+const TextEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/text-entry/question');
+const SingleLineInputQuestion = require('@pins/dynamic-forms/src/dynamic-components/single-line-input/question');
+const MultiFieldInputQuestion = require('@pins/dynamic-forms/src/dynamic-components/multi-field-input/question');
+const NumberEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/number-entry/question');
+const SiteAddressQuestion = require('@pins/dynamic-forms/src/dynamic-components/site-address/question');
+const UnitOptionEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/unit-option-entry/question');
+const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
 
 // validators
-const RequiredValidator = require('./validator/required-validator');
-const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
-const MultifileUploadValidator = require('./validator/multifile-upload-validator');
-const AddressValidator = require('./validator/address-validator');
-const StringEntryValidator = require('./validator/string-validator');
-const StringValidator = require('./validator/string-validator');
-const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
-const UnitOptionEntryValidator = require('./validator/unit-option-entry-validator');
-const DateValidator = require('./validator/date-validator');
-const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
-const NumericValidator = require('./validator/numeric-validator');
-const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox-validator');
+const RequiredValidator = require('@pins/dynamic-forms/src/validator/required-validator');
+const RequiredFileUploadValidator = require('@pins/dynamic-forms/src/validator/required-file-upload-validator');
+const MultifileUploadValidator = require('@pins/dynamic-forms/src/validator/multifile-upload-validator');
+const AddressValidator = require('@pins/dynamic-forms/src/validator/address-validator');
+const StringEntryValidator = require('@pins/dynamic-forms/src/validator/string-validator');
+const StringValidator = require('@pins/dynamic-forms/src/validator/string-validator');
+const ConditionalRequiredValidator = require('@pins/dynamic-forms/src/validator/conditional-required-validator');
+const UnitOptionEntryValidator = require('@pins/dynamic-forms/src/validator/unit-option-entry-validator');
+const DateValidator = require('@pins/dynamic-forms/src/validator/date-validator');
+const MultiFieldInputValidator = require('@pins/dynamic-forms/src/validator/multi-field-input-validator');
+const NumericValidator = require('@pins/dynamic-forms/src/validator/numeric-validator');
+const ConfirmationCheckboxValidator = require('@pins/dynamic-forms/src/validator/confirmation-checkbox-validator');
 
 const { add, sub, format: formatDate } = require('date-fns');
 const {
@@ -39,13 +39,30 @@ const {
 	APPEAL_EIA_DEVELOPMENT_DESCRIPTION,
 	APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE
 } = require('pins-data-model');
-const { getConditionalFieldName, DIVIDER } = require('./dynamic-components/utils/question-utils');
+const {
+	getConditionalFieldName,
+	DIVIDER
+} = require('@pins/dynamic-forms/src/dynamic-components/utils/question-utils');
 const { documentTypes } = require('@pins/common');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const {
 	validation: {
-		characterLimits: { appealFormV2 },
+		characterLimits: {
+			appealFormV2,
+			questionnaire: {
+				addressLine1MaxLength,
+				addressLine1MinLength,
+				addressLine2MaxLength,
+				addressLine2MinLength,
+				townCityMaxLength,
+				townCityMinLength,
+				countyMaxLength,
+				countyMinLength,
+				postcodeMaxLength,
+				postcodeMinLength
+			}
+		},
 		stringValidation: {
 			appealReferenceNumber: appealReferenceNumberValidation,
 			listedBuildingNumber: listedBuildingNumberValidation,
@@ -53,18 +70,23 @@ const {
 			numberOfWitnesses: { maxWitnesses },
 			lengthOfInquiry: { minDays, maxDays }
 		}
+	},
+
+	fileUpload: {
+		pins: { allowedFileTypes, maxFileUploadSize }
 	}
 } = require('../config');
-const { createQuestions } = require('./create-questions');
+const { createQuestions } = require('@pins/dynamic-forms/src/questions/create-questions');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
+const getClamAVClient = require('#lib/clam-av-client-get');
 
 // method overrides
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
 const siteAddressOverrides = require('../journeys/question-overrides/site-address');
-const formatNumber = require('./dynamic-components/utils/format-number');
+const formatNumber = require('@pins/dynamic-forms/src/dynamic-components/utils/format-number');
 
-/** @typedef {import('./question-props').QuestionProps} QuestionProps */
-/** @typedef {import('./question')} Question */
+/** @typedef {import('@pins/dynamic-forms/src/questions/question-props').QuestionProps} QuestionProps */
+/** @typedef {import('@pins/dynamic-forms/src/questions/question')} Question */
 
 /**
  * @param {'past' | 'future'} tense
@@ -80,6 +102,25 @@ const getExampleDate = (tense, days = 60) =>
 		}[tense](new Date(), { days }),
 		'd M yyyy'
 	);
+
+const defaultFileUploadValidatorParams = {
+	allowedFileTypes: Object.values(allowedFileTypes),
+	maxUploadSize: maxFileUploadSize,
+	getClamAVClient
+};
+
+const defaultAddressValidatorParams = {
+	addressLine1MaxLength,
+	addressLine1MinLength,
+	addressLine2MaxLength,
+	addressLine2MinLength,
+	townCityMaxLength,
+	townCityMinLength,
+	countyMaxLength,
+	countyMinLength,
+	postcodeMaxLength,
+	postcodeMinLength
+};
 
 // Define all questions
 /** @type {Record<string, QuestionProps>} */
@@ -185,9 +226,9 @@ exports.questionProps = {
 		url: 'upload-conservation-area-map-guidance',
 		validators: [
 			new RequiredFileUploadValidator('Select a conservation map and guidance'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.conservationMap,
+		documentType: documentTypes.conservationMap.name,
 		actionHiddenText: 'conservation map and guidance'
 	},
 	greenBelt: {
@@ -206,10 +247,10 @@ exports.questionProps = {
 		fieldName: 'uploadWhoNotified',
 		validators: [
 			new RequiredFileUploadValidator('Select your document that lists who you notified'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		html: 'resources/notified-who/content.html',
-		documentType: documentTypes.whoWasNotified
+		documentType: documentTypes.whoWasNotified.name
 	},
 	pressAdvertUpload: {
 		type: 'multi-file-upload',
@@ -219,9 +260,9 @@ exports.questionProps = {
 		url: 'upload-press-advert',
 		validators: [
 			new RequiredFileUploadValidator('Select the press advertisement'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.pressAdvertUpload,
+		documentType: documentTypes.pressAdvertUpload.name,
 		actionHiddenText: 'the press advertisement'
 	},
 	consultationResponses: {
@@ -245,9 +286,9 @@ exports.questionProps = {
 		url: 'upload-consultation-responses',
 		validators: [
 			new RequiredFileUploadValidator('Select the consultation responses and standing advice'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.consultationResponsesUpload,
+		documentType: documentTypes.consultationResponsesUpload.name,
 		actionHiddenText: 'the consultation responses and standing advice'
 	},
 	howYouNotifiedPeople: {
@@ -284,9 +325,9 @@ exports.questionProps = {
 		url: 'upload-site-notice',
 		validators: [
 			new RequiredFileUploadValidator('Select the site notice'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadSiteNotice,
+		documentType: documentTypes.uploadSiteNotice.name,
 		actionHiddenText: 'the site notice'
 	},
 	appealNotification: {
@@ -299,9 +340,9 @@ exports.questionProps = {
 			new RequiredFileUploadValidator(
 				'Select the appeal notification letter and the list of people that you notified'
 			),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.appealNotification,
+		documentType: documentTypes.appealNotification.name,
 		actionHiddenText: 'the appeal notification letter and the list of people that you notified'
 	},
 	representationsFromOthers: {
@@ -324,9 +365,9 @@ exports.questionProps = {
 		url: 'upload-representations',
 		validators: [
 			new RequiredFileUploadValidator('Select the representations'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.representationUpload,
+		documentType: documentTypes.representationUpload.name,
 		actionHiddenText: 'the representations'
 	},
 	planningOfficersReportUpload: {
@@ -340,9 +381,9 @@ exports.questionProps = {
 			new RequiredFileUploadValidator(
 				'Select the planning officer’s report or what your decision notice would have said'
 			),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.planningOfficersReportUpload,
+		documentType: documentTypes.planningOfficersReportUpload.name,
 		actionHiddenText: 'the planning officer’s report or what your decision notice would have said'
 	},
 	accessForInspection: {
@@ -431,7 +472,7 @@ exports.questionProps = {
 			title: 'Tell us the address of the neighbour’s land or property',
 			question: 'Tell us the address of the neighbour’s land or property',
 			fieldName: 'neighbourSiteAddress',
-			validators: [new AddressValidator()],
+			validators: [new AddressValidator(defaultAddressValidatorParams)],
 			viewFolder: 'address-entry'
 		}
 	},
@@ -623,10 +664,10 @@ exports.questionProps = {
 		url: 'upload-emerging-plan',
 		validators: [
 			new RequiredFileUploadValidator('Select the emerging plan and supporting information'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		html: 'resources/emerging-plan-upload/content.html',
-		documentType: documentTypes.emergingPlanUpload,
+		documentType: documentTypes.emergingPlanUpload.name,
 		actionHiddenText: 'the emerging plan and supporting information'
 	},
 	developmentPlanPolicies: {
@@ -651,10 +692,10 @@ exports.questionProps = {
 			new RequiredFileUploadValidator(
 				'Select the relevant policies from your statutory development plan'
 			),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		html: 'resources/upload-relevant-policies/content.html',
-		documentType: documentTypes.uploadDevelopmentPlanPolicies,
+		documentType: documentTypes.uploadDevelopmentPlanPolicies.name,
 		actionHiddenText: 'relevant policies from your statutory development plan'
 	},
 	otherRelevantPolicies: {
@@ -673,9 +714,9 @@ exports.questionProps = {
 		url: 'upload-other-relevant-policies',
 		validators: [
 			new RequiredFileUploadValidator('Select any other relevant policies'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadOtherRelevantPolicies,
+		documentType: documentTypes.uploadOtherRelevantPolicies.name,
 		actionHiddenText: 'any other relevant policies'
 	},
 	communityInfrastructureLevy: {
@@ -695,9 +736,9 @@ exports.questionProps = {
 		url: 'upload-community-infrastructure-levy',
 		validators: [
 			new RequiredFileUploadValidator('Select your community infrastructure levy'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.communityInfrastructureLevyUpload,
+		documentType: documentTypes.communityInfrastructureLevyUpload.name,
 		actionHiddenText: 'your community infrastructure levy'
 	},
 	communityInfrastructureLevyAdopted: {
@@ -744,9 +785,9 @@ exports.questionProps = {
 			new RequiredFileUploadValidator(
 				'Select letters or emails sent to interested parties with their addresses'
 			),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadNeighbourLetterAddresses,
+		documentType: documentTypes.uploadNeighbourLetterAddresses.name,
 		actionHiddenText: 'letters or emails sent to interested parties with their addresses'
 	},
 	treePreservationOrder: {
@@ -769,9 +810,9 @@ exports.questionProps = {
 		url: 'upload-plan-showing-order',
 		validators: [
 			new RequiredFileUploadValidator('Select a plan showing the extent of the order'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.treePreservationPlanUpload,
+		documentType: documentTypes.treePreservationPlanUpload.name,
 		actionHiddenText: 'a plan showing the extent of the order'
 	},
 	uploadDefinitiveMap: {
@@ -782,9 +823,9 @@ exports.questionProps = {
 		url: 'upload-definitive-map-statement',
 		validators: [
 			new RequiredFileUploadValidator('Select the definitive map and statement extract'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadDefinitiveMap,
+		documentType: documentTypes.uploadDefinitiveMap.name,
 		actionHiddenText: 'the definitive map and statement extract'
 	},
 	supplementaryPlanning: {
@@ -812,9 +853,9 @@ exports.questionProps = {
 			new RequiredFileUploadValidator(
 				'Select the relevant policy extracts and supplementary planning documents'
 			),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.supplementaryPlanningUpload,
+		documentType: documentTypes.supplementaryPlanningUpload.name,
 		actionHiddenText: 'relevant policy extracts and supplementary planning documents'
 	},
 	scheduledMonument: {
@@ -1023,9 +1064,9 @@ exports.questionProps = {
 			new RequiredFileUploadValidator(
 				'Select the environmental statement and supporting information'
 			),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadEnvironmentalStatement,
+		documentType: documentTypes.uploadEnvironmentalStatement.name,
 		actionHiddenText: 'the environmental statement and supporting information'
 	},
 	meetsColumnTwoThreshold: {
@@ -1083,9 +1124,9 @@ exports.questionProps = {
 		url: 'upload-screening-opinion',
 		validators: [
 			new RequiredFileUploadValidator('Select your screening opinion and any correspondence'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.screeningOpinionUpload,
+		documentType: documentTypes.screeningOpinionUpload.name,
 		actionHiddenText: 'your screening opinion and any correspondence'
 	},
 	scopingOpinionUpload: {
@@ -1096,9 +1137,9 @@ exports.questionProps = {
 		url: 'upload-scoping-opinion',
 		validators: [
 			new RequiredFileUploadValidator('Select your scoping opinion'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.scopingOpinionUpload,
+		documentType: documentTypes.scopingOpinionUpload.name,
 		actionHiddenText: 'your scoping opinion'
 	},
 	uploadScreeningDirection: {
@@ -1109,9 +1150,9 @@ exports.questionProps = {
 		url: 'upload-screening-direction',
 		validators: [
 			new RequiredFileUploadValidator('Select the screening direction'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadScreeningDirection,
+		documentType: documentTypes.uploadScreeningDirection.name,
 		actionHiddenText: 'the screening direction'
 	},
 	developmentDescription: {
@@ -1433,9 +1474,9 @@ exports.questionProps = {
 		url: 'upload-application-form',
 		validators: [
 			new RequiredFileUploadValidator('Select your application form'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadOriginalApplicationForm,
+		documentType: documentTypes.uploadOriginalApplicationForm.name,
 		actionHiddenText: 'your application form'
 	},
 	uploadApplicationDecisionLetter: {
@@ -1447,9 +1488,9 @@ exports.questionProps = {
 		url: 'upload-decision-letter',
 		validators: [
 			new RequiredFileUploadValidator('Select the decision letter'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadApplicationDecisionLetter,
+		documentType: documentTypes.uploadApplicationDecisionLetter.name,
 		actionHiddenText: 'the decision letter from the local planning authority'
 	},
 	uploadChangeOfDescriptionEvidence: {
@@ -1464,9 +1505,9 @@ exports.questionProps = {
 			new RequiredFileUploadValidator(
 				'Select the evidence of your agreement to change the description of development'
 			),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadChangeOfDescriptionEvidence,
+		documentType: documentTypes.uploadChangeOfDescriptionEvidence.name,
 		actionHiddenText: 'evidence of your agreement to change the description of development'
 	},
 	enterApplicationReference: {
@@ -1575,9 +1616,9 @@ exports.questionProps = {
 		url: 'upload-appeal-statement',
 		validators: [
 			new RequiredFileUploadValidator('Select your appeal statement'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadAppellantStatement,
+		documentType: documentTypes.uploadAppellantStatement.name,
 		actionHiddenText: 'your appeal statement'
 	},
 	uploadStatementCommonGround: {
@@ -1588,9 +1629,9 @@ exports.questionProps = {
 		url: 'upload-draft-statement-common-ground',
 		validators: [
 			new RequiredFileUploadValidator('Select the draft statement of common ground'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadStatementCommonGround,
+		documentType: documentTypes.uploadStatementCommonGround.name,
 		actionHiddenText: 'your draft statement of common ground'
 	},
 	costApplication: {
@@ -1621,9 +1662,9 @@ exports.questionProps = {
 		url: 'upload-appeal-costs-application',
 		validators: [
 			new RequiredFileUploadValidator('Select your application for an award of appeal costs'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadCostApplication,
+		documentType: documentTypes.uploadCostApplication.name,
 		actionHiddenText: 'your application for an award of appeal costs'
 	},
 	anyOtherAppeals: {
@@ -1814,7 +1855,7 @@ exports.questionProps = {
 		html: 'resources/site-address/site-address.html',
 		url: 'appeal-site-address',
 		viewFolder: 'address-entry',
-		validators: [new AddressValidator()]
+		validators: [new AddressValidator(defaultAddressValidatorParams)]
 	},
 	s78SiteArea: {
 		type: 'unit-option',
@@ -1928,9 +1969,9 @@ exports.questionProps = {
 		url: 'upload-planning-obligation',
 		validators: [
 			new RequiredFileUploadValidator('Select your planning obligation'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadPlanningObligation,
+		documentType: documentTypes.uploadPlanningObligation.name,
 		actionHiddenText: 'your planning obligation'
 	},
 	designAccessStatement: {
@@ -1955,9 +1996,9 @@ exports.questionProps = {
 		html: 'resources/plans-drawings/upload-design-access.html',
 		validators: [
 			new RequiredFileUploadValidator('Select your design and access statement'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadDesignAccessStatement,
+		documentType: documentTypes.uploadDesignAccessStatement.name,
 		actionHiddenText: 'your design and access statement'
 	},
 	uploadPlansDrawingsHAS: {
@@ -1968,9 +2009,9 @@ exports.questionProps = {
 		url: 'upload-plans-drawings',
 		validators: [
 			new RequiredFileUploadValidator('Select the plans, drawings and list of plans'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadPlansDrawings,
+		documentType: documentTypes.uploadPlansDrawings.name,
 		actionHiddenText: 'the plans, drawings and list of plans'
 	},
 	uploadPlansDrawingsDocuments: {
@@ -1983,9 +2024,9 @@ exports.questionProps = {
 		html: 'resources/plans-drawings/upload-plans-drawings.html',
 		validators: [
 			new RequiredFileUploadValidator('Select your plans, drawings and supporting documents'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadPlansDrawings,
+		documentType: documentTypes.uploadPlansDrawings.name,
 		actionHiddenText:
 			'your plans, drawings and supporting documents you submitted with your application'
 	},
@@ -2009,9 +2050,9 @@ exports.questionProps = {
 		url: 'upload-new-plans-drawings',
 		validators: [
 			new RequiredFileUploadValidator('Select your new plans or drawings'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadNewPlansDrawings,
+		documentType: documentTypes.uploadNewPlansDrawings.name,
 		actionHiddenText: 'your new plans or drawings'
 	},
 	otherNewDocuments: {
@@ -2051,9 +2092,9 @@ exports.questionProps = {
 			new RequiredFileUploadValidator(
 				'Select your separate ownership certificate and agricultural land declaration'
 			),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadOwnershipCertificate,
+		documentType: documentTypes.uploadOwnershipCertificate.name,
 		actionHiddenText: 'your separate ownership certificate and agricultural land declaration'
 	},
 	uploadOtherNewDocuments: {
@@ -2064,9 +2105,9 @@ exports.questionProps = {
 		url: 'upload-other-new-supporting-documents',
 		validators: [
 			new RequiredFileUploadValidator('Select your other new supporting documents'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadOtherNewDocuments,
+		documentType: documentTypes.uploadOtherNewDocuments.name,
 		actionHiddenText: 'your other new supporting documents'
 	},
 	appellantProcedurePreference: {
@@ -2257,9 +2298,9 @@ exports.questionProps = {
 		url: 'upload-supporting-documents',
 		validators: [
 			new RequiredFileUploadValidator('Select your new supporting documents'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadLpaStatementDocuments,
+		documentType: documentTypes.uploadLpaStatementDocuments.name,
 		actionHiddenText: 'your new supporting documents'
 	},
 	rule6Statement: {
@@ -2301,9 +2342,9 @@ exports.questionProps = {
 		url: 'upload-supporting-documents',
 		validators: [
 			new RequiredFileUploadValidator('Select your new supporting documents'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadRule6StatementDocuments,
+		documentType: documentTypes.uploadRule6StatementDocuments.name,
 		actionHiddenText: 'your new supporting documents'
 	},
 	appellantFinalComment: {
@@ -2364,9 +2405,9 @@ exports.questionProps = {
 		url: 'upload-supporting-documents',
 		validators: [
 			new RequiredFileUploadValidator('Select your new supporting documents'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadAppellantFinalCommentDocuments,
+		documentType: documentTypes.uploadAppellantFinalCommentDocuments.name,
 		actionHiddenText: 'your new supporting documents'
 	},
 	lpaFinalComment: {
@@ -2427,9 +2468,9 @@ exports.questionProps = {
 		url: 'upload-supporting-documents',
 		validators: [
 			new RequiredFileUploadValidator('Select your new supporting documents'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadLPAFinalCommentDocuments,
+		documentType: documentTypes.uploadLPAFinalCommentDocuments.name,
 		actionHiddenText: 'your new supporting documents'
 	},
 	uploadAppellantProofOfEvidenceDocuments: {
@@ -2441,9 +2482,9 @@ exports.questionProps = {
 		url: 'upload-proof-evidence',
 		validators: [
 			new RequiredFileUploadValidator('Select your proof of evidence and summary'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadAppellantProofOfEvidenceDocuments,
+		documentType: documentTypes.uploadAppellantProofOfEvidenceDocuments.name,
 		actionHiddenText: 'your proof of evidence and summary'
 	},
 	appellantAddWitnesses: {
@@ -2463,9 +2504,9 @@ exports.questionProps = {
 		url: 'upload-witnesses-evidence',
 		validators: [
 			new RequiredFileUploadValidator('Select your witnesses and their evidence'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadAppellantWitnessesEvidence,
+		documentType: documentTypes.uploadAppellantWitnessesEvidence.name,
 		actionHiddenText: 'your witnesses and their evidence'
 	},
 	uploadLpaProofOfEvidenceDocuments: {
@@ -2477,9 +2518,9 @@ exports.questionProps = {
 		url: 'upload-proof-evidence',
 		validators: [
 			new RequiredFileUploadValidator('Select your proof of evidence and summary'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadLpaProofOfEvidenceDocuments,
+		documentType: documentTypes.uploadLpaProofOfEvidenceDocuments.name,
 		actionHiddenText: 'your proof of evidence and summary'
 	},
 	lpaAddWitnesses: {
@@ -2499,9 +2540,9 @@ exports.questionProps = {
 		url: 'upload-witnesses-evidence',
 		validators: [
 			new RequiredFileUploadValidator('Select your witnesses and their evidence'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadLpaWitnessesEvidence,
+		documentType: documentTypes.uploadLpaWitnessesEvidence.name,
 		actionHiddenText: 'your witnesses and their evidence'
 	},
 	uploadRule6ProofOfEvidenceDocuments: {
@@ -2513,9 +2554,9 @@ exports.questionProps = {
 		url: 'upload-proof-evidence',
 		validators: [
 			new RequiredFileUploadValidator('Select your proof of evidence and summary'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadRule6ProofOfEvidenceDocuments,
+		documentType: documentTypes.uploadRule6ProofOfEvidenceDocuments.name,
 		actionHiddenText: 'your proof of evidence and summary'
 	},
 	rule6AddWitnesses: {
@@ -2535,9 +2576,9 @@ exports.questionProps = {
 		url: 'upload-witnesses-evidence',
 		validators: [
 			new RequiredFileUploadValidator('Select your witnesses and their evidence'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadRule6WitnessesEvidence,
+		documentType: documentTypes.uploadRule6WitnessesEvidence.name,
 		actionHiddenText: 'your witnesses and their evidence'
 	},
 	consultHistoricEngland: {
@@ -2556,9 +2597,9 @@ exports.questionProps = {
 		url: 'historic-england-consultation',
 		validators: [
 			new RequiredFileUploadValidator('Select your consultation with Historic England'),
-			new MultifileUploadValidator()
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadHistoricEnglandConsultation,
+		documentType: documentTypes.uploadHistoricEnglandConsultation.name,
 		actionHiddenText: 'your consultation with Historic England'
 	},
 	majorMinorDevelopment: {
@@ -2640,7 +2681,7 @@ exports.questionProps = {
 	}
 };
 
-/** @type {Record<string, typeof import('./question')>} */
+/** @type {Record<string, typeof import('@pins/dynamic-forms/src/questions/question')>} */
 const questionClasses = {
 	checkbox: CheckboxQuestion,
 	'multi-file-upload': MultiFileUploadQuestion,

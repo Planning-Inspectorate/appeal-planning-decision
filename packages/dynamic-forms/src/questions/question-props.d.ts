@@ -1,9 +1,6 @@
-import { JourneyResponse } from './journey-response';
-import BaseValidator from './validator/base-validator';
-
-// todo: take these out somehow, perhaps just lose the .d.ts file and use jsdoc?
-import { DocType } from '@pins/common/src/document-types';
-import { QUESTION_VARIABLES } from '@pins/common/src/dynamic-forms/question-variables';
+import { JourneyResponse } from '../journey-response';
+import BaseValidator from '../validator/base-validator';
+import { QuestionVariables } from './question';
 
 type QuestionTypes =
 	| 'checkbox'
@@ -38,7 +35,7 @@ interface CommonQuestionProps {
 	html?: string;
 	hint?: string;
 	shouldDisplay?: (response: JourneyResponse) => boolean;
-	variables?: QUESTION_VARIABLES[];
+	variables?: QuestionVariables[];
 }
 
 export type OptionWithoutDivider = {
@@ -122,7 +119,7 @@ type CheckboxQuestionProps = CommonQuestionProps & {
 
 type MultiFileUploadQuestionProps = CommonQuestionProps & {
 	type: 'multi-file-upload';
-	documentType: DocType;
+	documentType: string;
 	actionHiddenText?: string;
 };
 

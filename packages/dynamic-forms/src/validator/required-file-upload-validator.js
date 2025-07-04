@@ -23,13 +23,13 @@ class RequiredFileUploadValidator extends BaseValidator {
 
 	/**
 	 * validates against path based on questionObj's fieldname
-	 * @param {import('../question.js')} questionObj
+	 * @param {import('../dynamic-components/multi-file-upload/question')} questionObj
 	 * @param {import('../journey-response.js').JourneyResponse} journeyResponse
 	 * @returns {import('express-validator').ValidationChain}
 	 */
 	validate(questionObj, journeyResponse) {
 		const path = questionObj.fieldName;
-		const documentType = questionObj.documentType.name;
+		const documentType = questionObj.documentType;
 		return checkSchema(
 			requiredFileUploadSchema(path, journeyResponse, documentType, this.errorMessage)
 		)[0];

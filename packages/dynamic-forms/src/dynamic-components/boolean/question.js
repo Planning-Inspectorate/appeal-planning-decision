@@ -2,21 +2,8 @@ const RadioQuestion = require('../radio/question');
 
 class BooleanQuestion extends RadioQuestion {
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName
-	 * @param {string} [params.url]
-	 * @param {string} [params.hint]
-	 * @param {string} [params.pageTitle]
-	 * @param {string} [params.description]
-	 * @param {string} [params.html]
-	 * @param {string} [params.interfaceType]
-	 * @param {Array<string>} [params.variables]
-	 * @param {Array.<import('../../options-question').Option>} [params.options]
-	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
-	 *
-	 * @param {Record<string, Function>} [methodOverrides]
+	 * @param {import('#question-types').OptionsQuestionParameters} params
+	 * @param {import('#question-types').MethodOverrides} [methodOverrides]
 	 */
 	constructor(
 		{

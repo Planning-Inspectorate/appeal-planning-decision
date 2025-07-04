@@ -1,7 +1,7 @@
-const Question = require('../../question');
+const Question = require('../../questions/question');
 
 /**
- * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
+ * @typedef {import('../../questions/question').QuestionViewModel} QuestionViewModel
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../section').Section} Section
@@ -21,16 +21,10 @@ const Question = require('../../question');
 
 class TextEntryQuestion extends Question {
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName
-	 * @param {string} [params.url]
-	 * @param {string} [params.html]
-	 * @param {string} [params.hint]
-	 * @param {TextEntryCheckbox} [params.textEntryCheckbox]
-	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
-	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
+	 * @param {import('#question-types').QuestionParameters & {
+	 *  textEntryCheckbox?: TextEntryCheckbox,
+	 *  label?: string
+	 * }} params
 	 */
 	constructor({
 		title,

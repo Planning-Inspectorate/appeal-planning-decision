@@ -8,9 +8,7 @@ describe('./src/dynamic-forms/validator/required-file-upload-validator.js', () =
 			const rule = requiredFileUploadValidator
 				.validate({
 					fieldName: 'test-field-name',
-					documentType: {
-						name: 'test-doc-type'
-					}
+					documentType: 'test-doc-type'
 				})
 				.builder.build();
 
@@ -24,9 +22,7 @@ describe('./src/dynamic-forms/validator/required-file-upload-validator.js', () =
 		it('should pass if file being uploaded', async () => {
 			const questionObj = {
 				fieldName: 'test-fieldname',
-				documentType: {
-					name: 'test-doc-type'
-				}
+				documentType: 'test-doc-type'
 			};
 			const journeyResponse = {};
 			const req = { files: { test: 'test123' } };
@@ -42,9 +38,7 @@ describe('./src/dynamic-forms/validator/required-file-upload-validator.js', () =
 		it('should pass if no file being uploaded and file matching question document type already uploaded', async () => {
 			const questionObj = {
 				fieldName: 'another-test-fieldname',
-				documentType: {
-					name: 'test-doc-type'
-				}
+				documentType: 'test-doc-type'
 			};
 			const uploadedFile = {
 				file: 'already-uploaded',
@@ -66,9 +60,7 @@ describe('./src/dynamic-forms/validator/required-file-upload-validator.js', () =
 		it('should fail if no file being uploaded and no file matching question document type already uploaded', async () => {
 			const questionObj = {
 				fieldName: 'yet-another-test-fieldname',
-				documentType: {
-					name: 'test-doc-type'
-				}
+				documentType: 'test-doc-type'
 			};
 			const journeyResponse = { answers: { SubmissionDocumentUpload: [] } };
 			const req = { body: {} };
@@ -84,9 +76,7 @@ describe('./src/dynamic-forms/validator/required-file-upload-validator.js', () =
 		it('should fail if no file being uploaded matching question doc type and all existing files matching doc type being removed', async () => {
 			const questionObj = {
 				fieldName: 'test-fieldname',
-				documentType: {
-					name: 'test-doc-type'
-				}
+				documentType: 'test-doc-type'
 			};
 
 			const journeyResponse = {
@@ -117,9 +107,7 @@ describe('./src/dynamic-forms/validator/required-file-upload-validator.js', () =
 		it('should pass if existing files matching question doc type and only some being removed', async () => {
 			const questionObj = {
 				fieldName: 'test-fieldname',
-				documentType: {
-					name: 'test-doc-type'
-				}
+				documentType: 'test-doc-type'
 			};
 			const journeyResponse = {
 				answers: {

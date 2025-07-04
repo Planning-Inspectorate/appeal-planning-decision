@@ -1,4 +1,4 @@
-const Question = require('../../question');
+const Question = require('../../questions/question');
 const Address = require('../../lib/address');
 const { getAddressesForQuestion } = require('../utils/question-utils');
 const escape = require('escape-html');
@@ -8,23 +8,14 @@ const { nl2br } = require('../../lib/string-functions');
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../section').Section} Section
- * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
+ * @typedef {import('../../questions/question').QuestionViewModel} QuestionViewModel
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress TODO just write this type in here
  */
 
 class SiteAddressQuestion extends Question {
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName
-	 * @param {string} params.viewFolder
-	 * @param {string} [params.url]
-	 * @param {string} [params.hint]
-	 * @param {string} [params.html]
-	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
-	 *
-	 * @param {Record<string, Function>} [methodOverrides]
+	 * @param {import('#question-types').QuestionParameters} params
+	 * @param {import('#question-types').MethodOverrides} [methodOverrides]
 	 */
 	constructor(
 		{ title, question, fieldName, viewFolder, validators, url, hint, html },

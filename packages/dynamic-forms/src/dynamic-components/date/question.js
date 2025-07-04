@@ -1,8 +1,8 @@
-const Question = require('../../question');
+const Question = require('../../questions/question');
 const { parseDateInput, formatDateForDisplay } = require('../../lib/format-date');
 
 /**
- * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
+ * @typedef {import('../../questions/question').QuestionViewModel} QuestionViewModel
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../section').Section} Section
@@ -13,13 +13,7 @@ const { parseDateInput, formatDateForDisplay } = require('../../lib/format-date'
  */
 class DateQuestion extends Question {
 	/**
-	 * @param {Object} params
-	 * @param {string} params.title
-	 * @param {string} params.question
-	 * @param {string} params.fieldName
-	 * @param {string} [params.hint]
-	 * @param {string} [params.url]
-	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
+	 * @param {import('#question-types').QuestionParameters} params
 	 */
 	constructor({ title, question, fieldName, validators, hint, url }) {
 		super({

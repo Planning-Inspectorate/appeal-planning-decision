@@ -2,7 +2,7 @@ const { body } = require('express-validator');
 const BaseValidator = require('./base-validator.js');
 
 /**
- * @typedef {import('../question.js')} Question
+ * @typedef {import('../questions/question.js')} Question
  */
 
 /**
@@ -16,7 +16,7 @@ class UnitOptionEntryValidator extends BaseValidator {
 	 * @param {string} [params.unit]
 	 * @param {number} [params.min]
 	 * @param {number} [params.max]
-	 * @param {Regex} [params.regex]
+	 * @param {RegExp} [params.regex]
 	 * @param {string} [params.regexMessage]
 	 */
 
