@@ -14,6 +14,7 @@ variables:
 
 # PR trigger disabled, until process has been agreed by team
 pr: none
+trigger: none
 
 # pr:
 #   branches:
@@ -23,7 +24,13 @@ pr: none
 #     include:
 #       - test-packages/platform-feature-tests
 
-trigger: none
+# schedules:
+#     - cron: "0 2 * * 1-5"
+#       displayName: Weekday test run
+#       branches:
+#           include:
+#               - main
+#       always: true
 
 jobs:
   - job: Run_Cypress_Tests_For_Appeals
@@ -35,12 +42,6 @@ jobs:
           versionSpec: "22.x"
         displayName: "Install Node.js"
 
-      - task: ShellScript@2
-        inputs:
-          scriptPath: 'test-packages/platform-feature-tests/install-chromium.sh'
-        displayName: 'Install Chromium'
-        condition: eq(variables['agent.os'], 'Linux')
-
       - task: Npm@1
         inputs:
           command: "install"
@@ -49,14 +50,24 @@ jobs:
 
       - task: ShellScript@2
         inputs:
+          scriptPath: 'test-packages/platform-feature-tests/install-chromium.sh'
+        displayName: 'Install Chromium'
+        condition: eq(variables['agent.os'], 'Linux')
+
+      - task: ShellScript@2
+        inputs:
           scriptPath: 'test-packages/platform-feature-tests/run-tests.sh'
         env:
           CYPRESS_APPEALS_BETA_BASE_URL: $(APPEALS_BASE_URL)
+          CYPRESS_BACK_OFFICE_BASE_URL: $(CYPRESS_BACK_OFFICE_BASE_URL)
+          AUTH_EMAIL: $(username)
+          USER_PASSWORD: $(password)
+          CASE_ADMIN_EMAIL: $(CASE_ADMIN_EMAIL)
         displayName: "Run Cypress Tests"
 
       - task: PublishBuildArtifacts@1
         inputs:
-          pathToPublish: 'appeals/e2e/cypress/screenshots'
+          pathToPublish: 'test-packages/platform-feature-tests/screenshots'
           artifactName: 'FailedTests'
         displayName: "Publish Failed Tests Artifacts"
         condition: failed()
