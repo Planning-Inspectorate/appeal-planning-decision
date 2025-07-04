@@ -1,4 +1,4 @@
-const SiteAddressQuestion = require('../../dynamic-forms/dynamic-components/site-address/question');
+const SiteAddressQuestion = require('@pins/dynamic-forms/src/dynamic-components/site-address/question');
 const { saveAction } = require('./site-address');
 
 describe('site-address-overrides', () => {
@@ -15,8 +15,7 @@ describe('site-address-overrides', () => {
 	);
 
 	const mockApi = {
-		postSubmissionAddress: jest.fn().mockResolvedValue({}),
-		updateAppellantSubmission: jest.fn().mockResolvedValue(null)
+		postSubmissionAddress: jest.fn().mockResolvedValue({})
 	};
 
 	const journeyResponse = {
@@ -38,11 +37,13 @@ describe('site-address-overrides', () => {
 	};
 
 	describe('saveAction', () => {
+		const mockSaveAction = jest.fn();
+
 		it('should successfully save the address and call the next question', async () => {
 			question.checkForValidationErrors = jest.fn().mockReturnValue(null);
 			question.handleNextQuestion = jest.fn();
 
-			await question.saveAction(req, {}, {}, {}, journeyResponse);
+			await question.saveAction(req, {}, mockSaveAction, {}, {}, journeyResponse);
 
 			expect(mockApi.postSubmissionAddress).toHaveBeenCalledWith(
 				journeyResponse.journeyId,
@@ -56,7 +57,8 @@ describe('site-address-overrides', () => {
 					fieldName: FIELDNAME
 				}
 			);
-			expect(mockApi.updateAppellantSubmission).toHaveBeenCalled();
+			expect(mockApi.postSubmissionAddress).toHaveBeenCalled();
+			expect(mockSaveAction).toHaveBeenCalled();
 			expect(question.handleNextQuestion).toHaveBeenCalled();
 		});
 	});

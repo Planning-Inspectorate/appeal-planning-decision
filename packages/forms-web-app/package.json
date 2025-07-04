@@ -30,6 +30,7 @@
 		"@ministryofjustice/frontend": "*",
 		"@pins/business-rules": "^0.0.0",
 		"@pins/common": "^0.0.0",
+		"@pins/dynamic-forms": "^0.0.0",
 		"accessible-autocomplete": "*",
 		"applicationinsights": "*",
 		"compression": "*",

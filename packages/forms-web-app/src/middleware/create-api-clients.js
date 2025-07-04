@@ -4,7 +4,7 @@ const {
 	getAuthClientConfig,
 	createClientCredentialsGrant
 } = require('@pins/common/src/client/auth-client');
-
+const logger = require('#lib/logger');
 const { getUserFromSession } = require('../services/user.service');
 const config = require('../config');
 
@@ -54,6 +54,7 @@ const createApiClients = async (req, res, next) => {
 
 	req.appealsApiClient = new AppealsApiClient(config.appeals.url, auth, config.appeals.timeout);
 	req.docsApiClient = new DocumentsApiClient(config.documents.url, auth, config.documents.timeout);
+	req.logger = req.logger || logger;
 
 	next();
 };

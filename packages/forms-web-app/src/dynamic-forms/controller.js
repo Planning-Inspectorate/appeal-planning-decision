@@ -1,19 +1,19 @@
 // common controllers for dynamic forms
 const fs = require('fs');
 const path = require('path');
-const { SECTION_STATUS } = require('./section');
+const { SECTION_STATUS } = require('@pins/dynamic-forms/src/section');
 const logger = require('../lib/logger');
-const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
-const questionUtils = require('./dynamic-components/utils/question-utils');
+const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
+const questionUtils = require('@pins/dynamic-forms/src/dynamic-components/utils/question-utils');
 const {
 	formatBeforeYouStartSection,
 	formatQuestionnaireAppealInformationSection
-} = require('./dynamic-components/utils/submission-information-utils');
+} = require('./submission-information-utils');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 const { getJourneyTypeById } = require('@pins/common/src/dynamic-forms/journey-types');
-
+const { getSaveFunction } = require('../journeys/get-journey-save');
 const { getDepartmentFromId } = require('../services/department.service');
 const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
@@ -29,10 +29,10 @@ const {
 
 /**
  * @typedef {import('@pins/common/src/dynamic-forms/journey-types').JourneyType} JourneyType
- * @typedef {import('./journey').Journey} Journey
- * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
- * @typedef {import('./question')} Question
- * @typedef {import('./section').Section} Section
+ * @typedef {import('@pins/dynamic-forms/src/journey').Journey} Journey
+ * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('@pins/dynamic-forms/src/questions/question')} Question
+ * @typedef {import('@pins/dynamic-forms/src/section').Section} Section
  */
 
 /**
@@ -263,8 +263,19 @@ exports.save = async (req, res) => {
 		return res.redirect(journey.taskListUrl);
 	}
 
+	const journeyType = getJourneyTypeById(journeyResponse.journeyId);
+	if (!journeyType) throw new Error(`Journey type: ${journeyResponse.journeyId} not found`);
+
 	try {
-		return await questionObj.saveAction(req, res, journey, sectionObj, journeyResponse);
+		const saveFunction = getSaveFunction(journeyType, req.appealsApiClient);
+		return await questionObj.saveAction(
+			req,
+			res,
+			saveFunction,
+			journey,
+			sectionObj,
+			journeyResponse
+		);
 	} catch (err) {
 		logger.error(err);
 
