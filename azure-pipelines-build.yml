@@ -103,6 +103,8 @@ extends:
                   path: packages/common
                 - name: database
                   path: packages/database
+                - name: dynamic_forms
+                  path: packages/dynamic-forms
                 - name: documents-api
                   path: packages/document-service-api
                 - name: integration-functions
@@ -129,7 +131,8 @@ extends:
                 eq(dependencies.run_linting_and_tests.outputs['check_files.appeals-api'], 'true'),
                 eq(dependencies.run_linting_and_tests.outputs['check_files.business-rules'], 'true'),
                 eq(dependencies.run_linting_and_tests.outputs['check_files.common'], 'true'),
-                eq(dependencies.run_linting_and_tests.outputs['check_files.database'], 'true')
+                eq(dependencies.run_linting_and_tests.outputs['check_files.database'], 'true'),
+                eq(dependencies.run_linting_and_tests.outputs['check_files.dynamic_forms'], 'true')
               )
             )
           )
@@ -297,6 +300,7 @@ extends:
                   eq(variables['Build.SourceBranchName'], 'main'),
                   eq(dependencies.run_linting_and_tests.outputs['check_files.business-rules'], 'true'),
                   eq(dependencies.run_linting_and_tests.outputs['check_files.common'], 'true'),
+                  eq(dependencies.run_linting_and_tests.outputs['check_files.dynamic_forms'], 'true'),
                   eq(dependencies.run_linting_and_tests.outputs['check_files.web'], 'true')
                 )
               )
