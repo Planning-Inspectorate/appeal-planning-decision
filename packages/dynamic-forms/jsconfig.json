@@ -1,0 +1,10 @@
+{
+	"extends": "../../jsconfig.json",
+	"include": ["**/*.js"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"#question-types": ["./src/questions/question-types.d.ts"]
+		}
+	}
+}
