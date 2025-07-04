@@ -1,6 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { BasePage } from "../../page-objects/base-page";
+// import { users } from '../../fixtures/users.js';
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 describe('Comment on a planning appeal validations', () => {
     const basePage = new BasePage();
@@ -8,6 +9,7 @@ describe('Comment on a planning appeal validations', () => {
     let prepareAppealData;
     let appealId;
     beforeEach(() => {
+        // cy.login(users.appeals.authUser);
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         });
