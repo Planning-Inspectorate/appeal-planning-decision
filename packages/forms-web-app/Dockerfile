@@ -13,6 +13,7 @@ COPY package.json /opt/
 COPY package-lock.json /opt/
 COPY packages/common /opt/packages/common
 COPY packages/business-rules /opt/packages/business-rules
+COPY packages/dynamic-forms /opt/packages/dynamic-forms
 
 # install from root
 WORKDIR /opt
