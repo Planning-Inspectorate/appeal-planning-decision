@@ -2,6 +2,8 @@
 /// <reference types="cypress"/>
 import { r6FullAppealsProofsOfEvidenceTestCases } from "../../helpers/rule6Appeals/r6FullAppealsProofsOfEvidenceData";
 import { BasePage } from "../../page-objects/base-page";
+import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
+import { users } from '../../fixtures/users.js';
 //import { StringUtils } from "../../utils/StringUtils";
 const { r6FullAppealsProofsOfEvidence } = require('../../support/flows/sections/rule6Appeals/r6FullAppealsProofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
@@ -12,6 +14,7 @@ describe('Rule 6 Proof of Evidence Validations', () => {
     let lpaManageAppealsData;
     let appealId;
     beforeEach(() => {
+        cy.login(users.appeals.authUser);
         cy.fixture('lpaManageAppealsData').then(data => {
             lpaManageAppealsData = data;
         })
@@ -77,13 +80,7 @@ describe('Rule 6 Proof of Evidence Validations', () => {
 
     it(`Validate multiple uploading documents`, () => {
         const expectedFileNames = [r6FullAppealsProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, r6FullAppealsProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
-        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
-            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                if ($buttons.length) {
-                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                }
-            })
-        }
+        deleteUploadedDocuments();
         cy.advanceToNextPage();
         cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your proof of evidence and summary');
         expectedFileNames.forEach((fileName) => {
@@ -104,7 +101,7 @@ describe('Rule 6 Proof of Evidence Validations', () => {
             const checked = $input.filter(':checked')
             if (checked.length > 0) {
                 cy.log("Radio Button already selected");
-                cy.getByData(basePage?._selectors?.answerYes).click();
+                cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
             }
             else {
                 cy.advanceToNextPage();
@@ -142,13 +139,7 @@ describe('Rule 6 Proof of Evidence Validations', () => {
         const expectedFileNames = [r6FullAppealsProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, r6FullAppealsProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         cy.advanceToNextPage();
         cy.advanceToNextPage();
-        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
-            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                if ($buttons.length) {
-                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                }
-            })
-        }
+        deleteUploadedDocuments();
         cy.advanceToNextPage();
         cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your witnesses and their evidence');
         expectedFileNames.forEach((fileName) => {
