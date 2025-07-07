@@ -197,7 +197,7 @@
 		"supertest": "^7.1.0",
 		"swagger-cli": "^4.0.4",
 		"testcontainers": "^11.0.3",
-		"webpack": "^5.99.7",
+		"webpack": "^5.99.9",
 		"webpack-cli": "^6.0.1",
 		"webpack-merge": "^6.0.1"
 	}
