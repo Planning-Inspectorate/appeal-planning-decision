@@ -1,4 +1,4 @@
-const { Journey } = require('../journey');
+const { Journey } = require('@pins/dynamic-forms/src/journey');
 const { baseRule6ProofEvidenceUrl, ...params } = require('./journey');
 
 const mockResponse = {
