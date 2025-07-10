@@ -30,40 +30,76 @@ describe('appeal-documents-rows', () => {
 		);
 	});
 
-	describe('Plans, drawings and supporting documents', () => {
-		const plansRow = 1;
-		it('should display field if S78', () => {
-			const rows = documentsRows({ appealTypeCode: CASE_TYPES.S78.processCode });
-			expect(rows[plansRow].keyText).toEqual('Plans, drawings and supporting documents');
-			expect(rows[plansRow].valueText).toEqual('No');
-			expect(rows[plansRow].condition()).toEqual(true);
-			expect(rows[plansRow].isEscaped).toEqual(true);
-		});
-		it('should not display field if not S78', () => {
-			const rows = documentsRows({ appealTypeCode: CASE_TYPES.HAS.processCode });
-			expect(rows[plansRow].keyText).toEqual('Plans, drawings and supporting documents');
-			expect(rows[plansRow].valueText).toEqual('No');
-			expect(rows[plansRow].condition()).toEqual(false);
-			expect(rows[plansRow].isEscaped).toEqual(true);
+	// displayed for all appeal types
+	describe.each([
+		['Application form', 0],
+		['Decision letter', 4],
+		['Appeal statement', 5]
+	])('%s', (rowName, rowNumber) => {
+		test.each([
+			['HAS', CASE_TYPES.HAS.processCode],
+			['S78', CASE_TYPES.S78.processCode],
+			['S20', CASE_TYPES.S20.processCode]
+		])('should display field for %s', (_, processCode) => {
+			const rows = documentsRows({ appealTypeCode: processCode });
+			expect(rows[rowNumber].keyText).toEqual(rowName);
+			expect(rows[rowNumber].valueText).toEqual('No');
+			expect(rows[rowNumber].condition()).toEqual(true);
+			expect(rows[rowNumber].isEscaped).toEqual(true);
 		});
 	});
 
+	// depends on the appeal type
+	describe.each([
+		['Plans, drawings and supporting documents', 1],
+		['Separate ownership certificate in application', 2],
+		['Design and access statement in application', 3],
+		['New plans or drawings', 6],
+		['Planning obligation', 8],
+		['New supporting documents', 9]
+	])('%s', (rowName, rowNumber) => {
+		it('should not display field if HAS', () => {
+			const rows = documentsRows({ appealTypeCode: CASE_TYPES.HAS.processCode });
+			expect(rows[rowNumber].keyText).toEqual(rowName);
+			expect(rows[rowNumber].valueText).toEqual('No');
+			expect(rows[rowNumber].condition()).toEqual(false);
+			expect(rows[rowNumber].isEscaped).toEqual(true);
+		});
+
+		test.each([
+			['S78', CASE_TYPES.S78.processCode],
+			['S20', CASE_TYPES.S20.processCode]
+		])('should display field if %s', (_, processCode) => {
+			const rows = documentsRows({ appealTypeCode: processCode });
+			expect(rows[rowNumber].keyText).toEqual(rowName);
+			expect(rows[rowNumber].valueText).toEqual('No');
+			expect(rows[rowNumber].condition()).toEqual(true);
+			expect(rows[rowNumber].isEscaped).toEqual(true);
+		});
+	});
+
+	// depends on the appeal type and whether it is written or not
 	describe('Draft statement of common ground', () => {
 		const draftRow = 10;
-		it('should display field if S78 and not written', () => {
-			const rows = documentsRows({ appealTypeCode: CASE_TYPES.S78.processCode });
+		test.each([
+			['S78', CASE_TYPES.S78.processCode],
+			['S20', CASE_TYPES.S20.processCode]
+		])('should display field if %s and not written', (_, processCode) => {
+			const rows = documentsRows({ appealTypeCode: processCode });
 			expect(rows[draftRow].keyText).toEqual('Draft statement of common ground');
 			expect(rows[draftRow].valueText).toEqual('No');
 			expect(rows[draftRow].condition()).toEqual(true);
 			expect(rows[draftRow].isEscaped).toEqual(true);
 		});
-		it('should not display field if not S78', () => {
+
+		it('should not display field if HAS', () => {
 			const rows = documentsRows({ appealTypeCode: CASE_TYPES.HAS.processCode });
 			expect(rows[draftRow].keyText).toEqual('Draft statement of common ground');
 			expect(rows[draftRow].valueText).toEqual('No');
 			expect(rows[draftRow].condition()).toEqual(false);
 			expect(rows[draftRow].isEscaped).toEqual(true);
 		});
+
 		it('should not display field if Written', () => {
 			const rows = documentsRows({
 				appealTypeCode: CASE_TYPES.S78.processCode,
