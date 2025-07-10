@@ -267,7 +267,7 @@ describe('controllers/common/enter-code', () => {
 			const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: true });
 			await returnedFunction(req, res);
 
-			const errorMessage = 'Enter the correct code';
+			const errorMessage = 'Enter the code we sent to your email address';
 
 			expect(res.render).toHaveBeenCalledWith(`${ENTER_CODE}`, {
 				token: req.body['email-code'],

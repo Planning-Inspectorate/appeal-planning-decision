@@ -182,7 +182,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		const tokenValid = await isTokenValid(token, sessionEmail, action);
 		if (tokenValid.tooManyAttempts) return res.redirect(`/${views.NEED_NEW_CODE}`);
 		if (tokenValid.expired) return res.redirect(`/${views.CODE_EXPIRED}`);
-		if (!tokenValid.valid) return renderError('Enter the correct code');
+		if (!tokenValid.valid) return renderError('Enter the code we sent to your email address');
 
 		// is valid so set user in session
 		createAppealUserSession(
@@ -303,7 +303,7 @@ const lpaTokenVerification = (res, token, views, id) => {
 		res.redirect(`/${views.CODE_EXPIRED}/${id}`);
 		return false;
 	} else if (!token.valid) {
-		const errorMessage = 'Enter the code';
+		const errorMessage = 'Enter the code we sent to your email address';
 
 		renderErrorPageLPA(res, views.ENTER_CODE, {
 			lpaUserId: id,

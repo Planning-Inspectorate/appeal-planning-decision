@@ -1,4 +1,5 @@
 const { logoutUser } = require('../../services/user.service');
+const crypto = require('node:crypto');
 
 const getYourEmailAddress = (views) => {
 	return (req, res) => {
@@ -9,7 +10,7 @@ const getYourEmailAddress = (views) => {
 	};
 };
 
-const postYourEmailAddress = (views) => {
+const postYourEmailAddress = (views, emailUUIDcache) => {
 	return async (req, res) => {
 		const { body } = req;
 		const { errors = {}, errorSummary = [], 'email-address': email } = body;
@@ -42,24 +43,16 @@ const postYourEmailAddress = (views) => {
 		try {
 			const user = await req.appealsApiClient.getUserByEmailV2(email);
 			if (!user) {
-				throw new Error('user not found');
+				throw new Error('User does not exist');
 			}
-			const id = user.id;
-
+			res.redirect(`/${views.ENTER_CODE}/${user.id}`);
+		} catch (error) {
+			let id = emailUUIDcache.get(email);
+			if (!id) {
+				id = crypto.randomUUID();
+				emailUUIDcache.set(email, id);
+			}
 			res.redirect(`/${views.ENTER_CODE}/${id}`);
-		} catch (e) {
-			res.render(views.YOUR_EMAIL_ADDRESS, {
-				email,
-				errors: {
-					'email-address': {
-						// TODO concoct an error message that communicates that the
-						// email provided doesn't belong to an admin
-						msg: 'Enter an email address in the correct format, like name@example.com'
-					}
-				},
-				errorSummary: emailErrorSummary
-			});
-			return;
 		}
 	};
 };
