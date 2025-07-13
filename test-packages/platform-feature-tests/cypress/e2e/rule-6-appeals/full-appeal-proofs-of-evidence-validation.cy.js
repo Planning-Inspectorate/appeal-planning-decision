@@ -2,6 +2,7 @@
 /// <reference types="cypress"/>
 import { proofsOfEvidenceTestCases } from "../../helpers/rule6Appeals/proofsOfEvidenceData";
 import { BasePage } from "../../page-objects/base-page";
+import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
 //import { StringUtils } from "../../utils/StringUtils";
 const { proofsOfEvidence } = require('../../support/flows/sections/rule6Appeals/proofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
@@ -77,13 +78,7 @@ describe('Rule 6 Proof of Evidence Validations', () => {
 
     it(`Validate multiple uploading documents`, () => {
         const expectedFileNames = [proofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, proofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
-        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
-            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                if ($buttons.length) {
-                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                }
-            })
-        }
+        deleteUploadedDocuments();
         cy.advanceToNextPage();
         cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your proof of evidence and summary');
         expectedFileNames.forEach((fileName) => {
@@ -142,13 +137,7 @@ describe('Rule 6 Proof of Evidence Validations', () => {
         const expectedFileNames = [proofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, proofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         cy.advanceToNextPage();
         cy.advanceToNextPage();
-        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
-            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                if ($buttons.length) {
-                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                }
-            })
-        }
+        deleteUploadedDocuments();
         cy.advanceToNextPage();
         cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your witnesses and their evidence');
         expectedFileNames.forEach((fileName) => {

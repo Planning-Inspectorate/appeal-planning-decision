@@ -4,6 +4,7 @@
 /// <reference types="cypress"/>
 import { statementTestCases } from "../../helpers/appellantAAPD/statementData";
 import { BasePage } from "../../page-objects/base-page";
+import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
 import { StringUtils } from "../../utils/StringUtils";
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
@@ -92,13 +93,7 @@ describe('Full Planning Statement Test Cases', () => {
         cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
         cy.advanceToNextPage();
         basePage?.basePageElements?.pageHeading().contains('Upload your new supporting documents');
-        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
-            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                if ($buttons.length) {
-                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                }
-            })
-        }
+        deleteUploadedDocuments();
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
     });

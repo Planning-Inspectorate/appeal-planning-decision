@@ -5,7 +5,7 @@
 import { BasePage } from "../../../../page-objects/base-page";
 import { ProofsOfEvidence } from "../../pages/lpa-manage-appeals/lpa-proofs-of-evidence/proofsOfEvidence";
 
-export const lpaProofsOfEvidence = (context, lpaManageAppealsData, appealType) => {
+export const proofsOfEvidence = (context, lpaManageAppealsData, appealType) => {
 	const basePage = new BasePage();
 	const proofsOfEvidence = new ProofsOfEvidence();
 	let appealId;
