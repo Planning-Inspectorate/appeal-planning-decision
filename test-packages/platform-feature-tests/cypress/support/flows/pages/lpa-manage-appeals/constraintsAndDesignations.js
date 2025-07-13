@@ -67,6 +67,30 @@ export class ConstraintsAndDesignations {
             cy.advanceToNextPage();
         }
     };
+    selectPreserverGrantLoan(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isSection3aGrant) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    };
+
+    selectConsultHistoricEngland(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isConsultHistoricEngland) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadConsultationHistoricEngland);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    };
+
     selectAffectScheduledMonument(context) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.isScheduleMonument) {

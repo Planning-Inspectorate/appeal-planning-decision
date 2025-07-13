@@ -1,7 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { fullAppealFinalCommentTestCases } from "../../helpers/lpaManageAppeals/fullAppealFinalCommentData";
-const { fullAppealFinalComment } = require('../../support/flows/sections/lpaManageAppeals/fullAppealFinalComment');
+import { finalCommentTestCases } from "../../helpers/lpaManageAppeals/finalCommentData";
+const { finalComment } = require('../../support/flows/sections/lpaManageAppeals/finalComment');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('Full Planning Final comment Test Cases', () => {
@@ -22,11 +22,11 @@ describe('Full Planning Final comment Test Cases', () => {
                         }
                 });
         });
-        fullAppealFinalCommentTestCases.forEach((context) => {
+        finalCommentTestCases.forEach((context) => {
                 it(`
             Should validate Full appeal LPA Final comment Submission, Appeal Type: Full Planning       
              `, () => {
-                        fullAppealFinalComment(context, lpaManageAppealsData);
+                       finalComment(context, lpaManageAppealsData,lpaManageAppealsData?.s78AppealType);
                 });
         });
 });

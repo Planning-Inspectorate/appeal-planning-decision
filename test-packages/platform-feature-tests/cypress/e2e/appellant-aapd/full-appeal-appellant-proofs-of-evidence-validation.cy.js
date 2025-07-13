@@ -1,6 +1,6 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { appellantFullAppealProofsOfEvidenceTestCases } from "../../helpers/appellantAAPD/appellantFullAppealProofsOfEvidenceData";
+import { proofsOfEvidenceTestCases } from "../../helpers/appellantAAPD/proofsOfEvidenceData";
 import { BasePage } from "../../page-objects/base-page";
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
@@ -64,17 +64,17 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
     });
 
     it(`Validate user should not be allowed to upload wrong format file`, () => {
-        cy.uploadFileFromFixtureDirectory(appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
+        cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadAppellantProofOfEvidenceDocuments"]', `${appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadAppellantProofOfEvidenceDocuments"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
     });
     it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {
-        cy.uploadFileFromFixtureDirectory(appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb);
+        cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadAppellantProofOfEvidenceDocuments"]', `${appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadAppellantProofOfEvidenceDocuments"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
     });
     it(`Validate multiple uploading documents`, () => {
-        const expectedFileNames = [appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
+        const expectedFileNames = [proofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, proofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
 
         if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
             cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
@@ -129,20 +129,20 @@ describe('Appellant Full Planning Proof Of Evidence Validations', () => {
     it(`Validate user should not be allowed to upload wrong format file`, () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage();
-        cy.uploadFileFromFixtureDirectory(appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
+        cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadAppellantWitnessesEvidence"]', `${appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadAppellantWitnessesEvidence"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
     });
 
     // it(`Validate user should not be able to uploading document(s) greater than 25 MB for Upload your witnesses and their evidence`, () => {
     //     cy.advanceToNextPage();
     //     cy.advanceToNextPage();
-    //     cy.uploadFileFromFixtureDirectory(appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb);
+    //     cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb);
     //     cy.advanceToNextPage();
-    //     cy.shouldHaveErrorMessage('a[href*="#uploadAppellantWitnessesEvidence"]', `${appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
+    //     cy.shouldHaveErrorMessage('a[href*="#uploadAppellantWitnessesEvidence"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
     // });
     it(`Validate multiple uploading documents for Upload your witnesses and their evidence`, () => {
-        const expectedFileNames = [appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, appellantFullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
+        const expectedFileNames = [proofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, proofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         cy.advanceToNextPage();
         cy.advanceToNextPage();
         if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {

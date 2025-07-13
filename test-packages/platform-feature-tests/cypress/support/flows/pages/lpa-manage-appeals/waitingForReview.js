@@ -8,7 +8,7 @@ export const waitingForReview = (appealId) => {
     cy.get('#tab_waiting-for-review').click();
     cy.get('a.govuk-link').contains(appealId).click();
     cy.get(`a[href*="/manage-appeals/${appealId}/appeal-details"]`).click();
-    cy.exec('del /q cypress\\downloads\\*');
+    cy.exec('del /q cypress\\downloads\\*', { failOnNonZeroExit: false });
     cy.window().then(win => {
         cy.stub(win, 'open').as('download')
     });
@@ -16,7 +16,7 @@ export const waitingForReview = (appealId) => {
     cy.verifyDownload(`Appeal ${appealId}.pdf`, { contains: true });
     basePage.backBtn();
     cy.get(`a[href*="/manage-appeals/${appealId}/questionnaire"]`).click();
-    cy.exec('del /q cypress\\downloads\\*');
+    cy.exec('del /q cypress\\downloads\\*', { failOnNonZeroExit: false });
     cy.window().then(win => {
         cy.stub(win, 'open').as('download')
     });

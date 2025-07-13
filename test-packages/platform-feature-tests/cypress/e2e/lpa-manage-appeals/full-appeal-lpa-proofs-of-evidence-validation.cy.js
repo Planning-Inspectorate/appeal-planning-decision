@@ -1,8 +1,8 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { fullAppealProofsOfEvidenceTestCases } from "../../helpers/lpaManageAppeals/fullAppealProofsOfEvidenceData";
+import { proofsOfEvidenceTestCases } from "../../helpers/lpaManageAppeals/proofsOfEvidenceData";
 import { BasePage } from "../../page-objects/base-page";
-const { fullAppealProofsOfEvidence } = require('../../support/flows/sections/lpaManageAppeals/fullAppealProofsOfEvidence');
+const { fullAppealProofsOfEvidence } = require('../../support/flows/sections/lpaManageAppeals/proofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('LPA Proof of Evidence Validations', () => {
@@ -30,7 +30,7 @@ describe('LPA Proof of Evidence Validations', () => {
             if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.lpaTodoProofsOfEvidence)) {
                 if (counter === 1) {
                     cy.wrap($row).within(() => {
-                        cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
+                        cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType || lpaManageAppealsData?.s20AppealType).should('be.visible');
                         cy.get('a').each(($link) => {
                             if ($link.attr('href')?.includes(lpaManageAppealsData?.proofsOfEvidenceLink)) {
                                 const parts = $link.attr('href')?.split('/');
@@ -64,9 +64,9 @@ describe('LPA Proof of Evidence Validations', () => {
     });
 
     it(`Validate user should not be allowed to upload wrong format file`, () => {
-        cy.uploadFileFromFixtureDirectory(fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
+        cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadLpaProofOfEvidenceDocuments"]', `${fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadLpaProofOfEvidenceDocuments"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
     });
 
     // it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {
@@ -76,7 +76,7 @@ describe('LPA Proof of Evidence Validations', () => {
     // });
 
     it(`Validate multiple uploading documents`, () => {
-        const expectedFileNames = [fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
+        const expectedFileNames = [proofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, proofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         
         if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
             cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
@@ -131,19 +131,19 @@ describe('LPA Proof of Evidence Validations', () => {
     it(`Validate user should not be allowed to upload wrong format file for Upload your witnesses and their evidence`, () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage();
-        cy.uploadFileFromFixtureDirectory(fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
+        cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadLpaWitnessesEvidence"]', `${fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadLpaWitnessesEvidence"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
     });
     // it(`Validate user should not be able to uploading document(s) greater than 25 MB for Upload your witnesses and their evidence`, () => {
     //     cy.advanceToNextPage();
     //     cy.advanceToNextPage();
-    //     cy.uploadFileFromFixtureDirectory(fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb);
+    //     cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb);
     //     cy.advanceToNextPage();
-    //     cy.shouldHaveErrorMessage('a[href*="#uploadLpaWitnessesEvidence"]', `${fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
+    //     cy.shouldHaveErrorMessage('a[href*="#uploadLpaWitnessesEvidence"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
     // }); 
     it(`Validate multiple uploading documents Upload your witnesses and their evidence`, () => {
-        const expectedFileNames = [fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, fullAppealProofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
+        const expectedFileNames = [proofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, proofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         cy.advanceToNextPage();
         cy.advanceToNextPage();
         if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
