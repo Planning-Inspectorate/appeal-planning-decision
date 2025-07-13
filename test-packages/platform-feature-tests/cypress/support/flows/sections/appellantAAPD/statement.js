@@ -3,7 +3,7 @@
 /// <reference types="cypress"/>
 
 import { BasePage } from "../../../../page-objects/base-page";
-import { Statement } from "../../pages/representations/statement";
+import { Statement } from "../../pages/appellant-aapd/statement";
 
 export const statement = (context, prepareAppealData, appealType) => {
 	const basePage = new BasePage();

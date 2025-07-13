@@ -6,6 +6,7 @@ import { statementTestCases } from "../../helpers/rule6Appeals/statementData";
 import { BasePage } from "../../page-objects/base-page";
 import { upload25MBFileValidation } from "../../utils/uploadService";
 import { StringUtils } from "../../utils/StringUtils";
+import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
 const { statement } = require('../../support/flows/sections/lpaManageAppeals/statement');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
@@ -94,13 +95,7 @@ describe('Full Planning Statement Test Cases', () => {
         cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
         cy.advanceToNextPage();
         basePage?.basePageElements?.pageHeading().contains('Upload your new supporting documents');
-        if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
-            cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                if ($buttons.length) {
-                        cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                }
-            })
-        }
+        deleteUploadedDocuments();        
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
     });
@@ -114,6 +109,10 @@ describe('Full Planning Statement Test Cases', () => {
     it(`Validate multiple uploading documents`, () => {
         const expectedFileNames = [statementTestCases[0]?.documents?.uploadEmergingPlan, statementTestCases[0]?.documents?.uploadOtherPolicies];
 
+        cy.advanceToNextPage();
+        cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
+        cy.advanceToNextPage();
+        deleteUploadedDocuments();
         expectedFileNames.forEach((fileName) => {
             cy.uploadFileFromFixtureDirectory(fileName);
         })

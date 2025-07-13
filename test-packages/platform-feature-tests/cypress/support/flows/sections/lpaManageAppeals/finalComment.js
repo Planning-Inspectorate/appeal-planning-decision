@@ -13,7 +13,7 @@ export const finalComment = (context, lpaManageAppealsData, appealType) => {
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
 		if (rowtext.includes(appealType) && rowtext.includes(lpaManageAppealsData?.todoFinalcomment)) {
-			if (counter === 8) {
+			if (counter === 0) {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(appealType).should('be.visible');
 					cy.get('a').each(($link) => {

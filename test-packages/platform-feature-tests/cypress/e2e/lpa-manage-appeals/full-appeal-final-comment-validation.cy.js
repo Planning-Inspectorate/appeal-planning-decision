@@ -4,6 +4,7 @@
 /// <reference types="cypress"/>
 import { finalCommentTestCases } from "../../helpers/lpaManageAppeals/finalCommentData";
 import { BasePage } from "../../page-objects/base-page";
+import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('LPA Full Planning Final comment Test Cases', () => {
@@ -30,7 +31,7 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
                         const rowtext = $row.text();
                         if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoFinalcomment)) {
-                                if (counter === 8) {
+                                if (counter === 0) {
                                         cy.wrap($row).within(() => {
                                                 cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
                                                 cy.get('a').each(($link) => {
@@ -107,6 +108,8 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you have additional documents to support your final comments?');
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
+                //remove files if any exists before
+                deleteUploadedDocuments();
                 // Added below to test remove exisiting uploaded file to test error message
                 const expectedFileNames = [finalCommentTestCases[0]?.documents?.uploadSupportDocsFinalComments, finalCommentTestCases[0]?.documents?.uploadAdditionalDocsSupportFinalComments];
                 expectedFileNames.forEach((fileName) => {
@@ -119,13 +122,7 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                                 .should('contain.text', fileName);
                 });
 
-                if (cy.get(basePage?._selectors.govukHeadingM).contains('Files added')) {
-                        cy.get('button.moj-multi-file-upload__delete').each(($buttons) => {
-                            if ($buttons.length) {
-                                    cy.get('button.moj-multi-file-upload__delete').eq(0).click();
-                            }
-                        })
-                }
+                deleteUploadedDocuments();
 
                 cy.advanceToNextPage();
                 cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
