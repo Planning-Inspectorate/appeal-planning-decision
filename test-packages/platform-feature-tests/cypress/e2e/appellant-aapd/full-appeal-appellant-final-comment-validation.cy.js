@@ -2,7 +2,7 @@
 /* eslint-disable cypress/unsafe-to-chain-command */
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { finalCommentTestCases } from "../../helpers/representations/finalCommentData";
+import { finalCommentTestCases } from "../../helpers/appellantAAPD/finalCommentData";
 import { BasePage } from "../../page-objects/base-page";
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 

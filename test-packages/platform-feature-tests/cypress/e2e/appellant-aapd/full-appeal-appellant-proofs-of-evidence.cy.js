@@ -1,7 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { appellantFullAppealProofsOfEvidenceTestCases } from "../../helpers/appellantAAPD/appellantFullAppealProofsOfEvidenceData";
-const { appellantFullAppealProofsOfEvidence } = require('../../support/flows/sections/appellantAAPD/appellantFullAppealProofsOfEvidence');
+import { proofsOfEvidenceTestCases } from "../../helpers/appellantAAPD/proofsOfEvidenceData";
+const { proofsOfEvidence } = require('../../support/flows/sections/appellantAAPD/proofsOfEvidence');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
 describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
@@ -22,13 +22,13 @@ describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
                         }
                 });
         });
-        appellantFullAppealProofsOfEvidenceTestCases.forEach((context) => {
+        proofsOfEvidenceTestCases.forEach((context) => {
 
                 it(`
                 Should validate Appelant Full appeal Proof of evidence, Appeal Type: Full Planning
                 - User selects add witnesses ${context.proofsOfEvidence?.isAddWitness}
                 `, () => {
-                        appellantFullAppealProofsOfEvidence(context, prepareAppealData);
+                        proofsOfEvidence(context, prepareAppealData, prepareAppealData?.FullAppealType);
                 });
         });
 });

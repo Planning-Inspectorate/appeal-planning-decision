@@ -1,12 +1,12 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { fullAppealProofsOfEvidenceTestCases } from "../../helpers/lpaManageAppeals/fullAppealProofsOfEvidenceData";
-const { fullAppealProofsOfEvidence } = require('../../support/flows/sections/lpaManageAppeals/fullAppealProofsOfEvidence');
+import { proofsOfEvidenceTestCases } from "../../helpers/lpaManageAppeals/proofsOfEvidenceData";
+const { proofsOfEvidence } = require('../../support/flows/sections/lpaManageAppeals/proofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('Full Planning Questionnaire Test Cases', () => {
         const yourAppealsSelector = new YourAppealsSelector();
-        let lpaManageAppealsData;
+        let lpaManageAppealsData;      
         beforeEach(() => {
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
@@ -22,13 +22,13 @@ describe('Full Planning Questionnaire Test Cases', () => {
                         }
                 });
         });
-        fullAppealProofsOfEvidenceTestCases.forEach((context) => {
+        proofsOfEvidenceTestCases.forEach((context) => {
 
                 it(`
             Should validate Full appeal LPA Proof of evidence, Appeal Type: Full Planning
             - User selects add witnesses ${context.proofsOfEvidence?.isAddWitness}
              `, () => {
-                        fullAppealProofsOfEvidence(context, lpaManageAppealsData);
+                        proofsOfEvidence(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
                 });
         });
 });

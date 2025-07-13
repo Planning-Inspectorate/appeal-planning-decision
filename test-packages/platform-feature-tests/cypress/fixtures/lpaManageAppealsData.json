@@ -4,6 +4,7 @@
     "emailCode": "12345",
     "hasAppealType": "HAS",
     "s78AppealType": "S78",
+    "s20AppealType": "S20",
     "todoInvalid": "Invalid",
     "decisionAllowed": "Allowed",
     "decisionAllowedInPart": "Allowed in part",
@@ -23,6 +24,7 @@
     "appealType": "Appeal type",
     "appealTypeHouseholder": "Householder",
     "appealTypeFullPlanning": "Full Planning",
+    "appealTypeListedBuilding": "Listed building",
     "questionnaireChange": "Change",
     "questionnaireAnswer": "Answer",
     "submitQuestionnaire": "submit-questionnaire",
@@ -35,6 +37,7 @@
     "constraintsAndDesignations": {
         "correctTypeOfAppealFullPlanning": "Is a full planning appeal the correct type of appeal?",
         "correctTypeOfAppealHouseHolder": "Is a householder appeal the correct type of appeal?",
+        "correctTypeOfAppealListedBuilding": "Is a listed building consent appeal the correct type of appeal?",
         "addChangedListedBuilding": "Add another building or site?",
         "changedListedBuildingNumber": "1118437",
         "chagesListedBuilding": "Does the proposed development change a listed building?",

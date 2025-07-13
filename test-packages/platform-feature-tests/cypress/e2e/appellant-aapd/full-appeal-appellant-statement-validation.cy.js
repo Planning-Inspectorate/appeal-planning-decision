@@ -2,7 +2,7 @@
 /* eslint-disable cypress/unsafe-to-chain-command */
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { statementTestCases } from "../../helpers/representations/statementData";
+import { statementTestCases } from "../../helpers/appellantAAPD/statementData";
 import { BasePage } from "../../page-objects/base-page";
 import { StringUtils } from "../../utils/StringUtils";
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");

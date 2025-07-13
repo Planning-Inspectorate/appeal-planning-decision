@@ -2,7 +2,7 @@
 /* eslint-disable cypress/unsafe-to-chain-command */
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { fullAppealFinalCommentTestCases } from "../../helpers/lpaManageAppeals/fullAppealFinalCommentData";
+import { finalCommentTestCases } from "../../helpers/lpaManageAppeals/finalCommentData";
 import { BasePage } from "../../page-objects/base-page";
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
@@ -30,7 +30,7 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
                         const rowtext = $row.text();
                         if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoFinalcomment)) {
-                                if (counter === 4) {
+                                if (counter === 8) {
                                         cy.wrap($row).within(() => {
                                                 cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
                                                 cy.get('a').each(($link) => {
@@ -108,7 +108,7 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
                 // Added below to test remove exisiting uploaded file to test error message
-                const expectedFileNames = [fullAppealFinalCommentTestCases[0]?.documents?.uploadSupportDocsFinalComments, fullAppealFinalCommentTestCases[0]?.documents?.uploadAdditionalDocsSupportFinalComments];
+                const expectedFileNames = [finalCommentTestCases[0]?.documents?.uploadSupportDocsFinalComments, finalCommentTestCases[0]?.documents?.uploadAdditionalDocsSupportFinalComments];
                 expectedFileNames.forEach((fileName) => {
                         cy.uploadFileFromFixtureDirectory(fileName);
                 });
@@ -140,9 +140,9 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.advanceToNextPage();               
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
-                cy.uploadFileFromFixtureDirectory(fullAppealFinalCommentTestCases[0]?.documents?.uploadWrongFormatFile);
+                cy.uploadFileFromFixtureDirectory(finalCommentTestCases[0]?.documents?.uploadWrongFormatFile);
                 cy.advanceToNextPage();
-                cy.shouldHaveErrorMessage('a[href*="#uploadLPAFinalCommentDocuments"]', `${fullAppealFinalCommentTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
+                cy.shouldHaveErrorMessage('a[href*="#uploadLPAFinalCommentDocuments"]', `${finalCommentTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
         });
 
         it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {
@@ -154,9 +154,9 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.advanceToNextPage();               
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
-                cy.uploadFileFromFixtureDirectory(fullAppealFinalCommentTestCases[0]?.documents?.uploadFileGreaterThan25mb);
+                cy.uploadFileFromFixtureDirectory(finalCommentTestCases[0]?.documents?.uploadFileGreaterThan25mb);
                 cy.advanceToNextPage();
-                cy.shouldHaveErrorMessage('a[href*="#uploadLPAFinalCommentDocuments"]', `${fullAppealFinalCommentTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
+                cy.shouldHaveErrorMessage('a[href*="#uploadLPAFinalCommentDocuments"]', `${finalCommentTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
         });
 
         it(`Validate final comments summary before submit final comments`, () => {
@@ -168,7 +168,7 @@ describe('LPA Full Planning Final comment Test Cases', () => {
                 cy.advanceToNextPage();               
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
                 cy.advanceToNextPage();
-                const expectedFileNames = [fullAppealFinalCommentTestCases[0]?.documents?.uploadSupportDocsFinalComments, fullAppealFinalCommentTestCases[0]?.documents?.uploadAdditionalDocsSupportFinalComments];
+                const expectedFileNames = [finalCommentTestCases[0]?.documents?.uploadSupportDocsFinalComments, finalCommentTestCases[0]?.documents?.uploadAdditionalDocsSupportFinalComments];
                 expectedFileNames.forEach((fileName) => {
                         cy.uploadFileFromFixtureDirectory(fileName);
                 });

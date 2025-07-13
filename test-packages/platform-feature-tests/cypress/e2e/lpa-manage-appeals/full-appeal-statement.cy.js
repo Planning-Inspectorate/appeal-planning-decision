@@ -1,12 +1,12 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { fullAppealStatementTestCases } from "../../helpers/lpaManageAppeals/fullAppealStatementData";
-const { fullAppealStatement } = require('../../support/flows/sections/lpaManageAppeals/fullAppealStatement');
+import { statementTestCases } from "../../helpers/lpaManageAppeals/statementData";
+const { statement } = require('../../support/flows/sections/lpaManageAppeals/statement');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('Full Planning Statement Test Cases', () => {
         const yourAppealsSelector = new YourAppealsSelector();
-        let lpaManageAppealsData;
+        let lpaManageAppealsData;        
         beforeEach(() => {
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
@@ -22,12 +22,12 @@ describe('Full Planning Statement Test Cases', () => {
                         }
                 });
         });
-        fullAppealStatementTestCases.forEach((context) => {
+        statementTestCases.forEach((context) => {
 
                 it(`
             Should validate Full appeal LPA final comments submission ${context.proofsOfEvidence?.isAddWitness}
              `, () => {
-                        fullAppealStatement(context, lpaManageAppealsData);
+                        statement(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
                 });
         });
 });

@@ -1,7 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { statementTestCases } from "../../helpers/representations/statementData";
-const { statement } = require('../../support/flows/sections/representations/statement');
+import { statementTestCases } from "../../helpers/appellantAAPD/statementData";
+const { statement } = require('../../support/flows/sections/appellantAAPD/statement');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
 describe('Full Planning Statement Test Cases', () => {
@@ -25,9 +25,9 @@ describe('Full Planning Statement Test Cases', () => {
         statementTestCases.forEach((context) => {
 
                 it(`
-            Should validate Full appeal Statemnet ${context.proofsOfEvidence?.isAddWitness}
+            Should validate Full appeal Statement ${context.proofsOfEvidence?.isAddWitness}
              `, () => {
-                        statement(context, prepareAppealData);
+                        statement(context, prepareAppealData, prepareAppealData?.FullAppealType);
                 });
         });
 });

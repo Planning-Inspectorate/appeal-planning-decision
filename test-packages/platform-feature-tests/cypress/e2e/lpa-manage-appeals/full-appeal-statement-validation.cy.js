@@ -2,11 +2,11 @@
 /* eslint-disable cypress/unsafe-to-chain-command */
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { fullAppealStatementTestCases } from "../../helpers/lpaManageAppeals/fullAppealStatementData";
+import { statementTestCases } from "../../helpers/lpaManageAppeals/statementData";
 import { BasePage } from "../../page-objects/base-page";
 import { upload25MBFileValidation } from "../../utils/uploadService";
 import { StringUtils } from "../../utils/StringUtils";
-const { fullAppealStatement } = require('../../support/flows/sections/lpaManageAppeals/fullAppealStatement');
+const { statement } = require('../../support/flows/sections/lpaManageAppeals/statement');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('Full Planning Statement Test Cases', () => {
@@ -109,16 +109,16 @@ describe('Full Planning Statement Test Cases', () => {
     it(`Validate user should not be allowed to upload wrong format file`, () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage();
-        cy.uploadFileFromFixtureDirectory(fullAppealStatementTestCases[0]?.documents?.uploadWrongFormatFile);
+        cy.uploadFileFromFixtureDirectory(statementTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${fullAppealStatementTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${statementTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
     });
 
 
     it(`Validate multiple uploading documents`, () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage();
-        const expectedFileNames = [fullAppealStatementTestCases[0]?.documents?.uploadEmergingPlan, fullAppealStatementTestCases[0]?.documents?.uploadOtherPolicies];
+        const expectedFileNames = [statementTestCases[0]?.documents?.uploadEmergingPlan, statementTestCases[0]?.documents?.uploadOtherPolicies];
 
         expectedFileNames.forEach((fileName) => {
             cy.uploadFileFromFixtureDirectory(fileName);
@@ -137,7 +137,7 @@ describe('Full Planning Statement Test Cases', () => {
                 key: 'Add supporting documents', value: 'Yes'
             },
             {
-                key: 'Supporting documents', value: fullAppealStatementTestCases[0]?.documents?.uploadEmergingPlan
+                key: 'Supporting documents', value: statementTestCases[0]?.documents?.uploadEmergingPlan
             }
         ]
         cy.get(basePage?._selectors?.govukSummaryListRow).each(($row, index) => {
