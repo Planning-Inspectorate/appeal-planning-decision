@@ -159,12 +159,12 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 		applyAppealCostsPage.addApplyAppealCostsData(context);
 
 		//submit
-		// cy.get(`a[href*="/appeals/householder/submit/declaration?id=${dynamicId}"]`).click();
+		cy.get(`a[href*="/appeals/householder/submit/declaration?id=${dynamicId}"]`).click();
 
-		// cy.containsMessage(basePage?._selectors.govukButton,prepareAppealData?.acceptAndSubmitButton).click();
+		cy.containsMessage(basePage?._selectors.govukButton,prepareAppealData?.acceptAndSubmitButton).click();
 
-		// cy.get(basePage?._selectors.govukPanelTitle).invoke('text').should((text) => {		
-		// 	expect(text.trim()).to.equal(prepareAppealData?.appealSubmitted);
-		// });
+		cy.get(basePage?._selectors.govukPanelTitle).invoke('text').should((text) => {		
+			expect(text.trim()).to.equal(prepareAppealData?.appealSubmitted);
+		});
 	});
 };
