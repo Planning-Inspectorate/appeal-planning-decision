@@ -20,6 +20,7 @@ exports.constraintsRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
 	const isHASAppeal = caseData.appealTypeCode === CASE_TYPES.HAS.processCode;
+	const isS20Appeal = caseData.appealTypeCode === CASE_TYPES.S20.processCode;
 
 	const affectedListedBuildings = caseData.ListedBuildings?.filter(
 		(x) => x.type === LISTED_RELATION_TYPES.affected
@@ -62,6 +63,30 @@ exports.constraintsRows = (caseData) => {
 			keyText: 'Listed building details',
 			valueText: affectedListedBuildings?.map((x) => x.listedBuildingReference).join('\n') || '',
 			condition: () => showAffectedListed
+		},
+		{
+			keyText: 'Grant or loan made to preserve the listed building at the appeal site',
+			valueText: formatYesOrNo(caseData, 'section3aGrant'),
+			condition: () => isS20Appeal && isNotUndefinedOrNull(caseData.section3aGrant)
+		},
+		{
+			keyText: 'Consulted Historic England',
+			valueText: boolToYesNo(
+				documentExists(documents, APPEAL_DOCUMENT_TYPE.HISTORIC_ENGLAND_CONSULTATION)
+			),
+			condition: () =>
+				isS20Appeal && documentExists(documents, APPEAL_DOCUMENT_TYPE.HISTORIC_ENGLAND_CONSULTATION)
+		},
+		{
+			keyText: 'Uploaded Historic England consultation',
+			valueText: formatDocumentDetails(
+				documents,
+				APPEAL_DOCUMENT_TYPE.HISTORIC_ENGLAND_CONSULTATION
+			),
+			condition: () =>
+				isS20Appeal &&
+				documentExists(documents, APPEAL_DOCUMENT_TYPE.HISTORIC_ENGLAND_CONSULTATION),
+			isEscaped: true
 		},
 		{
 			keyText: 'Affects a scheduled monument',
