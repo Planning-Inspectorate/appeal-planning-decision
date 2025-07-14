@@ -173,7 +173,7 @@
 		"docopt": "^0.6.2",
 		"eslint": "^8.50.0",
 		"eslint-config-prettier": "^10.1.5",
-		"eslint-plugin-cypress": "^2.12.1",
+		"eslint-plugin-cypress": "^5.1.0",
 		"eslint-plugin-enforce-catch-block-error-type-guards": "file:dev/eslint-custom-catch-blocks",
 		"eslint-plugin-jest": "^28.14.0",
 		"glob": "^11.0.1",
