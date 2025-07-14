@@ -2,6 +2,7 @@
 /// <reference types="cypress"/>
 import { BasePage } from "../../page-objects/base-page";
 import { ipCommentsTestCases } from "../../helpers/ipComments/ipCommentsData";
+import { users } from '../../fixtures/users.js';
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 describe('Comment on a planning appeal', () => {
   const basePage = new BasePage();
@@ -9,6 +10,7 @@ describe('Comment on a planning appeal', () => {
   let prepareAppealData;
   let appealId;
   beforeEach(() => {
+    cy.login(users.appeals.authUser);
     cy.fixture('prepareAppealData').then(data => {
       prepareAppealData = data;
     })
@@ -82,6 +84,6 @@ describe('Comment on a planning appeal', () => {
     cy.get('#comments').type('Interested Party comments with reference number');
     cy.get('#comments-confirmation').check();
     cy.advanceToNextPage();
-    cy.get(basePage?._selectors?.govukButton).should('include.text', 'Submit comments').click();
+    cy.get(basePage?._selectors?.govukButton).should('include.text', 'Submit comments').first().click();
   });
 });

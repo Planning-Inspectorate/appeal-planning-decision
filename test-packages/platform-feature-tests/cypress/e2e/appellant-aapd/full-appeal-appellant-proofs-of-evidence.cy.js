@@ -1,6 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { appellantFullAppealProofsOfEvidenceTestCases } from "../../helpers/appellantAAPD/appellantFullAppealProofsOfEvidenceData";
+import { users } from '../../fixtures/users.js';
 const { appellantFullAppealProofsOfEvidence } = require('../../support/flows/sections/appellantAAPD/appellantFullAppealProofsOfEvidence');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
@@ -8,6 +9,7 @@ describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
         beforeEach(() => {
+                cy.login(users.appeals.authUser);
                 cy.fixture('prepareAppealData').then(data => {
                         prepareAppealData = data;
                 })
