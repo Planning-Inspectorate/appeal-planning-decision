@@ -13,11 +13,11 @@ export class ApplicationNamePage {
         const basePage = new BasePage();
 
         if (isAppellant) {
-            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.getByData(basePage?._selectors.answerYes).click({ force: true });
             cy.advanceToNextPage();
         }
         else {
-            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.getByData(basePage?._selectors.answerNo).click({ force: true });
             cy.advanceToNextPage();
             basePage.addTextField(this._selectors.appellantFirstName, prepareAppealData?.applicationName?.firstName);
             basePage.addTextField(this._selectors.appellantLastName, prepareAppealData?.applicationName?.lastName);
