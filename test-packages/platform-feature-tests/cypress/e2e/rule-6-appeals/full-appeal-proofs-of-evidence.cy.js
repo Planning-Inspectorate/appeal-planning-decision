@@ -28,7 +28,7 @@ describe('Rule 6 Proof of Evidence Test Cases', () => {
             Should validate Full appeal LPA Proof of evidence, Appeal Type: Rule 6 Appeals
             - User selects add witnesses ${context.proofsOfEvidence?.isAddWitness}
              `, () => {
-                        proofsOfEvidence(context, lpaManageAppealsData, lpaManageAppealsData?.rule6AppealType);
+                        proofsOfEvidence(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
                 });
         });
 });
