@@ -27,7 +27,7 @@ describe('Rule 6 Full Appeal Statement Test Cases', () => {
             Should validate Full appeal R6 Statement, Appeal Type: Rule 6 Appeals
             - User selects add witnesses ${context.proofsOfEvidence?.isAddWitness}
              `, () => {
-                        statement(context, lpaManageAppealsData, lpaManageAppealsData?.rule6AppealType);
+                        statement(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
                 });
         });
 });
