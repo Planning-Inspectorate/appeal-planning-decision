@@ -23,7 +23,7 @@
     "statementLink": "appeal-statement",
     "appealType": "Appeal type",
     "appealTypeHouseholder": "Householder",
-    "appealTypeFullPlanning": "Full Planning",
+    "appealTypeFullPlanning": "Full planning",
     "appealTypeListedBuilding": "Listed building",
     "questionnaireChange": "Change",
     "questionnaireAnswer": "Answer",
@@ -35,7 +35,7 @@
     "inquiry": "inquiry",
     "hearing": "hearing",
     "constraintsAndDesignations": {
-        "correctTypeOfAppealFullPlanning": "Is a full planning appeal the correct type of appeal?",
+        "correctTypeOfAppealFullPlanning": "Is a planning appeal the correct type of appeal?",
         "correctTypeOfAppealHouseHolder": "Is a householder appeal the correct type of appeal?",
         "correctTypeOfAppealListedBuilding": "Is a listed building consent appeal the correct type of appeal?",
         "addChangedListedBuilding": "Add another building or site?",
