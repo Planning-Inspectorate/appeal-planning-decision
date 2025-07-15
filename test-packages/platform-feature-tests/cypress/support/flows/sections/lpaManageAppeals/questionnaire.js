@@ -10,7 +10,7 @@ import { ConsultResponseAndRepresent } from "../../pages/lpa-manage-appeals/cons
 import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
-import { waitingForReview} from "../../pages/lpa-manage-appeals/waitingForReview";
+import { waitingForReview } from "../../pages/lpa-manage-appeals/waitingForReview";
 
 export const questionnaire = (context, lpaManageAppealsData, lpaAppealType) => {
 	const basePage = new BasePage();
@@ -26,7 +26,7 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType) => {
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
 		if (rowtext.includes(lpaAppealType) && rowtext.includes(lpaManageAppealsData?.todoQuestionnaire)) {
-			if (counter === 1) {
+			if (counter === 0) {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaAppealType);
 					cy.get('a').each(($link) => {
@@ -47,22 +47,34 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType) => {
 			cy.get(basePage?._selectors.govukSummaryListRow).each(($row) => {
 				const $key = $row.find(basePage?._selectors.govukSummaryListKey);
 				if ($key.text().trim() === lpaManageAppealsData?.appealType) {
-					cy.wrap($row).find(basePage?._selectors.govukSummaryListValue).should('contain.text', lpaManageAppealsData?.appealTypeFullPlanning);
+					const expectedType = lpaManageAppealsData?.appealTypeFullPlanning;
+					// Use the correct expected value for listed building appeals
+					const expectedText = lpaAppealType === lpaManageAppealsData?.s20AppealType
+						? lpaManageAppealsData?.appealTypeListedBuilding
+						: expectedType;
+					cy.wrap($row).find(basePage?._selectors.govukSummaryListValue).should('contain.text', expectedText);
 					return false;
 				}
 			});
 		});
-		cy.contains(lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealFullPlanning).closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then($link => {
-			if ($link.text().includes(lpaManageAppealsData?.questionnaireAnswer)) {
-				cy.wrap($link).contains(lpaManageAppealsData?.questionnaireAnswer).click();
-			} else {
-				cy.wrap($link).contains(lpaManageAppealsData?.questionnaireChange).click();
-			}
-		});
+		const correctTypeText = lpaAppealType === lpaManageAppealsData?.s20AppealType
+			? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealListedBuilding
+			: lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealFullPlanning;
+
+		cy.contains(correctTypeText)
+			.closest(basePage?._selectors.govukSummaryListRow)
+			.find(basePage?._selectors.agovukLink)
+			.then($link => {
+				if ($link.text().includes(lpaManageAppealsData?.questionnaireAnswer)) {
+					cy.wrap($link).contains(lpaManageAppealsData?.questionnaireAnswer).click();
+				} else {
+					cy.wrap($link).contains(lpaManageAppealsData?.questionnaireChange).click();
+				}
+			});
 		constraintsAndDesignations.selectCorrectTypeOfAppeal(context);
 		constraintsAndDesignations.selectChangesListedBuilding(context, lpaManageAppealsData);
 		constraintsAndDesignations.selectAffectListedBuildings(context, lpaManageAppealsData);
-		if(lpaAppealType === lpaManageAppealsData?.s20AppealType) {
+		if (lpaAppealType === lpaManageAppealsData?.s20AppealType) {
 			constraintsAndDesignations.selectPreserverGrantLoan(context);
 			constraintsAndDesignations.selectConsultHistoricEngland(context);
 		}
@@ -96,8 +108,8 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType) => {
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
 		// commented for test during coding
 		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
-		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();		
-		waitingForReview(appealId);	
+		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
+		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();
+		waitingForReview(appealId);
 	});
 };

@@ -125,7 +125,7 @@ describe('Full appleal questionnaire validation', () => {
 
   //  1. Constraints, designations and other issues section validations
   it(`Validate Full appeal questionnaire appeal type error validation`, () => {
-    cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a  planning appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
+    cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a planning appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
       const linkText = $link.text().split('Is a full planning appeal the correct type of appeal?')[0].trim();
 
       if (linkText === 'Answer') {
