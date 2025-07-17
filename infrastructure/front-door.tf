@@ -422,6 +422,20 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
         enabled = true
         rule_id = "932150"
       }
+
+      rule {
+        # Remote Command Execution: Windows Command Injection
+        action  = "Log"
+        enabled = true
+        rule_id = "932110"
+      }
+
+      rule {
+        # Remote Command Execution: Windows Command Injection
+        action  = "Log"
+        enabled = true
+        rule_id = "932115"
+      }
     }
 
     override {
