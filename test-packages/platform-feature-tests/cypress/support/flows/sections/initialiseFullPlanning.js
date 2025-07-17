@@ -5,6 +5,7 @@ import { DateService } from "../../../support/flows/sections/dateService";
 import { assignCaseOfficer } from "../pages/back-office-appeals/assign-case-officer";
 import { happyPathHelper } from "../pages/back-office-appeals/happyPathHelper";
 import { appealIdWaitingForReview } from "./appealIdWaitingForReview";
+import { ipCommentsForAppealRef } from "./ipComments/ipComments";
 import { fullAppealQuestionnaire } from "./lpaManageAppeals/fullAppealQuestionnaire";
 import { fullAppealStatement, fullAppealStatementForCaseRef } from "./lpaManageAppeals/fullAppealStatement";
 import { viewValidatedAppealDetailsLPA } from "./lpaManageAppeals/viewValidatedAppealDetailsLPA";
@@ -226,17 +227,60 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 				// Submit the LPA questionnaire 
 				viewValidatedAppealDetailsLPA(caseRef);
 				fullAppealQuestionnaire(fullAppealQuestionnaireTestCases[0], lpaManageAppealsData, caseRef);
+				//Review LPAQ
 				cy.visit(`${Cypress.config('back_office_base_url')}/appeals-service/all-cases`);
 				happyPathHelper.reviewS78Lpaq(caseRef);
-
+				// Submit LPA Statement 
 				viewValidatedAppealDetailsLPA(caseRef);
 				fullAppealStatementForCaseRef(fullAppealStatementTestCases[0], caseRef);
+				//LPA Statement Review
 				cy.visit(`${Cypress.config('back_office_base_url')}/appeals-service/all-cases`);
 
 				happyPathHelper.addLpaStatement(caseRef, true);
 
-			});
+				// Provide IP Comments
+				ipCommentsForAppealRef(caseRef);
 
+				// Review IP Comments in Back Office
+				cy.visit(`${Cypress.config('back_office_base_url')}/appeals-service/all-cases`);
+				happyPathHelper.addThirdPartyComment(caseRef, true);
+
+				// Elapse duedate through api call
+
+				// Share satatements and IP comments in Back Office
+
+				// Submit LPA final comments
+
+				// Subnmit appellant final comments in AAPD
+
+				// Review LPA final comments in Back Office
+
+				// Review appellant final comments in Back Office
+
+				// Elaspse site visit date through api call
+
+				// Share fineal comments in Back Office
+
+				// Setup site visit in back office
+
+				// Validate site visit text in LPA dash board
+
+				// validate site visit text in appellant dash board
+
+				// Elapse site visit date through api call
+
+				// Issue decision in back office
+
+				// validate issued decision in back office
+
+				// Valiidate issued dicision in LPA dash board
+
+				// Validate issued decision in appellant dash board
+
+				// Validate issued decision in IP  dash board
+
+				// Valiodate notification email.
+			});
 		};
 	});
 };

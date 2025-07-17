@@ -16,7 +16,7 @@ const timeout = async (ms) => await new Promise((resolve) => setTimeout(resolve,
 
 const azureSignIn = async (config) => {
 	const browser = await puppeteer.launch({
-		headless: false, //'new',
+		headless: false, //false, //'new',
 		ignoreHTTPSErrors: true,
 		args: ['--no-sandbox', '--ignore-certificate-errors']
 	});

@@ -157,13 +157,14 @@ export const happyPathHelper = {
 	// 	caseDetailsPage.validateBannerMessage('Success', 'Document removed');
 	// },
 
-	// addThirdPartyComment(caseRef, state) {
-	// 	cy.addRepresentation(caseRef, 'interestedPartyComment', null).then((caseRef) => {
-	// 		cy.reload();
-	// 		caseDetailsPage.reviewIpComments(state);
-	// 		cy.reload();
-	// 	});
-	// },
+	addThirdPartyComment(caseRef, state) {
+		//cy.addRepresentation(caseRef, 'interestedPartyComment', null).then((caseRef) => {
+			cy.reload();
+			listCasesPage.clickAppealByRef(caseRef);
+			caseDetailsPage.reviewIpComments(state);
+			cy.reload();
+	//	});
+	},
 
 	// addLpaStatement(caseRef, isAllocationPageExist = true) {
 	// 	cy.addRepresentation(caseRef, 'lpaStatement', null).then((caseRef) => {

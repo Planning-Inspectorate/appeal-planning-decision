@@ -48,7 +48,7 @@ export class CaseDetailsPage extends Page {
 		changeAppellant: 'change-appellant',
 		changeAgent: 'change-agent',
 		setupSiteVisitBanner: 'set-up-site-visit-banner',
-		reviewIpComments: 'review-ip-comments',
+		reviewIpComments: 'banner-review-ip-comments',
 		reviewLpaStatement: 'banner-review-lpa-statement',
 		changeApplicationReference: 'change-application-reference',
 		viewCaseHistory: 'view-case-history',
