@@ -1,4 +1,4 @@
-# config and data blocks for the Appeals Back Office resources
+# environments and data blocks for the Appeals Back Office resources
 # defined and managed in https://github.com/Planning-Inspectorate/appeals-back-office
 
 locals {

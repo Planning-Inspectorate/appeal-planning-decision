@@ -21,7 +21,7 @@ describe('lib/session', () => {
 		expect(() => session()).toThrow('Session secret must be set');
 	});
 
-	it('should configure the MongoDBStore with the expected config', () => {
+	it('should configure the MongoDBStore with the expected environments', () => {
 		config.server.sessionSecret = 'a fake session secret';
 
 		const configuredSession = session();
@@ -39,7 +39,7 @@ describe('lib/session', () => {
 		expect(mockOn.mock.calls[0][0]).toEqual('error');
 	});
 
-	it('should configure the MongoDBStore with the expected config when useSecureSessionCookie', () => {
+	it('should configure the MongoDBStore with the expected environments when useSecureSessionCookie', () => {
 		config.server.sessionSecret = 'a fake session secret';
 		config.server.useSecureSessionCookie = true;
 

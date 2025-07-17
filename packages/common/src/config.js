@@ -2,7 +2,7 @@
  * Config
  *
  * This is the single-source-of-truth for the application. All
- * config should be driven by environment variables where different
+ * environments should be driven by environment variables where different
  * values are required
  */
 

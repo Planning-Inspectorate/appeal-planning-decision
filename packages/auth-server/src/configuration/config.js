@@ -26,12 +26,12 @@ const { value, error } = schema.validate({
 		level: process.env.LOGGER_LEVEL || 'info',
 		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true',
 		redact: [
-			'config.db',
-			'config.oidc.clients.formsWebApp.clientSecret',
-			'config.oidc.clients.functions.clientSecret',
-			'config.oidc.cookie_keys',
-			'config.oidc.jwks',
-			'config.services.notify.apiKey'
+			'environments.db',
+			'environments.oidc.clients.formsWebApp.clientSecret',
+			'environments.oidc.clients.functions.clientSecret',
+			'environments.oidc.cookie_keys',
+			'environments.oidc.jwks',
+			'environments.services.notify.apiKey'
 		]
 	},
 	oidc: {

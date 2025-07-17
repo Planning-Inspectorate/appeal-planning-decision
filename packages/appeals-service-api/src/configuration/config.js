@@ -2,7 +2,7 @@
  * Config
  *
  * This is the single-source-of-truth for the application. All
- * config should be driven by environment variables where different
+ * environments should be driven by environment variables where different
  * values are required.
  */
 
@@ -45,7 +45,7 @@ let config = {
 	},
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'error',
-		redact: ['config.db', 'config.services.notify.apiKey', 'config.storage.connectionString'],
+		redact: ['environments.db', 'environments.services.notify.apiKey', 'environments.storage.connectionString'],
 		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true'
 	},
 	migration: {

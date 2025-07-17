@@ -1,5 +1,5 @@
 module.exports = {
-	extends: ['@commitlint/config-conventional'],
+	extends: ['@commitlint/environments-conventional'],
 	ignores: [
 		(message) => message.startsWith('Auto-release'),
 		(message) => message.includes('[ci skip]')
