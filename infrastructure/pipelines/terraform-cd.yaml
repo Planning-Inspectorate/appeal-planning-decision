@@ -35,5 +35,5 @@ extends:
     storageAccountName: pinssttfstateuksappealfo
     resourceGroupName: pins-rg-shared-terraform-uks
     containerPrefix: terraform-state-appeals-front-office-
-    workingDirectory: $(Build.Repository.LocalPath)/infrastructure/stacks/uk-west/appeals-front-office
+    workingDirectory: $(Build.Repository.LocalPath)/infrastructure/stacks/uk-west/appeals-service
     environmentVarFilePath: $(Build.Repository.LocalPath)/infrastructure/config
