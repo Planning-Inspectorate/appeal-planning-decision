@@ -442,3 +442,33 @@ variable "service_bus_config" {
     fo_subscription_ttl          = string
   })
 }
+
+variable "feature_front_door_failover_enaled" {
+  description = "Feature toggle for front door failover"
+  type        = bool
+  default     = false
+}
+
+variable "enable_search_indexing_by_default" {
+  description = "Enable search indexing by default"
+  type        = bool
+  default     = false
+}
+
+variable "app_service_plan_sku" {
+  description = "SKU for the app service plan"
+  type        = string
+  default     = "P2v2"
+}
+
+variable "primary_vnet_address_space" {
+  description = "Primary VNet address space"
+  type        = list(string)
+  default     = ["10.1.0.0/16"]
+}
+
+variable "secondary_vnet_address_space" {
+  description = "Secondary VNet address space"
+  type        = list(string)
+  default     = ["10.11.0.0/16"]
+}
