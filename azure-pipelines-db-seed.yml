@@ -23,7 +23,7 @@ resources:
       ref: refs/tags/release/3.20.0
 
 variables:
-  - template: variables/environments/${{ lower(parameters.environment )}}.yml@templates
+  - template: variables/config/${{ lower(parameters.environment )}}.yml@templates
   - group: pipeline_secrets
 
 jobs:

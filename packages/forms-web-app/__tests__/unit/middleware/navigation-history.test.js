@@ -172,9 +172,9 @@ describe('middleware/navigation-history', () => {
 				expect(req.session.navigationHistory).toEqual(['/a/b/c']);
 			}
 		},
-		// custom environments
+		// custom config
 		{
-			description: 'custom environments :: override fallbackPath',
+			description: 'custom config :: override fallbackPath',
 			given: () => ({
 				config: {
 					fallbackPath: '/some/custom/path'
@@ -191,7 +191,7 @@ describe('middleware/navigation-history', () => {
 			}
 		},
 		{
-			description: 'custom environments :: override stackSize',
+			description: 'custom config :: override stackSize',
 			given: () => ({
 				config: {
 					stackSize: 3

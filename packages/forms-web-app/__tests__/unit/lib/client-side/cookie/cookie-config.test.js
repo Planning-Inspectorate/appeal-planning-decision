@@ -1,6 +1,6 @@
 const cookieConfig = require('../../../../../src/lib/client-side/cookie/cookie-config');
 
-describe('lib/client-side/cookie/cookie-environments', () => {
+describe('lib/client-side/cookie/cookie-config', () => {
 	test('COOKIE_POLICY_KEY', () => {
 		expect(cookieConfig.COOKIE_POLICY_KEY).toEqual('cookie_policy');
 	});

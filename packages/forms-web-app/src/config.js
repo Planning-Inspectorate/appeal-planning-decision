@@ -35,7 +35,7 @@ const getAppealTypeFeedbackUrl = (appealTypeCode) => {
 		case 'HAS':
 			return feedbackUrlHAS;
 		// todo - add feedback url for CAS and ADVERTS
-		// we could move these to static data but then we lose the ability to override the URLs in environments?
+		// we could move these to static data but then we lose the ability to override the URLs in config?
 		default:
 			return feedbackUrl;
 	}
@@ -140,10 +140,10 @@ module.exports = {
 		level: process.env.LOGGER_LEVEL || 'info',
 		redact: [
 			'opts.body',
-			'environments.db.session.uri',
-			'environments.server.sessionSecret',
-			'environments.featureFlagging.endpoint',
-			'environments.oauth'
+			'config.db.session.uri',
+			'config.server.sessionSecret',
+			'config.featureFlagging.endpoint',
+			'config.oauth'
 		],
 		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true'
 	},

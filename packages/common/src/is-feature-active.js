@@ -7,7 +7,7 @@ exports.isFeatureActive = (options) => async (featureFlagName, localPlanningAuth
 		return true;
 	}
 
-	//if no env variable pointing to the environments in azure, early return to avoid issues.
+	//if no env variable pointing to the config in azure, early return to avoid issues.
 	if (!options?.endpoint || typeof options.endpoint !== 'string' || options.endpoint.length <= 1) {
 		return false;
 	}

@@ -93,7 +93,7 @@ describe('Auth Client', () => {
 			});
 		});
 
-		it('returns cached environments if already initialized', async () => {
+		it('returns cached config if already initialized', async () => {
 			const baseUrl = 'https://example.com/';
 			const client_id = 'cid';
 			const client_secret = 'csecret';
@@ -119,7 +119,7 @@ describe('Auth Client', () => {
 			mockDiscovery.mockResolvedValue(authClientConfig);
 		});
 
-		it('throws if auth client environments is not initialized', async () => {
+		it('throws if auth client config is not initialized', async () => {
 			await expect(createOTPGrant('test@example.com', 'test-action')).rejects.toThrow(
 				'Auth client configuration is not initialized. Call getAuthClientConfig first.'
 			);
@@ -163,7 +163,7 @@ describe('Auth Client', () => {
 			mockDiscovery.mockResolvedValue(authClientConfig);
 		});
 
-		it('throws if auth client environments is not initialized', async () => {
+		it('throws if auth client config is not initialized', async () => {
 			await expect(createROPCGrant('', '')).rejects.toThrow(
 				'Auth client configuration is not initialized. Call getAuthClientConfig first.'
 			);
@@ -225,7 +225,7 @@ describe('Auth Client', () => {
 			mockDiscovery.mockResolvedValue(authClientConfig);
 		});
 
-		it('throws if auth client environments is not initialized', async () => {
+		it('throws if auth client config is not initialized', async () => {
 			await expect(createClientCredentialsGrant()).rejects.toThrow(
 				'Auth client configuration is not initialized. Call getAuthClientConfig first.'
 			);

@@ -2,7 +2,7 @@
  * Config
  *
  * This is the single-source-of-truth for the application. All
- * environments should be driven by environment variables where different
+ * config should be driven by environment variables where different
  * values are required
  */
 
@@ -39,7 +39,7 @@ module.exports = {
 	},
 	logger: {
 		level: process.env.LOGGER_LEVEL || /* istanbul ignore next */ 'error',
-		redact: ['environments.storage.connectionString', 'environments.db.sql.connectionString']
+		redact: ['config.storage.connectionString', 'config.db.sql.connectionString']
 	},
 	server: {
 		port: Number(process.env.SERVER_PORT || 3000),

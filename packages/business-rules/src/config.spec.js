@@ -15,7 +15,7 @@ describe('config', () => {
 	process.env.APP_APPEALS_BASE_URL = 'http://localhost';
 	fullAppeal.submissionDate = new Date();
 
-	it('should return the correct appellant email environments for a householder appeal', () => {
+	it('should return the correct appellant email config for a householder appeal', () => {
 		const result = config.appeal.type[APPEAL_ID.HOUSEHOLDER].email.appellant(
 			householderAppeal,
 			lpa
@@ -33,7 +33,7 @@ describe('config', () => {
 		});
 	});
 
-	it('should return the correct lpa email environments for a householder appeal', () => {
+	it('should return the correct lpa email config for a householder appeal', () => {
 		const result = config.appeal.type[APPEAL_ID.HOUSEHOLDER].email.lpa(householderAppeal, lpa);
 
 		expect(result).toEqual({
@@ -48,7 +48,7 @@ describe('config', () => {
 		});
 	});
 
-	it('should return the correct appellant email environments for a full appeal', () => {
+	it('should return the correct appellant email config for a full appeal', () => {
 		const result = config.appeal.type[APPEAL_ID.PLANNING_SECTION_78].email.appellant(
 			fullAppeal,
 			lpa
@@ -66,7 +66,7 @@ describe('config', () => {
 		});
 	});
 
-	it('should return the correct lpa email environments for a full appeal when application decision = `granted`', () => {
+	it('should return the correct lpa email config for a full appeal when application decision = `granted`', () => {
 		const result = config.appeal.type[APPEAL_ID.PLANNING_SECTION_78].email.lpa(fullAppeal, lpa);
 
 		expect(result).toEqual({
@@ -84,7 +84,7 @@ describe('config', () => {
 		});
 	});
 
-	it('should return the correct lpa email environments for a full appeal when application decision = `refused`', () => {
+	it('should return the correct lpa email config for a full appeal when application decision = `refused`', () => {
 		fullAppeal.eligibility.applicationDecision = APPLICATION_DECISION.REFUSED;
 
 		const result = config.appeal.type[APPEAL_ID.PLANNING_SECTION_78].email.lpa(fullAppeal, lpa);
@@ -104,7 +104,7 @@ describe('config', () => {
 		});
 	});
 
-	it('should return the correct lpa email environments for a full appeal when application decision = `nodecisionreceived`', () => {
+	it('should return the correct lpa email config for a full appeal when application decision = `nodecisionreceived`', () => {
 		fullAppeal.eligibility.applicationDecision = APPLICATION_DECISION.NODECISIONRECEIVED;
 
 		const result = config.appeal.type[APPEAL_ID.PLANNING_SECTION_78].email.lpa(fullAppeal, lpa);
@@ -124,7 +124,7 @@ describe('config', () => {
 		});
 	});
 
-	it('should return correct confirmEmail environments for full appeal', () => {
+	it('should return correct confirmEmail config for full appeal', () => {
 		const result = config.appeal.type[APPEAL_ID.PLANNING_SECTION_78].email.confirmEmail(
 			fullAppeal,
 			process.env.APP_APPEALS_BASE_URL
@@ -137,7 +137,7 @@ describe('config', () => {
 			}
 		});
 	});
-	it('should return correct confirmEmail environments for householder appeal', () => {
+	it('should return correct confirmEmail config for householder appeal', () => {
 		const result = config.appeal.type[APPEAL_ID.HOUSEHOLDER].email.confirmEmail(
 			householderAppeal,
 			process.env.APP_APPEALS_BASE_URL
