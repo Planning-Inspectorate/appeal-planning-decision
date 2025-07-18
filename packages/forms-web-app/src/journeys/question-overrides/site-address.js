@@ -12,12 +12,13 @@
  * @this {SiteAddressQuestion}
  * @param {import('express').Request} req
  * @param {import('express').Response} res
+ * @param {function(string, Object): Promise<any>} saveFunction
  * @param {Journey} journey
  * @param {Section} section
  * @param {JourneyResponse} journeyResponse
  * @returns {Promise<void>}
  */
-async function saveAction(req, res, journey, section, journeyResponse) {
+async function saveAction(req, res, saveFunction, journey, section, journeyResponse) {
 	// check for validation errors
 	const errorViewModel = this.checkForValidationErrors(req, section, journey);
 	if (errorViewModel) {
@@ -54,7 +55,7 @@ async function saveAction(req, res, journey, section, journeyResponse) {
 	);
 
 	if (siteAddressSet) {
-		await req.appealsApiClient.updateAppellantSubmission(journeyResponse.referenceId, {
+		await saveFunction(journeyResponse.referenceId, {
 			siteAddress: siteAddressSet
 		});
 		journeyResponse.answers.siteAddress = siteAddressSet;
