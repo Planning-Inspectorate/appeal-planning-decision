@@ -1,18 +1,9 @@
 const Question = require('./question');
-const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
-const { mockRes } = require('../../__tests__/unit/mocks');
-const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
-const res = mockRes();
-
-const apiClient = {
-	patchLPAQuestionnaire: jest.fn(),
-	updateAppellantSubmission: jest.fn()
+const APPEAL_TYPE = '<appeal type>';
+const res = {
+	render: jest.fn()
 };
-
-jest.mock('../middleware/session-helper', () => ({
-	getNavigationHistory: jest.fn()
-}));
 
 describe('./src/dynamic-forms/question.js', () => {
 	const TITLE = 'Question1';
@@ -24,8 +15,7 @@ describe('./src/dynamic-forms/question.js', () => {
 	const VALIDATORS = [1];
 	const HTML = 'resources/question12/content.html';
 	const HINT = 'This is how you submit the form';
-	const LPACode = 'Q9999';
-	const VARIABLES = [QUESTION_VARIABLES.APPEAL_TYPE];
+	const VARIABLES = [APPEAL_TYPE];
 
 	const getTestQuestion = ({
 		title = TITLE,
@@ -84,10 +74,10 @@ describe('./src/dynamic-forms/question.js', () => {
 		});
 
 		it('should replace pageTitle if variable is set', () => {
-			const title = `This is my ${QUESTION_VARIABLES.APPEAL_TYPE}`;
+			const title = `This is my ${APPEAL_TYPE}`;
 			const section = {
 				name: 'section-name',
-				sectionVariables: { [QUESTION_VARIABLES.APPEAL_TYPE]: 'Tester' }
+				sectionVariables: { [APPEAL_TYPE]: 'Tester' }
 			};
 			const question = getTestQuestion({ title });
 			const journey = {
@@ -95,9 +85,9 @@ describe('./src/dynamic-forms/question.js', () => {
 				taskListUrl: 'task',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
+				journeyId: 'appeal',
 				section,
-				variables: [[QUESTION_VARIABLES.APPEAL_TYPE]],
+				variables: [[APPEAL_TYPE]],
 				response: {
 					answers: {
 						[question.fieldName]: { a: 1 }
@@ -155,7 +145,7 @@ describe('./src/dynamic-forms/question.js', () => {
 				taskListUrl: 'task',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
+				journeyId: 'appeal',
 				response: {
 					answers: {
 						[question.fieldName]: { a: 1 }
@@ -204,7 +194,7 @@ describe('./src/dynamic-forms/question.js', () => {
 				taskListUrl: 'task',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
-				journeyId: JOURNEY_TYPES.LPA_PROOF_EVIDENCE.id,
+				journeyId: 'appeal-short',
 				sections: [section],
 				response: {
 					answers: {
@@ -264,6 +254,8 @@ describe('./src/dynamic-forms/question.js', () => {
 	});
 
 	describe('saveAction', () => {
+		const mockSave = jest.fn();
+
 		it('should handle validation errors', async () => {
 			const expectedErrors = {
 				errorViewModel: 'mocked-validation-error'
@@ -279,7 +271,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			const journey = {};
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, mockSave, journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.viewFolder}/index`,
@@ -288,13 +280,15 @@ describe('./src/dynamic-forms/question.js', () => {
 		});
 
 		it('should handle saving errors', async () => {
+			const dataToSave = {
+				answers: {}
+			};
 			const expectedErrors = {
 				errorViewModel: 'mocked-validation-error'
 			};
 			const question = getTestQuestion();
 			question.checkForValidationErrors = jest.fn();
-			question.getDataToSave = jest.fn();
-			question.saveResponseToDB = jest.fn();
+			question.getDataToSave = jest.fn(() => dataToSave);
 			question.checkForSavingErrors = jest.fn(() => expectedErrors);
 
 			const res = {
@@ -302,10 +296,12 @@ describe('./src/dynamic-forms/question.js', () => {
 			};
 
 			const req = {};
-			const journey = {};
+			const journey = {
+				response: {}
+			};
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, mockSave, journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.viewFolder}/index`,
@@ -315,11 +311,12 @@ describe('./src/dynamic-forms/question.js', () => {
 
 		it('should handle saving', async () => {
 			const expectedUrl = 'redirect-url';
-
+			const dataToSave = {
+				answers: {}
+			};
 			const question = getTestQuestion();
 			question.checkForValidationErrors = jest.fn();
-			question.getDataToSave = jest.fn();
-			question.saveResponseToDB = jest.fn();
+			question.getDataToSave = jest.fn(() => dataToSave);
 			question.checkForSavingErrors = jest.fn();
 			const res = {
 				redirect: jest.fn()
@@ -333,7 +330,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			}
 			const journey = new TestJourney();
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, mockSave, journey, section, journey.response);
 
 			expect(res.redirect).toHaveBeenCalledWith(expectedUrl);
 		});
@@ -421,38 +418,6 @@ describe('./src/dynamic-forms/question.js', () => {
 		});
 	});
 
-	describe('saveResponseToDB', () => {
-		it('should call patchQuestionResponse with encoded ref', async () => {
-			const journeyResponse = {
-				referenceId: '/-123',
-				journeyId: 'has-questionnaire',
-				LPACode: LPACode
-			};
-			const responseToSave = { answers: { a: 1 } };
-
-			const question = getTestQuestion();
-			await question.saveResponseToDB(apiClient, journeyResponse, responseToSave);
-
-			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith('/-123', responseToSave.answers);
-		});
-		it('should call updateAppellantSubmission with encoded ref', async () => {
-			const journeyResponse = {
-				referenceId: '/-123',
-				journeyId: 'has-appeal-form',
-				LPACode: LPACode
-			};
-			const responseToSave = { answers: { a: 1 } };
-
-			const question = getTestQuestion();
-			await question.saveResponseToDB(apiClient, journeyResponse, responseToSave);
-
-			expect(apiClient.updateAppellantSubmission).toHaveBeenCalledWith(
-				'/-123',
-				responseToSave.answers
-			);
-		});
-	});
-
 	describe('checkForSavingErrors', () => {
 		it('should do nothing', async () => {
 			const question = getTestQuestion();
@@ -527,80 +492,6 @@ describe('./src/dynamic-forms/question.js', () => {
 		});
 	});
 
-	describe('isShortJourney', () => {
-		it('should return true for a short journey', () => {
-			const question = getTestQuestion();
-
-			const journey = { journeyId: JOURNEY_TYPES.LPA_STATEMENT.id };
-			const journey2 = { journeyId: JOURNEY_TYPES.APPELLANT_FINAL_COMMENTS.id };
-			const journey3 = { journeyId: JOURNEY_TYPES.LPA_FINAL_COMMENTS.id };
-			const journey4 = { journeyId: JOURNEY_TYPES.APPELLANT_PROOF_EVIDENCE.id };
-			const journey5 = { journeyId: JOURNEY_TYPES.LPA_PROOF_EVIDENCE.id };
-			const journey6 = { journeyId: JOURNEY_TYPES.RULE_6_PROOF_EVIDENCE.id };
-			const journey7 = { journeyId: JOURNEY_TYPES.RULE_6_STATEMENT.id };
-
-			expect(question.isShortJourney(journey)).toBe(true);
-			expect(question.isShortJourney(journey2)).toBe(true);
-			expect(question.isShortJourney(journey3)).toBe(true);
-			expect(question.isShortJourney(journey4)).toBe(true);
-			expect(question.isShortJourney(journey5)).toBe(true);
-			expect(question.isShortJourney(journey6)).toBe(true);
-			expect(question.isShortJourney(journey7)).toBe(true);
-		});
-		it('should return false for a long journey', () => {
-			const question = getTestQuestion();
-
-			const journey = { journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id };
-			const journey2 = { journeyId: JOURNEY_TYPES.S78_QUESTIONNAIRE.id };
-			const journey3 = { journeyId: JOURNEY_TYPES.HAS_APPEAL_FORM.id };
-			const journey4 = { journeyId: JOURNEY_TYPES.S78_APPEAL_FORM.id };
-			const journey5 = { journeyId: JOURNEY_TYPES.S20_APPEAL_FORM.id };
-			const journey6 = { journeyId: JOURNEY_TYPES.ADVERTS_APPEAL_FORM.id };
-			const journey7 = { journeyId: JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE.id };
-			const journey8 = { journeyId: JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM.id };
-			const journey9 = { journeyId: JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE.id };
-
-			expect(question.isShortJourney(journey)).toBe(false);
-			expect(question.isShortJourney(journey2)).toBe(false);
-			expect(question.isShortJourney(journey3)).toBe(false);
-			expect(question.isShortJourney(journey4)).toBe(false);
-			expect(question.isShortJourney(journey5)).toBe(false);
-			expect(question.isShortJourney(journey6)).toBe(false);
-			expect(question.isShortJourney(journey7)).toBe(false);
-			expect(question.isShortJourney(journey8)).toBe(false);
-			expect(question.isShortJourney(journey9)).toBe(false);
-		});
-	});
-
-	describe('getDashboardUrl', () => {
-		it('should return the correct URL for an appellant journey', () => {
-			const question = getTestQuestion();
-
-			expect(question.getDashboardUrl(JOURNEY_TYPES.APPELLANT_FINAL_COMMENTS.id)).toBe(
-				'/appeals/your-appeals'
-			);
-		});
-		it('should return the correct URL for an LPA journey', () => {
-			const question = getTestQuestion();
-
-			expect(question.getDashboardUrl(JOURNEY_TYPES.LPA_FINAL_COMMENTS.id)).toBe(
-				'/manage-appeals/your-appeals'
-			);
-		});
-		it('should return the correct URL for a Rule 6 journey', () => {
-			const question = getTestQuestion();
-
-			expect(question.getDashboardUrl(JOURNEY_TYPES.RULE_6_PROOF_EVIDENCE.id)).toBe(
-				'/rule-6/your-appeals'
-			);
-		});
-		it('should return "/" for an unknown journey ID', () => {
-			const question = getTestQuestion();
-
-			expect(question.getDashboardUrl('unknown-journey-id')).toBe('/');
-		});
-	});
-
 	describe('getUrlSlug', () => {
 		it('should use url', () => {
 			const question = getTestQuestion();
@@ -620,16 +511,16 @@ describe('./src/dynamic-forms/question.js', () => {
 		const question = getTestQuestion();
 		let section;
 		beforeEach(() => {
-			question.variables = [QUESTION_VARIABLES.APPEAL_TYPE];
+			question.variables = [APPEAL_TYPE];
 			section = {
 				name: 'section-name',
-				sectionVariables: { [QUESTION_VARIABLES.APPEAL_TYPE]: 'Last Name' }
+				sectionVariables: { [APPEAL_TYPE]: 'Last Name' }
 			};
 		});
 
 		it('should replace all variables in object properties', () => {
 			const testObject = {
-				name: `tester ${QUESTION_VARIABLES.APPEAL_TYPE}`,
+				name: `tester ${APPEAL_TYPE}`,
 				address: 'tester'
 			};
 			const result = question.replaceVariables(section, testObject);
@@ -641,7 +532,7 @@ describe('./src/dynamic-forms/question.js', () => {
 		it('should replace all variables in array properties', () => {
 			const testObject = [
 				{
-					name: `tester ${QUESTION_VARIABLES.APPEAL_TYPE}`,
+					name: `tester ${APPEAL_TYPE}`,
 					address: 'tester'
 				}
 			];
@@ -662,15 +553,15 @@ describe('./src/dynamic-forms/question.js', () => {
 
 		it('should replace all variables in child objects', () => {
 			const testObject = {
-				name: `tester ${QUESTION_VARIABLES.APPEAL_TYPE}`,
+				name: `tester ${APPEAL_TYPE}`,
 				address: {
 					postcode: 'fg45 5gh',
-					address1: `tester main address ${QUESTION_VARIABLES.APPEAL_TYPE}`
+					address1: `tester main address ${APPEAL_TYPE}`
 				},
 				moreInfo: [
 					{
-						place: `test place ${QUESTION_VARIABLES.APPEAL_TYPE}`,
-						address: `test address ${QUESTION_VARIABLES.APPEAL_TYPE}`
+						place: `test place ${APPEAL_TYPE}`,
+						address: `test address ${APPEAL_TYPE}`
 					}
 				]
 			};

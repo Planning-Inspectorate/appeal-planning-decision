@@ -14,6 +14,7 @@ const { SECTION_STATUS } = require('./section');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 const { getDepartmentFromId } = require('../services/department.service');
 const { deleteAppeal } = require('#lib/appeals-api-wrapper');
+const { getSaveFunction } = require('../journeys/get-journey-save');
 
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
@@ -205,6 +206,7 @@ jest.mock('../services/pdf.service');
 jest.mock('../services/department.service');
 jest.mock('#lib/appeals-api-wrapper');
 jest.mock('../services/user.service');
+jest.mock('../journeys/get-journey-save');
 
 describe('dynamic-form/controller', () => {
 	let req;
@@ -330,6 +332,14 @@ describe('dynamic-form/controller', () => {
 	});
 
 	describe('save', () => {
+		let mockSaveFn = jest.fn();
+		beforeEach(() => {
+			getSaveFunction.mockReturnValue(mockSaveFn);
+		});
+		afterEach(() => {
+			getSaveFunction.mockReset();
+		});
+
 		it('should use question saveAction', async () => {
 			const journeyId = 'has-questionnaire';
 			const sampleQuestionObjWithSaveAction = { ...sampleQuestionObj, saveAction: jest.fn() };
@@ -341,6 +351,7 @@ describe('dynamic-form/controller', () => {
 			};
 
 			res.locals.journeyResponse = {
+				journeyId,
 				answers: {}
 			};
 
@@ -353,11 +364,12 @@ describe('dynamic-form/controller', () => {
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObjWithSaveAction);
 
-			await save(req, res, journeyId);
+			await save(req, res);
 
 			expect(sampleQuestionObjWithSaveAction.saveAction).toHaveBeenCalledWith(
 				req,
 				res,
+				mockSaveFn,
 				mockJourney,
 				mockJourney.sections[0],
 				res.locals.journeyResponse
@@ -386,6 +398,7 @@ describe('dynamic-form/controller', () => {
 			};
 
 			res.locals.journeyResponse = {
+				journeyId,
 				answers: {}
 			};
 
@@ -398,11 +411,12 @@ describe('dynamic-form/controller', () => {
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObjWithActions);
 
-			await save(req, res, journeyId);
+			await save(req, res);
 
 			expect(sampleQuestionObjWithActions.saveAction).toHaveBeenCalledWith(
 				req,
 				res,
+				mockSaveFn,
 				mockJourney,
 				mockJourney.sections[0],
 				res.locals.journeyResponse

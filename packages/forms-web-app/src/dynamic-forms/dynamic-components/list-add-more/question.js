@@ -282,12 +282,13 @@ class ListAddMoreQuestion extends Question {
 	 * Save an uploaded file
 	 * @param {import('express').Request} req
 	 * @param {import('express').Response} res
+	 * @param {function(string, Object): Promise<any>} saveFunction
 	 * @param {Journey} journey
 	 * @param {Section} section
 	 * @param {JourneyResponse} journeyResponse
 	 * @returns {Promise<void>}
 	 */
-	saveAction = async (req, res, journey, section, journeyResponse) => {
+	saveAction = async (req, res, saveFunction, journey, section, journeyResponse) => {
 		let isAddMorePage = true;
 		if (!req.body[this.fieldName]) {
 			if (
@@ -356,11 +357,7 @@ class ListAddMoreQuestion extends Question {
 			}
 		};
 
-		await this.saveResponseToDB(
-			req.appealsApiClient,
-			{ ...journey.response, [this.fieldName]: responseToSave.answers[this.fieldName] },
-			responseToSave
-		);
+		await saveFunction(journeyResponse.referenceId, responseToSave.answers);
 
 		// check for saving errors
 		const saveViewModel = this.subQuestion.checkForSavingErrors(req, section, journey);

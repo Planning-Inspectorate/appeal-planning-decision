@@ -13,7 +13,7 @@ const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 const { getJourneyTypeById } = require('@pins/common/src/dynamic-forms/journey-types');
-
+const { getSaveFunction } = require('../journeys/get-journey-save');
 const { getDepartmentFromId } = require('../services/department.service');
 const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
@@ -263,8 +263,19 @@ exports.save = async (req, res) => {
 		return res.redirect(journey.taskListUrl);
 	}
 
+	const journeyType = getJourneyTypeById(journeyResponse.journeyId);
+	if (!journeyType) throw new Error(`Journey type: ${journeyResponse.journeyId} not found`);
+
 	try {
-		return await questionObj.saveAction(req, res, journey, sectionObj, journeyResponse);
+		const saveFunction = getSaveFunction(journeyType, req.appealsApiClient);
+		return await questionObj.saveAction(
+			req,
+			res,
+			saveFunction,
+			journey,
+			sectionObj,
+			journeyResponse
+		);
 	} catch (err) {
 		logger.error(err);
 

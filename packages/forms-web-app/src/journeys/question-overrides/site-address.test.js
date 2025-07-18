@@ -15,8 +15,7 @@ describe('site-address-overrides', () => {
 	);
 
 	const mockApi = {
-		postSubmissionAddress: jest.fn().mockResolvedValue({}),
-		updateAppellantSubmission: jest.fn().mockResolvedValue(null)
+		postSubmissionAddress: jest.fn().mockResolvedValue({})
 	};
 
 	const journeyResponse = {
@@ -39,10 +38,12 @@ describe('site-address-overrides', () => {
 
 	describe('saveAction', () => {
 		it('should successfully save the address and call the next question', async () => {
+			const mockSaveAction = jest.fn();
+
 			question.checkForValidationErrors = jest.fn().mockReturnValue(null);
 			question.handleNextQuestion = jest.fn();
 
-			await question.saveAction(req, {}, {}, {}, journeyResponse);
+			await question.saveAction(req, {}, mockSaveAction, {}, {}, journeyResponse);
 
 			expect(mockApi.postSubmissionAddress).toHaveBeenCalledWith(
 				journeyResponse.journeyId,
@@ -56,7 +57,7 @@ describe('site-address-overrides', () => {
 					fieldName: FIELDNAME
 				}
 			);
-			expect(mockApi.updateAppellantSubmission).toHaveBeenCalled();
+			expect(mockSaveAction).toHaveBeenCalled();
 			expect(question.handleNextQuestion).toHaveBeenCalled();
 		});
 	});
