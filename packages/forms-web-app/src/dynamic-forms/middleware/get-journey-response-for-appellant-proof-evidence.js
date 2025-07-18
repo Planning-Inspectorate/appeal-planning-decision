@@ -30,7 +30,7 @@ module.exports =
 			return res.redirect(appealOverviewUrl);
 		}
 
-		const journeyType = JOURNEY_TYPES.APPELLANT_PROOF_OF_EVIDENCE.id;
+		const journeyType = JOURNEY_TYPES.APPELLANT_PROOF_EVIDENCE.id;
 
 		try {
 			const dbResponse =
