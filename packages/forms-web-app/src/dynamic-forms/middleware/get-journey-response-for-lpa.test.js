@@ -1,5 +1,5 @@
 const getJourneyResponse = require('./get-journey-response-for-lpa');
-const { JourneyResponse } = require('../journey-response');
+const { JourneyResponse } = require('@pins/dynamic-forms/src/journey-response');
 const { getUserFromSession } = require('../../services/user.service');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');

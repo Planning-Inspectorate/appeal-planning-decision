@@ -7,10 +7,10 @@ const {
 	appellantFinalCommentSubmitted,
 	startJourneyFromBeginning
 } = require('../../../dynamic-forms/controller');
-const validate = require('../../../dynamic-forms/validator/validator');
+const validate = require('@pins/dynamic-forms/src/validator/validator');
 const {
 	validationErrorHandler
-} = require('../../../dynamic-forms/validator/validation-error-handler');
+} = require('@pins/dynamic-forms/src/validator/validation-error-handler');
 const getJourneyResponse = require('../../../dynamic-forms/middleware/get-journey-response-for-appellant-final-comments');
 const { getJourney } = require('../../../dynamic-forms/middleware/get-journey');
 const { journeys } = require('../../../journeys');

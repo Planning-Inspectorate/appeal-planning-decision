@@ -133,6 +133,7 @@ services:
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/database/src/:/opt/database/src
       - ./packages/database:/opt/app/node_modules/@pins/database
+      - ./packages/dynamic-forms:/opt/app/node_modules/@pins/dynamic-forms
       - ./packages/appeals-service-api:/opt/app
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
@@ -232,6 +233,7 @@ services:
       - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/database:/opt/app/node_modules/@pins/database
+      - ./packages/dynamic-forms:/opt/app/node_modules/@pins/dynamic-forms
       - ./packages/forms-web-app:/opt/app
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
