@@ -1,5 +1,5 @@
 const { getDocType, documentTypes } = require('./document-types');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 describe('document-types.js', () => {
 	describe('getDocType', () => {

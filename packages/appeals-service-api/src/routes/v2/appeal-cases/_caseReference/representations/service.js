@@ -21,7 +21,7 @@ const { getValidator } = new SchemaValidator();
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  * @typedef { 'LPAUser' } LpaUserRole
  *
- * @typedef {import ('pins-data-model').Schemas.AppealRepresentation} AppealRepresentation
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealRepresentation} AppealRepresentation
  */
 
 /**

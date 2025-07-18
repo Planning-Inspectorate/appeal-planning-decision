@@ -1,10 +1,10 @@
 const Ajv = require('ajv').default;
 const addFormats = require('ajv-formats').default;
-const { loadAllSchemasSync } = require('pins-data-model');
+const { loadAllSchemasSync } = require('@planning-inspectorate/data-model');
 const logger = require('../../lib/logger');
 
 /**
- * @typedef {import('pins-data-model').LoadedSchemas} LoadedSchemas
+ * @typedef {import('@planning-inspectorate/data-model').LoadedSchemas} LoadedSchemas
  */
 
 /**

@@ -14,7 +14,7 @@ const {
 	}
 } = require('../../lib/views');
 const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
-const { APPEAL_CASE_STATUS } = require('pins-data-model');
+const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
 
 const getYourAppeals = async (req, res) => {
 	const user = getUserFromSession(req);

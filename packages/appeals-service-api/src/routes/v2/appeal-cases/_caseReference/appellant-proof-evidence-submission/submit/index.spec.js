@@ -1,5 +1,5 @@
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { APPEAL_DOCUMENT_TYPE, SERVICE_USER_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE, SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 const crypto = require('crypto');
 const config = require('../../../../../../configuration/config');
 const {

@@ -24,6 +24,7 @@
 		"@azure/storage-blob": "*",
 		"@pins/common": "^0.0.0",
 		"@pins/database": "^0.0.0",
+		"@planning-inspectorate/data-model": "*",
 		"@prisma/client": "*",
 		"applicationinsights": "*",
 		"archiver": "*",
@@ -36,7 +37,6 @@
 		"multer": "*",
 		"pino": "*",
 		"pino-http": "*",
-		"pins-data-model": "*",
 		"swagger-jsdoc": "*",
 		"swagger-ui-express": "*",
 		"uuid": "*"

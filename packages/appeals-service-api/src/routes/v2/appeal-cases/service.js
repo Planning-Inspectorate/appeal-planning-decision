@@ -26,8 +26,8 @@ const { getValidator } = new SchemaValidator();
  * @typedef {import("@prisma/client").AppealCaseRelationship} AppealRelations
  * @typedef {import("@prisma/client").SubmissionLinkedCase} SubmissionLinkedCase
  * @typedef {AppealCase & {users?: Array.<ServiceUser>} & {relations?: Array.<AppealRelations>}} AppealCaseDetailed
- * @typedef {import ('pins-data-model').Schemas.AppealHASCase} AppealHASCase
- * @typedef {import ('pins-data-model').Schemas.AppealS78Case} AppealS78Case
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealHASCase} AppealHASCase
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealS78Case} AppealS78Case
  */
 
 /**

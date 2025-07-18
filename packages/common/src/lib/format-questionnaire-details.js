@@ -1,7 +1,7 @@
 const {
 	APPEAL_CASE_PROCEDURE,
 	APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE
-} = require('pins-data-model');
+} = require('@planning-inspectorate/data-model');
 
 /**
  * @typedef {import("../client/appeals-api-client").AppealCaseDetailed} AppealCaseDetailed

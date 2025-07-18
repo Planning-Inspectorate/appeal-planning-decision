@@ -1,6 +1,6 @@
 module.exports.CLIENT_CREDS_ROLE = 'client-credentials';
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
+const { APPEAL_VIRUS_CHECK_STATUS } = require('@planning-inspectorate/data-model');
 
 const { getDocType } = require('@pins/common/src/document-types');
 

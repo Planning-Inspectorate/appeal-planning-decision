@@ -1,5 +1,5 @@
 const { formatCommentDecidedData } = require('./format-comment-decided-data');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 describe('formatCommentDecidedData', () => {
 	const appeal = {

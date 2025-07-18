@@ -22,7 +22,7 @@ const { journeys } = require('../../journeys');
 
 const { getUserFromSession } = require('../../services/user.service');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { SERVICE_USER_TYPE } = require('pins-data-model');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 const {
 	VIEW: {

@@ -21,9 +21,9 @@
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"license": "ISC",
 	"dependencies": {
-		"@prisma/client": "*",
 		"@pins/common": "^0.0.0",
-		"pins-data-model": "*"
+		"@planning-inspectorate/data-model": "*",
+		"@prisma/client": "*"
 	},
 	"devDependencies": {
 		"prisma": "*"

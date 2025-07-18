@@ -55,7 +55,7 @@ const {
 	sendLPAFinalCommentSubmissionEmailToLPAV2,
 	sendLPAHASQuestionnaireSubmittedEmailV2
 } = require('#lib/notify');
-const { SERVICE_USER_TYPE } = require('pins-data-model');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 jest.mock('#lib/logger');
 jest.mock('#lib/notify');

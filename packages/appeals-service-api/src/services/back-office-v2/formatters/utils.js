@@ -12,7 +12,7 @@ const {
 	APPEAL_CASE_PROCEDURE,
 	APPEAL_LPA_PROCEDURE_PREFERENCE,
 	APPEAL_DEVELOPMENT_TYPE
-} = require('pins-data-model');
+} = require('@planning-inspectorate/data-model');
 const { LPA_NOTIFICATION_METHODS, CASE_TYPES } = require('@pins/common/src/database/data-static');
 const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-date');
 
@@ -21,26 +21,26 @@ const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-dat
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  * @typedef {Omit<LPAQuestionnaireSubmission, "AppealCase">} LPAQAnswers
  *
- * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents']} DataModelDocuments
- * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents'][0]['documentType'] | import('pins-data-model/src/schemas').LPAQuestionnaireCommand['documents'][0]['documentType']} DataModelDocumentTypes
- * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['users']} DataModelUsers
- * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['casedata']['applicationDecision']} DataModelApplicationDecision
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppellantSubmissionCommand['documents']} DataModelDocuments
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppellantSubmissionCommand['documents'][0]['documentType'] | import('@planning-inspectorate/data-model/src/schemas').LPAQuestionnaireCommand['documents'][0]['documentType']} DataModelDocumentTypes
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppellantSubmissionCommand['users']} DataModelUsers
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppellantSubmissionCommand['casedata']['applicationDecision']} DataModelApplicationDecision
  *
- * @typedef {import ('pins-data-model').Schemas.AppellantCommonSubmissionProperties} AppellantCommonSubmissionProperties
- * @typedef {import ('pins-data-model').Schemas.AppellantHASSubmissionProperties} AppellantHASSubmissionProperties
- * @typedef {import ('pins-data-model').Schemas.AppellantS78SubmissionProperties} AppellantS78SubmissionProperties
- * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantCommonSubmissionProperties} AppellantCommonSubmissionProperties
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantHASSubmissionProperties} AppellantHASSubmissionProperties
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantS78SubmissionProperties} AppellantS78SubmissionProperties
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
  *
- * @typedef {import ('pins-data-model').Schemas.LPAQCommonSubmissionProperties} LPAQCommonSubmissionProperties
- * @typedef {import ('pins-data-model').Schemas.LPAQHASSubmissionProperties} LPAQHASSubmissionProperties
- * @typedef {import ('pins-data-model').Schemas.LPAQS78SubmissionProperties} LPAQS78SubmissionProperties
- * @typedef {import ('pins-data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQCommonSubmissionProperties} LPAQCommonSubmissionProperties
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQHASSubmissionProperties} LPAQHASSubmissionProperties
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQS78SubmissionProperties} LPAQS78SubmissionProperties
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
  * @typedef {function(FullAppellantSubmission, LPA): Promise<AppellantSubmissionCommand>} AppellantSubmissionMapper
  *
  * @typedef {import ('../../../models/entities/lpa-entity')} LPA
  *
  * @typedef {import('../../../routes/v2/interested-party-submissions/repo').DetailedInterestedPartySubmission} InterestedPartySubmission
- * @typedef {import ('pins-data-model').Schemas.AppealRepresentationSubmission['newUser']} IPNewUser
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealRepresentationSubmission['newUser']} IPNewUser
  */
 
 /**

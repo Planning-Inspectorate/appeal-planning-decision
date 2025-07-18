@@ -4,7 +4,7 @@ const archiver = require('archiver');
 const { DocumentsRepository } = require('../../../../../../db/repos/repository');
 const repo = new DocumentsRepository();
 const { storage } = require('#config/config');
-const { APPEAL_CASE_STAGE } = require('pins-data-model');
+const { APPEAL_CASE_STAGE } = require('@planning-inspectorate/data-model');
 const getAzureBlobPathFromUri = require('@pins/common/src/lib/getAzureBlobPathFromUri');
 
 /**

@@ -5,7 +5,7 @@ const {
 } = require('./dashboard-functions');
 const { calculateDueInDays } = require('@pins/common/src/lib/calculate-due-in-days');
 const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invalidated');
-const { APPEAL_CASE_STATUS } = require('pins-data-model');
+const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
 
 jest.mock('@pins/common/src/lib/calculate-due-in-days');
 jest.mock('./calculate-days-since-invalidated');

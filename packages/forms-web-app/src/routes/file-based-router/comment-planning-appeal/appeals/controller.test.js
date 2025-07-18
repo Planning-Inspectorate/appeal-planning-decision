@@ -6,11 +6,11 @@ const {
 	sortByCaseReference
 } = require('#utils/appeal-sorting');
 const { formatAddress } = require('@pins/common/src/lib/format-address');
-const { SERVICE_USER_TYPE } = require('pins-data-model');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 jest.mock('#utils/appeal-sorting');
 jest.mock('@pins/common/src/lib/format-address');
-jest.mock('pins-data-model');
+jest.mock('@planning-inspectorate/data-model');
 
 describe('appeals Controller Tests', () => {
 	let req, res;

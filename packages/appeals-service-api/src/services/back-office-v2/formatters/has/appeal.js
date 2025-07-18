@@ -4,7 +4,7 @@ const {
 	getCommonAppellantSubmissionFields,
 	getHASAppellantSubmissionFields
 } = require('../utils');
-const { APPEAL_CASE_TYPE } = require('pins-data-model');
+const { APPEAL_CASE_TYPE } = require('@planning-inspectorate/data-model');
 
 /**
  * @type {import('../utils').AppellantSubmissionMapper}

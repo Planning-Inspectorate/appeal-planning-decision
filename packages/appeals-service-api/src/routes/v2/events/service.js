@@ -5,7 +5,7 @@ const { SchemaValidator } = require('../../../services/back-office-v2/validate')
 const { getValidator } = new SchemaValidator();
 
 /**
- * @param {import('pins-data-model/src/schemas').AppealEvent} data
+ * @param {import('@planning-inspectorate/data-model/src/schemas').AppealEvent} data
  * @returns {Promise<import('@prisma/client').Event>}
  */
 exports.put = (data) => {

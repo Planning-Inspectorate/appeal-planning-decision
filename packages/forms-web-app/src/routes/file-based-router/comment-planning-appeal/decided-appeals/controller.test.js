@@ -1,8 +1,8 @@
 const { decidedAppeals } = require('./controller');
-const { APPEAL_CASE_DECISION_OUTCOME } = require('pins-data-model');
+const { APPEAL_CASE_DECISION_OUTCOME } = require('@planning-inspectorate/data-model');
 
 jest.mock('#utils/appeal-sorting');
-jest.mock('pins-data-model');
+jest.mock('@planning-inspectorate/data-model');
 
 const appeal = Object.freeze({
 	caseDecisionOutcomeDate: '2024-12-31',

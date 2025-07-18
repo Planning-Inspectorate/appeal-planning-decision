@@ -9,7 +9,7 @@ const ApiError = require('#errors/apiError');
  * @typedef {import('@prisma/client').Document} Document
  * @typedef {AppealCase & { Representations?: Array.<Representation>} & { Documents?: Array.<Document>}} AppealWithRepresentations
  *
- * @typedef {import ('pins-data-model').Schemas.AppealRepresentation} AppealRepresentation
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealRepresentation} AppealRepresentation
  */
 
 /**

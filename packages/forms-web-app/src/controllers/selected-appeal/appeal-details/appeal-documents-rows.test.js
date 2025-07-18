@@ -1,7 +1,10 @@
 const { documentsRows } = require('./appeal-documents-rows');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
-const { APPEAL_DOCUMENT_TYPE, APPEAL_APPELLANT_PROCEDURE_PREFERENCE } = require('pins-data-model');
+const {
+	APPEAL_DOCUMENT_TYPE,
+	APPEAL_APPELLANT_PROCEDURE_PREFERENCE
+} = require('@planning-inspectorate/data-model');
 
 describe('appeal-documents-rows', () => {
 	it('should create rows', () => {
