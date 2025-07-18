@@ -11,7 +11,7 @@ const {
 	checkDocumentAccessByRepresentationOwner
 } = require('@pins/common/src/access/representation-ownership');
 const { checkDocAccess } = require('@pins/common/src/access/document-access');
-const { APPEAL_REPRESENTATION_STATUS } = require('pins-data-model');
+const { APPEAL_REPRESENTATION_STATUS } = require('@planning-inspectorate/data-model');
 
 const { AppealCaseRepository } = require('../../repo');
 const caseRepo = new AppealCaseRepository();

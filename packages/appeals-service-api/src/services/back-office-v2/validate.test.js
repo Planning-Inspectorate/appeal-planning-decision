@@ -1,7 +1,7 @@
-const { loadAllSchemasSync } = require('pins-data-model');
+const { loadAllSchemasSync } = require('@planning-inspectorate/data-model');
 const { SchemaValidator } = require('./validate');
 
-jest.mock('pins-data-model');
+jest.mock('@planning-inspectorate/data-model');
 jest.mock('#lib/logger');
 
 describe('SchemaValidator', () => {

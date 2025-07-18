@@ -11,7 +11,7 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const {
 	APPEAL_DOCUMENT_TYPE,
 	APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE
-} = require('pins-data-model');
+} = require('@planning-inspectorate/data-model');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData

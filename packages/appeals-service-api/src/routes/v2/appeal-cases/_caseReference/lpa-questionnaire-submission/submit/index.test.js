@@ -3,7 +3,7 @@ const app = require('../../../../../../app');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { markQuestionnaireAsSubmitted } = require('../service');
 const { LPA_NOTIFICATION_METHODS, CASE_TYPES } = require('@pins/common/src/database/data-static');
-const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
+const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 const config = require('../../../../../../../src/configuration/config');
 
 const appealsApi = supertest(app);

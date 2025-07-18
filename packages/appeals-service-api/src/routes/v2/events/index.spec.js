@@ -26,7 +26,7 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 					data: { Appeal: { create: {} }, ...createTestAppealCase('ref_e001', 'HAS', 'lpa_001') }
 				});
 
-				/** @type {import('pins-data-model/src/schemas').AppealEvent} */
+				/** @type {import('@planning-inspectorate/data-model/src/schemas').AppealEvent} */
 				const event = {
 					eventId: 'eve_001',
 					caseReference: 'ref_e001',
@@ -65,7 +65,7 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 					data: { Appeal: { create: {} }, ...createTestAppealCase('ref_e002', 'HAS', 'lpa_001') }
 				});
 
-				/** @type {import('pins-data-model/src/schemas').AppealEvent} */
+				/** @type {import('@planning-inspectorate/data-model/src/schemas').AppealEvent} */
 				await sqlClient.event.create({
 					data: {
 						id: 'eve_002',

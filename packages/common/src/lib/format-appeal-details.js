@@ -1,6 +1,6 @@
 const escape = require('escape-html');
 const { APPEAL_USER_ROLES } = require('../constants');
-const { APPEAL_DEVELOPMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DEVELOPMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { formatDateForDisplay } = require('./format-date');
 
 // NOTE - consider requirement to escape string values from caseData

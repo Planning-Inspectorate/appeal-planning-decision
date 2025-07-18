@@ -1,5 +1,9 @@
 const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
-const { APPEAL_CASE_STATUS, APPEAL_CASE_PROCEDURE, SERVICE_USER_TYPE } = require('pins-data-model');
+const {
+	APPEAL_CASE_STATUS,
+	APPEAL_CASE_PROCEDURE,
+	SERVICE_USER_TYPE
+} = require('@planning-inspectorate/data-model');
 const { randomUUID } = require('crypto');
 
 /**

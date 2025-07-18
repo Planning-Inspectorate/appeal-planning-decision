@@ -2,7 +2,7 @@ const {
 	mapDecisionColour,
 	mapDecisionLabel
 } = require('@pins/business-rules/src/utils/decision-outcome');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 /**

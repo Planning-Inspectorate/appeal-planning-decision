@@ -6,7 +6,7 @@ const {
 	APPEAL_CASE_TYPE,
 	APPEAL_TYPE_OF_PLANNING_APPLICATION,
 	SERVICE_USER_TYPE
-} = require('pins-data-model');
+} = require('@planning-inspectorate/data-model');
 
 jest.mock('../../../../services/object-store');
 

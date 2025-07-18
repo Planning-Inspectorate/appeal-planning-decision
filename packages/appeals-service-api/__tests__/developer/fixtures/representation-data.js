@@ -3,7 +3,7 @@
  * @param {string} caseReference
  * @param {'statement' | 'comment' | 'final_comment' | 'proofs_evidence' | null} representationType
  * @param {'lpa' | 'citizen' | null} source
- * @returns {import('pins-data-model/src/schemas').AppealRepresentation}
+ * @returns {import('@planning-inspectorate/data-model/src/schemas').AppealRepresentation}
  */
 function createTestRepresentationPayload(
 	representationId,

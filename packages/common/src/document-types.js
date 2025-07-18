@@ -12,12 +12,12 @@ const pinsOwner = 'PINs';
 const rule6Owner = 'Rule6Party';
 const interestedParty = 'InterestedParty';
 const { CASE_TYPES } = require('./database/data-static');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 /**
  * @typedef {Object} DocType
  * @property {string} name internal name for the doc type
- * @property {string} [dataModelName] the value used in the pins-data-model
+ * @property {string} [dataModelName] the value used in the @planning-inspectorate/data-model
  * @property {boolean} multiple if this is a multi-file or single-file upload
  * @property {string} [displayName] a user friendly name for the doc type, has been defined on all docs
  * @property {'LPA'|'Appellant'|''} involvement currently unsure what this is used for?

@@ -1,9 +1,9 @@
 const { createPrismaClient } = require('#db-client');
-const { APPEAL_EVENT_TYPE } = require('pins-data-model');
+const { APPEAL_EVENT_TYPE } = require('@planning-inspectorate/data-model');
 const { EVENT_TYPES, EVENT_SUB_TYPES } = require('@pins/common/src/constants');
 
 /**
- * @typedef {import('pins-data-model/src/schemas').AppealEvent} DataModelEvent
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealEvent} DataModelEvent
  * @typedef {import('@prisma/client').Event} PrismaEvent
  */
 

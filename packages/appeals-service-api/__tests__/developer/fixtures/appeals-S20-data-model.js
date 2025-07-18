@@ -2,7 +2,7 @@ const { exampleHASDataModel } = require('./appeals-HAS-data-model');
 const { exampleS78DataModel } = require('./appeals-S78-data-model');
 
 /**
- * @type {import('pins-data-model').Schemas.AppealS78Case}
+ * @type {import('@planning-inspectorate/data-model').Schemas.AppealS78Case}
  */
 const exampleS20DataModel = {
 	// HAS fields

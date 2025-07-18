@@ -15,7 +15,7 @@ const {
 	APPEAL_APPLICATION_DECISION,
 	SERVICE_USER_TYPE,
 	APPEAL_DEVELOPMENT_TYPE
-} = require('pins-data-model');
+} = require('@planning-inspectorate/data-model');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { getDocType } = require('@pins/common/src/document-types');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');

@@ -4,7 +4,10 @@ const {
 	representationPublished,
 	getRepresentationSubmissionDate
 } = require('./representations');
-const { APPEAL_REPRESENTATION_STATUS, SERVICE_USER_TYPE } = require('pins-data-model');
+const {
+	APPEAL_REPRESENTATION_STATUS,
+	SERVICE_USER_TYPE
+} = require('@planning-inspectorate/data-model');
 
 describe('representationExists', () => {
 	it('should return true if representation exists with the given type and ownership', () => {

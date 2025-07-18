@@ -10,7 +10,7 @@ const {
 	isAppellantFinalCommentOpen,
 	isLPAFinalCommentOpen
 } = require('./case-due-dates');
-const { APPEAL_CASE_STATUS } = require('pins-data-model');
+const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
 const { deadlineHasPassed } = require('@pins/common/src/lib/deadline-has-passed');
 const { representationExists } = require('@pins/common/src/lib/representations');
 

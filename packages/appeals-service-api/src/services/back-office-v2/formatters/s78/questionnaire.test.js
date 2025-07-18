@@ -1,7 +1,7 @@
 const { formatter } = require(`./questionnaire`);
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const S78 = CASE_TYPES.S78.key;
-const { APPEAL_LPA_PROCEDURE_PREFERENCE } = require('pins-data-model');
+const { APPEAL_LPA_PROCEDURE_PREFERENCE } = require('@planning-inspectorate/data-model');
 
 jest.mock('../../../../services/object-store');
 

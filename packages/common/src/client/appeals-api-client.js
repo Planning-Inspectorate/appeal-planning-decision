@@ -21,7 +21,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
  * @typedef {import('appeals-service-api').Api.Event} Event
  * @typedef {import('appeals-service-api').Api.ServiceUser} ServiceUserAPI
- * @typedef {import('pins-data-model/src/schemas').AppealHASCase} AppealHASCase
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealHASCase} AppealHASCase
  * @typedef {import('appeals-service-api').Api.InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.ListedBuilding} ListedBuilding
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
@@ -37,10 +37,10 @@ const trailingSlashRegex = /\/$/;
 
 // Data model types
 /**
- * @typedef {import('pins-data-model/src/schemas').ServiceUser} ServiceUser
- * @typedef {import('pins-data-model/src/schemas').AppealDocument} AppealDocument
- * @typedef {import('pins-data-model/src/schemas').AppealEvent} AppealEvent
- * @typedef {import('pins-data-model/src/schemas').AppealRepresentation} AppealRepresentation
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').ServiceUser} ServiceUser
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealDocument} AppealDocument
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealEvent} AppealEvent
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealRepresentation} AppealRepresentation
  */
 
 /**

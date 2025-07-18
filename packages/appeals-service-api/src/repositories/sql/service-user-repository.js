@@ -1,6 +1,6 @@
 const { createPrismaClient } = require('#db-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { SERVICE_USER_TYPE } = require('pins-data-model');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 const { AppealUserRepository } = require('#repositories/sql/appeal-user-repository');
 
 /**

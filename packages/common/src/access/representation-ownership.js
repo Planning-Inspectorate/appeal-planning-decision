@@ -1,5 +1,8 @@
 const { REPRESENTATION_TYPES, LPA_USER_ROLE, APPEAL_USER_ROLES } = require('../constants');
-const { APPEAL_SOURCE, APPEAL_REPRESENTATION_STATUS } = require('pins-data-model');
+const {
+	APPEAL_SOURCE,
+	APPEAL_REPRESENTATION_STATUS
+} = require('@planning-inspectorate/data-model');
 
 /**
  * @typedef {import('@prisma/client').Representation} Representation

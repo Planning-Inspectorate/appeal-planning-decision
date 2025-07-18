@@ -17,9 +17,9 @@
 	"author": "",
 	"dependencies": {
 		"@pins/common": "^0.0.0",
+		"@planning-inspectorate/data-model": "*",
 		"date-fns": "*",
 		"date-fns-tz": "*",
-		"pins-data-model": "*",
 		"yup": "*"
 	},
 	"devDependencies": {

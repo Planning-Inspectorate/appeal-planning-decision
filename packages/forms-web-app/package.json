@@ -30,6 +30,7 @@
 		"@ministryofjustice/frontend": "*",
 		"@pins/business-rules": "^0.0.0",
 		"@pins/common": "^0.0.0",
+		"@planning-inspectorate/data-model": "*",
 		"accessible-autocomplete": "*",
 		"applicationinsights": "*",
 		"compression": "*",
@@ -52,7 +53,6 @@
 		"nunjucks-date-filter": "*",
 		"pino": "*",
 		"pino-http": "*",
-		"pins-data-model": "*",
 		"uuid": "*"
 	},
 	"devDependencies": {

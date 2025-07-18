@@ -1,4 +1,7 @@
-const { APPEAL_DOCUMENT_TYPE, APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
+const {
+	APPEAL_DOCUMENT_TYPE,
+	APPEAL_VIRUS_CHECK_STATUS
+} = require('@planning-inspectorate/data-model');
 
 /**
  * @type {import('@prisma/client').Prisma.DocumentCreateInput[]}

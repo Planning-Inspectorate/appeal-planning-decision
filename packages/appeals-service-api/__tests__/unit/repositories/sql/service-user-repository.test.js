@@ -1,5 +1,5 @@
 const { ServiceUserRepository } = require('#repositories/sql/service-user-repository');
-const { SERVICE_USER_TYPE } = require('pins-data-model');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 jest.mock('#repositories/sql/appeal-user-repository');
 
 describe('ServiceUserRepository', () => {

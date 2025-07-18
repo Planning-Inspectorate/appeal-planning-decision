@@ -1,4 +1,4 @@
-const { APPEAL_CASE_DECISION_OUTCOME } = require('pins-data-model');
+const { APPEAL_CASE_DECISION_OUTCOME } = require('@planning-inspectorate/data-model');
 
 /**
  * Map an appeal decision outcome to it's corresponding tag colour

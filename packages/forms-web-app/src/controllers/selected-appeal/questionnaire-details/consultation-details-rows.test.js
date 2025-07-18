@@ -1,5 +1,5 @@
 const { consultationRows } = require('./consultation-details-rows');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
