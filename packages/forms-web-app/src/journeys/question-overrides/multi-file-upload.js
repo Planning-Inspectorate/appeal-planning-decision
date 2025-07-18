@@ -7,14 +7,8 @@ const {
 } = require('#lib/multi-file-upload-helpers');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { mapMultiFileDocumentToSavedDocument } = require('../../mappers/document-mapper');
-const {
-	JOURNEY_TYPE,
-	getJourneyTypeById
-} = require('@pins/common/src/dynamic-forms/journey-types');
-const {
-	APPEAL_USER_ROLES: { APPELLANT, RULE_6_PARTY },
-	LPA_USER_ROLE
-} = require('@pins/common/src/constants');
+const { getJourneyTypeById } = require('@pins/common/src/dynamic-forms/journey-types');
+const { getUploadDoumentFunction, getRemoveDocumentFunction } = require('../get-journey-save');
 
 /**
  * @typedef {import('../../dynamic-forms/journey').Journey} Journey
@@ -36,18 +30,23 @@ async function getDataToSave(req, journeyResponse) {
 	} = req;
 	const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
 
+	const journeyType = getJourneyTypeById(journeyResponse.journeyId);
+	if (!journeyType) throw new Error(`Journey type: ${journeyResponse.journeyId} not found`);
+
 	// remove files from response
 	if (unparsedRemovedFiles) {
 		const removedFiles = JSON.parse(unparsedRemovedFiles);
 
 		const relevantUploadedFiles = this.getRelevantUploadedFiles(journeyResponse);
 
+		const removeDocuments = getRemoveDocumentFunction(journeyType, req.appealsApiClient);
+
 		const failedRemovedFiles = await removeFilesV2(
 			relevantUploadedFiles,
 			removedFiles,
 			journeyResponse.referenceId,
 			`${journeyResponse.journeyId}:${encodedReferenceId}`,
-			removeDocuments(req.appealsApiClient, journeyResponse.journeyId)
+			removeDocuments
 		);
 
 		const failedRemovedFileNames = failedRemovedFiles.map((x) => x.originalFileName);
@@ -157,101 +156,26 @@ async function saveFilesToBlobStorage(files, journeyResponse) {
 }
 
 /**
- * @param {import('@pins/common/src/client/appeals-api-client').AppealsApiClient} apiClient
- * @param {string} referenceId
- * @param {string} journeyId
- * @param {any} data
- * @returns {Promise<any> | void}
- */
-function uploadDocuments(apiClient, referenceId, journeyId, data) {
-	const journeyType = getJourneyTypeById(journeyId);
-
-	if (!journeyType) throw new Error(`Journey type: ${journeyId} not found`);
-
-	const key = `${journeyType.type}_${journeyType.userType}`;
-
-	const saveMethodMap = {
-		[`${JOURNEY_TYPE.questionnaire}_${LPA_USER_ROLE}`]:
-			apiClient.postLPASubmissionDocumentUpload?.bind(apiClient),
-		[`${JOURNEY_TYPE.appealForm}_${APPELLANT}`]:
-			apiClient.postAppellantSubmissionDocumentUpload?.bind(apiClient),
-		[`${JOURNEY_TYPE.statement}_${LPA_USER_ROLE}`]:
-			apiClient.postLPAStatementDocumentUpload?.bind(apiClient),
-		[`${JOURNEY_TYPE.statement}_${RULE_6_PARTY}`]:
-			apiClient.postRule6StatementDocumentUpload?.bind(apiClient),
-		[`${JOURNEY_TYPE.finalComments}_${APPELLANT}`]:
-			apiClient.postAppellantFinalCommentDocumentUpload?.bind(apiClient),
-		[`${JOURNEY_TYPE.finalComments}_${LPA_USER_ROLE}`]:
-			apiClient.postLPAFinalCommentDocumentUpload?.bind(apiClient),
-		[`${JOURNEY_TYPE.proofEvidence}_${APPELLANT}`]:
-			apiClient.postAppellantProofOfEvidenceDocumentUpload?.bind(apiClient),
-		[`${JOURNEY_TYPE.proofEvidence}_${LPA_USER_ROLE}`]:
-			apiClient.postLpaProofOfEvidenceDocumentUpload?.bind(apiClient),
-		[`${JOURNEY_TYPE.proofEvidence}_${RULE_6_PARTY}`]:
-			apiClient.postRule6ProofOfEvidenceDocumentUpload?.bind(apiClient)
-	};
-
-	const save = saveMethodMap[key];
-	if (!save) throw new Error(`No save function found for journey type: ${key}`);
-	return save(referenceId, data);
-}
-
-/**
- * @param {import('@pins/common/src/client/appeals-api-client').AppealsApiClient} apiClient
- * @param {string} journeyId
- * @returns {(submissionId: string, documentId: string) => Promise<any>}
- */
-function removeDocuments(apiClient, journeyId) {
-	return (submissionId, documentId) => {
-		const journeyType = getJourneyTypeById(journeyId);
-
-		if (!journeyType) throw new Error(`Journey type: ${journeyId} not found`);
-
-		const key = `${journeyType.type}_${journeyType.userType}`;
-
-		const saveMethodMap = {
-			[`${JOURNEY_TYPE.questionnaire}_${LPA_USER_ROLE}`]:
-				apiClient.deleteLPASubmissionDocumentUpload?.bind(apiClient),
-			[`${JOURNEY_TYPE.appealForm}_${APPELLANT}`]:
-				apiClient.deleteAppellantSubmissionDocumentUpload?.bind(apiClient),
-			[`${JOURNEY_TYPE.statement}_${LPA_USER_ROLE}`]:
-				apiClient.deleteLPAStatementDocumentUpload?.bind(apiClient),
-			[`${JOURNEY_TYPE.statement}_${RULE_6_PARTY}`]:
-				apiClient.deleteRule6StatementDocumentUpload?.bind(apiClient),
-			[`${JOURNEY_TYPE.finalComments}_${APPELLANT}`]:
-				apiClient.deleteAppellantFinalCommentDocumentUpload?.bind(apiClient),
-			[`${JOURNEY_TYPE.finalComments}_${LPA_USER_ROLE}`]:
-				apiClient.deleteLPAFinalCommentDocumentUpload?.bind(apiClient),
-			[`${JOURNEY_TYPE.proofEvidence}_${APPELLANT}`]:
-				apiClient.deleteAppellantProofOfEvidenceDocumentUpload?.bind(apiClient),
-			[`${JOURNEY_TYPE.proofEvidence}_${LPA_USER_ROLE}`]:
-				apiClient.deleteLpaProofOfEvidenceDocumentUpload?.bind(apiClient),
-			[`${JOURNEY_TYPE.proofEvidence}_${RULE_6_PARTY}`]:
-				apiClient.deleteRule6ProofOfEvidenceDocumentUpload?.bind(apiClient)
-		};
-
-		const deleteFile = saveMethodMap[key];
-		if (!deleteFile) throw new Error(`No delete function found for journey type: ${key}`);
-		return deleteFile(submissionId, documentId);
-	};
-}
-
-/**
  * Save the answer to the question
  * @this {MultiFileUploadQuestion}
  * @param {import('express').Request} req
  * @param {import('express').Response} res
+ * @param {function(string, Object): Promise<any>} saveFunction
  * @param {Journey} journey
  * @param {Section} section
  * @param {JourneyResponse} journeyResponse
  * @returns {Promise<void>}
  */
-async function saveAction(req, res, journey, section, journeyResponse) {
+async function saveAction(req, res, saveFunction, journey, section, journeyResponse) {
 	const previouslyUploadedFiles = this.getRelevantUploadedFiles(journeyResponse);
 
 	const { uploadedFiles } = await getDataToSave.call(this, req, journeyResponse);
 
 	const updatedUploadedFiles = this.getRelevantUploadedFiles(journeyResponse);
+
+	const journeyType = getJourneyTypeById(journeyResponse.journeyId);
+	if (!journeyType) throw new Error(`Journey type: ${journeyResponse.journeyId} not found`);
+	const uploadDocuments = getUploadDoumentFunction(journeyType, req.appealsApiClient);
 
 	await Promise.all(
 		uploadedFiles.map((file) => {
@@ -262,12 +186,7 @@ async function saveAction(req, res, journey, section, journeyResponse) {
 				type: this.documentType.name
 			};
 
-			return uploadDocuments(
-				req.appealsApiClient,
-				journeyResponse.referenceId,
-				journeyResponse.journeyId,
-				data
-			);
+			return uploadDocuments(journeyResponse.referenceId, data);
 		})
 	);
 	const allUploadedFiles = [...updatedUploadedFiles, ...uploadedFiles].filter(Boolean);
@@ -290,7 +209,7 @@ async function saveAction(req, res, journey, section, journeyResponse) {
 		};
 	}
 
-	await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
+	await saveFunction(journeyResponse.referenceId, responseToSave.answers);
 
 	// check for saving validation errors
 	const saveViewModel = this.checkForSavingErrors(req, section, journey);
