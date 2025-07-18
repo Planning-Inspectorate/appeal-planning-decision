@@ -22,7 +22,7 @@
 {% set uploadHtml %}
   {{ govukFileUpload({
     id: fieldName,
-    name: fieldName,
+    name: 'file-upload',
     classes: 'moj-multi-file-upload__input',
     label: {
       text: "Upload files",
