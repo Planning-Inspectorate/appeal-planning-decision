@@ -1,5 +1,5 @@
 const { sortDocumentsByDate, documentExists, formatDocumentDetails } = require('@pins/common');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles

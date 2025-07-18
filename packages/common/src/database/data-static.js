@@ -6,7 +6,7 @@ const {
 	APPEAL_CASE_STATUS,
 	APPEAL_CASE_VALIDATION_OUTCOME,
 	APPEAL_LPA_QUESTIONNAIRE_VALIDATION_OUTCOME
-} = require('pins-data-model');
+} = require('@planning-inspectorate/data-model');
 
 /**
  * @typedef {import('@prisma/client').Prisma.AppealToUserRoleCreateInput} AppealToUserRoleCreateInput

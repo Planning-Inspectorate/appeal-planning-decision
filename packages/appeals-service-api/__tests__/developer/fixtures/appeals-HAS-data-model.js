@@ -1,5 +1,5 @@
 /**
- * @type {import('pins-data-model').Schemas.AppealHASCase}
+ * @type {import('@planning-inspectorate/data-model').Schemas.AppealHASCase}
  */
 const exampleHASDataModel = {
 	caseId: 10000,

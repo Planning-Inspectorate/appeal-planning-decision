@@ -5,7 +5,7 @@ const {
 	sortByCaseReference
 } = require('#utils/appeal-sorting');
 const { formatAddress } = require('@pins/common/src/lib/format-address');
-const { SERVICE_USER_TYPE } = require('pins-data-model');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 /** @type {import('express').RequestHandler} */
 const appeals = async (req, res) => {

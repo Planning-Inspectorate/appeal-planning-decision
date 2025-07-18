@@ -1,11 +1,11 @@
 const { getDocuments, createInterestedPartyNewUser } = require('./utils');
-const { APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
+const { APPEAL_REPRESENTATION_TYPE } = require('@planning-inspectorate/data-model');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
- * @typedef {import('pins-data-model/src/enums').APPEAL_REPRESENTATION_TYPE} RepresentationTypes
+ * @typedef {import('@planning-inspectorate/data-model/src/enums').APPEAL_REPRESENTATION_TYPE} RepresentationTypes
  * @typedef {'appellantFinalCommentDetails' | 'lpaFinalCommentDetails' | 'lpaStatement' | 'rule6Statement' | 'comments'} AllowedRepresentationField
- * @typedef {import ('pins-data-model').Schemas.AppealRepresentationSubmission} AppealRepresentationSubmission
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealRepresentationSubmission} AppealRepresentationSubmission
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/appellant-final-comment-submission').AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/lpa-final-comment-submission').LPAFinalCommentSubmission} LPAFinalCommentSubmission
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-statement-submission/lpa-statement-submission').LPAStatementSubmission} LPAStatementSubmission

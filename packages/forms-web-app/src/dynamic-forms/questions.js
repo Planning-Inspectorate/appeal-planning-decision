@@ -38,7 +38,7 @@ const {
 	APPEAL_CASE_PROCEDURE,
 	APPEAL_EIA_DEVELOPMENT_DESCRIPTION,
 	APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE
-} = require('pins-data-model');
+} = require('@planning-inspectorate/data-model');
 const { getConditionalFieldName, DIVIDER } = require('./dynamic-components/utils/question-utils');
 const { documentTypes } = require('@pins/common');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');

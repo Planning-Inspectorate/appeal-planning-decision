@@ -5,7 +5,7 @@
 
 const { app } = require('@azure/functions');
 const createApiClient = require('../common/api-client');
-const { SERVICE_USER_TYPE } = require('pins-data-model');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 /**
  * @type {import('@azure/functions').ServiceBusTopicHandler}

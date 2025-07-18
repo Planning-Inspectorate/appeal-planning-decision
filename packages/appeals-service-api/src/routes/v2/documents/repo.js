@@ -1,5 +1,5 @@
 const { createPrismaClient } = require('#db-client');
-const { APPEAL_REDACTED_STATUS } = require('pins-data-model');
+const { APPEAL_REDACTED_STATUS } = require('@planning-inspectorate/data-model');
 
 /**
  * @param {number} ms
@@ -8,7 +8,7 @@ const { APPEAL_REDACTED_STATUS } = require('pins-data-model');
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
- * @typedef {import('pins-data-model/src/schemas').AppealDocument} DataModelDocument
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealDocument} DataModelDocument
  * @typedef {import('@prisma/client').Document} PrismaDocument
  */
 

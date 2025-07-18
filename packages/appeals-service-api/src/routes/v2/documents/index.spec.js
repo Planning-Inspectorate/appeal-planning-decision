@@ -2,7 +2,7 @@ const {
 	createTestAppealCase
 } = require('../../../../__tests__/developer/fixtures/appeals-case-data');
 
-const { APPEAL_REDACTED_STATUS } = require('pins-data-model');
+const { APPEAL_REDACTED_STATUS } = require('@planning-inspectorate/data-model');
 
 /**
  * @param {Object} dependencies
@@ -31,7 +31,7 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 					}
 				});
 
-				/** @type {import('pins-data-model/src/schemas').AppealDocument} */
+				/** @type {import('@planning-inspectorate/data-model/src/schemas').AppealDocument} */
 				const doc = {
 					documentId: '45d3ba60-47e2-4b4d-a92d-da2e79a2007c',
 					caseId: 1,
@@ -90,7 +90,7 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 					}
 				});
 
-				/** @type {import('pins-data-model/src/schemas').AppealDocument} */
+				/** @type {import('@planning-inspectorate/data-model/src/schemas').AppealDocument} */
 				const doc = {
 					documentId: '8964ae94-a34f-477f-8248-ef22ae878e38',
 					caseId: 1,
@@ -150,7 +150,7 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 					}
 				});
 
-				/** @type {import('pins-data-model/src/schemas').AppealDocument} */
+				/** @type {import('@planning-inspectorate/data-model/src/schemas').AppealDocument} */
 				const doc = {
 					documentId: '8964ae94-a34f-477f-8248-ef22ae878e38',
 					caseId: 1,

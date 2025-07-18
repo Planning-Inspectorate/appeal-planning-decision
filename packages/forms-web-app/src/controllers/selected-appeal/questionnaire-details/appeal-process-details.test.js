@@ -1,4 +1,4 @@
-const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
+const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 const { appealProcessRows } = require('./appeal-process-details-rows');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 

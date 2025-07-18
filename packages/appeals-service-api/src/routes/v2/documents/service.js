@@ -21,7 +21,7 @@ exports.get = async (id) => {
 };
 
 /**
- * @param {import('pins-data-model/src/schemas').AppealDocument} data
+ * @param {import('@planning-inspectorate/data-model/src/schemas').AppealDocument} data
  * @returns {Promise<import('@prisma/client').Document>}
  */
 exports.put = (data) => {

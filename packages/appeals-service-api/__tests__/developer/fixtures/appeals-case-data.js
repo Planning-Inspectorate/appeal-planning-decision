@@ -1,5 +1,5 @@
 const sanitizePostcode = require('#lib/sanitize-postcode');
-const { APPEAL_CASE_STATUS } = require('pins-data-model');
+const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
 
 /**
  * @param {string} caseRef

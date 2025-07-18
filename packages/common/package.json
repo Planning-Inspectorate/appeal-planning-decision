@@ -17,6 +17,7 @@
 		"@azure/app-configuration": "*",
 		"@azure/identity": "*",
 		"@azure/storage-blob": "*",
+		"@planning-inspectorate/data-model": "*",
 		"clamscan": "*",
 		"date-fns": "*",
 		"date-fns-tz": "*",
@@ -27,8 +28,7 @@
 		"notifications-node-client": "*",
 		"nunjucks": "*",
 		"openid-client": "*",
-		"pino": "*",
-		"pins-data-model": "*"
+		"pino": "*"
 	},
 	"devDependencies": {
 		"jest": "*",

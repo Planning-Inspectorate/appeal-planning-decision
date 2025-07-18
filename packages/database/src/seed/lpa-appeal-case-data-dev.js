@@ -3,7 +3,7 @@ const {
 	APPEAL_CASE_STATUS,
 	APPEAL_CASE_DECISION_OUTCOME,
 	APPEAL_CASE_PROCEDURE
-} = require('pins-data-model');
+} = require('@planning-inspectorate/data-model');
 
 const lpaAppealIds = {
 	appealOne: '756d6bfb-dde8-4532-a041-86c226a23b01',

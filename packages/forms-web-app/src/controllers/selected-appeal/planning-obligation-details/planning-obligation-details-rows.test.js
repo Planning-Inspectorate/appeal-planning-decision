@@ -1,5 +1,5 @@
 const { planningObligationRows } = require('./planning-obligation-details-rows');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 describe('planningObligationRows', () => {
 	it('should create show minimal rows', () => {

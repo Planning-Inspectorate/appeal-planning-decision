@@ -1,14 +1,14 @@
 /**
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  * @typedef { 'LPAUser' } LpaUserRole
- * @typedef {import('pins-data-model/src/enums').APPEAL_REPRESENTATION_TYPE} AppealRepresentationType
+ * @typedef {import('@planning-inspectorate/data-model/src/enums').APPEAL_REPRESENTATION_TYPE} AppealRepresentationType
  */
 
 const {
 	APPEAL_CASE_STAGE,
 	APPEAL_DOCUMENT_TYPE,
 	APPEAL_REPRESENTATION_TYPE
-} = require('pins-data-model');
+} = require('@planning-inspectorate/data-model');
 
 module.exports = {
 	STATUS_CONSTANTS: {

@@ -52,7 +52,10 @@ const {
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service');
 const { getForEmailCaseAndType } = require('../../routes/v2/service-users/service');
 const { getCaseAndAppellant } = require('../../routes/v2/appeal-cases/service');
-const { SERVICE_USER_TYPE, APPEAL_REPRESENTATION_TYPE } = require('pins-data-model');
+const {
+	SERVICE_USER_TYPE,
+	APPEAL_REPRESENTATION_TYPE
+} = require('@planning-inspectorate/data-model');
 const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
@@ -65,9 +68,9 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  * @typedef {import('../../routes/v2/appellant-submissions/_id/service').FullAppellantSubmission} FullAppellantSubmission
  * @typedef {"HAS" | "S78"} AppealTypeCode
- * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
- * @typedef {import ('pins-data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
- * @typedef {import ('pins-data-model').Schemas.AppealRepresentationSubmission} AppealRepresentationSubmission
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealRepresentationSubmission} AppealRepresentationSubmission
  * @typedef {import('./formatters/representation').TypedRepresentationSubmission} TypedRepresentationSubmission
  * @typedef {import('./formatters/representation').RepresentationTypes} RepresentationTypes
  * @typedef {import('./formatters/representation').RepresentationFormatterParams} RepresentationFormatterParams

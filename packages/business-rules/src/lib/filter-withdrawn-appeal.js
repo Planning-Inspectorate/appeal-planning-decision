@@ -1,4 +1,4 @@
-const { APPEAL_CASE_STATUS } = require('pins-data-model');
+const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed} appeal

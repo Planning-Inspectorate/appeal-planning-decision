@@ -1,4 +1,4 @@
-const { APPEAL_REPRESENTATION_STATUS } = require('pins-data-model');
+const { APPEAL_REPRESENTATION_STATUS } = require('@planning-inspectorate/data-model');
 const {
 	LPA_USER_ROLE,
 	APPEAL_USER_ROLES,

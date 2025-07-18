@@ -19,7 +19,7 @@ const dynamicReqFilesToReqBodyFiles = require('../../../dynamic-forms/middleware
 const checkNotSubmitted = require('../../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
 
-const { SERVICE_USER_TYPE } = require('pins-data-model');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 const {
 	VIEW: {

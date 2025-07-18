@@ -1,7 +1,10 @@
 const { formatDocumentDetails } = require('@pins/common');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
-const { APPEAL_DOCUMENT_TYPE, APPEAL_APPELLANT_PROCEDURE_PREFERENCE } = require('pins-data-model');
+const {
+	APPEAL_DOCUMENT_TYPE,
+	APPEAL_APPELLANT_PROCEDURE_PREFERENCE
+} = require('@planning-inspectorate/data-model');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed

@@ -7,7 +7,7 @@ const {
 	APPEAL_USER_ROLES,
 	LPA_USER_ROLE
 } = require('@pins/common/src/constants');
-const { APPEAL_REPRESENTATION_STATUS } = require('pins-data-model');
+const { APPEAL_REPRESENTATION_STATUS } = require('@planning-inspectorate/data-model');
 
 const testR6ServiceUserId1 = 'testR6ServiceUserId1';
 const testR6ServiceUserId2 = 'testR6ServiceUserId2';

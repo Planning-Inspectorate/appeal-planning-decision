@@ -20,7 +20,7 @@ const sanitizePostcode = require('#lib/sanitize-postcode');
  * @typedef {import('@prisma/client').Prisma.AppealCaseFindManyArgs} AppealCaseFindManyArgs
  * @typedef {import('@prisma/client').Prisma.AppealCaseWhereInput} AppealCaseWhereInput
  * @typedef {import('@prisma/client').Prisma.AppealCaseCountArgs} AppealCaseCountArgs
- * @typedef {(import('pins-data-model/src/schemas').AppealHASCase['neighbouringSiteAddresses'])} NeighbouringSiteAddresses
+ * @typedef {(import('@planning-inspectorate/data-model/src/schemas').AppealHASCase['neighbouringSiteAddresses'])} NeighbouringSiteAddresses
  */
 
 /**
@@ -248,12 +248,12 @@ class AppealCaseRepository {
 
 	/**
 	 * @typedef AppealRelations
-	 * @property {import('pins-data-model/src/schemas').AppealS78Case['leadCaseReference']} [leadCaseReference]
-	 * @property {import('pins-data-model/src/schemas').AppealS78Case['nearbyCaseReferences']} [nearbyCaseReferences]
-	 * @property {import('pins-data-model/src/schemas').AppealS78Case['neighbouringSiteAddresses']} [neighbouringSiteAddresses]
-	 * @property {import('pins-data-model/src/schemas').AppealS78Case['affectedListedBuildingNumbers']} [affectedListedBuildingNumbers]
-	 * @property {import('pins-data-model/src/schemas').AppealS78Case['changedListedBuildingNumbers']} [changedListedBuildingNumbers]
-	 * @property {import('pins-data-model/src/schemas').AppealS78Case['notificationMethod']} [notificationMethod]
+	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['leadCaseReference']} [leadCaseReference]
+	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['nearbyCaseReferences']} [nearbyCaseReferences]
+	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['neighbouringSiteAddresses']} [neighbouringSiteAddresses]
+	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['affectedListedBuildingNumbers']} [affectedListedBuildingNumbers]
+	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['changedListedBuildingNumbers']} [changedListedBuildingNumbers]
+	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['notificationMethod']} [notificationMethod]
 	 */
 	/**
 	 * Upsert an appeal's relations by case reference (aka appeal number)

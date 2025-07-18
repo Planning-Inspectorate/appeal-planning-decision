@@ -3,7 +3,7 @@ const { PrismaClientValidationError } = require('@prisma/client/runtime/library'
 const ApiError = require('#errors/apiError');
 
 /**
- * @typedef {import('pins-data-model/src/schemas').AppealDocument} DataModelDocument
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealDocument} DataModelDocument
  * @typedef {import('@prisma/client').LPA} PrismaLPA
  */
 

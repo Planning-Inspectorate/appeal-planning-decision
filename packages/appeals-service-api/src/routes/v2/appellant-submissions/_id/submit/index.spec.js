@@ -224,7 +224,7 @@ module.exports = ({
 	 * testName: string,
 	 * appeal: {id: string},
 	 * submission: import('@prisma/client').AppellantSubmission,
-	 * expectedData: import('pins-data-model/src/schemas').AppellantSubmissionCommand
+	 * expectedData: import('@planning-inspectorate/data-model/src/schemas').AppellantSubmissionCommand
 	 * }> }
 	 */
 	const testData = [

@@ -2,7 +2,7 @@ const indexController = require('./index');
 
 const { mockRes } = require('../../../../__tests__/unit/mocks');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { APPEAL_CASE_STAGE } = require('pins-data-model');
+const { APPEAL_CASE_STAGE } = require('@planning-inspectorate/data-model');
 
 const { VIEW } = require('#lib/views');
 const { determineUser } = require('#lib/determine-user');

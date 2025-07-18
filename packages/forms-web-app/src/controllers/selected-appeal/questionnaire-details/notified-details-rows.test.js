@@ -1,4 +1,4 @@
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 const { notifiedRows } = require('./notified-details-rows');
 

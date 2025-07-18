@@ -2,7 +2,7 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const { constraintsRows } = require('./constraints-details-rows');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 describe('constraintsRows', () => {
 	const ROW_COUNT = 20;

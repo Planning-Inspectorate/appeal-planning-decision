@@ -4,7 +4,7 @@ const {
 	formatDocumentDetails,
 	documentExists
 } = require('@pins/common');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData

@@ -1,5 +1,5 @@
 const { formatDocumentDetails, documentExists, boolToYesNo } = require('@pins/common');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /**

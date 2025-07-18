@@ -5,7 +5,7 @@ const {
 	questionHasAnswer,
 	questionsHaveAnswers
 } = require('../dynamic-components/utils/question-has-answer');
-const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
+const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 const {

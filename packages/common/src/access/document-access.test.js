@@ -1,6 +1,6 @@
 const { canAccessBODocument, checkDocAccess, CLIENT_CREDS_ROLE } = require('./document-access');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
+const { APPEAL_VIRUS_CHECK_STATUS } = require('@planning-inspectorate/data-model');
 
 const { documentTypes } = require('@pins/common/src/document-types');
 const lpaOwnedDoc = documentTypes.conservationMap;

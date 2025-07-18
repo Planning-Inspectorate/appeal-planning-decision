@@ -64,7 +64,7 @@ const {
 } = require('./full-appeal/map-planning-application');
 const { mapTypeCodeToAppealId } = require('@pins/common');
 const { businessRulesDeadline } = require('./calculate-deadline');
-const { APPEAL_CASE_STATUS } = require('pins-data-model');
+const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
 const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invalidated');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';

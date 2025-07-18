@@ -13,7 +13,7 @@ const {
 	filterRepresentationsForDisplay,
 	formatRepresentations
 } = require('../../../lib/representation-functions');
-const { APPEAL_CASE_STAGE } = require('pins-data-model');
+const { APPEAL_CASE_STAGE } = require('@planning-inspectorate/data-model');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
 const { documentTypes } = require('@pins/common');

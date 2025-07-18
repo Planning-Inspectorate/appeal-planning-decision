@@ -8,13 +8,13 @@
  */
 
 const { app } = require('@azure/functions');
-const { APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
+const { APPEAL_VIRUS_CHECK_STATUS } = require('@planning-inspectorate/data-model');
 
 const VALID_SCAN_STATUSES = [APPEAL_VIRUS_CHECK_STATUS.SCANNED];
 const createApiClient = require('../common/api-client');
 
 /**
- * @typedef {import('pins-data-model/src/schemas').AppealDocument} AppealDocument
+ * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealDocument} AppealDocument
  */
 
 /**

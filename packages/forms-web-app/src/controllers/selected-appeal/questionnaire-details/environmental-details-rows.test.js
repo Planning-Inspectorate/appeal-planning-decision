@@ -1,5 +1,5 @@
 const { environmentalRows } = require('./environmental-details-rows');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 describe('environmentalRows', () => {
 	it('should create rows', () => {

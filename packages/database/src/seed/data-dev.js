@@ -9,7 +9,7 @@ const {
 	APPEAL_CASE_VALIDATION_OUTCOME,
 	APPEAL_DOCUMENT_TYPE,
 	APPEAL_VIRUS_CHECK_STATUS
-} = require('pins-data-model');
+} = require('@planning-inspectorate/data-model');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { testLPACode2 } = require('@pins/common/src/utils');

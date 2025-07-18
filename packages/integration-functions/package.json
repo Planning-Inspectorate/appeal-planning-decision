@@ -15,9 +15,9 @@
 		"test:watch": "jest --watchAll --runInBand"
 	},
 	"devDependencies": {
+		"@planning-inspectorate/data-model": "*",
 		"jest": "*",
-		"jest-junit": "*",
-		"pins-data-model": "*"
+		"jest-junit": "*"
 	},
 	"dependencies": {
 		"@azure/functions": "*",

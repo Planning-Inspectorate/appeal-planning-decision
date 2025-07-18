@@ -4,7 +4,7 @@ const {
 	formatYesOrNo,
 	boolToYesNo
 } = require('@pins/common');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');

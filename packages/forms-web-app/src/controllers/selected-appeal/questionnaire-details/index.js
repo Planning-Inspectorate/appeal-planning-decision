@@ -19,7 +19,7 @@ const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
-const { APPEAL_CASE_STAGE } = require('pins-data-model');
+const { APPEAL_CASE_STAGE } = require('@planning-inspectorate/data-model');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details

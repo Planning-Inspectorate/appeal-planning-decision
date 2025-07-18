@@ -1,5 +1,5 @@
 const { planningOfficerReportRows } = require('./planning-officer-details-rows');
-const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const date = new Date('2020-12-17T03:24:00');

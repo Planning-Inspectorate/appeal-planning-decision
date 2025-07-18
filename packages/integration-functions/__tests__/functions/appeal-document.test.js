@@ -2,11 +2,11 @@ const { InvocationContext } = require('@azure/functions');
 const handler = require('../../src/functions/appeal-document');
 const createApiClient = require('../../src/common/api-client');
 const config = require('../../src/common/config');
-const { APPEAL_REDACTED_STATUS } = require('pins-data-model');
+const { APPEAL_REDACTED_STATUS } = require('@planning-inspectorate/data-model');
 
 jest.mock('../../src/common/api-client');
 
-/** @type {import('pins-data-model/src/schemas').AppealDocument} */
+/** @type {import('@planning-inspectorate/data-model/src/schemas').AppealDocument} */
 const testData = {
 	documentId: 'a443f10a-e6c2-416a-8eb7-dd82ad8db2a0',
 	caseRef: '3221288',

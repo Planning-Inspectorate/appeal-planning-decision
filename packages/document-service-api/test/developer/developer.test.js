@@ -1,7 +1,7 @@
 const config = require('../../src/configuration/config');
 const { documentTypes } = require('@pins/common'); // TODO: remove this when the document types from @pins/common are brought into this API.
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
+const { APPEAL_VIRUS_CHECK_STATUS } = require('@planning-inspectorate/data-model');
 const supertest = require('supertest');
 const app = require('../../src/app');
 const api = supertest(app);
