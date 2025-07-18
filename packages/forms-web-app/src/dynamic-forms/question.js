@@ -1,12 +1,4 @@
 const { capitalize } = require('../lib/string-functions');
-const {
-	JOURNEY_TYPE,
-	getJourneyTypeById
-} = require('@pins/common/src/dynamic-forms/journey-types');
-const {
-	APPEAL_USER_ROLES: { APPELLANT, RULE_6_PARTY },
-	LPA_USER_ROLE
-} = require('@pins/common/src/constants');
 const { numericFields } = require('./dynamic-components/utils/numeric-fields');
 const escape = require('escape-html');
 const { nl2br } = require('@pins/common/src/utils');
@@ -258,12 +250,13 @@ class Question {
 	 * Save the answer to the question
 	 * @param {import('express').Request} req
 	 * @param {import('express').Response} res
+	 * @param {function(string, Object): Promise<any>} saveFunction
 	 * @param {Journey} journey
 	 * @param {Section} section
 	 * @param {JourneyResponse} journeyResponse
 	 * @returns {Promise<void>}
 	 */
-	async saveAction(req, res, journey, section, journeyResponse) {
+	async saveAction(req, res, saveFunction, journey, section, journeyResponse) {
 		// check for validation errors
 		const errorViewModel = this.checkForValidationErrors(req, section, journey);
 		if (errorViewModel) {
@@ -272,7 +265,7 @@ class Question {
 
 		// save
 		const responseToSave = await this.getDataToSave(req, journeyResponse);
-		await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
+		await saveFunction(journeyResponse.referenceId, responseToSave.answers);
 
 		// check for saving errors
 		const saveViewModel = this.checkForSavingErrors(req, section, journey);
@@ -340,43 +333,6 @@ class Question {
 		journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
 
 		return responseToSave;
-	}
-
-	/**
-	 * @param {import('@pins/common/src/client/appeals-api-client').AppealsApiClient} apiClient
-	 * @param {JourneyResponse} journeyResponse
-	 * @param {{ answers: Record<string, unknown> }} responseToSave
-	 */
-	async saveResponseToDB(apiClient, journeyResponse, responseToSave) {
-		const journeyType = getJourneyTypeById(journeyResponse.journeyId);
-
-		if (!journeyType) throw new Error(`Journey type: ${journeyResponse.journeyId} not found`);
-
-		const key = `${journeyType.type}_${journeyType.userType}`;
-
-		const saveMethodMap = {
-			[`${JOURNEY_TYPE.questionnaire}_${LPA_USER_ROLE}`]:
-				apiClient.patchLPAQuestionnaire?.bind(apiClient),
-			[`${JOURNEY_TYPE.appealForm}_${APPELLANT}`]:
-				apiClient.updateAppellantSubmission?.bind(apiClient),
-			[`${JOURNEY_TYPE.statement}_${LPA_USER_ROLE}`]: apiClient.patchLPAStatement?.bind(apiClient),
-			[`${JOURNEY_TYPE.statement}_${RULE_6_PARTY}`]:
-				apiClient.patchRule6StatementSubmission?.bind(apiClient),
-			[`${JOURNEY_TYPE.finalComments}_${APPELLANT}`]:
-				apiClient.patchAppellantFinalCommentSubmission?.bind(apiClient),
-			[`${JOURNEY_TYPE.finalComments}_${LPA_USER_ROLE}`]:
-				apiClient.patchLPAFinalCommentSubmission?.bind(apiClient),
-			[`${JOURNEY_TYPE.proofEvidence}_${APPELLANT}`]:
-				apiClient.patchAppellantProofOfEvidenceSubmission?.bind(apiClient),
-			[`${JOURNEY_TYPE.proofEvidence}_${LPA_USER_ROLE}`]:
-				apiClient.patchLpaProofOfEvidenceSubmission?.bind(apiClient),
-			[`${JOURNEY_TYPE.proofEvidence}_${RULE_6_PARTY}`]:
-				apiClient.patchRule6ProofOfEvidenceSubmission?.bind(apiClient)
-		};
-
-		const save = saveMethodMap[key];
-		if (!save) throw new Error(`No save function found for journey type: ${key}`);
-		return save(journeyResponse.referenceId, responseToSave.answers);
 	}
 
 	/**
@@ -493,46 +449,6 @@ class Question {
 		const currentQuestion = journey.getCurrentQuestionUrl(section.segment, this.fieldName);
 		const firstQuestionUrl = journey.sections[0].questions[0].url;
 		return currentQuestion.includes(firstQuestionUrl);
-	}
-
-	/**
-	 * @param {Journey} journey
-	 * @returns {boolean}
-	 */
-	isShortJourney(journey) {
-		const journeyType = getJourneyTypeById(journey.journeyId);
-
-		if (!journeyType) return false;
-
-		return (
-			journeyType.type === JOURNEY_TYPE.finalComments ||
-			journeyType.type === JOURNEY_TYPE.proofEvidence ||
-			journeyType.type === JOURNEY_TYPE.statement
-		);
-	}
-
-	/**
-	 * Get the dashboard URL based on the journey ID.
-	 * @param {string} journeyId
-	 * @returns {string}
-	 */
-	getDashboardUrl(journeyId) {
-		// lookup type by submission type code
-		const appealType = getJourneyTypeById(journeyId);
-
-		if (!appealType) {
-			return '/';
-		}
-
-		if (appealType.userType === APPELLANT) {
-			return '/appeals/your-appeals';
-		} else if (appealType.userType === LPA_USER_ROLE) {
-			return '/manage-appeals/your-appeals';
-		} else if (appealType.userType === RULE_6_PARTY) {
-			return '/rule-6/your-appeals';
-		}
-
-		return '/';
 	}
 
 	/**

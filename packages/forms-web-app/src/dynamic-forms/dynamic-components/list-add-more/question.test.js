@@ -1,10 +1,9 @@
 const ListAddMoreQuestion = require('./question');
 const CaseAddMoreQuestion = require('../case-add-more/question');
-const { mockRes } = require('../../../../__tests__/unit/mocks');
-const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
-const res = mockRes();
-
+const res = {
+	render: jest.fn()
+};
 const TITLE = 'Question1';
 const QUESTION_STRING = 'What is your favourite colour?';
 const DESCRIPTION = 'A question about your favourite colour';
@@ -100,7 +99,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 		it('should add addMoreAnswers data to model', () => {
 			const question = getTestQuestion();
 			const journey = {
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
+				journeyId: 'appeal',
 				response: {
 					answers: {
 						[question.fieldName]: [
@@ -184,7 +183,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const journey = {};
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, jest.fn(), journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.subQuestion.viewFolder}/index`,
@@ -203,14 +202,14 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const expectedBackLink = 'back';
 			const req = { body: { 'add-more-question': 1, [question.fieldName]: 'yes' } };
 			const journey = {
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
+				journeyId: 'appeal',
 				response: { answers: {} },
 				getBackLink: jest.fn(() => expectedBackLink),
 				getCurrentQuestionUrl: jest.fn(() => expectedBackLink)
 			};
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, jest.fn(), journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.subQuestion.viewFolder}/index`,
@@ -234,7 +233,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const journey = { response: { answers: {} }, getNextQuestionUrl: jest.fn(() => expectedUrl) };
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, jest.fn(), journey, section, journey.response);
 
 			expect(res.redirect).toHaveBeenCalledWith(expectedUrl);
 		});
@@ -255,7 +254,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const journey = {};
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, jest.fn(), journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.subQuestion.viewFolder}/index`,
@@ -287,7 +286,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			};
 			const section = {};
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, jest.fn(), journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.subQuestion.viewFolder}/index`,
@@ -319,7 +318,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			}
 			const journey = new TestJourney();
 
-			await question.saveAction(req, res, journey, section, journey.response);
+			await question.saveAction(req, res, jest.fn(), journey, section, journey.response);
 
 			expect(res.redirect).toHaveBeenCalledWith(expectedUrl);
 		});
