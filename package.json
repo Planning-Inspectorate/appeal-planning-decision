@@ -193,7 +193,7 @@
 		"prisma": "^6.10.1",
 		"rhea": "^3.0.4",
 		"sass": "^1.89.0",
-		"sinon": "^20.0.0",
+		"sinon": "^21.0.0",
 		"supertest": "^7.1.0",
 		"swagger-cli": "^4.0.4",
 		"testcontainers": "^11.0.3",
