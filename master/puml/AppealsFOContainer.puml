@@ -1,0 +1,100 @@
+@startuml
+set separator none
+title Appeals Front-Office Container
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+Person(LPA, "LPA", $descr="A local planning authority, issuing decisions on planning applications", $tags="", $link="")
+Person(Appellant, "Appellant", $descr="A member of the public, or a representative (agent), appealing against a planning decision", $tags="", $link="")
+Person(InterestedParty, "Interested Party", $descr="A member of the public, with an interest in the appeal", $tags="", $link="")
+Person(Rule6Party, "Rule 6 Party", $descr="A member of the public, with an interest in the appeal, given special 'rule 6' status", $tags="", $link="")
+System(AppealsBackOffice, "Appeals Back-Office", $descr="Internal service to manage planning appeals in England", $tags="", $link="")
+System(IntegrationLayer, "Integration Layer", $descr="Data exchange between FO and back office", $tags="", $link="")
+System(GOVNotify, "GOV Notify", $descr="", $tags="", $link="")
+System(ClamAV, "ClamAV", $descr="External ClamAV defintions", $tags="", $link="")
+
+System_Boundary("AppealsFrontOffice_boundary", "Appeals Front-Office", $tags="") {
+  AddBoundaryTag("Appeal Front-Office VNET", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+  Boundary(group_1, "Appeal Front-Office VNET", $tags="Appeal Front-Office VNET") {
+    Container(AppealsFrontOffice.AppealFrontOfficeWeb, "Appeal Front-Office Web", $techn="Node.js, Azure Web App", $descr="Web UI", $tags="", $link="")
+      AddBoundaryTag("Appeal Front-Office VNET/Appeal Front-Office Back End", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+      Boundary(group_2, "Appeal Front-Office Back End", $tags="Appeal Front-Office VNET/Appeal Front-Office Back End") {
+        Container(AppealsFrontOffice.ClamAV, "ClamAV", $techn="", $descr="", $tags="", $link="")
+        Container(AppealsFrontOffice.AppealFrontOfficeAuthServer, "Appeal Front-Office Auth Server", $techn="Node.js, Azure Web App", $descr="API", $tags="", $link="")
+        Container(AppealsFrontOffice.AppInsights, "App Insights", $techn="", $descr="", $tags="", $link="")
+          AddBoundaryTag("Appeal Front-Office VNET/Appeal Front-Office Back End/Appeal Front-Office APIs", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+          Boundary(group_3, "Appeal Front-Office APIs", $tags="Appeal Front-Office VNET/Appeal Front-Office Back End/Appeal Front-Office APIs") {
+            Container(AppealsFrontOffice.AppealFrontOfficeAPI, "Appeal Front-Office API", $techn="Node.js, Azure Web App", $descr="API", $tags="", $link="")
+            Container(AppealsFrontOffice.AppealFrontOfficeDocumentAPI, "Appeal Front-Office Document API", $techn="Node.js, Azure Web App", $descr="API", $tags="", $link="")
+            Container(AppealsFrontOffice.AppealFrontOfficePDFAPI, "Appeal Front-Office PDF API", $techn="Node.js, Azure Web App", $descr="API", $tags="", $link="")
+          }
+
+          AddBoundaryTag("Appeal Front-Office VNET/Appeal Front-Office Back End/Appeal Front-Office Data", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+          Boundary(group_4, "Appeal Front-Office Data", $tags="Appeal Front-Office VNET/Appeal Front-Office Back End/Appeal Front-Office Data") {
+            Container(AppealsFrontOffice.Blobstoragefordocuments, "Blob storage for documents", $techn="Azure Blob Storage", $descr="Stores all files uploaded in the Front-Office", $tags="", $link="")
+            ContainerDb(AppealsFrontOffice.AzureSQLDatabase, "Azure SQL Database", $techn="Azure SQL", $descr="Data store for appeals", $tags="", $link="")
+            Container(AppealsFrontOffice.AzureSQLDatabasestorage, "Azure SQL Database storage", $techn="Azure Blob Storage", $descr="Log storage account for sql", $tags="", $link="")
+            ContainerDb(AppealsFrontOffice.AzureCosmosMongoDatabase, "Azure Cosmos Mongo Database", $techn="Azure Cosmos", $descr="Data store for appeals", $tags="", $link="")
+          }
+
+          AddBoundaryTag("Appeal Front-Office VNET/Appeal Front-Office Back End/Appeal Front-Office Functions", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+          Boundary(group_5, "Appeal Front-Office Functions", $tags="Appeal Front-Office VNET/Appeal Front-Office Back End/Appeal Front-Office Functions") {
+            Container(AppealsFrontOffice.integrationfunctions, "integration-functions", $techn="Function App, JavaScript", $descr="Consumes messages from Service Bus", $tags="", $link="")
+            Container(AppealsFrontOffice.integrationfunctionsstorage, "integration-functions storage", $techn="Azure Blob Storage", $descr="function app storage account", $tags="", $link="")
+          }
+
+      }
+
+  }
+
+  Container(AppealsFrontOffice.PINsFrontDoor, "PINs Front Door", $techn="", $descr="", $tags="", $link="")
+  Container(AppealsFrontOffice.AppealsWAFPolicy, "Appeals WAF Policy", $techn="", $descr="", $tags="", $link="")
+}
+
+Rel(AppealsFrontOffice.AppealFrontOfficeDocumentAPI, AppealsBackOffice, "Retrives BO docs SAS URLs", $techn="HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeAPI, GOVNotify, "Requests emails to be sent", $techn="REST/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeAuthServer, GOVNotify, "Requests emails to be sent", $techn="REST/HTTPS", $tags="", $link="")
+Rel(AppealsBackOffice, GOVNotify, "Requests emails to be sent", $techn="REST/HTTPS", $tags="", $link="")
+Rel(GOVNotify, LPA, "Emails the LPA", $techn="EMAIL/SMTP", $tags="", $link="")
+Rel(GOVNotify, Appellant, "Emails the appellant", $techn="EMAIL/SMTP", $tags="", $link="")
+Rel(GOVNotify, InterestedParty, "Emails the interested party", $techn="EMAIL/SMTP", $tags="", $link="")
+Rel(GOVNotify, Rule6Party, "Emails the rule 6 interested party", $techn="EMAIL/SMTP", $tags="", $link="")
+Rel(AppealsFrontOffice.ClamAV, ClamAV, "Gets latest virus definitions", $techn="", $tags="", $link="")
+Rel(AppealsBackOffice, IntegrationLayer, "Records changes to appeals", $techn="Service Bus Topic", $tags="", $link="")
+Rel(AppealsFrontOffice.integrationfunctions, IntegrationLayer, "Poll for new messages", $techn="Service Bus Topic", $tags="", $link="")
+Rel(AppealsFrontOffice.integrationfunctions, AppealsFrontOffice.AppealFrontOfficeAPI, "Forward service bus messages to API", $techn="REST/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.integrationfunctions, AppealsFrontOffice.integrationfunctionsstorage, "Stores files", $techn="", $tags="", $link="")
+Rel(AppealsFrontOffice.AzureSQLDatabase, AppealsFrontOffice.AzureSQLDatabasestorage, "Store sql audit logs/scans", $techn="", $tags="", $link="")
+Rel(AppealsFrontOffice.integrationfunctions, AppealsFrontOffice.AppInsights, "Store App Logs/Requests", $techn="", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeAPI, AppealsFrontOffice.AppInsights, "Store App Logs/Requests", $techn="", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeAuthServer, AppealsFrontOffice.AppInsights, "Store App Logs/Requests", $techn="", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeDocumentAPI, AppealsFrontOffice.AppInsights, "Store App Logs/Requests", $techn="", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeWeb, AppealsFrontOffice.AppInsights, "Store App Logs/Requests", $techn="", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficePDFAPI, AppealsFrontOffice.AppInsights, "Store App Logs/Requests", $techn="", $tags="", $link="")
+Rel(Appellant, AppealsFrontOffice.PINsFrontDoor, "Registers appeals", $techn="HTML/HTTPS", $tags="", $link="")
+Rel(LPA, AppealsFrontOffice.PINsFrontDoor, "Responds to appeals", $techn="HTML/HTTPS", $tags="", $link="")
+Rel(InterestedParty, AppealsFrontOffice.PINsFrontDoor, "Comments on appeals", $techn="HTML/HTTPS", $tags="", $link="")
+Rel(Rule6Party, AppealsFrontOffice.PINsFrontDoor, "Comments on appeals", $techn="HTML/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.PINsFrontDoor, AppealsFrontOffice.AppealsWAFPolicy, "Checks traffic", $techn="Azure WAF Policy", $tags="", $link="")
+Rel(AppealsFrontOffice.PINsFrontDoor, AppealsFrontOffice.AppealFrontOfficeWeb, "Forwards traffic to domain onto App Service", $techn="Azure Front Door, HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeWeb, AppealsFrontOffice.AppealFrontOfficeAPI, "Gets/sets appeal data", $techn="REST/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeWeb, AppealsFrontOffice.AppealFrontOfficeDocumentAPI, "Gets/sets documents", $techn="REST/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeWeb, AppealsFrontOffice.AppealFrontOfficeAuthServer, "Gets auth tokens", $techn="OAUTH2/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeWeb, AppealsFrontOffice.AppealFrontOfficePDFAPI, "Creates pdfs", $techn="REST/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeWeb, AppealsFrontOffice.ClamAV, "Scans file uploads", $techn="CLAMAV", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeWeb, AppealsFrontOffice.AzureCosmosMongoDatabase, "Stores user session data", $techn="HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeAPI, AppealsFrontOffice.AzureSQLDatabase, "Stores data", $techn="SQL/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeAPI, AppealsFrontOffice.AzureCosmosMongoDatabase, "Stores data", $techn="Azure Cosmos(Mongo API)/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeAPI, AppealsFrontOffice.AppealFrontOfficeAuthServer, "Validates auth tokens", $techn="OAUTH2/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeAPI, IntegrationLayer, "Informs back office of new appeals", $techn="Service Bus Topic", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeDocumentAPI, AppealsFrontOffice.AzureSQLDatabase, "Stores data", $techn="SQL/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeDocumentAPI, AppealsFrontOffice.AzureCosmosMongoDatabase, "Stores data", $techn="Mongo/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeDocumentAPI, AppealsFrontOffice.AppealFrontOfficeAuthServer, "Validates auth tokens", $techn="OAUTH2/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice.AppealFrontOfficeDocumentAPI, AppealsFrontOffice.Blobstoragefordocuments, "Stores/retrieves documents", $techn="HTTPS", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml

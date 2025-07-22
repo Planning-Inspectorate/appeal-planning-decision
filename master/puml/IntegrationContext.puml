@@ -1,0 +1,23 @@
+@startuml
+set separator none
+title Integration Context
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+
+AddBoundaryTag("Planning Inspectorate: Appeals", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+Boundary(group_1, "Planning Inspectorate: Appeals", $tags="Planning Inspectorate: Appeals") {
+  System(AppealsFrontOffice, "Appeals Front-Office", $descr="Public dashboards for appellants and LPAs", $tags="", $link="")
+  System(AppealsBackOffice, "Appeals Back-Office", $descr="Internal service to manage planning appeals in England", $tags="", $link="")
+  System(IntegrationLayer, "Integration Layer", $descr="Data exchange between FO and back office", $tags="", $link="")
+}
+
+
+Rel(AppealsBackOffice, IntegrationLayer, "Records changes to appeals", $techn="Service Bus Topic", $tags="", $link="")
+Rel(AppealsFrontOffice, AppealsBackOffice, "Peered VNets", $techn="Azure Private endpoint, Azure Private DNS zones, Azure VNet", $tags="", $link="")
+Rel(AppealsFrontOffice, IntegrationLayer, "Informs back office of new appeals", $techn="Service Bus Topic", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml

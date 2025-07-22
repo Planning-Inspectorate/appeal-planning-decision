@@ -1,0 +1,39 @@
+@startuml
+set separator none
+title GovUK Context
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+
+AddBoundaryTag("External Systems", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+Boundary(group_1, "External Systems", $tags="External Systems") {
+  System(GOVNotify, "GOV Notify", $descr="", $tags="", $link="")
+}
+
+AddBoundaryTag("Planning Inspectorate: Appeals", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+Boundary(group_2, "Planning Inspectorate: Appeals", $tags="Planning Inspectorate: Appeals") {
+  System(AppealsFrontOffice, "Appeals Front-Office", $descr="Public dashboards for appellants and LPAs", $tags="", $link="")
+  System(AppealsBackOffice, "Appeals Back-Office", $descr="Internal service to manage planning appeals in England", $tags="", $link="")
+}
+
+Person(LPA, "LPA", $descr="A local planning authority, issuing decisions on planning applications", $tags="", $link="")
+Person(Appellant, "Appellant", $descr="A member of the public, or a representative (agent), appealing against a planning decision", $tags="", $link="")
+Person(InterestedParty, "Interested Party", $descr="A member of the public, with an interest in the appeal", $tags="", $link="")
+Person(Rule6Party, "Rule 6 Party", $descr="A member of the public, with an interest in the appeal, given special 'rule 6' status", $tags="", $link="")
+
+Rel(AppealsFrontOffice, GOVNotify, "Requests emails to be sent", $techn="REST/HTTPS", $tags="", $link="")
+Rel(AppealsBackOffice, GOVNotify, "Requests emails to be sent", $techn="REST/HTTPS", $tags="", $link="")
+Rel(GOVNotify, LPA, "Emails the LPA", $techn="EMAIL/SMTP", $tags="", $link="")
+Rel(GOVNotify, Appellant, "Emails the appellant", $techn="EMAIL/SMTP", $tags="", $link="")
+Rel(GOVNotify, InterestedParty, "Emails the interested party", $techn="EMAIL/SMTP", $tags="", $link="")
+Rel(GOVNotify, Rule6Party, "Emails the rule 6 interested party", $techn="EMAIL/SMTP", $tags="", $link="")
+Rel(Appellant, AppealsFrontOffice, "Registers appeals", $techn="HTML/HTTPS", $tags="", $link="")
+Rel(LPA, AppealsFrontOffice, "Responds to appeals", $techn="HTML/HTTPS", $tags="", $link="")
+Rel(InterestedParty, AppealsFrontOffice, "Comments on appeals", $techn="HTML/HTTPS", $tags="", $link="")
+Rel(Rule6Party, AppealsFrontOffice, "Comments on appeals", $techn="HTML/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice, AppealsBackOffice, "Peered VNets", $techn="Azure Private endpoint, Azure Private DNS zones, Azure VNet", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml

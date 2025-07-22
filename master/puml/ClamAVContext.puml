@@ -1,0 +1,24 @@
+@startuml
+set separator none
+title ClamAV Context
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+
+AddBoundaryTag("External Systems", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+Boundary(group_1, "External Systems", $tags="External Systems") {
+  System(ClamAV, "ClamAV", $descr="External ClamAV defintions", $tags="", $link="")
+}
+
+AddBoundaryTag("Planning Inspectorate: Appeals", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+Boundary(group_2, "Planning Inspectorate: Appeals", $tags="Planning Inspectorate: Appeals") {
+  System(AppealsFrontOffice, "Appeals Front-Office", $descr="Public dashboards for appellants and LPAs", $tags="", $link="")
+}
+
+
+Rel(AppealsFrontOffice, ClamAV, "Gets latest virus definitions", $techn="", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml

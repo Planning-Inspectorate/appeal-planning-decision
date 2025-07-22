@@ -1,0 +1,29 @@
+@startuml
+set separator none
+title Devops Context
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+
+AddBoundaryTag("External Systems", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+Boundary(group_1, "External Systems", $tags="External Systems") {
+  System(AzureDevops, "Azure Devops", $descr="", $tags="", $link="")
+  System(Github, "Github", $descr="", $tags="", $link="")
+}
+
+AddBoundaryTag("Planning Inspectorate: Appeals", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+Boundary(group_2, "Planning Inspectorate: Appeals", $tags="Planning Inspectorate: Appeals") {
+  System(AppealsFrontOffice, "Appeals Front-Office", $descr="Public dashboards for appellants and LPAs", $tags="", $link="")
+  System(SharedPINsServices, "Shared PINs Services", $descr="", $tags="", $link="")
+}
+
+
+Rel(AzureDevops, Github, "Retrieves code", $techn="HTTPS", $tags="", $link="")
+Rel(AzureDevops, SharedPINsServices, "Retrieves secrets", $techn="HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice, SharedPINsServices, "Apps pull latest container version", $techn="Docker", $tags="", $link="")
+Rel(AzureDevops, AppealsFrontOffice, "Terraform updates infra", $techn="Terraform/AzureRM", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml
