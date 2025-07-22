@@ -89,7 +89,7 @@ const CASE_TYPES = Object.freeze({
 	},
 	CAS_ADVERTS: {
 		id: 1007,
-		key: APPEAL_CASE_TYPE.Z, // shares same key as CAS_PLANNING
+		key: APPEAL_CASE_TYPE.ZA, // just Z in horizon
 		type: 'Minor commercial advertisement',
 		caption: 'Minor Commercial Advertisement',
 		processCode: 'CAS_ADVERTS',
@@ -98,7 +98,7 @@ const CASE_TYPES = Object.freeze({
 	},
 	CAS_PLANNING: {
 		id: 1008,
-		key: APPEAL_CASE_TYPE.Z, // shares same key as CAS_ADVERTS
+		key: APPEAL_CASE_TYPE.ZP, // just Z in horizon
 		type: 'Minor commercial',
 		caption: 'Minor Commercial',
 		processCode: 'CAS_PLANNING',
