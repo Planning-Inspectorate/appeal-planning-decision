@@ -258,6 +258,17 @@ const mapHASDataModelToAppealCase = (
  * @param {AppealS78Case} dataModel
  * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
  */
+const mapCASPlanningDataModelToAppealCase = (caseProcessCode, dataModel) => ({
+	...mapHASDataModelToAppealCase(caseProcessCode, dataModel),
+	statutoryConsultees: dataModel.hasStatutoryConsultees, // todo: rename
+	consultedBodiesDetails: dataModel.consultedBodiesDetails
+});
+
+/**
+ * @param {String} caseProcessCode
+ * @param {AppealS78Case} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
 const mapS78DataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	...mapHASDataModelToAppealCase(caseProcessCode, dataModel),
 	agriculturalHolding: dataModel.agriculturalHolding,
@@ -384,6 +395,11 @@ const getMappedData = (data) => {
 			const hasValidator = getValidator('appeal-has');
 			if (!hasValidator(data)) throw ApiError.badRequest('Payload was invalid');
 			return mapHASDataModelToAppealCase(CASE_TYPES.HAS.processCode, data);
+		}
+		case CASE_TYPES.CAS_PLANNING.key: {
+			const hasValidator = getValidator('appeal-has');
+			if (!hasValidator(data)) throw ApiError.badRequest('Payload was invalid');
+			return mapCASPlanningDataModelToAppealCase(CASE_TYPES.S20.processCode, data);
 		}
 		case CASE_TYPES.S78.key: {
 			const s78Validator = getValidator('appeal-s78');
