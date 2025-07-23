@@ -2,9 +2,8 @@
 
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-{% from "govuk/components/tag/macro.njk" import govukTag %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "pins/components/appeal-sections-block.njk" import appealSectionsBlock %}
+{% from "pins/components/appeal-decision-block.njk" import appealDecisionBlock %}
 
 {% set title=appeal.headlineText + " - Comment on a planning appeal - GOV.UK" %}
 
@@ -25,16 +24,12 @@
       <h1 class="govuk-heading-l">{{appeal.headlineText}}</h1>
 
 	  {% if appeal.status === 'decided' %}
-		<h2 class="govuk-heading-2">Appeal decision</h2>
-		{{ govukTag({
-			text: appeal.decidedData.caseDecisionOutcome,
-			classes: "govuk-tag--" + appeal.decidedData.formattedDecisionColour + " govuk-!-margin-bottom-3"
-		}) }}
-		<p class="govuk-body">Decision date: {{appeal.decidedData.formattedCaseDecisionDate}}</p>
-		{% for document in appeal.decidedData.decisionDocuments %}
-			<p class="govuk-body"><a href="/published-document/{{document.id}}" class="govuk-link">{{document.filename}}</a></p>
-		{% endfor %}
-		<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+	  	{{ appealDecisionBlock(
+			appeal.decidedData.caseDecisionOutcome,
+			appeal.decidedData.formattedDecisionColour,
+			appeal.decidedData.formattedCaseDecisionDate,
+			appeal.decidedData.decisionDocument
+		) }}
 	  {% endif %}
 
       {{ govukSummaryList({
