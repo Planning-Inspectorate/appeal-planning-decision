@@ -3,6 +3,8 @@
 
 import { houseHolderAppealNoDecisionTestCases } from "../../../helpers/appellantAAPD/houseHolderAppeal/houseHolderAppealNoDecisionData";
 import { users } from "../../../fixtures/users.js";
+import { tag } from '#support/tag.js';
+
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
 describe('Submit House Holder Appeal No Decision Test Cases', () => {
@@ -54,4 +56,25 @@ describe('Submit House Holder Appeal No Decision Test Cases', () => {
 			});
 		});
 	});
+
+	// example smoke test case
+	it('HAS Smoke Test', { tags: tag.smoke }, () => {
+		const context = houseHolderAppealNoDecisionTestCases[0];
+		const {
+			statusOfOriginalApplication,
+			typeOfDecisionRequested,
+			statusOfPlanningObligation,
+			typeOfPlanningApplication,
+		} = context;
+
+		submitAppealFlow({
+			statusOfOriginalApplication,
+			typeOfDecisionRequested,
+			statusOfPlanningObligation,
+			planning: typeOfPlanningApplication,
+			context,
+			prepareAppealData
+		});
+	});
+
 });

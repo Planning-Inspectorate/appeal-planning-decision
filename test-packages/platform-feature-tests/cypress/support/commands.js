@@ -187,14 +187,12 @@ Cypress.Commands.add('clearCookiesFiles', () => {
 });
 
 Cypress.Commands.add('loginWithPuppeteer', (user) => {
-	cy.log(Cypress.env());
 	var config = {
 		username: user.email,
-		password: Cypress.env('PASSWORD'),
-		loginUrl: Cypress.config('baseUrl'),
+		password: Cypress.env('AUTH_PASSWORD'),
+		loginUrl: Cypress.config('appeals_beta_base_url'),
 		id: user.id
 	};
-	cy.log(JSON.stringify(config));
 
 	cy.task('AzureSignIn', config).then((cookies) => {
 		cy.clearCookies();

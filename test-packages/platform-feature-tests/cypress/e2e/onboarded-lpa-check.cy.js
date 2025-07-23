@@ -12,7 +12,7 @@ const enterLpa = new EnterLpa();
 describe('Check access to appeals service for granted LPAs', () => {
 	beforeEach(() => {
 		cy.login(users.appeals.authUser);
-		cy.visit('https://appeals-service-test.planninginspectorate.gov.uk/before-you-start');
+		cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 		basePage.clickContinueBtn();
 
 		// Step 3: Checks we are on the local planning authority page

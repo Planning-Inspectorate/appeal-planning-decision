@@ -13,8 +13,9 @@ module.exports = defineConfig({
   chromeWebSecurity: false,
   reporter: 'cypress-mochawesome-reporter',
   video: false,
+  screenshotsFolder: 'cypress/reports/screenshots',
   reporterOptions: {
-    reportDir: 'cypress/reports',
+    reportDir: 'cypress/reports/reports',
     charts: true,
     overwrite: false,
     html: true,
@@ -37,12 +38,11 @@ module.exports = defineConfig({
       return config;
     },
     env: {
-      PASSWORD: process.env.USER_PASSWORD,
+      AUTH_PASSWORD: process.env.AUTH_PASSWORD,
       AUTH_EMAIL: process.env.AUTH_EMAIL,
       CASE_ADMIN_EMAIL: process.env.CASE_ADMIN_EMAIL
     },
-    baseUrl: 'https://appeals-service-test.planninginspectorate.gov.uk',
-    appeals_beta_base_url: 'https://appeals-service-test.planninginspectorate.gov.uk',
+    appeals_beta_base_url: process.env.CYPRESS_APPEALS_BETA_BASE_URL || 'https://appeals-service-test.planninginspectorate.gov.uk',
     back_office_base_url: process.env.CYPRESS_BACK_OFFICE_BASE_URL || 'https://back-office-appeals-test.planninginspectorate.gov.uk',
     supportFile: 'cypress/support/e2e.js',
     testIsolation: false,

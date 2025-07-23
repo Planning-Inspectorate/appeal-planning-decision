@@ -17,9 +17,10 @@
 import './commands';
 import 'cypress-mochawesome-reporter/register';
 import 'cypress-wait-until';
+import registerCypressGrep from '@cypress/grep';
+registerCypressGrep();
 
 require('cy-verify-downloads').addCustomCommand();
-
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

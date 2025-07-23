@@ -181,14 +181,9 @@ junit.xml
 .release-version
 
 # Cypress
-packages/platform-feature-tests/cypress/screenshots/
-packages/platform-feature-tests/cypress/videos/
-packages/platform-feature-tests/cypress/reports/
-
-cypress/support/browserAuthData
-cypress/downloads
-cypress/reports
-cypress/screenshots
+**/cypress/downloads
+**/cypress/reports
+**/cypress/support/browserAuthData
 
 init/mssql
 !init/mssql/mssql.conf
