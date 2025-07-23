@@ -523,31 +523,6 @@ exports.getHASLPAQSubmissionFields = (answers) => {
  * @param {LPAQAnswers} answers
  * @returns {LPAQS78SubmissionProperties}
  */
-exports.getCASLPAQSubmissionFields = (answers) => {
-	console.log(answers.statutoryConsultees);
-	return {
-		isCorrectAppealType: answers.correctAppealType,
-		affectedListedBuildingNumbers: getListedBuildingByType(
-			answers.SubmissionListedBuilding,
-			fieldNames.affectedListedBuildingNumber
-		),
-		inConservationArea: answers.conservationArea,
-		isGreenBelt: answers.greenBelt,
-		notificationMethod: exports.howYouNotifiedPeople(answers),
-		newConditionDetails: answers.newConditions_newConditionDetails ?? null,
-		lpaStatement: '', // not asked
-		lpaCostsAppliedFor: null, // not asked
-		// Consultation responses and representations
-		hasStatutoryConsultees: exports.toBool(answers.statutoryConsultees),
-		consultedBodiesDetails: answers.statutoryConsultees_consultedBodiesDetails || null,
-		hasConsultationResponses: answers.consultationResponses
-	};
-};
-
-/**
- * @param {LPAQAnswers} answers
- * @returns {LPAQS78SubmissionProperties}
- */
 exports.getS78LPAQSubmissionFields = (answers) => {
 	const levy = getInfrastructureLevy(answers);
 	const preference = getLPAProcedurePreference(answers);
