@@ -17,7 +17,7 @@ describe('Comment on a planning appeal validations', () => {
     });
     it('should validate service name and URL for IP Comments', () => {
         cy.get(basePage?._selectors?.govukHeaderLinkGovukHeaderServiceName).should('include.text', 'Comment on a planning appeal');
-        cy.url().should('include', 'https://appeals-service-test.planninginspectorate.gov.uk/comment-planning-appeal/enter-appeal-reference');
+        cy.url().should('include', `${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal/enter-appeal-reference`);
 
     });
     it('should Validate appeal reference number Error message', () => {
@@ -50,7 +50,7 @@ describe('Comment on a planning appeal validations', () => {
     it('should Validate URL for enter a postcode', () => {
         cy.get('a[href*="enter-postcode"]').contains('I do not have an appeal reference number');
         cy.get('a[href*="enter-postcode"]').click();
-        cy.url().should('include', 'https://appeals-service-test.planninginspectorate.gov.uk/comment-planning-appeal/enter-postcode');
+        cy.url().should('include', `${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal/enter-postcode`);
     });
     it('should Validate postcode error message', () => {
         cy.get('a[href*="enter-postcode"]').click();
@@ -88,7 +88,7 @@ describe('Comment on a planning appeal validations', () => {
         // Validate I do not have an appeal reference number
         cy.get('a[href*="enter-postcode"]').click();
         // Validate URL
-        cy.url().should('include', 'https://appeals-service-test.planninginspectorate.gov.uk/comment-planning-appeal/enter-postcode');
+        cy.url().should('include', `${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal/enter-postcode`);
 
         // Input search by post code
         cy.get('#postcode').type('SW7 9PB');
@@ -102,7 +102,8 @@ describe('Comment on a planning appeal validations', () => {
                         cy.get('a').each(($link) => {
                             appealId = $link.attr('href')?.split('/').pop();
                             cy.log(appealId);
-                            cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
+                            cy.wrap($link).scrollIntoView();
+                            cy.should('be.visible').click({ force: true });
                             return false;
                         });
                     });
