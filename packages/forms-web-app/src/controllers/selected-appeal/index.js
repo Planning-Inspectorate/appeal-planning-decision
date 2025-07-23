@@ -33,6 +33,7 @@ const targetTimezone = 'Europe/London';
 const { getDepartmentFromCode } = require('../../services/department.service');
 const logger = require('#lib/logger');
 const config = require('../../config');
+const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 /** @type {import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict} */
 const userSectionsDict = {
@@ -116,6 +117,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				sections: formatSections({ caseData, sections }),
 				baseUrl: userRouteUrl,
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),
+				decisionDate: formatDateForDisplay(caseData.caseDecisionOutcomeDate),
 				decisionDocuments: filterDecisionDocuments(caseData.Documents),
 				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate),
 				statementDueDate: formatDateForNotification(caseData.statementDueDate),

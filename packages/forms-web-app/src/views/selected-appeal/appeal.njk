@@ -2,9 +2,9 @@
 
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-{% from "govuk/components/tag/macro.njk" import govukTag %}
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 {% from "pins/components/appeal-sections-block.njk" import appealSectionsBlock %}
+{% from "pins/components/appeal-decision-block.njk" import appealDecisionBlock %}
 
 {% set title="Appeal " + appeal.appealNumber + " - " + titleSuffix + " - GOV.UK" %}
 
@@ -201,15 +201,7 @@
 
 		<div class="govuk-grid-column-two-thirds">
 			{% if appeal.decision %}
-				<h2 class="govuk-heading-2">Appeal decision</h2>
-				{{ govukTag({
-					text: appeal.decision.label,
-					classes: "govuk-tag--" + appeal.decision.color + " govuk-!-margin-bottom-3"
-				}) }}
-				{% for document in appeal.decisionDocuments %}
-				  <p class="govuk-body"><a href="/published-document/{{document.id}}" class="govuk-link">{{document.filename}}</a></p>
-				{% endfor %}
-				<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+			    {{ appealDecisionBlock(appeal.decision.label, appeal.decision.color, appeal.decisionDate, appeal.decisionDocuments) }}
 			{% endif %}
 
 			{{ govukSummaryList({

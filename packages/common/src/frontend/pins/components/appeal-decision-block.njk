@@ -1,0 +1,16 @@
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% macro appealDecisionBlock(caseDecisionOutcome, formattedDecisionColour, formattedCaseDecisionDate, decisionDocuments) %}
+    <div class="govuk-inset-text">
+        <h2 class="govuk-heading-2">Appeal decision</h2>
+        {{ govukTag({
+            text: caseDecisionOutcome,
+            classes: "govuk-tag--" + formattedDecisionColour + " govuk-!-margin-bottom-3"
+        }) }}
+        <p class="govuk-body">Decision issued on {{formattedCaseDecisionDate}}</p>
+        {% for document in decisionDocuments %}
+            <p class="govuk-body"><a href="/published-document/{{document.id}}" class="govuk-link">{{document.filename}}</a></p>
+        {% endfor %}
+        <hr class="govuk-section-break govuk-section-break--m">
+    </div>
+{% endmacro %}
