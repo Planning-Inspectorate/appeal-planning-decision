@@ -52,56 +52,21 @@ condition: (response) =>
 - boolean `/identifying-landowners/` Identifying the landowners
 
 ```js
-condition: (response) => {
-	if (questionHasAnswer(response, questions.ownsAllLand, 'yes')) return false;
-	if (
-		questionHasAnswer(response, questions.ownsSomeLand, 'yes') &&
-		questionHasAnswer(response, questions.knowsWhoOwnsRestOfLand, 'yes')
-	)
-		return false;
-	if (
-		questionHasAnswer(response, questions.ownsSomeLand, 'no') &&
-		questionHasAnswer(response, questions.knowsWhoOwnsLandInvolved, 'yes')
-	)
-		return false;
-	return true;
-};
+condition: (response) => shouldDisplayIdentifyingLandowners(response, questions);
 ```
 
 - boolean `/advertising-appeal/` Advertising your appeal
 
 ```js
 condition: (response) =>
-	shouldDisplayIdentifyingLandowners(response) &&
+	shouldDisplayIdentifyingLandowners(response, questions) &&
 	questionHasAnswer(response, questions.identifyingLandowners, 'yes');
 ```
 
 - boolean `/telling-landowners/` Telling the landowners
 
 ```js
-condition: (response) => {
-	if (questionHasAnswer(response, questions.ownsAllLand, 'yes')) return false;
-	if (
-		questionsHaveAnswers(
-			response,
-			[
-				[questions.ownsSomeLand, 'yes'],
-				[questions.knowsWhoOwnsRestOfLand, 'no']
-			],
-			{ logicalCombinator: 'and' }
-		) ||
-		questionsHaveAnswers(
-			response,
-			[
-				[questions.ownsSomeLand, 'no'],
-				[questions.knowsWhoOwnsLandInvolved, 'no']
-			],
-			{ logicalCombinator: 'and' }
-		)
-	)
-		return false;
-	return true;
-};
+condition: (response) => shouldDisplayTellingLandowners(response, questions);
 ```
 
 - radio `/inspector-need-access/` Will an inspector need to access your land or property?

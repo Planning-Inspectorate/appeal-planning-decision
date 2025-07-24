@@ -13,69 +13,16 @@ const {
 	CASE_TYPES: { S20 }
 } = require('@pins/common/src/database/data-static');
 const config = require('../../config');
+const {
+	shouldDisplayIdentifyingLandowners,
+	shouldDisplayTellingLandowners,
+	shouldDisplayUploadDecisionLetter
+} = require('../display-questions');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
  * @typedef {Omit<ConstructorParameters<typeof import('../journey').Journey>[0], 'response'>} JourneyParameters
  */
-
-/**
- * @param {JourneyResponse} response
- * @returns {boolean}
- */
-const shouldDisplayIdentifyingLandowners = (response) => {
-	if (questionHasAnswer(response, questions.ownsAllLand, 'yes')) return false;
-	if (
-		questionHasAnswer(response, questions.ownsSomeLand, 'yes') &&
-		questionHasAnswer(response, questions.knowsWhoOwnsRestOfLand, 'yes')
-	)
-		return false;
-	if (
-		questionHasAnswer(response, questions.ownsSomeLand, 'no') &&
-		questionHasAnswer(response, questions.knowsWhoOwnsLandInvolved, 'yes')
-	)
-		return false;
-
-	return true;
-};
-
-/**
- * @param {JourneyResponse} response
- * @returns {boolean}
- */
-const shouldDisplayTellingLandowners = (response) => {
-	if (questionHasAnswer(response, questions.ownsAllLand, 'yes')) return false;
-
-	if (
-		questionsHaveAnswers(
-			response,
-			[
-				[questions.ownsSomeLand, 'yes'],
-				[questions.knowsWhoOwnsRestOfLand, 'no']
-			],
-			{ logicalCombinator: 'and' }
-		) ||
-		questionsHaveAnswers(
-			response,
-			[
-				[questions.ownsSomeLand, 'no'],
-				[questions.knowsWhoOwnsLandInvolved, 'no']
-			],
-			{ logicalCombinator: 'and' }
-		)
-	)
-		return false;
-
-	return true;
-};
-
-/**
- * @param {JourneyResponse} response
- * @returns {boolean}
- */
-const shouldDisplayUploadDecisionLetter = (response) => {
-	return response.answers.applicationDecision !== 'nodecisionreceived';
-};
 
 /**
  * @param {JourneyResponse} response
@@ -119,19 +66,19 @@ const sections = [
 		.addQuestion(questions.identifyingLandowners)
 		.withCondition(
 			(response) =>
-				shouldDisplayIdentifyingLandowners(response) &&
+				shouldDisplayIdentifyingLandowners(response, questions) &&
 				questionHasAnswer(response, questions.ownsAllLand, 'no')
 		)
 		.addQuestion(questions.advertisingAppeal)
 		.withCondition(
 			(response) =>
-				shouldDisplayIdentifyingLandowners(response) &&
+				shouldDisplayIdentifyingLandowners(response, questions) &&
 				questionHasAnswer(response, questions.identifyingLandowners, 'yes')
 		)
 		.addQuestion(questions.tellingLandowners)
 		.withCondition(
 			(response) =>
-				shouldDisplayTellingLandowners(response) &&
+				shouldDisplayTellingLandowners(response, questions) &&
 				questionHasAnswer(response, questions.ownsAllLand, 'no')
 		)
 		.addQuestion(questions.inspectorAccess)
@@ -189,7 +136,7 @@ const sections = [
 			questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
 		)
 		.addQuestion(questions.uploadApplicationDecisionLetter)
-		.withCondition(shouldDisplayUploadDecisionLetter)
+		.withCondition((response) => shouldDisplayUploadDecisionLetter(response))
 		.addQuestion(questions.submitPlanningObligation)
 		.addQuestion(questions.planningObligationStatus)
 		.withCondition((response) =>
