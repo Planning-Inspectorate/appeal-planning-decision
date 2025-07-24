@@ -11,7 +11,10 @@ const {
 	questionHasAnswer,
 	questionsHaveAnswers
 } = require('../dynamic-components/utils/question-has-answer');
-const { shouldDisplayIdentifyingLandowners, shouldDisplayTellingLandowners } = require('../util');
+const {
+	shouldDisplayIdentifyingLandowners,
+	shouldDisplayTellingLandowners
+} = require('../display-questions');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse

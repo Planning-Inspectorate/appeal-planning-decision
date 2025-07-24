@@ -53,7 +53,7 @@ condition: (response) =>
 
 ```js
 condition: (response) =>
-	shouldDisplayIdentifyingLandowners(response) &&
+	shouldDisplayIdentifyingLandowners(response, questions) &&
 	questionHasAnswer(response, questions.ownsAllLand, 'no');
 ```
 
@@ -61,7 +61,7 @@ condition: (response) =>
 
 ```js
 condition: (response) =>
-	shouldDisplayIdentifyingLandowners(response) &&
+	shouldDisplayIdentifyingLandowners(response, questions) &&
 	questionHasAnswer(response, questions.identifyingLandowners, 'yes');
 ```
 
@@ -69,7 +69,7 @@ condition: (response) =>
 
 ```js
 condition: (response) =>
-	shouldDisplayTellingLandowners(response) &&
+	shouldDisplayTellingLandowners(response, questions) &&
 	questionHasAnswer(response, questions.ownsAllLand, 'no');
 ```
 
@@ -147,9 +147,7 @@ condition: (response) => questionHasAnswer(response, questions.updateDevelopment
 - multi-file-upload `/upload-decision-letter/` Upload the decision letter from the local planning authority
 
 ```js
-condition: (response) => {
-	return response.answers.applicationDecision !== 'nodecisionreceived';
-};
+condition: (response) => shouldDisplayUploadDecisionLetter(response);
 ```
 
 - boolean `/submit-planning-obligation/` Do you plan to submit a planning obligation to support your appeal?

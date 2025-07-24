@@ -10,7 +10,10 @@ const {
 	CASE_TYPES: { HAS }
 } = require('@pins/common/src/database/data-static');
 const config = require('../../config');
-const { shouldDisplayTellingLandowners, shouldDisplayIdentifyingLandowners } = require('../util');
+const {
+	shouldDisplayTellingLandowners,
+	shouldDisplayIdentifyingLandowners
+} = require('../display-questions');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse

@@ -1,7 +1,8 @@
 const {
 	questionHasAnswer,
 	questionsHaveAnswers
-} = require('./dynamic-components/utils/question-has-answer');
+} = require('./dynamic-components/utils/question-has-answer.js');
+
 /**
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  */
@@ -10,7 +11,7 @@ const {
  * @param {JourneyResponse} response
  * @returns {boolean}
  */
-export const shouldDisplayIdentifyingLandowners = (response, questions) => {
+exports.shouldDisplayIdentifyingLandowners = (response, questions) => {
 	if (questionHasAnswer(response, questions.ownsAllLand, 'yes')) return false;
 	if (
 		questionHasAnswer(response, questions.ownsSomeLand, 'yes') &&
@@ -30,7 +31,7 @@ export const shouldDisplayIdentifyingLandowners = (response, questions) => {
  * @param {JourneyResponse} response
  * @returns {boolean}
  */
-export const shouldDisplayTellingLandowners = (response, questions) => {
+exports.shouldDisplayTellingLandowners = (response, questions) => {
 	if (questionHasAnswer(response, questions.ownsAllLand, 'yes')) return false;
 
 	if (
@@ -60,7 +61,7 @@ export const shouldDisplayTellingLandowners = (response, questions) => {
  * @param {JourneyResponse} response
  * @returns {boolean}
  */
-export const shouldDisplayTellingTenants = (response, questions) => {
+exports.shouldDisplayTellingTenants = (response, questions) => {
 	if (
 		questionHasAnswer(response, questions.agriculturalHolding, 'yes') &&
 		(questionHasAnswer(response, questions.tenantAgriculturalHolding, 'no') ||
@@ -82,6 +83,6 @@ export const shouldDisplayTellingTenants = (response, questions) => {
  * @param {JourneyResponse} response
  * @returns {boolean}
  */
-export const shouldDisplayUploadDecisionLetter = (response) => {
+exports.shouldDisplayUploadDecisionLetter = (response) => {
 	return response.answers.applicationDecision !== 'nodecisionreceived';
 };

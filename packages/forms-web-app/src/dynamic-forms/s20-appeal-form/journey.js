@@ -17,7 +17,7 @@ const {
 	shouldDisplayIdentifyingLandowners,
 	shouldDisplayTellingLandowners,
 	shouldDisplayUploadDecisionLetter
-} = require('../util');
+} = require('../display-questions');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
