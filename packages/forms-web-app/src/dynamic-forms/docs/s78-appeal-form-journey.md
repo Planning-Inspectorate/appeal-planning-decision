@@ -53,7 +53,7 @@ condition: (response) =>
 
 ```js
 condition: (response) =>
-	shouldDisplayIdentifyingLandowners(response) &&
+	shouldDisplayIdentifyingLandowners(response, questions) &&
 	questionHasAnswer(response, questions.ownsAllLand, 'no');
 ```
 
@@ -61,7 +61,7 @@ condition: (response) =>
 
 ```js
 condition: (response) =>
-	shouldDisplayIdentifyingLandowners(response) &&
+	shouldDisplayIdentifyingLandowners(response, questions) &&
 	questionHasAnswer(response, questions.identifyingLandowners, 'yes');
 ```
 
@@ -69,7 +69,7 @@ condition: (response) =>
 
 ```js
 condition: (response) =>
-	shouldDisplayTellingLandowners(response) &&
+	shouldDisplayTellingLandowners(response, questions) &&
 	questionHasAnswer(response, questions.ownsAllLand, 'no');
 ```
 
@@ -97,22 +97,7 @@ condition: (response) =>
 - boolean `/telling-tenants/` Telling the tenants
 
 ```js
-condition: (response) => {
-	if (
-		questionHasAnswer(response, questions.agriculturalHolding, 'yes') &&
-		(questionHasAnswer(response, questions.tenantAgriculturalHolding, 'no') ||
-			questionsHaveAnswers(
-				response,
-				[
-					[questions.tenantAgriculturalHolding, 'yes'],
-					[questions.otherTenantsAgriculturalHolding, 'yes']
-				],
-				{ logicalCombinator: 'and' }
-			))
-	)
-		return true;
-	return false;
-};
+condition: (response) => shouldDisplayTellingTenants(response, questions);
 ```
 
 - radio `/inspector-need-access/` Will an inspector need to access your land or property?
