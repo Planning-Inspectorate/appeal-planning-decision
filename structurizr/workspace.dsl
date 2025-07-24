@@ -137,24 +137,24 @@ workspace "Appeal service" {
 
 		group "External Systems" {
 			systemGovUk = softwareSystem "GOV Notify" {
-				tags = "ExternalSystem"
+				tags "ExternalSystem"
 
 				containerGovNotify = container "GOV Notify" "UK government messaging platform for sending emails, text and letters to users"
 			}
 
-			systemClamAv = softwareSystem "ClamAV" "External ClamAV defintions" {
-				tags = "ExternalSystem"
+			systemClamAv = softwareSystem "ClamAV" "External ClamAV definitions" {
+				tags "ExternalSystem"
 			}
 
 			systemDevops = softwareSystem "Azure Devops" {
-				tags = "ExternalSystem"
+				tags "ExternalSystem"
 
 				containerPipelines = container "Pipelines"
 				containerInfraPipelines = container "Infra Pipelines"
 			}
 
 			systemGithub = softwareSystem "Github" {
-				tags = "ExternalSystem"
+				tags "ExternalSystem"
 			}
 		}
 
