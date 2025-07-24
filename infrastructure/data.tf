@@ -23,3 +23,12 @@ data "azurerm_linux_web_app" "appeals" {
   name                = var.web_app_config.name
   resource_group_name = var.web_app_config.rg
 }
+
+data "azurerm_dns_zone" "appeals" {
+  count = var.front_door_config.use_tooling ? 0 : 1
+
+  name                = var.web_domain
+  resource_group_name = var.tooling_config.network_rg
+
+  provider = azurerm.tooling
+}

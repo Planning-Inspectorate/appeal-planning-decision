@@ -40,6 +40,7 @@ resource "azurerm_cdn_frontdoor_custom_domain" "wfe" {
   cdn_frontdoor_profile_id = data.azurerm_cdn_frontdoor_profile.shared.id
   host_name                = var.web_domain
   provider                 = azurerm.front_door
+  dns_zone_id              = var.front_door_config.use_tooling ? null : data.azurerm_dns_zone.appeals[0].id
 
   tls {
     certificate_type = "ManagedCertificate"
