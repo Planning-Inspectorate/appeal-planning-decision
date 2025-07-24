@@ -10,61 +10,12 @@ const {
 	CASE_TYPES: { HAS }
 } = require('@pins/common/src/database/data-static');
 const config = require('../../config');
+const { shouldDisplayTellingLandowners, shouldDisplayIdentifyingLandowners } = require('../util');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
  * @typedef {Omit<ConstructorParameters<typeof import('../journey').Journey>[0], 'response'>} JourneyParameters
 ` */
-
-/**
- * @param {JourneyResponse} response
- * @returns {boolean}
- */
-const shouldDisplayIdentifyingLandowners = (response) => {
-	if (questionHasAnswer(response, questions.ownsAllLand, 'yes')) return false;
-	if (
-		questionHasAnswer(response, questions.ownsSomeLand, 'yes') &&
-		questionHasAnswer(response, questions.knowsWhoOwnsRestOfLand, 'yes')
-	)
-		return false;
-	if (
-		questionHasAnswer(response, questions.ownsSomeLand, 'no') &&
-		questionHasAnswer(response, questions.knowsWhoOwnsLandInvolved, 'yes')
-	)
-		return false;
-
-	return true;
-};
-
-/**
- * @param {JourneyResponse} response
- * @returns {boolean}
- */
-const shouldDisplayTellingLandowners = (response) => {
-	if (questionHasAnswer(response, questions.ownsAllLand, 'yes')) return false;
-
-	if (
-		questionsHaveAnswers(
-			response,
-			[
-				[questions.ownsSomeLand, 'yes'],
-				[questions.knowsWhoOwnsRestOfLand, 'no']
-			],
-			{ logicalCombinator: 'and' }
-		) ||
-		questionsHaveAnswers(
-			response,
-			[
-				[questions.ownsSomeLand, 'no'],
-				[questions.knowsWhoOwnsLandInvolved, 'no']
-			],
-			{ logicalCombinator: 'and' }
-		)
-	)
-		return false;
-
-	return true;
-};
 
 /**
  * @param {JourneyResponse} response
@@ -106,15 +57,15 @@ const sections = [
 			)
 		)
 		.addQuestion(questions.identifyingLandowners)
-		.withCondition(shouldDisplayIdentifyingLandowners)
+		.withCondition((response) => shouldDisplayIdentifyingLandowners(response, questions))
 		.addQuestion(questions.advertisingAppeal)
 		.withCondition(
 			(response) =>
-				shouldDisplayIdentifyingLandowners(response) &&
+				shouldDisplayIdentifyingLandowners(response, questions) &&
 				questionHasAnswer(response, questions.identifyingLandowners, 'yes')
 		)
 		.addQuestion(questions.tellingLandowners)
-		.withCondition(shouldDisplayTellingLandowners)
+		.withCondition((response) => shouldDisplayTellingLandowners(response, questions))
 		.addQuestion(questions.inspectorAccess)
 		.addQuestion(questions.healthAndSafety)
 		.addQuestion(questions.enterApplicationReference)

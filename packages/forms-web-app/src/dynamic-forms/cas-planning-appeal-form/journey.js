@@ -7,6 +7,11 @@ const {
 } = require('@pins/common/src/database/data-static');
 
 const config = require('../../config');
+const {
+	questionHasAnswer,
+	questionsHaveAnswers
+} = require('../dynamic-components/utils/question-has-answer');
+const { shouldDisplayIdentifyingLandowners, shouldDisplayTellingLandowners } = require('../util');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -18,7 +23,76 @@ const config = require('../../config');
  * @returns {Section[]}
  */
 const sections = [
-	new Section('Prepare appeal', 'prepare-appeal').addQuestion(questions.applicationName)
+	new Section('Prepare appeal', 'prepare-appeal')
+		.addQuestion(questions.applicationName)
+		.addQuestion(questions.applicantName)
+		.withCondition((response) => questionHasAnswer(response, questions.applicationName, 'no'))
+		.addQuestion(questions.contactDetails)
+		.addQuestion(questions.contactPhoneNumber)
+		.addQuestion(questions.appealSiteAddress)
+		.addQuestion(questions.siteArea)
+		.addQuestion(questions.appellantGreenBelt)
+		.addQuestion(questions.ownsAllLand)
+		.addQuestion(questions.ownsSomeLand)
+		.withCondition((response) => questionHasAnswer(response, questions.ownsAllLand, 'no'))
+		.addQuestion(questions.knowsWhoOwnsRestOfLand)
+		.withCondition((response) =>
+			questionsHaveAnswers(
+				response,
+				[
+					[questions.ownsSomeLand, 'yes'],
+					[questions.ownsAllLand, 'no']
+				],
+				{ logicalCombinator: 'and' }
+			)
+		)
+		.addQuestion(questions.knowsWhoOwnsLandInvolved)
+		.withCondition((response) =>
+			questionsHaveAnswers(
+				response,
+				[
+					[questions.ownsSomeLand, 'no'],
+					[questions.ownsAllLand, 'no']
+				],
+				{ logicalCombinator: 'and' }
+			)
+		)
+		.addQuestion(questions.identifyingLandowners)
+		.withCondition((response) => shouldDisplayIdentifyingLandowners(response, questions))
+		.addQuestion(questions.advertisingAppeal)
+		.withCondition(
+			(response) =>
+				shouldDisplayIdentifyingLandowners(response, questions) &&
+				questionHasAnswer(response, questions.identifyingLandowners, 'yes')
+		)
+		.addQuestion(questions.tellingLandowners)
+		.withCondition((response) => shouldDisplayTellingLandowners(response, questions))
+		.addQuestion(questions.inspectorAccess)
+		.addQuestion(questions.healthAndSafety)
+		.addQuestion(questions.enterApplicationReference)
+		.addQuestion(questions.planningApplicationDate)
+		.addQuestion(questions.enterDevelopmentDescription)
+		.addQuestion(questions.updateDevelopmentDescription)
+		.addQuestion(questions.anyOtherAppeals)
+		.addQuestion(questions.linkAppeals)
+		.withCondition((response) => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
+	new Section('Upload documents', 'upload-documents')
+		.addQuestion(questions.uploadOriginalApplicationForm)
+		.addQuestion(questions.uploadChangeOfDescriptionEvidence)
+		.withCondition((response) =>
+			questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
+		)
+		.addQuestion(questions.uploadApplicationDecisionLetter)
+		.addQuestion(questions.uploadAppellantStatement)
+		.addQuestion(questions.costApplication)
+		.addQuestion(questions.uploadCostApplication)
+		.withCondition((response) => questionHasAnswer(response, questions.costApplication, 'yes'))
+		.addQuestion(questions.designAccessStatement)
+		.addQuestion(questions.uploadDesignAccessStatement)
+		.withCondition((response) =>
+			questionHasAnswer(response, questions.designAccessStatement, 'yes')
+		)
+		.addQuestion(questions.uploadPlansDrawingsDocuments)
 ];
 
 const baseCASPlanningSubmissionUrl = `/appeals/${CAS_PLANNING.friendlyUrl}`;
