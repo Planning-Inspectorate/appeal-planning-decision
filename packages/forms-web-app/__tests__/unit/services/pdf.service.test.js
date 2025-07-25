@@ -1,3 +1,6 @@
+const fetchMock = require('jest-fetch-mock');
+fetchMock.enableMocks();
+
 const fetch = require('node-fetch');
 const { getHtml, storePdfAppeal } = require('../../../src/services/pdf.service');
 const { createDocument } = require('../../../src/lib/documents-api-wrapper');

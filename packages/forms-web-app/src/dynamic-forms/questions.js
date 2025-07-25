@@ -33,7 +33,6 @@ const MultiFieldInputValidator = require('./validator/multi-field-input-validato
 const NumericValidator = require('./validator/numeric-validator');
 const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox-validator');
 
-const { add, sub, format: formatDate } = require('date-fns');
 const {
 	APPEAL_CASE_PROCEDURE,
 	APPEAL_EIA_DEVELOPMENT_DESCRIPTION,
@@ -66,20 +65,7 @@ const formatNumber = require('./dynamic-components/utils/format-number');
 /** @typedef {import('./question-props').QuestionProps} QuestionProps */
 /** @typedef {import('./question')} Question */
 
-/**
- * @param {'past' | 'future'} tense
- * @param {number} days
- * @return {string} returns date string in d M yyyy format
- */
-
-const getExampleDate = (tense, days = 60) =>
-	formatDate(
-		{
-			past: sub,
-			future: add
-		}[tense](new Date(), { days }),
-		'd M yyyy'
-	);
+const { getExampleDate } = require('./questions-utils');
 
 // Define all questions
 /** @type {Record<string, QuestionProps>} */

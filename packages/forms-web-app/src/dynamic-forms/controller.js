@@ -11,8 +11,11 @@ const {
 } = require('./dynamic-components/utils/submission-information-utils');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { caseTypeLookup } = require('@pins/common/src/database/data-static');
-const { getJourneyTypeById } = require('@pins/common/src/dynamic-forms/journey-types');
+const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-static');
+const {
+	getJourneyTypeById,
+	JOURNEY_TYPES
+} = require('@pins/common/src/dynamic-forms/journey-types');
 const { getSaveFunction } = require('../journeys/get-journey-save');
 const { getDepartmentFromId } = require('../services/department.service');
 const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
@@ -521,17 +524,18 @@ exports.submitAppellantSubmission = async (req, res) => {
 
 	// todo: duplication - need a lookup that goes from journey -> baseurl
 	// should also error for non appeal form journeys
+	/** @param {string} journeyId */
 	const journeyUrl = (journeyId) => {
-		if (journeyId === 'has-appeal-form') {
-			return 'householder';
-		} else if (journeyId === 's78-appeal-form') {
-			return 'full-planning';
-		} else if (journeyId === 's20-appeal-form') {
-			return 'listed-building';
-		} else if (journeyId === 'adverts-appeal-form') {
-			return 'adverts';
-		} else if (journeyId === 'cas-planning-appeal-form') {
-			return 'cas-planning';
+		if (journeyId === JOURNEY_TYPES.HAS_APPEAL_FORM.id) {
+			return CASE_TYPES.HAS.friendlyUrl;
+		} else if (journeyId === JOURNEY_TYPES.S78_APPEAL_FORM.id) {
+			return CASE_TYPES.S78.friendlyUrl;
+		} else if (journeyId === JOURNEY_TYPES.S20.id) {
+			return CASE_TYPES.S20.friendlyUrl;
+		} else if (journeyId === JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM.id) {
+			return CASE_TYPES.CAS_PLANNING.friendlyUrl;
+		} else if (journeyId === JOURNEY_TYPES.CAS_ADVERTS_APPEAL_FORM.id) {
+			return CASE_TYPES.CAS_ADVERTS.friendlyUrl;
 		} else return '';
 	};
 
