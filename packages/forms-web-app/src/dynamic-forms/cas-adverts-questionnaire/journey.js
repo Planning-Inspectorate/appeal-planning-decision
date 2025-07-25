@@ -2,10 +2,10 @@ const { getQuestions } = require('../questions');
 const questions = getQuestions();
 const { Section } = require('../section');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 const {
 	CASE_TYPES: { ADVERTS }
 } = require('@pins/common/src/database/data-static');
-const config = require('../../config');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -17,34 +17,29 @@ const config = require('../../config');
  * @returns {Section[]}
  */
 const sections = [
-	new Section('Prepare appeal', 'prepare-appeal').addQuestion(questions.applicationName)
+	new Section('Constraints, designations and other issues', 'constraints')
+		.addQuestion(questions.appealTypeAppropriate)
+		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: ADVERTS.type.toLowerCase() })
 ];
 
-const baseAdvertsSubmissionUrl = `/appeals/${ADVERTS.friendlyUrl}`;
+const baseAdvertsMinorUrl = '/manage-appeals/questionnaire';
 
 /**
  * @param {JourneyResponse} response
  * @returns {string}
  */
-const makeBaseUrl = (response) => `${baseAdvertsSubmissionUrl}?id=${response.referenceId}`;
+const makeBaseUrl = (response) =>
+	`${baseAdvertsMinorUrl}/${encodeURIComponent(response.referenceId)}`;
 
 /** @type {JourneyParameters} */
 const params = {
-	journeyId: JOURNEY_TYPES.ADVERTS_APPEAL_FORM.id,
+	journeyId: JOURNEY_TYPES.CAS_ADVERTS_QUESTIONNAIRE.id,
 	sections,
-	taskListUrl: 'appeal-form/your-appeal',
-	journeyTemplate: 'submission-form-template.njk',
-	listingPageViewPath: 'dynamic-components/task-list/submission',
+	journeyTemplate: 'questionnaire-template.njk',
+	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
 	informationPageViewPath: 'dynamic-components/submission-information/index',
-	journeyTitle: 'Appeal a planning decision',
-	returnToListing: true,
-	makeBaseUrl,
-	bannerHtmlOverride:
-		config.betaBannerText +
-		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(ADVERTS.processCode))
+	journeyTitle: 'Manage your appeals',
+	makeBaseUrl
 };
 
-module.exports = {
-	...params,
-	baseAdvertsSubmissionUrl
-};
+module.exports = { ...params, baseAdvertsMinorUrl };

@@ -1,3 +1,6 @@
+const fetchMock = require('jest-fetch-mock');
+fetchMock.enableMocks();
+
 jest.mock('uuid');
 
 const fetch = require('node-fetch');

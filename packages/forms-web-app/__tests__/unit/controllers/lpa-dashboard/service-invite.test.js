@@ -1,3 +1,6 @@
+const fetchMock = require('jest-fetch-mock');
+fetchMock.enableMocks();
+
 const { getServiceInvite } = require('../../../../src/controllers/lpa-dashboard/service-invite');
 const { VIEW } = require('#lib/views');
 const { mockReq, mockRes } = require('../../mocks');
