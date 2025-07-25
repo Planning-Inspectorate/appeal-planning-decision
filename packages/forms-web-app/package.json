@@ -60,16 +60,20 @@
 		"@testing-library/dom": "*",
 		"@testing-library/jest-dom": "*",
 		"@testing-library/user-event": "*",
+		"html": "*",
 		"jest": "*",
 		"jest-environment-jsdom": "*",
 		"jest-fetch-mock": "*",
 		"jest-junit": "*",
+		"nock": "*",
+		"node-html-parser": "*",
 		"nodemon": "*",
 		"npm-run-all": "*",
 		"openid-client": "*",
 		"pino-pretty": "*",
 		"sass": "*",
 		"sinon": "*",
+		"@sinonjs/fake-timers": "*",
 		"webpack": "*",
 		"webpack-cli": "*",
 		"webpack-merge": "*"
@@ -77,6 +81,7 @@
 	"imports": {
 		"#lib/*": "./src/lib/*.js",
 		"#middleware/*": "./src/middleware/*.js",
-		"#utils/*": "./src/utils/*.js"
+		"#utils/*": "./src/utils/*.js",
+		"#tests/*": "./__tests__/*.js"
 	}
 }

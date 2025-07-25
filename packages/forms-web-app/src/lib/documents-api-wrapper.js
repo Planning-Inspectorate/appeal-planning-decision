@@ -108,6 +108,8 @@ const createDocument = async (submission, data, fileName, documentType, sectionT
 
 	if (isTheFormDataBuffer(data)) {
 		body.append('file', fs.createReadStream(data.tempFilePath), documentName);
+	} else if (Buffer.isBuffer(data?.data)) {
+		body.append('file', data.data, documentName);
 	} else if (isDataBuffer(data)) {
 		body.append('file', data, documentName);
 	} else {

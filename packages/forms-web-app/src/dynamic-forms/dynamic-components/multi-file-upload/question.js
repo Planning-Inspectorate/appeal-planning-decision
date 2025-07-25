@@ -13,7 +13,7 @@ const Question = require('../../question');
  */
 class MultiFileUploadQuestion extends Question {
 	/**
-	 * @type {import('@pins/common/src/document-types').DocType} document type
+	 * @type {{name: string}} document type
 	 */
 	documentType;
 
@@ -25,7 +25,7 @@ class MultiFileUploadQuestion extends Question {
 	 * @param {string} [params.url]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
-	 * @param {import('@pins/common/src/document-types').DocType} [params.documentType]
+	 * @param {{name: string}} [params.documentType]
 	 * @param {string} [params.html]
 	 * @param {string} [params.actionHiddenText] // text to be used for visually hidden text - primarily to avoid repetition of Upload with action
 	 * @param {Array<import('../../question').BaseValidator>} [params.validators]
