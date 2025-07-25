@@ -19,7 +19,7 @@ const trailingSlashRegex = /\/$/;
 class DocumentsApiClient {
 	/**
 	 * @param {string} baseUrl - e.g. https://example.com
-	 * @param {AuthTokens} tokens
+	 * @param {AuthTokens} [tokens]
 	 * @param {number} [timeout] - timeout in ms defaults to 1000 (ms)
 	 */
 	constructor(baseUrl, tokens, timeout = 2000) {
@@ -29,7 +29,7 @@ class DocumentsApiClient {
 
 		/** @type {string} */
 		this.baseUrl = baseUrl.replace(trailingSlashRegex, '');
-		/** @type {AuthTokens} */
+		/** @type {AuthTokens|undefined} */
 		this.tokens = tokens;
 		/** @type {number} */
 		this.timeout = timeout;

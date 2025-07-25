@@ -1,3 +1,6 @@
+const fetchMock = require('jest-fetch-mock');
+fetchMock.enableMocks();
+
 const fetch = require('node-fetch');
 const { documentTypes } = require('@pins/common');
 const {
