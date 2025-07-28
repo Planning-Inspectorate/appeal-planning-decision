@@ -198,7 +198,7 @@
 		"sinon": "^21.0.0",
 		"supertest": "^7.1.4",
 		"swagger-cli": "^4.0.4",
-		"testcontainers": "^11.0.3",
+		"testcontainers": "^11.4.0",
 		"webpack": "^5.100.2",
 		"webpack-cli": "^6.0.1",
 		"webpack-merge": "^6.0.1"
