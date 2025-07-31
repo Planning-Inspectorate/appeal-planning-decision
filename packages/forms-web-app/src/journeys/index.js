@@ -17,6 +17,7 @@ const s20QuestionnaireParams = require('../dynamic-forms/s20-lpa-questionnaire/j
 const casPlanningAppealForm = require('../dynamic-forms/cas-planning-appeal-form/journey');
 const casPlanningQuestionnaireParams = require('../dynamic-forms/cas-planning-questionnaire/journey');
 const advertsAppealForm = require('../dynamic-forms/adverts-appeal-form/journey');
+const advertsQuestionnaireParams = require('../dynamic-forms/adverts-questionnaire/journey');
 
 const { Journeys } = require('../dynamic-forms/journeys');
 
@@ -38,5 +39,6 @@ journeys.registerJourney(s20QuestionnaireParams);
 journeys.registerJourney(casPlanningAppealForm);
 journeys.registerJourney(casPlanningQuestionnaireParams);
 journeys.registerJourney(advertsAppealForm);
+journeys.registerJourney(advertsQuestionnaireParams);
 
 module.exports = { journeys };

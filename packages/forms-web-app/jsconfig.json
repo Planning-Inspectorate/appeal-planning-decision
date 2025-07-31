@@ -6,7 +6,8 @@
 		"paths": {
 			"#lib/*": ["./src/lib/*.js"],
 			"#middleware/*": ["./src/middleware/*.js"],
-			"#utils/*": ["./src/utils/*.js"]
+			"#utils/*": ["./src/utils/*.js"],
+			"#tests/*": ["./__tests__/*.js"]
 		},
 		"typeRoots": ["./typings", "./node_modules/@types"]
 	}
