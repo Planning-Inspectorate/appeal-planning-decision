@@ -26,7 +26,9 @@ const decidedAppeals = async (req, res) => {
 	if (decidedAppeals) {
 		decidedAppeals.forEach((appeal) => {
 			appeal.formattedAddress = formatAddress(appeal);
-			appeal.formattedCaseDecisionDate = formatDateForDisplay(appeal.caseDecisionOutcomeDate);
+			appeal.formattedCaseDecisionDate = formatDateForDisplay(appeal.caseDecisionOutcomeDate, {
+				format: 'd MMMM yyyy'
+			});
 			appeal.formattedDecisionColour = mapDecisionColour(appeal.caseDecisionOutcome);
 			appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
 			appeal.caseDecisionOutcome =
