@@ -117,7 +117,9 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				sections: formatSections({ caseData, sections }),
 				baseUrl: userRouteUrl,
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),
-				decisionDate: formatDateForDisplay(caseData.caseDecisionOutcomeDate),
+				decisionDate: formatDateForDisplay(caseData.caseDecisionOutcomeDate, {
+					format: 'd MMMM yyyy'
+				}),
 				decisionDocuments: filterDecisionDocuments(caseData.Documents ?? []),
 				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate),
 				statementDueDate: formatDateForNotification(caseData.statementDueDate),
