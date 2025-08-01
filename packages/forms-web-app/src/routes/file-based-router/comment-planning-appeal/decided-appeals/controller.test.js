@@ -44,7 +44,7 @@ describe('decidedAppeals', () => {
 				{
 					...appeal,
 					formattedAddress: 'a, b, c, d',
-					formattedCaseDecisionDate: '31 Dec 2024',
+					formattedCaseDecisionDate: '31 December 2024',
 					formattedDecisionColour: 'green',
 					appealTypeName: 'Householder',
 					caseDecisionOutcome: 'Allowed'
@@ -90,7 +90,7 @@ describe('decidedAppeals', () => {
 				{
 					...appeal,
 					formattedAddress: 'a, b, c, d',
-					formattedCaseDecisionDate: '31 Dec 2024',
+					formattedCaseDecisionDate: '31 December 2024',
 					formattedDecisionColour: 'green',
 					appealTypeName: 'Householder',
 					caseDecisionOutcome: 'Allowed'
