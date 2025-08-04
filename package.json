@@ -109,7 +109,7 @@
 		"@azure/storage-blob": "^12.17.0",
 		"@ministryofjustice/frontend": "^1.6.4",
 		"@planning-inspectorate/data-model": "^1.11.0",
-		"@prisma/client": "^6.10.1",
+		"@prisma/client": "^6.13.0",
 		"accessible-autocomplete": "^3.0.1",
 		"ajv": "^8.14.0",
 		"ajv-errors": "^3.0.0",
