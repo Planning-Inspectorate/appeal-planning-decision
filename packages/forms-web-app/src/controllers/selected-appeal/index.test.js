@@ -61,4 +61,59 @@ describe('get', () => {
 			})
 		);
 	});
+
+	it('should render the view with LPA and Appellant Cost Decisions if they exist', async () => {
+		determineUser.mockReturnValue('Appellant');
+		getUserFromSession.mockReturnValue({ email: 'test@example.com' });
+		req.appealsApiClient.getUserByEmailV2.mockResolvedValue({ id: 'user-id' });
+		req.appealsApiClient.getAppealCaseWithRepresentations.mockResolvedValue({
+			LPACode: 'LPA123',
+			caseDecisionOutcome: 'GRANTED',
+			Documents: [
+				{
+					id: '31c354b1-287b-4492-92d7-4e23e3aa211c',
+					publishedDocumentURI: 'https://example.com/published/doc_002',
+					filename: 'lpa-costs-doc.txt',
+					documentType: 'lpaCostsDecisionLetter',
+					datePublished: null,
+					redacted: true,
+					virusCheckStatus: 'scanned',
+					published: true
+				},
+				{
+					id: '31c354b1-287b-4492-92d7-4e23e3aa211e',
+					publishedDocumentURI: 'https://example.com/published/doc_001',
+					filename: 'cost-decision-doc.txt',
+					documentType: 'appellantCostsDecisionLetter',
+					datePublished: null,
+					redacted: true,
+					virusCheckStatus: 'scanned',
+					published: true
+				}
+			]
+		});
+		req.appealsApiClient.getEventsByCaseRef.mockResolvedValue([]);
+		getDepartmentFromCode.mockResolvedValue({ name: 'Test LPA' });
+
+		const handler = get();
+
+		await handler(req, res);
+
+		expect(res.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL,
+			expect.objectContaining({
+				appeal: expect.objectContaining({
+					appealNumber: '123',
+					baseUrl: '/appeals/123',
+					decisionDocuments: expect.arrayContaining([
+						expect.objectContaining({
+							documentType: expect.stringMatching(
+								/^(lpaCostsDecisionLetter|appellantCostsDecisionLetter)$/
+							)
+						})
+					])
+				})
+			})
+		);
+	});
 });

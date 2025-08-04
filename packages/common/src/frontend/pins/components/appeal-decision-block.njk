@@ -7,10 +7,16 @@
             text: caseDecisionOutcome,
             classes: "govuk-tag--" + formattedDecisionColour + " govuk-!-margin-bottom-3"
         }) }}
-        <p class="govuk-body">Decision issued on {{formattedCaseDecisionDate}}</p>
-        {% for document in decisionDocuments %}
-            <p class="govuk-body"><a href="/published-document/{{document.id}}" class="govuk-link">{{document.filename}}</a></p>
-        {% endfor %}
+        <p class="govuk-body">Decision issued on {{formattedCaseDecisionDate}}.</p>
+        {% if decisionDocuments | length === 1 %}
+            <p class="govuk-body"><a href="/published-document/{{decisionDocuments[0].id}}" class="govuk-link">{{decisionDocuments[0].filename}}</a></p>
+        {% else %}
+            <ul class="govuk-list govuk-list--bullet">
+            {% for document in decisionDocuments %}
+                <li><a href="/published-document/{{document.id}}" class="govuk-link">{{document.filename}}</a></li>
+            {% endfor %}
+            </ul>
+        {% endif %}
         <hr class="govuk-section-break govuk-section-break--m">
     </div>
 {% endmacro %}
