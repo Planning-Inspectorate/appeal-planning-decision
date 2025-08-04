@@ -192,7 +192,7 @@
 		"pino-pretty": "^13.0.0",
 		"prettier": "^3.6.2",
 		"prettier-plugin-prisma": "^5.0.0",
-		"prisma": "^6.10.1",
+		"prisma": "^6.13.0",
 		"rhea": "^3.0.4",
 		"sass": "^1.89.0",
 		"sinon": "^21.0.0",
