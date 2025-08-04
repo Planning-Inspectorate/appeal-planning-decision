@@ -35,7 +35,7 @@ const logger = require('#lib/logger');
 const config = require('../../config');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
-/** @type {import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict} */
+/** @type {Partial<import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict>} */
 const userSectionsDict = {
 	[APPEAL_USER_ROLES.APPELLANT]: appellantSections,
 	[LPA_USER_ROLE]: lpaUserSections,
@@ -118,7 +118,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				baseUrl: userRouteUrl,
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),
 				decisionDate: formatDateForDisplay(caseData.caseDecisionOutcomeDate),
-				decisionDocuments: filterDecisionDocuments(caseData.Documents),
+				decisionDocuments: filterDecisionDocuments(caseData.Documents ?? []),
 				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate),
 				statementDueDate: formatDateForNotification(caseData.statementDueDate),
 				rule6StatementDueDate: formatDateForNotification(caseData.statementDueDate),
@@ -149,9 +149,16 @@ const formatTitleSuffix = (userType) => {
  * @return {import('appeals-service-api').Api.Document[]}
  */
 const filterDecisionDocuments = (documents) =>
-	documents.filter(
-		(document) => document.documentType === APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER
-	);
+	documents.filter((document) => {
+		if (
+			document.documentType === APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER ||
+			document.documentType === APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER ||
+			document.documentType === APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER
+		) {
+			return true;
+		}
+		return false;
+	});
 
 /**
  *

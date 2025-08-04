@@ -17,7 +17,7 @@ const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 /**
  * @typedef {Object} DocType
  * @property {string} name internal name for the doc type
- * @property {string} [dataModelName] the value used in the @planning-inspectorate/data-model
+ * @property {string} [dataModelName] the value used in the \@planning-inspectorate/data-model
  * @property {boolean} multiple if this is a multi-file or single-file upload
  * @property {string} [displayName] a user friendly name for the doc type, has been defined on all docs
  * @property {'LPA'|'Appellant'|''} involvement currently unsure what this is used for?
@@ -800,12 +800,34 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	appellantCostsDecisionLetter: {
+		name: 'appellantCostsDecisionLetter',
+		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER,
+		multiple: false,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => pinsOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	lpaCostsDecisionLetter: {
+		name: 'lpaCostsDecisionLetter',
+		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER,
+		multiple: false,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => pinsOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 
 /**
  * @param {any} value value to lookup
- * @param {string} lookupProp property to check
+ * @param {keyof DocType} lookupProp property to check
  * @returns {DocType|null} result based on the returnProp
  */
 const getDocType = (value, lookupProp) => {

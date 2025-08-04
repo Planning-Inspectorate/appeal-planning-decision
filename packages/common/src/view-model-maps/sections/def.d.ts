@@ -20,4 +20,4 @@ export type Sections = Array<Section>;
 
 export type UserType = AppealToUserRoles | LpaUserRole;
 
-export type UserSectionsDict = { [userType: UserType]: Sections };
+export type UserSectionsDict = { [Key in UserType]: Sections };
