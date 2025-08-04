@@ -166,7 +166,7 @@
 		"@commitlint/cz-commitlint": "^17.0.0",
 		"@shelf/jest-mongodb": "^5.2.2",
 		"@testing-library/dom": "^10.4.0",
-		"@testing-library/jest-dom": "^5.16.5",
+		"@testing-library/jest-dom": "^6.6.4",
 		"@testing-library/user-event": "^12.8.3",
 		"@types/jest": "^30.0.0",
 		"commitizen": "^4.3.1",
