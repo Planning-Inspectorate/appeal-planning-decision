@@ -303,10 +303,10 @@
 300;E60000311;U1620;Gloucester City;Development.Control@gloucester.gov.uk;gloucester.gov.uk;TRUE\n
 301;E60000312;C1625;Stroud;planning.appeals@stroud.gov.uk;stroud.gov.uk;TRUE\n
 302;E60000313;G1630;Tewkesbury;appealsadmin@tewkesbury.gov.uk;tewkesbury.gov.uk;TRUE\n
-303;E60000314;Q3305;Mendip;appeals@mendip.gov.uk;mendip.gov.uk;TRUE\n
-304;E60000315;V3310;Sedgemoor;development.control@sedgemoor.gov.uk;sedgemoor.gov.uk;TRUE\n
+303;E60000314;Q3305;Mendip;appeals@mendip.gov.uk;mendip.gov.uk;FALSE\n
+304;E60000315;V3310;Sedgemoor;development.control@sedgemoor.gov.uk;sedgemoor.gov.uk;FALSE\n
 305;E60000316;W3330;Somerset West and Taunton;planningappealswest@somerset.gov.uk;somerset.gov.uk;TRUE\n
-306;E60000317;R3325;South Somerset;planningappeals@southsomerset.gov.uk;southsomerset.gov.uk;TRUE\n
+306;E60000317;R3325;South Somerset;planningappeals@southsomerset.gov.uk;southsomerset.gov.uk;FALSE\n
 307;E60000318;J9497;Dartmoor National Park;planning@dartmoor.gov.uk;dartmoor.gov.uk;TRUE\n
 308;E60000319;F9498;Exmoor National Park;plan@exmoor-nationalpark.gov.uk;exmoor-nationalpark.gov.uk;TRUE\n
 309;E60000320;Q9495;Lake District National Park;appeals@lake-district.gov.uk;lake-district.gov.uk;TRUE\n
