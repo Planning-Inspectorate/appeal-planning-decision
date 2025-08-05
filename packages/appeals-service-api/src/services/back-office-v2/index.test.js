@@ -110,10 +110,10 @@ describe('BackOfficeV2Service', () => {
 
 	describe('submitAppellantSubmission', () => {
 		const mockAppealSubmissions = [
-			{ id: 'a1', appealTypeCode: 'HAS' },
-			{ id: 'a2', appealTypeCode: 'S78' },
-			{ id: 'a3', appealTypeCode: 'S20' },
-			{ id: 'a4', appealTypeCode: 'CAS_PLANNING' }
+			['householder', { id: 'a1', appealTypeCode: 'HAS' }],
+			['planning', { id: 'a2', appealTypeCode: 'S78' }],
+			['listed building', { id: 'a3', appealTypeCode: 'S20' }],
+			['CAS planning', { id: 'a4', appealTypeCode: 'CAS_PLANNING' }]
 		];
 
 		const mockFormattedAppeal = {};
@@ -128,7 +128,7 @@ describe('BackOfficeV2Service', () => {
 		forwarders.appeal = jest.fn();
 		forwarders.appeal.mockResolvedValue(mockResult);
 
-		it.each(mockAppealSubmissions)('should submit Appeal', async (submission) => {
+		it.each(mockAppealSubmissions)('should submit Appeal (type: %s)', async (_, submission) => {
 			const lpa = { test: 1 };
 			const result = await backOfficeV2Service.submitAppellantSubmission({
 				appellantSubmission: submission,
@@ -166,43 +166,64 @@ describe('BackOfficeV2Service', () => {
 			);
 		});
 
-		it.each(mockAppealSubmissions)('should error if validation fails', async (submission) => {
-			mockValidator.mockReturnValue(false);
+		it.each(mockAppealSubmissions)(
+			'should error if validation fails (type: %s)',
+			async (_, submission) => {
+				mockValidator.mockReturnValue(false);
 
-			await expect(
-				backOfficeV2Service.submitAppellantSubmission({
-					appellantSubmission: submission,
-					userId: testUserID,
-					formatter: mockAppealFormatter
-				})
-			).rejects.toThrow(
-				'Payload was invalid when checked against appellant submission command schema'
-			);
+				await expect(
+					backOfficeV2Service.submitAppellantSubmission({
+						appellantSubmission: submission,
+						userId: testUserID,
+						formatter: mockAppealFormatter
+					})
+				).rejects.toThrow(
+					'Payload was invalid when checked against appellant submission command schema'
+				);
 
-			expect(mockGetValidator).toHaveBeenCalled();
-		});
+				expect(mockGetValidator).toHaveBeenCalled();
+			}
+		);
 	});
 
 	describe('submitQuestionnaire', () => {
 		const mockLPAQs = [
-			{
-				AppealCase: {
-					LPACode: 'Q9999',
-					appealTypeCode: 'HAS'
+			[
+				'householder',
+				{
+					AppealCase: {
+						LPACode: 'Q9999',
+						appealTypeCode: 'HAS'
+					}
 				}
-			},
-			{
-				AppealCase: {
-					LPACode: 'Q9999',
-					appealTypeCode: 'S78'
+			],
+			[
+				'planning',
+				{
+					AppealCase: {
+						LPACode: 'Q9999',
+						appealTypeCode: 'S78'
+					}
 				}
-			},
-			{
-				AppealCase: {
-					LPACode: 'Q9999',
-					appealTypeCode: 'S20'
+			],
+			[
+				'listed building',
+				{
+					AppealCase: {
+						LPACode: 'Q9999',
+						appealTypeCode: 'S20'
+					}
 				}
-			}
+			],
+			[
+				'CAS planning',
+				{
+					AppealCase: {
+						LPACode: 'Q9999',
+						appealTypeCode: 'CAS_PLANNING'
+					}
+				}
+			]
 		];
 
 		const mockFormattedLpaq = {
@@ -230,7 +251,7 @@ describe('BackOfficeV2Service', () => {
 		forwarders.questionnaire = jest.fn();
 		forwarders.questionnaire.mockResolvedValue(mockResult);
 
-		it.each(mockLPAQs)('should submit LPAQ', async (lpaq) => {
+		it.each(mockLPAQs)('should submit LPAQ (type: %s)', async (_, lpaq) => {
 			getCaseAndAppellant.mockResolvedValue(mockCaseAndAppellant);
 
 			const result = await backOfficeV2Service.submitQuestionnaire(
@@ -255,7 +276,7 @@ describe('BackOfficeV2Service', () => {
 			expect(result).toEqual(mockResult);
 		});
 
-		it.each(mockLPAQs)('should use appellant email if no agent', async (lpaq) => {
+		it.each(mockLPAQs)('should use appellant email if no agent (type: %s)', async (_, lpaq) => {
 			const mockCaseAndAppellant2 = {
 				users: [
 					{
@@ -287,7 +308,7 @@ describe('BackOfficeV2Service', () => {
 			).rejects.toThrow("Questionnaire's associated AppealCase has an invalid appealTypeCode");
 		});
 
-		it.each(mockLPAQs)('should error if validation fails', async (lpaq) => {
+		it.each(mockLPAQs)('should error if validation fails (type: %s)', async (_, lpaq) => {
 			mockValidator.mockReturnValue(false);
 
 			await expect(

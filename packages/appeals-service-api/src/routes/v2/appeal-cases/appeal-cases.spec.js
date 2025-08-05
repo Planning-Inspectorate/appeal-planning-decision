@@ -1,7 +1,8 @@
 const { buildQueryString } = require('@pins/common/src/client/utils');
 const {
 	LISTED_RELATION_TYPES,
-	CASE_RELATION_TYPES
+	CASE_RELATION_TYPES,
+	CASE_TYPES
 } = require('@pins/common/src/database/data-static');
 const config = require('../../../configuration/config');
 const {
@@ -16,6 +17,9 @@ const {
 const {
 	exampleS20DataModel
 } = require('../../../../__tests__/developer/fixtures/appeals-S20-data-model');
+const {
+	exampleCasPlanningDataModel
+} = require('../../../../__tests__/developer/fixtures/appeals-cas-planning-data-model');
 const { appendLinkedCasesForMultipleAppeals } = require('./service');
 
 /**
@@ -275,7 +279,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					{
 						personalisation: {
 							subject: `We have processed your appeal: ${appealReferenceNumber}`,
-							content: expect.stringContaining('We have processed your appeal.')
+							content: expect.stringContaining('We have processed your appeal.') // start of v2FollowUp email content
 						},
 						reference: expect.any(String),
 						emailReplyToId: undefined
@@ -288,49 +292,60 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				await _clearSqlData();
 			});
 
-			it(`creates initial case`, async () => {
-				const data = structuredClone(hasExample);
-				const testCaseRef = 'put-initial-case-test';
-				const submission = await sqlClient.appellantSubmission.create({
-					data: {
-						appealTypeCode: 'HAS',
-						LPACode: 'Q1111',
-						Appeal: { create: {} }
-					},
-					select: {
-						id: true,
-						Appeal: {
-							select: {
-								id: true
-							}
-						}
-					}
-				});
-				const email = 'test@example.com';
-				const user = await sqlClient.appealUser.upsert({
-					where: { email },
-					create: { email },
-					update: {}
-				});
-
-				await sqlClient.appealToUser.create({
-					data: {
-						userId: user.id,
-						appealId: submission.Appeal.id,
-						role: 'Appellant'
-					}
-				});
-				data.submissionId = submission.Appeal.id;
-				data.caseReference = testCaseRef;
-				const response = await appealsApi.put(`/api/v2/appeal-cases/` + testCaseRef).send(data);
-				expect(response.status).toBe(200);
-				expect(response.body).toHaveProperty('caseReference', testCaseRef);
-				expectEmail(email, testCaseRef);
-			});
-
 			const hasExample = { ...exampleHASDataModel };
 			const s78Example = { ...exampleS78DataModel };
 			const s20Example = { ...exampleS20DataModel };
+			const casPlanningExample = { ...exampleCasPlanningDataModel };
+
+			const appealExamples = [
+				{ name: CASE_TYPES.HAS.processCode, data: hasExample },
+				{ name: CASE_TYPES.S78.processCode, data: s78Example },
+				{ name: CASE_TYPES.S20.processCode, data: s20Example },
+				{ name: CASE_TYPES.CAS_PLANNING.processCode, data: casPlanningExample }
+			];
+
+			for (const appealExample of appealExamples) {
+				it(`creates initial case for ${appealExample.name}`, async () => {
+					const data = structuredClone(appealExample.data);
+					const testCaseRef = 'put-initial-case-test-' + appealExample.name;
+					const submission = await sqlClient.appellantSubmission.create({
+						data: {
+							appealTypeCode: appealExample.name,
+							LPACode: 'Q1111',
+							Appeal: { create: {} }
+						},
+						select: {
+							id: true,
+							Appeal: {
+								select: {
+									id: true
+								}
+							}
+						}
+					});
+					const email = 'test@example.com';
+
+					const user = await sqlClient.appealUser.upsert({
+						where: { email },
+						create: { email },
+						update: {}
+					});
+
+					await sqlClient.appealToUser.create({
+						data: {
+							userId: user.id,
+							appealId: submission.Appeal.id,
+							role: 'Appellant'
+						}
+					});
+					data.submissionId = submission.Appeal.id;
+					data.caseReference = testCaseRef;
+					const response = await appealsApi.put(`/api/v2/appeal-cases/` + testCaseRef).send(data);
+					expect(response.status).toBe(200);
+					expect(response.body).toHaveProperty('caseReference', testCaseRef);
+					expectEmail(email, testCaseRef);
+				});
+			}
 
 			for (const testCase of testCases) {
 				it(`upserts case for ${testCase.caseReference}`, async () => {
