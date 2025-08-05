@@ -30,7 +30,7 @@ async function startSql() {
 		.withAddedCapabilities('SYS_PTRACE')
 		.withUser('root')
 		.withEnvironment({ ACCEPT_EULA: '1', MSSQL_SA_PASSWORD: 'DockerDatabaseP@22word!' })
-		.withWaitStrategy(Wait.forListeningPorts())
+		.withWaitStrategy(Wait.forLogMessage('now ready for client connections'))
 		.start();
 
 	containers.push(container);
