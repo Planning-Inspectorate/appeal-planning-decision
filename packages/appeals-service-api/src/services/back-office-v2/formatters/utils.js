@@ -550,6 +550,7 @@ exports.getCASLPAQSubmissionFields = (answers) => {
 exports.getS78LPAQSubmissionFields = (answers) => {
 	const levy = getInfrastructureLevy(answers);
 	const preference = getLPAProcedurePreference(answers);
+	const designatedSitesNames = exports.getDesignatedSiteNames(answers);
 
 	return {
 		// Constraints, designations and other issues
@@ -560,10 +561,7 @@ exports.getS78LPAQSubmissionFields = (answers) => {
 		affectsScheduledMonument: answers.affectsScheduledMonument,
 		hasProtectedSpecies: answers.protectedSpecies,
 		isAonbNationalLandscape: answers.areaOutstandingBeauty,
-		designatedSitesNames: [
-			...(answers.designatedSites ? answers.designatedSites.split(',') : []),
-			answers.designatedSites_otherDesignations || null
-		].filter(Boolean),
+		designatedSitesNames,
 		hasTreePreservationOrder: answers.treePreservationOrder,
 		isGypsyOrTravellerSite: answers.gypsyTraveller,
 		isPublicRightOfWay: answers.publicRightOfWay,
@@ -601,6 +599,7 @@ exports.getS78LPAQSubmissionFields = (answers) => {
 exports.getS20LPAQSubmissionFields = (answers) => {
 	const levy = getInfrastructureLevy(answers);
 	const preference = getLPAProcedurePreference(answers);
+	const designatedSitesNames = exports.getDesignatedSiteNames(answers);
 
 	return {
 		// Constraints, designations and other issues
@@ -611,10 +610,7 @@ exports.getS20LPAQSubmissionFields = (answers) => {
 		affectsScheduledMonument: answers.affectsScheduledMonument,
 		hasProtectedSpecies: answers.protectedSpecies,
 		isAonbNationalLandscape: answers.areaOutstandingBeauty,
-		designatedSitesNames: [
-			...(answers.designatedSites ? answers.designatedSites.split(',') : []),
-			answers.designatedSites_otherDesignations || null
-		].filter(Boolean),
+		designatedSitesNames,
 		hasTreePreservationOrder: answers.treePreservationOrder,
 		preserveGrantLoan: answers.section3aGrant,
 		historicEnglandConsultation: answers.consultHistoricEngland,
@@ -714,4 +710,23 @@ const getLPAProcedurePreference = (answers) => {
 		default:
 			throw new Error('unknown lpaProcedurePreference');
 	}
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {string[]}
+ */
+exports.getDesignatedSiteNames = (answers) => {
+	/** @type {(string | null)[]} */
+	let designatedSitesNames = [];
+
+	if (answers.designatedSites && answers.designatedSites !== 'None') {
+		designatedSitesNames = [
+			...answers.designatedSites.split(','),
+			answers.designatedSites_otherDesignations || null
+		].filter(Boolean);
+	}
+
+	/* @ts-ignore filter(Boolean) removes null values */
+	return designatedSitesNames;
 };
