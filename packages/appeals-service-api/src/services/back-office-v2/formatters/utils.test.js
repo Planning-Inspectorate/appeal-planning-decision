@@ -7,7 +7,8 @@ const {
 	formatApplicationDecision,
 	formatYesNoSomeAnswer,
 	createInterestedPartyNewUser,
-	getDevelopmentType
+	getDevelopmentType,
+	getDesignatedSiteNames
 } = require('./utils');
 const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
@@ -370,6 +371,46 @@ describe('utils.js', () => {
 				typeDevelopment: 'UNHANDLED_TYPE'
 			};
 			expect(() => getDevelopmentType(appellantSubmission)).toThrow('unhandled developmentType');
+		});
+	});
+
+	describe('getDesignatedSiteNames', () => {
+		it('should return empty array if designatedSites is nullish', () => {
+			let answers = {};
+			expect(getDesignatedSiteNames(answers)).toEqual([]);
+			answers = { designatedSites: null };
+			expect(getDesignatedSiteNames(answers)).toEqual([]);
+			answers = { designatedSites: undefined };
+			expect(getDesignatedSiteNames(answers)).toEqual([]);
+			answers = { designatedSites: '' };
+			expect(getDesignatedSiteNames(answers)).toEqual([]);
+			answers = { designatedSites: 0 };
+			expect(getDesignatedSiteNames(answers)).toEqual([]);
+		});
+
+		it("should return empty array if designatedSites is 'None'", () => {
+			const answers = { designatedSites: 'None' };
+			expect(getDesignatedSiteNames(answers)).toEqual([]);
+		});
+
+		it('should return empty array if designatedSites is nullish even with designatedSites_otherDesignations specified', () => {
+			const answers = { designatedSites: '', designatedSites_otherDesignations: 'something' };
+			expect(getDesignatedSiteNames(answers)).toEqual([]);
+		});
+
+		it('should return array of sites if designatedSites is a comma-separated string', () => {
+			const answers = { designatedSites: 'A,B Test' };
+			expect(getDesignatedSiteNames(answers)).toEqual(['A', 'B Test']);
+		});
+
+		it('should include otherDesignations if provided', () => {
+			const answers = { designatedSites: 'A,B', designatedSites_otherDesignations: 'C' };
+			expect(getDesignatedSiteNames(answers)).toEqual(['A', 'B', 'C']);
+		});
+
+		it('should filter out empty otherDesignations', () => {
+			const answers = { designatedSites: 'SPA,', designatedSites_otherDesignations: '' };
+			expect(getDesignatedSiteNames(answers)).toEqual(['SPA']);
 		});
 	});
 });
