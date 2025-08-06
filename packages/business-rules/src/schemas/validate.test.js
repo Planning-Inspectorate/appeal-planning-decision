@@ -15,6 +15,7 @@ jest.mock('../config', () => ({
 			1001: {},
 			1005: {},
 			1006: {},
+			1007: {},
 			1008: {}
 		}
 	}
@@ -116,6 +117,18 @@ describe('schemas/validate', () => {
 			expect(fullAppeal.insert.validate).toHaveBeenCalledWith(appeal, config);
 			expect(result).toEqual(appeal);
 		});
+
+		it('should return correct data for a cas adverts insert (uses full appeal validator for BYS journey)', () => {
+			appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT;
+
+			mockAppeal.insert.validate.mockReturnValue(appeal);
+
+			const result = insert(appeal);
+
+			expect(fullAppeal.insert.validate).toHaveBeenCalledTimes(1);
+			expect(fullAppeal.insert.validate).toHaveBeenCalledWith(appeal, config);
+			expect(result).toEqual(appeal);
+		});
 	});
 
 	describe('update', () => {
@@ -157,6 +170,18 @@ describe('schemas/validate', () => {
 
 		it('should return correct data for a cas planning update (uses full appeal validator for BYS journey)', () => {
 			appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL;
+
+			mockAppeal.update.validate.mockReturnValue(appeal);
+
+			const result = update(appeal);
+
+			expect(fullAppeal.update.validate).toHaveBeenCalledTimes(1);
+			expect(fullAppeal.update.validate).toHaveBeenCalledWith(appeal, config);
+			expect(result).toEqual(appeal);
+		});
+
+		it('should return correct data for a cas planning adverts (uses full appeal validator for BYS journey)', () => {
+			appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT;
 
 			mockAppeal.update.validate.mockReturnValue(appeal);
 

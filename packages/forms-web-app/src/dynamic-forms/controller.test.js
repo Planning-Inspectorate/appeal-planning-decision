@@ -732,6 +732,16 @@ describe('dynamic-form/controller', () => {
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(''))
 			});
 		});
+		it('renders correct page for CAS Adverts', () => {
+			req.session.appeal = { appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents', {
+				usingV2Form: true,
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(''))
+			});
+		});
 		it('renders error page if appeal type not found', () => {
 			req.session.appeal = { appealType: '123456' };
 			appellantBYSListOfDocuments(req, res);

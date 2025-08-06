@@ -3,6 +3,7 @@ const {
 		HOUSEHOLDER_PLANNING,
 		LISTED_BUILDING,
 		MINOR_COMMERCIAL_DEVELOPMENT,
+		MINOR_COMMERCIAL_ADVERTISEMENT,
 		PRIOR_APPROVAL,
 		REMOVAL_OR_VARIATION_OF_CONDITIONS
 	},
@@ -48,24 +49,34 @@ const getNextPageFromCanUseServicePage = async (appeal) => {
 				return nextPage.casAppeal;
 			}
 			return nextPage.fullAppeal;
+		case MINOR_COMMERCIAL_ADVERTISEMENT:
+			return nextPage.casAdvert;
 		default:
 			return nextPage.fullAppeal;
 	}
 };
 
 const getNextPage = async (/** @type {string} */ lpaCode) => {
-	const [isV2forS78, isV2forS20, isV2forCAS, isV2forHAS] = await Promise.all([
+	const [isV2forS78, isV2forS20, isV2forCAS, isV2forHAS, isV2forCASAdverts] = await Promise.all([
 		isLpaInFeatureFlag(lpaCode, FLAG.S78_APPEAL_FORM_V2),
 		isLpaInFeatureFlag(lpaCode, FLAG.S20_APPEAL_FORM_V2),
 		isLpaInFeatureFlag(lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(lpaCode, FLAG.HAS_APPEAL_FORM_V2)
+		isLpaInFeatureFlag(lpaCode, FLAG.HAS_APPEAL_FORM_V2),
+		isLpaInFeatureFlag(lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2)
 	]);
 
 	return {
-		fullAppeal: `/full-appeal/submit-appeal/${isV2forS78 ? 'email-address' : 'planning-application-number'}`,
-		householderPlanning: `/appeal-householder-decision/${isV2forHAS ? 'email-address' : 'planning-application-number'}`,
-		listedBuilding: `/listed-building/${isV2forS20 ? 'email-address' : 'planning-application-number'}`,
-		casAppeal: `/cas-planning/${isV2forCAS ? 'email-address' : 'planning-application-number'}`
+		fullAppeal: `/full-appeal/submit-appeal/${
+			isV2forS78 ? 'email-address' : 'planning-application-number'
+		}`,
+		householderPlanning: `/appeal-householder-decision/${
+			isV2forHAS ? 'email-address' : 'planning-application-number'
+		}`,
+		listedBuilding: `/listed-building/${
+			isV2forS20 ? 'email-address' : 'planning-application-number'
+		}`,
+		casAppeal: `/cas-planning/${isV2forCAS ? 'email-address' : 'planning-application-number'}`,
+		casAdvert: `/cas-adverts/${isV2forCASAdverts ? 'email-address' : 'planning-application-number'}`
 	};
 };
 
