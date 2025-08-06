@@ -337,7 +337,7 @@ describe('Back Office', () => {
 				expectedNameOnAppealSuccessfullySubmittedEmail: 'Agent Name'
 			}),
 			HorizonIntegrationInputCondition.get({
-				description: 'a refused full appeal with a "full planning" planning application',
+				description: 'a refused full appeal with a "planning" application',
 				appeal: AppealFixtures.newFullAppeal({
 					decision: 'refused',
 					planningApplicationType: 'full-appeal'

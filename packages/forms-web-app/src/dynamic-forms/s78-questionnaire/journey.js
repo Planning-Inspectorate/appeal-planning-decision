@@ -24,7 +24,7 @@ const config = require('../../config');
 const sections = [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
-		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: S78.caption.toLowerCase() })
+		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: S78.type.toLowerCase() })
 		.addQuestion(questions.changesListedBuilding)
 		.addQuestion(questions.changedListedBuildings)
 		.withCondition((response) =>
