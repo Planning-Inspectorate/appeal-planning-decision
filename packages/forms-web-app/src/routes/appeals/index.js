@@ -29,6 +29,9 @@ router.use(`/${CASE_TYPES.ADVERTS.friendlyUrl}`, dynamicSubmission);
 // cas planning (minor commercial)
 router.use(`/${CASE_TYPES.CAS_PLANNING.friendlyUrl}`, dynamicSubmission);
 
+// cas adverts
+router.use(`/${CASE_TYPES.CAS_ADVERTS.friendlyUrl}`, dynamicSubmission);
+
 // reps
 router.use('/final-comments', finalCommentsRouter);
 router.use('/proof-evidence', proofEvidenceRouter);

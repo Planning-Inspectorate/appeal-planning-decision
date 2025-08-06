@@ -5,6 +5,7 @@ const {
 			HOUSEHOLDER_PLANNING,
 			LISTED_BUILDING,
 			I_HAVE_NOT_MADE_A_PLANNING_APPLICATION,
+			MINOR_COMMERCIAL_ADVERTISEMENT,
 			MINOR_COMMERCIAL_DEVELOPMENT,
 			OUTLINE_PLANNING,
 			PRIOR_APPROVAL,
@@ -18,12 +19,14 @@ const {
 /**
  * @param {boolean} isS20featureFlag
  * @param {boolean} isCASPlanningFeatureFlag
+ * @param {boolean} isCASAdvertsFeatureFlag
  * @param {string} [typeOfPlanningApplication]
  * @returns {Array<object>} an array of objects representing govuk radio items
  */
 exports.typeOfPlanningApplicationRadioItems = (
 	isS20featureFlag,
 	isCASPlanningFeatureFlag,
+	isCASAdvertsFeatureFlag,
 	typeOfPlanningApplication
 ) => {
 	const items = [
@@ -53,6 +56,12 @@ exports.typeOfPlanningApplicationRadioItems = (
 			hint: {
 				text: 'Applications involving a listed building.'
 			}
+		},
+		{
+			value: MINOR_COMMERCIAL_ADVERTISEMENT,
+			text: 'Displaying an advertisement',
+			attributes: { 'data-cy': 'answer-minor-commercial-advertisment' },
+			checked: typeOfPlanningApplication === MINOR_COMMERCIAL_ADVERTISEMENT
 		},
 		{
 			value: MINOR_COMMERCIAL_DEVELOPMENT,
@@ -121,7 +130,11 @@ exports.typeOfPlanningApplicationRadioItems = (
 		? items
 		: items.filter((item) => item.value !== LISTED_BUILDING);
 	// only return the minor commercial development option if feature flag turned on
-	return isCASPlanningFeatureFlag
+	const casPlanningFiltered = isCASPlanningFeatureFlag
 		? s20Filtered
 		: s20Filtered.filter((item) => item.value !== MINOR_COMMERCIAL_DEVELOPMENT);
+	// only return the minor commercial advertisment option if feature flag turned on
+	return isCASAdvertsFeatureFlag
+		? casPlanningFiltered
+		: casPlanningFiltered.filter((item) => item.value !== MINOR_COMMERCIAL_ADVERTISEMENT);
 };

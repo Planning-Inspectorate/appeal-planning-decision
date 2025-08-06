@@ -7,7 +7,7 @@ const removalOrVariationOfConditionsFPAppeal = require('../../../mockData/remova
 const removalOrVariationOfConditionsHASAppeal = require('../../../mockData/removal-or-variation-of-conditions/removal-or-variation-of-conditions-has-route');
 const { getDepartmentFromId } = require('../../../../src/services/department.service');
 const {
-	TYPE_OF_PLANNING_APPLICATION: { MINOR_COMMERCIAL_DEVELOPMENT }
+	TYPE_OF_PLANNING_APPLICATION: { MINOR_COMMERCIAL_DEVELOPMENT, MINOR_COMMERCIAL_ADVERTISEMENT }
 } = require('@pins/business-rules/src/constants');
 const {
 	VIEW: {
@@ -171,13 +171,9 @@ describe('controllers/before-you-start/can-use-service', () => {
 		});
 
 		it('renders page - s78 - no prior approval - v2 - s78 flag', async () => {
-			isLpaInFeatureFlag.mockReturnValueOnce(true); //s20
-			isLpaInFeatureFlag.mockReturnValueOnce(false); //s78
-			isLpaInFeatureFlag.mockReturnValueOnce(false); //CAS
-			isLpaInFeatureFlag.mockReturnValueOnce(false); //HAS
-			isLpaInFeatureFlag.mockReturnValueOnce(false); //s20
-			isLpaInFeatureFlag.mockReturnValueOnce(true); //s78
-
+			isLpaInFeatureFlag.mockImplementation((_, flag) => {
+				return flag === FLAG.S78_APPEAL_FORM_V2;
+			});
 			req = mockReq(priorApprovalFPAppeal);
 
 			await getCanUseService(req, res);
@@ -366,6 +362,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				isListedBuilding: 'No',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				isV2forCAS: false,
+				isV2forCASAdverts: false,
 				isV2forS78: false,
 				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
 				bannerHtmlOverride
@@ -392,6 +389,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
 				isV2forCAS: false,
+				isV2forCASAdverts: false,
 				isV2forS78: true,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
@@ -418,6 +416,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				isListedBuilding: null,
 				isV2forCAS: false,
+				isV2forCASAdverts: false,
 				isV2forS78: true,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
@@ -447,6 +446,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
 				isV2forCAS: false,
+				isV2forCASAdverts: false,
 				isV2forS78: false,
 				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
@@ -475,6 +475,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
 				isV2forCAS: false,
+				isV2forCASAdverts: false,
 				isV2forS78: true,
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
@@ -503,6 +504,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				isListedBuilding: null,
 				isV2forCAS: false,
+				isV2forCASAdverts: false,
 				isV2forS78: true,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
@@ -542,6 +544,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				nextPageUrl: '/listed-building/email-address',
 				isV2forS78: false,
 				isV2forCAS: false,
+				isV2forCASAdverts: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S20'))
@@ -581,9 +584,49 @@ describe('controllers/before-you-start/can-use-service', () => {
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				isV2forS78: false,
 				isV2forCAS: true,
+				isV2forCASAdverts: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('CAS_PLANNING'))
+			});
+		});
+	});
+	describe('getCanUseService - cas adverts', () => {
+		it('renders page - cas adverts', async () => {
+			isLpaInFeatureFlag.mockImplementation((_, flag) => {
+				return flag === FLAG.CAS_ADVERTS_APPEAL_FORM_V2;
+			});
+			const casAdvertsAppeal = {
+				typeOfPlanningApplication: MINOR_COMMERCIAL_ADVERTISEMENT,
+				lpaCode: 'E60000068',
+				decisionDate: fullAppeal.decisionDate,
+				eligibility: {
+					applicationDecision: 'granted',
+					planningApplicationAbout: ['none_of_these']
+				}
+			};
+			req = mockReq(casAdvertsAppeal);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				appealLPD: 'Bradford',
+				applicationAbout: null,
+				applicationDecision: 'Granted with conditions',
+				applicationType: 'Minor commercial advertisement',
+				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
+				decisionDate: '04 May 2022',
+				dateOfDecisionLabel: 'Date of decision',
+				enforcementNotice: 'No',
+				isListedBuilding: 'No',
+				nextPageUrl: '/cas-adverts/email-address',
+				changeLpaUrl: '/before-you-start/local-planning-authority',
+				isV2forS78: false,
+				isV2forCAS: false,
+				isV2forCASAdverts: true,
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('CAS_ADVERTS'))
 			});
 		});
 	});
