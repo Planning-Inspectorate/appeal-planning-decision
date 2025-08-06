@@ -2623,6 +2623,24 @@ exports.questionProps = {
 				value: fieldValues.applicationAbout.OTHER
 			}
 		]
+	},
+	highwayLand: {
+		type: 'radio',
+		title: 'Is the appeal site on highway land?',
+		question: 'Is the appeal site on highway land?',
+		fieldName: 'highwayLand',
+		url: 'highway-land',
+		validators: [new RequiredValidator('Select yes if the appeal site is on highway land')],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes'
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		]
 	}
 };
 

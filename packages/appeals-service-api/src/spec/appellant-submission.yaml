@@ -40,7 +40,7 @@ components:
         onApplicationDate:
           type: string
           format: date-time
-        
+
         majorMinorDevelopment:
           type: string
           nullable: true
@@ -194,6 +194,9 @@ components:
             type: object
 
         siteAddress:
+          type: boolean
+
+        highwayLand:
           type: boolean
         SubmissionAddress:
           type: array
