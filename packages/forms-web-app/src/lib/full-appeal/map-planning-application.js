@@ -1,5 +1,5 @@
 const { APPEAL_ID, TYPE_OF_PLANNING_APPLICATION } = require('@pins/business-rules/src/constants');
-const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /** BYS
  * @param {string} application
@@ -43,16 +43,6 @@ const getAppealTypeName = (appealId) => {
 	}
 };
 
-/** DASHBOARD (v2)
- * @param {string} typeCode
- * @returns {string}
- */
-const getAppealTypeNameByTypeCode = (typeCode) => {
-	const caseType = caseTypeLookup(typeCode, 'processCode');
-	if (!caseType) return '';
-	return `${caseType.caption} appeal`;
-};
-
 /**
  * @type {Object.<string, string>}
  */
@@ -64,7 +54,6 @@ const typeOfPlanningApplicationToAppealTypeMapper = {
 
 module.exports = {
 	getAppealTypeName,
-	getAppealTypeNameByTypeCode,
 	mapPlanningApplication,
 	typeOfPlanningApplicationToAppealTypeMapper
 };

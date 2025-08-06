@@ -61,7 +61,7 @@ const appellantSubmissionTaskList = async (req, res) => {
 
 	const declarationUrl = `/appeals/${caseType.friendlyUrl}/submit/declaration?id=${journey.response.referenceId}`;
 
-	return list(req, res, `${caseType.caption} Appeal`, {
+	return list(req, res, `${caseType.type} Appeal`, {
 		declarationUrl,
 		formattedDeadline,
 		navigation: ['', dashboardUrl],

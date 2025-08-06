@@ -20,7 +20,6 @@ const {
  * @typedef {CaseTypeCreateInput & {
  * 	processCode: "HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING",
  *  friendlyUrl: string,
- *  caption: string,
  *  expedited: boolean
  * }} CASE_TYPE
  */
@@ -55,7 +54,6 @@ const CASE_TYPES = Object.freeze({
 		id: 1001,
 		key: APPEAL_CASE_TYPE.D,
 		type: 'Householder',
-		caption: 'Householder',
 		processCode: 'HAS',
 		friendlyUrl: 'householder',
 		expedited: true
@@ -63,8 +61,7 @@ const CASE_TYPES = Object.freeze({
 	S78: {
 		id: 1005,
 		key: APPEAL_CASE_TYPE.W,
-		type: 'Full planning',
-		caption: 'Planning',
+		type: 'Planning',
 		processCode: 'S78',
 		friendlyUrl: 'full-planning',
 		expedited: false
@@ -72,8 +69,7 @@ const CASE_TYPES = Object.freeze({
 	S20: {
 		id: 1006,
 		key: APPEAL_CASE_TYPE.Y,
-		type: 'Listed building',
-		caption: 'Planning Listed Building',
+		type: 'Planning listed building and conservation area',
 		processCode: 'S20',
 		friendlyUrl: 'listed-building',
 		expedited: false
@@ -82,7 +78,6 @@ const CASE_TYPES = Object.freeze({
 		id: 1003,
 		key: APPEAL_CASE_TYPE.H,
 		type: 'Advertisement',
-		caption: 'Advertisement',
 		processCode: 'ADVERTS',
 		friendlyUrl: 'adverts', // shares appeal form with CAS_ADVERTS
 		expedited: false
@@ -90,8 +85,7 @@ const CASE_TYPES = Object.freeze({
 	CAS_ADVERTS: {
 		id: 1007,
 		key: APPEAL_CASE_TYPE.ZA, // just Z in horizon
-		type: 'Minor commercial advertisement',
-		caption: 'Minor Commercial Advertisement',
+		type: 'Commercial advertisement (CAS)',
 		processCode: 'CAS_ADVERTS',
 		friendlyUrl: 'adverts', // shares appeal form with ADVERTS
 		expedited: true
@@ -99,8 +93,7 @@ const CASE_TYPES = Object.freeze({
 	CAS_PLANNING: {
 		id: 1008,
 		key: APPEAL_CASE_TYPE.ZP, // just Z in horizon
-		type: 'Minor commercial',
-		caption: 'Minor Commercial',
+		type: 'Commercial planning (CAS)',
 		processCode: 'CAS_PLANNING',
 		friendlyUrl: 'cas-planning',
 		expedited: true
