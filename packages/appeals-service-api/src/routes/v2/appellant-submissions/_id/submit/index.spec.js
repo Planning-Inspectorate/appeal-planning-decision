@@ -314,7 +314,7 @@ module.exports = ({
 				},
 				documents: expectedData.documents,
 				users: expectedData.agentUsers,
-				emailString: 'full planning'
+				emailString: 'planning'
 			}
 		},
 		{
@@ -348,7 +348,7 @@ module.exports = ({
 				},
 				documents: expectedData.documents,
 				users: expectedData.agentUsers,
-				emailString: 'listed building'
+				emailString: 'planning listed building and conservation area'
 			}
 		}
 	];

@@ -38,7 +38,7 @@ exports.constraintsRows = (caseData) => {
 	const rows = [
 		{
 			keyText: `Is a ${
-				caseTypeLookup(caseData.appealTypeCode, 'processCode')?.caption.toLowerCase() || 'unknown'
+				caseTypeLookup(caseData.appealTypeCode, 'processCode')?.type.toLowerCase() || 'unknown'
 			} appeal the correct type of appeal?`,
 			valueText: formatYesOrNo(caseData, 'isCorrectAppealType'),
 			condition: () => isNotUndefinedOrNull(caseData.isCorrectAppealType)

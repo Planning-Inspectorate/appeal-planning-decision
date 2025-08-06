@@ -58,10 +58,7 @@ const logger = require('#lib/logger');
 
 const { calculateDueInDays } = require('@pins/common/src/lib/calculate-due-in-days');
 
-const {
-	getAppealTypeName,
-	getAppealTypeNameByTypeCode
-} = require('./full-appeal/map-planning-application');
+const { getAppealTypeName } = require('./full-appeal/map-planning-application');
 const { mapTypeCodeToAppealId } = require('@pins/common');
 const { businessRulesDeadline } = require('./calculate-deadline');
 const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
@@ -89,7 +86,7 @@ const INVALID_APPEAL_TIME_LIMIT = 28;
 const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	appealNumber: appealCaseData.caseReference,
 	address: formatAddress(appealCaseData),
-	appealType: appealCaseData.appealTypeCode,
+	appealType: getAppealType(appealCaseData),
 	nextJourneyDue: determineJourneyToDisplayLPADashboard(appealCaseData),
 	isNewAppeal: isNewAppealForLPA(appealCaseData),
 	displayInvalid: displayInvalidAppeal(appealCaseData),
@@ -142,7 +139,7 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
 const mapToRule6DashboardDisplayData = (appealCaseData) => ({
 	appealNumber: appealCaseData.caseReference,
 	address: formatAddress(appealCaseData),
-	appealType: appealCaseData.appealTypeCode,
+	appealType: getAppealType(appealCaseData),
 	nextJourneyDue: determineJourneyToDisplayRule6Dashboard(appealCaseData),
 	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
@@ -371,7 +368,10 @@ const getAppealType = (appealCaseData) => {
 		return getAppealTypeName(appealCaseData.appeal?.appealType);
 	}
 	if (isV2Submission(appealCaseData)) {
-		return getAppealTypeNameByTypeCode(appealCaseData?.AppellantSubmission?.appealTypeCode);
+		const submissionType = caseTypeNameWithDefault(
+			appealCaseData?.AppellantSubmission?.appealTypeCode
+		);
+		return `${submissionType} appeal`;
 	}
 
 	const caseType = caseTypeNameWithDefault(appealCaseData?.appealTypeCode);
