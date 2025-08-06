@@ -215,9 +215,9 @@ const config = {
 					duration: 'weeks'
 				}
 			},
-			[APPEAL_ID.COMMERCIAL]: {
-				id: 'Z',
-				name: 'Commercial Appeal (CAS)',
+			[APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT]: {
+				id: 'ZA',
+				name: 'Commercial Adverts Appeal (CAS)',
 				procedureType: [WRITTEN_REPRESENTATION],
 				appealDue: {
 					time: 8,
@@ -229,7 +229,7 @@ const config = {
 				}
 			},
 			[APPEAL_ID.MINOR_COMMERCIAL]: {
-				id: 'Z',
+				id: 'ZP',
 				name: 'Minor Commercial (shopfront)',
 				procedureType: [WRITTEN_REPRESENTATION],
 				appealDue: {

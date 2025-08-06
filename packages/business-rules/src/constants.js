@@ -6,7 +6,7 @@ const APPEAL_ID = {
 	PLANNING_OBLIGATION: '1004',
 	PLANNING_SECTION_78: '1005',
 	PLANNING_LISTED_BUILDING: '1006',
-	COMMERCIAL: '1007',
+	MINOR_COMMERCIAL_ADVERTISEMENT: '1007',
 	MINOR_COMMERCIAL: '1008',
 	HEDGEROW: '1009',
 	HIGH_HEDGES: '1010',
@@ -39,6 +39,7 @@ const TYPE_OF_PLANNING_APPLICATION = {
 	RESERVED_MATTERS: 'reserved-matters',
 	REMOVAL_OR_VARIATION_OF_CONDITIONS: 'removal-or-variation-of-conditions',
 	MINOR_COMMERCIAL_DEVELOPMENT: 'minor-commercial-development',
+	MINOR_COMMERCIAL_ADVERTISEMENT: 'minor-commercial-advertisement',
 	SOMETHING_ELSE: 'something-else',
 	I_HAVE_NOT_MADE_A_PLANNING_APPLICATION: 'i-have-not-made-a-planning-application'
 };

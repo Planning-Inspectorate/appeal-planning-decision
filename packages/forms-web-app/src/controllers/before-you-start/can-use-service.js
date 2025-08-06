@@ -30,7 +30,8 @@ const {
 		REMOVAL_OR_VARIATION_OF_CONDITIONS,
 		PRIOR_APPROVAL,
 		LISTED_BUILDING,
-		MINOR_COMMERCIAL_DEVELOPMENT
+		MINOR_COMMERCIAL_DEVELOPMENT,
+		MINOR_COMMERCIAL_ADVERTISEMENT
 	}
 } = require('@pins/business-rules/src/constants');
 const config = require('../../config');
@@ -106,10 +107,11 @@ const canUseServiceFullAppeal = async (req, res) => {
 		appeal.eligibility.applicationDecision
 	);
 
-	const [isV2forS78, isV2forS20, isV2forCAS] = await Promise.all([
+	const [isV2forS78, isV2forS20, isV2forCAS, isV2forCASAdverts] = await Promise.all([
 		isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2),
 		isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2)
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2)
 	]);
 
 	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
@@ -127,6 +129,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 		isListedBuilding,
 		isV2forS78,
 		isV2forCAS,
+		isV2forCASAdverts,
 		nextPageUrl,
 		changeLpaUrl,
 		bannerHtmlOverride:
@@ -290,6 +293,7 @@ exports.getCanUseService = async (req, res) => {
 		case RESERVED_MATTERS:
 		case LISTED_BUILDING:
 		case MINOR_COMMERCIAL_DEVELOPMENT:
+		case MINOR_COMMERCIAL_ADVERTISEMENT:
 			await canUseServiceFullAppeal(req, res);
 			break;
 		case PRIOR_APPROVAL:
