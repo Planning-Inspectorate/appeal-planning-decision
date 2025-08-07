@@ -58,6 +58,9 @@
                               <a href="/appeals/{{item.appealNumber}}" class="govuk-link">
                                 {{item.appealNumber}}
                               </a>
+														{% endif %}
+														{% if item.linkedCaseDetails %}
+															<p><strong class='govuk-tag govuk-tag--grey'>{{item.linkedCaseDetails.linkedCaseStatusLabel}}</strong></p>
                             {% endif %}
                           </td>
                           <td class="govuk-table__cell">
@@ -115,6 +118,9 @@
                             <a href="/appeals/{{item.appealNumber}}" class="govuk-link">
                               {{item.appealNumber}}
                             </a>
+                          {% endif %}
+													{% if item.linkedCaseDetails %}
+														<p><strong class='govuk-tag govuk-tag--grey'>{{item.linkedCaseDetails.linkedCaseStatusLabel}}</strong></p>
                           {% endif %}
                         </td>
                         <td class="govuk-table__cell">

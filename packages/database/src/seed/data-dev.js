@@ -1186,6 +1186,16 @@ const caseRelations = [
 		caseReference: caseReferences.caseReferenceNine,
 		caseReference2: caseReferences.caseReferenceOne,
 		type: CASE_RELATION_TYPES.nearby
+	},
+	{
+		caseReference: '0000666',
+		caseReference2: '0000066',
+		type: CASE_RELATION_TYPES.linked
+	},
+	{
+		caseReference: '0006666',
+		caseReference2: '0000066',
+		type: CASE_RELATION_TYPES.linked
 	}
 ];
 

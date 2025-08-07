@@ -13,6 +13,7 @@ const {
 const {
 	exampleS20DataModel
 } = require('../../../../__tests__/developer/fixtures/appeals-S20-data-model');
+const { appendLinkedCasesForMultipleAppeals } = require('./service');
 
 /**
  * @param {Object} dependencies
@@ -26,6 +27,8 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 
 	/** @type {string[]} */
 	let appealCaseIds = [];
+	/** @type {number[]} */
+	let appealCaseRelationshipIds = [];
 
 	let caseRef = 5555555;
 
@@ -523,6 +526,83 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				expect(response.status).toBe(400);
 			});
 		});
+
+		describe('appendLinkedCasesForMultipleAppeals', () => {
+			const child1 = {
+				caseReference: 'testChildRef1'
+			};
+			const child2 = {
+				caseReference: 'testChildRef2'
+			};
+			const lead = {
+				caseReference: 'testLeadRef'
+			};
+			const unlinked = {
+				caseReference: 'unlinked'
+			};
+			const linkedCasesData = [
+				{
+					caseReference: child1.caseReference,
+					caseReference2: lead.caseReference,
+					type: 'linked'
+				},
+				{
+					caseReference: child2.caseReference,
+					caseReference2: lead.caseReference,
+					type: 'linked'
+				}
+			];
+
+			beforeAll(async () => {
+				// seed linked appealCaseRelationship
+				for (const data of linkedCasesData) {
+					await _createSqlLinkedCases(data);
+				}
+			});
+
+			afterAll(async () => {
+				await _clearSqlData();
+			});
+
+			const inputArray = [child1, child2, lead, unlinked];
+
+			const enhancedChild1 = {
+				...child1,
+				linkedCases: [
+					{
+						childCaseReference: child1.caseReference,
+						leadCaseReference: lead.caseReference
+					}
+				]
+			};
+			const enhancedChild2 = {
+				...child2,
+				linkedCases: [
+					{
+						childCaseReference: child2.caseReference,
+						leadCaseReference: lead.caseReference
+					}
+				]
+			};
+			const enhancedLead = {
+				...lead,
+				linkedCases: [
+					{
+						childCaseReference: child1.caseReference,
+						leadCaseReference: lead.caseReference
+					},
+					{
+						childCaseReference: child2.caseReference,
+						leadCaseReference: lead.caseReference
+					}
+				]
+			};
+
+			it('appends linked case information', async () => {
+				const results = await appendLinkedCasesForMultipleAppeals(inputArray);
+				expect(results).toEqual([enhancedChild1, enhancedChild2, enhancedLead, unlinked]);
+			});
+		});
 	});
 
 	/**
@@ -533,12 +613,24 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 			in: appealCaseIds
 		};
 
+		const testRelationshipsClause = {
+			in: appealCaseRelationshipIds
+		};
+
 		await sqlClient.appealCase.deleteMany({
 			where: {
 				id: testAppealsClause
 			}
 		});
+
+		await sqlClient.appealCaseRelationship.deleteMany({
+			where: {
+				id: testRelationshipsClause
+			}
+		});
+
 		appealCaseIds = [];
+		appealCaseRelationshipIds = [];
 	};
 
 	/**
@@ -551,5 +643,17 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 		appealCaseIds.push(appeal.id);
 
 		return appeal;
+	}
+
+	/**
+	 * @param {import('@prisma/client').Prisma.AppealCaseRelationshipCreateInput} data
+	 * @returns {Promise.<import('@prisma/client').AppealCaseRelationship>}
+	 */
+	async function _createSqlLinkedCases(data) {
+		const appealCaseRelationship = await sqlClient.appealCaseRelationship.create({ data });
+
+		appealCaseRelationshipIds.push(appealCaseRelationship.id);
+
+		return appealCaseRelationship;
 	}
 };

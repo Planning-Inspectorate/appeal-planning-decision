@@ -2,6 +2,7 @@ const {
 	mapDecisionColour,
 	mapDecisionLabel
 } = require('@pins/business-rules/src/utils/decision-outcome');
+const { formatDashboardLinkedCaseDetails } = require('./linked-appeals');
 const {
 	isNewAppealForLPA,
 	isLPAQuestionnaireDue,
@@ -44,6 +45,7 @@ const logger = require('#lib/logger');
  * @property {string | undefined | null} appealDecision the PINS decision in respect of the appeal
  * @property {string | null} [appealDecisionColor] tag color to use for the decision
  * @property {string | undefined | null} caseDecisionOutcomeDate
+ * @property {LinkedCaseDetails | null} linkedCaseDetails if appeal is linked, including linked role ie 'lead', 'child'
  * @property {{ appealType: string | undefined, appealId: string | undefined }} [continueParams]
  */
 
@@ -56,12 +58,23 @@ const logger = require('#lib/logger');
  * @property {string | null} [baseUrl] the base url for the journey type
  */
 
+/**
+ * @typedef LinkedCaseDetails
+ * @type {object}
+ * @property {string | null} linkedCaseStatus
+ * @property {string | null | undefined} leadCaseReference
+ * @property {string | null | undefined} linkedCaseStatusLabel
+ */
+
 const { calculateDueInDays } = require('@pins/common/src/lib/calculate-due-in-days');
 
 const { getAppealTypeName } = require('./full-appeal/map-planning-application');
 const { mapTypeCodeToAppealId } = require('@pins/common');
 const { businessRulesDeadline } = require('./calculate-deadline');
-const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
+const {
+	APPEAL_CASE_STATUS,
+	APPEAL_LINKED_CASE_STATUS
+} = require('@planning-inspectorate/data-model');
 const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invalidated');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
@@ -92,7 +105,8 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	displayInvalid: displayInvalidAppeal(appealCaseData),
 	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
-	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate)
+	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
+	linkedCaseDetails: formatDashboardLinkedCaseDetails(appealCaseData)
 });
 
 /**
@@ -123,7 +137,10 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
 			caseDecisionOutcomeDate:
 				isAppealSubmission(appealData) || isV2Submission(appealData)
 					? null
-					: appealData.caseDecisionOutcomeDate
+					: appealData.caseDecisionOutcomeDate,
+			linkedCaseDetails: isAppealSubmission(appealData)
+				? null
+				: formatDashboardLinkedCaseDetails(appealData)
 		};
 	} catch (err) {
 		logger.error({ err }, `failed to mapToAppellantDashboardDisplayData ${id}`);
@@ -143,7 +160,8 @@ const mapToRule6DashboardDisplayData = (appealCaseData) => ({
 	nextJourneyDue: determineJourneyToDisplayRule6Dashboard(appealCaseData),
 	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
-	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate)
+	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
+	linkedCaseDetails: formatDashboardLinkedCaseDetails(appealCaseData)
 });
 
 /**
@@ -346,6 +364,31 @@ const determineJourneyToDisplayRule6Dashboard = (appealCaseData) => {
 };
 
 /**
+ * @param {DashboardDisplayData[]} displayDataArray
+ * @returns {DashboardDisplayData[]}
+ */
+const updateChildAppealDisplayData = (displayDataArray) => {
+	const leadCases = displayDataArray.filter(
+		(caseData) => caseData.linkedCaseDetails?.linkedCaseStatus === APPEAL_LINKED_CASE_STATUS.LEAD
+	);
+
+	if (!leadCases.length) return displayDataArray;
+
+	return displayDataArray.map((caseData) => {
+		if (caseData.linkedCaseDetails?.linkedCaseStatus === APPEAL_LINKED_CASE_STATUS.CHILD) {
+			return {
+				...caseData,
+				nextJourneyDue:
+					leadCases.find(
+						(leadCase) => leadCase.appealNumber === caseData.linkedCaseDetails?.leadCaseReference
+					)?.nextJourneyDue || caseData.nextJourneyDue
+			};
+		}
+		return caseData;
+	});
+};
+
+/**
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {boolean}
  */
@@ -387,5 +430,6 @@ module.exports = {
 	isToDoAppellantDashboard,
 	mapToAppellantDashboardDisplayData,
 	mapToRule6DashboardDisplayData,
-	isToDoRule6Dashboard
+	isToDoRule6Dashboard,
+	updateChildAppealDisplayData
 };

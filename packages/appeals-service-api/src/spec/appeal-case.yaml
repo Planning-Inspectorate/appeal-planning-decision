@@ -1,7 +1,7 @@
 components:
   schemas:
     AppealCaseDetailed:
-      description: An appeal case from the Back Office, with users, relations and documents
+      description: An appeal case from the Back Office, with users, relations, documents and linkedCase info
       allOf:
         - $ref: '#/components/schemas/AppealCase'
         - type: object
@@ -22,6 +22,20 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Document'
+            linkedCases:
+              type: array
+              items:
+                type: object
+                required:
+                  - childCaseReference
+                  - leadCaseReference
+                properties:
+                  childCaseReference:
+                    type: string
+                    description: the child case reference
+                  leadCaseReference:
+                    type: string
+                    description: the lead case reference
 
     AppealCase:
       description: An appeal case from the Back Office

@@ -429,6 +429,7 @@ model AppealCaseRelationship {
   // indexes
   @@index([caseReference])
   @@index([caseReference2])
+  @@index([type])
 }
 
 /// Lookup table for types of appeals processes, and appeal types such as D (Householder) and W (S78).
