@@ -2,6 +2,7 @@ const {
 	mapDecisionColour,
 	mapDecisionLabel
 } = require('@pins/business-rules/src/utils/decision-outcome');
+const { mapLinkedCaseStatusLabel } = require('@pins/business-rules/src/utils/linked-appeals');
 const {
 	isNewAppealForLPA,
 	isLPAQuestionnaireDue,
@@ -44,6 +45,7 @@ const logger = require('#lib/logger');
  * @property {string | undefined | null} appealDecision the PINS decision in respect of the appeal
  * @property {string | null} [appealDecisionColor] tag color to use for the decision
  * @property {string | undefined | null} caseDecisionOutcomeDate
+ * @property {string | null} linkedCaseStatus if appeal is linked, including linked role ie 'lead', 'child'
  * @property {{ appealType: string | undefined, appealId: string | undefined }} [continueParams]
  */
 
@@ -95,7 +97,8 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	displayInvalid: displayInvalidAppeal(appealCaseData),
 	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
-	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate)
+	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
+	linkedCaseStatus: mapLinkedCaseStatusLabel(appealCaseData.linkedCaseStatus)
 });
 
 /**
@@ -126,7 +129,10 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
 			caseDecisionOutcomeDate:
 				isAppealSubmission(appealData) || isV2Submission(appealData)
 					? null
-					: appealData.caseDecisionOutcomeDate
+					: appealData.caseDecisionOutcomeDate,
+			linkedCaseStatus: isAppealSubmission(appealData)
+				? null
+				: mapLinkedCaseStatusLabel(appealData.linkedCaseStatus)
 		};
 	} catch (err) {
 		logger.error({ err }, `failed to mapToAppellantDashboardDisplayData ${id}`);
@@ -146,7 +152,8 @@ const mapToRule6DashboardDisplayData = (appealCaseData) => ({
 	nextJourneyDue: determineJourneyToDisplayRule6Dashboard(appealCaseData),
 	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
-	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate)
+	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
+	linkedCaseStatus: mapLinkedCaseStatusLabel(appealCaseData.linkedCaseStatus)
 });
 
 /**

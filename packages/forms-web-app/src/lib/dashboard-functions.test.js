@@ -190,7 +190,7 @@ describe('lib/dashboard-functions', () => {
 		});
 	});
 
-	describe('determineDocumentToDisplayRul6Dashboard', () => {
+	describe('determineDocumentToDisplayRule6Dashboard', () => {
 		it('returns default values if no documents are due', () => {
 			expect(determineJourneyToDisplayRule6Dashboard({})).toEqual({
 				deadline: null,
