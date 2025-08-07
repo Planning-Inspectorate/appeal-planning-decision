@@ -1,11 +1,15 @@
 const {
 	formatAddress,
 	determineJourneyToDisplayLPADashboard,
-	determineJourneyToDisplayRule6Dashboard
+	determineJourneyToDisplayRule6Dashboard,
+	updateChildAppealDisplayData
 } = require('./dashboard-functions');
 const { calculateDueInDays } = require('@pins/common/src/lib/calculate-due-in-days');
 const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invalidated');
-const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
+const {
+	APPEAL_CASE_STATUS,
+	APPEAL_LINKED_CASE_STATUS
+} = require('@planning-inspectorate/data-model');
 
 jest.mock('@pins/common/src/lib/calculate-due-in-days');
 jest.mock('./calculate-days-since-invalidated');
@@ -30,6 +34,34 @@ const finalCommentBaseUrl = `/manage-appeals/final-comments/${testCaseRef}/entry
 const proofsBaseUrl = `/manage-appeals/proof-evidence/${testCaseRef}/entry`;
 const rule6StatementBaseUrl = `/rule-6/appeal-statement/${testCaseRef}/entry`;
 const rule6ProofsBaseUrl = `/rule-6/proof-evidence/${testCaseRef}/entry`;
+
+const testLeadDashboardData = {
+	appealNumber: 'TestLeadCase',
+	nextJourneyDue: 'LeadCaseJourney',
+	linkedCaseDetails: {
+		linkedCaseStatus: APPEAL_LINKED_CASE_STATUS.LEAD,
+		leadCaseReference: 'TestLeadCase',
+		linkedCaseStatusLabe: 'Lead'
+	}
+};
+const testLeadDashboardData2 = {
+	appealNumber: 'TestLeadCase2',
+	nextJourneyDue: 'LeadCaseJourney2',
+	linkedCaseDetails: {
+		linkedCaseStatus: APPEAL_LINKED_CASE_STATUS.LEAD,
+		leadCaseReference: 'TestLeadCase2',
+		linkedCaseStatusLabe: 'Lead'
+	}
+};
+const testChildDashboardData = {
+	appealNumber: 'TestChildCase',
+	nextJourneyDue: 'ChildCaseJourney',
+	linkedCaseDetails: {
+		linkedCaseStatus: APPEAL_LINKED_CASE_STATUS.CHILD,
+		leadCaseReference: testLeadDashboardData.appealNumber,
+		linkedCaseStatusLabe: 'Child'
+	}
+};
 
 describe('lib/dashboard-functions', () => {
 	beforeEach(() => {
@@ -190,7 +222,7 @@ describe('lib/dashboard-functions', () => {
 		});
 	});
 
-	describe('determineDocumentToDisplayRul6Dashboard', () => {
+	describe('determineDocumentToDisplayRule6Dashboard', () => {
 		it('returns default values if no documents are due', () => {
 			expect(determineJourneyToDisplayRule6Dashboard({})).toEqual({
 				deadline: null,
@@ -242,6 +274,40 @@ describe('lib/dashboard-functions', () => {
 			expect(determineJourneyToDisplayRule6Dashboard(appealStatementDueDetails)).toEqual(
 				expectedProofsDetails
 			);
+		});
+	});
+
+	describe('updateChildAppealDisplayData', () => {
+		it('returns the input array if there are no lead cases', () => {
+			expect(updateChildAppealDisplayData([testChildDashboardData])).toEqual([
+				testChildDashboardData
+			]);
+		});
+
+		it('updates a child appeal data with the relevant lead appeal journey', () => {
+			const testInputArray = [
+				testLeadDashboardData,
+				testLeadDashboardData2,
+				testChildDashboardData
+			];
+
+			const expectedUpdatedChild = {
+				appealNumber: 'TestChildCase',
+				nextJourneyDue: testLeadDashboardData.nextJourneyDue,
+				linkedCaseDetails: {
+					linkedCaseStatus: APPEAL_LINKED_CASE_STATUS.CHILD,
+					leadCaseReference: testLeadDashboardData.appealNumber,
+					linkedCaseStatusLabe: 'Child'
+				}
+			};
+
+			const expectedOutputArray = [
+				testLeadDashboardData,
+				testLeadDashboardData2,
+				expectedUpdatedChild
+			];
+
+			expect(updateChildAppealDisplayData(testInputArray)).toEqual(expectedOutputArray);
 		});
 	});
 });

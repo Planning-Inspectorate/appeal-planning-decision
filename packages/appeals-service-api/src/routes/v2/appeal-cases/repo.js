@@ -21,6 +21,7 @@ const sanitizePostcode = require('#lib/sanitize-postcode');
  * @typedef {import('@prisma/client').Prisma.AppealCaseWhereInput} AppealCaseWhereInput
  * @typedef {import('@prisma/client').Prisma.AppealCaseCountArgs} AppealCaseCountArgs
  * @typedef {(import('@planning-inspectorate/data-model/src/schemas').AppealHASCase['neighbouringSiteAddresses'])} NeighbouringSiteAddresses
+ * @typedef {{childCaseReference: string, leadCaseReference: string}} LinkedCase
  */
 
 /**
@@ -144,6 +145,49 @@ class AppealCaseRepository {
 				caseReference
 			}
 		});
+	}
+
+	/**
+	 * Get all linked cases for appeals, rename fields in return objects for each of use
+	 * Uses distinct field to remove duplicates - each child ('caseReference') should only have one lead ('caseReference2')
+	 * @param {string[] | string} caseReferences
+	 * @returns {Promise<Array.<LinkedCase>|null>}
+	 */
+	async getLinkedCases(caseReferences) {
+		const referenceArray = Array.isArray(caseReferences) ? caseReferences : [caseReferences];
+		const linkedCaseRelationships = await this.dbClient.appealCaseRelationship.findMany({
+			where: {
+				AND: [
+					{
+						type: CASE_RELATION_TYPES.linked
+					},
+					{
+						OR: [
+							{
+								caseReference: {
+									in: referenceArray
+								}
+							},
+							{
+								caseReference2: {
+									in: referenceArray
+								}
+							}
+						]
+					}
+				]
+			},
+			distinct: ['caseReference'],
+			select: {
+				caseReference: true,
+				caseReference2: true
+			}
+		});
+
+		return linkedCaseRelationships.map((linkedCaseData) => ({
+			childCaseReference: linkedCaseData.caseReference,
+			leadCaseReference: linkedCaseData.caseReference2
+		}));
 	}
 
 	/**

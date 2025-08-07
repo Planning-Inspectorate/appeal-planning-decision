@@ -2,6 +2,7 @@ const { APPEAL_STATE } = require('@pins/business-rules/src/constants');
 const { UserAppealsRepository } = require('./repo');
 const { AppealsRepository } = require('#repositories/appeals-repository');
 const { filterNotNull } = require('#lib/filter');
+const { appendLinkedCasesForMultipleAppeals } = require('../appeal-cases/service');
 
 const repo = new UserAppealsRepository();
 const cosmosAppeals = new AppealsRepository();
@@ -45,6 +46,9 @@ async function getAppealsForUser(userId, role) {
 		filterNotNull
 	);
 
+	// check for linked cases
+	const enhancedCases = await appendLinkedCasesForMultipleAppeals(cases);
+
 	// fetch drafts from Cosmos
 	const draftSubmissions = await Promise.all(
 		draftSubmissionIds.map((id) => cosmosAppeals.getById(id))
@@ -52,7 +56,7 @@ async function getAppealsForUser(userId, role) {
 
 	// return all cases + drafts
 	return [
-		...cases,
+		...enhancedCases,
 		...v2Drafts,
 		// any drafts that aren't found in cosmos will be null, filter those outs
 		...draftSubmissions.filter(filterNotNull)

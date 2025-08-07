@@ -1,6 +1,7 @@
 const {
 	mapToAppellantDashboardDisplayData,
-	isToDoAppellantDashboard
+	isToDoAppellantDashboard,
+	updateChildAppealDisplayData
 } = require('../../lib/dashboard-functions');
 const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
@@ -28,18 +29,23 @@ exports.get = async (req, res) => {
 
 		logger.debug({ undecidedAppeals }, 'undecided appeals');
 
-		const { toDoAppeals, waitingForReviewAppeals } = undecidedAppeals.reduce(
-			(acc, appeal) => {
-				if (isToDoAppellantDashboard(appeal)) {
-					acc.toDoAppeals.push(appeal);
-				} else if (appeal.appealNumber) {
-					// don't add draft appeals to waiting for review
-					acc.waitingForReviewAppeals.push(appeal);
-				}
-				return acc;
-			},
-			{ toDoAppeals: [], waitingForReviewAppeals: [] }
-		);
+		// aligns child's nextJourneyDue information with lead linked case
+		const undecidedWithUpdatedChildAppealDisplayData =
+			updateChildAppealDisplayData(undecidedAppeals);
+
+		const { toDoAppeals, waitingForReviewAppeals } =
+			undecidedWithUpdatedChildAppealDisplayData.reduce(
+				(acc, appeal) => {
+					if (isToDoAppellantDashboard(appeal)) {
+						acc.toDoAppeals.push(appeal);
+					} else if (appeal.appealNumber) {
+						// don't add draft appeals to waiting for review
+						acc.waitingForReviewAppeals.push(appeal);
+					}
+					return acc;
+				},
+				{ toDoAppeals: [], waitingForReviewAppeals: [] }
+			);
 
 		logger.debug({ toDoAppeals }, 'toDoAppeals');
 		logger.debug({ waitingForReviewAppeals }, 'waitingForReviewAppeals');

@@ -1,5 +1,5 @@
 const { RepresentationsRepository } = require('./repo');
-const { appendAppellantAndAgent } = require('../../service');
+const { appendAppellantAndAgent, appendLinkedCases } = require('../../service');
 const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
 const ApiError = require('#errors/apiError');
 const { REPRESENTATION_TYPES } = require('@pins/common/src/constants');
@@ -36,7 +36,9 @@ async function getAppealCaseWithAllRepresentations(caseReference) {
 
 	const appealCaseWithApplicant = await appendAppellantAndAgent(appealCaseWithRepresentations);
 
-	return appealCaseWithApplicant;
+	const appealCaseWithLinkedCases = await appendLinkedCases(appealCaseWithApplicant);
+
+	return appealCaseWithLinkedCases;
 }
 
 /**
@@ -55,7 +57,9 @@ async function getAppealCaseWithRepresentationsByType(caseReference, type) {
 
 	const appealCaseWithApplicant = await appendAppellantAndAgent(appealCaseWithRepresentations);
 
-	return appealCaseWithApplicant;
+	const appealCaseWithLinkedCases = await appendLinkedCases(appealCaseWithApplicant);
+
+	return appealCaseWithLinkedCases;
 }
 
 /**

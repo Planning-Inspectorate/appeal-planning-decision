@@ -1,6 +1,7 @@
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('../constants');
 const { formatApplicant } = require('../lib/format-applicant');
 const { formatAddress } = require('../lib/format-address');
+const { formatLinkedCases } = require('../lib/format-linked-cases');
 const { PROCEDURE_TYPES } = require('../database/data-static');
 const { caseTypeNameWithDefault } = require('../lib/format-case-type');
 
@@ -16,7 +17,8 @@ const { caseTypeNameWithDefault } = require('../lib/format-case-type');
  * @param {AppealToUserRoles|LpaUserRole|null} role
  */
 const formatHeadlineData = (caseData, lpaName, role = APPEAL_USER_ROLES.INTERESTED_PARTY) => {
-	const { caseReference, appealTypeCode, caseProcedure, users, applicationReference } = caseData;
+	const { caseReference, appealTypeCode, caseProcedure, users, applicationReference, linkedCases } =
+		caseData;
 
 	const address = formatAddress(caseData);
 	const applicant = formatApplicant(users, role);
@@ -57,6 +59,11 @@ const formatHeadlineData = (caseData, lpaName, role = APPEAL_USER_ROLES.INTEREST
 		headlines.unshift({
 			key: { text: 'Appeal reference' },
 			value: { text: caseReference }
+		});
+	} else if (linkedCases && linkedCases.length) {
+		headlines.push({
+			key: { text: 'Linked appeals' },
+			value: formatLinkedCases(linkedCases, caseReference, role)
 		});
 	}
 

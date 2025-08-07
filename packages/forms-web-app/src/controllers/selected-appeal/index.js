@@ -34,6 +34,7 @@ const { getDepartmentFromCode } = require('../../services/department.service');
 const logger = require('#lib/logger');
 const config = require('../../config');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
+const { formatDashboardLinkedCaseDetails } = require('#lib/linked-appeals');
 
 /** @type {Partial<import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict>} */
 const userSectionsDict = {
@@ -77,6 +78,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = displayHeadlinesByUser(caseData, lpa.name, userType);
+
+		const linkedCaseDetails = formatDashboardLinkedCaseDetails(caseData);
 
 		const sections = userSectionsDict[userType];
 		if (!isSection(sections)) throw new Error(`No sections configured for user type ${userType}`);
@@ -126,7 +129,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				rule6StatementDueDate: formatDateForNotification(caseData.statementDueDate),
 				finalCommentDueDate: formatDateForNotification(caseData.finalCommentsDueDate),
 				proofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate),
-				rule6ProofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate)
+				rule6ProofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate),
+				linkedCaseDetails
 			},
 			bannerHtmlOverride
 		};

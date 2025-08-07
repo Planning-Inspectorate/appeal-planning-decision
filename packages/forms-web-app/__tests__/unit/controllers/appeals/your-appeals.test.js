@@ -4,7 +4,8 @@ const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 const {
 	mapToAppellantDashboardDisplayData,
-	isToDoAppellantDashboard
+	isToDoAppellantDashboard,
+	updateChildAppealDisplayData
 } = require('../../../../src/lib/dashboard-functions');
 
 jest.mock('../../../../src/lib/dashboard-functions');
@@ -82,6 +83,7 @@ describe('controllers/appeals/your-appeals', () => {
 	describe('Get - To Do appeals', () => {
 		it('Displays appeal in to do list if it passes all criteria', async () => {
 			mapToAppellantDashboardDisplayData.mockReturnValue(toDoData);
+			updateChildAppealDisplayData.mockReturnValue([toDoData]);
 			isToDoAppellantDashboard.mockReturnValue(true);
 			await get(req, res);
 
@@ -94,6 +96,7 @@ describe('controllers/appeals/your-appeals', () => {
 
 		it('Does not display appeal in to do list if all documents have been submitted', async () => {
 			mapToAppellantDashboardDisplayData.mockReturnValue(completedData);
+			updateChildAppealDisplayData.mockReturnValue([completedData]);
 
 			await get(req, res);
 
@@ -106,8 +109,10 @@ describe('controllers/appeals/your-appeals', () => {
 
 		it('Does not display appeal in to do list or WFR list if it has been decided', async () => {
 			mapToAppellantDashboardDisplayData.mockReturnValue(decidedData);
+			updateChildAppealDisplayData.mockReturnValue([]);
 
 			await get(req, res);
+			expect(updateChildAppealDisplayData).toHaveBeenCalledWith([]);
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
 				toDoAppeals: [],
 				waitingForReviewAppeals: [],
@@ -117,6 +122,8 @@ describe('controllers/appeals/your-appeals', () => {
 
 		it('Does not display appeal in to do list if the next document due is overdue', async () => {
 			mapToAppellantDashboardDisplayData.mockReturnValue(waitingForReviewData);
+			updateChildAppealDisplayData.mockReturnValue([waitingForReviewData]);
+
 			await get(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {

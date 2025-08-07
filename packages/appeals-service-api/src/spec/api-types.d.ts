@@ -29,12 +29,18 @@ export interface AppealCaseRelationship {
 	caseReference2: string;
 }
 
-/** An appeal case from the Back Office, with users, relations and documents */
+/** An appeal case from the Back Office, with users, relations, documents and linkedCase info */
 export type AppealCaseDetailed = AppealCase & {
 	users?: ServiceUser[];
 	relations?: AppealCaseRelationship[];
 	submissionLinkedCases?: SubmissionLinkedCase[];
 	Documents?: Document[];
+	linkedCases?: {
+		/** the child case reference */
+		childCaseReference: string;
+		/** the lead case reference */
+		leadCaseReference: string;
+	}[];
 };
 
 /** An appeal case from the Back Office */

@@ -434,7 +434,9 @@ async function listByLpaCodeWithAppellant(options) {
 		await Promise.all(appeals.map(appendAppellantAndAgent));
 	}
 
-	return appeals;
+	const enhancedAppeals = await appendLinkedCasesForMultipleAppeals(appeals);
+
+	return enhancedAppeals;
 }
 
 /**
@@ -497,6 +499,72 @@ async function appendAppealRelations(appeal) {
 	return appeal;
 }
 
+/**
+ * Add linked cases to a single appeal.
+ *
+ * @param {AppealCase} appeal
+ * @returns {Promise<AppealCaseDetailed>}>}
+ */
+async function appendLinkedCases(appeal) {
+	const linkedCases = await repo.getLinkedCases(appeal.caseReference);
+	if (!linkedCases || !linkedCases.length) {
+		return appeal;
+	}
+	const enhancedAppeal = {
+		...appeal,
+		linkedCases
+	};
+
+	return enhancedAppeal;
+}
+
+/**
+ * Add linked cases to individual cases within an array of appeals.
+ *
+ * @param {AppealCase[]} appeals
+ * @returns {Promise<AppealCaseDetailed[]>}>}
+ */
+async function appendLinkedCasesForMultipleAppeals(appeals) {
+	const caseReferences = appeals.map((appealCase) => appealCase.caseReference);
+	const linkedCases = await repo.getLinkedCases(caseReferences);
+
+	if (!linkedCases || !linkedCases.length) {
+		return appeals;
+	}
+
+	const { leadCases, childCases } = linkedCases.reduce(
+		(acc, linkedCase) => {
+			acc.childCases.add(linkedCase.childCaseReference);
+			acc.leadCases.add(linkedCase.leadCaseReference);
+			return acc;
+		},
+		{ leadCases: new Set(), childCases: new Set() }
+	);
+
+	// todo - add check to make sure all lead cases are in cases - will need for pagination
+
+	const enhancedCases = appeals.map((appealCase) => {
+		if (leadCases.has(appealCase.caseReference)) {
+			return {
+				...appealCase,
+				linkedCases: linkedCases.filter(
+					(linkedCase) => linkedCase.leadCaseReference === appealCase.caseReference
+				)
+			};
+		} else if (childCases.has(appealCase.caseReference)) {
+			return {
+				...appealCase,
+				linkedCases: linkedCases.filter(
+					(linkedCase) => linkedCase.childCaseReference === appealCase.caseReference
+				)
+			};
+		}
+		return appealCase;
+	});
+
+	return enhancedCases;
+}
+
 module.exports = {
 	getCaseAndAppellant,
 	putCase,
@@ -504,5 +572,7 @@ module.exports = {
 	listByPostcodeWithAppellant,
 	appendAppellantAndAgent,
 	appendAppealRelations,
+	appendLinkedCases,
+	appendLinkedCasesForMultipleAppeals,
 	parseJSONFields
 };
