@@ -613,7 +613,7 @@ exports.getS20LPAQSubmissionFields = (answers) => {
 		designatedSitesNames,
 		hasTreePreservationOrder: answers.treePreservationOrder,
 		preserveGrantLoan: answers.section3aGrant,
-		historicEnglandConsultation: answers.consultHistoricEngland,
+		consultHistoricEngland: answers.consultHistoricEngland,
 		isGypsyOrTravellerSite: answers.gypsyTraveller,
 		isPublicRightOfWay: answers.publicRightOfWay,
 
