@@ -389,7 +389,7 @@ const formattedS20 = [
 			changedListedBuildingNumbers: [],
 			designatedSitesNames: ['yes', 'other designations'],
 			preserveGrantLoan: true,
-			historicEnglandConsultation: true,
+			consultHistoricEngland: true,
 			eiaColumnTwoThreshold: true,
 			eiaCompletedEnvironmentalStatement: false,
 			consultedBodiesDetails: 'consultation details',

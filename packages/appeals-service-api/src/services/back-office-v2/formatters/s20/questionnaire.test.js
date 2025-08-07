@@ -169,7 +169,7 @@ describe('formatter', () => {
 				isGypsyOrTravellerSite: s20Answers.gypsyTraveller,
 				isPublicRightOfWay: s20Answers.publicRightOfWay,
 				preserveGrantLoan: s20Answers.section3aGrant,
-				historicEnglandConsultation: s20Answers.consultHistoricEngland,
+				consultHistoricEngland: s20Answers.consultHistoricEngland,
 
 				// Environmental impact assessment
 				eiaEnvironmentalImpactSchedule: s20Answers.environmentalImpactSchedule,
@@ -292,7 +292,7 @@ describe('formatter', () => {
 				isGypsyOrTravellerSite: undefined,
 				isPublicRightOfWay: undefined,
 				preserveGrantLoan: undefined,
-				historicEnglandConsultation: undefined,
+				consultHistoricEngland: undefined,
 
 				// Environmental impact assessment
 				eiaEnvironmentalImpactSchedule: null,
