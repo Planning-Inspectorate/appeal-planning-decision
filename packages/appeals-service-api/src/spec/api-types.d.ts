@@ -109,6 +109,13 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	caseSubmissionDueDate?: string;
+	/** Indicates if the case is linked, and the type of relationship */
+	linkedCaseStatus?: 'lead' | 'child';
+	/**
+	 * The reference of the lead case, if the case is a child case
+	 * @example "6012345"
+	 */
+	leadCaseReference?: string;
 	/** Indicates if the site is in a green belt */
 	isGreenBelt?: boolean;
 	/** Indicates if the site is in a conservation area */

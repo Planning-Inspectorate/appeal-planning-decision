@@ -42,6 +42,8 @@ const dashboardSelect = {
 	applicationDecision: true,
 	applicationDate: true,
 	applicationDecisionDate: true,
+	linkedCaseStatus: true,
+	leadCaseReference: true,
 
 	// site address
 	siteAddressLine1: true,
