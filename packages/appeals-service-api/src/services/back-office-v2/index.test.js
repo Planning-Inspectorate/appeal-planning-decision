@@ -112,7 +112,8 @@ describe('BackOfficeV2Service', () => {
 		const mockAppealSubmissions = [
 			{ id: 'a1', appealTypeCode: 'HAS' },
 			{ id: 'a2', appealTypeCode: 'S78' },
-			{ id: 'a3', appealTypeCode: 'S20' }
+			{ id: 'a3', appealTypeCode: 'S20' },
+			{ id: 'a4', appealTypeCode: 'CAS_PLANNING' }
 		];
 
 		const mockFormattedAppeal = {};
