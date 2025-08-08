@@ -530,7 +530,7 @@ exports.submitAppellantSubmission = async (req, res) => {
 			return CASE_TYPES.HAS.friendlyUrl;
 		} else if (journeyId === JOURNEY_TYPES.S78_APPEAL_FORM.id) {
 			return CASE_TYPES.S78.friendlyUrl;
-		} else if (journeyId === JOURNEY_TYPES.S20.id) {
+		} else if (journeyId === JOURNEY_TYPES.S20_APPEAL_FORM.id) {
 			return CASE_TYPES.S20.friendlyUrl;
 		} else if (journeyId === JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM.id) {
 			return CASE_TYPES.CAS_PLANNING.friendlyUrl;
