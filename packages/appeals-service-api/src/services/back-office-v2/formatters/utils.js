@@ -724,7 +724,9 @@ exports.getDesignatedSiteNames = (answers) => {
 		designatedSitesNames = [
 			...answers.designatedSites.split(','),
 			answers.designatedSites_otherDesignations || null
-		].filter(Boolean);
+		]
+			.filter((name) => name !== fieldValues.designatedSites.other) // back office only accepts 1 custom, so ensure we don't send other
+			.filter(Boolean);
 	}
 
 	/* @ts-ignore filter(Boolean) removes null values */

@@ -404,7 +404,7 @@ describe('utils.js', () => {
 		});
 
 		it('should include otherDesignations if provided', () => {
-			const answers = { designatedSites: 'A,B', designatedSites_otherDesignations: 'C' };
+			const answers = { designatedSites: 'A,B,other', designatedSites_otherDesignations: 'C' };
 			expect(getDesignatedSiteNames(answers)).toEqual(['A', 'B', 'C']);
 		});
 

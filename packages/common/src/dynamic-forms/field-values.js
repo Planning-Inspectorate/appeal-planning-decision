@@ -21,5 +21,8 @@ exports.fieldValues = Object.freeze({
 		RETAIL_SERVICES: 'retail-services',
 		TRAVELLER_CARAVAN: 'traveller-caravan',
 		OTHER: 'other'
+	},
+	designatedSites: {
+		other: 'other'
 	}
 });
