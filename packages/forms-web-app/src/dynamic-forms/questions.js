@@ -943,7 +943,7 @@ exports.questionProps = {
 			},
 			{
 				text: 'Other',
-				value: 'other',
+				value: fieldValues.designatedSites.other,
 				conditional: {
 					question: 'Other designation(s)',
 					type: 'text',
