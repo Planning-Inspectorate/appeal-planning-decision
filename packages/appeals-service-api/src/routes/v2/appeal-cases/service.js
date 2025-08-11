@@ -84,6 +84,8 @@ const mapHASDataModelToAppealCase = (
 	{
 		// these are ignored or handled outside of this function
 		caseType: _caseType,
+		linkedCaseStatus: _linkedCaseStatus,
+		leadCaseReference: _leadCaseReference,
 		notificationMethod: _notificationMethod,
 		nearbyCaseReferences: _nearbyCaseReferences,
 		neighbouringSiteAddresses: _neighbouringSiteAddresses,
@@ -110,8 +112,6 @@ const mapHASDataModelToAppealCase = (
 		inspectorId,
 		allocationLevel,
 		allocationBand,
-		linkedCaseStatus,
-		leadCaseReference,
 		caseSubmittedDate,
 		caseCreatedDate,
 		caseUpdatedDate,
@@ -204,8 +204,6 @@ const mapHASDataModelToAppealCase = (
 	inspectorId,
 	allocationLevel,
 	allocationBand,
-	linkedCaseStatus,
-	leadCaseReference,
 	caseSubmittedDate,
 	caseCreatedDate,
 	caseUpdatedDate,

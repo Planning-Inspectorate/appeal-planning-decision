@@ -121,14 +121,6 @@ components:
           type: string
           format: date-time
           description: The statutory deadline for submitting an appeal from the original LPA decision date, calculated from the applicationDecisionDate
-        linkedCaseStatus:
-          type: string
-          enum: ['lead', 'child']
-          description: Indicates if the case is linked, and the type of relationship
-        leadCaseReference:
-          type: string
-          description: The reference of the lead case, if the case is a child case
-          example: '6012345'
 
         isGreenBelt:
           type: boolean
