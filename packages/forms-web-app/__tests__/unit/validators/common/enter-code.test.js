@@ -31,7 +31,7 @@ describe('validators/common/enter-code', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(emptyError);
-		expect(result.errors[0].param).toEqual('email-code');
+		expect(result.errors[0].path).toEqual('email-code');
 	});
 	it('too many characters entered', async () => {
 		const req = {
@@ -55,7 +55,7 @@ describe('validators/common/enter-code', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(emptyError);
-		expect(result.errors[0].param).toEqual('email-code');
+		expect(result.errors[0].path).toEqual('email-code');
 	});
 	it('invalid non alphanumeric characters entered', async () => {
 		const req = {
@@ -79,7 +79,7 @@ describe('validators/common/enter-code', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(emptyError);
-		expect(result.errors[0].param).toEqual('email-code');
+		expect(result.errors[0].path).toEqual('email-code');
 	});
 	it('no characters entered', async () => {
 		const req = {
@@ -103,7 +103,7 @@ describe('validators/common/enter-code', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(emptyError);
-		expect(result.errors[0].param).toEqual('email-code');
+		expect(result.errors[0].path).toEqual('email-code');
 	});
 
 	it('valid characters entered', async () => {

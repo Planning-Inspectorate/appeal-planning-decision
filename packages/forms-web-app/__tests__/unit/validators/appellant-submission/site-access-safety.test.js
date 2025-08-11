@@ -63,7 +63,7 @@ describe('validators/appellant-submission/site-access-safety', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Select yes if there are any health and safety issues'
 					);
-					expect(result.errors[0].param).toEqual('site-access-safety');
+					expect(result.errors[0].path).toEqual('site-access-safety');
 					expect(result.errors[0].value).toEqual(undefined);
 				}
 			},
@@ -90,7 +90,7 @@ describe('validators/appellant-submission/site-access-safety', () => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Tell us about the health and safety issues');
-					expect(result.errors[0].param).toEqual('site-access-safety-concerns');
+					expect(result.errors[0].path).toEqual('site-access-safety-concerns');
 					expect(result.errors[0].value).toEqual(undefined);
 				}
 			},
@@ -107,7 +107,7 @@ describe('validators/appellant-submission/site-access-safety', () => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Tell us about the health and safety issues');
-					expect(result.errors[0].param).toEqual('site-access-safety-concerns');
+					expect(result.errors[0].path).toEqual('site-access-safety-concerns');
 					expect(result.errors[0].value).toEqual('');
 				}
 			},
@@ -126,7 +126,7 @@ describe('validators/appellant-submission/site-access-safety', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Health and safety information must be 1000 characters or fewer'
 					);
-					expect(result.errors[0].param).toEqual('site-access-safety-concerns');
+					expect(result.errors[0].path).toEqual('site-access-safety-concerns');
 					expect(result.errors[0].value).toEqual('x'.repeat(1001));
 				}
 			},

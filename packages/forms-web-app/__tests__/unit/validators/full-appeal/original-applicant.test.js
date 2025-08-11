@@ -41,7 +41,7 @@ describe('validators/full-appeal/original-applicant', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Select yes if the planning application was made in your name'
 					);
-					expect(result.errors[0].param).toEqual('original-application-your-name');
+					expect(result.errors[0].path).toEqual('original-application-your-name');
 					expect(result.errors[0].value).toEqual('');
 				}
 			},

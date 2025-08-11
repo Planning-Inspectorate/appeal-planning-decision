@@ -84,7 +84,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Enter the mock date');
-					expect(result.errors[0].param).toEqual('mock-date-day');
+					expect(result.errors[0].path).toEqual('mock-date-day');
 					expect(result.errors[0].value).toEqual('');
 				}
 			},
@@ -100,7 +100,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must include a day and month');
-					expect(result.errors[0].param).toEqual('mock-date-day');
+					expect(result.errors[0].path).toEqual('mock-date-day');
 					expect(result.errors[0].value).toEqual('');
 				}
 			},
@@ -116,7 +116,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must include a day and year');
-					expect(result.errors[0].param).toEqual('mock-date-day');
+					expect(result.errors[0].path).toEqual('mock-date-day');
 					expect(result.errors[0].value).toEqual('');
 				}
 			},
@@ -132,7 +132,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must include a day');
-					expect(result.errors[0].param).toEqual('mock-date-day');
+					expect(result.errors[0].path).toEqual('mock-date-day');
 					expect(result.errors[0].value).toEqual('');
 				}
 			},
@@ -148,7 +148,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must include a month and year');
-					expect(result.errors[0].param).toEqual('mock-date-month');
+					expect(result.errors[0].path).toEqual('mock-date-month');
 					expect(result.errors[0].value).toEqual('');
 				}
 			},
@@ -164,7 +164,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must include a month');
-					expect(result.errors[0].param).toEqual('mock-date-month');
+					expect(result.errors[0].path).toEqual('mock-date-month');
 					expect(result.errors[0].value).toEqual('');
 				}
 			},
@@ -180,7 +180,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must include a year');
-					expect(result.errors[0].param).toEqual('mock-date-year');
+					expect(result.errors[0].path).toEqual('mock-date-year');
 					expect(result.errors[0].value).toEqual('');
 				}
 			},
@@ -196,7 +196,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must be a real date');
-					expect(result.errors[0].param).toEqual('mock-date-day');
+					expect(result.errors[0].path).toEqual('mock-date-day');
 					expect(result.errors[0].value).toEqual('mock');
 				}
 			},
@@ -212,7 +212,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must be a real date');
-					expect(result.errors[0].param).toEqual('mock-date-day');
+					expect(result.errors[0].path).toEqual('mock-date-day');
 					expect(result.errors[0].value).toEqual('45');
 				}
 			},
@@ -228,7 +228,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must be a real date');
-					expect(result.errors[0].param).toEqual('mock-date-day');
+					expect(result.errors[0].path).toEqual('mock-date-day');
 					expect(result.errors[0].value).toEqual(31);
 				}
 			},
@@ -244,7 +244,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must be a real date');
-					expect(result.errors[0].param).toEqual('mock-date-day');
+					expect(result.errors[0].path).toEqual('mock-date-day');
 					expect(result.errors[0].value).toEqual(29);
 				}
 			},
@@ -260,7 +260,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must be a real date');
-					expect(result.errors[0].param).toEqual('mock-date-month');
+					expect(result.errors[0].path).toEqual('mock-date-month');
 					expect(result.errors[0].value).toEqual('mock');
 				}
 			},
@@ -276,7 +276,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must be a real date');
-					expect(result.errors[0].param).toEqual('mock-date-month');
+					expect(result.errors[0].path).toEqual('mock-date-month');
 					expect(result.errors[0].value).toEqual('22');
 				}
 			},
@@ -292,7 +292,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must be a real date');
-					expect(result.errors[0].param).toEqual('mock-date-year');
+					expect(result.errors[0].path).toEqual('mock-date-year');
 					expect(result.errors[0].value).toEqual('mock');
 				}
 			},
@@ -308,7 +308,7 @@ describe('validators/custom/date-input', () => {
 				expected: (result) => {
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('The mock date must be a real date');
-					expect(result.errors[0].param).toEqual('mock-date-year');
+					expect(result.errors[0].path).toEqual('mock-date-year');
 					expect(result.errors[0].value).toEqual('10');
 				}
 			},

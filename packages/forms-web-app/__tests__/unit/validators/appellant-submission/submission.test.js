@@ -32,7 +32,7 @@ describe('validators/appellant-submission/submission', () => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Select to confirm you agree');
-					expect(result.errors[0].param).toEqual('appellant-confirmation');
+					expect(result.errors[0].path).toEqual('appellant-confirmation');
 					expect(result.errors[0].value).toEqual(undefined);
 				}
 			},
@@ -47,7 +47,7 @@ describe('validators/appellant-submission/submission', () => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Invalid value');
-					expect(result.errors[0].param).toEqual('appellant-confirmation');
+					expect(result.errors[0].path).toEqual('appellant-confirmation');
 					expect(result.errors[0].value).toEqual(12);
 				}
 			},

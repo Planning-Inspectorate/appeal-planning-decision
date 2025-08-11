@@ -1,7 +1,6 @@
 const { validationResult } = require('express-validator');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 const { rules } = require('../../../../src/validators/common/check-id-is-mongodb-object-id');
-const { CustomValidation } = require('express-validator/src/context-items');
 
 describe('validators/common/check-id-is-mongodb-object-id', () => {
 	describe('rules', () => {
@@ -12,7 +11,6 @@ describe('validators/common/check-id-is-mongodb-object-id', () => {
 			expect(rule.optional).toBeFalsy();
 			expect(rule.stack).toHaveLength(1);
 			expect(rule.stack[0].message).toEqual('User ID is not in a valid format');
-			expect(rule.stack[0]).toBeInstanceOf(CustomValidation);
 		});
 
 		it('should have an array containing 1 rule', () => {

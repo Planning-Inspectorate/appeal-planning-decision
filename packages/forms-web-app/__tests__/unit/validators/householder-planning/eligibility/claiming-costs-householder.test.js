@@ -56,7 +56,7 @@ describe('validators/planning-department', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Select yes if you are claiming costs as part of your appeal'
 					);
-					expect(result.errors[0].param).toEqual('claiming-costs-householder');
+					expect(result.errors[0].path).toEqual('claiming-costs-householder');
 				}
 			}
 		].forEach(({ title, given, expected }) => {

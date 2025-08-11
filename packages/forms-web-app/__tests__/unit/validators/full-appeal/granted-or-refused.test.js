@@ -46,7 +46,7 @@ describe('validators/full-appeal/granted-or-refused', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Select if your planning application was granted or refused, or if you have not received a decision'
 					);
-					expect(result.errors[0].param).toEqual('granted-or-refused');
+					expect(result.errors[0].path).toEqual('granted-or-refused');
 					expect(result.errors[0].value).toEqual(undefined);
 				}
 			},
