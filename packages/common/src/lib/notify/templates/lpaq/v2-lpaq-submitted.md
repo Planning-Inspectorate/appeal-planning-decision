@@ -1,4 +1,4 @@
-We have received your questionnaire for the planning application {{lpaReference}}.
+We have received your questionnaire.
 
 # Appeal details
 
