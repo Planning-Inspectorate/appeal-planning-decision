@@ -52,7 +52,7 @@ describe('validators/planning-department', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Select yes if your appeal is about a listed building'
 					);
-					expect(result.errors[0].param).toEqual('listed-building');
+					expect(result.errors[0].path).toEqual('listed-building');
 				}
 			}
 		].forEach(({ title, given, expected }) => {

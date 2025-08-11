@@ -66,7 +66,8 @@ describe('validators/common/checkboxes', () => {
 			{
 				value: req.body[fieldName],
 				msg: `Invalid option(s) received`,
-				param: fieldName,
+				path: fieldName,
+				type: 'field',
 				location: 'body'
 			}
 		]);
@@ -121,7 +122,8 @@ describe('validators/full-appeal/telling-the-landowners', () => {
 		expect(result.errors).toEqual([
 			{
 				msg: allMandatoryMessage,
-				param: fieldName,
+				path: fieldName,
+				type: 'field',
 				location: 'body',
 				value: [checkboxOptions[0], checkboxOptions[1]]
 			}
@@ -138,7 +140,8 @@ describe('validators/full-appeal/telling-the-landowners', () => {
 			{
 				value: undefined,
 				msg: notEmptyMessage,
-				param: fieldName,
+				path: fieldName,
+				type: 'field',
 				location: 'body'
 			}
 		]);
@@ -159,7 +162,8 @@ describe('validators/full-appeal/telling-the-landowners', () => {
 			{
 				value: req.body[fieldName],
 				msg: `Invalid option(s) received`,
-				param: fieldName,
+				path: fieldName,
+				type: 'field',
 				location: 'body'
 			}
 		]);

@@ -4,7 +4,8 @@ const validApplicationAboutOptions = Object.values(APPLICATION_ABOUT);
 
 const ruleApplicationAbout = () =>
 	body('planningApplicationAbout')
-		.notEmpty()
+		.toArray()
+		.isArray({ min: 1 })
 		.withMessage('Select if your application was about any of the following')
 		.bail()
 		.custom((value) => {

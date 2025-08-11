@@ -46,7 +46,7 @@ describe('validators/full-appeal/enforcement-notice', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Select yes if you have received an enforcement notice'
 					);
-					expect(result.errors[0].param).toEqual('enforcement-notice');
+					expect(result.errors[0].path).toEqual('enforcement-notice');
 					expect(result.errors[0].value).toEqual(undefined);
 				}
 			},

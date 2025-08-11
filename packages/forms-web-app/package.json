@@ -44,7 +44,7 @@
 		"express-async-errors": "*",
 		"express-fileupload": "*",
 		"express-session": "*",
-		"express-validator": "^6.14.0",
+		"express-validator": "*",
 		"form-data": "*",
 		"govuk-frontend": "*",
 		"helmet": "*",
