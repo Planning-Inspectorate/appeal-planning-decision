@@ -31,7 +31,7 @@ describe('validators/full-planning/date-decision-due', () => {
 					expect(result.errors[0].msg).toEqual(
 						'The date the decision was due must be today or in the past'
 					);
-					expect(result.errors[0].param).toEqual('decision-date');
+					expect(result.errors[0].path).toEqual('decision-date');
 					expect(result.errors[0].value).toEqual('2130-06-11');
 				}
 			},

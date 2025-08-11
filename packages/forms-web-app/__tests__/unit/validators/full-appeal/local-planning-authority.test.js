@@ -39,9 +39,9 @@ describe('validators/local-planning-authority', () => {
 					expect(result.errors).toHaveLength(2);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Enter the local planning authority');
-					expect(result.errors[0].param).toEqual('local-planning-department');
+					expect(result.errors[0].path).toEqual('local-planning-department');
 					expect(result.errors[1].msg).toEqual('Enter a real local planning authority');
-					expect(result.errors[1].param).toEqual('local-planning-department');
+					expect(result.errors[1].path).toEqual('local-planning-department');
 				}
 			}
 		].forEach(({ title, given, expected }) => {

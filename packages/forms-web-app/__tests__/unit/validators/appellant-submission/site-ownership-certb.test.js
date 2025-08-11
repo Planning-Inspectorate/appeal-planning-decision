@@ -44,7 +44,7 @@ describe('validators/appellant-submission/have-other-owners-been-told-certb', ()
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Select yes if you have told the other owners');
-					expect(result.errors[0].param).toEqual('have-other-owners-been-told');
+					expect(result.errors[0].path).toEqual('have-other-owners-been-told');
 					expect(result.errors[0].value).toEqual(undefined);
 				}
 			},
@@ -59,7 +59,7 @@ describe('validators/appellant-submission/have-other-owners-been-told-certb', ()
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Invalid value');
-					expect(result.errors[0].param).toEqual('have-other-owners-been-told');
+					expect(result.errors[0].path).toEqual('have-other-owners-been-told');
 					expect(result.errors[0].value).toEqual(91);
 				}
 			},
