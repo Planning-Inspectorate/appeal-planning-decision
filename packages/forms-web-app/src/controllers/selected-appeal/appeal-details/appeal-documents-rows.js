@@ -1,4 +1,4 @@
-const { formatDocumentDetails } = require('@pins/common');
+const { formatDocumentDetails, documentExists } = require('@pins/common');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const {
@@ -109,6 +109,16 @@ exports.documentsRows = (caseData) => {
 			keyText: 'Costs application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION),
 			condition: (caseData) => caseData.appellantCostsAppliedFor,
+			isEscaped: true
+		},
+		{
+			keyText: 'Additional documents',
+			valueText: formatDocumentDetails(
+				documents,
+				APPEAL_DOCUMENT_TYPE.APPELLANT_CASE_CORRESPONDENCE
+			),
+			condition: () =>
+				documentExists(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_CASE_CORRESPONDENCE),
 			isEscaped: true
 		}
 	];
