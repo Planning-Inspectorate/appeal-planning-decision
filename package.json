@@ -184,7 +184,7 @@
 		"husky": "^8.0.0",
 		"jest": "^30.0.2",
 		"jest-each": "^29.1.2",
-		"jest-environment-jsdom": "^29.7.0",
+		"jest-environment-jsdom": "^30.0.5",
 		"jest-fetch-mock": "^3.0.3",
 		"jest-junit": "^16.0.0",
 		"json-server": "^0.17.4",
