@@ -365,7 +365,7 @@ describe('NotifyService', () => {
 			const result = notifyService.populateTemplate(template, personalisation);
 			expectMessage(
 				result,
-				`We have received your questionnaire for the planning application ${personalisation.lpaReference}.
+				`We have received your questionnaire.
 
 				# Appeal details
 
