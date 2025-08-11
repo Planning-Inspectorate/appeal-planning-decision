@@ -162,7 +162,7 @@
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.0",
-		"@commitlint/config-conventional": "^17.8.1",
+		"@commitlint/config-conventional": "^19.8.1",
 		"@commitlint/cz-commitlint": "^17.0.0",
 		"@shelf/jest-mongodb": "^5.2.2",
 		"@sinonjs/fake-timers": "^14.0.0",
