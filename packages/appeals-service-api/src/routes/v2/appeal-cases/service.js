@@ -573,7 +573,11 @@ async function appendLinkedCasesForMultipleAppeals(appeals) {
  */
 async function appendLinkedCasesForMultipleAppeals(appeals) {
 	const caseReferences = appeals.map((appealCase) => appealCase.caseReference);
-	const linkedCases = (await repo.getLinkedCases(caseReferences)) || [];
+	const linkedCases = await repo.getLinkedCases(caseReferences);
+
+	if (!linkedCases || !linkedCases.length) {
+		return appeals;
+	}
 
 	const { leadCases, childCases } = linkedCases.reduce(
 		(acc, linkedCase) => {
