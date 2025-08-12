@@ -565,6 +565,45 @@ async function appendLinkedCasesForMultipleAppeals(appeals) {
 	return enhancedCases;
 }
 
+/**
+ * Add linked cases to individual cases within an array of appeals.
+ *
+ * @param {AppealCase[]} appeals
+ * @returns {Promise<AppealCaseDetailed[]>}>}
+ */
+async function appendLinkedCasesForMultipleAppeals(appeals) {
+	const caseReferences = appeals.map((appealCase) => appealCase.caseReference);
+	const linkedCases = (await repo.getLinkedCases(caseReferences)) || [];
+
+	const { leadCases, childCases } = linkedCases.reduce(
+		(acc, linkedCase) => {
+			acc.childCases.add(linkedCase.caseReference);
+			acc.leadCases.add(linkedCase.caseReference2);
+			return acc;
+		},
+		{ leadCases: new Set(), childCases: new Set() }
+	);
+
+	// todo - add check to make sure all lead cases are in cases - will need for pagination
+
+	const enhancedCases = appeals.map((appealCase) => {
+		if (leadCases.has(appealCase.caseReference)) {
+			appealCase.linkedCases = linkedCases.filter(
+				(linkedCase) => linkedCase.caseReference2 === appealCase.caseReference
+			);
+			return appealCase;
+		} else if (childCases.has(appealCase.caseReference)) {
+			appealCase.linkedCases = linkedCases.filter(
+				(linkedCase) => linkedCase.caseReference === appealCase.caseReference
+			);
+			return appealCase;
+		}
+		return appealCase;
+	});
+
+	return enhancedCases;
+}
+
 module.exports = {
 	getCaseAndAppellant,
 	putCase,

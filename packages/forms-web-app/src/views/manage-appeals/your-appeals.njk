@@ -63,7 +63,7 @@
                   <td class="govuk-table__cell govuk-table__cell--numeric">
 										{% if item.displayInvalid %}
 											<strong class='govuk-tag govuk-tag--grey'>Invalid</strong>
-                    {% else %}
+                    {% elif item.linkedCaseDetails.linkedCaseStatus != 'child' %}
                       <a href="{{item.nextJourneyDue.baseUrl}}" class="govuk-link">
                           {{item.nextJourneyDue.journeyDue}}
                           <span class="govuk-visually-hidden"> for {{item.appealNumber}}</span>

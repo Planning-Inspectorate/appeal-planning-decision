@@ -81,7 +81,7 @@
                               </a>
 														{% elif item.displayInvalid %}
 															<strong class='govuk-tag govuk-tag--grey'>Invalid</strong>
-                            {% elif item.linkedCaseStatus != 'Child' %}
+                            {% elif item.linkedCaseDetails.linkedCaseStatus != 'child' %}
                               <a href="{{item.nextJourneyDue.baseUrl}}" class="govuk-link">
                                 {{item.nextJourneyDue.journeyDue}}
                               </a>
