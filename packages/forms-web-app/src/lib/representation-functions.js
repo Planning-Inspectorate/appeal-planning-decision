@@ -203,10 +203,9 @@ const formatRepresentations = (caseData, representations) => {
 		const fullText = representation.redacted
 			? representation.redactedRepresentation
 			: representation.originalRepresentation;
-		const escaped = fullText ? escape(fullText) : undefined;
-		const newLined = escaped ? nl2br(escaped) : undefined;
-		const truncated = (newLined && newLined.length > 150) || false;
-		const truncatedText = truncated ? newLined.substring(0, 150) + '...' : newLined;
+
+		const isTruncated = (fullText && fullText.length > 150) || false;
+		const truncatedText = isTruncated ? fullText.substring(0, 150) + '...' : fullText;
 
 		const rowLabel = formatRowLabelAndKey(representation.representationType);
 
@@ -228,9 +227,9 @@ const formatRepresentations = (caseData, representations) => {
 			key: { text: `${rowLabel} ${index + 1}` },
 			rowLabel,
 			value: {
-				text: newLined,
-				truncatedText: truncatedText,
-				truncated: truncated,
+				text: fullText ? nl2br(escape(fullText)) : undefined,
+				truncatedText: fullText ? nl2br(escape(truncatedText)) : undefined,
+				truncated: isTruncated,
 				documents: formattedDocuments
 			}
 		};
