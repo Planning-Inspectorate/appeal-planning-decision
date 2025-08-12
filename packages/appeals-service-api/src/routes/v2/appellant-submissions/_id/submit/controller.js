@@ -8,11 +8,15 @@ const {
 	formatter: hasFormatter
 } = require('../../../../../services/back-office-v2/formatters/has/appeal');
 const {
+	formatter: casPlanningFormatter
+} = require('../../../../../services/back-office-v2/formatters/cas-planning/appeal');
+const {
 	formatter: s78Formatter
 } = require('../../../../../services/back-office-v2/formatters/s78/appeal');
 const {
 	formatter: s20Formatter
 } = require('../../../../../services/back-office-v2/formatters/s20/appeal');
+
 const { getUserById } = require('../../../users/service');
 
 const lpaService = new LpaService();
@@ -43,7 +47,7 @@ const getFormatter = (appealTypeCode) => {
 			return s78Formatter;
 		case CASE_TYPES.CAS_PLANNING.processCode:
 			//TODO: update/ create new formatter when data model confirmed
-			return hasFormatter;
+			return casPlanningFormatter;
 		default:
 			throw new Error('unknown formatter');
 	}
