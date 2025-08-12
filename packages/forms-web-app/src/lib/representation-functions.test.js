@@ -599,6 +599,44 @@ describe('lib/representation-functions', () => {
 	});
 
 	describe('formatRepresentations', () => {
+		it('truncates before adding html line breaks', async () => {
+			const truncateLimit = 'a'.repeat(149);
+
+			const formattedRepresentations = formatRepresentations({}, [
+				{ originalRepresentation: truncateLimit },
+				{ originalRepresentation: truncateLimit + '\nTest' }
+			]);
+
+			const expectedResult = [
+				{
+					key: {
+						text: `Representation 1`
+					},
+					rowLabel: 'Representation',
+					value: {
+						text: truncateLimit,
+						truncatedText: truncateLimit,
+						truncated: false,
+						documents: expect.any(Array)
+					}
+				},
+				{
+					key: {
+						text: `Representation 2`
+					},
+					rowLabel: 'Representation',
+					value: {
+						text: truncateLimit + '<br>Test',
+						truncatedText: truncateLimit + '<br>...',
+						truncated: true,
+						documents: expect.any(Array)
+					}
+				}
+			];
+
+			expect(formattedRepresentations).toEqual(expectedResult);
+		});
+
 		it('formats an array of statements', async () => {
 			const formattedRepresentations = formatRepresentations({}, testStatements);
 			const expectedResult = [
