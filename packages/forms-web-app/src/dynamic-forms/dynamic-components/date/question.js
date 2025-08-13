@@ -1,3 +1,4 @@
+const monthMap = require('#lib/month-map');
 const Question = require('../../question');
 const { parseDateInput, formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
@@ -44,6 +45,11 @@ class DateQuestion extends Question {
 		// set answer on response
 		/** @type {{ answers: Record<string, unknown> }} */
 		let responseToSave = { answers: {} };
+
+		const monthNumber = monthMap[req.body[`${this.fieldName}_month`].toLowerCase()];
+		if (monthNumber) {
+			req.body[`${this.fieldName}_month`] = monthNumber;
+		}
 
 		const dayInput = req.body[`${this.fieldName}_day`];
 		const monthInput = req.body[`${this.fieldName}_month`];

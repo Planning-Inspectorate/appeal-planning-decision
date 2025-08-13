@@ -3,7 +3,7 @@ const { isAfter } = require('date-fns');
 const dateInputValidation = require('../../custom/date-input');
 
 const rules = () => [
-	...(dateInputValidation('decision-date-householder', 'the Decision Date') || []),
+	...(dateInputValidation('decision-date-householder', 'the decision date') || []),
 	body('decision-date-householder').custom((value, { req }) => {
 		const enteredDate = new Date(
 			req.body['decision-date-householder-year'],

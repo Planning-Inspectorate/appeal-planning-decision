@@ -6,6 +6,7 @@ const {
 	rules: decisionDateHouseholderValidationRules
 } = require('../../../validators/householder-planning/eligibility/decision-date-householder');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
+const convertMonthNameToNumber = require('#middleware/convert-month-name-to-number');
 
 const router = express.Router();
 
@@ -17,6 +18,7 @@ router.get(
 
 router.post(
 	'/decision-date-householder',
+	convertMonthNameToNumber,
 	decisionDateHouseholderValidationRules(),
 	validationErrorHandler,
 	decisionDateHouseholderController.postDecisionDateHouseholder
