@@ -13,8 +13,8 @@ describe('validators/custom/date-input', () => {
 			expect(rule.fields).toEqual(['mock-date-day']);
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
-			expect(rule.stack[0].validator.name).toEqual('isEmpty');
-			expect(rule.stack[0].negated).toBeTruthy();
+			expect(rule.stack[1].validator.name).toEqual('isEmpty');
+			expect(rule.stack[1].negated).toBeTruthy();
 		});
 
 		it(`has a rule to check for empty month input`, () => {
@@ -23,8 +23,8 @@ describe('validators/custom/date-input', () => {
 			expect(rule.fields).toEqual(['mock-date-month']);
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
-			expect(rule.stack[0].validator.name).toEqual('isEmpty');
-			expect(rule.stack[0].negated).toBeTruthy();
+			expect(rule.stack[1].validator.name).toEqual('isEmpty');
+			expect(rule.stack[1].negated).toBeTruthy();
 		});
 
 		it(`has a rule for check for empty year input`, () => {
@@ -33,8 +33,8 @@ describe('validators/custom/date-input', () => {
 			expect(rule.fields).toEqual(['mock-date-year']);
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
-			expect(rule.stack[0].validator.name).toEqual('isEmpty');
-			expect(rule.stack[0].negated).toBeTruthy();
+			expect(rule.stack[1].validator.name).toEqual('isEmpty');
+			expect(rule.stack[1].negated).toBeTruthy();
 		});
 
 		it(`has a rule to check for valid day input`, () => {
@@ -43,9 +43,9 @@ describe('validators/custom/date-input', () => {
 			expect(rule.fields).toEqual(['mock-date-day']);
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
-			expect(rule.stack[0].options).toEqual([{ min: 1, max: 31 }]);
-			expect(rule.stack[0].negated).toBeFalsy();
-			expect(rule.stack[3].negated).toBeFalsy();
+			expect(rule.stack[1].options).toEqual([{ min: 1, max: 31 }]);
+			expect(rule.stack[1].negated).toBeFalsy();
+			expect(rule.stack[4].negated).toBeFalsy();
 		});
 
 		it(`has a rule to check for valid month input`, () => {
@@ -54,8 +54,9 @@ describe('validators/custom/date-input', () => {
 			expect(rule.fields).toEqual(['mock-date-month']);
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
-			expect(rule.stack[0].options).toEqual([{ min: 1, max: 12 }]);
-			expect(rule.stack[0].negated).toBeFalsy();
+			expect(rule.stack[0].sanitizer.name).toEqual('trim');
+			expect(rule.stack[1].validator.name).toEqual('');
+			expect(rule.stack[1].negated).toBeFalsy();
 		});
 
 		it(`has a rule for valid year input`, () => {
@@ -64,8 +65,8 @@ describe('validators/custom/date-input', () => {
 			expect(rule.fields).toEqual(['mock-date-year']);
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
-			expect(rule.stack[0].options).toEqual([{ min: 1000, max: 9999 }]);
-			expect(rule.stack[0].negated).toBeFalsy();
+			expect(rule.stack[1].options).toEqual([{ min: 1000, max: 9999 }]);
+			expect(rule.stack[1].negated).toBeFalsy();
 		});
 	});
 

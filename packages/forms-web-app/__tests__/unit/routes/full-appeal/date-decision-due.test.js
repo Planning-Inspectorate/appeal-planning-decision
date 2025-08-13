@@ -6,6 +6,7 @@ const { validationErrorHandler } = require('../../../../src/validators/validatio
 const {
 	rules: decisionDateValidationRules
 } = require('../../../../src/validators/full-appeal/date-decision-due');
+const convertMonthNameToNumber = require('../../../../src/middleware/convert-month-name-to-number');
 
 jest.mock('../../../../src/validators/full-appeal/date-decision-due');
 
@@ -23,7 +24,7 @@ describe('routes/eligibility/decision-date', () => {
 		);
 		expect(post).toHaveBeenCalledWith(
 			'/date-decision-due',
-			[fetchExistingAppealMiddleware, combineDateInputsMiddleware],
+			[fetchExistingAppealMiddleware, convertMonthNameToNumber, combineDateInputsMiddleware],
 			decisionDateValidationRules('decision-date', 'the date the decision was due'),
 			validationErrorHandler,
 			decisionDateController.postDateDecisionDue

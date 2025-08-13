@@ -1,6 +1,7 @@
 const { body } = require('express-validator');
 const { isLeapYear } = require('date-fns');
 const { capitalize } = require('../../lib/string-functions');
+const monthMap = require('../../lib/month-map.js');
 
 /**
  * Generic validator that validates date input as per https://design-system.service.gov.uk/components/date-input/
@@ -17,6 +18,7 @@ module.exports = (inputRef, inputLabel) => {
 
 	return [
 		body(dayInput)
+			.trim()
 			.notEmpty()
 			.withMessage((_, { req }) => {
 				if (!req.body[monthInput] && !req.body[yearInput]) {
@@ -35,6 +37,7 @@ module.exports = (inputRef, inputLabel) => {
 			}),
 
 		body(monthInput)
+			.trim()
 			.notEmpty()
 			.withMessage((_, { req }) => {
 				if (!req.body[yearInput]) {
@@ -45,10 +48,12 @@ module.exports = (inputRef, inputLabel) => {
 			}),
 
 		body(yearInput)
+			.trim()
 			.notEmpty()
 			.withMessage(`${capitalize(inputLabel)} must include a year`),
 
 		body(dayInput)
+			.trim()
 			.isInt({ min: 1, max: 31 })
 			.withMessage(`${capitalize(inputLabel)} must be a real date`)
 			.bail()
@@ -67,10 +72,25 @@ module.exports = (inputRef, inputLabel) => {
 			.withMessage(`${capitalize(inputLabel)} must be a real date`),
 
 		body(monthInput)
-			.isInt({ min: 1, max: 12 })
+			.trim()
+			.custom((value) => {
+				if (!isNaN(value) && value >= 1 && value <= 12) {
+					return true;
+				}
+
+				const monthNumber = monthMap[value.toLowerCase()];
+				if (monthNumber) {
+					if (!isNaN(monthNumber) && monthNumber >= 1 && monthNumber <= 12) {
+						return true;
+					}
+				}
+
+				return false;
+			})
 			.withMessage(`${capitalize(inputLabel)} must be a real date`),
 
 		body(yearInput)
+			.trim()
 			.isInt({ min: 1000, max: 9999 })
 			.withMessage(`${capitalize(inputLabel)} must be a real date`)
 	];

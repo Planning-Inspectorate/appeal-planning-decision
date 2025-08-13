@@ -47,7 +47,9 @@
             errorMessage: errorSummary and {
               text: errors['decision-date'].msg or errors['decision-date-day'].msg or errors['decision-date-month'].msg or errors['decision-date-year'].msg
             },
-
+						hint: {
+							text: "For example, 26 5 2025"
+						},
             items: [
               {
                 classes: "govuk-input--width-2 govuk-input--error" if errors['decision-date'] or errors['decision-date-day'] else "govuk-input--width-2",

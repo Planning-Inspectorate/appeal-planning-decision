@@ -3,6 +3,7 @@ const express = require('express');
 const dateDecisionDueController = require('../../controllers/full-appeal/date-decision-due');
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
 const combineDateInputsMiddleware = require('../../middleware/combine-date-inputs');
+const convertMonthNameToNumber = require('../../middleware/convert-month-name-to-number');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
 	rules: decisionDateDueValidationRules
@@ -18,7 +19,7 @@ router.get(
 
 router.post(
 	'/date-decision-due',
-	[fetchExistingAppealMiddleware, combineDateInputsMiddleware],
+	[fetchExistingAppealMiddleware, convertMonthNameToNumber, combineDateInputsMiddleware],
 	decisionDateDueValidationRules(),
 	validationErrorHandler,
 	dateDecisionDueController.postDateDecisionDue

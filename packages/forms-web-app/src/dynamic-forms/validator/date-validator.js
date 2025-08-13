@@ -4,6 +4,7 @@ const { enGB } = require('date-fns/locale');
 
 const BaseValidator = require('./base-validator.js');
 const { dateInputsToDate } = require('../dynamic-components/utils/date-inputs-to-date.js');
+const monthMap = require('#lib/month-map');
 
 /**
  * @typedef {import('../dynamic-components/date/question.js')} DateQuestion
@@ -138,7 +139,22 @@ class DateValidator extends BaseValidator {
 
 					return true;
 				}),
-			body(monthInput).isInt({ min: 1, max: 12 }).withMessage(this.invalidMonthErrorMessage),
+			body(monthInput)
+				.custom((value) => {
+					if (!isNaN(value) && value >= 1 && value <= 12) {
+						return true;
+					}
+
+					const monthNumber = monthMap[value.toLowerCase()];
+					if (monthNumber) {
+						if (!isNaN(monthNumber) && monthNumber >= 1 && monthNumber <= 12) {
+							return true;
+						}
+					}
+
+					return false;
+				})
+				.withMessage(this.invalidMonthErrorMessage),
 			body(yearInput).isInt({ min: 1000, max: 9999 }).withMessage(this.invalidYearErrorMessage)
 		];
 

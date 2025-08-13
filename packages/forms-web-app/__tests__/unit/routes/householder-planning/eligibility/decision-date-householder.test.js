@@ -7,6 +7,7 @@ const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fet
 const {
 	rules: decisionDateHouseholderValidationRules
 } = require('../../../../../src/validators/householder-planning/eligibility/decision-date-householder');
+const convertMonthNameToNumber = require('../../../../../src/middleware/convert-month-name-to-number');
 
 jest.mock(
 	'../../../../../src/validators/householder-planning/eligibility/decision-date-householder'
@@ -27,6 +28,7 @@ describe('routes/householder-planning/eligibility/decision-date-householder', ()
 
 		expect(post).toHaveBeenCalledWith(
 			'/decision-date-householder',
+			convertMonthNameToNumber,
 			decisionDateHouseholderValidationRules(),
 			validationErrorHandler,
 			decisionDateHouseholderController.postDecisionDateHouseholder
