@@ -30,7 +30,8 @@ exports.documentsRows = (caseData) => {
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
 			condition: () =>
 				caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
-				caseData.appealTypeCode === CASE_TYPES.S20.processCode,
+				caseData.appealTypeCode === CASE_TYPES.S20.processCode ||
+				caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode,
 			isEscaped: true
 		},
 		{
@@ -46,7 +47,9 @@ exports.documentsRows = (caseData) => {
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT),
 			condition: () =>
 				caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
-				caseData.appealTypeCode === CASE_TYPES.S20.processCode,
+				caseData.appealTypeCode === CASE_TYPES.S20.processCode ||
+				caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode,
+
 			isEscaped: true
 		},
 		{
