@@ -33,7 +33,7 @@ exports.getSaveFunction = (journeyType, api) => {
 /**
  * @param {import('@pins/common/src/dynamic-forms/journey-types').JourneyTypesDefinition} journeyType
  * @param {import('@pins/common/src/client/appeals-api-client').AppealsApiClient} api
- * @returns {function(string, Object): Promise<any>}
+ * @returns {function(string, Array<Object>): Promise<any>}
  */
 exports.getUploadDoumentFunction = (journeyType, api) => {
 	const key = `${journeyType.type}_${journeyType.userType}`;
@@ -58,7 +58,7 @@ exports.getUploadDoumentFunction = (journeyType, api) => {
 /**
  * @param {import('@pins/common/src/dynamic-forms/journey-types').JourneyTypesDefinition} journeyType
  * @param {import('@pins/common/src/client/appeals-api-client').AppealsApiClient} api
- * @returns {function(string, string): Promise<any>}
+ * @returns {function(string, string[]): Promise<any>}
  */
 exports.getRemoveDocumentFunction = (journeyType, api) => {
 	const key = `${journeyType.type}_${journeyType.userType}`;

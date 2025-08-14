@@ -25,11 +25,18 @@ class SubmissionDocumentUploadRepository {
 	 * Create submission document for given questionnaire
 	 *
 	 * @param {string} id
-	 * @param {DocumentUploadData} uploadData
+	 * @param {DocumentUploadData[]} uploadData
 	 * @returns {Promise<AppellantSubmission>}
 	 */
 	async createSubmissionDocument(id, uploadData) {
-		const { name, fileName, originalFileName, location, type, id: storageId } = uploadData;
+		const mappedUploadData = uploadData.map((file) => ({
+			name: file.name,
+			fileName: file.fileName,
+			originalFileName: file.originalFileName,
+			location: file.location,
+			type: file.type,
+			storageId: file.id
+		}));
 
 		return await this.dbClient.appellantSubmission.update({
 			where: {
@@ -37,13 +44,8 @@ class SubmissionDocumentUploadRepository {
 			},
 			data: {
 				SubmissionDocumentUpload: {
-					create: {
-						name,
-						fileName,
-						originalFileName,
-						location,
-						type,
-						storageId
+					createMany: {
+						data: mappedUploadData
 					}
 				}
 			},
@@ -59,18 +61,18 @@ class SubmissionDocumentUploadRepository {
 	 * Delete submission document
 	 *
 	 * @param {string} id
-	 * @param {string} documentId
+	 * @param {string[]} documentIds
 	 * @returns {Promise<AppellantSubmission>}
 	 */
-	async deleteSubmissionDocument(id, documentId) {
+	async deleteSubmissionDocument(id, documentIds) {
 		return await this.dbClient.appellantSubmission.update({
 			where: {
 				id
 			},
 			data: {
 				SubmissionDocumentUpload: {
-					delete: {
-						id: documentId
+					deleteMany: {
+						id: { in: documentIds }
 					}
 				}
 			},
