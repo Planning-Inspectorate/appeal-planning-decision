@@ -89,7 +89,7 @@ describe('multi-file-upload', () => {
 				TestUpload: [makeTestFile('file1.pdf')]
 			};
 
-			const result = await questionInstance.getDataToSave(req, journeyResponse);
+			const result = await questionInstance.getDataToSave(req, journeyResponse, []);
 
 			expect(result.uploadedFiles[0].name).toBe('file1.pdf');
 			expect(createDocument).toHaveBeenCalled();
@@ -112,7 +112,7 @@ describe('multi-file-upload', () => {
 					type: 'test'
 				})
 			);
-			const result = await questionInstance.getDataToSave(req, journeyResponse);
+			const result = await questionInstance.getDataToSave(req, journeyResponse, []);
 			expect(result.uploadedFiles.length).toBe(1);
 			expect(result.uploadedFiles[0].name).toBe('file2.pdf');
 			expect(createDocument).toHaveBeenCalledTimes(1);
@@ -126,6 +126,32 @@ describe('multi-file-upload', () => {
 			];
 			const result = await questionInstance.getDataToSave(req, journeyResponse);
 			expect(result.uploadedFiles).toEqual([]);
+			expect(multiFileUploadHelpers.removeFilesV2).toHaveBeenCalledTimes(1);
+		});
+
+		it('replaces files', async () => {
+			journeyResponse.answers.SubmissionDocumentUpload = [
+				{ name: 'existing.pdf', originalFileName: 'existing.pdf', type: 'test' }
+			];
+			req.files = {
+				TestUpload: [makeTestFile('existing.pdf')]
+			};
+			createDocument.mockImplementation(() =>
+				Promise.resolve({
+					id: 'existing',
+					name: 'existing.pdf',
+					originalFileName: 'existing.pdf',
+					location: '/docs/existing.pdf',
+					size: '456',
+					type: 'test'
+				})
+			);
+			const result = await questionInstance.getDataToSave(req, journeyResponse, [
+				{ id: '', type: 'test', originalFileName: 'existing.pdf', storageId: '' }
+			]);
+			expect(result.uploadedFiles.length).toBe(1);
+			expect(result.uploadedFiles[0].name).toBe('existing.pdf');
+			expect(createDocument).toHaveBeenCalledTimes(1);
 			expect(multiFileUploadHelpers.removeFilesV2).toHaveBeenCalledTimes(1);
 		});
 	});
@@ -201,7 +227,29 @@ describe('multi-file-upload', () => {
 				journeyResponse
 			);
 
-			expect(uploadDocument).toHaveBeenCalledTimes(2);
+			expect(uploadDocument).toHaveBeenCalledWith(
+				'ref-1',
+				expect.arrayContaining([
+					expect.objectContaining({
+						fileName: 'file1.pdf',
+						id: 'doc1',
+						location: '/docs/file1.pdf',
+						name: 'file1.pdf',
+						originalFileName: 'file1.pdf',
+						size: '123',
+						type: 'test'
+					}),
+					expect.objectContaining({
+						fileName: 'file1.pdf',
+						id: 'doc1',
+						location: '/docs/file1.pdf',
+						name: 'file1.pdf',
+						originalFileName: 'file2.pdf',
+						size: '123',
+						type: 'test'
+					})
+				])
+			);
 			expect(multiFileUploadHelpers.removeFilesV2).toHaveBeenCalledTimes(0);
 			expect(mockSaveFn).toHaveBeenCalled();
 			expect(questionInstance.handleNextQuestion).toHaveBeenCalled();

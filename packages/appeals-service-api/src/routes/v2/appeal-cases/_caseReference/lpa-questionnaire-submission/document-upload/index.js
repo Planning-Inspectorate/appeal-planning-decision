@@ -5,6 +5,6 @@ const router = express.Router({ mergeParams: true });
 
 // Document upload routes
 router.post('/', asyncHandler(createSubmissionDocumentUpload));
-router.delete('/:documentId', asyncHandler(deleteSubmissionDocumentUpload));
+router.delete('/', asyncHandler(deleteSubmissionDocumentUpload));
 
 module.exports = { router };

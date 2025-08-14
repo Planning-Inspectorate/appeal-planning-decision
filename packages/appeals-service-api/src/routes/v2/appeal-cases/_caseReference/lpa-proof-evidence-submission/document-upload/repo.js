@@ -25,11 +25,18 @@ class SubmissionDocumentUploadRepository {
 	 * Create submission document for given lpa Proof Of Evidence Submission
 	 *
 	 * @param {string} caseReference
-	 * @param {DocumentUploadData} uploadData
+	 * @param {DocumentUploadData[]} uploadData
 	 * @returns {Promise<LPAProofOfEvidenceSubmission>}
 	 */
 	async createSubmissionDocument(caseReference, uploadData) {
-		const { name, fileName, originalFileName, location, type, id: storageId } = uploadData;
+		const mappedUploadData = uploadData.map((file) => ({
+			name: file.name,
+			fileName: file.fileName,
+			originalFileName: file.originalFileName,
+			location: file.location,
+			type: file.type,
+			storageId: file.id
+		}));
 
 		return await this.dbClient.lPAProofOfEvidenceSubmission.update({
 			where: {
@@ -37,13 +44,8 @@ class SubmissionDocumentUploadRepository {
 			},
 			data: {
 				SubmissionDocumentUpload: {
-					create: {
-						name,
-						fileName,
-						originalFileName,
-						location,
-						type,
-						storageId
+					createMany: {
+						data: mappedUploadData
 					}
 				}
 			},
@@ -62,18 +64,18 @@ class SubmissionDocumentUploadRepository {
 	 * Delete submission document
 	 *
 	 * @param {string} caseReference
-	 * @param {string} documentId
+	 * @param {string[]} documentIds
 	 * @returns {Promise<LPAProofOfEvidenceSubmission>}
 	 */
-	async deleteSubmissionDocument(caseReference, documentId) {
+	async deleteSubmissionDocument(caseReference, documentIds) {
 		return await this.dbClient.lPAProofOfEvidenceSubmission.update({
 			where: {
 				caseReference: caseReference
 			},
 			data: {
 				SubmissionDocumentUpload: {
-					delete: {
-						id: documentId
+					deleteMany: {
+						id: { in: documentIds }
 					}
 				}
 			},
