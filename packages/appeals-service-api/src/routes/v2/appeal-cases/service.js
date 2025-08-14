@@ -545,15 +545,19 @@ async function appendLinkedCasesForMultipleAppeals(appeals) {
 
 	const enhancedCases = appeals.map((appealCase) => {
 		if (leadCases.has(appealCase.caseReference)) {
-			appealCase.linkedCases = linkedCases.filter(
-				(linkedCase) => linkedCase.leadCaseReference === appealCase.caseReference
-			);
-			return appealCase;
+			return {
+				...appealCase,
+				linkedCases: linkedCases.filter(
+					(linkedCase) => linkedCase.leadCaseReference === appealCase.caseReference
+				)
+			};
 		} else if (childCases.has(appealCase.caseReference)) {
-			appealCase.linkedCases = linkedCases.filter(
-				(linkedCase) => linkedCase.childCaseReference === appealCase.caseReference
-			);
-			return appealCase;
+			return {
+				...appealCase,
+				linkedCases: linkedCases.filter(
+					(linkedCase) => linkedCase.childCaseReference === appealCase.caseReference
+				)
+			};
 		}
 		return appealCase;
 	});

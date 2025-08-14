@@ -1,6 +1,4 @@
-const {
-	APPEAL_DOCUMENT_TYPE
-} = require('@planning-inspectorate/data-model');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 const {
 	isLPAQuestionnaireDue,
@@ -100,13 +98,10 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			titleSuffix: formatTitleSuffix(userType),
 			backLinkToDashboard,
 
-			shouldDisplayQuestionnaireDueNotification:
-				isLPA && isLPAQuestionnaireDue(caseData),
-			shouldDisplayStatementsDueBannerLPA:  isLPA && isLPAStatementOpen(caseData),
-			shouldDisplayProofEvidenceDueBannerLPA:
-				isLPA && isLPAProofsOfEvidenceOpen(caseData),
-			shouldDisplayFinalCommentsDueBannerLPA:
-				isLPA && isLPAFinalCommentOpen(caseData),
+			shouldDisplayQuestionnaireDueNotification: isLPA && isLPAQuestionnaireDue(caseData),
+			shouldDisplayStatementsDueBannerLPA: isLPA && isLPAStatementOpen(caseData),
+			shouldDisplayProofEvidenceDueBannerLPA: isLPA && isLPAProofsOfEvidenceOpen(caseData),
+			shouldDisplayFinalCommentsDueBannerLPA: isLPA && isLPAFinalCommentOpen(caseData),
 
 			shouldDisplayProofEvidenceDueBannerAppellant:
 				isAppellant && isAppellantProofsOfEvidenceOpen(caseData),
