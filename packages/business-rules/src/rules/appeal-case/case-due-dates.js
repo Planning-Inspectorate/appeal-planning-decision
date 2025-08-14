@@ -56,7 +56,9 @@ const statementsAreOpen = (appealCaseData) =>
  * @returns {boolean}
  */
 exports.isLPAStatementOpen = (appealCaseData) =>
-	statementsAreOpen(appealCaseData) && !appealCaseData.LPAStatementSubmittedDate;
+	!isChildLinkedAppeal(appealCaseData) &&
+	statementsAreOpen(appealCaseData) &&
+	!appealCaseData.LPAStatementSubmittedDate;
 
 /**
  * Checks if statements are open for all rule 6 parties
@@ -127,7 +129,9 @@ const finalCommentsAreOpen = (appealCaseData) =>
  * @returns {boolean}
  */
 exports.isAppellantFinalCommentOpen = (appealCaseData) =>
-	finalCommentsAreOpen(appealCaseData) && !appealCaseData.appellantCommentsSubmittedDate;
+	!isChildLinkedAppeal(appealCaseData) &&
+	finalCommentsAreOpen(appealCaseData) &&
+	!appealCaseData.appellantCommentsSubmittedDate;
 
 /**
  * final comment is open for LPA
@@ -135,4 +139,14 @@ exports.isAppellantFinalCommentOpen = (appealCaseData) =>
  * @returns {boolean}
  */
 exports.isLPAFinalCommentOpen = (appealCaseData) =>
-	finalCommentsAreOpen(appealCaseData) && !appealCaseData.LPACommentsSubmittedDate;
+	!isChildLinkedAppeal(appealCaseData) &&
+	finalCommentsAreOpen(appealCaseData) &&
+	!appealCaseData.LPACommentsSubmittedDate;
+
+/**
+ * check whether case is a child linked case
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {boolean}
+ */
+const isChildLinkedAppeal = (appealCaseData) =>
+	appealCaseData.linkedCases?.[0].childCaseReference === appealCaseData.caseReference;
