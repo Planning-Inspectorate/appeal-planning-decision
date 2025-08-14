@@ -545,60 +545,13 @@ async function appendLinkedCasesForMultipleAppeals(appeals) {
 
 	const enhancedCases = appeals.map((appealCase) => {
 		if (leadCases.has(appealCase.caseReference)) {
-			return {
-				...appealCase,
-				linkedCases: linkedCases.filter(
-					(linkedCase) => linkedCase.leadCaseReference === appealCase.caseReference
-				)
-			};
-		} else if (childCases.has(appealCase.caseReference)) {
-			return {
-				...appealCase,
-				linkedCases: linkedCases.filter(
-					(linkedCase) => linkedCase.childCaseReference === appealCase.caseReference
-				)
-			};
-		}
-		return appealCase;
-	});
-
-	return enhancedCases;
-}
-
-/**
- * Add linked cases to individual cases within an array of appeals.
- *
- * @param {AppealCase[]} appeals
- * @returns {Promise<AppealCaseDetailed[]>}>}
- */
-async function appendLinkedCasesForMultipleAppeals(appeals) {
-	const caseReferences = appeals.map((appealCase) => appealCase.caseReference);
-	const linkedCases = await repo.getLinkedCases(caseReferences);
-
-	if (!linkedCases || !linkedCases.length) {
-		return appeals;
-	}
-
-	const { leadCases, childCases } = linkedCases.reduce(
-		(acc, linkedCase) => {
-			acc.childCases.add(linkedCase.caseReference);
-			acc.leadCases.add(linkedCase.caseReference2);
-			return acc;
-		},
-		{ leadCases: new Set(), childCases: new Set() }
-	);
-
-	// todo - add check to make sure all lead cases are in cases - will need for pagination
-
-	const enhancedCases = appeals.map((appealCase) => {
-		if (leadCases.has(appealCase.caseReference)) {
 			appealCase.linkedCases = linkedCases.filter(
-				(linkedCase) => linkedCase.caseReference2 === appealCase.caseReference
+				(linkedCase) => linkedCase.leadCaseReference === appealCase.caseReference
 			);
 			return appealCase;
 		} else if (childCases.has(appealCase.caseReference)) {
 			appealCase.linkedCases = linkedCases.filter(
-				(linkedCase) => linkedCase.caseReference === appealCase.caseReference
+				(linkedCase) => linkedCase.childCaseReference === appealCase.caseReference
 			);
 			return appealCase;
 		}
