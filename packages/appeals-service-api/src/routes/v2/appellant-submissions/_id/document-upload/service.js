@@ -11,7 +11,7 @@ const repo = new SubmissionDocumentUploadRepository();
  * Create a SubmissionDocumentUpload entry
  *
  * @param {string} id
- * @param {DocumentUploadData} uploadData
+ * @param {DocumentUploadData[]} uploadData
  * @return {Promise<AppellantSubmission|null>}
  */
 async function createSubmissionDocument(id, uploadData) {
@@ -28,11 +28,11 @@ async function createSubmissionDocument(id, uploadData) {
  * Delete a SubmissionDocumentUpload entry
  *
  * @param {string} id
- * @param {string} documentId
+ * @param {string[]} documentIds
  * @return {Promise<AppellantSubmission|null>}
  */
-async function deleteSubmissionDocument(id, documentId) {
-	const updatedQuestionnaire = repo.deleteSubmissionDocument(id, documentId);
+async function deleteSubmissionDocument(id, documentIds) {
+	const updatedQuestionnaire = repo.deleteSubmissionDocument(id, documentIds);
 
 	if (!updatedQuestionnaire) {
 		return null;

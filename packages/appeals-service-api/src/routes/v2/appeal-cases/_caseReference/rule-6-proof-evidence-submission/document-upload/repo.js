@@ -26,11 +26,18 @@ class SubmissionDocumentUploadRepository {
 	 *
 	 * @param {string} userId
 	 * @param {string} caseReference
-	 * @param {DocumentUploadData} uploadData
+	 * @param {DocumentUploadData[]} uploadData
 	 * @returns {Promise<Rule6ProofOfEvidenceSubmission>}
 	 */
 	async createSubmissionDocument(userId, caseReference, uploadData) {
-		const { name, fileName, originalFileName, location, type, id: storageId } = uploadData;
+		const mappedUploadData = uploadData.map((file) => ({
+			name: file.name,
+			fileName: file.fileName,
+			originalFileName: file.originalFileName,
+			location: file.location,
+			type: file.type,
+			storageId: file.id
+		}));
 
 		return await this.dbClient.rule6ProofOfEvidenceSubmission.update({
 			where: {
@@ -39,13 +46,8 @@ class SubmissionDocumentUploadRepository {
 			},
 			data: {
 				SubmissionDocumentUpload: {
-					create: {
-						name,
-						fileName,
-						originalFileName,
-						location,
-						type,
-						storageId
+					createMany: {
+						data: mappedUploadData
 					}
 				}
 			},
@@ -65,10 +67,10 @@ class SubmissionDocumentUploadRepository {
 	 *
 	 * @param {string} userId
 	 * @param {string} caseReference
-	 * @param {string} documentId
+	 * @param {string[]} documentIds
 	 * @returns {Promise<Rule6ProofOfEvidenceSubmission>}
 	 */
-	async deleteSubmissionDocument(userId, caseReference, documentId) {
+	async deleteSubmissionDocument(userId, caseReference, documentIds) {
 		return await this.dbClient.rule6ProofOfEvidenceSubmission.update({
 			where: {
 				userId,
@@ -76,8 +78,8 @@ class SubmissionDocumentUploadRepository {
 			},
 			data: {
 				SubmissionDocumentUpload: {
-					delete: {
-						id: documentId
+					deleteMany: {
+						id: { in: documentIds }
 					}
 				}
 			},

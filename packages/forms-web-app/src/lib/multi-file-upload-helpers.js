@@ -79,7 +79,7 @@ const removeFiles = async (files, removedFiles, baseLocation) => {
  * @param {Array.<{ name: string }>} removedFiles - the files selected to be removed,
  * @param {string} referenceId
  * @param {string} baseLocation - if set this will attempt to remove the file id from blob storage in the location baseLocation/file.id
- * @param {(referenceId: string, documentId: string) => Promise<unknown>} deleteDocumentUploadFunction - function that deletes the document in the SQL db
+ * @param {(referenceId: string, documentIds: string[]) => Promise<unknown>} deleteDocumentUploadFunction - function that deletes the document in the SQL db
  *
  * @returns {Promise.<Array<{storageId: string, originalFileName: string}>>} the remaining files after removal, if a file failed to be removed a property is added {failedToRemove: true}
  */
@@ -92,28 +92,39 @@ const removeFilesV2 = async (
 ) => {
 	/** @type {{storageId: string, originalFileName: string}[]} */
 	const failedRemovals = [];
-	const promises = removedFiles.map(
-		({ name: removedFileName }) =>
-			new Promise((resolve, reject) => {
-				const fileDetails = files.find((file) => removedFileName === file.originalFileName);
-				if (!fileDetails) return reject('Removed file not found in uploaded files');
-				const { storageId, id, originalFileName } = fileDetails;
-				removeDocument(baseLocation, storageId)
-					.then(
-						() => deleteDocumentUploadFunction(referenceId, id),
-						(error) => {
-							failedRemovals.push({ storageId, originalFileName });
-							reject(error);
-						}
-					)
-					.then(resolve, (error) => {
-						failedRemovals.push({ storageId, originalFileName });
-						reject(error);
-					});
-			})
-	);
+
+	const filesToRemove = files.filter((file) => {
+		const result = removedFiles.some((removedFile) => removedFile.name === file.originalFileName);
+		return result;
+	});
+
+	// remove from doc storage
+	const promises = filesToRemove.map((file) => {
+		const { storageId, originalFileName } = file;
+		return removeDocument(baseLocation, storageId).catch(() => {
+			failedRemovals.push({ storageId, originalFileName });
+		});
+	});
 
 	await Promise.allSettled(promises);
+
+	const successfullyRemovedFiles = filesToRemove
+		.filter((file) => !failedRemovals.some((failed) => failed.storageId === file.storageId))
+		.map((file) => {
+			return {
+				id: file.id,
+				storageId: file.storageId,
+				originalFileName: file.originalFileName
+			};
+		});
+
+	const fileIds = successfullyRemovedFiles.map((file) => file.id);
+
+	await deleteDocumentUploadFunction(referenceId, fileIds).catch(() => {
+		successfullyRemovedFiles.forEach((file) => {
+			failedRemovals.push({ storageId: file.storageId, originalFileName: file.originalFileName });
+		});
+	});
 
 	return failedRemovals;
 };
