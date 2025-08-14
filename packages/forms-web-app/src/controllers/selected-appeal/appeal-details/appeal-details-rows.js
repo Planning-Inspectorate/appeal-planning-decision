@@ -34,6 +34,10 @@ exports.detailsRows = (caseData, userType) => {
 	const contactIsAppellant = !agent; // if no agent than appellant made their own appeal
 	const contact = contactIsAppellant ? appellant : agent;
 
+	const hasOrCasPlanningAppeal =
+		caseData.appealTypeCode === CASE_TYPES.HAS.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode;
+
 	const relatedAppeals = formatSubmissionRelatedAppeals(
 		caseData,
 		fieldNames.appellantLinkedCaseReference
@@ -161,7 +165,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'What is the development type?',
 			valueText: formatDevelopmentType(caseData.developmentType),
-			condition: (caseData) => caseData.appealTypeCode !== CASE_TYPES.HAS.processCode
+			condition: () => !hasOrCasPlanningAppeal
 		},
 		{
 			keyText: 'Enter the description of development',
