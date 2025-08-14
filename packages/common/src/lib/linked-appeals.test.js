@@ -1,5 +1,8 @@
 const { APPEAL_LINKED_CASE_STATUS } = require('@planning-inspectorate/data-model');
-const { mapLinkedCaseStatusLabel, formatDashboardLinkedCaseDetails } = require('./linked-appeals');
+const {
+	mapLinkedCaseStatusLabel,
+	formatDashboardLinkedCaseDetails
+} = require('@pins/common/src/lib/linked-appeals');
 
 const testLeadRef = 'testLead1';
 const testChildRef = 'testChild2';

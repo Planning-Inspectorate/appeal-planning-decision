@@ -34,7 +34,7 @@ const { getDepartmentFromCode } = require('../../services/department.service');
 const logger = require('#lib/logger');
 const config = require('../../config');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
-const { formatDashboardLinkedCaseDetails } = require('#lib/linked-appeals');
+const { formatDashboardLinkedCaseDetails } = require('@pins/common/src/lib/linked-appeals');
 
 /** @type {Partial<import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict>} */
 const userSectionsDict = {
