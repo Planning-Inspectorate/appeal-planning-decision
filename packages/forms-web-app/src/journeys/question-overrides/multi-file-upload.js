@@ -22,9 +22,10 @@ const { getUploadDoumentFunction, getRemoveDocumentFunction } = require('../get-
  * @this {MultiFileUploadQuestion}
  * @param {import('express').Request} req
  * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
+ * @param {{ id: string; type: string; originalFileName: string; storageId: string }[]} previouslyUploadedFiles
  * @returns {Promise<{ answers: Record<string, unknown> } & { uploadedFiles: unknown[] }>}
  */
-async function getDataToSave(req, journeyResponse) {
+async function getDataToSave(req, journeyResponse, previouslyUploadedFiles) {
 	const {
 		body: { errors = {}, errorSummary = [], removedFiles: unparsedRemovedFiles = '' }
 	} = req;
@@ -33,17 +34,36 @@ async function getDataToSave(req, journeyResponse) {
 	const journeyType = getJourneyTypeById(journeyResponse.journeyId);
 	if (!journeyType) throw new Error(`Journey type: ${journeyResponse.journeyId} not found`);
 
-	// remove files from response
-	if (unparsedRemovedFiles) {
-		const removedFiles = JSON.parse(unparsedRemovedFiles);
+	// get valid files to upload
+	const filesToUpload = (() => {
+		if (!req.files) return [];
+		const relevantRequestFiles = req.files[this.fieldName];
+		if (Array.isArray(relevantRequestFiles)) return relevantRequestFiles;
+		return [relevantRequestFiles];
+	})();
+	const validFiles = getValidFiles(errors, filesToUpload);
 
+	// get a list of fileNames in validFiles that exist in previouslyUploadedFiles
+	const replacedFiles = validFiles.filter((file) =>
+		previouslyUploadedFiles.some((previousFile) => previousFile.originalFileName === file.name)
+	);
+
+	const removedFiles = unparsedRemovedFiles ? JSON.parse(unparsedRemovedFiles) : [];
+
+	// combine removed and replaced files
+	const allNames = [...removedFiles, ...replacedFiles].map((file) => file.name);
+	const uniqueNames = Array.from(new Set(allNames));
+	const filesToRemove = uniqueNames.map((name) => ({ name }));
+
+	// remove files
+	if (filesToRemove && filesToRemove.length) {
 		const relevantUploadedFiles = this.getRelevantUploadedFiles(journeyResponse);
 
 		const removeDocuments = getRemoveDocumentFunction(journeyType, req.appealsApiClient);
 
 		const failedRemovedFiles = await removeFilesV2(
 			relevantUploadedFiles,
-			removedFiles,
+			filesToRemove,
 			journeyResponse.referenceId,
 			`${journeyResponse.journeyId}:${encodedReferenceId}`,
 			removeDocuments
@@ -75,13 +95,6 @@ async function getDataToSave(req, journeyResponse) {
 	}
 
 	// save valid files to blob storage
-	const filesToUpload = (() => {
-		if (!req.files) return [];
-		const relevantRequestFiles = req.files[this.fieldName];
-		if (Array.isArray(relevantRequestFiles)) return relevantRequestFiles;
-		return [relevantRequestFiles];
-	})();
-	const validFiles = getValidFiles(errors, filesToUpload);
 	const uploadedFiles = await saveFilesToBlobStorage.call(this, validFiles, journeyResponse);
 
 	const journeyFiles = {
@@ -169,7 +182,12 @@ async function saveFilesToBlobStorage(files, journeyResponse) {
 async function saveAction(req, res, saveFunction, journey, section, journeyResponse) {
 	const previouslyUploadedFiles = this.getRelevantUploadedFiles(journeyResponse);
 
-	const { uploadedFiles } = await getDataToSave.call(this, req, journeyResponse);
+	const { uploadedFiles } = await getDataToSave.call(
+		this,
+		req,
+		journeyResponse,
+		previouslyUploadedFiles
+	);
 
 	const updatedUploadedFiles = this.getRelevantUploadedFiles(journeyResponse);
 
@@ -177,18 +195,20 @@ async function saveAction(req, res, saveFunction, journey, section, journeyRespo
 	if (!journeyType) throw new Error(`Journey type: ${journeyResponse.journeyId} not found`);
 	const uploadDocuments = getUploadDoumentFunction(journeyType, req.appealsApiClient);
 
-	await Promise.all(
-		uploadedFiles.map((file) => {
+	const filesToAttach = uploadedFiles
+		.map((file) => {
 			if (!file) return;
-
-			const data = {
+			return {
 				...file,
 				type: this.documentType.name
 			};
-
-			return uploadDocuments(journeyResponse.referenceId, data);
 		})
-	);
+		.filter(Boolean);
+
+	if (filesToAttach.length) {
+		await uploadDocuments(journeyResponse.referenceId, filesToAttach);
+	}
+
 	const allUploadedFiles = [...updatedUploadedFiles, ...uploadedFiles].filter(Boolean);
 	const isQuestionAnswered = allUploadedFiles.length > 0;
 

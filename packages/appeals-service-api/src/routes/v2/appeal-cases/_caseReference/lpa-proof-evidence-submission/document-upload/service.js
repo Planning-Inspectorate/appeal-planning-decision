@@ -11,7 +11,7 @@ const repo = new SubmissionDocumentUploadRepository();
  * Create a SubmissionDocumentUpload entry
  *
  * @param {string} caseReference
- * @param {DocumentUploadData} uploadData
+ * @param {DocumentUploadData[]} uploadData
  * @return {Promise<LPAProofOfEvidenceSubmission|null>}
  */
 async function createSubmissionDocument(caseReference, uploadData) {
@@ -28,11 +28,11 @@ async function createSubmissionDocument(caseReference, uploadData) {
  * Delete a SubmissionDocumentUpload entry
  *
  * @param {string} caseReference
- * @param {string} documentId
+ * @param {string[]} documentIds
  * @return {Promise<LPAProofOfEvidenceSubmission|null>}
  */
-async function deleteSubmissionDocument(caseReference, documentId) {
-	const updatedProofs = repo.deleteSubmissionDocument(caseReference, documentId);
+async function deleteSubmissionDocument(caseReference, documentIds) {
+	const updatedProofs = repo.deleteSubmissionDocument(caseReference, documentIds);
 
 	if (!updatedProofs) {
 		return null;

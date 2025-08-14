@@ -26,6 +26,6 @@ router.use(
 
 // Document upload routes
 router.post('/', lpaCanModifyCase, asyncHandler(createSubmissionDocumentUpload));
-router.delete('/:documentId', lpaCanModifyCase, asyncHandler(deleteSubmissionDocumentUpload));
+router.delete('/', lpaCanModifyCase, asyncHandler(deleteSubmissionDocumentUpload));
 
 module.exports = { router };
