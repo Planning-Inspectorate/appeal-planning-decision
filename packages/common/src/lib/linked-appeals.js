@@ -2,7 +2,7 @@ const { APPEAL_LINKED_CASE_STATUS } = require('@planning-inspectorate/data-model
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
- * @typedef {import('./dashboard-functions').LinkedCaseDetails} LinkedCaseDetails
+ * @typedef {import('../../../forms-web-app/src/lib/dashboard-functions').LinkedCaseDetails} LinkedCaseDetails
  */
 
 /**
@@ -46,7 +46,16 @@ const mapLinkedCaseStatusLabel = (status) => {
 	return labels[status];
 };
 
+/**
+ * check whether case is a child linked case
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {boolean}
+ */
+const isChildLinkedAppeal = (appealCaseData) =>
+	appealCaseData.linkedCases?.[0].childCaseReference === appealCaseData.caseReference;
+
 module.exports = {
 	formatDashboardLinkedCaseDetails,
-	mapLinkedCaseStatusLabel
+	mapLinkedCaseStatusLabel,
+	isChildLinkedAppeal
 };

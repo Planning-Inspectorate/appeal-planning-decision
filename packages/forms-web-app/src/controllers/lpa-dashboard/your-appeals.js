@@ -3,7 +3,8 @@ const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const {
 	mapToLPADashboardDisplayData,
-	isToDoLPADashboard
+	isToDoLPADashboard,
+	updateChildAppealDisplayData
 } = require('../../lib/dashboard-functions');
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
 
@@ -31,20 +32,23 @@ const getYourAppeals = async (req, res) => {
 
 	const decidedAppealsCount = await req.appealsApiClient.getDecidedAppealsCountV2(lpaCode);
 
-	const { toDoAppeals, waitingForReviewAppeals } = [...appealsCaseData, ...invalidAppeals]
+	const appealsForDisplay = [...appealsCaseData, ...invalidAppeals]
 		.filter(isNotWithdrawn)
-		.map(mapToLPADashboardDisplayData)
-		.reduce(
-			(acc, cur) => {
-				if (isToDoLPADashboard(cur)) {
-					acc.toDoAppeals.push(cur);
-				} else {
-					acc.waitingForReviewAppeals.push(cur);
-				}
-				return acc;
-			},
-			{ toDoAppeals: [], waitingForReviewAppeals: [] }
-		);
+		.map(mapToLPADashboardDisplayData);
+
+	const appealsWithUpdatedChildAppealDisplayData = updateChildAppealDisplayData(appealsForDisplay);
+
+	const { toDoAppeals, waitingForReviewAppeals } = appealsWithUpdatedChildAppealDisplayData.reduce(
+		(acc, cur) => {
+			if (isToDoLPADashboard(cur)) {
+				acc.toDoAppeals.push(cur);
+			} else {
+				acc.waitingForReviewAppeals.push(cur);
+			}
+			return acc;
+		},
+		{ toDoAppeals: [], waitingForReviewAppeals: [] }
+	);
 
 	toDoAppeals.sort((a, b) => a.nextJourneyDue.dueInDays - b.nextJourneyDue.dueInDays);
 

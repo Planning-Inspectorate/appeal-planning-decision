@@ -2,7 +2,10 @@ const {
 	mapDecisionColour,
 	mapDecisionLabel
 } = require('@pins/business-rules/src/utils/decision-outcome');
-const { formatDashboardLinkedCaseDetails } = require('./linked-appeals');
+const {
+	formatDashboardLinkedCaseDetails,
+	isChildLinkedAppeal
+} = require('@pins/common/src/lib/linked-appeals');
 const {
 	isNewAppealForLPA,
 	isLPAQuestionnaireDue,
@@ -46,6 +49,7 @@ const logger = require('#lib/logger');
  * @property {string | null} [appealDecisionColor] tag color to use for the decision
  * @property {string | undefined | null} caseDecisionOutcomeDate
  * @property {LinkedCaseDetails | null} linkedCaseDetails if appeal is linked, including linked role ie 'lead', 'child'
+ * @property {boolean} [displayNextJourneyLink] whether the next journey link should be displayed
  * @property {{ appealType: string | undefined, appealId: string | undefined }} [continueParams]
  */
 
@@ -76,6 +80,7 @@ const {
 	APPEAL_LINKED_CASE_STATUS
 } = require('@planning-inspectorate/data-model');
 const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invalidated');
+const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
@@ -106,7 +111,8 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
 	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
-	linkedCaseDetails: formatDashboardLinkedCaseDetails(appealCaseData)
+	linkedCaseDetails: formatDashboardLinkedCaseDetails(appealCaseData),
+	displayNextJourneyLink: displayNextJourneyLink(appealCaseData, LPA_USER_ROLE)
 });
 
 /**
@@ -140,7 +146,10 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
 					: appealData.caseDecisionOutcomeDate,
 			linkedCaseDetails: isAppealSubmission(appealData)
 				? null
-				: formatDashboardLinkedCaseDetails(appealData)
+				: formatDashboardLinkedCaseDetails(appealData),
+			displayNextJourneyLink: isAppealSubmission(appealData)
+				? true
+				: displayNextJourneyLink(appealData, APPEAL_USER_ROLES.APPELLANT)
 		};
 	} catch (err) {
 		logger.error({ err }, `failed to mapToAppellantDashboardDisplayData ${id}`);
@@ -400,6 +409,35 @@ const displayInvalidAppeal = (appealCaseData) => {
 	}
 
 	return false;
+};
+
+/**
+ * @param {AppealCaseDetailed} appealCaseData
+ * @param {UserRole} userRole
+ * @returns {boolean}
+ */
+const displayNextJourneyLink = (appealCaseData, userRole) => {
+	if (!isChildLinkedAppeal(appealCaseData)) return true;
+
+	switch (userRole) {
+		case APPEAL_USER_ROLES.APPELLANT:
+			return (
+				isV2Submission(appealCaseData) ||
+				displayInvalidAppeal(appealCaseData) ||
+				isAppellantFinalCommentOpen(appealCaseData) ||
+				isAppellantProofsOfEvidenceOpen(appealCaseData)
+			);
+		case LPA_USER_ROLE:
+			return (
+				displayInvalidAppeal(appealCaseData) ||
+				isLPAQuestionnaireDue(appealCaseData) ||
+				isLPAStatementOpen(appealCaseData) ||
+				isLPAFinalCommentOpen(appealCaseData) ||
+				isLPAProofsOfEvidenceOpen(appealCaseData)
+			);
+		default:
+			return true;
+	}
 };
 
 /**

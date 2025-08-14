@@ -3,6 +3,7 @@ const {
 	APPEAL_REPRESENTATION_TYPE
 } = require('@planning-inspectorate/data-model');
 const { deadlineHasPassed } = require('@pins/common/src/lib/deadline-has-passed');
+const { isChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
 const { representationExists } = require('@pins/common/src/lib/representations');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
@@ -142,11 +143,3 @@ exports.isLPAFinalCommentOpen = (appealCaseData) =>
 	!isChildLinkedAppeal(appealCaseData) &&
 	finalCommentsAreOpen(appealCaseData) &&
 	!appealCaseData.LPACommentsSubmittedDate;
-
-/**
- * check whether case is a child linked case
- * @param {AppealCaseDetailed} appealCaseData
- * @returns {boolean}
- */
-const isChildLinkedAppeal = (appealCaseData) =>
-	appealCaseData.linkedCases?.[0].childCaseReference === appealCaseData.caseReference;
