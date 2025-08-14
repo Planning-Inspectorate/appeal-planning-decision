@@ -63,7 +63,7 @@ describe('validators/appellant-submission/site-access', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Select Yes if the appeal site can be seen from a public road'
 					);
-					expect(result.errors[0].param).toEqual('site-access');
+					expect(result.errors[0].path).toEqual('site-access');
 					expect(result.errors[0].value).toEqual(undefined);
 				}
 			},
@@ -90,7 +90,7 @@ describe('validators/appellant-submission/site-access', () => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Tell us how access is restricted');
-					expect(result.errors[0].param).toEqual('site-access-more-detail');
+					expect(result.errors[0].path).toEqual('site-access-more-detail');
 					expect(result.errors[0].value).toEqual(undefined);
 				}
 			},
@@ -119,7 +119,7 @@ describe('validators/appellant-submission/site-access', () => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Tell us how access is restricted');
-					expect(result.errors[0].param).toEqual('site-access-more-detail');
+					expect(result.errors[0].path).toEqual('site-access-more-detail');
 					expect(result.errors[0].value).toEqual('');
 				}
 			},
@@ -151,7 +151,7 @@ describe('validators/appellant-submission/site-access', () => {
 					expect(result.errors[0].msg).toEqual(
 						'How access is restricted must be 1000 characters or less'
 					);
-					expect(result.errors[0].param).toEqual('site-access-more-detail');
+					expect(result.errors[0].path).toEqual('site-access-more-detail');
 					expect(result.errors[0].value).toEqual('x'.repeat(1001));
 				}
 			}

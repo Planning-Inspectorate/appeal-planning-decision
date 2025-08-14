@@ -38,7 +38,7 @@ describe('validators/contact-details', () => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Enter the Applicant’s name');
-					expect(result.errors[0].param).toEqual('behalf-appellant-name');
+					expect(result.errors[0].path).toEqual('behalf-appellant-name');
 					expect(result.errors[0].value).toEqual(undefined);
 				}
 			},
@@ -55,7 +55,7 @@ describe('validators/contact-details', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Name must only include letters a to z, hyphens, spaces and apostrophes'
 					);
-					expect(result.errors[0].param).toEqual('behalf-appellant-name');
+					expect(result.errors[0].path).toEqual('behalf-appellant-name');
 					expect(result.errors[0].value).toEqual('12 abc');
 				}
 			},
@@ -70,7 +70,7 @@ describe('validators/contact-details', () => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Name must be between 2 and 80 characters');
-					expect(result.errors[0].param).toEqual('behalf-appellant-name');
+					expect(result.errors[0].path).toEqual('behalf-appellant-name');
 					expect(result.errors[0].value).toEqual('a');
 				}
 			},
@@ -86,7 +86,7 @@ describe('validators/contact-details', () => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Name must be between 2 and 80 characters');
-					expect(result.errors[0].param).toEqual('behalf-appellant-name');
+					expect(result.errors[0].path).toEqual('behalf-appellant-name');
 					expect(result.errors[0].value).toEqual(
 						'Invalid name because it is eighty-one characters long--abcdefghijklmnopqrstuvwxyz'
 					);

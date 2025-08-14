@@ -31,7 +31,7 @@ describe('validators/common/email-address', () => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Enter your email address');
-					expect(result.errors[0].param).toEqual('appellant-email');
+					expect(result.errors[0].path).toEqual('appellant-email');
 					expect(result.errors[0].value).toEqual(undefined);
 				}
 			},
@@ -48,7 +48,7 @@ describe('validators/common/email-address', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Enter an email address in the correct format, like name@example.com'
 					);
-					expect(result.errors[0].param).toEqual('appellant-email');
+					expect(result.errors[0].path).toEqual('appellant-email');
 					expect(result.errors[0].value).toEqual('@.com');
 				}
 			},
@@ -66,7 +66,7 @@ describe('validators/common/email-address', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Enter an email address in the correct format, like name@example.com'
 					);
-					expect(result.errors[0].param).toEqual('appellant-email');
+					expect(result.errors[0].path).toEqual('appellant-email');
 					expect(result.errors[0].value).toEqual('13');
 				}
 			},
@@ -84,7 +84,7 @@ describe('validators/common/email-address', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Enter an email address in the correct format, like name@example.com'
 					);
-					expect(result.errors[0].param).toEqual('appellant-email');
+					expect(result.errors[0].path).toEqual('appellant-email');
 					expect(result.errors[0].value).toEqual('thomas-@example.com');
 				}
 			},
@@ -101,7 +101,7 @@ describe('validators/common/email-address', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Enter an email address in the correct format, like name@example.com'
 					);
-					expect(result.errors[0].param).toEqual('appellant-email');
+					expect(result.errors[0].path).toEqual('appellant-email');
 					expect(result.errors[0].value).toEqual('thomas@example.c');
 				}
 			},

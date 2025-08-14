@@ -39,7 +39,7 @@ describe('validators/common/numberfield', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(emptyError);
-		expect(result.errors[0].param).toEqual(fieldName);
+		expect(result.errors[0].path).toEqual(fieldName);
 		expect(result.errors[0].value).toEqual(undefined);
 	});
 
@@ -58,7 +58,7 @@ describe('validators/common/numberfield', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(invalidError);
-		expect(result.errors[0].param).toEqual(fieldName);
+		expect(result.errors[0].path).toEqual(fieldName);
 		expect(result.errors[0].value).toEqual(value);
 	});
 
@@ -77,7 +77,7 @@ describe('validators/common/numberfield', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(invalidError);
-		expect(result.errors[0].param).toEqual(fieldName);
+		expect(result.errors[0].path).toEqual(fieldName);
 		expect(result.errors[0].value).toEqual(value);
 	});
 
@@ -96,7 +96,7 @@ describe('validators/common/numberfield', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(invalidError);
-		expect(result.errors[0].param).toEqual(fieldName);
+		expect(result.errors[0].path).toEqual(fieldName);
 		expect(result.errors[0].value).toEqual(value);
 	});
 
@@ -115,7 +115,7 @@ describe('validators/common/numberfield', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(invalidError);
-		expect(result.errors[0].param).toEqual(fieldName);
+		expect(result.errors[0].path).toEqual(fieldName);
 		expect(result.errors[0].value).toEqual(value);
 	});
 
@@ -138,7 +138,7 @@ describe('validators/common/numberfield', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(invalidError);
-		expect(result.errors[0].param).toEqual(fieldName);
+		expect(result.errors[0].path).toEqual(fieldName);
 		expect(result.errors[0].value).toEqual(value);
 	});
 
@@ -157,7 +157,7 @@ describe('validators/common/numberfield', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(invalidError);
-		expect(result.errors[0].param).toEqual(fieldName);
+		expect(result.errors[0].path).toEqual(fieldName);
 		expect(result.errors[0].value).toEqual(value);
 	});
 
@@ -180,7 +180,7 @@ describe('validators/common/numberfield', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(invalidError);
-		expect(result.errors[0].param).toEqual(fieldName);
+		expect(result.errors[0].path).toEqual(fieldName);
 		expect(result.errors[0].value).toEqual(value);
 	});
 });

@@ -44,7 +44,7 @@
 		"express-async-errors": "*",
 		"express-oauth2-jwt-bearer": "*",
 		"express-openapi-validator": "*",
-		"express-validator": "7.0.1",
+		"express-validator": "*",
 		"jsonpath": "*",
 		"mongodb": "*",
 		"node-cron": "*",
