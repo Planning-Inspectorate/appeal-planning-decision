@@ -1,4 +1,4 @@
-# has-appeal-form
+# adverts-appeal-form
 
 ## Prepare appeal
 
@@ -12,6 +12,8 @@ condition: () => questionHasAnswer(response, questions.applicationName, 'no');
 - multi-field-input `/contact-details/` Contact details
 - single-line-input `/phone-number/` What is your phone number?
 - address-entry `/appeal-site-address/` What is the address of the appeal site?
+- boolean `/highway-land/` Is the appeal site on highway land?
+- boolean `/advertisement-position/` Is the advertisement in position?
 - number-entry `/site-area/` What is the area of the appeal site?
 - boolean `/green-belt/` Is the appeal site in a green belt?
 - boolean `/own-all-land/` Do you own all of the land involved in the appeal?
@@ -55,6 +57,7 @@ condition: () =>
 condition: () => shouldDisplayIdentifyingLandowners(response, questions);
 ```
 
+- boolean `/landowner-permission/` Do you have the landowner’s permission?
 - boolean `/advertising-appeal/` Advertising your appeal
 
 ```js
@@ -74,7 +77,7 @@ condition: () => shouldDisplayTellingLandowners(response, questions);
 - single-line-input `/reference-number/` What is the application reference number?
 - date `/application-date/` What date did you submit your application?
 - text-entry `/enter-description-of-development/` Enter the description of development that you submitted in your application
-- boolean `/description-development-correct/` Did the local planning authority change the description of development?
+- boolean `/description-advertisement-correct/` Did the local planning authority change the description of the advertisement?
 - boolean `/other-appeals/` Are there other appeals linked to your development?
 - list-add-more `/enter-appeal-reference/` Add another appeal?
 
@@ -88,7 +91,7 @@ condition: () => questionHasAnswer(response, questions.anyOtherAppeals, 'yes');
 - multi-file-upload `/upload-description-evidence/` Upload evidence of your agreement to change the description of development
 
 ```js
-condition: () => questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes');
+condition: () => questionHasAnswer(response, questions.updateAdvertisementDescription, 'yes');
 ```
 
 - multi-file-upload `/upload-decision-letter/` Upload the decision letter from the local planning authority
@@ -99,3 +102,5 @@ condition: () => questionHasAnswer(response, questions.updateDevelopmentDescript
 ```js
 condition: () => questionHasAnswer(response, questions.costApplication, 'yes');
 ```
+
+- multi-file-upload `/upload-plans-drawings-documents/` Upload your plans, drawings and supporting documents you submitted with your application

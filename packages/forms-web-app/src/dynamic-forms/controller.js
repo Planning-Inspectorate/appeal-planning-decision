@@ -466,6 +466,7 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 		case APPEAL_ID.PLANNING_LISTED_BUILDING:
 		case APPEAL_ID.MINOR_COMMERCIAL:
 		case APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT:
+		case APPEAL_ID.ADVERTISEMENT:
 			return res.render('full-appeal/submit-appeal/list-of-documents', {
 				usingV2Form,
 				bannerHtmlOverride
@@ -534,8 +535,8 @@ exports.submitAppellantSubmission = async (req, res) => {
 			return CASE_TYPES.S20.friendlyUrl;
 		} else if (journeyId === JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM.id) {
 			return CASE_TYPES.CAS_PLANNING.friendlyUrl;
-		} else if (journeyId === JOURNEY_TYPES.CAS_ADVERTS_APPEAL_FORM.id) {
-			return CASE_TYPES.CAS_ADVERTS.friendlyUrl;
+		} else if (journeyId === JOURNEY_TYPES.ADVERTS_APPEAL_FORM.id) {
+			return CASE_TYPES.ADVERTS.friendlyUrl;
 		} else return '';
 	};
 

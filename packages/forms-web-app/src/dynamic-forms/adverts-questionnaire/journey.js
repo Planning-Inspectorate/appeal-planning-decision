@@ -4,7 +4,7 @@ const { Section } = require('../section');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 const {
-	CASE_TYPES: { ADVERTS }
+	CASE_TYPES: { ADVERTS, CAS_ADVERTS }
 } = require('@pins/common/src/database/data-static');
 
 /**
@@ -16,10 +16,15 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const sections = [
+const makeSections = (response) => [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
-		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: ADVERTS.type.toLowerCase() })
+		.withVariables({
+			[QUESTION_VARIABLES.APPEAL_TYPE]:
+				response.journeyId === JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE.id
+					? ADVERTS.type.toLowerCase()
+					: CAS_ADVERTS.type.toLowerCase()
+		})
 ];
 
 const baseAdvertsMinorUrl = '/manage-appeals/questionnaire';
@@ -32,9 +37,19 @@ const makeBaseUrl = (response) =>
 	`${baseAdvertsMinorUrl}/${encodeURIComponent(response.referenceId)}`;
 
 /** @type {JourneyParameters} */
-const params = {
+const casAdvertsParams = {
 	journeyId: JOURNEY_TYPES.CAS_ADVERTS_QUESTIONNAIRE.id,
-	sections,
+	makeSections,
+	journeyTemplate: 'questionnaire-template.njk',
+	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
+	informationPageViewPath: 'dynamic-components/submission-information/index',
+	journeyTitle: 'Manage your appeals',
+	makeBaseUrl
+};
+/** @type {JourneyParameters} */
+const advertsParams = {
+	journeyId: JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE.id,
+	makeSections,
 	journeyTemplate: 'questionnaire-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
 	informationPageViewPath: 'dynamic-components/submission-information/index',
@@ -42,4 +57,13 @@ const params = {
 	makeBaseUrl
 };
 
-module.exports = { ...params, baseAdvertsMinorUrl };
+module.exports = {
+	adverts: {
+		...advertsParams,
+		baseAdvertsMinorUrl
+	},
+	casAdverts: {
+		...casAdvertsParams,
+		baseAdvertsMinorUrl
+	}
+};

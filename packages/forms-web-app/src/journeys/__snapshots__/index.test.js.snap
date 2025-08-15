@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the advertisement-position question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the advertisement-position question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -46,7 +46,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the advertising-appeal question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the advertising-appeal question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -96,7 +96,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the appeal-site-address question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the appeal-site-address question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -154,7 +154,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the applicant-name question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the applicant-name question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -203,7 +203,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the application-date question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the application-date question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -261,7 +261,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the application-name question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the application-name question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -309,7 +309,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the apply-appeal-costs question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the apply-appeal-costs question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -355,7 +355,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the contact-details question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the contact-details question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -403,7 +403,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the description-advertisement-correct question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the description-advertisement-correct question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -451,7 +451,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the enter-appeal-reference question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the enter-appeal-reference question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -486,7 +486,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the enter-description-of-development question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the enter-description-of-development question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -520,7 +520,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the green-belt question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the green-belt question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -566,7 +566,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the health-safety-issues question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the health-safety-issues question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -641,7 +641,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the highway-land question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the highway-land question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -687,7 +687,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the identifying-landowners question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the identifying-landowners question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -737,7 +737,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the inspector-need-access question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the inspector-need-access question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -800,7 +800,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the landowner-permission question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the landowner-permission question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -846,7 +846,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the other-appeals question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the other-appeals question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -893,7 +893,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the own-all-land question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the own-all-land question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -939,7 +939,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the own-some-land question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the own-some-land question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -985,7 +985,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the owns-land-involved question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the owns-land-involved question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -1035,7 +1035,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the owns-rest-of-land question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the owns-rest-of-land question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -1085,7 +1085,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the phone-number question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the phone-number question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -1121,7 +1121,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the reference-number question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the reference-number question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -1155,7 +1155,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the site-area question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the site-area question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -1192,7 +1192,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the telling-landowners question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the telling-landowners question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -1242,7 +1242,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the upload-appeal-costs-application question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the upload-appeal-costs-application question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Upload documents</span>
@@ -1285,7 +1285,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the upload-appeal-statement question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the upload-appeal-statement question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Upload documents</span>
@@ -1359,7 +1359,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the upload-application-form question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the upload-application-form question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Upload documents</span>
@@ -1407,7 +1407,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the upload-decision-letter question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the upload-decision-letter question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Upload documents</span>
@@ -1457,7 +1457,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the upload-description-evidence question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the upload-description-evidence question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Upload documents</span>
@@ -1503,7 +1503,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the upload-plans-drawings-documents question 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the upload-plans-drawings-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Upload documents</span>
@@ -1551,10 +1551,10 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) renders listing page 1`] = `
+exports[`Dynamic forms journey tests appellant Advertisement renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Commercial advertisement (CAS) Appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Advertisement Appeal</span>
         </div>
     </div>
     <style>
@@ -10698,6 +10698,143 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                     </div>
                     <dl class="govuk-summary-list">
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is a advertisement appeal the correct type of appeal?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li>
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
+                        <p>You cannot submit the questionnaire until all of the other sections are
+                            complete.</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the correct-appeal-type question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="correctAppealType-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is a commercial advertisement (cas) appeal the correct type of appeal?</h1>
+                        </legend>
+                        <div id="correctAppealType-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="correctAppealType" name="correctAppealType"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="correctAppealType">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="correctAppealType-2" name="correctAppealType"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="correctAppealType-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) renders listing page 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Appeal appeal-ref</span>
+        </div>
+    </div>
+    <style>
+        .appeal-details .govuk-summary-list__key,
+          .appeal-details .govuk-summary-list__value,
+          .appeal-details .govuk-summary-list__actions {
+              padding-top: 0.2rem;
+              padding-bottom: 0;
+          }
+    </style>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
+            <h1 class="govuk-heading-l"> Appeal questionnaire</h1>
+        </div>
+        <div class="govuk-grid-column-full">
+            <dl class="govuk-summary-list appeal-details govuk-summary-list--no-border">
+                <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal type</dt>
+                    <dd class="govuk-summary-list__value">Commercial advertisement (CAS)</dd>
+                </div>
+                <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"><span data-cy="site-address-label">Appeal site</span></dt>
+                    <dd
+                    class="govuk-summary-list__value"><span data-cy="site-address"> , </span>
+                        </dd>
+                </div>
+                <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Applicant</dt>
+                    <dd class="govuk-summary-list__value">undefined undefined</dd>
+                </div>
+                <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Application number</dt>
+                    <dd class="govuk-summary-list__value"></dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-three-quarters-from-desktop">
+            <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
+            <h2 class="govuk-heading-s">Complete the questionnaire</h2>
+            <p class="govuk-!-margin-bottom-7">You have completed 0 of 2 sections.</p>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <style>
+                .app-task-list {
+                          padding-left: 0;
+                        }
+                        .app-task-list>li {
+                          position: relative;
+                          list-style-type: none;
+                
+                        }
+                        .app-task-list__section .govuk-tag {
+                          position: absolute;
+                          top: 3px;
+                          right: 0;
+                        }
+                        .app-task-list .govuk-summary-list {
+                          border-top: 1px solid #b1b4b6;
+                        }
+            </style>
+            <ol class="app-task-list">
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">1. </span> Constraints, designations and other issues<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is a commercial advertisement (cas) appeal the correct type of appeal?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>

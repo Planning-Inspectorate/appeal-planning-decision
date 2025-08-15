@@ -21,7 +21,7 @@ const {
 const { FLAG } = require('@pins/common/src/feature-flags');
 const {
 	constants: {
-		TYPE_OF_PLANNING_APPLICATION: { MINOR_COMMERCIAL_DEVELOPMENT, MINOR_COMMERCIAL_ADVERTISEMENT }
+		TYPE_OF_PLANNING_APPLICATION: { MINOR_COMMERCIAL_DEVELOPMENT, ADVERTISEMENT }
 	}
 } = require('@pins/business-rules');
 
@@ -387,12 +387,12 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/planning-application-about');
 		});
 
-		it('should redirect to the granted-or-refused page - cas adverts', async () => {
+		it('should redirect to the granted-or-refused page - adverts', async () => {
 			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.CAS_ADVERTS_APPEAL_FORM_V2;
+				return flag === FLAG.ADVERTS_APPEAL_FORM_V2;
 			});
 
-			const planningApplication = MINOR_COMMERCIAL_ADVERTISEMENT;
+			const planningApplication = ADVERTISEMENT;
 
 			const mockRequest = {
 				...req,

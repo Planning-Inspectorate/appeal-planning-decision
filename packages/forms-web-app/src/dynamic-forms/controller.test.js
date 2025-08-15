@@ -33,7 +33,7 @@ const questionUtils = require('./dynamic-components/utils/question-utils');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const config = require('../../src/config');
 
-const sections = [
+const makeSections = () => [
 	{
 		name: 'Section 1',
 		segment: 'segment-1',
@@ -169,7 +169,7 @@ const sections = [
 ];
 
 const journeyParams = {
-	sections,
+	makeSections,
 	journeyId: 'TEST',
 	makeBaseUrl: () => `${mockBaseUrl}/${mockRef}`,
 	journeyTemplate: mockTemplateUrl,

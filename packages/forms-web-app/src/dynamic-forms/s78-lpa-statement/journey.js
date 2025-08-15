@@ -19,13 +19,12 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const sections = [
+const makeSections = (response) => [
 	new Section('', config.dynamicForms.DEFAULT_SECTION)
-
 		.addQuestion(questions.lpaStatement)
 		.addQuestion(questions.additionalDocuments)
 		.addQuestion(questions.uploadLpaStatementDocuments)
-		.withCondition((response) => questionHasAnswer(response, questions.additionalDocuments, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.additionalDocuments, 'yes'))
 ];
 
 const baseS78StatementUrl = '/manage-appeals/appeal-statement';
@@ -44,7 +43,7 @@ const params = {
 	journeyTemplate: 'statement-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/statement',
 	journeyTitle: 'Manage your appeals',
-	sections,
+	makeSections,
 	makeBaseUrl
 };
 

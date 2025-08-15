@@ -17,79 +17,65 @@ const { questionHasAnswer } = require('../dynamic-components/utils/question-has-
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const sections = [
+const makeSections = (response) => [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
 		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: CAS_PLANNING.type.toLowerCase() })
 		.addQuestion(questions.listedBuildingCheck)
 		.addQuestion(questions.affectedListedBuildings)
 		.withCondition(
-			(response) =>
-				response.answers && response.answers[questions.listedBuildingCheck.fieldName] == 'yes'
+			() => response.answers && response.answers[questions.listedBuildingCheck.fieldName] == 'yes'
 		)
 		.addQuestion(questions.conservationArea)
 		.addQuestion(questions.conservationAreaUpload)
 		.withCondition(
-			(response) =>
-				response.answers && response.answers[questions.conservationArea.fieldName] == 'yes'
+			() => response.answers && response.answers[questions.conservationArea.fieldName] == 'yes'
 		)
 		.addQuestion(questions.greenBelt),
 	new Section('Notifying relevant parties', 'notified')
 		.addQuestion(questions.whoWasNotified)
 		.addQuestion(questions.howYouNotifiedPeople)
 		.addQuestion(questions.uploadSiteNotice)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice'))
 		.addQuestion(questions.uploadNeighbourLetterAddresses)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails')
 		)
 		.addQuestion(questions.pressAdvertUpload)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert'))
 		.addQuestion(questions.appealNotification),
 	new Section('Consultation responses and representations', 'consultation')
 		.addQuestion(questions.statutoryConsultees)
 		.addQuestion(questions.consultationResponses)
 		.addQuestion(questions.consultationResponsesUpload)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.consultationResponses, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.consultationResponses, 'yes'))
 		.addQuestion(questions.representationsFromOthers)
 		.addQuestion(questions.representationUpload)
 		.withCondition(
-			(response) =>
+			() =>
 				response.answers && response.answers[questions.representationsFromOthers.fieldName] == 'yes'
 		),
 	new Section("Planning officer's report and supporting documents", 'planning-officer-report')
 		.addQuestion(questions.planningOfficersReportUpload)
 		.addQuestion(questions.developmentPlanPolicies)
 		.addQuestion(questions.uploadDevelopmentPlanPolicies)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.developmentPlanPolicies, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes'))
 		.addQuestion(questions.supplementaryPlanning)
 		.addQuestion(questions.supplementaryPlanningUpload)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.supplementaryPlanning, 'yes')
-		),
+		.withCondition(() => questionHasAnswer(response, questions.supplementaryPlanning, 'yes')),
 	new Section('Site access', 'site-access')
 		.addQuestion(questions.accessForInspection)
 		.addQuestion(questions.neighbouringSite)
 		.addQuestion(questions.neighbouringSitesToBeVisited)
 		.withCondition(
-			(response) =>
-				response.answers && response.answers[questions.neighbouringSite.fieldName] == 'yes'
+			() => response.answers && response.answers[questions.neighbouringSite.fieldName] == 'yes'
 		)
 		.addQuestion(questions.potentialSafetyRisks),
 	new Section('Appeal process', 'appeal-process')
 		.addQuestion(questions.appealsNearSite)
 		.addQuestion(questions.nearbyAppeals)
 		.withCondition(
-			(response) =>
-				response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes'
+			() => response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes'
 		)
 		.addQuestion(questions.addNewConditions)
 ];
@@ -106,7 +92,7 @@ const makeBaseUrl = (response) =>
 /** @type {JourneyParameters} */
 const params = {
 	journeyId: JOURNEY_TYPES.CAS_PLANNING_QUESTIONNAIRE.id,
-	sections,
+	makeSections,
 	journeyTemplate: 'questionnaire-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
 	informationPageViewPath: 'dynamic-components/submission-information/index',

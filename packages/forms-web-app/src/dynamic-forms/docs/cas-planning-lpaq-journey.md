@@ -7,7 +7,7 @@
 - list-add-more `/affected-listed-buildings/` Add another building or site?
 
 ```js
-condition: (response) =>
+condition: () =>
 	response.answers && response.answers[questions.listedBuildingCheck.fieldName] == 'yes';
 ```
 
@@ -15,7 +15,7 @@ condition: (response) =>
 - multi-file-upload `/upload-conservation-area-map-guidance/` Upload conservation map and guidance
 
 ```js
-condition: (response) =>
+condition: () =>
 	response.answers && response.answers[questions.conservationArea.fieldName] == 'yes';
 ```
 
@@ -28,20 +28,19 @@ condition: (response) =>
 - multi-file-upload `/upload-site-notice/` Upload the site notice
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice');
+condition: () => questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice');
 ```
 
 - multi-file-upload `/letters-interested-parties/` Upload letters or emails sent to interested parties with their addresses
 
 ```js
-condition: (response) =>
-	questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails');
+condition: () => questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails');
 ```
 
 - multi-file-upload `/upload-press-advert/` Upload the press advertisement
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert');
+condition: () => questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert');
 ```
 
 - multi-file-upload `/appeal-notification-letter/` Upload the appeal notification letter and the list of people that you notified
@@ -53,14 +52,14 @@ condition: (response) => questionHasAnswer(response, questions.howYouNotifiedPeo
 - multi-file-upload `/upload-consultation-responses/` Upload the consultation responses and standing advice
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.consultationResponses, 'yes');
+condition: () => questionHasAnswer(response, questions.consultationResponses, 'yes');
 ```
 
 - boolean `/representations/` Did you receive representations from members of the public or other parties?
 - multi-file-upload `/upload-representations/` Upload the representations
 
 ```js
-condition: (response) =>
+condition: () =>
 	response.answers && response.answers[questions.representationsFromOthers.fieldName] == 'yes';
 ```
 
@@ -71,14 +70,14 @@ condition: (response) =>
 - multi-file-upload `/upload-development-plan-policies/` Upload relevant policies from your statutory development plan
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes');
+condition: () => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes');
 ```
 
 - boolean `/supplementary-planning-documents/` Did any supplementary planning documents inform the outcome of the planning application?
 - multi-file-upload `/upload-policies-supplementary-planning-documents/` Upload relevant policy extracts and supplementary planning documents
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.supplementaryPlanning, 'yes');
+condition: () => questionHasAnswer(response, questions.supplementaryPlanning, 'yes');
 ```
 
 ## Site access
@@ -88,7 +87,7 @@ condition: (response) => questionHasAnswer(response, questions.supplementaryPlan
 - list-add-more `/neighbour-address/` Do you want to add another neighbour to be visited?
 
 ```js
-condition: (response) =>
+condition: () =>
 	response.answers && response.answers[questions.neighbouringSite.fieldName] == 'yes';
 ```
 
@@ -100,8 +99,7 @@ condition: (response) =>
 - list-add-more `/appeal-reference-number/` Add another appeal?
 
 ```js
-condition: (response) =>
-	response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes';
+condition: () => response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes';
 ```
 
 - radio `/add-new-planning-conditions/` Add new planning conditions to this appeal

@@ -22,6 +22,8 @@ class Journey {
 	journeyId;
 	/** @type {Array.<Section>} sections - sections within the journey */
 	sections = [];
+	/** @type {(journeyResponse: JourneyResponse) => Array.<Section>}  - sections - sections within the journey */
+	makeSections = () => [];
 	/** @type {JourneyResponse} response - the user's response to the journey so far */
 	response;
 	/** @type {string} baseUrl - base url of the journey, gets prepended to question urls */
@@ -53,7 +55,7 @@ class Journey {
 	 * @param {string} [options.informationPageViewPath] - path to njk view for pdf summary page
 	 * @param {string} options.journeyTitle - part of the title in the njk view
 	 * @param {boolean} [options.returnToListing] - defines how the next/previous question handles end of sections
-	 * @param {Section[]} options.sections
+	 * @param {(response: JourneyResponse) => Section[]} options.makeSections - function to generate sections based on the response
 	 * @param {string} [options.initialBackLink] - back link when on the first question
 	 * @param {string} [options.bannerHtmlOverride] - html to override the beta banner
 	 */
@@ -67,7 +69,7 @@ class Journey {
 		informationPageViewPath,
 		journeyTitle,
 		returnToListing,
-		sections,
+		makeSections,
 		initialBackLink,
 		bannerHtmlOverride
 	}) {
@@ -107,7 +109,7 @@ class Journey {
 
 		this.response = response;
 
-		this.sections = sections;
+		this.sections = makeSections(response);
 
 		this.initialBackLink = initialBackLink ?? this.taskListUrl;
 

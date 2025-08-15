@@ -29,11 +29,11 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const sections = [
+const makeSections = (response) => [
 	new Section('Prepare appeal', 'prepare-appeal')
 		.addQuestion(questions.applicationName)
 		.addQuestion(questions.applicantName)
-		.withCondition((response) => questionHasAnswer(response, questions.applicationName, 'no'))
+		.withCondition(() => questionHasAnswer(response, questions.applicationName, 'no'))
 		.addQuestion(questions.contactDetails)
 		.addQuestion(questions.contactPhoneNumber)
 		.addQuestion(questions.appealSiteAddress)
@@ -41,9 +41,9 @@ const sections = [
 		.addQuestion(questions.appellantGreenBelt)
 		.addQuestion(questions.ownsAllLand)
 		.addQuestion(questions.ownsSomeLand)
-		.withCondition((response) => questionHasAnswer(response, questions.ownsAllLand, 'no'))
+		.withCondition(() => questionHasAnswer(response, questions.ownsAllLand, 'no'))
 		.addQuestion(questions.knowsWhoOwnsRestOfLand)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionsHaveAnswers(
 				response,
 				[
@@ -54,7 +54,7 @@ const sections = [
 			)
 		)
 		.addQuestion(questions.knowsWhoOwnsLandInvolved)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionsHaveAnswers(
 				response,
 				[
@@ -66,27 +66,27 @@ const sections = [
 		)
 		.addQuestion(questions.identifyingLandowners)
 		.withCondition(
-			(response) =>
+			() =>
 				shouldDisplayIdentifyingLandowners(response, questions) &&
 				questionHasAnswer(response, questions.ownsAllLand, 'no')
 		)
 		.addQuestion(questions.advertisingAppeal)
 		.withCondition(
-			(response) =>
+			() =>
 				shouldDisplayIdentifyingLandowners(response, questions) &&
 				questionHasAnswer(response, questions.identifyingLandowners, 'yes')
 		)
 		.addQuestion(questions.tellingLandowners)
 		.withCondition(
-			(response) =>
+			() =>
 				shouldDisplayTellingLandowners(response, questions) &&
 				questionHasAnswer(response, questions.ownsAllLand, 'no')
 		)
 		.addQuestion(questions.agriculturalHolding)
 		.addQuestion(questions.tenantAgriculturalHolding)
-		.withCondition((response) => questionHasAnswer(response, questions.agriculturalHolding, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.agriculturalHolding, 'yes'))
 		.addQuestion(questions.otherTenantsAgriculturalHolding)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionsHaveAnswers(
 				response,
 				[
@@ -97,7 +97,7 @@ const sections = [
 			)
 		)
 		.addQuestion(questions.informedTenantsAgriculturalHolding)
-		.withCondition((response) => shouldDisplayTellingTenants(response, questions))
+		.withCondition(() => shouldDisplayTellingTenants(response, questions))
 		.addQuestion(questions.inspectorAccess)
 		.addQuestion(questions.healthAndSafety)
 		.addQuestion(questions.enterApplicationReference)
@@ -108,7 +108,7 @@ const sections = [
 		.addQuestion(questions.updateDevelopmentDescription)
 		.addQuestion(questions.appellantProcedurePreference)
 		.addQuestion(questions.appellantPreferHearing)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionHasAnswer(
 				response,
 				questions.appellantProcedurePreference,
@@ -116,7 +116,7 @@ const sections = [
 			)
 		)
 		.addQuestion(questions.appellantPreferInquiry)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionHasAnswer(
 				response,
 				questions.appellantProcedurePreference,
@@ -125,7 +125,7 @@ const sections = [
 		)
 		.addQuestion(questions.inquiryHowManyDays)
 		.withCondition(
-			(response) =>
+			() =>
 				questionHasAnswer(
 					response,
 					questions.appellantProcedurePreference,
@@ -134,7 +134,7 @@ const sections = [
 		)
 		.addQuestion(questions.inquiryHowManyWitnesses)
 		.withCondition(
-			(response) =>
+			() =>
 				questionHasAnswer(
 					response,
 					questions.appellantProcedurePreference,
@@ -145,22 +145,18 @@ const sections = [
 		)
 		.addQuestion(questions.anyOtherAppeals)
 		.addQuestion(questions.linkAppeals)
-		.withCondition((response) => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
+		.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
 	new Section('Upload documents', 'upload-documents')
 		.addQuestion(questions.uploadOriginalApplicationForm)
 		.addQuestion(questions.uploadChangeOfDescriptionEvidence)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes'))
 		.addQuestion(questions.uploadApplicationDecisionLetter)
 		.withCondition(shouldDisplayUploadDecisionLetter)
 		.addQuestion(questions.submitPlanningObligation)
 		.addQuestion(questions.planningObligationStatus)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.submitPlanningObligation, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.submitPlanningObligation, 'yes'))
 		.addQuestion(questions.uploadPlanningObligation)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionsHaveAnswers(
 				response,
 				[
@@ -172,12 +168,10 @@ const sections = [
 		)
 		.addQuestion(questions.separateOwnershipCert)
 		.addQuestion(questions.uploadSeparateOwnershipCert)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.separateOwnershipCert, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.separateOwnershipCert, 'yes'))
 		.addQuestion(questions.uploadAppellantStatement)
 		.addQuestion(questions.uploadStatementCommonGround)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionsHaveAnswers(
 				response,
 				[
@@ -189,19 +183,17 @@ const sections = [
 		)
 		.addQuestion(questions.costApplication)
 		.addQuestion(questions.uploadCostApplication)
-		.withCondition((response) => questionHasAnswer(response, questions.costApplication, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))
 		.addQuestion(questions.designAccessStatement)
 		.addQuestion(questions.uploadDesignAccessStatement)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.designAccessStatement, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.designAccessStatement, 'yes'))
 		.addQuestion(questions.uploadPlansDrawingsDocuments)
 		.addQuestion(questions.newPlansDrawings)
 		.addQuestion(questions.uploadNewPlansDrawings)
-		.withCondition((response) => questionHasAnswer(response, questions.newPlansDrawings, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.newPlansDrawings, 'yes'))
 		.addQuestion(questions.otherNewDocuments)
 		.addQuestion(questions.uploadOtherNewDocuments)
-		.withCondition((response) => questionHasAnswer(response, questions.otherNewDocuments, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.otherNewDocuments, 'yes'))
 ];
 
 const baseS78SubmissionUrl = `/appeals/${S78.friendlyUrl}`;
@@ -215,7 +207,7 @@ const makeBaseUrl = (response) => `${baseS78SubmissionUrl}?id=${response.referen
 /** @type {JourneyParameters} */
 const params = {
 	journeyId: JOURNEY_TYPES.S78_APPEAL_FORM.id,
-	sections,
+	makeSections,
 	taskListUrl: 'appeal-form/your-appeal',
 	journeyTemplate: 'submission-form-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/submission',
