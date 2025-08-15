@@ -12,7 +12,7 @@ const repo = new SubmissionDocumentUploadRepository();
  *
  * @param {string | undefined} userId
  * @param {string} caseReference
- * @param {DocumentUploadData} uploadData
+ * @param {DocumentUploadData[]} uploadData
  * @return {Promise<Rule6StatementSubmission|null>}
  */
 async function createSubmissionDocument(userId, caseReference, uploadData) {
@@ -34,15 +34,15 @@ async function createSubmissionDocument(userId, caseReference, uploadData) {
  *
  * @param {string|undefined} userId
  * @param {string} caseReference
- * @param {string} documentId
+ * @param {string[]} documentIds
  * @return {Promise<Rule6StatementSubmission|null>}
  */
-async function deleteSubmissionDocument(userId, caseReference, documentId) {
+async function deleteSubmissionDocument(userId, caseReference, documentIds) {
 	if (!userId) {
 		return null;
 	}
 
-	const updatedStatement = repo.deleteSubmissionDocument(userId, caseReference, documentId);
+	const updatedStatement = repo.deleteSubmissionDocument(userId, caseReference, documentIds);
 
 	if (!updatedStatement) {
 		return null;

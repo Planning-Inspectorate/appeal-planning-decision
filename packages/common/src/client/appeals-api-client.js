@@ -436,7 +436,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {object} data
+	 * @param {Array<object>} data
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
 	async postLPASubmissionDocumentUpload(caseReference, data) {
@@ -486,7 +486,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {object} data
+	 * @param {Array<Object>} data
 	 * @returns {Promise<(LPAStatementSubmission)>}
 	 */
 	async postLPAStatementDocumentUpload(caseReference, data) {
@@ -497,12 +497,12 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} documentId
+	 * @param {string[]} documentIds
 	 * @returns {Promise<(LPAStatementSubmission)>}
 	 */
-	async deleteLPAStatementDocumentUpload(caseReference, documentId) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission/document-upload/${documentId}`;
-		const response = await this.#makeDeleteRequest(endpoint);
+	async deleteLPAStatementDocumentUpload(caseReference, documentIds) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission/document-upload`;
+		const response = await this.#makeDeleteRequest(endpoint, documentIds);
 		return response.json();
 	}
 
@@ -562,7 +562,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {object} data
+	 * @param {Array<Object>} data
 	 * @returns {Promise<(AppellantFinalCommentSubmission)>}
 	 */
 	async postAppellantFinalCommentDocumentUpload(caseReference, data) {
@@ -573,12 +573,12 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} documentId
+	 * @param {string[]} documentIds
 	 * @returns {Promise<(AppellantFinalCommentSubmission)>}
 	 */
-	async deleteAppellantFinalCommentDocumentUpload(caseReference, documentId) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-final-comment-submission/document-upload/${documentId}`;
-		const response = await this.#makeDeleteRequest(endpoint);
+	async deleteAppellantFinalCommentDocumentUpload(caseReference, documentIds) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-final-comment-submission/document-upload`;
+		const response = await this.#makeDeleteRequest(endpoint, documentIds);
 		return response.json();
 	}
 
@@ -624,7 +624,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {object} data
+	 * @param {Array<Object>} data
 	 * @returns {Promise<(AppellantProofOfEvidenceSubmission)>}
 	 */
 	async postAppellantProofOfEvidenceDocumentUpload(caseReference, data) {
@@ -635,12 +635,12 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} documentId
+	 * @param {string[]} documentIds
 	 * @returns {Promise<(AppellantProofOfEvidenceSubmission)>}
 	 */
-	async deleteAppellantProofOfEvidenceDocumentUpload(caseReference, documentId) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-proof-evidence-submission/document-upload/${documentId}`;
-		const response = await this.#makeDeleteRequest(endpoint);
+	async deleteAppellantProofOfEvidenceDocumentUpload(caseReference, documentIds) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-proof-evidence-submission/document-upload/`;
+		const response = await this.#makeDeleteRequest(endpoint, documentIds);
 		return response.json();
 	}
 
@@ -686,7 +686,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {object} data
+	 * @param {Array<Object>} data
 	 * @returns {Promise<(Rule6ProofOfEvidenceSubmission)>}
 	 */
 	async postRule6ProofOfEvidenceDocumentUpload(caseReference, data) {
@@ -697,12 +697,12 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} documentId
+	 * @param {string[]} documentIds
 	 * @returns {Promise<(Rule6ProofOfEvidenceSubmission)>}
 	 */
-	async deleteRule6ProofOfEvidenceDocumentUpload(caseReference, documentId) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-proof-evidence-submission/document-upload/${documentId}`;
-		const response = await this.#makeDeleteRequest(endpoint);
+	async deleteRule6ProofOfEvidenceDocumentUpload(caseReference, documentIds) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-proof-evidence-submission/document-upload`;
+		const response = await this.#makeDeleteRequest(endpoint, documentIds);
 		return response.json();
 	}
 
@@ -748,7 +748,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {object} data
+	 * @param {Array<Object>} data
 	 * @returns {Promise<(Rule6StatementSubmission)>}
 	 */
 	async postRule6StatementDocumentUpload(caseReference, data) {
@@ -759,12 +759,12 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} documentId
+	 * @param {string[]} documentIds
 	 * @returns {Promise<(Rule6StatementSubmission)>}
 	 */
-	async deleteRule6StatementDocumentUpload(caseReference, documentId) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-statement-submission/document-upload/${documentId}`;
-		const response = await this.#makeDeleteRequest(endpoint);
+	async deleteRule6StatementDocumentUpload(caseReference, documentIds) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-statement-submission/document-upload`;
+		const response = await this.#makeDeleteRequest(endpoint, documentIds);
 		return response.json();
 	}
 
@@ -810,7 +810,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {object} data
+	 * @param {Array<Object>} data
 	 * @returns {Promise<(LPAFinalCommentSubmission)>}
 	 */
 	async postLPAFinalCommentDocumentUpload(caseReference, data) {
@@ -821,12 +821,12 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} documentId
+	 * @param {string[]} documentIds
 	 * @returns {Promise<(LPAFinalCommentSubmission)>}
 	 */
-	async deleteLPAFinalCommentDocumentUpload(caseReference, documentId) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-final-comment-submission/document-upload/${documentId}`;
-		const response = await this.#makeDeleteRequest(endpoint);
+	async deleteLPAFinalCommentDocumentUpload(caseReference, documentIds) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-final-comment-submission/document-upload`;
+		const response = await this.#makeDeleteRequest(endpoint, documentIds);
 		return response.json();
 	}
 
@@ -872,7 +872,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {object} data
+	 * @param {Array<Object>} data
 	 * @returns {Promise<(LPAProofOfEvidenceSubmission)>}
 	 */
 	async postLpaProofOfEvidenceDocumentUpload(caseReference, data) {
@@ -883,12 +883,12 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} documentId
+	 * @param {string[]} documentIds
 	 * @returns {Promise<(LPAProofOfEvidenceSubmission)>}
 	 */
-	async deleteLpaProofOfEvidenceDocumentUpload(caseReference, documentId) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission/document-upload/${documentId}`;
-		const response = await this.#makeDeleteRequest(endpoint);
+	async deleteLpaProofOfEvidenceDocumentUpload(caseReference, documentIds) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission/document-upload`;
+		const response = await this.#makeDeleteRequest(endpoint, documentIds);
 		return response.json();
 	}
 
@@ -903,7 +903,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} id
-	 * @param {object} data
+	 * @param {Array<Object>} data
 	 * @returns {Promise<(AppellantSubmission)>}
 	 */
 	async postAppellantSubmissionDocumentUpload(id, data) {
@@ -914,23 +914,23 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} documentId
+	 * @param {string[]} documentIds
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
-	async deleteLPASubmissionDocumentUpload(caseReference, documentId) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/document-upload/${documentId}`;
-		const response = await this.#makeDeleteRequest(endpoint);
+	async deleteLPASubmissionDocumentUpload(caseReference, documentIds) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/document-upload/`;
+		const response = await this.#makeDeleteRequest(endpoint, documentIds);
 		return response.json();
 	}
 
 	/**
 	 * @param {string} id
-	 * @param {string} documentId
+	 * @param {string[]} documentIds
 	 * @returns {Promise<(AppellantSubmission)>}
 	 */
-	async deleteAppellantSubmissionDocumentUpload(id, documentId) {
-		const endpoint = `${v2}/appellant-submissions/${id}/document-upload/${documentId}`;
-		const response = await this.#makeDeleteRequest(endpoint);
+	async deleteAppellantSubmissionDocumentUpload(id, documentIds) {
+		const endpoint = `${v2}/appellant-submissions/${id}/document-upload`;
+		const response = await this.#makeDeleteRequest(endpoint, documentIds);
 		return response.json();
 	}
 
@@ -1319,11 +1319,14 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} endpoint
+	 * @param {Object|Array<Object>} [data]
 	 * @returns {Promise<import('node-fetch').Response>}
 	 * @throws {AppealsApiError|Error}
 	 */
-	#makeDeleteRequest(endpoint) {
-		return this.handler(endpoint, 'DELETE');
+	#makeDeleteRequest(endpoint, data) {
+		return this.handler(endpoint, 'DELETE', {
+			body: data ? JSON.stringify(data) : undefined
+		});
 	}
 }
 

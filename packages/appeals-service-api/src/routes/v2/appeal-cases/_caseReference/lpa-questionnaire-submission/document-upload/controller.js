@@ -29,8 +29,13 @@ async function createSubmissionDocumentUpload(req, res) {
  */
 async function deleteSubmissionDocumentUpload(req, res) {
 	try {
-		const { caseReference, documentId } = req.params;
-		const content = await deleteSubmissionDocument(caseReference, documentId);
+		const { caseReference } = req.params;
+		const documentIds = req.body;
+
+		if (!documentIds || !Array.isArray(documentIds)) {
+			throw ApiError.unableToDeleteDocumentUpload();
+		}
+		const content = await deleteSubmissionDocument(caseReference, documentIds);
 		if (!content) {
 			throw ApiError.unableToDeleteDocumentUpload();
 		}
