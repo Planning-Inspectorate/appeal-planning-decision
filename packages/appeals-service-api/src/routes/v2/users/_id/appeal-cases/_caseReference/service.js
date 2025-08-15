@@ -14,6 +14,7 @@ exports.get = async ({ caseReference, userId, role }) => {
 		if (data) {
 			data = await caseService.appendAppellantAndAgent(data);
 			data = await caseService.appendAppealRelations(data);
+			data = await caseService.appendLinkedCases(data);
 
 			return caseService.parseJSONFields(data);
 		}
@@ -23,6 +24,7 @@ exports.get = async ({ caseReference, userId, role }) => {
 		if (data) {
 			data = await caseService.appendAppellantAndAgent(data);
 			data = await caseService.appendAppealRelations(data);
+			data = await caseService.appendLinkedCases(data);
 
 			return caseService.parseJSONFields(data);
 		}

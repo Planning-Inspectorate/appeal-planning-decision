@@ -70,6 +70,7 @@ async function getCaseAndAppellant(opts) {
 
 	appeal = await appendAppellantAndAgent(appeal);
 	appeal = await appendAppealRelations(appeal);
+	appeal = await appendLinkedCases(appeal);
 
 	return parseJSONFields(appeal);
 }
