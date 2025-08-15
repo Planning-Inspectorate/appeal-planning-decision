@@ -37,7 +37,8 @@ let config = {
 		sql: {
 			// don't use the admin connection string for general use
 			connectionString: process.env.SQL_CONNECTION_STRING
-		}
+		},
+		queryBatchSize: 200
 	},
 	documents: {
 		timeout: parseInt(process.env.DOCUMENTS_SERVICE_API_TIMEOUT, 10) || 10000,
