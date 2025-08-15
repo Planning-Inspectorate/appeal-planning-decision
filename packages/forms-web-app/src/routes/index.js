@@ -20,7 +20,7 @@ const lpaDashboard = require('./lpa-dashboard');
 const rule6Appeals = require('./rule-6');
 const listedBuilding = require('./listed-building');
 const casPlanning = require('./cas-planning');
-const casAdverts = require('./cas-adverts');
+const adverts = require('./adverts');
 const debug = require('./debug');
 const {
 	getDocument,
@@ -78,7 +78,7 @@ router.use('/listed-building', listedBuilding);
 router.use('/cas-planning', casPlanning);
 
 /// cas adverts ///
-router.use('/cas-adverts', casAdverts);
+router.use('/adverts', adverts);
 
 /// appeal ///
 router.use('/appeal', appeal);

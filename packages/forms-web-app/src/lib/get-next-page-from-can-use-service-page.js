@@ -76,7 +76,7 @@ const getNextPage = async (/** @type {string} */ lpaCode) => {
 			isV2forS20 ? 'email-address' : 'planning-application-number'
 		}`,
 		casAppeal: `/cas-planning/${isV2forCAS ? 'email-address' : 'planning-application-number'}`,
-		casAdvert: `/cas-adverts/${isV2forCASAdverts ? 'email-address' : 'planning-application-number'}`
+		casAdvert: `/adverts/${isV2forCASAdverts ? 'email-address' : 'planning-application-number'}`
 	};
 };
 

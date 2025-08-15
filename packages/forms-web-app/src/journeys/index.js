@@ -16,8 +16,8 @@ const s20AppealParams = require('../dynamic-forms/s20-appeal-form/journey');
 const s20QuestionnaireParams = require('../dynamic-forms/s20-lpa-questionnaire/journey');
 const casPlanningAppealForm = require('../dynamic-forms/cas-planning-appeal-form/journey');
 const casPlanningQuestionnaireParams = require('../dynamic-forms/cas-planning-questionnaire/journey');
-const casAdvertsAppealForm = require('../dynamic-forms/cas-adverts-appeal-form/journey');
-const casAdvertsQuestionnaireParams = require('../dynamic-forms/cas-adverts-questionnaire/journey');
+const casAdvertsAppealForm = require('../dynamic-forms/adverts-appeal-form/journey');
+const casAdvertsQuestionnaireParams = require('../dynamic-forms/adverts-questionnaire/journey');
 
 const { Journeys } = require('../dynamic-forms/journeys');
 

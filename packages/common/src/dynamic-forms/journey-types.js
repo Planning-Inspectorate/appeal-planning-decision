@@ -86,6 +86,18 @@ exports.JOURNEY_TYPES = Object.freeze({
 		id: 'cas-adverts-questionnaire',
 		type: exports.JOURNEY_TYPE.questionnaire,
 		userType: LPA_USER_ROLE,
+		caseType: CASE_TYPES.CAS_ADVERTS.processCode
+	},
+	ADVERTS_APPEAL_FORM: {
+		id: 'adverts-appeal-form',
+		type: exports.JOURNEY_TYPE.appealForm,
+		userType: APPEAL_USER_ROLES.APPELLANT,
+		caseType: CASE_TYPES.ADVERTS.processCode
+	},
+	ADVERTS_QUESTIONNAIRE: {
+		id: 'adverts-questionnaire',
+		type: exports.JOURNEY_TYPE.questionnaire,
+		userType: LPA_USER_ROLE,
 		caseType: CASE_TYPES.ADVERTS.processCode
 	},
 	// todo: remove s78 from name if possible so more obvious can be shared between appeal types
