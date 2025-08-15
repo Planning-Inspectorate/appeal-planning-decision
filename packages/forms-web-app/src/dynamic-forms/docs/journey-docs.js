@@ -15,7 +15,7 @@ const appealJourneys = async () => {
 	const { sections: hasSections } = require('../has-appeal-form/journey');
 	const { sections: s78Sections } = require('../s78-appeal-form/journey');
 	const { sections: s20Sections } = require('../s20-appeal-form/journey');
-	const { sections: casAdvertsSections } = require('../cas-adverts-appeal-form/journey');
+	const { sections: casAdvertsSections } = require('../adverts-appeal-form/journey');
 	const { sections: casPlanningSections } = require('../cas-planning-appeal-form/journey');
 
 	await getJourneyDetails('has-appeal-form', hasSections);
@@ -29,7 +29,7 @@ const lpaqJourneys = async () => {
 	const { sections: hasSections } = require('../has-questionnaire/journey');
 	const { sections: s78Sections } = require('../s78-questionnaire/journey');
 	const { sections: s20Sections } = require('../s20-lpa-questionnaire/journey');
-	const { sections: casAdvertsSections } = require('../cas-adverts-questionnaire/journey');
+	const { sections: casAdvertsSections } = require('../adverts-questionnaire/journey');
 	const { sections: casPlanningSections } = require('../cas-planning-questionnaire/journey');
 
 	await getJourneyDetails('has-lpaq', hasSections);
