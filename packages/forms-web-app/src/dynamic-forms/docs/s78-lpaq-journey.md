@@ -7,14 +7,14 @@
 - list-add-more `/changed-listed-buildings/` Add another building or site?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.changesListedBuilding, 'yes');
+condition: () => questionHasAnswer(response, questions.changesListedBuilding, 'yes');
 ```
 
 - boolean `/affect-listed-building/` Does the proposed development affect the setting of listed buildings?
 - list-add-more `/affected-listed-buildings/` Add another building or site?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.listedBuildingCheck, 'yes');
+condition: () => questionHasAnswer(response, questions.listedBuildingCheck, 'yes');
 ```
 
 - boolean `/scheduled-monument/` Would the development affect a scheduled monument?
@@ -22,7 +22,7 @@ condition: (response) => questionHasAnswer(response, questions.listedBuildingChe
 - multi-file-upload `/upload-conservation-area-map-guidance/` Upload conservation map and guidance
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.conservationArea, 'yes');
+condition: () => questionHasAnswer(response, questions.conservationArea, 'yes');
 ```
 
 - boolean `/protected-species/` Would the development affect a protected species?
@@ -33,7 +33,7 @@ condition: (response) => questionHasAnswer(response, questions.conservationArea,
 - multi-file-upload `/upload-plan-showing-order/` Upload a plan showing the extent of the order
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.treePreservationOrder, 'yes');
+condition: () => questionHasAnswer(response, questions.treePreservationOrder, 'yes');
 ```
 
 - boolean `/gypsy-traveller/` Does the development relate to anyone claiming to be a Gypsy or Traveller?
@@ -41,7 +41,7 @@ condition: (response) => questionHasAnswer(response, questions.treePreservationO
 - multi-file-upload `/upload-definitive-map-statement/` Upload the definitive map and statement extract
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.rightOfWayCheck, 'yes');
+condition: () => questionHasAnswer(response, questions.rightOfWayCheck, 'yes');
 ```
 
 ## Environmental impact assessment
@@ -50,28 +50,25 @@ condition: (response) => questionHasAnswer(response, questions.rightOfWayCheck, 
 - radio `/development-description/` Description of development
 
 ```js
-condition: (response) =>
-	questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2');
+condition: () => questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2');
 ```
 
 - radio `/sensitive-area/` Is the development in, partly in, or likely to affect a sensitive area?
 
 ```js
-condition: (response) =>
-	questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2');
+condition: () => questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2');
 ```
 
 - boolean `/column-2-threshold/` Does the development meet or exceed the threshold or criteria in column 2?
 
 ```js
-condition: (response) =>
-	questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2');
+condition: () => questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2');
 ```
 
 - boolean `/screening-opinion/` Have you issued a screening opinion?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionsHaveAnswers(
 		response,
 		[
@@ -85,7 +82,7 @@ condition: (response) =>
 - multi-file-upload `/upload-screening-opinion/` Upload your screening opinion and any correspondence
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionHasAnswer(response, questions.screeningOpinion, 'yes') &&
 	questionsHaveAnswers(
 		response,
@@ -100,7 +97,7 @@ condition: (response) =>
 - boolean `/screening-opinion-environmental-statement/` Did your screening opinion say the development needed an environmental statement?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionHasAnswer(response, questions.screeningOpinion, 'yes') &&
 	questionsHaveAnswers(
 		response,
@@ -115,7 +112,7 @@ condition: (response) =>
 - boolean `/scoping-opinion/` Did you receive a scoping opinion?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionsHaveAnswers(
 		response,
 		[
@@ -129,7 +126,7 @@ condition: (response) =>
 - multi-file-upload `/upload-scoping-opinion/` Upload your scoping opinion
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionsHaveAnswers(
 		response,
 		[
@@ -145,13 +142,13 @@ condition: (response) =>
 - multi-file-upload `/upload-environmental-statement/` Upload the environmental statement and supporting information
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.submitEnvironmentalStatement, 'yes');
+condition: () => questionHasAnswer(response, questions.submitEnvironmentalStatement, 'yes');
 ```
 
 - multi-file-upload `/upload-screening-direction/` Upload the screening direction
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionsHaveAnswers(
 		response,
 		[
@@ -170,20 +167,19 @@ condition: (response) =>
 - multi-file-upload `/upload-site-notice/` Upload the site notice
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice');
+condition: () => questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice');
 ```
 
 - multi-file-upload `/letters-interested-parties/` Upload letters or emails sent to interested parties with their addresses
 
 ```js
-condition: (response) =>
-	questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails');
+condition: () => questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails');
 ```
 
 - multi-file-upload `/upload-press-advert/` Upload the press advertisement
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert');
+condition: () => questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert');
 ```
 
 - multi-file-upload `/appeal-notification-letter/` Upload the appeal notification letter and the list of people that you notified
@@ -195,14 +191,14 @@ condition: (response) => questionHasAnswer(response, questions.howYouNotifiedPeo
 - multi-file-upload `/upload-consultation-responses/` Upload the consultation responses and standing advice
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.consultationResponses, 'yes');
+condition: () => questionHasAnswer(response, questions.consultationResponses, 'yes');
 ```
 
 - boolean `/representations/` Did you receive representations from members of the public or other parties?
 - multi-file-upload `/upload-representations/` Upload the representations
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.representationsFromOthers, 'yes');
+condition: () => questionHasAnswer(response, questions.representationsFromOthers, 'yes');
 ```
 
 ## Planning officer’s report and supporting documents
@@ -212,47 +208,47 @@ condition: (response) => questionHasAnswer(response, questions.representationsFr
 - multi-file-upload `/upload-development-plan-policies/` Upload relevant policies from your statutory development plan
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes');
+condition: () => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes');
 ```
 
 - boolean `/emerging-plan/` Do you have an emerging plan that is relevant to this appeal?
 - multi-file-upload `/upload-emerging-plan/` Upload the emerging plan and supporting information
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.emergingPlan, 'yes');
+condition: () => questionHasAnswer(response, questions.emergingPlan, 'yes');
 ```
 
 - boolean `/other-relevant-policies/` Do you have any other relevant policies to upload?
 - multi-file-upload `/upload-other-relevant-policies/` Upload any other relevant policies
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.otherRelevantPolicies, 'yes');
+condition: () => questionHasAnswer(response, questions.otherRelevantPolicies, 'yes');
 ```
 
 - boolean `/supplementary-planning-documents/` Did any supplementary planning documents inform the outcome of the planning application?
 - multi-file-upload `/upload-policies-supplementary-planning-documents/` Upload relevant policy extracts and supplementary planning documents
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.supplementaryPlanning, 'yes');
+condition: () => questionHasAnswer(response, questions.supplementaryPlanning, 'yes');
 ```
 
 - boolean `/community-infrastructure-levy/` Do you have a community infrastructure levy?
 - multi-file-upload `/upload-community-infrastructure-levy/` Upload your community infrastructure levy
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes');
+condition: () => questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes');
 ```
 
 - boolean `/community-infrastructure-levy-adopted/` Is the community infrastructure levy formally adopted?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes');
+condition: () => questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes');
 ```
 
 - date `/infrastructureLevyAdoptedDate/` When was the community infrastructure levy formally adopted?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionsHaveAnswers(response, [
 		[questions.communityInfrastructureLevy, 'yes'],
 		[questions.communityInfrastructureLevyAdopted, 'yes']
@@ -262,7 +258,7 @@ condition: (response) =>
 - date `/infrastructureLevyExpectedDate/` When do you expect to formally adopt the community infrastructure levy?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionsHaveAnswers(response, [
 		[questions.communityInfrastructureLevy, 'yes'],
 		[questions.communityInfrastructureLevyAdopted, 'no']
@@ -276,7 +272,7 @@ condition: (response) =>
 - list-add-more `/neighbour-address/` Do you want to add another neighbour to be visited?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.neighbouringSite, 'yes');
+condition: () => questionHasAnswer(response, questions.neighbouringSite, 'yes');
 ```
 
 - radio `/potential-safety-risks/` Add potential safety risks
@@ -287,14 +283,14 @@ condition: (response) => questionHasAnswer(response, questions.neighbouringSite,
 - text-entry `/lpaPreferInquiryDetails/` Why would you prefer an inquiry?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionHasAnswer(response, questions.procedureType, APPEAL_CASE_PROCEDURE.INQUIRY);
 ```
 
 - text-entry `/lpaPreferHearingDetails/` Why would you prefer a hearing?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionHasAnswer(response, questions.procedureType, APPEAL_CASE_PROCEDURE.HEARING);
 ```
 
@@ -302,7 +298,7 @@ condition: (response) =>
 - list-add-more `/appeal-reference-number/` Add another appeal?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.appealsNearSite, 'yes');
+condition: () => questionHasAnswer(response, questions.appealsNearSite, 'yes');
 ```
 
 - radio `/add-new-planning-conditions/` Add new planning conditions to this appeal

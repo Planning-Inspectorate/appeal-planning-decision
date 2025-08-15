@@ -13,6 +13,7 @@ jest.mock('../config', () => ({
 	appeal: {
 		type: {
 			1001: {},
+			1003: {},
 			1005: {},
 			1006: {},
 			1007: {},
@@ -118,8 +119,8 @@ describe('schemas/validate', () => {
 			expect(result).toEqual(appeal);
 		});
 
-		it('should return correct data for a cas adverts insert (uses full appeal validator for BYS journey)', () => {
-			appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT;
+		it('should return correct data for an adverts insert (uses full appeal validator for BYS journey)', () => {
+			appeal.appealType = APPEAL_ID.ADVERTISEMENT;
 
 			mockAppeal.insert.validate.mockReturnValue(appeal);
 
@@ -180,8 +181,8 @@ describe('schemas/validate', () => {
 			expect(result).toEqual(appeal);
 		});
 
-		it('should return correct data for a cas planning adverts (uses full appeal validator for BYS journey)', () => {
-			appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT;
+		it('should return correct data for an adverts (uses full appeal validator for BYS journey)', () => {
+			appeal.appealType = APPEAL_ID.ADVERTISEMENT;
 
 			mockAppeal.update.validate.mockReturnValue(appeal);
 

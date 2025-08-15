@@ -6,7 +6,7 @@
 - multi-field-input `/applicant-name/` What is the applicant's name?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.applicationName, 'no');
+condition: () => questionHasAnswer(response, questions.applicationName, 'no');
 ```
 
 - multi-field-input `/contact-details/` Contact details
@@ -18,13 +18,13 @@ condition: (response) => questionHasAnswer(response, questions.applicationName, 
 - boolean `/own-some-land/` Do you own some of the land involved in the appeal?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.ownsAllLand, 'no');
+condition: () => questionHasAnswer(response, questions.ownsAllLand, 'no');
 ```
 
 - radio `/owns-rest-of-land/` Do you know who owns the rest of the land involved in the appeal?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionsHaveAnswers(
 		response,
 		[
@@ -38,7 +38,7 @@ condition: (response) =>
 - radio `/owns-land-involved/` Do you know who owns the land involved in the appeal?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionsHaveAnswers(
 		response,
 		[
@@ -52,7 +52,7 @@ condition: (response) =>
 - boolean `/identifying-landowners/` Identifying the landowners
 
 ```js
-condition: (response) =>
+condition: () =>
 	shouldDisplayIdentifyingLandowners(response, questions) &&
 	questionHasAnswer(response, questions.ownsAllLand, 'no');
 ```
@@ -60,7 +60,7 @@ condition: (response) =>
 - boolean `/advertising-appeal/` Advertising your appeal
 
 ```js
-condition: (response) =>
+condition: () =>
 	shouldDisplayIdentifyingLandowners(response, questions) &&
 	questionHasAnswer(response, questions.identifyingLandowners, 'yes');
 ```
@@ -68,7 +68,7 @@ condition: (response) =>
 - boolean `/telling-landowners/` Telling the landowners
 
 ```js
-condition: (response) =>
+condition: () =>
 	shouldDisplayTellingLandowners(response, questions) &&
 	questionHasAnswer(response, questions.ownsAllLand, 'no');
 ```
@@ -77,13 +77,13 @@ condition: (response) =>
 - boolean `/tenant-agricultural-holding/` Are you a tenant of the agricultural holding?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.agriculturalHolding, 'yes');
+condition: () => questionHasAnswer(response, questions.agriculturalHolding, 'yes');
 ```
 
 - boolean `/other-tenants/` Are there any other tenants?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionsHaveAnswers(
 		response,
 		[
@@ -97,7 +97,7 @@ condition: (response) =>
 - boolean `/telling-tenants/` Telling the tenants
 
 ```js
-condition: (response) => shouldDisplayTellingTenants(response, questions);
+condition: () => shouldDisplayTellingTenants(response, questions);
 ```
 
 - radio `/inspector-need-access/` Will an inspector need to access your land or property?
@@ -112,7 +112,7 @@ condition: (response) => shouldDisplayTellingTenants(response, questions);
 - text-entry `/why-prefer-hearing/` Why would you prefer a hearing?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionHasAnswer(
 		response,
 		questions.appellantProcedurePreference,
@@ -123,7 +123,7 @@ condition: (response) =>
 - text-entry `/why-prefer-inquiry/` Why would you prefer an inquiry?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionHasAnswer(
 		response,
 		questions.appellantProcedurePreference,
@@ -134,7 +134,7 @@ condition: (response) =>
 - number-entry `/how-many-days-inquiry/` How many days would you expect the inquiry to last?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionHasAnswer(
 		response,
 		questions.appellantProcedurePreference,
@@ -145,7 +145,7 @@ condition: (response) =>
 - number-entry `/how-many-witnesses/` How many witnesses would you expect to give evidence at the inquiry?
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionHasAnswer(
 		response,
 		questions.appellantProcedurePreference,
@@ -159,7 +159,7 @@ condition: (response) =>
 - list-add-more `/enter-appeal-reference/` Add another appeal?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.anyOtherAppeals, 'yes');
+condition: () => questionHasAnswer(response, questions.anyOtherAppeals, 'yes');
 ```
 
 ## Upload documents
@@ -168,7 +168,7 @@ condition: (response) => questionHasAnswer(response, questions.anyOtherAppeals, 
 - multi-file-upload `/upload-description-evidence/` Upload evidence of your agreement to change the description of development
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes');
+condition: () => questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes');
 ```
 
 - multi-file-upload `/upload-decision-letter/` Upload the decision letter from the local planning authority
@@ -183,13 +183,13 @@ condition: (response) => {
 - radio `/status-planning-obligation/` What is the status of your planning obligation?
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.submitPlanningObligation, 'yes');
+condition: () => questionHasAnswer(response, questions.submitPlanningObligation, 'yes');
 ```
 
 - multi-file-upload `/upload-planning-obligation/` Upload your planning obligation
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionsHaveAnswers(
 		response,
 		[
@@ -204,14 +204,14 @@ condition: (response) =>
 - multi-file-upload `/upload-certificate-declaration/` Upload your separate ownership certificate and agricultural land declaration
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.separateOwnershipCert, 'yes');
+condition: () => questionHasAnswer(response, questions.separateOwnershipCert, 'yes');
 ```
 
 - multi-file-upload `/upload-appeal-statement/` Upload your appeal statement
 - multi-file-upload `/upload-draft-statement-common-ground/` Upload your draft statement of common ground
 
 ```js
-condition: (response) =>
+condition: () =>
 	questionsHaveAnswers(
 		response,
 		[
@@ -226,14 +226,14 @@ condition: (response) =>
 - multi-file-upload `/upload-appeal-costs-application/` Upload your application for an award of appeal costs
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.costApplication, 'yes');
+condition: () => questionHasAnswer(response, questions.costApplication, 'yes');
 ```
 
 - boolean `/submit-design-access-statement/` Did you submit a design and access statement with your application?
 - multi-file-upload `/upload-design-access-statement/` Upload your design and access statement
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.designAccessStatement, 'yes');
+condition: () => questionHasAnswer(response, questions.designAccessStatement, 'yes');
 ```
 
 - multi-file-upload `/upload-plans-drawings-documents/` Upload your plans, drawings and supporting documents you submitted with your application
@@ -241,12 +241,12 @@ condition: (response) => questionHasAnswer(response, questions.designAccessState
 - multi-file-upload `/upload-new-plans-drawings/` Upload your new plans or drawings
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.newPlansDrawings, 'yes');
+condition: () => questionHasAnswer(response, questions.newPlansDrawings, 'yes');
 ```
 
 - boolean `/other-new-documents/` Do you have any other new documents that support your appeal?
 - multi-file-upload `/upload-other-new-supporting-documents/` Upload your other new supporting documents
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.otherNewDocuments, 'yes');
+condition: () => questionHasAnswer(response, questions.otherNewDocuments, 'yes');
 ```

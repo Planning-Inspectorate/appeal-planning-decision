@@ -12,31 +12,124 @@ Section.prototype.withCondition = function (condition) {
 
 // todo: duplication
 const appealJourneys = async () => {
-	const { sections: hasSections } = require('../has-appeal-form/journey');
-	const { sections: s78Sections } = require('../s78-appeal-form/journey');
-	const { sections: s20Sections } = require('../s20-appeal-form/journey');
-	const { sections: casAdvertsSections } = require('../cas-adverts-appeal-form/journey');
-	const { sections: casPlanningSections } = require('../cas-planning-appeal-form/journey');
+	const { makeSections: hasSections } = require('../has-appeal-form/journey');
+	const { makeSections: s78Sections } = require('../s78-appeal-form/journey');
+	const { makeSections: s20Sections } = require('../s20-appeal-form/journey');
+	const { makeSections: advertsSections } = require('../adverts-appeal-form/journey');
+	const { makeSections: casPlanningSections } = require('../cas-planning-appeal-form/journey');
 
-	await getJourneyDetails('has-appeal-form', hasSections);
-	await getJourneyDetails('s78-appeal-form', s78Sections);
-	await getJourneyDetails('s20-appeal-form', s20Sections);
-	await getJourneyDetails('cas-adverts-appeal-form', casAdvertsSections);
-	await getJourneyDetails('cas-planning-appeal-form', casPlanningSections);
+	await getJourneyDetails(
+		'has-appeal-form',
+		hasSections({
+			journeyId: 'has-appeal-form',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
+	await getJourneyDetails(
+		's78-appeal-form',
+		s78Sections({
+			journeyId: 's78-appeal-form',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
+	await getJourneyDetails(
+		's20-appeal-form',
+		s20Sections({
+			journeyId: 's20-appeal-form',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
+
+	await getJourneyDetails(
+		'adverts-appeal-form',
+		advertsSections({
+			journeyId: 'adverts-appeal-form',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
+	await getJourneyDetails(
+		'cas-planning-appeal-form',
+		casPlanningSections({
+			journeyId: 'cas-planning-appeal-form',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
 };
 
 const lpaqJourneys = async () => {
-	const { sections: hasSections } = require('../has-questionnaire/journey');
-	const { sections: s78Sections } = require('../s78-questionnaire/journey');
-	const { sections: s20Sections } = require('../s20-lpa-questionnaire/journey');
-	const { sections: casAdvertsSections } = require('../cas-adverts-questionnaire/journey');
-	const { sections: casPlanningSections } = require('../cas-planning-questionnaire/journey');
+	const { makeSections: hasSections } = require('../has-questionnaire/journey');
+	const { makeSections: s78Sections } = require('../s78-questionnaire/journey');
+	const { makeSections: s20Sections } = require('../s20-lpa-questionnaire/journey');
+	const {
+		casAdverts: { makeSections: casAdvertsSections },
+		adverts: { makeSections: advertsSections }
+	} = require('../adverts-questionnaire/journey');
+	const { makeSections: casPlanningSections } = require('../cas-planning-questionnaire/journey');
 
-	await getJourneyDetails('has-lpaq', hasSections);
-	await getJourneyDetails('s78-lpaq', s78Sections);
-	await getJourneyDetails('s20-lpaq', s20Sections);
-	await getJourneyDetails('cas-adverts-lpaq', casAdvertsSections);
-	await getJourneyDetails('cas-planning-lpaq', casPlanningSections);
+	await getJourneyDetails(
+		'has-lpaq',
+		hasSections({
+			journeyId: 'has-questionnaire',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
+	await getJourneyDetails(
+		's78-lpaq',
+		s78Sections({
+			journeyId: 's78-questionnaire',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
+	await getJourneyDetails(
+		's20-lpaq',
+		s20Sections({
+			journeyId: 's20-questionnaire',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
+	await getJourneyDetails(
+		'adverts-lpaq',
+		advertsSections({
+			journeyId: 'adverts-questionnaire',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
+	await getJourneyDetails(
+		'cas-adverts-lpaq',
+		casAdvertsSections({
+			journeyId: 'cas-adverts-questionnaire',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
+	await getJourneyDetails(
+		'cas-planning-lpaq',
+		casPlanningSections({
+			journeyId: 'cas-planning-questionnaire',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
 };
 
 /**

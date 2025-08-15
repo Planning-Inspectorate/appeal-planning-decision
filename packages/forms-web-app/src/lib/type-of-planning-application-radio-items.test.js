@@ -4,7 +4,7 @@ const {
 		LISTED_BUILDING,
 		OUTLINE_PLANNING,
 		MINOR_COMMERCIAL_DEVELOPMENT,
-		MINOR_COMMERCIAL_ADVERTISEMENT
+		ADVERTISEMENT
 	}
 } = require('@pins/business-rules/src/constants');
 const {
@@ -35,10 +35,10 @@ describe('typeOfPlanningApplicationRadioItems', () => {
 		expect(itemsList.length).toEqual(10);
 		expect(itemsList[2].value).toEqual(MINOR_COMMERCIAL_DEVELOPMENT);
 	});
-	it('returns minor commercial advertisement if feature flag true', () => {
+	it('returns advertisement if feature flag true', () => {
 		const itemsList = typeOfPlanningApplicationRadioItems(false, false, true);
 		expect(itemsList.length).toEqual(10);
-		expect(itemsList[2].value).toEqual(MINOR_COMMERCIAL_ADVERTISEMENT);
+		expect(itemsList[2].value).toEqual(ADVERTISEMENT);
 	});
 
 	it('sets checked for type of planning application', () => {

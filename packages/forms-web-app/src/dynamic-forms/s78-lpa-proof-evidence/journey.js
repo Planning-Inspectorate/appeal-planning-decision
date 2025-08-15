@@ -19,12 +19,12 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const sections = [
+const makeSections = (response) => [
 	new Section('', config.dynamicForms.DEFAULT_SECTION)
 		.addQuestion(questions.uploadLpaProofOfEvidenceDocuments)
 		.addQuestion(questions.lpaAddWitnesses)
 		.addQuestion(questions.uploadLpaWitnessesEvidence)
-		.withCondition((response) => questionHasAnswer(response, questions.lpaAddWitnesses, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.lpaAddWitnesses, 'yes'))
 ];
 
 const baseLpaProofEvidenceUrl = '/manage-appeals/proof-evidence';
@@ -43,7 +43,7 @@ const params = {
 	journeyTemplate: 'lpa-proof-evidence-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/proof-evidence',
 	journeyTitle: 'Manage your appeals',
-	sections,
+	makeSections,
 	makeBaseUrl
 };
 

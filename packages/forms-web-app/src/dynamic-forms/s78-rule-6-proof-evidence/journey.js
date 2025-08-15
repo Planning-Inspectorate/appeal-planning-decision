@@ -19,12 +19,12 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const sections = [
+const makeSections = (response) => [
 	new Section('', config.dynamicForms.DEFAULT_SECTION)
 		.addQuestion(questions.uploadRule6ProofOfEvidenceDocuments)
 		.addQuestion(questions.rule6AddWitnesses)
 		.addQuestion(questions.uploadRule6WitnessesEvidence)
-		.withCondition((response) => questionHasAnswer(response, questions.rule6AddWitnesses, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.rule6AddWitnesses, 'yes'))
 ];
 
 const baseRule6ProofEvidenceUrl = '/rule-6/proof-evidence';
@@ -43,7 +43,7 @@ const params = {
 	journeyTemplate: 'proof-evidence-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/proof-evidence',
 	journeyTitle: 'Appeal a planning decision',
-	sections,
+	makeSections,
 	makeBaseUrl,
 	bannerHtmlOverride:
 		config.betaBannerText +

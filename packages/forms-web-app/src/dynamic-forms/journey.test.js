@@ -5,7 +5,7 @@ const getUrlSlug = function () {
 	return this.url ?? this.fieldName;
 };
 
-const mockSections = [
+const mockMakeSections = () => [
 	{
 		segment: 'section1',
 		questions: [
@@ -66,7 +66,8 @@ describe('Journey class', () => {
 			},
 			journeyTemplate: 'mock template',
 			listingPageViewPath: 'mock path',
-			journeyTitle: 'mock title'
+			journeyTitle: 'mock title',
+			makeSections: mockMakeSections
 		};
 	});
 
@@ -190,16 +191,15 @@ describe('Journey class', () => {
 	describe('getSection', () => {
 		it('should return the correct section by section segment', () => {
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
-			const question = journey.getSection(mockSections[0].segment);
+			const question = journey.getSection(mockMakeSections()[0].segment);
+			const expectedQuestion = mockMakeSections()[0];
 
-			expect(question).toEqual(mockSections[0]);
+			expect(question?.segment).toContain(expectedQuestion.segment);
 		});
 
 		it('should return undefined if section is not found', () => {
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const section = journey.getSection('a', 'b');
 
@@ -210,19 +210,18 @@ describe('Journey class', () => {
 	describe('getQuestionBySectionAndName', () => {
 		it('should return the correct question by section and name', () => {
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const question = journey.getQuestionBySectionAndName(
-				mockSections[0].segment,
-				mockSections[0].questions[1].fieldName
+				mockMakeSections()[0].segment,
+				mockMakeSections()[0].questions[1].fieldName
 			);
+			const expectedQuestion = mockMakeSections()[0].questions[1];
 
-			expect(question).toEqual(mockSections[0].questions[1]);
+			expect(question?.fieldName).toEqual(expectedQuestion.fieldName);
 		});
 
 		it('should return undefined if section is not found', () => {
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const question = journey.getQuestionBySectionAndName('a', 'b');
 
@@ -231,9 +230,8 @@ describe('Journey class', () => {
 
 		it('should return undefined if question is not found', () => {
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
-			const question = journey.getQuestionBySectionAndName(mockSections[0].segment, 'nope');
+			const question = journey.getQuestionBySectionAndName(mockMakeSections()[0].segment, 'nope');
 
 			expect(question).toBe(undefined);
 		});
@@ -244,10 +242,10 @@ describe('Journey class', () => {
 			'should return the baseUrl if section is not found [%s]',
 			(returnToListing) => {
 				const section = 'section3'; // Non-existent section
-				const name = mockSections[0].questions[0].fieldName;
+				const name = mockMakeSections()[0].questions[0].fieldName;
 
 				const journey = new Journey(constructorArgs);
-				journey.sections = mockSections;
+
 				journey.returnToListing = returnToListing;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
@@ -259,11 +257,11 @@ describe('Journey class', () => {
 		it.each([[true], [false]])(
 			'should return the baseUrl if question is not found [%s]',
 			(returnToListing) => {
-				const section = mockSections[0].segment;
+				const section = mockMakeSections()[0].segment;
 				const name = 'nope'; // Non-existent question
 
 				const journey = new Journey(constructorArgs);
-				journey.sections = mockSections;
+
 				journey.returnToListing = returnToListing;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
@@ -275,12 +273,12 @@ describe('Journey class', () => {
 		it.each([[true], [false]])(
 			'should use the question url prop if provided [%s]',
 			(returnToListing) => {
-				const section = mockSections[2];
+				const section = mockMakeSections()[2];
 				const name = section.questions[1].fieldName;
 				const nextQuestionName = section.questions[2].url;
 
 				const journey = new Journey(constructorArgs);
-				journey.sections = mockSections;
+
 				journey.returnToListing = returnToListing;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
@@ -301,12 +299,12 @@ describe('Journey class', () => {
 		])(
 			'should return the url for the next question in the current section [%d] [%s]',
 			(currentSectionIndex, returnToListing) => {
-				const section = mockSections[currentSectionIndex];
+				const section = mockMakeSections()[currentSectionIndex];
 				const name = section.questions[0].fieldName;
 				const nextQuestionName = section.questions[1].fieldName;
 
 				const journey = new Journey(constructorArgs);
-				journey.sections = mockSections;
+
 				journey.returnToListing = returnToListing;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
@@ -327,12 +325,12 @@ describe('Journey class', () => {
 		])(
 			'should return the previous question url in current section [%d] if reversed [%s]',
 			(currentSectionIndex, returnToListing) => {
-				const section = mockSections[currentSectionIndex];
+				const section = mockMakeSections()[currentSectionIndex];
 				const name = section.questions[1].fieldName;
 				const prevQuestionName = section.questions[0].fieldName;
 
 				const journey = new Journey(constructorArgs);
-				journey.sections = mockSections;
+
 				journey.returnToListing = returnToListing;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
@@ -346,13 +344,13 @@ describe('Journey class', () => {
 		it.each([[0], [1]])(
 			'should return the next question if there is one in the next section [%d + 1]',
 			(currentSectionIndex) => {
-				const section = mockSections[currentSectionIndex];
+				const section = mockMakeSections()[currentSectionIndex];
 				const name = section.questions[section.questions.length - 1].fieldName;
-				const nextSection = mockSections[currentSectionIndex + 1];
+				const nextSection = mockMakeSections()[currentSectionIndex + 1];
 				const nextQuestionName = nextSection.questions[0].fieldName;
 
 				const journey = new Journey(constructorArgs);
-				journey.sections = mockSections;
+
 				journey.returnToListing = false;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
@@ -366,11 +364,11 @@ describe('Journey class', () => {
 		it.each([[true], [false]])(
 			'should return the baseUrl if there is no next section [%s]',
 			(returnToListing) => {
-				const section = mockSections[mockSections.length - 1];
+				const section = mockMakeSections()[mockMakeSections().length - 1];
 				const name = section.questions[section.questions.length - 1].fieldName;
 
 				const journey = new Journey(constructorArgs);
-				journey.sections = mockSections;
+
 				journey.returnToListing = returnToListing;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
@@ -382,13 +380,13 @@ describe('Journey class', () => {
 		it.each([[1], [2]])(
 			'should return the previous question if there is one in the previous section [%d - 1]',
 			(currentSectionIndex) => {
-				const section = mockSections[currentSectionIndex];
+				const section = mockMakeSections()[currentSectionIndex];
 				const name = section.questions[0].fieldName;
-				const prevSection = mockSections[currentSectionIndex - 1];
+				const prevSection = mockMakeSections()[currentSectionIndex - 1];
 				const prevQuestionName = prevSection.questions[prevSection.questions.length - 1].fieldName;
 
 				const journey = new Journey(constructorArgs);
-				journey.sections = mockSections;
+
 				journey.returnToListing = false;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
@@ -402,11 +400,11 @@ describe('Journey class', () => {
 		it.each([[true], [false]])(
 			'should return the baseUrl if there is no previous section [%s]',
 			(returnToListing) => {
-				const section = mockSections[0];
+				const section = mockMakeSections()[0];
 				const name = section.questions[0].fieldName;
 
 				const journey = new Journey(constructorArgs);
-				journey.sections = mockSections;
+
 				journey.returnToListing = returnToListing;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
@@ -418,11 +416,11 @@ describe('Journey class', () => {
 		it.each([[0], [1], [2]])(
 			'should return the baseUrl if at end of section [%d] and returnToListing is true',
 			(currentSectionIndex) => {
-				const section = mockSections[currentSectionIndex];
+				const section = mockMakeSections()[currentSectionIndex];
 				const name = section.questions[section.questions.length - 1].fieldName;
 
 				const journey = new Journey(constructorArgs);
-				journey.sections = mockSections;
+
 				journey.returnToListing = true;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
@@ -433,11 +431,11 @@ describe('Journey class', () => {
 		it.each([[0], [1], [2]])(
 			'should return the baseUrl if at start of section [%d] and returnToListing is true',
 			(currentSectionIndex) => {
-				const section = mockSections[currentSectionIndex];
+				const section = mockMakeSections()[currentSectionIndex];
 				const name = section.questions[0].fieldName;
 
 				const journey = new Journey(constructorArgs);
-				journey.sections = mockSections;
+
 				journey.returnToListing = true;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
@@ -448,12 +446,11 @@ describe('Journey class', () => {
 
 		it('should handle querystring in baseUrl', () => {
 			constructorArgs.makeBaseUrl = () => 'base?id=1';
-			const section = mockSections[2];
+			const section = mockMakeSections()[2];
 			const name = section.questions[1].fieldName;
 			const nextQuestionName = section.questions[2].url;
 
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
 
@@ -461,12 +458,11 @@ describe('Journey class', () => {
 		});
 
 		it('should return previous question url if passed subquestion fieldname', () => {
-			const section = mockSections[0];
+			const section = mockMakeSections()[0];
 			const name = section.questions[2].subQuestion.fieldName;
 			const prevQuestionName = section.questions[1].fieldName;
 
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
 
@@ -478,11 +474,10 @@ describe('Journey class', () => {
 
 	describe('getCurrentQuestionUrl', () => {
 		it('should return the current question URL if found', () => {
-			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[1].fieldName;
+			const section = mockMakeSections()[0].segment;
+			const name = mockMakeSections()[0].questions[1].fieldName;
 
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
 
@@ -491,10 +486,9 @@ describe('Journey class', () => {
 
 		it('should return the questionnaire URL if section or question is not found', () => {
 			const section = 'nope';
-			const name = mockSections[0].questions[1].fieldName;
+			const name = mockMakeSections()[0].questions[1].fieldName;
 
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
 
@@ -502,11 +496,10 @@ describe('Journey class', () => {
 		});
 
 		it('should return the current question URL using url slug if set', () => {
-			const section = mockSections[2].segment;
-			const name = mockSections[2].questions[2].url;
+			const section = mockMakeSections()[2].segment;
+			const name = mockMakeSections()[2].questions[2].url;
 
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
 
@@ -515,11 +508,10 @@ describe('Journey class', () => {
 
 		it('should handle querystring in baseUrl', () => {
 			constructorArgs.makeBaseUrl = () => 'base?id=1';
-			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[1].fieldName;
+			const section = mockMakeSections()[0].segment;
+			const name = mockMakeSections()[0].questions[1].fieldName;
 
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
 
@@ -600,11 +592,10 @@ describe('Journey class', () => {
 
 	describe('addToCurrentQuestionUrl', () => {
 		it('should return the current question URL if found', () => {
-			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[1].fieldName;
+			const section = mockMakeSections()[0].segment;
+			const name = mockMakeSections()[0].questions[1].fieldName;
 
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
 
@@ -613,10 +604,9 @@ describe('Journey class', () => {
 
 		it('should return the questionnaire URL if section or question is not found', () => {
 			const section = 'nope';
-			const name = mockSections[0].questions[1].fieldName;
+			const name = mockMakeSections()[0].questions[1].fieldName;
 
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
 
@@ -624,11 +614,10 @@ describe('Journey class', () => {
 		});
 
 		it('should return the current question URL using url slug if set', () => {
-			const section = mockSections[2].segment;
-			const name = mockSections[2].questions[2].url;
+			const section = mockMakeSections()[2].segment;
+			const name = mockMakeSections()[2].questions[2].url;
 
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
 
@@ -637,11 +626,10 @@ describe('Journey class', () => {
 
 		it('should handle querystring in baseUrl', () => {
 			constructorArgs.makeBaseUrl = () => 'base?id=1';
-			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[1].fieldName;
+			const section = mockMakeSections()[0].segment;
+			const name = mockMakeSections()[0].questions[1].fieldName;
 
 			const journey = new Journey(constructorArgs);
-			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
 

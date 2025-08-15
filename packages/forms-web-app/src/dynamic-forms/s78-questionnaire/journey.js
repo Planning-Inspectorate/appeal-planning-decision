@@ -21,51 +21,47 @@ const config = require('../../config');
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const sections = [
+const makeSections = (response) => [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
 		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: S78.type.toLowerCase() })
 		.addQuestion(questions.changesListedBuilding)
 		.addQuestion(questions.changedListedBuildings)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.changesListedBuilding, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.changesListedBuilding, 'yes'))
 		.addQuestion(questions.listedBuildingCheck)
 		.addQuestion(questions.affectedListedBuildings)
-		.withCondition((response) => questionHasAnswer(response, questions.listedBuildingCheck, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.listedBuildingCheck, 'yes'))
 		.addQuestion(questions.scheduledMonument)
 		.addQuestion(questions.conservationArea)
 		.addQuestion(questions.conservationAreaUpload)
-		.withCondition((response) => questionHasAnswer(response, questions.conservationArea, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.conservationArea, 'yes'))
 		.addQuestion(questions.protectedSpecies)
 		.addQuestion(questions.greenBelt)
 		.addQuestion(questions.areaOfOutstandingNaturalBeauty)
 		.addQuestion(questions.designatedSitesCheck)
 		.addQuestion(questions.treePreservationOrder)
 		.addQuestion(questions.treePreservationPlanUpload)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.treePreservationOrder, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.treePreservationOrder, 'yes'))
 		.addQuestion(questions.gypsyOrTraveller)
 		.addQuestion(questions.rightOfWayCheck)
 		.addQuestion(questions.uploadDefinitiveMap)
-		.withCondition((response) => questionHasAnswer(response, questions.rightOfWayCheck, 'yes')),
+		.withCondition(() => questionHasAnswer(response, questions.rightOfWayCheck, 'yes')),
 	new Section('Environmental impact assessment', 'environmental-impact')
 		.addQuestion(questions.environmentalImpactSchedule)
 		.addQuestion(questions.developmentDescription)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2')
 		)
 		.addQuestion(questions.sensitiveArea)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2')
 		)
 		.addQuestion(questions.meetsColumnTwoThreshold)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2')
 		)
 		.addQuestion(questions.screeningOpinion)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionsHaveAnswers(
 				response,
 				[
@@ -77,7 +73,7 @@ const sections = [
 		)
 		.addQuestion(questions.screeningOpinionUpload)
 		.withCondition(
-			(response) =>
+			() =>
 				questionHasAnswer(response, questions.screeningOpinion, 'yes') &&
 				questionsHaveAnswers(
 					response,
@@ -90,7 +86,7 @@ const sections = [
 		)
 		.addQuestion(questions.screeningOpinionEnvironmentalStatement)
 		.withCondition(
-			(response) =>
+			() =>
 				questionHasAnswer(response, questions.screeningOpinion, 'yes') &&
 				questionsHaveAnswers(
 					response,
@@ -103,7 +99,7 @@ const sections = [
 		)
 		.addQuestion(questions.scopingOpinion)
 		.withCondition(
-			(response) =>
+			() =>
 				questionsHaveAnswers(
 					response,
 					[
@@ -115,7 +111,7 @@ const sections = [
 		)
 		.addQuestion(questions.scopingOpinionUpload)
 		.withCondition(
-			(response) =>
+			() =>
 				questionsHaveAnswers(
 					response,
 					[
@@ -128,11 +124,9 @@ const sections = [
 		)
 		.addQuestion(questions.submitEnvironmentalStatement)
 		.addQuestion(questions.uploadEnvironmentalStatement)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.submitEnvironmentalStatement, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.submitEnvironmentalStatement, 'yes'))
 		.addQuestion(questions.uploadScreeningDirection)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionsHaveAnswers(
 				response,
 				[
@@ -147,68 +141,50 @@ const sections = [
 		.addQuestion(questions.whoWasNotified)
 		.addQuestion(questions.howYouNotifiedPeople)
 		.addQuestion(questions.uploadSiteNotice)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice'))
 		.addQuestion(questions.uploadNeighbourLetterAddresses)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails')
 		)
 		.addQuestion(questions.pressAdvertUpload)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert'))
 		.addQuestion(questions.appealNotification),
 	new Section('Consultation responses and representations', 'consultation')
 		.addQuestion(questions.statutoryConsultees)
 		.addQuestion(questions.consultationResponses)
 		.addQuestion(questions.consultationResponsesUpload)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.consultationResponses, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.consultationResponses, 'yes'))
 		.addQuestion(questions.representationsFromOthers)
 		.addQuestion(questions.representationUpload)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.representationsFromOthers, 'yes')
-		),
+		.withCondition(() => questionHasAnswer(response, questions.representationsFromOthers, 'yes')),
 	new Section('Planning officer’s report and supporting documents', 'planning-officer-report')
 		.addQuestion(questions.planningOfficersReportUpload)
 		.addQuestion(questions.developmentPlanPolicies)
 		.addQuestion(questions.uploadDevelopmentPlanPolicies)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.developmentPlanPolicies, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes'))
 		.addQuestion(questions.emergingPlan)
 		.addQuestion(questions.emergingPlanUpload)
-		.withCondition((response) => questionHasAnswer(response, questions.emergingPlan, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.emergingPlan, 'yes'))
 		.addQuestion(questions.otherRelevantPolicies)
 		.addQuestion(questions.uploadOtherRelevantPolicies)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.otherRelevantPolicies, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.otherRelevantPolicies, 'yes'))
 		.addQuestion(questions.supplementaryPlanning)
 		.addQuestion(questions.supplementaryPlanningUpload)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.supplementaryPlanning, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.supplementaryPlanning, 'yes'))
 		.addQuestion(questions.communityInfrastructureLevy)
 		.addQuestion(questions.communityInfrastructureLevyUpload)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes'))
 		.addQuestion(questions.communityInfrastructureLevyAdopted)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes'))
 		.addQuestion(questions.communityInfrastructureLevyAdoptedDate)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionsHaveAnswers(response, [
 				[questions.communityInfrastructureLevy, 'yes'],
 				[questions.communityInfrastructureLevyAdopted, 'yes']
 			])
 		)
 		.addQuestion(questions.communityInfrastructureLevyAdoptDate)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionsHaveAnswers(response, [
 				[questions.communityInfrastructureLevy, 'yes'],
 				[questions.communityInfrastructureLevyAdopted, 'no']
@@ -218,21 +194,21 @@ const sections = [
 		.addQuestion(questions.accessForInspection)
 		.addQuestion(questions.neighbouringSite)
 		.addQuestion(questions.neighbouringSitesToBeVisited)
-		.withCondition((response) => questionHasAnswer(response, questions.neighbouringSite, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.neighbouringSite, 'yes'))
 		.addQuestion(questions.potentialSafetyRisks),
 	new Section('Appeal process', 'appeal-process')
 		.addQuestion(questions.procedureType)
 		.addQuestion(questions.whyInquiry)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionHasAnswer(response, questions.procedureType, APPEAL_CASE_PROCEDURE.INQUIRY)
 		)
 		.addQuestion(questions.whyHearing)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionHasAnswer(response, questions.procedureType, APPEAL_CASE_PROCEDURE.HEARING)
 		)
 		.addQuestion(questions.appealsNearSite)
 		.addQuestion(questions.nearbyAppeals)
-		.withCondition((response) => questionHasAnswer(response, questions.appealsNearSite, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.appealsNearSite, 'yes'))
 		.addQuestion(questions.addNewConditions)
 ];
 
@@ -247,7 +223,7 @@ const makeBaseUrl = (response) => `${baseS78Url}/${encodeURIComponent(response.r
 /** @type {JourneyParameters} */
 const params = {
 	journeyId: JOURNEY_TYPES.S78_QUESTIONNAIRE.id,
-	sections,
+	makeSections,
 	journeyTemplate: 'questionnaire-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
 	informationPageViewPath: 'dynamic-components/submission-information/index',

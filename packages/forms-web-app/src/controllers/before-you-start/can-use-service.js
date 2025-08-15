@@ -31,7 +31,8 @@ const {
 		PRIOR_APPROVAL,
 		LISTED_BUILDING,
 		MINOR_COMMERCIAL_DEVELOPMENT,
-		MINOR_COMMERCIAL_ADVERTISEMENT
+		MINOR_COMMERCIAL_ADVERTISEMENT,
+		ADVERTISEMENT
 	}
 } = require('@pins/business-rules/src/constants');
 const config = require('../../config');
@@ -107,12 +108,15 @@ const canUseServiceFullAppeal = async (req, res) => {
 		appeal.eligibility.applicationDecision
 	);
 
-	const [isV2forS78, isV2forS20, isV2forCAS, isV2forCASAdverts] = await Promise.all([
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2)
-	]);
+	const [isV2forS78, isV2forS20, isV2forCAS, isV2forCASAdverts, isV2forAdverts] = await Promise.all(
+		[
+			isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2),
+			isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2),
+			isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
+			isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
+			isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2)
+		]
+	);
 
 	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
@@ -130,6 +134,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 		isV2forS78,
 		isV2forCAS,
 		isV2forCASAdverts,
+		isV2forAdverts,
 		nextPageUrl,
 		changeLpaUrl,
 		bannerHtmlOverride:
@@ -294,6 +299,7 @@ exports.getCanUseService = async (req, res) => {
 		case LISTED_BUILDING:
 		case MINOR_COMMERCIAL_DEVELOPMENT:
 		case MINOR_COMMERCIAL_ADVERTISEMENT:
+		case ADVERTISEMENT:
 			await canUseServiceFullAppeal(req, res);
 			break;
 		case PRIOR_APPROVAL:

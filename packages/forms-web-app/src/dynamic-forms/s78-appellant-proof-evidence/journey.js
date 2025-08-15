@@ -19,14 +19,12 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const sections = [
+const makeSections = (response) => [
 	new Section('', config.dynamicForms.DEFAULT_SECTION)
 		.addQuestion(questions.uploadAppellantProofOfEvidenceDocuments)
 		.addQuestion(questions.appellantAddWitnesses)
 		.addQuestion(questions.uploadAppellantWitnessesEvidence)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.appellantAddWitnesses, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.appellantAddWitnesses, 'yes'))
 ];
 
 const baseAppellantProofEvidenceUrl = '/appeals/proof-evidence';
@@ -45,7 +43,7 @@ const params = {
 	journeyTemplate: 'proof-evidence-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/proof-evidence',
 	journeyTitle: 'Appeal a planning decision',
-	sections,
+	makeSections,
 	makeBaseUrl,
 	bannerHtmlOverride:
 		config.betaBannerText +

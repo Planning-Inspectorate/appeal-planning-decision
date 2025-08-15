@@ -19,14 +19,12 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const sections = [
+const makeSections = (response) => [
 	new Section('', config.dynamicForms.DEFAULT_SECTION)
 		.addQuestion(questions.rule6Statement)
 		.addQuestion(questions.rule6AdditionalDocuments)
 		.addQuestion(questions.uploadRule6StatementDocuments)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.rule6AdditionalDocuments, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.rule6AdditionalDocuments, 'yes'))
 ];
 
 const baseRule6StatementUrl = '/rule-6/appeal-statement';
@@ -45,7 +43,7 @@ const params = {
 	journeyTemplate: 'rule-6-statement-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/statement',
 	journeyTitle: 'Appeal a planning decision',
-	sections,
+	makeSections,
 	makeBaseUrl,
 	bannerHtmlOverride:
 		config.betaBannerText +

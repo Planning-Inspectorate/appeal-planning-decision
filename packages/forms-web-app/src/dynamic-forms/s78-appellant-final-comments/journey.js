@@ -19,19 +19,15 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const sections = [
+const makeSections = (response) => [
 	new Section('', config.dynamicForms.DEFAULT_SECTION)
 		.addQuestion(questions.appellantFinalComment)
 		.addQuestion(questions.appellantFinalCommentDetails)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.appellantFinalComment, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.appellantFinalComment, 'yes'))
 		.addQuestion(questions.appellantFinalCommentDocuments)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.appellantFinalComment, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.appellantFinalComment, 'yes'))
 		.addQuestion(questions.uploadAppellantFinalCommentDocuments)
-		.withCondition((response) =>
+		.withCondition(() =>
 			questionHasAnswer(response, questions.appellantFinalCommentDocuments, 'yes')
 		)
 ];
@@ -52,7 +48,7 @@ const params = {
 	journeyTemplate: 'final-comments-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/final-comments',
 	journeyTitle: 'Appeal a planning decision',
-	sections,
+	makeSections,
 	makeBaseUrl,
 	bannerHtmlOverride:
 		config.betaBannerText +

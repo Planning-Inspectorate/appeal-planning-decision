@@ -19,17 +19,15 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const sections = [
+const makeSections = (response) => [
 	new Section('', config.dynamicForms.DEFAULT_SECTION)
 		.addQuestion(questions.lpaFinalComment)
 		.addQuestion(questions.lpaFinalCommentDetails)
-		.withCondition((response) => questionHasAnswer(response, questions.lpaFinalComment, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.lpaFinalComment, 'yes'))
 		.addQuestion(questions.lpaFinalCommentDocuments)
-		.withCondition((response) => questionHasAnswer(response, questions.lpaFinalComment, 'yes'))
+		.withCondition(() => questionHasAnswer(response, questions.lpaFinalComment, 'yes'))
 		.addQuestion(questions.uploadLPAFinalCommentDocuments)
-		.withCondition((response) =>
-			questionHasAnswer(response, questions.lpaFinalCommentDocuments, 'yes')
-		)
+		.withCondition(() => questionHasAnswer(response, questions.lpaFinalCommentDocuments, 'yes'))
 ];
 
 const baseS78LPAFinalCommentsUrl = '/manage-appeals/final-comments';
@@ -47,7 +45,7 @@ const params = {
 	journeyTemplate: 'statement-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/final-comments',
 	journeyTitle: 'Manage your appeals',
-	sections,
+	makeSections,
 	makeBaseUrl
 };
 
