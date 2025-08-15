@@ -8,6 +8,7 @@ const ApiError = require('#errors/apiError');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { sendSubmissionConfirmationEmailToAppellantV2 } = require('#lib/notify');
 const sanitizePostcode = require('#lib/sanitize-postcode');
+const config = require('../../../configuration/config');
 
 const repo = new AppealCaseRepository();
 const serviceUserRepo = new ServiceUserRepository();
@@ -28,6 +29,7 @@ const { getValidator } = new SchemaValidator();
  * @typedef {AppealCase & {users?: Array.<ServiceUser>} & {relations?: Array.<AppealRelations>}} AppealCaseDetailed
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealHASCase} AppealHASCase
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealS78Case} AppealS78Case
+ * @typedef {import('./repo').LinkedCase} LinkedCase
  */
 
 /**
@@ -527,7 +529,10 @@ async function appendLinkedCases(appeal) {
  */
 async function appendLinkedCasesForMultipleAppeals(appeals) {
 	const caseReferences = appeals.map((appealCase) => appealCase.caseReference);
-	const linkedCases = await repo.getLinkedCases(caseReferences);
+	const linkedCases =
+		caseReferences.length <= config.db.queryBatchSize
+			? await repo.getLinkedCases(caseReferences)
+			: await batchGetLinkedCases(caseReferences, config.db.queryBatchSize);
 
 	if (!linkedCases || !linkedCases.length) {
 		return appeals;
@@ -564,6 +569,22 @@ async function appendLinkedCasesForMultipleAppeals(appeals) {
 	});
 
 	return enhancedCases;
+}
+
+/**
+ * @param {string[]} caseReferences
+ * @param {number} batchSize
+ * @returns {Promise<LinkedCase[]>}>}
+ */
+async function batchGetLinkedCases(caseReferences, batchSize) {
+	let batchedCaseReferences = [];
+	for (var i = 0; i < caseReferences.length; i += batchSize) {
+		batchedCaseReferences.push(caseReferences.slice(i, i + batchSize));
+	}
+
+	const batchedLinkedCases = await Promise.all(batchedCaseReferences.map(repo.getLinkedCases));
+
+	return batchedLinkedCases.flat().filter((linkedCase) => linkedCase !== null);
 }
 
 module.exports = {
