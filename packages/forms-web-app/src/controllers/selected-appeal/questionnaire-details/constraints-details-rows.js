@@ -19,7 +19,9 @@ const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 exports.constraintsRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
-	const isHASAppeal = caseData.appealTypeCode === CASE_TYPES.HAS.processCode;
+	const notHasOrCAsAppeal =
+		caseData.appealTypeCode !== CASE_TYPES.HAS.processCode ||
+		caseData.appealTypeCode !== CASE_TYPES.CAS_PLANNING.processCode;
 
 	const affectedListedBuildings = caseData.ListedBuildings?.filter(
 		(x) => x.type === LISTED_RELATION_TYPES.affected
@@ -46,7 +48,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Changes a listed building',
 			valueText: changedListedBuildingText,
-			condition: () => !isHASAppeal
+			condition: () => notHasOrCAsAppeal
 		},
 		{
 			keyText: 'Listed building details',
@@ -86,7 +88,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Affects a scheduled monument',
 			valueText: formatYesOrNo(caseData, 'scheduledMonument'),
-			condition: () => !isHASAppeal && isNotUndefinedOrNull(caseData.scheduledMonument)
+			condition: () => notHasOrCAsAppeal && isNotUndefinedOrNull(caseData.scheduledMonument)
 		},
 		{
 			keyText: 'Conservation area',
@@ -117,20 +119,20 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Designated sites',
 			valueText: formatDesignations(caseData),
-			condition: () => !isHASAppeal
+			condition: () => notHasOrCAsAppeal
 		},
 		{
 			keyText: 'Tree Preservation Order',
 			valueText: boolToYesNo(
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN)
 			),
-			condition: () => !isHASAppeal
+			condition: () => notHasOrCAsAppeal
 		},
 		{
 			keyText: 'Uploaded Tree Preservation Order extent',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			condition: () =>
-				!isHASAppeal && documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
+				notHasOrCAsAppeal && documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			isEscaped: true
 		},
 		{

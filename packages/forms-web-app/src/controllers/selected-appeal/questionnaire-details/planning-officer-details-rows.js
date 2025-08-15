@@ -50,7 +50,7 @@ exports.planningOfficerReportRows = (caseData) => {
 		{
 			keyText: 'Emerging plan',
 			valueText: emergingPlanText,
-			condition: () => true
+			condition: () => caseData.appealTypeCode !== CASE_TYPES.CAS_PLANNING.processCode
 		},
 		{
 			keyText: 'Uploaded emerging plan and supporting information',
