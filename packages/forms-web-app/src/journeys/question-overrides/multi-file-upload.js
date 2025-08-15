@@ -77,7 +77,7 @@ async function getDataToSave(req, journeyResponse) {
 	// save valid files to blob storage
 	const filesToUpload = (() => {
 		if (!req.files) return [];
-		const relevantRequestFiles = req.files[this.fieldName];
+		const relevantRequestFiles = req.files['file-upload'];
 		if (Array.isArray(relevantRequestFiles)) return relevantRequestFiles;
 		return [relevantRequestFiles];
 	})();
