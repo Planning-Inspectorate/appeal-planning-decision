@@ -39,7 +39,7 @@ const getEmailConfirmed = async (req, res) => {
 			listOfDocumentsUrl = '/appeals/cas-planning/appeal-form/before-you-start';
 			break;
 		case APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT:
-			listOfDocumentsUrl = '/appeals/cas-adverts/appeal-form/before-you-start';
+			listOfDocumentsUrl = '/appeals/adverts/appeal-form/before-you-start';
 			break;
 	}
 

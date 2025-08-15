@@ -99,7 +99,7 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 
 			await getEmailConfirmed(req, res);
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
-				listOfDocumentsUrl: '/appeals/cas-adverts/appeal-form/before-you-start',
+				listOfDocumentsUrl: '/appeals/adverts/appeal-form/before-you-start',
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('CAS_ADVERTS'))

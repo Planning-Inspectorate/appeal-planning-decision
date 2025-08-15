@@ -78,7 +78,7 @@ router.use('/listed-building', listedBuilding);
 router.use('/cas-planning', casPlanning);
 
 /// cas adverts ///
-router.use('/cas-adverts', casAdverts);
+router.use('/adverts', casAdverts);
 
 /// appeal ///
 router.use('/appeal', appeal);

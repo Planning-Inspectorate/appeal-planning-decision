@@ -619,7 +619,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
 				isListedBuilding: 'No',
-				nextPageUrl: '/cas-adverts/email-address',
+				nextPageUrl: '/adverts/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				isV2forS78: false,
 				isV2forCAS: false,
