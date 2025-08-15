@@ -7,7 +7,8 @@ const { baseHASUrl } = require('../../../../src/dynamic-forms/has-questionnaire/
 const { mockReq, mockRes } = require('../../mocks');
 const {
 	mapToLPADashboardDisplayData,
-	isToDoLPADashboard
+	isToDoLPADashboard,
+	updateChildAppealDisplayData
 } = require('../../../../src/lib/dashboard-functions');
 const { isFeatureActive } = require('../../../../src/featureFlag');
 
@@ -60,6 +61,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			req.appealsApiClient.getAppealsCasesByLpaAndStatus.mockResolvedValue([]);
 			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
 			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
+			updateChildAppealDisplayData.mockReturnValue([mockAppealData]);
 			isToDoLPADashboard.mockReturnValue(true);
 			isFeatureActive.mockResolvedValueOnce(false);
 
@@ -86,6 +88,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			req.appealsApiClient.getAppealsCasesByLpaAndStatus.mockResolvedValue([]);
 			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
 			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
+			updateChildAppealDisplayData.mockReturnValue([mockAppealData]);
 			isToDoLPADashboard.mockReturnValue(true);
 			isFeatureActive.mockResolvedValueOnce(true);
 
@@ -112,6 +115,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			req.appealsApiClient.getAppealsCasesByLpaAndStatus.mockResolvedValue([]);
 			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
 			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
+			updateChildAppealDisplayData.mockReturnValue([mockAppealData]);
 			isToDoLPADashboard.mockReturnValue(true);
 
 			await getYourAppeals(req, res);
