@@ -33,6 +33,7 @@ const sections = [
 		.addQuestion(questions.contactPhoneNumber)
 		.addQuestion(questions.appealSiteAddress)
 		.addQuestion(questions.highwayLand)
+		.addQuestion(questions.advertInPosition)
 		.addQuestion(questions.siteArea)
 		.addQuestion(questions.appellantGreenBelt)
 		.addQuestion(questions.ownsAllLand)

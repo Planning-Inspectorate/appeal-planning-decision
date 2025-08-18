@@ -657,6 +657,7 @@ export interface AppellantSubmission {
 	SubmissionDocumentUpload?: object[];
 	siteAddress?: boolean;
 	highwayLand?: boolean;
+	advertInPosition?: boolean;
 	SubmissionAddress?: SubmissionAddress[];
 	SubmissionListedBuilding?: object[];
 }

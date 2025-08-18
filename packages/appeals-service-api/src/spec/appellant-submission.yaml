@@ -198,6 +198,10 @@ components:
 
         highwayLand:
           type: boolean
+
+        advertInPosition:
+          type: boolean
+
         SubmissionAddress:
           type: array
           items:

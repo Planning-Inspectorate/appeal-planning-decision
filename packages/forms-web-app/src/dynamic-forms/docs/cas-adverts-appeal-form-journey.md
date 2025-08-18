@@ -13,6 +13,7 @@ condition: (response) => questionHasAnswer(response, questions.applicationName, 
 - single-line-input `/phone-number/` What is your phone number?
 - address-entry `/appeal-site-address/` What is the address of the appeal site?
 - radio `/highway-land/` Is the appeal site on highway land?
+- boolean `/advertisement-position/` Is the advertisement in position?
 - number-entry `/site-area/` What is the area of the appeal site?
 - boolean `/green-belt/` Is the appeal site in a green belt?
 - boolean `/own-all-land/` Do you own all of the land involved in the appeal?

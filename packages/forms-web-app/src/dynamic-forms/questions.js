@@ -2641,6 +2641,14 @@ exports.questionProps = {
 				value: 'no'
 			}
 		]
+	},
+	advertInPosition: {
+		type: 'boolean',
+		title: 'Is the advertisement in position?',
+		question: 'Is the advertisement in position?',
+		fieldName: 'advertInPosition',
+		url: 'advertisement-position',
+		validators: [new RequiredValidator('Select yes if the advertisement is in position')]
 	}
 };
 
