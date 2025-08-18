@@ -46,7 +46,7 @@ describe('validators/planning-department', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Select which type of planning application your appeal is about, or if you have not made a planning application'
 					);
-					expect(result.errors[0].param).toEqual('type-of-planning-application');
+					expect(result.errors[0].path).toEqual('type-of-planning-application');
 				}
 			},
 			{
@@ -62,7 +62,7 @@ describe('validators/planning-department', () => {
 					expect(result.errors[0].msg).toEqual(
 						'Select which type of planning application your appeal is about, or if you have not made a planning application'
 					);
-					expect(result.errors[0].param).toEqual('type-of-planning-application');
+					expect(result.errors[0].path).toEqual('type-of-planning-application');
 				}
 			}
 		].forEach(({ title, given, expected }) => {

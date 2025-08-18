@@ -33,7 +33,7 @@ describe('validators/householder-planning/decision-date-householder', () => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual('Decision date must be today or in the past');
-					expect(result.errors[0].param).toEqual('decision-date-householder');
+					expect(result.errors[0].path).toEqual('decision-date-householder');
 				}
 			},
 			{

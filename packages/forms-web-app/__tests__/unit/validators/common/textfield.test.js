@@ -128,7 +128,7 @@ describe('validators/common/textfield', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(emptyError);
-		expect(result.errors[0].param).toEqual(fieldName);
+		expect(result.errors[0].path).toEqual(fieldName);
 		expect(result.errors[0].value).toEqual('');
 	});
 
@@ -158,7 +158,7 @@ describe('validators/common/textfield', () => {
 		expect(result.errors[0].msg).toEqual(
 			'How visibility is restricted must be 1000 characters or less'
 		);
-		expect(result.errors[0].param).toEqual(fieldName);
+		expect(result.errors[0].path).toEqual(fieldName);
 		expect(result.errors[0].value).toEqual(fieldValue);
 	});
 
@@ -189,7 +189,7 @@ describe('validators/common/textfield', () => {
 		expect(result.errors[0].msg).toEqual(
 			'How visibility is restricted must be 100 characters or less'
 		);
-		expect(result.errors[0].param).toEqual(fieldName);
+		expect(result.errors[0].path).toEqual(fieldName);
 		expect(result.errors[0].value).toEqual(fieldValue);
 	});
 });
