@@ -14,7 +14,9 @@ exports.formatCommentDecidedData = (appeal) => {
 	if (!appeal.caseDecisionOutcomeDate) return {};
 
 	return {
-		formattedCaseDecisionDate: formatDateForDisplay(appeal.caseDecisionOutcomeDate),
+		formattedCaseDecisionDate: formatDateForDisplay(appeal.caseDecisionOutcomeDate, {
+			format: 'd MMMM yyyy'
+		}),
 		formattedDecisionColour: mapDecisionColour(appeal.caseDecisionOutcome),
 		caseDecisionOutcome: mapDecisionLabel(appeal.caseDecisionOutcome) ?? appeal.caseDecisionOutcome,
 		decisionDocuments: filterDecisionDocuments(appeal.Documents)

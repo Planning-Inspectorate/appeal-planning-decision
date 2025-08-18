@@ -19,7 +19,7 @@ describe('formatCommentDecidedData', () => {
 	it('should return formatted data when caseDecisionOutcomeDate is provided', () => {
 		const result = formatCommentDecidedData(appeal);
 		expect(result).toEqual({
-			formattedCaseDecisionDate: '31 Dec 2024',
+			formattedCaseDecisionDate: '31 December 2024',
 			formattedDecisionColour: 'green',
 			caseDecisionOutcome: 'Allowed',
 			decisionDocuments: [{ documentType: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER, id: 'doc1' }]
