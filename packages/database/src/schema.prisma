@@ -744,6 +744,7 @@ model AppellantSubmission {
   tenantAgriculturalHolding          Boolean?
   section3aGrant                     Boolean?
   highwayLand                        Boolean?
+  advertInPosition                   Boolean?
 
   // boolean text
   appellantSiteSafety                            String?
