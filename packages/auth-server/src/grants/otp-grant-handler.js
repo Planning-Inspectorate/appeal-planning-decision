@@ -1,3 +1,4 @@
+import instance from 'oidc-provider/lib/helpers/weak_cache.js';
 import { InvalidClient, UnknownUserId } from 'oidc-provider/lib/helpers/errors.js';
 
 import config from '../configuration/config.js';
@@ -15,9 +16,8 @@ const userRepo = new UserRepository();
 
 /**
  * @param {import('oidc-provider').KoaContextWithOIDC} ctx
- * @param {function} next
  */
-export const handler = async function (ctx, next) {
+export const handler = async function (ctx) {
 	const { client, params } = ctx.oidc;
 
 	if (!params || !params.email) {
@@ -33,8 +33,6 @@ export const handler = async function (ctx, next) {
 	}
 
 	ctx.body = await performOtpGrant(ctx);
-
-	await next();
 };
 
 /**
@@ -43,10 +41,11 @@ export const handler = async function (ctx, next) {
  */
 const performOtpGrant = async (ctx) => {
 	const { email, action } = ctx.oidc.params;
+	const { findAccount } = instance(ctx.oidc.provider).configuration;
 
 	let accountId;
 	try {
-		const account = await ctx.oidc.provider.Account.findAccount(ctx, email);
+		const account = await findAccount(ctx, email);
 		accountId = account?.accountId;
 	} catch (err) {
 		// ignore UnknownUserId as we will create one if it doesn't exist

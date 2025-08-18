@@ -32,9 +32,8 @@ const tokenRepo = new TokenRepository(createPrismaClient());
 
 /**
  * @param {import('oidc-provider').KoaContextWithOIDC} ctx
- * @param {function} next
  */
-export const handler = async function (ctx, next) {
+export const handler = async function (ctx) {
 	const { client, params } = ctx.oidc;
 
 	if (!params || !params.otp) {
@@ -67,8 +66,6 @@ export const handler = async function (ctx, next) {
 
 		throw err;
 	}
-
-	await next();
 };
 
 /**
@@ -106,7 +103,9 @@ const performRopcGrant = async (ctx) => {
  * @returns {Promise<import('oidc-provider').Account>}
  */
 async function findAccount(ctx, email) {
-	const account = await ctx.oidc.provider.Account.findAccount(ctx, email);
+	const { findAccount } = instance(ctx.oidc.provider).configuration;
+
+	const account = await findAccount(ctx, email);
 	if (!account) throw new UserNotFound();
 	ctx.oidc.entity('Account', account);
 	return account;
@@ -148,7 +147,7 @@ async function validateToken(account, otp) {
 async function createAccessToken(ctx, account, claims) {
 	const {
 		features: { resourceIndicators }
-	} = instance(ctx.oidc.provider).configuration();
+	} = instance(ctx.oidc.provider).configuration;
 
 	const { client } = ctx.oidc;
 	if (!client) throw new InvalidClient('client not found');
