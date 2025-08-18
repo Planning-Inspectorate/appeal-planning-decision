@@ -583,7 +583,7 @@ async function batchGetLinkedCases(caseReferences, batchSize) {
 	}
 
 	const batchedLinkedCases = await Promise.all(
-		batchedCaseReferences.map(async (caseReferences) => await repo.getLinkedCases(caseReferences))
+		batchedCaseReferences.map(repo.getLinkedCases.bind(repo))
 	);
 
 	return batchedLinkedCases.flat().filter((linkedCase) => linkedCase !== null);
