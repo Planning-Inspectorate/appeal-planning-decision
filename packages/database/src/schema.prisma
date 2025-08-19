@@ -712,7 +712,7 @@ model AppellantSubmission {
   // dates
   onApplicationDate DateTime?
 
-  //appellant / agent details
+  // appellant / agent details
   isAppellant          Boolean?
   appellantFirstName   String?
   appellantLastName    String?
@@ -745,6 +745,7 @@ model AppellantSubmission {
   section3aGrant                     Boolean?
   highwayLand                        Boolean?
   advertInPosition                   Boolean?
+  landownerPermission                Boolean?
 
   // boolean text
   appellantSiteSafety                            String?

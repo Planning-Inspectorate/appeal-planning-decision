@@ -63,6 +63,7 @@ const sections = [
 		)
 		.addQuestion(questions.identifyingLandowners)
 		.withCondition((response) => shouldDisplayIdentifyingLandowners(response, questions))
+		.addQuestion(questions.landownerPermission)
 		.addQuestion(questions.advertisingAppeal)
 		.withCondition(
 			(response) =>

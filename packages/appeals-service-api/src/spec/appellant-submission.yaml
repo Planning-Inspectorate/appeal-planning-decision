@@ -202,6 +202,9 @@ components:
         advertInPosition:
           type: boolean
 
+        landownerPermission:
+          type: boolean
+
         SubmissionAddress:
           type: array
           items:
