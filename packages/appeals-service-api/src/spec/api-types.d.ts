@@ -658,6 +658,7 @@ export interface AppellantSubmission {
 	siteAddress?: boolean;
 	highwayLand?: boolean;
 	advertInPosition?: boolean;
+	landownerPermission?: boolean;
 	SubmissionAddress?: SubmissionAddress[];
 	SubmissionListedBuilding?: object[];
 }

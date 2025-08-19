@@ -2649,6 +2649,14 @@ exports.questionProps = {
 		fieldName: 'advertInPosition',
 		url: 'advertisement-position',
 		validators: [new RequiredValidator('Select yes if the advertisement is in position')]
+	},
+	landownerPermission: {
+		type: 'boolean',
+		title: 'Do you have the landowner’s permission?',
+		question: 'Do you have the landowner’s permission?',
+		fieldName: 'landownerPermission',
+		url: 'landowner-permission',
+		validators: [new RequiredValidator('Select yes if you have the landowner’s permission')]
 	}
 };
 

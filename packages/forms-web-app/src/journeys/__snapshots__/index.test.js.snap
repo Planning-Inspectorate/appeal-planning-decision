@@ -798,6 +798,52 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the landowner-permission question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="landownerPermission-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Do you have the landowner’s permission?</h1>
+                        </legend>
+                        <div id="landownerPermission-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="landownerPermission" name="landownerPermission"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="landownerPermission">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="landownerPermission-2" name="landownerPermission"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="landownerPermission-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the other-appeals question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -1617,6 +1663,12 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) re
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/identifying-landowners?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Identifying the landowners</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have the landowner’s permission?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/landowner-permission?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Do you have the landowner’s permission?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Have the landowners been told about the appeal?</dt>

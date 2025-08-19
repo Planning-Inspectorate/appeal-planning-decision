@@ -57,6 +57,7 @@ condition: (response) =>
 condition: (response) => shouldDisplayIdentifyingLandowners(response, questions);
 ```
 
+- boolean `/landowner-permission/` Do you have the landowner’s permission?
 - boolean `/advertising-appeal/` Advertising your appeal
 
 ```js
