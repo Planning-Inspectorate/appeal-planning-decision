@@ -399,7 +399,7 @@ describe('auth server', () => {
 			});
 
 			expect(response.status).toEqual(401);
-			expect(response.text).toEqual('IncorrectCode');
+			expect(JSON.parse(response.text)).toEqual({ error: 'incorrect_code' });
 			expect(recheckUser.isEnrolled).toEqual(false);
 			expect(securityToken.attempts).toEqual(1);
 		});
@@ -440,6 +440,7 @@ describe('auth server', () => {
 			expect(tokenResponse2.status).toEqual(401);
 			expect(tokenResponse3.status).toEqual(401);
 			expect(tokenResponse4.status).toEqual(429);
+			expect(JSON.parse(tokenResponse4.text)).toEqual({ error: 'too_many_attempts' });
 
 			// check subsequent attempts have the same result
 			const tokenResponse5 = await performROPC({
@@ -468,7 +469,7 @@ describe('auth server', () => {
 			});
 
 			expect(tokenResponse1.status).toEqual(401);
-			expect(tokenResponse1.text).toEqual('CodeExpired');
+			expect(JSON.parse(tokenResponse1.text)).toEqual({ error: 'code_expired' });
 		});
 
 		it('should 400 with no params', async () => {

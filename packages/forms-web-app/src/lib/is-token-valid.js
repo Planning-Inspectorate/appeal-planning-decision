@@ -53,13 +53,13 @@ const getAuthToken = async (token, emailAddress, action, additionalScopes) => {
 		return valid;
 	} catch (err) {
 		logger.info(err, 'bad token entry');
-		if (err?.response?.statusCode === 429) {
+		if (err?.error === 'too_many_attempts') {
 			return tooManyAttempts;
 		}
-		if (err?.response?.statusMessage === 'IncorrectCode') {
+		if (err?.error === 'incorrect_code') {
 			return invalidCode;
 		}
-		if (err?.response?.statusMessage === 'CodeExpired') {
+		if (err?.error === 'code_expired') {
 			return codeExpired;
 		}
 		throw err;
