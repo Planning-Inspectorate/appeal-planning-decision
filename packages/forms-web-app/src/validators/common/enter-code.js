@@ -1,9 +1,9 @@
 const { body } = require('express-validator');
 const isAlphaNumericRegEx = /[^\w_]/g;
-const isVowelOrZeroRegEx = /[AEIOUaeiou0]/g;
 
 const ruleEnterCode = () =>
 	body('email-code')
+		.trim()
 		.notEmpty()
 		.withMessage('Enter the code we sent to your email address')
 		.bail()
@@ -14,7 +14,7 @@ const ruleEnterCode = () =>
 		.withMessage('Enter the code we sent to your email address')
 		.bail()
 		.custom((value) => {
-			return !(value.match(isAlphaNumericRegEx) || value.match(isVowelOrZeroRegEx));
+			return !value.match(isAlphaNumericRegEx);
 		})
 		.withMessage('Enter the code we sent to your email address');
 

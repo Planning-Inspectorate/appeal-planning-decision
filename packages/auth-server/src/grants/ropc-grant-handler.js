@@ -44,28 +44,7 @@ export const handler = async function (ctx) {
 		throw new InvalidClient('client not set');
 	}
 
-	try {
-		ctx.body = await performRopcGrant(ctx);
-	} catch (err) {
-		if (err instanceof TooManyAttempts) {
-			ctx.status = 429;
-			return;
-		}
-
-		if (err instanceof IncorrectCode) {
-			ctx.status = 401;
-			ctx.message = 'IncorrectCode';
-			return;
-		}
-
-		if (err instanceof CodeExpired) {
-			ctx.status = 401;
-			ctx.message = 'CodeExpired';
-			return;
-		}
-
-		throw err;
-	}
+	ctx.body = await performRopcGrant(ctx);
 };
 
 /**
