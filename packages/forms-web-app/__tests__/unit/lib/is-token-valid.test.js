@@ -74,9 +74,7 @@ describe('lib/is-token-valid', () => {
 
 		it('should return tooManyAttempts error', async () => {
 			const error = new Error('error');
-			error.response = {
-				statusCode: 429
-			};
+			error.error = 'too_many_attempts';
 
 			createROPCGrant.mockRejectedValueOnce(error);
 
@@ -87,9 +85,7 @@ describe('lib/is-token-valid', () => {
 
 		it('should return expired error', async () => {
 			const error = new Error('error');
-			error.response = {
-				statusMessage: 'CodeExpired'
-			};
+			error.error = 'code_expired';
 
 			createROPCGrant.mockRejectedValueOnce(error);
 
@@ -100,9 +96,7 @@ describe('lib/is-token-valid', () => {
 
 		it('should return invalid code error', async () => {
 			const error = new Error('error');
-			error.response = {
-				statusMessage: 'IncorrectCode'
-			};
+			error.error = 'incorrect_code';
 
 			createROPCGrant.mockRejectedValueOnce(error);
 
