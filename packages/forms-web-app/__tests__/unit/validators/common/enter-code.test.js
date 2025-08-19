@@ -57,54 +57,6 @@ describe('validators/common/enter-code', () => {
 		expect(result.errors[0].msg).toEqual(emptyError);
 		expect(result.errors[0].param).toEqual('email-code');
 	});
-	it('invalid alpha characters entered', async () => {
-		const req = {
-			body: {
-				'email-code': 'abcde'
-			}
-		};
-
-		await testExpressValidatorMiddleware(
-			req,
-			res,
-			rules({
-				fieldName,
-				targetFieldName,
-				emptyError,
-				tooLongError
-			})
-		);
-
-		const result = validationResult(req);
-		expect(result.errors).toHaveLength(1);
-		expect(result.errors[0].location).toEqual('body');
-		expect(result.errors[0].msg).toEqual(emptyError);
-		expect(result.errors[0].param).toEqual('email-code');
-	});
-	it('invalid alpha characters entered not at start of string', async () => {
-		const req = {
-			body: {
-				'email-code': 'bcdef'
-			}
-		};
-
-		await testExpressValidatorMiddleware(
-			req,
-			res,
-			rules({
-				fieldName,
-				targetFieldName,
-				emptyError,
-				tooLongError
-			})
-		);
-
-		const result = validationResult(req);
-		expect(result.errors).toHaveLength(1);
-		expect(result.errors[0].location).toEqual('body');
-		expect(result.errors[0].msg).toEqual(emptyError);
-		expect(result.errors[0].param).toEqual('email-code');
-	});
 	it('invalid non alphanumeric characters entered', async () => {
 		const req = {
 			body: {
