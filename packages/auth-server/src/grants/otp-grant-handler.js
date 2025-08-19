@@ -37,7 +37,7 @@ export const handler = async function (ctx) {
 
 /**
  * @param {import('oidc-provider').KoaContextWithOIDC} ctx
- * @returns {Promise<{expires_at: number}>}
+ * @returns {Promise<{expires_in: number, access_token: 'temp', token_type: 'bearer' }>}
  */
 const performOtpGrant = async (ctx) => {
 	const { email, action } = ctx.oidc.params;
@@ -69,6 +69,8 @@ const performOtpGrant = async (ctx) => {
 	}
 
 	return {
+		access_token: 'temp',
+		token_type: 'bearer',
 		expires_in: config.server.tokenExpiry
 	};
 };
