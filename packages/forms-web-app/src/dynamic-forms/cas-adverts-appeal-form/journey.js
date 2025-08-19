@@ -77,7 +77,7 @@ const sections = [
 		.addQuestion(questions.enterApplicationReference)
 		.addQuestion(questions.planningApplicationDate)
 		.addQuestion(questions.enterDevelopmentDescription)
-		.addQuestion(questions.updateDevelopmentDescription)
+		.addQuestion(questions.updateAdvertisementDescription)
 		.addQuestion(questions.anyOtherAppeals)
 		.addQuestion(questions.linkAppeals)
 		.withCondition((response) => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
@@ -85,7 +85,7 @@ const sections = [
 		.addQuestion(questions.uploadOriginalApplicationForm)
 		.addQuestion(questions.uploadChangeOfDescriptionEvidence)
 		.withCondition((response) =>
-			questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
+			questionHasAnswer(response, questions.updateAdvertisementDescription, 'yes')
 		)
 		.addQuestion(questions.uploadApplicationDecisionLetter)
 		.addQuestion(questions.uploadAppellantStatement)
