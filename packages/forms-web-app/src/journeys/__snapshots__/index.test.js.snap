@@ -652,11 +652,12 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
-                <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <h1 class="govuk-fieldset__heading"> Is the appeal site on highway land?</h1>
-                    </legend>
-                    <div class="govuk-form-group">
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="highwayLand-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the appeal site on highway land?</h1>
+                        </legend>
+                        <div id="highwayLand-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="highwayLand" name="highwayLand"
@@ -669,8 +670,8 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
                                 <label class="govuk-label govuk-radios__label" for="highwayLand-2">No</label>
                             </div>
                         </div>
-                    </div>
-                </fieldset>
+                    </fieldset>
+                </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
             </form>
