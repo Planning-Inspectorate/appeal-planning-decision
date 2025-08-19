@@ -77,7 +77,7 @@ condition: (response) => shouldDisplayTellingLandowners(response, questions);
 - single-line-input `/reference-number/` What is the application reference number?
 - date `/application-date/` What date did you submit your application?
 - text-entry `/enter-description-of-development/` Enter the description of development that you submitted in your application
-- boolean `/description-development-correct/` Did the local planning authority change the description of development?
+- boolean `/description-advertisement-correct/` Did the local planning authority change the description of the advertisement?
 - boolean `/other-appeals/` Are there other appeals linked to your development?
 - list-add-more `/enter-appeal-reference/` Add another appeal?
 
@@ -91,7 +91,8 @@ condition: (response) => questionHasAnswer(response, questions.anyOtherAppeals, 
 - multi-file-upload `/upload-description-evidence/` Upload evidence of your agreement to change the description of development
 
 ```js
-condition: (response) => questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes');
+condition: (response) =>
+	questionHasAnswer(response, questions.updateAdvertisementDescription, 'yes');
 ```
 
 - multi-file-upload `/upload-decision-letter/` Upload the decision letter from the local planning authority

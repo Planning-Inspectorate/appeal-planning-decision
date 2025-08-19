@@ -403,7 +403,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the description-development-correct question 1`] = `
+exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the description-advertisement-correct question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -418,11 +418,12 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="updateDevelopmentDescription-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Did the local planning authority change the description of development?</h1>
+                            <h1 class="govuk-fieldset__heading"> Did the local planning authority change the description of the advertisement?</h1>
                         </legend>
-                        <div id="updateDevelopmentDescription-hint" class="govuk-hint">We need to know if the description of development is the same as what
-                            is on your application.</div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                        <div id="updateDevelopmentDescription-hint" class="govuk-hint">We need to know if the description of the advertisement is the same as
+                            what is on your application.</div>
+                        <div class="govuk-radios govuk-radios"
+                        data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="updateDevelopmentDescription" name="updateDevelopmentDescription"
                                 type="radio" value="yes" data-cy="answer-yes">
@@ -1708,10 +1709,10 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) re
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/enter-description-of-development?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Enter the description of development that you submitted in your application</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did the local planning authority change the description of development?</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did the local planning authority change the description of the advertisement?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/description-development-correct?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Did the local planning authority change the description of development?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/description-advertisement-correct?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Did the local planning authority change the description of the advertisement?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there other appeals linked to your development?</dt>

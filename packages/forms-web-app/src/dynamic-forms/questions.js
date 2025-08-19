@@ -2647,6 +2647,32 @@ exports.questionProps = {
 		fieldName: 'landownerPermission',
 		url: 'landowner-permission',
 		validators: [new RequiredValidator('Select yes if you have the landowner’s permission')]
+	},
+	updateAdvertisementDescription: {
+		type: 'boolean',
+		title: 'Did the local planning authority change the description of the advertisement?',
+		question: 'Did the local planning authority change the description of the advertisement?',
+		fieldName: 'updateDevelopmentDescription',
+		url: 'description-advertisement-correct',
+		html: 'resources/development-description/content.html', //?
+		hint: 'We need to know if the description of the advertisement is the same as what is on your application.',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the local planning authority changed the description of the advertisement'
+			)
+		],
+		options: [
+			{
+				text: 'Yes, I agreed a new description with the local planning authority',
+				value: 'yes',
+				attributes: { 'data-cy': 'answer-yes' }
+			},
+			{
+				text: 'No',
+				value: 'no',
+				attributes: { 'data-cy': 'answer-no' }
+			}
+		]
 	}
 };
 
