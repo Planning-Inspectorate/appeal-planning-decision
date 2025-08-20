@@ -76,7 +76,7 @@ const makeSections = (response) => [
 		.addQuestion(questions.healthAndSafety)
 		.addQuestion(questions.enterApplicationReference)
 		.addQuestion(questions.planningApplicationDate)
-		.addQuestion(questions.enterDevelopmentDescription)
+		.addQuestion(questions.enterAdvertisementDescription)
 		.addQuestion(questions.updateAdvertisementDescription)
 		.addQuestion(questions.anyOtherAppeals)
 		.addQuestion(questions.linkAppeals)
