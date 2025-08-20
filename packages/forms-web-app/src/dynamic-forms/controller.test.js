@@ -732,8 +732,8 @@ describe('dynamic-form/controller', () => {
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(''))
 			});
 		});
-		it('renders correct page for CAS Adverts', () => {
-			req.session.appeal = { appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT };
+		it('renders correct page for Adverts', () => {
+			req.session.appeal = { appealType: APPEAL_ID.ADVERTISEMENT };
 			appellantBYSListOfDocuments(req, res);
 			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents', {
 				usingV2Form: true,

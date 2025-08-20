@@ -3,7 +3,6 @@ const {
 		HOUSEHOLDER_PLANNING,
 		LISTED_BUILDING,
 		MINOR_COMMERCIAL_DEVELOPMENT,
-		MINOR_COMMERCIAL_ADVERTISEMENT,
 		ADVERTISEMENT,
 		PRIOR_APPROVAL,
 		REMOVAL_OR_VARIATION_OF_CONDITIONS
@@ -50,8 +49,6 @@ const getNextPageFromCanUseServicePage = async (appeal) => {
 				return nextPage.casAppeal;
 			}
 			return nextPage.fullAppeal;
-		case MINOR_COMMERCIAL_ADVERTISEMENT:
-			return nextPage.advert;
 		case ADVERTISEMENT:
 			return nextPage.advert;
 

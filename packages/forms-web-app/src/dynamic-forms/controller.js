@@ -465,7 +465,6 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 		case APPEAL_ID.PLANNING_SECTION_78:
 		case APPEAL_ID.PLANNING_LISTED_BUILDING:
 		case APPEAL_ID.MINOR_COMMERCIAL:
-		case APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT:
 		case APPEAL_ID.ADVERTISEMENT:
 			return res.render('full-appeal/submit-appeal/list-of-documents', {
 				usingV2Form,
