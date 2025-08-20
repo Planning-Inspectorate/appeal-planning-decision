@@ -403,6 +403,38 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the description-advertisement question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="developmentDescriptionOriginal"> Enter the description of the advertisement that you submitted in your application</label></h1>
+                <div class="govuk-form-group">
+                    <div id="developmentDescriptionOriginal-hint" class="govuk-hint"></div>
+                    <textarea class="govuk-textarea" id="developmentDescriptionOriginal"
+                    name="developmentDescriptionOriginal" rows="5" aria-describedby="developmentDescriptionOriginal-hint"></textarea>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the description-advertisement-correct question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -476,40 +508,6 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
         data-cy="button-save-and-continue">Continue</button>
         </form>
     </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the enter-description-of-development question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="" method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="developmentDescriptionOriginal"> Enter the description of development that you submitted in your application</label></h1>
-                <div class="govuk-form-group">
-                    <div id="developmentDescriptionOriginal-hint" class="govuk-hint">If the local planning authority changed the description of development,
-                        you can upload evidence of your agreement to change the description later.</div>
-                    <textarea
-                    class="govuk-textarea" id="developmentDescriptionOriginal" name="developmentDescriptionOriginal"
-                    rows="5" aria-describedby="developmentDescriptionOriginal-hint"></textarea>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -1703,10 +1701,10 @@ exports[`Dynamic forms journey tests appellant Advertisement renders listing pag
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/application-date?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What date did you submit your application?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the description of development that you submitted in your application</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the description of the advertisement</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/enter-description-of-development?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Enter the description of development that you submitted in your application</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/description-advertisement?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Enter the description of the advertisement that you submitted in your application</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did the local planning authority change the description of the advertisement?</dt>

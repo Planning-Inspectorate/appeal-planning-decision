@@ -2673,6 +2673,22 @@ exports.questionProps = {
 				attributes: { 'data-cy': 'answer-no' }
 			}
 		]
+	},
+	enterAdvertisementDescription: {
+		type: 'text-entry',
+		title: 'Enter the description of the advertisement',
+		question: 'Enter the description of the advertisement that you submitted in your application',
+		fieldName: 'developmentDescriptionOriginal',
+		url: 'description-advertisement',
+		validators: [
+			new RequiredValidator('Enter a description'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Your description must be ${appealFormV2.textInputMaxLength} characters or less`
+				}
+			})
+		]
 	}
 };
 
