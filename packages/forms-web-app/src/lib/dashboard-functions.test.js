@@ -1,4 +1,7 @@
 const {
+	mapToLPADashboardDisplayData,
+	mapToAppellantDashboardDisplayData,
+	mapToRule6DashboardDisplayData,
 	formatAddress,
 	determineJourneyToDisplayLPADashboard,
 	determineJourneyToDisplayRule6Dashboard,
@@ -10,6 +13,8 @@ const {
 	APPEAL_CASE_STATUS,
 	APPEAL_LINKED_CASE_STATUS
 } = require('@planning-inspectorate/data-model');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { APPEAL_ID, APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 
 jest.mock('@pins/common/src/lib/calculate-due-in-days');
 jest.mock('./calculate-days-since-invalidated');
@@ -308,6 +313,106 @@ describe('lib/dashboard-functions', () => {
 			];
 
 			expect(updateChildAppealDisplayData(testInputArray)).toEqual(expectedOutputArray);
+		});
+	});
+
+	const caseTypes = Object.values(CASE_TYPES);
+
+	describe('mapToLPADashboardDisplayData', () => {
+		caseTypes.forEach((caseType) => {
+			it(`Appeal case returns the case type name for ${caseType.type}`, () => {
+				expect(
+					mapToLPADashboardDisplayData({
+						...testLeadDashboardData,
+						appealTypeCode: caseType.processCode
+					})
+				).toEqual(
+					expect.objectContaining({
+						appealType: caseType.type
+					})
+				);
+			});
+		});
+	});
+
+	describe('mapToAppellantDashboardDisplayData', () => {
+		caseTypes.forEach((caseType) => {
+			it(`Appeal case returns the case type name for ${caseType.type}`, () => {
+				expect(
+					mapToAppellantDashboardDisplayData({
+						...testLeadDashboardData,
+						appealTypeCode: caseType.processCode
+					})
+				).toEqual(
+					expect.objectContaining({
+						appealType: caseType.type
+					})
+				);
+			});
+
+			it(`V2 appeal drafts display on dashboard for ${caseType.type}`, () => {
+				expect(
+					mapToAppellantDashboardDisplayData({
+						AppellantSubmission: {
+							submitted: false,
+							appealTypeCode: caseType.processCode,
+							applicationDecisionDate: new Date().toISOString(),
+							SubmissionAddress: [{}]
+						}
+					})
+				).toEqual(
+					expect.objectContaining({
+						appealType: caseType.type
+					})
+				);
+			});
+		});
+
+		it(`V1 appeal drafts displays on dashboard`, () => {
+			expect(
+				mapToAppellantDashboardDisplayData({
+					appeal: {
+						decisionDate: new Date().toISOString(),
+						appealType: APPEAL_ID.PLANNING_SECTION_78,
+						applicationDecision: APPLICATION_DECISION.REFUSED
+					}
+				})
+			).toEqual(
+				expect.objectContaining({
+					appealType: 'Full appeal'
+				})
+			);
+
+			expect(
+				mapToAppellantDashboardDisplayData({
+					appeal: {
+						decisionDate: new Date().toISOString(),
+						appealType: APPEAL_ID.HOUSEHOLDER,
+						applicationDecision: APPLICATION_DECISION.REFUSED
+					}
+				})
+			).toEqual(
+				expect.objectContaining({
+					appealType: 'Householder appeal'
+				})
+			);
+		});
+	});
+
+	describe('mapToRule6DashboardDisplayData', () => {
+		caseTypes.forEach((caseType) => {
+			it(`Appeal case returns the case type name for ${caseType.type}`, () => {
+				expect(
+					mapToRule6DashboardDisplayData({
+						...testLeadDashboardData,
+						appealTypeCode: caseType.processCode
+					})
+				).toEqual(
+					expect.objectContaining({
+						appealType: caseType.type
+					})
+				);
+			});
 		});
 	});
 });
