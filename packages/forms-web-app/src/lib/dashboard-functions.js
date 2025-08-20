@@ -449,14 +449,10 @@ const getAppealType = (appealCaseData) => {
 		return getAppealTypeName(appealCaseData.appeal?.appealType);
 	}
 	if (isV2Submission(appealCaseData)) {
-		const submissionType = caseTypeNameWithDefault(
-			appealCaseData?.AppellantSubmission?.appealTypeCode
-		);
-		return `${submissionType} appeal`;
+		return caseTypeNameWithDefault(appealCaseData?.AppellantSubmission?.appealTypeCode);
 	}
 
-	const caseType = caseTypeNameWithDefault(appealCaseData?.appealTypeCode);
-	return `${caseType} appeal`;
+	return caseTypeNameWithDefault(appealCaseData?.appealTypeCode);
 };
 
 module.exports = {
