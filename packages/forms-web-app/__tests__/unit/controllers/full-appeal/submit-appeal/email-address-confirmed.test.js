@@ -88,10 +88,10 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('CAS_PLANNING'))
 			});
 		});
+
 		it('calls correct template: cas adverts', async () => {
 			req.session.appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT;
-			req.session.appeal.typeOfPlanningApplication =
-				TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_ADVERTISEMENT;
+			req.session.appeal.typeOfPlanningApplication = TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT;
 			isLpaInFeatureFlag.mockImplementation((_, flag) => {
 				return flag === FLAG.CAS_ADVERTS_APPEAL_FORM_V2;
 			});
