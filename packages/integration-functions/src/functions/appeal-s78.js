@@ -29,8 +29,8 @@ const handler = async (message, context) => {
 };
 
 app.serviceBusTopic('appeals-s78', {
-	topicName: 'appeal-s78',
-	subscriptionName: 'appeal-s78-fo-sub',
+	topicName: config.AZURE.BO_SERVICEBUS.TOPIC_NAME.APPEAL_S78,
+	subscriptionName: config.AZURE.BO_SERVICEBUS.SUBSCRIPTION_NAME.APPEAL_S78,
 	connection: 'ServiceBusConnection',
 	handler: handler
 });
