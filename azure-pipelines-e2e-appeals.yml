@@ -5,6 +5,7 @@ parameters:
     values:
       - 'dev'
       - 'test'
+      - 'staging'
   - name: SmokeOnly
     type: boolean
     default: true
@@ -58,7 +59,7 @@ jobs:
         condition: eq(variables['agent.os'], 'Linux')
 
       - task: ShellScript@2
-        inputs:          
+        inputs:
           ${{ if eq(parameters.SmokeOnly, true) }}:
             scriptPath: test-packages/platform-feature-tests/run-smoke-tests.sh
           ${{ else }}:
