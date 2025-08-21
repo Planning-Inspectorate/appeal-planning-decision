@@ -4,7 +4,7 @@ const { enGB } = require('date-fns/locale');
 
 const BaseValidator = require('./base-validator.js');
 const { dateInputsToDate } = require('../dynamic-components/utils/date-inputs-to-date.js');
-const monthMap = require('#lib/month-map');
+const monthMap = require('../lib/month-map');
 
 /**
  * @typedef {import('../dynamic-components/date/question.js')} DateQuestion

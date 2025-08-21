@@ -4,8 +4,6 @@
  * instances of this class                                 *
  ***********************************************************/
 
-const config = require('../config');
-
 /**
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('./section').Section} Section
@@ -71,7 +69,8 @@ class Journey {
 		returnToListing,
 		makeSections,
 		initialBackLink,
-		bannerHtmlOverride
+		bannerHtmlOverride,
+		defaultSection
 	}) {
 		if (!journeyId || typeof journeyId !== 'string') {
 			throw new Error('journeyId should be a string.');
@@ -114,6 +113,8 @@ class Journey {
 		this.initialBackLink = initialBackLink ?? this.taskListUrl;
 
 		this.bannerHtmlOverride = bannerHtmlOverride ?? '';
+
+		this.defaultSection = defaultSection ?? 'default';
 	}
 
 	/**
@@ -150,7 +151,7 @@ class Journey {
 	 * @returns {string} url for a question
 	 */
 	#buildQuestionUrl(sectionSegment, questionSegment) {
-		if (sectionSegment === config.dynamicForms.DEFAULT_SECTION) {
+		if (sectionSegment === this.defaultSection) {
 			return this.#prependPathToUrl(this.baseUrl, `${questionSegment}`);
 		}
 		return this.#prependPathToUrl(this.baseUrl, `${sectionSegment}/${questionSegment}`);

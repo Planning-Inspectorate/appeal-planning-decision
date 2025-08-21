@@ -1,4 +1,4 @@
-const { capitalize } = require('../lib/string-functions');
+const { capitalize } = require('./lib/string-functions');
 const { numericFields } = require('./dynamic-components/utils/numeric-fields');
 const escape = require('escape-html');
 const { nl2br } = require('@pins/common/src/utils');
@@ -10,6 +10,7 @@ const RequiredFileUploadValidator = require('./validator/required-file-upload-va
  * @typedef {import('./journey').Journey} Journey
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('./section').Section} Section
+ * @typedef {string} QuestionVariables
  */
 
 /**
@@ -50,8 +51,6 @@ class Question {
 	viewFolder;
 	/** @type {string} the unique name of the input on the page, also used as a url segment (should this be separated) */
 	fieldName;
-	/** @type {boolean} if the question should appear in the journey overview task list or not */
-	taskList;
 	/** @type {Array.<BaseValidator>} array of validators that a question uses to validate answers */
 	validators = [];
 	/** @type {string|undefined} hint text displayed to user */
@@ -88,7 +87,7 @@ class Question {
 	 * @param {string} [params.hint]
 	 * @param {string} [params.interfaceType]
 	 * @param {(response: JourneyResponse) => boolean} [params.shouldDisplay]
-	 * @param {Array.<QUESTION_VARIABLES>} [params.variables]
+	 * @param {Array.<QuestionVariables>} [params.variables]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
@@ -138,9 +137,6 @@ class Question {
 			// @ts-ignore
 			this[methodName] = methodOverride.bind(this);
 		});
-
-		//todo: taskList default to true, or pass in as param if question shouldn't be displayed in task (summary) list
-		//or possibly add taskList condition to the Section class as part of withCondition method(or similar) if possible?
 	}
 
 	/**

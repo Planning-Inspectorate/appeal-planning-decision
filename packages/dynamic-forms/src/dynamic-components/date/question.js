@@ -1,4 +1,4 @@
-const monthMap = require('#lib/month-map');
+const monthMap = require('../../lib/month-map');
 const Question = require('../../question');
 const { parseDateInput, formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 

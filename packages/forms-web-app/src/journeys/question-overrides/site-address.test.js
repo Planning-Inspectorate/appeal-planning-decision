@@ -1,4 +1,4 @@
-const SiteAddressQuestion = require('../../dynamic-forms/dynamic-components/site-address/question');
+const SiteAddressQuestion = require('@pins/dynamic-forms/src/dynamic-components/site-address/question');
 const { saveAction } = require('./site-address');
 
 describe('site-address-overrides', () => {
