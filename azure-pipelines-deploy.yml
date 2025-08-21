@@ -49,7 +49,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.20.3
+      ref: refs/tags/release/3.24.0
   pipelines:
     - pipeline: build
       source: Appeals Service Build
@@ -72,6 +72,9 @@ extends:
       - name: Test
         dependsOn:
           - Dev
+      - name: Staging
+        dependsOn:
+          - Test
       - name: Training
         dependsOn:
           - Test
