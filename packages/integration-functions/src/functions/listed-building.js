@@ -16,9 +16,11 @@ const handler = async (message) => {
 	return await client.putListedBuildings(message);
 };
 
+const config = require('../common/config');
+
 app.serviceBusTopic('listedBuilding', {
-	topicName: 'listed-building',
-	subscriptionName: 'listed-building-fo-sub',
+	topicName: config.AZURE.BO_SERVICEBUS.TOPIC_NAME.LISTED_BUILDING,
+	subscriptionName: config.AZURE.BO_SERVICEBUS.SUBSCRIPTION_NAME.LISTED_BUILDING,
 	connection: 'ServiceBusConnection',
 	cardinality: 'many',
 	handler: handler

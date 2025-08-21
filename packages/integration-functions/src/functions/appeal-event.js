@@ -15,9 +15,11 @@ const handler = async (appealEvent, _context) => {
 	return await client.putAppealEvent(appealEvent); // API will validate the message and throw if there is an error
 };
 
+const config = require('../common/config');
+
 app.serviceBusTopic('appeal-event', {
-	topicName: 'appeal-event',
-	subscriptionName: 'appeal-event-fo-sub',
+	topicName: config.AZURE.BO_SERVICEBUS.TOPIC_NAME.APPEAL_EVENT,
+	subscriptionName: config.AZURE.BO_SERVICEBUS.SUBSCRIPTION_NAME.APPEAL_EVENT,
 	connection: 'ServiceBusConnection',
 	handler: handler
 });

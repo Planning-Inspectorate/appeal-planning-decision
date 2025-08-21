@@ -26,9 +26,11 @@ const handler = async (serviceUser, context) => {
 	return await client.putServiceUser(serviceUser); // API will validate the message and throw if there is an error
 };
 
+const config = require('../common/config');
+
 app.serviceBusTopic('serviceUser', {
-	topicName: 'appeal-service-user',
-	subscriptionName: 'appeal-service-user-fo-sub',
+	topicName: config.AZURE.BO_SERVICEBUS.TOPIC_NAME.APPEAL_SERVICE_USER,
+	subscriptionName: config.AZURE.BO_SERVICEBUS.SUBSCRIPTION_NAME.APPEAL_SERVICE_USER,
 	connection: 'ServiceBusConnection',
 	handler: handler
 });
