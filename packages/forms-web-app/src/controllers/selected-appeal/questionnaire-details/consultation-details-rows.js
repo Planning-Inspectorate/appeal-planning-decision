@@ -14,7 +14,9 @@ exports.consultationRows = (caseData) => {
 	);
 	const otherPartyRepresentationsText = boolToYesNo(hasOtherPartyRepresentations);
 
-	const isHASAppeal = caseData.appealTypeCode === CASE_TYPES.HAS.processCode;
+	const hasOrCasPlanningAppeal =
+		caseData.appealTypeCode === CASE_TYPES.HAS.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode;
 
 	return [
 		{
@@ -27,7 +29,7 @@ exports.consultationRows = (caseData) => {
 			valueText: boolToYesNo(
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.CONSULTATION_RESPONSES)
 			),
-			condition: () => !isHASAppeal
+			condition: () => !hasOrCasPlanningAppeal
 		},
 		{
 			keyText: 'Uploaded consultation responses and standing advice',
