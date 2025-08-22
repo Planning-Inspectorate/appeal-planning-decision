@@ -113,4 +113,30 @@ describe('SiteAddressQuestion', () => {
 			expect(typeof summary[0].action).toBe('object');
 		});
 	});
+
+	describe('formatAnswerForSummary', () => {
+		const section = { segment: 'test-section', name: 'Test section' };
+		const journey = {
+			response: {
+				answers: {
+					SubmissionAddress: [{ ...testAddress, fieldName: FIELDNAME }]
+				}
+			},
+			getBackLink: jest.fn().mockReturnValue('/back'),
+			getCurrentQuestionUrl: jest.fn().mockReturnValue('/current'),
+			getSection: jest.fn().mockReturnValue(section)
+		};
+
+		it('should create view model with existing address details', () => {
+			const result = question.prepQuestionForRendering({ section, journey });
+
+			expect(result).toEqual(
+				expect.objectContaining({
+					question: expect.objectContaining({
+						value: testAddress
+					})
+				})
+			);
+		});
+	});
 });

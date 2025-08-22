@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const { getAddMoreIfPresent } = require('../validator/utils/utils');
+const { getAddMoreIfPresent } = require('./utils/utils');
 
 /** @type {() => import('express').Handler} */
 const validate = () => {

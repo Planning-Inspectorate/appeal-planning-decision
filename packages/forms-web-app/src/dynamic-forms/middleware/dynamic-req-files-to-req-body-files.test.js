@@ -1,4 +1,4 @@
-const dynamicReqFilesToReqBodyFilesMiddleware = require('../../../src/dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
+const dynamicReqFilesToReqBodyFilesMiddleware = require('./dynamic-req-files-to-req-body-files');
 
 describe('dynamic-forms/middleware/dynamic-req-files-to-req-body-files', () => {
 	let counter = 0;
