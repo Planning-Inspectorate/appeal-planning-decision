@@ -1,6 +1,6 @@
 const AddMoreQuestion = require('../add-more/question');
 const AddressAddMoreQuestion = require('./question');
-const Address = require('@pins/common/src/lib/address');
+const Address = require('../../lib/address');
 const uuid = require('uuid');
 
 const TITLE = 'title';
