@@ -3,8 +3,8 @@ jest.mock('../get-journey-save');
 jest.mock('../../lib/multi-file-upload-helpers');
 
 const { createDocument } = require('#lib/documents-api-wrapper');
-const { createQuestions } = require('../../dynamic-forms/create-questions');
-const MultiFileUploadQuestion = require('../../dynamic-forms/dynamic-components/multi-file-upload/question');
+const { createQuestions } = require('@pins/dynamic-forms/src/create-questions');
+const MultiFileUploadQuestion = require('@pins/dynamic-forms/src/dynamic-components/multi-file-upload/question');
 const multiFileUploadOverrides = require('./multi-file-upload');
 const { getUploadDoumentFunction, getRemoveDocumentFunction } = require('../get-journey-save');
 const multiFileUploadHelpers = require('../../lib/multi-file-upload-helpers');
@@ -23,7 +23,7 @@ const res = {};
 describe('multi-file-upload', () => {
 	let req, journeyResponse, uploadDocument;
 	/**
-	 * @type {import('../../dynamic-forms/dynamic-components/multi-file-upload/question')}
+	 * @type {import('@pins/dynamic-forms/src/dynamic-components/multi-file-upload/question')}
 	 */
 	let questionInstance;
 

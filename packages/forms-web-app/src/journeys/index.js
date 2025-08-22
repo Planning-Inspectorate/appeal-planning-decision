@@ -22,27 +22,31 @@ const {
 	adverts: advertsQuestionnaireParams
 } = require('../dynamic-forms/adverts-questionnaire/journey');
 
-const { Journeys } = require('../dynamic-forms/journeys');
+const { Journeys } = require('@pins/dynamic-forms/src/journeys');
 
 const journeys = new Journeys();
 
-journeys.registerJourney(hasAppealParams);
-journeys.registerJourney(hasQuestionnaireParams);
-journeys.registerJourney(s78AppealParams);
-journeys.registerJourney(s78QuestionnaireParams);
-journeys.registerJourney(s78AppellantFinalCommentsParams);
-journeys.registerJourney(s78AppellantProofEvidenceParams);
-journeys.registerJourney(s78LpaFinalCommentsParams);
-journeys.registerJourney(s78LpaStatementParams);
-journeys.registerJourney(s78LpaProofEvidenceParams);
-journeys.registerJourney(s78Rule6ProofEvidenceParams);
-journeys.registerJourney(s78Rule6StatementParams);
-journeys.registerJourney(s20AppealParams);
-journeys.registerJourney(s20QuestionnaireParams);
-journeys.registerJourney(casPlanningAppealForm);
-journeys.registerJourney(casPlanningQuestionnaireParams);
-journeys.registerJourney(casAdvertsQuestionnaireParams);
-journeys.registerJourney(advertsAppealForm);
-journeys.registerJourney(advertsQuestionnaireParams);
+const commonParams = {
+	defaultSection: 'appeal'
+};
+
+journeys.registerJourney({ ...commonParams, ...hasAppealParams });
+journeys.registerJourney({ ...commonParams, ...hasQuestionnaireParams });
+journeys.registerJourney({ ...commonParams, ...s78AppealParams });
+journeys.registerJourney({ ...commonParams, ...s78QuestionnaireParams });
+journeys.registerJourney({ ...commonParams, ...s78AppellantFinalCommentsParams });
+journeys.registerJourney({ ...commonParams, ...s78AppellantProofEvidenceParams });
+journeys.registerJourney({ ...commonParams, ...s78LpaFinalCommentsParams });
+journeys.registerJourney({ ...commonParams, ...s78LpaStatementParams });
+journeys.registerJourney({ ...commonParams, ...s78LpaProofEvidenceParams });
+journeys.registerJourney({ ...commonParams, ...s78Rule6ProofEvidenceParams });
+journeys.registerJourney({ ...commonParams, ...s78Rule6StatementParams });
+journeys.registerJourney({ ...commonParams, ...s20AppealParams });
+journeys.registerJourney({ ...commonParams, ...s20QuestionnaireParams });
+journeys.registerJourney({ ...commonParams, ...casPlanningAppealForm });
+journeys.registerJourney({ ...commonParams, ...casPlanningQuestionnaireParams });
+journeys.registerJourney({ ...commonParams, ...casAdvertsQuestionnaireParams });
+journeys.registerJourney({ ...commonParams, ...advertsAppealForm });
+journeys.registerJourney({ ...commonParams, ...advertsQuestionnaireParams });
 
 module.exports = { journeys };

@@ -1,4 +1,4 @@
-const { Journey } = require('../journey');
+const { Journey } = require('@pins/dynamic-forms/src/journey');
 const { casAdverts, adverts } = require('./journey');
 const {
 	CASE_TYPES: { ADVERTS, CAS_ADVERTS }
