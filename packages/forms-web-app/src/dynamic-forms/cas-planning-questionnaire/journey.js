@@ -1,16 +1,18 @@
 const { getQuestions } = require('../questions');
 const questions = getQuestions();
-const { Section } = require('../section');
+const { Section } = require('@pins/dynamic-forms/src/section');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 const {
 	CASE_TYPES: { CAS_PLANNING }
 } = require('@pins/common/src/database/data-static');
-const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
+const {
+	questionHasAnswer
+} = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
 
 /**
- * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
- * @typedef {Omit<ConstructorParameters<typeof import('../journey').Journey>[0], 'response'>} JourneyParameters
+ * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
+ * @typedef {Omit<ConstructorParameters<typeof import('@pins/dynamic-forms/src/journey').Journey>[0], 'response'>} JourneyParameters
  */
 
 /**

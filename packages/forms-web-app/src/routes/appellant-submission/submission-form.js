@@ -11,10 +11,10 @@ const {
 	appellantBYSListOfDocuments,
 	appellantStartAppeal
 } = require('../../dynamic-forms/controller');
-const validate = require('../../dynamic-forms/validator/validator');
+const validate = require('@pins/dynamic-forms/src/validator/validator');
 const {
 	validationErrorHandler
-} = require('../../dynamic-forms/validator/validation-error-handler');
+} = require('@pins/dynamic-forms/src/validator/validation-error-handler');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-appellant');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');

@@ -11,9 +11,9 @@ const { getJourneyTypeById } = require('@pins/common/src/dynamic-forms/journey-t
 const { getUploadDoumentFunction, getRemoveDocumentFunction } = require('../get-journey-save');
 
 /**
- * @typedef {import('../../dynamic-forms/journey').Journey} Journey
- * @typedef {import('../../dynamic-forms/journey-response').JourneyResponse} JourneyResponse
- * @typedef {import('../../dynamic-forms/section').Section} Section * @typedef {import('../../dynamic-forms/dynamic-components/multi-file-upload/question')} MultiFileUploadQuestion
+ * @typedef {import('@pins/dynamic-forms/src/journey').Journey} Journey
+ * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('@pins/dynamic-forms/src/section').Section} Section * @typedef {import('@pins/dynamic-forms/src/dynamic-components/multi-file-upload/question')} MultiFileUploadQuestion
  */
 
 /**

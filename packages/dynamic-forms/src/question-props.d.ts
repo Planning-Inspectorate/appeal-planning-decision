@@ -1,4 +1,3 @@
-import { DocType } from '@pins/common/src/document-types';
 import { JourneyResponse } from './journey-response';
 import BaseValidator from './validator/base-validator';
 import { QuestionVariables } from './question';

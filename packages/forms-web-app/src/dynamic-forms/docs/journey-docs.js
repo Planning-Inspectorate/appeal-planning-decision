@@ -2,7 +2,7 @@ let details = [];
 
 const fs = require('fs').promises;
 const path = require('path');
-const { Section } = require('../section');
+const { Section } = require('@pins/dynamic-forms/src/section');
 
 Section.prototype.withCondition = function (condition) {
 	const lastQuestionAdded = this.questions.length - 1;

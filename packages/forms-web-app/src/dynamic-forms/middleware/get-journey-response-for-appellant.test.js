@@ -1,5 +1,5 @@
 const getJourneyResponseForAppellant = require('./get-journey-response-for-appellant');
-const { JourneyResponse } = require('../journey-response');
+const { JourneyResponse } = require('@pins/dynamic-forms/src/journey-response');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
