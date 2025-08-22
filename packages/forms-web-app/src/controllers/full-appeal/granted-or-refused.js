@@ -1,5 +1,5 @@
 const {
-	constants: { APPLICATION_DECISION }
+	constants: { APPLICATION_DECISION, TYPE_OF_PLANNING_APPLICATION, APPEAL_ID }
 } = require('@pins/business-rules');
 const logger = require('../../lib/logger');
 const {
@@ -15,6 +15,8 @@ const config = require('../../config');
 const {
 	typeOfPlanningApplicationToAppealTypeMapper
 } = require('#lib/full-appeal/map-planning-application');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 exports.forwardPage = (status) => {
 	const statuses = {
@@ -44,6 +46,11 @@ exports.postGrantedOrRefused = async (req, res) => {
 	const { appeal } = req.session;
 	const { errors = {}, errorSummary = [] } = body;
 
+	const [isV2forCASAdverts, isV2forAdverts] = await Promise.all([
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2)
+	]);
+
 	const applicationDecision = body['granted-or-refused'];
 	let selectedApplicationStatus = null;
 
@@ -67,6 +74,13 @@ exports.postGrantedOrRefused = async (req, res) => {
 		return;
 	}
 
+	if (appeal.typeOfPlanningApplication == TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT) {
+		appeal.appealType =
+			applicationDecision == APPLICATION_DECISION.REFUSED
+				? (appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT)
+				: (appeal.appealType = APPEAL_ID.ADVERTISEMENT);
+	}
+
 	try {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 	} catch (e) {
@@ -80,6 +94,14 @@ exports.postGrantedOrRefused = async (req, res) => {
 				config.betaBannerText +
 				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 		});
+		return;
+	}
+
+	if (
+		(appeal.appealType == APPEAL_ID.ADVERTISEMENT && !isV2forAdverts) ||
+		(appeal.appealType == APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT && !isV2forCASAdverts)
+	) {
+		res.redirect('/before-you-start/use-existing-service-application-type');
 		return;
 	}
 

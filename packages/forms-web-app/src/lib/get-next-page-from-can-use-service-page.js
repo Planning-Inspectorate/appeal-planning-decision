@@ -3,7 +3,6 @@ const {
 		HOUSEHOLDER_PLANNING,
 		LISTED_BUILDING,
 		MINOR_COMMERCIAL_DEVELOPMENT,
-		MINOR_COMMERCIAL_ADVERTISEMENT,
 		ADVERTISEMENT,
 		PRIOR_APPROVAL,
 		REMOVAL_OR_VARIATION_OF_CONDITIONS
@@ -50,11 +49,11 @@ const getNextPageFromCanUseServicePage = async (appeal) => {
 				return nextPage.casAppeal;
 			}
 			return nextPage.fullAppeal;
-		case MINOR_COMMERCIAL_ADVERTISEMENT:
-			return nextPage.advert;
 		case ADVERTISEMENT:
+			if (applicationDecision === REFUSED) {
+				return nextPage.casAdvert;
+			}
 			return nextPage.advert;
-
 		default:
 			return nextPage.fullAppeal;
 	}
@@ -82,9 +81,8 @@ const getNextPage = async (/** @type {string} */ lpaCode) => {
 			isV2forS20 ? 'email-address' : 'planning-application-number'
 		}`,
 		casAppeal: `/cas-planning/${isV2forCAS ? 'email-address' : 'planning-application-number'}`,
-		advert: `/adverts/${
-			isV2forCASAdverts || isV2forAdverts ? 'email-address' : 'planning-application-number'
-		}`
+		casAdvert: `/adverts/${isV2forCASAdverts ? 'email-address' : 'planning-application-number'}`,
+		advert: `/adverts/${isV2forAdverts ? 'email-address' : 'planning-application-number'}`
 	};
 };
 
