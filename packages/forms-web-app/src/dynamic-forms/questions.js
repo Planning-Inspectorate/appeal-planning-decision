@@ -6,39 +6,42 @@
  *************************************************************/
 
 // question classes
-const CheckboxQuestion = require('./dynamic-components/checkbox/question');
-const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
-const BooleanQuestion = require('./dynamic-components/boolean/question');
-const RadioQuestion = require('./dynamic-components/radio/question');
-const DateQuestion = require('./dynamic-components/date/question');
-const TextEntryQuestion = require('./dynamic-components/text-entry/question');
-const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
-const MultiFieldInputQuestion = require('./dynamic-components/multi-field-input/question');
-const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
-const SiteAddressQuestion = require('./dynamic-components/site-address/question');
-const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
-const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
+const CheckboxQuestion = require('@pins/dynamic-forms/src/dynamic-components/checkbox/question');
+const MultiFileUploadQuestion = require('@pins/dynamic-forms/src/dynamic-components/multi-file-upload/question');
+const BooleanQuestion = require('@pins/dynamic-forms/src/dynamic-components/boolean/question');
+const RadioQuestion = require('@pins/dynamic-forms/src/dynamic-components/radio/question');
+const DateQuestion = require('@pins/dynamic-forms/src/dynamic-components/date/question');
+const TextEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/text-entry/question');
+const SingleLineInputQuestion = require('@pins/dynamic-forms/src/dynamic-components/single-line-input/question');
+const MultiFieldInputQuestion = require('@pins/dynamic-forms/src/dynamic-components/multi-field-input/question');
+const NumberEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/number-entry/question');
+const SiteAddressQuestion = require('@pins/dynamic-forms/src/dynamic-components/site-address/question');
+const UnitOptionEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/unit-option-entry/question');
+const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
 
 // validators
-const RequiredValidator = require('./validator/required-validator');
-const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
-const MultifileUploadValidator = require('./validator/multifile-upload-validator');
-const AddressValidator = require('./validator/address-validator');
-const StringEntryValidator = require('./validator/string-validator');
-const StringValidator = require('./validator/string-validator');
-const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
-const UnitOptionEntryValidator = require('./validator/unit-option-entry-validator');
-const DateValidator = require('./validator/date-validator');
-const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
-const NumericValidator = require('./validator/numeric-validator');
-const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox-validator');
+const RequiredValidator = require('@pins/dynamic-forms/src/validator/required-validator');
+const RequiredFileUploadValidator = require('@pins/dynamic-forms/src/validator/required-file-upload-validator');
+const MultifileUploadValidator = require('@pins/dynamic-forms/src/validator/multifile-upload-validator');
+const AddressValidator = require('@pins/dynamic-forms/src/validator/address-validator');
+const StringEntryValidator = require('@pins/dynamic-forms/src/validator/string-validator');
+const StringValidator = require('@pins/dynamic-forms/src/validator/string-validator');
+const ConditionalRequiredValidator = require('@pins/dynamic-forms/src/validator/conditional-required-validator');
+const UnitOptionEntryValidator = require('@pins/dynamic-forms/src/validator/unit-option-entry-validator');
+const DateValidator = require('@pins/dynamic-forms/src/validator/date-validator');
+const MultiFieldInputValidator = require('@pins/dynamic-forms/src/validator/multi-field-input-validator');
+const NumericValidator = require('@pins/dynamic-forms/src/validator/numeric-validator');
+const ConfirmationCheckboxValidator = require('@pins/dynamic-forms/src/validator/confirmation-checkbox-validator');
 
 const {
 	APPEAL_CASE_PROCEDURE,
 	APPEAL_EIA_DEVELOPMENT_DESCRIPTION,
 	APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE
 } = require('@planning-inspectorate/data-model');
-const { getConditionalFieldName, DIVIDER } = require('./dynamic-components/utils/question-utils');
+const {
+	getConditionalFieldName,
+	DIVIDER
+} = require('@pins/dynamic-forms/src/dynamic-components/utils/question-utils');
 const { documentTypes } = require('@pins/common');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
@@ -71,17 +74,17 @@ const {
 		pins: { allowedFileTypes, maxFileUploadSize }
 	}
 } = require('../config');
-const { createQuestions } = require('./create-questions');
+const { createQuestions } = require('@pins/dynamic-forms/src/create-questions');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 const getClamAVClient = require('#lib/clam-av-client-get');
 
 // method overrides
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
 const siteAddressOverrides = require('../journeys/question-overrides/site-address');
-const formatNumber = require('./dynamic-components/utils/format-number');
+const formatNumber = require('@pins/dynamic-forms/src/dynamic-components/utils/format-number');
 
-/** @typedef {import('./question-props').QuestionProps} QuestionProps */
-/** @typedef {import('./question')} Question */
+/** @typedef {import('@pins/dynamic-forms/src/question-props').QuestionProps} QuestionProps */
+/** @typedef {import('@pins/dynamic-forms/src/question')} Question */
 
 const { getExampleDate } = require('./questions-utils');
 
@@ -2747,7 +2750,7 @@ exports.questionProps = {
 	}
 };
 
-/** @type {Record<string, typeof import('./question')>} */
+/** @type {Record<string, typeof import('@pins/dynamic-forms/src/question')>} */
 const questionClasses = {
 	checkbox: CheckboxQuestion,
 	'multi-file-upload': MultiFileUploadQuestion,

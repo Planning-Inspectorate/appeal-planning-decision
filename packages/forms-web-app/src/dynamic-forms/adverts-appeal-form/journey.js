@@ -1,6 +1,6 @@
 const { getQuestions } = require('../questions');
 const questions = getQuestions();
-const { Section } = require('../section');
+const { Section } = require('@pins/dynamic-forms/src/section');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const {
 	CASE_TYPES: { CAS_ADVERTS }
@@ -9,7 +9,7 @@ const config = require('../../config');
 const {
 	questionHasAnswer,
 	questionsHaveAnswers
-} = require('../dynamic-components/utils/question-has-answer');
+} = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
 const {
 	shouldDisplayIdentifyingLandowners,
 	shouldDisplayTellingLandowners,
@@ -17,8 +17,8 @@ const {
 } = require('../display-questions');
 
 /**
- * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
- * @typedef {Omit<ConstructorParameters<typeof import('../journey').Journey>[0], 'response'>} JourneyParameters
+ * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
+ * @typedef {Omit<ConstructorParameters<typeof import('@pins/dynamic-forms/src/journey').Journey>[0], 'response'>} JourneyParameters
  */
 
 /**

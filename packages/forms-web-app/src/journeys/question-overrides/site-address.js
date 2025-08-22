@@ -1,9 +1,9 @@
 /**
- * @typedef {import('../../dynamic-forms/journey-response').JourneyResponse} JourneyResponse
- * @typedef {import('../../dynamic-forms/journey').Journey} Journey
- * @typedef {import('../../dynamic-forms/section').Section} Section
- * @typedef {import('../../dynamic-forms/question').QuestionViewModel} QuestionViewModel
- * @typedef {import('../../dynamic-forms/dynamic-components/site-address/question')} SiteAddressQuestion
+ * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('@pins/dynamic-forms/src/journey').Journey} Journey
+ * @typedef {import('@pins/dynamic-forms/src/section').Section} Section
+ * @typedef {import('@pins/dynamic-forms/src/question').QuestionViewModel} QuestionViewModel
+ * @typedef {import('@pins/dynamic-forms/src/dynamic-components/site-address/question')} SiteAddressQuestion
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
  */
 
