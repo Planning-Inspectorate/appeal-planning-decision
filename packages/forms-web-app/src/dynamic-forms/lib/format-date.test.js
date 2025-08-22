@@ -1,4 +1,4 @@
-const { formatDateForDisplay } = require('./format-date');
+const { formatDateForDisplay, parseDateInput } = require('./format-date');
 
 describe('format-date', () => {
 	describe('formatUTCDateToUK', () => {
@@ -23,6 +23,24 @@ describe('format-date', () => {
 
 		it.each(badInputTests)('returns empty string for bad value: $date', ({ date, expected }) => {
 			expect(formatDateForDisplay(date)).toEqual(expected);
+		});
+	});
+
+	describe('parseDateInput', () => {
+		const tests = [
+			{ input: { year: 2024, month: 2, day: 20 }, expected: new Date('2024-02-20T00:00:00.000Z') },
+			{
+				input: { year: 2024, month: 9, day: 30, hour: 21, minute: 0 },
+				expected: new Date('2024-09-30T20:00:00.000Z')
+			},
+			{
+				input: { year: 2024, month: 10, day: 1, hour: 0, minute: 59 },
+				expected: new Date('2024-09-30T23:59:00.000Z')
+			}
+		];
+
+		it.each(tests)('parses date $date in Europe/London', ({ input, expected }) => {
+			expect(parseDateInput(input)).toEqual(expected);
 		});
 	});
 });

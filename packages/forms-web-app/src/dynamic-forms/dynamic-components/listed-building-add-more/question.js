@@ -1,5 +1,5 @@
 const AddMoreQuestion = require('../add-more/question');
-const ListedBuilding = require('@pins/common/src/lib/listed-building');
+const ListedBuilding = require('../../lib/listed-building');
 const { getListedBuildingForQuestion } = require('../utils/question-utils');
 
 const { randomUUID } = require('crypto');

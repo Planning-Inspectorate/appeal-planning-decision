@@ -1,8 +1,8 @@
 const Question = require('../../question');
-const Address = require('@pins/common/src/lib/address');
+const Address = require('../../lib/address');
 const { getAddressesForQuestion } = require('../utils/question-utils');
 const escape = require('escape-html');
-const { nl2br } = require('@pins/common/src/utils');
+const { nl2br } = require('../../lib/string-functions');
 
 /**
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse

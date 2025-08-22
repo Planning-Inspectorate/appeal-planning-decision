@@ -4,8 +4,6 @@
  * instances of this class                                 *
  ***********************************************************/
 
-const config = require('../config');
-
 /**
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('./section').Section} Section
@@ -58,6 +56,7 @@ class Journey {
 	 * @param {(response: JourneyResponse) => Section[]} options.makeSections - function to generate sections based on the response
 	 * @param {string} [options.initialBackLink] - back link when on the first question
 	 * @param {string} [options.bannerHtmlOverride] - html to override the beta banner
+	 * @param {string} [defaultSection] - default name for a section if none is provided
 	 */
 	constructor({
 		journeyId,
@@ -71,7 +70,8 @@ class Journey {
 		returnToListing,
 		makeSections,
 		initialBackLink,
-		bannerHtmlOverride
+		bannerHtmlOverride,
+		defaultSection
 	}) {
 		if (!journeyId || typeof journeyId !== 'string') {
 			throw new Error('journeyId should be a string.');
@@ -114,6 +114,8 @@ class Journey {
 		this.initialBackLink = initialBackLink ?? this.taskListUrl;
 
 		this.bannerHtmlOverride = bannerHtmlOverride ?? '';
+
+		this.defaultSection = defaultSection ?? 'default';
 	}
 
 	/**
@@ -150,7 +152,7 @@ class Journey {
 	 * @returns {string} url for a question
 	 */
 	#buildQuestionUrl(sectionSegment, questionSegment) {
-		if (sectionSegment === config.dynamicForms.DEFAULT_SECTION) {
+		if (sectionSegment === this.defaultSection) {
 			return this.#prependPathToUrl(this.baseUrl, `${questionSegment}`);
 		}
 		return this.#prependPathToUrl(this.baseUrl, `${sectionSegment}/${questionSegment}`);
