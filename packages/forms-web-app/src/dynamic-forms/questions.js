@@ -976,25 +976,26 @@ exports.questionProps = {
 	},
 	environmentalImpactSchedule: {
 		type: 'radio',
-		title: 'Schedule type',
-		question: 'Is the development a schedule 1 or schedule 2 development?',
+		title: 'What is the development category?',
+		question: 'What is the development category?',
 		fieldName: 'environmentalImpactSchedule',
 		url: 'schedule-1-or-2',
-		validators: [new RequiredValidator('Select the development schedule')],
+		validators: [new RequiredValidator('Select the development category')],
 		options: [
 			{
-				text: 'Yes, schedule 1',
+				text: 'Schedule 1',
 				value: APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE.SCHEDULE_1
 			},
 			{
-				text: 'Yes, schedule 2',
+				text: 'Schedule 2',
 				value: APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE.SCHEDULE_2
 			},
 			{
 				[DIVIDER]: 'or'
 			},
 			{
-				text: 'No',
+				// text was 'No' historically, keep value as 'no' as is used in display logic
+				text: 'Other',
 				value: 'no'
 			}
 		]

@@ -54,7 +54,7 @@ condition: () => questionHasAnswer(response, questions.rightOfWayCheck, 'yes');
 
 ## Environmental impact assessment
 
-- radio `/schedule-1-or-2/` Is the development a schedule 1 or schedule 2 development?
+- radio `/schedule-1-or-2/` What is the development category?
 - radio `/development-description/` Description of development
 
 ```js
