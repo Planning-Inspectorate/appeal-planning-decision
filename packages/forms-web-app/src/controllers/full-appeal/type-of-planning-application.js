@@ -29,9 +29,10 @@ const {
 const getTypeOfPlanningApplication = async (req, res) => {
 	const { appeal } = req.session;
 
-	const [isV2forS20, isV2forCASPlanning, isV2forAdverts] = await Promise.all([
+	const [isV2forS20, isV2forCASPlanning, isV2forCASAdverts, isV2forAdverts] = await Promise.all([
 		isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2),
 		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
 		isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2)
 	]);
 
@@ -40,6 +41,7 @@ const getTypeOfPlanningApplication = async (req, res) => {
 		radioItems: typeOfPlanningApplicationRadioItems(
 			isV2forS20,
 			isV2forCASPlanning,
+			isV2forCASAdverts,
 			isV2forAdverts,
 			appeal.typeOfPlanningApplication
 		)
@@ -53,12 +55,14 @@ const postTypeOfPlanningApplication = async (req, res) => {
 
 	const typeOfPlanningApplication = body['type-of-planning-application'];
 
-	const [isV2forS20, isV2forCASPlanning, isV2forS78, isV2forAdverts] = await Promise.all([
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2)
-	]);
+	const [isV2forS20, isV2forCASPlanning, isV2forS78, isV2forCASAdverts, isV2forAdverts] =
+		await Promise.all([
+			isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2),
+			isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
+			isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2),
+			isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
+			isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2)
+		]);
 
 	let isListedBuilding = null;
 	if (isV2forS20 && typeOfPlanningApplication !== REMOVAL_OR_VARIATION_OF_CONDITIONS) {
@@ -71,6 +75,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 			radioItems: typeOfPlanningApplicationRadioItems(
 				isV2forS20,
 				isV2forCASPlanning,
+				isV2forCASAdverts,
 				isV2forAdverts,
 				appeal.typeOfPlanningApplication
 			),
@@ -93,6 +98,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 			radioItems: typeOfPlanningApplicationRadioItems(
 				isV2forS20,
 				isV2forCASPlanning,
+				isV2forCASAdverts,
 				isV2forAdverts,
 				appeal.typeOfPlanningApplication
 			),
@@ -117,7 +123,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 				? res.redirect('/before-you-start/planning-application-about')
 				: res.redirect('/before-you-start/use-existing-service-application-type');
 		case ADVERTISEMENT:
-			return isV2forAdverts
+			return isV2forCASAdverts || isV2forAdverts
 				? res.redirect('/before-you-start/granted-or-refused')
 				: res.redirect('/before-you-start/use-existing-service-application-type');
 		case PRIOR_APPROVAL:

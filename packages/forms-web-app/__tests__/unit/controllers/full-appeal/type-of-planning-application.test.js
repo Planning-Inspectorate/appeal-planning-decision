@@ -60,6 +60,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				false,
 				false,
 				false,
+				false,
 				'full-appeal'
 			);
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
@@ -74,6 +75,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			await getTypeOfPlanningApplication(req, res);
 
 			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(
+				true,
 				true,
 				true,
 				true,
@@ -385,6 +387,31 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			});
 
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/planning-application-about');
+		});
+
+		it('should redirect to the granted-or-refused page - cas adverts', async () => {
+			isLpaInFeatureFlag.mockImplementation((_, flag) => {
+				return flag === FLAG.CAS_ADVERTS_APPEAL_FORM_V2;
+			});
+
+			const planningApplication = ADVERTISEMENT;
+
+			const mockRequest = {
+				...req,
+				body: { 'type-of-planning-application': planningApplication }
+			};
+
+			await postTypeOfPlanningApplication(mockRequest, res);
+
+			const updatedAppeal = appeal;
+			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+			updatedAppeal.typeOfPlanningApplication = planningApplication;
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...updatedAppeal
+			});
+
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
 		});
 
 		it('should redirect to the granted-or-refused page - adverts', async () => {

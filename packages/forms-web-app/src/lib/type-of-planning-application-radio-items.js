@@ -26,6 +26,7 @@ const {
 exports.typeOfPlanningApplicationRadioItems = (
 	isS20featureFlag,
 	isCASPlanningFeatureFlag,
+	isCASAdvertsFeatureFlag,
 	isAdvertsFeatureFlag,
 	typeOfPlanningApplication
 ) => {
@@ -134,7 +135,7 @@ exports.typeOfPlanningApplicationRadioItems = (
 		? s20Filtered
 		: s20Filtered.filter((item) => item.value !== MINOR_COMMERCIAL_DEVELOPMENT);
 	// only return the minor commercial advertisment option if feature flag turned on
-	return isAdvertsFeatureFlag
+	return isAdvertsFeatureFlag || isCASAdvertsFeatureFlag
 		? casPlanningFiltered
 		: casPlanningFiltered.filter((item) => item.value !== ADVERTISEMENT);
 };

@@ -6,7 +6,8 @@ const {
 		HOUSEHOLDER_PLANNING,
 		PRIOR_APPROVAL,
 		REMOVAL_OR_VARIATION_OF_CONDITIONS,
-		LISTED_BUILDING
+		LISTED_BUILDING,
+		ADVERTISEMENT
 	},
 	APPLICATION_DECISION: { REFUSED, GRANTED, NODECISIONRECEIVED },
 	APPEAL_ID
@@ -18,6 +19,7 @@ const { getNextPageFromCanUseServicePage } = require('./get-next-page-from-can-u
 const householderNextPage = '/appeal-householder-decision/email-address';
 const fullAppealNextPage = '/full-appeal/submit-appeal/email-address';
 const listedBuildingNextPage = '/listed-building/email-address';
+const advertNextPage = '/adverts/email-address';
 
 jest.mock('../../src/lib/is-lpa-in-feature-flag.js');
 
@@ -131,6 +133,24 @@ describe('getNextPageFromCanUseServicePage', () => {
 			eligibility: {}
 		};
 		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(listedBuildingNextPage);
+	});
+
+	it('returns correct page (advert) for cas advert application', async () => {
+		const appeal = {
+			typeOfPlanningApplication: ADVERTISEMENT,
+			appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT,
+			eligibility: {}
+		};
+		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(advertNextPage);
+	});
+
+	it('returns correct page (advert) for advert application', async () => {
+		const appeal = {
+			typeOfPlanningApplication: ADVERTISEMENT,
+			appealType: APPEAL_ID.ADVERTISEMENT,
+			eligibility: {}
+		};
+		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(advertNextPage);
 	});
 
 	it.each([[FULL_APPEAL], [OUTLINE_PLANNING, RESERVED_MATTERS]])(
