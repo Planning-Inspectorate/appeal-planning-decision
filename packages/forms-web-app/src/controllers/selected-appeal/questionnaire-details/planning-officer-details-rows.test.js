@@ -1,11 +1,117 @@
 const { planningOfficerReportRows } = require('./planning-officer-details-rows');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { caseTypeLPAQFactory } = require('./test-factory');
 
 const date = new Date('2020-12-17T03:24:00');
 const formattedDate = '17 Dec 2020';
 
 describe('planningOfficerReportRows', () => {
+	const hasLPAQData = caseTypeLPAQFactory(CASE_TYPES.HAS.processCode, 'planningOfficersReport');
+	const casPlanningLPAQData = caseTypeLPAQFactory(
+		CASE_TYPES.CAS_PLANNING.processCode,
+		'planningOfficersReport'
+	);
+	const s78LPAQData = caseTypeLPAQFactory(CASE_TYPES.S78.processCode, 'planningOfficersReport');
+	const s20LPAQData = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'planningOfficersReport');
+
+	const expectedRowsHas = [
+		{
+			title: "Planning officer's report",
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Plans, drawings and list of plans',
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Policies from statutory development plan',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Emerging plan', value: 'Yes' },
+		{
+			title: 'Uploaded emerging plan and supporting information',
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Uploaded other relevant policies',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Supplementary planning documents', value: 'Yes' },
+		{
+			title: 'Uploaded supplementary planning documents',
+			value: 'name.pdf - awaiting review'
+		}
+	];
+	const expectedCasPlanningRows = [
+		{
+			title: "Planning officer's report",
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Policies from statutory development plan',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Emerging plan', value: 'No' },
+		{ title: 'Supplementary planning documents', value: 'Yes' },
+		{
+			title: 'Uploaded supplementary planning documents',
+			value: 'name.pdf - awaiting review'
+		}
+	];
+
+	const expectedRowsS78 = [
+		{
+			title: "Planning officer's report",
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Policies from statutory development plan',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Emerging plan', value: 'Yes' },
+		{
+			title: 'Uploaded emerging plan and supporting information',
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Uploaded other relevant policies',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Supplementary planning documents', value: 'Yes' },
+		{
+			title: 'Uploaded supplementary planning documents',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Community infrastructure levy', value: 'Yes' },
+		{
+			title: 'Uploaded community infrastructure levy',
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Community infrastructure levy formally adopted',
+			value: 'Yes'
+		},
+		{
+			title: 'Date community infrastructure levy adopted',
+			value: '1 Jan 2023'
+		}
+	];
+
+	it.each([
+		['HAS', hasLPAQData, expectedRowsHas],
+		['CAS Planning', casPlanningLPAQData, expectedCasPlanningRows],
+		['S78', s78LPAQData, expectedRowsS78],
+		['S20', s20LPAQData, expectedRowsS78]
+	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
+		const visibleRows = planningOfficerReportRows(caseData)
+			.filter((row) => row.condition(caseData))
+			.map((visibleRow) => {
+				return { title: visibleRow.keyText, value: visibleRow.valueText };
+			});
+		expect(visibleRows).toEqual(expectedRows);
+	});
+
 	it('should create row with correct data if relevant case fields exist and files uploaded/field values otherwise populated', () => {
 		const caseData = {
 			appealTypeCode: CASE_TYPES.HAS.processCode,

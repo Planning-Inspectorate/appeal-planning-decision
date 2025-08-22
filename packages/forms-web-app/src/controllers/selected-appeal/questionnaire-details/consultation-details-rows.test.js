@@ -1,40 +1,54 @@
 const { consultationRows } = require('./consultation-details-rows');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
-const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { caseTypeLPAQFactory } = require('./test-factory');
 
 describe('consultationRows', () => {
-	it('should create HAS rows', () => {
-		const rows = consultationRows(
-			{ appealTypeCode: CASE_TYPES.HAS.processCode },
-			APPEAL_USER_ROLES.AGENT
-		);
-		expect(rows.length).toEqual(5);
-		expect(rows[0].valueText).toEqual('No');
-		expect(rows[0].condition()).toEqual(false);
-		expect(rows[1].valueText).toEqual('No');
-		expect(rows[1].condition()).toEqual(false);
-		expect(rows[2].valueText).toEqual('No');
-		expect(rows[2].condition()).toEqual(false);
-	});
+	const hasLPAQData = caseTypeLPAQFactory(CASE_TYPES.HAS.processCode, 'consultation');
+	const casPlanningLPAQData = caseTypeLPAQFactory(
+		CASE_TYPES.CAS_PLANNING.processCode,
+		'consultation'
+	);
+	const s78LPAQData = caseTypeLPAQFactory(CASE_TYPES.S78.processCode, 'consultation');
+	const s20LPAQData = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'consultation');
 
-	it('should create S78 rows', () => {
-		const rows = consultationRows(
-			{
-				appealTypeCode: CASE_TYPES.S78.processCode,
-				statutoryConsultees: true,
-				consultedBodiesDetails: 'testing 123',
-				Documents: [{ documentType: APPEAL_DOCUMENT_TYPE.CONSULTATION_RESPONSES, filename: 'test' }]
-			},
-			APPEAL_USER_ROLES.AGENT
-		);
-		expect(rows.length).toEqual(5);
-		expect(rows[0].valueText).toEqual('Yes\ntesting 123');
-		expect(rows[0].condition()).toEqual(true);
-		expect(rows[1].valueText).toEqual('Yes');
-		expect(rows[1].condition()).toEqual(true);
-		expect(rows[2].valueText).toEqual('test - awaiting review');
-		expect(rows[2].condition()).toEqual(true);
+	const expectedRowsHas = [
+		{ title: 'Representations from other parties', value: 'Yes' },
+		{
+			title: 'Uploaded representations from other parties',
+			value: 'name.pdf - awaiting review'
+		}
+	];
+
+	const expectedRowsS78 = [
+		{
+			title: 'Statutory consultees',
+			value: 'Yes\nConsulted bodies details here'
+		},
+		{ title: 'Responses or standing advice', value: 'Yes' },
+		{
+			title: 'Uploaded consultation responses and standing advice',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Representations from other parties', value: 'Yes' },
+		{
+			title: 'Uploaded representations from other parties',
+			value: 'name.pdf - awaiting review'
+		}
+	];
+
+	it.each([
+		['HAS', hasLPAQData, expectedRowsHas],
+		['CAS Planning', casPlanningLPAQData, expectedRowsHas],
+		['S78', s78LPAQData, expectedRowsS78],
+		['S20', s20LPAQData, expectedRowsS78]
+	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
+		const visibleRows = consultationRows(caseData)
+			.filter((row) => row.condition(caseData))
+			.map((visibleRow) => {
+				return { title: visibleRow.keyText, value: visibleRow.valueText };
+			});
+		expect(visibleRows).toEqual(expectedRows);
 	});
 
 	it('should show a document', () => {
