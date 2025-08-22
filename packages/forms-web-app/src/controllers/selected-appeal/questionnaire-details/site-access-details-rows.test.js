@@ -1,83 +1,47 @@
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { caseTypeLPAQFactory } = require('./test-factory');
 const { siteAccessRows } = require('./site-access-details-rows');
 
 describe('siteAccessRows', () => {
-	it('should create rows with correct data if relevant case data fields exist & field values populated', () => {
-		const caseData = {
-			siteAccessDetails: ['appellant access details do not show', 'lpa access details for show'],
-			siteSafetyDetails: ['appellant safety details do not show', 'lpa safety details for show'],
-			reasonForNeighbourVisits: 'some neighbouring site access details',
-			NeighbouringAddresses: [
-				{
-					addressLine1: 'address 1 l1',
-					addressLine2: 'address 1 l2',
-					townCity: 'town',
-					postcode: 'ab1 2cd'
-				},
-				{
-					addressLine1: 'address 2 l1',
-					addressLine2: 'address 2 l2',
-					townCity: 'another town',
-					postcode: 'ef3 4gh'
-				}
-			]
-		};
+	const caseData = caseTypeLPAQFactory(CASE_TYPES.HAS.processCode, 'siteAccess');
 
-		const rows = siteAccessRows(caseData);
-
-		expect(rows.length).toEqual(7);
-
-		expect(rows[0].condition()).toEqual(true);
-		expect(rows[0].keyText).toEqual(
-			'Might the inspector need access to the appellant’s land or property?'
-		);
-		expect(rows[0].valueText).toEqual('Yes');
-
-		expect(rows[1].condition()).toEqual(true);
-		expect(rows[1].keyText).toEqual('Reason for Inspector access');
-		expect(rows[1].valueText).toEqual('lpa access details for show');
-
-		expect(rows[2].condition()).toEqual(true);
-		expect(rows[2].keyText).toEqual(
-			'Might the inspector need to enter a neighbour’s land or property?'
-		);
-		expect(rows[2].valueText).toEqual('Yes');
-
-		expect(rows[3].condition()).toEqual(true);
-		expect(rows[3].keyText).toEqual('Reason for Inspector visit');
-		expect(rows[3].valueText).toEqual('some neighbouring site access details');
-
-		expect(rows[4].condition()).toEqual(true);
-		expect(rows[4].keyText).toEqual('Neighbouring site 1');
-		expect(rows[4].valueText).toEqual('address 1 l1\naddress 1 l2\ntown\nab1 2cd');
-
-		expect(rows[5].condition()).toEqual(true);
-		expect(rows[5].keyText).toEqual('Neighbouring site 2');
-		expect(rows[5].valueText).toEqual('address 2 l1\naddress 2 l2\nanother town\nef3 4gh');
-
-		expect(rows[6].condition()).toEqual(true);
-		expect(rows[6].keyText).toEqual('Potential safety risks');
-		expect(rows[6].valueText).toEqual('Yes\nlpa safety details for show');
-	});
-
-	it('should handle site access and site safety rows correctly', () => {
-		const caseData = {
-			siteAccessDetails: ['', 'lpa access details'],
-			siteSafetyDetails: ['', 'lpa safety details']
-		};
-		const rows = siteAccessRows(caseData);
-		expect(rows[0].condition()).toEqual(true);
-		expect(rows[0].keyText).toEqual(
-			'Might the inspector need access to the appellant’s land or property?'
-		);
-		expect(rows[0].valueText).toEqual('Yes');
-
-		expect(rows[1].condition()).toEqual(true);
-		expect(rows[1].keyText).toEqual('Reason for Inspector access');
-		expect(rows[1].valueText).toEqual('lpa access details');
-
-		expect(rows[4].condition()).toEqual(true);
-		expect(rows[4].keyText).toEqual('Potential safety risks');
-		expect(rows[4].valueText).toEqual('Yes\nlpa safety details');
+	const expectedRows = [
+		{
+			title: 'Might the inspector need access to the appellant’s land or property?',
+			value: 'Yes'
+		},
+		{
+			title: 'Reason for Inspector access',
+			value: 'access details from LPA'
+		},
+		{
+			title: 'Might the inspector need to enter a neighbour’s land or property?',
+			value: 'Yes'
+		},
+		{
+			title: 'Reason for Inspector visit',
+			value: 'Reason for neighbour visits here'
+		},
+		{
+			title: 'Potential safety risks',
+			value: 'Yes\nlpa safety details for show'
+		},
+		{
+			title: 'Neighbouring site 1',
+			value: 'address 1 l1\naddress 1 l2\ntown\nab1 2cd'
+		},
+		{
+			title: 'Neighbouring site 2',
+			value: 'address 2 l1\naddress 2 l2\nanother town\nef3 4gh'
+		}
+	];
+	it(`should create correct rows for appeal type %s`, () => {
+		const visibleRows = siteAccessRows(caseData)
+			.filter((row) => row.condition(caseData))
+			.map((visibleRow) => {
+				return { title: visibleRow.keyText, value: visibleRow.valueText };
+			});
+		expect(visibleRows).toEqual(expectedRows);
 	});
 
 	it('should handle false values correctly', () => {

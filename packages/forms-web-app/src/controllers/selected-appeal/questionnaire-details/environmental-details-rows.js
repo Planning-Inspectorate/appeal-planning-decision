@@ -20,8 +20,11 @@ const {
 exports.environmentalRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
-	const isHASAppeal = caseData.appealTypeCode === CASE_TYPES.HAS.processCode;
-	if (isHASAppeal) return [];
+	const hasOrCasPlanningAppeal =
+		caseData.appealTypeCode === CASE_TYPES.HAS.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode;
+
+	if (hasOrCasPlanningAppeal) return [];
 
 	const isSchedule1 =
 		caseData.environmentalImpactSchedule === APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE.SCHEDULE_1;

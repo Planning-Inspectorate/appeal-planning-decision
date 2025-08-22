@@ -18,14 +18,6 @@ const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 exports.planningOfficerReportRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
-	const hasEmergingPlan = documentExists(documents, APPEAL_DOCUMENT_TYPE.EMERGING_PLAN);
-	const emergingPlanText = boolToYesNo(hasEmergingPlan);
-
-	const hasSupplementaryPlanning = documentExists(
-		documents,
-		APPEAL_DOCUMENT_TYPE.SUPPLEMENTARY_PLANNING
-	);
-	const supplementaryPlanningText = boolToYesNo(hasSupplementaryPlanning);
 	return [
 		{
 			keyText: "Planning officer's report",
@@ -49,13 +41,13 @@ exports.planningOfficerReportRows = (caseData) => {
 		},
 		{
 			keyText: 'Emerging plan',
-			valueText: emergingPlanText,
+			valueText: boolToYesNo(documentExists(documents, APPEAL_DOCUMENT_TYPE.EMERGING_PLAN)),
 			condition: () => true
 		},
 		{
 			keyText: 'Uploaded emerging plan and supporting information',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.EMERGING_PLAN),
-			condition: () => hasEmergingPlan,
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.EMERGING_PLAN),
 			isEscaped: true
 		},
 		{
@@ -66,13 +58,15 @@ exports.planningOfficerReportRows = (caseData) => {
 		},
 		{
 			keyText: 'Supplementary planning documents',
-			valueText: supplementaryPlanningText,
+			valueText: boolToYesNo(
+				documentExists(documents, APPEAL_DOCUMENT_TYPE.SUPPLEMENTARY_PLANNING)
+			),
 			condition: () => true
 		},
 		{
 			keyText: 'Uploaded supplementary planning documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.SUPPLEMENTARY_PLANNING),
-			condition: () => hasSupplementaryPlanning,
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.SUPPLEMENTARY_PLANNING),
 			isEscaped: true
 		},
 		{
