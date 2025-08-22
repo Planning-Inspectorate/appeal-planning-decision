@@ -2316,9 +2316,9 @@ exports.questionProps = {
 			new RequiredValidator('Enter your final comments'),
 			new StringValidator({
 				maxLength: {
-					maxLength: appealFormV2.textAreaMediumLength,
+					maxLength: appealFormV2.textAreaMaxLength,
 					maxLengthMessage: `Your final comments must be ${formatNumber(
-						appealFormV2.textAreaMediumLength
+						appealFormV2.textAreaMaxLength
 					)} characters or less`
 				}
 			}),
@@ -2379,9 +2379,9 @@ exports.questionProps = {
 			new RequiredValidator('Enter your final comments'),
 			new StringValidator({
 				maxLength: {
-					maxLength: appealFormV2.textAreaMediumLength,
+					maxLength: appealFormV2.textAreaMaxLength,
 					maxLengthMessage: `Your final comments must be ${formatNumber(
-						appealFormV2.textAreaMediumLength
+						appealFormV2.textAreaMaxLength
 					)} characters or less`
 				}
 			}),
