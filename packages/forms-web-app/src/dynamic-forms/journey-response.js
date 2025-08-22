@@ -1,8 +1,4 @@
 /**
- * @typedef {import('@pins/common/src/dynamic-forms/journey-types').JourneyType} JourneyType
- */
-
-/**
  * Defines a response to a journey, a set of Answers to the questions
  * @class
  */
@@ -13,7 +9,7 @@ class JourneyResponse {
 	referenceId;
 
 	/**
-	 * @type {JourneyType} - a reference to the journey type e.g. has-questionnaire - provides a unique lookup for responses in combination with referenceId
+	 * @type {string} - a reference to the journey type e.g. has-questionnaire - provides a unique lookup for responses in combination with referenceId
 	 */
 	journeyId;
 
@@ -24,7 +20,7 @@ class JourneyResponse {
 
 	/**
 	 * creates an instance of a JourneyResponse
-	 * @param {JourneyType} journeyId
+	 * @param {string} journeyId
 	 * @param {string} referenceId
 	 * @param {Record<string, unknown> | null} answers
 	 * @param {string} lpaCode

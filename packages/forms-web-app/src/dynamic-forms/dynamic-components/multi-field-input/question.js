@@ -1,6 +1,6 @@
 const Question = require('../../question');
 const escape = require('escape-html');
-const { nl2br } = require('@pins/common/src/utils');
+const { nl2br } = require('../../lib/string-functions');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel

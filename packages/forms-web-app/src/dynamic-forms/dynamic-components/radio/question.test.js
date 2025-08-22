@@ -1,4 +1,3 @@
-const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const ValidOptionValidator = require('../../validator/valid-option-validator');
 const RadioQuestion = require('./question');
 const nunjucks = require('nunjucks');
@@ -36,7 +35,7 @@ const JOURNEY = {
 	taskListUrl: 'list',
 	journeyTemplate: 'template',
 	journeyTitle: 'title',
-	journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
+	journeyId: 'journey1',
 	response: {
 		answers: {
 			[FIELDNAME]: { a: 1 }

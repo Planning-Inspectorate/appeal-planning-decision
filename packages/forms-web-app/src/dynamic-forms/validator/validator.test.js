@@ -295,7 +295,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		mockRes.locals.journey = {
 			getQuestionBySectionAndName: function () {
 				return {
-					validators: [new AddressValidator()],
+					validators: [new AddressValidator({})],
 					fieldName: 'field1'
 				};
 			}

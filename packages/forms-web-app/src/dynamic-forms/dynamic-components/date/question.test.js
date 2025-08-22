@@ -1,4 +1,3 @@
-const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const Question = require('../../question');
 const DateQuestion = require('./question');
 
@@ -81,7 +80,7 @@ describe('DateQuestion', () => {
 				taskListUrl: 'list',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
+				journeyId: 'journey1',
 				response: {
 					answers: {
 						[FIELDNAME]: date
@@ -142,7 +141,7 @@ describe('DateQuestion', () => {
 				taskListUrl: 'list',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
+				journeyId: 'journey1',
 				response: {
 					answers: {
 						[`${[FIELDNAME]}_day`]: '10',
@@ -204,7 +203,7 @@ describe('DateQuestion', () => {
 				taskListUrl: 'list',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
+				journeyId: 'journey1',
 				response: {
 					answers: {}
 				},
@@ -294,7 +293,7 @@ describe('DateQuestion', () => {
 			};
 
 			const journey = {
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
+				journeyId: 'journey1',
 				response: {
 					answers: {
 						[FIELDNAME]: date

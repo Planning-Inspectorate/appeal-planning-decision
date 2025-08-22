@@ -1,18 +1,10 @@
 const { validationResult } = require('express-validator');
 const AddressValidator = require('./address-validator');
 
-const {
-	validation: {
-		characterLimits: {
-			questionnaire: {
-				addressLine1MaxLength: addressLine1MaxLength,
-				addressLine2MaxLength: addressLine2MaxLength,
-				townCityMaxLength: townCityMaxLength,
-				postcodeMaxLength: postcodeMaxLength
-			}
-		}
-	}
-} = require('../../config');
+const addressLine1MaxLength = 10;
+const addressLine2MaxLength = 10;
+const townCityMaxLength = 10;
+const postcodeMaxLength = 7;
 
 describe('AddressValidator', () => {
 	it('should validate a valid address without errors', async () => {
@@ -106,7 +98,12 @@ describe('AddressValidator', () => {
 });
 
 const _validationMappedErrors = async (req, question) => {
-	const addressValidator = new AddressValidator();
+	const addressValidator = new AddressValidator({
+		addressLine1MaxLength,
+		addressLine2MaxLength,
+		townCityMaxLength,
+		postcodeMaxLength
+	});
 
 	const validationRules = addressValidator.validate(question);
 
