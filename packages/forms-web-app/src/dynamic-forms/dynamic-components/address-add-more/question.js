@@ -1,5 +1,5 @@
 const AddMoreQuestion = require('../add-more/question');
-const Address = require('@pins/common/src/lib/address');
+const Address = require('../../lib/address');
 const { getAddressesForQuestion } = require('../utils/question-utils');
 const { randomUUID } = require('crypto');
 

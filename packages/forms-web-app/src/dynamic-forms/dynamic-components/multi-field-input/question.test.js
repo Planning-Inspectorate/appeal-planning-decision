@@ -1,4 +1,3 @@
-const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const MultiFieldInputQuestion = require('./question');
 
 const TITLE = 'title';
@@ -67,7 +66,7 @@ describe('./src/dynamic-forms/dynamic-components/single-line-input/question.js',
 			const question = createMultiFieldInputQuestion();
 
 			const journey = {
-				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
+				journeyId: 'journey1',
 				response: {
 					answers: {}
 				},

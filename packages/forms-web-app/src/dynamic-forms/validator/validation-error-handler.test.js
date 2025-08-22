@@ -1,10 +1,10 @@
 const { validationErrorHandler } = require('./validation-error-handler');
 const {
 	expressValidationErrorsToGovUkErrorList
-} = require('../../lib/express-validation-errors-to-govuk-error-list');
+} = require('../lib/express-validation-errors-to-govuk-error-list');
 const { validationResult } = require('express-validator');
 
-jest.mock('../../lib/express-validation-errors-to-govuk-error-list');
+jest.mock('../lib/express-validation-errors-to-govuk-error-list');
 jest.mock('express-validator');
 
 describe('./src/dynamic-forms/validator/validation-error-handler.js', () => {
