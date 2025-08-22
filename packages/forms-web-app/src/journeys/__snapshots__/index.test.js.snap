@@ -16021,25 +16021,25 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the sch
             <form action="" method="post" novalidate=null>
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <h1 class="govuk-fieldset__heading"> Is the development a schedule 1 or schedule 2 development?</h1>
+                        <h1 class="govuk-fieldset__heading"> What is the development category?</h1>
                     </legend>
                     <div class="govuk-form-group">
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="environmentalImpactSchedule" name="environmentalImpactSchedule"
                                 type="radio" value="schedule-1" data-cy="answer-schedule-1">
-                                <label class="govuk-label govuk-radios__label" for="environmentalImpactSchedule">Yes, schedule 1</label>
+                                <label class="govuk-label govuk-radios__label" for="environmentalImpactSchedule">Schedule 1</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="environmentalImpactSchedule-2"
                                 name="environmentalImpactSchedule" type="radio" value="schedule-2" data-cy="answer-schedule-2">
-                                <label class="govuk-label govuk-radios__label" for="environmentalImpactSchedule-2">Yes, schedule 2</label>
+                                <label class="govuk-label govuk-radios__label" for="environmentalImpactSchedule-2">Schedule 2</label>
                             </div>
                             <div class="govuk-radios__divider">or</div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="environmentalImpactSchedule-4"
                                 name="environmentalImpactSchedule" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="environmentalImpactSchedule-4">No</label>
+                                <label class="govuk-label govuk-radios__label" for="environmentalImpactSchedule-4">Other</label>
                             </div>
                         </div>
                     </div>
@@ -19322,25 +19322,25 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
             <form action="" method="post" novalidate=null>
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <h1 class="govuk-fieldset__heading"> Is the development a schedule 1 or schedule 2 development?</h1>
+                        <h1 class="govuk-fieldset__heading"> What is the development category?</h1>
                     </legend>
                     <div class="govuk-form-group">
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="environmentalImpactSchedule" name="environmentalImpactSchedule"
                                 type="radio" value="schedule-1" data-cy="answer-schedule-1">
-                                <label class="govuk-label govuk-radios__label" for="environmentalImpactSchedule">Yes, schedule 1</label>
+                                <label class="govuk-label govuk-radios__label" for="environmentalImpactSchedule">Schedule 1</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="environmentalImpactSchedule-2"
                                 name="environmentalImpactSchedule" type="radio" value="schedule-2" data-cy="answer-schedule-2">
-                                <label class="govuk-label govuk-radios__label" for="environmentalImpactSchedule-2">Yes, schedule 2</label>
+                                <label class="govuk-label govuk-radios__label" for="environmentalImpactSchedule-2">Schedule 2</label>
                             </div>
                             <div class="govuk-radios__divider">or</div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="environmentalImpactSchedule-4"
                                 name="environmentalImpactSchedule" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="environmentalImpactSchedule-4">No</label>
+                                <label class="govuk-label govuk-radios__label" for="environmentalImpactSchedule-4">Other</label>
                             </div>
                         </div>
                     </div>
@@ -20762,10 +20762,11 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Environmental impact assessment<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Schedule type</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/environmental-impact/schedule-1-or-2">Answer<span class="govuk-visually-hidden"> Is the development a schedule 1 or schedule 2 development?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is the development category?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/environmental-impact/schedule-1-or-2">Answer<span class="govuk-visually-hidden"> What is the development category?</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did the applicant submit an environmental statement?</dt>
                             <dd
@@ -21064,10 +21065,11 @@ exports[`Dynamic forms journey tests lpa Planning renders listing page 1`] = `
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Environmental impact assessment<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Schedule type</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/environmental-impact/schedule-1-or-2">Answer<span class="govuk-visually-hidden"> Is the development a schedule 1 or schedule 2 development?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is the development category?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/environmental-impact/schedule-1-or-2">Answer<span class="govuk-visually-hidden"> What is the development category?</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did the applicant submit an environmental statement?</dt>
                             <dd
