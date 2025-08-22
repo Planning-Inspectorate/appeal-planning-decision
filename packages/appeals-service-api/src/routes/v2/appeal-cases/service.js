@@ -402,7 +402,7 @@ const getMappedData = (data) => {
 		case CASE_TYPES.CAS_PLANNING.key: {
 			const hasValidator = getValidator('appeal-has');
 			if (!hasValidator(data)) throw ApiError.badRequest('Payload was invalid');
-			return mapCASPlanningDataModelToAppealCase(CASE_TYPES.S20.processCode, data);
+			return mapCASPlanningDataModelToAppealCase(CASE_TYPES.CAS_PLANNING.processCode, data);
 		}
 		case CASE_TYPES.S78.key: {
 			const s78Validator = getValidator('appeal-s78');
