@@ -1,15 +1,22 @@
-const config = require('../../config');
 const MultifileUploadValidator = require('./multifile-upload-validator');
-jest.mock('@pins/common/src/client/clamav-client', () => {
-	return jest.fn().mockImplementation(() => {
-		return { scan: jest.fn };
-	});
-});
+const mockGetClamClient = () => {
+	return { scan: jest.fn };
+};
+
+const MIME_TYPE_JPEG = 'image/jpeg';
+const MIME_TYPE_DOC = 'application/msword';
+const oneGigabyte = 1024 * 1024 * 1024;
 
 describe('./src/dynamic-forms/validator/multifile-upload-validator.js', () => {
+	const testParams = {
+		allowedFileTypes: [MIME_TYPE_JPEG, MIME_TYPE_DOC],
+		maxUploadSize: oneGigabyte,
+		getClamAVClient: mockGetClamClient
+	};
+
 	describe('validate', () => {
 		it('should have a rule for path featuring fieldName', () => {
-			const multifileUploadValidator = new MultifileUploadValidator();
+			const multifileUploadValidator = new MultifileUploadValidator(testParams);
 
 			const rule = multifileUploadValidator
 				.validate({ fieldName: 'test-field-name' })
@@ -28,12 +35,12 @@ describe('./src/dynamic-forms/validator/multifile-upload-validator.js', () => {
 					files: {
 						'some-question': [
 							{
-								mimetype: config.fileUpload.pins.allowedFileTypes.MIME_TYPE_JPEG,
+								mimetype: MIME_TYPE_JPEG,
 								name: 'file1.jpeg',
 								size: 12345
 							},
 							{
-								mimetype: config.fileUpload.pins.allowedFileTypes.MIME_TYPE_DOC,
+								mimetype: MIME_TYPE_DOC,
 								name: 'file2.doc',
 								size: 12345
 							}
@@ -46,7 +53,7 @@ describe('./src/dynamic-forms/validator/multifile-upload-validator.js', () => {
 				fieldName: 'some-question'
 			};
 
-			const multifileUploadValidator = new MultifileUploadValidator();
+			const multifileUploadValidator = new MultifileUploadValidator(testParams);
 
 			const validationResult = await multifileUploadValidator.validate(question).run(req);
 
@@ -65,12 +72,12 @@ describe('./src/dynamic-forms/validator/multifile-upload-validator.js', () => {
 								size: 12345
 							},
 							{
-								mimetype: config.fileUpload.pins.allowedFileTypes.MIME_TYPE_DOC,
+								mimetype: MIME_TYPE_DOC,
 								name: 'invalidFile2tooBig.doc',
-								size: config.fileUpload.pins.maxFileUploadSize + 1
+								size: oneGigabyte + 1
 							},
 							{
-								mimetype: config.fileUpload.pins.allowedFileTypes.MIME_TYPE_JPEG,
+								mimetype: MIME_TYPE_JPEG,
 								name: 'validFile.jpeg',
 								size: 12345
 							}
@@ -83,7 +90,7 @@ describe('./src/dynamic-forms/validator/multifile-upload-validator.js', () => {
 				fieldName: 'another-question'
 			};
 
-			const multifileUploadValidator = new MultifileUploadValidator();
+			const multifileUploadValidator = new MultifileUploadValidator(testParams);
 
 			const validationResult = await multifileUploadValidator.validate(question).run(req);
 
@@ -99,7 +106,7 @@ describe('./src/dynamic-forms/validator/multifile-upload-validator.js', () => {
 				fieldName: 'some-question'
 			};
 
-			const multifileUploadValidator = new MultifileUploadValidator();
+			const multifileUploadValidator = new MultifileUploadValidator(testParams);
 
 			const validationResult = await multifileUploadValidator.validate(question).run(req);
 
@@ -115,7 +122,7 @@ describe('./src/dynamic-forms/validator/multifile-upload-validator.js', () => {
 				fieldName: 'some-question'
 			};
 
-			const multifileUploadValidator = new MultifileUploadValidator();
+			const multifileUploadValidator = new MultifileUploadValidator(testParams);
 
 			const validationResult = await multifileUploadValidator.validate(question).run(req);
 
@@ -135,7 +142,7 @@ describe('./src/dynamic-forms/validator/multifile-upload-validator.js', () => {
 				fieldName: 'not-the-same-file-path'
 			};
 
-			const multifileUploadValidator = new MultifileUploadValidator();
+			const multifileUploadValidator = new MultifileUploadValidator(testParams);
 
 			const validationResult = await multifileUploadValidator.validate(question).run(req);
 

@@ -1,4 +1,3 @@
-const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { OptionsQuestion } = require('./options-question');
 const ValidOptionValidator = require('./validator/valid-option-validator');
 const nunjucks = require('nunjucks');
@@ -11,7 +10,7 @@ describe('./src/dynamic-forms/question.js', () => {
 	const FIELDNAME = 'favouriteColour';
 
 	const journey = {
-		journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE.id,
+		journeyId: 'journey1',
 		response: {
 			answers: {}
 		},

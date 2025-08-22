@@ -1,7 +1,6 @@
 const AddMoreQuestion = require('../add-more/question');
 const { getLinkedCasesForQuestion } = require('../utils/question-utils');
 const { randomUUID } = require('crypto');
-const logger = require('../../../lib/logger');
 
 /**
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
@@ -82,7 +81,9 @@ class CaseAddMoreQuestion extends AddMoreQuestion {
 				})
 			);
 		} catch (err) {
-			logger.error({ err }, 'failed to save linked case');
+			if (req.logger) {
+				req.logger.error({ err }, 'failed to save linked case');
+			}
 		}
 	}
 
