@@ -9,8 +9,8 @@ const {
 	appellantBYSListOfDocuments
 } = require('./controller');
 const { getUserFromSession } = require('../services/user.service');
-const { Journey } = require('./journey');
-const { SECTION_STATUS } = require('./section');
+const { Journey } = require('@pins/dynamic-forms/src/journey');
+const { SECTION_STATUS } = require('@pins/dynamic-forms/src/section');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 const { getDepartmentFromId } = require('../services/department.service');
 const { deleteAppeal } = require('#lib/appeals-api-wrapper');
@@ -28,8 +28,8 @@ const mockListingPath = 'mockListingPath.njk';
 const mockJourneyTitle = 'Mock Manage Appeals';
 const mockAnswer = 'Not started';
 
-const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
-const questionUtils = require('./dynamic-components/utils/question-utils');
+const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
+const questionUtils = require('@pins/dynamic-forms/src/dynamic-components/utils/question-utils');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const config = require('../../src/config');
 

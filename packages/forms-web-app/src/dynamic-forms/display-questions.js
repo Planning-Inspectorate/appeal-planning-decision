@@ -1,10 +1,10 @@
 const {
 	questionHasAnswer,
 	questionsHaveAnswers
-} = require('./dynamic-components/utils/question-has-answer.js');
+} = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer.js');
 
 /**
- * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  */
 
 /**

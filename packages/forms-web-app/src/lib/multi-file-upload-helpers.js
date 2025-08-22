@@ -2,7 +2,7 @@ const { removeDocument } = require('../lib/documents-api-wrapper');
 const logger = require('./logger');
 
 /**
- * @typedef {import('../dynamic-forms/journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  */
 
 /**

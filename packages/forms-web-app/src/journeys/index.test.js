@@ -62,7 +62,7 @@ jest.mock('@pins/common/src/client/clamav-client');
 jest.mock('@pins/common/src/client/blob-storage-client.js');
 
 // skip validation - would otherwise require setup of valid example values for every question, this can be setup later
-jest.mock('../dynamic-forms/validator/validator', () => () => (req, res, next) => next());
+jest.mock('@pins/dynamic-forms/src/validator/validator', () => () => (req, res, next) => next());
 
 // skip example dates to avoid issues dates in snapshots
 jest.mock('../dynamic-forms/questions-utils', () => ({
@@ -76,7 +76,7 @@ const caseTypeArray = Object.values(CASE_TYPES);
 
 const { JOURNEY_TYPES, JOURNEY_TYPE } = require('@pins/common/src/dynamic-forms/journey-types');
 const { journeys } = require('./index');
-const { JourneyResponse } = require('../dynamic-forms/journey-response');
+const { JourneyResponse } = require('@pins/dynamic-forms/src/journey-response');
 
 const fakeTimers = require('@sinonjs/fake-timers');
 
@@ -200,7 +200,7 @@ describe('Dynamic forms journey tests', () => {
 
 						/**
 						 *
-						 * @param {import('../dynamic-forms/question')} q
+						 * @param {import('@pins/dynamic-forms/src/question')} q
 						 * @returns { { postOverride?: function, answer?: Record<String, string>, saveEndpoints: import('nock').Scope[] } | null }
 						 */
 						const questionTypeDetails = (q) => {
@@ -454,7 +454,7 @@ describe('Dynamic forms journey tests', () => {
 
 						/**
 						 *
-						 * @param {import('../dynamic-forms/question')} q
+						 * @param {import('@pins/dynamic-forms/src/question')} q
 						 * @returns { { postOverride?: function, answer?: Record<String, string>, saveEndpoints: import('nock').Scope[] } | null }
 						 */
 						const questionTypeDetails = (q) => {
@@ -577,7 +577,7 @@ describe('Dynamic forms journey tests', () => {
 });
 
 /**
- * @param {import('../dynamic-forms/question')} question
+ * @param {import('@pins/dynamic-forms/src/question')} question
  * @param {import('node-html-parser').HTMLElement} element
  * @param {import('@pins/common/src/database/data-static').CASE_TYPE} caseType
  */

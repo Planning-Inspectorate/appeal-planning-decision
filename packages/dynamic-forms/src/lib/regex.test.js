@@ -1,4 +1,4 @@
-const { fullPostcodeRegex } = require('./regex');
+const { fullPostcodeRegex, partialPostcodeRegex } = require('./regex');
 
 const badValues = [
 	{
@@ -70,6 +70,49 @@ const fullPostCodeTests = [
 	}
 ];
 
+const partialTests = [
+	{
+		base: 'AA9A',
+		expected: true
+	},
+	{
+		base: 'A9A',
+		expected: true
+	},
+	{
+		base: 'A9',
+		expected: true
+	},
+	{
+		base: 'A99',
+		expected: true
+	},
+	{
+		base: 'AA9',
+		expected: true
+	},
+	{
+		base: 'AA99',
+		expected: true
+	},
+	{
+		base: '1A1',
+		expected: false
+	},
+	{
+		base: '12AAAA',
+		expected: false
+	},
+	{
+		base: 'AA9AA',
+		expected: false
+	},
+	{
+		base: 'AA',
+		expected: false
+	}
+];
+
 describe('postcode regexes', () => {
 	describe('fullPostcodeRegex', () => {
 		it.each([...badValues, ...fullPostCodeTests])(
@@ -78,5 +121,18 @@ describe('postcode regexes', () => {
 				expect(fullPostcodeRegex.test(base)).toBe(expected);
 			}
 		);
+	});
+
+	describe('partialPostcodeRegex', () => {
+		it.each([...badValues, ...partialTests])(
+			'should validate partial postcode "%s"',
+			({ base, expected }) => {
+				expect(partialPostcodeRegex.test(base)).toBe(expected);
+			}
+		);
+
+		it.each(fullPostCodeTests)('should not match full postcodes "%s"', ({ base }) => {
+			expect(partialPostcodeRegex.test(base)).toBe(false);
+		});
 	});
 });

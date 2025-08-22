@@ -22,7 +22,7 @@ const {
 	adverts: advertsQuestionnaireParams
 } = require('../dynamic-forms/adverts-questionnaire/journey');
 
-const { Journeys } = require('../dynamic-forms/journeys');
+const { Journeys } = require('@pins/dynamic-forms/src/journeys');
 
 const journeys = new Journeys();
 
