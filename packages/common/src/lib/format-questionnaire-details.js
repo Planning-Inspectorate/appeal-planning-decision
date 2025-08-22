@@ -60,7 +60,7 @@ exports.formatEnvironmentalImpactSchedule = (caseData) => {
 		return 'Schedule 2';
 	}
 
-	return 'No';
+	return 'Other';
 };
 
 /**
