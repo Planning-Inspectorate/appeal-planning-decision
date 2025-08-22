@@ -31,7 +31,6 @@ const {
 		PRIOR_APPROVAL,
 		LISTED_BUILDING,
 		MINOR_COMMERCIAL_DEVELOPMENT,
-		MINOR_COMMERCIAL_ADVERTISEMENT,
 		ADVERTISEMENT
 	}
 } = require('@pins/business-rules/src/constants');
@@ -298,7 +297,6 @@ exports.getCanUseService = async (req, res) => {
 		case RESERVED_MATTERS:
 		case LISTED_BUILDING:
 		case MINOR_COMMERCIAL_DEVELOPMENT:
-		case MINOR_COMMERCIAL_ADVERTISEMENT:
 		case ADVERTISEMENT:
 			await canUseServiceFullAppeal(req, res);
 			break;

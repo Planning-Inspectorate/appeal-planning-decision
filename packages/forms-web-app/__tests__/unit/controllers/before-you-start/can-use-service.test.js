@@ -6,13 +6,7 @@ const priorApprovalHASAppeal = require('../../../mockData/prior-approval/prior-a
 const removalOrVariationOfConditionsFPAppeal = require('../../../mockData/removal-or-variation-of-conditions/removal-or-variation-of-conditions-fp-route');
 const removalOrVariationOfConditionsHASAppeal = require('../../../mockData/removal-or-variation-of-conditions/removal-or-variation-of-conditions-has-route');
 const { getDepartmentFromId } = require('../../../../src/services/department.service');
-const {
-	TYPE_OF_PLANNING_APPLICATION: {
-		MINOR_COMMERCIAL_DEVELOPMENT,
-		MINOR_COMMERCIAL_ADVERTISEMENT,
-		ADVERTISEMENT
-	}
-} = require('@pins/business-rules/src/constants');
+const { TYPE_OF_PLANNING_APPLICATION, APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
 	VIEW: {
 		HOUSEHOLDER_PLANNING: {
@@ -569,7 +563,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				return flag === FLAG.CAS_PLANNING_APPEAL_FORM_V2;
 			});
 			const casPlanningAppeal = {
-				typeOfPlanningApplication: MINOR_COMMERCIAL_DEVELOPMENT,
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
 				lpaCode: 'E60000068',
 				decisionDate: fullAppeal.decisionDate,
 				eligibility: {
@@ -609,7 +603,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				return flag === FLAG.ADVERTS_APPEAL_FORM_V2;
 			});
 			const advertsAppeal = {
-				typeOfPlanningApplication: ADVERTISEMENT,
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT,
+				appealType: APPEAL_ID.ADVERTISEMENT,
 				lpaCode: 'E60000068',
 				decisionDate: fullAppeal.decisionDate,
 				eligibility: {
@@ -626,7 +621,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				applicationAbout: null,
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Advertisement',
-				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
+				deadlineDate: { date: 29, day: 'Wednesday', month: 'June', year: 2022 },
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
@@ -648,12 +643,12 @@ describe('controllers/before-you-start/can-use-service', () => {
 					return flag === FLAG.CAS_ADVERTS_APPEAL_FORM_V2;
 				});
 				const advertsAppeal = {
-					typeOfPlanningApplication: MINOR_COMMERCIAL_ADVERTISEMENT,
+					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT,
+					appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT,
 					lpaCode: 'E60000068',
 					decisionDate: fullAppeal.decisionDate,
 					eligibility: {
-						applicationDecision: 'granted',
-						planningApplicationAbout: ['none_of_these']
+						applicationDecision: 'refused'
 					}
 				};
 				req = mockReq(advertsAppeal);
@@ -663,9 +658,9 @@ describe('controllers/before-you-start/can-use-service', () => {
 				expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
 					appealLPD: 'Bradford',
 					applicationAbout: null,
-					applicationDecision: 'Granted with conditions',
-					applicationType: 'Minor commercial advertisement',
-					deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
+					applicationDecision: 'Refused',
+					applicationType: 'Advertisement',
+					deadlineDate: { date: 29, day: 'Wednesday', month: 'June', year: 2022 },
 					decisionDate: '04 May 2022',
 					dateOfDecisionLabel: 'Date of decision',
 					enforcementNotice: 'No',

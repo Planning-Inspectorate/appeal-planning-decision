@@ -116,7 +116,8 @@ function isValidAppeal(appeal) {
 		appeal.appealType === APPEAL_ID.PLANNING_SECTION_78 ||
 		appeal.appealType === APPEAL_ID.PLANNING_LISTED_BUILDING ||
 		appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL ||
-		appeal.appealType === APPEAL_ID.ADVERTISEMENT
+		appeal.appealType === APPEAL_ID.ADVERTISEMENT ||
+		appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT
 	) {
 		errors = validateFullAppeal(appeal);
 	} else {
