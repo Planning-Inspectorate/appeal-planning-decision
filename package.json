@@ -106,7 +106,7 @@
 		"@azure/functions": "^4.7.2",
 		"@azure/identity": "^4.10.1",
 		"@azure/service-bus": "^7.9.1",
-		"@azure/storage-blob": "^12.17.0",
+		"@azure/storage-blob": "^12.28.0",
 		"@ministryofjustice/frontend": "^1.6.4",
 		"@planning-inspectorate/data-model": "^1.13.0",
 		"@prisma/client": "^6.13.0",
