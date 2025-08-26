@@ -11,7 +11,7 @@ const { GenericContainer, Wait } = require('testcontainers');
 let startedContainer;
 
 const createAzuriteContainer = async () => {
-	startedContainer = await new GenericContainer('mcr.microsoft.com/azure-storage/azurite:3.34.0')
+	startedContainer = await new GenericContainer('mcr.microsoft.com/azure-storage/azurite:3.35.0')
 		.withName('documents-api-it-azurite')
 		.withExposedPorts(10010)
 		.withCommand(['azurite-blob', '--blobHost', '0.0.0.0', '--blobPort', '10010']) // 0.0.0.0 is important since the document API system can't reach the Azurite container if its started with the 127.0.0.1 default
