@@ -14,7 +14,6 @@ condition: () => questionHasAnswer(response, questions.applicationName, 'no');
 - address-entry `/appeal-site-address/` What is the address of the appeal site?
 - boolean `/highway-land/` Is the appeal site on highway land?
 - boolean `/advertisement-position/` Is the advertisement in position?
-- number-entry `/site-area/` What is the area of the appeal site?
 - boolean `/green-belt/` Is the appeal site in a green belt?
 - boolean `/own-all-land/` Do you own all of the land involved in the appeal?
 - boolean `/own-some-land/` Do you own some of the land involved in the appeal?
@@ -57,7 +56,6 @@ condition: () =>
 condition: () => shouldDisplayIdentifyingLandowners(response, questions);
 ```
 
-- boolean `/landowner-permission/` Do you have the landowner’s permission?
 - boolean `/advertising-appeal/` Advertising your appeal
 
 ```js
@@ -67,6 +65,12 @@ condition: () =>
 ```
 
 - boolean `/telling-landowners/` Telling the landowners
+
+```js
+condition: () => shouldDisplayTellingLandowners(response, questions);
+```
+
+- boolean `/landowner-permission/` Do you have the landowner’s permission?
 
 ```js
 condition: () => shouldDisplayTellingLandowners(response, questions);
@@ -88,13 +92,12 @@ condition: () => questionHasAnswer(response, questions.anyOtherAppeals, 'yes');
 ## Upload documents
 
 - multi-file-upload `/upload-application-form/` Upload your application form
-- multi-file-upload `/upload-description-evidence/` Upload evidence of your agreement to change the description of development
+- multi-file-upload `/upload-decision-letter/` Upload the decision letter from the local planning authority
 
 ```js
-condition: () => questionHasAnswer(response, questions.updateAdvertisementDescription, 'yes');
+condition: () => shouldDisplayUploadDecisionLetter(response);
 ```
 
-- multi-file-upload `/upload-decision-letter/` Upload the decision letter from the local planning authority
 - multi-file-upload `/upload-appeal-statement/` Upload your appeal statement
 - boolean `/apply-appeal-costs/` Do you need to apply for an award of appeal costs?
 - multi-file-upload `/upload-appeal-costs-application/` Upload your application for an award of appeal costs
