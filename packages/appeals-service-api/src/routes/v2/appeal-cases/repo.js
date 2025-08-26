@@ -321,14 +321,38 @@ class AppealCaseRepository {
 		// lead/child are only reference from child(1) to lead(2)
 		await this.dbClient.$transaction(async (tx) => {
 			// delete all relations that use this case
+
+			// delete  nearby relations
 			await tx.appealCaseRelationship.deleteMany({
 				where: {
-					OR: [
+					AND: [
+						{
+							OR: [
+								{
+									caseReference: caseReference
+								},
+								{
+									caseReference2: caseReference
+								}
+							]
+						},
+						{
+							type: CASE_RELATION_TYPES.nearby
+						}
+					]
+				}
+			});
+
+			// delete linked appeals where case is a child
+			// should only be one but for safety delete many
+			await tx.appealCaseRelationship.deleteMany({
+				where: {
+					AND: [
 						{
 							caseReference: caseReference
 						},
 						{
-							caseReference2: caseReference
+							type: CASE_RELATION_TYPES.linked
 						}
 					]
 				}
@@ -351,7 +375,7 @@ class AppealCaseRepository {
 			}
 
 			// add lead case (only referenced from child(1) -> lead(2))
-			if (leadCaseReference) {
+			if (leadCaseReference && caseReference !== leadCaseReference) {
 				await tx.appealCaseRelationship.create({
 					data: {
 						caseReference,
