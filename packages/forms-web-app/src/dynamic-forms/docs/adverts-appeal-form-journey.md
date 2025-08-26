@@ -82,6 +82,12 @@ condition: () => shouldDisplayTellingLandowners(response, questions);
 - date `/application-date/` What date did you submit your application?
 - text-entry `/description-advertisement/` Enter the description of the advertisement that you submitted in your application
 - boolean `/description-advertisement-correct/` Did the local planning authority change the description of the advertisement?
+- multi-file-upload `/upload-description-evidence/` Upload evidence of your agreement to change the description of the advertisement
+
+```js
+condition: () => questionHasAnswer(response, questions.updateAdvertisementDescription, 'yes');
+```
+
 - boolean `/other-appeals/` Are there other appeals linked to your development?
 - list-add-more `/enter-appeal-reference/` Add another appeal?
 

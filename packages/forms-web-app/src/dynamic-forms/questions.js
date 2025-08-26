@@ -2690,6 +2690,23 @@ exports.questionProps = {
 				}
 			})
 		]
+	},
+	uploadChangeOfAdvertisementEvidence: {
+		type: 'multi-file-upload',
+		title: 'Upload evidence of your agreement to change the description of the advertisement',
+		question: 'Upload evidence of your agreement to change the description of the advertisement',
+		description:
+			'For example, an email or letter from the local planning authority that confirms they have changed the description of the advertisement.',
+		fieldName: 'uploadChangeOfDescriptionEvidence',
+		url: 'upload-description-evidence',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the evidence of your agreement to change the description of the advertisement'
+			),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadChangeOfDescriptionEvidence,
+		actionHiddenText: 'evidence of your agreement to change the description of the advertisement'
 	}
 };
 
