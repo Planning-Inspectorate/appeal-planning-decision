@@ -80,7 +80,10 @@ const makeSections = (response) => [
 		.addQuestion(questions.planningApplicationDate)
 		.addQuestion(questions.enterAdvertisementDescription)
 		.addQuestion(questions.updateAdvertisementDescription)
-		// upload description advertisement question placeholder with condition on whether LPA changed advertisement description
+		.addQuestion(questions.uploadChangeOfAdvertisementEvidence)
+		.withCondition(() =>
+			questionHasAnswer(response, questions.updateAdvertisementDescription, 'yes')
+		)
 		.addQuestion(questions.anyOtherAppeals)
 		.addQuestion(questions.linkAppeals)
 		.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
