@@ -291,7 +291,7 @@ services:
   # Third-party services
   blob-storage:
     profiles: ['all', 'appeals', 'comment', 'documents']
-    image: mcr.microsoft.com/azure-storage/azurite:3.34.0
+    image: mcr.microsoft.com/azure-storage/azurite:3.35.0
     ports:
       - 4002:10000
       - 4003:10001
@@ -300,7 +300,7 @@ services:
 
   bo-blob-storage:
     profiles: ['all', 'appeals', 'comment', 'documents', 'storage']
-    image: mcr.microsoft.com/azure-storage/azurite:3.34.0
+    image: mcr.microsoft.com/azure-storage/azurite:3.35.0
     ports:
       - 4004:10000
       - 4005:10001
