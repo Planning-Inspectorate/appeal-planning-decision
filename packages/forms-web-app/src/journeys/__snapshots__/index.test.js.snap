@@ -1153,43 +1153,6 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the site-area question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">What is the area of the appeal site?</h1>
-            <p class="govuk-body"></p>
-            <form action="" method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <div id="siteAreaSquareMetres-hint" class="govuk-hint">Total site area, in square metres.</div>
-                    <div class="govuk-input__wrapper">
-                        <input class="govuk-input govuk-input--width-5" id="siteAreaSquareMetres"
-                        name="siteAreaSquareMetres" type="text" spellcheck="false" value="" aria-describedby="siteAreaSquareMetres-hint"
-                        inputmode="numeric">
-                        <div class="govuk-input__suffix" aria-hidden="true">m²</div>
-                    </div>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the telling-landowners question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -1455,52 +1418,6 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the upload-description-evidence question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Upload documents</span>
-            <h1 class="govuk-heading-l">Upload evidence of your agreement to change the description of development</h1>
-            <p class="govuk-body">For example, an email or letter from the local planning authority that
-                confirms they have changed the description of development.</p>
-            <form action=""
-            method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
-                        </div>
-                    </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadChangeOfDescriptionEvidence">Upload files</label>
-                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadChangeOfDescriptionEvidence" name="uploadChangeOfDescriptionEvidence"
-                            type="file" aria-describedby="uploadChangeOfDescriptionEvidence-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
-                    </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the upload-plans-drawings-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -1641,12 +1558,6 @@ exports[`Dynamic forms journey tests appellant Advertisement renders listing pag
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/advertisement-position?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Is the advertisement in position?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is the area of the appeal site?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/site-area?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the area of the appeal site?</span></a>
-                                </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site in a green belt?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
@@ -1665,16 +1576,16 @@ exports[`Dynamic forms journey tests appellant Advertisement renders listing pag
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/identifying-landowners?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Identifying the landowners</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have the landowner’s permission?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/landowner-permission?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Do you have the landowner’s permission?</span></a>
-                                </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Have the landowners been told about the appeal?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/telling-landowners?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Telling the landowners</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have the landowner’s permission?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/landowner-permission?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Do you have the landowner’s permission?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Will an inspector need to access your land or property?</dt>
@@ -2925,43 +2836,6 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the site-area question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">What is the area of the appeal site?</h1>
-            <p class="govuk-body"></p>
-            <form action="" method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <div id="siteAreaSquareMetres-hint" class="govuk-hint">Total site area, in square metres.</div>
-                    <div class="govuk-input__wrapper">
-                        <input class="govuk-input govuk-input--width-5" id="siteAreaSquareMetres"
-                        name="siteAreaSquareMetres" type="text" spellcheck="false" value="" aria-describedby="siteAreaSquareMetres-hint"
-                        inputmode="numeric">
-                        <div class="govuk-input__suffix" aria-hidden="true">m²</div>
-                    </div>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the telling-landowners question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -3227,52 +3101,6 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the upload-description-evidence question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Upload documents</span>
-            <h1 class="govuk-heading-l">Upload evidence of your agreement to change the description of development</h1>
-            <p class="govuk-body">For example, an email or letter from the local planning authority that
-                confirms they have changed the description of development.</p>
-            <form action=""
-            method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
-                        </div>
-                    </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadChangeOfDescriptionEvidence">Upload files</label>
-                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadChangeOfDescriptionEvidence" name="uploadChangeOfDescriptionEvidence"
-                            type="file" aria-describedby="uploadChangeOfDescriptionEvidence-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
-                    </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the upload-plans-drawings-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -3413,12 +3241,6 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) re
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/advertisement-position?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Is the advertisement in position?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is the area of the appeal site?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/site-area?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the area of the appeal site?</span></a>
-                                </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site in a green belt?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
@@ -3437,16 +3259,16 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) re
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/identifying-landowners?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Identifying the landowners</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have the landowner’s permission?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/landowner-permission?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Do you have the landowner’s permission?</span></a>
-                                </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Have the landowners been told about the appeal?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/telling-landowners?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Telling the landowners</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have the landowner’s permission?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/landowner-permission?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Do you have the landowner’s permission?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Will an inspector need to access your land or property?</dt>

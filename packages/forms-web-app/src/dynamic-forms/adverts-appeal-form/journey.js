@@ -11,8 +11,9 @@ const {
 	questionsHaveAnswers
 } = require('../dynamic-components/utils/question-has-answer');
 const {
+	shouldDisplayIdentifyingLandowners,
 	shouldDisplayTellingLandowners,
-	shouldDisplayIdentifyingLandowners
+	shouldDisplayUploadDecisionLetter
 } = require('../display-questions');
 
 /**
@@ -32,9 +33,9 @@ const makeSections = (response) => [
 		.addQuestion(questions.contactDetails)
 		.addQuestion(questions.contactPhoneNumber)
 		.addQuestion(questions.appealSiteAddress)
+		// grid reference question placeholder
 		.addQuestion(questions.highwayLand)
 		.addQuestion(questions.advertInPosition)
-		.addQuestion(questions.siteArea)
 		.addQuestion(questions.appellantGreenBelt)
 		.addQuestion(questions.ownsAllLand)
 		.addQuestion(questions.ownsSomeLand)
@@ -63,7 +64,6 @@ const makeSections = (response) => [
 		)
 		.addQuestion(questions.identifyingLandowners)
 		.withCondition(() => shouldDisplayIdentifyingLandowners(response, questions))
-		.addQuestion(questions.landownerPermission)
 		.addQuestion(questions.advertisingAppeal)
 		.withCondition(
 			() =>
@@ -72,22 +72,22 @@ const makeSections = (response) => [
 		)
 		.addQuestion(questions.tellingLandowners)
 		.withCondition(() => shouldDisplayTellingLandowners(response, questions))
+		.addQuestion(questions.landownerPermission)
+		.withCondition(() => shouldDisplayTellingLandowners(response, questions))
 		.addQuestion(questions.inspectorAccess)
 		.addQuestion(questions.healthAndSafety)
 		.addQuestion(questions.enterApplicationReference)
 		.addQuestion(questions.planningApplicationDate)
 		.addQuestion(questions.enterAdvertisementDescription)
 		.addQuestion(questions.updateAdvertisementDescription)
+		// upload description advertisement question placeholder with condition on whether LPA changed advertisement description
 		.addQuestion(questions.anyOtherAppeals)
 		.addQuestion(questions.linkAppeals)
 		.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
 	new Section('Upload documents', 'upload-documents')
 		.addQuestion(questions.uploadOriginalApplicationForm)
-		.addQuestion(questions.uploadChangeOfDescriptionEvidence)
-		.withCondition(() =>
-			questionHasAnswer(response, questions.updateAdvertisementDescription, 'yes')
-		)
 		.addQuestion(questions.uploadApplicationDecisionLetter)
+		.withCondition(() => shouldDisplayUploadDecisionLetter(response))
 		.addQuestion(questions.uploadAppellantStatement)
 		.addQuestion(questions.costApplication)
 		.addQuestion(questions.uploadCostApplication)
