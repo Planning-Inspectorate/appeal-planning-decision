@@ -1,5 +1,8 @@
 const { buildQueryString } = require('@pins/common/src/client/utils');
-const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
+const {
+	LISTED_RELATION_TYPES,
+	CASE_RELATION_TYPES
+} = require('@pins/common/src/database/data-static');
 const config = require('../../../configuration/config');
 const {
 	createTestAppealCase
@@ -455,6 +458,81 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					}
 				});
 				expect(appealRelations.length).toBe(5); // nearbyCaseReferences (linked bi-directional) + leadCaseReference (one-directional)
+			});
+
+			it('does not add or delete a linked relation for a lead appeal', async () => {
+				const testLeadData = structuredClone(s78Example);
+				const testChildData = structuredClone(s78Example);
+				const testCase2 = testCases[1];
+
+				testLeadData.caseReference = testCase1.caseReference;
+				testLeadData.linkedCaseStatus = 'lead';
+				testLeadData.leadCaseReference = testCase1.caseReference;
+
+				testChildData.caseReference = testCase2.caseReference;
+				testChildData.linkedCaseStatus = 'child';
+				testLeadData.leadCaseReference = testCase1.caseReference;
+
+				await appealsApi.put(`/api/v2/appeal-cases/` + testCase1.caseReference).send(testLeadData);
+
+				await appealsApi.put(`/api/v2/appeal-cases/` + testCase1.caseReference).send(testLeadData);
+
+				const leadAppealRelations = await sqlClient.appealCaseRelationship.findMany({
+					where: {
+						AND: [
+							{
+								OR: [
+									{
+										caseReference: testCase1.caseReference
+									},
+									{
+										caseReference2: testCase1.caseReference
+									}
+								]
+							},
+							{
+								type: CASE_RELATION_TYPES.linked
+							}
+						]
+					}
+				});
+				expect(leadAppealRelations.length).toBe(0);
+
+				// create a linked appeal relationship for child
+
+				await appealsApi.put(`/api/v2/appeal-cases/` + testCase2.caseReference).send(testChildData);
+
+				const childAppealRelations = await sqlClient.appealCaseRelationship.findMany({
+					where: {
+						AND: [
+							{
+								caseReference: testCase2.caseReference
+							},
+							{
+								type: CASE_RELATION_TYPES.linked
+							}
+						]
+					}
+				});
+				expect(childAppealRelations.length).toBe(1);
+
+				// is not deleted by update to lead
+
+				await appealsApi.put(`/api/v2/appeal-cases/` + testCase1.caseReference).send(testLeadData);
+
+				const childAppealRelations2 = await sqlClient.appealCaseRelationship.findMany({
+					where: {
+						AND: [
+							{
+								caseReference: testCase2.caseReference
+							},
+							{
+								type: CASE_RELATION_TYPES.linked
+							}
+						]
+					}
+				});
+				expect(childAppealRelations2.length).toBe(1);
 			});
 
 			it('upserts all relational data for S20', async () => {
