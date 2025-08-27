@@ -11,7 +11,6 @@ const {
 } = require('@pins/common');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 
 /**
@@ -156,11 +155,6 @@ exports.detailsRows = (caseData, userType) => {
 			keyText: 'Application reference',
 			valueText: caseData.applicationReference,
 			condition: (caseData) => caseData.applicationReference
-		},
-		{
-			keyText: 'What date did you submit your planning application?',
-			valueText: formatDateForDisplay(caseData.applicationDate),
-			condition: (caseData) => caseData.applicationDate != null
 		},
 		{
 			keyText: 'What is the development type?',

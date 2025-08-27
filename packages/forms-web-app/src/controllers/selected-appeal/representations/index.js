@@ -91,7 +91,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 		const backToAppealOverviewLink = getParentPathLink(req.originalUrl);
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
-		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
+		const headlineData = formatHeadlineData({ caseData, lpaName: lpa.name, role: userType });
 		const formattedRepresentations = formatRepresentations(caseData, representationsForDisplay);
 
 		const representationView =

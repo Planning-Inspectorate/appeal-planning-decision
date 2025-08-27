@@ -19,7 +19,7 @@ const selectedAppeal = async (req, res) => {
 	createInterestedPartySession(req, appealNumber, appeal.siteAddressPostcode);
 
 	const lpa = await getDepartmentFromCode(appeal.LPACode);
-	const headlineData = formatHeadlineData(appeal, lpa.name);
+	const headlineData = formatHeadlineData({ caseData: appeal, lpaName: lpa.name });
 
 	const status = getAppealStatus(appeal);
 

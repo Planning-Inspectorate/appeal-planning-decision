@@ -48,6 +48,13 @@
 
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 
+			<h2 class="govuk-heading-l">Before you start</h2>
+
+			{{ govukSummaryList({
+				classes: "govuk-summary-list long-answers",
+				rows: appeal.beforeYouStart
+			}) }}
+
 			<h2 class="govuk-heading-l">{{ appealDetailsSuffix }} appeal</h2>
 
 			{{ govukSummaryList({

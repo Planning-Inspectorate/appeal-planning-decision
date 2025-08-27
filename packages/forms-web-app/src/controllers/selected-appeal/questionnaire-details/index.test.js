@@ -119,7 +119,11 @@ describe('controllers/selected-appeal/questionnaire-details/index', () => {
 				userId: '123'
 			});
 			expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
-			expect(formatHeadlineData).toHaveBeenCalledWith(caseData, 'Test LPA', LPA_USER_ROLE);
+			expect(formatHeadlineData).toHaveBeenCalledWith({
+				caseData,
+				lpaName: 'Test LPA',
+				role: LPA_USER_ROLE
+			});
 			expect(constraintsRows).toHaveBeenCalledWith(caseData);
 			expect(environmentalRows).toHaveBeenCalledWith(caseData);
 			expect(notifiedRows).toHaveBeenCalledWith(caseData);
@@ -163,7 +167,11 @@ describe('controllers/selected-appeal/questionnaire-details/index', () => {
 				userId: '123'
 			});
 			expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
-			expect(formatHeadlineData).toHaveBeenCalledWith(caseData, 'Test LPA', LPA_USER_ROLE);
+			expect(formatHeadlineData).toHaveBeenCalledWith({
+				caseData,
+				lpaName: 'Test LPA',
+				role: LPA_USER_ROLE
+			});
 			expect(constraintsRows).toHaveBeenCalledWith(caseData);
 			expect(environmentalRows).toHaveBeenCalledWith(caseData);
 			expect(notifiedRows).toHaveBeenCalledWith(caseData);
