@@ -51,7 +51,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const planningObligationDetails = formatRows(appealPlanningObligationRows, caseData);
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
-		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
+		const headlineData = formatHeadlineData({ caseData, lpaName: lpa.name, role: userType });
 
 		let bannerHtmlOverride;
 		if (userType !== LPA_USER_ROLE) {

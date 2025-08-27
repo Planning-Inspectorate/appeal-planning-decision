@@ -13,6 +13,7 @@ const { addCSStoHtml } = require('#lib/add-css-to-html');
 
 const logger = require('#lib/logger');
 const config = require('../..//../config');
+const { bysRows } = require('./appeal-before-you-start-rows');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -63,7 +64,10 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		logger.debug({ caseData }, 'caseData');
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
-		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
+		const headlineData = formatHeadlineData({ caseData, role: userType });
+
+		const beforeYouStartRows = bysRows(caseData, lpa.name);
+		const beforeYouStart = formatRows(beforeYouStartRows, caseData);
 
 		const appealDetailsRows = detailsRows(caseData, userType);
 		const appealDetails = formatRows(appealDetailsRows, caseData);
@@ -88,6 +92,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			appeal: {
 				appealNumber,
 				headlineData,
+				beforeYouStart,
 				appealDetails,
 				appealDocuments
 			},

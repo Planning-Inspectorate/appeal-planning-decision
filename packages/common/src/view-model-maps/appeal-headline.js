@@ -12,11 +12,16 @@ const { caseTypeNameWithDefault } = require('../lib/format-case-type');
  */
 
 /**
- * @param {AppealCaseDetailed} caseData
- * @param {string} lpaName
- * @param {AppealToUserRoles|LpaUserRole|null} role
+ * @param {object} options
+ * @param {AppealCaseDetailed} options.caseData
+ * @param {string} [options.lpaName='']
+ * @param {AppealToUserRoles|LpaUserRole|null} [options.role=APPEAL_USER_ROLES.INTERESTED_PARTY]
  */
-const formatHeadlineData = (caseData, lpaName, role = APPEAL_USER_ROLES.INTERESTED_PARTY) => {
+const formatHeadlineData = ({
+	caseData,
+	lpaName = '',
+	role = APPEAL_USER_ROLES.INTERESTED_PARTY
+}) => {
 	const { caseReference, appealTypeCode, caseProcedure, users, applicationReference, linkedCases } =
 		caseData;
 
@@ -45,10 +50,12 @@ const formatHeadlineData = (caseData, lpaName, role = APPEAL_USER_ROLES.INTEREST
 			key: applicant.key,
 			value: applicant.value
 		},
-		{
-			key: { text: 'Local planning authority' },
-			value: { text: lpaName }
-		},
+		lpaName
+			? {
+					key: { text: 'Local planning authority' },
+					value: { text: lpaName }
+				}
+			: {},
 		{
 			key: { text: 'Application number' },
 			value: { text: applicationReference }
@@ -87,7 +94,7 @@ const shouldFormatHeadlines = (_caseData, userType) =>
  */
 const displayHeadlinesByUser = (caseData, lpaName, userType) => {
 	if (shouldFormatHeadlines(caseData, userType)) {
-		return formatHeadlineData(caseData, lpaName, userType);
+		return formatHeadlineData({ caseData, lpaName, role: userType });
 	}
 	return null;
 };

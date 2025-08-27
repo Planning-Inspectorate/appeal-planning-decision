@@ -171,6 +171,19 @@ export interface AppealCase {
 		| 'minor-traveller-caravan'
 		| 'other-major'
 		| 'other-minor';
+	typeOfPlanningApplication?:
+		| 'full-appeal'
+		| 'householder-planning'
+		| 'listed-building'
+		| 'outline-planning'
+		| 'prior-approval'
+		| 'reserved-matters'
+		| 'removal-or-variation-of-conditions'
+		| 'minor-commercial-development'
+		| 'minor-commercial-advertisement'
+		| 'advertisement'
+		| 'something-else'
+		| 'i-have-not-made-a-planning-application';
 	/** Indicates if the LPA considers the appeal type appropriate */
 	isCorrectAppealType?: boolean;
 	/** Indicates if the appellant has applied for costs */

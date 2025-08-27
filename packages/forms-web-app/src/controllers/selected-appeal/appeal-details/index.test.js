@@ -11,12 +11,14 @@ const { formatRows, formatHeadlineData } = require('@pins/common');
 const { VIEW } = require('#lib/views');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
+const { bysRows } = require('./appeal-before-you-start-rows');
 
 jest.mock('#lib/determine-user');
 jest.mock('../../../services/user.service');
 jest.mock('../../../services/department.service');
 jest.mock('./appeal-details-rows');
 jest.mock('./appeal-documents-rows');
+jest.mock('./appeal-before-you-start-rows');
 jest.mock('@pins/common');
 jest.mock('#lib/pdf-api-wrapper');
 jest.mock('#lib/add-css-to-html');
@@ -51,7 +53,8 @@ const expectedViewContext = {
 		appealNumber: 123456,
 		headlineData: 'formatted headline data',
 		appealDetails: 'some formatted row data',
-		appealDocuments: 'some formatted row data'
+		appealDocuments: 'some formatted row data',
+		beforeYouStart: 'some formatted row data'
 	},
 	pdfDownloadUrl: 'a/fake/url?pdf=true',
 	backToAppealOverviewLink: 'a/fake'
@@ -64,6 +67,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 		getUserFromSession.mockReturnValue({ email: 'test@example.com' });
 		getDepartmentFromCode.mockReturnValue({ name: 'Test LPA' });
 		documentsRows.mockReturnValue('returned document rows');
+		bysRows.mockReturnValue('returned bys rows');
 		detailsRows.mockReturnValue('returned details rows');
 		formatRows.mockReturnValue('some formatted row data');
 		formatHeadlineData.mockReturnValue('formatted headline data');
@@ -97,9 +101,11 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			});
 			expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
 			expect(detailsRows).toHaveBeenCalledWith(caseData, LPA_USER_ROLE);
+			expect(bysRows).toHaveBeenCalledWith(caseData, 'Test LPA');
 			expect(documentsRows).toHaveBeenCalledWith(caseData);
+			expect(formatRows).toHaveBeenCalledWith('returned bys rows', caseData);
 			expect(formatRows).toHaveBeenCalledWith('returned details rows', caseData);
-			expect(formatHeadlineData).toHaveBeenCalledWith(caseData, 'Test LPA', LPA_USER_ROLE);
+			expect(formatHeadlineData).toHaveBeenCalledWith({ caseData, role: LPA_USER_ROLE });
 
 			expect(generatePDF).not.toHaveBeenCalled();
 			expect(addCSStoHtml).not.toHaveBeenCalled();
@@ -138,9 +144,10 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
 			expect(detailsRows).toHaveBeenCalledWith(caseData, LPA_USER_ROLE);
 			expect(documentsRows).toHaveBeenCalledWith(caseData);
+			expect(bysRows).toHaveBeenCalledWith(caseData, 'Test LPA');
+			expect(formatRows).toHaveBeenCalledWith('returned bys rows', caseData);
 			expect(formatRows).toHaveBeenCalledWith('returned details rows', caseData);
-			expect(formatHeadlineData).toHaveBeenCalledWith(caseData, 'Test LPA', LPA_USER_ROLE);
-
+			expect(formatHeadlineData).toHaveBeenCalledWith({ caseData, role: LPA_USER_ROLE });
 			expect(res.render).toHaveBeenCalledWith(
 				VIEW.SELECTED_APPEAL.APPEAL_DETAILS,
 				pdfExpectedViewContext,
