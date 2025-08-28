@@ -8,128 +8,120 @@ title: Before you start routing
 flowchart TD
     %%{init: {"flowchart": {"defaultRenderer": "elk"}} }%%
 
+    %% Legend
+    subgraph Legend
+        legQuestion[Question to user]
+        legDecision{Decision - appeal type is known}:::decisionStyle
+        legAppealForm@{ shape: doc, label: "Appeal Form" }
+        legExit(((Exit))):::exitStyle
+    end
+
+    %% Exit
+    deadline(((-> deadline))):::exitStyle
+    acp1(((-> ACP))):::exitStyle
+
+    %% Decisions
+    decideHAS{appeal type = HAS}:::decisionStyle
+    decideS78A{appeal type = S78}:::decisionStyle
+    decideS78B{appeal type = S78}:::decisionStyle
+    decideS20{appeal type = S20}:::decisionStyle
+    decideCAS{appeal type = CAS Planning}:::decisionStyle
+    decideAdvert{appeal type = Adverts}:::decisionStyle
+
+    %% Appeal Forms
+    HAS_V1@{ shape: doc, label: "HAS Appeal V1" }
+    S78_V1@{ shape: doc, label: "S78 Appeal V1" }
+    HAS@{ shape: doc, label: "HAS Appeal" }
+    S78@{ shape: doc, label: "S78 Appeal" }
+    S20@{ shape: doc, label: "S20 Appeal" }
+    CAS@{ shape: doc, label: "CAS Planning Appeal" }
+    Advert@{ shape: doc, label: "Advert/CAS Advert Appeal" }
+
     %% questions
     lpa[LPA?]
-    enf[enforcement?]
-    app[application type?]
-    appAbout[application about?]
-    appAboutCAS[application about?]
-    listed[is listed building?]
+    enforcement[enforcement?]
+    applicationType[application type?]
+    applicationAbout[application about?]
+    applicationAboutCAS[commercial application about?]
     existingHome[existing-home?]
-    conditionsHouseHolder[conditions for householder?]
-    costsHouseHolder[applying for costs?]
-    refused[granted/refused?]
-    refusedV2[granted/refused?]
-    refusedV2CAS[granted/refused?]
-    refusedHouseHolder[granted/refused?]
-    refusedHouseHolderV2[granted/refused?]
-    refusedListedV2[granted/refused?]
+    conditionsHouseholder[conditions for householder?]
+    listedBuildingV1[is listed building v1?]
+    listedBuilding[is listed building?]
+    grantedRefused[granted/refused?]
+    grantedRefusedUndecided[granted/refused - undecided?]
+    decisionDate[date of decision?]
+    costsHouseholder[applying for costs?]
 
-    %% simplified - no decision has different wording for date
-    date[date of decision?]
-    dateV2[date of decision?]
-    dateHouseHolder[date of decision?]
-    dateHouseHolderV2[date of decision?]
-    dateListedV2[date of decision?]
-    dateV2CAS[date of decision?]
+    %% routing
+    lpa --> enforcement
 
-    %% Exit paths, multiple acp nodes to simplify graph rendering
-    deadline(((-> deadline)))
-    deadline2(((-> deadline)))
-    deadline3(((-> deadline)))
-    deadline4(((-> deadline)))
-    acp(((-> ACP)))
-    acp2(((-> ACP)))
-    acp3(((-> ACP)))
-    acp4(((-> ACP)))
-    acp5(((-> ACP)))
-    classDef exitStyle stroke:#ff0000,stroke-width:1px;
-    class acp,acp2,acp3,acp4,acp5,deadline,deadline2,deadline3,deadline4 exitStyle;
+    enforcement -- Yes --> acp1
+    enforcement -- No --> applicationType
 
-    %% Forms
-    v1HAS@{ shape: doc, label: "-> V1 HAS Appeal" }
-    v1S78@{ shape: doc, label: "-> V1 S78 Appeal" }
-    v2HAS@{ shape: doc, label: "-> V2 HAS Appeal" }
-    v2S78@{ shape: doc, label: "-> V2 S78 Appeal" }
-    v2S20@{ shape: doc, label: "-> V2 S20 Appeal" }
-    v2CAS@{ shape: doc, label: "-> V2 CAS Appeal" }
-    v2Advert@{ shape: doc, label: "-> V2 Advert/CAS Advert Appeal" }
-    classDef v1 stroke:#00ff00,stroke-width:1px;
-    classDef v2 stroke:#0000ff,stroke-width:1px;
-    class v1HAS,v1S78 v1;
-    class v2HAS,v2S78,v2S20,v2Advert,v2CAS v2;
+    applicationType -- v1 full/outline/reserved --> applicationAbout
+    applicationType -- v2 full/outline/reserved --> decideS78A
+    applicationType -- v1 householder --> listedBuildingV1
+    applicationType -- v2 householder --> grantedRefusedUndecided
+    applicationType -- listed building consent --> decideS20
+    applicationType -- display advert --> decideAdvert
+    applicationType -- minor commercial --> applicationAboutCAS
+    applicationType -- prior --> existingHome
+    applicationType -- conditions --> conditionsHouseholder
+    applicationType -- none/something else --> acp1
 
-    %% common routes
-    lpa --> enf
-    enf -- Yes --> acp
-    enf -- No --> app
-    app -- none/something else --> acp2
-    app -- prior --> existingHome
+    applicationAbout -- any --> acp1
+    applicationAbout -- none --> decideS78A
 
-    %% v1 routes
-    app -- v1 full/outline/reserved --> appAbout
-    app -- v1 householder --> listed
+    applicationAboutCAS -- none --> decideCAS
+    applicationAboutCAS -- any other --> decideS78A
 
-    existingHome -- v1 yes --> listed
-    existingHome -- v1 no --> appAbout
+    existingHome -- v1 yes --> listedBuildingV1
+    existingHome -- v1 no --> applicationAbout
 
-    conditionsHouseHolder -- yes --> listed
-    conditionsHouseHolder -- no --> appAbout
+    existingHome -- v2 yes --> grantedRefusedUndecided
+	existingHome -- v2 no --> decideS78A
 
-    appAbout -- any --> acp3
-    appAbout -- none --> refused
+    conditionsHouseholder -- v1 yes --> listedBuildingV1
+    conditionsHouseholder -- v1 no --> applicationAbout
 
-    listed -- v1 yes --> acp4
+    conditionsHouseholder -- v2 yes --> listedBuilding
+    conditionsHouseholder -- v2 no --> listedBuilding
 
-    refused --> date
+    listedBuildingV1 -- yes --> acp1
+    listedBuildingV1 -- no --> grantedRefusedUndecided
 
-    refusedHouseHolder -- granted/no decision --> date
-    refusedHouseHolder -- refused --> dateHouseHolder
+    listedBuilding -- yes --> decideS20
+    listedBuilding -- no --> decideS78A
 
-    date -- missed --> deadline
-    date -- in time --> v1S78
+    decideS78A --> grantedRefused
+    decideS20 --> grantedRefused
+    decideAdvert --> grantedRefused
+    decideCAS --> grantedRefused
 
-    dateHouseHolder -- missed --> deadline
-    dateHouseHolder -- in time --> costsHouseHolder
+    grantedRefused --> decisionDate
 
-    costsHouseHolder -- no --> v1HAS
-    costsHouseHolder -- yes --> acp5
+    grantedRefusedUndecided -- granted/no decision --> decideS78B
+    grantedRefusedUndecided -- refused --> decideHAS
 
-    %% v2 routes
-    app -- v2 full/outline/reserved --> refusedV2
-    app -- v2 listed building consent --> refusedListedV2
-    app -- v2 householder --> refusedHouseHolderV2
-    app -- conditions --> conditionsHouseHolder
-    app -- v2 minor commercial --> appAboutCAS
+    decideHAS --> decisionDate
+    decideS78B --> decisionDate
 
-    appAboutCAS -- none --> refusedV2CAS
-    appAboutCAS -- any other -->  refusedV2
-    refusedV2CAS --> dateV2CAS
+    decisionDate -- missed deadline --> deadline
+    decisionDate -- HAS --> HAS
+    decisionDate -- S78 --> S78
+    decisionDate -- Advert --> Advert
+    decisionDate -- CAS --> CAS
+    decisionDate -- S20 --> S20
+    decisionDate -- S78 V1 --> S78_V1
+    decisionDate -- HAS V1 --> costsHouseholder
 
-    dateV2CAS -- missed --> deadline4
-    dateV2CAS -- in time --> v2CAS
+    costsHouseholder -- no --> HAS_V1
+    costsHouseholder -- yes --> acpCosts(((-> ACP))):::exitStyle
 
-    listed -- v2 yes --> refusedListedV2
-    listed -- v2 no --> refusedHouseHolder
-    listed -- v2 no --> refusedHouseHolderV2
+    %% styles
+    classDef decisionStyle fill:#ffe8c6,stroke:#c26d00,color:#111,stroke-width:2px;
+    classDef appealForm fill:#e5f8ec,stroke:#1b7f3c,color:#111,stroke-width:2px;
+    classDef exitStyle fill:#ffe6e6,stroke:#d4351c,color:#111,stroke-width:2px;
 
-    existingHome -- v2 yes --> refusedHouseHolderV2
-	existingHome -- v2 no --> refusedV2
-
-    refusedListedV2 --> dateListedV2
-
-    refusedHouseHolderV2 -- granted --> dateV2
-    refusedHouseHolderV2 -- no decision --> dateV2
-    refusedHouseHolderV2 -- refused --> dateHouseHolderV2
-
-    refusedV2 --> dateV2
-
-    dateV2 -- missed --> deadline2
-    dateV2 -- in time --> v2S78
-
-    dateListedV2 -- missed --> deadline3
-    dateListedV2 -- in time --> v2S20
-
-    dateHouseHolderV2 -- in time --> v2HAS
-    dateHouseHolderV2 -- missed --> deadline2
+    class HAS_V1,S78_V1,HAS,S78,S20,Advert,CAS,legAppealForm,example appealForm;
 ```
