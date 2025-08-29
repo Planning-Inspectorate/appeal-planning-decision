@@ -118,8 +118,6 @@ const params = {
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(CAS_PLANNING.processCode))
 };
 
-console.log('changehere');
-
 module.exports = {
 	...params,
 	baseCASPlanningSubmissionUrl
