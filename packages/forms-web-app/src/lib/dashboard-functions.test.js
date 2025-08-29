@@ -15,6 +15,7 @@ const {
 } = require('@planning-inspectorate/data-model');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_ID, APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
+const { SUBMISSIONS } = require('@pins/common/src/constants');
 
 jest.mock('@pins/common/src/lib/calculate-due-in-days');
 jest.mock('./calculate-days-since-invalidated');
@@ -40,9 +41,37 @@ const proofsBaseUrl = `/manage-appeals/proof-evidence/${testCaseRef}/entry`;
 const rule6StatementBaseUrl = `/rule-6/appeal-statement/${testCaseRef}/entry`;
 const rule6ProofsBaseUrl = `/rule-6/proof-evidence/${testCaseRef}/entry`;
 
+const testQuestionnaireJourney = {
+	deadline: 'Tomorrow',
+	dueInDays: 1,
+	journeyDue: SUBMISSIONS.QUESTIONNAIRE,
+	baseUrl: 'testQuestionnaireUrl'
+};
+
+const testLead1StatementJourney = {
+	deadline: 'Tomorrow',
+	dueInDays: 1,
+	journeyDue: SUBMISSIONS.STATEMENT,
+	baseUrl: 'testLead1StatementUrl'
+};
+
+const testLead2StatementJourney = {
+	deadline: 'Tomorrow',
+	dueInDays: 1,
+	journeyDue: SUBMISSIONS.STATEMENT,
+	baseUrl: 'testLead2StatementUrl'
+};
+
+const testChildStatementJourney = {
+	deadline: 'Tomorrow and a day',
+	dueInDays: 2,
+	journeyDue: SUBMISSIONS.STATEMENT,
+	baseUrl: 'testChildStatementUrl'
+};
+
 const testLeadDashboardData = {
 	appealNumber: 'TestLeadCase',
-	nextJourneyDue: 'LeadCaseJourney',
+	nextJourneyDue: testLead1StatementJourney,
 	linkedCaseDetails: {
 		linkedCaseStatus: APPEAL_LINKED_CASE_STATUS.LEAD,
 		leadCaseReference: 'TestLeadCase',
@@ -51,7 +80,7 @@ const testLeadDashboardData = {
 };
 const testLeadDashboardData2 = {
 	appealNumber: 'TestLeadCase2',
-	nextJourneyDue: 'LeadCaseJourney2',
+	nextJourneyDue: testLead2StatementJourney,
 	linkedCaseDetails: {
 		linkedCaseStatus: APPEAL_LINKED_CASE_STATUS.LEAD,
 		leadCaseReference: 'TestLeadCase2',
@@ -60,7 +89,7 @@ const testLeadDashboardData2 = {
 };
 const testChildDashboardData = {
 	appealNumber: 'TestChildCase',
-	nextJourneyDue: 'ChildCaseJourney',
+	nextJourneyDue: testChildStatementJourney,
 	linkedCaseDetails: {
 		linkedCaseStatus: APPEAL_LINKED_CASE_STATUS.CHILD,
 		leadCaseReference: testLeadDashboardData.appealNumber,
@@ -139,7 +168,7 @@ describe('lib/dashboard-functions', () => {
 			const expectedQuestionnaireDetails = {
 				deadline: '2023-07-07T13:53:31.6003126+00:00',
 				dueInDays: 3,
-				journeyDue: 'Questionnaire',
+				journeyDue: SUBMISSIONS.QUESTIONNAIRE,
 				baseUrl: questionnaireBaseUrl
 			};
 
@@ -163,7 +192,7 @@ describe('lib/dashboard-functions', () => {
 			const expectedStatementDetails = {
 				deadline: '2023-07-17T13:53:31.6003126+00:00',
 				dueInDays: 13,
-				journeyDue: 'Statement',
+				journeyDue: SUBMISSIONS.STATEMENT,
 				baseUrl: statementBaseUrl
 			};
 
@@ -189,7 +218,7 @@ describe('lib/dashboard-functions', () => {
 			const expectedFinalCommentDetails = {
 				deadline: '2023-07-27T13:53:31.6003126+00:00',
 				dueInDays: 23,
-				journeyDue: 'Final comment',
+				journeyDue: SUBMISSIONS.FINAL_COMMENT,
 				baseUrl: finalCommentBaseUrl
 			};
 
@@ -215,7 +244,7 @@ describe('lib/dashboard-functions', () => {
 			const expectedProofsDetails = {
 				deadline: '2023-07-27T13:53:31.6003126+00:00',
 				dueInDays: 23,
-				journeyDue: 'Proofs of Evidence',
+				journeyDue: SUBMISSIONS.PROOFS_EVIDENCE,
 				baseUrl: proofsBaseUrl
 			};
 
@@ -248,7 +277,7 @@ describe('lib/dashboard-functions', () => {
 			const expectedStatementDetails = {
 				deadline: '2023-07-07T13:53:31.6003126+00:00',
 				dueInDays: 13,
-				journeyDue: 'Statement',
+				journeyDue: SUBMISSIONS.STATEMENT,
 				baseUrl: `${rule6StatementBaseUrl}`
 			};
 
@@ -270,7 +299,7 @@ describe('lib/dashboard-functions', () => {
 			const expectedProofsDetails = {
 				deadline: '2023-07-27T13:53:31.6003126+00:00',
 				dueInDays: 23,
-				journeyDue: 'Proof of Evidence',
+				journeyDue: SUBMISSIONS.PROOFS_EVIDENCE,
 				baseUrl: `${rule6ProofsBaseUrl}`
 			};
 
@@ -287,6 +316,19 @@ describe('lib/dashboard-functions', () => {
 			expect(updateChildAppealDisplayData([testChildDashboardData])).toEqual([
 				testChildDashboardData
 			]);
+		});
+
+		it('does not update child appeal data if the child next journey is questionnaire', () => {
+			const testChildDataAtQuestionnaire = structuredClone(testChildDashboardData);
+			testChildDataAtQuestionnaire.nextJourneyDue = testQuestionnaireJourney;
+
+			const testInputArray = [
+				testLeadDashboardData,
+				testLeadDashboardData2,
+				testChildDataAtQuestionnaire
+			];
+
+			expect(updateChildAppealDisplayData(testInputArray)).toEqual(testInputArray);
 		});
 
 		it('updates a child appeal data with the relevant lead appeal journey', () => {

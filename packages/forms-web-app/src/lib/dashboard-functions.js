@@ -17,7 +17,7 @@ const {
 	isAppellantFinalCommentOpen,
 	isLPAFinalCommentOpen
 } = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
-
+const { SUBMISSIONS } = require('@pins/common/src/constants');
 const {
 	formatAddress,
 	isAppealSubmission,
@@ -201,7 +201,7 @@ const overdueJourneyNotToBeDisplayed = (dueJourney) => {
 	return !!(
 		dueJourney.dueInDays &&
 		dueJourney.dueInDays < 0 &&
-		dueJourney.journeyDue !== 'Questionnaire'
+		dueJourney.journeyDue !== SUBMISSIONS.QUESTIONNAIRE
 	);
 };
 
@@ -259,28 +259,28 @@ const determineJourneyToDisplayLPADashboard = (appealCaseData) => {
 		return {
 			deadline: appealCaseData.lpaQuestionnaireDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.lpaQuestionnaireDueDate),
-			journeyDue: 'Questionnaire',
+			journeyDue: SUBMISSIONS.QUESTIONNAIRE,
 			baseUrl: `${questionnaireBaseUrl}/${appealCaseData.caseReference}`
 		};
 	} else if (isLPAStatementOpen(appealCaseData)) {
 		return {
 			deadline: appealCaseData.statementDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.statementDueDate),
-			journeyDue: 'Statement',
+			journeyDue: SUBMISSIONS.STATEMENT,
 			baseUrl: `${statementBaseUrl}/${appealCaseData.caseReference}/entry`
 		};
 	} else if (isLPAFinalCommentOpen(appealCaseData)) {
 		return {
 			deadline: appealCaseData.finalCommentsDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.finalCommentsDueDate),
-			journeyDue: 'Final comment',
+			journeyDue: SUBMISSIONS.FINAL_COMMENT,
 			baseUrl: `${finalCommentBaseUrl}/${appealCaseData.caseReference}/entry`
 		};
 	} else if (isLPAProofsOfEvidenceOpen(appealCaseData)) {
 		return {
 			deadline: appealCaseData.proofsOfEvidenceDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.proofsOfEvidenceDueDate),
-			journeyDue: 'Proofs of Evidence',
+			journeyDue: SUBMISSIONS.PROOFS_EVIDENCE,
 			baseUrl: `${proofsBaseUrl}/${appealCaseData.caseReference}/entry`
 		};
 	}
@@ -303,34 +303,34 @@ const determineJourneyToDisplayAppellantDashboard = (caseOrSubmission) => {
 		return {
 			deadline,
 			dueInDays: calculateDueInDays(deadline),
-			journeyDue: 'Continue'
+			journeyDue: SUBMISSIONS.CONTINUE
 		};
 	} else if (isV2Submission(caseOrSubmission)) {
 		const deadline = calculateAppealDueDeadline(caseOrSubmission);
 		return {
 			deadline,
 			dueInDays: calculateDueInDays(deadline),
-			journeyDue: 'Continue'
+			journeyDue: SUBMISSIONS.CONTINUE
 		};
 	} else if (displayInvalidAppeal(caseOrSubmission)) {
 		return {
 			deadline: null,
 			/// ensures invalid appeals appear at the top of the of the display
 			dueInDays: -100000,
-			journeyDue: 'Invalid'
+			journeyDue: SUBMISSIONS.INVALID
 		};
 	} else if (isAppellantFinalCommentOpen(caseOrSubmission)) {
 		return {
 			deadline: caseOrSubmission.finalCommentsDueDate,
 			dueInDays: calculateDueInDays(caseOrSubmission.finalCommentsDueDate),
-			journeyDue: 'Final comments',
+			journeyDue: SUBMISSIONS.FINAL_COMMENT,
 			baseUrl: `${appellantFinalCommentBaseUrl}/${caseOrSubmission.caseReference}/entry`
 		};
 	} else if (isAppellantProofsOfEvidenceOpen(caseOrSubmission)) {
 		return {
 			deadline: caseOrSubmission.proofsOfEvidenceDueDate,
 			dueInDays: calculateDueInDays(caseOrSubmission.proofsOfEvidenceDueDate),
-			journeyDue: 'Proofs of evidence',
+			journeyDue: SUBMISSIONS.PROOFS_EVIDENCE,
 			baseUrl: `${appellantProofsBaseUrl}/${caseOrSubmission.caseReference}/entry`
 		};
 	}
@@ -352,14 +352,14 @@ const determineJourneyToDisplayRule6Dashboard = (appealCaseData) => {
 		return {
 			deadline: appealCaseData.statementDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.statementDueDate),
-			journeyDue: 'Statement',
+			journeyDue: SUBMISSIONS.STATEMENT,
 			baseUrl: `${rule6StatementBaseUrl}/${appealCaseData.caseReference}/entry`
 		};
 	} else if (isRule6ProofsOfEvidenceOpen(appealCaseData)) {
 		return {
 			deadline: appealCaseData.proofsOfEvidenceDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.proofsOfEvidenceDueDate),
-			journeyDue: 'Proof of Evidence',
+			journeyDue: SUBMISSIONS.PROOFS_EVIDENCE,
 			baseUrl: `${rule6ProofsBaseUrl}/${appealCaseData.caseReference}/entry`
 		};
 	}
@@ -384,7 +384,10 @@ const updateChildAppealDisplayData = (displayDataArray) => {
 	if (!leadCases.length) return displayDataArray;
 
 	return displayDataArray.map((caseData) => {
-		if (caseData.linkedCaseDetails?.linkedCaseStatus === APPEAL_LINKED_CASE_STATUS.CHILD) {
+		if (
+			caseData.linkedCaseDetails?.linkedCaseStatus === APPEAL_LINKED_CASE_STATUS.CHILD &&
+			caseData.nextJourneyDue.journeyDue !== SUBMISSIONS.QUESTIONNAIRE
+		) {
 			return {
 				...caseData,
 				nextJourneyDue:

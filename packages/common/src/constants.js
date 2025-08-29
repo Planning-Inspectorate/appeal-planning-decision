@@ -52,6 +52,8 @@ module.exports = {
 		RULE_6: 'rule6'
 	},
 	SUBMISSIONS: {
+		CONTINUE: 'Continue',
+		INVALID: 'Invalid',
 		QUESTIONNAIRE: 'Questionnaire',
 		STATEMENT: 'Statement',
 		FINAL_COMMENT: 'Final comments',
