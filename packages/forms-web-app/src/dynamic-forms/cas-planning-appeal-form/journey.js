@@ -1,20 +1,20 @@
-const { getQuestions } = require('../questions');
 const questions = getQuestions();
-const { Section } = require('@pins/dynamic-forms/src/section');
-const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const {
 	CASE_TYPES: { CAS_PLANNING }
 } = require('@pins/common/src/database/data-static');
-
-const config = require('../../config');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const {
 	questionHasAnswer,
 	questionsHaveAnswers
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
+const { Section } = require('@pins/dynamic-forms/src/section');
+
+const config = require('../../config');
 const {
 	shouldDisplayIdentifyingLandowners,
 	shouldDisplayTellingLandowners
 } = require('../display-questions');
+const { getQuestions } = require('../questions');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -117,6 +117,8 @@ const params = {
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(CAS_PLANNING.processCode))
 };
+
+console.log('changehere');
 
 module.exports = {
 	...params,
