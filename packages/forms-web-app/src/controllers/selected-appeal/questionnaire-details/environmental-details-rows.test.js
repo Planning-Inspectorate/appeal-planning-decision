@@ -1,23 +1,89 @@
 const { environmentalRows } = require('./environmental-details-rows');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
+const { caseTypeLPAQFactory } = require('./test-factory');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 describe('environmentalRows', () => {
-	it('should create rows', () => {
-		const rows = environmentalRows({});
-		expect(rows.length).toEqual(12);
+	const eiaSchedule1Data = caseTypeLPAQFactory(CASE_TYPES.S78.processCode, 'eia', 'schedule-1');
+	const eiaSchedule2Data = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'eia', 'schedule-2');
+	const eiaNullData = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'eia', null);
 
-		expect(rows[0].keyText).toEqual('Schedule type');
-		expect(rows[1].keyText).toEqual('Development description');
-		expect(rows[2].keyText).toEqual('In, partly in, or likely to affect sensitive area');
-		expect(rows[3].keyText).toEqual('Meets or exceeds threshold or criteria in column 2');
-		expect(rows[4].keyText).toEqual('Issued screening opinion');
-		expect(rows[5].keyText).toEqual('Uploaded screening opinion');
-		expect(rows[6].keyText).toEqual('Received scoping opinion');
-		expect(rows[7].keyText).toEqual('Uploaded scoping opinion');
-		expect(rows[8].keyText).toEqual('Screening opinion indicated environmental statement needed');
-		expect(rows[9].keyText).toEqual('Did Environmental statement');
-		expect(rows[10].keyText).toEqual('Uploaded environmental statement');
-		expect(rows[11].keyText).toEqual('Uploaded screening direction');
+	const expectedSchedule1Rows = [
+		{ title: 'Schedule type', value: 'Schedule 1' },
+		{ title: 'Did Environmental statement', value: 'No' },
+		{
+			title: 'Uploaded environmental statement',
+			value: 'name.pdf - awaiting review'
+		}
+	];
+	const expectedSchedule2Rows = [
+		{ title: 'Schedule type', value: 'Schedule 2' },
+		{
+			title: 'Development description',
+			value: 'Agriculture and aquaculture'
+		},
+		{
+			title: 'In, partly in, or likely to affect sensitive area',
+			value: 'Yes\nSensitive area details here'
+		},
+		{
+			title: 'Meets or exceeds threshold or criteria in column 2',
+			value: 'Yes'
+		},
+		{ title: 'Issued screening opinion', value: 'Yes' },
+		{
+			title: 'Uploaded screening opinion',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Received scoping opinion', value: 'Yes' },
+		{
+			title: 'Uploaded scoping opinion',
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Screening opinion indicated environmental statement needed',
+			value: 'Yes'
+		},
+		{ title: 'Did Environmental statement', value: 'Yes' },
+		{
+			title: 'Uploaded environmental statement',
+			value: 'name.pdf - awaiting review'
+		}
+	];
+	const expectedNullRows = [
+		{ title: 'Schedule type', value: 'Other' },
+		{ title: 'Issued screening opinion', value: 'Yes' },
+		{
+			title: 'Uploaded screening opinion',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Received scoping opinion', value: 'Yes' },
+		{
+			title: 'Uploaded scoping opinion',
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Screening opinion indicated environmental statement needed',
+			value: ''
+		},
+		{ title: 'Did Environmental statement', value: '' },
+		{
+			title: 'Uploaded environmental statement',
+			value: 'name.pdf - awaiting review'
+		}
+	];
+
+	it.each([
+		['schedule-1', eiaSchedule1Data, expectedSchedule1Rows],
+		['schedule-2', eiaSchedule2Data, expectedSchedule2Rows],
+		['null', eiaNullData, expectedNullRows]
+	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
+		const visibleRows = environmentalRows(caseData)
+			.filter((row) => row.condition(caseData))
+			.map((visibleRow) => {
+				return { title: visibleRow.keyText, value: visibleRow.valueText };
+			});
+		expect(visibleRows).toEqual(expectedRows);
 	});
 
 	it('should show a document', () => {
