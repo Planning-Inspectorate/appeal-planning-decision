@@ -8,7 +8,10 @@
  */
 
 const { app } = require('@azure/functions');
-const { APPEAL_VIRUS_CHECK_STATUS } = require('@planning-inspectorate/data-model');
+const {
+	APPEAL_VIRUS_CHECK_STATUS,
+	MESSAGE_EVENT_TYPE
+} = require('@planning-inspectorate/data-model');
 
 const VALID_SCAN_STATUSES = [APPEAL_VIRUS_CHECK_STATUS.SCANNED];
 const createApiClient = require('../common/api-client');
@@ -74,7 +77,7 @@ function checkMessageIsValid(documentMessage, context) {
  * @returns {boolean}
  */
 const documentShouldBeDeleted = (context) =>
-	context?.triggerMetadata?.applicationProperties?.type === 'Delete';
+	context?.triggerMetadata?.applicationProperties?.type === MESSAGE_EVENT_TYPE.DELETE;
 
 app.serviceBusTopic('appeal-document', {
 	topicName: 'appeal-document',
