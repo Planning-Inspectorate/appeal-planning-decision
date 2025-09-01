@@ -15,7 +15,6 @@
 		"test:watch": "jest --watchAll --runInBand"
 	},
 	"devDependencies": {
-		"@planning-inspectorate/data-model": "*",
 		"jest": "*",
 		"jest-junit": "*"
 	},
@@ -24,6 +23,7 @@
 		"@azure/identity": "*",
 		"@azure/service-bus": "*",
 		"@azure/storage-blob": "*",
+		"@planning-inspectorate/data-model": "*",
 		"@pins/common": "^0.0.0",
 		"stream-json": "*"
 	}

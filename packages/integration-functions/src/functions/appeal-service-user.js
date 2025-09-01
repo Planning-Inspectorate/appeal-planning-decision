@@ -5,7 +5,7 @@
 
 const { app } = require('@azure/functions');
 const createApiClient = require('../common/api-client');
-const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
+const { SERVICE_USER_TYPE, MESSAGE_EVENT_TYPE } = require('@planning-inspectorate/data-model');
 
 /**
  * @type {import('@azure/functions').ServiceBusTopicHandler}
@@ -14,7 +14,7 @@ const handler = async (serviceUser, context) => {
 	context.debug('Handle service user message', serviceUser);
 	const client = await createApiClient();
 
-	if (context?.triggerMetadata?.applicationProperties?.type === 'Delete') {
+	if (context?.triggerMetadata?.applicationProperties?.type === MESSAGE_EVENT_TYPE.DELETE) {
 		if (serviceUser.serviceUserType === SERVICE_USER_TYPE.RULE_6_PARTY) {
 			context.log('Sending unlink rule 6 party request to API');
 			return await client.deleteR6UserAppealLink(serviceUser);
