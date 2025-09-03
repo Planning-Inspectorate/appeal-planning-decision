@@ -36,6 +36,11 @@ exports.siteAccessRows = (caseData) => {
 			keyText: 'Reason for Inspector visit',
 			valueText: caseData.reasonForNeighbourVisits || '',
 			condition: () => hasNeighbourAddressesField && !!caseData.reasonForNeighbourVisits
+		},
+		{
+			keyText: 'Potential safety risks',
+			valueText: formatSiteSafetyRisks(caseData),
+			condition: () => true
 		}
 	];
 
@@ -49,12 +54,6 @@ exports.siteAccessRows = (caseData) => {
 			});
 		});
 	}
-
-	rows.push({
-		keyText: 'Potential safety risks',
-		valueText: formatSiteSafetyRisks(caseData),
-		condition: () => true
-	});
 
 	return rows;
 };
