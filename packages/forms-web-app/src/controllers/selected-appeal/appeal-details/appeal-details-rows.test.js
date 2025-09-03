@@ -1,5 +1,7 @@
+const { APPEAL_DEVELOPMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { detailsRows } = require('./appeal-details-rows');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 describe('appeal-details-rows', () => {
 	const appellant = {
@@ -489,8 +491,56 @@ describe('appeal-details-rows', () => {
 		});
 	});
 
+	describe('Was your application for a major or minor development?', () => {
+		const applicationReferenceIndex = 21;
+
+		it('should display major/minor development type if set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.majorMinorDevelopment = 'Major';
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[applicationReferenceIndex].condition(testCase)).toBeTruthy();
+			expect(rows[applicationReferenceIndex].keyText).toEqual(
+				'Was your application for a major or minor development?'
+			);
+			expect(rows[applicationReferenceIndex].valueText).toEqual('Major');
+		});
+
+		it('should not display the application reference if not set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[applicationReferenceIndex].condition(testCase)).toBeFalsy();
+		});
+	});
+
+	describe('Was your application about any of the following?', () => {
+		const developmentTypeIndex = 22;
+
+		it('should display the development type if appeal type code is not HAS', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.developmentType = APPEAL_DEVELOPMENT_TYPE.HOUSEHOLDER;
+			testCase.appealTypeCode = 'S78';
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[developmentTypeIndex].condition(testCase)).toEqual(true);
+			expect(rows[developmentTypeIndex].keyText).toEqual(
+				'Was your application about any of the following?'
+			);
+			expect(rows[developmentTypeIndex].valueText).toEqual('Householder development');
+		});
+
+		it('should not display development type if appeal type code is HAS', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.appealTypeCode = CASE_TYPES.HAS.processCode;
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[developmentTypeIndex].condition(testCase)).toEqual(false);
+		});
+	});
+
 	describe('Enter the description of development', () => {
-		const descriptionIndex = 22;
+		const descriptionIndex = 23;
 
 		it('should display the development description if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -511,7 +561,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Did the local planning authority change the description of development?', () => {
-		const lpaChangedDescriptionIndex = 23;
+		const lpaChangedDescriptionIndex = 24;
 
 		it('should show Green Belt if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -541,7 +591,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Preferred procedure', () => {
-		const procedureIndex = 24;
+		const lpaChangedDescriptionIndex = 25;
 
 		it('should display the appellant preferred procedure if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -549,21 +599,21 @@ describe('appeal-details-rows', () => {
 			testCase.appellantProcedurePreferenceDetails = 'For reasons';
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows[procedureIndex].condition(testCase)).toBeTruthy();
-			expect(rows[procedureIndex].keyText).toEqual('Preferred procedure');
-			expect(rows[procedureIndex].valueText).toEqual('Inquiry\nFor reasons');
+			expect(rows[lpaChangedDescriptionIndex].condition(testCase)).toBeTruthy();
+			expect(rows[lpaChangedDescriptionIndex].keyText).toEqual('Preferred procedure');
+			expect(rows[lpaChangedDescriptionIndex].valueText).toEqual('Inquiry\nFor reasons');
 		});
 
 		it('should not display the procedure preference if not set', () => {
 			const testCase = structuredClone(caseWithAppellant);
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows[procedureIndex].condition(testCase)).toBeFalsy();
+			expect(rows[lpaChangedDescriptionIndex].condition(testCase)).toBeFalsy();
 		});
 	});
 
 	describe('Cost application', () => {
-		const costsApplicationIndex = 28;
+		const costsApplicationIndex = 29;
 
 		it('should display Yes if applicant applied for costs', () => {
 			const testCase = structuredClone(caseWithAppellant);
