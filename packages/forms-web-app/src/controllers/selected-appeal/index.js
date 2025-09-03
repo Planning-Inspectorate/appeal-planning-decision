@@ -154,8 +154,14 @@ const formatTitleSuffix = (userType) => {
  * @param {import('appeals-service-api').Api.Document[]} documents
  * @return {import('appeals-service-api').Api.Document[]}
  */
-const filterDecisionDocuments = (documents) =>
-	documents.filter((document) => {
+const filterDecisionDocuments = (documents) => {
+	const decisionDocumentDisplayOrder = {
+		[APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER]: 0,
+		[APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER]: 1,
+		[APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER]: 2
+	};
+
+	const decisionDocuments = documents.filter((document) => {
 		if (
 			document.documentType === APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER ||
 			document.documentType === APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER ||
@@ -165,6 +171,12 @@ const filterDecisionDocuments = (documents) =>
 		}
 		return false;
 	});
+
+	return decisionDocuments.sort(
+		(a, b) =>
+			decisionDocumentDisplayOrder[a.documentType] - decisionDocumentDisplayOrder[b.documentType]
+	);
+};
 
 /**
  *
