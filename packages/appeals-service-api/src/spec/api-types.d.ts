@@ -153,6 +153,8 @@ export interface AppealCase {
 	advertisedAppeal?: boolean;
 	/** Indicates if the appellant has informed other owners of the site */
 	ownersInformed?: boolean;
+	/** The original description of the type */
+	majorMinorDevelopment?: 'major' | 'minor' | 'other';
 	/** The original description of the development, as provided by the appellant */
 	originalDevelopmentDescription?: string;
 	developmentType?:

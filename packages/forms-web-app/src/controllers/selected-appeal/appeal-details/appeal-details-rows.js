@@ -157,7 +157,12 @@ exports.detailsRows = (caseData, userType) => {
 			condition: (caseData) => caseData.applicationReference
 		},
 		{
-			keyText: 'What is the development type?',
+			keyText: 'Was your application for a major or minor development?',
+			valueText: caseData.majorMinorDevelopment ?? '',
+			condition: (caseData) => caseData.majorMinorDevelopment
+		},
+		{
+			keyText: 'Was your application about any of the following?',
 			valueText: formatDevelopmentType(caseData.developmentType),
 			condition: () => !hasOrCasPlanningAppeal
 		},
