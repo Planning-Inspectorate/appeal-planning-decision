@@ -7,7 +7,7 @@ const rules = () => [
 	body('decision-date').custom((value, { req }) => {
 		const enteredDate = new Date(
 			req.body['decision-date-year'],
-			(parseInt(req.body['decision-date-month'], 10) - 1).toString(),
+			parseInt(req.body['decision-date-month'], 10) - 1,
 			req.body['decision-date-day']
 		);
 
