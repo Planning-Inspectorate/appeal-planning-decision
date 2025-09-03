@@ -83,6 +83,7 @@ class DateValidator extends BaseValidator {
 		const rules = [
 			// check all or some date inputs are not empty
 			body(dayInput)
+				.trim()
 				.notEmpty()
 				.withMessage((_, { req }) => {
 					if (!req.body[monthInput] && !req.body[yearInput]) {
@@ -100,6 +101,7 @@ class DateValidator extends BaseValidator {
 					return this.noDayErrorMessage;
 				}),
 			body(monthInput)
+				.trim()
 				.notEmpty()
 				.withMessage((_, { req }) => {
 					if (req.body[dayInput] && !req.body[yearInput]) {
@@ -112,6 +114,7 @@ class DateValidator extends BaseValidator {
 					// empty error message returned
 				}),
 			body(yearInput)
+				.trim()
 				.notEmpty()
 				.withMessage((_, { req }) => {
 					if (req.body[dayInput] && req.body[monthInput]) return this.noYearErrorMessage;
@@ -121,13 +124,14 @@ class DateValidator extends BaseValidator {
 
 			// check date values entered are within valid ranges
 			body(dayInput)
+				.trim()
 				.isInt({ min: 1, max: 31 })
 				.withMessage(this.invalidDateErrorMessage)
 				.bail()
 				.toInt()
 				.custom((value, { req }) => {
-					const year = req.body[yearInput];
-					const month = req.body[monthInput];
+					const year = req.body[yearInput].trim();
+					const month = req.body[monthInput].trim();
 
 					if (
 						this.#isValidWrapper(year) &&
@@ -140,6 +144,7 @@ class DateValidator extends BaseValidator {
 					return true;
 				}),
 			body(monthInput)
+				.trim()
 				.custom((value) => {
 					if (!isNaN(value) && value >= 1 && value <= 12) {
 						return true;
@@ -155,36 +160,43 @@ class DateValidator extends BaseValidator {
 					return false;
 				})
 				.withMessage(this.invalidMonthErrorMessage),
-			body(yearInput).isInt({ min: 1000, max: 9999 }).withMessage(this.invalidYearErrorMessage)
+			body(yearInput)
+				.trim()
+				.isInt({ min: 1000, max: 9999 })
+				.withMessage(this.invalidYearErrorMessage)
 		];
 
 		if (this.dateValidationSettings.ensurePast === true) {
 			rules.push(
-				body(dayInput).custom((value, { req }) => {
-					const inputDate = dateInputsToDate(value, req.body[monthInput], req.body[yearInput]);
-					const today = endOfDay(new Date());
+				body(dayInput)
+					.trim()
+					.custom((value, { req }) => {
+						const inputDate = dateInputsToDate(value, req.body[monthInput], req.body[yearInput]);
+						const today = endOfDay(new Date());
 
-					if (isAfter(inputDate, today)) {
-						throw new Error(this.futureDateErrorMessage);
-					}
+						if (isAfter(inputDate, today)) {
+							throw new Error(this.futureDateErrorMessage);
+						}
 
-					return true;
-				})
+						return true;
+					})
 			);
 		}
 
 		if (this.dateValidationSettings.ensureFuture === true) {
 			rules.push(
-				body(dayInput).custom((value, { req }) => {
-					const inputDate = dateInputsToDate(value, req.body[monthInput], req.body[yearInput]);
-					const today = startOfDay(new Date());
+				body(dayInput)
+					.trim()
+					.custom((value, { req }) => {
+						const inputDate = dateInputsToDate(value, req.body[monthInput], req.body[yearInput]);
+						const today = startOfDay(new Date());
 
-					if (isBefore(inputDate, today)) {
-						throw new Error(this.pastDateErrorMessage);
-					}
+						if (isBefore(inputDate, today)) {
+							throw new Error(this.pastDateErrorMessage);
+						}
 
-					return true;
-				})
+						return true;
+					})
 			);
 		}
 
