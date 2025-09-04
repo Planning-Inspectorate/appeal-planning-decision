@@ -1,9 +1,6 @@
 const { defineConfig } = require('cypress');
 const { verifyDownloadTasks } = require('cy-verify-downloads');
 const { azureSignIn } = require('./cypress/support/login');
-//const { grep } = require('cypress-grep/src/plugin');
-//const registerCypressGrep = require('@cypress/grep');
-//import registerCypressGrep from '@cypress/grep';
 const {
   clearAllCookies,
   cookiesFileExists
@@ -48,14 +45,9 @@ module.exports = defineConfig({
           return launchOptions;
         }
       });
-      // on('task', { isFileExist: (filename) => require('fs').
-          //registerCypressGrep(config);
-          require('@cypress/grep/src/plugin')(config);
-          return config;
-        },
-    //   });
-    // },
-    //specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
+      require('@cypress/grep/src/plugin')(config);
+      return config;
+    },
     supportFile: 'cypress/support/e2e.js',
     env: {
       AUTH_PASSWORD: process.env.AUTH_PASSWORD,
@@ -74,7 +66,4 @@ module.exports = defineConfig({
     grepOmitFiltered: true,
     grepFilterSpecs: true
   }
-  // on('task',{isFileExist(filename){
-  //   return require('fs').existsSync(filename)
-  // }})
 });
