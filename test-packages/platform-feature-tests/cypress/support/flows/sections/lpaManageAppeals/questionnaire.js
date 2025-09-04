@@ -22,19 +22,12 @@ export const selectRowAppealQuestionnaireCounter = (context, lpaManageAppealsDat
 		if (linkFound) return false;
 		if ($row.find('th').length > 0) {
 			return;
-		}
-		const rowtext = $row.text();
+		}		
 		if (linkFound) return false;
 		return Cypress.Promise.resolve().then(() => {
 			const $tds = $row.find('td');
 			const todoText = $tds.eq(5).text().trim();
-			const appealType=$tds.eq(2).text().trim();
-			cy.log(rowtext);
-			cy.log("todotext" + todoText);
-			cy.log(appealType);
-			cy.log(lpaAppealType);
-			cy.log(appealType===lpaManageAppealsData?.s78AppealType)
-			cy.log("appealType" + appealType+appealType===lpaManageAppealsData?.s78AppealType);
+			const appealType=$tds.eq(2).text().trim();			
 			if ((appealType===lpaAppealType) && todoText.includes(lpaManageAppealsData?.todoQuestionnaire)) {
 				if (counter === 9) {
 					
@@ -78,13 +71,10 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 	selectAppealIdFromTable(context,lpaManageAppealsData, lpaAppealType, caseRef).then(($link) => {
 		cy.log('Link found:', $link.text());
 		if (caseRef) {
-			appealId = caseRef;
-			cy.log('appealId', appealId);
-			//cy.wrap($link).contains(appealId).click();
+			appealId = caseRef;			
 			cy.contains('a.govuk-link', 'Submit questionnaire').click();
 		}
-
-		//cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
+		
 		cy.get(basePage?._selectors.dlgovukSummaryListAppealDetails).within(() => {
 			cy.get(basePage?._selectors.govukSummaryListRow).each(($row) => {
 				const $key = $row.find(basePage?._selectors.govukSummaryListKey);
