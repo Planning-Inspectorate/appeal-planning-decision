@@ -2,10 +2,14 @@
 /// <reference types="cypress"/>
 
 import { listedBuildingRefusedTestCases } from "../../../helpers/appellantAAPD/listedBuilding/listedBuildingRefusedData";
+import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
-describe('Submit Full Appeal Refused Test cases', () => {
+describe('Submit Full Appeal Refused Test cases',{ tags:'@S20-refused' }, () => {
 	let prepareAppealData;
+	before(() => {
+		cy.login(users.appeals.authUser);
+	});
 	beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;

@@ -18,14 +18,16 @@ const { PrepareAppealSelector } = require("../../../page-objects/prepare-appeal/
 const applicationFormPage = require("../../../support/flows/pages/appellant-aapd/prepare-appeal/applicationFormPage");
 const { ApplicationNamePage } = require("../../../support/flows/pages/appellant-aapd/prepare-appeal/applicationNamePage");
 
-describe('House Holder Date Validations', () => {
+describe('House Holder Date Validations',{ tags:'@HAS-validation-1' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
     const date = new DateService();
     let prepareAppealData;
 
-    beforeEach(() => {
-        cy.login(users.appeals.authUser);
+    before(() => {
+		cy.login(users.appeals.authUser);
+	});
+    beforeEach(() => {       
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         })
@@ -82,7 +84,7 @@ describe('House Holder Date Validations', () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
         cy.advanceToNextPage();
 
-        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'The Decision Date must be a real date');
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'The decision date must be a real date');
     });
 
     it(`Validate future date error message  in decision date page past year`, () => {
@@ -111,12 +113,14 @@ describe('House Holder Date Validations', () => {
     });
 });
 
-describe('House Holder Validations for enforcement', () => {
+describe('House Holder Validations for enforcement',{ tags:'@HAS-validation-2' },() => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();   
 
     let prepareAppealData;   
-
+    before(() => {
+		cy.login(users.appeals.authUser);
+	});
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
@@ -156,7 +160,7 @@ describe('House Holder Validations for enforcement', () => {
 });
 
 
-describe('House Holder Validations', () => {
+describe('House Holder Validations',{ tags:'@HAS-validation-3' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
     const contactDetailsPage = new ContactDetailsPage();
@@ -172,7 +176,9 @@ describe('House Holder Validations', () => {
 
     let prepareAppealData;
     const date = new DateService();
-
+    before(() => {
+		cy.login(users.appeals.authUser);
+	});
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
@@ -305,12 +311,14 @@ describe('House Holder Validations', () => {
     });
 });
 
-describe('Returns to pre appels validations', () => {
+describe('Returns to pre appeals validations',{ tags:'@HAS-validation-4' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const context = houseHolderAppealRefusedTestCases[0];
 
     let prepareAppealData;
-
+    before(() => {
+		cy.login(users.appeals.authUser);
+	});
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
@@ -332,7 +340,7 @@ describe('Returns to pre appels validations', () => {
             cy.get('.govuk-table__row').each(($row) => {
                 const rowtext = $row.text();
                 // if (rowtext.includes(lpaManageAppealsData?.hasAppealType) && !rowtext.includes(prepareAppealData?.todoInvalid)) {
-                if (rowtext.includes('Householder appeal') && !rowtext.includes(prepareAppealData?.todoInvalid)) {
+                if (rowtext.includes('Householder') && !rowtext.includes(prepareAppealData?.todoInvalid)) {
                     if (counter == 0) {
                         const $link = cy.wrap($row).find('.govuk-table__cell a.govuk-link:contains("Continue")');
                         $link.scrollIntoView();
@@ -404,10 +412,12 @@ describe('Returns to pre appels validations', () => {
     });
 });
 
-describe('House Holder Task Page Validations', () => {
+describe('House Holder Task Page Validations',{ tags:'@HAS-validation-5' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
-
     let prepareAppealData;
+    before(() => {
+		cy.login(users.appeals.authUser);
+	});
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
@@ -426,7 +436,7 @@ describe('House Holder Task Page Validations', () => {
             cy.get('.govuk-table__row').each(($row) => {
                 const rowtext = $row.text();
 
-                if (rowtext.includes('Householder appeal') && !rowtext.includes(prepareAppealData?.todoInvalid)) {
+                if (rowtext.includes('Householder') && !rowtext.includes(prepareAppealData?.todoInvalid)) {
                     if (counter == 0) {
                         const $link = cy.wrap($row).find('.govuk-table__cell a.govuk-link:contains("Continue")');
                         $link.scrollIntoView();

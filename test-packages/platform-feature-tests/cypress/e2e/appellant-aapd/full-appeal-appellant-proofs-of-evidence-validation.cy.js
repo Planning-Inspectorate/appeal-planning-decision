@@ -6,14 +6,16 @@ import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
 import { users } from '../../fixtures/users.js';
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-describe('Appellant Full Planning Proof Of Evidence Validations', () => {
+describe('Appellant Full Planning Proof Of Evidence Validations', { tags: '@S78-appellant-POE-Validation' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
     // const stringUtils = new StringUtils();
     let prepareAppealData;
     let appealId;
-    beforeEach(() => {
+    before(() => {
         cy.login(users.appeals.authUser);
+    });
+    beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         })

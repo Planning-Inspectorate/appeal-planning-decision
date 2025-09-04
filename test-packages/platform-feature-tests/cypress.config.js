@@ -1,6 +1,9 @@
 const { defineConfig } = require('cypress');
 const { verifyDownloadTasks } = require('cy-verify-downloads');
 const { azureSignIn } = require('./cypress/support/login');
+//const { grep } = require('cypress-grep/src/plugin');
+//const registerCypressGrep = require('@cypress/grep');
+//import registerCypressGrep from '@cypress/grep';
 const {
   clearAllCookies,
   cookiesFileExists
@@ -35,8 +38,25 @@ module.exports = defineConfig({
       on('task', { AzureSignIn: azureSignIn });
       on('task', { ClearAllCookies: clearAllCookies });
       on('task', { CookiesFileExists: cookiesFileExists });
-      return config;
-    },
+      on('before:browser:launch', (browser = {}, launchOptions) => {
+        if (browser.name === 'chromium' || browser.name === 'chrome') {
+          launchOptions.args.push('--disable-web-security');
+          launchOptions.args.push('--disable-features=IsolateOrigins,site-per-process');
+          launchOptions.args.push('--disable-site-isolation-trials');
+          launchOptions.args.push('--incognito');
+          launchOptions.args.push('--disable-features=BlockInsecurePrivateNetworkRequests');
+          return launchOptions;
+        }
+      });
+      // on('task', { isFileExist: (filename) => require('fs').
+          //registerCypressGrep(config);
+          require('@cypress/grep/src/plugin')(config);
+          return config;
+        },
+    //   });
+    // },
+    //specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
+    supportFile: 'cypress/support/e2e.js',
     env: {
       AUTH_PASSWORD: process.env.AUTH_PASSWORD,
       AUTH_EMAIL: process.env.AUTH_EMAIL,
@@ -50,7 +70,9 @@ module.exports = defineConfig({
     experimentalOriginDependencies: true,
     experimentalModifyObstructiveThirdPartyCode: true,
     experimentalRunAllSpecs: true,
-    retries: 0
+    retries: 0,
+    grepOmitFiltered: true,
+    grepFilterSpecs: true
   }
   // on('task',{isFileExist(filename){
   //   return require('fs').existsSync(filename)

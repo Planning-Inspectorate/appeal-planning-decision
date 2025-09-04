@@ -5,11 +5,13 @@ import { users } from '../../fixtures/users.js';
 const { finalComment } = require('../../support/flows/sections/lpaManageAppeals/finalComment');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('Full Planning Final comment Test Cases', () => {
+describe('Full Planning Final comment Test Cases', { tags: '@S78-LPA-Final-Comment-Submission' }, () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;
-        beforeEach(() => {
+        before(() => {
                 cy.login(users.appeals.authUser);
+        });
+        beforeEach(() => {
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })
@@ -28,7 +30,7 @@ describe('Full Planning Final comment Test Cases', () => {
                 it(`
             Should validate Full appeal LPA Final comment Submission, Appeal Type: Full Planning       
              `, () => {
-                       finalComment(context, lpaManageAppealsData,lpaManageAppealsData?.s78AppealType);
+                        finalComment(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
                 });
         });
 });

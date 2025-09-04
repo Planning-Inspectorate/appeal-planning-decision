@@ -26,7 +26,7 @@ export class PrepareAppealSelector {
         fullAppealText: "Full appeal",
         householderPlanningText: "Householder planning",
         listedBuildingText: "Listed building consent",
-        systemTest2BoroughCouncil: "System Test 2 Borough Council"
+        systemTest2BoroughCouncil: "System Test Borough Council 2"
     }
     _fullAppealselectors = {
         decisionDateDay: '#decision-date-day',
