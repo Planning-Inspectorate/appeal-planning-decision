@@ -5,11 +5,13 @@ import { users } from '../../fixtures/users.js';
 const { questionnaire } = require('../../support/flows/sections/lpaManageAppeals/questionnaire');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('Full Planning Questionnaire Test Cases', () => {
+describe('Full Planning Questionnaire Test Cases', { tags: '@S78-LPAQ-Submission' }, () => {
         const yourAppealsSelector = new YourAppealsSelector();
-        let lpaManageAppealsData;     
-        beforeEach(() => {
+        let lpaManageAppealsData;
+        before(() => {
                 cy.login(users.appeals.authUser);
+        });
+        beforeEach(() => {
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })

@@ -1,10 +1,14 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { listedBuildingNoDecisionTestCases } from "../../../helpers/appellantAAPD/listedBuilding/listedBuildingNoDecisionData";
+import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
-describe('Submit Full Appeal No Decison Test cases', () => {
+describe('Submit Full Appeal No Decision Test cases',{ tags:'@S20-nodecision' }, () => {
 	let prepareAppealData;
+	before(() => {
+		cy.login(users.appeals.authUser);
+	});
 	beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;

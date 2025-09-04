@@ -5,11 +5,13 @@ import { fullAppealRefusedTestCases } from "../../../helpers/appellantAAPD/fullA
 import { users } from '../../../fixtures/users.js';
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
-describe('Submit Full Appeal Refused Test cases', () => {
+describe('Submit Full Appeal Refused Test cases',{ tags:'@S78-refused' }, () => {
 	let prepareAppealData;
-	beforeEach(() => {
+	before(() => {
 		cy.login(users.appeals.authUser);
-
+	});
+	beforeEach(() => {
+		
 		cy.fixture('prepareAppealData').then(data => {
 			prepareAppealData = data;
 		})

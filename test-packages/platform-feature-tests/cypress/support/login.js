@@ -27,12 +27,12 @@ const azureSignIn = async (config) => {
 		await page.type(locators.usernameInput, config.username);
 		await page.keyboard.press('Enter');
 		await page.waitForSelector(locators.passwordInput, { visible: true, timeout: 10000 });
-		await timeout(2000);
+		await timeout(2000);		
 		await page.type(locators.passwordInput, config.password);
 		await page.keyboard.press('Enter');
 		// await page.waitForSelector(locators.optTextInput, { visible: true, timeout: 10000 });
 		// await page.click(locators.optTextInput);
-		await timeout(30000);
+		await timeout(5000);
 
 		const cookies = await getCookies(page);
 

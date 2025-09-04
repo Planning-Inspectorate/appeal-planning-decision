@@ -7,10 +7,12 @@ import { tag } from '#support/tag.js';
 
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
-describe('Submit House Holder Appeal No Decision Test Cases', () => {
+describe('Submit House Holder Appeal No Decision Test Cases',{ tags:'@HAS-nodecision' }, () => {
 	let prepareAppealData;
-	beforeEach(() => {
+	before(() => {
 		cy.login(users.appeals.authUser);
+	});
+	beforeEach(() => {		
 		cy.fixture('prepareAppealData').then(data => {
 			prepareAppealData = data;
 		})

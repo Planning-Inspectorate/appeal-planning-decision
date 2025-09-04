@@ -10,12 +10,14 @@ const {
 	YourAppealsSelector
 } = require('../../page-objects/lpa-manage-appeals/your-appeals-selector');
 
-describe('LPA Manage Full Apppeal Questionnaire validation', () => {
+describe('LPA Manage Full Apppeal Questionnaire validation', { tags: '@S78-LPAQ-Validation-1' }, () => {
 	const basePage = new BasePage();
 	const yourAppealsSelector = new YourAppealsSelector();
 	let lpaManageAppealsData;
-	beforeEach(() => {
+	before(() => {
 		cy.login(users.appeals.authUser);
+	});
+	beforeEach(() => {
 		cy.fixture('lpaManageAppealsData').then((data) => {
 			lpaManageAppealsData = data;
 		});
@@ -57,13 +59,16 @@ describe('LPA Manage Full Apppeal Questionnaire validation', () => {
 	});
 });
 
-describe('Full appleal questionnaire validation', () => {
+describe('Full appleal questionnaire validation', { tags: '@S78-LPAQ-Validation-2' }, () => {
 	const basePage = new BasePage();
 	const yourAppealsSelector = new YourAppealsSelector();
 	// eslint-disable-next-line no-unused-vars
 	const context = fullAppealQuestionnaireTestCases[0];
 	let lpaManageAppealsData;
 	let appealId;
+	before(() => {
+		cy.login(users.appeals.authUser);
+	});
 	beforeEach(() => {
 		cy.fixture('lpaManageAppealsData').then((data) => {
 			lpaManageAppealsData = data;
@@ -83,8 +88,11 @@ describe('Full appleal questionnaire validation', () => {
 
 		let counter = 0;
 		cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-			const rowtext = $row.text();			
-			if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+			const rowtext = $row.text();
+			const $tds = $row.find('td');
+			const appealType=$tds.eq(2).text().trim();
+
+			if ((appealType===lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoQuestionnaire)) {
 				if (counter === 1) {
 					cy.wrap($row).within(() => {
 						cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
@@ -124,10 +132,10 @@ describe('Full appleal questionnaire validation', () => {
 			});
 	});
 
-  //  1. Constraints, designations and other issues section validations
-  it(`Validate Full appeal questionnaire appeal type error validation`, () => {
-    cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a planning appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
-      const linkText = $link.text().split('Is a full planning appeal the correct type of appeal?')[0].trim();
+	//  1. Constraints, designations and other issues section validations
+	it(`Validate Full appeal questionnaire appeal type error validation`, () => {
+		cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a planning appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
+			const linkText = $link.text().split('Is a planning appeal the correct type of appeal?')[0].trim();
 
 			if (linkText === 'Answer') {
 				cy.wrap($link).should('be.visible').click({ force: true });
@@ -138,6 +146,7 @@ describe('Full appleal questionnaire validation', () => {
 				cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a planning appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
 			}
 		});
+
 	});
 
 	it(`Validate Full appeal questionnaire changes a listed building validation`, () => {
@@ -159,6 +168,7 @@ describe('Full appleal questionnaire validation', () => {
 				else if (linkText === 'Change') {
 					cy.get(basePage?._selectors.govukSummaryListKey).contains('Changes a listed building').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
 				}
+
 			});
 	});
 
@@ -583,13 +593,13 @@ describe('Full appleal questionnaire validation', () => {
 
 	it(`Validate Full appeal questionnaire Schedule type`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
-			.contains('Schedule type')
+			.contains('What is the development category?')
 			.closest(basePage?._selectors.govukSummaryListRow)
 			.find(basePage?._selectors.agovukLink)
 			.then(($link) => {
 				const linkText = $link
 					.text()
-					.split('Is the development a schedule 1 or schedule 2 development?')[0]
+					.split('What is the development category?')[0]
 					.trim();
 
 				if (linkText === 'Answer') {
@@ -598,10 +608,10 @@ describe('Full appleal questionnaire validation', () => {
 					cy.get(basePage?._selectors.govukErrorSummaryList)
 						.find('a')
 						.should('have.attr', 'href', '#environmentalImpactSchedule')
-						.and('contain.text', 'Select the development schedule');
+						.and('contain.text', 'Select the development category');
 				} else if (linkText === 'Change') {
 					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Schedule type')
+						.contains('What is the development category?')
 						.closest(basePage?._selectors.govukSummaryListRow)
 						.find(basePage?._selectors.govukSummaryListValue)
 						.should('not.have.text', 'Not started')

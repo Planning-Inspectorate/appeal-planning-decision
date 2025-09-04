@@ -7,13 +7,15 @@ import { users } from '../../fixtures/users.js';
 //const { ProofsOfEvidence } = require('../../support/flows/sections/lpaManageAppeals/proofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('LPA Proof of Evidence Validations', () => {
+describe('LPA Proof of Evidence Validations', { tags: '@S78-LPA-POE-Validation' }, () => {
     const yourAppealsSelector = new YourAppealsSelector();
     const basePage = new BasePage();
     let lpaManageAppealsData;
     let appealId;
-    beforeEach(() => {
+    before(() => {
         cy.login(users.appeals.authUser);
+    });
+    beforeEach(() => {
         cy.fixture('lpaManageAppealsData').then(data => {
             lpaManageAppealsData = data;
         })
@@ -80,7 +82,7 @@ describe('LPA Proof of Evidence Validations', () => {
 
     it(`Validate multiple uploading documents`, () => {
         const expectedFileNames = [proofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, proofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
-        
+
         deleteUploadedDocuments();
         cy.advanceToNextPage();
         cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your proof of evidence and summary');
@@ -143,7 +145,7 @@ describe('LPA Proof of Evidence Validations', () => {
         const expectedFileNames = [proofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, proofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         cy.advanceToNextPage();
         cy.advanceToNextPage();
-        deleteUploadedDocuments();     
+        deleteUploadedDocuments();
         cy.advanceToNextPage();
         cy.containsMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your witnesses and their evidence');
         expectedFileNames.forEach((fileName) => {

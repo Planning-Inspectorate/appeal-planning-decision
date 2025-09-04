@@ -5,11 +5,13 @@ import { users } from '../../fixtures/users.js';
 const { finalComment } = require('../../support/flows/sections/appellantAAPD/finalComment');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-describe('Appellant Full Planning Final Comment Test Cases', () => {
+describe('Appellant Full Planning Final Comment Test Cases', { tags: '@S78-appellant-Final-Comment-Submission' }, () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
-        beforeEach(() => {
+        before(() => {
                 cy.login(users.appeals.authUser);
+        });
+        beforeEach(() => {
                 cy.fixture('prepareAppealData').then(data => {
                         prepareAppealData = data;
                 })

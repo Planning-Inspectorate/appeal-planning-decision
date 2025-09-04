@@ -5,10 +5,12 @@ import { houseHolderAppealRefusedTestCases } from "../../../helpers/appellantAAP
 import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
-describe('Submit House Holder Appeal Refused Test Cases', () => {
+describe('Submit House Holder Appeal Refused Test Cases',{ tags:'@HAS-refused' }, () => {
 	let prepareAppealData;
-	beforeEach(() => {
+	before(() => {
 		cy.login(users.appeals.authUser);
+	});
+	beforeEach(() => {		
 		// Load the fixture data for prepareAppealData
 		cy.fixture('prepareAppealData').then(data => {
 			prepareAppealData = data;

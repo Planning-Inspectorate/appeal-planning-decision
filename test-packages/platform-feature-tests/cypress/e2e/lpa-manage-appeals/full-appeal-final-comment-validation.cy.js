@@ -8,14 +8,15 @@ import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
 import { users } from '../../fixtures/users.js';
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('LPA Full Planning Final comment Test Cases', () => {
+describe('LPA Full Planning Final comment Test Cases', { tags: '@S78-LPA-Final-Comment-Validation' }, () => {
         const yourAppealsSelector = new YourAppealsSelector();
         const basePage = new BasePage();
         let lpaManageAppealsData;
         let appealId;
-
-        beforeEach(() => {
+        before(() => {
                 cy.login(users.appeals.authUser);
+        });
+        beforeEach(() => {
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })

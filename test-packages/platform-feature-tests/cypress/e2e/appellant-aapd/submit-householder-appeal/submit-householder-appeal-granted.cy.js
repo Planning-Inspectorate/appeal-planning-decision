@@ -7,11 +7,13 @@ import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementD
 import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
-describe('Submit House Holder Appeal Granted Test Cases', () => {
+describe('Submit House Holder Appeal Granted Test Cases',{ tags:'@HAS-granted' }, () => {
 	let prepareAppealData;
 	let lpaManageAppealsData;
-	beforeEach(() => {
+	before(() => {
 		cy.login(users.appeals.authUser);
+	});
+	beforeEach(() => {		
 		cy.fixture('prepareAppealData').then(data => {
 			prepareAppealData = data;
 		})

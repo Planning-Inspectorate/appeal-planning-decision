@@ -1,12 +1,16 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { statementTestCases } from "../../helpers/lpaManageAppeals/statementData";
+import { users } from '../../fixtures/users.js';
 const { statement } = require('../../support/flows/sections/lpaManageAppeals/statement');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('Listed Building Statement Test Cases', () => {
+describe('Listed Building Statement Test Cases', { tags: '@S20-LPA-statement-Submission' }, () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;
+        before(() => {
+                cy.login(users.appeals.authUser);
+        });
         beforeEach(() => {
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;

@@ -23,13 +23,14 @@ const { MajorMinorDevelopmentPage } = require("../../../support/flows/pages/appe
 const { ApplicationAboutPage } = require("../../../support/flows/pages/appellant-aapd/prepare-appeal/applicationAboutPage");
 
 
-describe('Full Appeal Validations for enforcement', () => {
+describe('Full Appeal Validations for enforcement',{ tags:'@S78-appeal-validation-1' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
+    before(() => {
+		cy.login(users.appeals.authUser);
+	});
 
     beforeEach(() => {
-        cy.login(users.appeals.authUser);
-
         cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
         cy.advanceToNextPage();
         // eslint-disable-next-line cypress/unsafe-to-chain-command
@@ -56,7 +57,7 @@ describe('Full Appeal Validations for enforcement', () => {
         cy.containsMessage(basePage._selectors?.govukButton, 'Continue to the Appeals Casework Portal');
     });
 });
-describe('Full Appeal Validations', () => {
+describe('Full Appeal Validations',{ tags:'@S78-appeal-validation-2' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
     const contactDetailsPage = new ContactDetailsPage();
@@ -76,6 +77,10 @@ describe('Full Appeal Validations', () => {
 
     let prepareAppealData;
     const date = new DateService();
+
+    before(() => {
+		cy.login(users.appeals.authUser);
+	});
 
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {

@@ -11,16 +11,17 @@ import { users } from '../../fixtures/users.js';
 const { statement } = require('../../support/flows/sections/lpaManageAppeals/statement');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('Full Planning Statement Test Cases', () => {
+describe('Full Planning Statement Test Cases', { tags: '@S78-RULE6-statement-Validation' }, () => {
     const yourAppealsSelector = new YourAppealsSelector();
     const basePage = new BasePage();
     const stringUtils = new StringUtils();
     //const deleteUploadedDocuments = new DeleteUploadedDocuments();
     let lpaManageAppealsData;
     let appealId;
-
-    beforeEach(() => {
+    before(() => {
         cy.login(users.appeals.authUser);
+    });
+    beforeEach(() => {
         cy.fixture('lpaManageAppealsData').then(data => {
             lpaManageAppealsData = data;
         })
@@ -98,7 +99,7 @@ describe('Full Planning Statement Test Cases', () => {
         cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
         cy.advanceToNextPage();
         basePage?.basePageElements?.pageHeading().contains('Upload your new supporting documents');
-        deleteUploadedDocuments();        
+        deleteUploadedDocuments();
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
     });

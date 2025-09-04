@@ -1,15 +1,18 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { BasePage } from "../../page-objects/base-page";
-// import { users } from '../../fixtures/users.js';
+//import { users } from '../../fixtures/users.js';
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
-describe('Comment on a planning appeal validations', () => {
+describe('Comment on a planning appeal validations', { tags: '@IP-Comments-Validation' },() => {
     const basePage = new BasePage();
     const prepareAppealSelector = new PrepareAppealSelector();
     let prepareAppealData;
     let appealId;
+    // before(() => {
+	// 	cy.login(users.appeals.authUser);
+	// });    
     beforeEach(() => {
-        // cy.login(users.appeals.authUser);
+        //cy.login(users.appeals.authUser);
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         });
@@ -17,7 +20,7 @@ describe('Comment on a planning appeal validations', () => {
     });
     it('should validate service name and URL for IP Comments', () => {
         cy.get(basePage?._selectors?.govukHeaderLinkGovukHeaderServiceName).should('include.text', 'Comment on a planning appeal');
-        cy.url().should('include', `${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal/enter-appeal-reference`);
+        cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal/enter-appeal-reference`);
 
     });
     it('should Validate appeal reference number Error message', () => {
@@ -50,7 +53,7 @@ describe('Comment on a planning appeal validations', () => {
     it('should Validate URL for enter a postcode', () => {
         cy.get('a[href*="enter-postcode"]').contains('I do not have an appeal reference number');
         cy.get('a[href*="enter-postcode"]').click();
-        cy.url().should('include', `${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal/enter-postcode`);
+        cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal/enter-postcode`);
     });
     it('should Validate postcode error message', () => {
         cy.get('a[href*="enter-postcode"]').click();
@@ -88,7 +91,7 @@ describe('Comment on a planning appeal validations', () => {
         // Validate I do not have an appeal reference number
         cy.get('a[href*="enter-postcode"]').click();
         // Validate URL
-        cy.url().should('include', `${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal/enter-postcode`);
+        cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal/enter-postcode`);
 
         // Input search by post code
         cy.get('#postcode').type('SW7 9PB');

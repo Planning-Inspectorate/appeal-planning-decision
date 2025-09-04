@@ -9,9 +9,11 @@ import { users } from '../fixtures/users.js';
 const basePage = new BasePage();
 const enterLpa = new EnterLpa();
 
-describe('Check access to appeals service for granted LPAs', () => {
-	beforeEach(() => {
+describe('Check access to appeals service for granted LPAs',{ tags:'@onboarded' }, () => {
+	before(() => {
 		cy.login(users.appeals.authUser);
+	});
+	beforeEach(() => {		
 		cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 		basePage.clickContinueBtn();
 

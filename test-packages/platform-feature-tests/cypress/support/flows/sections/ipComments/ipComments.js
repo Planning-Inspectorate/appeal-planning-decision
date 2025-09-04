@@ -13,7 +13,11 @@ export const ipCommentsForAppealRef = (appealId) => {
   // Input search by reference number
   cy.get(ipComments?._selectors.appealReference).type(appealId);
   cy.advanceToNextPage();
-  cy.get('a[href*="your-name"]').click({ force: true });
+  // Click the link by visible text (retrying) to start IP comments
+  cy.contains('a', /your name|comment on this appeal/i, { timeout: 10000 })
+    .scrollIntoView()
+    .should('be.visible')
+    .click({ force: true });
   ipComments.submitIpComments();
 };
 
@@ -47,6 +51,11 @@ export const ipCommentsForPostCode = (prepareAppealData, postCode) => {
       counter++;
     }
   });
-  cy.get('a[href*="your-name"]').click({ force: true });
+
+  // Click the link by visible text (retrying) to start IP comments
+  cy.contains('a', /your name|comment on this appeal/i, { timeout: 10000 })
+    .scrollIntoView()
+    .should('be.visible')
+    .click({ force: true });
   ipComments.submitIpComments();
 };
