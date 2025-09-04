@@ -39,16 +39,13 @@ describe('Full Planning Statement Test Cases', { tags: '@S78-RULE6-statement-Val
         cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
             const rowtext = $row.text();
             if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoStatement)) {
-                if (counter === 0) {
-                    cy.log(rowtext);
+                if (counter === 0) {                   
                     cy.wrap($row).within(() => {
                         cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');
                         cy.get('a').each(($link) => {
-                            if ($link.attr('href')?.includes('appeal-statement')) {
-                                cy.log(lpaManageAppealsData?.todoStatement);
+                            if ($link.attr('href')?.includes('appeal-statement')) {                               
                                 const parts = $link.attr('href')?.split('/');
-                                appealId = parts?.[parts.length - 2];
-                                cy.log(appealId);
+                                appealId = parts?.[parts.length - 2];                              
                                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                                 return false;
                             }
