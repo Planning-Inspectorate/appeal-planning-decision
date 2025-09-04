@@ -10,13 +10,10 @@ export const decisionAllowedDowloadVerify = (lpaManageAppealsData) => {
     let counter = 0;
     cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
         const rowtext = $row.text();
-        cy.log(rowtext);
         if (rowtext.includes(lpaManageAppealsData?.decisionAllowed)) {
             if (counter === 0) {
-                cy.log(rowtext);
                 cy.wrap($row).within(() => {
                     cy.get('a').each(($link) => {
-                        cy.log($link);
                         if ($link.attr('href')?.includes(`/manage-appeals/`)) {
                             cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                             return false;
@@ -32,12 +29,21 @@ export const decisionAllowedDowloadVerify = (lpaManageAppealsData) => {
     cy.window().then(win => {
         cy.stub(win, 'open').as('download')
     });
-    cy.get(`a[href*="published-document"]`).invoke('text').then(filename => {
-        cy.get(`a[href*="published-document"]`).click();
-        cy.log(filename);
-        cy.verifyDownload(filename, { contains: true });
+    cy.get('a[href*="published-document"]').then(($links) => {
+        cy.wrap($links).each(($link) => {
+            // get filename from link text (not href)
+            cy.wrap($link).invoke('text').then((filename) => {              
+
+                // click the link
+                cy.wrap($link).click({ force: true });
+
+                // verify the download
+                cy.verifyDownload(filename.trim(), { contains: true });
+            });
+        });
     });
 }
+
 
 export const decisionAllowedInPartDowloadVerify = (lpaManageAppealsData) => {
     const basePage = new BasePage();
@@ -45,14 +51,11 @@ export const decisionAllowedInPartDowloadVerify = (lpaManageAppealsData) => {
     let counter = 0;
     cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
         const rowtext = $row.text();
-        cy.log(rowtext);
         if (rowtext.includes(lpaManageAppealsData?.decisionAllowedInPart)) {
             if (counter === 0) {
-                cy.log(rowtext);
                 cy.wrap($row).within(() => {
 
                     cy.get('a').each(($link) => {
-                        cy.log($link);
                         if ($link.attr('href')?.includes(`/manage-appeals/`)) {
                             cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                             return false;
@@ -68,12 +71,20 @@ export const decisionAllowedInPartDowloadVerify = (lpaManageAppealsData) => {
     cy.window().then(win => {
         cy.stub(win, 'open').as('download')
     });
-    cy.get(`a[href*="published-document"]`).invoke('text').then(filename => {
-        cy.get(`a[href*="published-document"]`).click();
-        cy.log(filename);
-        cy.verifyDownload(filename, { contains: true });
-    });
 
+    cy.get('a[href*="published-document"]').then(($links) => {
+        cy.wrap($links).each(($link) => {
+            // get filename from link text (not href)
+            cy.wrap($link).invoke('text').then((filename) => {            
+
+                // click the link
+                cy.wrap($link).click({ force: true });
+
+                // verify the download
+                cy.verifyDownload(filename.trim(), { contains: true });
+            });
+        });
+    });
 }
 
 
@@ -84,14 +95,10 @@ export const decisionDismissedVerification = (lpaManageAppealsData) => {
     let counter = 0;
     cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
         const rowtext = $row.text();
-        cy.log(rowtext);
         if (rowtext.includes(lpaManageAppealsData?.decisionDismissed)) {
             if (counter === 0) {
-                cy.log(rowtext);
                 cy.wrap($row).within(() => {
-
                     cy.get('a').each(($link) => {
-                        cy.log($link);
                         if ($link.attr('href')?.includes(`/manage-appeals/`)) {
                             appealId = $link.attr('href')?.split('/').pop();
                             cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
