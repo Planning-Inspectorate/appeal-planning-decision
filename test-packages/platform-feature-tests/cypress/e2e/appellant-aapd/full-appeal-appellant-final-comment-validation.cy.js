@@ -8,13 +8,15 @@ import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
 import { users } from '../../fixtures/users.js';
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
+describe('Appellant Full Planning Final Comment Validation Test Cases', { tags: '@S78-appellant-Final-Comment-Validation' }, () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
         const basePage = new BasePage();
         let appealId;
-        beforeEach(() => {
+        before(() => {
                 cy.login(users.appeals.authUser);
+        });
+        beforeEach(() => {
                 cy.fixture('prepareAppealData').then(data => {
                         prepareAppealData = data;
                 })
@@ -78,7 +80,7 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', () => {
                 cy.advanceToNextPage();
                 cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter your final comments');
         });
-        
+
         it(`Validate sensitive information check box`, () => {
                 cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you want to submit any final comments?');
                 cy.getByData(basePage?._selectors?.answerYes).click({ force: true });

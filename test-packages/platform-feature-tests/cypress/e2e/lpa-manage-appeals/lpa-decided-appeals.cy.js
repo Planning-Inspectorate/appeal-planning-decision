@@ -6,11 +6,13 @@ import { users } from '../../fixtures/users.js';
 
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('LPA Manage Appeals Questionnaire', () => {
+describe('LPA Manage Appeals Questionnaire', { tags: '@LPA-decided-appeals' },() => {
     const yourAppealsSelector = new YourAppealsSelector();
     let lpaManageAppealsData;
-    beforeEach(() => {
-        cy.login(users.appeals.authUser);
+    before(() => {
+			cy.login(users.appeals.authUser);
+		});
+    beforeEach(() => {      
         // Load the fixture data for LPA Manage Appeals
         // This data should include emailAddress and emailCode for the test
         cy.fixture('lpaManageAppealsData').then(data => {

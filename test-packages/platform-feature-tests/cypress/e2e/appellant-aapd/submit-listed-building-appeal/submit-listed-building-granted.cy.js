@@ -1,10 +1,15 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { listedBuildingGrantedTestCases } from "../../../helpers/appellantAAPD/listedBuilding/listedBuildingGrantedData";
+import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
-describe('Submit Full Appeal Granted Test cases', () => {
+describe('Submit Full Appeal Granted Test cases',{ tags:'@S20-granted' }, () => {
 	let prepareAppealData;
+	// Import or define users before using it	
+	before(() => {
+		cy.login(users.appeals.authUser);
+	});
 	beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;

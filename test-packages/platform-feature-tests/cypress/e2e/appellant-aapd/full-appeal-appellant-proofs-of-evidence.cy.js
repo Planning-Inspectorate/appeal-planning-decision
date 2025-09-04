@@ -5,11 +5,13 @@ import { users } from '../../fixtures/users.js';
 const { proofsOfEvidence } = require('../../support/flows/sections/appellantAAPD/proofsOfEvidence');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-describe('Appellant Full Planning Proof Of Evidence Test Cases', () => {
+describe('Appellant Full Planning Proof Of Evidence Test Cases',{ tags: '@S78-appellant-POE-Submission' }, () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
-        beforeEach(() => {
+        before(() => {
                 cy.login(users.appeals.authUser);
+        });
+        beforeEach(() => {                
                 cy.fixture('prepareAppealData').then(data => {
                         prepareAppealData = data;
                 })

@@ -32,8 +32,9 @@ export const appellantAllowedDowloadVerify = (prepareAppealData) => {
     cy.window().then(win => {
         cy.stub(win, 'open').as('download')
     });
-    cy.get(`a[href*="published-document"]`).invoke('text').then(filename => {
-        cy.get(`a[href*="published-document"]`).click();
+    cy.get(`a[href*="published-document"]`).first().then($el => {
+        const filename = $el.text().trim();
+        cy.wrap($el).click();
         cy.log(filename);
         cy.verifyDownload(filename, { contains: true });
     });
@@ -68,11 +69,11 @@ export const appellantAllowedInPartDowloadVerify = (prepareAppealData) => {
     cy.window().then(win => {
         cy.stub(win, 'open').as('download')
     });
-    cy.get(`a[href*="published-document"]`).invoke('text').then(filename => {
-        cy.get(`a[href*="published-document"]`).click();
+    cy.get(`a[href*="published-document"]`).first().then($el => {
+        const filename = $el.text().trim();
+        cy.wrap($el).click();
         cy.log(filename);
         cy.verifyDownload(filename, { contains: true });
     });
 
 }
-

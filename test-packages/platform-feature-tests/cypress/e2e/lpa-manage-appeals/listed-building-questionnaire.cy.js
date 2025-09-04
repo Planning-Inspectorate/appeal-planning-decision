@@ -1,12 +1,16 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
+import { users } from '../../fixtures/users.js';
 import { listedBuildingQuestionnaireTestCases } from "../../helpers/lpaManageAppeals/listedBuildingQuestionnaireData";
 const { questionnaire } = require('../../support/flows/sections/lpaManageAppeals/questionnaire');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('listed building Questionnaire Test Cases', () => {
+describe('listed building Questionnaire Test Cases', { tags: '@S20-LPAQ-Submission' } , () => {
         const yourAppealsSelector = new YourAppealsSelector();
-        let lpaManageAppealsData;        
+        let lpaManageAppealsData;
+        before(() => {
+                cy.login(users.appeals.authUser);
+                });      
         beforeEach(() => {
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;

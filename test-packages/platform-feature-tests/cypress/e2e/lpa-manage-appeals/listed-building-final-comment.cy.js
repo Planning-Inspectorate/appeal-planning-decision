@@ -1,12 +1,16 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { finalCommentTestCases } from "../../helpers/lpaManageAppeals/finalCommentData";
+import { users } from '../../fixtures/users.js';
 const { finalComment } = require('../../support/flows/sections/lpaManageAppeals/finalComment');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('Listed Building LPA Final comment Test Cases', () => {
+describe('Listed Building LPA Final comment Test Cases', { tags: '@S20-LPA-Final-Comment-Submission' }, () => {
         const yourAppealsSelector = new YourAppealsSelector();
-        let lpaManageAppealsData;       
+        let lpaManageAppealsData;
+        before(() => {
+                cy.login(users.appeals.authUser);
+        });
         beforeEach(() => {
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;

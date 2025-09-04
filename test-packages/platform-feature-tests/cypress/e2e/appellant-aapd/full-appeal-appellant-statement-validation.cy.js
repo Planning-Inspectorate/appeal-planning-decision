@@ -9,15 +9,16 @@ import { StringUtils } from "../../utils/StringUtils";
 import { users } from '../../fixtures/users.js';
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-describe('Full Planning Statement Test Cases', () => {
+describe('Full Planning Statement Test Cases', { tags: '@S78-appellant-statement-Validation' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
     const stringUtils = new StringUtils();
     let prepareAppealData;
     let appealId;
-
-    beforeEach(() => {
+    before(() => {
         cy.login(users.appeals.authUser);
+    });
+    beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         })

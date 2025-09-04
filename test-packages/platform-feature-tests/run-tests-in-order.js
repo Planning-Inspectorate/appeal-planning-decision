@@ -1,0 +1,58 @@
+const { execSync } = require('child_process');
+
+const tags = [
+  '@onboarded',
+  '@S78-granted',
+  '@S78-nodecision',
+  '@S78-refused',
+  '@S78-appeal-validation-1',
+  '@S78-appeal-validation-2',
+  //'@HAS-granted',
+  '@HAS-nodecision',
+  '@HAS-refused',
+  '@HAS-validation-1',
+  '@HAS-validation-2',
+  '@HAS-validation-3',
+  '@HAS-validation-4',
+  '@HAS-validation-5',
+  '@S20-granted',
+  '@S20-nodecision',
+  '@S20-refused',
+  '@appealant-decided-appeals',
+  '@HAS-LPAQ-Validation-1',
+  '@HAS-LPAQ-Validation-2',
+  '@HAS-LPAQ-Submission',
+  '@S78-LPAQ-Validation-1',
+  '@S78-LPAQ-Validation-2',
+  '@S78-LPAQ-Submission',
+  // // '@S20-LPAQ-Validation-1',
+  // // '@S20-LPAQ-Validation-2',
+  '@S20-LPAQ-Submission',
+  '@S78-LPA-statement-Validation',
+  '@S78-LPA-statement-Submission',
+  '@S20-LPA-statement-Submission',
+  '@S78-LPA-Final-Comment-Validation',
+  '@S78-LPA-Final-Comment-Submission',
+  '@S20-LPA-Final-Comment-Submission',
+  // '@S78-LPA-POE-Validation',
+  // '@S78-LPA-POE-Submission',
+  // '@S20-LPA-POE-Submission',
+  '@LPA-decided-appeals',
+  // '@S78-appellant-statement-Validation',
+  // '@S78-appellant-statement-Submission',
+  '@S78-appellant-Final-Comment-Validation',
+  '@S78-appellant-Final-Comment-Submission',
+  // '@S78-appellant-POE-Validation',
+  // '@S78-appellant-POE-Submission',
+  // '@S78-RULE6-statement-Validation',
+  // '@S78-RULE6-statement-Submission',
+  // '@S78-RULE6-POE-Validation',
+  // '@S78-RULE6-POE-Submission',
+  '@IP-Comments-Validation',
+  '@IP-Comments-Submission'
+];
+
+tags.forEach(tag => {
+  console.log(`\n--- Running tests with tag: ${tag} ---`);
+  execSync(`npx cypress run --env grepTags=${tag},grepFilterSpecs=true,grepOmitFiltered=true`, { stdio: 'inherit' });
+});

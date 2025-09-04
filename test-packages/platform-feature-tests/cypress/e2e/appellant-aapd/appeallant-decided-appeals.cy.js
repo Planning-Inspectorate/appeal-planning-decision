@@ -4,12 +4,14 @@ import { BasePage } from "../../page-objects/base-page";
 import { appellantAllowedDowloadVerify, appellantAllowedInPartDowloadVerify } from "../../support/flows/sections/appellantAAPD/appellantDownloadVerify";
 import { PrepareAppealSelector } from "../../page-objects/prepare-appeal/prepare-appeal-selector";
 import { users } from "../../fixtures/users.js";
-describe('Appellant Decided Appeals', () => {
+describe('Appellant Decided Appeals', { tags: '@appealant-decided-appeals' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
     let prepareAppealData;
-    beforeEach(() => {
+    before(() => {
         cy.login(users.appeals.authUser);
+    });
+    beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         })
