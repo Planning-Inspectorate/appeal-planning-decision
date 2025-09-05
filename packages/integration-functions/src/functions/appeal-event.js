@@ -5,6 +5,7 @@
  */
 
 const { app } = require('@azure/functions');
+const config = require('../common/config');
 const createApiClient = require('../common/api-client');
 
 /**
@@ -16,8 +17,8 @@ const handler = async (appealEvent, _context) => {
 };
 
 app.serviceBusTopic('appeal-event', {
-	topicName: 'appeal-event',
-	subscriptionName: 'appeal-event-fo-sub',
+	topicName: config.AZURE.BO_SERVICEBUS.TOPIC_NAME.APPEAL_EVENT,
+	subscriptionName: config.AZURE.BO_SERVICEBUS.SUBSCRIPTION_NAME.APPEAL_EVENT,
 	connection: 'ServiceBusConnection',
 	handler: handler
 });
