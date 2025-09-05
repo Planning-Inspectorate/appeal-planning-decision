@@ -4,10 +4,12 @@ import { fullAppealNoDecisionTestCases } from "../../../helpers/appellantAAPD/fu
 import { users } from '../../../fixtures/users.js';
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
-describe('Submit Full Appeal No Decison Test cases', () => {
+describe('Submit Full Appeal No Decison Test cases',{ tags:'@S78-nodecision' }, () => {
 	let prepareAppealData;
-	beforeEach(() => {
+	before(() => {
 		cy.login(users.appeals.authUser);
+	});
+	beforeEach(() => {		
 		cy.fixture('prepareAppealData').then(data => {
 			prepareAppealData = data;
 		})

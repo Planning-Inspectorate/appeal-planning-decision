@@ -12,8 +12,9 @@ import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportA
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
 import { waitingForReview } from "../../pages/lpa-manage-appeals/waitingForReview";
 
+
 let appealId = '';
-export const selectRowAppealQuestionnaireCounter = (context, lpaManageAppealsData) => {
+export const selectRowAppealQuestionnaireCounter = (context, lpaManageAppealsData, lpaAppealType) => {
 	const basePage = new BasePage();
 	let counter = 0;
 	let linkFound = false;
@@ -21,15 +22,15 @@ export const selectRowAppealQuestionnaireCounter = (context, lpaManageAppealsDat
 		if (linkFound) return false;
 		if ($row.find('th').length > 0) {
 			return;
-		}
-		const rowtext = $row.text();
+		}		
 		if (linkFound) return false;
 		return Cypress.Promise.resolve().then(() => {
 			const $tds = $row.find('td');
 			const todoText = $tds.eq(5).text().trim();
-
-			if (rowtext.includes(lpaManageAppealsData?.s78AppealType || lpaManageAppealsData?.s20AppealType) && todoText.includes(lpaManageAppealsData?.todoQuestionnaire)) {
-				if (counter === 0) {
+			const appealType=$tds.eq(2).text().trim();			
+			if ((appealType===lpaAppealType) && todoText.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+				if (counter === 9) {
+					
 					const $link = $tds.eq(5).find('a')
 					if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
 						appealId = $link.attr('href')?.split('/').pop();
@@ -50,11 +51,11 @@ export const selectAppealRowUsingCaseRef = (appealId) => {
 	return cy.contains('a.govuk-link', appealId).should('be.visible');
 }
 
-export const selectAppealIdFromTable = (caseRef) => {
+export const selectAppealIdFromTable = (context,lpaManageAppealsData, lpaAppealType,caseRef) => {
 	if (caseRef) {
 		return selectAppealRowUsingCaseRef(caseRef);
 	} else {
-		return selectRowAppealQuestionnaireCounter();
+		return selectRowAppealQuestionnaireCounter(context,lpaManageAppealsData,lpaAppealType);
 	}
 }
 
@@ -67,16 +68,13 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 	const siteAccess = new SiteAccess();
 	const notifyParties = new NotifyParties();
 	const poReportAndSupportDocs = new PoReportAndSupportDocs();
-	selectAppealIdFromTable(caseRef).then(($link) => {
+	selectAppealIdFromTable(context,lpaManageAppealsData, lpaAppealType, caseRef).then(($link) => {
 		cy.log('Link found:', $link.text());
 		if (caseRef) {
-			appealId = caseRef;
-			cy.log('appealId', appealId);
-			//cy.wrap($link).contains(appealId).click();
+			appealId = caseRef;			
 			cy.contains('a.govuk-link', 'Submit questionnaire').click();
 		}
-
-		//cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
+		
 		cy.get(basePage?._selectors.dlgovukSummaryListAppealDetails).within(() => {
 			cy.get(basePage?._selectors.govukSummaryListRow).each(($row) => {
 				const $key = $row.find(basePage?._selectors.govukSummaryListKey);

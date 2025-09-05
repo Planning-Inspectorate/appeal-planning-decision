@@ -9,12 +9,14 @@ const {
 	YourAppealsSelector
 } = require('../../page-objects/lpa-manage-appeals/your-appeals-selector');
 
-describe('LPA Manage House Holder Apppeal Questionnaire validation', () => {
+describe('LPA Manage House Holder Apppeal Questionnaire validation',{ tags:'@HAS-LPAQ-Validation-1' }, () => {
 	const basePage = new BasePage();
 	const yourAppealsSelector = new YourAppealsSelector();
 	let lpaManageAppealsData;
-	beforeEach(() => {
-		cy.login(users.appeals.authUser);
+	before(() => {
+			cy.login(users.appeals.authUser);
+		});
+	beforeEach(() => {		
 		cy.fixture('lpaManageAppealsData').then((data) => {
 			lpaManageAppealsData = data;
 		});
@@ -56,13 +58,15 @@ describe('LPA Manage House Holder Apppeal Questionnaire validation', () => {
 	});
 });
 
-describe('House Holder appleal questionnaire validation', () => {
+describe('House Holder appleal questionnaire validation',{ tags:'@HAS-LPAQ-Validation-2' }, () => {
 	const basePage = new BasePage();
 	const yourAppealsSelector = new YourAppealsSelector();
 	const context = houseHolderQuestionnaireTestCases[0];
 	let lpaManageAppealsData;
 	let appealId;
-
+	before(() => {
+			cy.login(users.appeals.authUser);
+		});
 	beforeEach(() => {
 		cy.fixture('lpaManageAppealsData').then(data => {
 			lpaManageAppealsData = data;

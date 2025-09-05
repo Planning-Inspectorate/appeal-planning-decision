@@ -9,15 +9,16 @@ import { StringUtils } from "../../utils/StringUtils";
 import { users } from '../../fixtures/users.js';
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-describe('Full Planning Statement Test Cases', () => {
+describe('Full Planning Statement Test Cases', { tags: '@S78-appellant-statement-Validation' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
     const stringUtils = new StringUtils();
     let prepareAppealData;
     let appealId;
-
-    beforeEach(() => {
+    before(() => {
         cy.login(users.appeals.authUser);
+    });
+    beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         })
@@ -40,11 +41,9 @@ describe('Full Planning Statement Test Cases', () => {
                     cy.wrap($row).within(() => {
                         cy.get(basePage?._selectors.trgovukTableCell).contains(prepareAppealData?.s78AppealType).should('be.visible');
                         cy.get('a').each(($link) => {
-                            if ($link.attr('href')?.includes('appeal-statement')) {
-                                cy.log(prepareAppealData?.todoStatement);
+                            if ($link.attr('href')?.includes('appeal-statement')) {                               
                                 const parts = $link.attr('href')?.split('/');
-                                appealId = parts?.[parts.length - 2];
-                                cy.log(appealId);
+                                appealId = parts?.[parts.length - 2];                               
                                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                                 return false;
                             }

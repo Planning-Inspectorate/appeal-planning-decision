@@ -72,9 +72,38 @@ Cypress.Commands.add('taskListComponent', (applicationType, answerType, dynamicI
 
 
 
-Cypress.Commands.add('validateURL', (url) => {
-	cy.url().should('include', url);
+Cypress.Commands.add('validateURL', (expectedUrl) => {
+	cy.url().then(currentUrl => {
+		const normalize = (s = '') => s.replace(/^https?:\/\//, '').replace(/\/+$/, '');
+		const curr = normalize(currentUrl);
+		const exp = normalize(expectedUrl);
+		expect(curr).to.include(exp);
+	});
 });
+
+// New helper: wait for an element to be visible and enabled before typing
+Cypress.Commands.add('typeWhenEnabled', (selector, text, options = {}) => {
+	// Accept either a selector string or a jQuery element wrapped by cy.get
+	if (typeof selector === 'string') {
+		return cy.get(selector, { timeout: options.timeout ?? 20000 })
+			.should('be.visible')
+			.should('not.be.disabled')
+			.then(($el) => {
+				cy.wrap($el).clear();
+				cy.wrap($el).type(text, options);
+			});
+	}
+
+	// If the caller passed an element (subject) we wrap and act on it
+	return cy.wrap(selector)
+		.should('be.visible')
+		.should('not.be.disabled')
+		.then(($el) => {
+			cy.wrap($el).clear();
+			cy.wrap($el).type(text, options);
+		});
+});
+
 
 Cypress.Commands.add('goToAppealSection', (sectionName) => {
 	cy.get('.govuk-visually-hidden').each(($el) => {

@@ -6,6 +6,7 @@ import { BasePage } from "../../../../page-objects/base-page";
 export const waitingForReview = (appealId) => {
     const basePage = new BasePage();
     cy.get('#tab_waiting-for-review').click();
+    cy.reload();
     cy.get('a.govuk-link').contains(appealId).click();
     cy.get(`a[href*="/manage-appeals/${appealId}/appeal-details"]`).click();
     cy.exec('del /q cypress\\downloads\\*', { failOnNonZeroExit: false });

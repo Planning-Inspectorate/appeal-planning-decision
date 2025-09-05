@@ -35,8 +35,20 @@ module.exports = defineConfig({
       on('task', { AzureSignIn: azureSignIn });
       on('task', { ClearAllCookies: clearAllCookies });
       on('task', { CookiesFileExists: cookiesFileExists });
+      on('before:browser:launch', (browser = {}, launchOptions) => {
+        if (browser.name === 'chromium' || browser.name === 'chrome') {
+          launchOptions.args.push('--disable-web-security');
+          launchOptions.args.push('--disable-features=IsolateOrigins,site-per-process');
+          launchOptions.args.push('--disable-site-isolation-trials');
+          launchOptions.args.push('--incognito');
+          launchOptions.args.push('--disable-features=BlockInsecurePrivateNetworkRequests');
+          return launchOptions;
+        }
+      });
+      require('@cypress/grep/src/plugin')(config);
       return config;
     },
+    supportFile: 'cypress/support/e2e.js',
     env: {
       AUTH_PASSWORD: process.env.AUTH_PASSWORD,
       AUTH_EMAIL: process.env.AUTH_EMAIL,
@@ -50,9 +62,8 @@ module.exports = defineConfig({
     experimentalOriginDependencies: true,
     experimentalModifyObstructiveThirdPartyCode: true,
     experimentalRunAllSpecs: true,
-    retries: 0
+    retries: 0,
+    grepOmitFiltered: true,
+    grepFilterSpecs: true
   }
-  // on('task',{isFileExist(filename){
-  //   return require('fs').existsSync(filename)
-  // }})
 });

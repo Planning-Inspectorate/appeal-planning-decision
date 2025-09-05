@@ -8,13 +8,15 @@ import { users } from '../../fixtures/users.js';
 const { proofsOfEvidence } = require('../../support/flows/sections/rule6Appeals/proofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('Rule 6 Proof of Evidence Validations', () => {
+describe('Rule 6 Proof of Evidence Validations', { tags: '@S78-RULE6-POE-Validation' }, () => {
     const yourAppealsSelector = new YourAppealsSelector();
     const basePage = new BasePage();
     let lpaManageAppealsData;
     let appealId;
-    beforeEach(() => {
+    before(() => {
         cy.login(users.appeals.authUser);
+    });
+    beforeEach(() => {
         cy.fixture('lpaManageAppealsData').then(data => {
             lpaManageAppealsData = data;
         })

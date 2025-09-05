@@ -5,7 +5,7 @@ const { statement } = require('../../support/flows/sections/lpaManageAppeals/sta
 import { users } from '../../fixtures/users.js';
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('Full Planning Statement Test Cases', () => {
+describe('Full Planning Statement Test Cases', { tags: '@S78-LPA-statement-Submission' }, () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;        
         beforeEach(() => {
@@ -27,7 +27,7 @@ describe('Full Planning Statement Test Cases', () => {
         statementTestCases.forEach((context) => {
 
                 it(`
-            Should validate Full appeal LPA final comments submission ${context.proofsOfEvidence?.isAddWitness}
+            Should validate Full appeal LPA statement submission ${context.proofsOfEvidence?.isAddWitness}
              `, () => {
                         statement(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
                 });
