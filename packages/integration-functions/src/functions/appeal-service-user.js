@@ -4,6 +4,7 @@
  */
 
 const { app } = require('@azure/functions');
+const config = require('../common/config');
 const createApiClient = require('../common/api-client');
 const { SERVICE_USER_TYPE, MESSAGE_EVENT_TYPE } = require('@planning-inspectorate/data-model');
 
@@ -25,8 +26,6 @@ const handler = async (serviceUser, context) => {
 	context.log('Sending service user request to API');
 	return await client.putServiceUser(serviceUser); // API will validate the message and throw if there is an error
 };
-
-const config = require('../common/config');
 
 app.serviceBusTopic('serviceUser', {
 	topicName: config.AZURE.BO_SERVICEBUS.TOPIC_NAME.APPEAL_SERVICE_USER,

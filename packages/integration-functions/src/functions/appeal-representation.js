@@ -5,6 +5,7 @@
  */
 
 const { app } = require('@azure/functions');
+const config = require('../common/config');
 const createApiClient = require('../common/api-client');
 
 /**
@@ -14,8 +15,6 @@ const handler = async (appealRepresentation, _context) => {
 	const client = await createApiClient();
 	return await client.putAppealRepresentation(appealRepresentation); // API will validate the message and throw if there is an error
 };
-
-const config = require('../common/config');
 
 app.serviceBusTopic('appeal-representation', {
 	topicName: config.AZURE.BO_SERVICEBUS.TOPIC_NAME.APPEAL_REPRESENTATION,

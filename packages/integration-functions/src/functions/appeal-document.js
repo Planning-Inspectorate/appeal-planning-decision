@@ -8,6 +8,7 @@
  */
 
 const { app } = require('@azure/functions');
+const config = require('../common/config');
 const {
 	APPEAL_VIRUS_CHECK_STATUS,
 	MESSAGE_EVENT_TYPE
@@ -78,8 +79,6 @@ function checkMessageIsValid(documentMessage, context) {
  */
 const documentShouldBeDeleted = (context) =>
 	context?.triggerMetadata?.applicationProperties?.type === MESSAGE_EVENT_TYPE.DELETE;
-
-const config = require('../common/config');
 
 app.serviceBusTopic('appeal-document', {
 	topicName: config.AZURE.BO_SERVICEBUS.TOPIC_NAME.APPEAL_DOCUMENT,

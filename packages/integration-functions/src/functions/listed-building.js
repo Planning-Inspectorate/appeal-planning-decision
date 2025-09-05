@@ -6,6 +6,7 @@
  */
 
 const { app } = require('@azure/functions');
+const config = require('../common/config');
 const createApiClient = require('../common/api-client');
 
 /**
@@ -15,8 +16,6 @@ const handler = async (message) => {
 	const client = await createApiClient();
 	return await client.putListedBuildings(message);
 };
-
-const config = require('../common/config');
 
 app.serviceBusTopic('listedBuilding', {
 	topicName: config.AZURE.BO_SERVICEBUS.TOPIC_NAME.LISTED_BUILDING,
