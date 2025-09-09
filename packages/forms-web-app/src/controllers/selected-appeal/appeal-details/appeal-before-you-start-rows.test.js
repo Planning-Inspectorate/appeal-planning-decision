@@ -57,4 +57,15 @@ describe('bys-rows', () => {
 		);
 		expect(rows[5].valueText).toEqual('1 Feb 2025');
 	});
+
+	it('should display when was decision due question when decision is not_receieved', () => {
+		const data = structuredClone(caseData);
+		data.applicationDecision = 'not_received';
+		// @ts-ignore
+		const rowData = bysRows(data, 'Test LPA');
+		expect(rowData[5].keyText).toEqual(
+			'What date was your decision due from the local planning authority?'
+		);
+		expect(rows[5].valueText).toEqual('1 Feb 2025');
+	});
 });
