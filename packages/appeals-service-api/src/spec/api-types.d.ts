@@ -93,7 +93,7 @@ export interface AppealCase {
 	/** The unique identifier of the LPA application */
 	applicationReference: string;
 	/** The outcome of the original LPA decision */
-	applicationDecision: 'granted' | 'refused';
+	applicationDecision: 'granted' | 'refused' | 'not_received';
 	/**
 	 * The date of the original LPA application
 	 * @format date-time

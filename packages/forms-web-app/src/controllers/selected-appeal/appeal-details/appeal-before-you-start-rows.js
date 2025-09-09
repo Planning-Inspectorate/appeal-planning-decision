@@ -40,7 +40,10 @@ exports.bysRows = (caseData, lpaName) => [
 		condition: () => true
 	},
 	{
-		keyText: 'What is the date on the decision letter from the local planning authority?',
+		keyText:
+			caseData.applicationDecision == 'not_received'
+				? 'What date was your decision due from the local planning authority?'
+				: 'What is the date on the decision letter from the local planning authority?',
 		valueText: formatDateForDisplay(caseData.applicationDecisionDate),
 		condition: () => true
 	}
