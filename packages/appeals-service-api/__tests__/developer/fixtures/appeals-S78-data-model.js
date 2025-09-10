@@ -64,7 +64,7 @@ const exampleS78DataModel = {
 	reasonForNeighbourVisits: 'velit enim elit tempor cillum',
 	numberOfResidencesNetChange: null,
 	siteGridReferenceEasting: null,
-	siteGridReferenceNorthing: 'et sit id eiusmod',
+	siteGridReferenceNorthing: null,
 	siteViewableFromRoad: null,
 	siteWithinSSSI: false,
 	typeOfPlanningApplication: null
