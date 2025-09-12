@@ -6,6 +6,7 @@
  */
 
 const { app } = require('@azure/functions');
+const config = require('../common/config');
 const createApiClient = require('../common/api-client');
 
 /**
@@ -17,8 +18,8 @@ const handler = async (message) => {
 };
 
 app.serviceBusTopic('listedBuilding', {
-	topicName: 'listed-building',
-	subscriptionName: 'listed-building-fo-sub',
+	topicName: config.AZURE.BO_SERVICEBUS.TOPIC_NAME.LISTED_BUILDING,
+	subscriptionName: config.AZURE.BO_SERVICEBUS.SUBSCRIPTION_NAME.LISTED_BUILDING,
 	connection: 'ServiceBusConnection',
 	cardinality: 'many',
 	handler: handler

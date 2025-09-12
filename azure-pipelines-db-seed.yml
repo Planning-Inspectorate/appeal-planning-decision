@@ -6,6 +6,7 @@ parameters:
     values:
       - Dev
       - Test
+      - Staging
       - Training
       - Prod
 
@@ -20,7 +21,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.20.0
+      ref: refs/tags/release/3.24.0
 
 variables:
   - template: variables/environments/${{ lower(parameters.environment )}}.yml@templates
@@ -41,8 +42,23 @@ jobs:
                 nodeVersion: 22
                 script: npm ci --workspace=@pins/database
             - template: steps/azure_auth.yml@templates
+            - bash: |
+                if [[ $ENVIRONMENT == "staging" ]]; then
+                  echo "Name: pinskvcommonstagingukw (env: $ENVIRONMENT)"
+                  echo "##vso[task.setvariable variable=kvName;]pinskvcommonstagingukw"
+                elif [[ $ENVIRONMENT == "training" ]]; then
+                    echo "Name: pinskvcommontrainingukw (env: $ENVIRONMENT)"
+                    echo "##vso[task.setvariable variable=kvName;]pinskvcommontrainingukw"
+                else
+                  echo "Name: pinskvcommon$ENVIRONMENTukw001 (env: $ENVIRONMENT)"
+                  echo "##vso[task.setvariable variable=kvName;]pinskvcommon$ENVIRONMENTukw001"
+                fi
+              displayName: Set KV name
+              env:
+                ENVIRONMENT: $(ENVIRONMENT)
             - template: steps/azure_get_secrets.yml@templates
               parameters:
+                keyVaultName: $(kvName)
                 secrets:
                   - name: appeals-sql-server-connection-string-app
                     variable: SQL_CONNECTION_STRING
