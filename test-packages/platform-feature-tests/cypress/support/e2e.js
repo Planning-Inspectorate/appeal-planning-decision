@@ -17,7 +17,8 @@
 import './commands';
 import 'cypress-mochawesome-reporter/register';
 import 'cypress-wait-until';
-import registerCypressGrep from '@cypress/grep';
+import registerCypressGrep from '@cypress/grep/src/support';
+//import '@cypress/grep';
 registerCypressGrep();
 
 require('cy-verify-downloads').addCustomCommand();

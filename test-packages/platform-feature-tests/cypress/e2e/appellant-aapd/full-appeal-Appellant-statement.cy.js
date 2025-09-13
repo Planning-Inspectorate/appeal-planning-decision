@@ -5,11 +5,13 @@ import { users } from '../../fixtures/users.js';
 const { statement } = require('../../support/flows/sections/appellantAAPD/statement');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-describe('Full Planning Statement Test Cases', () => {
+describe('Full Planning Statement Test Cases', { tags: '@S78-appellant-statement-Submission' }, () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
-        beforeEach(() => {
+        before(() => {
                 cy.login(users.appeals.authUser);
+        });
+        beforeEach(() => {
                 cy.fixture('prepareAppealData').then(data => {
                         prepareAppealData = data;
                 })
@@ -25,7 +27,6 @@ describe('Full Planning Statement Test Cases', () => {
                 });
         });
         statementTestCases.forEach((context) => {
-
                 it(`
             Should validate Full appeal Statement ${context.proofsOfEvidence?.isAddWitness}
              `, () => {

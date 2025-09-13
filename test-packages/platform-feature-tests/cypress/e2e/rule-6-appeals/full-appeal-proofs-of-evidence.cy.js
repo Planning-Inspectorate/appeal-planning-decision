@@ -5,11 +5,13 @@ import { users } from '../../fixtures/users.js';
 const { proofsOfEvidence } = require('../../support/flows/sections/rule6Appeals/proofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('Rule 6 Proof of Evidence Test Cases', () => {
+describe('Rule 6 Proof of Evidence Test Cases', { tags: '@S78-RULE6-POE-Submission' }, () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;
-        beforeEach(() => {
+        before(() => {
                 cy.login(users.appeals.authUser);
+        });
+        beforeEach(() => {
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })

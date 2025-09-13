@@ -5,11 +5,13 @@ import { users } from '../../fixtures/users.js';
 const { statement } = require('../../support/flows/sections/rule6Appeals/statement');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('Rule 6 Full Appeal Statement Test Cases', () => {
+describe('Rule 6 Full Appeal Statement Test Cases', { tags: '@S78-RULE6-statement-Submission' }, () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;
-        beforeEach(() => {
+        before(() => {
                 cy.login(users.appeals.authUser);
+        });
+        beforeEach(() => {
                 cy.fixture('lpaManageAppealsData').then(data => {
                         lpaManageAppealsData = data;
                 })

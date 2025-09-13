@@ -7,18 +7,21 @@ import { BasePage } from "../../page-objects/base-page";
 import { upload25MBFileValidation } from "../../utils/uploadService";
 import { StringUtils } from "../../utils/StringUtils";
 import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
+import { users } from '../../fixtures/users.js';
 const { statement } = require('../../support/flows/sections/lpaManageAppeals/statement');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('Full Planning Statement Test Cases', () => {
+describe('Full Planning Statement Test Cases', { tags: '@S78-LPA-statement-Validation' },() => {
     const yourAppealsSelector = new YourAppealsSelector();
     const basePage = new BasePage();
     const stringUtils = new StringUtils();
     let lpaManageAppealsData;
     let appealId;
+     before(() => {
+                    cy.login(users.appeals.authUser);
+            });
 
-    beforeEach(() => {
-        cy.login(users.appeals.authUser);
+    beforeEach(() => {      
         cy.fixture('lpaManageAppealsData').then(data => {
             lpaManageAppealsData = data;
         })
@@ -36,7 +39,7 @@ describe('Full Planning Statement Test Cases', () => {
         cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
             const rowtext = $row.text();
             if (rowtext.includes(lpaManageAppealsData?.s78AppealType) && rowtext.includes(lpaManageAppealsData?.todoStatement)) {
-                if (counter === 5) {
+                if (counter === 3) {
                     cy.log(rowtext);
                     cy.wrap($row).within(() => {
                         cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.s78AppealType).should('be.visible');

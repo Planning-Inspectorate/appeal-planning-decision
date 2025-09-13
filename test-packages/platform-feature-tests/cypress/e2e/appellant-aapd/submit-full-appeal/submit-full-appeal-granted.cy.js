@@ -4,10 +4,12 @@ import { fullAppealGrantedTestCases } from "../../../helpers/appellantAAPD/fullA
 import { users } from '../../../fixtures/users.js';
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
-describe('Submit Full Appeal Granted Test cases', () => {
+describe('Submit Full Appeal Granted Test cases',{ tags:'@S78-granted' }, () => {
 	let prepareAppealData;
-	beforeEach(() => {
+	before(() => {
 		cy.login(users.appeals.authUser);
+	});
+	beforeEach(() => {		
 		// Load the fixture data for prepareAppealData
 		cy.fixture('prepareAppealData').then(data => {
 			prepareAppealData = data;
