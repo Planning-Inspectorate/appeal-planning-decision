@@ -66,14 +66,11 @@ export const assignCaseOfficer = (app = 'back-office', appealId) => {
                 throw new Error('Redirected to login page when opening back-office. Ensure test user is authenticated or set cookies before this step.');
             }
 
-            // If we reached here, nothing matched. Retry up to MAX_ATTEMPTS.
-            const anchors = Array.from(doc.querySelectorAll('a')).map(a => `${(a.textContent||'').trim()} -> ${a.getAttribute('href')}`);
-            cy.log('Anchors on page:', JSON.stringify(anchors));
+            // If we reached here, nothing matched. Retry up to MAX_ATTEMPTS.            
+
             cy.screenshot(`assign-case-officer-search-missing-attempt-${attempt}`);
 
-            if (attempt < MAX_ATTEMPTS) {
-                cy.log(`Search UI not found, retrying (${attempt + 1}/${MAX_ATTEMPTS})`);
-                cy.wait(2000);
+            if (attempt < MAX_ATTEMPTS) {                           
                 checkPage(attempt + 1);
             } else {
                 // Final failure: capture full HTML for diagnostics and fail

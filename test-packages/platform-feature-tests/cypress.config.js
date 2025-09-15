@@ -35,16 +35,16 @@ module.exports = defineConfig({
       on('task', { AzureSignIn: azureSignIn });
       on('task', { ClearAllCookies: clearAllCookies });
       on('task', { CookiesFileExists: cookiesFileExists });
-      on('before:browser:launch', (browser = {}, launchOptions) => {
-        if (browser.name === 'chromium' || browser.name === 'chrome') {
-          launchOptions.args.push('--disable-web-security');
-          launchOptions.args.push('--disable-features=IsolateOrigins,site-per-process');
-          launchOptions.args.push('--disable-site-isolation-trials');
-          launchOptions.args.push('--incognito');
-          launchOptions.args.push('--disable-features=BlockInsecurePrivateNetworkRequests');
-          return launchOptions;
-        }
-      });
+      // on('before:browser:launch', (browser = {}, launchOptions) => {
+      //   if (browser.name === 'chromium' || browser.name === 'chrome') {
+      //     launchOptions.args.push('--disable-web-security');
+      //     launchOptions.args.push('--disable-features=IsolateOrigins,site-per-process');
+      //     launchOptions.args.push('--disable-site-isolation-trials');
+      //     launchOptions.args.push('--incognito');
+      //     launchOptions.args.push('--disable-features=BlockInsecurePrivateNetworkRequests');
+      //     return launchOptions;
+      //   }
+      // });
       require('@cypress/grep/src/plugin')(config);
       return config;
     },

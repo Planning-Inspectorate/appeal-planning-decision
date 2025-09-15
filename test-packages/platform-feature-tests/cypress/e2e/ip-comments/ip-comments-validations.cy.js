@@ -7,12 +7,8 @@ describe('Comment on a planning appeal validations', { tags: '@IP-Comments-Valid
     const basePage = new BasePage();
     const prepareAppealSelector = new PrepareAppealSelector();
     let prepareAppealData;
-    let appealId;
-    // before(() => {
-	// 	cy.login(users.appeals.authUser);
-	// });    
-    beforeEach(() => {
-        //cy.login(users.appeals.authUser);
+    let appealId;      
+    beforeEach(() => {        
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         });

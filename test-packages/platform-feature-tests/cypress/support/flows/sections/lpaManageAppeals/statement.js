@@ -9,11 +9,11 @@ export const statement = (context, lpaManageAppealsData,appealType) => {
 	const basePage = new BasePage();
 	const statement = new Statement();
 	let appealId;
-	let counter = 0;
+	let rowCounter = 0;
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
 		if (rowtext.includes(appealType) && rowtext.includes(lpaManageAppealsData?.todoStatement)) {
-			if (counter === 3) {
+			if (rowCounter === 3) {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(appealType).should('be.visible');
 					cy.get('a').each(($link) => {
@@ -26,7 +26,7 @@ export const statement = (context, lpaManageAppealsData,appealType) => {
 					});
 				});
 			}
-			counter++;
+			rowCounter++;
 		}
 	}).then(() => {
 		cy.url().should('include', `/manage-appeals/appeal-statement/${appealId}/appeal-statement`);
