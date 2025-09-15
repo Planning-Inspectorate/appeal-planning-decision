@@ -16,7 +16,7 @@ import { waitingForReview } from "../../pages/lpa-manage-appeals/waitingForRevie
 let appealId = '';
 export const selectRowAppealQuestionnaireCounter = (context, lpaManageAppealsData, lpaAppealType) => {
 	const basePage = new BasePage();
-	let counter = 0;
+	let rowCounter = 0;
 	let linkFound = false;
 	return cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		if (linkFound) return false;
@@ -29,7 +29,7 @@ export const selectRowAppealQuestionnaireCounter = (context, lpaManageAppealsDat
 			const todoText = $tds.eq(5).text().trim();
 			const appealType=$tds.eq(2).text().trim();			
 			if ((appealType===lpaAppealType) && todoText.includes(lpaManageAppealsData?.todoQuestionnaire)) {
-				if (counter === 9) {
+				if (rowCounter === 9) {
 					
 					const $link = $tds.eq(5).find('a')
 					if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
@@ -40,7 +40,7 @@ export const selectRowAppealQuestionnaireCounter = (context, lpaManageAppealsDat
 						return false;
 					}
 				}
-				counter++;
+				rowCounter++;
 			}
 		})
 	})
