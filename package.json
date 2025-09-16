@@ -137,7 +137,7 @@
 		"govuk-frontend": "^5.11.2",
 		"helmet": "^8.1.0",
 		"joi": "^18.0.1",
-		"jose": "^6.0.12",
+		"jose": "^6.1.0",
 		"js-yaml": "^4.1.0",
 		"jsonpath": "^1.1.1",
 		"lodash.kebabcase": "^4.1.1",
