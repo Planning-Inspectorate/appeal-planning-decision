@@ -427,7 +427,7 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 			email,
 			{
 				personalisation: {
-					subject: `We’ve received your questionnaire: ${appealReferenceNumber}`,
+					subject: `We've received your questionnaire: ${appealReferenceNumber}`,
 					content: expect.stringContaining(`We have received your questionnaire`)
 				},
 				reference: expect.any(String),

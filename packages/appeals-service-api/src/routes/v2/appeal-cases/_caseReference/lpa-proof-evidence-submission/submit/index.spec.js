@@ -189,7 +189,7 @@ module.exports = ({
 				email,
 				{
 					personalisation: {
-						subject: `We’ve received your proof of evidence and witnesses: ${appealReferenceNumber}`,
+						subject: `We've received your proof of evidence and witnesses: ${appealReferenceNumber}`,
 						content: expect.stringContaining('We’ve received your proof of evidence and witnesses.')
 					},
 					reference: expect.any(String),

@@ -101,7 +101,7 @@ module.exports = class NotifyInteraction {
 			.addJsonValueExpectation(JsonPathExpression.create('$.reference'), appeal.id)
 			.addJsonValueExpectation(
 				JsonPathExpression.create('$.personalisation.subject'),
-				`We’ve received a ${appealType} appeal`
+				`We've received a ${appealType} appeal`
 			)
 			.addJsonValueExpectation(
 				JsonPathExpression.create('$.personalisation.content'),
