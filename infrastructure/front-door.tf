@@ -151,6 +151,35 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
     }
 
     override {
+      rule_group_name = "PHP"
+
+      rule {
+        # 933160 – PHP Injection / attack pattern
+        action  = "Log"
+        enabled = true
+        rule_id = "933160"
+      }
+    }
+
+    override {
+      rule_group_name = "Protocol"
+
+      rule {
+        # 921110 – HTTP Request Smuggling Attack
+        rule_id = "921110"
+        action  = "Log"
+        enabled = true
+      }
+
+      rule {
+        # 921120 – HTTP Response Splitting Attack
+        rule_id = "921120"
+        action  = "Log"
+        enabled = true
+      }
+    }
+
+    override {
       rule_group_name = "SQLI"
 
       rule {

@@ -349,7 +349,7 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		);
 		await notifyService.sendEmail({
 			personalisation: {
-				subject: `We’ve received your statement: ${caseReference}`,
+				subject: `We've received your statement: ${caseReference}`,
 				content
 			},
 			destinationEmail: lpaEmail,
@@ -419,7 +419,7 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 		);
 		await notifyService.sendEmail({
 			personalisation: {
-				subject: `We’ve received your final comments: ${caseReference}`,
+				subject: `We've received your final comments: ${caseReference}`,
 				content
 			},
 			destinationEmail: lpaEmail,
@@ -486,7 +486,7 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 		);
 		await notifyService.sendEmail({
 			personalisation: {
-				subject: `We’ve received your proof of evidence and witnesses: ${caseReference}`,
+				subject: `We've received your proof of evidence and witnesses: ${caseReference}`,
 				content
 			},
 			destinationEmail: lpaEmail,
@@ -555,7 +555,7 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 		);
 		await notifyService.sendEmail({
 			personalisation: {
-				subject: `We’ve received your questionnaire: ${variables.appealReferenceNumber}`,
+				subject: `We've received your questionnaire: ${variables.appealReferenceNumber}`,
 				content
 			},
 			destinationEmail: lpaEmailAddress,
@@ -747,7 +747,7 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 		);
 		await notifyService.sendEmail({
 			personalisation: {
-				subject: `We’ve received your proof of evidence and witnesses - ${variables.appealReferenceNumber}`,
+				subject: `We've received your proof of evidence and witnesses - ${variables.appealReferenceNumber}`,
 				content
 			},
 			destinationEmail: emailAddress,
@@ -901,7 +901,7 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		);
 		await notifyService.sendEmail({
 			personalisation: {
-				subject: `We’ve received a ${variables.appealType} appeal`,
+				subject: `We've received a ${variables.appealType} appeal`,
 				content
 			},
 			destinationEmail: lpaEmail,
@@ -1050,7 +1050,7 @@ const sendCommentSubmissionConfirmationEmailToIp = async (interestedPartySubmiss
 		);
 		await notifyService.sendEmail({
 			personalisation: {
-				subject: `We’ve received your comment: ${variables.appealReferenceNumber}`,
+				subject: `We've received your comment: ${variables.appealReferenceNumber}`,
 				content
 			},
 			destinationEmail: emailAddress,
