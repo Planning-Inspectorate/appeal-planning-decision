@@ -146,7 +146,7 @@ module.exports = ({
 				validEmail,
 				{
 					personalisation: {
-						subject: `We’ve received your proof of evidence and witnesses - ${caseRef}`,
+						subject: `We've received your proof of evidence and witnesses - ${caseRef}`,
 						content: expect.stringContaining(
 							'We have received your proof of evidence and witnesses.'
 						)

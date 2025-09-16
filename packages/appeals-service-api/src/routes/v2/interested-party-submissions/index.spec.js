@@ -86,7 +86,7 @@ module.exports = ({ getSqlClient, appealsApi, mockNotifyClient, mockEventClient 
 				testIPSubmissionData.emailAddress,
 				{
 					personalisation: {
-						subject: `We’ve received your comment: ${caseRef}`,
+						subject: `We've received your comment: ${caseRef}`,
 						content: expect.stringContaining(
 							`The inspector will review all of the evidence. We will contact you by email when we make a decision.`
 						)

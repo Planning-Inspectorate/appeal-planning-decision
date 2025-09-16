@@ -148,7 +148,7 @@ module.exports = ({
 				email,
 				{
 					personalisation: {
-						subject: `We’ve received your final comments: ${appealReferenceNumber}`,
+						subject: `We've received your final comments: ${appealReferenceNumber}`,
 						content: expect.stringContaining('We have received your final comments.')
 					},
 					reference: expect.any(String),
