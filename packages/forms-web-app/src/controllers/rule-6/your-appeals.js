@@ -5,6 +5,7 @@ const {
 const logger = require('../../lib/logger');
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
 const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdrawn-appeal');
+const { isNotTransferred } = require('@pins/business-rules/src/lib/filter-transferred-appeal');
 const {
 	VIEW: {
 		RULE_6: { DASHBOARD }
@@ -27,6 +28,7 @@ const getYourAppealsR6 = async (req, res) => {
 
 		const undecidedAppeals = appeals
 			.filter(isNotWithdrawn)
+			.filter(isNotTransferred)
 			.map(mapToRule6DashboardDisplayData)
 			.filter(Boolean)
 			.filter((appeal) => !appeal.appealDecision);

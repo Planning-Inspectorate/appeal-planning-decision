@@ -9,6 +9,7 @@ const {
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
 
 const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdrawn-appeal');
+const { isNotTransferred } = require('@pins/business-rules/src/lib/filter-transferred-appeal');
 const {
 	VIEW: {
 		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, APPEAL_DETAILS, DECIDED_APPEALS }
@@ -34,6 +35,7 @@ const getYourAppeals = async (req, res) => {
 
 	const appealsForDisplay = [...appealsCaseData, ...invalidAppeals]
 		.filter(isNotWithdrawn)
+		.filter(isNotTransferred)
 		.map(mapToLPADashboardDisplayData);
 
 	const appealsWithUpdatedChildAppealDisplayData = updateChildAppealDisplayData(appealsForDisplay);
