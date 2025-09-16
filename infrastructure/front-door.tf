@@ -162,7 +162,7 @@ resource "azurerm_cdn_frontdoor_firewall_policy" "wfe" {
     }
 
     override {
-      rule_group_name = "Protocol"
+      rule_group_name = "PROTOCOL-ATTACK"
 
       rule {
         # 921110 – HTTP Request Smuggling Attack
