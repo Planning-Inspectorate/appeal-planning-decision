@@ -47,10 +47,6 @@ const makeSections = (response) => [
 		.withCondition(() => questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert'))
 		.addQuestion(questions.appealNotification),
 	new Section('Consultation responses and representations', 'consultation')
-		.addQuestion(questions.statutoryConsultees)
-		.addQuestion(questions.consultationResponses)
-		.addQuestion(questions.consultationResponsesUpload)
-		.withCondition(() => questionHasAnswer(response, questions.consultationResponses, 'yes'))
 		.addQuestion(questions.representationsFromOthers)
 		.addQuestion(questions.representationUpload)
 		.withCondition(

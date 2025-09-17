@@ -47,14 +47,6 @@ condition: () => questionHasAnswer(response, questions.howYouNotifiedPeople, 'ad
 
 ## Consultation responses and representations
 
-- radio `/statutory-consultees/` Did you consult all the relevant statutory consultees about the development?
-- boolean `/consultation-responses/` Do you have any consultation responses or standing advice from statutory consultees to upload?
-- multi-file-upload `/upload-consultation-responses/` Upload the consultation responses and standing advice
-
-```js
-condition: () => questionHasAnswer(response, questions.consultationResponses, 'yes');
-```
-
 - boolean `/representations/` Did you receive representations from members of the public or other parties?
 - multi-file-upload `/upload-representations/` Upload the representations
 
