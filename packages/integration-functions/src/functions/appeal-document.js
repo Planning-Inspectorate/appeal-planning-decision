@@ -34,16 +34,16 @@ const handler = async (message, context) => {
  * @param {AppealDocument} documentMessage
  */
 async function processDocumentMetadata(context, documentMessage) {
+	if (!checkMessageIsValid(documentMessage, context)) {
+		context.log('Invalid message status, skipping');
+		return;
+	}
+
 	const client = await createApiClient();
 	if (documentShouldBeDeleted(context)) {
 		context.log('Sending delete request to API');
 		await client.deleteAppealDocument(documentMessage.documentId);
 		context.log(`Finished handling: ${documentMessage.documentId}`);
-		return;
-	}
-
-	if (!checkMessageIsValid(documentMessage, context)) {
-		context.log('Invalid message status, skipping');
 		return;
 	}
 
