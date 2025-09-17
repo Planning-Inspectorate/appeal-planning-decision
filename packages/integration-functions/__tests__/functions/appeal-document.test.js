@@ -150,4 +150,19 @@ describe('appeal-document', () => {
 		expect(ctx.log).toHaveBeenCalledWith(`Finished handling: ${testData.documentId}`);
 		expect(result).toEqual({});
 	});
+
+	it('Should ignore invalid delete documents requests as they wont exist in the database', async () => {
+		const result = await handler(
+			{ ...testData, datePublished: null },
+			{
+				...ctx,
+				triggerMetadata: { applicationProperties: { type: 'Delete' } }
+			}
+		);
+
+		expect(mockClient.deleteAppealDocument).not.toHaveBeenCalled();
+		expect(mockClient.putAppealDocument).not.toHaveBeenCalled();
+		expect(ctx.log).toHaveBeenCalledWith(`Invalid message status, skipping`);
+		expect(result).toEqual({});
+	});
 });
