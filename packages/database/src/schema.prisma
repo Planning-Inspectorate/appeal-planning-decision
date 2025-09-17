@@ -385,6 +385,11 @@ model AppealCase {
   consultHistoricEngland Boolean?
 
   //***************************************************************************
+  // Adverts fields
+  //***************************************************************************
+  isSiteInAreaOfSpecialControlAdverts Boolean? /// Indicates if the site is in an area of special control for adverts
+
+  //***************************************************************************
   // Relations
   //***************************************************************************
 
@@ -897,6 +902,7 @@ model LPAQuestionnaireSubmission {
   listedBuildingGrade                             String?
   uploadHistoricEnglandConsultation               Boolean?
   section3aGrant                                  Boolean?
+  isSiteInAreaOfSpecialControlAdverts             Boolean?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]

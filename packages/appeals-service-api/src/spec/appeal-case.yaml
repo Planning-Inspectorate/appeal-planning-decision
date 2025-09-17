@@ -107,7 +107,7 @@ components:
           description: The unique identifier of the LPA application
         applicationDecision:
           type: string
-          enum: ['granted', 'refused']
+          enum: ['granted', 'refused', 'not_received']
           description: The outcome of the original LPA decision
         applicationDate:
           type: string
@@ -507,6 +507,11 @@ components:
           type: boolean
         consultHistoricEngland:
           type: boolean
+
+        # Adverts fields
+        isSiteInAreaOfSpecialControlAdverts:
+          type: boolean
+          nullable: true
 
         # relations
         ListedBuildings:

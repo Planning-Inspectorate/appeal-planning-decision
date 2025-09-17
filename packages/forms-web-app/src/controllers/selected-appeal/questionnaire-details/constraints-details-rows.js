@@ -107,6 +107,11 @@ exports.constraintsRows = (caseData) => {
 			condition: () => isNotUndefinedOrNull(caseData.protectedSpecies)
 		},
 		{
+			keyText: 'Is the site in an area of special control of advertisements?',
+			valueText: formatYesOrNo(caseData, 'isSiteInAreaOfSpecialControlAdverts'),
+			condition: () => isNotUndefinedOrNull(caseData.isSiteInAreaOfSpecialControlAdverts)
+		},
+		{
 			keyText: 'Green belt',
 			valueText: formatYesOrNo(caseData, 'isGreenBelt'),
 			condition: () => isNotUndefinedOrNull(caseData.isGreenBelt)

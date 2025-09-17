@@ -23,7 +23,13 @@ const makeDocument = (type) => ({
  * @param {"S78" | "HAS" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING"} appealTypeCode
  */
 const makeConstraintsSectionData = (appealTypeCode) => {
-	const s78S20Shared = {
+	const groupAShared = {
+		ListedBuildings: [{ type: LISTED_RELATION_TYPES.affected, listedBuildingReference: 'LB1' }],
+		conservationArea: true,
+		Documents: [makeDocument(APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP)]
+	};
+
+	const groupBShared = {
 		ListedBuildings: [
 			{ type: LISTED_RELATION_TYPES.affected, listedBuildingReference: 'LB1' },
 			{ type: LISTED_RELATION_TYPES.changed, listedBuildingReference: 'LB2' }
@@ -42,28 +48,31 @@ const makeConstraintsSectionData = (appealTypeCode) => {
 	switch (appealTypeCode) {
 		case CASE_TYPES.HAS.processCode:
 		case CASE_TYPES.CAS_PLANNING.processCode:
-			return {
-				ListedBuildings: [{ type: LISTED_RELATION_TYPES.affected, listedBuildingReference: 'LB1' }],
-				conservationArea: true,
-				Documents: [makeDocument(APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP)]
-			};
+			return groupAShared;
 		case CASE_TYPES.S78.processCode:
 			return {
-				...s78S20Shared,
+				...groupBShared,
 				Documents: [
-					...s78S20Shared.Documents,
+					...groupBShared.Documents,
 					makeDocument(APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT)
 				]
 			};
 		case CASE_TYPES.S20.processCode:
 			return {
-				...s78S20Shared,
+				...groupBShared,
 				preserveGrantLoan: true,
 				consultHistoricEngland: true,
 				Documents: [
-					...s78S20Shared.Documents,
+					...groupBShared.Documents,
 					makeDocument(APPEAL_DOCUMENT_TYPE.HISTORIC_ENGLAND_CONSULTATION)
 				]
+			};
+		case CASE_TYPES.ADVERTS.processCode:
+		case CASE_TYPES.CAS_ADVERTS.processCode:
+			return {
+				...groupAShared,
+				isSiteInAreaOfSpecialControlAdverts: true,
+				Documents: [...groupAShared.Documents]
 			};
 	}
 };
