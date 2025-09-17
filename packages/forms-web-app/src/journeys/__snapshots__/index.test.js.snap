@@ -12265,6 +12265,52 @@ exports[`Dynamic forms journey tests appellant Planning renders listing page 1`]
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the area-special-control question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="isSiteInAreaOfSpecialControlAdverts-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the site in an area of special control of advertisements?</h1>
+                        </legend>
+                        <div id="isSiteInAreaOfSpecialControlAdverts-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="isSiteInAreaOfSpecialControlAdverts"
+                                name="isSiteInAreaOfSpecialControlAdverts" type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="isSiteInAreaOfSpecialControlAdverts">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="isSiteInAreaOfSpecialControlAdverts-2"
+                                name="isSiteInAreaOfSpecialControlAdverts" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="isSiteInAreaOfSpecialControlAdverts-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the correct-appeal-type question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -12387,6 +12433,12 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in an area of special control of advertisements?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-special-control">Answer<span class="govuk-visually-hidden"> Is the site in an area of special control of advertisements?</span></a>
+                                </dd>
+                        </div>
                     </dl>
                 </li>
                 <li>
@@ -12397,6 +12449,52 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                     </div>
                 </li>
             </ol>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the area-special-control question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="isSiteInAreaOfSpecialControlAdverts-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the site in an area of special control of advertisements?</h1>
+                        </legend>
+                        <div id="isSiteInAreaOfSpecialControlAdverts-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="isSiteInAreaOfSpecialControlAdverts"
+                                name="isSiteInAreaOfSpecialControlAdverts" type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="isSiteInAreaOfSpecialControlAdverts">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="isSiteInAreaOfSpecialControlAdverts-2"
+                                name="isSiteInAreaOfSpecialControlAdverts" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="isSiteInAreaOfSpecialControlAdverts-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
         </div>
     </div>
 </main>"
@@ -12522,6 +12620,12 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) renders 
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in an area of special control of advertisements?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-special-control">Answer<span class="govuk-visually-hidden"> Is the site in an area of special control of advertisements?</span></a>
                                 </dd>
                         </div>
                     </dl>

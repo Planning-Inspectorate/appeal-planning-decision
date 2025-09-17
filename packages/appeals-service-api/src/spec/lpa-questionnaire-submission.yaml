@@ -229,11 +229,16 @@ components:
           nullable: true
         consultHistoricEngland:
           type: boolean
+          nullable: true
         listedBuildingGrade:
           type: string
+          nullable: true
         uploadHistoricEnglandConsultation:
           type: boolean
           nullable: true
         section3aGrant:
           type: boolean
-
+          nullable: true
+        isSiteInAreaOfSpecialControlAdverts:
+          type: boolean
+          nullable: true

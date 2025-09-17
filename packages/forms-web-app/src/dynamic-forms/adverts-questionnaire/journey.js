@@ -25,6 +25,7 @@ const makeSections = (response) => [
 					? ADVERTS.type.toLowerCase()
 					: CAS_ADVERTS.type.toLowerCase()
 		})
+		.addQuestion(questions.isSiteInAreaOfSpecialControlAdverts)
 ];
 
 const baseAdvertsMinorUrl = '/manage-appeals/questionnaire';

@@ -2747,6 +2747,18 @@ exports.questionProps = {
 		],
 		documentType: documentTypes.uploadChangeOfDescriptionEvidence,
 		actionHiddenText: 'evidence of your agreement to change the description of the advertisement'
+	},
+	isSiteInAreaOfSpecialControlAdverts: {
+		type: 'boolean',
+		title: 'Is the site in an area of special control of advertisements?',
+		question: 'Is the site in an area of special control of advertisements?',
+		fieldName: 'isSiteInAreaOfSpecialControlAdverts',
+		url: 'area-special-control',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the site is in an area of special control of advertisements'
+			)
+		]
 	}
 };
 

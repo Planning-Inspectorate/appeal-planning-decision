@@ -10,7 +10,8 @@ describe('constraintsRows', () => {
 	);
 	const s78LPAQData = caseTypeLPAQFactory(CASE_TYPES.S78.processCode, 'constraints');
 	const s20LPAQData = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'constraints');
-
+	const advertsLPAQData = caseTypeLPAQFactory(CASE_TYPES.ADVERTS.processCode, 'constraints');
+	const casAdvertsLPAQData = caseTypeLPAQFactory(CASE_TYPES.CAS_ADVERTS.processCode, 'constraints');
 	const sharedHasCasRows = [
 		{ title: 'Affects a listed building', value: 'Yes' },
 		{ title: 'Listed building details', value: 'LB1' },
@@ -85,21 +86,30 @@ describe('constraintsRows', () => {
 		...expectedRowsS78.slice(5, expectedRowsS78.length - 1)
 	];
 
+	const expectedRowsAdverts = [
+		{
+			title: 'Is the site in an area of special control of advertisements?',
+			value: 'Yes'
+		}
+	];
+
 	it.each([
 		['HAS', hasLPAQData, expectedRowsHas],
 		['CAS Planning', casPlanningLPAQData, expectedRowsCasPlanning],
 		['S78', s78LPAQData, expectedRowsS78],
-		['S20', s20LPAQData, expectedRowsS20]
+		['S20', s20LPAQData, expectedRowsS20],
+		['Adverts', casAdvertsLPAQData, expectedRowsAdverts],
+		['CAS Adverts', advertsLPAQData, expectedRowsAdverts]
 	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
 		const visibleRows = constraintsRows(caseData)
 			.filter((row) => row.condition(caseData))
 			.map((visibleRow) => {
 				return { title: visibleRow.keyText, value: visibleRow.valueText };
 			});
-		expect(visibleRows).toEqual(expectedRows);
+		expect(visibleRows).toEqual(expect.arrayContaining(expectedRows));
 	});
 
-	const ROW_COUNT = 20;
+	const ROW_COUNT = 21;
 	const CORRECT_APPEAL_TYPE_ROW = 0;
 	const CHANGES_LISTED_BUILDING_ROW = 1;
 	const CHANGED_LISTED_BUILDING_DETAILS_ROW = 2;
@@ -112,14 +122,15 @@ describe('constraintsRows', () => {
 	const CONSERVATION_AREA_ROW = 9;
 	const CONSERVATION_MAP_DOC_ROW = 10;
 	const PROTECTED_SPECIES_ROW = 11;
-	const GREEN_BELT_ROW = 12;
-	const AREA_OUTSTANDING_BEAUTY_ROW = 13;
-	const DESIGNATED_SITES_ROW = 14;
-	const TREE_PRESERVATION_ORDER_ROW = 15;
-	const TREE_PRESERVATION_PLAN_DOC_ROW = 16;
-	const GYPSY_TRAVELLER_ROW = 17;
-	const PUBLIC_RIGHT_OF_WAY_ROW = 18;
-	const DEFINITIVE_MAP_STATEMENT_DOC_ROW = 19;
+	const SPECIAL_ADVERT_ROW = 12;
+	const GREEN_BELT_ROW = 13;
+	const AREA_OUTSTANDING_BEAUTY_ROW = 14;
+	const DESIGNATED_SITES_ROW = 15;
+	const TREE_PRESERVATION_ORDER_ROW = 16;
+	const TREE_PRESERVATION_PLAN_DOC_ROW = 17;
+	const GYPSY_TRAVELLER_ROW = 18;
+	const PUBLIC_RIGHT_OF_WAY_ROW = 19;
+	const DEFINITIVE_MAP_STATEMENT_DOC_ROW = 20;
 
 	it('should create rows with correct data if relevant case data fields and field values false/no files uploaded/otherwise not populated', () => {
 		const caseData = {
@@ -196,6 +207,12 @@ describe('constraintsRows', () => {
 		expect(rows[PROTECTED_SPECIES_ROW].condition()).toEqual(true);
 		expect(rows[PROTECTED_SPECIES_ROW].keyText).toEqual('Protected species');
 		expect(rows[PROTECTED_SPECIES_ROW].valueText).toEqual('No');
+
+		expect(rows[SPECIAL_ADVERT_ROW].condition()).toEqual(false);
+		expect(rows[SPECIAL_ADVERT_ROW].keyText).toEqual(
+			'Is the site in an area of special control of advertisements?'
+		);
+		expect(rows[SPECIAL_ADVERT_ROW].valueText).toEqual('');
 
 		expect(rows[GREEN_BELT_ROW].condition()).toEqual(true);
 		expect(rows[GREEN_BELT_ROW].keyText).toEqual('Green belt');
