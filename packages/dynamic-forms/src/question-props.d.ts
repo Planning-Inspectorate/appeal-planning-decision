@@ -1,6 +1,6 @@
 import { JourneyResponse } from './journey-response';
-import BaseValidator from './validator/base-validator';
 import { QuestionVariables } from './question';
+import BaseValidator from './validator/base-validator';
 
 type QuestionTypes =
 	| 'checkbox'
@@ -69,6 +69,7 @@ export type Option = OptionWithoutDivider | { divider: string };
 interface InputField {
 	fieldName: string;
 	label: string;
+	hint?: string;
 	formatJoinString?: string; // optional property, used by formatAnswerForSummary (eg task list display), effective default to line break
 	attributes?: Record<string, string>;
 }

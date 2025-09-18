@@ -33,7 +33,8 @@ const makeSections = (response) => [
 		.addQuestion(questions.contactDetails)
 		.addQuestion(questions.contactPhoneNumber)
 		.addQuestion(questions.appealSiteAddress)
-		// grid reference question placeholder
+		// TODO - remove question from sections once linking with appealSiteAddress complete
+		.addQuestion(questions.appealSiteGridReference)
 		.addQuestion(questions.highwayLand)
 		.addQuestion(questions.advertInPosition)
 		.addQuestion(questions.appellantGreenBelt)

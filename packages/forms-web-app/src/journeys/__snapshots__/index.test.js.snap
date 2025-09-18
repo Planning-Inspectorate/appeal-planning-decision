@@ -154,6 +154,53 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the appeal-site-grid-reference question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Enter the grid reference</h1>
+                    </legend>
+                    <p class="govuk-body">The grid reference should match what is on the application to the local
+                        planning authority. You can enter an address instead</p>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label" for="siteGridReferenceEasting">Eastings</label>
+                        <div id="siteGridReferenceEasting-hint" class="govuk-hint">For example, 359608</div>
+                        <input class="govuk-input govuk-!-width-one-quarter"
+                        id="siteGridReferenceEasting" name="siteGridReferenceEasting" type="text"
+                        aria-describedby="siteGridReferenceEasting-hint">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label" for="siteGridReferenceNorthing">Northings</label>
+                        <div id="siteGridReferenceNorthing-hint" class="govuk-hint">For example, 172607</div>
+                        <input class="govuk-input govuk-!-width-one-quarter"
+                        id="siteGridReferenceNorthing" name="siteGridReferenceNorthing" type="text"
+                        aria-describedby="siteGridReferenceNorthing-hint">
+                    </div>
+                </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the applicant-name question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -1592,6 +1639,12 @@ exports[`Dynamic forms journey tests appellant Advertisement renders listing pag
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/appeal-site-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the address of the appeal site?</span></a>
                                 </dd>
                         </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the grid reference</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/appeal-site-grid-reference?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Enter the grid reference</span></a>
+                                </dd>
+                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site on highway land?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
@@ -1871,6 +1924,53 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
                     <button type="submit" class="govuk-button" data-module="govuk-button"
                     data-cy="button-save-and-continue">Continue</button>
                 </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the appeal-site-grid-reference question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Enter the grid reference</h1>
+                    </legend>
+                    <p class="govuk-body">The grid reference should match what is on the application to the local
+                        planning authority. You can enter an address instead</p>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label" for="siteGridReferenceEasting">Eastings</label>
+                        <div id="siteGridReferenceEasting-hint" class="govuk-hint">For example, 359608</div>
+                        <input class="govuk-input govuk-!-width-one-quarter"
+                        id="siteGridReferenceEasting" name="siteGridReferenceEasting" type="text"
+                        aria-describedby="siteGridReferenceEasting-hint">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label" for="siteGridReferenceNorthing">Northings</label>
+                        <div id="siteGridReferenceNorthing-hint" class="govuk-hint">For example, 172607</div>
+                        <input class="govuk-input govuk-!-width-one-quarter"
+                        id="siteGridReferenceNorthing" name="siteGridReferenceNorthing" type="text"
+                        aria-describedby="siteGridReferenceNorthing-hint">
+                    </div>
+                </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
             </form>
         </div>
     </div>
@@ -3319,6 +3419,12 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) re
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/appeal-site-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the address of the appeal site?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the grid reference</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/appeal-site-grid-reference?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Enter the grid reference</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site on highway land?</dt>

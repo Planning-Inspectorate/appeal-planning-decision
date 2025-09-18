@@ -799,9 +799,11 @@ model AppellantSubmission {
   SubmissionDocumentUpload          SubmissionDocumentUpload[]
 
   // addresses
-  siteAddress              Boolean?
-  SubmissionAddress        SubmissionAddress[]
-  SubmissionListedBuilding SubmissionListedBuilding[]
+  siteAddress               Boolean?
+  SubmissionAddress         SubmissionAddress[]
+  SubmissionListedBuilding  SubmissionListedBuilding[]
+  siteGridReferenceEasting  String?
+  siteGridReferenceNorthing String?
 }
 
 /// LPAQuestionnaireSubmission represents the questionnaire responses from an LPAUser

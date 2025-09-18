@@ -196,6 +196,12 @@ components:
         siteAddress:
           type: boolean
 
+        siteGridReferenceEasting:
+          type: string
+
+        siteGridReferenceNorthing:
+          type: string
+
         highwayLand:
           type: boolean
 
