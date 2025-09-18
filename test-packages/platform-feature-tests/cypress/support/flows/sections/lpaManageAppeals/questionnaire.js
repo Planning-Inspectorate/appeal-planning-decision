@@ -14,8 +14,9 @@ import { waitingForReview } from "../../pages/lpa-manage-appeals/waitingForRevie
 
 
 let appealId = '';
+const rowNumberOfAppealQuestionnaire = 0;
 export const selectRowAppealQuestionnaireCounter = (context, lpaManageAppealsData, lpaAppealType) => {
-	const basePage = new BasePage();
+	const basePage = new BasePage();	
 	let rowCounter = 0;
 	let linkFound = false;
 	return cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
@@ -29,7 +30,7 @@ export const selectRowAppealQuestionnaireCounter = (context, lpaManageAppealsDat
 			const todoText = $tds.eq(5).text().trim();
 			const appealType=$tds.eq(2).text().trim();			
 			if ((appealType===lpaAppealType) && todoText.includes(lpaManageAppealsData?.todoQuestionnaire)) {
-				if (rowCounter === 9) {
+				if (rowCounter === rowNumberOfAppealQuestionnaire) {
 					
 					const $link = $tds.eq(5).find('a')
 					if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {

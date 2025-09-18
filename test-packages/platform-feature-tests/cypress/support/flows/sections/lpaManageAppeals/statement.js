@@ -5,15 +5,16 @@
 import { BasePage } from "../../../../page-objects/base-page";
 import { Statement } from "../../pages/lpa-manage-appeals/lpa-statement/statement";
 
+const rowNumberOfAppealInStatement = 0;
 export const statement = (context, lpaManageAppealsData,appealType) => {
 	const basePage = new BasePage();
-	const statement = new Statement();
+	const statement = new Statement();	
 	let appealId;
 	let rowCounter = 0;
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		const rowtext = $row.text();
 		if (rowtext.includes(appealType) && rowtext.includes(lpaManageAppealsData?.todoStatement)) {
-			if (rowCounter === 3) {
+			if (rowCounter === rowNumberOfAppealInStatement) {
 				cy.wrap($row).within(() => {
 					cy.get(basePage?._selectors.trgovukTableCell).contains(appealType).should('be.visible');
 					cy.get('a').each(($link) => {
