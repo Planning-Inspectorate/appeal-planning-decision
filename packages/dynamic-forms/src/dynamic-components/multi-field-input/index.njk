@@ -63,8 +63,11 @@
                             text: errors[inputField.fieldName].msg
                         },
                         value: inputField.value,
-                        classes: "govuk-input-!-width-three-quarters",
-                        attributes: inputField.attributes
+                        classes: inputField.classes | default("govuk-input-!-width-three-quarters"),
+                        attributes: inputField.attributes,
+                        hint: {
+                            text: inputField.hint 
+                        } if inputField.hint
                     }) }}
                 {% endfor %}
                 

@@ -14,6 +14,8 @@ const { nl2br } = require('../../lib/string-functions');
  * @typedef {Object} InputField
  * @property {string} fieldName
  * @property {string} label
+ * @property {string} [hint]
+ * @property {string} [classes]
  * @property {string} [formatJoinString] optional property, used by formatAnswerForSummary (eg task list display), effective default to line break
  * @property {Record<string, string>} [attributes] optional property, used to add html attributes to the field
  */
@@ -44,6 +46,7 @@ class MultiFieldInputQuestion extends Question {
 		title,
 		question,
 		fieldName,
+		description,
 		url,
 		hint,
 		validators,
@@ -56,6 +59,7 @@ class MultiFieldInputQuestion extends Question {
 			title,
 			viewFolder: 'multi-field-input',
 			fieldName,
+			description,
 			url,
 			question,
 			validators,

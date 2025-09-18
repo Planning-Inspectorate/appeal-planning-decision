@@ -1843,6 +1843,34 @@ exports.questionProps = {
 		viewFolder: 'address-entry',
 		validators: [new AddressValidator(defaultAddressValidatorParams)]
 	},
+	appealSiteGridReference: {
+		type: 'multi-field-input',
+		title: 'Enter the grid reference',
+		question: 'Enter the grid reference',
+		url: 'appeal-site-grid-reference',
+		viewFolder: 'grid-reference',
+		fieldName: 'gridReference',
+		description:
+			'The grid reference should match what is on the application to the local planning authority. You can enter an address instead',
+		formatType: 'standard',
+		inputFields: [
+			{
+				fieldName: 'siteGridReferenceEasting',
+				label: 'Eastings',
+				hint: 'For example, 359608',
+				classes: 'govuk-!-width-one-quarter',
+				formatJoinString: ' '
+			},
+			{
+				fieldName: 'siteGridReferenceNorthing',
+				label: 'Northings',
+				hint: 'For example, 172607',
+				classes: 'govuk-!-width-one-quarter',
+				formatJoinString: ' '
+			}
+		],
+		validators: []
+	},
 	s78SiteArea: {
 		type: 'unit-option',
 		title: 'What is the area of the appeal site?',

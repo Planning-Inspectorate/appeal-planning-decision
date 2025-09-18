@@ -93,7 +93,7 @@ export interface AppealCase {
 	/** The unique identifier of the LPA application */
 	applicationReference: string;
 	/** The outcome of the original LPA decision */
-	applicationDecision: 'granted' | 'refused' | 'not_received';
+	applicationDecision: 'granted' | 'refused';
 	/**
 	 * The date of the original LPA application
 	 * @format date-time
@@ -153,8 +153,6 @@ export interface AppealCase {
 	advertisedAppeal?: boolean;
 	/** Indicates if the appellant has informed other owners of the site */
 	ownersInformed?: boolean;
-	/** The original description of the type */
-	majorMinorDevelopment?: 'major' | 'minor' | 'other';
 	/** The original description of the development, as provided by the appellant */
 	originalDevelopmentDescription?: string;
 	developmentType?:
@@ -671,6 +669,8 @@ export interface AppellantSubmission {
 	uploadPlanningObligation?: boolean | null;
 	SubmissionDocumentUpload?: object[];
 	siteAddress?: boolean;
+	siteGridReferenceEasting?: string;
+	siteGridReferenceNorthing?: string;
 	highwayLand?: boolean;
 	advertInPosition?: boolean;
 	landownerPermission?: boolean;
