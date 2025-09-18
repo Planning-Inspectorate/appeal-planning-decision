@@ -50,7 +50,7 @@ export const assignCaseOfficer = (app = 'back-office', appealId) => {
             const hasSearchText = doc.querySelector('a, button, h1, h2, label')
                 && Array.from(doc.querySelectorAll('a, button, h1, h2, label')).some(el => /search all cases/i.test(el.textContent || ''));
             const hasSearchInput = !!doc.querySelector('input[placeholder*="Search all cases" i], input[aria-label*="Search all cases" i], input[name*="search" i]');
-            const isLoginPage = (doc.location && /login.microsoftonline.com|signin/.test(doc.location.href)) || !!doc.querySelector('input[name="loginfmt"], input[type="email"], form[action*="login.microsoftonline"]');
+            const isLoginPage = (doc.location && /login\.microsoftonline\.com|signin/.test(doc.location.href)) || !!doc.querySelector('input[name="loginfmt"], input[type="email"], form[action*="login.microsoftonline"]');
 
             if (hasSearchText || hasSearchInput) {
                 // Prefer a Cypress assertion for the visible element so it retries until visible
