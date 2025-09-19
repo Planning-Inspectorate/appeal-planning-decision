@@ -31,6 +31,11 @@ exports.planningOfficerReportRows = (caseData) => {
 			condition: () => isNotUndefinedOrNull(caseData.wasApplicationRefusedDueToHighwayOrTraffic)
 		},
 		{
+			keyText: 'Did the appellant submit complete and accurate photographs and plans?',
+			valueText: formatYesOrNo(caseData, 'didAppellantSubmitCompletePhotosAndPlans'),
+			condition: () => isNotUndefinedOrNull(caseData.didAppellantSubmitCompletePhotosAndPlans)
+		},
+		{
 			keyText: 'Plans, drawings and list of plans',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
 			condition: () =>

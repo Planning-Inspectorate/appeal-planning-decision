@@ -108,6 +108,10 @@ describe('planningOfficerReportRows', () => {
 		{
 			title: 'Did you refuse the application because of highway or traffic public safety?',
 			value: 'Yes'
+		},
+		{
+			title: 'Did the appellant submit complete and accurate photographs and plans?',
+			value: 'Yes'
 		}
 	];
 
@@ -128,19 +132,20 @@ describe('planningOfficerReportRows', () => {
 	});
 
 	const PLANNING_OFFICER_REPORT_ROW = 0;
-	const HIGHWAY_TRAFFIC_SAFETY = 1;
-	const PLANS_DRAWINGS_ROW = 2;
-	const POLICIES_STATUTORY_DEVELOPMENT_PLAN_ROW = 3;
-	const EMERGING_PLAN_ROW = 4;
-	const UPLOADED_EMERGING_PLAN_ROW = 5;
-	const UPLOADED_OTHER_RELEVANT_POLICIES_ROW = 6;
-	const SUPPLEMENTARY_PLANNING_DOCUMENTS_ROW = 7;
-	const UPLOADED_SUPPLEMENTARY_PLANNING_DOCUMENTS_ROW = 8;
-	const COMMUNITY_INFRASTRUCTURE_LEVY_ROW = 9;
-	const UPLOADED_COMMUNITY_INFRASTRUCTURE_LEVY_ROW = 10;
-	const COMMUNITY_INFRASTRUCTURE_LEVY_FORMALLY_ADOPTED_ROW = 11;
-	const DATE_COMMUNITY_INFRASTRUCTURE_LEVY_ADOPTED_ROW = 12;
-	const DATE_COMMUNITY_INFRASTRUCTURE_LEVY_EXPECTED_TO_BE_ADOPTED_ROW = 13;
+	const HIGHWAY_TRAFFIC_SAFETY_ROW = 1;
+	const COMPLETE_PHOTOS_PLANS_ROW = 2;
+	const PLANS_DRAWINGS_ROW = 3;
+	const POLICIES_STATUTORY_DEVELOPMENT_PLAN_ROW = 4;
+	const EMERGING_PLAN_ROW = 5;
+	const UPLOADED_EMERGING_PLAN_ROW = 6;
+	const UPLOADED_OTHER_RELEVANT_POLICIES_ROW = 7;
+	const SUPPLEMENTARY_PLANNING_DOCUMENTS_ROW = 8;
+	const UPLOADED_SUPPLEMENTARY_PLANNING_DOCUMENTS_ROW = 9;
+	const COMMUNITY_INFRASTRUCTURE_LEVY_ROW = 10;
+	const UPLOADED_COMMUNITY_INFRASTRUCTURE_LEVY_ROW = 11;
+	const COMMUNITY_INFRASTRUCTURE_LEVY_FORMALLY_ADOPTED_ROW = 12;
+	const DATE_COMMUNITY_INFRASTRUCTURE_LEVY_ADOPTED_ROW = 13;
+	const DATE_COMMUNITY_INFRASTRUCTURE_LEVY_EXPECTED_TO_BE_ADOPTED_ROW = 14;
 
 	it('should create row with correct data if relevant case fields exist and files uploaded/field values otherwise populated', () => {
 		const caseData = {
@@ -150,6 +155,7 @@ describe('planningOfficerReportRows', () => {
 			infrastructureLevyAdoptedDate: date,
 			infrastructureLevyExpectedDate: date,
 			wasApplicationRefusedDueToHighwayOrTraffic: true,
+			didAppellantSubmitCompletePhotosAndPlans: true,
 			Documents: [
 				{
 					documentType: APPEAL_DOCUMENT_TYPE.PLANNING_OFFICER_REPORT,
@@ -197,7 +203,7 @@ describe('planningOfficerReportRows', () => {
 		};
 
 		const rows = planningOfficerReportRows(caseData);
-		expect(rows.length).toEqual(14);
+		expect(rows.length).toEqual(15);
 
 		expect(rows[PLANNING_OFFICER_REPORT_ROW].condition()).toEqual(true);
 		expect(rows[PLANNING_OFFICER_REPORT_ROW].isEscaped).toEqual(true);
@@ -206,11 +212,17 @@ describe('planningOfficerReportRows', () => {
 			'<a href="/published-document/12345" class="govuk-link">po-report.pdf</a>'
 		);
 
-		expect(rows[HIGHWAY_TRAFFIC_SAFETY].condition()).toEqual(true);
-		expect(rows[HIGHWAY_TRAFFIC_SAFETY].keyText).toEqual(
+		expect(rows[HIGHWAY_TRAFFIC_SAFETY_ROW].condition()).toEqual(true);
+		expect(rows[HIGHWAY_TRAFFIC_SAFETY_ROW].keyText).toEqual(
 			'Did you refuse the application because of highway or traffic public safety?'
 		);
-		expect(rows[HIGHWAY_TRAFFIC_SAFETY].valueText).toEqual('Yes');
+		expect(rows[HIGHWAY_TRAFFIC_SAFETY_ROW].valueText).toEqual('Yes');
+
+		expect(rows[COMPLETE_PHOTOS_PLANS_ROW].condition()).toEqual(true);
+		expect(rows[COMPLETE_PHOTOS_PLANS_ROW].keyText).toEqual(
+			'Did the appellant submit complete and accurate photographs and plans?'
+		);
+		expect(rows[COMPLETE_PHOTOS_PLANS_ROW].valueText).toEqual('Yes');
 
 		expect(rows[PLANS_DRAWINGS_ROW].condition()).toEqual(true);
 		expect(rows[PLANS_DRAWINGS_ROW].isEscaped).toEqual(true);
@@ -309,16 +321,23 @@ describe('planningOfficerReportRows', () => {
 			infrastructureLevy: false,
 			infrastructureLevyAdopted: false,
 			wasApplicationRefusedDueToHighwayOrTraffic: false,
+			didAppellantSubmitCompletePhotosAndPlans: false,
 			Documents: []
 		};
 
 		const rows = planningOfficerReportRows(caseData);
 
-		expect(rows[HIGHWAY_TRAFFIC_SAFETY].condition()).toEqual(true);
-		expect(rows[HIGHWAY_TRAFFIC_SAFETY].keyText).toEqual(
+		expect(rows[HIGHWAY_TRAFFIC_SAFETY_ROW].condition()).toEqual(true);
+		expect(rows[HIGHWAY_TRAFFIC_SAFETY_ROW].keyText).toEqual(
 			'Did you refuse the application because of highway or traffic public safety?'
 		);
-		expect(rows[HIGHWAY_TRAFFIC_SAFETY].valueText).toEqual('No');
+		expect(rows[HIGHWAY_TRAFFIC_SAFETY_ROW].valueText).toEqual('No');
+
+		expect(rows[COMPLETE_PHOTOS_PLANS_ROW].condition()).toEqual(true);
+		expect(rows[COMPLETE_PHOTOS_PLANS_ROW].keyText).toEqual(
+			'Did the appellant submit complete and accurate photographs and plans?'
+		);
+		expect(rows[COMPLETE_PHOTOS_PLANS_ROW].valueText).toEqual('No');
 
 		expect(rows[EMERGING_PLAN_ROW].condition()).toEqual(true);
 		expect(rows[EMERGING_PLAN_ROW].keyText).toEqual('Emerging plan');
@@ -346,9 +365,10 @@ describe('planningOfficerReportRows', () => {
 	it('should return correct conditions if no fields/files exist', () => {
 		const rows = planningOfficerReportRows({ Documents: [] });
 
-		expect(rows.length).toEqual(14);
+		expect(rows.length).toEqual(15);
 		expect(rows[PLANNING_OFFICER_REPORT_ROW].condition()).toEqual(false);
-		expect(rows[HIGHWAY_TRAFFIC_SAFETY].condition()).toEqual(false);
+		expect(rows[HIGHWAY_TRAFFIC_SAFETY_ROW].condition()).toEqual(false);
+		expect(rows[COMPLETE_PHOTOS_PLANS_ROW].condition()).toEqual(false);
 		expect(rows[PLANS_DRAWINGS_ROW].condition()).toEqual(false);
 		expect(rows[POLICIES_STATUTORY_DEVELOPMENT_PLAN_ROW].condition()).toEqual(false);
 		expect(rows[EMERGING_PLAN_ROW].condition()).toEqual(true);
