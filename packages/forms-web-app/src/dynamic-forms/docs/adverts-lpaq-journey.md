@@ -8,6 +8,7 @@
 ## Planning officer's report and supporting documents
 
 - boolean `/public-safety/` Did you refuse the application because of highway or traffic public safety?
+- boolean `/accurate-photographs-plans/` Did the appellant submit complete and accurate photographs and plans?
 
 ## Appeal process
 

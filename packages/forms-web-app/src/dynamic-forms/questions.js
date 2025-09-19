@@ -2799,6 +2799,18 @@ exports.questionProps = {
 				'Select yes if you refused the application because of highway or traffic public safety'
 			)
 		]
+	},
+	didAppellantSubmitCompletePhotosAndPlans: {
+		type: 'boolean',
+		title: 'Did the appellant submit complete and accurate photographs and plans?',
+		question: 'Did the appellant submit complete and accurate photographs and plans?',
+		fieldName: 'didAppellantSubmitCompletePhotosAndPlans',
+		url: 'accurate-photographs-plans',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the appellant submitted complete and accurate photographs and plans'
+			)
+		]
 	}
 };
 

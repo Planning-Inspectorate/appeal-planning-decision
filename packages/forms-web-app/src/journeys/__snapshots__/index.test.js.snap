@@ -12371,6 +12371,54 @@ exports[`Dynamic forms journey tests appellant Planning renders listing page 1`]
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the accurate-photographs-plans question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer&#39;s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="didAppellantSubmitCompletePhotosAndPlans-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Did the appellant submit complete and accurate photographs and plans?</h1>
+                        </legend>
+                        <div id="didAppellantSubmitCompletePhotosAndPlans-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="didAppellantSubmitCompletePhotosAndPlans"
+                                name="didAppellantSubmitCompletePhotosAndPlans" type="radio" value="yes"
+                                data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="didAppellantSubmitCompletePhotosAndPlans">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="didAppellantSubmitCompletePhotosAndPlans-2"
+                                name="didAppellantSubmitCompletePhotosAndPlans" type="radio" value="no"
+                                data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="didAppellantSubmitCompletePhotosAndPlans-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the area-special-control question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -12676,6 +12724,12 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/public-safety">Answer<span class="govuk-visually-hidden"> Did you refuse the application because of highway or traffic public safety?</span></a>
                                 </dd>
                         </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did the appellant submit complete and accurate photographs and plans?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/accurate-photographs-plans">Answer<span class="govuk-visually-hidden"> Did the appellant submit complete and accurate photographs and plans?</span></a>
+                                </dd>
+                        </div>
                     </dl>
                 </li>
                 <li class="govuk-!-margin-bottom-9">
@@ -12698,6 +12752,54 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                     </div>
                 </li>
             </ol>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the accurate-photographs-plans question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer&#39;s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="didAppellantSubmitCompletePhotosAndPlans-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Did the appellant submit complete and accurate photographs and plans?</h1>
+                        </legend>
+                        <div id="didAppellantSubmitCompletePhotosAndPlans-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="didAppellantSubmitCompletePhotosAndPlans"
+                                name="didAppellantSubmitCompletePhotosAndPlans" type="radio" value="yes"
+                                data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="didAppellantSubmitCompletePhotosAndPlans">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="didAppellantSubmitCompletePhotosAndPlans-2"
+                                name="didAppellantSubmitCompletePhotosAndPlans" type="radio" value="no"
+                                data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="didAppellantSubmitCompletePhotosAndPlans-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
         </div>
     </div>
 </main>"
@@ -13006,6 +13108,12 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) renders 
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/public-safety">Answer<span class="govuk-visually-hidden"> Did you refuse the application because of highway or traffic public safety?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did the appellant submit complete and accurate photographs and plans?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/accurate-photographs-plans">Answer<span class="govuk-visually-hidden"> Did the appellant submit complete and accurate photographs and plans?</span></a>
                                 </dd>
                         </div>
                     </dl>
