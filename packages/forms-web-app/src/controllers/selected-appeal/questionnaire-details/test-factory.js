@@ -194,6 +194,12 @@ const makePlanningOfficerReportSectionData = (appealTypeCode) => {
 			return {
 				Documents: [...sharedDocs]
 			};
+		case CASE_TYPES.CAS_ADVERTS.processCode:
+		case CASE_TYPES.ADVERTS.processCode:
+			return {
+				wasApplicationRefusedDueToHighwayOrTraffic: true,
+				Documents: [...sharedDocs]
+			};
 		default:
 			return {};
 	}

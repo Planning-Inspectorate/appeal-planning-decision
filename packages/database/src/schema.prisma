@@ -387,7 +387,8 @@ model AppealCase {
   //***************************************************************************
   // Adverts fields
   //***************************************************************************
-  isSiteInAreaOfSpecialControlAdverts Boolean? /// Indicates if the site is in an area of special control for adverts
+  isSiteInAreaOfSpecialControlAdverts        Boolean? /// Indicates if the site is in an area of special control for adverts
+  wasApplicationRefusedDueToHighwayOrTraffic Boolean? /// Indicates if the application was refused because of highway or traffic public safety
 
   //***************************************************************************
   // Relations
@@ -905,6 +906,7 @@ model LPAQuestionnaireSubmission {
   uploadHistoricEnglandConsultation               Boolean?
   section3aGrant                                  Boolean?
   isSiteInAreaOfSpecialControlAdverts             Boolean?
+  wasApplicationRefusedDueToHighwayOrTraffic      Boolean?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]

@@ -2787,6 +2787,18 @@ exports.questionProps = {
 				'Select yes if the site is in an area of special control of advertisements'
 			)
 		]
+	},
+	wasApplicationRefusedDueToHighwayOrTraffic: {
+		type: 'boolean',
+		title: 'Did you refuse the application because of highway or traffic public safety?',
+		question: 'Did you refuse the application because of highway or traffic public safety?',
+		fieldName: 'wasApplicationRefusedDueToHighwayOrTraffic',
+		url: 'public-safety',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you refused the application because of highway or traffic public safety'
+			)
+		]
 	}
 };
 

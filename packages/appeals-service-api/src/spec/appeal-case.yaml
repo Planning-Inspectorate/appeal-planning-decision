@@ -512,6 +512,9 @@ components:
         isSiteInAreaOfSpecialControlAdverts:
           type: boolean
           nullable: true
+        wasApplicationRefusedDueToHighwayOrTraffic:
+          type: boolean
+          nullable: true
 
         # relations
         ListedBuildings:

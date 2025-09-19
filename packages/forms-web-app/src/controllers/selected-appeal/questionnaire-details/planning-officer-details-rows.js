@@ -26,6 +26,11 @@ exports.planningOfficerReportRows = (caseData) => {
 			isEscaped: true
 		},
 		{
+			keyText: 'Did you refuse the application because of highway or traffic public safety?',
+			valueText: formatYesOrNo(caseData, 'wasApplicationRefusedDueToHighwayOrTraffic'),
+			condition: () => isNotUndefinedOrNull(caseData.wasApplicationRefusedDueToHighwayOrTraffic)
+		},
+		{
 			keyText: 'Plans, drawings and list of plans',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
 			condition: () =>
