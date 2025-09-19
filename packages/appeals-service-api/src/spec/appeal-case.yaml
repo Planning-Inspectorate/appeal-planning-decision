@@ -515,6 +515,9 @@ components:
         wasApplicationRefusedDueToHighwayOrTraffic:
           type: boolean
           nullable: true
+        didAppellantSubmitCompletePhotosAndPlans:
+          type: boolean
+          nullable: true
 
         # relations
         ListedBuildings:

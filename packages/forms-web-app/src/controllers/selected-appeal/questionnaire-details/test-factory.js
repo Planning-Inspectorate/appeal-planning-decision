@@ -198,6 +198,7 @@ const makePlanningOfficerReportSectionData = (appealTypeCode) => {
 		case CASE_TYPES.ADVERTS.processCode:
 			return {
 				wasApplicationRefusedDueToHighwayOrTraffic: true,
+				didAppellantSubmitCompletePhotosAndPlans: true,
 				Documents: [...sharedDocs]
 			};
 		default:

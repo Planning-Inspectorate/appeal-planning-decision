@@ -26,10 +26,9 @@ const makeSections = (response) => [
 					: CAS_ADVERTS.type.toLowerCase()
 		})
 		.addQuestion(questions.isSiteInAreaOfSpecialControlAdverts),
-	new Section(
-		"Planning officer's report and supporting documents",
-		'planning-officer-report'
-	).addQuestion(questions.wasApplicationRefusedDueToHighwayOrTraffic),
+	new Section("Planning officer's report and supporting documents", 'planning-officer-report')
+		.addQuestion(questions.wasApplicationRefusedDueToHighwayOrTraffic)
+		.addQuestion(questions.didAppellantSubmitCompletePhotosAndPlans),
 	new Section('Appeal process', 'appeal-process').addQuestion(questions.addNewConditions)
 ];
 
