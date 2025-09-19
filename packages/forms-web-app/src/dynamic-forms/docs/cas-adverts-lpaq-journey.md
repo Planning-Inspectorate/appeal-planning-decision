@@ -8,3 +8,7 @@
 ## Planning officer's report and supporting documents
 
 - boolean `/public-safety/` Did you refuse the application because of highway or traffic public safety?
+
+## Appeal process
+
+- radio `/new-conditions/` Check if there are any new conditions

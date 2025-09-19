@@ -29,7 +29,8 @@ const makeSections = (response) => [
 	new Section(
 		"Planning officer's report and supporting documents",
 		'planning-officer-report'
-	).addQuestion(questions.wasApplicationRefusedDueToHighwayOrTraffic)
+	).addQuestion(questions.wasApplicationRefusedDueToHighwayOrTraffic),
+	new Section('Appeal process', 'appeal-process').addQuestion(questions.addNewConditions)
 ];
 
 const baseAdvertsMinorUrl = '/manage-appeals/questionnaire';
