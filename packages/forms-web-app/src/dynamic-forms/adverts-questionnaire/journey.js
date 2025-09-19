@@ -25,7 +25,11 @@ const makeSections = (response) => [
 					? ADVERTS.type.toLowerCase()
 					: CAS_ADVERTS.type.toLowerCase()
 		})
-		.addQuestion(questions.isSiteInAreaOfSpecialControlAdverts)
+		.addQuestion(questions.isSiteInAreaOfSpecialControlAdverts),
+	new Section(
+		"Planning officer's report and supporting documents",
+		'planning-officer-report'
+	).addQuestion(questions.wasApplicationRefusedDueToHighwayOrTraffic)
 ];
 
 const baseAdvertsMinorUrl = '/manage-appeals/questionnaire';

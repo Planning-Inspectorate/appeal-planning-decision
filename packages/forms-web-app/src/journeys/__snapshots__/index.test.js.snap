@@ -12463,6 +12463,54 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the public-safety question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer&#39;s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="wasApplicationRefusedDueToHighwayOrTraffic-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Did you refuse the application because of highway or traffic public safety?</h1>
+                        </legend>
+                        <div id="wasApplicationRefusedDueToHighwayOrTraffic-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="wasApplicationRefusedDueToHighwayOrTraffic"
+                                name="wasApplicationRefusedDueToHighwayOrTraffic" type="radio" value="yes"
+                                data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="wasApplicationRefusedDueToHighwayOrTraffic">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="wasApplicationRefusedDueToHighwayOrTraffic-2"
+                                name="wasApplicationRefusedDueToHighwayOrTraffic" type="radio" value="no"
+                                data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="wasApplicationRefusedDueToHighwayOrTraffic-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -12504,7 +12552,7 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
         <div class="govuk-grid-column-three-quarters-from-desktop">
             <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
             <h2 class="govuk-heading-s">Complete the questionnaire</h2>
-            <p class="govuk-!-margin-bottom-7">You have completed 0 of 2 sections.</p>
+            <p class="govuk-!-margin-bottom-7">You have completed 0 of 3 sections.</p>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -12547,9 +12595,22 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                         </div>
                     </dl>
                 </li>
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Planning officer&#39;s report and supporting documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you refuse the application because of highway or traffic public safety?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/public-safety">Answer<span class="govuk-visually-hidden"> Did you refuse the application because of highway or traffic public safety?</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
                 <li>
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
                         <p>You cannot submit the questionnaire until all of the other sections are
                             complete.</p>
                     </div>
@@ -12652,6 +12713,54 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commerci
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the public-safety question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer&#39;s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="wasApplicationRefusedDueToHighwayOrTraffic-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Did you refuse the application because of highway or traffic public safety?</h1>
+                        </legend>
+                        <div id="wasApplicationRefusedDueToHighwayOrTraffic-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="wasApplicationRefusedDueToHighwayOrTraffic"
+                                name="wasApplicationRefusedDueToHighwayOrTraffic" type="radio" value="yes"
+                                data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="wasApplicationRefusedDueToHighwayOrTraffic">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="wasApplicationRefusedDueToHighwayOrTraffic-2"
+                                name="wasApplicationRefusedDueToHighwayOrTraffic" type="radio" value="no"
+                                data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="wasApplicationRefusedDueToHighwayOrTraffic-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -12693,7 +12802,7 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) renders 
         <div class="govuk-grid-column-three-quarters-from-desktop">
             <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
             <h2 class="govuk-heading-s">Complete the questionnaire</h2>
-            <p class="govuk-!-margin-bottom-7">You have completed 0 of 2 sections.</p>
+            <p class="govuk-!-margin-bottom-7">You have completed 0 of 3 sections.</p>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -12736,9 +12845,22 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) renders 
                         </div>
                     </dl>
                 </li>
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Planning officer&#39;s report and supporting documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you refuse the application because of highway or traffic public safety?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/public-safety">Answer<span class="govuk-visually-hidden"> Did you refuse the application because of highway or traffic public safety?</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
                 <li>
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
                         <p>You cannot submit the questionnaire until all of the other sections are
                             complete.</p>
                     </div>
