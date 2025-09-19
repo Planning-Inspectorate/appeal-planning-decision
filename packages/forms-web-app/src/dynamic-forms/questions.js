@@ -467,7 +467,6 @@ exports.questionProps = {
 		question: 'Add potential safety risks',
 		description: 'You need to tell inspectors how to prepare for a site visit and what to bring.',
 		html: 'resources/safety-risks/content.html',
-		label: 'Are there any potential safety risks?',
 		fieldName: 'lpaSiteSafetyRisks',
 		url: 'potential-safety-risks',
 		validators: [
@@ -593,20 +592,21 @@ exports.questionProps = {
 	},
 	addNewConditions: {
 		type: 'radio',
+		pageTitle: 'Are there any new conditions?',
 		title: 'Extra conditions', // this is summary list title
-		question: 'Add new planning conditions to this appeal',
-		description: 'These are additional to the standard planning conditions we would expect to see.',
+		question: 'Check if there are any new conditions',
+		description: 'Tell us about any new conditions. Do not include the standard conditions.',
 		fieldName: 'newConditions',
-		url: 'add-new-planning-conditions',
+		url: 'new-conditions',
 		html: 'resources/new-planning-conditions/content.html',
-		label: 'Are there any new conditions?',
+		legend: 'Are there any new conditions?',
 		validators: [
 			new RequiredValidator('Select yes if there are any new conditions'),
 			new ConditionalRequiredValidator('Enter the new conditions'),
 			new StringValidator({
 				maxLength: {
 					maxLength: appealFormV2.textAreaMediumLength,
-					maxLengthMessage: `New conditions must be ${appealFormV2.textAreaMediumLength} characters or less`
+					maxLengthMessage: `New conditions must be ${appealFormV2.textAreaMediumLength} characters or fewer`
 				},
 				fieldName: getConditionalFieldName('newConditions', 'newConditionDetails')
 			})
@@ -616,7 +616,7 @@ exports.questionProps = {
 				text: 'Yes',
 				value: 'yes',
 				conditional: {
-					question: 'Tell us about the new conditions',
+					question: 'Enter the new conditions',
 					fieldName: 'newConditionDetails',
 					type: 'textarea'
 				}
