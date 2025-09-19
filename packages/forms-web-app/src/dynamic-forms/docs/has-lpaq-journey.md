@@ -102,4 +102,4 @@ condition: () =>
 condition: () => response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes';
 ```
 
-- radio `/add-new-planning-conditions/` Add new planning conditions to this appeal
+- radio `/new-conditions/` Check if there are any new conditions
