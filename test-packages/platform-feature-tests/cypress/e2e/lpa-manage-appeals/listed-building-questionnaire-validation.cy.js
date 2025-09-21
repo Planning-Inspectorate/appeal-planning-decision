@@ -127,8 +127,8 @@ describe('Listed Building questionnaire validation', () => {
 
   //  1. Constraints, designations and other issues section validations
   it(`Validate Listed Building questionnaire appeal type error validation`, () => {
-    cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a listed building consent appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
-      const linkText = $link.text().split('Is a full planning appeal the correct type of appeal?')[0].trim();
+    cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a planning listed building and conservation area consent appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
+      const linkText = $link.text().split('Is a planning listed building and conservation area consent appeal the correct type of appeal?')[0].trim();
 
       if (linkText === 'Answer') {
         cy.wrap($link).should('be.visible').click({ force: true });
@@ -136,7 +136,7 @@ describe('Listed Building questionnaire validation', () => {
         cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#correctAppealType').and('contain.text', 'Select yes if this is the correct type of appeal');
       }
       else if (linkText === 'Change') {
-        cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a full planning appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
+        cy.get(basePage?._selectors.govukSummaryListKey).contains('Is a planning listed building and conservation area consent appeal the correct type of appeal?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.govukSummaryListValue).should('not.have.text', 'Not started').and('be.visible');
       }
     });
   });
@@ -653,15 +653,44 @@ describe('Listed Building questionnaire validation', () => {
 
 	// 2. Environmental impact assessment
 
-	it(`Validate Listed Building questionnaire Schedule type`, () => {
+	// it(`Validate Listed Building questionnaire Schedule type`, () => {
+	// 	cy.get(basePage?._selectors.govukSummaryListKey)
+	// 		.contains('Schedule type')
+	// 		.closest(basePage?._selectors.govukSummaryListRow)
+	// 		.find(basePage?._selectors.agovukLink)
+	// 		.then(($link) => {
+	// 			const linkText = $link
+	// 				.text()
+	// 				.split('Is the development a schedule 1 or schedule 2 development?')[0]
+	// 				.trim();
+
+	// 			if (linkText === 'Answer') {
+	// 				cy.wrap($link).should('be.visible').click({ force: true });
+	// 				cy.advanceToNextPage();
+	// 				cy.get(basePage?._selectors.govukErrorSummaryList)
+	// 					.find('a')
+	// 					.should('have.attr', 'href', '#environmentalImpactSchedule')
+	// 					.and('contain.text', 'Select the development schedule');
+	// 			} else if (linkText === 'Change') {
+	// 				cy.get(basePage?._selectors.govukSummaryListKey)
+	// 					.contains('Schedule type')
+	// 					.closest(basePage?._selectors.govukSummaryListRow)
+	// 					.find(basePage?._selectors.govukSummaryListValue)
+	// 					.should('not.have.text', 'Not started')
+	// 					.and('be.visible');
+	// 			}
+	// 		});
+	// });
+	
+	it(`Validate Full appeal questionnaire Schedule type`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
-			.contains('Schedule type')
+			.contains('What is the development category?')
 			.closest(basePage?._selectors.govukSummaryListRow)
 			.find(basePage?._selectors.agovukLink)
 			.then(($link) => {
 				const linkText = $link
 					.text()
-					.split('Is the development a schedule 1 or schedule 2 development?')[0]
+					.split('What is the development category?')[0]
 					.trim();
 
 				if (linkText === 'Answer') {
@@ -670,10 +699,10 @@ describe('Listed Building questionnaire validation', () => {
 					cy.get(basePage?._selectors.govukErrorSummaryList)
 						.find('a')
 						.should('have.attr', 'href', '#environmentalImpactSchedule')
-						.and('contain.text', 'Select the development schedule');
+						.and('contain.text', 'Select the development category');
 				} else if (linkText === 'Change') {
 					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Schedule type')
+						.contains('What is the development category?')
 						.closest(basePage?._selectors.govukSummaryListRow)
 						.find(basePage?._selectors.govukSummaryListValue)
 						.should('not.have.text', 'Not started')
@@ -681,7 +710,6 @@ describe('Listed Building questionnaire validation', () => {
 				}
 			});
 	});
-
   it(`Validate Listed Building questionnaire Did environmental statement`, () => {
     cy.get(basePage?._selectors.govukSummaryListKey).contains('Did the applicant submit an environmental statement?').closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then(($link) => {
       const linkText = $link.text().split('Did the applicant submit an environmental statement?')[0].trim();
