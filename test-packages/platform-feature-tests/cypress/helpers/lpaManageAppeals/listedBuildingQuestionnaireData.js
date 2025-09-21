@@ -20,7 +20,8 @@ const documents = {
     uploadEmergingPlan: 'emerging-plan.pdf',
     uploadOtherPolicies: 'other-policies.pdf',
     uploadSupplementaryPlanningDocs: 'supplementary-planning-docs.pdf',
-    uploadCommunityInfrastructureLevy: 'community-infrastructure-levy.pdf'
+    uploadCommunityInfrastructureLevy: 'community-infrastructure-levy.pdf',
+    uploadWrongFormatFile: 'wrongFormatFile.xps'
 };
 
 export const listedBuildingQuestionnaireTestCases = [
