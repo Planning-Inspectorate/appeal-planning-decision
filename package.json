@@ -199,7 +199,7 @@
 		"prettier-plugin-prisma": "^5.0.0",
 		"prisma": "^6.16.2",
 		"rhea": "^3.0.4",
-		"sass": "^1.92.1",
+		"sass": "^1.93.0",
 		"sinon": "^21.0.0",
 		"supertest": "^7.1.4",
 		"swagger-cli": "^4.0.4",
