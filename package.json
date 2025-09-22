@@ -168,7 +168,7 @@
 		"@shelf/jest-mongodb": "^5.2.2",
 		"@sinonjs/fake-timers": "^14.0.0",
 		"@testing-library/dom": "^10.4.0",
-		"@testing-library/jest-dom": "^6.6.4",
+		"@testing-library/jest-dom": "^6.8.0",
 		"@testing-library/user-event": "^12.8.3",
 		"@types/jest": "^30.0.0",
 		"commitizen": "^4.3.1",
