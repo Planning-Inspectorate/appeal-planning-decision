@@ -10,6 +10,7 @@ const {
 	questionHasAnswer
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
 const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
+const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -41,10 +42,59 @@ const makeSections = (response) => [
 		.addQuestion(questions.greenBelt)
 		.addQuestion(questions.areaOfOutstandingNaturalBeauty)
 		.addQuestion(questions.designatedSitesCheck),
-	new Section("Planning officer's report and supporting documents", 'planning-officer-report')
+	new Section('Notifying relevant parties', 'notified')
+		.addQuestion(questions.whoWasNotified)
+		.addQuestion(questions.howYouNotifiedPeople)
+		.addQuestion(questions.uploadSiteNotice)
+		.withCondition(() => questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice'))
+		.addQuestion(questions.uploadNeighbourLetterAddresses)
+		.withCondition(() =>
+			questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails')
+		)
+		.addQuestion(questions.pressAdvertUpload)
+		.withCondition(() => questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert'))
+		.addQuestion(questions.appealNotification),
+	new Section('Consultation responses and representations', 'consultation')
+		.addQuestion(questions.statutoryConsultees)
+		.addQuestion(questions.representationsFromOthers)
+		.addQuestion(questions.representationUpload)
+		.withCondition(() => questionHasAnswer(response, questions.representationsFromOthers, 'yes')),
+	new Section('Planning officer’s report and supporting documents', 'planning-officer-report')
+		.addQuestion(questions.planningOfficersReportUpload)
 		.addQuestion(questions.wasApplicationRefusedDueToHighwayOrTraffic)
-		.addQuestion(questions.didAppellantSubmitCompletePhotosAndPlans),
-	new Section('Appeal process', 'appeal-process').addQuestion(questions.addNewConditions)
+		.addQuestion(questions.didAppellantSubmitCompletePhotosAndPlans)
+		.addQuestion(questions.developmentPlanPolicies)
+		.addQuestion(questions.uploadDevelopmentPlanPolicies)
+		.withCondition(() => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes'))
+		.addQuestion(questions.emergingPlan)
+		.addQuestion(questions.emergingPlanUpload)
+		.withCondition(() => questionHasAnswer(response, questions.emergingPlan, 'yes'))
+		.addQuestion(questions.otherRelevantPolicies)
+		.addQuestion(questions.uploadOtherRelevantPolicies)
+		.withCondition(() => questionHasAnswer(response, questions.otherRelevantPolicies, 'yes'))
+		.addQuestion(questions.supplementaryPlanning)
+		.addQuestion(questions.supplementaryPlanningUpload)
+		.withCondition(() => questionHasAnswer(response, questions.supplementaryPlanning, 'yes')),
+	new Section('Site access', 'site-access')
+		.addQuestion(questions.accessForInspection)
+		.addQuestion(questions.neighbouringSite)
+		.addQuestion(questions.neighbouringSitesToBeVisited)
+		.withCondition(() => questionHasAnswer(response, questions.neighbouringSite, 'yes'))
+		.addQuestion(questions.potentialSafetyRisks),
+	new Section('Appeal process', 'appeal-process')
+		.addQuestion(questions.procedureType)
+		.addQuestion(questions.whyInquiry)
+		.withCondition(() =>
+			questionHasAnswer(response, questions.procedureType, APPEAL_CASE_PROCEDURE.INQUIRY)
+		)
+		.addQuestion(questions.whyHearing)
+		.withCondition(() =>
+			questionHasAnswer(response, questions.procedureType, APPEAL_CASE_PROCEDURE.HEARING)
+		)
+		.addQuestion(questions.appealsNearSite)
+		.addQuestion(questions.nearbyAppeals)
+		.withCondition(() => questionHasAnswer(response, questions.appealsNearSite, 'yes'))
+		.addQuestion(questions.addNewConditions)
 ];
 
 const baseAdvertsMinorUrl = '/manage-appeals/questionnaire';
