@@ -17,7 +17,8 @@ const { formatSubmissionAddress, formatAddress } = require('@pins/common/src/lib
 const lpaService = new LpaService();
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { templates } = config.services.notify;
-const { caseTypeLookup } = require('@pins/common/src/database/data-static');
+const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
 
 /**
  * @typedef {import('@prisma/client').AppealCase } AppealCase
@@ -260,10 +261,7 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
 
 		const reference = appellantSubmission.id;
 
-		const appealType = caseTypeLookup(
-			appellantSubmission.appealTypeCode,
-			'processCode'
-		)?.type.toLowerCase();
+		const appealType = mapAppealTypeToDisplayText(CASE_TYPES[appellantSubmission.appealTypeCode]);
 
 		const variables = {
 			...config.services.notify.templateVariables,

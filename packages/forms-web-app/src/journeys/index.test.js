@@ -79,6 +79,7 @@ const { journeys } = require('./index');
 const { JourneyResponse } = require('@pins/dynamic-forms/src/journey-response');
 
 const fakeTimers = require('@sinonjs/fake-timers');
+const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
 
 describe('Dynamic forms journey tests', () => {
 	let clock, today, future;
@@ -588,14 +589,11 @@ const questionExpectations = (question, element, caseType) => {
 	 */
 	const getAppealTypeString = (type) => {
 		// todo: standardise this to avoid s20/s78 differences
-		switch (type.processCode) {
-			case CASE_TYPES.S20.processCode:
-				return type.type.toLowerCase() + ' consent';
-			case CASE_TYPES.S78.processCode:
-				return caseType.type.toLowerCase();
-			default:
-				return caseType.type.toLowerCase();
+		if (type.processCode == CASE_TYPES.S20.processCode) {
+			return mapAppealTypeToDisplayText(type) + ' consent';
 		}
+
+		return mapAppealTypeToDisplayText(type);
 	};
 
 	switch (question.constructor.name) {

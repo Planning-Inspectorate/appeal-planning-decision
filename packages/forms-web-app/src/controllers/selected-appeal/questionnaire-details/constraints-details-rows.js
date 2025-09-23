@@ -5,11 +5,12 @@ const {
 	documentExists,
 	boolToYesNo
 } = require('@pins/common');
-const { CASE_TYPES, caseTypeLookup } = require('@pins/common/src/database/data-static');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
+const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed} caseData
@@ -40,7 +41,7 @@ exports.constraintsRows = (caseData) => {
 	const rows = [
 		{
 			keyText: `Is a ${
-				caseTypeLookup(caseData.appealTypeCode, 'processCode')?.type.toLowerCase() || 'unknown'
+				mapAppealTypeToDisplayText(CASE_TYPES[caseData.appealTypeCode]) || 'unknown'
 			} appeal the correct type of appeal?`,
 			valueText: formatYesOrNo(caseData, 'isCorrectAppealType'),
 			condition: () => isNotUndefinedOrNull(caseData.isCorrectAppealType)

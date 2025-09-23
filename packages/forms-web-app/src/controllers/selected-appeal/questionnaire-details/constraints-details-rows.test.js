@@ -31,7 +31,7 @@ describe('constraintsRows', () => {
 	];
 	const expectedRowsCasPlanning = [
 		{
-			title: 'Is a commercial planning (cas) appeal the correct type of appeal?',
+			title: 'Is a commercial planning (CAS) appeal the correct type of appeal?',
 			value: 'Yes'
 		},
 		...sharedHasCasRows
