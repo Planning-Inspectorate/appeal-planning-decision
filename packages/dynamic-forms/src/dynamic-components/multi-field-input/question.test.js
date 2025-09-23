@@ -1,3 +1,4 @@
+const MultiFieldInputValidator = require('../../validator/multi-field-input-validator.js');
 const MultiFieldInputQuestion = require('./question');
 
 const TITLE = 'title';
@@ -117,6 +118,92 @@ describe('./src/dynamic-forms/dynamic-components/single-line-input/question.js',
 			const result = await question.getDataToSave(testRequest, journeyResponse);
 
 			expect(result).toEqual(expectedResponseToSave);
+		});
+	});
+
+	describe('isAnswered', () => {
+		const journey = {
+			journeyId: 'journey1',
+			response: {
+				referenceId: '1',
+				journeyId: 'journey1',
+				LPACode: 'lpaCode',
+				answers: {}
+			}
+		};
+		const testQuestion = createMultiFieldInputQuestion();
+		testQuestion.validators = [
+			new MultiFieldInputValidator({
+				requiredFields: [
+					{ fieldName: 'notAnswered', errorMessage: 'error' },
+					{ fieldName: 'answered', errorMessage: 'error' }
+				]
+			})
+		];
+		it('returns false if required question is null', () => {
+			journey.response.answers = { answered: 'isAnswered', notAnswered: null };
+			expect(testQuestion.isAnswered(journey.response)).toEqual(false);
+		});
+		it('returns false if required question is empty string', () => {
+			journey.response.answers = { answered: 'isAnswered', notAnswered: '' };
+			expect(testQuestion.isAnswered(journey.response)).toEqual(false);
+		});
+		it('returns false if required question is empty undefined', () => {
+			journey.response.answers = { answered: 'isAnswered', notAnswered: undefined };
+			expect(testQuestion.isAnswered(journey.response)).toEqual(false);
+		});
+		it('returns true if required question is answered', () => {
+			journey.response.answers = { answered: 'isAnswered', notAnswered: 'hasAnswer' };
+			expect(testQuestion.isAnswered(journey.response)).toEqual(true);
+		});
+	});
+
+	describe('formatGridReference', () => {
+		const journey = {
+			journeyId: 'journey1',
+			response: {
+				referenceId: '1',
+				journeyId: 'journey1',
+				LPACode: 'lpaCode',
+				answers: {}
+			}
+		};
+		const testQuestion = createMultiFieldInputQuestion();
+
+		it('formats grid reference correctly with both easting and northing defined for task list', () => {
+			const inputFields = [
+				{
+					fieldName: 'siteGridReferenceEasting'
+				},
+				{
+					fieldName: 'siteGridReferenceNorthing'
+				}
+			];
+			journey.response.answers = {
+				siteGridReferenceEasting: '123456',
+				siteGridReferenceNorthing: '654321'
+			};
+
+			expect(testQuestion.formatGridReference(journey, inputFields)).toEqual(
+				'Eastings: 123456\nNorthings: 654321'
+			);
+		});
+
+		it('formats grid reference correctly with neither eastings or northings defined for task list', () => {
+			const inputFields = [
+				{
+					fieldName: 'siteGridReferenceEasting'
+				},
+				{
+					fieldName: 'siteGridReferenceNorthing'
+				}
+			];
+			journey.response.answers = {
+				siteGridReferenceEasting: '',
+				siteGridReferenceNorthing: ''
+			};
+
+			expect(testQuestion.formatGridReference(journey, inputFields)).toEqual('Not started');
 		});
 	});
 });

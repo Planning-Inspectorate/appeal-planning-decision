@@ -2,7 +2,7 @@ const { Journey } = require('@pins/dynamic-forms/src/journey');
 const { baseAdvertsSubmissionUrl, ...params } = require('./journey');
 
 const mockResponse = {
-	journeyId: 'ADVERTS',
+	journeyId: 'adverts-appeal-form',
 	LPACode: 'Q9999',
 	referenceId: '123',
 	answers: {}
@@ -32,5 +32,93 @@ describe('ADVERTS Appeal Form Journey', () => {
 	it('should set journeyTitle', () => {
 		const journey = new Journey({ ...params, response: mockResponse });
 		expect(journey.journeyTitle).toBe('Appeal a planning decision');
+	});
+
+	it('should display siteAddress and not grid reference when neither is defined', () => {
+		const answers = {
+			siteAddress: null,
+			siteGridReferenceEasting: null,
+			siteGridReferenceNorthing: null
+		};
+		const journey = new Journey({
+			...params,
+			response: { ...mockResponse, answers: { ...answers } }
+		});
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.title.includes('What is the address of the appeal site?'))
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { ...answers }
+				})
+		).toBe(true);
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.title.includes('Enter the grid reference'))
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { ...answers }
+				})
+		).toBe(false);
+	});
+	it('should display grid reference when it is defined and site address is not defined', () => {
+		const answers = {
+			siteAddress: null,
+			siteGridReferenceEasting: '123456',
+			siteGridReferenceNorthing: '654321'
+		};
+		const journey = new Journey({
+			...params,
+			response: {
+				...mockResponse,
+				answers: { ...answers }
+			}
+		});
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.title.includes('What is the address of the appeal site?'))
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { ...answers }
+				})
+		).toBe(false);
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.title.includes('Enter the grid reference'))
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { ...answers }
+				})
+		).toBe(true);
+	});
+	it('should display only site address if both site address and grid reference are defined', () => {
+		const answers = {
+			siteAddress: true,
+			siteGridReferenceEasting: '123456',
+			siteGridReferenceNorthing: '654321'
+		};
+		const journey = new Journey({
+			...params,
+			response: {
+				...mockResponse,
+				answers: { ...answers }
+			}
+		});
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.title.includes('What is the address of the appeal site?'))
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { ...answers }
+				})
+		).toBe(true);
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.title.includes('Enter the grid reference'))
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { ...answers }
+				})
+		).toBe(false);
 	});
 });

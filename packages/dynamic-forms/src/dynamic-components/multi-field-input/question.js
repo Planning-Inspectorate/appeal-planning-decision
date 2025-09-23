@@ -1,6 +1,7 @@
 const Question = require('../../question');
 const escape = require('escape-html');
 const { nl2br } = require('../../lib/string-functions');
+const MultiFieldInputValidator = require('../../validator/multi-field-input-validator.js');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
@@ -40,21 +41,27 @@ class MultiFieldInputQuestion extends Question {
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {Record<string, string>} [params.inputAttributes] html attributes to add to the input
 	 * @param {InputField[]} [params.inputFields] input fields
-	 * @param {'contactDetails' | 'standard' | null} [params.formatType] optional type field used for formatting for task list
+	 * @param {'gridReference' | 'standard' | null} [params.formatType] optional type field used for formatting for task list
+	 *
+	 * @param {Record<string, Function>} [methodOverrides]
 	 */
-	constructor({
-		title,
-		question,
-		fieldName,
-		description,
-		url,
-		hint,
-		validators,
-		html,
-		label,
-		inputAttributes = {},
-		inputFields
-	}) {
+	constructor(
+		{
+			title,
+			question,
+			fieldName,
+			description,
+			url,
+			hint,
+			validators,
+			html,
+			label,
+			inputAttributes = {},
+			inputFields,
+			formatType
+		},
+		methodOverrides
+	) {
 		super({
 			title,
 			viewFolder: 'multi-field-input',
@@ -68,6 +75,8 @@ class MultiFieldInputQuestion extends Question {
 		});
 		this.label = label;
 		this.inputAttributes = inputAttributes;
+		this.formatType = formatType;
+		this.methodOverrides = methodOverrides;
 
 		if (inputFields) {
 			this.inputFields = inputFields;
@@ -105,6 +114,16 @@ class MultiFieldInputQuestion extends Question {
 				? { ...inputField, value: payload[inputField.fieldName] }
 				: { ...inputField, value: journey.response.answers[inputField.fieldName] };
 		});
+
+		if (this.methodOverrides && this.methodOverrides.createAppealSiteGridReferenceLink) {
+			const createAppealSiteGridReferenceLink =
+				this.methodOverrides.createAppealSiteGridReferenceLink;
+			viewModel.appealSiteGridReferenceLink = createAppealSiteGridReferenceLink(
+				this.fieldName,
+				journey,
+				section
+			);
+		}
 
 		return {
 			...viewModel,
@@ -148,7 +167,10 @@ class MultiFieldInputQuestion extends Question {
 			return answer ? acc + answer + (field.formatJoinString || '\n') : acc;
 		}, '');
 
-		const formattedAnswer = summaryDetails || this.NOT_STARTED;
+		const formattedAnswer =
+			this.formatType === 'gridReference'
+				? this.formatGridReference(journey, this.inputFields)
+				: summaryDetails || this.NOT_STARTED;
 
 		return [
 			{
@@ -157,6 +179,42 @@ class MultiFieldInputQuestion extends Question {
 				action: this.getAction(sectionSegment, journey, summaryDetails)
 			}
 		];
+	}
+
+	/**
+	 * returns the formatted answers values to be used to build task list elements
+	 * @param {Journey} journey
+	 * @param {InputField[]} inputFields
+	 * @returns {String}
+	 */
+	formatGridReference(journey, inputFields) {
+		const eastingField =
+			inputFields.find((inputField) => inputField.fieldName.includes('siteGridReferenceEasting'))
+				?.fieldName || '';
+		const northingField =
+			inputFields.find((inputField) => inputField.fieldName.includes('siteGridReferenceNorthing'))
+				?.fieldName || '';
+
+		if (!journey.response.answers[eastingField] && !journey.response.answers[northingField])
+			return this.NOT_STARTED;
+
+		return `Eastings: ${journey.response.answers[eastingField]}\nNorthings: ${journey.response.answers[northingField]}`;
+	}
+
+	/**
+	 *
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {boolean }
+	 */
+	isAnswered(journeyResponse) {
+		const requiredAnswers =
+			this.validators
+				.find((v) => v instanceof MultiFieldInputValidator)
+				?.requiredFields?.map((f) => journeyResponse.answers[f.fieldName]) ?? [];
+
+		return requiredAnswers?.every(
+			(answer) => answer !== undefined && answer !== null && answer.trim() !== ''
+		);
 	}
 }
 

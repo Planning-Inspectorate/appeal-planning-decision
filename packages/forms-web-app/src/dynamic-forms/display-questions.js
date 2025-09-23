@@ -86,3 +86,16 @@ exports.shouldDisplayTellingTenants = (response, questions) => {
 exports.shouldDisplayUploadDecisionLetter = (response) => {
 	return response.answers.applicationDecision !== 'nodecisionreceived';
 };
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {boolean}
+ */
+exports.shouldDisplayGridReference = (response) => {
+	if (response.answers.siteAddress !== null) return false;
+	else
+		return (
+			response.answers.siteGridReferenceEasting !== null &&
+			response.answers.siteGridReferenceNorthing !== null
+		);
+};

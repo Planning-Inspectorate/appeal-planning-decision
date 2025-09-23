@@ -24,7 +24,6 @@ const RequiredValidator = require('@pins/dynamic-forms/src/validator/required-va
 const RequiredFileUploadValidator = require('@pins/dynamic-forms/src/validator/required-file-upload-validator');
 const MultifileUploadValidator = require('@pins/dynamic-forms/src/validator/multifile-upload-validator');
 const AddressValidator = require('@pins/dynamic-forms/src/validator/address-validator');
-const StringEntryValidator = require('@pins/dynamic-forms/src/validator/string-validator');
 const StringValidator = require('@pins/dynamic-forms/src/validator/string-validator');
 const ConditionalRequiredValidator = require('@pins/dynamic-forms/src/validator/conditional-required-validator');
 const UnitOptionEntryValidator = require('@pins/dynamic-forms/src/validator/unit-option-entry-validator');
@@ -81,6 +80,7 @@ const getClamAVClient = require('#lib/clam-av-client-get');
 // method overrides
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
 const siteAddressOverrides = require('../journeys/question-overrides/site-address');
+const multiFieldInputOverrides = require('../journeys/question-overrides/multi-field-input');
 const formatNumber = require('@pins/dynamic-forms/src/dynamic-components/utils/format-number');
 
 /** @typedef {import('@pins/dynamic-forms/src/question-props').QuestionProps} QuestionProps */
@@ -163,7 +163,7 @@ exports.questionProps = {
 			html: 'resources/listed-building-number/content.html',
 			validators: [
 				new RequiredValidator('Enter a list entry number'),
-				new StringEntryValidator(listedBuildingNumberValidation)
+				new StringValidator(listedBuildingNumberValidation)
 			],
 			viewFolder: 'add-more'
 		}
@@ -188,7 +188,7 @@ exports.questionProps = {
 			html: 'resources/listed-building-number/content.html',
 			validators: [
 				new RequiredValidator('Enter a list entry number'),
-				new StringEntryValidator(listedBuildingNumberValidation)
+				new StringValidator(listedBuildingNumberValidation)
 			],
 			viewFolder: 'add-more'
 		}
@@ -585,7 +585,7 @@ exports.questionProps = {
 			hint: 'You can add more appeals later if there is more than one nearby',
 			validators: [
 				new RequiredValidator('Enter an appeal reference number'),
-				new StringEntryValidator(appealReferenceNumberValidation)
+				new StringValidator(appealReferenceNumberValidation)
 			],
 			viewFolder: 'add-more'
 		}
@@ -1684,7 +1684,7 @@ exports.questionProps = {
 			hint: 'For example, 0221532.',
 			validators: [
 				new RequiredValidator('Enter the appeal reference number'),
-				new StringEntryValidator(appealReferenceNumberValidation)
+				new StringValidator(appealReferenceNumberValidation)
 			],
 			viewFolder: 'add-more'
 		}
@@ -1847,12 +1847,11 @@ exports.questionProps = {
 		type: 'multi-field-input',
 		title: 'Enter the grid reference',
 		question: 'Enter the grid reference',
-		url: 'appeal-site-grid-reference',
+		url: 'grid-reference',
 		viewFolder: 'grid-reference',
 		fieldName: 'gridReference',
-		description:
-			'The grid reference should match what is on the application to the local planning authority. You can enter an address instead',
-		formatType: 'standard',
+		html: 'resources/grid-reference/grid-reference.html',
+		formatType: 'gridReference',
 		inputFields: [
 			{
 				fieldName: 'siteGridReferenceEasting',
@@ -2833,5 +2832,6 @@ const questionClasses = {
 exports.getQuestions = () =>
 	createQuestions(exports.questionProps, questionClasses, {
 		'multi-file-upload': multiFileUploadOverrides,
-		'site-address': siteAddressOverrides
+		'site-address': siteAddressOverrides,
+		'multi-field-input': multiFieldInputOverrides
 	});

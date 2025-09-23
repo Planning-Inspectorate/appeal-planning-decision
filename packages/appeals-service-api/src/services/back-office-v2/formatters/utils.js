@@ -242,6 +242,26 @@ exports.createInterestedPartyNewUser = (interestedPartySubmission) => {
 };
 
 /**
+ * @param {string | null} gridReference
+ * @returns {boolean}
+ */
+const isMissing = (gridReference) =>
+	gridReference === undefined || gridReference === null || gridReference === '';
+
+/**
+ * @param {FullAppellantSubmission['SubmissionAddress'][number] | undefined} address
+ * @param {string | null} easting
+ * @param {string | null} northing
+ * @returns {boolean}
+ */
+exports.siteAddressAndGridReferenceAreMissing = (address, easting, northing) => {
+	const eastingMissing = isMissing(easting);
+	const northingMissing = isMissing(northing);
+
+	return address === undefined && (eastingMissing || northingMissing);
+};
+
+/**
  * @param {FullAppellantSubmission} appellantSubmission
  * @param {LPA} lpa
  * @returns {AppellantCommonSubmissionProperties}
@@ -258,13 +278,20 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
 	if (!appellantSubmission.applicationDecision) {
 		throw new Error('appellantSubmission.applicationDecision should never be null');
 	}
-
 	const address = appellantSubmission.SubmissionAddress?.find(
 		(address) => address.fieldName === 'siteAddress'
 	);
 
-	if (!address) {
-		throw new Error('appellantSubmission.siteAddress should never be null');
+	if (
+		exports.siteAddressAndGridReferenceAreMissing(
+			address,
+			appellantSubmission.siteGridReferenceEasting,
+			appellantSubmission.siteGridReferenceNorthing
+		)
+	) {
+		throw new Error(
+			'appellantSubmission.siteAddress should not be null or appellantSubmission.siteGridReferenceEasting && appellantSubmission.siteGridReferenceNorthing should not be null'
+		);
 	}
 
 	return {
@@ -283,11 +310,13 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
 			CASE_TYPES[appellantSubmission.appealTypeCode].id.toString(),
 			appellantSubmission.applicationDecision
 		).toISOString(),
-		siteAddressLine1: address.addressLine1 ?? '',
-		siteAddressLine2: address.addressLine2 ?? '',
-		siteAddressTown: address.townCity ?? '',
-		siteAddressCounty: address.county ?? '',
-		siteAddressPostcode: address.postcode ?? '',
+		siteAddressLine1: address?.addressLine1 ?? '',
+		siteAddressLine2: address?.addressLine2 ?? '',
+		siteAddressTown: address?.townCity ?? '',
+		siteAddressCounty: address?.county ?? '',
+		siteAddressPostcode: address?.postcode ?? '',
+		siteGridReferenceEasting: appellantSubmission.siteGridReferenceEasting,
+		siteGridReferenceNorthing: appellantSubmission.siteGridReferenceNorthing,
 		siteAccessDetails: [appellantSubmission.appellantSiteAccess_appellantSiteAccessDetails].filter(
 			Boolean
 		),

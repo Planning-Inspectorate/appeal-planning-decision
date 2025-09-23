@@ -1,3 +1,5 @@
+const createAppealSiteGridReferenceLinkUtil = require('./utils').createAppealSiteGridReferenceLink;
+
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('@pins/dynamic-forms/src/journey').Journey} Journey
@@ -71,6 +73,21 @@ async function saveAction(req, res, saveFunction, journey, section, journeyRespo
 	return this.handleNextQuestion(res, journey, section.segment, this.fieldName);
 }
 
+/**
+ * @param {string} fieldName
+ * @param {Journey} journey
+ * @param {Section} section
+ * @returns {string | undefined}
+ */
+const createAppealSiteGridReferenceLink = (fieldName, journey, section) => {
+	if (journey.journeyId === 'adverts-appeal-form') {
+		return createAppealSiteGridReferenceLinkUtil('siteAddress', journey, section);
+	}
+
+	return undefined;
+};
+
 module.exports = {
-	saveAction
+	saveAction,
+	createAppealSiteGridReferenceLink
 };

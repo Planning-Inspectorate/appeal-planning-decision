@@ -3,6 +3,8 @@ const { numericFields } = require('./dynamic-components/utils/numeric-fields');
 const escape = require('escape-html');
 const RequiredValidator = require('./validator/required-validator');
 const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
+const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
+const AddressValidator = require('./validator/address-validator');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
@@ -31,6 +33,7 @@ const RequiredFileUploadValidator = require('./validator/required-file-upload-va
  * @property {string} backLink
  * @property {boolean} showBackToListLink
  * @property {string} listLink
+ * @property {string} [appealSiteGridReferenceLink]
  */
 
 /**
@@ -422,7 +425,11 @@ class Question {
 	 */
 	isRequired() {
 		return this.validators?.some(
-			(item) => item instanceof RequiredValidator || item instanceof RequiredFileUploadValidator
+			(item) =>
+				item instanceof RequiredValidator ||
+				item instanceof RequiredFileUploadValidator ||
+				item instanceof MultiFieldInputValidator ||
+				item instanceof AddressValidator
 		);
 	}
 
