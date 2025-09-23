@@ -9,6 +9,7 @@ const {
 const {
 	questionHasAnswer
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
+const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -22,7 +23,7 @@ const {
 const makeSections = (response) => [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
-		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: CAS_PLANNING.type.toLowerCase() })
+		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: mapAppealTypeToDisplayText(CAS_PLANNING) })
 		.addQuestion(questions.listedBuildingCheck)
 		.addQuestion(questions.affectedListedBuildings)
 		.withCondition(

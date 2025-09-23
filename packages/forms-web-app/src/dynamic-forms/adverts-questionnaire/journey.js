@@ -6,6 +6,10 @@ const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-
 const {
 	CASE_TYPES: { ADVERTS, CAS_ADVERTS }
 } = require('@pins/common/src/database/data-static');
+const {
+	questionHasAnswer
+} = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
+const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -22,10 +26,21 @@ const makeSections = (response) => [
 		.withVariables({
 			[QUESTION_VARIABLES.APPEAL_TYPE]:
 				response.journeyId === JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE.id
-					? ADVERTS.type.toLowerCase()
-					: CAS_ADVERTS.type.toLowerCase()
+					? mapAppealTypeToDisplayText(ADVERTS)
+					: mapAppealTypeToDisplayText(CAS_ADVERTS)
 		})
-		.addQuestion(questions.isSiteInAreaOfSpecialControlAdverts),
+		.addQuestion(questions.listedBuildingCheck)
+		.addQuestion(questions.affectedListedBuildings)
+		.withCondition(() => questionHasAnswer(response, questions.listedBuildingCheck, 'yes'))
+		.addQuestion(questions.scheduledMonument)
+		.addQuestion(questions.conservationArea)
+		.addQuestion(questions.conservationAreaUpload)
+		.withCondition(() => questionHasAnswer(response, questions.conservationArea, 'yes'))
+		.addQuestion(questions.protectedSpecies)
+		.addQuestion(questions.isSiteInAreaOfSpecialControlAdverts)
+		.addQuestion(questions.greenBelt)
+		.addQuestion(questions.areaOfOutstandingNaturalBeauty)
+		.addQuestion(questions.designatedSitesCheck),
 	new Section("Planning officer's report and supporting documents", 'planning-officer-report')
 		.addQuestion(questions.wasApplicationRefusedDueToHighwayOrTraffic)
 		.addQuestion(questions.didAppellantSubmitCompletePhotosAndPlans),

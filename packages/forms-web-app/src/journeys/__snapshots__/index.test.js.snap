@@ -12419,6 +12419,135 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the affect-listed-building question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="affectsListedBuilding-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Does the proposed development affect the setting of listed buildings?</h1>
+                        </legend>
+                        <div id="affectsListedBuilding-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="affectsListedBuilding" name="affectsListedBuilding"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="affectsListedBuilding">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="affectsListedBuilding-2" name="affectsListedBuilding"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="affectsListedBuilding-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the affected-listed-buildings question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-heading-l"> Tell us the list entry number</h1>
+                <p class="govuk-body">Add the Historic England listed entry number for the building or site.</p>
+                <p
+                class="govuk-body">You can add another building or site later, if needed.</p>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="affectedListedBuildingNumber">Seven digit number</label>
+                        <div id="affectedListedBuildingNumber-hint"
+                        class="govuk-hint"></div>
+                        <input class="govuk-input govuk-input--width-10" id="affectedListedBuildingNumber"
+                        name="affectedListedBuildingNumber" type="text" value="" aria-describedby="affectedListedBuildingNumber-hint">
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the area-of-outstanding-natural-beauty question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="areaOutstandingBeauty-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the appeal site in an area of outstanding natural beauty?</h1>
+                        </legend>
+                        <div id="areaOutstandingBeauty-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="areaOutstandingBeauty" name="areaOutstandingBeauty"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="areaOutstandingBeauty">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="areaOutstandingBeauty-2" name="areaOutstandingBeauty"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="areaOutstandingBeauty-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the area-special-control question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -12465,6 +12594,52 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the conservation-area question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="conservationArea-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the site in, or next to a conservation area?</h1>
+                        </legend>
+                        <div id="conservationArea-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="conservationArea" name="conservationArea"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="conservationArea">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="conservationArea-2" name="conservationArea"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="conservationArea-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the correct-appeal-type question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -12493,6 +12668,133 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                                 <input class="govuk-radios__input" id="correctAppealType-2" name="correctAppealType"
                                 type="radio" value="no" data-cy="answer-no">
                                 <label class="govuk-label govuk-radios__label" for="correctAppealType-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the designated-sites question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="designatedSites-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
+                        </legend>
+                        <div id="designatedSites-hint" class="govuk-hint"></div>
+                        <div class="govuk-checkboxes govuk-checkboxes" data-module="govuk-checkboxes">
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites" name="designatedSites"
+                                type="checkbox" value="SSSI" data-cy="answer-SSSI">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites">SSSI (site of special scientific interest)</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites-2" name="designatedSites"
+                                type="checkbox" value="cSAC" data-cy="answer-cSAC">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites-2">cSAC (candidate special area of conservation)</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites-3" name="designatedSites"
+                                type="checkbox" value="SAC" data-cy="answer-SAC">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites-3">SAC (special area of conservation)</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites-4" name="designatedSites"
+                                type="checkbox" value="pSPA" data-cy="answer-pSPA">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites-4">pSPA (potential special protection area)</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites-5" name="designatedSites"
+                                type="checkbox" value="SPA" data-cy="answer-SPA">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites-5">SPA Ramsar (Ramsar special protection area)</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites-6" name="designatedSites"
+                                type="checkbox" value="other" data-aria-controls="conditional-designatedSites-6"
+                                data-cy="answer-other">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites-6">Other</label>
+                            </div>
+                            <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                            id="conditional-designatedSites-6">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="designatedSites_otherDesignations">Other designation(s)</label>
+                                    <input class="govuk-input" id="designatedSites_otherDesignations"
+                                    name="designatedSites_otherDesignations" type="text" value="">
+                                </div>
+                            </div>
+                            <div class="govuk-checkboxes__divider">or</div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites-8" name="designatedSites"
+                                type="checkbox" value="None" data-behaviour="exclusive" data-cy="answer-None">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites-8">No, it is not in, near or likely to affect any designated sites</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the green-belt question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="greenBelt-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the site in a green belt?</h1>
+                        </legend>
+                        <div id="greenBelt-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="greenBelt" name="greenBelt" type="radio"
+                                value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="greenBelt">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="greenBelt-2" name="greenBelt" type="radio"
+                                value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="greenBelt-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -12581,6 +12883,52 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the protected-species question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="protectedSpecies-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Would the development affect a protected species?</h1>
+                        </legend>
+                        <div id="protectedSpecies-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="protectedSpecies" name="protectedSpecies"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="protectedSpecies">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="protectedSpecies-2" name="protectedSpecies"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="protectedSpecies-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the public-safety question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -12618,6 +12966,97 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
             </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the scheduled-monument question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="affectsScheduledMonument-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Would the development affect a scheduled monument?</h1>
+                        </legend>
+                        <div id="affectsScheduledMonument-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="affectsScheduledMonument" name="affectsScheduledMonument"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="affectsScheduledMonument">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="affectsScheduledMonument-2" name="affectsScheduledMonument"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="affectsScheduledMonument-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the upload-conservation-area-map-guidance question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Constraints, designations and other issues</span>
+            <h1
+            class="govuk-heading-l">Upload conservation map and guidance</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadConservation">Upload files</label>
+                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
+                                    1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadConservation" name="uploadConservation" type="file" aria-describedby="uploadConservation-hint"
+                                multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -12705,11 +13144,49 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development affect the setting of listed buildings?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a scheduled monument</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/scheduled-monument">Answer<span class="govuk-visually-hidden"> Would the development affect a scheduled monument?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Conservation area</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Protected species</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/protected-species">Answer<span class="govuk-visually-hidden"> Would the development affect a protected species?</span></a>
+                            </dd>
+                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in an area of special control of advertisements?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-special-control">Answer<span class="govuk-visually-hidden"> Is the site in an area of special control of advertisements?</span></a>
                                 </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Green belt</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Area of outstanding natural beauty</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the appeal site in an area of outstanding natural beauty?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Designated sites</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites">Answer<span class="govuk-visually-hidden"> Is the development in, near or likely to affect any designated sites?</span></a>
+                            </dd>
                         </div>
                     </dl>
                 </li>
@@ -12805,6 +13282,135 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commerci
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the affect-listed-building question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="affectsListedBuilding-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Does the proposed development affect the setting of listed buildings?</h1>
+                        </legend>
+                        <div id="affectsListedBuilding-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="affectsListedBuilding" name="affectsListedBuilding"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="affectsListedBuilding">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="affectsListedBuilding-2" name="affectsListedBuilding"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="affectsListedBuilding-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the affected-listed-buildings question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-heading-l"> Tell us the list entry number</h1>
+                <p class="govuk-body">Add the Historic England listed entry number for the building or site.</p>
+                <p
+                class="govuk-body">You can add another building or site later, if needed.</p>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="affectedListedBuildingNumber">Seven digit number</label>
+                        <div id="affectedListedBuildingNumber-hint"
+                        class="govuk-hint"></div>
+                        <input class="govuk-input govuk-input--width-10" id="affectedListedBuildingNumber"
+                        name="affectedListedBuildingNumber" type="text" value="" aria-describedby="affectedListedBuildingNumber-hint">
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the area-of-outstanding-natural-beauty question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="areaOutstandingBeauty-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the appeal site in an area of outstanding natural beauty?</h1>
+                        </legend>
+                        <div id="areaOutstandingBeauty-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="areaOutstandingBeauty" name="areaOutstandingBeauty"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="areaOutstandingBeauty">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="areaOutstandingBeauty-2" name="areaOutstandingBeauty"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="areaOutstandingBeauty-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the area-special-control question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -12851,6 +13457,52 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commerci
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the conservation-area question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="conservationArea-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the site in, or next to a conservation area?</h1>
+                        </legend>
+                        <div id="conservationArea-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="conservationArea" name="conservationArea"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="conservationArea">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="conservationArea-2" name="conservationArea"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="conservationArea-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the correct-appeal-type question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -12866,7 +13518,7 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commerci
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="correctAppealType-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is a commercial advertisement (cas) appeal the correct type of appeal?</h1>
+                            <h1 class="govuk-fieldset__heading"> Is a commercial advertisement (CAS) appeal the correct type of appeal?</h1>
                         </legend>
                         <div id="correctAppealType-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -12879,6 +13531,133 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commerci
                                 <input class="govuk-radios__input" id="correctAppealType-2" name="correctAppealType"
                                 type="radio" value="no" data-cy="answer-no">
                                 <label class="govuk-label govuk-radios__label" for="correctAppealType-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the designated-sites question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="designatedSites-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
+                        </legend>
+                        <div id="designatedSites-hint" class="govuk-hint"></div>
+                        <div class="govuk-checkboxes govuk-checkboxes" data-module="govuk-checkboxes">
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites" name="designatedSites"
+                                type="checkbox" value="SSSI" data-cy="answer-SSSI">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites">SSSI (site of special scientific interest)</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites-2" name="designatedSites"
+                                type="checkbox" value="cSAC" data-cy="answer-cSAC">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites-2">cSAC (candidate special area of conservation)</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites-3" name="designatedSites"
+                                type="checkbox" value="SAC" data-cy="answer-SAC">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites-3">SAC (special area of conservation)</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites-4" name="designatedSites"
+                                type="checkbox" value="pSPA" data-cy="answer-pSPA">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites-4">pSPA (potential special protection area)</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites-5" name="designatedSites"
+                                type="checkbox" value="SPA" data-cy="answer-SPA">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites-5">SPA Ramsar (Ramsar special protection area)</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites-6" name="designatedSites"
+                                type="checkbox" value="other" data-aria-controls="conditional-designatedSites-6"
+                                data-cy="answer-other">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites-6">Other</label>
+                            </div>
+                            <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                            id="conditional-designatedSites-6">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="designatedSites_otherDesignations">Other designation(s)</label>
+                                    <input class="govuk-input" id="designatedSites_otherDesignations"
+                                    name="designatedSites_otherDesignations" type="text" value="">
+                                </div>
+                            </div>
+                            <div class="govuk-checkboxes__divider">or</div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="designatedSites-8" name="designatedSites"
+                                type="checkbox" value="None" data-behaviour="exclusive" data-cy="answer-None">
+                                <label class="govuk-label govuk-checkboxes__label" for="designatedSites-8">No, it is not in, near or likely to affect any designated sites</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the green-belt question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="greenBelt-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the site in a green belt?</h1>
+                        </legend>
+                        <div id="greenBelt-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="greenBelt" name="greenBelt" type="radio"
+                                value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="greenBelt">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="greenBelt-2" name="greenBelt" type="radio"
+                                value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="greenBelt-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -12967,6 +13746,52 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commerci
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the protected-species question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="protectedSpecies-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Would the development affect a protected species?</h1>
+                        </legend>
+                        <div id="protectedSpecies-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="protectedSpecies" name="protectedSpecies"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="protectedSpecies">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="protectedSpecies-2" name="protectedSpecies"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="protectedSpecies-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the public-safety question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -13004,6 +13829,97 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commerci
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
             </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the scheduled-monument question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="affectsScheduledMonument-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Would the development affect a scheduled monument?</h1>
+                        </legend>
+                        <div id="affectsScheduledMonument-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="affectsScheduledMonument" name="affectsScheduledMonument"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="affectsScheduledMonument">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="affectsScheduledMonument-2" name="affectsScheduledMonument"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="affectsScheduledMonument-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the upload-conservation-area-map-guidance question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Constraints, designations and other issues</span>
+            <h1
+            class="govuk-heading-l">Upload conservation map and guidance</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadConservation">Upload files</label>
+                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
+                                    1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadConservation" name="uploadConservation" type="file" aria-describedby="uploadConservation-hint"
+                                multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -13085,17 +14001,55 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) renders 
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">1. </span> Constraints, designations and other issues<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is a commercial advertisement (cas) appeal the correct type of appeal?</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is a commercial advertisement (CAS) appeal the correct type of appeal?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development affect the setting of listed buildings?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a scheduled monument</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/scheduled-monument">Answer<span class="govuk-visually-hidden"> Would the development affect a scheduled monument?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Conservation area</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Protected species</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/protected-species">Answer<span class="govuk-visually-hidden"> Would the development affect a protected species?</span></a>
+                            </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in an area of special control of advertisements?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-special-control">Answer<span class="govuk-visually-hidden"> Is the site in an area of special control of advertisements?</span></a>
                                 </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Green belt</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Area of outstanding natural beauty</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the appeal site in an area of outstanding natural beauty?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Designated sites</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites">Answer<span class="govuk-visually-hidden"> Is the development in, near or likely to affect any designated sites?</span></a>
+                            </dd>
                         </div>
                     </dl>
                 </li>
@@ -13363,7 +14317,7 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="correctAppealType-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is a commercial planning (cas) appeal the correct type of appeal?</h1>
+                            <h1 class="govuk-fieldset__heading"> Is a commercial planning (CAS) appeal the correct type of appeal?</h1>
                         </legend>
                         <div id="correctAppealType-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -14480,7 +15434,7 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) renders listi
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">1. </span> Constraints, designations and other issues<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is a commercial planning (cas) appeal the correct type of appeal?</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is a commercial planning (CAS) appeal the correct type of appeal?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>
