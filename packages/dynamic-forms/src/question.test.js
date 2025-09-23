@@ -1,4 +1,15 @@
 const Question = require('./question');
+const AddressValidator = require('./validator/address-validator');
+const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
+const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox-validator');
+const DateValidator = require('./validator/date-validator');
+const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
+const MultifileUploadValidator = require('./validator/multifile-upload-validator');
+const NumericValidator = require('./validator/numeric-validator');
+const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
+const RequiredValidator = require('./validator/required-validator');
+const StringValidator = require('./validator/string-validator');
+const UnitOptionEntryValidator = require('./validator/unit-option-entry-validator');
 
 const APPEAL_TYPE = '<appeal type>';
 const res = {
@@ -579,6 +590,95 @@ describe('./src/dynamic-forms/question.js', () => {
 					}
 				]
 			});
+		});
+	});
+	describe('isRequired', () => {
+		const question = getTestQuestion();
+		const getClamAVClient = jest.fn();
+		const defaultFileUploadValidatorParams = {
+			allowedFileTypes: ['application/msword'],
+			maxUploadSize: 1024 * 1024 * 1024,
+			getClamAVClient
+		};
+
+		it('should return true if validators includes requiredValidator', () => {
+			question.validators = [new RequiredValidator('Question is required')];
+			expect(question.isRequired()).toEqual(true);
+		});
+		it('should return true if validators includes requiredFileValidator', () => {
+			question.validators = [new RequiredFileUploadValidator('File upload required')];
+			expect(question.isRequired()).toEqual(true);
+		});
+		it('should return true if validators includes AddressValidator', () => {
+			question.validators = [
+				new AddressValidator({
+					addressLine1MaxLength: 100,
+					addressLine1MinLength: 10,
+					addressLine2MaxLength: 100,
+					addressLine2MinLength: 10,
+					townCityMaxLength: 100,
+					townCityMinLength: 10,
+					countyMaxLength: 100,
+					countyMinLength: 10,
+					postcodeMaxLength: 100,
+					postcodeMinLength: 10
+				})
+			];
+			expect(question.isRequired()).toEqual(true);
+		});
+		it('should return true if validators includes MultiFieldInputValidator with requiredFields', () => {
+			question.validators = [
+				new MultiFieldInputValidator({
+					requiredFields: [
+						{
+							fieldName: 'contactFirstName',
+							errorMessage: 'Enter your first name',
+							maxLength: {
+								maxLength: 250,
+								maxLengthMessage: 'First name must be 250 characters or less'
+							}
+						},
+						{
+							fieldName: 'contactLastName',
+							errorMessage: 'Enter your last name',
+							maxLength: {
+								maxLength: 250,
+								maxLengthMessage: 'Last name must be 250 characters or less'
+							}
+						}
+					],
+					noInputsMessage: "Enter the applicant's name"
+				})
+			];
+			expect(question.isRequired()).toEqual(true);
+		});
+
+		it('should return false for all other validators', () => {
+			question.validators = [
+				new StringValidator({ maxLength: { maxLength: 100, maxLengthMessage: '' } }),
+				new ConditionalRequiredValidator('Enter the reason'),
+				new UnitOptionEntryValidator({
+					errorMessage: 'Enter the area of the appeal site',
+					unit: 'Appeal site area'
+				}),
+				new DateValidator('the date you submitted your application', {
+					ensurePast: true
+				}),
+				new NumericValidator({
+					regex: new RegExp(`^[0-9]{0,100}$`, 'gi'),
+					regexMessage: 'Enter the number of witnesses using numbers 0 to 9',
+					max: 10,
+					maxMessage: `Number of witnesses must be 10 or less`,
+					fieldName: 'appellantPreferInquiryWitnesses'
+				}),
+				new ConfirmationCheckboxValidator({
+					checkboxName: 'sensitiveInformationCheckbox',
+					errorMessage:
+						'You must confirm that you have not included any sensitive information in your final comments'
+				}),
+				new MultifileUploadValidator(defaultFileUploadValidatorParams)
+			];
+			expect(question.isRequired()).toEqual(false);
 		});
 	});
 });

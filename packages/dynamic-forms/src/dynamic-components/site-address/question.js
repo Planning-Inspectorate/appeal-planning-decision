@@ -44,6 +44,7 @@ class SiteAddressQuestion extends Question {
 		);
 
 		this.url = url;
+		this.methodOverrides = methodOverrides;
 	}
 
 	/**
@@ -87,6 +88,15 @@ class SiteAddressQuestion extends Question {
 				county: address.county || '',
 				postcode: address.postcode || ''
 			};
+		}
+		if (this.methodOverrides && this.methodOverrides.createAppealSiteGridReferenceLink) {
+			const createAppealSiteGridReferenceLink =
+				this.methodOverrides.createAppealSiteGridReferenceLink;
+			viewModel.appealSiteGridReferenceLink = createAppealSiteGridReferenceLink(
+				this.fieldName,
+				journey,
+				section
+			);
 		}
 
 		return viewModel;

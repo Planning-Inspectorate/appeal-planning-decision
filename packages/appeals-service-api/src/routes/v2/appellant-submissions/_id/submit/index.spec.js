@@ -140,6 +140,8 @@ module.exports = ({
 			siteAddressCounty: 'Somewhere',
 			siteAddressPostcode: 'SOM3 W3R',
 			siteAreaSquareMetres: 100,
+			siteGridReferenceEasting: null,
+			siteGridReferenceNorthing: null,
 			floorSpaceSquareMetres: 100,
 			siteSafetyDetails: ['Safety details'],
 			siteAccessDetails: ['Access details'],

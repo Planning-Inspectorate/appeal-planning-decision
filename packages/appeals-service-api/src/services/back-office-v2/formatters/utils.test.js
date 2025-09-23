@@ -8,7 +8,8 @@ const {
 	formatYesNoSomeAnswer,
 	createInterestedPartyNewUser,
 	getDevelopmentType,
-	getDesignatedSiteNames
+	getDesignatedSiteNames,
+	siteAddressAndGridReferenceAreMissing
 } = require('./utils');
 const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
@@ -411,6 +412,48 @@ describe('utils.js', () => {
 		it('should filter out empty otherDesignations', () => {
 			const answers = { designatedSites: 'SPA,', designatedSites_otherDesignations: '' };
 			expect(getDesignatedSiteNames(answers)).toEqual(['SPA']);
+		});
+	});
+
+	describe('siteAddressAndGridReferenceAreMissing', () => {
+		const address = {
+			postcode: 'postcode',
+			id: 'id',
+			addressLine1: 'addressLine1',
+			addressLine2: 'addressLine2',
+			townCity: 'town',
+			county: 'county',
+			questionnaireId: 'qId',
+			appellantSubmissionId: 'subId',
+			fieldName: 'siteAddress'
+		};
+
+		//Both considered missing
+		it('should be true if site address is undefined and both grid references values are null', () => {
+			expect(siteAddressAndGridReferenceAreMissing(undefined, null, null)).toEqual(true);
+		});
+		it('should be true if site address is undefined, gridReference easting is defined and gridReferenceNorthing is null', () => {
+			expect(siteAddressAndGridReferenceAreMissing(undefined, '123456', null)).toEqual(true);
+		});
+		it('should be true if site address is undefined, gridReference easting is null and gridReferenceNorthing is defined', () => {
+			expect(siteAddressAndGridReferenceAreMissing(undefined, null, '654321')).toEqual(true);
+		});
+
+		//At least one answered fully
+		it('should be false if site address is undefined and both grid references values are not null', () => {
+			expect(siteAddressAndGridReferenceAreMissing(undefined, '123456', '654321')).toEqual(false);
+		});
+		it('should be false if site address is defined and both grid reference values are null', () => {
+			expect(siteAddressAndGridReferenceAreMissing(address, null, null)).toEqual(false);
+		});
+		it('should be false if site address is undefined, gridReference easting is defined and gridReferenceNorthing is null', () => {
+			expect(siteAddressAndGridReferenceAreMissing(address, '123456', null)).toEqual(false);
+		});
+		it('should be false if site address is undefined, gridReference easting is null and gridReferenceNorthing is defined', () => {
+			expect(siteAddressAndGridReferenceAreMissing(address, null, '654321')).toEqual(false);
+		});
+		it('should be false if site address is defined and both grid reference values are not null', () => {
+			expect(siteAddressAndGridReferenceAreMissing(address, '123456', '654321')).toEqual(false);
 		});
 	});
 });

@@ -12,7 +12,17 @@ condition: () => questionHasAnswer(response, questions.applicationName, 'no');
 - multi-field-input `/contact-details/` Contact details
 - single-line-input `/phone-number/` What is your phone number?
 - address-entry `/appeal-site-address/` What is the address of the appeal site?
-- multi-field-input `/appeal-site-grid-reference/` Enter the grid reference
+
+```js
+condition: () => !shouldDisplayGridReference(response);
+```
+
+- multi-field-input `/grid-reference/` Enter the grid reference
+
+```js
+condition: () => shouldDisplayGridReference(response);
+```
+
 - boolean `/highway-land/` Is the appeal site on highway land?
 - boolean `/advertisement-position/` Is the advertisement in position?
 - boolean `/green-belt/` Is the appeal site in a green belt?

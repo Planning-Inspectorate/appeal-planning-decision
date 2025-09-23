@@ -13,7 +13,8 @@ const {
 const {
 	shouldDisplayIdentifyingLandowners,
 	shouldDisplayTellingLandowners,
-	shouldDisplayUploadDecisionLetter
+	shouldDisplayUploadDecisionLetter,
+	shouldDisplayGridReference
 } = require('../display-questions');
 
 /**
@@ -33,8 +34,9 @@ const makeSections = (response) => [
 		.addQuestion(questions.contactDetails)
 		.addQuestion(questions.contactPhoneNumber)
 		.addQuestion(questions.appealSiteAddress)
-		// TODO - remove question from sections once linking with appealSiteAddress complete
+		.withCondition(() => !shouldDisplayGridReference(response))
 		.addQuestion(questions.appealSiteGridReference)
+		.withCondition(() => shouldDisplayGridReference(response))
 		.addQuestion(questions.highwayLand)
 		.addQuestion(questions.advertInPosition)
 		.addQuestion(questions.appellantGreenBelt)
