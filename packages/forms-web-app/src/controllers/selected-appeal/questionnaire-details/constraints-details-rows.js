@@ -118,7 +118,7 @@ exports.constraintsRows = (caseData) => {
 			condition: () => isNotUndefinedOrNull(caseData.isGreenBelt)
 		},
 		{
-			keyText: 'Area of outstanding natural beauty',
+			keyText: 'Is the site in a national landscape?',
 			valueText: formatYesOrNo(caseData, 'areaOutstandingBeauty'),
 			condition: () => isNotUndefinedOrNull(caseData.areaOutstandingBeauty)
 		},

@@ -924,10 +924,11 @@ exports.questionProps = {
 	},
 	areaOfOutstandingNaturalBeauty: {
 		type: 'boolean',
-		title: 'Area of outstanding natural beauty',
-		question: 'Is the appeal site in an area of outstanding natural beauty?',
+		title: 'Is the site in a national landscape?',
+		question: 'Is the site in a national landscape?',
 		fieldName: 'areaOutstandingBeauty',
 		url: 'area-of-outstanding-natural-beauty',
+		hint: 'A national landscape used to be called an ‘area of outstanding natural beauty’.',
 		validators: [
 			new RequiredValidator(
 				'Select yes if the appeal site is in an area of outstanding natural beauty'

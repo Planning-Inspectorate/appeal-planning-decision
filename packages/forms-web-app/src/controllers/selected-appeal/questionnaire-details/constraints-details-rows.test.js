@@ -52,7 +52,7 @@ describe('constraintsRows', () => {
 		},
 		{ title: 'Protected species', value: 'Yes' },
 		{ title: 'Green belt', value: 'Yes' },
-		{ title: 'Area of outstanding natural beauty', value: 'Yes' },
+		{ title: 'Is the site in a national landscape?', value: 'Yes' },
 		{ title: 'Designated sites', value: 'Site A\nSite B' },
 		{ title: 'Tree Preservation Order', value: 'Yes' },
 		{
@@ -219,7 +219,9 @@ describe('constraintsRows', () => {
 		expect(rows[GREEN_BELT_ROW].valueText).toEqual('No');
 
 		expect(rows[AREA_OUTSTANDING_BEAUTY_ROW].condition()).toEqual(true);
-		expect(rows[AREA_OUTSTANDING_BEAUTY_ROW].keyText).toEqual('Area of outstanding natural beauty');
+		expect(rows[AREA_OUTSTANDING_BEAUTY_ROW].keyText).toEqual(
+			'Is the site in a national landscape?'
+		);
 		expect(rows[AREA_OUTSTANDING_BEAUTY_ROW].valueText).toEqual('No');
 
 		expect(rows[DESIGNATED_SITES_ROW].condition()).toEqual(true);

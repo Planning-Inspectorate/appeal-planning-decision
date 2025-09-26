@@ -119,7 +119,7 @@ describe('CAS advert LPAQ sections', () => {
 		);
 		expect(
 			journey.sections[CONSTRAINTS_SECTION_INDEX].questions[NATIONAL_LANDSCAPE_INDEX].question
-		).toBe('Is the appeal site in an area of outstanding natural beauty?');
+		).toBe('Is the site in a national landscape?');
 		expect(
 			journey.sections[CONSTRAINTS_SECTION_INDEX].questions[DESIGNATED_SITES_INDEX].question
 		).toBe('Is the development in, near or likely to affect any designated sites?');
