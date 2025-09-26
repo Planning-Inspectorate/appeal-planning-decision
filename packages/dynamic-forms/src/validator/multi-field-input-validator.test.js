@@ -15,6 +15,10 @@ const testRequiredField1 = {
 	regex: {
 		regex: '^\\d',
 		regexMessage: 'test regex message 1'
+	},
+	lessThan: {
+		lessThan: 124,
+		lessThanMessage: 'test less than message'
 	}
 };
 
@@ -59,6 +63,18 @@ describe('src/dynamic-forms/validator/multi-field-input-validator.js', () => {
 
 		expect(Object.keys(errors).length).toEqual(1);
 		expect(errors[testRequiredField1.fieldName].msg).toBe(testRequiredField1.errorMessage);
+	});
+
+	it('should only invalidate a missing required field for multipleRequiredFields', async () => {
+		const req = {
+			body: {}
+		};
+
+		const errors = await _validationMappedErrors(req, multipleRequiredFields);
+
+		expect(Object.keys(errors).length).toEqual(2);
+		expect(errors[testRequiredField1.fieldName].msg).toBe(testRequiredField1.errorMessage);
+		expect(errors[testRequiredField2.fieldName].msg).toBe(testRequiredField2.errorMessage);
 	});
 
 	it('should invalidate multiple missing required fields', async () => {
@@ -116,6 +132,46 @@ describe('src/dynamic-forms/validator/multi-field-input-validator.js', () => {
 		expect(Object.keys(errors).length).toEqual(1);
 		expect(errors[testRequiredField1.fieldName].msg).toBe(testRequiredField1.regex.regexMessage);
 	});
+
+	it('should invalidate a required entry that fails a less than requirement', async () => {
+		const req = {
+			body: {
+				testField1: '125'
+			}
+		};
+
+		const errors = await _validationMappedErrors(req, singleRequiredField);
+
+		expect(Object.keys(errors).length).toEqual(1);
+		expect(errors[testRequiredField1.fieldName].msg).toBe(
+			testRequiredField1.lessThan.lessThanMessage
+		);
+	});
+
+	it('should invalidate a supplied required entry that fails multiple validation requirements and return all errors', async () => {
+		const req = {
+			body: {
+				testField1: 'as',
+				testField2: ''
+			}
+		};
+
+		const errors = await _validationMappedErrors(req, multipleRequiredFields);
+
+		expect(Object.keys(errors).length).toEqual(4);
+
+		const testField1Errors = errors.filter((e) => e.path === testRequiredField1.fieldName);
+		expect(testField1Errors.length).toEqual(3);
+		expect(testField1Errors.map((e) => e.msg)).toEqual([
+			testRequiredField1.minLength.minLengthMessage,
+			testRequiredField1.regex.regexMessage,
+			testRequiredField1.lessThan.lessThanMessage
+		]);
+
+		const testField2Errors = errors.find((e) => e.path === testRequiredField2.fieldName);
+		expect(testField2Errors).toBeDefined();
+		expect(testField2Errors?.msg).toBe(testRequiredField2.errorMessage);
+	});
 });
 
 const _validationMappedErrors = async (req, options) => {
@@ -127,5 +183,5 @@ const _validationMappedErrors = async (req, options) => {
 
 	const errors = validationResult(req);
 
-	return errors.mapped();
+	return errors.array();
 };

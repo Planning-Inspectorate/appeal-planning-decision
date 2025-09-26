@@ -20,12 +20,20 @@ const BaseValidator = require('./base-validator.js');
  */
 
 /**
+ * @typedef {Object} LessThan
+ * @property {Number} lessThan
+ * @property {String} lessThanMessage
+ * @property {boolean} [allowLeadingZeros]
+ */
+
+/**
  * @typedef {Object} RequiredField
  * @property {string} fieldName
  * @property {string} errorMessage
  * @property {MinLength} [minLength]
  * @property {MaxLength} [maxLength]
  * @property {Regex} [regex]
+ * @property {LessThan} [lessThan]
  */
 
 class MultiFieldInputValidator extends BaseValidator {
@@ -52,32 +60,35 @@ class MultiFieldInputValidator extends BaseValidator {
 	validate(_question, _journeyResponse) {
 		// const requiredFieldNames = this.requiredFields.map((requiredField) => requiredField.fieldName);
 
-		let rules = [];
-
+		const rules = [];
 		// results.push(body(requiredFieldNames).notEmpty().withMessage(this.noInputsMessage));
 
 		for (const requiredField of this.requiredFields) {
-			const { minLength, maxLength, regex, fieldName, errorMessage } = requiredField;
+			const { minLength, maxLength, regex, lessThan, fieldName, errorMessage } = requiredField;
 
 			const fieldBody = body(fieldName);
 
-			rules.push(fieldBody.notEmpty().withMessage(errorMessage));
+			fieldBody.notEmpty().withMessage(errorMessage).bail();
 
 			if (minLength) {
-				rules.push(
-					fieldBody.isLength({ min: minLength.minLength }).withMessage(minLength.minLengthMessage)
-				);
+				fieldBody.isLength({ min: minLength.minLength }).withMessage(minLength.minLengthMessage);
 			}
 
 			if (maxLength) {
-				rules.push(
-					fieldBody.isLength({ max: maxLength.maxLength }).withMessage(maxLength.maxLengthMessage)
-				);
+				fieldBody.isLength({ max: maxLength.maxLength }).withMessage(maxLength.maxLengthMessage);
 			}
 
 			if (regex) {
-				rules.push(fieldBody.matches(new RegExp(regex.regex)).withMessage(regex.regexMessage));
+				fieldBody.matches(new RegExp(regex.regex)).withMessage(regex.regexMessage);
 			}
+
+			if (lessThan) {
+				fieldBody
+					.isInt({ lt: lessThan.lessThan, allow_leading_zeroes: lessThan.allowLeadingZeros })
+					.withMessage(lessThan.lessThanMessage);
+			}
+
+			rules.push(fieldBody);
 		}
 
 		return rules;

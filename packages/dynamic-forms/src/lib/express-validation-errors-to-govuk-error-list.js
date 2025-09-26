@@ -1,6 +1,6 @@
 /**
  * @typedef {Array<{text: string, href: string}>} Result
- * @param {Record<String, {msg: string}>} expressValidationErrors
+ * @param {Record<String, {msg: string, path: string}>} expressValidationErrors
  * @returns {Result}
  */
 const expressValidationErrorsToGovUkErrorList = (expressValidationErrors) => {
@@ -14,7 +14,7 @@ const expressValidationErrorsToGovUkErrorList = (expressValidationErrors) => {
 	Object.keys(expressValidationErrors).forEach((key) => {
 		mappedErrors.push({
 			text: expressValidationErrors[key].msg,
-			href: `#${key}`
+			href: `#${expressValidationErrors[key].path}`
 		});
 	});
 
