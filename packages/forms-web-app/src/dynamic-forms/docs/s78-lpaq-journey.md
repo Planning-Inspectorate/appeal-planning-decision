@@ -27,7 +27,7 @@ condition: () => questionHasAnswer(response, questions.conservationArea, 'yes');
 
 - boolean `/protected-species/` Would the development affect a protected species?
 - boolean `/green-belt/` Is the site in a green belt?
-- boolean `/area-of-outstanding-natural-beauty/` Is the appeal site in an area of outstanding natural beauty?
+- boolean `/area-of-outstanding-natural-beauty/` Is the site in a national landscape?
 - checkbox `/designated-sites/` Is the development in, near or likely to affect any designated sites?
 - boolean `/tree-preservation-order/` Does a Tree Preservation Order (TPO) apply to any part of the appeal site?
 - multi-file-upload `/upload-plan-showing-order/` Upload a plan showing the extent of the order

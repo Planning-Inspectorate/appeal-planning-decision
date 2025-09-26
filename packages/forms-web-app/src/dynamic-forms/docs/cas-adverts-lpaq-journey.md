@@ -21,7 +21,7 @@ condition: () => questionHasAnswer(response, questions.conservationArea, 'yes');
 - boolean `/protected-species/` Would the development affect a protected species?
 - boolean `/area-special-control/` Is the site in an area of special control of advertisements?
 - boolean `/green-belt/` Is the site in a green belt?
-- boolean `/area-of-outstanding-natural-beauty/` Is the appeal site in an area of outstanding natural beauty?
+- boolean `/area-of-outstanding-natural-beauty/` Is the site in a national landscape?
 - checkbox `/designated-sites/` Is the development in, near or likely to affect any designated sites?
 
 ## Notifying relevant parties

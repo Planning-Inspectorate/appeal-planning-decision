@@ -12585,9 +12585,10 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="areaOutstandingBeauty-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the appeal site in an area of outstanding natural beauty?</h1>
+                            <h1 class="govuk-fieldset__heading"> Is the site in a national landscape?</h1>
                         </legend>
-                        <div id="areaOutstandingBeauty-hint" class="govuk-hint"></div>
+                        <div id="areaOutstandingBeauty-hint" class="govuk-hint">A national landscape used to be called an ‘area of outstanding natural
+                            beauty’.</div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="areaOutstandingBeauty" name="areaOutstandingBeauty"
@@ -14497,10 +14498,10 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Area of outstanding natural beauty</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in a national landscape?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the appeal site in an area of outstanding natural beauty?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the site in a national landscape?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Designated sites</dt>
@@ -14879,9 +14880,10 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commerci
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="areaOutstandingBeauty-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the appeal site in an area of outstanding natural beauty?</h1>
+                            <h1 class="govuk-fieldset__heading"> Is the site in a national landscape?</h1>
                         </legend>
-                        <div id="areaOutstandingBeauty-hint" class="govuk-hint"></div>
+                        <div id="areaOutstandingBeauty-hint" class="govuk-hint">A national landscape used to be called an ‘area of outstanding natural
+                            beauty’.</div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="areaOutstandingBeauty" name="areaOutstandingBeauty"
@@ -16791,10 +16793,10 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) renders 
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Area of outstanding natural beauty</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in a national landscape?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the appeal site in an area of outstanding natural beauty?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the site in a national landscape?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Designated sites</dt>
@@ -20257,9 +20259,10 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the are
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="areaOutstandingBeauty-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the appeal site in an area of outstanding natural beauty?</h1>
+                            <h1 class="govuk-fieldset__heading"> Is the site in a national landscape?</h1>
                         </legend>
-                        <div id="areaOutstandingBeauty-hint" class="govuk-hint"></div>
+                        <div id="areaOutstandingBeauty-hint" class="govuk-hint">A national landscape used to be called an ‘area of outstanding natural
+                            beauty’.</div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="areaOutstandingBeauty" name="areaOutstandingBeauty"
@@ -23418,9 +23421,10 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="areaOutstandingBeauty-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the appeal site in an area of outstanding natural beauty?</h1>
+                            <h1 class="govuk-fieldset__heading"> Is the site in a national landscape?</h1>
                         </legend>
-                        <div id="areaOutstandingBeauty-hint" class="govuk-hint"></div>
+                        <div id="areaOutstandingBeauty-hint" class="govuk-hint">A national landscape used to be called an ‘area of outstanding natural
+                            beauty’.</div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="areaOutstandingBeauty" name="areaOutstandingBeauty"
@@ -26665,10 +26669,10 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Area of outstanding natural beauty</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in a national landscape?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the appeal site in an area of outstanding natural beauty?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the site in a national landscape?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Designated sites</dt>
@@ -26968,10 +26972,10 @@ exports[`Dynamic forms journey tests lpa Planning renders listing page 1`] = `
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Area of outstanding natural beauty</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in a national landscape?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the appeal site in an area of outstanding natural beauty?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the site in a national landscape?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Designated sites</dt>
