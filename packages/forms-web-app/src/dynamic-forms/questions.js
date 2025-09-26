@@ -1868,7 +1868,47 @@ exports.questionProps = {
 				formatJoinString: ' '
 			}
 		],
-		validators: []
+		validators: [
+			new MultiFieldInputValidator({
+				requiredFields: [
+					{
+						fieldName: 'siteGridReferenceEasting',
+						errorMessage: 'Enter the eastings grid reference',
+						regex: {
+							regex: new RegExp(`^[0-9]*$`, 'gi'),
+							regexMessage: 'Eastings must only include numbers 0 to 9'
+						},
+						minLength: {
+							minLength: 6,
+							minLengthMessage: 'Eastings must be at least 6 digits'
+						},
+						lessThan: {
+							lessThan: 692201,
+							lessThanMessage: 'Eastings must be 692200 or less',
+							allowLeadingZeros: true
+						}
+					},
+					{
+						fieldName: 'siteGridReferenceNorthing',
+						errorMessage: 'Enter the northings grid reference',
+						regex: {
+							regex: new RegExp(`^[0-9]*$`, 'gi'),
+							regexMessage: 'Northings must only include numbers 0 to 9'
+						},
+						minLength: {
+							minLength: 6,
+							minLengthMessage: 'Northings must be at least 6 digits'
+						},
+						lessThan: {
+							lessThan: 1300000,
+							lessThanMessage: 'Northings must be 1299999 or less',
+							allowLeadingZeros: true
+						}
+					}
+				],
+				noInputsMessage: 'Enter the eastings and northings grid references'
+			})
+		]
 	},
 	s78SiteArea: {
 		type: 'unit-option',
