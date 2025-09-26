@@ -8,24 +8,32 @@ const {
 const {
 	createTestRepresentationPayload
 } = require('../../../../../../__tests__/developer/fixtures/representation-data');
-let validUser = '';
+let validUserId = '';
+let invalidUserId = '';
 const email = crypto.randomUUID() + '@example.com';
+const invalidUserEmail = crypto.randomUUID() + '@example.com';
 const validLpa = 'Q9999';
 const testCase1 = '7845678';
 const testCase2 = '7834587';
 const testCase3 = '7834588';
+const testCase4 = '7834589';
 
 /**
  * @param {Object} dependencies
  * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
  * @param {function(string): void} dependencies.setCurrentSub
- * @param {function(string, string): void} dependencies.setCurrentLpa
+ * @param {function(string|undefined, string|undefined): void} dependencies.setCurrentLpa
  * @param {import('supertest').Agent} dependencies.appealsApi
  */
 module.exports = ({ getSqlClient, setCurrentSub, setCurrentLpa, appealsApi }) => {
 	const sqlClient = getSqlClient();
 
 	beforeAll(async () => {
+		const invalidUser = await sqlClient.appealUser.create({
+			data: {
+				email: invalidUserEmail
+			}
+		});
 		const user = await sqlClient.appealUser.create({
 			data: {
 				email
@@ -56,11 +64,12 @@ module.exports = ({ getSqlClient, setCurrentSub, setCurrentLpa, appealsApi }) =>
 				}
 			]
 		});
-		validUser = user.id;
+		invalidUserId = invalidUser.id;
+		validUserId = user.id;
 	});
 
 	beforeEach(() => {
-		setCurrentSub(validUser);
+		setCurrentSub(validUserId);
 		setCurrentLpa(validLpa, email);
 	});
 
@@ -75,7 +84,7 @@ module.exports = ({ getSqlClient, setCurrentSub, setCurrentLpa, appealsApi }) =>
 			data: {
 				Users: {
 					create: {
-						userId: validUser,
+						userId: validUserId,
 						role: APPEAL_USER_ROLES.APPELLANT
 					}
 				},
@@ -160,6 +169,38 @@ module.exports = ({ getSqlClient, setCurrentSub, setCurrentLpa, appealsApi }) =>
 						})
 					])
 				);
+			});
+
+			it('should error for user with no roles', async () => {
+				const testRepId1 = '5678';
+				const testRepId2 = '9876';
+				await createAppeal(testCase4);
+
+				const testGetRepresentation1 = createTestRepresentationPayload(
+					testRepId1,
+					testCase4,
+					REPRESENTATION_TYPES.STATEMENT
+				);
+				const testGetRepresentation2 = createTestRepresentationPayload(
+					testRepId2,
+					testCase4,
+					REPRESENTATION_TYPES.FINAL_COMMENT,
+					'citizen'
+				);
+
+				await appealsApi
+					.put(`/api/v2/appeal-cases/${testCase4}/representations/${testRepId1}`)
+					.send(testGetRepresentation1);
+
+				await appealsApi
+					.put(`/api/v2/appeal-cases/${testCase4}/representations/${testRepId2}`)
+					.send(testGetRepresentation2);
+
+				setCurrentSub(invalidUserId);
+				setCurrentLpa(undefined, invalidUserEmail);
+
+				const response = await appealsApi.get(`/api/v2/appeal-cases/${testCase4}/representations`);
+				expect(response.status).toEqual(403);
 			});
 
 			it('should retrieve representations filtered by type', async () => {

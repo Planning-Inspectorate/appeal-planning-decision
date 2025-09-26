@@ -699,6 +699,9 @@ class AppealCaseRepository {
 				}
 			});
 
+			if (!caseAndRoles?.Appeal?.Users?.length)
+				throw new Error(`${userId} has no role on case: ${caseReference}`);
+
 			return {
 				canModify: true,
 				roles: caseAndRoles?.Appeal?.Users || []
