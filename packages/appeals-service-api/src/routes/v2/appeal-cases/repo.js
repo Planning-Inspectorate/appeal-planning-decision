@@ -60,6 +60,7 @@ const dashboardSelect = {
 	caseStartedDate: true,
 	casePublishedDate: true,
 	caseWithdrawnDate: true,
+	caseTransferredDate: true,
 	caseDecisionOutcomeDate: true,
 
 	// lpaq dates
