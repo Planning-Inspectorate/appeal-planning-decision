@@ -15,7 +15,7 @@ describe('lib/express-validation-errors-to-govuk-error-list', () => {
 				'a-form-field-key': {
 					value: undefined,
 					msg: 'You need to select a response',
-					param: 'a-form-field-key',
+					path: 'a-form-field-key',
 					location: 'body'
 				}
 			},
@@ -32,13 +32,13 @@ describe('lib/express-validation-errors-to-govuk-error-list', () => {
 				'a-form-field-key': {
 					value: undefined,
 					msg: 'You need to select a response',
-					param: 'a-form-field-key',
+					path: 'a-form-field-key',
 					location: 'body'
 				},
 				'another-form-field-key': {
 					value: 7,
 					msg: 'Value should be a string',
-					param: 'another-form-field-key',
+					path: 'another-form-field-key',
 					location: 'body'
 				}
 			},

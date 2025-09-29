@@ -61,8 +61,10 @@ describe('src/dynamic-forms/validator/multi-field-input-validator.js', () => {
 
 		const errors = await _validationMappedErrors(req, singleRequiredField);
 
+		const testField1Errors = errors.find((e) => e.path === testRequiredField1.fieldName);
+
 		expect(Object.keys(errors).length).toEqual(1);
-		expect(errors[testRequiredField1.fieldName].msg).toBe(testRequiredField1.errorMessage);
+		expect(testField1Errors?.msg).toBe(testRequiredField1.errorMessage);
 	});
 
 	it('should only invalidate a missing required field for multipleRequiredFields', async () => {
@@ -72,9 +74,12 @@ describe('src/dynamic-forms/validator/multi-field-input-validator.js', () => {
 
 		const errors = await _validationMappedErrors(req, multipleRequiredFields);
 
+		const testField1Errors = errors.find((e) => e.path === testRequiredField1.fieldName);
+		const testField2Errors = errors.find((e) => e.path === testRequiredField2.fieldName);
+
 		expect(Object.keys(errors).length).toEqual(2);
-		expect(errors[testRequiredField1.fieldName].msg).toBe(testRequiredField1.errorMessage);
-		expect(errors[testRequiredField2.fieldName].msg).toBe(testRequiredField2.errorMessage);
+		expect(testField1Errors?.msg).toBe(testRequiredField1.errorMessage);
+		expect(testField2Errors?.msg).toBe(testRequiredField2.errorMessage);
 	});
 
 	it('should invalidate multiple missing required fields', async () => {
@@ -85,9 +90,13 @@ describe('src/dynamic-forms/validator/multi-field-input-validator.js', () => {
 		};
 
 		const errors = await _validationMappedErrors(req, multipleRequiredFields);
+
+		const testField1Errors = errors.find((e) => e.path === testRequiredField1.fieldName);
+		const testField2Errors = errors.find((e) => e.path === testRequiredField2.fieldName);
+
 		expect(Object.keys(errors).length).toEqual(2);
-		expect(errors[testRequiredField1.fieldName].msg).toBe(testRequiredField1.errorMessage);
-		expect(errors[testRequiredField2.fieldName].msg).toBe(testRequiredField2.errorMessage);
+		expect(testField1Errors?.msg).toBe(testRequiredField1.errorMessage);
+		expect(testField2Errors?.msg).toBe(testRequiredField2.errorMessage);
 	});
 
 	it('should invalidate a required entry that is too short', async () => {
@@ -99,10 +108,10 @@ describe('src/dynamic-forms/validator/multi-field-input-validator.js', () => {
 
 		const errors = await _validationMappedErrors(req, singleRequiredField);
 
+		const testField1Errors = errors.find((e) => e.path === testRequiredField1.fieldName);
+
 		expect(Object.keys(errors).length).toEqual(1);
-		expect(errors[testRequiredField1.fieldName].msg).toBe(
-			testRequiredField1.minLength.minLengthMessage
-		);
+		expect(testField1Errors?.msg).toBe(testRequiredField1.minLength.minLengthMessage);
 	});
 
 	it('should invalidate a required entry that is too long', async () => {
@@ -114,10 +123,11 @@ describe('src/dynamic-forms/validator/multi-field-input-validator.js', () => {
 
 		const errors = await _validationMappedErrors(req, singleRequiredField);
 
-		expect(Object.keys(errors).length).toEqual(1);
-		expect(errors[testRequiredField1.fieldName].msg).toBe(
-			testRequiredField1.maxLength.maxLengthMessage
-		);
+		const testField1Errors = errors.filter((e) => e.path === testRequiredField1.fieldName);
+
+		expect(Object.keys(errors).length).toEqual(2);
+		expect(testField1Errors[0]?.msg).toBe(testRequiredField1.maxLength.maxLengthMessage);
+		expect(testField1Errors[1]?.msg).toBe(testRequiredField1.lessThan.lessThanMessage);
 	});
 
 	it('should invalidate a required entry that fails a regex requirement', async () => {
@@ -129,8 +139,11 @@ describe('src/dynamic-forms/validator/multi-field-input-validator.js', () => {
 
 		const errors = await _validationMappedErrors(req, singleRequiredField);
 
-		expect(Object.keys(errors).length).toEqual(1);
-		expect(errors[testRequiredField1.fieldName].msg).toBe(testRequiredField1.regex.regexMessage);
+		const testField1Errors = errors.filter((e) => e.path === testRequiredField1.fieldName);
+
+		expect(Object.keys(errors).length).toEqual(2);
+		expect(testField1Errors[0]?.msg).toBe(testRequiredField1.regex.regexMessage);
+		expect(testField1Errors[1]?.msg).toBe(testRequiredField1.lessThan.lessThanMessage);
 	});
 
 	it('should invalidate a required entry that fails a less than requirement', async () => {
@@ -142,10 +155,10 @@ describe('src/dynamic-forms/validator/multi-field-input-validator.js', () => {
 
 		const errors = await _validationMappedErrors(req, singleRequiredField);
 
+		const testField1Errors = errors.find((e) => e.path === testRequiredField1.fieldName);
+
 		expect(Object.keys(errors).length).toEqual(1);
-		expect(errors[testRequiredField1.fieldName].msg).toBe(
-			testRequiredField1.lessThan.lessThanMessage
-		);
+		expect(testField1Errors?.msg).toBe(testRequiredField1.lessThan.lessThanMessage);
 	});
 
 	it('should invalidate a supplied required entry that fails multiple validation requirements and return all errors', async () => {
@@ -158,9 +171,11 @@ describe('src/dynamic-forms/validator/multi-field-input-validator.js', () => {
 
 		const errors = await _validationMappedErrors(req, multipleRequiredFields);
 
+		const testField1Errors = errors.filter((e) => e.path === testRequiredField1.fieldName);
+		const testField2Errors = errors.find((e) => e.path === testRequiredField2.fieldName);
+
 		expect(Object.keys(errors).length).toEqual(4);
 
-		const testField1Errors = errors.filter((e) => e.path === testRequiredField1.fieldName);
 		expect(testField1Errors.length).toEqual(3);
 		expect(testField1Errors.map((e) => e.msg)).toEqual([
 			testRequiredField1.minLength.minLengthMessage,
@@ -168,7 +183,6 @@ describe('src/dynamic-forms/validator/multi-field-input-validator.js', () => {
 			testRequiredField1.lessThan.lessThanMessage
 		]);
 
-		const testField2Errors = errors.find((e) => e.path === testRequiredField2.fieldName);
 		expect(testField2Errors).toBeDefined();
 		expect(testField2Errors?.msg).toBe(testRequiredField2.errorMessage);
 	});
