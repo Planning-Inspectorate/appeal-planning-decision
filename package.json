@@ -156,7 +156,7 @@
 		"puppeteer-core": "^24.22.0",
 		"stream-json": "^1.8.0",
 		"swagger-jsdoc": "^6.2.8",
-		"swagger-typescript-api": "^13.2.7",
+		"swagger-typescript-api": "^13.2.13",
 		"swagger-ui-express": "^5.0.1",
 		"uuid": "^11.1.0",
 		"yup": "^0.32.9"
