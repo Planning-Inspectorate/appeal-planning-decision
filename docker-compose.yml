@@ -10,7 +10,7 @@ version: '3.7'
 services:
   auth-server:
     profiles: ['all', 'api', 'appeals', 'comment', 'documents']
-    image: node:22-alpine3.20
+    image: node:22-alpine3.22
     environment:
       # Logging
       LOGGER_LEVEL: 'debug'
@@ -71,7 +71,7 @@ services:
 
   appeals-service-api:
     profiles: ['all', 'api', 'appeals', 'comment']
-    image: node:22-alpine3.20
+    image: node:22-alpine3.22
     environment:
       APP_APPEALS_BASE_URL: http://forms-web-app:9003
       APP_LPA_QUESTIONNAIRE_BASE_URL: http://lpa-questionnaire-web-app:9001
@@ -141,7 +141,7 @@ services:
 
   document-service-api: &document-service
     profiles: ['all', 'api', 'appeals', 'documents']
-    image: node:22-alpine3.20
+    image: node:22-alpine3.22
     environment:
       AUTH_BASE_URL: http://auth-server:3000
       BO_STORAGE_CONTAINER_HOST: http://localhost:4004/devstoreaccount1/
@@ -187,7 +187,7 @@ services:
 
   forms-web-app:
     profiles: ['all', 'appeals']
-    image: node:22-alpine3.20
+    image: node:22-alpine3.22
     environment:
       ALLOW_TESTING_OVERRIDES: 'true'
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
