@@ -13,18 +13,19 @@
 		"build:app": "cp -Rf ./src ./dist && find ./dist -name '*.test.js' -delete",
 		"build:client": "webpack --config webpack.prod.js",
 		"build:sass": "sass src/sass/main.scss:src/public/stylesheets/main.min.css --style=compressed --load-path=./ --no-source-map",
-		"start": "node dist/server.js",
+		"start": "node dist/server.ts",
 		"start:dev:client": "webpack --config webpack.dev.js --watch",
 		"start:dev": "npm-run-all --parallel start:dev:server start:dev:client",
 		"start:dev:debug": "npm-run-all --parallel start:dev:server:debug start:dev:client",
-		"start:dev:server": "nodemon src/server.js | pino-pretty -tlc",
-		"start:dev:server:debug": "nodemon --inspect=0.0.0.0 src/server.js",
+		"start:dev:server": "nodemon src/server.ts | pino-pretty -tlc",
+		"start:dev:server:debug": "nodemon --inspect=0.0.0.0 src/server.ts",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
 		"test": "cross-env NODE_OPTIONS=\"--expose-gc\" jest --logHeapUsage --ci --verbose",
 		"test:cov": "cross-env NODE_OPTIONS=\"--expose-gc\" jest --logHeapUsage --ci --verbose --coverage",
 		"test:update": "jest --updateSnapshot",
-		"test:watch": "jest --watchAll --runInBand"
+		"test:watch": "jest --watchAll --runInBand",
+		"tscheck": "tsc"
 	},
 	"dependencies": {
 		"@ministryofjustice/frontend": "*",
@@ -74,6 +75,7 @@
 		"sass": "*",
 		"sinon": "*",
 		"@sinonjs/fake-timers": "*",
+		"typescript": "*",
 		"webpack": "*",
 		"webpack-cli": "*",
 		"webpack-merge": "*"

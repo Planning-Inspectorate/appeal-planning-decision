@@ -1,6 +1,6 @@
 {
-	"extends": "../../jsconfig.json",
-	"include": ["**/*.js"],
+	"extends": "../../tsconfig.json",
+	"include": ["**/*.ts"],
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
@@ -8,7 +8,6 @@
 			"#middleware/*": ["./src/middleware/*.js"],
 			"#utils/*": ["./src/utils/*.js"],
 			"#tests/*": ["./__tests__/*.js"]
-		},
-		"typeRoots": ["./typings", "./node_modules/@types"]
+		}
 	}
 }

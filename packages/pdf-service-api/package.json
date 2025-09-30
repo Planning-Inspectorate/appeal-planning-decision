@@ -4,14 +4,15 @@
 	"engines": {
 		"node": ">=22.0.0 <23.0.0"
 	},
-	"main": "src/main.js",
+	"main": "src/main.ts",
 	"scripts": {
 		"lint": "eslint ./",
 		"start": "node ./",
 		"start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
 		"test": "jest --ci --verbose",
 		"test:cov": "jest --ci --verbose --coverage",
-		"test:watch": "jest --watchAll --runInBand"
+		"test:watch": "jest --watchAll --runInBand",
+		"tscheck": "tsc"
 	},
 	"dependencies": {
 		"applicationinsights": "*",
@@ -25,6 +26,7 @@
 	"devDependencies": {
 		"jest": "*",
 		"jest-junit": "*",
-		"nodemon": "*"
+		"nodemon": "*",
+		"typescript": "*"
 	}
 }

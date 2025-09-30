@@ -11,11 +11,12 @@
 		"lint": "eslint ./",
 		"gen-client": "node ./dev/gen-client.js",
 		"gen-keys": "node ./dev/gen-keys.js",
-		"start": "node ./src/main.js",
+		"start": "node ./src/main.ts",
 		"start:dev": "nodemon ./src/main.js | pino-pretty -tlc",
 		"start:dev:debug": "nodemon --inspect=0.0.0.0 ./src/main.js",
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose",
-		"test:cov": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --coverage"
+		"test:cov": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --coverage",
+		"tscheck": "tsc"
 	},
 	"dependencies": {
 		"@pins/common": "^0.0.0",
@@ -35,7 +36,8 @@
 		"jose": "*",
 		"pino-pretty": "*",
 		"supertest": "*",
-		"testcontainers": "*"
+		"testcontainers": "*",
+		"typescript": "*"
 	},
 	"imports": {
 		"#lib/*": "./src/lib/*.js"

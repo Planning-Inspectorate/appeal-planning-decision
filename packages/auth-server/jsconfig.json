@@ -7,7 +7,9 @@
 		},
 		"checkJs": true,
 		"strict": true,
-		"moduleResolution": "node",
-		"target": "esnext"
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"target": "esnext",
+		"allowImportingTsExtensions": true
 	}
 }

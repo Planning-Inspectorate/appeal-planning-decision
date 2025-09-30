@@ -10,7 +10,8 @@
 	"scripts": {
 		"lint": "eslint ./",
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose",
-		"test:cov": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --coverage"
+		"test:cov": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --coverage",
+		"tscheck": "tsc"
 	},
 	"author": "",
 	"dependencies": {
@@ -35,6 +36,7 @@
 		"jest": "*",
 		"jest-fetch-mock": "*",
 		"jest-junit": "*",
-		"supertest": "*"
+		"supertest": "*",
+		"typescript": "*"
 	}
 }

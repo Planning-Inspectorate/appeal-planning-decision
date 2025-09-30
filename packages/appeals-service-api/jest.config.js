@@ -6,7 +6,7 @@ module.exports = {
 	coveragePathIgnorePatterns: [
 		'node_modules',
 		'<rootDir>/src/app.js',
-		'<rootDir>/src/main.js',
+		'<rootDir>/src/main.ts',
 		'<rootDir>/src/server.js',
 		'<rootDir>/src/.*\\.spec\\.js$',
 		'<rootDir>/src/.*\\.test\\.js$'

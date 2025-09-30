@@ -65,6 +65,7 @@ services:
       - ./packages/database/src/:/opt/database/src
       - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/auth-server:/opt/app
+      - ./tsconfig.json:/tsconfig.json 
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
@@ -135,6 +136,7 @@ services:
       - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/dynamic-forms:/opt/app/node_modules/@pins/dynamic-forms
       - ./packages/appeals-service-api:/opt/app
+      - ./tsconfig.json:/tsconfig.json 
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
@@ -181,6 +183,7 @@ services:
       - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/document-service-api:/opt/app
       - ./tmp/documents-upload:/tmp/upload
+      - ./tsconfig.json:/tsconfig.json 
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
@@ -236,6 +239,7 @@ services:
       - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/dynamic-forms:/opt/app/node_modules/@pins/dynamic-forms
       - ./packages/forms-web-app:/opt/app
+      - ./tsconfig.json:/tsconfig.json 
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug

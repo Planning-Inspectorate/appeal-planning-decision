@@ -15,7 +15,7 @@ try {
 		appInsights.start();
 	}
 } catch (err) {
-	logger.warn({ err }, 'Application insights failed to start: ');
+	console.warn({ err }, 'Application insights failed to start: ');
 }
 
 const http = require('http');
@@ -37,7 +37,7 @@ const server = http.createServer(app);
 /**
  * Event listener for HTTP server "error" event.
  */
-function onError(error) {
+function onError(error: any) {
 	if (error.syscall !== 'listen') {
 		throw error;
 	}

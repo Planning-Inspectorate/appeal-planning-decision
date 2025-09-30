@@ -5,7 +5,10 @@
 	"engines": {
 		"node": ">=22.0.0 <23.0.0"
 	},
-	"main": "src/main.js",
+	"main": "src/main.ts",
+	"prisma": {
+		"schema": "../database/src/schema.prisma"
+	},
 	"scripts": {
 		"doc": "node src/spec/write-api-types.js",
 		"test": "cross-env NODE_OPTIONS=\"--expose-gc --experimental-vm-modules\" jest --logHeapUsage --ci --verbose",
@@ -15,7 +18,8 @@
 		"lint:fix": "eslint ./ --fix",
 		"start": "node ./",
 		"start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
-		"start:dev:debug": "nodemon --inspect=0.0.0.0 ./"
+		"start:dev:debug": "nodemon --inspect=0.0.0.0 ./",
+		"tscheck": "tsc"
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {
@@ -62,7 +66,8 @@
 		"rhea": "*",
 		"supertest": "*",
 		"swagger-cli": "*",
-		"testcontainers": "*"
+		"testcontainers": "*",
+		"typescript": "*"
 	},
 	"imports": {
 		"#db-client": "./src/db/db-client.js",

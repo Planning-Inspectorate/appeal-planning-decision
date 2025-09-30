@@ -1,0 +1,13 @@
+{
+	"extends": "../../tsconfig.json",
+	"include": ["**/*.ts"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"#db-client": ["./src/db/db-client.js"],
+			"#errors/*": ["./src/errors/*.js"],
+			"#lib/*": ["./src/lib/*.js"],
+			"#repositories/*": ["./src/repositories/*.js"]
+		}
+	}
+}
