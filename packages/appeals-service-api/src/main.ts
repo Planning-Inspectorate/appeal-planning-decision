@@ -19,7 +19,7 @@ try {
 		appInsights.start();
 	}
 } catch (err) {
-	logger.warn({ err }, 'Application insights failed to start: ');
+	console.warn({ err }, 'Application insights failed to start: ');
 }
 
 const logger = require('./lib/logger');

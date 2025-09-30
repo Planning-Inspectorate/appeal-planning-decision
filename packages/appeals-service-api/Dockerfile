@@ -11,6 +11,7 @@ COPY packages/appeals-service-api/api ./api
 COPY packages/appeals-service-api/src ./src
 
 # copy workspace deps
+COPY tsconfig.json /opt/
 COPY package.json /opt/
 COPY package-lock.json /opt/
 COPY packages/common /opt/packages/common

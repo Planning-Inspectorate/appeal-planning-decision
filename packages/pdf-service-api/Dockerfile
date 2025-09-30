@@ -15,6 +15,7 @@ WORKDIR /opt
 # Copy deps
 COPY packages/pdf-service-api/package*.json ./packages/pdf-service-api/
 COPY package*.json ./
+COPY tsconfig.json /
 
 # Install
 RUN npm ci --workspaces --if-present --omit=dev --ignore-scripts

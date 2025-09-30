@@ -1,5 +1,5 @@
 import { numberWithDefault, getJsonArray } from './config-helpers.js';
-import schema from './schema.js';
+import schema from './schema.ts';
 
 /** @type {number} */
 export const dayInSeconds = 86_400;
