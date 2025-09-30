@@ -16,7 +16,8 @@
 		"generate": "npx prisma generate",
 		"seed": "npx prisma db seed",
 		"seed:prod": "npm run generate && node src/seed/seed-prod.js",
-		"lint": "eslint ./"
+		"lint": "eslint ./",
+		"tscheck": "tsc"
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"license": "ISC",
@@ -26,6 +27,7 @@
 		"@prisma/client": "*"
 	},
 	"devDependencies": {
-		"prisma": "*"
+		"prisma": "*",
+		"typescript": "*"
 	}
 }

@@ -12,7 +12,8 @@
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
 		"test": "jest --ci --verbose",
-		"test:cov": "jest --ci --verbose --coverage"
+		"test:cov": "jest --ci --verbose --coverage",
+		"tscheck": "tsc"
 	},
 	"author": "",
 	"dependencies": {
@@ -24,6 +25,7 @@
 	},
 	"devDependencies": {
 		"jest": "*",
-		"jest-junit": "*"
+		"jest-junit": "*",
+		"typescript": "*"
 	}
 }

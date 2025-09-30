@@ -5,7 +5,7 @@
 	"engines": {
 		"node": ">=22.0.0 <23.0.0"
 	},
-	"main": "src/main.js",
+	"main": "src/main.ts",
 	"prisma": {
 		"schema": "../database/src/schema.prisma"
 	},
@@ -17,7 +17,8 @@
 		"start:dev:debug": "npm run db:generate && nodemon --inspect=0.0.0.0 ./",
 		"seed:dev": "node ./dev/seed.js",
 		"test": "npm run db:generate && jest --ci --verbose",
-		"test:cov": "npm run db:generate && jest --ci --verbose --coverage"
+		"test:cov": "npm run db:generate && jest --ci --verbose --coverage",
+		"tscheck": "tsc"
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {
@@ -49,7 +50,8 @@
 		"nodemon": "*",
 		"pino-pretty": "*",
 		"supertest": "*",
-		"testcontainers": "*"
+		"testcontainers": "*",
+		"typescript": "*"
 	},
 	"imports": {
 		"#config/*": "./src/configuration/*.js",
