@@ -94,6 +94,32 @@ describe('appeal-details-rows', () => {
 			expect(rows[siteAddressIndex].valueText).toEqual('Test address\nTestville\nTS1 1TT');
 			expect(rows[siteAddressIndex].keyText).toEqual('Site address');
 		});
+
+		it('should display grid reference if no address', () => {
+			const siteAddressIndex = 4;
+			let testCase = structuredClone(caseWithAppellant);
+			testCase.siteGridReferenceEasting = '123456';
+			testCase.siteGridReferenceNorthing = '654321';
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+			expect(rows[siteAddressIndex].condition(testCase)).toBeTruthy();
+			expect(rows[siteAddressIndex].valueText).toEqual('Eastings: 123456\nNorthings: 654321');
+			expect(rows[siteAddressIndex].keyText).toEqual('Site address');
+		});
+		it('should display site address if grid reference and site address', () => {
+			const siteAddressIndex = 4;
+			let testCase = structuredClone(caseWithAppellant);
+			testCase.siteAddressLine1 = 'Test address';
+			testCase.siteAddressTown = 'Testville';
+			testCase.siteAddressPostcode = 'TS1 1TT';
+			testCase.siteGridReferenceEasting = '123456';
+			testCase.siteGridReferenceNorthing = '654321';
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+			expect(rows[siteAddressIndex].condition(testCase)).toBeTruthy();
+			expect(rows[siteAddressIndex].valueText).toEqual('Test address\nTestville\nTS1 1TT');
+			expect(rows[siteAddressIndex].keyText).toEqual('Site address');
+		});
 	});
 
 	describe('What is the area of the appeal site', () => {

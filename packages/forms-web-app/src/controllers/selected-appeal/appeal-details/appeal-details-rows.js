@@ -1,4 +1,5 @@
 const { formatAddress } = require('@pins/common/src/lib/format-address');
+const { formatGridReference } = require('@pins/common/src/lib/format-grid-reference');
 const {
 	formatUserDetails,
 	formatHealthAndSafety,
@@ -47,6 +48,10 @@ exports.detailsRows = (caseData, userType) => {
 		? 'Do you need to apply for an award of appeal costs?'
 		: 'Did the appellant apply for an award of appeal costs?';
 
+	const siteAddressValue = caseData.siteAddressLine1
+		? formatAddress(caseData, '\n')
+		: formatGridReference(caseData.siteGridReferenceEasting, caseData.siteGridReferenceNorthing);
+
 	return [
 		{
 			keyText:
@@ -73,8 +78,8 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Site address',
-			valueText: formatAddress(caseData, '\n'),
-			condition: (caseData) => caseData.siteAddressLine1
+			valueText: siteAddressValue,
+			condition: (caseData) => caseData.siteAddressLine1 || caseData.siteGridReferenceEasting
 		},
 		{
 			keyText: 'What is the area of the appeal site?',

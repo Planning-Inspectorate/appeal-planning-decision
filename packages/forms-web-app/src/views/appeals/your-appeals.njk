@@ -64,7 +64,7 @@
                             {% endif %}
                           </td>
                           <td class="govuk-table__cell">
-                            {{ item.address }}
+                            {{ item.address | safe }}
                           </td>
                           <td class="govuk-table__cell">{{item.appealType}}</td>
                           <td class="govuk-table__cell">
@@ -123,8 +123,8 @@
 														<p><strong class='govuk-tag govuk-tag--grey'>{{item.linkedCaseDetails.linkedCaseStatusLabel}}</strong></p>
                           {% endif %}
                         </td>
-                        <td class="govuk-table__cell">
-                          {{ item.address }}
+                         <td class="govuk-table__cell">
+                            {{ item.address | safe }}
                         </td>
                         <td class="govuk-table__cell">{{item.appealType}}</td>
                         <td class="govuk-table__cell">

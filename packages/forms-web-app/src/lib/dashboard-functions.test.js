@@ -32,6 +32,11 @@ const NO_LINE_2_ADDRESS = {
 	siteAddressPostcode: 'TS1 1TT'
 };
 
+const GRID_REF_ADDRESS = {
+	siteGridReferenceEasting: '123456',
+	siteGridReferenceNorthing: '654321'
+};
+
 const testCaseRef = '1010101';
 
 const questionnaireBaseUrl = `/manage-appeals/questionnaire/${testCaseRef}`;
@@ -375,6 +380,44 @@ describe('lib/dashboard-functions', () => {
 				);
 			});
 		});
+
+		it('returns formatted address for appeals with site address', () => {
+			expect(
+				mapToLPADashboardDisplayData({
+					...testLeadDashboardData,
+					...FULL_TEST_ADDRESS
+				})
+			).toEqual(
+				expect.objectContaining({
+					address: 'Test Address Line 1, Test Address Line 2, Test Town, TS1 1TT'
+				})
+			);
+		});
+		it('returns formatted grid ref for appeals with grid ref', () => {
+			expect(
+				mapToLPADashboardDisplayData({
+					...testLeadDashboardData,
+					...GRID_REF_ADDRESS
+				})
+			).toEqual(
+				expect.objectContaining({
+					address: 'Eastings: 123456<br>Northings: 654321'
+				})
+			);
+		});
+		it('returns formatted address for appeals with site address and grid ref', () => {
+			expect(
+				mapToLPADashboardDisplayData({
+					...testLeadDashboardData,
+					...FULL_TEST_ADDRESS,
+					...GRID_REF_ADDRESS
+				})
+			).toEqual(
+				expect.objectContaining({
+					address: 'Test Address Line 1, Test Address Line 2, Test Town, TS1 1TT'
+				})
+			);
+		});
 	});
 
 	describe('mapToAppellantDashboardDisplayData', () => {
@@ -405,6 +448,44 @@ describe('lib/dashboard-functions', () => {
 				).toEqual(
 					expect.objectContaining({
 						appealType: caseType.type
+					})
+				);
+			});
+
+			it('returns formatted address for appeals with site address', () => {
+				expect(
+					mapToAppellantDashboardDisplayData({
+						...testLeadDashboardData,
+						...FULL_TEST_ADDRESS
+					})
+				).toEqual(
+					expect.objectContaining({
+						address: 'Test Address Line 1, Test Address Line 2, Test Town, TS1 1TT'
+					})
+				);
+			});
+			it('returns formatted grid ref for appeals with grid ref', () => {
+				expect(
+					mapToAppellantDashboardDisplayData({
+						...testLeadDashboardData,
+						...GRID_REF_ADDRESS
+					})
+				).toEqual(
+					expect.objectContaining({
+						address: 'Eastings: 123456<br>Northings: 654321'
+					})
+				);
+			});
+			it('returns formatted address for appeals with site address and grid ref', () => {
+				expect(
+					mapToAppellantDashboardDisplayData({
+						...testLeadDashboardData,
+						...FULL_TEST_ADDRESS,
+						...GRID_REF_ADDRESS
+					})
+				).toEqual(
+					expect.objectContaining({
+						address: 'Test Address Line 1, Test Address Line 2, Test Town, TS1 1TT'
 					})
 				);
 			});
@@ -456,5 +537,43 @@ describe('lib/dashboard-functions', () => {
 				);
 			});
 		});
+	});
+
+	it('returns formatted address for appeals with site address', () => {
+		expect(
+			mapToRule6DashboardDisplayData({
+				...testLeadDashboardData,
+				...FULL_TEST_ADDRESS
+			})
+		).toEqual(
+			expect.objectContaining({
+				address: 'Test Address Line 1, Test Address Line 2, Test Town, TS1 1TT'
+			})
+		);
+	});
+	it('returns formatted grid ref for appeals with grid ref', () => {
+		expect(
+			mapToRule6DashboardDisplayData({
+				...testLeadDashboardData,
+				...GRID_REF_ADDRESS
+			})
+		).toEqual(
+			expect.objectContaining({
+				address: 'Eastings: 123456<br>Northings: 654321'
+			})
+		);
+	});
+	it('returns formatted address for appeals with site address and grid ref', () => {
+		expect(
+			mapToRule6DashboardDisplayData({
+				...testLeadDashboardData,
+				...FULL_TEST_ADDRESS,
+				...GRID_REF_ADDRESS
+			})
+		).toEqual(
+			expect.objectContaining({
+				address: 'Test Address Line 1, Test Address Line 2, Test Town, TS1 1TT'
+			})
+		);
 	});
 });
