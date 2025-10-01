@@ -69,7 +69,9 @@ class UserAppealsRepository {
 											siteAddressLine1: true,
 											siteAddressLine2: true,
 											siteAddressTown: true,
-											siteAddressPostcode: true
+											siteAddressPostcode: true,
+											siteGridReferenceEasting: true,
+											siteGridReferenceNorthing: true
 										}
 									},
 									AppellantSubmission: {

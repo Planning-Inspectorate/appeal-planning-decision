@@ -49,6 +49,8 @@ const dashboardSelect = {
 	siteAddressTown: true,
 	siteAddressCounty: true,
 	siteAddressPostcode: true,
+	siteGridReferenceEasting: true,
+	siteGridReferenceNorthing: true,
 
 	// outcome
 	caseDecisionOutcome: true,

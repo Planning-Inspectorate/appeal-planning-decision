@@ -55,8 +55,8 @@
                       {{ item.appealNumber }}
                     </a>
                   </td>
-                  <td class="govuk-table__cell">
-                    {{ item.address }}
+                  <td>
+                     {{ item.address | safe }}
                   </td>
                   <td class="govuk-table__cell">
                       {{item.caseDecisionOutcomeDate | date('D MMM YYYY') }}

@@ -4,6 +4,7 @@ const { formatAddress } = require('../lib/format-address');
 const { formatLinkedCases } = require('../lib/format-linked-cases');
 const { PROCEDURE_TYPES } = require('../database/data-static');
 const { caseTypeNameWithDefault } = require('../lib/format-case-type');
+const { formatGridReference } = require('../lib/format-grid-reference');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
@@ -25,7 +26,10 @@ const formatHeadlineData = ({
 	const { caseReference, appealTypeCode, caseProcedure, users, applicationReference, linkedCases } =
 		caseData;
 
-	const address = formatAddress(caseData);
+	const address = caseData.siteAddressLine1
+		? formatAddress(caseData)
+		: formatGridReference(caseData.siteGridReferenceEasting, caseData.siteGridReferenceNorthing);
+
 	const applicant = formatApplicant(users, role);
 
 	const headlines = [
@@ -44,7 +48,7 @@ const formatHeadlineData = ({
 		},
 		{
 			key: { text: 'Appeal site' },
-			value: { text: address }
+			value: { html: address.replace(/\n/g, '<br>') }
 		},
 		{
 			key: applicant.key,

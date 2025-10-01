@@ -166,6 +166,12 @@ components:
           type: number
           example: [45.7]
           description: The floor space, in square meters
+        siteGridReferenceEasting:
+          type: string
+          description: The grid reference easting for the appeal site
+        siteGridReferenceNorthing:
+          type: string
+          description: The grid reference northing for the appeal site
 
         # Appellant fields
         appellantCostsAppliedFor:
@@ -217,7 +223,7 @@ components:
             ]
         typeOfPlanningApplication:
           type: string
-          enum: 
+          enum:
             [
               'full-appeal',
               'householder-planning',

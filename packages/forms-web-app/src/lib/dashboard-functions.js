@@ -26,6 +26,7 @@ const {
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
 const logger = require('#lib/logger');
+const escape = require('escape-html');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} UserRole
@@ -81,6 +82,7 @@ const {
 } = require('@planning-inspectorate/data-model');
 const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invalidated');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { formatGridReference } = require('@pins/common/src/lib/format-grid-reference');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
@@ -101,19 +103,29 @@ const INVALID_APPEAL_TIME_LIMIT = 28;
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {DashboardDisplayData}
  */
-const mapToLPADashboardDisplayData = (appealCaseData) => ({
-	appealNumber: appealCaseData.caseReference,
-	address: formatAddress(appealCaseData),
-	appealType: getAppealType(appealCaseData),
-	nextJourneyDue: determineJourneyToDisplayLPADashboard(appealCaseData),
-	isNewAppeal: isNewAppealForLPA(appealCaseData),
-	displayInvalid: displayInvalidAppeal(appealCaseData),
-	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
-	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
-	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
-	linkedCaseDetails: formatDashboardLinkedCaseDetails(appealCaseData),
-	displayNextJourneyLink: displayNextJourneyLink(appealCaseData, LPA_USER_ROLE)
-});
+const mapToLPADashboardDisplayData = (appealCaseData) => {
+	const address = appealCaseData.siteAddressLine1
+		? formatAddress(appealCaseData)
+		: formatGridReference(
+				appealCaseData.siteGridReferenceEasting,
+				appealCaseData.siteGridReferenceNorthing
+			);
+
+	const escapedAddress = escape(address);
+	return {
+		appealNumber: appealCaseData.caseReference,
+		address: escapedAddress.replace(/\n/g, '<br>'),
+		appealType: getAppealType(appealCaseData),
+		nextJourneyDue: determineJourneyToDisplayLPADashboard(appealCaseData),
+		isNewAppeal: isNewAppealForLPA(appealCaseData),
+		displayInvalid: displayInvalidAppeal(appealCaseData),
+		appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
+		appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
+		caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
+		linkedCaseDetails: formatDashboardLinkedCaseDetails(appealCaseData),
+		displayNextJourneyLink: displayNextJourneyLink(appealCaseData, LPA_USER_ROLE)
+	};
+};
 
 /**
  * @param {AppealSubmission | AppealCaseDetailed} appealData
@@ -121,6 +133,16 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
  */
 const mapToAppellantDashboardDisplayData = (appealData) => {
 	const id = isAppealSubmission(appealData) ? appealData._id : appealData.id;
+
+	const address = appealData.siteAddressLine1
+		? formatAddress(appealData)
+		: formatGridReference(
+				appealData.siteGridReferenceEasting,
+				appealData.siteGridReferenceNorthing
+			);
+
+	const escapedAddress = escape(address);
+
 	try {
 		return {
 			appealId: id,
@@ -128,7 +150,7 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
 				isAppealSubmission(appealData) || isV2Submission(appealData)
 					? ''
 					: appealData.caseReference,
-			address: formatAddress(appealData),
+			address: escapedAddress.replace(/\n/g, '<br>'),
 			appealType: getAppealType(appealData),
 			nextJourneyDue: determineJourneyToDisplayAppellantDashboard(appealData),
 			isDraft: isAppealSubmission(appealData) || isV2Submission(appealData),
@@ -162,16 +184,27 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {DashboardDisplayData}
  */
-const mapToRule6DashboardDisplayData = (appealCaseData) => ({
-	appealNumber: appealCaseData.caseReference,
-	address: formatAddress(appealCaseData),
-	appealType: getAppealType(appealCaseData),
-	nextJourneyDue: determineJourneyToDisplayRule6Dashboard(appealCaseData),
-	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
-	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
-	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
-	linkedCaseDetails: formatDashboardLinkedCaseDetails(appealCaseData)
-});
+const mapToRule6DashboardDisplayData = (appealCaseData) => {
+	const address = appealCaseData.siteAddressLine1
+		? formatAddress(appealCaseData)
+		: formatGridReference(
+				appealCaseData.siteGridReferenceEasting,
+				appealCaseData.siteGridReferenceNorthing
+			);
+
+	const escapedAddress = escape(address);
+
+	return {
+		appealNumber: appealCaseData.caseReference,
+		address: escapedAddress.replace(/\n/g, '<br>'),
+		appealType: getAppealType(appealCaseData),
+		nextJourneyDue: determineJourneyToDisplayRule6Dashboard(appealCaseData),
+		appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
+		appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
+		caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
+		linkedCaseDetails: formatDashboardLinkedCaseDetails(appealCaseData)
+	};
+};
 
 /**
  * @param {DashboardDisplayData} dashboardData
