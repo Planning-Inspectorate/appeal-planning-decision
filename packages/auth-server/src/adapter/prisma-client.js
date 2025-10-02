@@ -1,4 +1,4 @@
-import createClient from '@pins/database/src/create-client.js';
+import createClient from '@pins/database/src/create-client.ts';
 import config from '../configuration/config.js';
 import logger from '../lib/logger.js';
 
