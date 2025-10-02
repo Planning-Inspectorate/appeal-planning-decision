@@ -1846,7 +1846,7 @@ exports.questionProps = {
 	},
 	appealSiteGridReference: {
 		type: 'multi-field-input',
-		title: 'Enter the grid reference',
+		title: 'Grid reference',
 		question: 'Enter the grid reference',
 		url: 'grid-reference',
 		viewFolder: 'grid-reference',
