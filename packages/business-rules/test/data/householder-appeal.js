@@ -11,6 +11,7 @@ const appeal = {
 	typeOfPlanningApplication: 'householder-planning',
 	planningApplicationNumber: '12345',
 	email: 'test@example.com',
+	hideFromDashboard: true,
 	eligibility: {
 		applicationDecision: 'granted',
 		enforcementNotice: false,

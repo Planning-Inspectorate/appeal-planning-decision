@@ -8,13 +8,15 @@ const {
 	}
 } = require('../../../../../src/lib/views');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const { hideFromDashboard } = require('#lib/hide-from-dashboard');
 
 const { mockReq, mockRes } = require('../../../mocks');
 const { APPEAL_ID, TYPE_OF_PLANNING_APPLICATION } = require('@pins/business-rules/src/constants');
 const config = require('../../../../../src/config');
 const { FLAG } = require('@pins/common/src/feature-flags');
 
-jest.mock('../../../../../src/lib/is-lpa-in-feature-flag');
+jest.mock('#lib/is-lpa-in-feature-flag');
+jest.mock('#lib/hide-from-dashboard');
 
 describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => {
 	let req;
@@ -37,6 +39,7 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			});
 
 			await getEmailConfirmed(req, res);
+			expect(hideFromDashboard).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/full-appeal/submit-appeal/list-of-documents',
 				bannerHtmlOverride
@@ -50,6 +53,7 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 				return flag === FLAG.S78_APPEAL_FORM_V2;
 			});
 			await getEmailConfirmed(req, res);
+			expect(hideFromDashboard).toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/full-planning/appeal-form/before-you-start',
 				bannerHtmlOverride
@@ -64,6 +68,7 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			});
 
 			await getEmailConfirmed(req, res);
+			expect(hideFromDashboard).toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/listed-building/appeal-form/before-you-start',
 				bannerHtmlOverride:
@@ -81,6 +86,7 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			});
 
 			await getEmailConfirmed(req, res);
+			expect(hideFromDashboard).toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/cas-planning/appeal-form/before-you-start',
 				bannerHtmlOverride:
@@ -96,6 +102,7 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			});
 
 			await getEmailConfirmed(req, res);
+			expect(hideFromDashboard).toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/adverts/appeal-form/before-you-start',
 				bannerHtmlOverride:
@@ -112,6 +119,7 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			});
 
 			await getEmailConfirmed(req, res);
+			expect(hideFromDashboard).toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/adverts/appeal-form/before-you-start',
 				bannerHtmlOverride:

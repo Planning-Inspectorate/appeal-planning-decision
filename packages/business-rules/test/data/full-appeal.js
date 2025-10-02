@@ -16,6 +16,7 @@ const appeal = {
 	appealType: '1005',
 	typeOfPlanningApplication: 'full-appeal',
 	email: 'testemail@example.com',
+	hideFromDashboard: true,
 	eligibility: {
 		applicationCategories: ['none_of_these'],
 		applicationDecision: 'granted',
