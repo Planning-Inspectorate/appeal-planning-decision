@@ -132,5 +132,30 @@ describe('controllers/appeals/your-appeals', () => {
 				noToDoAppeals: true
 			});
 		});
+
+		it('hides appeals where hideFromDashboard is true', async () => {
+			req.appealsApiClient.getUserAppeals.mockResolvedValue([
+				{ appeal: { hideFromDashboard: true } },
+				{ appeal: { hideFromDashboard: false } },
+				{ test: 'hideFromDashboard not set' }
+			]);
+
+			mapToAppellantDashboardDisplayData.mockImplementation((data) => {
+				if (data.appeal?.hideFromDashboard === true)
+					throw new Error('Should not map hidden appeal');
+				return toDoData;
+			});
+			updateChildAppealDisplayData.mockImplementation((arr) => arr);
+			isToDoAppellantDashboard.mockReturnValue(true);
+
+			await get(req, res);
+
+			expect(mapToAppellantDashboardDisplayData).toHaveBeenCalledTimes(2);
+			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
+				toDoAppeals: [toDoData, toDoData],
+				waitingForReviewAppeals: [],
+				noToDoAppeals: false
+			});
+		});
 	});
 });

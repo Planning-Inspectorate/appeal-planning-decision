@@ -7,6 +7,7 @@ const lpaCodeValidation = require('./lpa-code/lpa-code-validation');
 const planningApplicationNumberValidation = require('./planning-application-number/planning-application-number-validation');
 const stateValidation = require('./state/state-validation');
 const typeOfPlanningApplicationValidation = require('./type-of-planning-application/type-of-planning-application-validation');
+const pinsYup = require('../../../lib/pins-yup');
 
 const appealDetailsValidation = () => {
 	return {
@@ -21,7 +22,8 @@ const appealDetailsValidation = () => {
 		state: stateValidation(),
 		appealType: appealTypeValidation(),
 		typeOfPlanningApplication: typeOfPlanningApplicationValidation(),
-		email: emailValidation()
+		email: emailValidation(),
+		hideFromDashboard: pinsYup.bool().nullable()
 	};
 };
 

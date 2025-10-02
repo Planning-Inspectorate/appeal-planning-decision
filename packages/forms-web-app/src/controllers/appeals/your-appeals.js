@@ -23,6 +23,7 @@ exports.get = async (req, res) => {
 		logger.debug({ appeals }, 'appeals');
 
 		const undecidedAppeals = appeals
+			.filter((data) => data.appeal?.hideFromDashboard !== true)
 			.filter(isNotWithdrawn)
 			.filter(isNotTransferred)
 			.map(mapToAppellantDashboardDisplayData)
