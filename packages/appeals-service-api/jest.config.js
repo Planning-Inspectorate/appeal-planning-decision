@@ -1,4 +1,7 @@
 const sharedConfig = require('../../jest.config.js');
+const { createDefaultPreset } = require('ts-jest');
+
+const tsDefaults = createDefaultPreset();
 
 module.exports = {
 	...sharedConfig,
@@ -27,10 +30,14 @@ module.exports = {
 	roots: ['<rootDir>/__tests__/developer/', '<rootDir>/__tests__/unit/', '<rootDir>/src/'],
 	testMatch: [
 		'**/__tests__/unit/**/*.test.js',
+		'**/__tests__/unit/**/*.test.ts',
 		'**/__tests__/developer/**/*.test.js',
-		'**/src/**/*.test.js'
+		'**/__tests__/developer/**/*.test.ts',
+		'**/src/**/*.test.js',
+		'**/src/**/*.test.ts'
 	],
 	transform: {
-		'\\.[jt]sx?$': 'babel-jest'
+		'\\.jsx?$': 'babel-jest',
+		...tsDefaults.transform
 	}
 };

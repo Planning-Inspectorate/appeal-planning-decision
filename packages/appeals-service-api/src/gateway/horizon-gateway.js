@@ -3,7 +3,7 @@ const axios = require('axios');
 const logger = require('../lib/logger');
 const { HorizonMapper } = require('../mappers/horizon-mapper');
 const HorizonResponseValue = require('../value-objects/horizon/horizon-response.value');
-const { msToDurationString } = require('#lib/duration');
+const { msToDurationString } = require('#lib/duration.ts');
 
 class HorizonGateway {
 	#horizonMapper;

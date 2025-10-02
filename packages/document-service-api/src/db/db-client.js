@@ -1,4 +1,4 @@
-const createClient = require('@pins/database/src/create-client');
+const createClient = require('@pins/database/src/create-client.ts').default;
 const config = require('../configuration/config');
 const logger = require('../lib/logger');
 
