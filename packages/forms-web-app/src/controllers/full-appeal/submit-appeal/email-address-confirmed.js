@@ -10,6 +10,7 @@ const config = require('../../../config');
 const {
 	typeOfPlanningApplicationToAppealTypeMapper
 } = require('#lib/full-appeal/map-planning-application');
+const { hideFromDashboard } = require('#lib/hide-from-dashboard');
 
 const getEmailConfirmed = async (req, res) => {
 	const appeal = req.session.appeal;
@@ -27,19 +28,23 @@ const getEmailConfirmed = async (req, res) => {
 	switch (appeal.appealType) {
 		case APPEAL_ID.PLANNING_SECTION_78:
 			if (usingV2Form) {
+				await hideFromDashboard(req, appeal);
 				listOfDocumentsUrl = '/appeals/full-planning/appeal-form/before-you-start';
 			} else {
 				listOfDocumentsUrl = `/${LIST_OF_DOCUMENTS_V1}`;
 			}
 			break;
 		case APPEAL_ID.PLANNING_LISTED_BUILDING:
+			await hideFromDashboard(req, appeal);
 			listOfDocumentsUrl = '/appeals/listed-building/appeal-form/before-you-start';
 			break;
 		case APPEAL_ID.MINOR_COMMERCIAL:
+			await hideFromDashboard(req, appeal);
 			listOfDocumentsUrl = '/appeals/cas-planning/appeal-form/before-you-start';
 			break;
 		case APPEAL_ID.ADVERTISEMENT:
 		case APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT:
+			await hideFromDashboard(req, appeal);
 			listOfDocumentsUrl = '/appeals/adverts/appeal-form/before-you-start';
 			break;
 	}

@@ -33,6 +33,7 @@ const appealValidationSchema = () => {
 			appealType: appealTypeValidation(),
 			typeOfPlanningApplication: typeOfPlanningApplicationValidation(),
 			email: emailValidation(),
+			hideFromDashboard: pinsYup.bool().nullable(),
 			eligibility: eligibilityValidation(),
 			aboutYouSection: aboutYouValidation(),
 			requiredDocumentsSection: requiredDocumentsValidation(),
