@@ -18,11 +18,11 @@ const config = require('../configuration/config');
 /**
  * index route to avoid azure always on ping 404s
  */
-router.get('/', (req, res) => {
+router.get('/', (req: import('express').Request, res: import('express').Response) => {
 	res.sendStatus(204);
 });
 
-router.get('/health', (req, res) => {
+router.get('/health', (req: import('express').Request, res: import('express').Response) => {
 	res.status(200).send({
 		status: 'OK',
 		uptime: process.uptime(),

@@ -4,11 +4,8 @@ const MINUTES = SECONDS * 60;
 
 /**
  * Convert a ms duration into a readable string
- *
- * @param {number} ms
- * @returns {string}
  */
-function msToDurationString(ms) {
+export function msToDurationString(ms: number): string {
 	if (ms === 0) {
 		return '0';
 	}
@@ -27,7 +24,3 @@ function msToDurationString(ms) {
 	}
 	return `${mins}${suffix} ${s}s`;
 }
-
-module.exports = {
-	msToDurationString
-};
