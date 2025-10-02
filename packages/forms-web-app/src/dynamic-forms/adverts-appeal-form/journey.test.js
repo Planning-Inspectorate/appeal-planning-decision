@@ -54,7 +54,7 @@ describe('ADVERTS Appeal Form Journey', () => {
 		).toBe(true);
 		expect(
 			journey.sections[0].questions
-				.find((question) => question.title.includes('Enter the grid reference'))
+				.find((question) => question.title.includes('Grid reference'))
 				?.shouldDisplay({
 					...mockResponse,
 					answers: { ...answers }
@@ -84,7 +84,7 @@ describe('ADVERTS Appeal Form Journey', () => {
 		).toBe(false);
 		expect(
 			journey.sections[0].questions
-				.find((question) => question.title.includes('Enter the grid reference'))
+				.find((question) => question.title.includes('Grid reference'))
 				?.shouldDisplay({
 					...mockResponse,
 					answers: { ...answers }
@@ -114,7 +114,7 @@ describe('ADVERTS Appeal Form Journey', () => {
 		).toBe(true);
 		expect(
 			journey.sections[0].questions
-				.find((question) => question.title.includes('Enter the grid reference'))
+				.find((question) => question.title.includes('Grid reference'))
 				?.shouldDisplay({
 					...mockResponse,
 					answers: { ...answers }
