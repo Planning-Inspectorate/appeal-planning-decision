@@ -43,15 +43,12 @@ jobs:
                 script: npm ci --workspace=@pins/database
             - template: steps/azure_auth.yml@templates
             - bash: |
-                if [[ $ENVIRONMENT == "staging" ]]; then
-                  echo "Name: pinskvcommonstagingukw (env: $ENVIRONMENT)"
-                  echo "##vso[task.setvariable variable=kvName;]pinskvcommonstagingukw"
-                elif [[ $ENVIRONMENT == "training" ]]; then
-                    echo "Name: pinskvcommontrainingukw (env: $ENVIRONMENT)"
-                    echo "##vso[task.setvariable variable=kvName;]pinskvcommontrainingukw"
-                else
-                  echo "Name: pinskvcommon$ENVIRONMENTukw001 (env: $ENVIRONMENT)"
-                  echo "##vso[task.setvariable variable=kvName;]pinskvcommon$ENVIRONMENTukw001"
+                if [[ $ENVIRONMENT == "staging"  || $ENVIRONMENT == "training" ]]; then
+                    echo "Name: pinskvcommon$(ENVIRONMENT)ukw (env: $(ENVIRONMENT))"
+                    echo "##vso[task.setvariable variable=kvName;]pinskvcommon$(ENVIRONMENT)ukw"
+                  else
+                    echo "Name: pinskvcommon$(ENVIRONMENT)ukw001 (env: $(ENVIRONMENT))"
+                    echo "##vso[task.setvariable variable=kvName;]pinskvcommon$(ENVIRONMENT)ukw001"
                 fi
               displayName: Set KV name
               env:
