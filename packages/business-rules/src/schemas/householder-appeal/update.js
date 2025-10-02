@@ -41,6 +41,7 @@ const update = pinsYup
 		submissionDate: pinsYup.date().transform(parseDateString).nullable(),
 		state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).required(),
 		email: pinsYup.string().email().max(255).required(),
+		hideFromDashboard: pinsYup.bool().nullable(),
 		eligibility: pinsYup
 			.object()
 			.shape({
