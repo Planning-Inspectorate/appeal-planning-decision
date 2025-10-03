@@ -54,6 +54,9 @@
                     <a href="/appeals/{{item.appealNumber}}" class="govuk-link">
                       {{ item.appealNumber }}
                     </a>
+										{% if item.linkedCaseDetails %}
+											<p><strong class='govuk-tag govuk-tag--grey'>{{item.linkedCaseDetails.linkedCaseStatusLabel}}</strong></p>
+                    {% endif %}
                   </td>
                   <td>
                      {{ item.address | safe }}
