@@ -709,7 +709,21 @@ describe('dynamic-form/controller', () => {
 				usingV2Form: true,
 				bannerHtmlOverride:
 					config.betaBannerText +
-					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(''))
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
+				optionalDocuments: [
+					'decision letter from the local authority',
+					'planning obligation',
+					'separate ownership certificate and agricultural land declaration',
+					'draft statement of common ground',
+					'design and access statement',
+					'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
+				],
+				requiredDocuments: [
+					'planning application form',
+					'plans, drawings and supporting documents for your application',
+					'new plans or drawings to support your appeal',
+					'other documents to support your appeal'
+				]
 			});
 		});
 		it('renders correct page for S20 - listed building', () => {
@@ -719,7 +733,21 @@ describe('dynamic-form/controller', () => {
 				usingV2Form: true,
 				bannerHtmlOverride:
 					config.betaBannerText +
-					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(''))
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
+				optionalDocuments: [
+					'decision letter from the local authority',
+					'planning obligation',
+					'separate ownership certificate and agricultural land declaration',
+					'draft statement of common ground',
+					'design and access statement',
+					'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
+				],
+				requiredDocuments: [
+					'planning application form',
+					'plans, drawings and supporting documents for your application',
+					'new plans or drawings to support your appeal',
+					'other documents to support your appeal'
+				]
 			});
 		});
 		it('renders correct page for CAS Planning', () => {
@@ -729,7 +757,16 @@ describe('dynamic-form/controller', () => {
 				usingV2Form: true,
 				bannerHtmlOverride:
 					config.betaBannerText +
-					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(''))
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
+				optionalDocuments: [
+					'decision letter from the local authority',
+					'design and access statement',
+					'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
+				],
+				requiredDocuments: [
+					'planning application form',
+					'plans, drawings and supporting documents for your application'
+				]
 			});
 		});
 		it('renders correct page for CAS Adverts', () => {
@@ -739,7 +776,14 @@ describe('dynamic-form/controller', () => {
 				usingV2Form: true,
 				bannerHtmlOverride:
 					config.betaBannerText +
-					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(''))
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
+				optionalDocuments: undefined,
+				requiredDocuments: [
+					'application form',
+					'plans, drawings and supporting documents for your application',
+					'decision letter from the local authority',
+					'any other relevant correspondence with the local authority'
+				]
 			});
 		});
 		it('renders error page if appeal type not found', () => {
