@@ -29,6 +29,10 @@ const config = require('../config');
 const {
 	typeOfPlanningApplicationToAppealTypeMapper
 } = require('#lib/full-appeal/map-planning-application');
+const {
+	generateRequiredDocuments,
+	generateOptionalDocuments
+} = require('#lib/documents-for-submission');
 
 /**
  * @typedef {import('@pins/common/src/dynamic-forms/journey-types').JourneyType} JourneyType
@@ -469,7 +473,9 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 		case APPEAL_ID.ADVERTISEMENT:
 			return res.render('full-appeal/submit-appeal/list-of-documents', {
 				usingV2Form,
-				bannerHtmlOverride
+				bannerHtmlOverride,
+				requiredDocuments: generateRequiredDocuments(appeal.appealType),
+				optionalDocuments: generateOptionalDocuments(appeal.appealType)
 			});
 		default:
 			return res.render('./error/not-found.njk');
