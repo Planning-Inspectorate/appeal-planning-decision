@@ -38,7 +38,7 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 
 			await getEmailConfirmed(req, res);
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
-				listOfDocumentsUrl: '/full-appeal/submit-appeal/list-of-documents',
+				listOfDocumentsUrl: '/full-appeal/submit-appeal/list-of-documents-v1',
 				bannerHtmlOverride
 			});
 		});

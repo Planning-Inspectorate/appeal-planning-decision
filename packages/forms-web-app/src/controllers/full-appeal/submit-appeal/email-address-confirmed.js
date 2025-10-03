@@ -1,6 +1,6 @@
 const {
 	VIEW: {
-		FULL_APPEAL: { EMAIL_CONFIRMED, LIST_OF_DOCUMENTS }
+		FULL_APPEAL: { EMAIL_CONFIRMED, LIST_OF_DOCUMENTS_V1 }
 	}
 } = require('../../../lib/full-appeal/views');
 const { FLAG } = require('@pins/common/src/feature-flags');
@@ -22,14 +22,14 @@ const getEmailConfirmed = async (req, res) => {
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
 
-	let listOfDocumentsUrl = `/${LIST_OF_DOCUMENTS}`;
+	let listOfDocumentsUrl = `/${LIST_OF_DOCUMENTS_V1}`;
 
 	switch (appeal.appealType) {
 		case APPEAL_ID.PLANNING_SECTION_78:
 			if (usingV2Form) {
 				listOfDocumentsUrl = '/appeals/full-planning/appeal-form/before-you-start';
 			} else {
-				listOfDocumentsUrl = `/${LIST_OF_DOCUMENTS}`;
+				listOfDocumentsUrl = `/${LIST_OF_DOCUMENTS_V1}`;
 			}
 			break;
 		case APPEAL_ID.PLANNING_LISTED_BUILDING:

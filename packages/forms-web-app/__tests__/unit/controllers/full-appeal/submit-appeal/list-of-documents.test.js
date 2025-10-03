@@ -2,7 +2,7 @@ const { mockReq, mockRes } = require('../../../mocks');
 
 const {
 	VIEW: {
-		FULL_APPEAL: { LIST_OF_DOCUMENTS, TASK_LIST }
+		FULL_APPEAL: { LIST_OF_DOCUMENTS_V1, TASK_LIST }
 	}
 } = require('../../../../../src/lib/views');
 const {
@@ -62,8 +62,7 @@ describe('controllers/full-appeal/submit-appeal/list-of-documents', () => {
 
 			await getListOfDocuments(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(LIST_OF_DOCUMENTS, {
-				usingV2Form: false,
+			expect(res.render).toHaveBeenCalledWith(LIST_OF_DOCUMENTS_V1, {
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'))
