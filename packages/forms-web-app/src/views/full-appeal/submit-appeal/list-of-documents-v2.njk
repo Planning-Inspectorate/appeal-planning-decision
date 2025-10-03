@@ -15,20 +15,21 @@
         <p>You will need to submit the following:</p>
 
         <ul class="govuk-list govuk-list--bullet">
-          <li>your planning application form</li>
-          <li>the plans, drawings and supporting documents you submitted with your application</li>
-          <li>the decision letter from your local planning authority</li>
-          <li>your design access statement, if you submitted one with your application</li>
-          <li>your appeal statement</li>
+          {% for document in requiredDocuments %}
+            <li>{{document}}</li>
+          {% endfor %}
         </ul>
 
-        <p>If you do not have a copy of your planning application form, you can search for it on your local planning authority's website.​</p>
-        <p>You also have the option to submit:​</p>
+        {% if optionalDocuments %}
+          <p>If you do not have a copy of your planning application form, you can search for it on your local planning authority's website.​</p>
+          <p>You also have the option to submit:​</p>
 
-        <ul class="govuk-list govuk-list--bullet">
-          <li>plans or drawings that have been updated or created since your application</li>
-          <li>any other documents that you'd like to submit in support of your appeal</li>
-        </ul>
+          <ul class="govuk-list govuk-list--bullet">
+            {% for document in optionalDocuments %}
+              <li>{{document}}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
 
         <p>From now, you're able to save and continue with your appeal later.</p>
 
@@ -38,9 +39,7 @@
             type: "submit",
             attributes: { "data-cy":"button-save-and-continue"}
           }) }}
-          {% if usingV2Form == false %}
-          	{{ saveAndReturnButton () }}
-					{% endif %}
+         
         </div>
       </form>
     </div>

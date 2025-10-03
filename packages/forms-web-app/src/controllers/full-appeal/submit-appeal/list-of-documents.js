@@ -1,11 +1,10 @@
 const logger = require('../../../lib/logger');
 const { getDepartmentFromId } = require('../../../services/department.service');
 const { getLPAById, deleteAppeal } = require('../../../lib/appeals-api-wrapper');
-const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { isFeatureActive } = require('../../../featureFlag');
 const {
 	VIEW: {
-		FULL_APPEAL: { LIST_OF_DOCUMENTS: currentPage, TASK_LIST }
+		FULL_APPEAL: { LIST_OF_DOCUMENTS_V1: currentPage, TASK_LIST }
 	}
 } = require('../../../lib/full-appeal/views');
 const { postSaveAndReturn } = require('../../save');
@@ -27,9 +26,7 @@ const getListOfDocuments = async (req, res) => {
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
 
-	const usingV2Form = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
-
-	res.render(currentPage, { usingV2Form, bannerHtmlOverride });
+	res.render(currentPage, { bannerHtmlOverride });
 };
 
 const postListOfDocuments = async (req, res) => {
