@@ -5,7 +5,7 @@
 	"engines": {
 		"node": ">=22.0.0 <23.0.0"
 	},
-	"main": "src/main.js",
+	"main": "src/main.ts",
 	"prisma": {
 		"schema": "../database/src/schema.prisma"
 	},
@@ -19,7 +19,8 @@
 		"lint:fix": "eslint ./ --fix",
 		"start": "node ./",
 		"start:dev": "npm run db:generate && nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
-		"start:dev:debug": "npm run db:generate && nodemon --inspect=0.0.0.0 ./"
+		"start:dev:debug": "npm run db:generate && nodemon --inspect=0.0.0.0 ./",
+		"tscheck": "tsc"
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {
@@ -66,7 +67,8 @@
 		"rhea": "*",
 		"supertest": "*",
 		"swagger-cli": "*",
-		"testcontainers": "*"
+		"testcontainers": "*",
+		"typescript": "*"
 	},
 	"imports": {
 		"#db-client": "./src/db/db-client.js",

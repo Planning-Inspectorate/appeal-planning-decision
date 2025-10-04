@@ -4,7 +4,7 @@ const compression = require('compression');
 const bodyParser = require('body-parser');
 const uuid = require('uuid');
 const logger = require('./lib/logger');
-const routes = require('./routes');
+const routes = require('./routes/index.ts');
 const apiErrorHandler = require('./errors/apiErrorHandler');
 const { openApiValidationErrorHandler } = require('./validators/validate-open-api');
 require('express-async-errors');
