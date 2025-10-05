@@ -34,7 +34,25 @@ module.exports = defineConfig({
       on('task', verifyDownloadTasks);
       on('task', { AzureSignIn: azureSignIn });
       on('task', { ClearAllCookies: clearAllCookies });
-      on('task', { CookiesFileExists: cookiesFileExists });      
+      on('task', { CookiesFileExists: cookiesFileExists });
+      // cross-platform deleteFolder task
+      on('task', {
+        deleteFolder(folderPath) {
+          const fs = require('fs');
+          const path = require('path');
+          if (!folderPath) {
+            folderPath = config.downloadsFolder;
+          }
+          try {
+            fs.rmSync(folderPath, { recursive: true, force: true });
+            fs.mkdirSync(folderPath, { recursive: true });
+            return true;
+          } catch (e) {
+            console.error('deleteFolder task failed', e);
+            return false;
+          }
+        }
+      });
       require('@cypress/grep/src/plugin')(config);
       return config;
     },
