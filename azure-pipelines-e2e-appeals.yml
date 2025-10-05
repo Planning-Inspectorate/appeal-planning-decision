@@ -18,13 +18,16 @@ parameters:
     default:
       group1: { SPEC: 'cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-granted.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-validation.cy.js,cypress/e2e/appellant-aapd/appeallant-decided-appeals.cy.js' }
       group2: { SPEC: 'cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-validation.cy.js'}
-      group3: { SPEC: 'cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire.cy.js,cypress/e2e/rule-6-appeals/full-appeal-statement.cy.js,,cypress/e2e/ip-comments/ip-comments.cy.js' }
+      group3: { SPEC: 'cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire.cy.js,cypress/e2e/rule-6-appeals/full-appeal-statement.cy.js,cypress/e2e/ip-comments/ip-comments.cy.js' }
   - name: AutoSpecGlob
     type: string
     default: 'cypress/e2e/**/*.cy.js'
   - name: AutoTotalGroups
     type: number
     default: 3
+  - name: OSList
+    type: object
+    default: ['linux'] # Options: linux, windows, macos
 
 variables:
   - name: APP
@@ -52,14 +55,25 @@ jobs:
       pool: pins-odt-agent-pool-tests
       strategy:
         matrix:
-          ${{ each pair in parameters.ManualGroups }}:
-            ${{ pair.Key }}:
-              SPEC: ${{ pair.Value.SPEC }}
+          ${{ each os in parameters.OSList }}:
+            ${{ each pair in parameters.ManualGroups }}:
+              ${{ format('{0}_{1}', os, pair.Key) }}:
+                SPEC: ${{ pair.Value.SPEC }}
+                OS_NAME: ${{ os }}
       steps:
         - task: NodeTool@0
           inputs:
             versionSpec: '22.x'
           displayName: 'Install Node.js'
+
+        - task: Cache@2
+          displayName: 'Cache node_modules'
+          inputs:
+            key: 'npm | $(OS_NAME) | platform-feature-tests | test-packages/platform-feature-tests/package-lock.json'
+            path: 'test-packages/platform-feature-tests/node_modules'
+            restoreKeys: |
+              npm | $(OS_NAME) | platform-feature-tests
+              npm |
 
         - task: Npm@1
           inputs:
@@ -67,11 +81,15 @@ jobs:
             workingDir: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
           displayName: 'Install Dependencies'
 
-        - task: ShellScript@2
+        - task: Bash@3
+          displayName: 'Install Chromium (Linux only)'
+          condition: eq(variables['Agent.OS'], 'Linux')
           inputs:
-            scriptPath: 'test-packages/platform-feature-tests/install-chromium.sh'
-          displayName: 'Install Chromium'
-          condition: eq(variables['agent.os'], 'Linux')
+            targetType: inline
+            script: |
+              set -e
+              chmod +x test-packages/platform-feature-tests/install-chromium.sh || true
+              test-packages/platform-feature-tests/install-chromium.sh
 
         - task: Bash@3
           displayName: 'Run Cypress (manual group)'
@@ -83,19 +101,28 @@ jobs:
             CASE_ADMIN_EMAIL: $(CASE_ADMIN_EMAIL)
             SPEC: $(SPEC)
             SMOKE_ONLY: ${{ parameters.SmokeOnly }}
+            OS_NAME: $(OS_NAME)
           inputs:
             targetType: inline
             script: |
-              set -euo pipefail
+              set -eo pipefail
               cd test-packages/platform-feature-tests
-              echo "Specs for this group:" $SPEC
+              echo "Running on OS: $(OS_NAME) (Agent.OS=$(Agent.OS))"
+              echo "Specs for this group: $SPEC"
               if [[ "$SMOKE_ONLY" == "true" ]]; then
                 GREP_TAGS="smoke"
               else
                 GREP_TAGS="-smoke"
               fi
-              npx cypress verify
+              npx cypress verify || echo "Cypress verify non-zero (continuing)"
               npx cypress run --spec "$SPEC" --env grepTags="$GREP_TAGS"
+
+        - task: PublishBuildArtifacts@1
+          displayName: 'Publish Cypress HTML Reports'
+          condition: succeededOrFailed()
+          inputs:
+            pathToPublish: 'test-packages/platform-feature-tests/cypress/reports/reports'
+            artifactName: 'cypress-html-$(OS_NAME)-$(System.JobDisplayName)'
 
         - task: PublishBuildArtifacts@1
           condition: failed()
@@ -112,15 +139,26 @@ jobs:
       pool: pins-odt-agent-pool-tests
       strategy:
         matrix:
-          ${{ each i in range(0, parameters.AutoTotalGroups) }}:
-            group${{ i }}:
-              GROUP_INDEX: ${{ i }}
-              TOTAL_GROUPS: ${{ parameters.AutoTotalGroups }}
+          ${{ each os in parameters.OSList }}:
+            ${{ each i in range(0, parameters.AutoTotalGroups) }}:
+              ${{ format('{0}_group{1}', os, i) }}:
+                GROUP_INDEX: ${{ i }}
+                TOTAL_GROUPS: ${{ parameters.AutoTotalGroups }}
+                OS_NAME: ${{ os }}
       steps:
         - task: NodeTool@0
           inputs:
             versionSpec: '22.x'
           displayName: 'Install Node.js'
+
+        - task: Cache@2
+          displayName: 'Cache node_modules'
+          inputs:
+            key: 'npm | $(OS_NAME) | platform-feature-tests | test-packages/platform-feature-tests/package-lock.json'
+            path: 'test-packages/platform-feature-tests/node_modules'
+            restoreKeys: |
+              npm | $(OS_NAME) | platform-feature-tests
+              npm |
 
         - task: Npm@1
           inputs:
@@ -128,11 +166,15 @@ jobs:
             workingDir: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
           displayName: 'Install Dependencies'
 
-        - task: ShellScript@2
+        - task: Bash@3
+          displayName: 'Install Chromium (Linux only)'
+          condition: eq(variables['Agent.OS'], 'Linux')
           inputs:
-            scriptPath: 'test-packages/platform-feature-tests/install-chromium.sh'
-          displayName: 'Install Chromium'
-          condition: eq(variables['agent.os'], 'Linux')
+            targetType: inline
+            script: |
+              set -e
+              chmod +x test-packages/platform-feature-tests/install-chromium.sh || true
+              test-packages/platform-feature-tests/install-chromium.sh
 
         - task: Bash@3
           displayName: 'Distribute & Run Cypress (auto group)'
@@ -146,11 +188,13 @@ jobs:
             TOTAL_GROUPS: $(TOTAL_GROUPS)
             SPEC_GLOB: ${{ parameters.AutoSpecGlob }}
             SMOKE_ONLY: ${{ parameters.SmokeOnly }}
+            OS_NAME: $(OS_NAME)
           inputs:
             targetType: inline
             script: |
-              set -euo pipefail
+              set -eo pipefail
               cd test-packages/platform-feature-tests
+              echo "Running on OS: $(OS_NAME) (Agent.OS=$(Agent.OS))"
               echo "Auto grouping specs with glob: $SPEC_GLOB"
               mapfile -t ALL_SPECS < <(ls -1 $SPEC_GLOB 2>/dev/null | sort)
               COUNT=${#ALL_SPECS[@]}
@@ -178,8 +222,15 @@ jobs:
               else
                 GREP_TAGS="-smoke"
               fi
-              npx cypress verify
+              npx cypress verify || echo "Cypress verify non-zero (continuing)"
               npx cypress run --spec "$SPEC_ARG" --env grepTags="$GREP_TAGS"
+
+        - task: PublishBuildArtifacts@1
+          displayName: 'Publish Cypress HTML Reports'
+          condition: succeededOrFailed()
+          inputs:
+            pathToPublish: 'test-packages/platform-feature-tests/cypress/reports/reports'
+            artifactName: 'cypress-html-$(OS_NAME)-Group$(GROUP_INDEX)'
 
         - task: PublishBuildArtifacts@1
           condition: failed()
