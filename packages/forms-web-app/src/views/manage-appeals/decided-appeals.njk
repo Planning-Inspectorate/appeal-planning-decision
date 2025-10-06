@@ -50,10 +50,10 @@
                   <a href="/manage-appeals/{{appeal.appealNumber}}" class="govuk-link">
                    {{appeal.appealNumber}}
                   </a>
+									{% if appeal.linkedCaseDetails %}
+										<p><strong class='govuk-tag govuk-tag--grey'>{{appeal.linkedCaseDetails.linkedCaseStatusLabel}}</strong></p>
+                	{% endif %}
                 </td>
-								{% if appeal.linkedCaseDetails %}
-									<p><strong class='govuk-tag govuk-tag--grey'>{{appeal.linkedCaseDetails.linkedCaseStatusLabel}}</strong></p>
-                {% endif %}
                 <td class="govuk-table__cell">{{appeal.address}}</td>
                 <td class="govuk-table__cell">{{appeal.caseDecisionOutcomeDate}}</td>
 								<td class="govuk-table__cell">{{appeal.appealType}}</td>
