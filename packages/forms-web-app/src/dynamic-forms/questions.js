@@ -929,11 +929,7 @@ exports.questionProps = {
 		fieldName: 'areaOutstandingBeauty',
 		url: 'area-of-outstanding-natural-beauty',
 		hint: 'A national landscape used to be called an ‘area of outstanding natural beauty’.',
-		validators: [
-			new RequiredValidator(
-				'Select yes if the appeal site is in an area of outstanding natural beauty'
-			)
-		]
+		validators: [new RequiredValidator('Select yes if the site is in a national landscape')]
 	},
 	designatedSitesCheck: {
 		type: 'checkbox',
