@@ -420,7 +420,7 @@ describe('Full appleal questionnaire validation', { tags: '@S78-LPAQ-Validation-
 						.should('have.attr', 'href', '#areaOutstandingBeauty')
 						.and(
 							'contain.text',
-							'Select yes if the appeal site is in an area of outstanding natural beauty'
+							'Select yes if the site is in a national landscape'
 						);
 				} else if (linkText === 'Change') {
 					cy.get(basePage?._selectors.govukSummaryListKey)
