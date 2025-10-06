@@ -10,7 +10,8 @@
 	"scripts": {
 		"lint": "eslint ./",
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --passWithNoTests",
-		"test:cov": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --coverage --passWithNoTests"
+		"test:cov": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --coverage --passWithNoTests",
+		"tscheck": "tsc"
 	},
 	"author": "",
 	"dependencies": {
@@ -23,7 +24,8 @@
 	"devDependencies": {
 		"jest": "*",
 		"jest-fetch-mock": "*",
-		"jest-junit": "*"
+		"jest-junit": "*",
+		"typescript": "*"
 	},
 	"imports": {
 		"#question-types": "./src/questions/question-types.d.ts"

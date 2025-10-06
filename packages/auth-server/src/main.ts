@@ -23,7 +23,9 @@ try {
 
 async function main() {
 	const [{ default: logger }, { default: server }] = await Promise.all([
+		//@ts-ignore
 		import('./lib/logger.js'),
+		//@ts-ignore
 		import('./server.js')
 	]);
 

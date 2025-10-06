@@ -1,3 +1,9 @@
+/**
+ * Main
+ *
+ * This is the main starting point for the application. It
+ * configures
+ */
 const appInsights = require('applicationinsights');
 try {
 	if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
@@ -9,11 +15,11 @@ try {
 			.setAutoCollectExceptions(true)
 			.setSendLiveMetrics(true);
 		appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] =
-			'pdf-service-api';
+			'document-service-api';
 		appInsights.start();
 	}
 } catch (err) {
-	logger.warn({ err }, 'Application insights failed to start: ');
+	console.warn({ err }, 'Application insights failed to start: ');
 }
 
 const logger = require('./lib/logger');
