@@ -9,10 +9,10 @@
     <table class="govuk-table govuk-!-margin-top-3">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header govuk-!-width-one-third">Appeal number</th>
-          <th scope="col" class="govuk-table__header govuk-!-width-one-third">Appeal site</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Appeal reference number</th>
           <th scope="col" class="govuk-table__header govuk-!-width-one-third">Applicant</th>
-          <th scope="col" class="govuk-table__header">Comment</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-third">Site address</th>
+          <th scope="col" class="govuk-table__header">Status</th>
         </tr>
       </thead>
       <tbody class="govuk-table__body">
@@ -23,8 +23,8 @@
                 {{ appeal.caseReference }}
               </a>
             </td>
-            <td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
             <td class="govuk-table__cell">{{ appeal.appellantFirstName }} {{ appeal.appellantLastName }}</td>
+            <td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
             <td class="govuk-table__cell">
               <strong class="govuk-tag govuk-tag--blue">Open</strong>
             </td>
@@ -37,8 +37,8 @@
                 {{ appeal.caseReference }}
               </a>
             </td>
-            <td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
             <td class="govuk-table__cell">{{ appeal.appellantFirstName }} {{ appeal.appellantLastName }}</td>
+            <td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
             <td class="govuk-table__cell">
               <strong class="govuk-tag govuk-tag--grey">Closed</strong>
             </td>

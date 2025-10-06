@@ -1,0 +1,25 @@
+{%- macro statusTag(status, classes = '') -%}
+	{%- set statusTagColor = 'grey' -%}
+	{%- set statusLabel = status -%}
+	{#
+		list of available color classes can be found
+		at https://design-system.service.gov.uk/components/tag/#additional-colours
+		or https://github.dev/alphagov/govuk-frontend/src/govuk/components/tag/_index.scss
+	#}
+	{%- switch (status | string | lower) -%}
+		{# appeal statuses #}
+		{%- case 'open_for_comments' -%}
+			{%- set statusTagColor = 'green' -%}
+		{%- case 'awaiting_site_visit' -%}
+			{%- set statusTagColor = 'yellow' -%}
+		{%- case 'awaiting_hearing' -%}
+			{%- set statusTagColor = 'yellow' -%}
+		{%- case 'awaiting_inquiry' -%}
+			{%- set statusTagColor = 'yellow' -%}
+		{%- case 'awaiting_decision' -%}
+			{%- set statusTagColor = 'yellow' -%}
+		{%- case 'decision_issued' -%}
+			{%- set statusTagColor = 'blue' -%}
+	{%- endswitch -%}
+	<strong class="govuk-tag govuk-tag--{{ statusTagColor }}{{' ' + classes if classes }}">{{ statusLabel | replace('_',' ') | capitalize }}</strong>
+{%- endmacro -%}

@@ -4,12 +4,14 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "pins/components/appeal-decision-block.njk" import appealDecisionBlock %}
+{% from "../../../../../views/appeal/status-tag.njk" import statusTag %}
 
 {% set title=appeal.headlineText + " - Comment on a planning appeal - GOV.UK" %}
 
 {% block pageTitle %}
   {{ title }}
 {% endblock %}
+
 
 {% block content %}
   <div class="govuk-grid-row">
@@ -21,7 +23,7 @@
         }) }}
       {% endif %}
 
-      <h1 class="govuk-heading-l">{{appeal.headlineText}}</h1>
+      <h1 class="govuk-heading-l">{{appeal.headlineText}} {{ statusTag(appeal.status) }}</h1>
 
 	  {% if appeal.status === 'decided' %}
 	  	{{ appealDecisionBlock(
