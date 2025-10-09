@@ -9,7 +9,7 @@
 7;E60000007;H0738;Stockton on Tees;planning.administration@stockton.gov.uk;stockton.gov.uk;TRUE\n
 8;E60000008;H4505;Gateshead;planning@gateshead.gov.uk;gateshead.gov.uk;TRUE\n
 9;E60000009;M4510;Newcastle upon Tyne;planning.appeals@newcastle.gov.uk;newcastle.gov.uk;TRUE\n
-10;E60000010;W4515;North Tyneside;development.control@northtyneside.gov.uk;my.northtyneside.gov.uk;TRUE\n
+10;E60000010;W4515;North Tyneside;development.control@northtyneside.gov.uk;northtyneside.gov.uk;TRUE\n
 11;E60000011;A4520;South Tyneside;planningapplications@southtyneside.gov.uk;southtyneside.gov.uk;TRUE\n
 12;E60000012;J4525;Sunderland;dc@sunderland.gov.uk;sunderland.gov.uk;TRUE\n
 13;E60000013;M2372;Blackburn with Darwen;planning@blackburn.gov.uk;blackburn.gov.uk;TRUE\n
@@ -142,7 +142,7 @@
 139;E60000146;J0540;Peterborough;planningappeals@peterborough.gov.uk;peterborough.gov.uk;TRUE\n
 140;E60000147;D1590;Southend-on-Sea;planningappeal@southend.gov.uk;southend.gov.uk;TRUE\n
 141;E60000148;M1595;Thurrock;plan.appeals@thurrock.gov.uk;thurrock.gov.uk;TRUE\n
-142;E60000149;Q0505;Cambridge;appeals@greatercambridgeplanning.org;cambridge.gov.uk;TRUE\n
+142;E60000149;Q0505;Cambridge;appeals@greatercambridgeplanning.org;greatercambridgeplanning.org;TRUE\n
 143;E60000150;V0510;East Cambridgeshire;appeals@eastcambs.gov.uk;eastcambs.gov.uk;TRUE\n
 144;E60000151;D0515;Fenland;planningappeals@fenland.gov.uk;fenland.gov.uk;TRUE\n
 145;E60000152;H0520;Huntingdonshire;planning.appeals@huntingdonshire.gov.uk;huntingdonshire.gov.uk;TRUE\n
@@ -187,7 +187,7 @@
 185;E60000192;Y5420;Haringey;planning.appeals@haringey.gov.uk;haringey.gov.uk;TRUE\n
 186;E60000193;V5570;Islington;planningappeals@islington.gov.uk;islington.gov.uk;TRUE\n
 187;E60000194;K5600;Kensington and Chelsea;planningappeals@rbkc.gov.uk;rbkc.gov.uk;TRUE\n
-188;E60000195;N5660;Lambeth;planningappeals@lambeth.gov.uk;beta.lambeth.gov.uk;TRUE\n
+188;E60000195;N5660;Lambeth;planningappeals@lambeth.gov.uk;lambeth.gov.uk;TRUE\n
 189;E60000196;C5690;Lewisham;planning@lewisham.gov.uk;lewisham.gov.uk;TRUE\n
 190;E60000197;G5750;Newham;planning.appeals@newham.gov.uk;newham.gov.uk;TRUE\n
 191;E60000198;A5840;Southwark;planning.appeals@southwark.gov.uk;southwark.gov.uk;TRUE\n
