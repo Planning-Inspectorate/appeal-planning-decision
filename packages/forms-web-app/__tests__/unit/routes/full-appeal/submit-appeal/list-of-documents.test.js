@@ -15,10 +15,10 @@ describe('routes/full-appeal/submit-appeal/list-of-documents', () => {
 
 	it('should define the expected routes', () => {
 		expect(get).toHaveBeenCalledWith(
-			'/submit-appeal/list-of-documents',
+			'/submit-appeal/list-of-documents-v1',
 			[fetchExistingAppealMiddleware],
 			getListOfDocuments
 		);
-		expect(post).toHaveBeenCalledWith('/submit-appeal/list-of-documents', postListOfDocuments);
+		expect(post).toHaveBeenCalledWith('/submit-appeal/list-of-documents-v1', postListOfDocuments);
 	});
 });
