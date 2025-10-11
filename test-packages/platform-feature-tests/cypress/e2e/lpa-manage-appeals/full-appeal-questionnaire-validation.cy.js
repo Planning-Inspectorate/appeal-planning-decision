@@ -403,13 +403,13 @@ describe('Full appleal questionnaire validation', { tags: '@S78-LPAQ-Validation-
 
 	it(`Validate Full appeal questionnaire Area of outstanding natural beauty`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
-			.contains('Area of outstanding natural beauty')
+			.contains('Is the site in a national landscape?')
 			.closest(basePage?._selectors.govukSummaryListRow)
 			.find(basePage?._selectors.agovukLink)
 			.then(($link) => {
 				const linkText = $link
 					.text()
-					.split('Is the appeal site in an area of outstanding natural beauty?')[0]
+					.split('Is the site in a national landscape?')[0]
 					.trim();
 
 				if (linkText === 'Answer') {
@@ -420,11 +420,11 @@ describe('Full appleal questionnaire validation', { tags: '@S78-LPAQ-Validation-
 						.should('have.attr', 'href', '#areaOutstandingBeauty')
 						.and(
 							'contain.text',
-							'Select yes if the appeal site is in an area of outstanding natural beauty'
+							'Select yes if the site is in a national landscape'
 						);
 				} else if (linkText === 'Change') {
 					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Area of outstanding natural beauty')
+						.contains('Is the site in a national landscape?')
 						.closest(basePage?._selectors.govukSummaryListRow)
 						.find(basePage?._selectors.govukSummaryListValue)
 						.should('not.have.text', 'Not started')
