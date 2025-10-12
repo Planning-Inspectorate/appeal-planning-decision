@@ -36,7 +36,7 @@ variables:
   - group: e2e
   - group: e2e-${{ parameters.Environment }}
   - name: CYPRESS_CACHE_FOLDER
-    value: '$(Pipeline.Workspace)/.cypress-cache'
+    value: '$(Pipeline.Workspace)/cypress-cache'
 
 pr: none
 trigger: none
@@ -81,8 +81,8 @@ jobs:
         - task: Cache@2
           displayName: 'Cache Cypress binary'
           inputs:
-            key: 'cypress | $(OS_NAME) | 13.17.0'
-            path: '.cypress-cache'
+            key: 'cypress | $(OS_NAME) | test-packages/platform-feature-tests/package-lock.json'
+            path: '$(CYPRESS_CACHE_FOLDER)'
             restoreKeys: |
               cypress | $(OS_NAME)
 
@@ -180,8 +180,8 @@ jobs:
         - task: Cache@2
           displayName: 'Cache Cypress binary'
           inputs:
-            key: 'cypress | $(OS_NAME) | 13.17.0'
-            path: '.cypress-cache'
+            key: 'cypress | $(OS_NAME) | test-packages/platform-feature-tests/package-lock.json'
+            path: '$(CYPRESS_CACHE_FOLDER)'
             restoreKeys: |
               cypress | $(OS_NAME)
 
