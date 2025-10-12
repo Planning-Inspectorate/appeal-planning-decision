@@ -117,6 +117,14 @@ jobs:
               npx puppeteer browsers install chrome || { echo 'Puppeteer chrome install failed'; exit 1; }
               echo "Listing installed Puppeteer browsers:" || true
               npx puppeteer browsers list || true
+              # Try to parse executable path via node script (non-fatal)
+              EXEC_PATH=$(node -e "try{const p=require('puppeteer');process.stdout.write(p.executablePath())}catch(e){process.exit(0)}") || true
+              if [ -n "$EXEC_PATH" ] && [ -x "$EXEC_PATH" ]; then
+                echo "Derived puppeteer executable path: $EXEC_PATH"
+                echo "##vso[task.setvariable variable=PUPPETEER_EXECUTABLE_PATH]$EXEC_PATH"
+              else
+                echo "Could not derive puppeteer executable path at install stage (will attempt later)."
+              fi
 
         - task: Bash@3
           displayName: 'Install Chromium (Linux only)'
@@ -166,6 +174,21 @@ jobs:
                 export CHROME_BIN
               else
                 echo "Could not derive CHROME_BIN from puppeteer (will rely on system chrome or script-installed chrome)"
+              fi
+              # Fallback detection for Puppeteer executable path
+              if [ -z "$CHROME_BIN" ]; then
+                if command -v google-chrome >/dev/null 2>&1; then
+                  export PUPPETEER_EXECUTABLE_PATH=$(command -v google-chrome)
+                  echo "Set PUPPETEER_EXECUTABLE_PATH to system chrome: $PUPPETEER_EXECUTABLE_PATH"
+                elif command -v chromium-browser >/dev/null 2>&1; then
+                  export PUPPETEER_EXECUTABLE_PATH=$(command -v chromium-browser)
+                  echo "Set PUPPETEER_EXECUTABLE_PATH to chromium-browser: $PUPPETEER_EXECUTABLE_PATH"
+                fi
+              else
+                export PUPPETEER_EXECUTABLE_PATH="$CHROME_BIN"
+              fi
+              if [ ! -x "$PUPPETEER_EXECUTABLE_PATH" ]; then
+                echo "Warning: PUPPETEER_EXECUTABLE_PATH ($PUPPETEER_EXECUTABLE_PATH) is not executable or not set."
               fi
               # Always ensure binary present (idempotent if cached)
               npx cypress install --force || { echo 'Cypress install failed'; exit 1; }
@@ -251,6 +274,13 @@ jobs:
               npx puppeteer browsers install chrome || { echo 'Puppeteer chrome install failed'; exit 1; }
               echo "Listing installed Puppeteer browsers:" || true
               npx puppeteer browsers list || true
+              EXEC_PATH=$(node -e "try{const p=require('puppeteer');process.stdout.write(p.executablePath())}catch(e){process.exit(0)}") || true
+              if [ -n "$EXEC_PATH" ] && [ -x "$EXEC_PATH" ]; then
+                echo "Derived puppeteer executable path: $EXEC_PATH"
+                echo "##vso[task.setvariable variable=PUPPETEER_EXECUTABLE_PATH]$EXEC_PATH"
+              else
+                echo "Could not derive puppeteer executable path at install stage (will attempt later)."
+              fi
 
         - task: Bash@3
           displayName: 'Install Chromium (Linux only)'
@@ -322,6 +352,20 @@ jobs:
                 export CHROME_BIN
               else
                 echo "Could not derive CHROME_BIN from puppeteer (will rely on system chrome)"
+              fi
+              if [ -z "$CHROME_BIN" ]; then
+                if command -v google-chrome >/dev/null 2>&1; then
+                  export PUPPETEER_EXECUTABLE_PATH=$(command -v google-chrome)
+                  echo "Set PUPPETEER_EXECUTABLE_PATH to system chrome: $PUPPETEER_EXECUTABLE_PATH"
+                elif command -v chromium-browser >/dev/null 2>&1; then
+                  export PUPPETEER_EXECUTABLE_PATH=$(command -v chromium-browser)
+                  echo "Set PUPPETEER_EXECUTABLE_PATH to chromium-browser: $PUPPETEER_EXECUTABLE_PATH"
+                fi
+              else
+                export PUPPETEER_EXECUTABLE_PATH="$CHROME_BIN"
+              fi
+              if [ ! -x "$PUPPETEER_EXECUTABLE_PATH" ]; then
+                echo "Warning: PUPPETEER_EXECUTABLE_PATH ($PUPPETEER_EXECUTABLE_PATH) is not executable or not set."
               fi
               npx cypress install --force || { echo 'Cypress install failed'; exit 1; }
               npx cypress verify || echo "Cypress verify non-zero (continuing, will attempt run)"
