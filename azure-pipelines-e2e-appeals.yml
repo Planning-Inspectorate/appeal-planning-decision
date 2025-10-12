@@ -17,7 +17,7 @@ parameters:
     type: object
     default:
       group1: { SPEC: 'cypress/e2e/onboarded-lpa-check.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-granted.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-statement-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-statement.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-final-comment-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-final-comment.cy.js,cypress/e2e/appellant-aapd/appeallant-decided-appeals.cy.js,cypress/e2e/lpa-manage-appeals/lpa-decided-appeals.cy.js' }
-      group2: { SPEC: 'cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire.cy.js,' }
+      group2: { SPEC: 'cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire.cy.js' }
       group3: { SPEC: 'cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-granted.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-refused.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-statement.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-final-comment.cy.js,cypress/e2e/ip-comments/ip-comments.cy.js' }
   - name: AutoSpecGlob
     type: string
@@ -35,6 +35,8 @@ variables:
     value: 'appeals'
   - group: e2e
   - group: e2e-${{ parameters.Environment }}
+  - name: CYPRESS_CACHE_FOLDER
+    value: '$(Pipeline.Workspace)/.cypress-cache'
 
 pr: none
 trigger: none
@@ -76,6 +78,14 @@ jobs:
               npm | $(OS_NAME) | platform-feature-tests
               npm |
 
+        - task: Cache@2
+          displayName: 'Cache Cypress binary'
+          inputs:
+            key: 'cypress | $(OS_NAME) | 13.17.0'
+            path: '.cypress-cache'
+            restoreKeys: |
+              cypress | $(OS_NAME)
+
         - task: Npm@1
           inputs:
             command: 'install'
@@ -103,6 +113,7 @@ jobs:
             SPEC: $(SPEC)
             SMOKE_ONLY: ${{ parameters.SmokeOnly }}
             OS_NAME: $(OS_NAME)
+            CYPRESS_CACHE_FOLDER: $(CYPRESS_CACHE_FOLDER)
           inputs:
             targetType: inline
             script: |
@@ -115,7 +126,12 @@ jobs:
               else
                 GREP_TAGS="-smoke"
               fi
-              npx cypress verify || echo "Cypress verify non-zero (continuing)"
+              echo "Using Cypress cache folder: $CYPRESS_CACHE_FOLDER"
+              mkdir -p "$CYPRESS_CACHE_FOLDER"
+              export CYPRESS_CACHE_FOLDER
+              # Always ensure binary present (idempotent if cached)
+              npx cypress install --force || { echo 'Cypress install failed'; exit 1; }
+              npx cypress verify || echo "Cypress verify non-zero (continuing, will attempt run)"
               npx cypress run --spec "$SPEC" --env grepTags="$GREP_TAGS"
 
         - task: PublishBuildArtifacts@1
@@ -161,6 +177,14 @@ jobs:
               npm | $(OS_NAME) | platform-feature-tests
               npm |
 
+        - task: Cache@2
+          displayName: 'Cache Cypress binary'
+          inputs:
+            key: 'cypress | $(OS_NAME) | 13.17.0'
+            path: '.cypress-cache'
+            restoreKeys: |
+              cypress | $(OS_NAME)
+
         - task: Npm@1
           inputs:
             command: 'install'
@@ -190,6 +214,7 @@ jobs:
             SPEC_GLOB: ${{ parameters.AutoSpecGlob }}
             SMOKE_ONLY: ${{ parameters.SmokeOnly }}
             OS_NAME: $(OS_NAME)
+            CYPRESS_CACHE_FOLDER: $(CYPRESS_CACHE_FOLDER)
           inputs:
             targetType: inline
             script: |
@@ -223,7 +248,11 @@ jobs:
               else
                 GREP_TAGS="-smoke"
               fi
-              npx cypress verify || echo "Cypress verify non-zero (continuing)"
+              echo "Using Cypress cache folder: $CYPRESS_CACHE_FOLDER"
+              mkdir -p "$CYPRESS_CACHE_FOLDER"
+              export CYPRESS_CACHE_FOLDER
+              npx cypress install --force || { echo 'Cypress install failed'; exit 1; }
+              npx cypress verify || echo "Cypress verify non-zero (continuing, will attempt run)"
               npx cypress run --spec "$SPEC_ARG" --env grepTags="$GREP_TAGS"
 
         - task: PublishBuildArtifacts@1
