@@ -15,29 +15,35 @@ const locators = {
 const timeout = async (ms) => await new Promise((resolve) => setTimeout(resolve, ms));
 
 const azureSignIn = async (config) => {
-	const browser = await puppeteer.launch({
-		headless: false, //false, //'new',
+	// Allow CI to supply a system chrome path if puppeteer cache missing
+	const executablePath = process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_BIN || undefined;
+	const launchArgs = ['--no-sandbox', '--disable-dev-shm-usage', '--ignore-certificate-errors'];
+	const launchOptions = {
+		headless: process.env.CI ? 'new' : false,
 		ignoreHTTPSErrors: true,
-		args: ['--no-sandbox', '--ignore-certificate-errors']
-	});
+		args: launchArgs
+	};
+	if (executablePath) {
+		launchOptions.executablePath = executablePath;
+	}
+	let browser;
 	try {
+		browser = await puppeteer.launch(launchOptions);
 		const page = await browser.newPage();
 		await page.goto(config.loginUrl, { waitUntil: 'networkidle2', timeout: 0 });
 		await page.waitForSelector(locators.usernameInput, { visible: true, timeout: 10000 });
 		await page.type(locators.usernameInput, config.username);
 		await page.keyboard.press('Enter');
 		await page.waitForSelector(locators.passwordInput, { visible: true, timeout: 10000 });
-		await timeout(2000);		
+		await timeout(2000);
 		await page.type(locators.passwordInput, config.password);
 		await page.keyboard.press('Enter');
-		// await page.waitForSelector(locators.optTextInput, { visible: true, timeout: 10000 });
-		// await page.click(locators.optTextInput);
 		await timeout(5000);
 
 		const cookies = await getCookies(page);
 
 		if (!fs.existsSync(BrowserAuthData.BrowserAuthDataFolder)) {
-			fs.mkdirSync(BrowserAuthData.BrowserAuthDataFolder);
+			fs.mkdirSync(BrowserAuthData.BrowserAuthDataFolder, { recursive: true });
 		}
 		fs.writeFileSync(
 			path.resolve(
@@ -50,7 +56,9 @@ const azureSignIn = async (config) => {
 		await browser.close();
 		return cookies;
 	} catch (error) {
-		await browser.close();
+		if (browser) {
+			await browser.close();
+		}
 		throw error;
 	}
 };

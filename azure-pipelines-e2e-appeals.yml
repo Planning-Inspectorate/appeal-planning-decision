@@ -37,6 +37,8 @@ variables:
   - group: e2e-${{ parameters.Environment }}
   - name: CYPRESS_CACHE_FOLDER
     value: '$(Pipeline.Workspace)/cypress-cache'
+  - name: PUPPETEER_CACHE_DIR
+    value: '$(Pipeline.Workspace)/puppeteer-cache'
 
 pr: none
 trigger: none
@@ -86,11 +88,35 @@ jobs:
             restoreKeys: |
               cypress | $(OS_NAME)
 
+        - task: Cache@2
+          displayName: 'Cache Puppeteer browsers'
+          inputs:
+            key: 'puppeteer | $(OS_NAME) | test-packages/platform-feature-tests/package-lock.json'
+            path: '$(PUPPETEER_CACHE_DIR)'
+            restoreKeys: |
+              puppeteer | $(OS_NAME)
+
         - task: Npm@1
           inputs:
             command: 'install'
             workingDir: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
           displayName: 'Install Dependencies'
+
+        - task: Bash@3
+          displayName: 'Install Puppeteer Chrome'
+          env:
+            PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
+          inputs:
+            targetType: inline
+            script: |
+              set -eo pipefail
+              echo "Ensuring Puppeteer Chrome available in cache: $PUPPETEER_CACHE_DIR"
+              mkdir -p "$PUPPETEER_CACHE_DIR"
+              export PUPPETEER_CACHE_DIR
+              # Install (idempotent if already cached)
+              npx puppeteer browsers install chrome || { echo 'Puppeteer chrome install failed'; exit 1; }
+              echo "Listing installed Puppeteer browsers:" || true
+              npx puppeteer browsers list || true
 
         - task: Bash@3
           displayName: 'Install Chromium (Linux only)'
@@ -114,6 +140,7 @@ jobs:
             SMOKE_ONLY: ${{ parameters.SmokeOnly }}
             OS_NAME: $(OS_NAME)
             CYPRESS_CACHE_FOLDER: $(CYPRESS_CACHE_FOLDER)
+            PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
           inputs:
             targetType: inline
             script: |
@@ -129,6 +156,17 @@ jobs:
               echo "Using Cypress cache folder: $CYPRESS_CACHE_FOLDER"
               mkdir -p "$CYPRESS_CACHE_FOLDER"
               export CYPRESS_CACHE_FOLDER
+              echo "Using Puppeteer cache dir: $PUPPETEER_CACHE_DIR"
+              mkdir -p "$PUPPETEER_CACHE_DIR"
+              export PUPPETEER_CACHE_DIR
+              # Attempt to derive Chrome binary from puppeteer (non-fatal if fails)
+              CHROME_BIN=$(node -e "try{const p=require('puppeteer');console.log(p.executablePath())}catch(e){process.exit(0)}") || true
+              if [ -n "$CHROME_BIN" ]; then
+                echo "Derived CHROME_BIN from puppeteer: $CHROME_BIN"
+                export CHROME_BIN
+              else
+                echo "Could not derive CHROME_BIN from puppeteer (will rely on system chrome or script-installed chrome)"
+              fi
               # Always ensure binary present (idempotent if cached)
               npx cypress install --force || { echo 'Cypress install failed'; exit 1; }
               npx cypress verify || echo "Cypress verify non-zero (continuing, will attempt run)"
@@ -185,11 +223,34 @@ jobs:
             restoreKeys: |
               cypress | $(OS_NAME)
 
+        - task: Cache@2
+          displayName: 'Cache Puppeteer browsers'
+          inputs:
+            key: 'puppeteer | $(OS_NAME) | test-packages/platform-feature-tests/package-lock.json'
+            path: '$(PUPPETEER_CACHE_DIR)'
+            restoreKeys: |
+              puppeteer | $(OS_NAME)
+
         - task: Npm@1
           inputs:
             command: 'install'
             workingDir: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
           displayName: 'Install Dependencies'
+
+        - task: Bash@3
+          displayName: 'Install Puppeteer Chrome'
+          env:
+            PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
+          inputs:
+            targetType: inline
+            script: |
+              set -eo pipefail
+              echo "Ensuring Puppeteer Chrome available in cache: $PUPPETEER_CACHE_DIR"
+              mkdir -p "$PUPPETEER_CACHE_DIR"
+              export PUPPETEER_CACHE_DIR
+              npx puppeteer browsers install chrome || { echo 'Puppeteer chrome install failed'; exit 1; }
+              echo "Listing installed Puppeteer browsers:" || true
+              npx puppeteer browsers list || true
 
         - task: Bash@3
           displayName: 'Install Chromium (Linux only)'
@@ -215,6 +276,7 @@ jobs:
             SMOKE_ONLY: ${{ parameters.SmokeOnly }}
             OS_NAME: $(OS_NAME)
             CYPRESS_CACHE_FOLDER: $(CYPRESS_CACHE_FOLDER)
+            PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
           inputs:
             targetType: inline
             script: |
@@ -251,6 +313,16 @@ jobs:
               echo "Using Cypress cache folder: $CYPRESS_CACHE_FOLDER"
               mkdir -p "$CYPRESS_CACHE_FOLDER"
               export CYPRESS_CACHE_FOLDER
+              echo "Using Puppeteer cache dir: $PUPPETEER_CACHE_DIR"
+              mkdir -p "$PUPPETEER_CACHE_DIR"
+              export PUPPETEER_CACHE_DIR
+              CHROME_BIN=$(node -e "try{const p=require('puppeteer');console.log(p.executablePath())}catch(e){process.exit(0)}") || true
+              if [ -n "$CHROME_BIN" ]; then
+                echo "Derived CHROME_BIN from puppeteer: $CHROME_BIN"
+                export CHROME_BIN
+              else
+                echo "Could not derive CHROME_BIN from puppeteer (will rely on system chrome)"
+              fi
               npx cypress install --force || { echo 'Cypress install failed'; exit 1; }
               npx cypress verify || echo "Cypress verify non-zero (continuing, will attempt run)"
               npx cypress run --spec "$SPEC_ARG" --env grepTags="$GREP_TAGS"
