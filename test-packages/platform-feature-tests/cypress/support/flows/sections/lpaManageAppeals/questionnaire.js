@@ -17,7 +17,7 @@ let appealId = '';
 const rowNumberOfAppealQuestionnaire = 1;
 export const selectRowAppealQuestionnaireCounter = (context, lpaManageAppealsData, lpaAppealType) => {
 	const basePage = new BasePage();	
-	let rowCounter = 1;
+	let rowCounter = 0;
 	let linkFound = false;
 	return cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 		if (linkFound) return false;
