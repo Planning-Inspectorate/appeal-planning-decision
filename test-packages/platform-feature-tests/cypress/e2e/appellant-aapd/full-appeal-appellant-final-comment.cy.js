@@ -5,7 +5,7 @@ import { users } from '../../fixtures/users.js';
 const { finalComment } = require('../../support/flows/sections/appellantAAPD/finalComment');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-describe('Appellant Full Planning Final Comment Test Cases', { tags: '@S78-appellant-Final-Comment-Submission' }, () => {
+describe('Appellant Full Planning Final Comment submission', { tags: '@S78-appellant-Final-Comment-Submission' }, () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
         before(() => {
