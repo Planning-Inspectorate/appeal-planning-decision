@@ -26,12 +26,12 @@ require('cy-verify-downloads').addCustomCommand();
 // Ignore transient AAD CDN script load errors that should not fail user flows
 Cypress.on('uncaught:exception', (err) => {
   const msg = err && err.message ? err.message : '';
-  if (/Failed to load external resource.*aadcdn\.msftauth\.net/i.test(msg)) {
-    // return false => prevent Cypress from failing the test
-    return false;
+  const aadCdnPattern = /Failed to load external resource.*aadcdn\.(msauth|msftauth)\.net/i;
+  if (aadCdnPattern.test(msg)) {
+    Cypress.log({ name: 'AAD CDN Suppressed', message: msg.slice(0,180) });
+    return false; // suppress
   }
-  // allow other errors to fail tests
-  return true;
+  return true; // allow others to fail tests
 });
 
 // Alternatively you can use CommonJS syntax:
