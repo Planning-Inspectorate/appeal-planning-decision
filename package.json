@@ -172,7 +172,7 @@
 		"@testing-library/user-event": "^12.8.3",
 		"@types/jest": "^30.0.0",
 		"commitizen": "^4.3.1",
-		"cross-env": "^10.0.0",
+		"cross-env": "^10.1.0",
 		"cz-conventional-changelog": "^3.3.0",
 		"docopt": "^0.6.2",
 		"eslint": "^8.50.0",
