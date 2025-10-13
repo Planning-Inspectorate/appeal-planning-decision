@@ -134,22 +134,24 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Agricultural holding',
 			valueText: formatYesOrNo(caseData, 'agriculturalHolding'),
-			condition: (caseData) => caseData.agriculturalHolding != null
+			condition: (caseData) => !hasOrCasPlanningAppeal && caseData.agriculturalHolding != null
 		},
 		{
 			keyText: 'Tenant on agricultural holding',
 			valueText: formatYesOrNo(caseData, 'tenantAgriculturalHolding'),
-			condition: (caseData) => caseData.tenantAgriculturalHolding != null
+			condition: (caseData) => !hasOrCasPlanningAppeal && caseData.tenantAgriculturalHolding != null
 		},
 		{
 			keyText: 'Other agricultural holding tenants',
 			valueText: formatYesOrNo(caseData, 'otherTenantsAgriculturalHolding'),
-			condition: (caseData) => caseData.otherTenantsAgriculturalHolding != null
+			condition: (caseData) =>
+				!hasOrCasPlanningAppeal && caseData.otherTenantsAgriculturalHolding != null
 		},
 		{
 			keyText: 'Informed other agricultural holding tenants',
 			valueText: formatYesOrNo(caseData, 'informedTenantsAgriculturalHolding'),
-			condition: (caseData) => caseData.informedTenantsAgriculturalHolding != null
+			condition: (caseData) =>
+				!hasOrCasPlanningAppeal && caseData.informedTenantsAgriculturalHolding != null
 		},
 		{
 			keyText: 'Site health and safety issues',
@@ -169,7 +171,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Was your application about any of the following?',
 			valueText: formatDevelopmentType(caseData.developmentType),
-			condition: () => !hasOrCasPlanningAppeal
+			condition: () => !hasOrCasPlanningAppeal && caseData.developmentType != null
 		},
 		{
 			keyText: 'Enter the description of development',
@@ -184,21 +186,23 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Preferred procedure',
 			valueText: formatProcedure(caseData),
-			condition: (caseData) => caseData.appellantProcedurePreference
+			condition: (caseData) => !hasOrCasPlanningAppeal && caseData.appellantProcedurePreference
 		},
 		{
 			keyText: 'Expected procedure duration',
 			valueText: caseData.appellantProcedurePreferenceDuration
 				? caseData.appellantProcedurePreferenceDuration.toString()
 				: '',
-			condition: (caseData) => caseData.appellantProcedurePreferenceDuration != null
+			condition: (caseData) =>
+				!hasOrCasPlanningAppeal && caseData.appellantProcedurePreferenceDuration != null
 		},
 		{
 			keyText: 'Expected witness count',
 			valueText: caseData.appellantProcedurePreferenceWitnessCount
 				? caseData.appellantProcedurePreferenceWitnessCount.toString()
 				: '',
-			condition: (caseData) => caseData.appellantProcedurePreferenceWitnessCount != null
+			condition: (caseData) =>
+				!hasOrCasPlanningAppeal && caseData.appellantProcedurePreferenceWitnessCount != null
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',

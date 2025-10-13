@@ -75,7 +75,8 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'Planning obligation status',
 			valueText: caseData.statusPlanningObligation,
-			condition: (caseData) => caseData.statusPlanningObligation
+			condition: (caseData) =>
+				caseData.appealTypeCode !== CASE_TYPES.HAS.processCode && caseData.statusPlanningObligation
 		},
 		{
 			keyText: 'Planning obligation',
