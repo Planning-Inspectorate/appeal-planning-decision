@@ -10,6 +10,8 @@ const createClient = (
 		return prisma;
 	}
 
+	console.log('initialising Prisma', prismaConfig);
+
 	const client = new PrismaClient({
 		...prismaConfig,
 		log: [

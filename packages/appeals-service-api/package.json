@@ -58,6 +58,7 @@
 		"uuid": "*"
 	},
 	"devDependencies": {
+		"@jest/globals": "*",
 		"@shelf/jest-mongodb": "*",
 		"cross-env": "*",
 		"jest": "*",
@@ -68,12 +69,13 @@
 		"supertest": "*",
 		"swagger-cli": "*",
 		"testcontainers": "*",
+		"ts-jest": "*",
 		"typescript": "*"
 	},
 	"imports": {
 		"#db-client": "./src/db/db-client.js",
 		"#errors/*": "./src/errors/*.js",
-		"#lib/*": "./src/lib/*.js",
+		"#lib/*": "./src/lib/*",
 		"#repositories/*": "./src/repositories/*.js"
 	}
 }
