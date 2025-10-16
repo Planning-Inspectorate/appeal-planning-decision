@@ -37,7 +37,7 @@
     "constraintsAndDesignations": {
         "correctTypeOfAppealFullPlanning": "Is a planning appeal the correct type of appeal?",
         "correctTypeOfAppealHouseHolder": "Is a householder appeal the correct type of appeal?",
-        "correctTypeOfAppealListedBuilding": "Is a planning listed building and conservation area consent appeal the correct type of appeal?",
+        "correctTypeOfAppealListedBuilding": "Is a planning listed building and conservation area appeal the correct type of appeal?",
         "addChangedListedBuilding": "Add another building or site?",
         "changedListedBuildingNumber": "1118437",
         "chagesListedBuilding": "Does the proposed development change a listed building?",
