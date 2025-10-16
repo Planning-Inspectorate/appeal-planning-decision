@@ -27,7 +27,7 @@ const makeSections = (response) => [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
 		.withVariables({
-			[QUESTION_VARIABLES.APPEAL_TYPE]: `${mapAppealTypeToDisplayText(S20)} consent`
+			[QUESTION_VARIABLES.APPEAL_TYPE]: `${mapAppealTypeToDisplayText(S20)}`
 		})
 		.addQuestion(questions.changesListedBuilding)
 		.addQuestion(questions.changedListedBuildings)

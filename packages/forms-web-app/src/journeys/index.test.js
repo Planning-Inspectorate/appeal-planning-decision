@@ -588,11 +588,6 @@ const questionExpectations = (question, element, caseType) => {
 	 * @returns {string}
 	 */
 	const getAppealTypeString = (type) => {
-		// todo: standardise this to avoid s20/s78 differences
-		if (type.processCode == CASE_TYPES.S20.processCode) {
-			return mapAppealTypeToDisplayText(type) + ' consent';
-		}
-
 		return mapAppealTypeToDisplayText(type);
 	};
 
