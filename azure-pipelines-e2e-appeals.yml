@@ -56,11 +56,6 @@ jobs:
           versionSpec: "22.x"
         displayName: "Install Node.js"
 
-      - task: ShellScript@2
-        inputs:
-          scriptPath: 'appeals/e2e/install-chromium.sh'
-        displayName: 'Install Chromium'
-        condition: eq(variables['agent.os'], 'Linux')
       # Replacing above ShellScript with a resilient inline Bash step because the referenced path does not exist in repo.
       - task: Bash@3
         displayName: 'Install Chromium (Linux only)'
