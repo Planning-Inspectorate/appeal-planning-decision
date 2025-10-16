@@ -16,12 +16,12 @@ variables:
 pr: none
 trigger: none
 
-schedules:
-  - cron: "0 2 * * 1-5"
-    displayName: Weekday test run
-    branches:
-      include: [main]
-    always: true
+# schedules:
+#   - cron: "0 2 * * 1-5"
+#     displayName: Weekday test run
+#     branches:
+#       include: [main]
+#     always: true
 
 jobs:
   - job: Run_Cypress_Tests_For_Appeals
