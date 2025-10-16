@@ -61,6 +61,31 @@ jobs:
           scriptPath: 'appeals/e2e/install-chromium.sh'
         displayName: 'Install Chromium'
         condition: eq(variables['agent.os'], 'Linux')
+      # Replacing above ShellScript with a resilient inline Bash step because the referenced path does not exist in repo.
+      - task: Bash@3
+        displayName: 'Install Chromium (Linux only)'
+        condition: eq(variables['Agent.OS'], 'Linux')
+        inputs:
+          targetType: inline
+          script: |
+            set -euo pipefail
+            echo "Attempting Chromium installation on Linux agent"
+            if command -v chromium-browser >/dev/null 2>&1 || command -v google-chrome >/dev/null 2>&1; then
+              echo "Chromium/Chrome already present; skipping apt install.";
+            else
+              echo "Installing Chromium via apt-get";
+              sudo apt-get update -y || true
+              sudo apt-get install -y chromium-browser || sudo apt-get install -y chromium || {
+                echo "Chromium install failed"; exit 1; }
+            fi
+            # Export CHROME_BIN for Cypress (non-fatal if not found)
+            CHROME_BIN=$(command -v chromium-browser || command -v chromium || command -v google-chrome || true)
+            if [ -n "$CHROME_BIN" ]; then
+              echo "Found Chrome/Chromium binary at: $CHROME_BIN"
+              echo "##vso[task.setvariable variable=CHROME_BIN]$CHROME_BIN"
+            else
+              echo "Warning: Chrome/Chromium binary not found after installation attempt.";
+            fi
 
       - task: Npm@1
         inputs:
