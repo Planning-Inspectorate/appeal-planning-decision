@@ -1,386 +1,88 @@
 parameters:
   - name: Environment
     type: string
-    default: 'Test'
-    values:
-      - 'dev'
-      - 'test'
-      - 'staging'
-  - name: SmokeOnly
+    default: 'dev'
+    values: ['dev', 'test']
+
+  - name: RunParallel
     type: boolean
-    default: true
-  - name: RunMode
-    type: string
-    default: 'manual'
-    values: ['manual','auto'] # manual = explicit spec lists per group; auto = even split by index
-  - name: ManualGroups
-    type: object
-    default:
-      group1: { SPEC: 'cypress/e2e/onboarded-lpa-check.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-granted.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-statement-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-statement.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-final-comment-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-final-comment.cy.js,cypress/e2e/appellant-aapd/full-appeal-appellant-final-comment-validation.cy.js,cypress/e2e/appellant-aapd/full-appeal-appellant-final-comment.cy.js,cypress/e2e/appellant-aapd/appeallant-decided-appeals.cy.js,cypress/e2e/lpa-manage-appeals/lpa-decided-appeals.cy.js' }
-      group2: { SPEC: 'cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire.cy.js' }
-      group3: { SPEC: 'cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-granted.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-refused.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-statement.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-final-comment.cy.js,cypress/e2e/ip-comments/ip-comments.cy.js' }
-  - name: AutoSpecGlob
-    type: string
-    default: 'cypress/e2e/**/*.cy.js'
-    
-  - name: AutoTotalGroups
-    type: number
-    default: 3
-  - name: OSList
-    type: object
-    default: ['linux'] # Options: linux, windows, macos
+    default: false   # default = single agent for scheduled runs
 
 variables:
   - name: APP
     value: 'appeals'
-  - group: e2e
   - group: e2e-${{ parameters.Environment }}
-  - name: CYPRESS_CACHE_FOLDER
-    value: '$(Pipeline.Workspace)/cypress-cache'
-  - name: PUPPETEER_CACHE_DIR
-    value: '$(Pipeline.Workspace)/puppeteer-cache'
 
 pr: none
 trigger: none
 
-# Example schedule (uncomment to enable regular runs)
-# schedules:
-#   - cron: '0 2 * * 1-5'
-#     displayName: Weekday test run
-#     branches:
-#       include: [ main ]
-#     always: true
+schedules:
+  - cron: "0 2 * * 1-5"
+    displayName: Weekday test run
+    branches:
+      include: [main]
+    always: true
 
 jobs:
-  # Manual grouping matrix (explicit spec lists). Adjust parameters.ManualGroups to rebalance.
-  - ${{ if eq(parameters.RunMode, 'manual') }}:
-    - job: Cypress_Manual_Groups
-      timeoutInMinutes: 90
-      displayName: 'Cypress E2E (manual groups)'
-      pool: pins-odt-agent-pool-tests
-      strategy:
+  - job: Run_Cypress_Tests_For_Appeals
+    timeoutInMinutes: 90
+    pool: pins-odt-agent-pool-tests
+
+    strategy:
+      # 🟢 PARALLEL RUNS (manual toggle)
+      ${{ if eq(parameters.RunParallel, true) }}:
         matrix:
-          ${{ each os in parameters.OSList }}:
-            ${{ each pair in parameters.ManualGroups }}:
-              ${{ format('{0}_{1}', os, pair.Key) }}:
-                SPEC: ${{ pair.Value.SPEC }}
-                OS_NAME: ${{ os }}
-      steps:
-        - task: NodeTool@0
-          inputs:
-            versionSpec: '22.x'
-          displayName: 'Install Node.js'
+          group1:
+            SPEC: cypress/e2e/onboarded-lpa-check.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-granted.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-statement-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-statement.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-final-comment-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-final-comment.cy.js,cypress/e2e/appellant-aapd/full-appeal-appellant-final-comment-validation.cy.js,cypress/e2e/appellant-aapd/full-appeal-appellant-final-comment.cy.js,cypress/e2e/appellant-aapd/appeallant-decided-appeals.cy.js,cypress/e2e/lpa-manage-appeals/lpa-decided-appeals.cy.js
+          group2:
+            SPEC: cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire.cy.js
+          group3:
+            SPEC: cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-granted.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-refused.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-statement.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-final-comment.cy.js,cypress/e2e/ip-comments/ip-comments.cy.js
 
-        - task: Cache@2
-          displayName: 'Cache node_modules'
-          inputs:
-            key: 'npm | $(OS_NAME) | platform-feature-tests | test-packages/platform-feature-tests/package-lock.json'
-            path: 'test-packages/platform-feature-tests/node_modules'
-            restoreKeys: |
-              npm | $(OS_NAME) | platform-feature-tests
-              npm |
-
-        - task: Cache@2
-          displayName: 'Cache Cypress binary'
-          inputs:
-            key: 'cypress | $(OS_NAME) | test-packages/platform-feature-tests/package-lock.json'
-            path: '$(CYPRESS_CACHE_FOLDER)'
-            restoreKeys: |
-              cypress | $(OS_NAME)
-
-        - task: Cache@2
-          displayName: 'Cache Puppeteer browsers'
-          inputs:
-            key: 'puppeteer | $(OS_NAME) | test-packages/platform-feature-tests/package-lock.json'
-            path: '$(PUPPETEER_CACHE_DIR)'
-            restoreKeys: |
-              puppeteer | $(OS_NAME)
-
-        - task: Npm@1
-          inputs:
-            command: 'install'
-            workingDir: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
-          displayName: 'Install Dependencies'
-
-        - task: Bash@3
-          displayName: 'Install Puppeteer Chrome'
-          env:
-            PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
-          inputs:
-            targetType: inline
-            script: |
-              set -eo pipefail
-              echo "Ensuring Puppeteer Chrome available in cache: $PUPPETEER_CACHE_DIR"
-              mkdir -p "$PUPPETEER_CACHE_DIR"
-              export PUPPETEER_CACHE_DIR
-              # Install (idempotent if already cached)
-              npx puppeteer browsers install chrome || { echo 'Puppeteer chrome install failed'; exit 1; }
-              echo "Listing installed Puppeteer browsers:" || true
-              npx puppeteer browsers list || true
-              # Try to parse executable path via node script (non-fatal)
-              EXEC_PATH=$(node -e "try{const p=require('puppeteer');process.stdout.write(p.executablePath())}catch(e){process.exit(0)}") || true
-              if [ -n "$EXEC_PATH" ] && [ -x "$EXEC_PATH" ]; then
-                echo "Derived puppeteer executable path: $EXEC_PATH"
-                echo "##vso[task.setvariable variable=PUPPETEER_EXECUTABLE_PATH]$EXEC_PATH"
-              else
-                echo "Could not derive puppeteer executable path at install stage (will attempt later)."
-              fi
-
-        - task: Bash@3
-          displayName: 'Install Chromium (Linux only)'
-          condition: eq(variables['Agent.OS'], 'Linux')
-          inputs:
-            targetType: inline
-            script: |
-              set -e
-              chmod +x test-packages/platform-feature-tests/install-chromium.sh || true
-              test-packages/platform-feature-tests/install-chromium.sh
-
-        - task: Bash@3
-          displayName: 'Run Cypress (manual group)'
-          env:
-            CYPRESS_APPEALS_BETA_BASE_URL: $(CYPRESS_APPEALS_BETA_BASE_URL)
-            CYPRESS_BACK_OFFICE_BASE_URL: $(CYPRESS_BACK_OFFICE_BASE_URL)
-            AUTH_EMAIL: $(AUTH_EMAIL)
-            AUTH_PASSWORD: $(AUTH_PASSWORD)
-            CASE_ADMIN_EMAIL: $(CASE_ADMIN_EMAIL)
-            SPEC: $(SPEC)
-            SMOKE_ONLY: ${{ parameters.SmokeOnly }}
-            OS_NAME: $(OS_NAME)
-            CYPRESS_CACHE_FOLDER: $(CYPRESS_CACHE_FOLDER)
-            PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
-          inputs:
-            targetType: inline
-            script: |
-              set -eo pipefail
-              cd test-packages/platform-feature-tests
-              echo "Running on OS: $(OS_NAME) (Agent.OS=$(Agent.OS))"
-              echo "Specs for this group: $SPEC"
-              if [[ "$SMOKE_ONLY" == "true" ]]; then
-                GREP_TAGS="smoke"
-              else
-                GREP_TAGS="-smoke"
-              fi
-              echo "Using Cypress cache folder: $CYPRESS_CACHE_FOLDER"
-              mkdir -p "$CYPRESS_CACHE_FOLDER"
-              export CYPRESS_CACHE_FOLDER
-              echo "Using Puppeteer cache dir: $PUPPETEER_CACHE_DIR"
-              mkdir -p "$PUPPETEER_CACHE_DIR"
-              export PUPPETEER_CACHE_DIR
-              # Attempt to derive Chrome binary from puppeteer (non-fatal if fails)
-              CHROME_BIN=$(node -e "try{const p=require('puppeteer');console.log(p.executablePath())}catch(e){process.exit(0)}") || true
-              if [ -n "$CHROME_BIN" ]; then
-                echo "Derived CHROME_BIN from puppeteer: $CHROME_BIN"
-                export CHROME_BIN
-              else
-                echo "Could not derive CHROME_BIN from puppeteer (will rely on system chrome or script-installed chrome)"
-              fi
-              # Fallback detection for Puppeteer executable path
-              if [ -z "$CHROME_BIN" ]; then
-                if command -v google-chrome >/dev/null 2>&1; then
-                  export PUPPETEER_EXECUTABLE_PATH=$(command -v google-chrome)
-                  echo "Set PUPPETEER_EXECUTABLE_PATH to system chrome: $PUPPETEER_EXECUTABLE_PATH"
-                elif command -v chromium-browser >/dev/null 2>&1; then
-                  export PUPPETEER_EXECUTABLE_PATH=$(command -v chromium-browser)
-                  echo "Set PUPPETEER_EXECUTABLE_PATH to chromium-browser: $PUPPETEER_EXECUTABLE_PATH"
-                fi
-              else
-                export PUPPETEER_EXECUTABLE_PATH="$CHROME_BIN"
-              fi
-              if [ ! -x "$PUPPETEER_EXECUTABLE_PATH" ]; then
-                echo "Warning: PUPPETEER_EXECUTABLE_PATH ($PUPPETEER_EXECUTABLE_PATH) is not executable or not set."
-              fi
-              # Always ensure binary present (idempotent if cached)
-              npx cypress install --force || { echo 'Cypress install failed'; exit 1; }
-              npx cypress verify || echo "Cypress verify non-zero (continuing, will attempt run)"
-              npx cypress run --spec "$SPEC" --env grepTags="$GREP_TAGS"
-
-        - task: PublishBuildArtifacts@1
-          displayName: 'Publish Cypress HTML Reports'
-          condition: succeededOrFailed()
-          inputs:
-            pathToPublish: 'test-packages/platform-feature-tests/cypress/reports/reports'
-            artifactName: 'cypress-html-$(OS_NAME)-$(System.JobDisplayName)'
-
-        - task: PublishBuildArtifacts@1
-          condition: failed()
-          inputs:
-            pathToPublish: 'test-packages/platform-feature-tests/cypress/reports'
-            artifactName: 'FailedTests-$(System.JobDisplayName)'
-          displayName: 'Publish Failed Tests (group)'
-
-  # Automatic even split of specs across groups.
-  - ${{ if eq(parameters.RunMode, 'auto') }}:
-    - job: Cypress_Auto_Groups
-      timeoutInMinutes: 90
-      displayName: 'Cypress E2E (auto ${ { parameters.AutoTotalGroups } } groups)'
-      pool: pins-odt-agent-pool-tests
-      strategy:
+      # 🟡 SINGLE AGENT RUN (default)
+      ${{ if eq(parameters.RunParallel, false) }}:
         matrix:
-          ${{ each os in parameters.OSList }}:
-            ${{ each i in range(0, parameters.AutoTotalGroups) }}:
-              ${{ format('{0}_group{1}', os, i) }}:
-                GROUP_INDEX: ${{ i }}
-                TOTAL_GROUPS: ${{ parameters.AutoTotalGroups }}
-                OS_NAME: ${{ os }}
-      steps:
-        - task: NodeTool@0
-          inputs:
-            versionSpec: '22.x'
-          displayName: 'Install Node.js'
+          single:
+            SPEC: cypress/e2e/**/*.cy.js
 
-        - task: Cache@2
-          displayName: 'Cache node_modules'
-          inputs:
-            key: 'npm | $(OS_NAME) | platform-feature-tests | test-packages/platform-feature-tests/package-lock.json'
-            path: 'test-packages/platform-feature-tests/node_modules'
-            restoreKeys: |
-              npm | $(OS_NAME) | platform-feature-tests
-              npm |
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "22.x"
+        displayName: "Install Node.js"
 
-        - task: Cache@2
-          displayName: 'Cache Cypress binary'
-          inputs:
-            key: 'cypress | $(OS_NAME) | test-packages/platform-feature-tests/package-lock.json'
-            path: '$(CYPRESS_CACHE_FOLDER)'
-            restoreKeys: |
-              cypress | $(OS_NAME)
+      - task: ShellScript@2
+        inputs:
+          scriptPath: 'appeals/e2e/install-chromium.sh'
+        displayName: 'Install Chromium'
+        condition: eq(variables['agent.os'], 'Linux')
 
-        - task: Cache@2
-          displayName: 'Cache Puppeteer browsers'
-          inputs:
-            key: 'puppeteer | $(OS_NAME) | test-packages/platform-feature-tests/package-lock.json'
-            path: '$(PUPPETEER_CACHE_DIR)'
-            restoreKeys: |
-              puppeteer | $(OS_NAME)
+      - task: Npm@1
+        inputs:
+          command: "install"
+          workingDir: $(System.DefaultWorkingDirectory)/appeals/e2e
+        displayName: "Install Dependencies"
 
-        - task: Npm@1
-          inputs:
-            command: 'install'
-            workingDir: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
-          displayName: 'Install Dependencies'
+      - script: |
+          echo "Running Cypress specs: $(SPEC)"
+          npx cypress run --spec "$(SPEC)"
+        workingDirectory: $(System.DefaultWorkingDirectory)/appeals/e2e
+        env:
+           CYPRESS_APPEALS_BETA_BASE_URL: $(CYPRESS_APPEALS_BETA_BASE_URL)
+              CYPRESS_BACK_OFFICE_BASE_URL: $(CYPRESS_BACK_OFFICE_BASE_URL)
+              AUTH_EMAIL: $(AUTH_EMAIL)
+              AUTH_PASSWORD: $(AUTH_PASSWORD)
+              CASE_ADMIN_EMAIL: $(CASE_ADMIN_EMAIL)
+              SPEC: $(SPEC)
+              SMOKE_ONLY: ${{ parameters.SmokeOnly }}
+              OS_NAME: $(OS_NAME)
+              CYPRESS_CACHE_FOLDER: $(CYPRESS_CACHE_FOLDER)
+              PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
+        displayName: "Run Cypress Tests"        
 
-        - task: Bash@3
-          displayName: 'Install Puppeteer Chrome'
-          env:
-            PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
-          inputs:
-            targetType: inline
-            script: |
-              set -eo pipefail
-              echo "Ensuring Puppeteer Chrome available in cache: $PUPPETEER_CACHE_DIR"
-              mkdir -p "$PUPPETEER_CACHE_DIR"
-              export PUPPETEER_CACHE_DIR
-              npx puppeteer browsers install chrome || { echo 'Puppeteer chrome install failed'; exit 1; }
-              echo "Listing installed Puppeteer browsers:" || true
-              npx puppeteer browsers list || true
-              EXEC_PATH=$(node -e "try{const p=require('puppeteer');process.stdout.write(p.executablePath())}catch(e){process.exit(0)}") || true
-              if [ -n "$EXEC_PATH" ] && [ -x "$EXEC_PATH" ]; then
-                echo "Derived puppeteer executable path: $EXEC_PATH"
-                echo "##vso[task.setvariable variable=PUPPETEER_EXECUTABLE_PATH]$EXEC_PATH"
-              else
-                echo "Could not derive puppeteer executable path at install stage (will attempt later)."
-              fi
-
-        - task: Bash@3
-          displayName: 'Install Chromium (Linux only)'
-          condition: eq(variables['Agent.OS'], 'Linux')
-          inputs:
-            targetType: inline
-            script: |
-              set -e
-              chmod +x test-packages/platform-feature-tests/install-chromium.sh || true
-              test-packages/platform-feature-tests/install-chromium.sh
-
-        - task: Bash@3
-          displayName: 'Distribute & Run Cypress (auto group)'
-          env:
-            CYPRESS_APPEALS_BETA_BASE_URL: $(CYPRESS_APPEALS_BETA_BASE_URL)
-            CYPRESS_BACK_OFFICE_BASE_URL: $(CYPRESS_BACK_OFFICE_BASE_URL)
-            AUTH_EMAIL: $(AUTH_EMAIL)
-            AUTH_PASSWORD: $(AUTH_PASSWORD)
-            CASE_ADMIN_EMAIL: $(CASE_ADMIN_EMAIL)
-            GROUP_INDEX: $(GROUP_INDEX)
-            TOTAL_GROUPS: $(TOTAL_GROUPS)
-            SPEC_GLOB: ${{ parameters.AutoSpecGlob }}
-            SMOKE_ONLY: ${{ parameters.SmokeOnly }}
-            OS_NAME: $(OS_NAME)
-            CYPRESS_CACHE_FOLDER: $(CYPRESS_CACHE_FOLDER)
-            PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
-          inputs:
-            targetType: inline
-            script: |
-              set -eo pipefail
-              cd test-packages/platform-feature-tests
-              echo "Running on OS: $(OS_NAME) (Agent.OS=$(Agent.OS))"
-              echo "Auto grouping specs with glob: $SPEC_GLOB"
-              mapfile -t ALL_SPECS < <(ls -1 $SPEC_GLOB 2>/dev/null | sort)
-              COUNT=${#ALL_SPECS[@]}
-              if [[ $COUNT -eq 0 ]]; then
-                echo "No specs found for $SPEC_GLOB" >&2
-                exit 1
-              fi
-              echo "Total specs discovered: $COUNT"
-              SELECTED=()
-              for i in "${!ALL_SPECS[@]}"; do
-                mod=$(( i % TOTAL_GROUPS ))
-                if [[ $mod -eq $GROUP_INDEX ]]; then
-                  SELECTED+=("${ALL_SPECS[$i]}")
-                fi
-              done
-              if [[ ${#SELECTED[@]} -eq 0 ]]; then
-                echo "No specs assigned to this group index $GROUP_INDEX" >&2
-                exit 1
-              fi
-              printf 'Assigned specs (%s):\n' "${#SELECTED[@]}"
-              printf '  %s\n' "${SELECTED[@]}"
-              SPEC_ARG=$(IFS=, ; echo "${SELECTED[*]}")
-              if [[ "$SMOKE_ONLY" == "true" ]]; then
-                GREP_TAGS="smoke"
-              else
-                GREP_TAGS="-smoke"
-              fi
-              echo "Using Cypress cache folder: $CYPRESS_CACHE_FOLDER"
-              mkdir -p "$CYPRESS_CACHE_FOLDER"
-              export CYPRESS_CACHE_FOLDER
-              echo "Using Puppeteer cache dir: $PUPPETEER_CACHE_DIR"
-              mkdir -p "$PUPPETEER_CACHE_DIR"
-              export PUPPETEER_CACHE_DIR
-              CHROME_BIN=$(node -e "try{const p=require('puppeteer');console.log(p.executablePath())}catch(e){process.exit(0)}") || true
-              if [ -n "$CHROME_BIN" ]; then
-                echo "Derived CHROME_BIN from puppeteer: $CHROME_BIN"
-                export CHROME_BIN
-              else
-                echo "Could not derive CHROME_BIN from puppeteer (will rely on system chrome)"
-              fi
-              if [ -z "$CHROME_BIN" ]; then
-                if command -v google-chrome >/dev/null 2>&1; then
-                  export PUPPETEER_EXECUTABLE_PATH=$(command -v google-chrome)
-                  echo "Set PUPPETEER_EXECUTABLE_PATH to system chrome: $PUPPETEER_EXECUTABLE_PATH"
-                elif command -v chromium-browser >/dev/null 2>&1; then
-                  export PUPPETEER_EXECUTABLE_PATH=$(command -v chromium-browser)
-                  echo "Set PUPPETEER_EXECUTABLE_PATH to chromium-browser: $PUPPETEER_EXECUTABLE_PATH"
-                fi
-              else
-                export PUPPETEER_EXECUTABLE_PATH="$CHROME_BIN"
-              fi
-              if [ ! -x "$PUPPETEER_EXECUTABLE_PATH" ]; then
-                echo "Warning: PUPPETEER_EXECUTABLE_PATH ($PUPPETEER_EXECUTABLE_PATH) is not executable or not set."
-              fi
-              npx cypress install --force || { echo 'Cypress install failed'; exit 1; }
-              npx cypress verify || echo "Cypress verify non-zero (continuing, will attempt run)"
-              npx cypress run --spec "$SPEC_ARG" --env grepTags="$GREP_TAGS"
-
-        - task: PublishBuildArtifacts@1
-          displayName: 'Publish Cypress HTML Reports'
-          condition: succeededOrFailed()
-          inputs:
-            pathToPublish: 'test-packages/platform-feature-tests/cypress/reports/reports'
-            artifactName: 'cypress-html-$(OS_NAME)-Group$(GROUP_INDEX)'
-
-        - task: PublishBuildArtifacts@1
-          condition: failed()
-          inputs:
-            pathToPublish: 'test-packages/platform-feature-tests/cypress/reports'
-            artifactName: 'FailedTests-Group$(GROUP_INDEX)'
-          displayName: 'Publish Failed Tests (auto group)'
+      - task: PublishBuildArtifacts@1
+        condition: failed()
+        inputs:
+          pathToPublish: 'appeals/e2e/cypress/screenshots'
+          artifactName: 'FailedTests'
+        displayName: "Publish Failed Tests Artifacts"
