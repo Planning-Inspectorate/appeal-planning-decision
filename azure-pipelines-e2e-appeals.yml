@@ -85,13 +85,13 @@ jobs:
       - task: Npm@1
         inputs:
           command: "install"
-          workingDir: $(System.DefaultWorkingDirectory)/appeals/e2e
+          workingDir: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
         displayName: "Install Dependencies"
 
       - script: |
           echo "Running Cypress specs: $(SPEC)"
           npx cypress run --spec "$(SPEC)"
-        workingDirectory: $(System.DefaultWorkingDirectory)/appeals/e2e
+        workingDirectory: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
         env:
           CYPRESS_APPEALS_BETA_BASE_URL: $(CYPRESS_APPEALS_BETA_BASE_URL)
           CYPRESS_BACK_OFFICE_BASE_URL: $(CYPRESS_BACK_OFFICE_BASE_URL)
@@ -103,11 +103,12 @@ jobs:
           OS_NAME: $(OS_NAME)
           CYPRESS_CACHE_FOLDER: $(CYPRESS_CACHE_FOLDER)
           PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
+          CHROME_BIN: $(CHROME_BIN)
         displayName: "Run Cypress Tests"        
 
       - task: PublishBuildArtifacts@1
         condition: failed()
         inputs:
-          pathToPublish: 'appeals/e2e/cypress/screenshots'
+          pathToPublish: 'test-packages/platform-feature-tests/cypress/reports/screenshots'
           artifactName: 'FailedTests'
         displayName: "Publish Failed Tests Artifacts"
