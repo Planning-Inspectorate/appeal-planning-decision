@@ -8,6 +8,11 @@ parameters:
     type: boolean
     default: false   # default = single agent for scheduled runs
 
+  # Used in script env block but previously undefined
+  - name: SmokeOnly
+    type: boolean
+    default: false
+
 variables:
   - name: APP
     value: 'appeals'
@@ -68,16 +73,16 @@ jobs:
           npx cypress run --spec "$(SPEC)"
         workingDirectory: $(System.DefaultWorkingDirectory)/appeals/e2e
         env:
-           CYPRESS_APPEALS_BETA_BASE_URL: $(CYPRESS_APPEALS_BETA_BASE_URL)
-              CYPRESS_BACK_OFFICE_BASE_URL: $(CYPRESS_BACK_OFFICE_BASE_URL)
-              AUTH_EMAIL: $(AUTH_EMAIL)
-              AUTH_PASSWORD: $(AUTH_PASSWORD)
-              CASE_ADMIN_EMAIL: $(CASE_ADMIN_EMAIL)
-              SPEC: $(SPEC)
-              SMOKE_ONLY: ${{ parameters.SmokeOnly }}
-              OS_NAME: $(OS_NAME)
-              CYPRESS_CACHE_FOLDER: $(CYPRESS_CACHE_FOLDER)
-              PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
+          CYPRESS_APPEALS_BETA_BASE_URL: $(CYPRESS_APPEALS_BETA_BASE_URL)
+          CYPRESS_BACK_OFFICE_BASE_URL: $(CYPRESS_BACK_OFFICE_BASE_URL)
+          AUTH_EMAIL: $(AUTH_EMAIL)
+          AUTH_PASSWORD: $(AUTH_PASSWORD)
+          CASE_ADMIN_EMAIL: $(CASE_ADMIN_EMAIL)
+          SPEC: $(SPEC)
+          SMOKE_ONLY: ${{ parameters.SmokeOnly }}
+          OS_NAME: $(OS_NAME)
+          CYPRESS_CACHE_FOLDER: $(CYPRESS_CACHE_FOLDER)
+          PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
         displayName: "Run Cypress Tests"        
 
       - task: PublishBuildArtifacts@1
