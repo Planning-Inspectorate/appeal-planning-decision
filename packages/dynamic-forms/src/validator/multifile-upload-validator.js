@@ -18,9 +18,8 @@ class MultifileUploadValidator extends BaseValidator {
 	 * @param {string} [params.errorMessage] - custom error message to show on validation failure
 	 * @param {Array<string>} params.allowedFileTypes - An array of allowed file mime types
 	 * @param {number} params.maxUploadSize - The max size allowed for file uploads in bytes
-	 * @param {function} params.getClamAVClient - a function that returns a ClamAV client instance
 	 */
-	constructor({ allowedFileTypes, maxUploadSize, getClamAVClient, errorMessage = undefined }) {
+	constructor({ allowedFileTypes, maxUploadSize, errorMessage = undefined }) {
 		super();
 
 		// standard generic error messages for multifile upload are currently
@@ -32,7 +31,6 @@ class MultifileUploadValidator extends BaseValidator {
 
 		this.allowedFileTypes = allowedFileTypes;
 		this.maxUploadSize = maxUploadSize;
-		this.getClamAVClient = getClamAVClient;
 	}
 
 	/**
@@ -45,8 +43,7 @@ class MultifileUploadValidator extends BaseValidator {
 			multifileUploadSchema({
 				path,
 				allowedFileTypes: this.allowedFileTypes,
-				maxUploadSize: this.maxUploadSize,
-				getClamAVClient: this.getClamAVClient
+				maxUploadSize: this.maxUploadSize
 			})
 		)[0];
 	}

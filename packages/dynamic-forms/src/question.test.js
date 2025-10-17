@@ -594,11 +594,9 @@ describe('./src/dynamic-forms/question.js', () => {
 	});
 	describe('isRequired', () => {
 		const question = getTestQuestion();
-		const getClamAVClient = jest.fn();
 		const defaultFileUploadValidatorParams = {
 			allowedFileTypes: ['application/msword'],
-			maxUploadSize: 1024 * 1024 * 1024,
-			getClamAVClient
+			maxUploadSize: 1024 * 1024 * 1024
 		};
 
 		it('should return true if validators includes requiredValidator', () => {
