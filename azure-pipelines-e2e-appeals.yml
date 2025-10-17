@@ -3,7 +3,8 @@ parameters:
     type: boolean
     default: false
 
-variables: []
+variables:
+  - group: e2e-dev
 
 pr: none
 trigger: none
@@ -86,6 +87,9 @@ jobs:
             if [ ${#ALL_SPECS[@]} -eq 0 ]; then echo "No specs found for $SPEC_GLOB"; exit 1; fi
             SPEC_ARG=$(IFS=, ; echo "${ALL_SPECS[*]}")
           fi
+          # Diagnostic output for base URLs
+          echo "Appeals base: $CYPRESS_APPEALS_BETA_BASE_URL"
+          echo "Back office base: $CYPRESS_BACK_OFFICE_BASE_URL"
           echo "Final spec list: $SPEC_ARG"
           npx cypress run --spec "$SPEC_ARG"
         workingDirectory: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
