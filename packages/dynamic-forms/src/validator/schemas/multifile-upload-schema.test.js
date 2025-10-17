@@ -6,10 +6,6 @@ const MIME_TYPE_DOC = 'application/msword';
 const oneGigabyte = 1024 * 1024 * 1024;
 
 jest.mock('../file-size');
-const mockScan = jest.fn();
-const mockGetClamClient = () => {
-	return { scan: mockScan };
-};
 
 describe('validators/common/schemas/multifile-upload-schema', () => {
 	beforeEach(() => {
@@ -19,8 +15,7 @@ describe('validators/common/schemas/multifile-upload-schema', () => {
 	const testParams = {
 		path: 'files.upload-documents.*',
 		allowedFileTypes: [MIME_TYPE_JPEG, MIME_TYPE_DOC],
-		maxUploadSize: oneGigabyte,
-		getClamAVClient: mockGetClamClient
+		maxUploadSize: oneGigabyte
 	};
 
 	it('has a defined custom schema object', () => {
@@ -55,19 +50,6 @@ describe('validators/common/schemas/multifile-upload-schema', () => {
 				testParams.maxUploadSize,
 				'pingu.penguin'
 			);
-		});
-
-		it('should call the antivirus validator', async () => {
-			const payload = {
-				mimetype: MIME_TYPE_JPEG,
-				name: 'pingu.penguin',
-				size: 12345
-			};
-
-			await fn(payload);
-
-			expect(mockScan).toHaveBeenCalledTimes(1);
-			expect(mockScan).toHaveBeenCalledWith(payload, payload.name);
 		});
 	});
 });
