@@ -49,6 +49,11 @@ jobs:
             SPEC: test2
 
     steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '22.x'
+        displayName: 'Install Node.js'
+
       - task: Npm@1
         inputs:
           command: 'install'
@@ -59,7 +64,7 @@ jobs:
         inputs:
           scriptPath: 'test-packages/platform-feature-tests/install-chromium.sh'
         displayName: 'Install Chromium'
-        condition: eq(variables['agent.os'], 'Linux')
+        condition: and(succeeded(), eq(variables['agent.os'], 'Linux'))
 
       - task: ShellScript@2
         inputs:
