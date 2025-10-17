@@ -56,8 +56,25 @@ jobs:
             else
               echo "Installing Chromium via apt-get";
               sudo apt-get update -y || true
+              # Install chromium plus common puppeteer dependencies
               sudo apt-get install -y chromium-browser || sudo apt-get install -y chromium || {
                 echo "Chromium install failed"; exit 1; }
+              sudo apt-get install -y \
+                fonts-liberation \
+                libasound2 \
+                libatk-bridge2.0-0 \
+                libatk1.0-0 \
+                libcups2 \
+                libdrm2 \
+                libgbm1 \
+                libgtk-3-0 \
+                libnspr4 \
+                libnss3 \
+                libxcomposite1 \
+                libxdamage1 \
+                libxfixes3 \
+                libxrandr2 \
+                xdg-utils || echo "Non-fatal: dependency install issues"
             fi
             # Export CHROME_BIN for Cypress (non-fatal if not found)
             CHROME_BIN=$(command -v chromium-browser || command -v chromium || command -v google-chrome || true)
@@ -66,6 +83,28 @@ jobs:
               echo "##vso[task.setvariable variable=CHROME_BIN]$CHROME_BIN"
             else
               echo "Warning: Chrome/Chromium binary not found after installation attempt.";
+            fi
+
+      - task: Bash@3
+        displayName: 'Diagnose Chrome & Puppeteer'
+        condition: eq(variables['Agent.OS'], 'Linux')
+        inputs:
+          targetType: inline
+          script: |
+            set -euo pipefail
+            echo "Listing chrome candidates"
+            for p in "$CHROME_BIN" /usr/bin/google-chrome /usr/bin/chromium-browser /usr/bin/chromium; do
+              [ -x "$p" ] && echo "Candidate: $p" || true
+            done
+            if [ -n "$CHROME_BIN" ]; then
+              "$CHROME_BIN" --version || echo "Chrome version command failed"
+            fi
+            echo "Node version:"; node -v
+            echo "Puppeteer version:"; node -e "try{console.log(require('puppeteer/package.json').version)}catch(e){console.log('puppeteer not found')}"
+            # Set PUPPETEER_EXECUTABLE_PATH to CHROME_BIN if available
+            if [ -n "$CHROME_BIN" ]; then
+              echo "##vso[task.setvariable variable=PUPPETEER_EXECUTABLE_PATH]$CHROME_BIN"
+              echo "Exported PUPPETEER_EXECUTABLE_PATH=$CHROME_BIN"
             fi
 
       - task: Npm@1
