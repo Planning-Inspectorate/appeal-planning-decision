@@ -1,7 +1,7 @@
 parameters:
   - name: Environment
     type: string
-    default: 'Test'
+    default: 'test'
     values:
       - 'dev'
       - 'test'
@@ -38,14 +38,17 @@ trigger: none
 
 jobs:
   - job: Run_Cypress_Tests_For_Appeals
+    timeoutInMinutes: 10
     pool: pins-odt-agent-pool-tests
 
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '22.x'
-        displayName: 'Install Node.js'
+    strategy:
+        matrix:
+          group1:
+            SPEC: test1
+          group2:
+            SPEC: test2
 
+    steps:
       - task: Npm@1
         inputs:
           command: 'install'
