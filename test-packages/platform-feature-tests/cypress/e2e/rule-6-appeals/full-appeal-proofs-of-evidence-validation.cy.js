@@ -4,7 +4,7 @@ import { proofsOfEvidenceTestCases } from "../../helpers/rule6Appeals/proofsOfEv
 import { BasePage } from "../../page-objects/base-page";
 import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
 import { users } from '../../fixtures/users.js';
-//import { StringUtils } from "../../utils/StringUtils";
+//import { StringUtils } from "../../utils/stringUtils";
 const { proofsOfEvidence } = require('../../support/flows/sections/rule6Appeals/proofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
