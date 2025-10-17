@@ -44,8 +44,10 @@ jobs:
     strategy:
         matrix:
           group1:
+            GROUP_NAME: 'E2E-1'
             NPM_SCRIPT: cy:ci
           group2:
+            GROUP_NAME: 'E2E-2'
             NPM_SCRIPT: cy:ci-smoke
 
     steps:
@@ -84,6 +86,6 @@ jobs:
       - task: PublishBuildArtifacts@1
         inputs:
           pathToPublish: 'test-packages/platform-feature-tests/cypress/reports'
-          artifactName: 'FailedTests'
+          artifactName: 'FailedTests-$(GROUP_NAME)'
         displayName: 'Publish Failed Tests Artifacts'
         condition: failed()
