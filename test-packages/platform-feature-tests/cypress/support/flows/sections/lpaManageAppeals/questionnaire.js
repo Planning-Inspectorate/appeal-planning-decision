@@ -14,7 +14,7 @@ import { waitingForReview } from "../../pages/lpa-manage-appeals/waitingForRevie
 
 
 let appealId = '';
-const rowNumberOfAppealQuestionnaire = 0;
+const rowNumberOfAppealQuestionnaire = 1;
 export const selectRowAppealQuestionnaireCounter = (context, lpaManageAppealsData, lpaAppealType) => {
 	const basePage = new BasePage();	
 	let rowCounter = 0;
