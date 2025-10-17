@@ -41,6 +41,19 @@ jobs:
           versionSpec: "22.x"
         displayName: "Install Node.js"
 
+      - task: Bash@3
+        displayName: 'Prepare XDG runtime dir'
+        condition: eq(variables['Agent.OS'], 'Linux')
+        inputs:
+          targetType: inline
+          script: |
+            set -euo pipefail
+            export XDG_RUNTIME_DIR="$HOME/xdg-runtime"
+            mkdir -p "$XDG_RUNTIME_DIR"
+            chmod 700 "$XDG_RUNTIME_DIR"
+            echo "Created XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
+            echo "##vso[task.setvariable variable=XDG_RUNTIME_DIR]$XDG_RUNTIME_DIR"
+
 
       # Replacing above ShellScript with a resilient inline Bash step because the referenced path does not exist in repo.
       - task: Bash@3
@@ -129,6 +142,9 @@ jobs:
           # Diagnostic output for base URLs
           echo "Appeals base: $CYPRESS_APPEALS_BETA_BASE_URL"
           echo "Back office base: $CYPRESS_BACK_OFFICE_BASE_URL"
+          echo "XDG_RUNTIME_DIR: $XDG_RUNTIME_DIR"
+          export PUPPETEER_EXTRA_ARGS="--no-sandbox --disable-dev-shm-usage --ignore-certificate-errors --disable-gpu --disable-software-rasterizer"
+          echo "Puppeteer extra args: $PUPPETEER_EXTRA_ARGS"
           echo "Final spec list: $SPEC_ARG"
           npx cypress run --spec "$SPEC_ARG"
         workingDirectory: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
@@ -141,6 +157,9 @@ jobs:
           OS_NAME: $(OS_NAME)
           PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
           CHROME_BIN: $(CHROME_BIN)
+          XDG_RUNTIME_DIR: $(XDG_RUNTIME_DIR)
+          CI: true
+          PUPPETEER_EXTRA_ARGS: $(PUPPETEER_EXTRA_ARGS)
         displayName: "Run Cypress Tests"        
 
       - task: PublishBuildArtifacts@1
