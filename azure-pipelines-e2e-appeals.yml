@@ -44,11 +44,16 @@ jobs:
     strategy:
         matrix:
           group1:
-            SPEC: test1
+            NPM_SCRIPT: cy:ci
           group2:
-            SPEC: test2
+            NPM_SCRIPT: cy:ci-smoke
 
     steps:
+      - checkout: self
+        clean: true
+        persistCredentials: true
+        fetchDepth: 1
+
       - task: NodeTool@0
         inputs:
           versionSpec: '22.x'
@@ -66,12 +71,9 @@ jobs:
         displayName: 'Install Chromium'
         condition: and(succeeded(), eq(variables['agent.os'], 'Linux'))
 
-      - task: ShellScript@2
-        inputs:
-          ${{ if eq(parameters.SmokeOnly, true) }}:
-            scriptPath: test-packages/platform-feature-tests/run-smoke-tests.sh
-          ${{ else }}:
-            scriptPath: test-packages/platform-feature-tests/run-tests.sh
+      - script: |
+          cd test-packages/platform-feature-tests
+          npm run $(NPM_SCRIPT)
         env:
           CYPRESS_APPEALS_BETA_BASE_URL: $(CYPRESS_APPEALS_BETA_BASE_URL)
           CYPRESS_BACK_OFFICE_BASE_URL: $(CYPRESS_BACK_OFFICE_BASE_URL)
