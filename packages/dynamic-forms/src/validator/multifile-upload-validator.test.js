@@ -1,7 +1,4 @@
 const MultifileUploadValidator = require('./multifile-upload-validator');
-const mockGetClamClient = () => {
-	return { scan: jest.fn };
-};
 
 const MIME_TYPE_JPEG = 'image/jpeg';
 const MIME_TYPE_DOC = 'application/msword';
@@ -10,8 +7,7 @@ const oneGigabyte = 1024 * 1024 * 1024;
 describe('./src/dynamic-forms/validator/multifile-upload-validator.js', () => {
 	const testParams = {
 		allowedFileTypes: [MIME_TYPE_JPEG, MIME_TYPE_DOC],
-		maxUploadSize: oneGigabyte,
-		getClamAVClient: mockGetClamClient
+		maxUploadSize: oneGigabyte
 	};
 
 	describe('validate', () => {

@@ -123,7 +123,7 @@ __tl;dr__
 - documents-service-api - api for connecting to blob storage, handles file uploads/downloads 
 - integration-functions - receive service bus messages from back office
 - pdf-service-api - an instance of puppeteer to generate pdfs from a webpage
-- clam-av - virus scanner for file uploads
+- clam-av - virus scanner for file uploads (not used in V2)
 - sql server - database for v2 appeals and all future features
 - mongo db - legacy database for v1 appeals + holds user sessions
 - Azure Blob Storage - file storage for all uploads from front office users

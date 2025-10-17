@@ -75,7 +75,6 @@ const {
 } = require('../config');
 const { createQuestions } = require('@pins/dynamic-forms/src/create-questions');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
-const getClamAVClient = require('#lib/clam-av-client-get');
 
 // method overrides
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
@@ -90,8 +89,7 @@ const { getExampleDate } = require('./questions-utils');
 
 const defaultFileUploadValidatorParams = {
 	allowedFileTypes: Object.values(allowedFileTypes),
-	maxUploadSize: maxFileUploadSize,
-	getClamAVClient
+	maxUploadSize: maxFileUploadSize
 };
 
 const defaultAddressValidatorParams = {
