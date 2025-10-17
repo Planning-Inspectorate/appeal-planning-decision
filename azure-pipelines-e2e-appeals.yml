@@ -3,9 +3,7 @@ parameters:
     type: boolean
     default: false
 
-variables:
-  - name: CYPRESS_CACHE_FOLDER
-    value: '$(Pipeline.Workspace)/cypress-cache'
+variables: []
 
 pr: none
 trigger: none
@@ -42,13 +40,6 @@ jobs:
           versionSpec: "22.x"
         displayName: "Install Node.js"
 
-      - task: Cache@2
-        displayName: 'Cache Cypress binary'
-        inputs:
-          key: 'cypress | $(Agent.OS) | 13.x'
-          path: '$(CYPRESS_CACHE_FOLDER)'
-          restoreKeys: |
-            cypress | $(Agent.OS)
 
       # Replacing above ShellScript with a resilient inline Bash step because the referenced path does not exist in repo.
       - task: Bash@3
@@ -82,13 +73,6 @@ jobs:
           workingDir: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
         displayName: "Install Dependencies"
 
-      - script: |
-          echo "Installing Cypress binary (explicit)"
-          npx cypress install --cache-folder $(CYPRESS_CACHE_FOLDER)
-          echo "Verifying Cypress binary"
-          npx cypress verify --cache-folder $(CYPRESS_CACHE_FOLDER) || echo "Verification non-zero, continuing"
-        workingDirectory: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
-        displayName: "Install Cypress Binary"
 
       - script: |
           set -eo pipefail
@@ -103,7 +87,7 @@ jobs:
             SPEC_ARG=$(IFS=, ; echo "${ALL_SPECS[*]}")
           fi
           echo "Final spec list: $SPEC_ARG"
-          npx cypress run --cache-folder $(CYPRESS_CACHE_FOLDER) --spec "$SPEC_ARG"
+          npx cypress run --spec "$SPEC_ARG"
         workingDirectory: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
         env:
           CYPRESS_APPEALS_BETA_BASE_URL: $(CYPRESS_APPEALS_BETA_BASE_URL)
@@ -112,7 +96,6 @@ jobs:
           AUTH_PASSWORD: $(AUTH_PASSWORD)
           CASE_ADMIN_EMAIL: $(CASE_ADMIN_EMAIL)
           OS_NAME: $(OS_NAME)
-          CYPRESS_CACHE_FOLDER: $(CYPRESS_CACHE_FOLDER)
           PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
           CHROME_BIN: $(CHROME_BIN)
         displayName: "Run Cypress Tests"        
