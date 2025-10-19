@@ -42,19 +42,15 @@ jobs:
     pool: pins-odt-agent-pool-tests
 
     strategy:
-        # matrix:
-        #   group1:
-        #     GROUP_NAME: 'E2E-1'
-        #     NPM_SCRIPT: cy:ci
-        #   group2:
-        #     GROUP_NAME: 'E2E-2'
-        #     NPM_SCRIPT: cy:ci-smoke
-        matrix:
+      matrix:
         group1:
+          GROUP_NAME: 'E2E-S78'
           SPEC: cypress/e2e/onboarded-lpa-check.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-granted.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-statement-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-statement.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-final-comment-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-final-comment.cy.js,cypress/e2e/appellant-aapd/full-appeal-appellant-final-comment-validation.cy.js,cypress/e2e/appellant-aapd/full-appeal-appellant-final-comment.cy.js,cypress/e2e/appellant-aapd/appeallant-decided-appeals.cy.js,cypress/e2e/lpa-manage-appeals/lpa-decided-appeals.cy.js
         group2:
+          GROUP_NAME: 'E2E-HAS'
           SPEC: cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire.cy.js
         group3:
+          GROUP_NAME: 'E2E-S20'
           SPEC: cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-granted.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-refused.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-statement.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-final-comment.cy.js,cypress/e2e/ip-comments/ip-comments.cy.js
 
 
@@ -81,14 +77,18 @@ jobs:
         condition: and(succeeded(), eq(variables['agent.os'], 'Linux'))
 
       - script: |
+          set -euo pipefail
           cd test-packages/platform-feature-tests
-          npm run $(NPM_SCRIPT)
+          echo "Running specs for group $(GROUP_NAME): $(SPEC)"
+          npx cypress run --spec "$(SPEC)"
         env:
           CYPRESS_APPEALS_BETA_BASE_URL: $(CYPRESS_APPEALS_BETA_BASE_URL)
           CYPRESS_BACK_OFFICE_BASE_URL: $(CYPRESS_BACK_OFFICE_BASE_URL)
           AUTH_EMAIL: $(AUTH_EMAIL)
           AUTH_PASSWORD: $(AUTH_PASSWORD)
           CASE_ADMIN_EMAIL: $(CASE_ADMIN_EMAIL)
+          GROUP_NAME: $(GROUP_NAME)
+          SPEC: $(SPEC)
         displayName: 'Run Cypress Tests'
 
       - task: PublishBuildArtifacts@1
