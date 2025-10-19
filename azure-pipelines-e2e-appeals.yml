@@ -1,170 +1,99 @@
 parameters:
-  - name: RunParallel
+  - name: Environment
+    type: string
+    default: 'test'
+    values:
+      - 'dev'
+      - 'test'
+      - 'staging'
+  - name: SmokeOnly
     type: boolean
-    default: false
+    default: true
 
 variables:
-  - group: e2e-dev
+  - name: APP
+    value: 'appeals'
+  - group: e2e
+  - group: e2e-${{ parameters.Environment }}
 
+# PR trigger disabled, until process has been agreed by team
 pr: none
 trigger: none
 
+# pr:
+#   branches:
+#     include:
+#       - main
+#   paths:
+#     include:
+#       - test-packages/platform-feature-tests
+
 # schedules:
-#   - cron: "0 2 * * 1-5"
-#     displayName: Weekday test run
-#     branches:
-#       include: [main]
-#     always: true
+#     - cron: '0 2 * * 1-5'
+#       displayName: Weekday test run
+#       branches:
+#           include:
+#               - main
+#       always: true
 
 jobs:
-  - job: Cypress_E2E
-    displayName: 'Cypress E2E'
-    timeoutInMinutes: 90
+  - job: Run_Cypress_Tests_For_Appeals
+    timeoutInMinutes: 10
     pool: pins-odt-agent-pool-tests
+
     strategy:
-      ${{ if eq(parameters.RunParallel, true) }}:
+        # matrix:
+        #   group1:
+        #     GROUP_NAME: 'E2E-1'
+        #     NPM_SCRIPT: cy:ci
+        #   group2:
+        #     GROUP_NAME: 'E2E-2'
+        #     NPM_SCRIPT: cy:ci-smoke
         matrix:
-          group1:
-            SPEC: cypress/e2e/onboarded-lpa-check.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-granted.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-statement-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-statement.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-final-comment-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-final-comment.cy.js,cypress/e2e/appellant-aapd/full-appeal-appellant-final-comment-validation.cy.js,cypress/e2e/appellant-aapd/full-appeal-appellant-final-comment.cy.js,cypress/e2e/appellant-aapd/appeallant-decided-appeals.cy.js,cypress/e2e/lpa-manage-appeals/lpa-decided-appeals.cy.js
-          group2:
-            SPEC: cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire.cy.js
-          group3:
-            SPEC: cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-granted.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-refused.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-statement.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-final-comment.cy.js,cypress/e2e/ip-comments/ip-comments.cy.js
-      ${{ if eq(parameters.RunParallel, false) }}:
-        matrix:
-          single:
-            SPEC: ''
+        group1:
+          SPEC: cypress/e2e/onboarded-lpa-check.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-granted.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-full-appeal/submit-full-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-statement-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-statement.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-final-comment-validation.cy.js,cypress/e2e/lpa-manage-appeals/full-appeal-final-comment.cy.js,cypress/e2e/appellant-aapd/full-appeal-appellant-final-comment-validation.cy.js,cypress/e2e/appellant-aapd/full-appeal-appellant-final-comment.cy.js,cypress/e2e/appellant-aapd/appeallant-decided-appeals.cy.js,cypress/e2e/lpa-manage-appeals/lpa-decided-appeals.cy.js
+        group2:
+          SPEC: cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire.cy.js
+        group3:
+          SPEC: cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-granted.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-refused.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-statement.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-final-comment.cy.js,cypress/e2e/ip-comments/ip-comments.cy.js
+
+
     steps:
       - checkout: self
+        fetchDepth: 1
+        fetchTags: false
+
       - task: NodeTool@0
         inputs:
-          versionSpec: "22.x"
-        displayName: "Install Node.js"
-
-      - task: Bash@3
-        displayName: 'Prepare XDG runtime dir'
-        condition: eq(variables['Agent.OS'], 'Linux')
-        inputs:
-          targetType: inline
-          script: |
-            set -euo pipefail
-            export XDG_RUNTIME_DIR="$HOME/xdg-runtime"
-            mkdir -p "$XDG_RUNTIME_DIR"
-            chmod 700 "$XDG_RUNTIME_DIR"
-            echo "Created XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
-            echo "##vso[task.setvariable variable=XDG_RUNTIME_DIR]$XDG_RUNTIME_DIR"
-
-
-      # Replacing above ShellScript with a resilient inline Bash step because the referenced path does not exist in repo.
-      - task: Bash@3
-        displayName: 'Install Chromium (Linux only)'
-        condition: eq(variables['Agent.OS'], 'Linux')
-        inputs:
-          targetType: inline
-          script: |
-            set -euo pipefail
-            echo "Attempting Chromium installation on Linux agent"
-            if command -v chromium-browser >/dev/null 2>&1 || command -v google-chrome >/dev/null 2>&1; then
-              echo "Chromium/Chrome already present; skipping apt install.";
-            else
-              echo "Installing Chromium via apt-get";
-              sudo apt-get update -y || true
-              # Install chromium plus common puppeteer dependencies
-              sudo apt-get install -y chromium-browser || sudo apt-get install -y chromium || {
-                echo "Chromium install failed"; exit 1; }
-              sudo apt-get install -y \
-                fonts-liberation \
-                libasound2 \
-                libatk-bridge2.0-0 \
-                libatk1.0-0 \
-                libcups2 \
-                libdrm2 \
-                libgbm1 \
-                libgtk-3-0 \
-                libnspr4 \
-                libnss3 \
-                libxcomposite1 \
-                libxdamage1 \
-                libxfixes3 \
-                libxrandr2 \
-                xdg-utils || echo "Non-fatal: dependency install issues"
-            fi
-            # Export CHROME_BIN for Cypress (non-fatal if not found)
-            CHROME_BIN=$(command -v chromium-browser || command -v chromium || command -v google-chrome || true)
-            if [ -n "$CHROME_BIN" ]; then
-              echo "Found Chrome/Chromium binary at: $CHROME_BIN"
-              echo "##vso[task.setvariable variable=CHROME_BIN]$CHROME_BIN"
-            else
-              echo "Warning: Chrome/Chromium binary not found after installation attempt.";
-            fi
-
-      - task: Bash@3
-        displayName: 'Diagnose Chrome & Puppeteer'
-        condition: eq(variables['Agent.OS'], 'Linux')
-        inputs:
-          targetType: inline
-          script: |
-            set -euo pipefail
-            echo "Listing chrome candidates"
-            for p in "$CHROME_BIN" /usr/bin/google-chrome /usr/bin/chromium-browser /usr/bin/chromium; do
-              [ -x "$p" ] && echo "Candidate: $p" || true
-            done
-            if [ -n "$CHROME_BIN" ]; then
-              "$CHROME_BIN" --version || echo "Chrome version command failed"
-            fi
-            echo "Node version:"; node -v
-            echo "Puppeteer version:"; node -e "try{console.log(require('puppeteer/package.json').version)}catch(e){console.log('puppeteer not found')}"
-            # Set PUPPETEER_EXECUTABLE_PATH to CHROME_BIN if available
-            if [ -n "$CHROME_BIN" ]; then
-              echo "##vso[task.setvariable variable=PUPPETEER_EXECUTABLE_PATH]$CHROME_BIN"
-              echo "Exported PUPPETEER_EXECUTABLE_PATH=$CHROME_BIN"
-            fi
+          versionSpec: '22.x'
+        displayName: 'Install Node.js'
 
       - task: Npm@1
         inputs:
-          command: "install"
+          command: 'install'
           workingDir: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
-        displayName: "Install Dependencies"
+        displayName: 'Install Dependencies'
 
+      - task: ShellScript@2
+        inputs:
+          scriptPath: 'test-packages/platform-feature-tests/install-chromium.sh'
+        displayName: 'Install Chromium'
+        condition: and(succeeded(), eq(variables['agent.os'], 'Linux'))
 
       - script: |
-          set -eo pipefail
-          if [ -n "$(SPEC)" ]; then
-            echo "Running matrix-provided specs: $(SPEC)"
-            SPEC_ARG="$(SPEC)"
-          else
-            echo "No SPEC from matrix; discovering all specs"
-            SPEC_GLOB="cypress/e2e/**/*.cy.js"
-            mapfile -t ALL_SPECS < <(ls -1 $SPEC_GLOB 2>/dev/null | sort || true)
-            if [ ${#ALL_SPECS[@]} -eq 0 ]; then echo "No specs found for $SPEC_GLOB"; exit 1; fi
-            SPEC_ARG=$(IFS=, ; echo "${ALL_SPECS[*]}")
-          fi
-          # Diagnostic output for base URLs
-          echo "Appeals base: $CYPRESS_APPEALS_BETA_BASE_URL"
-          echo "Back office base: $CYPRESS_BACK_OFFICE_BASE_URL"
-          echo "XDG_RUNTIME_DIR: $XDG_RUNTIME_DIR"
-          export PUPPETEER_EXTRA_ARGS="--no-sandbox --disable-dev-shm-usage --ignore-certificate-errors --disable-gpu --disable-software-rasterizer"
-          echo "Puppeteer extra args: $PUPPETEER_EXTRA_ARGS"
-          echo "Final spec list: $SPEC_ARG"
-          npx cypress run --spec "$SPEC_ARG"
-        workingDirectory: $(System.DefaultWorkingDirectory)/test-packages/platform-feature-tests
+          cd test-packages/platform-feature-tests
+          npm run $(NPM_SCRIPT)
         env:
           CYPRESS_APPEALS_BETA_BASE_URL: $(CYPRESS_APPEALS_BETA_BASE_URL)
           CYPRESS_BACK_OFFICE_BASE_URL: $(CYPRESS_BACK_OFFICE_BASE_URL)
           AUTH_EMAIL: $(AUTH_EMAIL)
           AUTH_PASSWORD: $(AUTH_PASSWORD)
           CASE_ADMIN_EMAIL: $(CASE_ADMIN_EMAIL)
-          OS_NAME: $(OS_NAME)
-          PUPPETEER_CACHE_DIR: $(PUPPETEER_CACHE_DIR)
-          CHROME_BIN: $(CHROME_BIN)
-          XDG_RUNTIME_DIR: $(XDG_RUNTIME_DIR)
-          CI: true
-          PUPPETEER_EXTRA_ARGS: $(PUPPETEER_EXTRA_ARGS)
-        displayName: "Run Cypress Tests"        
+        displayName: 'Run Cypress Tests'
 
       - task: PublishBuildArtifacts@1
-        condition: failed()
         inputs:
-          pathToPublish: 'test-packages/platform-feature-tests/cypress/reports/screenshots'
-          artifactName: 'FailedTests'
-        displayName: "Publish Failed Tests Artifacts"
+          pathToPublish: 'test-packages/platform-feature-tests/cypress/reports'
+          artifactName: 'FailedTests-$(GROUP_NAME)'
+        displayName: 'Publish Failed Tests Artifacts'
+        condition: failed()
