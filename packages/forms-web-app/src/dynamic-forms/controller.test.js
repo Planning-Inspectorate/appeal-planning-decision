@@ -695,10 +695,17 @@ describe('dynamic-form/controller', () => {
 		it('renders correct page for Householder', () => {
 			req.session.appeal = { appealType: APPEAL_ID.HOUSEHOLDER };
 			appellantBYSListOfDocuments(req, res);
-			expect(res.render).toHaveBeenCalledWith('appeal-householder-decision/list-of-documents', {
+			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
 				bannerHtmlOverride:
 					config.betaBannerText +
-					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(''))
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
+				optionalDocuments: [
+					'decision letter from the local planning authority',
+					'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
+				],
+				requiredDocuments: undefined,
+				subheading:
+					'You’ll need your planning application form. Do not submit your plans or drawings, the local planning authority will provide them.'
 			});
 		});
 		it('renders correct page for S78 - full appeal', () => {
@@ -709,7 +716,7 @@ describe('dynamic-form/controller', () => {
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
 				optionalDocuments: [
-					'decision letter from the local authority',
+					'decision letter from the local planning authority',
 					'planning obligation',
 					'separate ownership certificate and agricultural land declaration',
 					'draft statement of common ground',
@@ -721,7 +728,8 @@ describe('dynamic-form/controller', () => {
 					'plans, drawings and supporting documents for your application',
 					'new plans or drawings to support your appeal',
 					'other documents to support your appeal'
-				]
+				],
+				subheading: 'You’ll need your:'
 			});
 		});
 		it('renders correct page for S20 - listed building', () => {
@@ -732,7 +740,7 @@ describe('dynamic-form/controller', () => {
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
 				optionalDocuments: [
-					'decision letter from the local authority',
+					'decision letter from the local planning authority',
 					'planning obligation',
 					'separate ownership certificate and agricultural land declaration',
 					'draft statement of common ground',
@@ -744,7 +752,8 @@ describe('dynamic-form/controller', () => {
 					'plans, drawings and supporting documents for your application',
 					'new plans or drawings to support your appeal',
 					'other documents to support your appeal'
-				]
+				],
+				subheading: 'You’ll need your:'
 			});
 		});
 		it('renders correct page for CAS Planning', () => {
@@ -755,14 +764,15 @@ describe('dynamic-form/controller', () => {
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
 				optionalDocuments: [
-					'decision letter from the local authority',
+					'decision letter from the local planning authority',
 					'design and access statement',
 					'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
 				],
 				requiredDocuments: [
 					'planning application form',
 					'plans, drawings and supporting documents for your application'
-				]
+				],
+				subheading: 'You’ll need your:'
 			});
 		});
 		it('renders correct page for CAS Adverts', () => {
@@ -776,9 +786,10 @@ describe('dynamic-form/controller', () => {
 				requiredDocuments: [
 					'application form',
 					'plans, drawings and supporting documents for your application',
-					'decision letter from the local authority',
+					'decision letter from the local planning authority',
 					'any other relevant correspondence with the local authority'
-				]
+				],
+				subheading: 'You’ll need your:'
 			});
 		});
 		it('renders error page if appeal type not found', () => {
