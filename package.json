@@ -158,7 +158,7 @@
 		"swagger-jsdoc": "^6.2.8",
 		"swagger-typescript-api": "^13.2.13",
 		"swagger-ui-express": "^5.0.1",
-		"uuid": "^11.1.0",
+		"uuid": "^12.0.0",
 		"yup": "^0.32.9"
 	},
 	"devDependencies": {
