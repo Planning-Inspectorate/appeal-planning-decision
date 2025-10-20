@@ -6,6 +6,7 @@ const {
 
 describe('required documents-for-submission', () => {
 	const testCases = [
+		[APPEAL_ID.HOUSEHOLDER, undefined],
 		[
 			APPEAL_ID.PLANNING_SECTION_78,
 			[
@@ -33,7 +34,7 @@ describe('required documents-for-submission', () => {
 			[
 				'application form',
 				'plans, drawings and supporting documents for your application',
-				'decision letter from the local authority',
+				'decision letter from the local planning authority',
 				'any other relevant correspondence with the local authority'
 			]
 		],
@@ -42,7 +43,7 @@ describe('required documents-for-submission', () => {
 			[
 				'application form',
 				'plans, drawings and supporting documents for your application',
-				'decision letter from the local authority',
+				'decision letter from the local planning authority',
 				'any other relevant correspondence with the local authority'
 			]
 		]
@@ -60,9 +61,17 @@ describe('required documents-for-submission', () => {
 describe('optional documents-for-submission', () => {
 	const testCases = [
 		[
+			APPEAL_ID.HOUSEHOLDER,
+			[
+				'decision letter from the local planning authority',
+				'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
+			]
+		],
+
+		[
 			APPEAL_ID.PLANNING_SECTION_78,
 			[
-				'decision letter from the local authority',
+				'decision letter from the local planning authority',
 				'planning obligation',
 				'separate ownership certificate and agricultural land declaration',
 				'draft statement of common ground',
@@ -73,7 +82,7 @@ describe('optional documents-for-submission', () => {
 		[
 			APPEAL_ID.PLANNING_LISTED_BUILDING,
 			[
-				'decision letter from the local authority',
+				'decision letter from the local planning authority',
 				'planning obligation',
 				'separate ownership certificate and agricultural land declaration',
 				'draft statement of common ground',
@@ -84,7 +93,7 @@ describe('optional documents-for-submission', () => {
 		[
 			APPEAL_ID.MINOR_COMMERCIAL,
 			[
-				'decision letter from the local authority',
+				'decision letter from the local planning authority',
 				'design and access statement',
 				'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
 			]

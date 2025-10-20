@@ -463,24 +463,27 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
 
-	switch (appeal.appealType) {
-		case APPEAL_ID.HOUSEHOLDER:
-			return res.render('appeal-householder-decision/list-of-documents', {
-				bannerHtmlOverride
-			});
-		case APPEAL_ID.PLANNING_SECTION_78:
-		case APPEAL_ID.PLANNING_LISTED_BUILDING:
-		case APPEAL_ID.MINOR_COMMERCIAL:
-		case APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT:
-		case APPEAL_ID.ADVERTISEMENT:
-			return res.render(LIST_OF_DOCUMENTS_V2, {
-				bannerHtmlOverride,
-				requiredDocuments: generateRequiredDocuments(appeal.appealType),
-				optionalDocuments: generateOptionalDocuments(appeal.appealType)
-			});
-		default:
-			return res.render('./error/not-found.njk');
-	}
+	if (
+		![
+			APPEAL_ID.HOUSEHOLDER,
+			APPEAL_ID.PLANNING_SECTION_78,
+			APPEAL_ID.PLANNING_LISTED_BUILDING,
+			APPEAL_ID.MINOR_COMMERCIAL,
+			APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT,
+			APPEAL_ID.ADVERTISEMENT
+		].includes(appeal.appealType)
+	)
+		return res.render('./error/not-found.njk');
+
+	return res.render(LIST_OF_DOCUMENTS_V2, {
+		bannerHtmlOverride,
+		subheading:
+			appeal.appealType === APPEAL_ID.HOUSEHOLDER
+				? 'You’ll need your planning application form. Do not submit your plans or drawings, the local planning authority will provide them.'
+				: 'You’ll need your:',
+		requiredDocuments: generateRequiredDocuments(appeal.appealType),
+		optionalDocuments: generateOptionalDocuments(appeal.appealType)
+	});
 };
 
 // Generate appellant submission

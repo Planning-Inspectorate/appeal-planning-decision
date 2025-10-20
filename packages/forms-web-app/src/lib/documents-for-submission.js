@@ -2,6 +2,8 @@ const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
 const generateRequiredDocuments = (appealType) => {
 	switch (appealType) {
+		case APPEAL_ID.HOUSEHOLDER:
+			return;
 		case APPEAL_ID.PLANNING_SECTION_78:
 		case APPEAL_ID.PLANNING_LISTED_BUILDING:
 			return [
@@ -20,16 +22,22 @@ const generateRequiredDocuments = (appealType) => {
 			return [
 				'application form',
 				'plans, drawings and supporting documents for your application',
-				'decision letter from the local authority',
+				'decision letter from the local planning authority',
 				'any other relevant correspondence with the local authority'
 			];
 	}
 };
+
 const generateOptionalDocuments = (appealType) => {
 	switch (appealType) {
+		case APPEAL_ID.HOUSEHOLDER:
+			return [
+				'decision letter from the local planning authority',
+				'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
+			];
 		case APPEAL_ID.PLANNING_SECTION_78:
 			return [
-				'decision letter from the local authority',
+				'decision letter from the local planning authority',
 				'planning obligation',
 				'separate ownership certificate and agricultural land declaration',
 				'draft statement of common ground',
@@ -38,7 +46,7 @@ const generateOptionalDocuments = (appealType) => {
 			];
 		case APPEAL_ID.PLANNING_LISTED_BUILDING:
 			return [
-				'decision letter from the local authority',
+				'decision letter from the local planning authority',
 				'planning obligation',
 				'separate ownership certificate and agricultural land declaration',
 				'draft statement of common ground',
@@ -47,7 +55,7 @@ const generateOptionalDocuments = (appealType) => {
 			];
 		case APPEAL_ID.MINOR_COMMERCIAL:
 			return [
-				'decision letter from the local authority',
+				'decision letter from the local planning authority',
 				'design and access statement',
 				'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
 			];
