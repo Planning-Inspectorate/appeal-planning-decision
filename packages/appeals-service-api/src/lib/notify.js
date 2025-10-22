@@ -151,11 +151,14 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 
 		const address = appellantSubmission.SubmissionAddress[0];
 
-		const formattedAddress = formatSubmissionAddress(address);
+		const formattedAddress = address ? formatSubmissionAddress(address) : '';
+
+		// temp - waiting for tickets to define format for grid ref emails properly
+		const formattedGridref = `${appellantSubmission.siteGridReferenceEasting}, ${appellantSubmission.siteGridReferenceNorthing}`;
 
 		const variables = {
 			...config.services.notify.templateVariables,
-			appealSiteAddress: formattedAddress,
+			appealSiteAddress: formattedAddress ? formattedAddress : formattedGridref,
 			lpaReference: appellantSubmission.applicationReference
 		};
 

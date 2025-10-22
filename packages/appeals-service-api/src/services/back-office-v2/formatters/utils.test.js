@@ -9,7 +9,8 @@ const {
 	createInterestedPartyNewUser,
 	getDevelopmentType,
 	getDesignatedSiteNames,
-	siteAddressAndGridReferenceAreMissing
+	siteAddressAndGridReferenceAreMissing,
+	getAdvertsAppellantSubmissionFields
 } = require('./utils');
 const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
@@ -454,6 +455,43 @@ describe('utils.js', () => {
 		});
 		it('should be false if site address is defined and both grid reference values are not null', () => {
 			expect(siteAddressAndGridReferenceAreMissing(address, '123456', '654321')).toEqual(false);
+		});
+	});
+
+	describe('getAdvertsAppellantSubmissionFields', () => {
+		it('should set unanswered adverts properties as null', async () => {
+			let answers = {};
+			expect(getAdvertsAppellantSubmissionFields(answers)).toEqual({
+				hasLandownersPermission: null,
+				isAdvertInPosition: null,
+				isSiteOnHighwayLand: null
+			});
+		});
+
+		it('should set adverts properties', async () => {
+			const answers = {
+				advertInPosition: true,
+				highwayLand: true,
+				landownerPermission: true
+			};
+
+			expect(getAdvertsAppellantSubmissionFields(answers)).toEqual({
+				hasLandownersPermission: true,
+				isAdvertInPosition: true,
+				isSiteOnHighwayLand: true
+			});
+
+			const answersFalse = {
+				advertInPosition: false,
+				highwayLand: false,
+				landownerPermission: false
+			};
+
+			expect(getAdvertsAppellantSubmissionFields(answersFalse)).toEqual({
+				hasLandownersPermission: false,
+				isAdvertInPosition: false,
+				isSiteOnHighwayLand: false
+			});
 		});
 	});
 });

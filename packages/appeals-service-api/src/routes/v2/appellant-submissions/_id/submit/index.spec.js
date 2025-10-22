@@ -97,6 +97,10 @@ module.exports = ({
 			fieldName: 'siteAddress',
 			county: 'Somewhere'
 		},
+		gridReference: {
+			siteGridReferenceEasting: '359608',
+			siteGridReferenceNorthing: '172607'
+		},
 		document: {
 			fileName: 'img.jpg',
 			originalFileName: 'oimg.jpg',
@@ -108,6 +112,11 @@ module.exports = ({
 		linkedCase: {
 			caseReference: 'case123',
 			fieldName: 'linked'
+		},
+		adverts: {
+			advertInPosition: true,
+			highwayLand: true,
+			landownerPermission: true
 		}
 	};
 
@@ -133,15 +142,26 @@ module.exports = ({
 			applicationDecisionDate: expect.any(String),
 			applicationReference: '123'
 		},
-		site: {
+		address: {
 			siteAddressLine1: 'Somewhere',
 			siteAddressLine2: 'Somewhere St',
 			siteAddressTown: 'Somewhereville',
 			siteAddressCounty: 'Somewhere',
 			siteAddressPostcode: 'SOM3 W3R',
-			siteAreaSquareMetres: 100,
 			siteGridReferenceEasting: null,
-			siteGridReferenceNorthing: null,
+			siteGridReferenceNorthing: null
+		},
+		gridReference: {
+			siteAddressLine1: undefined,
+			siteAddressLine2: undefined,
+			siteAddressTown: undefined,
+			siteAddressCounty: undefined,
+			siteAddressPostcode: undefined,
+			siteGridReferenceEasting: '359608',
+			siteGridReferenceNorthing: '172607'
+		},
+		site: {
+			siteAreaSquareMetres: 100,
 			floorSpaceSquareMetres: 100,
 			siteSafetyDetails: ['Safety details'],
 			siteAccessDetails: ['Access details'],
@@ -218,7 +238,12 @@ module.exports = ({
 				telephoneNumber: null,
 				organisation: null
 			}
-		]
+		],
+		adverts: {
+			hasLandownersPermission: true,
+			isAdvertInPosition: true,
+			isSiteOnHighwayLand: true
+		}
 	};
 
 	/**
@@ -247,6 +272,7 @@ module.exports = ({
 			expectedData: {
 				casedata: {
 					...expectedData.application,
+					...expectedData.address,
 					...expectedData.site,
 					...expectedData.common,
 					caseType: 'D',
@@ -274,6 +300,7 @@ module.exports = ({
 			expectedData: {
 				casedata: {
 					...expectedData.application,
+					...expectedData.address,
 					...expectedData.site,
 					...expectedData.common,
 					caseType: 'D',
@@ -305,6 +332,7 @@ module.exports = ({
 			expectedData: {
 				casedata: {
 					...expectedData.application,
+					...expectedData.address,
 					...expectedData.site,
 					...expectedData.common,
 					...expectedData.agricultural,
@@ -339,6 +367,7 @@ module.exports = ({
 			expectedData: {
 				casedata: {
 					...expectedData.application,
+					...expectedData.address,
 					...expectedData.site,
 					...expectedData.common,
 					...expectedData.planningObligation,
@@ -351,6 +380,68 @@ module.exports = ({
 				documents: expectedData.documents,
 				users: expectedData.agentUsers,
 				emailString: 'planning listed building and conservation area'
+			}
+		},
+		{
+			testName: 'CAS_ADVERTS',
+			appeal: {
+				id: crypto.randomUUID()
+			},
+			submission: {
+				...submissionData.application,
+				...submissionData.gridReference,
+				...submissionData.site,
+				...submissionData.common,
+				...submissionData.withAppellant,
+				...submissionData.adverts,
+				id: crypto.randomUUID(),
+				appealTypeCode: 'CAS_ADVERTS',
+				typeOfPlanningApplication: 'advertisement'
+			},
+			expectedData: {
+				casedata: {
+					...expectedData.application,
+					...expectedData.gridReference,
+					...expectedData.site,
+					...expectedData.common,
+					...expectedData.adverts,
+					caseType: 'ZA',
+					typeOfPlanningApplication: 'advertisement'
+				},
+				documents: expectedData.documents,
+				users: expectedData.appellantUsers,
+				emailString: 'commercial advertisement (CAS)'
+			}
+		},
+		{
+			testName: 'ADVERTS',
+			appeal: {
+				id: crypto.randomUUID()
+			},
+			submission: {
+				...submissionData.application,
+				...submissionData.gridReference,
+				...submissionData.site,
+				...submissionData.common,
+				...submissionData.withAppellant,
+				...submissionData.adverts,
+				id: crypto.randomUUID(),
+				appealTypeCode: 'ADVERTS',
+				typeOfPlanningApplication: 'advertisement'
+			},
+			expectedData: {
+				casedata: {
+					...expectedData.application,
+					...expectedData.gridReference,
+					...expectedData.site,
+					...expectedData.common,
+					...expectedData.adverts,
+					caseType: 'H',
+					typeOfPlanningApplication: 'advertisement'
+				},
+				documents: expectedData.documents,
+				users: expectedData.appellantUsers,
+				emailString: 'advertisement'
 			}
 		}
 	];
@@ -392,12 +483,14 @@ module.exports = ({
 		});
 
 		await sqlClient.submissionAddress.createMany({
-			data: testData.map((x) => {
-				return {
-					...submissionData.address,
-					appellantSubmissionId: x.submission.id
-				};
-			})
+			data: testData
+				.filter((x) => x.expectedData.casedata.siteAddressPostcode)
+				.map((x) => {
+					return {
+						...submissionData.address,
+						appellantSubmissionId: x.submission.id
+					};
+				})
 		});
 
 		await sqlClient.submissionLinkedCase.createMany({

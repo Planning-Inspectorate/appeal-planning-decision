@@ -515,10 +515,20 @@ components:
           type: boolean
 
         # Adverts fields
-        isSiteInAreaOfSpecialControlAdverts:
+        hasLandownersPermission:
           type: boolean
           nullable: true
+        isAdvertInPosition:
+          type: boolean
+          nullable: true
+        isSiteOnHighwayLand:
+          type: boolean
+          nullable: true
+
         wasApplicationRefusedDueToHighwayOrTraffic:
+          type: boolean
+          nullable: true
+        isSiteInAreaOfSpecialControlAdverts:
           type: boolean
           nullable: true
         didAppellantSubmitCompletePhotosAndPlans:

@@ -82,7 +82,7 @@ async function getCaseAndAppellant(opts) {
  * @param {AppealHASCase|AppealS78Case} dataModel
  * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
  */
-const mapHASDataModelToAppealCase = (
+const mapCommonDataModelToAppealCase = (
 	caseProcessCode,
 	{
 		// these are ignored or handled outside of this function
@@ -145,6 +145,8 @@ const mapHASDataModelToAppealCase = (
 		siteAddressLine2,
 		siteAddressTown,
 		siteAddressCounty,
+		siteGridReferenceEasting,
+		siteGridReferenceNorthing,
 		siteAreaSquareMetres,
 		floorSpaceSquareMetres,
 		isCorrectAppealType,
@@ -237,6 +239,8 @@ const mapHASDataModelToAppealCase = (
 	siteAddressLine2,
 	siteAddressTown,
 	siteAddressCounty,
+	siteGridReferenceEasting,
+	siteGridReferenceNorthing,
 	siteAreaSquareMetres,
 	floorSpaceSquareMetres,
 	isCorrectAppealType,
@@ -258,13 +262,54 @@ const mapHASDataModelToAppealCase = (
 
 /**
  * @param {String} caseProcessCode
+ * @param {AppealHASCase} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const mapHASDataModelToAppealCase = (caseProcessCode, dataModel) => ({
+	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel)
+});
+
+/**
+ * @param {String} caseProcessCode
  * @param {AppealS78Case} dataModel
  * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
  */
 const mapCASPlanningDataModelToAppealCase = (caseProcessCode, dataModel) => ({
-	...mapHASDataModelToAppealCase(caseProcessCode, dataModel),
+	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
 	statutoryConsultees: dataModel.hasStatutoryConsultees, // todo: rename
 	consultedBodiesDetails: dataModel.consultedBodiesDetails
+});
+
+/**
+ * @param {AppealHASCase|AppealS78Case} dataModel
+ * @returns {{isAdvertInPosition: boolean|undefined|null, isSiteOnHighwayLand: boolean|undefined|null, hasLandownersPermission: boolean|undefined|null}}
+ */
+const getAdvertsAppealFormFields = (dataModel) => {
+	return {
+		isAdvertInPosition: dataModel.isAdvertInPosition,
+		isSiteOnHighwayLand: dataModel.isSiteOnHighwayLand,
+		hasLandownersPermission: dataModel.hasLandownersPermission
+	};
+};
+
+/**
+ * @param {String} caseProcessCode
+ * @param {AppealHASCase} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const mapCASAdvertsDataModelToAppealCase = (caseProcessCode, dataModel) => ({
+	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
+	...getAdvertsAppealFormFields(dataModel)
+});
+
+/**
+ * @param {String} caseProcessCode
+ * @param {AppealS78Case} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const mapAdvertsDataModelToAppealCase = (caseProcessCode, dataModel) => ({
+	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
+	...getAdvertsAppealFormFields(dataModel)
 });
 
 /**
@@ -273,7 +318,7 @@ const mapCASPlanningDataModelToAppealCase = (caseProcessCode, dataModel) => ({
  * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
  */
 const mapS78DataModelToAppealCase = (caseProcessCode, dataModel) => ({
-	...mapHASDataModelToAppealCase(caseProcessCode, dataModel),
+	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
 	agriculturalHolding: dataModel.agriculturalHolding,
 	tenantAgriculturalHolding: dataModel.tenantAgriculturalHolding,
 	otherTenantsAgriculturalHolding: dataModel.otherTenantsAgriculturalHolding,
@@ -414,6 +459,18 @@ const getMappedData = (data) => {
 			const s78Validator = getValidator('appeal-s78');
 			if (!s78Validator(data)) throw ApiError.badRequest('Payload was invalid');
 			return mapS78DataModelToAppealCase(CASE_TYPES.S20.processCode, data);
+		}
+		case CASE_TYPES.CAS_ADVERTS.key: {
+			// uses has data model
+			const hasValidator = getValidator('appeal-has');
+			if (!hasValidator(data)) throw ApiError.badRequest('Payload was invalid');
+			return mapCASAdvertsDataModelToAppealCase(CASE_TYPES.CAS_ADVERTS.processCode, data);
+		}
+		case CASE_TYPES.ADVERTS.key: {
+			// uses s78 data model
+			const s78Validator = getValidator('appeal-s78');
+			if (!s78Validator(data)) throw ApiError.badRequest('Payload was invalid');
+			return mapAdvertsDataModelToAppealCase(CASE_TYPES.ADVERTS.processCode, data);
 		}
 		default:
 			throw Error(`putCase: unhandled casetype: ${data.caseType}`);
