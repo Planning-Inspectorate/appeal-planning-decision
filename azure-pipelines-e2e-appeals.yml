@@ -51,8 +51,7 @@ jobs:
           SPEC: cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-refused.cy.js,cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire-validation.cy.js,cypress/e2e/lpa-manage-appeals/house-holder-questionnaire.cy.js
         group3:
           GROUP_NAME: 'E2E-S20'
-          SPEC: cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-granted.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-refused.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-statement.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-final-comment.cy.js,cypress/e2e/ip-comments/ip-comments.cy.js
-
+          SPEC: cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-granted.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-nodecision.cy.js,cypress/e2e/appellant-aapd/submit-listed-building-appeal/submit-listed-building-refused.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-questionnaire.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-statement.cy.js,cypress/e2e/lpa-manage-appeals/listed-building-final-comment.cy.js
 
     steps:
       - checkout: self

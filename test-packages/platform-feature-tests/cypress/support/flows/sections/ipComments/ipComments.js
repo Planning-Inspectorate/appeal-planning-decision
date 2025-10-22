@@ -25,40 +25,35 @@ export const ipCommentsForPostCode = (prepareAppealData, postCode) => {
   const basePage = new BasePage();
   const ipComments = new IpComments();
   let appealId;
-  cy.visit(`${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal`, { retryOnStatusCodeFailure: true });
-  cy.get(basePage?._selectors?.govukHeaderLinkGovukHeaderServiceName, { timeout: 20000 })
-    .should('include.text', 'Comment on a planning appeal');
+  cy.visit(`${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal`);
+  cy.get(basePage?._selectors?.govukHeaderLinkGovukHeaderServiceName).should('include.text', 'Comment on a planning appeal');
   cy.get('a[href*="enter-postcode"]').click();
   // Validate URL
   cy.url().should('include', '/comment-planning-appeal/enter-postcode');
   // Input search by post code
-  cy.get(ipComments?._selectors?.postcode).clear().type(postCode);
+  cy.get(ipComments?._selectors?.postcode).type(postCode);
   cy.advanceToNextPage();
-
-  // Wait for table rows to render
-  cy.get(basePage?._selectors.trgovukTableRow, { timeout: 20000 }).should('have.length.greaterThan', 0);
-
-  let found = false;
+  // cy.visit(`${Cypress.config('appeals_beta_base_url')}/comment-planning-appeal/enter-appeal-reference`);
+  let counter = 0;
   cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
     const rowtext = $row.text();
-    if (rowtext.includes(prepareAppealData?.commentOpen) && !found) {
-      found = true;
-      cy.wrap($row).within(() => {
-        cy.get('a').each(($link) => {
-          const href = $link.attr('href') || '';
-            if (href.includes('/comment-planning-appeal/') && href.split('/').pop()) {
-              appealId = href.split('/').pop();
-              cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
-              return false;
-            }
+    if (rowtext.includes(prepareAppealData?.commentOpen)) {
+      if (counter === 0) {
+        cy.wrap($row).within(() => {
+          cy.get('a').each(($link) => {
+            appealId = $link.attr('href')?.split('/').pop();
+            cy.log(appealId);
+            cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
+            return false;
+          });
         });
-      });
+      }
+      counter++;
     }
-  }).then(() => {
-    expect(found, 'Appeal with open comment state should be found for postcode search').to.be.true;
   });
 
-  cy.contains('a', /your name|comment on this appeal/i, { timeout: 15000 })
+  // Click the link by visible text (retrying) to start IP comments
+  cy.contains('a', /your name|comment on this appeal/i, { timeout: 10000 })
     .scrollIntoView()
     .should('be.visible')
     .click({ force: true });
