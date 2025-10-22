@@ -822,6 +822,28 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	appellantCaseCorrespondence: {
+		name: 'appellantCaseCorrespondence',
+		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_CASE_CORRESPONDENCE,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => pinsOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	lpaCaseCorrespondence: {
+		name: 'lpaCaseCorrespondence',
+		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_CASE_CORRESPONDENCE,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => pinsOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 
