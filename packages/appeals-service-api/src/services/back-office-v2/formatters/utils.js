@@ -29,6 +29,7 @@ const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-dat
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantCommonSubmissionProperties} AppellantCommonSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantHASSubmissionProperties} AppellantHASSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantS78SubmissionProperties} AppellantS78SubmissionProperties
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AdvertSpecificProperties} AppellantAdvertSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
  *
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQCommonSubmissionProperties} LPAQCommonSubmissionProperties
@@ -294,60 +295,71 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
 		);
 	}
 
+	const getOriginalApplicationDetails = () => {
+		return {
+			applicationReference: appellantSubmission.applicationReference ?? '',
+			applicationDate: appellantSubmission.onApplicationDate?.toISOString() ?? null,
+			applicationDecision: exports.formatApplicationDecision(
+				appellantSubmission.applicationDecision
+			),
+			applicationDecisionDate: appellantSubmission.applicationDecisionDate?.toISOString() ?? null
+		};
+	};
+
+	const getSiteDetails = () => {
+		return {
+			isGreenBelt: appellantSubmission.appellantGreenBelt ?? null,
+			siteAddressLine1: address?.addressLine1 ?? undefined,
+			siteAddressLine2: address?.addressLine2 ?? undefined,
+			siteAddressTown: address?.townCity ?? undefined,
+			siteAddressCounty: address?.county ?? undefined,
+			siteAddressPostcode: address?.postcode ?? undefined,
+			siteGridReferenceEasting: appellantSubmission.siteGridReferenceEasting,
+			siteGridReferenceNorthing: appellantSubmission.siteGridReferenceNorthing,
+			siteAccessDetails: [
+				appellantSubmission.appellantSiteAccess_appellantSiteAccessDetails
+			].filter(Boolean),
+			siteSafetyDetails: [
+				appellantSubmission.appellantSiteSafety_appellantSiteSafetyDetails
+			].filter(Boolean),
+			nearbyCaseReferences: appellantSubmission.SubmissionLinkedCase?.map(
+				({ caseReference }) => caseReference
+			),
+			// not in enforcement
+			ownsAllLand: appellantSubmission.ownsAllLand ?? null,
+			ownsSomeLand: appellantSubmission.ownsSomeLand ?? null,
+			knowsOtherOwners: exports.formatYesNoSomeAnswer(appellantSubmission.knowsOtherOwners),
+			knowsAllOwners: exports.formatYesNoSomeAnswer(appellantSubmission.knowsAllOwners),
+			advertisedAppeal: appellantSubmission.advertisedAppeal ?? null,
+			ownersInformed: appellantSubmission.informedOwners ?? null,
+			// not in adverts
+			siteAreaSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null,
+			floorSpaceSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null, // should this be on model?
+			// unused
+			neighbouringSiteAddresses: null // should this be on model?
+		};
+	};
+
 	return {
 		submissionId: appellantSubmission.appealId,
 		caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
-		typeOfPlanningApplication: appellantSubmission.typeOfPlanningApplication ?? null,
 		lpaCode: lpa.getLpaCode(),
-		caseSubmittedDate: new Date().toISOString(),
 		enforcementNotice: false, // this will eventually come from before you start
-		applicationReference: appellantSubmission.applicationReference ?? '',
-		applicationDate: appellantSubmission.onApplicationDate.toISOString(),
-		applicationDecision: exports.formatApplicationDecision(appellantSubmission.applicationDecision),
-		applicationDecisionDate: appellantSubmission.applicationDecisionDate.toISOString(),
+		appellantCostsAppliedFor: appellantSubmission.costApplication ?? null,
+
+		typeOfPlanningApplication: appellantSubmission.typeOfPlanningApplication ?? null,
+		caseSubmittedDate: new Date().toISOString(),
 		caseSubmissionDueDate: deadlineDate(
 			appellantSubmission.applicationDecisionDate,
 			CASE_TYPES[appellantSubmission.appealTypeCode].id.toString(),
 			appellantSubmission.applicationDecision
 		).toISOString(),
-		siteAddressLine1: address?.addressLine1 ?? '',
-		siteAddressLine2: address?.addressLine2 ?? '',
-		siteAddressTown: address?.townCity ?? '',
-		siteAddressCounty: address?.county ?? '',
-		siteAddressPostcode: address?.postcode ?? '',
-		siteGridReferenceEasting: appellantSubmission.siteGridReferenceEasting,
-		siteGridReferenceNorthing: appellantSubmission.siteGridReferenceNorthing,
-		siteAccessDetails: [appellantSubmission.appellantSiteAccess_appellantSiteAccessDetails].filter(
-			Boolean
-		),
-		siteSafetyDetails: [appellantSubmission.appellantSiteSafety_appellantSiteSafetyDetails].filter(
-			Boolean
-		),
-		neighbouringSiteAddresses: null, // unused
-		nearbyCaseReferences: appellantSubmission.SubmissionLinkedCase?.map(
-			({ caseReference }) => caseReference
-		)
-	};
-};
 
-/**
- * @param {FullAppellantSubmission} appellantSubmission
- * @returns {AppellantHASSubmissionProperties}
- */
-exports.getHASAppellantSubmissionFields = (appellantSubmission) => {
-	return {
-		isGreenBelt: appellantSubmission.appellantGreenBelt ?? null,
-		siteAreaSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null,
-		floorSpaceSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null, // is this correct?
-		ownsAllLand: appellantSubmission.ownsAllLand ?? null,
-		ownsSomeLand: appellantSubmission.ownsSomeLand ?? null,
-		knowsOtherOwners: exports.formatYesNoSomeAnswer(appellantSubmission.knowsOtherOwners),
-		knowsAllOwners: exports.formatYesNoSomeAnswer(appellantSubmission.knowsAllOwners),
-		advertisedAppeal: appellantSubmission.advertisedAppeal ?? null,
-		ownersInformed: appellantSubmission.informedOwners ?? null,
 		originalDevelopmentDescription: appellantSubmission.developmentDescriptionOriginal ?? null,
 		changedDevelopmentDescription: appellantSubmission.updateDevelopmentDescription ?? null,
-		appellantCostsAppliedFor: appellantSubmission.costApplication ?? null
+
+		...getOriginalApplicationDetails(),
+		...getSiteDetails()
 	};
 };
 
@@ -394,6 +406,18 @@ exports.getS20AppellantSubmissionFields = (appellantSubmission) => {
 		statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
 		developmentType: exports.getDevelopmentType(appellantSubmission),
 		...preference
+	};
+};
+
+/**
+ * @param {FullAppellantSubmission} appellantSubmission
+ * @returns {AppellantAdvertSubmissionProperties}
+ */
+exports.getAdvertsAppellantSubmissionFields = (appellantSubmission) => {
+	return {
+		isAdvertInPosition: appellantSubmission.advertInPosition ?? null,
+		isSiteOnHighwayLand: appellantSubmission.highwayLand ?? null,
+		hasLandownersPermission: appellantSubmission.landownerPermission ?? null
 	};
 };
 

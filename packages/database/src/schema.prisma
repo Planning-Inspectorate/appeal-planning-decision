@@ -387,8 +387,12 @@ model AppealCase {
   //***************************************************************************
   // Adverts fields
   //***************************************************************************
-  isSiteInAreaOfSpecialControlAdverts        Boolean? /// Indicates if the site is in an area of special control for adverts
+  hasLandownersPermission Boolean? /// Indicates if the appellant has land owners permission
+  isAdvertInPosition      Boolean? /// Indicates if the advert is already in position
+  isSiteOnHighwayLand     Boolean? /// Indicates if site is on highway land
+
   wasApplicationRefusedDueToHighwayOrTraffic Boolean? /// Indicates if the application was refused because of highway or traffic public safety
+  isSiteInAreaOfSpecialControlAdverts        Boolean? /// Indicates if the site is in an area of special control for adverts
   didAppellantSubmitCompletePhotosAndPlans   Boolean? /// Indicates if the appellant submitted complete and accurate photographs and plans
 
   //***************************************************************************

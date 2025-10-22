@@ -1,4 +1,3 @@
-const { generateApi } = require('swagger-typescript-api');
 const path = require('path');
 const { formatWrite } = require('./format-write');
 const { generateOpenApiSpec } = require('./gen-api-spec');
@@ -12,6 +11,7 @@ const typesFile = path.join(__dirname, 'api-types.d.ts');
  */
 exports.generateApiSpecTypes = async () => {
 	const spec = generateOpenApiSpec();
+	const { generateApi } = await import('swagger-typescript-api');
 
 	const { files } = await generateApi({
 		fileName: path.basename(typesFile),

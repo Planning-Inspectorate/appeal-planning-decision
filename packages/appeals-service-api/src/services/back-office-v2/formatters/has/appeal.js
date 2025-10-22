@@ -1,8 +1,7 @@
 const {
 	getDocuments,
 	formatApplicationSubmissionUsers,
-	getCommonAppellantSubmissionFields,
-	getHASAppellantSubmissionFields
+	getCommonAppellantSubmissionFields
 } = require('../utils');
 const { APPEAL_CASE_TYPE } = require('@planning-inspectorate/data-model');
 
@@ -12,12 +11,8 @@ const { APPEAL_CASE_TYPE } = require('@planning-inspectorate/data-model');
 exports.formatter = async (appellantSubmission, lpa) => {
 	return {
 		casedata: {
-			// Root
 			caseType: APPEAL_CASE_TYPE.D,
-			// Common
-			...getCommonAppellantSubmissionFields(appellantSubmission, lpa),
-			// HAS
-			...getHASAppellantSubmissionFields(appellantSubmission)
+			...getCommonAppellantSubmissionFields(appellantSubmission, lpa)
 		},
 		documents: await getDocuments(appellantSubmission),
 		users: formatApplicationSubmissionUsers(appellantSubmission)
