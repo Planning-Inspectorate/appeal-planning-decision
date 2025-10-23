@@ -59,6 +59,9 @@ const makeSections = (response) => [
 		.addQuestion(questions.developmentPlanPolicies)
 		.addQuestion(questions.uploadDevelopmentPlanPolicies)
 		.withCondition(() => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes'))
+		.addQuestion(questions.emergingPlan)
+		.addQuestion(questions.emergingPlanUpload)
+		.withCondition(() => questionHasAnswer(response, questions.emergingPlan, 'yes'))
 		.addQuestion(questions.supplementaryPlanning)
 		.addQuestion(questions.supplementaryPlanningUpload)
 		.withCondition(() => questionHasAnswer(response, questions.supplementaryPlanning, 'yes')),
