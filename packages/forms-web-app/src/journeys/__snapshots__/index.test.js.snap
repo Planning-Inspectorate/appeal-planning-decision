@@ -17204,6 +17204,60 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial planning (CAS) should render the emerging-plan question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer&#39;s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="emergingPlan-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Do you have an emerging plan that is relevant to this appeal?</h1>
+                        </legend>
+                        <div id="emergingPlan-hint" class="govuk-hint">
+                            <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-0">Tell us if:</p>
+                            <ul class="govuk-list govuk-list--bullet">
+                                <li>you have a development plan that has been submitted for examination</li>
+                                <li>a development plan that has been examined and found to be sound or met
+                                    its basic conditions</li>
+                                <li>you have a neighbourhood plan that is awaiting, or has passed a referendum</li>
+                            </ul>
+                        </div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="emergingPlan" name="emergingPlan"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="emergingPlan">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="emergingPlan-2" name="emergingPlan"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="emergingPlan-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial planning (CAS) should render the green-belt question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -17944,6 +17998,78 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial planning (CAS) should render the upload-emerging-plan question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer&#39;s report and supporting documents</span>
+            <h1
+            class="govuk-heading-l">Upload the emerging plan and supporting information</h1>
+                <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-0">For each relevant plan, you must upload:</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>the front cover of the document</li>
+                    <li>the relevant sections or policies and their supporting text</li>
+                    <li>a summary of the plan's status and relevance to this appeal</li>
+                </ul>
+                <details class="govuk-details" data-module="govuk-details">
+                    <summary class="govuk-details__summary"><span class="govuk-details__summary-text"> What you must include in the summary </span>
+                    </summary>
+                    <div class="govuk-details__text">
+                        <p class="govuk-!-margin-bottom-2">For plans that have been found sound or have met their basic conditions,
+                            or have passed a referendum, you must include:</p>
+                        <ul class="govuk-list govuk-list--bullet">
+                            <li>the date you are likely to adopt the plan</li>
+                            <li>your policy position on the proposed development if you adopt the plan
+                                before we decide this appeal</li>
+                            <li>the status of existing policies and plans once you adopt the new plan,
+                                and if any will be superseded</li>
+                        </ul>
+                        <p class="govuk-!-margin-bottom-2">For plans that have been submitted for examination, or are awaiting a
+                            referendum, you must include:</p>
+                        <ul class="govuk-list govuk-list--bullet">
+                            <li>any substantive changes in the emerging plan</li>
+                            <li>how the changes are relevant to this appeal, if you are not likely to
+                                adopt the plan before we decide this appeal</li>
+                        </ul>
+                    </div>
+                </details>
+                <form action="" method="post" novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadEmergingPlan">Upload files</label>
+                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
+                                    1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadEmergingPlan" name="uploadEmergingPlan" type="file" aria-describedby="uploadEmergingPlan-hint"
+                                multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial planning (CAS) should render the upload-planning-officers-report-decision-notice question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -18366,6 +18492,11 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) renders listi
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/other-development-plan-policies">Answer<span class="govuk-visually-hidden"> Do you have any relevant policies from your statutory development plan?</span></a>
                                 </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Emerging plans</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/emerging-plan">Answer<span class="govuk-visually-hidden"> Do you have an emerging plan that is relevant to this appeal?</span></a>
+                            </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Supplementary planning documents</dt>
                             <dd

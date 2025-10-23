@@ -65,6 +65,13 @@ condition: () =>
 condition: () => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes');
 ```
 
+- boolean `/emerging-plan/` Do you have an emerging plan that is relevant to this appeal?
+- multi-file-upload `/upload-emerging-plan/` Upload the emerging plan and supporting information
+
+```js
+condition: () => questionHasAnswer(response, questions.emergingPlan, 'yes');
+```
+
 - boolean `/supplementary-planning-documents/` Did any supplementary planning documents inform the outcome of the planning application?
 - multi-file-upload `/upload-policies-supplementary-planning-documents/` Upload relevant policy extracts and supplementary planning documents
 
