@@ -5,7 +5,7 @@ import { users } from '../../fixtures/users.js';
 const { finalComment } = require('../../support/flows/sections/lpaManageAppeals/finalComment');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('Full Planning Final comment Test Cases', { tags: '@S78-LPA-Final-Comment-Submission' }, () => {
+describe('Full Planning Final comment Submission', { tags: '@S78-LPA-Final-Comment-Submission' }, () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;
         before(() => {
