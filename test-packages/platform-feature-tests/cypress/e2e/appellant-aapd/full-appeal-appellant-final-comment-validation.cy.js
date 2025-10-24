@@ -24,7 +24,7 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', { tags: 
                 cy.url().then((url) => {
                         if (url.includes('/appeal/email-address')) {
                                 cy.getById(prepareAppealSelector?._selectors?.emailAddress).clear();
-                                cy.getById(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress1);
+                                cy.getById(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
                                 cy.advanceToNextPage();
                                 cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
                                 cy.advanceToNextPage();
