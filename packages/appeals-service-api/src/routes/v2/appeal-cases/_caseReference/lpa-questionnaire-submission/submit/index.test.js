@@ -69,6 +69,41 @@ jest.mock('../../../service', () => ({
 					siteAddressTown: 'Townsville',
 					siteAddressPostcode: 'S78 1AB'
 				};
+			case '004':
+				return {
+					id: 'appeal-004',
+					appealTypeCode: 'CAS_PLANNING',
+					LPACode: 'LPA_001',
+					caseReference: '004',
+					applicationReference: 'APP/004',
+					caseStartedDate: new Date(),
+					users: [
+						{
+							serviceUserType: 'Appellant',
+							emailAddress: 'cas-planning@example.com'
+						}
+					],
+					siteAddressLine1: '456 Another Rd',
+					siteAddressTown: 'Townsville',
+					siteAddressPostcode: 'S78 1AB'
+				};
+			case '005':
+				return {
+					id: 'appeal-005',
+					appealTypeCode: 'CAS_ADVERT',
+					LPACode: 'LPA_001',
+					caseReference: '005',
+					applicationReference: 'APP/005',
+					caseStartedDate: new Date(),
+					users: [
+						{
+							serviceUserType: 'Appellant',
+							emailAddress: 'cas-advert@example.com'
+						}
+					],
+					siteGridReferenceEasting: '359608',
+					siteGridReferenceNorthing: '172607'
+				};
 			default:
 				return null;
 		}
@@ -255,6 +290,36 @@ jest.mock('../service', () => ({
 					supplementaryPlanningDocs: true,
 					treePreservationOrder: false
 				};
+			case '004':
+				return {
+					...hasCase,
+					AppealCase: {
+						LPACode: 'LPA_001',
+						appealTypeCode: 'CAS_PLANNING'
+					}
+				};
+			case '005':
+				return {
+					...hasCase,
+					AppealCase: {
+						LPACode: 'LPA_001',
+						appealTypeCode: 'CAS_ADVERTS'
+					},
+					affectsScheduledMonument: true,
+					protectedSpecies: false,
+					areaOutstandingBeauty: true,
+					designatedSites: 'yes',
+					designatedSites_otherDesignations: 'other designations',
+					statutoryConsultees: 'yes',
+					statutoryConsultees_consultedBodiesDetails: 'consultation details',
+					emergingPlan: true,
+					lpaPreferHearingDetails: 'Hearing details',
+					lpaProcedurePreference_lpaPreferInquiryDuration: '12',
+					lpaProcedurePreference: 'hearing',
+					isSiteInAreaOfSpecialControlAdverts: true,
+					wasApplicationRefusedDueToHighwayOrTraffic: false,
+					didAppellantSubmitCompletePhotosAndPlans: true
+				};
 			default:
 				return null;
 		}
@@ -418,6 +483,43 @@ const formattedS20 = [
 		documents: [...expectedHAS.documents]
 	})
 ];
+const formattedCASPlanning = [
+	expect.objectContaining({
+		casedata: {
+			...expectedHAS.casedata,
+			caseType: CASE_TYPES.CAS_PLANNING.key,
+			caseReference: '004',
+			consultedBodiesDetails: null,
+			hasConsultationResponses: undefined,
+			hasStatutoryConsultees: false
+		},
+		documents: [...expectedHAS.documents]
+	})
+];
+const formattedCASAdverts = [
+	expect.objectContaining({
+		casedata: {
+			...expectedHAS.casedata,
+			caseType: CASE_TYPES.CAS_ADVERTS.key,
+			caseReference: '005',
+			affectsScheduledMonument: true,
+			hasProtectedSpecies: false,
+			isAonbNationalLandscape: true,
+			designatedSitesNames: ['yes', 'other designations'],
+			hasStatutoryConsultees: true,
+			consultedBodiesDetails: 'consultation details',
+			hasEmergingPlan: true,
+			lpaProcedurePreference: APPEAL_CASE_PROCEDURE.HEARING,
+			lpaProcedurePreferenceDetails: 'Hearing details',
+			lpaProcedurePreferenceDuration: null,
+			lpaQuestionnaireSubmittedDate: expect.any(String),
+			isSiteInAreaOfSpecialControlAdverts: true,
+			wasApplicationRefusedDueToHighwayOrTraffic: false,
+			didAppellantSubmitCompletePhotosAndPlans: true
+		},
+		documents: [...expectedHAS.documents]
+	})
+];
 
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 	const expectEmail = (email, appealReferenceNumber) => {
@@ -439,7 +541,9 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 	it.each([
 		['HAS', '001', formattedHAS],
 		['S78', '002', formattedS78],
-		['S20', '003', formattedS20]
+		['S20', '003', formattedS20],
+		['CAS_PLANNING', '004', formattedCASPlanning],
+		['CAS_ADVERTS', '005', formattedCASAdverts]
 	])('Formats %s questionnaires then sends it to back office', async (_, id, expectation) => {
 		mockNotifyClient.sendEmail.mockClear();
 

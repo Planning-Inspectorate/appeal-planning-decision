@@ -15,6 +15,9 @@ const {
 const {
 	formatter: casPlanningFormatter
 } = require('../../../../../../services/back-office-v2/formatters/cas-planning/questionnaire');
+const {
+	formatter: casAdvertsFormatter
+} = require('../../../../../../services/back-office-v2/formatters/cas-adverts/questionnaire');
 
 const { getLPAQuestionnaireByAppealId } = require('../service');
 
@@ -38,6 +41,8 @@ const getFormatter = (appealTypeCode) => {
 			return s20Formatter;
 		case CASE_TYPES.CAS_PLANNING.processCode:
 			return casPlanningFormatter;
+		case CASE_TYPES.CAS_ADVERTS.processCode:
+			return casAdvertsFormatter;
 		default:
 			throw new Error('unknown formatter');
 	}
