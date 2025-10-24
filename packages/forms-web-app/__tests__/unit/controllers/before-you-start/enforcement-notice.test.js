@@ -9,9 +9,11 @@ const {
 		BEFORE_YOU_START: { ENFORCEMENT_NOTICE }
 	}
 } = require('../../../../src/lib/views');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 const navigationPages = {
 	nextPage: '/before-you-start/type-of-planning-application',
+	enforcementPage: '/before-you-start/enforcement-notice-listed-building',
 	shutterPage: '/before-you-start/use-existing-service-enforcement-notice'
 };
 const logger = require('../../../../src/lib/logger');
@@ -19,6 +21,7 @@ const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
+jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
 
 describe('controllers/before-you-start/enforcement-notice', () => {
 	let req;
@@ -61,6 +64,8 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 			};
 			mockRequest.session.appeal.eligibility.applicationDecision = 'granted';
 
+			isLpaInFeatureFlag.mockReturnValue(true);
+
 			await postEnforcementNotice(mockRequest, res);
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
@@ -90,6 +95,7 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 			mockRequest.session.appeal.eligibility.applicationDecision = 'granted';
 			const error = new Error('Cheers');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
+			isLpaInFeatureFlag.mockReturnValue(true);
 
 			await postEnforcementNotice(mockRequest, res);
 
@@ -104,13 +110,15 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 			});
 		});
 
-		it('should redirect to `/full-appeal/use-a-different-service` if `enforcement-notice` is `yes`', async () => {
+		it('should redirect to `/before-you-start/use-existing-service-enforcement-notice` if `enforcement-notice` is `yes` and feature flag is off', async () => {
 			const mockRequest = {
 				...req,
 				body: {
 					'enforcement-notice': 'yes'
 				}
 			};
+			isLpaInFeatureFlag.mockReturnValue(false);
+
 			await postEnforcementNotice(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
@@ -124,6 +132,28 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 			expect(res.redirect).toHaveBeenCalledWith(navigationPages.shutterPage);
 		});
 
+		it('should redirect to `/before-you-start/enforcement-notice-listed-building` if `enforcement-notice` is `yes` and feature flag is on', async () => {
+			const mockRequest = {
+				...req,
+				body: {
+					'enforcement-notice': 'yes'
+				}
+			};
+			isLpaInFeatureFlag.mockReturnValue(true);
+
+			await postEnforcementNotice(mockRequest, res);
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...appeal,
+				eligibility: {
+					...appeal.eligibility,
+					enforcementNotice: true
+				}
+			});
+
+			expect(res.redirect).toHaveBeenCalledWith(navigationPages.enforcementPage);
+		});
+
 		it('should redirect to `/before-you-start/type-of-planning-application` if `enforcement-notice` is `no`', async () => {
 			const mockRequest = {
 				...req,
@@ -131,6 +161,8 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 					'enforcement-notice': 'no'
 				}
 			};
+			isLpaInFeatureFlag.mockReturnValue(true);
+
 			await postEnforcementNotice(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
