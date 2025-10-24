@@ -527,6 +527,9 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 	const lpaName = lpa.getName();
 
 	const formattedAddress = formatAddress(appealCase);
+	// temp - waiting for tickets to define format for grid ref emails properly
+	const formattedGridref = `${appealCase.siteGridReferenceEasting}, ${appealCase.siteGridReferenceNorthing}`;
+
 	const formattedDate = caseStartedDate
 		? formatInTimeZone(caseStartedDate, ukTimeZone, 'dd MMMM yyyy')
 		: '';
@@ -538,7 +541,7 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 		appealReferenceNumber: caseReference,
 		lpaName: lpaName,
 		lpaReference: applicationReference,
-		siteAddress: formattedAddress,
+		siteAddress: formattedAddress ? formattedAddress : formattedGridref,
 		appealStartDate: formattedDate,
 		questionnaireLink: url,
 		appellantEmailAddress: appellantOrAgentEmailAddress

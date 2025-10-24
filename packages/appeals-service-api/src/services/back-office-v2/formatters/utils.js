@@ -576,7 +576,31 @@ exports.getHASLPAQSubmissionFields = (answers) => {
  * @param {LPAQAnswers} answers
  * @returns {LPAQS78SubmissionProperties}
  */
-exports.getCASLPAQSubmissionFields = (answers) => {
+exports.getCASAdvertsLPAQSubmissionFields = (answers) => {
+	const preference = getLPAProcedurePreference(answers);
+	const designatedSitesNames = exports.getDesignatedSiteNames(answers);
+
+	return {
+		affectsScheduledMonument: answers.affectsScheduledMonument,
+		hasProtectedSpecies: answers.protectedSpecies,
+		isAonbNationalLandscape: answers.areaOutstandingBeauty,
+		designatedSitesNames,
+		hasStatutoryConsultees: exports.toBool(answers.statutoryConsultees),
+		consultedBodiesDetails: answers.statutoryConsultees_consultedBodiesDetails || null,
+		hasEmergingPlan: answers.emergingPlan,
+		...preference,
+		// adverts specific
+		isSiteInAreaOfSpecialControlAdverts: answers.isSiteInAreaOfSpecialControlAdverts,
+		wasApplicationRefusedDueToHighwayOrTraffic: answers.wasApplicationRefusedDueToHighwayOrTraffic,
+		didAppellantSubmitCompletePhotosAndPlans: answers.didAppellantSubmitCompletePhotosAndPlans
+	};
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {LPAQS78SubmissionProperties}
+ */
+exports.getCASPlanningLPAQSubmissionFields = (answers) => {
 	return {
 		isCorrectAppealType: answers.correctAppealType,
 		affectedListedBuildingNumbers: getListedBuildingByType(
