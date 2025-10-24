@@ -108,7 +108,7 @@
 		"@azure/service-bus": "^7.9.1",
 		"@azure/storage-blob": "^12.28.0",
 		"@ministryofjustice/frontend": "^1.6.4",
-		"@planning-inspectorate/data-model": "^1.18.1",
+		"@planning-inspectorate/data-model": "^1.19.0",
 		"@prisma/client": "^6.17.1",
 		"accessible-autocomplete": "^3.0.1",
 		"ajv": "^8.14.0",

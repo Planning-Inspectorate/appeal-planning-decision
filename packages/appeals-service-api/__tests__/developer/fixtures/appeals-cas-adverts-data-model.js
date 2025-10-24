@@ -11,7 +11,19 @@ const exampleCasAdvertsDataModel = {
 	isAdvertInPosition: true,
 	isSiteOnHighwayLand: true,
 	siteGridReferenceEasting: '359608',
-	siteGridReferenceNorthing: '172607'
+	siteGridReferenceNorthing: '172607',
+	affectsScheduledMonument: true,
+	hasProtectedSpecies: true,
+	isAonbNationalLandscape: true,
+	designatedSitesNames: ['yes', 'other designations'],
+	hasStatutoryConsultees: true,
+	consultedBodiesDetails: 'consultation details',
+	lpaProcedurePreference: 'hearing',
+	lpaProcedurePreferenceDetails: 'Hearing details',
+	lpaProcedurePreferenceDuration: null,
+	wasApplicationRefusedDueToHighwayOrTraffic: false,
+	isSiteInAreaOfSpecialControlAdverts: true,
+	didAppellantSubmitCompletePhotosAndPlans: true
 };
 
 module.exports = { exampleCasAdvertsDataModel };

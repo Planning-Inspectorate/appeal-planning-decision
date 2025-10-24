@@ -6,11 +6,12 @@
 const {
 	getDocuments,
 	getCommonLPAQSubmissionFields,
-	getCASPlanningLPAQSubmissionFields
+	getHASLPAQSubmissionFields,
+	getCASAdvertsLPAQSubmissionFields
 } = require('../utils');
 const { documentTypes } = require('@pins/common/src/document-types');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
-const CAS_PLANNING = CASE_TYPES.CAS_PLANNING.key;
+const CAS_ADVERTS = CASE_TYPES.CAS_ADVERTS.key;
 
 /**
  * @param {string} caseReference
@@ -21,11 +22,13 @@ exports.formatter = async (caseReference, { ...answers }) => {
 	return {
 		casedata: {
 			// Root
-			caseType: CAS_PLANNING,
+			caseType: CAS_ADVERTS,
 			// Common
 			...getCommonLPAQSubmissionFields(caseReference, answers),
-			//CAS
-			...getCASPlanningLPAQSubmissionFields(answers)
+			// HAS
+			...getHASLPAQSubmissionFields(answers),
+			// CAS Adverts specific fields
+			...getCASAdvertsLPAQSubmissionFields(answers)
 		},
 		documents: await getDocuments(answers, documentTypes.planningOfficersReportUpload.dataModelName)
 	};

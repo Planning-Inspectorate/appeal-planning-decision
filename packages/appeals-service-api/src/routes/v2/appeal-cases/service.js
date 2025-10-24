@@ -293,13 +293,38 @@ const getAdvertsAppealFormFields = (dataModel) => {
 };
 
 /**
+ * @param {AppealHASCase} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const getCASAdvertsLPAQFields = (dataModel) => {
+	return {
+		scheduledMonument: dataModel.affectsScheduledMonument ?? null, // todo: rename
+		protectedSpecies: dataModel.hasProtectedSpecies, // todo: rename
+		areaOutstandingBeauty: dataModel.isAonbNationalLandscape, // todo: rename
+		designatedSitesNames: dataModel.designatedSitesNames
+			? JSON.stringify(dataModel.designatedSitesNames)
+			: null,
+		statutoryConsultees: dataModel.hasStatutoryConsultees, // todo: rename
+		consultedBodiesDetails: dataModel.consultedBodiesDetails,
+		lpaProcedurePreference: dataModel.lpaProcedurePreference,
+		lpaProcedurePreferenceDetails: dataModel.lpaProcedurePreferenceDetails,
+		lpaProcedurePreferenceDuration: dataModel.lpaProcedurePreferenceDuration,
+		wasApplicationRefusedDueToHighwayOrTraffic:
+			dataModel.wasApplicationRefusedDueToHighwayOrTraffic,
+		isSiteInAreaOfSpecialControlAdverts: dataModel.isSiteInAreaOfSpecialControlAdverts,
+		didAppellantSubmitCompletePhotosAndPlans: dataModel.didAppellantSubmitCompletePhotosAndPlans
+	};
+};
+
+/**
  * @param {String} caseProcessCode
  * @param {AppealHASCase} dataModel
  * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
  */
 const mapCASAdvertsDataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
-	...getAdvertsAppealFormFields(dataModel)
+	...getAdvertsAppealFormFields(dataModel),
+	...getCASAdvertsLPAQFields(dataModel)
 });
 
 /**
