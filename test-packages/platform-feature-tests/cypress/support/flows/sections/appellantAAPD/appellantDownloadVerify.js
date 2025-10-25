@@ -28,7 +28,7 @@ export const appellantAllowedDowloadVerify = (prepareAppealData) => {
         }
     }).then(() => {
     });
-    cy.exec('del /q cypress\\downloads\\*');
+    cy.task('deleteFolder', 'cypress/downloads');
     cy.window().then(win => {
         cy.stub(win, 'open').as('download')
     });
@@ -65,7 +65,7 @@ export const appellantAllowedInPartDowloadVerify = (prepareAppealData) => {
         }
     }).then(() => {
     });
-    cy.exec('del /q cypress\\downloads\\*');
+    cy.task('deleteFolder', 'cypress/downloads');
     cy.window().then(win => {
         cy.stub(win, 'open').as('download')
     });

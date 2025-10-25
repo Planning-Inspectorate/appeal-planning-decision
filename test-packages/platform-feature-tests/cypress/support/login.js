@@ -27,17 +27,15 @@ const azureSignIn = async (config) => {
 		await page.type(locators.usernameInput, config.username);
 		await page.keyboard.press('Enter');
 		await page.waitForSelector(locators.passwordInput, { visible: true, timeout: 10000 });
-		await timeout(2000);		
+		await timeout(2000);
 		await page.type(locators.passwordInput, config.password);
 		await page.keyboard.press('Enter');
-		// await page.waitForSelector(locators.optTextInput, { visible: true, timeout: 10000 });
-		// await page.click(locators.optTextInput);
 		await timeout(5000);
 
 		const cookies = await getCookies(page);
 
 		if (!fs.existsSync(BrowserAuthData.BrowserAuthDataFolder)) {
-			fs.mkdirSync(BrowserAuthData.BrowserAuthDataFolder);
+			fs.mkdirSync(BrowserAuthData.BrowserAuthDataFolder, { recursive: true });
 		}
 		fs.writeFileSync(
 			path.resolve(
@@ -50,7 +48,9 @@ const azureSignIn = async (config) => {
 		await browser.close();
 		return cookies;
 	} catch (error) {
-		await browser.close();
+		if (browser) {
+			await browser.close();
+		}
 		throw error;
 	}
 };
