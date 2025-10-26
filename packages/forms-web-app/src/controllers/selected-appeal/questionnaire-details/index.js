@@ -15,6 +15,7 @@ const { environmentalRows } = require('./environmental-details-rows');
 const { notifiedRows } = require('./notified-details-rows');
 const { planningOfficerReportRows } = require('./planning-officer-details-rows');
 const { siteAccessRows } = require('./site-access-details-rows');
+const { lpaQuestionnaireValidationRows } = require('./lpa-questionnaire-validation-details-rows');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
@@ -94,6 +95,15 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		// appeal process rows
 		const appealProcessDetailsRows = appealProcessRows(caseData);
 		const appealProcessDetails = formatQuestionnaireRows(appealProcessDetailsRows, caseData);
+		// lpa questionnaire validation rows
+		const lpaQuestionnaireValidationDetailsRows = lpaQuestionnaireValidationRows({
+			caseData,
+			userType: userType
+		});
+		const lpaQuestionnaireValidationDetails = formatQuestionnaireRows(
+			lpaQuestionnaireValidationDetailsRows,
+			caseData
+		);
 
 		const viewContext = {
 			layoutTemplate,
@@ -109,7 +119,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				consultationDetails,
 				planningOfficerDetails,
 				siteAccessDetails,
-				appealProcessDetails
+				appealProcessDetails,
+				lpaQuestionnaireValidationDetails
 			},
 			pdfDownloadUrl,
 			zipDownloadUrl
