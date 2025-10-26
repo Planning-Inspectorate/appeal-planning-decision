@@ -9,7 +9,9 @@ const LPA_NOTIFICATION_METHODS_ARRAY = Object.values(LPA_NOTIFICATION_METHODS);
 exports.formatDocumentDetails = (documents, documentType) => {
 	const filteredDocuments = documents.filter((document) => document.documentType === documentType);
 
-	return filteredDocuments.length > 0 ? filteredDocuments.map(formatDocumentLink).join('\n') : 'No';
+	return filteredDocuments.length > 0
+		? filteredDocuments.map(exports.formatDocumentLink).join('\n')
+		: 'No';
 };
 
 /**
@@ -53,7 +55,7 @@ exports.formatNotificationMethod = (caseData) => {
  * @param {import('appeals-service-api').Api.Document} document
  * @returns {string}
  */
-const formatDocumentLink = (document) => {
+exports.formatDocumentLink = (document) => {
 	if (document.redacted) {
 		return `<a href="/published-document/${document.id}" class="govuk-link">${escape(
 			document.filename
