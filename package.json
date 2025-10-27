@@ -149,7 +149,7 @@
 		"notifications-node-client": "^8.2.1",
 		"nunjucks": "^3.2.4",
 		"nunjucks-date-filter": "^0.1.1",
-		"oidc-provider": "^9.5.1",
+		"oidc-provider": "^9.5.2",
 		"openid-client": "^6.8.1",
 		"pino": "^10.1.0",
 		"pino-http": "^10.5.0",
