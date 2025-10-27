@@ -40,7 +40,7 @@ describe('./src/dynamic-forms/validator/validation-error-handler.js', () => {
 			isEmpty: () => {
 				return false;
 			},
-			array: () => {
+			mapped: () => {
 				return { test: { msg: undefined } };
 			}
 		});
@@ -61,7 +61,7 @@ describe('./src/dynamic-forms/validator/validation-error-handler.js', () => {
 			isEmpty: () => {
 				return false;
 			},
-			array: () => {
+			mapped: () => {
 				return { test: { msg: 'hello' } };
 			}
 		});

@@ -70,22 +70,29 @@ class MultiFieldInputValidator extends BaseValidator {
 
 			fieldBody.notEmpty().withMessage(errorMessage).bail();
 
-			if (minLength) {
-				fieldBody.isLength({ min: minLength.minLength }).withMessage(minLength.minLengthMessage);
-			}
-
-			if (maxLength) {
-				fieldBody.isLength({ max: maxLength.maxLength }).withMessage(maxLength.maxLengthMessage);
-			}
-
 			if (regex) {
-				fieldBody.matches(new RegExp(regex.regex)).withMessage(regex.regexMessage);
+				fieldBody.matches(new RegExp(regex.regex)).withMessage(regex.regexMessage).bail();
 			}
 
 			if (lessThan) {
 				fieldBody
 					.isInt({ lt: lessThan.lessThan, allow_leading_zeroes: lessThan.allowLeadingZeros })
-					.withMessage(lessThan.lessThanMessage);
+					.withMessage(lessThan.lessThanMessage)
+					.bail();
+			}
+
+			if (minLength) {
+				fieldBody
+					.isLength({ min: minLength.minLength })
+					.withMessage(minLength.minLengthMessage)
+					.bail();
+			}
+
+			if (maxLength) {
+				fieldBody
+					.isLength({ max: maxLength.maxLength })
+					.withMessage(maxLength.maxLengthMessage)
+					.bail();
 			}
 
 			rules.push(fieldBody);

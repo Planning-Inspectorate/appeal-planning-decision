@@ -17,7 +17,7 @@ const validationErrorHandler = (req, res, next) => {
 	}
 
 	// @ts-ignore JSDoc assertion that this is the type we expect
-	const mappedErrors = /** @type {Record<string, FieldError>} */ (errors.array());
+	const mappedErrors = /** @type {Record<string, FieldError>} */ (errors.mapped());
 	// date-validator returns some empty error messages to avoid having an error for each field
 	// there is probably a better way but we shouldn't block with an empty error anyway
 	const filteredErrors = Object.entries(mappedErrors).filter(([_key, error]) => error.msg);
