@@ -38,6 +38,10 @@ exports.detailsRows = (caseData, userType) => {
 		caseData.appealTypeCode === CASE_TYPES.HAS.processCode ||
 		caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode;
 
+	const isAdvertAppeal =
+		caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode;
+
 	const relatedAppeals = formatSubmissionRelatedAppeals(
 		caseData,
 		fieldNames.appellantLinkedCaseReference
@@ -80,6 +84,16 @@ exports.detailsRows = (caseData, userType) => {
 			keyText: 'Site address',
 			valueText: siteAddressValue,
 			condition: (caseData) => caseData.siteAddressLine1 || caseData.siteGridReferenceEasting
+		},
+		{
+			keyText: 'Is the appeal site on highway land?',
+			valueText: formatYesOrNo(caseData, 'isSiteOnHighwayLand'),
+			condition: (caseData) => caseData.isSiteOnHighwayLand != null
+		},
+		{
+			keyText: 'Is the advertisement in position?',
+			valueText: formatYesOrNo(caseData, 'isAdvertInPosition'),
+			condition: (caseData) => caseData.isAdvertInPosition != null
 		},
 		{
 			keyText: 'What is the area of the appeal site?',
@@ -125,6 +139,11 @@ exports.detailsRows = (caseData, userType) => {
 			keyText: 'Other owners informed',
 			valueText: formatYesOrNo(caseData, 'ownersInformed'),
 			condition: (caseData) => caseData.ownersInformed != null
+		},
+		{
+			keyText: "Do you have the land owner's permission?",
+			valueText: formatYesOrNo(caseData, 'hasLandownersPermission'),
+			condition: (caseData) => caseData.hasLandownersPermission != null
 		},
 		{
 			keyText: 'Will an inspector need to access the land or property?',
@@ -174,12 +193,16 @@ exports.detailsRows = (caseData, userType) => {
 			condition: () => !hasOrCasPlanningAppeal && caseData.developmentType != null
 		},
 		{
-			keyText: 'Enter the description of development',
+			keyText: isAdvertAppeal
+				? 'Enter the description of the advertisement that you submitted in your application'
+				: 'Enter the description of development',
 			valueText: caseData.originalDevelopmentDescription ?? '',
 			condition: (caseData) => caseData.originalDevelopmentDescription
 		},
 		{
-			keyText: 'Did the local planning authority change the description of development?',
+			keyText: isAdvertAppeal
+				? 'Did the local planning authority change the description of the advertisement?'
+				: 'Did the local planning authority change the description of development?',
 			valueText: formatYesOrNo(caseData, 'changedDevelopmentDescription'),
 			condition: (caseData) => caseData.changedDevelopmentDescription != null
 		},
