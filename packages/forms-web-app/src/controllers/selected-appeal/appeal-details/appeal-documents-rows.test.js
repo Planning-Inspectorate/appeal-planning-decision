@@ -33,17 +33,15 @@ describe('appeal-documents-rows', () => {
 		);
 	});
 
+	const allAppealTypes = Object.values(CASE_TYPES).map((caseType) => caseType.processCode);
+
 	// displayed for all appeal types
 	describe.each([
 		['Application form', 0],
 		['Decision letter', 4],
 		['Appeal statement', 5]
 	])('%s', (rowName, rowNumber) => {
-		test.each([
-			['HAS', CASE_TYPES.HAS.processCode],
-			['S78', CASE_TYPES.S78.processCode],
-			['S20', CASE_TYPES.S20.processCode]
-		])('should display field for %s', (_, processCode) => {
+		test.each(allAppealTypes)('should display field for %s', (processCode) => {
 			const rows = documentsRows({ appealTypeCode: processCode });
 			expect(rows[rowNumber].keyText).toEqual(rowName);
 			expect(rows[rowNumber].valueText).toEqual('No');
@@ -54,25 +52,44 @@ describe('appeal-documents-rows', () => {
 
 	// depends on the appeal type
 	describe.each([
-		['Plans, drawings and supporting documents', 1],
-		['Separate ownership certificate in application', 2],
-		['Design and access statement in application', 3],
-		['New plans or drawings', 6],
-		['Planning obligation', 8],
-		['New supporting documents', 9]
-	])('%s', (rowName, rowNumber) => {
-		it('should not display field if HAS', () => {
-			const rows = documentsRows({ appealTypeCode: CASE_TYPES.HAS.processCode });
-			expect(rows[rowNumber].keyText).toEqual(rowName);
-			expect(rows[rowNumber].valueText).toEqual('No');
-			expect(rows[rowNumber].condition()).toEqual(false);
-			expect(rows[rowNumber].isEscaped).toEqual(true);
-		});
+		[
+			'Plans, drawings and supporting documents',
+			1,
+			[
+				CASE_TYPES.S78.processCode,
+				CASE_TYPES.S20.processCode,
+				CASE_TYPES.CAS_PLANNING.processCode,
+				CASE_TYPES.ADVERTS.processCode,
+				CASE_TYPES.CAS_ADVERTS.processCode
+			]
+		],
+		[
+			'Separate ownership certificate in application',
+			2,
+			[CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode]
+		],
+		[
+			'Design and access statement in application',
+			3,
+			[CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode, CASE_TYPES.CAS_PLANNING.processCode]
+		],
+		['New plans or drawings', 6, [CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode]],
+		['Planning obligation', 8, [CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode]],
+		['New supporting documents', 9, [CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode]]
+	])('%s', (rowName, rowNumber, expectedAppealTypes) => {
+		allAppealTypes
+			.filter((x) => !expectedAppealTypes.includes(x))
+			.forEach((processCode) => {
+				it(`should not display field if ${processCode}`, () => {
+					const rows = documentsRows({ appealTypeCode: processCode });
+					expect(rows[rowNumber].keyText).toEqual(rowName);
+					expect(rows[rowNumber].valueText).toEqual('No');
+					expect(rows[rowNumber].condition()).toEqual(false);
+					expect(rows[rowNumber].isEscaped).toEqual(true);
+				});
+			});
 
-		test.each([
-			['S78', CASE_TYPES.S78.processCode],
-			['S20', CASE_TYPES.S20.processCode]
-		])('should display field if %s', (_, processCode) => {
+		test.each(expectedAppealTypes)('should display field if %s', (processCode) => {
 			const rows = documentsRows({ appealTypeCode: processCode });
 			expect(rows[rowNumber].keyText).toEqual(rowName);
 			expect(rows[rowNumber].valueText).toEqual('No');
@@ -112,6 +129,43 @@ describe('appeal-documents-rows', () => {
 			expect(rows[draftRow].valueText).toEqual('No');
 			expect(rows[draftRow].condition()).toEqual(false);
 			expect(rows[draftRow].isEscaped).toEqual(true);
+		});
+	});
+
+	// text varies based on appeal type
+	describe('Evidence of agreement to change description', () => {
+		const evidenceRow = 11;
+		test.each([
+			['HAS', CASE_TYPES.S78.processCode],
+			['S78', CASE_TYPES.S78.processCode],
+			['S20', CASE_TYPES.S20.processCode],
+			['CAS_PLANNING', CASE_TYPES.CAS_PLANNING.processCode]
+		])('should display field if %s', (_, processCode) => {
+			const caseData = { appealTypeCode: processCode, changedDevelopmentDescription: true };
+			const rows = documentsRows(caseData);
+			expect(rows[evidenceRow].keyText).toEqual(
+				'Evidence of agreement to change description of development'
+			);
+			expect(rows[evidenceRow].valueText).toEqual('No');
+			expect(rows[evidenceRow].condition(caseData)).toEqual(true);
+			expect(rows[evidenceRow].isEscaped).toEqual(true);
+		});
+
+		test.each([
+			['ADVERTS', CASE_TYPES.ADVERTS.processCode],
+			['CAS_ADVERTS', CASE_TYPES.CAS_ADVERTS.processCode]
+		])('should display advert text for advert appeals', (_, processCode) => {
+			const caseData = {
+				appealTypeCode: processCode,
+				changedDevelopmentDescription: true
+			};
+			const rows = documentsRows(caseData);
+			expect(rows[evidenceRow].keyText).toEqual(
+				'Upload the evidence of your agreement to change the description of the advertisement'
+			);
+			expect(rows[evidenceRow].valueText).toEqual('No');
+			expect(rows[evidenceRow].condition(caseData)).toEqual(true);
+			expect(rows[evidenceRow].isEscaped).toEqual(true);
 		});
 	});
 });

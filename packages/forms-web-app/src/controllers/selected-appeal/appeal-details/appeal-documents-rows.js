@@ -18,6 +18,10 @@ const {
 exports.documentsRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
+	const isAdvertAppeal =
+		caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode;
+
 	return [
 		{
 			keyText: 'Application form',
@@ -31,6 +35,8 @@ exports.documentsRows = (caseData) => {
 			condition: () =>
 				caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
 				caseData.appealTypeCode === CASE_TYPES.S20.processCode ||
+				caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode ||
+				caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
 				caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode,
 			isEscaped: true
 		},
@@ -76,7 +82,9 @@ exports.documentsRows = (caseData) => {
 			keyText: 'Planning obligation status',
 			valueText: caseData.statusPlanningObligation,
 			condition: (caseData) =>
-				caseData.appealTypeCode !== CASE_TYPES.HAS.processCode && caseData.statusPlanningObligation
+				(caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
+					caseData.appealTypeCode === CASE_TYPES.S20.processCode) &&
+				caseData.statusPlanningObligation
 		},
 		{
 			keyText: 'Planning obligation',
@@ -104,7 +112,9 @@ exports.documentsRows = (caseData) => {
 			isEscaped: true
 		},
 		{
-			keyText: 'Evidence of agreement to change description of development',
+			keyText: isAdvertAppeal
+				? 'Upload the evidence of your agreement to change the description of the advertisement'
+				: 'Evidence of agreement to change description of development',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION),
 			condition: (caseData) => !!caseData.changedDevelopmentDescription,
 			isEscaped: true
