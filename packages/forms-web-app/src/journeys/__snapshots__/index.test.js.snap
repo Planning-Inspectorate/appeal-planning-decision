@@ -404,6 +404,66 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the decide-appeal question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> How would you prefer us to decide your appeal?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="appellantProcedurePreference" name="appellantProcedurePreference"
+                                type="radio" value="written" aria-describedby="appellantProcedurePreference-item-hint"
+                                data-cy="answer-written">
+                                <label class="govuk-label govuk-radios__label" for="appellantProcedurePreference">Written representations</label>
+                                <div id="appellantProcedurePreference-item-hint"
+                                class="govuk-hint govuk-radios__hint">For appeals where the issues are clear from written statements and a site
+                                    visit. This is the quickest and most common way to make an appeal.</div>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="appellantProcedurePreference-2"
+                                name="appellantProcedurePreference" type="radio" value="hearing" aria-describedby="appellantProcedurePreference-2-item-hint"
+                                data-cy="answer-hearing">
+                                <label class="govuk-label govuk-radios__label" for="appellantProcedurePreference-2">Hearing</label>
+                                <div id="appellantProcedurePreference-2-item-hint" class="govuk-hint govuk-radios__hint">For appeals with more complex issues. The Inspector leads a discussion
+                                    to answer questions they have about the appeal.</div>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="appellantProcedurePreference-3"
+                                name="appellantProcedurePreference" type="radio" value="inquiry" aria-describedby="appellantProcedurePreference-3-item-hint"
+                                data-cy="answer-inquiry">
+                                <label class="govuk-label govuk-radios__label" for="appellantProcedurePreference-3">Inquiry</label>
+                                <div id="appellantProcedurePreference-3-item-hint" class="govuk-hint govuk-radios__hint">For appeals with very complex issues. Appeal evidence is tested by legal
+                                    representatives, who question witnesses under oath.</div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the description-advertisement question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -719,6 +779,74 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
                             </div>
                         </div>
                     </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the how-many-days-inquiry question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">How many days would you expect the inquiry to last?</h1>
+            <p class="govuk-body"></p>
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <div id="appellantPreferInquiryDuration-hint" class="govuk-hint"></div>
+                    <input class="govuk-input govuk-input--width-5" id="appellantPreferInquiryDuration"
+                    name="appellantPreferInquiryDuration" type="text" spellcheck="false" value=""
+                    aria-describedby="appellantPreferInquiryDuration-hint" inputmode="numeric">
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the how-many-witnesses question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">How many witnesses would you expect to give evidence at the inquiry?</h1>
+            <p class="govuk-body"></p>
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <div id="appellantPreferInquiryWitnesses-hint" class="govuk-hint"></div>
+                    <input class="govuk-input govuk-input--width-5" id="appellantPreferInquiryWitnesses"
+                    name="appellantPreferInquiryWitnesses" type="text" spellcheck="false" value=""
+                    aria-describedby="appellantPreferInquiryWitnesses-hint" inputmode="numeric">
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
@@ -1561,6 +1689,70 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the why-prefer-hearing question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="appellantPreferHearingDetails"> Why would you prefer a hearing?</label></h1>
+                <div class="govuk-form-group">
+                    <div id="appellantPreferHearingDetails-hint" class="govuk-hint"></div>
+                    <textarea class="govuk-textarea" id="appellantPreferHearingDetails"
+                    name="appellantPreferHearingDetails" rows="5" aria-describedby="appellantPreferHearingDetails-hint"></textarea>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the why-prefer-inquiry question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="appellantPreferInquiryDetails"> Why would you prefer an inquiry?</label></h1>
+                <div class="govuk-form-group">
+                    <div id="appellantPreferInquiryDetails-hint" class="govuk-hint"></div>
+                    <textarea class="govuk-textarea" id="appellantPreferInquiryDetails"
+                    name="appellantPreferInquiryDetails" rows="5" aria-describedby="appellantPreferInquiryDetails-hint"></textarea>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Advertisement renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -1717,6 +1909,12 @@ exports[`Dynamic forms journey tests appellant Advertisement renders listing pag
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/description-advertisement-correct?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Did the local planning authority change the description of the advertisement?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> How would you prefer us to decide your appeal?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/decide-appeal?id=appeal-ref">Answer<span class="govuk-visually-hidden"> How would you prefer us to decide your appeal?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there other appeals linked to your development?</dt>
@@ -2182,6 +2380,66 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the decide-appeal question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> How would you prefer us to decide your appeal?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="appellantProcedurePreference" name="appellantProcedurePreference"
+                                type="radio" value="written" aria-describedby="appellantProcedurePreference-item-hint"
+                                data-cy="answer-written">
+                                <label class="govuk-label govuk-radios__label" for="appellantProcedurePreference">Written representations</label>
+                                <div id="appellantProcedurePreference-item-hint"
+                                class="govuk-hint govuk-radios__hint">For appeals where the issues are clear from written statements and a site
+                                    visit. This is the quickest and most common way to make an appeal.</div>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="appellantProcedurePreference-2"
+                                name="appellantProcedurePreference" type="radio" value="hearing" aria-describedby="appellantProcedurePreference-2-item-hint"
+                                data-cy="answer-hearing">
+                                <label class="govuk-label govuk-radios__label" for="appellantProcedurePreference-2">Hearing</label>
+                                <div id="appellantProcedurePreference-2-item-hint" class="govuk-hint govuk-radios__hint">For appeals with more complex issues. The Inspector leads a discussion
+                                    to answer questions they have about the appeal.</div>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="appellantProcedurePreference-3"
+                                name="appellantProcedurePreference" type="radio" value="inquiry" aria-describedby="appellantProcedurePreference-3-item-hint"
+                                data-cy="answer-inquiry">
+                                <label class="govuk-label govuk-radios__label" for="appellantProcedurePreference-3">Inquiry</label>
+                                <div id="appellantProcedurePreference-3-item-hint" class="govuk-hint govuk-radios__hint">For appeals with very complex issues. Appeal evidence is tested by legal
+                                    representatives, who question witnesses under oath.</div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the description-advertisement question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -2497,6 +2755,74 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
                             </div>
                         </div>
                     </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the how-many-days-inquiry question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">How many days would you expect the inquiry to last?</h1>
+            <p class="govuk-body"></p>
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <div id="appellantPreferInquiryDuration-hint" class="govuk-hint"></div>
+                    <input class="govuk-input govuk-input--width-5" id="appellantPreferInquiryDuration"
+                    name="appellantPreferInquiryDuration" type="text" spellcheck="false" value=""
+                    aria-describedby="appellantPreferInquiryDuration-hint" inputmode="numeric">
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the how-many-witnesses question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">How many witnesses would you expect to give evidence at the inquiry?</h1>
+            <p class="govuk-body"></p>
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <div id="appellantPreferInquiryWitnesses-hint" class="govuk-hint"></div>
+                    <input class="govuk-input govuk-input--width-5" id="appellantPreferInquiryWitnesses"
+                    name="appellantPreferInquiryWitnesses" type="text" spellcheck="false" value=""
+                    aria-describedby="appellantPreferInquiryWitnesses-hint" inputmode="numeric">
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
@@ -3339,6 +3665,70 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Co
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the why-prefer-hearing question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="appellantPreferHearingDetails"> Why would you prefer a hearing?</label></h1>
+                <div class="govuk-form-group">
+                    <div id="appellantPreferHearingDetails-hint" class="govuk-hint"></div>
+                    <textarea class="govuk-textarea" id="appellantPreferHearingDetails"
+                    name="appellantPreferHearingDetails" rows="5" aria-describedby="appellantPreferHearingDetails-hint"></textarea>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) Commercial advertisement (CAS) should render the why-prefer-inquiry question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="appellantPreferInquiryDetails"> Why would you prefer an inquiry?</label></h1>
+                <div class="govuk-form-group">
+                    <div id="appellantPreferInquiryDetails-hint" class="govuk-hint"></div>
+                    <textarea class="govuk-textarea" id="appellantPreferInquiryDetails"
+                    name="appellantPreferInquiryDetails" rows="5" aria-describedby="appellantPreferInquiryDetails-hint"></textarea>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -3495,6 +3885,12 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement (CAS) re
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/description-advertisement-correct?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Did the local planning authority change the description of the advertisement?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> How would you prefer us to decide your appeal?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/decide-appeal?id=appeal-ref">Answer<span class="govuk-visually-hidden"> How would you prefer us to decide your appeal?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there other appeals linked to your development?</dt>
