@@ -1,5 +1,6 @@
 const { Journey } = require('@pins/dynamic-forms/src/journey');
 const { baseAdvertsSubmissionUrl, ...params } = require('./journey');
+const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 
 const mockResponse = {
 	journeyId: 'adverts-appeal-form',
@@ -120,5 +121,65 @@ describe('ADVERTS Appeal Form Journey', () => {
 					answers: { ...answers }
 				})
 		).toBe(false);
+	});
+
+	it('should not display the appellantProcedurePreference for CAS adverts appeals', () => {
+		const journey = new Journey({
+			...params,
+			response: {
+				...mockResponse,
+				answers: { applicationDecision: APPLICATION_DECISION.REFUSED }
+			}
+		});
+		expect(
+			journey.sections[0].questions
+				.find((question) =>
+					question.title.includes('How would you prefer us to decide your appeal?')
+				)
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { applicationDecision: APPLICATION_DECISION.REFUSED }
+				})
+		).toBe(false);
+	});
+
+	it('should display the appellantProcedurePreference for adverts appeals, application decision: granted', () => {
+		const journey = new Journey({
+			...params,
+			response: {
+				...mockResponse,
+				answers: { applicationDecision: APPLICATION_DECISION.GRANTED }
+			}
+		});
+		expect(
+			journey.sections[0].questions
+				.find((question) =>
+					question.title.includes('How would you prefer us to decide your appeal?')
+				)
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { applicationDecision: APPLICATION_DECISION.GRANTED }
+				})
+		).toBe(true);
+	});
+
+	it('should display the appellantProcedurePreference for adverts appeals, application decision: no decision', () => {
+		const journey = new Journey({
+			...params,
+			response: {
+				...mockResponse,
+				answers: { applicationDecision: APPLICATION_DECISION.NODECISIONRECEIVED }
+			}
+		});
+		expect(
+			journey.sections[0].questions
+				.find((question) =>
+					question.title.includes('How would you prefer us to decide your appeal?')
+				)
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { applicationDecision: APPLICATION_DECISION.NODECISIONRECEIVED }
+				})
+		).toBe(true);
 	});
 });

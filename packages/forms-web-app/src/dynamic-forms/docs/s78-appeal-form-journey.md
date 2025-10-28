@@ -175,7 +175,7 @@ condition: () => questionHasAnswer(response, questions.updateDevelopmentDescript
 
 ```js
 condition: (response) => {
-	return response.answers.applicationDecision !== 'nodecisionreceived';
+	return response.answers.applicationDecision !== APPLICATION_DECISION.NODECISIONRECEIVED;
 };
 ```
 

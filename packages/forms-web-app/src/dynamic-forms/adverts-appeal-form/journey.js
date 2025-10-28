@@ -2,19 +2,23 @@ const { getQuestions } = require('../questions');
 const questions = getQuestions();
 const { Section } = require('@pins/dynamic-forms/src/section');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 const {
 	CASE_TYPES: { CAS_ADVERTS }
 } = require('@pins/common/src/database/data-static');
 const config = require('../../config');
 const {
 	questionHasAnswer,
-	questionsHaveAnswers
+	questionsHaveAnswers,
+	questionHasNonEmptyStringAnswer,
+	questionHasNonEmptyNumberAnswer
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
 const {
 	shouldDisplayIdentifyingLandowners,
 	shouldDisplayTellingLandowners,
 	shouldDisplayUploadDecisionLetter,
-	shouldDisplayGridReference
+	shouldDisplayGridReference,
+	shouldDisplayAdvertsQuestions
 } = require('../display-questions');
 
 /**
@@ -86,6 +90,44 @@ const makeSections = (response) => [
 		.addQuestion(questions.uploadChangeOfAdvertisementEvidence)
 		.withCondition(() =>
 			questionHasAnswer(response, questions.updateAdvertisementDescription, 'yes')
+		)
+		.addQuestion(questions.appellantProcedurePreference)
+		.withCondition(() => shouldDisplayAdvertsQuestions(response))
+		.addQuestion(questions.appellantPreferHearing)
+		.withCondition(() =>
+			questionHasAnswer(
+				response,
+				questions.appellantProcedurePreference,
+				APPEAL_CASE_PROCEDURE.HEARING
+			)
+		)
+		.addQuestion(questions.appellantPreferInquiry)
+		.withCondition(() =>
+			questionHasAnswer(
+				response,
+				questions.appellantProcedurePreference,
+				APPEAL_CASE_PROCEDURE.INQUIRY
+			)
+		)
+		.addQuestion(questions.inquiryHowManyDays)
+		.withCondition(
+			() =>
+				questionHasAnswer(
+					response,
+					questions.appellantProcedurePreference,
+					APPEAL_CASE_PROCEDURE.INQUIRY
+				) && questionHasNonEmptyStringAnswer(response, questions.appellantPreferInquiry)
+		)
+		.addQuestion(questions.inquiryHowManyWitnesses)
+		.withCondition(
+			() =>
+				questionHasAnswer(
+					response,
+					questions.appellantProcedurePreference,
+					APPEAL_CASE_PROCEDURE.INQUIRY
+				) &&
+				questionHasNonEmptyStringAnswer(response, questions.appellantPreferInquiry) &&
+				questionHasNonEmptyNumberAnswer(response, questions.inquiryHowManyDays)
 		)
 		.addQuestion(questions.anyOtherAppeals)
 		.addQuestion(questions.linkAppeals)

@@ -2,6 +2,7 @@ const {
 	questionHasAnswer,
 	questionsHaveAnswers
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer.js');
+const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -84,7 +85,15 @@ exports.shouldDisplayTellingTenants = (response, questions) => {
  * @returns {boolean}
  */
 exports.shouldDisplayUploadDecisionLetter = (response) => {
-	return response.answers.applicationDecision !== 'nodecisionreceived';
+	return response.answers.applicationDecision !== APPLICATION_DECISION.NODECISIONRECEIVED;
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {boolean}
+ */
+exports.shouldDisplayAdvertsQuestions = (response) => {
+	return response.answers.applicationDecision !== APPLICATION_DECISION.REFUSED;
 };
 
 /**
