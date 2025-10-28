@@ -4,11 +4,9 @@
 /// <reference types="cypress"/>
 import { statementTestCases } from "../../helpers/rule6Appeals/statementData";
 import { BasePage } from "../../page-objects/base-page";
-import { upload25MBFileValidation } from "../../utils/uploadService";
-import { StringUtils } from "../../utils/StringUtils";
+import { StringUtils } from "../../utils/stringUtils";
 import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
 import { users } from '../../fixtures/users.js';
-const { statement } = require('../../support/flows/sections/lpaManageAppeals/statement');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('Full Planning Statement Test Cases', { tags: '@S78-RULE6-statement-Validation' }, () => {
