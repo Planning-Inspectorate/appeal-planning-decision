@@ -4,8 +4,6 @@ import { proofsOfEvidenceTestCases } from "../../helpers/rule6Appeals/proofsOfEv
 import { BasePage } from "../../page-objects/base-page";
 import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
 import { users } from '../../fixtures/users.js';
-//import { StringUtils } from "../../utils/StringUtils";
-const { proofsOfEvidence } = require('../../support/flows/sections/rule6Appeals/proofsOfEvidence');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('Rule 6 Proof of Evidence Validations', { tags: '@S78-RULE6-POE-Validation' }, () => {
@@ -41,7 +39,8 @@ describe('Rule 6 Proof of Evidence Validations', { tags: '@S78-RULE6-POE-Validat
                             if ($link.attr('href')?.includes(lpaManageAppealsData?.proofsOfEvidenceLink)) {
                                 const parts = $link.attr('href')?.split('/');
                                 appealId = parts?.[parts.length - 2];
-                                cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
+                                cy.wrap($link).scrollIntoView();
+                                cy.wrap($link).should('be.visible').click({ force: true });
                                 return false;
                             }
                         });

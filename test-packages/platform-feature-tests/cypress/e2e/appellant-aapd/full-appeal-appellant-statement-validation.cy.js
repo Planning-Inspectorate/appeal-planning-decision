@@ -5,7 +5,7 @@
 import { statementTestCases } from "../../helpers/appellantAAPD/statementData";
 import { BasePage } from "../../page-objects/base-page";
 import { deleteUploadedDocuments } from "../../utils/deleteUploadedDocuments";
-import { StringUtils } from "../../utils/StringUtils";
+import { StringUtils } from "../../utils/stringUtils";
 import { users } from '../../fixtures/users.js';
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
