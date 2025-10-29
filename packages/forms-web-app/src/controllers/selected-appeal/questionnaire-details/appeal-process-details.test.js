@@ -9,17 +9,19 @@ const casPlanningLPAQData = caseTypeLPAQFactory(
 );
 const s78LPAQData = caseTypeLPAQFactory(CASE_TYPES.S78.processCode, 'appealProcess');
 const s20LPAQData = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'appealProcess');
+const advertLPAQData = caseTypeLPAQFactory(CASE_TYPES.ADVERTS.processCode, 'appealProcess');
+const casAdvertLPAQData = caseTypeLPAQFactory(CASE_TYPES.CAS_ADVERTS.processCode, 'appealProcess');
 
 const expectedRowsHas = [
 	{ title: 'Appeals near the site', value: 'Yes' },
 	{ title: 'Appeal references', value: '00000001' },
-	{ title: 'Extra conditions', value: 'Yes\nexample new conditions' }
+	{ title: 'Are there any new conditions?', value: 'Yes\nexample new conditions' }
 ];
 const expectedRowsS78 = [
 	{ title: 'Appeal procedure', value: 'Inquiry\ninquiry preference\nExpected duration: 6 days' },
 	{ title: 'Appeals near the site', value: 'Yes' },
 	{ title: 'Appeal references', value: '00000001' },
-	{ title: 'Extra conditions', value: 'Yes\nexample new conditions' }
+	{ title: 'Are there any new conditions?', value: 'Yes\nexample new conditions' }
 ];
 
 describe('appealProcessRows', () => {
@@ -27,7 +29,9 @@ describe('appealProcessRows', () => {
 		['HAS', hasLPAQData, expectedRowsHas],
 		['CAS Planning', casPlanningLPAQData, expectedRowsHas],
 		['S78', s78LPAQData, expectedRowsS78],
-		['S20', s20LPAQData, expectedRowsS78]
+		['S20', s20LPAQData, expectedRowsS78],
+		['ADVERTS', advertLPAQData, expectedRowsS78],
+		['CAS_ADVERTS', casAdvertLPAQData, expectedRowsHas]
 	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
 		const visibleRows = appealProcessRows(caseData)
 			.filter((row) => row.condition(caseData))
@@ -56,7 +60,7 @@ describe('appealProcessRows', () => {
 		expect(rows[2].keyText).toEqual('Appeal references');
 		expect(rows[2].condition()).toEqual(false);
 
-		expect(rows[3].keyText).toEqual('Extra conditions');
+		expect(rows[3].keyText).toEqual('Are there any new conditions?');
 		expect(rows[3].valueText).toEqual('No');
 		expect(rows[3].condition()).toEqual(true);
 	});

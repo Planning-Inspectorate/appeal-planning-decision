@@ -88,6 +88,7 @@ describe('environmentalRows', () => {
 
 	it('should show a document', () => {
 		const rows = environmentalRows({
+			appealTypeCode: CASE_TYPES.S20.processCode,
 			Documents: [
 				{
 					id: 1,
@@ -108,6 +109,7 @@ describe('environmentalRows', () => {
 
 	it('should show a document', () => {
 		const rows = environmentalRows({
+			appealTypeCode: CASE_TYPES.S78.processCode,
 			Documents: [
 				{
 					id: 2,
