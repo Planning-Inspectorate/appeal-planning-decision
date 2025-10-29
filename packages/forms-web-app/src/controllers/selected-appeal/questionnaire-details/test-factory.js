@@ -67,12 +67,21 @@ const makeConstraintsSectionData = (appealTypeCode) => {
 					makeDocument(APPEAL_DOCUMENT_TYPE.HISTORIC_ENGLAND_CONSULTATION)
 				]
 			};
-		case CASE_TYPES.ADVERTS.processCode:
 		case CASE_TYPES.CAS_ADVERTS.processCode:
 			return {
 				...groupAShared,
+				wasApplicationRefusedDueToHighwayOrTraffic: true,
 				isSiteInAreaOfSpecialControlAdverts: true,
+				didAppellantSubmitCompletePhotosAndPlans: true,
 				Documents: [...groupAShared.Documents]
+			};
+		case CASE_TYPES.ADVERTS.processCode:
+			return {
+				...groupBShared,
+				wasApplicationRefusedDueToHighwayOrTraffic: true,
+				isSiteInAreaOfSpecialControlAdverts: true,
+				didAppellantSubmitCompletePhotosAndPlans: true,
+				Documents: [...groupBShared.Documents]
 			};
 	}
 };
@@ -142,6 +151,7 @@ const makeConsultationResponsesSectionData = (appealTypeCode) => {
 	switch (appealTypeCode) {
 		case CASE_TYPES.S78.processCode:
 		case CASE_TYPES.S20.processCode:
+		case CASE_TYPES.ADVERTS.processCode:
 			return {
 				statutoryConsultees: true,
 				consultedBodiesDetails: 'Consulted bodies details here',
@@ -152,6 +162,7 @@ const makeConsultationResponsesSectionData = (appealTypeCode) => {
 			};
 		case CASE_TYPES.HAS.processCode:
 		case CASE_TYPES.CAS_PLANNING.processCode:
+		case CASE_TYPES.CAS_ADVERTS.processCode:
 			return {
 				Documents: [makeDocument(APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS)]
 			};
@@ -235,6 +246,7 @@ const makeAppealProcessSectionData = (appealTypeCode) => {
 	switch (appealTypeCode) {
 		case CASE_TYPES.HAS.processCode:
 		case CASE_TYPES.CAS_PLANNING.processCode:
+		case CASE_TYPES.CAS_ADVERTS.processCode:
 			return {
 				submissionLinkedCases: [
 					{
@@ -247,6 +259,7 @@ const makeAppealProcessSectionData = (appealTypeCode) => {
 			};
 		case CASE_TYPES.S78.processCode:
 		case CASE_TYPES.S20.processCode:
+		case CASE_TYPES.ADVERTS.processCode:
 			return {
 				lpaProcedurePreference: 'inquiry',
 				submissionLinkedCases: [

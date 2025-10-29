@@ -35,7 +35,7 @@ exports.appealProcessRows = (caseData) => {
 			isEscaped: true
 		},
 		{
-			keyText: 'Extra conditions',
+			keyText: 'Are there any new conditions?',
 			valueText: formatConditions(caseData),
 			condition: () => caseData.newConditionDetails !== undefined
 		}

@@ -39,7 +39,7 @@ exports.planningOfficerReportRows = (caseData) => {
 			keyText: 'Plans, drawings and list of plans',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
 			condition: () =>
-				caseData.appealTypeCode === CASE_TYPES.HAS.processCode &&
+				caseData.appealTypeCode === CASE_TYPES.HAS.processCode && // in appeal form for other appeal types
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
 			isEscaped: true
 		},

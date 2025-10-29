@@ -5,7 +5,7 @@ const {
 	documentExists,
 	boolToYesNo
 } = require('@pins/common');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { CASE_TYPES, caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
@@ -20,9 +20,8 @@ const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-
 exports.constraintsRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
-	const hasOrCasPlanningAppeal =
-		caseData.appealTypeCode === CASE_TYPES.HAS.processCode ||
-		caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode;
+	const isExpeditedAppealType =
+		caseTypeLookup(caseData.appealTypeCode, 'processCode')?.expedited === true;
 
 	const affectedListedBuildings = caseData.ListedBuildings?.filter(
 		(x) => x.type === LISTED_RELATION_TYPES.affected
@@ -49,7 +48,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Changes a listed building',
 			valueText: changedListedBuildingText,
-			condition: () => !hasOrCasPlanningAppeal
+			condition: () => !isExpeditedAppealType
 		},
 		{
 			keyText: 'Listed building details',
@@ -89,7 +88,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Affects a scheduled monument',
 			valueText: formatYesOrNo(caseData, 'scheduledMonument'),
-			condition: () => !hasOrCasPlanningAppeal && isNotUndefinedOrNull(caseData.scheduledMonument)
+			condition: () => !isExpeditedAppealType && isNotUndefinedOrNull(caseData.scheduledMonument)
 		},
 		{
 			keyText: 'Conservation area',
@@ -125,20 +124,20 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Designated sites',
 			valueText: formatDesignations(caseData),
-			condition: () => !hasOrCasPlanningAppeal
+			condition: () => !isExpeditedAppealType
 		},
 		{
 			keyText: 'Tree Preservation Order',
 			valueText: boolToYesNo(
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN)
 			),
-			condition: () => !hasOrCasPlanningAppeal
+			condition: () => !isExpeditedAppealType
 		},
 		{
 			keyText: 'Uploaded Tree Preservation Order extent',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			condition: () =>
-				!hasOrCasPlanningAppeal &&
+				!isExpeditedAppealType &&
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			isEscaped: true
 		},
