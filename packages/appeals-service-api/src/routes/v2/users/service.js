@@ -21,14 +21,21 @@ async function createUser(user) {
 		throw ApiError.badRequest();
 	}
 
-	const existingRemovedUsers = await appealUserRepository.search({
-		email: user.email,
-		lpaCode: user.lpaCode,
-		lpaStatus: STATUS_CONSTANTS.REMOVED
+	const existingUser = await appealUserRepository.search({
+		email: user.email
 	});
 
-	if (existingRemovedUsers.length) {
-		const currentUser = existingRemovedUsers[0];
+	if (existingUser.length) {
+		const currentUser = existingUser[0];
+
+		const isAddingRemovedLpaUser =
+			currentUser.isLpaUser && currentUser.lpaStatus === STATUS_CONSTANTS.REMOVED;
+		const isAddingUserToLpa = user.isLpaUser && !currentUser.isLpaUser;
+
+		if (!isAddingRemovedLpaUser && !isAddingUserToLpa) {
+			throw ApiError.userDuplicate();
+		}
+
 		return await appealUserRepository.updateUser({
 			...user,
 			id: currentUser.id,
