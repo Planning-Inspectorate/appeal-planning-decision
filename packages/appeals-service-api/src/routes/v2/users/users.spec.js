@@ -123,6 +123,52 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 				expect(recreateResponse.body.lpaStatus).toBe('added');
 			});
 
+			it('should allow adding a removed user to a different LPA', async () => {
+				const createResponse = await appealsApi.post('/api/v2/users').send({
+					email: 'diff-lpa-add@example.com',
+					isLpaUser: true,
+					lpaCode: 'Q9999'
+				});
+				expect(createResponse.status).toEqual(200);
+
+				await appealsApi.delete(`/api/v2/users/diff-lpa-add@example.com`).send();
+
+				const recreateResponse = await appealsApi.post('/api/v2/users').send({
+					email: 'diff-lpa-add@example.com',
+					isLpaUser: true,
+					lpaCode: 'Q1111'
+				});
+				expect(recreateResponse.status).toEqual(200);
+
+				expect(recreateResponse.body.email).toBe('diff-lpa-add@example.com');
+				expect(recreateResponse.body.isLpaUser).toBe(true);
+				expect(recreateResponse.body.isLpaAdmin).toBe(false);
+				expect(recreateResponse.body.lpaCode).toBe('Q1111');
+				expect(recreateResponse.body.lpaStatus).toBe('added');
+			});
+
+			it('should allow adding a non lpa user to an LPA', async () => {
+				const createResponse = await appealsApi.post('/api/v2/users').send({
+					email: 'add-non-lpa@example.com',
+					isLpaUser: false
+				});
+				expect(createResponse.status).toEqual(200);
+
+				const recreateResponse = await appealsApi.post('/api/v2/users').send({
+					email: 'add-non-lpa@example.com',
+					isLpaUser: true,
+					isLpaAdmin: false,
+					lpaCode: 'Q9999'
+				});
+				expect(recreateResponse.status).toEqual(200);
+
+				expect(recreateResponse.body.email).toBe('add-non-lpa@example.com');
+				expect(recreateResponse.body.isLpaUser).toBe(true);
+				expect(recreateResponse.body.isLpaAdmin).toBe(false);
+				expect(recreateResponse.body.lpaCode).toBe('Q9999');
+				expect(recreateResponse.body.lpaStatus).toBe('added');
+			});
+
 			it('should throw 400 error if LPA tries to add the same account multiple times without removing first', async () => {
 				const createResponse1 = await appealsApi.post('/api/v2/users').send({
 					email: 'working-recreation-duplicate-creation@example.com',
@@ -134,6 +180,21 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 					email: 'working-recreation-duplicate-creation@example.com',
 					isLpaUser: true,
 					lpaCode: 'Q9999'
+				});
+				expect(createResponse2.status).toEqual(400);
+			});
+
+			it('should throw 400 error if LPA tries to add a user belonging to a different LPA', async () => {
+				const createResponse1 = await appealsApi.post('/api/v2/users').send({
+					email: 'in-different-lpa@example.com',
+					isLpaUser: true,
+					lpaCode: 'Q9999'
+				});
+				expect(createResponse1.status).toEqual(200);
+				const createResponse2 = await appealsApi.post('/api/v2/users').send({
+					email: 'in-different-lpa@example.com',
+					isLpaUser: true,
+					lpaCode: 'Q1111'
 				});
 				expect(createResponse2.status).toEqual(400);
 			});
