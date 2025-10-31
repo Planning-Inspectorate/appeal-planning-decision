@@ -15,7 +15,8 @@ class NotifyService {
 			v2registrationConfirmation: 'appeal-submission/v2-registration-confirmation.md'
 		},
 		lpaq: {
-			v2LPAQSubmitted: 'lpaq/v2-lpaq-submitted.md'
+			v2LPAQSubmitted: 'lpaq/v2-lpaq-submitted.md',
+			v2LpaDashboardInvite: 'lpaq/v2-lpa-dashboard-invite-email.md'
 		},
 		representations: {
 			v2LpaStatement: 'representations/v2-lpa-statement.md',
