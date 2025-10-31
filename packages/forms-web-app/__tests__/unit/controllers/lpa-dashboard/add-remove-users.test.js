@@ -45,8 +45,8 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 		it('should render view with correct successMessage if req.session.addUserEmailAddress exists', async () => {
 			req.session.addUserEmailAddress = 'test@example.com';
 			const successMessage = [
-				`test@example.com has been added to the account`,
-				'They will receive an email with a link to the service'
+				`test@example.com added`,
+				"We've sent an email with a link to create an account."
 			];
 
 			getUserFromSession.mockReturnValue(mockUser);

@@ -4,6 +4,7 @@ const { GenericContainer, Wait } = require('testcontainers/');
  * @type {import('testcontainers').StartedTestContainer[]}
  */
 const containers = [];
+const uniqueId = process.hrtime.bigint();
 
 const create = async () => {
 	await Promise.all([startMongo(), startSql()]);
@@ -11,7 +12,7 @@ const create = async () => {
 
 async function startMongo() {
 	const container = await new GenericContainer('mongo')
-		.withName('appeals-api-it-mongodb')
+		.withName(`appeals-api-it-mongodb-${uniqueId}`)
 		.withExposedPorts(27017)
 		.withWaitStrategy(Wait.forLogMessage('Waiting for connections'))
 		.start();
@@ -25,7 +26,7 @@ async function startMongo() {
 
 async function startSql() {
 	const container = await new GenericContainer('mcr.microsoft.com/azure-sql-edge:latest')
-		.withName('appeals-mssql-integration-tests')
+		.withName(`appeals-mssql-integration-tests-${uniqueId}`)
 		.withExposedPorts(1433)
 		.withAddedCapabilities('SYS_PTRACE')
 		.withUser('root')

@@ -34,6 +34,7 @@ const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
  * @typedef {import('@prisma/client').ServiceUser} ServiceUser
+ * @typedef {import("@prisma/client").Prisma.AppealUserCreateInput } AppealUserCreateInput
  */
 
 /** @type {NotifyService|null} */ // todo: use dependency injection instead
@@ -992,35 +993,43 @@ const sendFailureToUploadToHorizonEmail = async (appealId) => {
 	}
 };
 
+/**
+ * @param { AppealUserCreateInput } user
+ */
 const sendLPADashboardInviteEmail = async (user) => {
 	try {
-		const lpa = await lpaService.getLpaByCode(user.lpaCode);
-
 		const recipientEmail = user.email;
+
 		let variables = {
-			'local planning authority': lpa.getName(),
-			'lpa-link': `${config.apps.appeals.baseUrl}/manage-appeals/your-email-address`
+			...config.services.notify.templateVariables,
+			createAccountUrl: `${config.apps.appeals.baseUrl}/manage-appeals/service-invite/${user.lpaCode}`
 		};
 
-		const reference = user._id;
+		const reference = user.id || user.email;
 
 		logger.debug(
 			{ recipientEmail, variables, reference },
 			'Sending LPA dashboard invitation email'
 		);
 
-		await NotifyBuilder.reset()
-			.setTemplateId(templates.LPA_DASHBOARD.lpaDashboardInviteEmail)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
+		const notifyService = getNotifyService();
+
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.lpaq.v2LpaDashboardInvite,
+			variables
+		);
+
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `Create an account`,
+				content
+			},
+			destinationEmail: recipientEmail,
+			templateId: templates.generic || '',
+			reference
+		});
 	} catch (err) {
-		logger.error({ err, userId: user._id }, 'Unable to send LPA dashboard invitation email');
+		logger.error({ err, userId: user.id }, 'Unable to send LPA dashboard invitation email');
 	}
 };
 
