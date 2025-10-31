@@ -33,7 +33,7 @@ describe('appeals-service-api/src/lib/notify.js', () => {
 	describe('sendLPADashBoardInviteEmail', () => {
 		it('should call notify builder with correct values', async () => {
 			const mockUser = {
-				_id: '123456',
+				id: '123456',
 				email: 'test@example.com',
 				isAdmin: false,
 				enabled: true,
@@ -47,16 +47,12 @@ describe('appeals-service-api/src/lib/notify.js', () => {
 
 			await sendLPADashboardInviteEmail(mockUser);
 
-			expect(NotifyBuilder.reset).toHaveBeenCalled();
-			expect(NotifyBuilder.setTemplateId).toHaveBeenCalledWith(
-				templates.LPA_DASHBOARD.lpaDashboardInviteEmail
-			);
+			expect(NotifyBuilder.setTemplateId).toHaveBeenCalledWith(templates.generic);
 			expect(NotifyBuilder.setDestinationEmailAddress).toHaveBeenCalledWith(mockUser.email);
 			expect(NotifyBuilder.setTemplateVariablesFromObject).toHaveBeenCalledWith({
-				'local planning authority': 'test name',
-				'lpa-link': 'mock-base-url/manage-appeals/your-email-address'
+				createAccountUrl: 'mock-base-url/manage-appeals/service-invite/Q9999'
 			});
-			expect(NotifyBuilder.setReference).toHaveBeenCalledWith(mockUser._id);
+			expect(NotifyBuilder.setReference).toHaveBeenCalledWith(mockUser.id);
 			expect(NotifyBuilder.sendEmail).toHaveBeenCalledWith(
 				'mock-notify-base-url',
 				'mock-notify-service-id',
