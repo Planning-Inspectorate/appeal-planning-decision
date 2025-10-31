@@ -518,12 +518,6 @@ components:
         hasLandownersPermission:
           type: boolean
           nullable: true
-        isAdvertInPosition:
-          type: boolean
-          nullable: true
-        isSiteOnHighwayLand:
-          type: boolean
-          nullable: true
 
         wasApplicationRefusedDueToHighwayOrTraffic:
           type: boolean
@@ -560,6 +554,11 @@ components:
           type: array
           items:
             type: object
+
+        AdvertDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdvertDetail'
 
         LPAFinalCommentSubmission:
           $ref: '#/components/schemas/LPAFinalCommentSubmission'

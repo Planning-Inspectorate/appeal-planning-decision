@@ -94,6 +94,7 @@ const mapCommonDataModelToAppealCase = (
 		neighbouringSiteAddresses: _neighbouringSiteAddresses,
 		affectedListedBuildingNumbers: _affectedListedBuildingNumbers,
 		submissionId: _submissionId,
+		advertDetails: _advertDetails,
 		// custom mappings
 		caseStatus,
 		caseDecisionOutcome,
@@ -282,12 +283,10 @@ const mapCASPlanningDataModelToAppealCase = (caseProcessCode, dataModel) => ({
 
 /**
  * @param {AppealHASCase|AppealS78Case} dataModel
- * @returns {{isAdvertInPosition: boolean|undefined|null, isSiteOnHighwayLand: boolean|undefined|null, hasLandownersPermission: boolean|undefined|null}}
+ * @returns {{hasLandownersPermission: boolean|undefined|null}}
  */
 const getAdvertsAppealFormFields = (dataModel) => {
 	return {
-		isAdvertInPosition: dataModel.isAdvertInPosition,
-		isSiteOnHighwayLand: dataModel.isSiteOnHighwayLand,
 		hasLandownersPermission: dataModel.hasLandownersPermission
 	};
 };
@@ -334,7 +333,12 @@ const mapCASAdvertsDataModelToAppealCase = (caseProcessCode, dataModel) => ({
  */
 const mapAdvertsDataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
-	...getAdvertsAppealFormFields(dataModel)
+	...getAdvertsAppealFormFields(dataModel),
+	...getCASAdvertsLPAQFields(dataModel),
+	appellantProcedurePreference: dataModel.appellantProcedurePreference,
+	appellantProcedurePreferenceDetails: dataModel.appellantProcedurePreferenceDetails,
+	appellantProcedurePreferenceDuration: dataModel.appellantProcedurePreferenceDuration,
+	appellantProcedurePreferenceWitnessCount: dataModel.appellantProcedurePreferenceWitnessCount
 });
 
 /**

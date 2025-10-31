@@ -388,8 +388,6 @@ model AppealCase {
   // Adverts fields
   //***************************************************************************
   hasLandownersPermission Boolean? /// Indicates if the appellant has land owners permission
-  isAdvertInPosition      Boolean? /// Indicates if the advert is already in position
-  isSiteOnHighwayLand     Boolean? /// Indicates if site is on highway land
 
   wasApplicationRefusedDueToHighwayOrTraffic Boolean? /// Indicates if the application was refused because of highway or traffic public safety
   isSiteInAreaOfSpecialControlAdverts        Boolean? /// Indicates if the site is in an area of special control for adverts
@@ -416,6 +414,7 @@ model AppealCase {
   Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission?
   Rule6StatementSubmission        Rule6StatementSubmission?
   Representations                 Representation[]
+  AdvertDetails                   AdvertDetails[]
 
   // indexes
   @@index([LPACode])
@@ -538,6 +537,21 @@ model AppealCaseLpaNotificationMethod {
   // indexes
   @@index([caseReference])
   @@index([lPANotificationMethodsKey])
+}
+
+/// Advert Details
+model AdvertDetails {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  advertType          String? /// what type of advert is this e.g. Monolith/Totem Signs Illuminated
+  isAdvertInPosition  Boolean /// Is the advertisement in position
+  isSiteOnHighwayLand Boolean /// Is the site on highway land
+
+  caseReference String
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // indexes
+  @@index([caseReference])
 }
 
 model Event {

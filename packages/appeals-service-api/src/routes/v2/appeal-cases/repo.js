@@ -131,7 +131,8 @@ class AppealCaseRepository {
 				ListedBuildings: true,
 				AppealCaseLpaNotificationMethod: true,
 				NeighbouringAddresses: true,
-				Events: true
+				Events: true,
+				AdvertDetails: true
 			}
 		});
 	}
@@ -301,6 +302,7 @@ class AppealCaseRepository {
 	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['affectedListedBuildingNumbers']} [affectedListedBuildingNumbers]
 	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['changedListedBuildingNumbers']} [changedListedBuildingNumbers]
 	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['notificationMethod']} [notificationMethod]
+	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['advertDetails']} [advertDetails]
 	 */
 	/**
 	 * Upsert an appeal's relations by case reference (aka appeal number)
@@ -316,7 +318,8 @@ class AppealCaseRepository {
 			neighbouringSiteAddresses,
 			affectedListedBuildingNumbers,
 			changedListedBuildingNumbers,
-			notificationMethod
+			notificationMethod,
+			advertDetails
 		}
 	) {
 		// case relations
@@ -325,7 +328,7 @@ class AppealCaseRepository {
 		await this.dbClient.$transaction(async (tx) => {
 			// delete all relations that use this case
 
-			// delete  nearby relations
+			// delete nearby relations
 			await tx.appealCaseRelationship.deleteMany({
 				where: {
 					AND: [
@@ -483,6 +486,28 @@ class AppealCaseRepository {
 					data: notificationMethod.map((notification) => ({
 						caseReference,
 						lPANotificationMethodsKey: notification
+					}))
+				});
+			}
+		});
+
+		// advert details
+		await this.dbClient.$transaction(async (tx) => {
+			// delete all existing
+			await tx.advertDetails.deleteMany({
+				where: {
+					caseReference
+				}
+			});
+
+			if (advertDetails?.length) {
+				// add all advert details
+				await tx.advertDetails.createMany({
+					data: advertDetails.map((detail) => ({
+						caseReference,
+						advertType: detail.advertType,
+						isAdvertInPosition: detail.isAdvertInPosition,
+						isSiteOnHighwayLand: detail.isSiteOnHighwayLand
 					}))
 				});
 			}

@@ -8,8 +8,18 @@ const exampleCasAdvertsDataModel = {
 	caseType: 'ZA',
 	typeOfPlanningApplication: 'advertisement',
 	hasLandownersPermission: true,
-	isAdvertInPosition: true,
-	isSiteOnHighwayLand: true,
+	advertDetails: [
+		{
+			advertType: null,
+			isAdvertInPosition: true,
+			isSiteOnHighwayLand: true
+		},
+		{
+			advertType: 'Monolith/Totem Signs Illuminated',
+			isAdvertInPosition: false,
+			isSiteOnHighwayLand: false
+		}
+	],
 	siteGridReferenceEasting: '359608',
 	siteGridReferenceNorthing: '172607',
 	affectsScheduledMonument: true,

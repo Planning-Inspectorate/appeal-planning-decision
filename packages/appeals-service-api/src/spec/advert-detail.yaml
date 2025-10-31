@@ -1,0 +1,45 @@
+components:
+  schemas:
+    AdvertDetail:
+      description: details about an advert on a case
+      type: object
+      required:
+        - id
+        - advertType
+        - isAdvertInPosition
+        - isSiteOnHighwayLand
+        - caseReference
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: unique identifier for the advert detail
+        advertType:
+          type: string
+          nullable: true
+          enum: [
+              "4-6 Sheet Non-Illuminated",
+              "4-6 Sheet Illuminated",
+              "12/16/32 Sheet Non-Illuminated",
+              "12/16/32 Sheet Illuminated",
+              "48/64/96 Sheet Non-Illuminated",
+              "48/64/96 Sheet Illuminated",
+              "Fascia Projecting Signs Non-Illuminated",
+              "Fascia Projecting Signs Illuminated",
+              "Directional & Others Non-Illuminated",
+              "Directional & Others Illuminated",
+              "Monolith/Totem Signs Non-Illuminated",
+              "Monolith/Totem Signs Illuminated",
+              "Other",
+              null
+            ]
+          description: type of advert
+        isAdvertInPosition:
+          type: boolean
+          description: is the advert in position
+        isSiteOnHighwayLand:
+          type: boolean
+          description: is the site on highway land
+        caseReference:
+          type: string
+          description: the case reference this advert detail is associated with

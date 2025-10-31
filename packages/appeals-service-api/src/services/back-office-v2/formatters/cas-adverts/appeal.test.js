@@ -1,7 +1,6 @@
 const LpaEntity = require('../../../../models/entities/lpa-entity');
 const { formatter } = require(`./appeal`);
 const {
-	APPEAL_APPELLANT_PROCEDURE_PREFERENCE,
 	APPEAL_APPLICATION_DECISION,
 	APPEAL_CASE_PROCEDURE,
 	APPEAL_CASE_TYPE,
@@ -100,17 +99,13 @@ describe('Adverts formatter', () => {
 			typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
 			advertInPosition: true,
 			highwayLand: true,
-			landownerPermission: true,
-			appellantProcedurePreference: 'inquiry',
-			appellantPreferInquiryDetails: 'details',
-			appellantPreferInquiryDuration: 13,
-			appellantPreferInquiryWitnesses: 3
+			landownerPermission: true
 		};
 	});
 
 	it.each([
-		['ADVERTS', APPEAL_CASE_TYPE.H, { useGridRef: true }],
-		['ADVERTS', APPEAL_CASE_TYPE.H, { useGridRef: false }]
+		['CAS_ADVERTS', APPEAL_CASE_TYPE.ZA, { useGridRef: true }],
+		['CAS_ADVERTS', APPEAL_CASE_TYPE.ZA, { useGridRef: false }]
 	])(
 		'formats appellant submission for appealTypeCode %s',
 		async (appealTypeCode, expectedCaseType, options) => {
@@ -147,11 +142,7 @@ describe('Adverts formatter', () => {
 				changedDevelopmentDescription: true,
 				nearbyCaseReferences: ['case123'],
 				appellantCostsAppliedFor: true,
-				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
-				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.INQUIRY,
-				appellantProcedurePreferenceDetails: 'details',
-				appellantProcedurePreferenceDuration: 13,
-				appellantProcedurePreferenceWitnessCount: 3
+				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
 			});
 
 			if (options.useGridRef) {
@@ -174,7 +165,7 @@ describe('Adverts formatter', () => {
 		}
 	);
 
-	it.each([['ADVERTS', APPEAL_CASE_TYPE.H]])(
+	it.each([['CAS_ADVERTS', APPEAL_CASE_TYPE.ZA]])(
 		'formats agent submission for appealTypeCode %s',
 		async (appealTypeCode, expectedCaseType) => {
 			const submission = {
