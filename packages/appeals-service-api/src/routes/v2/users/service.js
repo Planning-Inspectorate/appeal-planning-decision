@@ -3,6 +3,7 @@ const ApiError = require('#errors/apiError');
 const { APPEAL_USER_ROLES_ARRAY } = require('@pins/database/src/seed/data-static');
 const { STATUS_CONSTANTS, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const logger = require('#lib/logger');
+const { sendLPADashboardInviteEmail } = require('#lib/notify');
 const appealUserRepository = new AppealUserRepository();
 
 /**
@@ -24,7 +25,7 @@ async function createUser(user) {
 	const existingUser = await appealUserRepository.search({
 		email: user.email
 	});
-
+	let addedUser;
 	if (existingUser.length) {
 		const currentUser = existingUser[0];
 
@@ -41,8 +42,11 @@ async function createUser(user) {
 			id: currentUser.id,
 			lpaStatus: STATUS_CONSTANTS.ADDED
 		});
+	} else {
+		addedUser = await appealUserRepository.createUser(user);
 	}
-	return await appealUserRepository.createUser(user);
+	await sendLPADashboardInviteEmail(addedUser);
+	return addedUser;
 }
 
 /**

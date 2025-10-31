@@ -11,8 +11,8 @@ const getAddRemoveUsers = async (req, res) => {
 
 	if (req.session.addUserEmailAddress) {
 		successMessage = [
-			`${req.session.addUserEmailAddress} has been added to the account`,
-			'They will receive an email with a link to the service'
+			`${req.session.addUserEmailAddress} added`,
+			"We've sent an email with a link to create an account."
 		];
 		delete req.session.addUserEmailAddress;
 	} else if (req.session.removeUserEmailAddress) {

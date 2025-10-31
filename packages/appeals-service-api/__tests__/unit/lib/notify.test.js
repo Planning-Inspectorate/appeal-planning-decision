@@ -1,39 +1,29 @@
-const { sendLPADashboardInviteEmail } = require('../../../src/lib/notify');
-const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
-const config = require('../../../src/configuration/config');
-const { templates } = config.services.notify;
-
 jest.mock('@pins/common/src/lib/notify/notify-builder', () => ({
-	reset: jest.fn().mockReturnThis(),
-	setTemplateId: jest.fn().mockReturnThis(),
-	setDestinationEmailAddress: jest.fn().mockReturnThis(),
-	setTemplateVariablesFromObject: jest.fn().mockReturnThis(),
-	setReference: jest.fn().mockReturnThis(),
-	sendEmail: jest.fn().mockReturnThis()
+	getNotifyClient: jest.fn(() => ({}))
 }));
 
-jest.mock('../../../src/services/lpa.service', () => {
-	return jest.fn().mockImplementation(() => {
-		return {
-			getLpaByCode: () => {
-				return {
-					getName: () => {
-						return 'test name';
-					}
-				};
-			}
-		};
-	});
-});
-
-jest.mock('../../../src/services/lpa.service');
-jest.mock('../../../src/lib/logger');
+const mockPopulateTemplate = jest.fn(() => 'Mocked email content');
+const mockSendEmail = jest.fn().mockResolvedValue({});
+const MockNotifyService = jest.fn().mockImplementation(() => ({
+	populateTemplate: mockPopulateTemplate,
+	sendEmail: mockSendEmail
+}));
+MockNotifyService.templates = {
+	lpaq: { v2LpaDashboardInvite: 'lpaq/v2-lpa-dashboard-invite-email.md' }
+};
+jest.mock('@pins/common/src/lib/notify/notify-service', () => MockNotifyService);
+const Notify = require('../../../src/lib/notify');
+const config = require('../../../src/configuration/config');
 
 describe('appeals-service-api/src/lib/notify.js', () => {
+	beforeEach(() => {
+		jest.clearAllMocks();
+	});
+
 	describe('sendLPADashBoardInviteEmail', () => {
-		it('should call notify builder with correct values', async () => {
+		it('should call notify service with correct values', async () => {
 			const mockUser = {
-				_id: '123456',
+				id: '123456',
 				email: 'test@example.com',
 				isAdmin: false,
 				enabled: true,
@@ -44,24 +34,26 @@ describe('appeals-service-api/src/lib/notify.js', () => {
 			config.services.notify.baseUrl = 'mock-notify-base-url';
 			config.services.notify.serviceId = 'mock-notify-service-id';
 			config.services.notify.apiKey = 'mock-notify-api-key';
+			config.services.notify.templates.generic = 'generic-template';
 
-			await sendLPADashboardInviteEmail(mockUser);
+			const NotifyServiceMock = require('@pins/common/src/lib/notify/notify-service');
 
-			expect(NotifyBuilder.reset).toHaveBeenCalled();
-			expect(NotifyBuilder.setTemplateId).toHaveBeenCalledWith(
-				templates.LPA_DASHBOARD.lpaDashboardInviteEmail
-			);
-			expect(NotifyBuilder.setDestinationEmailAddress).toHaveBeenCalledWith(mockUser.email);
-			expect(NotifyBuilder.setTemplateVariablesFromObject).toHaveBeenCalledWith({
-				'local planning authority': 'test name',
-				'lpa-link': 'mock-base-url/manage-appeals/your-email-address'
+			await Notify.sendLPADashboardInviteEmail(mockUser);
+
+			expect(NotifyServiceMock).toHaveBeenCalled();
+			expect(mockPopulateTemplate).toHaveBeenCalledWith('lpaq/v2-lpa-dashboard-invite-email.md', {
+				createAccountUrl: 'mock-base-url/manage-appeals/service-invite/Q9999',
+				...config.services.notify.templateVariables
 			});
-			expect(NotifyBuilder.setReference).toHaveBeenCalledWith(mockUser._id);
-			expect(NotifyBuilder.sendEmail).toHaveBeenCalledWith(
-				'mock-notify-base-url',
-				'mock-notify-service-id',
-				'mock-notify-api-key'
-			);
+			expect(mockSendEmail).toHaveBeenCalledWith({
+				personalisation: {
+					subject: `Create an account`,
+					content: 'Mocked email content'
+				},
+				destinationEmail: 'test@example.com',
+				templateId: 'generic-template',
+				reference: '123456'
+			});
 		});
 	});
 });
