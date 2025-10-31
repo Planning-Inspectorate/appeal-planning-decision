@@ -9,7 +9,10 @@ const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-
 const {
 	CASE_TYPES: { HAS }
 } = require('@pins/common/src/database/data-static');
-const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
+const {
+	mapAppealTypeToDisplayText,
+	mapAppealTypeToDisplayTextWithAnOrA
+} = require('@pins/common/src/appeal-type-to-display-text');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -23,7 +26,10 @@ const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-
 const makeSections = (response) => [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
-		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: mapAppealTypeToDisplayText(HAS) })
+		.withVariables({
+			[QUESTION_VARIABLES.APPEAL_TYPE_WITH_AN_OR_A]: mapAppealTypeToDisplayTextWithAnOrA(HAS),
+			[QUESTION_VARIABLES.APPEAL_TYPE]: mapAppealTypeToDisplayText(HAS)
+		})
 		.addQuestion(questions.listedBuildingCheck)
 		.addQuestion(questions.affectedListedBuildings)
 		.withCondition(

@@ -13016,6 +13016,88 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the changed-listed-buildings question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-heading-l"> Tell us the list entry number</h1>
+                <p class="govuk-body">Add the Historic England listed entry number for the building or site.</p>
+                <p
+                class="govuk-body">You can add another building or site later, if needed.</p>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="changedListedBuildingNumber">Seven digit number</label>
+                        <div id="changedListedBuildingNumber-hint" class="govuk-hint"></div>
+                        <input class="govuk-input govuk-input--width-10" id="changedListedBuildingNumber"
+                        name="changedListedBuildingNumber" type="text" value="" aria-describedby="changedListedBuildingNumber-hint">
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the changes-listed-building question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="changesListedBuilding-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Does the proposed development change a listed building?</h1>
+                        </legend>
+                        <div id="changesListedBuilding-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="changesListedBuilding" name="changesListedBuilding"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="changesListedBuilding">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="changesListedBuilding-2" name="changesListedBuilding"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="changesListedBuilding-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the conservation-area question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -13077,7 +13159,7 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="correctAppealType-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is a advertisement appeal the correct type of appeal?</h1>
+                            <h1 class="govuk-fieldset__heading"> Is an advertisement appeal the correct type of appeal?</h1>
                         </legend>
                         <div id="correctAppealType-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -14812,10 +14894,16 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">1. </span> Constraints, designations and other issues<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is a advertisement appeal the correct type of appeal?</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is an advertisement appeal the correct type of appeal?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Changes a listed building</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/changes-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development change a listed building?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
@@ -15293,6 +15381,88 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commerci
                                 <input class="govuk-radios__input" id="isSiteInAreaOfSpecialControlAdverts-2"
                                 name="isSiteInAreaOfSpecialControlAdverts" type="radio" value="no" data-cy="answer-no">
                                 <label class="govuk-label govuk-radios__label" for="isSiteInAreaOfSpecialControlAdverts-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the changed-listed-buildings question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-heading-l"> Tell us the list entry number</h1>
+                <p class="govuk-body">Add the Historic England listed entry number for the building or site.</p>
+                <p
+                class="govuk-body">You can add another building or site later, if needed.</p>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="changedListedBuildingNumber">Seven digit number</label>
+                        <div id="changedListedBuildingNumber-hint" class="govuk-hint"></div>
+                        <input class="govuk-input govuk-input--width-10" id="changedListedBuildingNumber"
+                        name="changedListedBuildingNumber" type="text" value="" aria-describedby="changedListedBuildingNumber-hint">
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) Commercial advertisement (CAS) should render the changes-listed-building question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="changesListedBuilding-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Does the proposed development change a listed building?</h1>
+                        </legend>
+                        <div id="changesListedBuilding-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="changesListedBuilding" name="changesListedBuilding"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="changesListedBuilding">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="changesListedBuilding-2" name="changesListedBuilding"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="changesListedBuilding-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -17110,7 +17280,7 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement (CAS) renders 
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is a commercial advertisement (CAS) appeal the correct type of appeal?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
@@ -18772,7 +18942,7 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) renders listi
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is a commercial planning (CAS) appeal the correct type of appeal?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
@@ -20423,7 +20593,7 @@ exports[`Dynamic forms journey tests lpa Householder renders listing page 1`] = 
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is a householder appeal the correct type of appeal?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
@@ -27105,7 +27275,7 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is a planning listed building and conservation area appeal the correct type of appeal?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Changes a listed building</dt>
@@ -27420,7 +27590,7 @@ exports[`Dynamic forms journey tests lpa Planning renders listing page 1`] = `
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is a planning appeal the correct type of appeal?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is a &lt;appeal type&gt; appeal the correct type of appeal?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Changes a listed building</dt>

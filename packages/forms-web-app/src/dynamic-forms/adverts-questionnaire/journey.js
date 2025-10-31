@@ -9,7 +9,10 @@ const {
 const {
 	questionHasAnswer
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
-const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
+const {
+	mapAppealTypeToDisplayText,
+	mapAppealTypeToDisplayTextWithAnOrA
+} = require('@pins/common/src/appeal-type-to-display-text');
 const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 
 /**
@@ -25,11 +28,19 @@ const makeSections = (response) => [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
 		.withVariables({
+			[QUESTION_VARIABLES.APPEAL_TYPE_WITH_AN_OR_A]:
+				response.journeyId === JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE.id
+					? mapAppealTypeToDisplayTextWithAnOrA(ADVERTS)
+					: mapAppealTypeToDisplayTextWithAnOrA(CAS_ADVERTS),
 			[QUESTION_VARIABLES.APPEAL_TYPE]:
 				response.journeyId === JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE.id
 					? mapAppealTypeToDisplayText(ADVERTS)
 					: mapAppealTypeToDisplayText(CAS_ADVERTS)
 		})
+		.addQuestion(questions.changesListedBuilding)
+		.withCondition(() => response.journeyId === JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE.id)
+		.addQuestion(questions.changedListedBuildings)
+		.withCondition(() => questionHasAnswer(response, questions.changesListedBuilding, 'yes'))
 		.addQuestion(questions.listedBuildingCheck)
 		.addQuestion(questions.affectedListedBuildings)
 		.withCondition(() => questionHasAnswer(response, questions.listedBuildingCheck, 'yes'))
