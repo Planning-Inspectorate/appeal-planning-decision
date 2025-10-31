@@ -110,8 +110,8 @@ const defaultAddressValidatorParams = {
 exports.questionProps = {
 	appealTypeAppropriate: {
 		type: 'boolean',
-		title: `Is a ${QUESTION_VARIABLES.APPEAL_TYPE} appeal the correct type of appeal?`,
-		question: `Is a ${QUESTION_VARIABLES.APPEAL_TYPE} appeal the correct type of appeal?`,
+		title: `Is ${QUESTION_VARIABLES.APPEAL_TYPE_WITH_AN_OR_A} appeal the correct type of appeal?`,
+		question: `Is ${QUESTION_VARIABLES.APPEAL_TYPE_WITH_AN_OR_A} appeal the correct type of appeal?`,
 		fieldName: 'correctAppealType',
 		url: 'correct-appeal-type',
 		validators: [
@@ -119,7 +119,7 @@ exports.questionProps = {
 				`Select yes if ${QUESTION_VARIABLES.APPEAL_TYPE} appeal is the correct type of appeal`
 			)
 		],
-		variables: [QUESTION_VARIABLES.APPEAL_TYPE]
+		variables: [QUESTION_VARIABLES.APPEAL_TYPE, QUESTION_VARIABLES.APPEAL_TYPE_WITH_AN_OR_A]
 	},
 	listedBuildingCheck: {
 		type: 'boolean',

@@ -12,7 +12,10 @@ const {
 	CASE_TYPES: { S78 }
 } = require('@pins/common/src/database/data-static');
 const config = require('../../config');
-const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
+const {
+	mapAppealTypeToDisplayText,
+	mapAppealTypeToDisplayTextWithAnOrA
+} = require('@pins/common/src/appeal-type-to-display-text');
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  * @typedef {Omit<ConstructorParameters<typeof import('@pins/dynamic-forms/src/journey').Journey>[0], 'response'>} JourneyParameters
@@ -25,7 +28,10 @@ const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-
 const makeSections = (response) => [
 	new Section('Constraints, designations and other issues', 'constraints')
 		.addQuestion(questions.appealTypeAppropriate)
-		.withVariables({ [QUESTION_VARIABLES.APPEAL_TYPE]: mapAppealTypeToDisplayText(S78) })
+		.withVariables({
+			[QUESTION_VARIABLES.APPEAL_TYPE_WITH_AN_OR_A]: mapAppealTypeToDisplayTextWithAnOrA(S78),
+			[QUESTION_VARIABLES.APPEAL_TYPE]: mapAppealTypeToDisplayText(S78)
+		})
 		.addQuestion(questions.changesListedBuilding)
 		.addQuestion(questions.changedListedBuildings)
 		.withCondition(() => questionHasAnswer(response, questions.changesListedBuilding, 'yes'))

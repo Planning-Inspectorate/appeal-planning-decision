@@ -3,7 +3,6 @@ const { casAdverts, adverts } = require('./journey');
 const {
 	CASE_TYPES: { ADVERTS, CAS_ADVERTS }
 } = require('@pins/common/src/database/data-static');
-const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
 
 const mockResponseAdverts = {
 	journeyId: 'adverts-questionnaire',
@@ -65,33 +64,51 @@ describe.each([
 		expect(journey.sections.length > 0).toBe(true);
 		expect(Array.isArray(journey.sections[0].questions)).toBe(true);
 		expect(journey.sections[0].questions.length > 0).toBe(true);
-		// check the appeal type variable is set correctly
+		// check the appeal type variables are set correctly
+		const appealTypeDisplayText =
+			appealType === CAS_ADVERTS ? 'commercial advertisement (CAS)' : 'advertisement';
+		const appealTypeDisplayTextWithAnOrA =
+			appealType === CAS_ADVERTS ? 'a commercial advertisement (CAS)' : 'an advertisement';
+
 		expect(journey.sections[0].sectionVariables).toMatchObject({
-			'<appeal type>': mapAppealTypeToDisplayText(appealType)
+			'<appeal type with an or a>': appealTypeDisplayTextWithAnOrA,
+			'<appeal type>': appealTypeDisplayText
 		});
 	});
 });
 
-describe('CAS advert LPAQ sections', () => {
-	const journey = new Journey({ ...casAdverts, response: mockResponseCasAdverts });
+describe.each([
+	['casAdverts', casAdverts, mockResponseCasAdverts],
+	['adverts', adverts, mockResponseAdverts]
+])('%s LPAQ Sections', (_, appealParams, mockResponse) => {
+	const journey = new Journey({ ...appealParams, response: mockResponse });
 
 	it('should have the correct questions in the Constraints, designations and other issues section', () => {
 		const CONSTRAINTS_SECTION_INDEX = 0;
 		const APPEAL_TYPE_INDEX = 0;
-		const AFFECT_LISTED_BUILDING_INDEX = 1;
-		const AFFECT_LISTED_BUILDING_NUMBER_INDEX = 2;
-		const SCHEDULED_MONUMENT_INDEX = 3;
-		const CONSERVATION_AREA_INDEX = 4;
-		const CONSERVATION_DOCS_INDEX = 5;
-		const PROTECTED_SPECIES_INDEX = 6;
-		const SPECIAL_CONTROL_ADVERT_INDEX = 7;
-		const GREEN_BELT_INDEX = 8;
-		const NATIONAL_LANDSCAPE_INDEX = 9;
-		const DESIGNATED_SITES_INDEX = 10;
+		const CHANGE_LISTED_BUILDING_INDEX = 1;
+		const CHANGE_LISTED_BUILDING_NUMBER_INDEX = 2;
+		const AFFECT_LISTED_BUILDING_INDEX = 3;
+		const AFFECT_LISTED_BUILDING_NUMBER_INDEX = 4;
+		const SCHEDULED_MONUMENT_INDEX = 5;
+		const CONSERVATION_AREA_INDEX = 6;
+		const CONSERVATION_DOCS_INDEX = 7;
+		const PROTECTED_SPECIES_INDEX = 8;
+		const SPECIAL_CONTROL_ADVERT_INDEX = 9;
+		const GREEN_BELT_INDEX = 10;
+		const NATIONAL_LANDSCAPE_INDEX = 11;
+		const DESIGNATED_SITES_INDEX = 12;
 
 		expect(journey.sections[CONSTRAINTS_SECTION_INDEX].questions[APPEAL_TYPE_INDEX].question).toBe(
-			`Is a <appeal type> appeal the correct type of appeal?`
+			`Is <appeal type with an or a> appeal the correct type of appeal?`
 		);
+		expect(
+			journey.sections[CONSTRAINTS_SECTION_INDEX].questions[CHANGE_LISTED_BUILDING_INDEX].question
+		).toBe('Does the proposed development change a listed building?');
+		expect(
+			journey.sections[CONSTRAINTS_SECTION_INDEX].questions[CHANGE_LISTED_BUILDING_NUMBER_INDEX]
+				.question
+		).toBe('Add another building or site?');
 		expect(
 			journey.sections[CONSTRAINTS_SECTION_INDEX].questions[AFFECT_LISTED_BUILDING_INDEX].question
 		).toBe('Does the proposed development affect the setting of listed buildings?');
@@ -273,5 +290,39 @@ describe('CAS advert LPAQ sections', () => {
 		expect(
 			journey.sections[APPEAL_PROCESS_SECTION_INDEX].questions[NEW_CONDITIONS_INDEX].question
 		).toBe('Check if there are any new conditions');
+	});
+});
+
+describe('Correctly display the fields which depend on the appeal type', () => {
+	it('should not display the change listed building for CAS adverts appeals', () => {
+		const journey = new Journey({
+			...casAdverts,
+			response: {
+				...mockResponseCasAdverts
+			}
+		});
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.title.includes('Changes a listed building'))
+				?.shouldDisplay({
+					...mockResponseCasAdverts
+				})
+		).toBe(false);
+	});
+
+	it('should display the change listed building for adverts appeals', () => {
+		const journey = new Journey({
+			...adverts,
+			response: {
+				...mockResponseAdverts
+			}
+		});
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.title.includes('Changes a listed building'))
+				?.shouldDisplay({
+					...mockResponseAdverts
+				})
+		).toBe(true);
 	});
 });

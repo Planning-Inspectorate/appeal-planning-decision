@@ -79,7 +79,9 @@ const { journeys } = require('./index');
 const { JourneyResponse } = require('@pins/dynamic-forms/src/journey-response');
 
 const fakeTimers = require('@sinonjs/fake-timers');
-const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
+const {
+	mapAppealTypeToDisplayTextWithAnOrA
+} = require('@pins/common/src/appeal-type-to-display-text');
 
 describe('Dynamic forms journey tests', () => {
 	let clock, today, future;
@@ -587,8 +589,8 @@ const questionExpectations = (question, element, caseType) => {
 	 * @param {import('@pins/common/src/database/data-static').CASE_TYPE} type
 	 * @returns {string}
 	 */
-	const getAppealTypeString = (type) => {
-		return mapAppealTypeToDisplayText(type);
+	const getAppealTypeStringWithAnOrA = (type) => {
+		return mapAppealTypeToDisplayTextWithAnOrA(type);
 	};
 
 	switch (question.constructor.name) {
@@ -599,7 +601,11 @@ const questionExpectations = (question, element, caseType) => {
 			// how to avoid the need for ’ replacements?
 			// html encode question and compare with innerhtml?
 			expect(element.innerHTML).toContain(
-				escapeHtml(question.question.replace('<appeal type>', getAppealTypeString(caseType)).trim())
+				escapeHtml(
+					question.question
+						.replace('<appeal type with an or a>', getAppealTypeStringWithAnOrA(caseType))
+						.trim()
+				)
 			);
 			break;
 	}
