@@ -252,24 +252,24 @@ describe('controllers/common/appeal-multi-file-upload', () => {
 			const errors = {
 				'files.file-upload[0]': {
 					value: { name: 'not-valid-mimetype.gif' },
-					msg: 'not-valid-mimetype.gif must be a DOC, DOCX, PDF, TIF, JPG or PNG',
+					msg: 'not-valid-mimetype.gif must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX',
 					param: 'files.file-upload[0]',
 					location: 'body'
 				},
 				'files.file-upload[1]': {
 					value: { name: 'also-not-valid-mimetype.webp' },
-					msg: 'also-not-valid-mimetype.gif must be a DOC, DOCX, PDF, TIF, JPG or PNG',
+					msg: 'also-not-valid-mimetype.gif must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX',
 					param: 'files.file-upload[1]',
 					location: 'body'
 				}
 			};
 			const errorSummary = [
 				{
-					text: 'not-valid-mimetype.gif must be a DOC, DOCX, PDF, TIF, JPG or PNG',
+					text: 'not-valid-mimetype.gif must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX',
 					href: '#'
 				},
 				{
-					text: 'also-not-valid-mimetype.webp must be a DOC, DOCX, PDF, TIF, JPG or PNG',
+					text: 'also-not-valid-mimetype.webp must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX',
 					href: '#'
 				}
 			];
@@ -306,7 +306,7 @@ describe('controllers/common/appeal-multi-file-upload', () => {
 			const errors = {
 				'files.file-upload[1]': {
 					value: { name: 'error-throwing-file.gif' },
-					msg: 'error-throwing-file.gif must be a DOC, DOCX, PDF, TIF, JPG or PNG',
+					msg: 'error-throwing-file.gif must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX',
 					param: 'files.file-upload[1]',
 					location: 'body'
 				}
@@ -314,7 +314,7 @@ describe('controllers/common/appeal-multi-file-upload', () => {
 
 			const errorSummary = [
 				{
-					text: 'error-throwing-file.gif must be a DOC, DOCX, PDF, TIF, JPG or PNG',
+					text: 'error-throwing-file.gif must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX',
 					href: '#'
 				}
 			];

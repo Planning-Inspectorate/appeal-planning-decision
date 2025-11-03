@@ -19,7 +19,7 @@ describe('Full Planning Statement Test Cases', { tags: '@S78-LPA-statement-Valid
                     cy.login(users.appeals.authUser);
             });
 
-    beforeEach(() => {      
+    beforeEach(() => {
         cy.fixture('lpaManageAppealsData').then(data => {
             lpaManageAppealsData = data;
         })
@@ -97,8 +97,8 @@ describe('Full Planning Statement Test Cases', { tags: '@S78-LPA-statement-Valid
         cy.advanceToNextPage();
         cy.getByData(basePage?._selectors?.answerYes).click({ force: true });
         cy.advanceToNextPage();
-        basePage?.basePageElements?.pageHeading().contains('Upload your new supporting documents');        
-        deleteUploadedDocuments();      
+        basePage?.basePageElements?.pageHeading().contains('Upload your new supporting documents');
+        deleteUploadedDocuments();
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select your new supporting documents');
     });
@@ -108,7 +108,7 @@ describe('Full Planning Statement Test Cases', { tags: '@S78-LPA-statement-Valid
         cy.advanceToNextPage();
         cy.uploadFileFromFixtureDirectory(statementTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${statementTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${statementTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
     });
 
 
