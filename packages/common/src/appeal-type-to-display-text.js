@@ -14,8 +14,8 @@ const mapAppealTypeToDisplayText = (appealType) => {
  */
 const mapAppealTypeToDisplayTextWithAnOrA = (appealType) => {
 	const appealTypeDisplayText = mapAppealTypeToDisplayText(appealType);
-	return appealTypeDisplayText === 'advertisement'
-		? 'an advertisement'
+	return appealTypeDisplayText === 'advertisement' || appealTypeDisplayText === 'enforcement notice'
+		? 'an ' + appealTypeDisplayText
 		: 'a ' + appealTypeDisplayText;
 };
 

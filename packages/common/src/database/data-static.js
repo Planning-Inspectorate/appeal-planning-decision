@@ -18,7 +18,7 @@ const {
  * @typedef {import('@prisma/client').Prisma.CaseValidationOutcomeCreateInput} CaseValidationOutcomeCreateInput
  * @typedef {import('@prisma/client').Prisma.LPAQuestionnaireValidationOutcomeCreateInput} LPAQuestionnaireValidationOutcomeCreateInput
  * @typedef {CaseTypeCreateInput & {
- * 	processCode: "HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING",
+ * 	processCode: "HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING" | "ENFORCEMENT"
  *  friendlyUrl: string,
  *  expedited: boolean
  * }} CASE_TYPE
@@ -97,8 +97,15 @@ const CASE_TYPES = Object.freeze({
 		processCode: 'CAS_PLANNING',
 		friendlyUrl: 'cas-planning',
 		expedited: true
+	},
+	ENFORCEMENT: {
+		id: 1000,
+		key: APPEAL_CASE_TYPE.C,
+		type: 'Enforcement notice',
+		processCode: 'ENFORCEMENT',
+		friendlyUrl: 'enforcement',
+		expedited: false
 	}
-	// { id: 1000, key: 'C', type: 'Enforcement notice appeal' },
 	// { id: 1002, key: 'F', type: 'Enforcement listed building and conservation area appeal' },
 	// { key: 'G', type: 'Discontinuance notice appeal' },
 	// { key: 'L', type: 'Community infrastructure levy' },

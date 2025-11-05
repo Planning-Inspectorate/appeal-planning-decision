@@ -5711,6 +5711,185 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) renders
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the applicant-name question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> What is the applicant&#39;s name?</h1>
+                    </legend>
+                    <p class="govuk-hint">Enter the name as it's written on the application form.</p>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label" for="appellantFirstName">First name</label>
+                        <input class="govuk-input govuk-input-!-width-three-quarters"
+                        id="appellantFirstName" name="appellantFirstName" type="text" spellcheck="false"
+                        autocomplete="given-name">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label" for="appellantLastName">Last name</label>
+                        <input class="govuk-input govuk-input-!-width-three-quarters"
+                        id="appellantLastName" name="appellantLastName" type="text" spellcheck="false"
+                        autocomplete="family-name">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label" for="appellantCompanyName">Company name (optional)</label>
+                        <input class="govuk-input govuk-input-!-width-three-quarters"
+                        id="appellantCompanyName" name="appellantCompanyName" type="text" spellcheck="false">
+                    </div>
+                </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the application-name question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="isAppellant-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Was the application made in your name?</h1>
+                        </legend>
+                        <div id="isAppellant-hint" class="govuk-hint">If you are not the applicant, you must have their permission to submit
+                            an appeal on their behalf.</div>
+                        <div class="govuk-radios govuk-radios"
+                        data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="isAppellant" name="isAppellant"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="isAppellant">Yes, the application was made in my name</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="isAppellant-2" name="isAppellant"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="isAppellant-2">No, I&#39;m acting on behalf of the applicant</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Enforcement notice renders listing page 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Enforcement notice Appeal</span>
+        </div>
+    </div>
+    <style>
+        .appeal-details .govuk-summary-list__key,
+          .appeal-details .govuk-summary-list__value,
+          .appeal-details .govuk-summary-list__actions {
+              padding-top: 0.2rem;
+              padding-bottom: 0;
+          }
+    </style>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
+            <h1 class="govuk-heading-l"> Your appeal</h1>
+        </div>
+        <div class="govuk-grid-column-full">
+            <p class="govuk-body">Your deadline to submit this appeal is 28 Aug 2025.</p>
+            <p class="govuk-body"><a href="/appeals/your-appeals" class="govuk-link--no-visited-state">Save and come back later</a>.</p>
+            <hr
+            class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-three-quarters-from-desktop">
+            <p class="govuk-body govuk-!-font-weight-bold">Appeal incomplete</p>
+            <p class="govuk-!-margin-bottom-7">You have completed 0 of 2 sections.</p>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <style>
+                .app-task-list {
+                          padding-left: 0;
+                        }
+                        .app-task-list>li {
+                          position: relative;
+                          list-style-type: none;
+                
+                        }
+                        .app-task-list__section .govuk-tag {
+                          position: absolute;
+                          top: 3px;
+                          right: 0;
+                        }
+                        .app-task-list .govuk-summary-list {
+                          border-top: 1px solid #b1b4b6;
+                        }
+            </style>
+            <ol class="app-task-list">
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">1. </span> Prepare appeal<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Was the application made in your name? </dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/application-name?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Was the application made in your name?</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li>
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
+                        <dl class="govuk-summary-list">
+                            <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Accept declaration and submit</dt>
+                                <dd
+                                class="govuk-summary-list__value"></dd>
+                            </div>
+                        </dl>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Householder Householder should render the advertising-appeal question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -19072,6 +19251,371 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) renders listi
                 <li>
                     <div class="app-task-list__section">
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">7. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
+                        <p>You cannot submit the questionnaire until all of the other sections are
+                            complete.</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the changed-listed-buildings question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-heading-l"> Tell us the list entry number</h1>
+                <p class="govuk-body">Add the Historic England listed entry number for the building or site.</p>
+                <p
+                class="govuk-body">You can add another building or site later, if needed.</p>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="changedListedBuildingNumber">Seven digit number</label>
+                        <div id="changedListedBuildingNumber-hint" class="govuk-hint"></div>
+                        <input class="govuk-input govuk-input--width-10" id="changedListedBuildingNumber"
+                        name="changedListedBuildingNumber" type="text" value="" aria-describedby="changedListedBuildingNumber-hint">
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the changes-listed-building question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="changesListedBuilding-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Does the proposed development change a listed building?</h1>
+                        </legend>
+                        <div id="changesListedBuilding-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="changesListedBuilding" name="changesListedBuilding"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="changesListedBuilding">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="changesListedBuilding-2" name="changesListedBuilding"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="changesListedBuilding-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the correct-appeal-type question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="correctAppealType-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is an enforcement notice appeal the correct type of appeal?</h1>
+                        </legend>
+                        <div id="correctAppealType-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="correctAppealType" name="correctAppealType"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="correctAppealType">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="correctAppealType-2" name="correctAppealType"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="correctAppealType-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the inspector-access-appeal-site question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Site access</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Might the inspector need access to the appellant’s land or property?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="lpaSiteAccess" name="lpaSiteAccess"
+                                type="radio" value="yes" data-aria-controls="conditional-lpaSiteAccess"
+                                data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="lpaSiteAccess">Yes</label>
+                            </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-lpaSiteAccess">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="lpaSiteAccess_lpaSiteAccessDetails">Enter the reason</label>
+                                    <div id="lpaSiteAccess_lpaSiteAccessDetails-hint"
+                                    class="govuk-hint"></div>
+                                    <textarea class="govuk-textarea" id="lpaSiteAccess_lpaSiteAccessDetails"
+                                    name="lpaSiteAccess_lpaSiteAccessDetails" rows="5" aria-describedby="lpaSiteAccess_lpaSiteAccessDetails-hint"></textarea>
+                                </div>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="lpaSiteAccess-2" name="lpaSiteAccess"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="lpaSiteAccess-2">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the procedure-type question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Appeal process</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Which procedure do you think is most appropriate for this appeal?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="lpaProcedurePreference" name="lpaProcedurePreference"
+                                type="radio" value="written" data-cy="answer-written">
+                                <label class="govuk-label govuk-radios__label" for="lpaProcedurePreference">Written representations</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="lpaProcedurePreference-2" name="lpaProcedurePreference"
+                                type="radio" value="hearing" data-cy="answer-hearing">
+                                <label class="govuk-label govuk-radios__label" for="lpaProcedurePreference-2">Hearing</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="lpaProcedurePreference-3" name="lpaProcedurePreference"
+                                type="radio" value="inquiry" data-aria-controls="conditional-lpaProcedurePreference-3"
+                                data-cy="answer-inquiry">
+                                <label class="govuk-label govuk-radios__label" for="lpaProcedurePreference-3">Inquiry</label>
+                            </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-lpaProcedurePreference-3">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="lpaProcedurePreference_lpaPreferInquiryDuration">How many days would you expect the inquiry to last?</label>
+                                    <input class="govuk-input govuk-input--width-3"
+                                    id="lpaProcedurePreference_lpaPreferInquiryDuration" name="lpaProcedurePreference_lpaPreferInquiryDuration"
+                                    type="text" value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Appeal appeal-ref</span>
+        </div>
+    </div>
+    <style>
+        .appeal-details .govuk-summary-list__key,
+          .appeal-details .govuk-summary-list__value,
+          .appeal-details .govuk-summary-list__actions {
+              padding-top: 0.2rem;
+              padding-bottom: 0;
+          }
+    </style>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
+            <h1 class="govuk-heading-l"> Appeal questionnaire</h1>
+        </div>
+        <div class="govuk-grid-column-full">
+            <dl class="govuk-summary-list appeal-details govuk-summary-list--no-border">
+                <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal type</dt>
+                    <dd class="govuk-summary-list__value">Enforcement notice</dd>
+                </div>
+                <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"><span data-cy="site-address-label">Appeal site</span></dt>
+                    <dd
+                    class="govuk-summary-list__value"><span data-cy="site-address"> , </span>
+                        </dd>
+                </div>
+                <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Applicant</dt>
+                    <dd class="govuk-summary-list__value">undefined undefined</dd>
+                </div>
+                <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Application number</dt>
+                    <dd class="govuk-summary-list__value"></dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-three-quarters-from-desktop">
+            <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
+            <h2 class="govuk-heading-s">Complete the questionnaire</h2>
+            <p class="govuk-!-margin-bottom-7">You have completed 0 of 4 sections.</p>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <style>
+                .app-task-list {
+                          padding-left: 0;
+                        }
+                        .app-task-list>li {
+                          position: relative;
+                          list-style-type: none;
+                
+                        }
+                        .app-task-list__section .govuk-tag {
+                          position: absolute;
+                          top: 3px;
+                          right: 0;
+                        }
+                        .app-task-list .govuk-summary-list {
+                          border-top: 1px solid #b1b4b6;
+                        }
+            </style>
+            <ol class="app-task-list">
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">1. </span> Constraints, designations and other issues<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is an enforcement notice appeal the correct type of appeal?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Changes a listed building</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/changes-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development change a listed building?</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Site access<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Access for inspection</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/site-access/inspector-access-appeal-site">Answer<span class="govuk-visually-hidden"> Might the inspector need access to the appellant’s land or property?</span></a>
+                            </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Appeal process<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Procedure type</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/procedure-type">Answer<span class="govuk-visually-hidden"> Which procedure do you think is most appropriate for this appeal?</span></a>
+                            </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li>
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">4. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
                         <p>You cannot submit the questionnaire until all of the other sections are
                             complete.</p>
                     </div>

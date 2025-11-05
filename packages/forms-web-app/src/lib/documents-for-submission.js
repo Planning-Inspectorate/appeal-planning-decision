@@ -25,6 +25,8 @@ const generateRequiredDocuments = (appealType) => {
 				'decision letter from the local planning authority',
 				'any other relevant correspondence with the local authority'
 			];
+		case APPEAL_ID.ENFORCEMENT_NOTICE:
+			return ['enforcement notice', 'enforcement notice plan'];
 	}
 };
 
@@ -62,6 +64,13 @@ const generateOptionalDocuments = (appealType) => {
 		case APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT:
 		case APPEAL_ID.ADVERTISEMENT:
 			return;
+		case APPEAL_ID.ENFORCEMENT_NOTICE:
+			return [
+				'documents that support your grounds and facts',
+				'planning obligation',
+				'draft statement of common ground',
+				'appeal costs application'
+			];
 	}
 };
 
