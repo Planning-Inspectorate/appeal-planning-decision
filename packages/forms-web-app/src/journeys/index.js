@@ -21,6 +21,8 @@ const {
 	casAdverts: casAdvertsQuestionnaireParams,
 	adverts: advertsQuestionnaireParams
 } = require('../dynamic-forms/adverts-questionnaire/journey');
+const enforcementAppealParams = require('../dynamic-forms/enforcement-appeal-form/journey');
+const enforcementQuestionnaireParams = require('../dynamic-forms/enforcement-questionnaire/journey');
 
 const { Journeys } = require('@pins/dynamic-forms/src/journeys');
 
@@ -48,5 +50,7 @@ journeys.registerJourney({ ...commonParams, ...casPlanningQuestionnaireParams })
 journeys.registerJourney({ ...commonParams, ...casAdvertsQuestionnaireParams });
 journeys.registerJourney({ ...commonParams, ...advertsAppealForm });
 journeys.registerJourney({ ...commonParams, ...advertsQuestionnaireParams });
+journeys.registerJourney({ ...commonParams, ...enforcementAppealParams });
+journeys.registerJourney({ ...commonParams, ...enforcementQuestionnaireParams });
 
 module.exports = { journeys };

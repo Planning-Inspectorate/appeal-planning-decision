@@ -470,7 +470,8 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 			APPEAL_ID.PLANNING_LISTED_BUILDING,
 			APPEAL_ID.MINOR_COMMERCIAL,
 			APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT,
-			APPEAL_ID.ADVERTISEMENT
+			APPEAL_ID.ADVERTISEMENT,
+			APPEAL_ID.ENFORCEMENT_NOTICE
 		].includes(appeal.appealType)
 	)
 		return res.render('./error/not-found.njk');

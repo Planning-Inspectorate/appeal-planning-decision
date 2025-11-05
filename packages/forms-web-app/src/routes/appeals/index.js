@@ -32,6 +32,9 @@ router.use(`/${CASE_TYPES.CAS_PLANNING.friendlyUrl}`, dynamicSubmission);
 // cas adverts
 router.use(`/${CASE_TYPES.CAS_ADVERTS.friendlyUrl}`, dynamicSubmission);
 
+// enforcement notice
+router.use(`/${CASE_TYPES.ENFORCEMENT.friendlyUrl}`, dynamicSubmission);
+
 // reps
 router.use('/final-comments', finalCommentsRouter);
 router.use('/proof-evidence', proofEvidenceRouter);
