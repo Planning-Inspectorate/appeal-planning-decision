@@ -516,7 +516,7 @@ module.exports = ({
 					personalisation: {
 						subject: `We have received your appeal`,
 						content: expect.stringContaining(
-							'We will process your appeal and send a confirmation email.'
+							'We will process your appeal and send a confirmation email. This will include your appeal reference number.' // content in v2Initial (v2-submission-email.md)
 						)
 					},
 					reference: expect.any(String),
@@ -529,7 +529,7 @@ module.exports = ({
 				{
 					personalisation: {
 						subject: `We have received a ${appealType} appeal`,
-						content: expect.stringContaining('We have received an appeal against this decision.')
+						content: expect.stringContaining('We have received an appeal against this decision.') // content in v2LPANotification (v2-lpa-notification.md)
 					},
 					reference: expect.any(String),
 					emailReplyToId: undefined

@@ -89,6 +89,18 @@ module.exports = ({
 				lpaCode: 'Q9999',
 				documents: []
 			}
+		},
+		{
+			id: '017',
+			type: 'ADVERTS',
+			formattedComment: {
+				caseReference: '017',
+				representation: 'This is a test comment',
+				representationSubmittedDate: expect.any(String),
+				representationType: 'final_comment',
+				lpaCode: 'Q9999',
+				documents: []
+			}
 		}
 	];
 	const testCasesWithDocs = [
@@ -137,6 +149,29 @@ module.exports = ({
 					}
 				]
 			}
+		},
+		{
+			id: '018',
+			type: 'ADVERTS',
+			formattedComment: {
+				caseReference: '018',
+				representation: 'Another final comment text for lpa case 018',
+				representationSubmittedDate: expect.any(String),
+				representationType: 'final_comment',
+				lpaCode: 'Q9999',
+				documents: [
+					{
+						dateCreated: expect.any(String),
+						documentId: expect.any(String),
+						documentType: 'lpaFinalComment',
+						documentURI: 'https://example.com',
+						filename: 'doc.pdf',
+						mime: 'doc',
+						originalFilename: 'mydoc.pdf',
+						size: 10293
+					}
+				]
+			}
 		}
 	];
 
@@ -149,7 +184,9 @@ module.exports = ({
 				{
 					personalisation: {
 						subject: `We've received your final comments: ${appealReferenceNumber}`,
-						content: expect.stringContaining('We have received your final comments.')
+						content: expect.stringContaining(
+							'We will contact you when the appellant submits their final comments.'
+						) // content in v2LpaFinalComments (v2-lpa-final-comments.md) but not v2AppellantFinalComments (v2-appellant-final-comments.md)
 					},
 					reference: expect.any(String),
 					emailReplyToId: undefined

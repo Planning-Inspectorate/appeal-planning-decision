@@ -89,6 +89,18 @@ module.exports = ({
 				documents: []
 			}
 		}
+		// {
+		// 	id: '013',
+		// 	caseType: 'ADVERTS',
+		// 	formattedStatement: {
+		// 		caseReference: '013',
+		// 		representation: 'This is a test comment',
+		// 		representationSubmittedDate: expect.any(String),
+		// 		representationType: 'statement',
+		// 		lpaCode: 'Q9999',
+		// 		documents: []
+		// 	}
+		// }
 	];
 	const testCasesWithDocs = [
 		{
@@ -137,6 +149,29 @@ module.exports = ({
 				]
 			}
 		}
+		// {
+		// 	id: '014',
+		// 	caseType: 'ADVERTS',
+		// 	formattedStatement: {
+		// 		caseReference: '014',
+		// 		representation: 'Another statement text for lpa case 014',
+		// 		representationSubmittedDate: expect.any(String),
+		// 		representationType: 'statement',
+		// 		lpaCode: 'Q9999',
+		// 		documents: [
+		// 			{
+		// 				dateCreated: expect.any(String),
+		// 				documentId: expect.any(String),
+		// 				documentType: 'lpaStatement',
+		// 				documentURI: 'https://example.com',
+		// 				filename: 'doc.pdf',
+		// 				mime: 'doc',
+		// 				originalFilename: 'mydoc.pdf',
+		// 				size: 10293
+		// 			}
+		// 		]
+		// 	}
+		// },
 	];
 
 	describe('/api/v2/appeal-cases/:caseReference/lpa-statement-submission/submit', () => {
@@ -148,7 +183,7 @@ module.exports = ({
 				{
 					personalisation: {
 						subject: `We've received your statement: ${appealReferenceNumber}`,
-						content: expect.stringContaining('We’ve received your statement.')
+						content: expect.stringContaining('We’ve received your statement.') // content in v2LpaStatement (v2-lpa-statement.md)
 					},
 					reference: expect.any(String),
 					emailReplyToId: undefined

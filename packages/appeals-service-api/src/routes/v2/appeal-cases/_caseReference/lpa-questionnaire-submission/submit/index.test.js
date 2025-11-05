@@ -520,6 +520,31 @@ const formattedCASAdverts = [
 		documents: [...expectedHAS.documents]
 	})
 ];
+// const formattedAdverts = [
+// 	expect.objectContaining({
+// 		casedata: {
+// 			...expectedHAS.casedata,
+// 			caseType: CASE_TYPES.ADVERTS.key,
+// 			caseReference: '006',
+// 			changesListedBuilding: false,
+// 			affectsScheduledMonument: true,
+// 			hasProtectedSpecies: false,
+// 			isAonbNationalLandscape: true,
+// 			designatedSitesNames: ['yes', 'other designations'],
+// 			hasStatutoryConsultees: true,
+// 			consultedBodiesDetails: 'consultation details',
+// 			hasEmergingPlan: true,
+// 			lpaProcedurePreference: APPEAL_CASE_PROCEDURE.HEARING,
+// 			lpaProcedurePreferenceDetails: 'Hearing details',
+// 			lpaProcedurePreferenceDuration: null,
+// 			lpaQuestionnaireSubmittedDate: expect.any(String),
+// 			isSiteInAreaOfSpecialControlAdverts: true,
+// 			wasApplicationRefusedDueToHighwayOrTraffic: false,
+// 			didAppellantSubmitCompletePhotosAndPlans: true
+// 		},
+// 		documents: [...expectedHAS.documents]
+// 	})
+// ];
 
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 	const expectEmail = (email, appealReferenceNumber) => {
@@ -530,7 +555,7 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 			{
 				personalisation: {
 					subject: `We've received your questionnaire: ${appealReferenceNumber}`,
-					content: expect.stringContaining(`We have received your questionnaire`)
+					content: expect.stringContaining(`We have received your questionnaire`) // content in v2LPAQSubmitted (v2-lpaq-submitted.md)
 				},
 				reference: expect.any(String),
 				emailReplyToId: undefined
@@ -544,6 +569,7 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 		['S20', '003', formattedS20],
 		['CAS_PLANNING', '004', formattedCASPlanning],
 		['CAS_ADVERTS', '005', formattedCASAdverts]
+		// ['ADVERTS', '006', formattedAdverts]
 	])('Formats %s questionnaires then sends it to back office', async (_, id, expectation) => {
 		mockNotifyClient.sendEmail.mockClear();
 
