@@ -75,7 +75,7 @@ module.exports = ({
 		});
 	};
 
-	const appealTypes = ['S78', 'S20'];
+	const appealTypes = ['S78', 'S20', 'ADVERTS'];
 
 	describe('/api/v2/appeal-cases/:caseReference/appellant-final-comment-submissions/submit', () => {
 		const expectEmail = (email, appealReferenceNumber) => {
@@ -86,7 +86,9 @@ module.exports = ({
 				{
 					personalisation: {
 						subject: `We have received your final comments: ${appealReferenceNumber}`,
-						content: expect.stringContaining('We have received your final comments.')
+						content: expect.stringContaining(
+							'We will contact you if the local planning authority submits final comments.'
+						) // content in v2AppellantFinalComments (v2-appellant-final-comments.md) but not v2LpaFinalComments (v2-lpa-final-comments.md)
 					},
 					reference: expect.any(String),
 					emailReplyToId: undefined

@@ -113,7 +113,9 @@ describe('BackOfficeV2Service', () => {
 			['householder', { id: 'a1', appealTypeCode: 'HAS' }],
 			['planning', { id: 'a2', appealTypeCode: 'S78' }],
 			['listed building', { id: 'a3', appealTypeCode: 'S20' }],
-			['CAS planning', { id: 'a4', appealTypeCode: 'CAS_PLANNING' }]
+			['CAS planning', { id: 'a4', appealTypeCode: 'CAS_PLANNING' }],
+			['CAS advert', { id: 'a5', appealTypeCode: 'CAS_ADVERTS' }],
+			['advert', { id: 'a6', appealTypeCode: 'ADVERTS' }]
 		];
 
 		const mockFormattedAppeal = {};
@@ -221,6 +223,24 @@ describe('BackOfficeV2Service', () => {
 					AppealCase: {
 						LPACode: 'Q9999',
 						appealTypeCode: 'CAS_PLANNING'
+					}
+				}
+			],
+			[
+				'CAS advert',
+				{
+					AppealCase: {
+						LPACode: 'Q9999',
+						appealTypeCode: 'CAS_ADVERTS'
+					}
+				}
+			],
+			[
+				'advert',
+				{
+					AppealCase: {
+						LPACode: 'Q9999',
+						appealTypeCode: 'ADVERTS'
 					}
 				}
 			]
