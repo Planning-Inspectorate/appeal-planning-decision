@@ -14,6 +14,7 @@ const VIEW = {
 		USE_EXISTING_SERVICE_APPLICATION_TYPE: 'before-you-start/use-existing-service-application-type',
 		LISTED_BUILDING: 'before-you-start/listed-building',
 		ENFORCEMENT_NOTICE: 'before-you-start/enforcement-notice',
+		ENFORCEMENT_NOTICE_LISTED_BUILDING: 'before-you-start/enforcement-notice-listed-building',
 		APPLICATION_ABOUT: 'before-you-start/planning-application-about'
 	},
 
