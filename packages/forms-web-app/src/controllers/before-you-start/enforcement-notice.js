@@ -69,7 +69,6 @@ exports.postEnforcementNotice = async (req, res) => {
 	}
 
 	if (hasReceivedEnforcementNotice) {
-		// note - 'enforcement-notice-listed-building' is a placeholder url, this page is not yet designed
 		const redirectEnforcementUrl = isV2forEnforcement
 			? 'enforcement-notice-listed-building'
 			: 'use-existing-service-enforcement-notice';
