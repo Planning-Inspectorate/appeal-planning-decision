@@ -14,7 +14,7 @@ export class SiteAreaPage {
     addSiteAreaData(applicationType, areaUnits, context, prepareAppealData) {
         const basePage = new BasePage();
 
-        if (applicationType === 'answer-householder-planning' && context?.statusOfOriginalApplication === 'refused') {
+        if ((applicationType === 'answer-householder-planning' && context?.statusOfOriginalApplication === 'refused') || (applicationType === 'answer-minor-commercial-development'  && context?.selectAllPlanningApplicationAbout === false )) {
             basePage.addTextField(this._selectors?.siteAreaSquareMetres, prepareAppealData?.siteArea?.squareMetres);
             cy.advanceToNextPage();
         }

@@ -5,6 +5,7 @@ import { BasePage } from "../../../../page-objects/base-page";
 const initialiseHouseHolderPlanning = require("./initialiseHouseHolderPlanning");
 const initialiseFullPlanning = require("./initialiseFullPlanning");
 const initialiseListedBuilding = require("./initialiseListedBuilding");
+const initialiseCasPlanning = require("./initialiseCasPlanning");
 module.exports = (statusOfOriginalApplication, planning, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases = [], fullAppealStatementTestCases = []) => {
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const basePage = new BasePage();
@@ -23,6 +24,23 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 	// Select the application type
 	cy.get(`[data-cy="${planning}"]`).click();
 	cy.advanceToNextPage();
+
+	if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
+	 //planning-application-about if any one or all 4  check boxes selects then it should go to s78 route other wise cas planning
+		if(context?.selectAllPlanningApplicationAbout) {
+			cy.get('#planningApplicationAbout').click();
+			cy.get('#planningApplicationAbout-2').click();
+			cy.get('#planningApplicationAbout-3').click();
+			cy.get('#planningApplicationAbout-4').click();	
+			//any one of the above selected then s78 route
+		} else {
+			cy.get('#planningApplicationAbout-6').click();
+		}
+			//casplanning route
+		cy.advanceToNextPage();
+	}		
+	
+		
 	// Select the application decision granted or refused or no decision
 	let grantedOrRefusedId = '';
 	if (statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused) {
@@ -37,6 +55,14 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 	} else if (planning === prepareAppealSelector?._selectors?.answerListedBuilding) {		
 		initialiseListedBuilding(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.listedBuildingText, context, prepareAppealData);
 	} else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {
-		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? initialiseHouseHolderPlanning(planning, grantedOrRefusedId, context, prepareAppealData) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases, fullAppealStatementTestCases);
+		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? initialiseHouseHolderPlanning(planning, grantedOrRefusedId, context, prepareAppealData) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases, fullAppealStatementTestCases);	
+	} else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
+		if(context?.selectAllPlanningApplicationAbout) {
+			//s78 route
+			initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases, fullAppealStatementTestCases);
+		} else {
+			//cas planning route
+			initialiseCasPlanning(planning, grantedOrRefusedId, context, prepareAppealData)
+		}
 	}
 };
