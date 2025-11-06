@@ -14,6 +14,7 @@ export class PrepareAppealSelector {
         govukLabelGovUkLabel1: "label.govuk-label.govuk-label--l",
         fullPlanningApplicaitonType: "full-planning",
         houseHolderApplicaitonType: "householder",
+        casPlanningApplicationType: "cas-planning",
         listedBuildingApplicaitonType: "listed-building",
         appellantOther: "other",
         uploadApplicationForm: "upload-application-form",
@@ -23,8 +24,10 @@ export class PrepareAppealSelector {
         answerFullAppeal: "answer-full-appeal",
         answerHouseholderPlanning: "answer-householder-planning",
         answerListedBuilding: "answer-listed-building",
+        answerMinorCommercialDevelopment: "answer-minor-commercial-development",
         fullAppealText: "Full appeal",
         householderPlanningText: "Householder planning",
+        casPlanningText: "Minor commercial development",
         listedBuildingText: "Listed building consent",
         systemTest2BoroughCouncil: "System Test Borough Council 2"
     }
@@ -43,12 +46,24 @@ export class PrepareAppealSelector {
         decisionDateMonth: '#decision-date-month',
         decisionDateYear: '#decision-date-year',
     }
+    _casPlanningSelectors = {
+        decisionDateDay: '#decision-date-day',
+        decisionDateMonth: '#decision-date-month',
+        decisionDateYear: '#decision-date-year',
+    }
     _houseHolderURLs = {
         beforeYouStart: '/before-you-start',     
         appealHouseholderDecison: '/appeal-householder-decision',
         appealsHouseholderAppealForm: '/appeals/householder/appeal-form',
         appealsHouseholderPrepareAppeal: '/appeals/householder/prepare-appeal',
         appealsHouseholderUploadDocuments: '/appeals/householder/upload-documents'
+    }
+    _casPlanningURLs = {
+        beforeYouStart: '/before-you-start',
+        casplanning: '/cas-planning',
+        appealsCasplanningAppealForm: '/appeals/cas-planning/appeal-form',
+        appealsCasplanningPrepareAppeal: '/appeals/cas-planning/prepare-appeal',
+        appealsCasplanningUploadDocuments: '/appeals/cas-planning/upload-documents'
     }
     _fullAppealURLs = {
         beforeYouStart: '/before-you-start',
