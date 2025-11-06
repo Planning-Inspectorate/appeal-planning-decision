@@ -8,7 +8,6 @@ const {
 
 const getAddRemoveUsers = async (req, res) => {
 	let successMessage;
-
 	if (req.session.addUserEmailAddress) {
 		successMessage = [
 			`${req.session.addUserEmailAddress} added`,
@@ -22,13 +21,15 @@ const getAddRemoveUsers = async (req, res) => {
 
 	const user = getUserFromSession(req);
 	const usersList = await req.appealsApiClient.getUsers(user.lpaCode);
+	const userLPAAdmin = usersList.find((user) => user.isLpaAdmin);
 
 	return res.render(ADD_REMOVE_USERS, {
 		dashboardUrl: `/${DASHBOARD}`,
 		addUserLink: `/${EMAIL_ADDRESS}`,
 		removeUserLink: `/${CONFIRM_REMOVE_USER}`,
 		successMessage: successMessage,
-		users: usersList
+		users: usersList,
+		userLPAAdmin: userLPAAdmin
 	});
 };
 
