@@ -20,7 +20,16 @@ const mockUser = {
 	email: 'test@example.com'
 };
 
-const mockUsersResponse = [{ a: 1 }, { a: 2 }];
+const mockLPAAdmin = {
+	id: '59a82253-4309-45c4-8f6e-5412e2e9be9b',
+	email: 'test@test.test.uk',
+	isEnrolled: false,
+	isLpaUser: true,
+	lpaCode: '1111',
+	isLpaAdmin: true,
+	lpaStatus: 'confirmed'
+};
+const mockUsersResponse = [mockLPAAdmin, { a: 2, isLpaAdmin: false }];
 
 describe('controllers/lpa-dashboard/add-remove-users', () => {
 	beforeEach(() => {
@@ -38,7 +47,8 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 				dashboardUrl: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
 				addUserLink: `/${VIEW.LPA_DASHBOARD.EMAIL_ADDRESS}`,
 				removeUserLink: `/${VIEW.LPA_DASHBOARD.CONFIRM_REMOVE_USER}`,
-				users: mockUsersResponse
+				users: mockUsersResponse,
+				userLPAAdmin: mockLPAAdmin
 			});
 		});
 
@@ -59,7 +69,8 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 				addUserLink: `/${VIEW.LPA_DASHBOARD.EMAIL_ADDRESS}`,
 				removeUserLink: `/${VIEW.LPA_DASHBOARD.CONFIRM_REMOVE_USER}`,
 				successMessage: successMessage,
-				users: mockUsersResponse
+				users: mockUsersResponse,
+				userLPAAdmin: mockLPAAdmin
 			});
 			expect(req.session.addUserEmailAddress).toBe(undefined);
 		});
@@ -78,7 +89,8 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 				addUserLink: `/${VIEW.LPA_DASHBOARD.EMAIL_ADDRESS}`,
 				removeUserLink: `/${VIEW.LPA_DASHBOARD.CONFIRM_REMOVE_USER}`,
 				successMessage: successMessage,
-				users: mockUsersResponse
+				users: mockUsersResponse,
+				userLPAAdmin: mockLPAAdmin
 			});
 			expect(req.session.removeUserEmailAddress).toBe(undefined);
 		});
