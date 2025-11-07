@@ -12,7 +12,7 @@ condition: () => questionHasAnswer(response, questions.changesListedBuilding, 'y
 
 ## Site access
 
-- radio `/inspector-access-appeal-site/` Might the inspector need access to the appellant’s land or property?
+- radio `/inspector-access-appeal-site/` Will the inspector need access to the appellant’s land or property?
 
 ## Appeal process
 

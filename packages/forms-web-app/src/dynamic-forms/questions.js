@@ -372,13 +372,13 @@ exports.questionProps = {
 	accessForInspection: {
 		type: 'radio',
 		title: 'Access for inspection',
-		question: 'Might the inspector need access to the appellant’s land or property?',
-		pageTitle: 'Might the inspector need access to the appellant’s land or property?',
+		question: 'Will the inspector need access to the appellant’s land or property?',
+		pageTitle: 'Will the inspector need access to the appellant’s land or property?',
 		fieldName: 'lpaSiteAccess',
 		url: 'inspector-access-appeal-site',
 		validators: [
 			new RequiredValidator(
-				'Select yes if the inspector might need access to the appellant’s land or property'
+				'Select yes if the inspector will need access to the appellant’s land or property'
 			),
 			new ConditionalRequiredValidator('Enter the reason'),
 			new StringValidator({
@@ -407,13 +407,13 @@ exports.questionProps = {
 	},
 	neighbouringSite: {
 		type: 'radio',
-		title: 'Might the inspector need to enter a neighbour’s land or property?',
-		question: 'Might the inspector need to enter a neighbour’s land or property?',
+		title: 'Will the inspector need to enter a neighbour’s land or property?',
+		question: 'Will the inspector need to enter a neighbour’s land or property?',
 		fieldName: 'neighbourSiteAccess',
 		url: 'inspector-enter-neighbour-site',
 		validators: [
 			new RequiredValidator(
-				'Select yes if the inspector might need to enter a neighbour’s land or property'
+				'Select yes if the inspector will need to enter a neighbour’s land or property'
 			),
 			new ConditionalRequiredValidator(),
 			new StringValidator({

@@ -7,7 +7,7 @@ describe('siteAccessRows', () => {
 
 	const expectedRows = [
 		{
-			title: 'Might the inspector need access to the appellant’s land or property?',
+			title: 'Will the inspector need access to the appellant’s land or property?',
 			value: 'Yes'
 		},
 		{
@@ -15,7 +15,7 @@ describe('siteAccessRows', () => {
 			value: 'access details from LPA'
 		},
 		{
-			title: 'Might the inspector need to enter a neighbour’s land or property?',
+			title: 'Will the inspector need to enter a neighbour’s land or property?',
 			value: 'Yes'
 		},
 		{
@@ -57,7 +57,7 @@ describe('siteAccessRows', () => {
 
 		expect(rows[0].condition()).toEqual(true);
 		expect(rows[0].keyText).toEqual(
-			'Might the inspector need access to the appellant’s land or property?'
+			'Will the inspector need access to the appellant’s land or property?'
 		);
 		expect(rows[0].valueText).toEqual('No');
 
@@ -65,7 +65,7 @@ describe('siteAccessRows', () => {
 
 		expect(rows[2].condition()).toEqual(true);
 		expect(rows[2].keyText).toEqual(
-			'Might the inspector need to enter a neighbour’s land or property?'
+			'Will the inspector need to enter a neighbour’s land or property?'
 		);
 		expect(rows[2].valueText).toEqual('No');
 

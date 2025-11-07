@@ -1069,7 +1069,7 @@ describe('Full appleal questionnaire validation', { tags: '@S78-LPAQ-Validation-
 			.then(($link) => {
 				const linkText = $link
 					.text()
-					.split('Might the inspector need access to the appellant’s land or property?')[0]
+					.split('Will the inspector need access to the appellant’s land or property?')[0]
 					.trim();
 
 				if (linkText === 'Answer') {
@@ -1080,7 +1080,7 @@ describe('Full appleal questionnaire validation', { tags: '@S78-LPAQ-Validation-
 						.should('have.attr', 'href', '#lpaSiteAccess')
 						.and(
 							'contain.text',
-							'Select yes if the inspector might need access to the appellant’s land or property'
+							'Select yes if the inspector will need access to the appellant’s land or property'
 						);
 				} else if (linkText === 'Change') {
 					cy.get(basePage?._selectors.govukSummaryListKey)
@@ -1093,15 +1093,15 @@ describe('Full appleal questionnaire validation', { tags: '@S78-LPAQ-Validation-
 			});
 	});
 
-	it(`Validate Full appeal questionnaire Might the inspector need to enter a neighbour’s land or property?`, () => {
+	it(`Validate Full appeal questionnaire Will the inspector need to enter a neighbour’s land or property?`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
-			.contains('Might the inspector need to enter a neighbour’s land or property?')
+			.contains('Will the inspector need to enter a neighbour’s land or property?')
 			.closest(basePage?._selectors.govukSummaryListRow)
 			.find(basePage?._selectors.agovukLink)
 			.then(($link) => {
 				const linkText = $link
 					.text()
-					.split('Might the inspector need to enter a neighbour’s land or property?')[0]
+					.split('Will the inspector need to enter a neighbour’s land or property?')[0]
 					.trim();
 
 				if (linkText === 'Answer') {
@@ -1112,11 +1112,11 @@ describe('Full appleal questionnaire validation', { tags: '@S78-LPAQ-Validation-
 						.should('have.attr', 'href', '#neighbourSiteAccess')
 						.and(
 							'contain.text',
-							'Select yes if the inspector might need to enter a neighbour’s land or property'
+							'Select yes if the inspector will need to enter a neighbour’s land or property'
 						);
 				} else if (linkText === 'Change') {
 					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Might the inspector need to enter a neighbour’s land or property?')
+						.contains('Will the inspector need to enter a neighbour’s land or property?')
 						.closest(basePage?._selectors.govukSummaryListRow)
 						.find(basePage?._selectors.govukSummaryListValue)
 						.should('not.have.text', 'Not started')
