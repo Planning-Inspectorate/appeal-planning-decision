@@ -251,10 +251,10 @@ describe.each([
 
 		expect(
 			journey.sections[SITE_ACCESS_SECTION_INDEX].questions[INSPECTOR_ACCESS_INDEX].question
-		).toBe('Might the inspector need access to the appellant’s land or property?');
+		).toBe('Will the inspector need access to the appellant’s land or property?');
 		expect(
 			journey.sections[SITE_ACCESS_SECTION_INDEX].questions[NEIGHBOUR_ACCESS_INDEX].question
-		).toBe('Might the inspector need to enter a neighbour’s land or property?');
+		).toBe('Will the inspector need to enter a neighbour’s land or property?');
 		expect(
 			journey.sections[SITE_ACCESS_SECTION_INDEX].questions[NEIGHBOUR_ADDRESS_INDEX].question
 		).toBe('Do you want to add another neighbour to be visited?');

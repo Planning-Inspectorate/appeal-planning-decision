@@ -18,7 +18,7 @@ exports.siteAccessRows = (caseData) => {
 	 */
 	const rows = [
 		{
-			keyText: 'Might the inspector need access to the appellant’s land or property?',
+			keyText: 'Will the inspector need access to the appellant’s land or property?',
 			valueText: boolToYesNo(accessForInspectionBool),
 			condition: () => true
 		},
@@ -28,7 +28,7 @@ exports.siteAccessRows = (caseData) => {
 			condition: () => accessForInspectionBool
 		},
 		{
-			keyText: 'Might the inspector need to enter a neighbour’s land or property?',
+			keyText: 'Will the inspector need to enter a neighbour’s land or property?',
 			valueText: hasNeighboursText,
 			condition: () => hasNeighbourAddressesField
 		},
