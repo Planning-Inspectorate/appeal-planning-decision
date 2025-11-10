@@ -6,6 +6,7 @@ describe('number-entry/question', () => {
 	const buildJourney = (answerVal) => {
 		return {
 			response: { answers: { age: answerVal } },
+			getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 			getBackLink: jest.fn().mockReturnValue('/back'),
 			getCurrentQuestionUrl: jest.fn().mockReturnValue('/current'),
 			getSection: jest.fn().mockReturnValue(section)

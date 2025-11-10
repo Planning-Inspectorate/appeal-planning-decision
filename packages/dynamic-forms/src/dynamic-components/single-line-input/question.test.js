@@ -26,6 +26,7 @@ describe('/single-line-input/question.js', () => {
 	const buildJourney = (answerVal) => {
 		const journey = {
 			response: { answers: { [FIELDNAME]: answerVal } },
+			getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 			getBackLink: jest.fn().mockReturnValue('/back')
 		};
 		return journey;

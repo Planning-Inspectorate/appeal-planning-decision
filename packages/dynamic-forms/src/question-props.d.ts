@@ -123,6 +123,7 @@ type MultiFileUploadQuestionProps = CommonQuestionProps & {
 	type: 'multi-file-upload';
 	documentType: { name: string };
 	actionHiddenText?: string;
+	showSkipLink?: boolean;
 };
 
 type BooleanQuestionProps = CommonQuestionProps & {

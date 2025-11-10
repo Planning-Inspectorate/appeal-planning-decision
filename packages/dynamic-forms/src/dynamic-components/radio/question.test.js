@@ -47,6 +47,7 @@ const JOURNEY = {
 	getBackLink: () => {
 		return 'back';
 	},
+	getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 	getSection: jest.fn()
 };
 

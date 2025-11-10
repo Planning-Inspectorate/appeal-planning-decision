@@ -32,6 +32,7 @@ const AddressValidator = require('./validator/address-validator');
  * @property {Array.<string>} navigation
  * @property {string} backLink
  * @property {boolean} showBackToListLink
+ * @property {boolean} showSkipLink
  * @property {string} listLink
  * @property {string} [appealSiteGridReferenceLink]
  */
@@ -59,6 +60,8 @@ class Question {
 	hint;
 	/** @type {boolean} show return to listing page link after question */
 	showBackToListLink = true;
+	/** @type {boolean} show link to next question in case that officer report isn't complete */
+	showSkipLink = false;
 	/** @type {string|undefined} alternative url slug */
 	url;
 	/** @type {string|undefined} optional html content */
@@ -86,6 +89,7 @@ class Question {
 	 * @param {string} [params.description]
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {string} [params.html]
+	 * @param {boolean} [params.showSkipLink]
 	 * @param {string} [params.hint]
 	 * @param {string} [params.interfaceType]
 	 * @param {(response: JourneyResponse) => boolean} [params.shouldDisplay]
@@ -107,7 +111,8 @@ class Question {
 			hint,
 			interfaceType,
 			shouldDisplay,
-			variables
+			variables,
+			showSkipLink
 		},
 		methodOverrides
 	) {
@@ -126,6 +131,7 @@ class Question {
 		this.hint = hint;
 		this.interfaceType = interfaceType;
 		this.variables = variables;
+		this.showSkipLink = showSkipLink || false;
 
 		if (shouldDisplay) {
 			this.shouldDisplay = shouldDisplay;
@@ -155,6 +161,17 @@ class Question {
 		const answer = journey.response.answers[this.fieldName] || '';
 		const backLink = journey.getBackLink(section.segment, this.fieldName, sessionBackLink);
 
+		// gets url for next qs
+		let nextQuestionUrl = journey.getNextQuestionUrl(
+			section.segment,
+			this.fieldName,
+			false // get next question
+		);
+		// If last qs, default to task list
+		if (nextQuestionUrl === null) {
+			nextQuestionUrl = journey.taskListUrl;
+		}
+
 		const viewModel = {
 			question: this.getQuestionModel(section, answer),
 			answer,
@@ -165,7 +182,9 @@ class Question {
 			navigation: ['', backLink],
 			backLink,
 			showBackToListLink: this.showBackToListLink,
+			showSkipLink: this.showSkipLink,
 			listLink: journey.taskListUrl,
+			skipLinkUrl: nextQuestionUrl,
 			journeyTitle: journey.journeyTitle,
 			payload,
 			bannerHtmlOverride: journey.bannerHtmlOverride,

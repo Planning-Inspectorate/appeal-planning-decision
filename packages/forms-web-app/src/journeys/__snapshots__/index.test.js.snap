@@ -15610,6 +15610,13 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/public-safety"
+                class="govuk-link">Skip</a>
+            </p>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
             <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
             </p>
         </div>
@@ -17993,6 +18000,13 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/public-safety"
+                class="govuk-link">Skip</a>
+            </p>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
             <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
             </p>
         </div>
@@ -19651,6 +19665,13 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                         data-cy="button-save-and-continue">Continue</button>
                     </div>
                 </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/other-development-plan-policies"
+                class="govuk-link">Skip</a>
+            </p>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -21622,6 +21643,13 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                         data-cy="button-save-and-continue">Continue</button>
                     </div>
                 </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/upload-plans-drawings"
+                class="govuk-link">Skip</a>
+            </p>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -24913,6 +24941,13 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         data-cy="button-save-and-continue">Continue</button>
                     </div>
                 </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/other-development-plan-policies"
+                class="govuk-link">Skip</a>
+            </p>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -28214,6 +28249,13 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         data-cy="button-save-and-continue">Continue</button>
                     </div>
                 </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/other-development-plan-policies"
+                class="govuk-link">Skip</a>
+            </p>
         </div>
     </div>
     <div class="govuk-grid-row">

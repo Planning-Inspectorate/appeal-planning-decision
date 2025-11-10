@@ -215,6 +215,7 @@ describe('./src/dynamic-forms/question.js', () => {
 				getCurrentQuestionUrl: jest.fn(
 					(sectionName, fieldName) => `/mock-url/${sectionName}/${fieldName}`
 				),
+				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: jest.fn(() => 'back')
 			};
 			const customViewData = { hello: 'hi' };

@@ -71,6 +71,7 @@ describe('./src/dynamic-forms/dynamic-components/single-line-input/question.js',
 				response: {
 					answers: {}
 				},
+				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: () => {
 					return 'back';
 				}
@@ -93,7 +94,7 @@ describe('./src/dynamic-forms/dynamic-components/single-line-input/question.js',
 	});
 
 	describe('getDataToSave', () => {
-		it('should return values for all completed fields', async () => {
+		it('should return values for all completed fields ', async () => {
 			const question = createMultiFieldInputQuestion();
 
 			const testRequest = {
