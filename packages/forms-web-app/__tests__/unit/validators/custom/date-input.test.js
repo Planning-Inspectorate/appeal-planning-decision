@@ -355,4 +355,29 @@ describe('validators/custom/date-input', () => {
 			});
 		});
 	});
+
+	describe('custom errors', () => {
+		it('should return a custom error', async () => {
+			const customErrorMessage = 'Missing day custom message';
+			const mockReq = {
+				body: {
+					'mock-date-day': '',
+					'mock-date-month': '12',
+					'mock-date-year': '2020'
+				}
+			};
+			const mockRes = jest.fn();
+
+			await testExpressValidatorMiddleware(
+				mockReq,
+				mockRes,
+				dateInputValidation(mockId, mockLabel, { missingDay: customErrorMessage })
+			);
+			const result = validationResult(mockReq);
+			expect(result.errors[0].location).toEqual('body');
+			expect(result.errors[0].msg).toEqual(customErrorMessage);
+			expect(result.errors[0].path).toEqual('mock-date-day');
+			expect(result.errors[0].value).toEqual('');
+		});
+	});
 });
