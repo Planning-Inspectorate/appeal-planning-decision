@@ -241,8 +241,13 @@ module.exports = ({
 		],
 		adverts: {
 			hasLandownersPermission: true,
-			isAdvertInPosition: true,
-			isSiteOnHighwayLand: true
+			advertDetails: [
+				{
+					advertType: null,
+					isAdvertInPosition: true,
+					isSiteOnHighwayLand: true
+				}
+			]
 		}
 	};
 
@@ -425,6 +430,7 @@ module.exports = ({
 				...submissionData.common,
 				...submissionData.withAppellant,
 				...submissionData.adverts,
+				...submissionData.procedurePreference,
 				id: crypto.randomUUID(),
 				appealTypeCode: 'ADVERTS',
 				typeOfPlanningApplication: 'advertisement'
@@ -436,6 +442,7 @@ module.exports = ({
 					...expectedData.site,
 					...expectedData.common,
 					...expectedData.adverts,
+					...expectedData.procedurePreference,
 					caseType: 'H',
 					typeOfPlanningApplication: 'advertisement'
 				},

@@ -56,6 +56,10 @@ exports.detailsRows = (caseData, userType) => {
 		? formatAddress(caseData, '\n')
 		: formatGridReference(caseData.siteGridReferenceEasting, caseData.siteGridReferenceNorthing);
 
+	// model supports multiple advert details but we only ask for one currently
+	const advertDetails =
+		caseData.AdvertDetails && caseData.AdvertDetails.length > 0 ? caseData.AdvertDetails[0] : null;
+
 	return [
 		{
 			keyText:
@@ -87,13 +91,13 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Is the appeal site on highway land?',
-			valueText: formatYesOrNo(caseData, 'isSiteOnHighwayLand'),
-			condition: (caseData) => caseData.isSiteOnHighwayLand != null
+			valueText: advertDetails ? formatYesOrNo(advertDetails, 'isSiteOnHighwayLand') : '',
+			condition: () => !!advertDetails
 		},
 		{
 			keyText: 'Is the advertisement in position?',
-			valueText: formatYesOrNo(caseData, 'isAdvertInPosition'),
-			condition: (caseData) => caseData.isAdvertInPosition != null
+			valueText: advertDetails ? formatYesOrNo(advertDetails, 'isAdvertInPosition') : '',
+			condition: () => !!advertDetails
 		},
 		{
 			keyText: 'What is the area of the appeal site?',

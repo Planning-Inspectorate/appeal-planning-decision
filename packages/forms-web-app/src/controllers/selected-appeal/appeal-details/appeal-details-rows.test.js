@@ -128,14 +128,22 @@ describe('appeal-details-rows', () => {
 		it('should show highway land if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
 
-			testCase.isSiteOnHighwayLand = true;
+			testCase.AdvertDetails = [
+				{
+					isSiteOnHighwayLand: true
+				}
+			];
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[highwayLandIndex].condition(testCase)).toEqual(true);
 			expect(rows[highwayLandIndex].keyText).toEqual('Is the appeal site on highway land?');
 			expect(rows[highwayLandIndex].valueText).toEqual('Yes');
 
-			testCase.isSiteOnHighwayLand = false;
+			testCase.AdvertDetails = [
+				{
+					isSiteOnHighwayLand: false
+				}
+			];
 			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows2[highwayLandIndex].condition(testCase)).toEqual(true);
 			expect(rows2[highwayLandIndex].valueText).toEqual('No');
@@ -157,14 +165,22 @@ describe('appeal-details-rows', () => {
 		it('should show advertisement in position if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
 
-			testCase.isAdvertInPosition = true;
+			testCase.AdvertDetails = [
+				{
+					isAdvertInPosition: true
+				}
+			];
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[advertInPositionIndex].condition(testCase)).toEqual(true);
 			expect(rows[advertInPositionIndex].keyText).toEqual('Is the advertisement in position?');
 			expect(rows[advertInPositionIndex].valueText).toEqual('Yes');
 
-			testCase.isAdvertInPosition = false;
+			testCase.AdvertDetails = [
+				{
+					isAdvertInPosition: false
+				}
+			];
 			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows2[advertInPositionIndex].condition(testCase)).toEqual(true);
 			expect(rows2[advertInPositionIndex].valueText).toEqual('No');

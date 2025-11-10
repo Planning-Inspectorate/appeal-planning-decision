@@ -7,11 +7,10 @@ const {
 	getDocuments,
 	getCommonAppellantSubmissionFields,
 	getAdvertsAppellantSubmissionFields,
-	getAppellantProcedurePreference,
 	formatApplicationSubmissionUsers
 } = require('../utils');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
-const ADVERTS = CASE_TYPES.ADVERTS;
+const CAS_ADVERTS = CASE_TYPES.CAS_ADVERTS;
 
 /**
  * @type {import('../utils').AppellantSubmissionMapper}
@@ -20,13 +19,11 @@ exports.formatter = async (appellantSubmission, lpa) => {
 	return {
 		casedata: {
 			// type
-			caseType: ADVERTS.key,
+			caseType: CAS_ADVERTS.key,
 			// Common
 			...getCommonAppellantSubmissionFields(appellantSubmission, lpa),
 			// Adverts specific
-			...getAdvertsAppellantSubmissionFields(appellantSubmission),
-			// Procedure preference
-			...getAppellantProcedurePreference(appellantSubmission)
+			...getAdvertsAppellantSubmissionFields(appellantSubmission)
 		},
 		documents: await getDocuments(appellantSubmission),
 		users: formatApplicationSubmissionUsers(appellantSubmission)

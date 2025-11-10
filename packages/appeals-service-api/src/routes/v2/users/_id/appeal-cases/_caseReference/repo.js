@@ -52,7 +52,8 @@ module.exports = class Repo {
 					AppealCaseLpaNotificationMethod: true,
 					NeighbouringAddresses: true,
 					ProcedureType: true,
-					Events: true
+					Events: true,
+					AdvertDetails: true
 				}
 			});
 		} catch (e) {
@@ -90,7 +91,8 @@ module.exports = class Repo {
 						AppealCaseLpaNotificationMethod: true,
 						NeighbouringAddresses: true,
 						ProcedureType: true,
-						Events: true
+						Events: true,
+						AdvertDetails: true
 					}
 				});
 			});
