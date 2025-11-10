@@ -23,7 +23,7 @@ describe('validators/full-appeal/enforcement-notice-listed-building', () => {
 				expect(rule.stack[0].negated).toBeTruthy();
 				expect(rule.stack[0].validator.name).toEqual('isEmpty');
 				expect(rule.stack[0].message).toEqual(
-					'Select yes if you have received an enforcement notice about a listed building'
+					'Select yes if your enforcement notice is about a listed building'
 				);
 
 				expect(rule.stack[2].negated).toBeFalsy();
@@ -44,7 +44,7 @@ describe('validators/full-appeal/enforcement-notice-listed-building', () => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual(
-						'Select yes if you have received an enforcement notice about a listed building'
+						'Select yes if your enforcement notice is about a listed building'
 					);
 					expect(result.errors[0].path).toEqual('enforcement-notice-listed-building');
 					expect(result.errors[0].value).toEqual(undefined);

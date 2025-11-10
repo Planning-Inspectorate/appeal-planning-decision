@@ -12,6 +12,7 @@ const planningApplicationAbout = require('./planning-application-about');
 const useExistingServiceApplicationType = require('./use-existing-service-application-type');
 const enforcementNotice = require('./enforcement-notice');
 const enforcementNoticeListedBuilding = require('./enforcement-notice-listed-building');
+const enforcementIssueDate = require('./enforcement-issue-date');
 const useExistingServiceEnforcementNotice = require('./use-existing-service-enforcement-notice');
 const clearAppealSession = require('./clear-appeal-session');
 
@@ -25,6 +26,7 @@ router.use(planningApplicationAbout);
 router.use(useExistingServiceApplicationType);
 router.use(enforcementNotice);
 router.use(enforcementNoticeListedBuilding);
+router.use(enforcementIssueDate);
 router.use(useExistingServiceEnforcementNotice);
 router.use(clearAppealSession);
 

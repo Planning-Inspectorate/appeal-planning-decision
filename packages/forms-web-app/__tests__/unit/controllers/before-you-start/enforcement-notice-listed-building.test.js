@@ -12,7 +12,7 @@ const {
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 const navigationPages = {
-	enforcementPage: '/before-you-start/enforcement-notice-issue-date',
+	enforcementPage: '/before-you-start/enforcement-issue-date',
 	shutterPage: '/before-you-start/use-existing-service-application-type'
 };
 const logger = require('../../../../src/lib/logger');
@@ -109,7 +109,7 @@ describe('controllers/before-you-start/enforcement-notice-listed-building', () =
 			});
 		});
 
-		it('should redirect to `/before-you-start/enforcement-notice-issue-date` if `enforcement-notice-listed-building` is `no`', async () => {
+		it('should redirect to `/before-you-start/enforcement-issue-date` if `enforcement-notice-listed-building` is `no`', async () => {
 			const mockRequest = {
 				...req,
 				body: {

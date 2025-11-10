@@ -70,6 +70,5 @@ exports.postEnforcementNoticeListedBuilding = async (req, res) => {
 		return;
 	}
 
-	// note - 'enforcement-notice-issue-date' is a placeholder url, this page is not yet designed
-	res.redirect('/before-you-start/enforcement-notice-issue-date');
+	res.redirect('/before-you-start/enforcement-issue-date');
 };

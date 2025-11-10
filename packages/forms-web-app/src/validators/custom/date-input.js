@@ -8,13 +8,26 @@ const monthMap = require('../../lib/month-map.js');
  *
  * @param inputRef - ID of input passed to date component
  * @param res - Label used by error messages so user understands data required (e.g Date of Birth)
+ * @param customMessages - obj with custom error messages to display instead of defaults
  * @returns {Array}
  */
 
-module.exports = (inputRef, inputLabel) => {
+module.exports = (inputRef, inputLabel, customMessages = {}) => {
 	const dayInput = `${inputRef}-day`;
 	const monthInput = `${inputRef}-month`;
 	const yearInput = `${inputRef}-year`;
+
+	const defaultMessages = {
+		missingAll: `Enter ${inputLabel}`,
+		missingDayMonth: `${capitalize(inputLabel)} must include a day and month`,
+		missingDayYear: `${capitalize(inputLabel)} must include a day and year`,
+		missingDay: `${capitalize(inputLabel)} must include a day`,
+		missingMonthYear: `${capitalize(inputLabel)} must include a month and year`,
+		missingMonth: `${capitalize(inputLabel)} must include a month`,
+		missingYear: `${capitalize(inputLabel)} must include a year`,
+		invalidDate: `${capitalize(inputLabel)} must be a real date`
+	};
+	const messages = { ...defaultMessages, ...customMessages };
 
 	return [
 		body(dayInput)
@@ -22,18 +35,18 @@ module.exports = (inputRef, inputLabel) => {
 			.notEmpty()
 			.withMessage((_, { req }) => {
 				if (!req.body[monthInput] && !req.body[yearInput]) {
-					return `Enter ${inputLabel}`;
+					return messages.missingAll;
 				}
 
 				if (!req.body[monthInput] && req.body[yearInput]) {
-					return `${capitalize(inputLabel)} must include a day and month`;
+					return messages.missingDayMonth;
 				}
 
 				if (req.body[monthInput] && !req.body[yearInput]) {
-					return `${capitalize(inputLabel)} must include a day and year`;
+					return messages.missingDayYear;
 				}
 
-				return `${capitalize(inputLabel)} must include a day`;
+				return messages.missingDay;
 			}),
 
 		body(monthInput)
@@ -41,21 +54,18 @@ module.exports = (inputRef, inputLabel) => {
 			.notEmpty()
 			.withMessage((_, { req }) => {
 				if (!req.body[yearInput]) {
-					return `${capitalize(inputLabel)} must include a month and year`;
+					return messages.missingMonthYear;
 				}
 
-				return `${capitalize(inputLabel)} must include a month`;
+				return messages.missingMonth;
 			}),
 
-		body(yearInput)
-			.trim()
-			.notEmpty()
-			.withMessage(`${capitalize(inputLabel)} must include a year`),
+		body(yearInput).trim().notEmpty().withMessage(messages.missingYear),
 
 		body(dayInput)
 			.trim()
 			.isInt({ min: 1, max: 31 })
-			.withMessage(`${capitalize(inputLabel)} must be a real date`)
+			.withMessage(messages.invalidDate)
 			.bail()
 			.toInt()
 			.custom((value, { req }) => {
@@ -69,7 +79,7 @@ module.exports = (inputRef, inputLabel) => {
 
 				return true;
 			})
-			.withMessage(`${capitalize(inputLabel)} must be a real date`),
+			.withMessage(messages.invalidDate),
 
 		body(monthInput)
 			.trim()
@@ -87,11 +97,8 @@ module.exports = (inputRef, inputLabel) => {
 
 				return false;
 			})
-			.withMessage(`${capitalize(inputLabel)} must be a real date`),
+			.withMessage(messages.invalidDate),
 
-		body(yearInput)
-			.trim()
-			.isInt({ min: 1000, max: 9999 })
-			.withMessage(`${capitalize(inputLabel)} must be a real date`)
+		body(yearInput).trim().isInt({ min: 1000, max: 9999 }).withMessage(messages.invalidDate)
 	];
 };
