@@ -45,7 +45,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.20.0
+      ref: refs/tags/release/3.24.2
 
 extends:
   template: stages/wrapper_ci.yml@templates
@@ -114,7 +114,7 @@ extends:
                 - name: web
                   path: packages/forms-web-app
               stepName: check_files
-      
+
       - name: Build Appeals API
         condition: >-
           and(
@@ -147,7 +147,7 @@ extends:
               repository: appeal-planning-decision/appeals-service-api
               buildArgs:
                 - GIT_SHA=$(Build.SourceVersion)
-      
+
       - name: Build Auth Server
         condition: >-
           and(
@@ -179,7 +179,7 @@ extends:
               repository: appeal-planning-decision/auth-server
               buildArgs:
                 - GIT_SHA=$(Build.SourceVersion)
-      
+
       - name: Build Documents API
         condition: >-
           and(
@@ -211,7 +211,7 @@ extends:
               repository: appeal-planning-decision/documents-api
               buildArgs:
                 - GIT_SHA=$(Build.SourceVersion)
-      
+
       - name: Build Integration Functions
         condition: >-
           and(
@@ -255,7 +255,7 @@ extends:
           - publish: $(System.DefaultWorkingDirectory)/functions.zip
             artifact: integration-functions
             displayName: Publish Functions Artifact
-      
+
       - name: Build PDF Service
         condition: >-
           and(
@@ -284,7 +284,7 @@ extends:
               repository: appeal-planning-decision/pdf-service-api
               buildArgs:
                 - GIT_SHA=$(Build.SourceVersion)
-      
+
       - name: Build Web
         condition: >-
           and(
