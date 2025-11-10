@@ -32,6 +32,7 @@ const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-dat
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AdvertSpecificProperties} AppellantAdvertSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
  *
+ * // todo update these once model updated
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQCommonSubmissionProperties} LPAQCommonSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQHASSubmissionProperties} LPAQHASSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQS78SubmissionProperties} LPAQS78SubmissionProperties
@@ -368,7 +369,7 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
  * @returns {AppellantS78SubmissionProperties}
  */
 exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
-	const preference = getAppellantProcedurePreference(appellantSubmission);
+	const preference = exports.getAppellantProcedurePreference(appellantSubmission);
 
 	return {
 		agriculturalHolding: appellantSubmission.agriculturalHolding ?? null,
@@ -395,7 +396,7 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
  * @returns {AppellantS78SubmissionProperties}
  */
 exports.getS20AppellantSubmissionFields = (appellantSubmission) => {
-	const preference = getAppellantProcedurePreference(appellantSubmission);
+	const preference = exports.getAppellantProcedurePreference(appellantSubmission);
 
 	return {
 		agriculturalHolding: null,
@@ -415,8 +416,14 @@ exports.getS20AppellantSubmissionFields = (appellantSubmission) => {
  */
 exports.getAdvertsAppellantSubmissionFields = (appellantSubmission) => {
 	return {
-		isAdvertInPosition: appellantSubmission.advertInPosition ?? null,
-		isSiteOnHighwayLand: appellantSubmission.highwayLand ?? null,
+		// only 1 is asked for currently but model supports multiple
+		advertDetails: [
+			{
+				advertType: null, // we don't ask this yet but is in model
+				isAdvertInPosition: appellantSubmission.advertInPosition ?? null,
+				isSiteOnHighwayLand: appellantSubmission.highwayLand ?? null
+			}
+		],
 		hasLandownersPermission: appellantSubmission.landownerPermission ?? null
 	};
 };
@@ -425,11 +432,11 @@ exports.getAdvertsAppellantSubmissionFields = (appellantSubmission) => {
  * @param {FullAppellantSubmission} appellantSubmission
  * @returns {{appellantProcedurePreference: 'written'|'hearing'|'inquiry', appellantProcedurePreferenceDetails: string|null, appellantProcedurePreferenceDuration: Number|null, appellantProcedurePreferenceWitnessCount: Number|null}}
  */
-const getAppellantProcedurePreference = (appellantSubmission) => {
+exports.getAppellantProcedurePreference = (appellantSubmission) => {
 	switch (appellantSubmission.appellantProcedurePreference) {
 		case APPEAL_CASE_PROCEDURE.WRITTEN:
 			return {
-				appellantProcedurePreference: APPEAL_LPA_PROCEDURE_PREFERENCE.WRITTEN,
+				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.WRITTEN,
 				appellantProcedurePreferenceDetails: null,
 				appellantProcedurePreferenceDuration: null,
 				appellantProcedurePreferenceWitnessCount: null
@@ -574,7 +581,7 @@ exports.getHASLPAQSubmissionFields = (answers) => {
 
 /**
  * @param {LPAQAnswers} answers
- * @returns {LPAQS78SubmissionProperties}
+ * @returns {LPAQHASSubmissionProperties}
  */
 exports.getCASAdvertsLPAQSubmissionFields = (answers) => {
 	const preference = getLPAProcedurePreference(answers);
@@ -593,6 +600,19 @@ exports.getCASAdvertsLPAQSubmissionFields = (answers) => {
 		isSiteInAreaOfSpecialControlAdverts: answers.isSiteInAreaOfSpecialControlAdverts,
 		wasApplicationRefusedDueToHighwayOrTraffic: answers.wasApplicationRefusedDueToHighwayOrTraffic,
 		didAppellantSubmitCompletePhotosAndPlans: answers.didAppellantSubmitCompletePhotosAndPlans
+	};
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {LPAQS78SubmissionProperties}
+ */
+exports.getAdvertsLPAQSubmissionFields = (answers) => {
+	return {
+		changedListedBuildingNumbers: getListedBuildingByType(
+			answers.SubmissionListedBuilding,
+			fieldNames.changedListedBuildingNumber
+		)
 	};
 };
 

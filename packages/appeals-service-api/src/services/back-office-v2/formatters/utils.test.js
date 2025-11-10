@@ -463,8 +463,13 @@ describe('utils.js', () => {
 			let answers = {};
 			expect(getAdvertsAppellantSubmissionFields(answers)).toEqual({
 				hasLandownersPermission: null,
-				isAdvertInPosition: null,
-				isSiteOnHighwayLand: null
+				advertDetails: [
+					{
+						advertType: null,
+						isAdvertInPosition: null,
+						isSiteOnHighwayLand: null
+					}
+				]
 			});
 		});
 
@@ -477,8 +482,13 @@ describe('utils.js', () => {
 
 			expect(getAdvertsAppellantSubmissionFields(answers)).toEqual({
 				hasLandownersPermission: true,
-				isAdvertInPosition: true,
-				isSiteOnHighwayLand: true
+				advertDetails: [
+					{
+						advertType: null,
+						isAdvertInPosition: true,
+						isSiteOnHighwayLand: true
+					}
+				]
 			});
 
 			const answersFalse = {
@@ -489,8 +499,13 @@ describe('utils.js', () => {
 
 			expect(getAdvertsAppellantSubmissionFields(answersFalse)).toEqual({
 				hasLandownersPermission: false,
-				isAdvertInPosition: false,
-				isSiteOnHighwayLand: false
+				advertDetails: [
+					{
+						advertType: null,
+						isAdvertInPosition: false,
+						isSiteOnHighwayLand: false
+					}
+				]
 			});
 		});
 	});

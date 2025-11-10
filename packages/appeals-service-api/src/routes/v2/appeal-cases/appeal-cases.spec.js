@@ -23,9 +23,9 @@ const {
 const {
 	exampleCasAdvertsDataModel
 } = require('../../../../__tests__/developer/fixtures/appeals-cas-adverts-data-model');
-// const {
-// 	exampleAdvertsDataModel
-// } = require('../../../../__tests__/developer/fixtures/appeals-adverts-data-model');
+const {
+	exampleAdvertsDataModel
+} = require('../../../../__tests__/developer/fixtures/appeals-adverts-data-model');
 
 const { appendLinkedCasesForMultipleAppeals } = require('./service');
 
@@ -304,15 +304,15 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 			const s20Example = { ...exampleS20DataModel };
 			const casPlanningExample = { ...exampleCasPlanningDataModel };
 			const casAdvertsExample = { ...exampleCasAdvertsDataModel };
-			// const advertsExample = { ...exampleAdvertsDataModel };
+			const advertsExample = { ...exampleAdvertsDataModel };
 
 			const appealExamples = [
 				{ name: CASE_TYPES.HAS.processCode, data: hasExample },
 				{ name: CASE_TYPES.S78.processCode, data: s78Example },
 				{ name: CASE_TYPES.S20.processCode, data: s20Example },
 				{ name: CASE_TYPES.CAS_PLANNING.processCode, data: casPlanningExample },
-				{ name: CASE_TYPES.CAS_ADVERTS.processCode, data: casAdvertsExample }
-				// { name: CASE_TYPES.ADVERTS.processCode, data: advertsExample }
+				{ name: CASE_TYPES.CAS_ADVERTS.processCode, data: casAdvertsExample },
+				{ name: CASE_TYPES.ADVERTS.processCode, data: advertsExample }
 			];
 
 			for (const appealExample of appealExamples) {

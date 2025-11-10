@@ -17,6 +17,9 @@ const {
 	formatter: s20Formatter
 } = require('../../../../../services/back-office-v2/formatters/s20/appeal');
 const {
+	formatter: casAdvertsFormatter
+} = require('../../../../../services/back-office-v2/formatters/cas-adverts/appeal');
+const {
 	formatter: advertsFormatter
 } = require('../../../../../services/back-office-v2/formatters/adverts/appeal');
 
@@ -44,8 +47,9 @@ const getFormatter = (appealTypeCode) => {
 			return s78Formatter;
 		case CASE_TYPES.S20.processCode:
 			return s20Formatter;
-		case CASE_TYPES.ADVERTS.processCode:
 		case CASE_TYPES.CAS_ADVERTS.processCode:
+			return casAdvertsFormatter;
+		case CASE_TYPES.ADVERTS.processCode:
 			return advertsFormatter;
 		case CASE_TYPES.CAS_PLANNING.processCode:
 			return casPlanningFormatter;
