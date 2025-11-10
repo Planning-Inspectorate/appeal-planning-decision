@@ -85,6 +85,7 @@ const {
 
 describe('Dynamic forms journey tests', () => {
 	let clock, today, future;
+	nock.cleanAll();
 
 	beforeAll(() => {
 		clock = fakeTimers.install({ now: new Date('2025-07-31T12:00:00Z'), toFake: ['Date'] });

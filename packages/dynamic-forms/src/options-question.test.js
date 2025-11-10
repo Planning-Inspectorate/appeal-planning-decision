@@ -14,9 +14,9 @@ describe('./src/dynamic-forms/question.js', () => {
 		response: {
 			answers: {}
 		},
-		getNextQuestionUrl: jest.fn(),
 		getCurrentQuestionUrl: jest.fn(),
 		getSection: jest.fn(),
+		getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 		getBackLink: jest.fn()
 	};
 

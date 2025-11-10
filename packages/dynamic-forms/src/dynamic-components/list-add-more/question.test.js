@@ -107,6 +107,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 						]
 					}
 				},
+				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: () => {
 					return 'back';
 				},
@@ -204,6 +205,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const journey = {
 				journeyId: 'appeal',
 				response: { answers: {} },
+				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: jest.fn(() => expectedBackLink),
 				getCurrentQuestionUrl: jest.fn(() => expectedBackLink)
 			};

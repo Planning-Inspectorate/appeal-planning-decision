@@ -360,14 +360,10 @@ exports.questionProps = {
 		fieldName: 'uploadPlanningOfficerReport',
 		html: 'resources/upload-planning-officer-report/content.html',
 		url: 'upload-planning-officers-report-decision-notice',
-		validators: [
-			new RequiredFileUploadValidator(
-				'Select the planning officer’s report or what your decision notice would have said'
-			),
-			new MultifileUploadValidator(defaultFileUploadValidatorParams)
-		],
+		validators: [new MultifileUploadValidator(defaultFileUploadValidatorParams)],
 		documentType: documentTypes.planningOfficersReportUpload,
-		actionHiddenText: 'the planning officer’s report or what your decision notice would have said'
+		actionHiddenText: 'the planning officer’s report or what your decision notice would have said',
+		showSkipLink: true
 	},
 	accessForInspection: {
 		type: 'radio',

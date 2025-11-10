@@ -637,3 +637,53 @@ describe('Journey class', () => {
 		});
 	});
 });
+
+describe('getNextQuestionUrl', () => {
+	let journey;
+
+	beforeEach(() => {
+		journey = new Journey({
+			// Properties from other tests
+			journeyId: 'mock-journey-id',
+			makeBaseUrl: () => '/appeals/my-appeal',
+			taskListUrl: '/task-list',
+			response: {
+				answers: {}
+			},
+			journeyTemplate: 'mock-template',
+			listingPageViewPath: 'mock-path',
+			journeyTitle: 'mock-title',
+			makeSections: mockMakeSections
+		});
+	});
+
+	it('should find the next question in the same section', () => {
+		const nextUrl = journey.getNextQuestionUrl('section1', 'question1');
+		expect(nextUrl).toBe('/appeals/my-appeal/section1/question2');
+	});
+
+	it('should find the first question in the next section', () => {
+		const nextUrl = journey.getNextQuestionUrl('section1', 'question4');
+		expect(nextUrl).toBe('/appeals/my-appeal/section2/question3');
+	});
+
+	it('should use the custom URL slug when one is defined', () => {
+		const nextUrl = journey.getNextQuestionUrl('section3', 'question6');
+		expect(nextUrl).toBe('/appeals/my-appeal/section3/q7_alternative_url');
+	});
+
+	it('should return null when at the end of the entire journey', () => {
+		const nextUrl = journey.getNextQuestionUrl('section3', 'question9');
+		expect(nextUrl).toBeNull();
+	});
+
+	it('should find the previous question when "reverse" is true', () => {
+		const prevUrl = journey.getNextQuestionUrl('section1', 'question2', true);
+		expect(prevUrl).toBe('/appeals/my-appeal/section1/question1');
+	});
+
+	it('should correctly handle sub-questions when "reverse" is true', () => {
+		const prevUrl = journey.getNextQuestionUrl('section1', 'question4', true);
+		expect(prevUrl).toBe('/appeals/my-appeal/section1/question3');
+	});
+});

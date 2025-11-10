@@ -86,6 +86,7 @@ describe('DateQuestion', () => {
 						[FIELDNAME]: date
 					}
 				},
+				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: () => {
 					return 'back';
 				}
@@ -149,6 +150,7 @@ describe('DateQuestion', () => {
 						[`${[FIELDNAME]}_year`]: '2022'
 					}
 				},
+				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: () => {
 					return 'back';
 				}
@@ -207,6 +209,7 @@ describe('DateQuestion', () => {
 				response: {
 					answers: {}
 				},
+				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: () => {
 					return 'back';
 				}
@@ -299,6 +302,7 @@ describe('DateQuestion', () => {
 						[FIELDNAME]: date
 					}
 				},
+				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: () => {
 					return 'back';
 				}

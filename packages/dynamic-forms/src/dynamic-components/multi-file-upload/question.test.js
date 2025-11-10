@@ -114,13 +114,16 @@ describe('MultiFileUploadQuestion', () => {
 						SubmissionDocumentUpload: [uploadedDocument]
 					}
 				},
+				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: () => {
 					return 'back';
 				}
 			};
 
 			const customViewData = { hello: 'hi' };
-			const result = question.prepQuestionForRendering({ section: {}, journey, customViewData });
+			const section = { segment: 'test-section' };
+
+			const result = question.prepQuestionForRendering({ section, journey, customViewData });
 
 			expect(result).toEqual(
 				expect.objectContaining({
@@ -128,9 +131,39 @@ describe('MultiFileUploadQuestion', () => {
 						fieldName: FIELDNAME
 					}),
 					uploadedFiles: [uploadedDocument],
-					hello: 'hi'
+					hello: 'hi',
+					showSkipLink: false,
+					skipLinkUrl: 'mock-skip-url'
 				})
 			);
+			expect(journey.getNextQuestionUrl).toHaveBeenCalledWith(
+				section.segment,
+				question.fieldName,
+				false
+			);
+		});
+		it('should set skipLinkUrl to the taskListUrl if at the end of the journey', () => {
+			const question = new MultiFileUploadQuestion({
+				title: 'Test Title',
+				question: 'Test Question',
+				fieldName: 'test-field',
+				showSkipLink: true,
+				documentType: DOCUMENT_TYPE
+			});
+
+			const journey = {
+				response: { answers: {} },
+				getBackLink: () => 'back',
+				taskListUrl: 'my-task-list',
+
+				getNextQuestionUrl: jest.fn(() => null)
+			};
+			const section = { segment: 'test-section' };
+
+			const viewModel = question.prepQuestionForRendering({ section, journey });
+
+			expect(viewModel.skipLinkUrl).toBe('my-task-list');
+			expect(viewModel.showSkipLink).toBe(true);
 		});
 	});
 
@@ -197,6 +230,26 @@ describe('MultiFileUploadQuestion', () => {
 
 			const result = question.formatAnswerForSummary('segment', journey, answer);
 			expect(result[0].value).toEqual(expectedResult);
+			expect(result[0].key).toEqual(TITLE);
+			expect(result[0].action.href).toEqual(href);
+		});
+
+		it('should return an empty string if no files are uploaded', () => {
+			const question = getMultiFileUpload();
+			const href = 'http://example.com';
+
+			const answer = {
+				uploadedFiles: []
+			};
+
+			const journey = {
+				response: { answers: {} },
+				getCurrentQuestionUrl: () => href
+			};
+
+			const result = question.formatAnswerForSummary('segment', journey, answer);
+
+			expect(result[0].value).toEqual('Not started');
 			expect(result[0].key).toEqual(TITLE);
 			expect(result[0].action.href).toEqual(href);
 		});

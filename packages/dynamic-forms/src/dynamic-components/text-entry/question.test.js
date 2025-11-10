@@ -48,6 +48,7 @@ describe('./src/dynamic-forms/dynamic-components/text-entry/question.js', () => 
 			response: {
 				answers: {}
 			},
+			getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 			getBackLink: jest.fn()
 		};
 

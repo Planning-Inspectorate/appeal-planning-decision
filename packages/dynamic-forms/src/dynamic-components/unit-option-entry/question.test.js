@@ -73,6 +73,7 @@ describe('./src/dynamic-forms/dynamic-components/unit-option-entry/question.js',
 						[CONDITIONAL_FIELDNAME]: 123
 					}
 				},
+				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: jest.fn()
 			};
 			nunjucksRenderSpy = jest.spyOn(nunjucks, 'render').mockImplementation(() => '<html>');

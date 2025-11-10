@@ -27,6 +27,7 @@ class MultiFileUploadQuestion extends Question {
 	 * @param {string} [params.description]
 	 * @param {{name: string}} [params.documentType]
 	 * @param {string} [params.html]
+	 * @param {boolean} [params.showSkipLink]
 	 * @param {string} [params.actionHiddenText] // text to be used for visually hidden text - primarily to avoid repetition of Upload with action
 	 * @param {Array<import('../../question').BaseValidator>} [params.validators]
 	 *
@@ -43,7 +44,8 @@ class MultiFileUploadQuestion extends Question {
 			documentType,
 			validators,
 			html,
-			actionHiddenText
+			actionHiddenText,
+			showSkipLink
 		},
 		methodOverrides
 	) {
@@ -57,7 +59,8 @@ class MultiFileUploadQuestion extends Question {
 				pageTitle,
 				description,
 				validators,
-				html
+				html,
+				showSkipLink
 			},
 			methodOverrides
 		);
