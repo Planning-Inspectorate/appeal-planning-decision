@@ -36,6 +36,7 @@ flowchart TD
     S20@{ shape: doc, label: "S20 Appeal" }
     CAS@{ shape: doc, label: "CAS Planning Appeal" }
     Advert@{ shape: doc, label: "Advert/CAS Advert Appeal" }
+    Enforcement@{ shape: doc, label: "Enforcement Notice Appeal" }
 
     %% questions
     lpa[LPA?]
@@ -51,12 +52,32 @@ flowchart TD
     grantedRefusedUndecided[granted/refused - undecided?]
     decisionDate[date of decision?]
     costsHouseholder[applying for costs?]
+    enforcementListedBuilding[enforcement listed building?]
+    enforcementIssueDate[enforcement issue date?]
+    enforcementEffectiveDate[enforcement effective date?]
+    didYouContactPlanningInspectorate[did you contact planning inspectorate?]
+    contactPlanningInspectorateDate[contact planning inspectorate date?]
 
     %% routing
     lpa --> enforcement
 
-    enforcement -- Yes --> acp1
+    enforcement -- v1 Yes --> acp1
+    enforcement -- v2 Yes --> enforcementListedBuilding
     enforcement -- No --> applicationType
+
+    enforcementListedBuilding -- Yes --> acp1
+    enforcementListedBuilding -- No --> enforcementIssueDate
+
+    enforcementIssueDate --> enforcementEffectiveDate
+
+    enforcementEffectiveDate -- valid date --> Enforcement
+    enforcementEffectiveDate -- current/past date --> didYouContactPlanningInspectorate
+
+    didYouContactPlanningInspectorate -- Yes --> contactPlanningInspectorateDate
+    didYouContactPlanningInspectorate -- missed deadline --> deadline
+
+    contactPlanningInspectorateDate -- valid date --> Enforcement
+    contactPlanningInspectorateDate -- missed deadline --> deadline
 
     applicationType -- v1 full/outline/reserved --> applicationAbout
     applicationType -- v2 full/outline/reserved --> decideS78A
@@ -123,5 +144,5 @@ flowchart TD
     classDef appealForm fill:#e5f8ec,stroke:#1b7f3c,color:#111,stroke-width:2px;
     classDef exitStyle fill:#ffe6e6,stroke:#d4351c,color:#111,stroke-width:2px;
 
-    class HAS_V1,S78_V1,HAS,S78,S20,Advert,CAS,legAppealForm,example appealForm;
+    class HAS_V1,S78_V1,HAS,S78,S20,Advert,CAS,legAppealForm,Enforcement,example appealForm;
 ```

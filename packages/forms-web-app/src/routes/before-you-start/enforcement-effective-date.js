@@ -2,26 +2,26 @@ const express = require('express');
 const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
 const convertMonthNameToNumber = require('../../middleware/convert-month-name-to-number');
 const combineDateInputsMiddleware = require('../../middleware/combine-date-inputs');
-const enforcementIssueDateController = require('../../controllers/before-you-start/enforcement-issue-date');
+const enforcementEffectiveDateController = require('../../controllers/before-you-start/enforcement-effective-date');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
-	rules: enforcementIssueDateValidationRules
-} = require('../../validators/before-you-start/enforcement-issue-date');
+	rules: enforcementEffectiveDateValidationRules
+} = require('../../validators/before-you-start/enforcement-effective-date');
 
 const router = express.Router();
 
 router.get(
-	'/enforcement-issue-date',
+	'/enforcement-effective-date',
 	[fetchExistingAppealMiddleware],
-	enforcementIssueDateController.getEnforcementIssueDate
+	enforcementEffectiveDateController.getEnforcementEffectiveDate
 );
 
 router.post(
-	'/enforcement-issue-date',
+	'/enforcement-effective-date',
 	[fetchExistingAppealMiddleware, convertMonthNameToNumber, combineDateInputsMiddleware],
-	enforcementIssueDateValidationRules(),
+	enforcementEffectiveDateValidationRules(),
 	validationErrorHandler,
-	enforcementIssueDateController.postEnforcementIssueDate
+	enforcementEffectiveDateController.postEnforcementEffectiveDate
 );
 
 module.exports = router;

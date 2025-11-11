@@ -93,14 +93,15 @@ describe('controllers/before-you-start/enforcement-issue-date', () => {
 				}
 			};
 
-			const error = new Error('Cheers');
+			const error = 'RangeError: Invalid time value';
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
-			isLpaInFeatureFlag.mockReturnValue(true);
 
 			await postEnforcementIssueDate(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(logger.error).toHaveBeenCalledWith(error);
+			expect(logger.error).toHaveBeenCalledWith(
+				expect.objectContaining({ message: 'Invalid time value' })
+			);
 
 			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_ISSUE_DATE, {
 				appeal: req.session.appeal,
@@ -115,7 +116,8 @@ describe('controllers/before-you-start/enforcement-issue-date', () => {
 				body: {
 					'enforcement-issue-date-day': 12,
 					'enforcement-issue-date-month': 12,
-					'enforcement-issue-date-year': 2024
+					'enforcement-issue-date-year': 2024,
+					'enforcement-issue-date': '2024-12-12'
 				}
 			};
 			isLpaInFeatureFlag.mockReturnValue(false);
