@@ -780,8 +780,9 @@ model AppellantSubmission {
   statusPlanningObligation                       String?
 
   // radio
-  majorMinorDevelopment String?
-  typeDevelopment       String?
+  majorMinorDevelopment     String?
+  typeDevelopment           String?
+  enforcementWhoIsAppealing String?
 
   // plain text
   applicationReference           String?
@@ -790,6 +791,7 @@ model AppellantSubmission {
   contactPhoneNumber             String?
   appellantPreferHearingDetails  String?
   appellantPreferInquiryDetails  String?
+  enforcementOrganisationName    String?
 
   // number entries
   siteAreaSquareMetres            Decimal?
@@ -824,6 +826,9 @@ model AppellantSubmission {
   SubmissionListedBuilding  SubmissionListedBuilding[]
   siteGridReferenceEasting  String?
   siteGridReferenceNorthing String?
+
+  // enforcement
+  SubmissionIndividual SubmissionIndividual[]
 }
 
 /// LPAQuestionnaireSubmission represents the questionnaire responses from an LPAUser
@@ -1192,6 +1197,25 @@ model SubmissionAddress {
 
   // indexes
   @@index([questionnaireId])
+  @@index([appellantSubmissionId])
+}
+
+model SubmissionIndividual {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  appellantSubmissionId String              @db.UniqueIdentifier
+  AppellantSubmission   AppellantSubmission @relation(fields: [appellantSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  firstName String
+  lastName  String
+
+  // the fieldName of the submission question / subquestion - required for display filtering
+  fieldName String
+
+  interestInAppealLand            String? // 'owner', 'mortgage lender', 'tenant', 'other'
+  interestInAppealLandDescription String? // required is interest is 'other'
+
+  // indexes
   @@index([appellantSubmissionId])
 }
 

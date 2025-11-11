@@ -19,6 +19,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppealUser} AppealUser
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
+ * @typedef {import('appeals-service-api').Api.SubmissionIndividual} SubmissionIndividual
  * @typedef {import('appeals-service-api').Api.Event} Event
  * @typedef {import('appeals-service-api').Api.ServiceUser} ServiceUserAPI
  * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealHASCase} AppealHASCase
@@ -977,6 +978,30 @@ class AppealsApiClient {
 		if (!endpoint) {
 			throw new Error(`unknown journey type: ${journeyId}`);
 		}
+
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} referenceId
+	 * @param {SubmissionIndividual} data
+	 * @returns {Promise<(AppellantSubmission)>}
+	 */
+	async postSubmissionIndividual(referenceId, data) {
+		const endpoint = `${v2}/appellant-submissions/${referenceId}/individual`;
+
+		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} referenceId
+	 * @param {string} individualId
+	 * @returns {Promise<(AppellantSubmission)>}
+	 */
+	async deleteSubmissionIndividual(referenceId, individualId) {
+		const endpoint = `${v2}/appellant-submissions/${referenceId}/individual/${individualId}`;
 
 		const response = await this.#makeDeleteRequest(endpoint);
 		return response.json();

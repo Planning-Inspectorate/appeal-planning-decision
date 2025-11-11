@@ -43,6 +43,16 @@ exports.getListedBuildingForQuestion = (journeyResponse, fieldName) => {
 	return listedBuildings.filter((listedBuilding) => listedBuilding.fieldName == fieldName);
 };
 
+/**
+ * @param {JourneyResponse} journeyResponse
+ * @param {string} fieldName
+ */
+exports.getIndividualsForQuestion = (journeyResponse, fieldName) => {
+	const namedIndividuals = journeyResponse.answers?.SubmissionIndividual || [];
+
+	return namedIndividuals.filter((namedIndividual) => namedIndividual.fieldName == fieldName);
+};
+
 exports.DIVIDER = 'divider';
 /** @type {(maybeDivider: import('../../question-props').Option) => maybeDivider is { divider: string }} */
 exports.optionIsDivider = (maybeDivider) => Object.hasOwn(maybeDivider, exports.DIVIDER);

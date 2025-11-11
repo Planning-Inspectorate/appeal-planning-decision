@@ -4,6 +4,7 @@
  * @property {DynamicFormFieldName} affectedListedBuildingNumber
  * @property {DynamicFormFieldName} appellantLinkedCaseReference
  * @property {DynamicFormFieldName} nearbyAppealReference
+ * @property {DynamicFormFieldName} enforcementNamedIndividual
  */
 
 /**
@@ -11,6 +12,7 @@
  *   | 'affectedListedBuildingNumber'
  *   | 'appellantLinkedCaseReference'
  *   | 'nearbyAppealReference'
+ * 	 | 'enforcementNamedIndividual'
  * } DynamicFormFieldName
  */
 
@@ -21,5 +23,6 @@ exports.fieldNames = Object.freeze({
 	changedListedBuildingNumber: 'changedListedBuildingNumber',
 	affectedListedBuildingNumber: 'affectedListedBuildingNumber',
 	appellantLinkedCaseReference: 'appellantLinkedCaseReference',
-	nearbyAppealReference: 'nearbyAppealReference'
+	nearbyAppealReference: 'nearbyAppealReference',
+	enforcementNamedIndividual: 'enforcementNamedIndividual'
 });

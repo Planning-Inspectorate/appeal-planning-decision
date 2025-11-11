@@ -2727,6 +2727,165 @@ exports.questionProps = {
 			}
 		]
 	},
+	//enforcement questions
+	enforcementWhoIsAppealing: {
+		type: 'radio',
+		title: 'Who is appealing against the enforcement notice?',
+		question: 'Who is appealing against the enforcement notice?',
+		fieldName: 'enforcementWhoIsAppealing',
+		url: 'who-is-appealing',
+		validators: [new RequiredValidator('Select who is appealing against the enforcement notice')],
+		options: [
+			{
+				text: 'An individual',
+				value: fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+			},
+			{
+				text: 'A group of individuals',
+				value: fieldValues.enforcementWhoIsAppealing.GROUP,
+				hint: {
+					text: 'If at least 2 people are named on the enforcement notice.'
+				}
+			},
+			{
+				text: 'An organisation',
+				value: fieldValues.enforcementWhoIsAppealing.ORGANISATION,
+				hint: {
+					text: 'Includes limited companies, partnerships, charities, trusts and estates.'
+				}
+			}
+		]
+	},
+	enforcementIndividualName: {
+		type: 'multi-field-input',
+		title: 'What is the name of the individual appealing against the enforcement notice?',
+		question: 'What is the name of the individual appealing against the enforcement notice?',
+		// html: 'resources/your-details/applicant-name.html',
+		fieldName: 'enforcementIndividualName',
+		url: 'individual-name',
+		formatType: 'contactDetails',
+		inputFields: [
+			{
+				fieldName: 'appellantFirstName',
+				label: 'First name',
+				formatJoinString: ' ',
+				attributes: { spellcheck: 'false', autocomplete: 'given-name' }
+			},
+			{
+				fieldName: 'appellantLastName',
+				label: 'Last name',
+				formatJoinString: '\n',
+				attributes: { spellcheck: 'false', autocomplete: 'family-name' }
+			}
+		],
+		validators: [
+			new MultiFieldInputValidator({
+				requiredFields: [
+					{
+						fieldName: 'appellantFirstName',
+						errorMessage: "Enter the individual's first name",
+						maxLength: {
+							maxLength: 250,
+							maxLengthMessage: 'First name must be 250 characters or less'
+						}
+					},
+					{
+						fieldName: 'appellantLastName',
+						errorMessage: "Enter the individual's last name",
+						maxLength: {
+							maxLength: 250,
+							maxLengthMessage: 'Last name must be 250 characters or less'
+						}
+					}
+				],
+				noInputsMessage: "Enter the individual's name"
+			})
+		]
+	},
+	enforcementAreYouIndividual: {
+		type: 'boolean',
+		title: `Are you ${QUESTION_VARIABLES.INDIVIDUAL_NAME}?`,
+		question: `Are you ${QUESTION_VARIABLES.INDIVIDUAL_NAME}?`,
+		fieldName: 'isAppellant',
+		url: 'are-you-individual',
+		validators: [
+			new RequiredValidator(`Select yes if you are ${QUESTION_VARIABLES.INDIVIDUAL_NAME}`)
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				attributes: { 'data-cy': 'answer-yes' }
+			},
+			{
+				text: `No, I am appealing on behalf of ${QUESTION_VARIABLES.INDIVIDUAL_NAME}`,
+				value: 'no',
+				attributes: { 'data-cy': 'answer-no' }
+			}
+		],
+		variables: [QUESTION_VARIABLES.INDIVIDUAL_NAME]
+	},
+	enforcementOrganisationName: {
+		type: 'single-line-input',
+		title: 'What is the name of the organisation?',
+		question: 'What is the name of the organisation?',
+		fieldName: 'enforcementOrganisationName',
+		url: 'organisation-name',
+		hint: 'Enter the name of the organisation on the enforcement notice.',
+		validators: [
+			new RequiredValidator('Enter the name of the organisation'),
+			new StringValidator({
+				maxLength: {
+					maxLength: 250,
+					maxLengthMessage: `Organisation name must be 250 characters or less`
+				}
+			})
+		]
+	},
+	enforcementAddNamedIndividuals: {
+		type: 'list-add-more',
+		title: 'Add named individuals',
+		pageTitle: 'Enforcement named individual added',
+		question: 'Do you need to add another individual?',
+		fieldName: 'appellantLinkedCaseAdd',
+		url: 'add-individuals',
+		subQuestionLabel: 'Appellant',
+		subQuestionTitle: 'Appellant',
+		subQuestionInputClasses: 'govuk-input--width-25',
+		width: ListAddMoreQuestion.FULL_WIDTH,
+		// validators: [new RequiredValidator()],
+		subQuestionProps: {
+			type: 'individual',
+			title: 'What is the name of the individual appealing against the enforcement notice?',
+			question: 'What is the name of the individual appealing against the enforcement notice?',
+			fieldName: fieldNames.enforcementNamedIndividual,
+			url: 'individual-name',
+			viewFolder: 'individual',
+			validators: [
+				new MultiFieldInputValidator({
+					requiredFields: [
+						{
+							fieldName: 'firstName',
+							errorMessage: "Enter the individual's first name",
+							maxLength: {
+								maxLength: 250,
+								maxLengthMessage: 'First name must be 250 characters or less'
+							}
+						},
+						{
+							fieldName: 'lastName',
+							errorMessage: "Enter the individual's last name",
+							maxLength: {
+								maxLength: 250,
+								maxLengthMessage: 'Last name must be 250 characters or less'
+							}
+						}
+					],
+					noInputsMessage: "Enter the individual's name"
+				})
+			]
+		}
+	},
 	highwayLand: {
 		type: 'boolean',
 		title: 'Is the appeal site on highway land?',

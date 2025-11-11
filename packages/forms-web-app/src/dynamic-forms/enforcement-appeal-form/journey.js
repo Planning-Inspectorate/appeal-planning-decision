@@ -13,11 +13,25 @@ const {
 	CASE_TYPES: { ENFORCEMENT }
 } = require('@pins/common/src/database/data-static');
 const config = require('../../config');
+const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
+// const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  * @typedef {Omit<ConstructorParameters<typeof import('@pins/dynamic-forms/src/journey').Journey>[0], 'response'>} JourneyParameters
  */
+
+// const escape = require('escape-html');
+/**
+ * @param {JourneyResponse} response
+ * @returns {string}
+ */
+
+// const formatEnforcementIndividualName = (response) => {
+// 	return escape(
+// 		`${response.answers['appellantFirstName']} ${response.answers['appellantLastName']}`
+// 	);
+// };
 
 /**
  * @param {JourneyResponse} response
@@ -25,9 +39,36 @@ const config = require('../../config');
  */
 const makeSections = (response) => [
 	new Section('Prepare appeal', 'prepare-appeal')
-		.addQuestion(questions.applicationName)
-		.addQuestion(questions.applicantName)
-		.withCondition(() => questionHasAnswer(response, questions.applicationName, 'no'))
+		.addQuestion(questions.enforcementWhoIsAppealing)
+		.addQuestion(questions.enforcementIndividualName)
+		.withCondition(() =>
+			questionHasAnswer(
+				response,
+				questions.enforcementWhoIsAppealing,
+				fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+			)
+		)
+		// .addQuestion(questions.enforcementAreYouIndividual)
+		// .withCondition(() =>
+		// 	questionHasAnswer(
+		// 		response,
+		// 		questions.enforcementWhoIsAppealing,
+		// 		fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+		// 	)
+		// )
+		// .withVariables({
+		// 	[QUESTION_VARIABLES.INDIVIDUAL_NAME]: formatEnforcementIndividualName(response)
+		// })
+		.addQuestion(questions.enforcementOrganisationName)
+		.withCondition(() =>
+			questionHasAnswer(
+				response,
+				questions.enforcementWhoIsAppealing,
+				fieldValues.enforcementWhoIsAppealing.ORGANISATION
+			)
+		)
+		.addQuestion(questions.contactDetails)
+		.addQuestion(questions.contactPhoneNumber)
 ];
 
 const baseEnforcementSubmissionUrl = `/appeals/${ENFORCEMENT.friendlyUrl}`;

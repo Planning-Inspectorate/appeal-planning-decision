@@ -24,5 +24,10 @@ exports.fieldValues = Object.freeze({
 	},
 	designatedSites: {
 		other: 'other'
+	},
+	enforcementWhoIsAppealing: {
+		INDIVIDUAL: 'individual',
+		GROUP: 'group',
+		ORGANISATION: 'organisation'
 	}
 });

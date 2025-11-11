@@ -5711,7 +5711,7 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) renders
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the applicant-name question 1`] = `
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the contact-details question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -5725,25 +5725,24 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
             <form action="" method="post" novalidate=null>
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <h1 class="govuk-fieldset__heading"> What is the applicant&#39;s name?</h1>
+                        <h1 class="govuk-fieldset__heading"> Contact details</h1>
                     </legend>
-                    <p class="govuk-hint">Enter the name as it's written on the application form.</p>
                     <div class="govuk-form-group">
-                        <label class="govuk-label govuk-label" for="appellantFirstName">First name</label>
+                        <label class="govuk-label govuk-label" for="contactFirstName">First name</label>
                         <input class="govuk-input govuk-input-!-width-three-quarters"
-                        id="appellantFirstName" name="appellantFirstName" type="text" spellcheck="false"
+                        id="contactFirstName" name="contactFirstName" type="text" spellcheck="false"
                         autocomplete="given-name">
                     </div>
                     <div class="govuk-form-group">
-                        <label class="govuk-label govuk-label" for="appellantLastName">Last name</label>
+                        <label class="govuk-label govuk-label" for="contactLastName">Last name</label>
                         <input class="govuk-input govuk-input-!-width-three-quarters"
-                        id="appellantLastName" name="appellantLastName" type="text" spellcheck="false"
+                        id="contactLastName" name="contactLastName" type="text" spellcheck="false"
                         autocomplete="family-name">
                     </div>
                     <div class="govuk-form-group">
-                        <label class="govuk-label govuk-label" for="appellantCompanyName">Company name (optional)</label>
+                        <label class="govuk-label govuk-label" for="contactCompanyName">Organisation name (optional)</label>
                         <input class="govuk-input govuk-input-!-width-three-quarters"
-                        id="appellantCompanyName" name="appellantCompanyName" type="text" spellcheck="false">
+                        id="contactCompanyName" name="contactCompanyName" type="text" spellcheck="false">
                     </div>
                 </fieldset>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
@@ -5760,7 +5759,50 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the application-name question 1`] = `
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the individual-name question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> What is the name of the individual appealing against the enforcement notice?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label" for="appellantFirstName">First name</label>
+                        <input class="govuk-input govuk-input-!-width-three-quarters"
+                        id="appellantFirstName" name="appellantFirstName" type="text" spellcheck="false"
+                        autocomplete="given-name">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label govuk-label" for="appellantLastName">Last name</label>
+                        <input class="govuk-input govuk-input-!-width-three-quarters"
+                        id="appellantLastName" name="appellantLastName" type="text" spellcheck="false"
+                        autocomplete="family-name">
+                    </div>
+                </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the organisation-name question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -5773,27 +5815,104 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="isAppellant-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Was the application made in your name?</h1>
-                        </legend>
-                        <div id="isAppellant-hint" class="govuk-hint">If you are not the applicant, you must have their permission to submit
-                            an appeal on their behalf.</div>
-                        <div class="govuk-radios govuk-radios"
-                        data-module="govuk-radios">
+                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="enforcementOrganisationName"> What is the name of the organisation?</label></h1>
+                    <div id="enforcementOrganisationName-hint" class="govuk-hint">Enter the name of the organisation on the enforcement notice.</div>
+                    <input
+                    class="govuk-input govuk-input--width-10" id="enforcementOrganisationName"
+                    name="enforcementOrganisationName" type="text" value="" aria-describedby="enforcementOrganisationName-hint">
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the phone-number question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-heading-l"> What is your phone number?</h1>
+                <p class="govuk-body">We may use your phone number to contact you about the appeal.</p>
+                <div
+                class="govuk-form-group">
+                    <label class="govuk-label govuk-label" for="contactPhoneNumber">UK telephone number</label>
+                    <div id="contactPhoneNumber-hint" class="govuk-hint"></div>
+                    <input class="govuk-input govuk-input--width-10" id="contactPhoneNumber"
+                    name="contactPhoneNumber" type="tel" value="" aria-describedby="contactPhoneNumber-hint"
+                    autocomplete="tel">
+        </div>
+        <button type="submit" class="govuk-button" data-module="govuk-button"
+        data-cy="button-save-and-continue">Continue</button>
+        </form>
+    </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the who-is-appealing question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Who is appealing against the enforcement notice?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="isAppellant" name="isAppellant"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="isAppellant">Yes, the application was made in my name</label>
+                                <input class="govuk-radios__input" id="enforcementWhoIsAppealing" name="enforcementWhoIsAppealing"
+                                type="radio" value="individual" data-cy="answer-individual">
+                                <label class="govuk-label govuk-radios__label" for="enforcementWhoIsAppealing">An individual</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="isAppellant-2" name="isAppellant"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="isAppellant-2">No, I&#39;m acting on behalf of the applicant</label>
+                                <input class="govuk-radios__input" id="enforcementWhoIsAppealing-2" name="enforcementWhoIsAppealing"
+                                type="radio" value="group" aria-describedby="enforcementWhoIsAppealing-2-item-hint"
+                                data-cy="answer-group">
+                                <label class="govuk-label govuk-radios__label" for="enforcementWhoIsAppealing-2">A group of individuals</label>
+                                <div id="enforcementWhoIsAppealing-2-item-hint"
+                                class="govuk-hint govuk-radios__hint">If at least 2 people are named on the enforcement notice.</div>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementWhoIsAppealing-3" name="enforcementWhoIsAppealing"
+                                type="radio" value="organisation" aria-describedby="enforcementWhoIsAppealing-3-item-hint"
+                                data-cy="answer-organisation">
+                                <label class="govuk-label govuk-radios__label" for="enforcementWhoIsAppealing-3">An organisation</label>
+                                <div id="enforcementWhoIsAppealing-3-item-hint"
+                                class="govuk-hint govuk-radios__hint">Includes limited companies, partnerships, charities, trusts and estates.</div>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
+                    </div>
+                </fieldset>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
             </form>
@@ -5865,10 +5984,21 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">1. </span> Prepare appeal<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Was the application made in your name? </dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who is appealing against the enforcement notice?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/application-name?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Was the application made in your name?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/who-is-appealing?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Who is appealing against the enforcement notice?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Contact details</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/contact-details?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Contact details</span></a>
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is your phone number?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/phone-number?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is your phone number?</span></a>
                                 </dd>
                         </div>
                     </dl>
