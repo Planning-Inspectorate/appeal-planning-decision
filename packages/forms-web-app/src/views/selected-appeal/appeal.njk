@@ -53,14 +53,12 @@
    				{% set html %}
 					<p class="govuk-notification-banner__heading">
 						You must submit this statement by {{appeal.statementDueDate}}.&nbsp
-							<ul>
-								<li>
-									<a href="/manage-appeals/appeal-statement/{{appeal.appealNumber}}/entry" class="govuk-link">
-										Submit statement
-										<span class="govuk-visually-hidden"> for {{appeal.appealNumber}}</span>
-									</a>.
-								</li>
-							</ul>
+							<p>
+								<a href="/manage-appeals/appeal-statement/{{appeal.appealNumber}}/entry" class="govuk-link">
+									Submit statement
+									<span class="govuk-visually-hidden"> for {{appeal.appealNumber}}</span>
+								</a>
+							</p>
 					</p>
 				{% endset %}
 
@@ -74,14 +72,12 @@
    				{% set html %}
 					<p class="govuk-notification-banner__heading">
 						You must submit this statement by {{appeal.rule6StatementDueDate}}.&nbsp
-							<ul>
-								<li>
-									<a href="/rule-6/appeal-statement/{{appeal.appealNumber}}/entry" class="govuk-link">
-										Submit statement
-										<span class="govuk-visually-hidden"> for {{appeal.appealNumber}}</span>
-									</a>.
-								</li>
-							</ul>
+							<p>
+								<a href="/rule-6/appeal-statement/{{appeal.appealNumber}}/entry" class="govuk-link">
+									Submit statement
+									<span class="govuk-visually-hidden"> for {{appeal.appealNumber}}</span>
+								</a>
+							</p>
 					</p>
 				{% endset %}
 
