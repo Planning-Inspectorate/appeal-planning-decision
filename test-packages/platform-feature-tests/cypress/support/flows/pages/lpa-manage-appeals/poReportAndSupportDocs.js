@@ -12,14 +12,16 @@ export class PoReportAndSupportDocs {
         infrastructureLevyExpectedDateMonth: '#infrastructureLevyExpectedDate_month',
         infrastructureLevyExpectedDateYear: '#infrastructureLevyExpectedDate_year'
     }
-    selectPOReportAndSupportDocsHas(context) {
+    selectPOReportAndSupportDocsHas(context, lpaManageAppealsData, lpaAppealType) {
         const basePage = new BasePage();
         // Upload the planning officer’s report or what your decision notice would have said
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
         cy.advanceToNextPage();
         // Upload the plans, drawings and list of plans
-        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPlansDrawings);
-        cy.advanceToNextPage();
+        if (lpaAppealType === lpaManageAppealsData?.hasAppealType) {
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPlansDrawings);
+            cy.advanceToNextPage();
+        }
         // Do you have any relevant policies from your statutory development plan?
         cy.getByData(basePage?._selectors.answerYes).click();
         cy.advanceToNextPage();
@@ -31,10 +33,10 @@ export class PoReportAndSupportDocs {
         const basePage = new BasePage();
         //Upload the planning officer’s report or what your decision notice would have said
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
-        cy.advanceToNextPage();       
-        
+        cy.advanceToNextPage();
+
     };
-     //Select relevant policies from your statutory development plan
+    //Select relevant policies from your statutory development plan
     selectStatuorydevelopmentplan(context) {
         const basePage = new BasePage();
         if (context?.poReportAndSupportDocs?.isSelectStatuaryPlan) {
@@ -72,7 +74,7 @@ export class PoReportAndSupportDocs {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
         }
-        
+
     };
 
     selectOtherRelevantPolicies(context) {
@@ -87,7 +89,7 @@ export class PoReportAndSupportDocs {
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
-        }       
+        }
     };
 
     selectSupplementaryPlanningDocs(context) {

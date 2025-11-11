@@ -1,11 +1,11 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
-import { houseHolderQuestionnaireTestCases } from "../../helpers/lpaManageAppeals/houseHolderQuestionnaireData";
+import { casPlanningQuestionnaireTestCases } from "../../helpers/lpaManageAppeals/casPlanningQuestionnaireData";
 import { users } from '../../fixtures/users.js';
 const { householderQuestionnaire } = require('../../support/flows/sections/lpaManageAppeals/houseHolderQuestionnaire');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-describe('House Holder Questionnaire Test Cases', { tags: '@HAS-LPAQ-Submission' }, () => {
+describe('CAS Planning Questionnaire Test Cases', { tags: '@CAS-Planning-LPAQ-Submission' }, () => {
         const yourAppealsSelector = new YourAppealsSelector();
         let lpaManageAppealsData;
         before(() => {
@@ -28,12 +28,12 @@ describe('House Holder Questionnaire Test Cases', { tags: '@HAS-LPAQ-Submission'
                 });
 
         });
-        // Iterate through each test case in the houseHolderQuestionnaireTestCases array
+        // Iterate through each test case in the casPlanningQuestionnaireTestCases array
         // Each test case will be executed with the provided context data
-        houseHolderQuestionnaireTestCases.forEach((context) => {
+        casPlanningQuestionnaireTestCases.forEach((context) => {
 
                 it(`
-            Should validate House holder questionnaire screen, Appeal Type: HAS 
+            Should validate CAS Planning questionnaire screen, Appeal Type: CAS
             - User selects correct type of appeal ${context.constraintsAndDesignations?.isCorrectTypeOfAppeal}
             - User selects affect listed buildings ${context.constraintsAndDesignations?.isAffectListedBuildings}
             - User selects affected listed buidings ${context.constraintsAndDesignations?.isAffectedListedBuildings}
@@ -50,7 +50,7 @@ describe('House Holder Questionnaire Test Cases', { tags: '@HAS-LPAQ-Submission'
             - User selects nearby appeals${context.appealProcess?.isNearbyAppeals}
             - User selects new conditions${context.appealProcess?.isNewConditions}          
              `, () => {
-                        householderQuestionnaire(context, lpaManageAppealsData, lpaManageAppealsData?.hasAppealType);
+                        householderQuestionnaire(context, lpaManageAppealsData, lpaManageAppealsData?.casPlanningAppealType);
                 });
         });
 });

@@ -11,7 +11,10 @@ import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportA
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
 import { waitingForReview } from "../../pages/lpa-manage-appeals/waitingForReview";
 
-export const householderQuestionnaire = (context, lpaManageAppealsData) => {
+// Unified questionnaire flow for Householder and CAS Planning (adverts) appeals.
+// Behavioural differences controlled by passed lpaAppealType and optional context flags.
+// Mirrors the generic questionnaire flow pattern while keeping HAS-specific steps that differ from S78.
+export const householderQuestionnaire = (context, lpaManageAppealsData, lpaAppealType, caseRef = '') => {
 	const basePage = new BasePage();
 	const constraintsAndDesignations = new ConstraintsAndDesignations();
 	const consultResponseAndRepresent = new ConsultResponseAndRepresent();
@@ -19,66 +22,105 @@ export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 	const siteAccess = new SiteAccess();
 	const notifyParties = new NotifyParties();
 	const poReportAndSupportDocs = new PoReportAndSupportDocs();
-	let appealId;
-	let counter = 0;
-	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-		const rowtext = $row.text();
-		if (rowtext.includes(lpaManageAppealsData?.hasAppealType) && rowtext.includes(lpaManageAppealsData?.todoQuestionnaire)) {
-			if (counter === 0) {
-				cy.wrap($row).within(() => {
-					cy.get(basePage?._selectors.trgovukTableCell).contains(lpaManageAppealsData?.hasAppealType).should('be.visible');
-					cy.get('a').each(($link) => {
-						cy.log($link.attr('href'));
-						if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
-							appealId = $link.attr('href')?.split('/').pop();
-							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
-							return false;
-						}
-					});
-				});
-			}
-			counter++;
+
+	let appealId = '';
+	const targetAppealType = lpaAppealType || lpaManageAppealsData?.hasAppealType; // fallback
+	const rowNumberOfAppealQuestionnaire = 0; // first matching row
+	let rowCounter = 0;
+	let linkFound = false;
+
+	const selectAppealRow = () => {
+		if (caseRef) {
+			return cy.contains('a.govuk-link', caseRef).should('be.visible').then($a => {
+				appealId = caseRef;
+				// navigate into questionnaire if needed
+				cy.contains('a.govuk-link', 'Submit questionnaire').click();
+				return $a;
+			});
 		}
-	}).then(() => {
+		return cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
+			if (linkFound) return false;
+			if ($row.find('th').length > 0) return; // skip header
+			const $tds = $row.find('td');
+			if ($tds.length < 6) return; // ensure expected columns
+			const appealTypeText = $tds.eq(2).text().trim();
+			const todoText = $tds.eq(5).text().trim();
+			if (appealTypeText === targetAppealType && todoText.includes(lpaManageAppealsData?.todoQuestionnaire)) {
+				if (rowCounter === rowNumberOfAppealQuestionnaire) {
+					const $link = $tds.eq(5).find('a');
+					if ($link.attr('href')?.includes(lpaManageAppealsData?.questionnaireLink)) {
+						appealId = $link.attr('href')?.split('/').pop();
+						$link[0].scrollIntoView();
+						$link[0].click();
+						linkFound = true;
+						return false;
+					}
+				}
+				rowCounter++;
+			}
+		});
+	};
+
+	selectAppealRow().then(() => {
 		cy.url().should('include', `/manage-appeals/questionnaire/${appealId}`);
+		// Verify appeal type shown matches expectation (Householder or provided type)
 		cy.get(basePage?._selectors.dlgovukSummaryListAppealDetails).within(() => {
 			cy.get(basePage?._selectors.govukSummaryListRow).each(($row) => {
 				const $key = $row.find(basePage?._selectors.govukSummaryListKey);
 				if ($key.text().trim() === lpaManageAppealsData?.appealType) {
-					cy.wrap($row).find(basePage?._selectors.govukSummaryListValue).should('contain.text', lpaManageAppealsData?.appealTypeHouseholder);
+					// Determine expected value: householder, or fallback, or passed type
+					const expected = targetAppealType === lpaManageAppealsData?.hasAppealType
+						? lpaManageAppealsData?.appealTypeHouseholder
+						: (lpaManageAppealsData?.appealTypeCASPlanning || targetAppealType);
+					cy.wrap($row).find(basePage?._selectors.govukSummaryListValue).should('contain.text', expected);
 					return false;
 				}
 			});
 		});
-		cy.contains(lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealHouseHolder).closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then($link => {
-			if ($link.text().includes(lpaManageAppealsData?.questionnaireAnswer)) {
-				cy.wrap($link).contains(lpaManageAppealsData?.questionnaireAnswer).click();
-			} else {
-				cy.wrap($link).contains(lpaManageAppealsData?.questionnaireChange).click();
-			}
-		});
+
+		// Determine the correct "Is this the correct type" label.
+		const correctTypeText = targetAppealType === lpaManageAppealsData?.casPlanningAppealType
+			? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealCASPlanning
+			: lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealHouseHolder;
+
+		cy.contains(correctTypeText)
+			.closest(basePage?._selectors.govukSummaryListRow)
+			.find(basePage?._selectors.agovukLink)
+			.then($link => {
+				if ($link.text().includes(lpaManageAppealsData?.questionnaireAnswer)) {
+					cy.wrap($link).contains(lpaManageAppealsData?.questionnaireAnswer).click();
+				} else {
+					cy.wrap($link).contains(lpaManageAppealsData?.questionnaireChange).click();
+				}
+			});
+
+		// Constraints & designations subset needed for HAS / CAS
 		constraintsAndDesignations.selectCorrectTypeOfAppeal(context);
 		constraintsAndDesignations.selectAffectListedBuildings(context, lpaManageAppealsData);
 		constraintsAndDesignations.selectConservationArea(context);
 		constraintsAndDesignations.selectGreenBelt(context);
+
+		// Notify & representations
 		notifyParties.selectAndNotifyParties(context, lpaManageAppealsData);
 		consultResponseAndRepresent.selectOtherPartyRepresentations(context);
-		//Planning officer's report and supplementary documents
-		poReportAndSupportDocs.selectPOReportAndSupportDocsHas(context);
+
+		// Planning officer's report & supporting docs (plans step internally skipped for CAS if not householder) 
+		poReportAndSupportDocs.selectPOReportAndSupportDocsHas(context, lpaManageAppealsData, targetAppealType);
 		poReportAndSupportDocs.selectEmergingPlansHas(context);
 		poReportAndSupportDocs.selectSupplementaryPlanningDocs(context);
 
-		//Site access
+		// Site access
 		siteAccess.selectLpaSiteAccess(context, lpaManageAppealsData);
 		siteAccess.selectNeighbourSiteAccess(context, lpaManageAppealsData);
 		siteAccess.selectLpaSiteSafetyRisks(context, lpaManageAppealsData);
-		// Appeals Access
+
+		// Appeals process
 		appealProcess.selectNearbyAppeals(context, lpaManageAppealsData, lpaManageAppealsData?.hasAppealType);
 		appealProcess.selectNewConditions(context, lpaManageAppealsData);
 
-		// commented for test during coding
+		// Submit
 		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
-		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);		
+		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
 		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();
 		waitingForReview(appealId);
 	});
