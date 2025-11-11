@@ -146,7 +146,7 @@
 143;E60000150;V0510;East Cambridgeshire;appeals@eastcambs.gov.uk;eastcambs.gov.uk;TRUE\n
 144;E60000151;D0515;Fenland;planningappeals@fenland.gov.uk;fenland.gov.uk;TRUE\n
 145;E60000152;H0520;Huntingdonshire;planning.appeals@huntingdonshire.gov.uk;huntingdonshire.gov.uk;TRUE\n
-146;E60000153;W0530;South Cambridgeshire;DSAppeals@scambs.gov.uk;scambs.gov.uk;TRUE\n
+146;E60000153;W0530;South Cambridgeshire;appeals@scambs.gov.uk;scambs.gov.uk;TRUE\n
 147;E60000154;V1505;Basildon;appeals@basildon.gov.uk;basildon.gov.uk;TRUE\n
 148;E60000155;Z1510;Braintree;appeals@braintree.gov.uk;braintree.gov.uk;TRUE\n
 149;E60000156;H1515;Brentwood;planning@brentwood.gov.uk;brentwood.gov.uk;TRUE\n
@@ -249,7 +249,7 @@
 247;E60000258;K2230;Gravesham;planning.appeals@gravesham.gov.uk;gravesham.gov.uk;TRUE\n
 248;E60000259;U2235;Maidstone;planningappeals@maidstone.gov.uk;maidstone.gov.uk;TRUE\n
 249;E60000260;G2245;Sevenoaks;appeals@sevenoaks.gov.uk;sevenoaks.gov.uk;TRUE\n
-250;E60000261;V2255;Swale;appeals@swale.gov.uk;swale.gov.uk;TRUE\n
+250;E60000261;V2255;Swale;planningappeals@midkent.gov.uk;midkent.gov.uk;TRUE\n
 251;E60000262;Z2260;Thanet;planning.services@thanet.gov.uk;thanet.gov.uk;TRUE\n
 252;E60000263;H2265;Tonbridge and Malling;planning.appeals@tmbc.gov.uk;tmbc.gov.uk;TRUE\n
 253;E60000264;M2270;Tunbridge Wells;planningappeals@tunbridgewells.gov.uk;tunbridgewells.gov.uk;TRUE\n
@@ -297,7 +297,7 @@
 294;E60000305;P1133;Teignbridge;planningappeals@teignbridge.gov.uk;teignbridge.gov.uk;TRUE\n
 295;E60000306;W1145;Torridge;planningsupport@torridge.gov.uk;torridge.gov.uk;TRUE\n
 296;E60000307;Q1153;West Devon;dc@westdevon.gov.uk;westdevon.gov.uk;TRUE\n
-297;E60000308;B1605;Cheltenham Borough Council;planningappeals@cheltenham.gov.uk;cheltenham.gov.uk;TRUE\n
+297;E60000308;B1605;Cheltenham Borough Council;planning.appeals@cheltenham.gov.uk;cheltenham.gov.uk;TRUE\n
 298;E60000309;F1610;Cotswold;planning.appeals@cotswold.gov.uk;cotswold.gov.uk;TRUE\n
 299;E60000310;P1615;Forest of Dean;planning.appeals@fdean.gov.uk;fdean.gov.uk;TRUE\n
 300;E60000311;U1620;Gloucester City;business.support@gloucester.gov.uk;gloucester.gov.uk;TRUE\n
@@ -309,7 +309,7 @@
 306;E60000317;R3325;South Somerset;planningappeals@southsomerset.gov.uk;southsomerset.gov.uk;FALSE\n
 307;E60000318;J9497;Dartmoor National Park;planning@dartmoor.gov.uk;dartmoor.gov.uk;TRUE\n
 308;E60000319;F9498;Exmoor National Park;plan@exmoor-nationalpark.gov.uk;exmoor-nationalpark.gov.uk;TRUE\n
-309;E60000320;Q9495;Lake District National Park;appeals@lake-district.gov.uk;lake-district.gov.uk;TRUE\n
+309;E60000320;Q9495;Lake District National Park;appeals@lakedistrict.gov.uk;lakedistrict.gov.uk;TRUE\n
 310;E60000321;B9506;New Forest National Park;appeals@newforestnpa.gov.uk;newforestnpa.gov.uk;TRUE\n
 311;E60000322;W9500;North York Moors National Park;planning@northyorkmoors.org.uk;northyorkmoors.org.uk;TRUE\n
 312;E60000323;T9501;Northumberland National Park;planning@nnpa.org.uk;nnpa.org.uk;TRUE\n
