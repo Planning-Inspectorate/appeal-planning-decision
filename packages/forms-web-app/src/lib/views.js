@@ -16,6 +16,7 @@ const VIEW = {
 		ENFORCEMENT_NOTICE: 'before-you-start/enforcement-notice',
 		ENFORCEMENT_NOTICE_LISTED_BUILDING: 'before-you-start/enforcement-notice-listed-building',
 		ENFORCEMENT_ISSUE_DATE: 'before-you-start/enforcement-issue-date',
+		ENFORCEMENT_EFFECTIVE_DATE: 'before-you-start/enforcement-effective-date',
 		APPLICATION_ABOUT: 'before-you-start/planning-application-about'
 	},
 

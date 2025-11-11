@@ -48,18 +48,14 @@ exports.postEnforcementIssueDate = async (req, res) => {
 		return;
 	}
 
-	const enteredDate = new Date(
-		body['enforcement-issue-date-year'],
-		parseInt(body['enforcement-issue-date-month'], 10) - 1,
-		body['enforcement-issue-date-day']
-	);
+	const enforcementIssueDate = new Date(body['enforcement-issue-date']);
 
 	try {
 		req.session.appeal = await createOrUpdateAppeal({
 			...appeal,
 			eligibility: {
 				...appeal.eligibility,
-				enforcementIssueDate: enteredDate.toISOString()
+				enforcementIssueDate: enforcementIssueDate.toISOString()
 			}
 		});
 	} catch (e) {

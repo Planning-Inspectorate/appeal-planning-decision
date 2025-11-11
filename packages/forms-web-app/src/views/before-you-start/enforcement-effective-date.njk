@@ -1,0 +1,86 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %},
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+
+{% set title="What is the effective date on your enforcement notice? - Before you start - Appeal a householder planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary and [
+        {
+          text: errorSummary[0].text,
+          href: "#enforcement-effective-date-day" if errorSummary[0].href === "#enforcement-effective-date" else errorSummary[0].href
+        }
+      ]
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <div class="govuk-form-group {{ 'govuk-form-group--error' if errors }}">
+          <span class="govuk-caption-l">Before you start</span>
+
+          {{ govukDateInput({
+            id: "enforcement-effective-date",
+            namePrefix: "enforcement-effective-date",
+            fieldset: {
+              legend: {
+                text: "What is the effective date on your enforcement notice?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+
+            errorMessage: errorSummary and {
+              text: errors['enforcement-effective-date'].msg or errors['enforcement-effective-date-day'].msg or errors['enforcement-effective-date-month'].msg or errors['enforcement-effective-date-year'].msg
+            },
+						hint: {
+							text: hint.enforcementEffectiveDate
+						},
+            items: [
+              {
+                classes: "govuk-input--width-2 govuk-input--error" if errors['enforcement-effective-date'] or errors['enforcement-effective-date-day'] else "govuk-input--width-2",
+                name: "day",
+                id: "enforcement-effective-date-day",
+                value: enforcementEffectiveDate.day
+              },
+              {
+                classes: "govuk-input--width-2 govuk-input--error" if errors['enforcement-effective-date'] or errors['enforcement-effective-date-month'] else "govuk-input--width-2",
+                name: "month",
+                id: "enforcement-effective-date-month",
+                value: enforcementEffectiveDate.month
+              },
+              {
+                classes: "govuk-input--width-4 govuk-input--error" if errors['enforcement-effective-date'] or errors['enforcement-effective-date-year'] else "govuk-input--width-4",
+                name: "year",
+                id: "enforcement-effective-date-year",
+                value: enforcementEffectiveDate.year
+              }
+            ]
+          }) }}
+        </div>
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
