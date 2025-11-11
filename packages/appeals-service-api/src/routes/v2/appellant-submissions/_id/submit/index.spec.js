@@ -415,7 +415,7 @@ module.exports = ({
 				},
 				documents: expectedData.documents,
 				users: expectedData.appellantUsers,
-				emailString: 'commercial advertisement (CAS)'
+				emailString: 'commercial advertisement'
 			}
 		},
 		{
