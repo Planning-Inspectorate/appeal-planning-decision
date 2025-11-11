@@ -180,6 +180,7 @@ module.exports = class Repo {
 					SubmissionDocumentUpload: true,
 					SubmissionAddress: true,
 					SubmissionLinkedCase: true,
+					SubmissionIndividual: true,
 					Appeal: {
 						select: {
 							id: true,
@@ -317,6 +318,7 @@ module.exports = class Repo {
 					SubmissionAddress: true,
 					SubmissionLinkedCase: true,
 					SubmissionListedBuilding: true,
+					SubmissionIndividual: true,
 					Appeal: {
 						select: {
 							id: true,
@@ -411,6 +413,9 @@ module.exports = class Repo {
 				where: { appellantSubmissionId: submissionId }
 			}),
 			this.dbClient.submissionListedBuilding.deleteMany({
+				where: { appellantSubmissionId: submissionId }
+			}),
+			this.dbClient.submissionIndividual.deleteMany({
 				where: { appellantSubmissionId: submissionId }
 			})
 		]);

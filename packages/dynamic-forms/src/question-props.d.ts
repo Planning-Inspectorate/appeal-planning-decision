@@ -19,7 +19,8 @@ type QuestionTypes =
 	// todo refactor list add mores so there's no sub question
 	| 'case'
 	| 'address'
-	| 'listed-building';
+	| 'listed-building'
+	| 'individual';
 
 interface CommonQuestionProps {
 	type: QuestionTypes;
@@ -182,7 +183,7 @@ type UnitOptionEntryQuestionProps = CommonQuestionProps & {
 };
 
 export type SubQuestionProps = CommonQuestionProps & {
-	type: 'case' | 'address' | 'listed-building';
+	type: 'case' | 'address' | 'listed-building' | 'individual';
 	viewFolder: string;
 };
 

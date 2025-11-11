@@ -3,6 +3,7 @@ const Question = require('../../question');
 const CaseAddMoreQuestion = require('../case-add-more/question');
 const AddressAddMoreQuestion = require('../address-add-more/question');
 const ListedBuildingAddMoreQuestion = require('../listed-building-add-more/question');
+const IndividualAddMoreQuestion = require('../individual-add-more/question');
 
 /**
  * @typedef {import('../../journey').Journey} Journey
@@ -22,7 +23,8 @@ const ListedBuildingAddMoreQuestion = require('../listed-building-add-more/quest
 const subQuestions = {
 	case: CaseAddMoreQuestion,
 	address: AddressAddMoreQuestion,
-	'listed-building': ListedBuildingAddMoreQuestion
+	'listed-building': ListedBuildingAddMoreQuestion,
+	individual: IndividualAddMoreQuestion
 };
 
 /**

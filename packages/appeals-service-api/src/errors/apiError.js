@@ -165,7 +165,7 @@ class ApiError {
 		return new ApiError(404, { errors: [`The document metadata ${caseRef} was not found`] });
 	}
 
-	// questionnaire responses
+	// questionnaire / submission responses
 	static noReferenceIdProvided() {
 		return new ApiError(400, { errors: ['No reference id was provided'] });
 	}
@@ -261,6 +261,18 @@ class ApiError {
 	static unableToDeleteListedBuilding() {
 		return new ApiError(400, {
 			errors: ['Unable to delete SubmissionListedBuilding entry']
+		});
+	}
+
+	static unableToCreateIndividual() {
+		return new ApiError(400, {
+			errors: ['Unable to create new SubmissionIndividual entry']
+		});
+	}
+
+	static unableToDeleteIndividual() {
+		return new ApiError(400, {
+			errors: ['Unable to delete SubmissionIndividual entry']
 		});
 	}
 

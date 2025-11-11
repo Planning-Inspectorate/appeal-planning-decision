@@ -18,6 +18,7 @@ components:
             - 'ADVERTS'
             - 'CAS_ADVERTS'
             - 'CAS_PLANNING'
+            - 'ENFORCEMENT'
 
         applicationDecisionDate:
           type: string
@@ -219,3 +220,7 @@ components:
           type: array
           items:
             type: object
+        SubmissionIndividual:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionIndividual'

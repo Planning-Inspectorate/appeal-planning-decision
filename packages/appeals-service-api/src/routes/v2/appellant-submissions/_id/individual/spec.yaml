@@ -1,0 +1,75 @@
+paths:
+  /api/v2/appellant-submissions/{id}/individual/:
+    post:
+      tags:
+        - appellant submissions
+      description: Add a individual to the appeal submission
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: appeal submission reference
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmissionIndividual'
+      responses:
+        200:
+          description: Returns the updated appeal submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppellantSubmission'
+        404:
+          description: Unable to find case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        400:
+          description: Unable to create named individual
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appellant-submissions/{id}/individual/{individualId}:
+    delete:
+      tags:
+        - appellant submissions
+      description: delete an individual from the appeal submission
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: appeal submission reference
+        - in: path
+          name: individualId
+          required: true
+          schema:
+            type: string
+          description: named individual reference
+      responses:
+        200:
+          description: Returns the updated appeal submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppellantSubmission'
+        404:
+          description: Unable to find individual to delete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        400:
+          description: Unable to delete individual
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'

@@ -1,0 +1,35 @@
+components:
+  schemas:
+    SubmissionIndividual:
+      type: object
+      description: The named individual (other than the appellant/agent) related to a submission
+      required:
+        - id
+        - appellantSubmissionId
+        - firstName
+        - lastName
+        - fieldName
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: identifier for the submission address of an associated appeal
+        appellantSubmissionId:
+          type: string
+          format: uuid
+          description: appeal submission id this address is associated with
+        firstName:
+          type: string
+          description: first name of the named individual
+        lastName:
+          type: string
+          description: last name of the named individual
+        fieldName:
+          type: string
+          description: which question this named individual is associated with for the submission
+        interestInAppealLand:
+          type: string
+          description: the individual's interest in the land covered by the appeal
+        interestInAppealLandDescription:
+          type: string
+          description: further details of individual's interest in land covered by appeal
