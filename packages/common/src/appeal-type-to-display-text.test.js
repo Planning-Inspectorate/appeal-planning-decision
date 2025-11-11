@@ -17,9 +17,7 @@ describe('mapAppealTypeToDisplayText', () => {
 			'planning listed building and conservation area'
 		);
 		expect(mapAppealTypeToDisplayText(CASE_TYPES.CAS_PLANNING)).toBe('commercial planning (CAS)');
-		expect(mapAppealTypeToDisplayText(CASE_TYPES.CAS_ADVERTS)).toBe(
-			'commercial advertisement (CAS)'
-		);
+		expect(mapAppealTypeToDisplayText(CASE_TYPES.CAS_ADVERTS)).toBe('commercial advertisement');
 		expect(mapAppealTypeToDisplayText(CASE_TYPES.ADVERTS)).toBe('advertisement');
 		expect(mapAppealTypeToDisplayText(CASE_TYPES.ENFORCEMENT)).toBe('enforcement notice');
 		// add more type codes/ ids as they are added to CASE_TYPES

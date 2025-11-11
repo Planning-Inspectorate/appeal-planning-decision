@@ -66,9 +66,9 @@ describe.each([
 		expect(journey.sections[0].questions.length > 0).toBe(true);
 		// check the appeal type variables are set correctly
 		const appealTypeDisplayText =
-			appealType === CAS_ADVERTS ? 'commercial advertisement (CAS)' : 'advertisement';
+			appealType === CAS_ADVERTS ? 'commercial advertisement' : 'advertisement';
 		const appealTypeDisplayTextWithAnOrA =
-			appealType === CAS_ADVERTS ? 'a commercial advertisement (CAS)' : 'an advertisement';
+			appealType === CAS_ADVERTS ? 'a commercial advertisement' : 'an advertisement';
 
 		expect(journey.sections[0].sectionVariables).toMatchObject({
 			'<appeal type with an or a>': appealTypeDisplayTextWithAnOrA,

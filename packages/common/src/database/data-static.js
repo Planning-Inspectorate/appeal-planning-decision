@@ -85,7 +85,7 @@ const CASE_TYPES = Object.freeze({
 	CAS_ADVERTS: {
 		id: 1007,
 		key: APPEAL_CASE_TYPE.ZA, // just Z in horizon
-		type: 'Commercial advertisement (CAS)',
+		type: 'Commercial advertisement',
 		processCode: 'CAS_ADVERTS',
 		friendlyUrl: 'adverts', // shares appeal form with ADVERTS
 		expedited: true
