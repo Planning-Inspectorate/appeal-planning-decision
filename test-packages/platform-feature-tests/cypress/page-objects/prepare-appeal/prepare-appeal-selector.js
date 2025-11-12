@@ -13,8 +13,9 @@ export class PrepareAppealSelector {
         govukFieldsetHeading: ".govuk-fieldset__heading",
         govukLabelGovUkLabel1: "label.govuk-label.govuk-label--l",
         fullPlanningApplicaitonType: "full-planning",
+        minorCommercialDevelopmentApplicationType:"cas-planning",
         houseHolderApplicaitonType: "householder",
-        listedBuildingApplicaitonType: "listed-building",
+        listedBuildingApplicaitonType: "listed-building",        
         appellantOther: "other",
         uploadApplicationForm: "upload-application-form",
         statusOfOriginalApplicationWritten: "written",
@@ -23,10 +24,16 @@ export class PrepareAppealSelector {
         answerFullAppeal: "answer-full-appeal",
         answerHouseholderPlanning: "answer-householder-planning",
         answerListedBuilding: "answer-listed-building",
+        answerMinorCommercialDevelopment: "answer-minor-commercial-development",
         fullAppealText: "Full appeal",
         householderPlanningText: "Householder planning",
         listedBuildingText: "Listed building consent",
+<<<<<<< Updated upstream
         systemTest2BoroughCouncil: "System Test Borough Council 2"
+=======
+        minorCommercialDevelopmentText:"Minor commercial development",
+        systemTest2BoroughCouncil: "System Test Borough Council 2"//this is been changed
+>>>>>>> Stashed changes
     }
     _fullAppealselectors = {
         decisionDateDay: '#decision-date-day',
@@ -39,6 +46,11 @@ export class PrepareAppealSelector {
         decisionDateHouseholderYear: '#decision-date-householder-year',
     }
     _listedBuildingSelectors = {
+        decisionDateDay: '#decision-date-day',
+        decisionDateMonth: '#decision-date-month',
+        decisionDateYear: '#decision-date-year',
+    }
+    _minorCommercialDevelopmentSelectors = {
         decisionDateDay: '#decision-date-day',
         decisionDateMonth: '#decision-date-month',
         decisionDateYear: '#decision-date-year',
@@ -63,5 +75,14 @@ export class PrepareAppealSelector {
         appealslistedBuildingAppealForm: '/appeals/listed-building/appeal-form',
         appealslistedBuildingPrepareAppeal: '/appeals/listed-building/prepare-appeal',
         appealslistedBuildingUploadDocuments: '/appeals/listed-building/upload-documents'
+    }
+
+    _minorCommercialDevelopmentURLs = {
+        beforeYouStart: '/before-you-start',
+        appealCasPlanning: '/cas-planning',
+        casAppealSubmit: '/cas-appeal/submit-appeal',
+        appealsCASPlanningAppealForm: '/appeals/cas-planning/appeal-form',
+        appealsCASPlanningPrepareAppeal: '/appeals/cas-planning/prepare-appeal',
+        appealsCASPlanningUploadDocuments: '/appeals/cas-planning/upload-documents'
     }
 }

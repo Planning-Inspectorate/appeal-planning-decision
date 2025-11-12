@@ -5,6 +5,7 @@ import { BasePage } from "../../../../page-objects/base-page";
 const initialiseHouseHolderPlanning = require("./initialiseHouseHolderPlanning");
 const initialiseFullPlanning = require("./initialiseFullPlanning");
 const initialiseListedBuilding = require("./initialiseListedBuilding");
+const initialiseMinorCommercialDevelopement=require("./initialiseMinorCommercialDevelopment");
 module.exports = (statusOfOriginalApplication, planning, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases = [], fullAppealStatementTestCases = []) => {
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const basePage = new BasePage();
@@ -21,7 +22,14 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 	cy.getByData(basePage?._selectors.answerNo).click();
 	cy.advanceToNextPage();
 	// Select the application type
-	cy.get(`[data-cy="${planning}"]`).click();
+	//cy.get(`[data-cy="${planning}"]`).click();exisitng code commented for now
+	cy.log('Planning value:', planning);
+    cy.log('Expected selector:', `[data-cy="${planning}"]`);
+// Ensure the element exists and is visible before clicking
+   cy.get(`[data-cy="${planning}"]`)
+          .should('exist')
+          .should('be.visible')
+          .click();
 	cy.advanceToNextPage();
 	// Select the application decision granted or refused or no decision
 	let grantedOrRefusedId = '';
@@ -38,5 +46,8 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 		initialiseListedBuilding(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.listedBuildingText, context, prepareAppealData);
 	} else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {
 		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? initialiseHouseHolderPlanning(planning, grantedOrRefusedId, context, prepareAppealData) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases, fullAppealStatementTestCases);
+	}
+	else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
+		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? initialiseMinorCommercialDevelopement(planning, grantedOrRefusedId, context, prepareAppealData) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.minorCommercialDevelopmentText, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases, fullAppealStatementTestCases);
 	}
 };

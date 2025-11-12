@@ -30,5 +30,23 @@ export class SiteAreaPage {
                 cy.advanceToNextPage();
             }
         }
+
+        if (applicationType === 'answer-minor-commercial-development' && context?.statusOfOriginalApplication === 'refused') {
+            basePage.addTextField(this._selectors?.siteAreaSquareMetres, prepareAppealData?.siteArea?.squareMetres);
+            cy.advanceToNextPage();
+        }
+        else {
+            if (areaUnits === 'hectare') {
+                basePage.clickRadioBtn(this._selectors?.siteAreaUnitsHectares);
+                basePage.addTextField(this._selectors?.siteAreaSquareMetresHectares, prepareAppealData?.siteArea?.squareHectares);
+                cy.advanceToNextPage();
+            }
+            else {
+                basePage.clickRadioBtn(this._selectors?.siteAreaUnitsMetres);
+                basePage.addTextField(this._selectors?.siteAreaSquareMetresMSauare, prepareAppealData?.siteArea?.squareMetres);
+                cy.advanceToNextPage();
+            }
+        }
+
     };
 }

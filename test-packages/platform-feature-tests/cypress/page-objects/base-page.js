@@ -17,6 +17,8 @@ export class BasePage {
 		answerHouseholderPlanning: "answer-householder-planning",
 		answerFullAppeal: "answer-full-appeal",
 		answerListedBuilding: "answer-listed-building",
+		answerCASAppeal:"answer-minor-commercial-development",//newely addedd cas locator//
+		aboutSelection:"#planningApplicationAbout-6",
 		answerRefused: "answer-refused",
 		answerNodecisionreceived: "answer-nodecisionreceived",
 		answerGranted: "answer-granted",

@@ -241,4 +241,5 @@ Cypress.Commands.add('loginWithPuppeteer', (user) => {
 		});
 	});
 	return
+	
 });

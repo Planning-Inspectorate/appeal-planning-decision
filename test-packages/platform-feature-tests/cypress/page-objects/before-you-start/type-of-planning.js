@@ -3,7 +3,8 @@
 export class TypeOfPlanning {
 	elements = {
 		fullPlanningRadioBtn: () => cy.get('[data-cy="answer-full-appeal"]'),
-		houseHolderPlanningRadioBtn: () => cy.get('[data-cy="answer-householder-planning"]')
+		houseHolderPlanningRadioBtn: () => cy.get('[data-cy="answer-householder-planning"]'),
+		minorCommercialDevelopmentRadioBtn: ()=>cy.get('[data-cy="answer-minor-commercial-development"]'),
 	}
 
 	selectFullPlanning() {
@@ -12,5 +13,9 @@ export class TypeOfPlanning {
 
 	selectHouseHolderPlanning() {
 		this.elements.houseHolderPlanningRadioBtn().click();
+	}
+
+	selectcasPlanning() {
+		this.elements.minorCommercialDevelopmentRadioBtn().click();
 	}
 }

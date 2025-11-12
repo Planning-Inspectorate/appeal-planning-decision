@@ -57,4 +57,27 @@ export class BeforeYouStart {
 		basePage.clickSaveAndContiuneBtn();
 		basePage.verifyPageHeading('You can appeal using this service');
 	}
+
+	casPlanning() {
+		cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
+		basePage.acceptCookies();
+		basePage.verifyPageHeading('Before you start');
+		basePage.clickContinueBtn();
+		enterLpa.enterLPA('System Test Borough Council');
+		enterLpa.selectLPA();
+		basePage.clickSaveAndContiuneBtn();
+		typeOfPlanning.selectcasPlanning();//new item for cas
+		basePage.clickSaveAndContiuneBtn();
+		basePage.selectCheckBox('none_of_these');
+		basePage.clickSaveAndContiuneBtn();
+		basePage.selectRadioBtn('granted'); // can choose all 3 with full planning
+		basePage.clickSaveAndContiuneBtn();
+		dateDecisionDue.enterDayDate();
+		dateDecisionDue.enterMontDate();
+		dateDecisionDue.enterYearDate();
+		basePage.clickSaveAndContiuneBtn();
+		basePage.selectRadioBtn('no');
+		basePage.clickSaveAndContiuneBtn();
+		basePage.verifyPageHeading('You can appeal using this service');
+	}
 }

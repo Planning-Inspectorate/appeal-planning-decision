@@ -23,6 +23,7 @@ registerCypressGrep();
 
 require('cy-verify-downloads').addCustomCommand();
 
+<<<<<<< Updated upstream
 // Ignore transient AAD CDN script load errors that should not fail user flows
 Cypress.on('uncaught:exception', (err) => {
   const msg = err && err.message ? err.message : '';
@@ -32,6 +33,16 @@ Cypress.on('uncaught:exception', (err) => {
     return false; // suppress
   }
   return true; // allow others to fail tests
+=======
+// Ignore Microsoft/Azure login script errors-below lines aded
+Cypress.on('uncaught:exception', (err, runnable) => {
+	if (
+		err.message.includes('Failed to load external resource') ||
+		err.message.includes('ConvergedLogin_PCore')
+	) {
+		return false; // Prevent Cypress from failing the test
+	}
+>>>>>>> Stashed changes
 });
 
 // Alternatively you can use CommonJS syntax:
