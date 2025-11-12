@@ -18,6 +18,11 @@ const exampleCasAdvertsDataModel = {
 			advertType: 'Monolith/Totem Signs Illuminated',
 			isAdvertInPosition: false,
 			isSiteOnHighwayLand: false
+		},
+		{
+			advertType: null,
+			isAdvertInPosition: null,
+			isSiteOnHighwayLand: null
 		}
 	],
 	siteGridReferenceEasting: '359608',

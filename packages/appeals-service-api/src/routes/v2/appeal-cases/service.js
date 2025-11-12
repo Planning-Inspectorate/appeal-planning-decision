@@ -436,7 +436,8 @@ async function putCase(caseReference, data) {
 
 			notificationMethod: data.notificationMethod,
 
-			neighbouringSiteAddresses: data.neighbouringSiteAddresses
+			neighbouringSiteAddresses: data.neighbouringSiteAddresses,
+			advertDetails: data.advertDetails
 		});
 
 		// send email confirming appeal to user if this creates a new appeal

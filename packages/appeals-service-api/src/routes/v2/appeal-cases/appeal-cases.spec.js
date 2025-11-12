@@ -504,6 +504,53 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				expect(appealRelations.length).toBe(5); // nearbyCaseReferences (linked bi-directional) + leadCaseReference (one-directional)
 			});
 
+			it('upserts all relational data for adverts', async () => {
+				advertsExample.caseReference = testCase1.caseReference;
+				await appealsApi
+					.put(`/api/v2/appeal-cases/` + testCase1.caseReference)
+					.send(advertsExample);
+
+				await appealsApi
+					.put(`/api/v2/appeal-cases/` + testCase1.caseReference)
+					.send(advertsExample);
+
+				const appealCase = await sqlClient.appealCase.findFirst({
+					where: { caseReference: testCase1.caseReference },
+					include: {
+						ListedBuildings: true,
+						AppealCaseLpaNotificationMethod: true,
+						NeighbouringAddresses: true,
+						CaseType: true,
+						ProcedureType: true,
+						AdvertDetails: true
+					}
+				});
+
+				expect(appealCase?.AdvertDetails.length).toBe(3); // the number of advert details in example json
+				expect(
+					appealCase?.ListedBuildings.filter((x) => x.type === LISTED_RELATION_TYPES.affected)
+						.length
+				).toBe(3); // the number of listed buildings in example json
+				expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2); // the number of notification methods in example json
+				expect(appealCase?.NeighbouringAddresses.length).toBe(4); // the number of neighbouring addresses in example json
+				expect(appealCase?.CaseType?.processCode).toBe('ADVERTS');
+				expect(appealCase?.ProcedureType?.name).toBe('Written');
+
+				const appealRelations = await sqlClient.appealCaseRelationship.findMany({
+					where: {
+						OR: [
+							{
+								caseReference: testCase1.caseReference
+							},
+							{
+								caseReference2: testCase1.caseReference
+							}
+						]
+					}
+				});
+				expect(appealRelations.length).toBe(5); // nearbyCaseReferences (linked bi-directional) + leadCaseReference (one-directional)
+			});
+
 			it('does not add or delete a linked relation for a lead appeal', async () => {
 				const testLeadData = structuredClone(s78Example);
 				const testChildData = structuredClone(s78Example);
