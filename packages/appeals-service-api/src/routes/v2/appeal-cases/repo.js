@@ -506,8 +506,8 @@ class AppealCaseRepository {
 					data: advertDetails.map((detail) => ({
 						caseReference,
 						advertType: detail.advertType,
-						isAdvertInPosition: detail.isAdvertInPosition,
-						isSiteOnHighwayLand: detail.isSiteOnHighwayLand
+						isAdvertInPosition: detail.isAdvertInPosition ?? false,
+						isSiteOnHighwayLand: detail.isSiteOnHighwayLand ?? false
 					}))
 				});
 			}
