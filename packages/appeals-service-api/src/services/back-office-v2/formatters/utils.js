@@ -36,6 +36,7 @@ const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-dat
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQCommonSubmissionProperties} LPAQCommonSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQHASSubmissionProperties} LPAQHASSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQS78SubmissionProperties} LPAQS78SubmissionProperties
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQCasAdvertSubmissionProperties} LPAQCasAdvertSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
  * @typedef {function(FullAppellantSubmission, LPA): Promise<AppellantSubmissionCommand>} AppellantSubmissionMapper
  *
@@ -581,7 +582,7 @@ exports.getHASLPAQSubmissionFields = (answers) => {
 
 /**
  * @param {LPAQAnswers} answers
- * @returns {LPAQHASSubmissionProperties}
+ * @returns {LPAQCasAdvertSubmissionProperties}
  */
 exports.getCASAdvertsLPAQSubmissionFields = (answers) => {
 	const preference = getLPAProcedurePreference(answers);

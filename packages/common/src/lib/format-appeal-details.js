@@ -151,6 +151,39 @@ exports.formatDevelopmentType = (developmentType) => {
 };
 
 /**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed['developmentType']} developmentType
+ * @returns {string}
+ */
+exports.formatMajorMinorDevelopmentType = (developmentType) => {
+	if (!developmentType) return '';
+
+	switch (developmentType) {
+		case APPEAL_DEVELOPMENT_TYPE.HOUSEHOLDER:
+		case APPEAL_DEVELOPMENT_TYPE.CHANGE_OF_USE:
+		case APPEAL_DEVELOPMENT_TYPE.MINERAL_WORKINGS:
+			return '';
+
+		case APPEAL_DEVELOPMENT_TYPE.MAJOR_DWELLINGS:
+		case APPEAL_DEVELOPMENT_TYPE.MAJOR_INDUSTRY_STORAGE:
+		case APPEAL_DEVELOPMENT_TYPE.MAJOR_OFFICES:
+		case APPEAL_DEVELOPMENT_TYPE.MAJOR_RETAIL_SERVICES:
+		case APPEAL_DEVELOPMENT_TYPE.MAJOR_TRAVELLER_CARAVAN:
+		case APPEAL_DEVELOPMENT_TYPE.OTHER_MAJOR:
+			return 'Major';
+
+		case APPEAL_DEVELOPMENT_TYPE.MINOR_DWELLINGS:
+		case APPEAL_DEVELOPMENT_TYPE.MINOR_INDUSTRY_STORAGE:
+		case APPEAL_DEVELOPMENT_TYPE.MINOR_OFFICES:
+		case APPEAL_DEVELOPMENT_TYPE.MINOR_RETAIL_SERVICES:
+		case APPEAL_DEVELOPMENT_TYPE.MINOR_TRAVELLER_CARAVAN:
+		case APPEAL_DEVELOPMENT_TYPE.OTHER_MINOR:
+			return 'Minor';
+	}
+
+	throw new Error('unhandled developmentType mapping');
+};
+
+/**
  * @param {string} submission
  * @param {Date|string|undefined} date
  * @returns {string}

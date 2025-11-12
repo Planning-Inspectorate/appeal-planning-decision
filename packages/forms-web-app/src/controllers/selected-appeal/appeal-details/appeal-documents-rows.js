@@ -18,6 +18,9 @@ const {
 exports.documentsRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
+	const isS20orS78 =
+		caseData.appealTypeCode === CASE_TYPES.S20.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.S78.processCode;
 	const isAdvertAppeal =
 		caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
 		caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode;
@@ -32,30 +35,20 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'Plans, drawings and supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
-			condition: () =>
-				caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
-				caseData.appealTypeCode === CASE_TYPES.S20.processCode ||
-				caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode ||
-				caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
-				caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode,
+			condition: () => caseData.appealTypeCode !== CASE_TYPES.HAS.processCode, // in lpaq for HAS
 			isEscaped: true
 		},
 		{
 			keyText: 'Separate ownership certificate in application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OWNERSHIP_CERTIFICATE),
-			condition: () =>
-				caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
-				caseData.appealTypeCode === CASE_TYPES.S20.processCode,
+			condition: () => isS20orS78,
 			isEscaped: true
 		},
 		{
 			keyText: 'Design and access statement in application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT),
 			condition: () =>
-				caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
-				caseData.appealTypeCode === CASE_TYPES.S20.processCode ||
-				caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode,
-
+				isS20orS78 || caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode,
 			isEscaped: true
 		},
 		{
@@ -73,41 +66,31 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'New plans or drawings',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.NEW_PLANS_DRAWINGS),
-			condition: () =>
-				caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
-				caseData.appealTypeCode === CASE_TYPES.S20.processCode,
+			condition: () => isS20orS78,
 			isEscaped: true
 		},
 		{
 			keyText: 'Planning obligation status',
 			valueText: caseData.statusPlanningObligation,
-			condition: (caseData) =>
-				(caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
-					caseData.appealTypeCode === CASE_TYPES.S20.processCode) &&
-				caseData.statusPlanningObligation
+			condition: (caseData) => isS20orS78 && caseData.statusPlanningObligation
 		},
 		{
 			keyText: 'Planning obligation',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
-			condition: () =>
-				caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
-				caseData.appealTypeCode === CASE_TYPES.S20.processCode,
+			condition: () => isS20orS78,
 			isEscaped: true
 		},
 		{
 			keyText: 'New supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS),
-			condition: () =>
-				caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
-				caseData.appealTypeCode === CASE_TYPES.S20.processCode,
+			condition: () => isS20orS78,
 			isEscaped: true
 		},
 		{
 			keyText: 'Draft statement of common ground',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND),
 			condition: () =>
-				(caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
-					caseData.appealTypeCode === CASE_TYPES.S20.processCode) &&
+				isS20orS78 &&
 				caseData.appellantProcedurePreference !== APPEAL_APPELLANT_PROCEDURE_PREFERENCE.WRITTEN,
 			isEscaped: true
 		},

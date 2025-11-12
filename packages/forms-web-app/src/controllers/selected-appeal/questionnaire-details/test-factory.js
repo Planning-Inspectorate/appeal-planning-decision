@@ -20,7 +20,7 @@ const makeDocument = (type) => ({
 });
 
 /**
- * @param {"S78" | "HAS" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING"} appealTypeCode
+ * @param {import('@pins/common/src/database/data-static').CASE_TYPE['processCode']} appealTypeCode
  */
 const makeConstraintsSectionData = (appealTypeCode) => {
 	const groupAShared = {
@@ -34,7 +34,7 @@ const makeConstraintsSectionData = (appealTypeCode) => {
 			{ type: LISTED_RELATION_TYPES.affected, listedBuildingReference: 'LB1' },
 			{ type: LISTED_RELATION_TYPES.changed, listedBuildingReference: 'LB2' }
 		],
-		affectsScheduledMonument: true,
+		scheduledMonument: true,
 		protectedSpecies: true,
 		areaOutstandingBeauty: true,
 		designatedSitesNames: ['Site A', 'Site B'],
@@ -70,6 +70,8 @@ const makeConstraintsSectionData = (appealTypeCode) => {
 		case CASE_TYPES.CAS_ADVERTS.processCode:
 			return {
 				...groupAShared,
+				designatedSitesNames: ['Site A', 'Site B'],
+				scheduledMonument: true,
 				wasApplicationRefusedDueToHighwayOrTraffic: true,
 				isSiteInAreaOfSpecialControlAdverts: true,
 				didAppellantSubmitCompletePhotosAndPlans: true,
@@ -87,7 +89,7 @@ const makeConstraintsSectionData = (appealTypeCode) => {
 };
 
 /**
- * @param {"schedule-1" | "schedule-2" | null} scheduleType
+ * @param {import('@planning-inspectorate/data-model').Schemas.AppealS78Case['environmentalImpactSchedule']} scheduleType
  */
 const makeEiaSectionData = (scheduleType) => {
 	switch (scheduleType) {
@@ -145,13 +147,12 @@ const makeNotifiedPartiesSectionData = () => {
 };
 
 /**
- * @param {"S78" | "HAS" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING"} appealTypeCode
+ * @param {import('@pins/common/src/database/data-static').CASE_TYPE['processCode']} appealTypeCode
  */
 const makeConsultationResponsesSectionData = (appealTypeCode) => {
 	switch (appealTypeCode) {
 		case CASE_TYPES.S78.processCode:
 		case CASE_TYPES.S20.processCode:
-		case CASE_TYPES.ADVERTS.processCode:
 			return {
 				statutoryConsultees: true,
 				consultedBodiesDetails: 'Consulted bodies details here',
@@ -166,11 +167,17 @@ const makeConsultationResponsesSectionData = (appealTypeCode) => {
 			return {
 				Documents: [makeDocument(APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS)]
 			};
+		case CASE_TYPES.ADVERTS.processCode:
+			return {
+				statutoryConsultees: true,
+				consultedBodiesDetails: 'Consulted bodies details here',
+				Documents: [makeDocument(APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS)]
+			};
 	}
 };
 
 /**
- * @param {"S78" | "HAS" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING"} appealTypeCode
+ * @param {import('@pins/common/src/database/data-static').CASE_TYPE['processCode']} appealTypeCode
  */
 const makePlanningOfficerReportSectionData = (appealTypeCode) => {
 	const sharedDocs = [
@@ -240,7 +247,7 @@ const makeSiteAccessSectionData = () => {
 };
 
 /**
- * @param {"S78" | "HAS" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING"} appealTypeCode
+ * @param {import('@pins/common/src/database/data-static').CASE_TYPE['processCode']} appealTypeCode
  */
 const makeAppealProcessSectionData = (appealTypeCode) => {
 	switch (appealTypeCode) {
@@ -275,9 +282,9 @@ const makeAppealProcessSectionData = (appealTypeCode) => {
 };
 
 /**
- * @param {"S78" | "HAS" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING"} appealTypeCode
+ * @param {import('@pins/common/src/database/data-static').CASE_TYPE['processCode']} appealTypeCode
  * @param {"constraints"| "eia" | "consultation" | "notifiedParties" | "planningOfficersReport" | "siteAccess" | "appealProcess"} section
- * @param {"schedule-1" | "schedule-2" | null} scheduleType
+ * @param {import('@planning-inspectorate/data-model').Schemas.AppealS78Case['environmentalImpactSchedule'] } scheduleType
  * @returns
  */
 const makeCaseTypeRows = (appealTypeCode, section, scheduleType) => {
@@ -329,7 +336,7 @@ const makeCaseTypeRows = (appealTypeCode, section, scheduleType) => {
 };
 
 /**
- * @param {"S78" | "HAS" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING"} appealTypeCode
+ * @param {import('@pins/common/src/database/data-static').CASE_TYPE['processCode']} appealTypeCode
  * @param {"constraints"| "eia" | "consultation" | "notifiedParties" | "planningOfficersReport" | "siteAccess" | "appealProcess" | null} section
  * @param {"schedule-1" | "schedule-2" | null} [scheduleType]
  * @returns {import('appeals-service-api').Api.AppealCaseDetailed } caseData

@@ -8,8 +8,9 @@ const {
  */
 
 /**
- * @param {AppealCaseDetailed} caseData
- * @param {keyof AppealCaseDetailed} propertyName
+ * @template T
+ * @param {T} caseData
+ * @param {keyof T} propertyName
  */
 exports.formatYesOrNo = (caseData, propertyName) => boolToYesNo(caseData[propertyName]);
 
