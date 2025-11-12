@@ -60,7 +60,8 @@ describe('appeal-documents-rows', () => {
 				CASE_TYPES.S20.processCode,
 				CASE_TYPES.CAS_PLANNING.processCode,
 				CASE_TYPES.ADVERTS.processCode,
-				CASE_TYPES.CAS_ADVERTS.processCode
+				CASE_TYPES.CAS_ADVERTS.processCode,
+				CASE_TYPES.ENFORCEMENT.processCode
 			]
 		],
 		[

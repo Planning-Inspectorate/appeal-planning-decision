@@ -5,12 +5,16 @@ const {
 	documentExists,
 	boolToYesNo
 } = require('@pins/common');
-const { CASE_TYPES, caseTypeLookup } = require('@pins/common/src/database/data-static');
-
-const { LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
+const {
+	CASE_TYPES,
+	caseTypeLookup,
+	LISTED_RELATION_TYPES
+} = require('@pins/common/src/database/data-static');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
-const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
+const {
+	mapAppealTypeToDisplayTextWithAnOrA
+} = require('@pins/common/src/appeal-type-to-display-text');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed} caseData
@@ -20,8 +24,15 @@ const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-
 exports.constraintsRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
-	const isExpeditedAppealType =
-		caseTypeLookup(caseData.appealTypeCode, 'processCode')?.expedited === true;
+	const caseType = caseTypeLookup(caseData.appealTypeCode, 'processCode');
+
+	const isExpeditedAppealType = caseType?.expedited === true;
+	const isS20orS78 =
+		caseData.appealTypeCode === CASE_TYPES.S20.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.S78.processCode;
+	const isAdvertAppeal =
+		caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode;
 
 	const affectedListedBuildings = caseData.ListedBuildings?.filter(
 		(x) => x.type === LISTED_RELATION_TYPES.affected
@@ -39,8 +50,8 @@ exports.constraintsRows = (caseData) => {
 
 	const rows = [
 		{
-			keyText: `Is a ${
-				mapAppealTypeToDisplayText(CASE_TYPES[caseData.appealTypeCode]) || 'unknown'
+			keyText: `Is ${
+				mapAppealTypeToDisplayTextWithAnOrA(CASE_TYPES[caseData.appealTypeCode]) || 'unknown'
 			} appeal the correct type of appeal?`,
 			valueText: formatYesOrNo(caseData, 'isCorrectAppealType'),
 			condition: () => isNotUndefinedOrNull(caseData.isCorrectAppealType)
@@ -88,7 +99,8 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Affects a scheduled monument',
 			valueText: formatYesOrNo(caseData, 'scheduledMonument'),
-			condition: () => !isExpeditedAppealType && isNotUndefinedOrNull(caseData.scheduledMonument)
+			condition: () =>
+				(isS20orS78 || isAdvertAppeal) && isNotUndefinedOrNull(caseData.scheduledMonument)
 		},
 		{
 			keyText: 'Conservation area',
@@ -124,21 +136,20 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Designated sites',
 			valueText: formatDesignations(caseData),
-			condition: () => !isExpeditedAppealType
+			condition: () => isS20orS78 || isAdvertAppeal
 		},
 		{
 			keyText: 'Tree Preservation Order',
 			valueText: boolToYesNo(
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN)
 			),
-			condition: () => !isExpeditedAppealType
+			condition: () => isS20orS78
 		},
 		{
 			keyText: 'Uploaded Tree Preservation Order extent',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			condition: () =>
-				!isExpeditedAppealType &&
-				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
+				isS20orS78 && documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			isEscaped: true
 		},
 		{

@@ -39,13 +39,25 @@ describe('consultationRows', () => {
 		}
 	];
 
+	const expectedRowsAdverts = [
+		{
+			title: 'Statutory consultees',
+			value: 'Yes\nConsulted bodies details here'
+		},
+		{ title: 'Representations from other parties', value: 'Yes' },
+		{
+			title: 'Uploaded representations from other parties',
+			value: 'name.pdf - awaiting review'
+		}
+	];
+
 	it.each([
 		['HAS', hasLPAQData, expectedRowsHas],
 		['CAS Planning', casPlanningLPAQData, expectedRowsHas],
 		['CAS Adverts', casAdvertLPAQData, expectedRowsHas],
+		['ADVERTS', advertLPAQData, expectedRowsAdverts],
 		['S78', s78LPAQData, expectedRowsS78],
-		['S20', s20LPAQData, expectedRowsS78],
-		['ADVERTS', advertLPAQData, expectedRowsS78]
+		['S20', s20LPAQData, expectedRowsS78]
 	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
 		const visibleRows = consultationRows(caseData)
 			.filter((row) => row.condition(caseData))

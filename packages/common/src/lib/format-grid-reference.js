@@ -1,6 +1,6 @@
 /**
- * @param {string} eastings
- * @param {string } northings
+ * @param {string|undefined} eastings
+ * @param {string|undefined} northings
  * @returns {string}
  */
 const formatGridReference = (eastings, northings) => {

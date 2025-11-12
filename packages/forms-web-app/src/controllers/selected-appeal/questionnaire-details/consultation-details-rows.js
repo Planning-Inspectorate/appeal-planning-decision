@@ -1,6 +1,6 @@
 const { formatDocumentDetails, documentExists, boolToYesNo } = require('@pins/common');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
-const { caseTypeLookup } = require('@pins/common/src/database/data-static');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
@@ -14,8 +14,9 @@ exports.consultationRows = (caseData) => {
 	);
 	const otherPartyRepresentationsText = boolToYesNo(hasOtherPartyRepresentations);
 
-	const isExpeditedAppealType =
-		caseTypeLookup(caseData.appealTypeCode, 'processCode')?.expedited === true;
+	const isS20orS78 =
+		caseData.appealTypeCode === CASE_TYPES.S20.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.S78.processCode;
 
 	return [
 		{
@@ -28,7 +29,7 @@ exports.consultationRows = (caseData) => {
 			valueText: boolToYesNo(
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.CONSULTATION_RESPONSES)
 			),
-			condition: () => !isExpeditedAppealType
+			condition: () => isS20orS78
 		},
 		{
 			keyText: 'Uploaded consultation responses and standing advice',

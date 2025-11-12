@@ -122,7 +122,7 @@ const CASE_TYPES = Object.freeze({
  */
 const caseTypeLookup = (value, lookupProp) => {
 	// ensure lookup is on a unique value
-	if (!['processCode', 'id', 'type'].includes(lookupProp)) {
+	if (!['processCode', 'id', 'type', 'key'].includes(lookupProp)) {
 		throw new Error(`Invalid lookup property: ${lookupProp}`);
 	}
 

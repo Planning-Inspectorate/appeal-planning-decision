@@ -485,6 +485,7 @@ describe('appeal-details-rows', () => {
 		it('should show Agricultural Holding if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
 
+			testCase.appealTypeCode = CASE_TYPES.S78.processCode;
 			testCase.agriculturalHolding = true;
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
@@ -500,6 +501,7 @@ describe('appeal-details-rows', () => {
 
 		it('should not show Agricultural Holding if null', () => {
 			const testCase = structuredClone(caseWithAppellant);
+			testCase.appealTypeCode = CASE_TYPES.S78.processCode;
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 
@@ -513,6 +515,7 @@ describe('appeal-details-rows', () => {
 
 		it('should display tenant on agricultural holding if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
+			testCase.appealTypeCode = CASE_TYPES.S78.processCode;
 			testCase.tenantAgriculturalHolding = true;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[tenantAgriculturalIndex].condition(testCase)).toEqual(true);
@@ -528,6 +531,7 @@ describe('appeal-details-rows', () => {
 
 		it('should not display tenant on agricultural holding if null', () => {
 			const testCase = structuredClone(caseWithAppellant);
+			testCase.appealTypeCode = CASE_TYPES.S78.processCode;
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[tenantAgriculturalIndex].condition(testCase)).toEqual(false);
@@ -539,6 +543,7 @@ describe('appeal-details-rows', () => {
 
 		it('should display Other agricultural holding tenants if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
+			testCase.appealTypeCode = CASE_TYPES.S78.processCode;
 			testCase.otherTenantsAgriculturalHolding = true;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[otherAgriculturalTenantsIndex].condition(testCase)).toEqual(true);
@@ -558,6 +563,7 @@ describe('appeal-details-rows', () => {
 
 		it('should not display Other agricultural holding tenants if null', () => {
 			const testCase = structuredClone(caseWithAppellant);
+			testCase.appealTypeCode = CASE_TYPES.S78.processCode;
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[otherAgriculturalTenantsIndex].condition(testCase)).toEqual(false);
@@ -569,6 +575,7 @@ describe('appeal-details-rows', () => {
 
 		it('should display informed other agricultural holding tenants if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
+			testCase.appealTypeCode = CASE_TYPES.S78.processCode;
 			testCase.informedTenantsAgriculturalHolding = true;
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[informedAgriculturalTenantsIndex].condition(testCase)).toEqual(true);
@@ -588,6 +595,7 @@ describe('appeal-details-rows', () => {
 
 		it('should not display informed other agricultural holding tenants if null', () => {
 			const testCase = structuredClone(caseWithAppellant);
+			testCase.appealTypeCode = CASE_TYPES.S78.processCode;
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[informedAgriculturalTenantsIndex].condition(testCase)).toEqual(false);
@@ -615,25 +623,48 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Was your application for a major or minor development?', () => {
-		const applicationReferenceIndex = 24;
+		const majorMinorIndex = 24;
 
-		it('should display major/minor development type if set', () => {
+		const testCases = [
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.HOUSEHOLDER, expected: '' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.CHANGE_OF_USE, expected: '' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.MINERAL_WORKINGS, expected: '' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.MAJOR_DWELLINGS, expected: 'Major' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.MAJOR_INDUSTRY_STORAGE, expected: 'Major' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.MAJOR_OFFICES, expected: 'Major' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.MAJOR_RETAIL_SERVICES, expected: 'Major' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.MAJOR_TRAVELLER_CARAVAN, expected: 'Major' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.OTHER_MAJOR, expected: 'Major' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.MINOR_DWELLINGS, expected: 'Minor' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.MINOR_INDUSTRY_STORAGE, expected: 'Minor' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.MINOR_OFFICES, expected: 'Minor' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.MINOR_RETAIL_SERVICES, expected: 'Minor' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.MINOR_TRAVELLER_CARAVAN, expected: 'Minor' },
+			{ developmentType: APPEAL_DEVELOPMENT_TYPE.OTHER_MINOR, expected: 'Minor' }
+		];
+
+		it.each(testCases)(
+			'should show correct value for $developmentType',
+			({ developmentType, expected }) => {
+				const testCase = structuredClone(caseWithAppellant);
+				testCase.appealTypeCode = CASE_TYPES.S78.processCode;
+				testCase.developmentType = developmentType;
+
+				const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+				expect(rows[majorMinorIndex].keyText).toEqual(
+					'Was your application for a major or minor development?'
+				);
+				expect(rows[majorMinorIndex].valueText).toEqual(expected);
+				expect(rows[majorMinorIndex].condition(testCase)).toEqual(expected !== '');
+			}
+		);
+
+		it('should not display if developmentType is not set', () => {
 			const testCase = structuredClone(caseWithAppellant);
-			testCase.majorMinorDevelopment = 'Major';
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows[applicationReferenceIndex].condition(testCase)).toBeTruthy();
-			expect(rows[applicationReferenceIndex].keyText).toEqual(
-				'Was your application for a major or minor development?'
-			);
-			expect(rows[applicationReferenceIndex].valueText).toEqual('Major');
-		});
-
-		it('should not display the application reference if not set', () => {
-			const testCase = structuredClone(caseWithAppellant);
-
-			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows[applicationReferenceIndex].condition(testCase)).toBeFalsy();
+			expect(rows[majorMinorIndex].condition(testCase)).toBeFalsy();
 		});
 	});
 

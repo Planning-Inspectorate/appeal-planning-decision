@@ -8,9 +8,10 @@ const {
 	formatYesOrNo,
 	boolToYesNo,
 	formatAccessDetails,
-	formatDevelopmentType
+	formatDevelopmentType,
+	formatMajorMinorDevelopmentType
 } = require('@pins/common');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { CASE_TYPES, caseTypeLookup } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 
@@ -31,13 +32,14 @@ exports.detailsRows = (caseData, userType) => {
 
 	const agent = caseData.users?.find((x) => x.serviceUserType === APPEAL_USER_ROLES.AGENT);
 	const appellant = caseData.users?.find((x) => x.serviceUserType === APPEAL_USER_ROLES.APPELLANT);
-	const contactIsAppellant = !agent; // if no agent than appellant made their own appeal
+	const contactIsAppellant = !agent; // if no agent then appellant made their own appeal
 	const contact = contactIsAppellant ? appellant : agent;
 
-	const hasOrCasPlanningAppeal =
-		caseData.appealTypeCode === CASE_TYPES.HAS.processCode ||
-		caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode;
-
+	const caseType = caseTypeLookup(caseData.appealTypeCode, 'processCode');
+	const isExpeditedAppealType = caseType?.expedited === true;
+	const isS20orS78 =
+		caseData.appealTypeCode === CASE_TYPES.S20.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.S78.processCode;
 	const isAdvertAppeal =
 		caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
 		caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode;
@@ -157,24 +159,22 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Agricultural holding',
 			valueText: formatYesOrNo(caseData, 'agriculturalHolding'),
-			condition: (caseData) => !hasOrCasPlanningAppeal && caseData.agriculturalHolding != null
+			condition: (caseData) => isS20orS78 && caseData.agriculturalHolding != null
 		},
 		{
 			keyText: 'Tenant on agricultural holding',
 			valueText: formatYesOrNo(caseData, 'tenantAgriculturalHolding'),
-			condition: (caseData) => !hasOrCasPlanningAppeal && caseData.tenantAgriculturalHolding != null
+			condition: (caseData) => isS20orS78 && caseData.tenantAgriculturalHolding != null
 		},
 		{
 			keyText: 'Other agricultural holding tenants',
 			valueText: formatYesOrNo(caseData, 'otherTenantsAgriculturalHolding'),
-			condition: (caseData) =>
-				!hasOrCasPlanningAppeal && caseData.otherTenantsAgriculturalHolding != null
+			condition: (caseData) => isS20orS78 && caseData.otherTenantsAgriculturalHolding != null
 		},
 		{
 			keyText: 'Informed other agricultural holding tenants',
 			valueText: formatYesOrNo(caseData, 'informedTenantsAgriculturalHolding'),
-			condition: (caseData) =>
-				!hasOrCasPlanningAppeal && caseData.informedTenantsAgriculturalHolding != null
+			condition: (caseData) => isS20orS78 && caseData.informedTenantsAgriculturalHolding != null
 		},
 		{
 			keyText: 'Site health and safety issues',
@@ -188,13 +188,14 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Was your application for a major or minor development?',
-			valueText: caseData.majorMinorDevelopment ?? '',
-			condition: (caseData) => caseData.majorMinorDevelopment
+			valueText: formatMajorMinorDevelopmentType(caseData.developmentType),
+			condition: (caseData) =>
+				isS20orS78 && !!formatMajorMinorDevelopmentType(caseData.developmentType)
 		},
 		{
 			keyText: 'Was your application about any of the following?',
 			valueText: formatDevelopmentType(caseData.developmentType),
-			condition: () => !hasOrCasPlanningAppeal && caseData.developmentType != null
+			condition: () => isS20orS78 && caseData.developmentType != null
 		},
 		{
 			keyText: isAdvertAppeal
@@ -213,7 +214,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Preferred procedure',
 			valueText: formatProcedure(caseData),
-			condition: (caseData) => !hasOrCasPlanningAppeal && caseData.appellantProcedurePreference
+			condition: (caseData) => !isExpeditedAppealType && caseData.appellantProcedurePreference
 		},
 		{
 			keyText: 'Expected procedure duration',
@@ -221,7 +222,7 @@ exports.detailsRows = (caseData, userType) => {
 				? caseData.appellantProcedurePreferenceDuration.toString()
 				: '',
 			condition: (caseData) =>
-				!hasOrCasPlanningAppeal && caseData.appellantProcedurePreferenceDuration != null
+				!isExpeditedAppealType && caseData.appellantProcedurePreferenceDuration != null
 		},
 		{
 			keyText: 'Expected witness count',
@@ -229,7 +230,7 @@ exports.detailsRows = (caseData, userType) => {
 				? caseData.appellantProcedurePreferenceWitnessCount.toString()
 				: '',
 			condition: (caseData) =>
-				!hasOrCasPlanningAppeal && caseData.appellantProcedurePreferenceWitnessCount != null
+				!isExpeditedAppealType && caseData.appellantProcedurePreferenceWitnessCount != null
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',

@@ -27,9 +27,6 @@ describe('caseTypeLookup', () => {
 
 	it('will throw if result is non unique value', () => {
 		expect(() => {
-			caseTypeLookup('any', 'key');
-		}).toThrow();
-		expect(() => {
 			caseTypeLookup('any', 'friendlyUrl');
 		}).toThrow();
 		expect(() => {

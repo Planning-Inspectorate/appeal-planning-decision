@@ -36,7 +36,7 @@ describe('makeConstraintsSectionData', () => {
 			{ type: LISTED_RELATION_TYPES.affected, listedBuildingReference: 'LB1' },
 			{ type: LISTED_RELATION_TYPES.changed, listedBuildingReference: 'LB2' }
 		],
-		affectsScheduledMonument: true,
+		scheduledMonument: true,
 		protectedSpecies: true,
 		areaOutstandingBeauty: true,
 		designatedSitesNames: ['Site A', 'Site B'],
