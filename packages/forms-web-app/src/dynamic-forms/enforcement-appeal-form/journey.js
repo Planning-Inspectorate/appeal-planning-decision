@@ -75,6 +75,8 @@ const makeSections = (response) => [
 		.addQuestion(questions.appealSiteIsContactAddress)
 		.addQuestion(questions.contactAddress)
 		.withCondition(() => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no'))
+		.addQuestion(questions.enforcementInspectorAccess)
+		.addQuestion(questions.healthAndSafety)
 ];
 
 const baseEnforcementSubmissionUrl = `/appeals/${ENFORCEMENT.friendlyUrl}`;

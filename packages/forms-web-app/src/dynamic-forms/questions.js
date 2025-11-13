@@ -2903,6 +2903,44 @@ exports.questionProps = {
 			]
 		}
 	},
+	enforcementInspectorAccess: {
+		type: 'radio',
+		title: 'Will an inspector need to access the land or property?',
+		question: 'Will an inspector need to access the land or property?',
+		html: 'resources/inspector-access/enforcement-content.html',
+		fieldName: 'appellantSiteAccess',
+		url: 'inspector-need-access',
+		validators: [
+			new RequiredValidator('Select yes if an inspector will need to access the land or property'),
+			new ConditionalRequiredValidator(
+				'Enter a reason why an inspector cannot view the land from a public road or footpath'
+			),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Reason must be ${appealFormV2.textInputMaxLength} characters or less`
+				},
+				fieldName: getConditionalFieldName('appellantSiteAccess', 'appellantSiteAccessDetails')
+			})
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question:
+						'Enter a reason why an inspector cannot view the land from a public road or footpath.',
+					hint: 'For example, the land is at the rear of a terraced property.',
+					fieldName: 'appellantSiteAccessDetails',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		]
+	},
 	highwayLand: {
 		type: 'boolean',
 		title: 'Is the appeal site on highway land?',
