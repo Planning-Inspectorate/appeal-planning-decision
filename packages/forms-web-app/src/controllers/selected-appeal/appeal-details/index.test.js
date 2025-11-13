@@ -54,8 +54,10 @@ const expectedViewContext = {
 		headlineData: 'formatted headline data',
 		appealDetails: 'some formatted row data',
 		appealDocuments: 'some formatted row data',
-		beforeYouStart: 'some formatted row data'
+		beforeYouStart: 'some formatted row data',
+		additionalDocuments: 'some formatted row data'
 	},
+	bannerHtmlOverride: undefined,
 	pdfDownloadUrl: 'a/fake/url?pdf=true',
 	backToAppealOverviewLink: 'a/fake'
 };
