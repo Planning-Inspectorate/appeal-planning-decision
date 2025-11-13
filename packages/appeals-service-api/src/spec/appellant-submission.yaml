@@ -203,6 +203,12 @@ components:
         siteGridReferenceNorthing:
           type: string
 
+        siteAddressIsContactAddress:
+          type: boolean
+
+        contactAddress:
+          type:boolean
+
         highwayLand:
           type: boolean
 

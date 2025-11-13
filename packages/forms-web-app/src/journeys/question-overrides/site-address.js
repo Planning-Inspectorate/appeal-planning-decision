@@ -39,10 +39,8 @@ async function saveAction(req, res, saveFunction, journey, section, journeyRespo
 	}
 
 	// save
-	const { address, siteAddressSet, fieldName, addressId } = await this.getDataToSave(
-		req,
-		journeyResponse
-	);
+	const { address, siteAddressSet, fieldName, addressId, contactAddressSet } =
+		await this.getDataToSave(req, journeyResponse);
 
 	await req.appealsApiClient.postSubmissionAddress(
 		journeyResponse.journeyId,
@@ -56,11 +54,19 @@ async function saveAction(req, res, saveFunction, journey, section, journeyRespo
 		}
 	);
 
-	if (siteAddressSet) {
-		await saveFunction(journeyResponse.referenceId, {
-			siteAddress: siteAddressSet
-		});
-		journeyResponse.answers.siteAddress = siteAddressSet;
+	if (siteAddressSet || contactAddressSet) {
+		/** @type {{siteAddress?: boolean?, contactAddress?: boolean?}} */
+		const saveObject = {};
+
+		if (siteAddressSet) {
+			saveObject.siteAddress = siteAddressSet;
+			journeyResponse.answers.siteAddress = siteAddressSet;
+		}
+		if (contactAddressSet) {
+			saveObject.contactAddress = contactAddressSet;
+			journeyResponse.answers.contactAddress = contactAddressSet;
+		}
+		await saveFunction(journeyResponse.referenceId, saveObject);
 	}
 
 	// check for saving errors

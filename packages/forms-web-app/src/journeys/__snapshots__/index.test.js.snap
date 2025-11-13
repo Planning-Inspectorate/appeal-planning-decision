@@ -5711,6 +5711,64 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) renders
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the appeal-site-address question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> What is the address of the appeal site?</h1>
+                    </legend>
+                    <p class="govuk-hint">The address should match what is on the application to the local planning
+                        authority.</p>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="address-line-1">Address line 1</label>
+                        <input class="govuk-input" id="address-line-1" name="siteAddress_addressLine1"
+                        type="text" autocomplete="address-line1">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="address-line-2">Address line 2 (optional)</label>
+                        <input class="govuk-input" id="address-line-2"
+                        name="siteAddress_addressLine2" type="text" autocomplete="address-line2">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="address-town">Town or city</label>
+                        <input class="govuk-input govuk-!-width-two-thirds"
+                        id="address-town" name="siteAddress_townCity" type="text" autocomplete="address-level2">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="address-county">County (optional)</label>
+                        <input class="govuk-input govuk-!-width-two-thirds"
+                        id="address-county" name="siteAddress_county" type="text" autocomplete="address-level1">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="address-postcode">Postcode</label>
+                        <input class="govuk-input govuk-input--width-10" id="address-postcode"
+                        name="siteAddress_postcode" type="text" autocomplete="postal-code">
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the are-you-individual question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -5745,6 +5803,62 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the contact-address question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> What is your contact address?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="address-line-1">Address line 1</label>
+                        <input class="govuk-input" id="address-line-1" name="contactAddress_addressLine1"
+                        type="text" autocomplete="address-line1">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="address-line-2">Address line 2 (optional)</label>
+                        <input class="govuk-input" id="address-line-2"
+                        name="contactAddress_addressLine2" type="text" autocomplete="address-line2">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="address-town">Town or city</label>
+                        <input class="govuk-input govuk-!-width-two-thirds"
+                        id="address-town" name="contactAddress_townCity" type="text" autocomplete="address-level2">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="address-county">County (optional)</label>
+                        <input class="govuk-input govuk-!-width-two-thirds"
+                        id="address-county" name="contactAddress_county" type="text" autocomplete="address-level1">
+                    </div>
+                    <div class="govuk-form-group">
+                        <label class="govuk-label" for="address-postcode">Postcode</label>
+                        <input class="govuk-input govuk-input--width-10" id="address-postcode"
+                        name="contactAddress_postcode" type="text" autocomplete="postal-code">
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -5834,6 +5948,52 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                         autocomplete="family-name">
                     </div>
                 </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the is-contact-address question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="siteAddressIsContactAddress-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the appeal site address your contact address?</h1>
+                        </legend>
+                        <div id="siteAddressIsContactAddress-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="siteAddressIsContactAddress" name="siteAddressIsContactAddress"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="siteAddressIsContactAddress">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="siteAddressIsContactAddress-2"
+                                name="siteAddressIsContactAddress" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="siteAddressIsContactAddress-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
             </form>
@@ -6045,6 +6205,18 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/phone-number?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is your phone number?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is the address of the appeal site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/appeal-site-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the address of the appeal site?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site address your contact address?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/is-contact-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Is the appeal site address your contact address?</span></a>
                                 </dd>
                         </div>
                     </dl>

@@ -821,11 +821,13 @@ model AppellantSubmission {
   SubmissionDocumentUpload          SubmissionDocumentUpload[]
 
   // addresses
-  siteAddress               Boolean?
-  SubmissionAddress         SubmissionAddress[]
-  SubmissionListedBuilding  SubmissionListedBuilding[]
-  siteGridReferenceEasting  String?
-  siteGridReferenceNorthing String?
+  siteAddress                 Boolean?
+  SubmissionAddress           SubmissionAddress[]
+  SubmissionListedBuilding    SubmissionListedBuilding[]
+  siteGridReferenceEasting    String?
+  siteGridReferenceNorthing   String?
+  siteAddressIsContactAddress Boolean?
+  contactAddress              Boolean?
 
   // enforcement
   SubmissionIndividual SubmissionIndividual[]

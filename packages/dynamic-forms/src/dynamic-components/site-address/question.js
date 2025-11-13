@@ -3,6 +3,7 @@ const Address = require('../../lib/address');
 const { getAddressesForQuestion } = require('../utils/question-utils');
 const escape = require('escape-html');
 const { nl2br } = require('../../lib/string-functions');
+const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 
 /**
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
@@ -10,6 +11,16 @@ const { nl2br } = require('../../lib/string-functions');
  * @typedef {import('../../section').Section} Section
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress TODO just write this type in here
+ */
+
+/**
+ * @typedef {Object} SiteAddressData
+ * @property {Record<string, unknown>} answers
+ * @property {Address} address
+ * @property {boolean} siteAddressSet
+ * @property {string} fieldName
+ * @property {string} [addressId]
+ * @property {boolean} [contactAddressSet]
  */
 
 class SiteAddressQuestion extends Question {
@@ -106,13 +117,7 @@ class SiteAddressQuestion extends Question {
 	 * adds a uuid and an address object for save data using req body fields
 	 * @param {import('express').Request} req
 	 * @param {JourneyResponse} journeyResponse
-	 * @returns {Promise<{
-	 *   answers: Record<string, unknown>;
-	 *   address:Address;
-	 *   siteAddressSet: boolean;
-	 *   fieldName: string;
-	 *   addressId?: string;
-	 * }>}
+	 * @returns {Promise<SiteAddressData>}
 	 */
 	async getDataToSave(req, journeyResponse) {
 		const existingAddressId = this.#getExistingAddress(journeyResponse)?.id;
@@ -125,13 +130,20 @@ class SiteAddressQuestion extends Question {
 			postcode: req.body[this.fieldName + '_postcode']
 		});
 
-		return {
+		/** @type SiteAddressData */
+		const data = {
 			answers: {},
 			address: address,
 			siteAddressSet: true,
 			fieldName: this.fieldName,
 			addressId: existingAddressId
 		};
+
+		if (this.fieldName === fieldNames.contactAddress) {
+			data.contactAddressSet = true;
+		}
+
+		return data;
 	}
 
 	/**
