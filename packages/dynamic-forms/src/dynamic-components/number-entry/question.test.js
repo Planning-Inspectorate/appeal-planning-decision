@@ -8,7 +8,8 @@ describe('number-entry/question', () => {
 			response: { answers: { age: answerVal } },
 			getBackLink: jest.fn().mockReturnValue('/back'),
 			getCurrentQuestionUrl: jest.fn().mockReturnValue('/current'),
-			getSection: jest.fn().mockReturnValue(section)
+			getSection: jest.fn().mockReturnValue(section),
+			makeBannerHtmlOverride: jest.fn()
 		};
 	};
 

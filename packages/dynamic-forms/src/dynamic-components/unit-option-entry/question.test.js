@@ -73,7 +73,8 @@ describe('./src/dynamic-forms/dynamic-components/unit-option-entry/question.js',
 						[CONDITIONAL_FIELDNAME]: 123
 					}
 				},
-				getBackLink: jest.fn()
+				getBackLink: jest.fn(),
+				makeBannerHtmlOverride: jest.fn()
 			};
 			nunjucksRenderSpy = jest.spyOn(nunjucks, 'render').mockImplementation(() => '<html>');
 		});

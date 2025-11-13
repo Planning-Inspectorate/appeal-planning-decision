@@ -168,7 +168,7 @@ class Question {
 			listLink: journey.taskListUrl,
 			journeyTitle: journey.journeyTitle,
 			payload,
-			bannerHtmlOverride: journey.bannerHtmlOverride,
+			bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
 			...customViewData
 		};
 

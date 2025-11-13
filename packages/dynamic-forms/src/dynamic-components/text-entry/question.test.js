@@ -48,7 +48,8 @@ describe('./src/dynamic-forms/dynamic-components/text-entry/question.js', () => 
 			response: {
 				answers: {}
 			},
-			getBackLink: jest.fn()
+			getBackLink: jest.fn(),
+			makeBannerHtmlOverride: jest.fn()
 		};
 
 		it('should return a view model with label and textEntryCheckbox', () => {

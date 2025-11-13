@@ -166,7 +166,8 @@ describe('./src/dynamic-forms/question.js', () => {
 					return 'back';
 				},
 				getSection: jest.fn(),
-				getBackLink: () => 'back'
+				getBackLink: () => 'back',
+				makeBannerHtmlOverride: jest.fn()
 			};
 
 			const customViewData = { hello: 'hi' };
@@ -215,7 +216,8 @@ describe('./src/dynamic-forms/question.js', () => {
 				getCurrentQuestionUrl: jest.fn(
 					(sectionName, fieldName) => `/mock-url/${sectionName}/${fieldName}`
 				),
-				getBackLink: jest.fn(() => 'back')
+				getBackLink: jest.fn(() => 'back'),
+				makeBannerHtmlOverride: jest.fn()
 			};
 			const customViewData = { hello: 'hi' };
 			const result = question.prepQuestionForRendering({ section, journey, customViewData });
