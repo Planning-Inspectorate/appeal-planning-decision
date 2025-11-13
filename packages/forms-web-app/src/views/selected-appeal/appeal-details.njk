@@ -68,6 +68,15 @@
 				classes: "govuk-summary-list long-answers",
 				rows: appeal.appealDocuments
 			}) }}
+
+			{% if appeal.additionalDocuments.length > 0 %}
+			<h2 class="govuk-heading-l">Additional documents</h2>
+
+			{{ govukSummaryList({
+				classes: "govuk-summary-list long-answers",
+				rows: appeal.additionalDocuments
+			}) }}
+			{% endif %}
 		</div>
 
 	</div>

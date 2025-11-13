@@ -72,3 +72,20 @@ exports.formatDocumentLink = (document) => {
 exports.sortDocumentsByDate = (documents) => {
 	return documents.sort((a, b) => new Date(a.datePublished) - new Date(b.datePublished));
 };
+
+/**
+ * @param {import('appeals-service-api').Api.Document[]} documents
+ * @returns {string}
+ */
+exports.formatDocumentsAsBulletedList = (documents) => {
+	if (documents.length === 1) {
+		return exports.formatDocumentLink(documents[0]);
+	} else if (documents.length > 1) {
+		let listHtml = '<ul>';
+		documents.forEach((document) => {
+			listHtml += `<li>${exports.formatDocumentLink(document)}</li>`;
+		});
+		listHtml += '</ul>';
+		return listHtml;
+	}
+};

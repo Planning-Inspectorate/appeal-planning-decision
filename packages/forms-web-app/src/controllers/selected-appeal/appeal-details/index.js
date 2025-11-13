@@ -14,6 +14,7 @@ const { addCSStoHtml } = require('#lib/add-css-to-html');
 const logger = require('#lib/logger');
 const config = require('../..//../config');
 const { bysRows } = require('./appeal-before-you-start-rows');
+const { caseValidationDocumentRows } = require('./case-validation-documents-details-rows');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -75,6 +76,9 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const appealDocumentsRows = documentsRows(caseData);
 		const appealDocuments = formatRows(appealDocumentsRows, caseData);
 
+		const additionalDocumentsRows = caseValidationDocumentRows({ caseData, userType });
+		const additionalDocuments = formatRows(additionalDocumentsRows, caseData);
+
 		let bannerHtmlOverride;
 		if (userType !== LPA_USER_ROLE) {
 			bannerHtmlOverride =
@@ -94,7 +98,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				headlineData,
 				beforeYouStart,
 				appealDetails,
-				appealDocuments
+				appealDocuments,
+				additionalDocuments
 			},
 			pdfDownloadUrl,
 			bannerHtmlOverride

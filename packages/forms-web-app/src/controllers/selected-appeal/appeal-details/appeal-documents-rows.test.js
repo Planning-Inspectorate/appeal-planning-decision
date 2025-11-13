@@ -9,7 +9,7 @@ const {
 describe('appeal-documents-rows', () => {
 	it('should create rows', () => {
 		const rows = documentsRows({ Documents: [] });
-		expect(rows.length).toEqual(14);
+		expect(rows.length).toEqual(13);
 	});
 
 	const applicationRow = 0;
