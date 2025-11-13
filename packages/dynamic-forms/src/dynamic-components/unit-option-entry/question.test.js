@@ -74,7 +74,8 @@ describe('./src/dynamic-forms/dynamic-components/unit-option-entry/question.js',
 					}
 				},
 				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
-				getBackLink: jest.fn()
+				getBackLink: jest.fn(),
+				makeBannerHtmlOverride: jest.fn()
 			};
 			nunjucksRenderSpy = jest.spyOn(nunjucks, 'render').mockImplementation(() => '<html>');
 		});

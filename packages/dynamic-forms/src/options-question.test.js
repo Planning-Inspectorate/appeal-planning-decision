@@ -17,7 +17,8 @@ describe('./src/dynamic-forms/question.js', () => {
 		getCurrentQuestionUrl: jest.fn(),
 		getSection: jest.fn(),
 		getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
-		getBackLink: jest.fn()
+		getBackLink: jest.fn(),
+		makeBannerHtmlOverride: jest.fn()
 	};
 
 	const getTestQuestion = ({ options = [] } = {}) => {

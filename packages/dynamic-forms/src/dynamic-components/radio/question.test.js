@@ -48,7 +48,8 @@ const JOURNEY = {
 		return 'back';
 	},
 	getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
-	getSection: jest.fn()
+	getSection: jest.fn(),
+	makeBannerHtmlOverride: jest.fn()
 };
 
 describe('./src/dynamic-forms/dynamic-components/radio/question.js', () => {

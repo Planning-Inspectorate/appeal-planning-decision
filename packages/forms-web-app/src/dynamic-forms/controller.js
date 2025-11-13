@@ -231,7 +231,7 @@ exports.list = async (req, res, pageCaption, viewData) => {
 		journeyComplete: journey.isComplete(),
 		layoutTemplate: journey.journeyTemplate,
 		journeyTitle: journey.journeyTitle,
-		bannerHtmlOverride: journey.bannerHtmlOverride
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response)
 	});
 };
 
@@ -579,7 +579,7 @@ exports.appellantSubmissionDeclaration = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-declaration/index', {
 		layoutTemplate: journey.journeyTemplate,
-		bannerHtmlOverride: journey.bannerHtmlOverride
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response)
 	});
 };
 
@@ -623,7 +623,7 @@ exports.appellantSubmissionInformation = async (req, res) => {
 		journeyTitle: journey.journeyTitle,
 		css,
 		displayCookieBanner: false,
-		bannerHtmlOverride: journey.bannerHtmlOverride
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response)
 	});
 };
 
@@ -658,7 +658,7 @@ exports.appellantSubmitted = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-screen/appellant', {
 		caseReference: journey.response.answers.applicationReference,
-		bannerHtmlOverride: journey.bannerHtmlOverride,
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
 		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
@@ -707,7 +707,7 @@ exports.appellantFinalCommentSubmitted = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-screen/appellant-final-comment', {
 		caseReference,
-		bannerHtmlOverride: journey.bannerHtmlOverride,
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
 		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
@@ -744,7 +744,7 @@ exports.appellantProofEvidenceSubmitted = async (req, res) => {
 	return res.render('./dynamic-components/submission-screen/appellant-proof-evidence', {
 		caseReference,
 		dashboardUrl: '/appeals/your-appeals',
-		bannerHtmlOverride: journey.bannerHtmlOverride,
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
 		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
@@ -781,7 +781,7 @@ exports.rule6ProofEvidenceSubmitted = async (req, res) => {
 	return res.render('./dynamic-components/submission-screen/appellant-proof-evidence', {
 		caseReference,
 		dashboardUrl: '/rule-6/your-appeals',
-		bannerHtmlOverride: journey.bannerHtmlOverride,
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
 		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
@@ -817,7 +817,7 @@ exports.rule6StatementSubmitted = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-screen/rule-6-statement', {
 		caseReference,
-		bannerHtmlOverride: journey.bannerHtmlOverride,
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
 		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
