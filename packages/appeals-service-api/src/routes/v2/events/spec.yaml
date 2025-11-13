@@ -3,7 +3,7 @@ paths:
     put:
       tags:
         - events
-      description: Create a event
+      description: Create an event
       requestBody:
         description: event to be created
         content:
@@ -17,6 +17,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Event'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+  /api/v2/events/{id}:
+    delete:
+      tags:
+        - events
+      description: delete an event
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: event id
+      responses:
+        200:
+          description: deleted event
         400:
           description: Bad request
           content:

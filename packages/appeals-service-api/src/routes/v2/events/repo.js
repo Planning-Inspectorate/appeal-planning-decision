@@ -107,4 +107,16 @@ module.exports = class Repo {
 			}
 		});
 	}
+
+	/**
+	 * @param {string} id
+	 * @returns {Promise<void>}
+	 */
+	async delete(id) {
+		await this.dbClient.event.delete({
+			where: {
+				id
+			}
+		});
+	}
 };

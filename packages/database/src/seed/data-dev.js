@@ -1205,6 +1205,7 @@ const caseRelations = [
 const events = [
 	{
 		internalId: '1d3a7697-2dab-45be-bb36-45532e173ca0',
+		id: 'seed-event-0001',
 		published: true,
 		type: 'siteVisit',
 		subtype: 'accompanied',
@@ -1218,6 +1219,7 @@ const events = [
 	},
 	{
 		internalId: '6e37eecf-216f-42b2-95cc-7484f0db0bd5',
+		id: 'seed-event-0002',
 		published: true,
 		type: 'siteVisit',
 		subtype: 'unaccompanied',
@@ -1231,6 +1233,7 @@ const events = [
 	},
 	{
 		internalId: 'b400feaf-b7ea-493c-b8b5-7ca9311696b8',
+		id: 'seed-event-0003',
 		published: true,
 		type: 'siteVisit',
 		subtype: 'accessRequired',
@@ -1244,6 +1247,7 @@ const events = [
 	},
 	{
 		internalId: '6c4f6b1f-3206-4ba4-a7e1-c56ca1c83730',
+		id: 'seed-event-0004',
 		published: true,
 		type: 'siteVisit',
 		subtype: 'accessRequired',
@@ -1257,6 +1261,7 @@ const events = [
 	},
 	{
 		internalId: '6c4f6b1f-3206-4ba4-a7e1-c56ca1c83730',
+		id: 'seed-event-0005',
 		published: true,
 		type: 'siteVisit',
 		subtype: 'accessRequired',
@@ -1270,6 +1275,7 @@ const events = [
 	},
 	{
 		internalId: '1e3a7697-2dab-45be-bb36-45532e173ca0',
+		id: 'seed-event-0006',
 		published: true,
 		type: 'inquiry',
 		subtype: null,
@@ -1287,6 +1293,7 @@ const events = [
 	},
 	{
 		internalId: '1f3a7697-2dab-45be-bb36-45532e173ca0',
+		id: 'seed-event-0007',
 		published: true,
 		type: 'hearing',
 		subtype: null,
