@@ -14,24 +14,25 @@ const {
 } = require('@pins/common/src/database/data-static');
 const config = require('../../config');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
-// const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
+const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  * @typedef {Omit<ConstructorParameters<typeof import('@pins/dynamic-forms/src/journey').Journey>[0], 'response'>} JourneyParameters
  */
 
-// const escape = require('escape-html');
+const escape = require('escape-html');
 /**
  * @param {JourneyResponse} response
  * @returns {string}
  */
 
-// const formatEnforcementIndividualName = (response) => {
-// 	return escape(
-// 		`${response.answers['appellantFirstName']} ${response.answers['appellantLastName']}`
-// 	);
-// };
+const formatEnforcementIndividualName = (response) => {
+	const firstName = response.answers['appellantFirstName'] || 'Named';
+	const lastName = response.answers['appellantLastName'] || 'Individual';
+
+	return escape(`${firstName} ${lastName}`);
+};
 
 /**
  * @param {JourneyResponse} response
@@ -48,17 +49,17 @@ const makeSections = (response) => [
 				fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
 			)
 		)
-		// .addQuestion(questions.enforcementAreYouIndividual)
-		// .withCondition(() =>
-		// 	questionHasAnswer(
-		// 		response,
-		// 		questions.enforcementWhoIsAppealing,
-		// 		fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
-		// 	)
-		// )
-		// .withVariables({
-		// 	[QUESTION_VARIABLES.INDIVIDUAL_NAME]: formatEnforcementIndividualName(response)
-		// })
+		.addQuestion(questions.enforcementAreYouIndividual)
+		.withCondition(() =>
+			questionHasAnswer(
+				response,
+				questions.enforcementWhoIsAppealing,
+				fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+			)
+		)
+		.withVariables({
+			[QUESTION_VARIABLES.INDIVIDUAL_NAME]: formatEnforcementIndividualName(response)
+		})
 		.addQuestion(questions.enforcementOrganisationName)
 		.withCondition(() =>
 			questionHasAnswer(

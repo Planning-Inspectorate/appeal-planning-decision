@@ -110,7 +110,10 @@ class OptionsQuestion extends Question {
 		viewModel.question.options = [];
 
 		for (const option of this.options) {
-			let optionData = { ...option };
+			let unformattedOptionData = { ...option };
+
+			const optionData = super.replaceVariables(section, unformattedOptionData);
+
 			// Skip if the option is a divider
 			if (optionIsDivider(optionData)) {
 				viewModel.question.options.push(optionData);

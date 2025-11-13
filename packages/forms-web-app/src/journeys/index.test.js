@@ -604,6 +604,7 @@ const questionExpectations = (question, element, caseType) => {
 				escapeHtml(
 					question.question
 						.replace('<appeal type with an or a>', getAppealTypeStringWithAnOrA(caseType))
+						.replace('<individual name>', 'Named Individual')
 						.trim()
 				)
 			);
