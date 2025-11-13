@@ -27,9 +27,6 @@ const { getUserFromSession } = require('../services/user.service');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 const config = require('../config');
 const {
-	typeOfPlanningApplicationToAppealTypeMapper
-} = require('#lib/full-appeal/map-planning-application');
-const {
 	generateRequiredDocuments,
 	generateOptionalDocuments
 } = require('#lib/documents-for-submission');
@@ -457,8 +454,7 @@ exports.lpaQuestionnaireSubmissionInformation = async (req, res) => {
  */
 exports.appellantBYSListOfDocuments = (req, res) => {
 	const appeal = req.session.appeal;
-	const appealType =
-		typeOfPlanningApplicationToAppealTypeMapper[req.session.appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 	const bannerHtmlOverride =
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));

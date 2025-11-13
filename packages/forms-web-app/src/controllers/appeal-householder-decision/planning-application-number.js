@@ -2,14 +2,12 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const { VIEW } = require('../../lib/views');
 const config = require('../../config');
-const {
-	typeOfPlanningApplicationToAppealTypeMapper
-} = require('#lib/full-appeal/map-planning-application');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 const getPlanningApplicationNumber = (req, res) => {
 	const { appeal } = req.session;
 	const { planningApplicationNumber } = appeal;
-	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	return res.render('appeal-householder-decision/planning-application-number', {
 		planningApplicationNumber,
@@ -27,7 +25,7 @@ const postPlanningApplicationNumber = async (req, res) => {
 		appeal,
 		appeal: { planningApplicationNumber }
 	} = req.session;
-	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	if (Object.keys(errors).length > 0) {
 		return res.render('appeal-householder-decision/planning-application-number', {
