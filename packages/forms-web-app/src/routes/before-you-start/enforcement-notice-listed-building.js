@@ -15,6 +15,7 @@ router.get(
 );
 router.post(
 	'/enforcement-notice-listed-building',
+	[fetchExistingAppealMiddleware],
 	enforcementNoticeListedBuildingValidationRules(),
 	validationErrorHandler,
 	enforcementNoticeListedBuildingController.postEnforcementNoticeListedBuilding

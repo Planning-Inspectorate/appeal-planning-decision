@@ -17,7 +17,8 @@ const VIEW = {
 		ENFORCEMENT_NOTICE_LISTED_BUILDING: 'before-you-start/enforcement-notice-listed-building',
 		ENFORCEMENT_ISSUE_DATE: 'before-you-start/enforcement-issue-date',
 		ENFORCEMENT_EFFECTIVE_DATE: 'before-you-start/enforcement-effective-date',
-		APPLICATION_ABOUT: 'before-you-start/planning-application-about'
+		APPLICATION_ABOUT: 'before-you-start/planning-application-about',
+		CONTACT_PLANNING_INSPECTORATE: 'before-you-start/contact-planning-inspectorate'
 	},
 
 	APPELLANT_SUBMISSION: {
