@@ -14,7 +14,7 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 		describe('create event', () => {
 			it('should return 400 if unknown field supplied', async () => {
 				const response = await appealsApi.put('/api/v2/events').send({
-					id: 'doc_001',
+					id: 'event_001',
 					unknownField: '123'
 				});
 
@@ -127,6 +127,39 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 				expect(dbEventModified).not.toBe(null);
 				expect(dbEventModified?.type).toBe('hearing');
 				expect(dbEventModified?.subtype).toBe('virtual');
+			});
+		});
+
+		describe('delete event', () => {
+			it('deletes events', async () => {
+				const caseRef = 'deleteEvent_ref_001';
+				await sqlClient.appealCase.create({
+					data: {
+						Appeal: { create: {} },
+						...createTestAppealCase(caseRef, 'HAS', 'lpa_001')
+					}
+				});
+
+				const eventId = 'deleteEvent_data_model_id_001';
+				await sqlClient.event.create({
+					data: {
+						id: eventId,
+						type: 'site_visit',
+						caseReference: caseRef
+					}
+				});
+
+				const response = await appealsApi.delete(`/api/v2/events/${eventId}`);
+
+				expect(response.status).toBe(200);
+
+				const notDoc = await sqlClient.event.findFirst({
+					where: {
+						id: eventId
+					}
+				});
+
+				expect(notDoc).toBe(null);
 			});
 		});
 	});

@@ -9,7 +9,8 @@ describe('appeal-event', () => {
 	const ctx = new InvocationContext({ functionName: 'appeal-event' });
 	ctx.log = jest.fn();
 	const mockClient = {
-		putAppealEvent: jest.fn()
+		putAppealEvent: jest.fn(),
+		deleteAppealEvent: jest.fn()
 	};
 
 	beforeEach(async () => {
@@ -25,5 +26,16 @@ describe('appeal-event', () => {
 	it('forwards the message to the appeals api', async () => {
 		await handler({ appeal: 'event' }, ctx);
 		expect(mockClient.putAppealEvent).toHaveBeenCalledWith({ appeal: 'event' });
+	});
+
+	it('Should delete event if meta data is delete type', async () => {
+		const testData = { eventId: 123 };
+		const result = await handler(testData, {
+			...ctx,
+			triggerMetadata: { applicationProperties: { type: 'Delete' } }
+		});
+
+		expect(mockClient.deleteAppealEvent).toHaveBeenCalledWith(testData.eventId);
+		expect(result).toEqual({});
 	});
 });

@@ -544,7 +544,7 @@ model Event {
   /// this ID is for front office only and won't correlate to other systems
   internalId String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
-  id                      String?
+  id                      String    @unique
   type                    String
   subtype                 String?
   name                    String?

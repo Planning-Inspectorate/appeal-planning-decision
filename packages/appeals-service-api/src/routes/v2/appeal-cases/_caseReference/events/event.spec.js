@@ -58,6 +58,7 @@ module.exports = ({ getSqlClient, setCurrentSub, appealsApi }) => {
 		await sqlClient.event.createMany({
 			data: [
 				{
+					id: crypto.randomUUID(),
 					caseReference: caseRef,
 					published: true,
 					type: 'siteVisit',
@@ -66,6 +67,7 @@ module.exports = ({ getSqlClient, setCurrentSub, appealsApi }) => {
 					endDate: futureEndDate
 				},
 				{
+					id: crypto.randomUUID(),
 					caseReference: caseRef,
 					published: true,
 					type: 'siteVisit',
@@ -74,6 +76,7 @@ module.exports = ({ getSqlClient, setCurrentSub, appealsApi }) => {
 					endDate: pastEndDate
 				},
 				{
+					id: crypto.randomUUID(),
 					caseReference: caseRef,
 					published: true,
 					type: 'siteVisit',
@@ -82,6 +85,7 @@ module.exports = ({ getSqlClient, setCurrentSub, appealsApi }) => {
 					endDate: futureEndDate
 				},
 				{
+					id: crypto.randomUUID(),
 					caseReference: caseRef,
 					published: true,
 					type: 'hearing',

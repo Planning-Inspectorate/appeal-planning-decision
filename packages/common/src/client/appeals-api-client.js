@@ -311,6 +311,16 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {AppealEvent} data
+	 * @returns {Promise<void>}
+	 */
+	async deleteAppealEvent(id) {
+		const endpoint = `${v2}/events/${id}`;
+		await this.#makeDeleteRequest(endpoint);
+		return;
+	}
+
+	/**
 	 * 'Public' API, only checks published cases.
 	 *
 	 * @param {Object<string, any>} params
