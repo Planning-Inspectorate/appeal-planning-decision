@@ -187,7 +187,7 @@ class Question {
 			skipLinkUrl: nextQuestionUrl,
 			journeyTitle: journey.journeyTitle,
 			payload,
-			bannerHtmlOverride: journey.bannerHtmlOverride,
+			bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
 			...customViewData
 		};
 

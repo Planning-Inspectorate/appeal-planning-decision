@@ -84,7 +84,8 @@ describe('SiteAddressQuestion', () => {
 						SubmissionAddress: [{ ...testAddress, fieldName: FIELDNAME }]
 					}
 				},
-				getCurrentQuestionUrl: jest.fn()
+				getCurrentQuestionUrl: jest.fn(),
+				makeBannerHtmlOverride: jest.fn()
 			};
 
 			const summary = question.formatAnswerForSummary('section-segment', journey);
@@ -125,7 +126,8 @@ describe('SiteAddressQuestion', () => {
 			getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 			getBackLink: jest.fn().mockReturnValue('/back'),
 			getCurrentQuestionUrl: jest.fn().mockReturnValue('/current'),
-			getSection: jest.fn().mockReturnValue(section)
+			getSection: jest.fn().mockReturnValue(section),
+			makeBannerHtmlOverride: jest.fn()
 		};
 
 		it('should create view model with existing address details', () => {
