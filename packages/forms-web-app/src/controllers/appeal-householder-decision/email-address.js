@@ -4,16 +4,14 @@ const { enterCodeConfig } = require('@pins/common');
 const { VIEW } = require('../../lib/views');
 const { logoutUser } = require('../../services/user.service');
 const config = require('../../config');
-const {
-	typeOfPlanningApplicationToAppealTypeMapper
-} = require('#lib/full-appeal/map-planning-application');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 const getEmailAddress = (req, res) => {
 	const {
 		appeal,
 		appeal: { email }
 	} = req.session;
-	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 	return res.render(VIEW.APPELLANT_SUBMISSION.EMAIL_ADDRESS, {
 		email,
 		bannerHtmlOverride:
@@ -30,7 +28,7 @@ const postEmailAddress = async (req, res) => {
 		appeal,
 		appeal: { email }
 	} = req.session;
-	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 	if (Object.keys(errors).length > 0) {
 		return res.render(VIEW.APPELLANT_SUBMISSION.EMAIL_ADDRESS, {
 			email,
