@@ -5919,6 +5919,81 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the health-safety-issues question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-heading-l">Health and safety issues</h1>
+                <p class="govuk-body"></p>
+                <p class="govuk-!-margin-bottom-2">Understanding any health and safety issues will help an inspector carry
+                    out a site visit.</p>
+                <p class="govuk-!-margin-bottom-2">For example:</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>animals at the site, for example pets or livestock</li>
+                    <li>any vulnerable or potentially violent people who may be at the site</li>
+                    <li>poor mobile signal at the site</li>
+                    <li>access issues for people with limited mobility</li>
+                    <li>overgrown vegetation that could restrict access to the site</li>
+                    <li>building works or other operations taking place on the site</li>
+                    <li>site-specific safety arrangements that are in place</li>
+                    <li>areas of the site that require specialist equipment or training for access,
+                        for example heights or confined spaces</li>
+                    <li>requirements to view the site from a height, for example from a roof or
+                        balcony</li>
+                    <li>risk of exposure to chemicals, asbestos or radiation</li>
+                    <li>unmarked changes in level or missing fittings</li>
+                </ul>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any health and safety issues on the appeal site?</legend>
+                        <div
+                        class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="appellantSiteSafety" name="appellantSiteSafety"
+                                type="radio" value="yes" data-aria-controls="conditional-appellantSiteSafety"
+                                data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="appellantSiteSafety">Yes</label>
+                            </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-appellantSiteSafety">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="appellantSiteSafety_appellantSiteSafetyDetails">Tell us about the health and safety issues</label>
+                                    <div id="appellantSiteSafety_appellantSiteSafetyDetails-hint"
+                                    class="govuk-hint"></div>
+                                    <textarea class="govuk-textarea" id="appellantSiteSafety_appellantSiteSafetyDetails"
+                                    name="appellantSiteSafety_appellantSiteSafetyDetails" rows="5" aria-describedby="appellantSiteSafety_appellantSiteSafetyDetails-hint"></textarea>
+                                </div>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="appellantSiteSafety-2" name="appellantSiteSafety"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="appellantSiteSafety-2">No</label>
+                            </div>
+                </div>
+                </fieldset>
+        </div>
+        <button type="submit" class="govuk-button" data-module="govuk-button"
+        data-cy="button-save-and-continue">Continue</button>
+        </form>
+    </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the individual-name question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -5946,6 +6021,68 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                         <input class="govuk-input govuk-input-!-width-three-quarters"
                         id="appellantLastName" name="appellantLastName" type="text" spellcheck="false"
                         autocomplete="family-name">
+                    </div>
+                </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the inspector-need-access question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Will an inspector need to access the land or property?</h1>
+                    </legend>
+                    <p class="govuk-!-margin-bottom-2">An inspector will visit the land to assess the development’s impact on
+                        its surroundings.</p>
+                    <p class="govuk-!-margin-bottom-2">If the inspector can view the land from a public road or footpath without
+                        entering the land or property, they do not need access.</p>
+                    <div class="govuk-form-group">
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="appellantSiteAccess" name="appellantSiteAccess"
+                                type="radio" value="yes" data-aria-controls="conditional-appellantSiteAccess"
+                                data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="appellantSiteAccess">Yes</label>
+                            </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-appellantSiteAccess">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="appellantSiteAccess_appellantSiteAccessDetails">Enter a reason why an inspector cannot view the land from a public road
+                                        or footpath.</label>
+                                    <div id="appellantSiteAccess_appellantSiteAccessDetails-hint"
+                                    class="govuk-hint">For example, the land is at the rear of a terraced property.</div>
+                                    <textarea
+                                    class="govuk-textarea" id="appellantSiteAccess_appellantSiteAccessDetails"
+                                    name="appellantSiteAccess_appellantSiteAccessDetails" rows="5" aria-describedby="appellantSiteAccess_appellantSiteAccessDetails-hint"></textarea>
+                                </div>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="appellantSiteAccess-2" name="appellantSiteAccess"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="appellantSiteAccess-2">No</label>
+                            </div>
+                        </div>
                     </div>
                 </fieldset>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
@@ -6217,6 +6354,18 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/is-contact-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Is the appeal site address your contact address?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Will an inspector need to access the land or property?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/inspector-need-access?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Will an inspector need to access the land or property?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any health and safety issues on the appeal site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/health-safety-issues?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Health and safety issues</span></a>
                                 </dd>
                         </div>
                     </dl>

@@ -45,3 +45,6 @@ condition: () =>
 ```js
 condition: () => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no');
 ```
+
+- radio `/inspector-need-access/` Will an inspector need to access the land or property?
+- radio `/health-safety-issues/` Health and safety issues

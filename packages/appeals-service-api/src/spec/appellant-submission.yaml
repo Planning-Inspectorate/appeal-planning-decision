@@ -207,7 +207,7 @@ components:
           type: boolean
 
         contactAddress:
-          type:boolean
+          type: boolean
 
         highwayLand:
           type: boolean
