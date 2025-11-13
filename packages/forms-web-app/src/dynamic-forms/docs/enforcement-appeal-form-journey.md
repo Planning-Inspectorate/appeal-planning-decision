@@ -14,6 +14,17 @@ condition: () =>
 	);
 ```
 
+- boolean `/are-you-individual/` Are you <individual name>?
+
+```js
+condition: () =>
+	questionHasAnswer(
+		response,
+		questions.enforcementWhoIsAppealing,
+		fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+	);
+```
+
 - single-line-input `/organisation-name/` What is the name of the organisation?
 
 ```js
