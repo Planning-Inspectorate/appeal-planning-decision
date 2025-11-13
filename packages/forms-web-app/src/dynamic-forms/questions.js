@@ -1905,6 +1905,23 @@ exports.questionProps = {
 			})
 		]
 	},
+	appealSiteIsContactAddress: {
+		type: 'boolean',
+		title: 'Is the appeal site address your contact address?',
+		question: 'Is the appeal site address your contact address?',
+		fieldName: 'siteAddressIsContactAddress',
+		url: 'is-contact-address',
+		validators: [new RequiredValidator('Select yes if the appeal site is your contact address')]
+	},
+	contactAddress: {
+		type: 'site-address',
+		title: 'What is your contact address?',
+		question: 'What is your contact address?',
+		fieldName: fieldNames.contactAddress,
+		url: 'contact-address',
+		viewFolder: 'address-entry',
+		validators: [new AddressValidator(defaultAddressValidatorParams)]
+	},
 	s78SiteArea: {
 		type: 'unit-option',
 		title: 'What is the area of the appeal site?',

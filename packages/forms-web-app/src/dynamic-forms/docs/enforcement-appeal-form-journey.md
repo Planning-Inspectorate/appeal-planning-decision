@@ -38,3 +38,10 @@ condition: () =>
 
 - multi-field-input `/contact-details/` Contact details
 - single-line-input `/phone-number/` What is your phone number?
+- address-entry `/appeal-site-address/` What is the address of the appeal site?
+- boolean `/is-contact-address/` Is the appeal site address your contact address?
+- address-entry `/contact-address/` What is your contact address?
+
+```js
+condition: () => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no');
+```

@@ -70,6 +70,11 @@ const makeSections = (response) => [
 		)
 		.addQuestion(questions.contactDetails)
 		.addQuestion(questions.contactPhoneNumber)
+		// consider whether to make dynamic to generate hint...
+		.addQuestion(questions.appealSiteAddress)
+		.addQuestion(questions.appealSiteIsContactAddress)
+		.addQuestion(questions.contactAddress)
+		.withCondition(() => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no'))
 ];
 
 const baseEnforcementSubmissionUrl = `/appeals/${ENFORCEMENT.friendlyUrl}`;
