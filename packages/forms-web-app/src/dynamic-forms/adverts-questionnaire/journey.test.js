@@ -144,16 +144,13 @@ describe.each([
 
 	it('should have the correct questions in the Notifying relevant parties section', () => {
 		const NOTIFYING_SECTION_INDEX = 1;
-		const NOTIFYING_APPLICATION_INDEX = 0;
-		const HOW_NOTIFIED_INDEX = 1;
-		const SITE_NOTICE_INDEX = 2;
-		const LETTERS_EMAILS_INDEX = 3;
-		const PRESS_ADVERT_INDEX = 4;
+		const HOW_NOTIFIED_INDEX = 0;
+		const SITE_NOTICE_INDEX = 1;
+		const LETTERS_EMAILS_INDEX = 2;
+		const PRESS_ADVERT_INDEX = 3;
+		const NOTIFYING_APPLICATION_INDEX = 4;
 		const NOTIFICATION_LETTER_INDEX = 5;
 
-		expect(
-			journey.sections[NOTIFYING_SECTION_INDEX].questions[NOTIFYING_APPLICATION_INDEX].question
-		).toBe('Who did you notify about this application?');
 		expect(journey.sections[NOTIFYING_SECTION_INDEX].questions[HOW_NOTIFIED_INDEX].question).toBe(
 			'How did you notify relevant parties about the planning application?'
 		);
@@ -166,6 +163,9 @@ describe.each([
 		expect(journey.sections[NOTIFYING_SECTION_INDEX].questions[PRESS_ADVERT_INDEX].question).toBe(
 			'Upload the press advertisement'
 		);
+		expect(
+			journey.sections[NOTIFYING_SECTION_INDEX].questions[NOTIFYING_APPLICATION_INDEX].question
+		).toBe('Who did you notify about this application?');
 		expect(
 			journey.sections[NOTIFYING_SECTION_INDEX].questions[NOTIFICATION_LETTER_INDEX].question
 		).toBe('Upload the appeal notification letter and the list of people that you notified');

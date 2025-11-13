@@ -14060,6 +14060,12 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                                 type="checkbox" value="advert" data-cy="answer-advert">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-3">An advert in the local press</label>
                             </div>
+                            <div class="govuk-checkboxes__divider">or</div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="notificationMethod-5" name="notificationMethod"
+                                type="checkbox" value="no-one-notified" data-behaviour="exclusive" data-cy="answer-no-one-notified">
+                                <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-5">I did not notify the relevant parties</label>
+                            </div>
                         </div>
                     </fieldset>
                 </div>
@@ -15266,14 +15272,14 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
-                            </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Type of notification</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/notification-type">Answer<span class="govuk-visually-hidden"> How did you notify relevant parties about the planning application?</span></a>
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
@@ -16442,6 +16448,12 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                                 <input class="govuk-checkboxes__input" id="notificationMethod-3" name="notificationMethod"
                                 type="checkbox" value="advert" data-cy="answer-advert">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-3">An advert in the local press</label>
+                            </div>
+                            <div class="govuk-checkboxes__divider">or</div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="notificationMethod-5" name="notificationMethod"
+                                type="checkbox" value="no-one-notified" data-behaviour="exclusive" data-cy="answer-no-one-notified">
+                                <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-5">I did not notify the relevant parties</label>
                             </div>
                         </div>
                     </fieldset>
@@ -17643,14 +17655,14 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement renders listin
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
-                            </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Type of notification</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/notification-type">Answer<span class="govuk-visually-hidden"> How did you notify relevant parties about the planning application?</span></a>
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
@@ -18451,6 +18463,12 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                                 <input class="govuk-checkboxes__input" id="notificationMethod-3" name="notificationMethod"
                                 type="checkbox" value="advert" data-cy="answer-advert">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-3">An advert in the local press</label>
+                            </div>
+                            <div class="govuk-checkboxes__divider">or</div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="notificationMethod-5" name="notificationMethod"
+                                type="checkbox" value="no-one-notified" data-behaviour="exclusive" data-cy="answer-no-one-notified">
+                                <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-5">I did not notify the relevant parties</label>
                             </div>
                         </div>
                     </fieldset>
@@ -19277,14 +19295,14 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) renders listi
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
-                            </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Type of notification</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/notification-type">Answer<span class="govuk-visually-hidden"> How did you notify relevant parties about the planning application?</span></a>
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
@@ -20423,6 +20441,12 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                                 type="checkbox" value="advert" data-cy="answer-advert">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-3">An advert in the local press</label>
                             </div>
+                            <div class="govuk-checkboxes__divider">or</div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="notificationMethod-5" name="notificationMethod"
+                                type="checkbox" value="no-one-notified" data-behaviour="exclusive" data-cy="answer-no-one-notified">
+                                <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-5">I did not notify the relevant parties</label>
+                            </div>
                         </div>
                     </fieldset>
                 </div>
@@ -21293,14 +21317,14 @@ exports[`Dynamic forms journey tests lpa Householder renders listing page 1`] = 
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
-                            </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Type of notification</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/notification-type">Answer<span class="govuk-visually-hidden"> How did you notify relevant parties about the planning application?</span></a>
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
@@ -22852,6 +22876,12 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the not
                                 <input class="govuk-checkboxes__input" id="notificationMethod-3" name="notificationMethod"
                                 type="checkbox" value="advert" data-cy="answer-advert">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-3">An advert in the local press</label>
+                            </div>
+                            <div class="govuk-checkboxes__divider">or</div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="notificationMethod-5" name="notificationMethod"
+                                type="checkbox" value="no-one-notified" data-behaviour="exclusive" data-cy="answer-no-one-notified">
+                                <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-5">I did not notify the relevant parties</label>
                             </div>
                         </div>
                     </fieldset>
@@ -26106,6 +26136,12 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                                 type="checkbox" value="advert" data-cy="answer-advert">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-3">An advert in the local press</label>
                             </div>
+                            <div class="govuk-checkboxes__divider">or</div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="notificationMethod-5" name="notificationMethod"
+                                type="checkbox" value="no-one-notified" data-behaviour="exclusive" data-cy="answer-no-one-notified">
+                                <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-5">I did not notify the relevant parties</label>
+                            </div>
                         </div>
                     </fieldset>
                 </div>
@@ -28049,14 +28085,14 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
-                            </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Type of notification</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/notification-type">Answer<span class="govuk-visually-hidden"> How did you notify relevant parties about the planning application?</span></a>
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
@@ -28352,14 +28388,14 @@ exports[`Dynamic forms journey tests lpa Planning renders listing page 1`] = `
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
-                            </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Type of notification</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/notification-type">Answer<span class="govuk-visually-hidden"> How did you notify relevant parties about the planning application?</span></a>
+                            </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>

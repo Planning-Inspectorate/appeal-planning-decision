@@ -297,6 +297,14 @@ exports.questionProps = {
 			{
 				text: 'An advert in the local press',
 				value: 'advert'
+			},
+			{
+				[DIVIDER]: 'or'
+			},
+			{
+				text: 'I did not notify the relevant parties',
+				value: 'no-one-notified',
+				behaviour: 'exclusive'
 			}
 		]
 	},
