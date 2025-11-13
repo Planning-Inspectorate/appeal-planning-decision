@@ -16,6 +16,7 @@ const enforcementIssueDate = require('./enforcement-issue-date');
 const enforcementEffectiveDate = require('./enforcement-effective-date');
 const useExistingServiceEnforcementNotice = require('./use-existing-service-enforcement-notice');
 const clearAppealSession = require('./clear-appeal-session');
+const contactPlanningInspectorate = require('./contact-planning-inspectorate');
 
 router.use(beforeYouStart);
 router.use(useExistingServiceDevelopmentType);
@@ -31,5 +32,6 @@ router.use(enforcementIssueDate);
 router.use(enforcementEffectiveDate);
 router.use(useExistingServiceEnforcementNotice);
 router.use(clearAppealSession);
+router.use(contactPlanningInspectorate);
 
 module.exports = router;

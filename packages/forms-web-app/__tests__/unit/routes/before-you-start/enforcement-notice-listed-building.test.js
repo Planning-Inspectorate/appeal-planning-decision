@@ -22,6 +22,7 @@ describe('routes/full-appeal/enforcement-notice-listed-building', () => {
 		);
 		expect(post).toHaveBeenCalledWith(
 			'/enforcement-notice-listed-building',
+			[fetchExistingAppealMiddleware],
 			enforcementNoticeListedBuildingValidationRules(),
 			validationErrorHandler,
 			enforcementNoticeListedBuildingController.postEnforcementNoticeListedBuilding

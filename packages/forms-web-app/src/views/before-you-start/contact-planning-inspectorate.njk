@@ -1,0 +1,73 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% set title="Did you contact planning inspectorate? - Before you start - Appeal a planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errors %}
+      <div {% if focusErrorSummary %} tabindex="-1" autofocus {% endif %}>
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+        </div>
+      {% endif %}
+
+      <form action="" method="post" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <span class="govuk-caption-l">Before you start</span>
+
+        {{ govukRadios({
+          classes: "govuk-radios",
+          idPrefix: "contact-planning-inspectorate",
+          name: "contact-planning-inspectorate",
+          errorMessage: errors['contact-planning-inspectorate'] and {
+            text: errors['contact-planning-inspectorate'].msg
+          },
+          fieldset: {
+            legend: {
+              text: "Did you contact the Planning Inspectorate to tell them you will appeal the enforcement notice?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              attributes: { "data-cy": "answer-yes" },
+              checked: appeal.eligibility.contactPlanningInspectorate == true
+            },
+            {
+              value: "no",
+              text: "No",
+              attributes: { "data-cy": "answer-no" },
+              checked: appeal.eligibility.contactPlanningInspectorate == false
+            }
+          ]
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
