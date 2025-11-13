@@ -9,16 +9,14 @@ const {
 	}
 } = require('../../lib/views');
 const config = require('../../config');
-const {
-	typeOfPlanningApplicationToAppealTypeMapper
-} = require('#lib/full-appeal/map-planning-application');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 exports.getDecisionDate = async (req, res) => {
 	const { appeal } = req.session;
 
 	const appealDecisionDate = parseISO(appeal.decisionDate);
 	const decisionDate = isValid(appealDecisionDate) ? appealDecisionDate : null;
-	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	res.render(currentPage, {
 		decisionDate: decisionDate && {
@@ -36,7 +34,7 @@ exports.postDecisionDate = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 	const { appeal } = req.session;
-	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(currentPage, {

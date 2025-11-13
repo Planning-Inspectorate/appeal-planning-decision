@@ -100,6 +100,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				bannerHtmlOverride: bannerHtmlOverrideHAS
 			});
 		});
+
 		it('renders page - HAS - date decision due - v2 - s20 flag', async () => {
 			isLpaInFeatureFlag.mockReturnValue(true);
 			const householderAppealNoDecisionReceived = { ...householderAppeal };
@@ -523,6 +524,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				return flag === FLAG.S20_APPEAL_FORM_V2;
 			});
 			const s20Appeal = {
+				appealType: APPEAL_ID.PLANNING_LISTED_BUILDING,
 				typeOfPlanningApplication: 'listed-building',
 				lpaCode: 'E60000068',
 				decisionDate: fullAppeal.decisionDate,
@@ -564,6 +566,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			});
 			const casPlanningAppeal = {
 				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+				appealType: APPEAL_ID.MINOR_COMMERCIAL,
 				lpaCode: 'E60000068',
 				decisionDate: fullAppeal.decisionDate,
 				eligibility: {
@@ -580,7 +583,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				applicationAbout: ['None of these'],
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Minor commercial development',
-				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
+				deadlineDate: { date: 27, day: 'Wednesday', month: 'July', year: 2022 },
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
@@ -597,6 +600,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			});
 		});
 	});
+
 	describe('getCanUseService - adverts', () => {
 		it('renders page - adverts', async () => {
 			isLpaInFeatureFlag.mockImplementation((_, flag) => {
@@ -637,45 +641,46 @@ describe('controllers/before-you-start/can-use-service', () => {
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ADVERTS'))
 			});
 		});
-		describe('getCanUseService - cas adverts', () => {
-			it('renders page - adverts', async () => {
-				isLpaInFeatureFlag.mockImplementation((_, flag) => {
-					return flag === FLAG.CAS_ADVERTS_APPEAL_FORM_V2;
-				});
-				const advertsAppeal = {
-					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT,
-					appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT,
-					lpaCode: 'E60000068',
-					decisionDate: fullAppeal.decisionDate,
-					eligibility: {
-						applicationDecision: 'refused'
-					}
-				};
-				req = mockReq(advertsAppeal);
+	});
 
-				await getCanUseService(req, res);
+	describe('getCanUseService - cas adverts', () => {
+		it('renders page - cas adverts', async () => {
+			isLpaInFeatureFlag.mockImplementation((_, flag) => {
+				return flag === FLAG.CAS_ADVERTS_APPEAL_FORM_V2;
+			});
+			const advertsAppeal = {
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT,
+				appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT,
+				lpaCode: 'E60000068',
+				decisionDate: fullAppeal.decisionDate,
+				eligibility: {
+					applicationDecision: 'refused'
+				}
+			};
+			req = mockReq(advertsAppeal);
 
-				expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-					appealLPD: 'Bradford',
-					applicationAbout: null,
-					applicationDecision: 'Refused',
-					applicationType: 'Advertisement',
-					deadlineDate: { date: 29, day: 'Wednesday', month: 'June', year: 2022 },
-					decisionDate: '04 May 2022',
-					dateOfDecisionLabel: 'Date of decision',
-					enforcementNotice: 'No',
-					isListedBuilding: 'No',
-					nextPageUrl: '/adverts/email-address',
-					changeLpaUrl: '/before-you-start/local-planning-authority',
-					isV2forS78: false,
-					isV2forCAS: false,
-					isV2forCASAdverts: true,
-					isV2forAdverts: false,
+			await getCanUseService(req, res);
 
-					bannerHtmlOverride:
-						config.betaBannerText +
-						config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ADVERTS'))
-				});
+			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				appealLPD: 'Bradford',
+				applicationAbout: null,
+				applicationDecision: 'Refused',
+				applicationType: 'Advertisement',
+				deadlineDate: { date: 29, day: 'Wednesday', month: 'June', year: 2022 },
+				decisionDate: '04 May 2022',
+				dateOfDecisionLabel: 'Date of decision',
+				enforcementNotice: 'No',
+				isListedBuilding: 'No',
+				nextPageUrl: '/adverts/email-address',
+				changeLpaUrl: '/before-you-start/local-planning-authority',
+				isV2forS78: false,
+				isV2forCAS: false,
+				isV2forCASAdverts: true,
+				isV2forAdverts: false,
+
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('CAS_ADVERTS'))
 			});
 		});
 	});

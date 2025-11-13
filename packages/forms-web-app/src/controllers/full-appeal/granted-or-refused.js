@@ -12,11 +12,9 @@ const {
 	validApplicationDecisionOptions
 } = require('../../validators/full-appeal/granted-or-refused');
 const config = require('../../config');
-const {
-	typeOfPlanningApplicationToAppealTypeMapper
-} = require('#lib/full-appeal/map-planning-application');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { FLAG } = require('@pins/common/src/feature-flags');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 exports.forwardPage = (status) => {
 	const statuses = {
@@ -32,7 +30,7 @@ exports.forwardPage = (status) => {
 
 exports.getGrantedOrRefused = async (req, res) => {
 	const { appeal } = req.session;
-	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 	res.render(currentPage, {
 		appeal,
 		bannerHtmlOverride:
@@ -60,7 +58,7 @@ exports.postGrantedOrRefused = async (req, res) => {
 	}
 
 	appeal.eligibility.applicationDecision = selectedApplicationStatus;
-	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	if (Object.keys(errors).length > 0) {
 		res.render(currentPage, {

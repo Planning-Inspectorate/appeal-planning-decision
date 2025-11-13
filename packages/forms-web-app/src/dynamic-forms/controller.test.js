@@ -698,7 +698,9 @@ describe('dynamic-form/controller', () => {
 			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
 				bannerHtmlOverride:
 					config.betaBannerText +
-					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl(CASE_TYPES.HAS.processCode)
+					),
 				optionalDocuments: [
 					'decision letter from the local planning authority',
 					'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
@@ -714,7 +716,9 @@ describe('dynamic-form/controller', () => {
 			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
 				bannerHtmlOverride:
 					config.betaBannerText +
-					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl(CASE_TYPES.S78.processCode)
+					),
 				optionalDocuments: [
 					'decision letter from the local planning authority',
 					'planning obligation',
@@ -738,7 +742,9 @@ describe('dynamic-form/controller', () => {
 			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
 				bannerHtmlOverride:
 					config.betaBannerText +
-					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl(CASE_TYPES.S20.processCode)
+					),
 				optionalDocuments: [
 					'decision letter from the local planning authority',
 					'planning obligation',
@@ -762,7 +768,9 @@ describe('dynamic-form/controller', () => {
 			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
 				bannerHtmlOverride:
 					config.betaBannerText +
-					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl(CASE_TYPES.CAS_PLANNING.processCode)
+					),
 				optionalDocuments: [
 					'decision letter from the local planning authority',
 					'design and access statement',
@@ -781,7 +789,28 @@ describe('dynamic-form/controller', () => {
 			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
 				bannerHtmlOverride:
 					config.betaBannerText +
-					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('')),
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl(CASE_TYPES.CAS_ADVERTS.processCode)
+					),
+				optionalDocuments: undefined,
+				requiredDocuments: [
+					'application form',
+					'plans, drawings and supporting documents for your application',
+					'decision letter from the local planning authority',
+					'any other relevant correspondence with the local authority'
+				],
+				subheading: 'You’ll need your:'
+			});
+		});
+		it('renders correct page for Adverts', () => {
+			req.session.appeal = { appealType: APPEAL_ID.ADVERTISEMENT };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl(CASE_TYPES.ADVERTS.processCode)
+					),
 				optionalDocuments: undefined,
 				requiredDocuments: [
 					'application form',
