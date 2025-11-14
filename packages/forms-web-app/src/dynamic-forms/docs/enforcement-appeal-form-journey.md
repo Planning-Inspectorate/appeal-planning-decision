@@ -48,3 +48,40 @@ condition: () => questionHasAnswer(response, questions.appealSiteIsContactAddres
 
 - radio `/inspector-need-access/` Will an inspector need to access the land or property?
 - radio `/health-safety-issues/` Health and safety issues
+
+## Upload documents
+
+- boolean `/submit-planning-obligation/` Do you plan to submit a planning obligation to support your appeal?
+- radio `/status-planning-obligation/` What is the status of your planning obligation?
+
+```js
+condition: () => questionHasAnswer(response, questions.submitPlanningObligation, 'yes');
+```
+
+- multi-file-upload `/upload-planning-obligation/` Upload your planning obligation
+
+```js
+condition: () =>
+	questionsHaveAnswers(
+		response,
+		[
+			[questions.submitPlanningObligation, 'yes'],
+			[questions.planningObligationStatus, 'finalised']
+		],
+		{ logicalCombinator: 'and' }
+	);
+```
+
+- boolean `/apply-appeal-costs/` Do you need to apply for an award of appeal costs?
+- multi-file-upload `/upload-appeal-costs-application/` Upload your application for an award of appeal costs
+
+```js
+condition: () => questionHasAnswer(response, questions.costApplication, 'yes');
+```
+
+- boolean `/other-new-documents/` Do you have any other new documents that support your appeal?
+- multi-file-upload `/upload-other-new-supporting-documents/` Upload your other new supporting documents
+
+```js
+condition: () => questionHasAnswer(response, questions.otherNewDocuments, 'yes');
+```
