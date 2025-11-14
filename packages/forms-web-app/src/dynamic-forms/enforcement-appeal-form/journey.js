@@ -2,8 +2,8 @@ const { getQuestions } = require('../questions');
 const questions = getQuestions();
 const { Section } = require('@pins/dynamic-forms/src/section');
 const {
-	questionHasAnswer
-	// questionsHaveAnswers,
+	questionHasAnswer,
+	questionsHaveAnswers
 	// questionHasNonEmptyStringAnswer,
 	// questionHasNonEmptyNumberAnswer
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
@@ -76,7 +76,28 @@ const makeSections = (response) => [
 		.addQuestion(questions.contactAddress)
 		.withCondition(() => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no'))
 		.addQuestion(questions.enforcementInspectorAccess)
-		.addQuestion(questions.healthAndSafety)
+		.addQuestion(questions.healthAndSafety),
+	new Section('Upload documents', 'upload-documents')
+		.addQuestion(questions.submitPlanningObligation)
+		.addQuestion(questions.planningObligationStatus)
+		.withCondition(() => questionHasAnswer(response, questions.submitPlanningObligation, 'yes'))
+		.addQuestion(questions.uploadPlanningObligation)
+		.withCondition(() =>
+			questionsHaveAnswers(
+				response,
+				[
+					[questions.submitPlanningObligation, 'yes'],
+					[questions.planningObligationStatus, 'finalised']
+				],
+				{ logicalCombinator: 'and' }
+			)
+		)
+		.addQuestion(questions.costApplication)
+		.addQuestion(questions.uploadCostApplication)
+		.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))
+		.addQuestion(questions.otherNewDocuments)
+		.addQuestion(questions.uploadOtherNewDocuments)
+		.withCondition(() => questionHasAnswer(response, questions.otherNewDocuments, 'yes'))
 ];
 
 const baseEnforcementSubmissionUrl = `/appeals/${ENFORCEMENT.friendlyUrl}`;
