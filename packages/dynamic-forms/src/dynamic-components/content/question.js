@@ -5,6 +5,7 @@ const Question = require('../../question');
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../section').Section} Section
+ * @typedef {string} QuestionVariables
  */
 
 /**
@@ -18,6 +19,7 @@ class ContentQuestion extends Question {
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
 	 * @param {string} [params.description]
+	 * @param {string} [params.html]
 	 * @param {string} [params.url]
 	 * @param {string} [params.html]
 	 * @param {string} [params.backLinkText]
@@ -64,8 +66,7 @@ class ContentQuestion extends Question {
 			question: {
 				...viewModel.question,
 				label: questionLabel,
-				value: questionValue,
-				description: this.description
+				value: questionValue
 			}
 		};
 	}

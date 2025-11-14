@@ -25,6 +25,17 @@ condition: () =>
 	);
 ```
 
+- list-add-more `/add-individuals/` Do you need to add another individual?
+
+```js
+condition: () =>
+	questionHasAnswer(
+		response,
+		questions.enforcementWhoIsAppealing,
+		fieldValues.enforcementWhoIsAppealing.GROUP
+	);
+```
+
 - single-line-input `/organisation-name/` What is the name of the organisation?
 
 ```js
@@ -38,6 +49,12 @@ condition: () =>
 
 - multi-field-input `/contact-details/` Contact details
 - single-line-input `/phone-number/` What is your phone number?
+- continue `/complete-appeal/` Complete the appeal on behalf of <dynamic named parties>
+
+```js
+condition: () => questionHasNonEmptyStringAnswer(response, questions.enforcementWhoIsAppealing);
+```
+
 - address-entry `/appeal-site-address/` What is the address of the appeal site?
 - boolean `/is-contact-address/` Is the appeal site address your contact address?
 - address-entry `/contact-address/` What is your contact address?
