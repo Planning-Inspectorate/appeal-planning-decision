@@ -19,9 +19,10 @@ const formatSiteVisits = (events, role) => {
 	return siteVisits
 		.map((siteVisit) => {
 			if (
-				role === APPEAL_USER_ROLES.APPELLANT ||
-				role === APPEAL_USER_ROLES.AGENT ||
-				role === LPA_USER_ROLE
+				siteVisit.status !== 'withdrawn' &&
+				(role === APPEAL_USER_ROLES.APPELLANT ||
+					role === APPEAL_USER_ROLES.AGENT ||
+					role === LPA_USER_ROLE)
 			) {
 				if (siteVisit.subtype === EVENT_SUB_TYPES.UNACCOMPANIED) {
 					return 'Our inspector will visit the site. You do not need to attend.';
@@ -73,10 +74,11 @@ const formatInquiries = (events, role) => {
 			const address = formatEventAddress(inquiry);
 
 			if (
-				role === LPA_USER_ROLE ||
-				role === APPEAL_USER_ROLES.APPELLANT ||
-				role === APPEAL_USER_ROLES.AGENT ||
-				role === APPEAL_USER_ROLES.RULE_6_PARTY
+				inquiry.status !== 'withdrawn' &&
+				(role === LPA_USER_ROLE ||
+					role === APPEAL_USER_ROLES.APPELLANT ||
+					role === APPEAL_USER_ROLES.AGENT ||
+					role === APPEAL_USER_ROLES.RULE_6_PARTY)
 			) {
 				return {
 					lineOne:
