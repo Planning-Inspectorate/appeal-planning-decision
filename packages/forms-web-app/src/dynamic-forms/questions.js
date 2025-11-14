@@ -18,6 +18,7 @@ const NumberEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/
 const SiteAddressQuestion = require('@pins/dynamic-forms/src/dynamic-components/site-address/question');
 const UnitOptionEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/unit-option-entry/question');
 const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
+const ConfirmationQuestion = require('@pins/dynamic-forms/src/dynamic-components/confirmation/question');
 
 // validators
 const RequiredValidator = require('@pins/dynamic-forms/src/validator/required-validator');
@@ -2937,6 +2938,14 @@ exports.questionProps = {
 			}
 		]
 	},
+	confirmActingOnBehalf: {
+		type: 'confirmation',
+		title: 'Complete the appeal on behalf of someone',
+		question: 'Complete the appeal on behalf of someone',
+		fieldName: 'confirmedCompleteOnBehalf',
+		url: 'complete-appeal',
+		html: 'resources/enforcement/complete-appeal.html'
+	},
 	highwayLand: {
 		type: 'boolean',
 		title: 'Is the appeal site on highway land?',
@@ -3071,7 +3080,8 @@ const questionClasses = {
 	number: NumberEntryQuestion,
 	'site-address': SiteAddressQuestion,
 	'unit-option': UnitOptionEntryQuestion,
-	'list-add-more': ListAddMoreQuestion
+	'list-add-more': ListAddMoreQuestion,
+	confirmation: ConfirmationQuestion
 };
 
 exports.getQuestions = () =>

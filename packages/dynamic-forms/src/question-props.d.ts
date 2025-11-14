@@ -15,6 +15,7 @@ type QuestionTypes =
 	| 'site-address'
 	| 'unit-option'
 	| 'list-add-more'
+	| 'confirmation'
 	// strictly for add more sub question type
 	// todo refactor list add mores so there's no sub question
 	| 'case'
@@ -176,6 +177,10 @@ type SiteAddressQuestionProps = CommonQuestionProps & {
 	type: 'site-address';
 };
 
+type ConfirmationQuestionProps = CommonQuestionProps & {
+	type: 'confirmation';
+};
+
 type UnitOptionEntryQuestionProps = CommonQuestionProps & {
 	type: 'unit-option';
 	conditionalFieldName: string;
@@ -210,4 +215,5 @@ export type QuestionProps =
 	| NumberEntryQuestionProps
 	| SiteAddressQuestionProps
 	| UnitOptionEntryQuestionProps
-	| ListAddMoreQuestionProps;
+	| ListAddMoreQuestionProps
+	| ConfirmationQuestionProps;

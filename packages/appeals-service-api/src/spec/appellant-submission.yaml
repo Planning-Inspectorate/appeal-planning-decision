@@ -218,6 +218,9 @@ components:
         landownerPermission:
           type: boolean
 
+        confirmedCompleteOnBehalf:
+          type: boolean
+
         SubmissionAddress:
           type: array
           items:

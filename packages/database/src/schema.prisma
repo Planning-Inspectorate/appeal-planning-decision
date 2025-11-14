@@ -771,6 +771,7 @@ model AppellantSubmission {
   highwayLand                        Boolean?
   advertInPosition                   Boolean?
   landownerPermission                Boolean?
+  confirmedCompleteOnBehalf          Boolean?
 
   // boolean text
   appellantSiteSafety                            String?
