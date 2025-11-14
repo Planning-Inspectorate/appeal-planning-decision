@@ -10,6 +10,7 @@ const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 
 /**
  * @param {JourneyResponse} response
+ * @param {import('./questions').questionProps} questions
  * @returns {boolean}
  */
 exports.shouldDisplayIdentifyingLandowners = (response, questions) => {
@@ -30,6 +31,7 @@ exports.shouldDisplayIdentifyingLandowners = (response, questions) => {
 
 /**
  * @param {JourneyResponse} response
+ * @param {import('./questions').questionProps} questions
  * @returns {boolean}
  */
 exports.shouldDisplayTellingLandowners = (response, questions) => {
@@ -60,6 +62,7 @@ exports.shouldDisplayTellingLandowners = (response, questions) => {
 
 /**
  * @param {JourneyResponse} response
+ * @param {import('./questions').questionProps} questions
  * @returns {boolean}
  */
 exports.shouldDisplayTellingTenants = (response, questions) => {
@@ -98,9 +101,12 @@ exports.shouldDisplayAdvertsQuestions = (response) => {
 
 /**
  * @param {JourneyResponse} response
+ * @param {import('../config')|undefined} config
  * @returns {boolean}
  */
-exports.shouldDisplayGridReference = (response) => {
+exports.shouldDisplayGridReference = (response, config) => {
+	if (config?.featureFlag.gridReferenceEnabled === false) return false;
+
 	if (response.answers.siteAddress !== null) return false;
 	else
 		return (

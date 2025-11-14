@@ -14,13 +14,13 @@ condition: () => questionHasAnswer(response, questions.applicationName, 'no');
 - address-entry `/appeal-site-address/` What is the address of the appeal site?
 
 ```js
-condition: () => !shouldDisplayGridReference(response);
+condition: () => !shouldDisplayGridReference(response, config);
 ```
 
 - multi-field-input `/grid-reference/` Enter the grid reference
 
 ```js
-condition: () => shouldDisplayGridReference(response);
+condition: () => shouldDisplayGridReference(response, config);
 ```
 
 - boolean `/highway-land/` Is the appeal site on highway land?

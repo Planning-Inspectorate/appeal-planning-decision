@@ -1,4 +1,6 @@
 const createAppealSiteGridReferenceLinkUtil = require('./utils').createAppealSiteGridReferenceLink;
+const config = require('../../config');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -86,7 +88,10 @@ async function saveAction(req, res, saveFunction, journey, section, journeyRespo
  * @returns {string | undefined}
  */
 const createAppealSiteGridReferenceLink = (fieldName, journey, section) => {
-	if (journey.journeyId === 'adverts-appeal-form') {
+	if (
+		journey.journeyId === JOURNEY_TYPES.ADVERTS_APPEAL_FORM.id &&
+		config.featureFlag.gridReferenceEnabled
+	) {
 		return createAppealSiteGridReferenceLinkUtil('siteAddress', journey, section);
 	}
 

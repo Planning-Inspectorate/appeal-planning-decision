@@ -56,7 +56,7 @@ class Journey {
 	 * @param {(response: JourneyResponse) => Section[]} options.makeSections - function to generate sections based on the response
 	 * @param {string} [options.initialBackLink] - back link when on the first question
 	 * @param {(response: JourneyResponse) => string} [options.makeBannerHtmlOverride] - html to override the beta banner
-	 * @param {string} [defaultSection] - default name for a section if none is provided
+	 * @param {string} [options.defaultSection] - default name for a section if none is provided
 	 */
 	constructor({
 		journeyId,
