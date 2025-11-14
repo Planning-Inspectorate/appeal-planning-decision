@@ -135,9 +135,9 @@ services:
       - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/dynamic-forms:/opt/app/node_modules/@pins/dynamic-forms
       - ./packages/appeals-service-api:/opt/app
-    command: npm run start:dev
+    # command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
-    # command: npm run start:dev:debug
+    command: npm run start:dev:debug
 
   document-service-api: &document-service
     profiles: ['all', 'api', 'appeals', 'documents']
@@ -235,9 +235,9 @@ services:
       - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/dynamic-forms:/opt/app/node_modules/@pins/dynamic-forms
       - ./packages/forms-web-app:/opt/app
-    command: npm run start:dev
+    # command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
-    # command: npm run start:dev:debug
+    command: npm run start:dev:debug
 
   # Populate the database with data - one instance per service
   appeals-service-api-data:

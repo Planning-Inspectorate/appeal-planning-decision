@@ -11,6 +11,7 @@
  * @property {string} [county]
  * @property {string} [postcode]
  * @property {string} [comments]
+ * @property {string} [hasDocumentsToSupportComment]
  * @property {boolean} [submitted]
  */
 
