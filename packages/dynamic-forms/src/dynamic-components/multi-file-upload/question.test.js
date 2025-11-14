@@ -116,7 +116,8 @@ describe('MultiFileUploadQuestion', () => {
 				},
 				getBackLink: () => {
 					return 'back';
-				}
+				},
+				makeBannerHtmlOverride: jest.fn()
 			};
 
 			const customViewData = { hello: 'hi' };

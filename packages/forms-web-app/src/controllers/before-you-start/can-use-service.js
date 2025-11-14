@@ -35,10 +35,8 @@ const {
 	}
 } = require('@pins/business-rules/src/constants');
 const config = require('../../config');
-const {
-	typeOfPlanningApplicationToAppealTypeMapper
-} = require('#lib/full-appeal/map-planning-application');
 const changeLpaUrl = '/before-you-start/local-planning-authority';
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 const canUseServiceHouseholderPlanning = async (req, res) => {
 	const { appeal } = req.session;
@@ -68,7 +66,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 				? 'Yes'
 				: 'No'
 			: null;
-	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	res.render(canUseServiceHouseholder, {
 		deadlineDate,
@@ -118,7 +116,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 	);
 
 	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
-	const appealType = typeOfPlanningApplicationToAppealTypeMapper[appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	res.render(canUseServiceFullAppealView, {
 		deadlineDate,

@@ -54,6 +54,21 @@ describe('DateQuestion', () => {
 	});
 
 	describe('prepQuestionForRendering', () => {
+		const journey = {
+			baseUrl: '',
+			taskListUrl: 'list',
+			journeyTemplate: 'template',
+			journeyTitle: 'title',
+			journeyId: 'journey1',
+			response: {
+				answers: {}
+			},
+			getBackLink: () => {
+				return 'back';
+			},
+			makeBannerHtmlOverride: jest.fn()
+		};
+
 		it('should add answer data to viewmodel if it exists and no payload', () => {
 			const dateQuestion = new DateQuestion({
 				title: TITLE,
@@ -75,20 +90,8 @@ describe('DateQuestion', () => {
 				name: 'section-name'
 			};
 
-			const journey = {
-				baseUrl: '',
-				taskListUrl: 'list',
-				journeyTemplate: 'template',
-				journeyTitle: 'title',
-				journeyId: 'journey1',
-				response: {
-					answers: {
-						[FIELDNAME]: date
-					}
-				},
-				getBackLink: () => {
-					return 'back';
-				}
+			journey.response.answers = {
+				[FIELDNAME]: date
 			};
 
 			const preppedQuestionViewModel = dateQuestion.prepQuestionForRendering({ section, journey });
@@ -136,22 +139,10 @@ describe('DateQuestion', () => {
 				name: 'section-name'
 			};
 
-			const journey = {
-				baseUrl: '',
-				taskListUrl: 'list',
-				journeyTemplate: 'template',
-				journeyTitle: 'title',
-				journeyId: 'journey1',
-				response: {
-					answers: {
-						[`${[FIELDNAME]}_day`]: '10',
-						[`${[FIELDNAME]}_month`]: '2',
-						[`${[FIELDNAME]}_year`]: '2022'
-					}
-				},
-				getBackLink: () => {
-					return 'back';
-				}
+			journey.response.answers = {
+				[`${[FIELDNAME]}_day`]: '10',
+				[`${[FIELDNAME]}_month`]: '2',
+				[`${[FIELDNAME]}_year`]: '2022'
 			};
 
 			const preppedQuestionViewModel = dateQuestion.prepQuestionForRendering({
@@ -198,19 +189,7 @@ describe('DateQuestion', () => {
 				name: 'section-name'
 			};
 
-			const journey = {
-				baseUrl: '',
-				taskListUrl: 'list',
-				journeyTemplate: 'template',
-				journeyTitle: 'title',
-				journeyId: 'journey1',
-				response: {
-					answers: {}
-				},
-				getBackLink: () => {
-					return 'back';
-				}
-			};
+			journey.response.answers = {};
 
 			const formattedDate = {
 				[`${[FIELDNAME]}_day`]: undefined,
@@ -292,16 +271,8 @@ describe('DateQuestion', () => {
 				name: 'section-name'
 			};
 
-			const journey = {
-				journeyId: 'journey1',
-				response: {
-					answers: {
-						[FIELDNAME]: date
-					}
-				},
-				getBackLink: () => {
-					return 'back';
-				}
+			journey.response.answers = {
+				[FIELDNAME]: date
 			};
 
 			const preppedQuestionViewModel = dateQuestion.prepQuestionForRendering({ section, journey });

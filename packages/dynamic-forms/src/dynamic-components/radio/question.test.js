@@ -47,7 +47,8 @@ const JOURNEY = {
 	getBackLink: () => {
 		return 'back';
 	},
-	getSection: jest.fn()
+	getSection: jest.fn(),
+	makeBannerHtmlOverride: jest.fn()
 };
 
 describe('./src/dynamic-forms/dynamic-components/radio/question.js', () => {

@@ -73,7 +73,8 @@ describe('./src/dynamic-forms/dynamic-components/single-line-input/question.js',
 				},
 				getBackLink: () => {
 					return 'back';
-				}
+				},
+				makeBannerHtmlOverride: jest.fn()
 			};
 
 			const customViewData = { hello: 'hi' };

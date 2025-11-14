@@ -55,7 +55,7 @@ class Journey {
 	 * @param {boolean} [options.returnToListing] - defines how the next/previous question handles end of sections
 	 * @param {(response: JourneyResponse) => Section[]} options.makeSections - function to generate sections based on the response
 	 * @param {string} [options.initialBackLink] - back link when on the first question
-	 * @param {string} [options.bannerHtmlOverride] - html to override the beta banner
+	 * @param {(response: JourneyResponse) => string} [options.makeBannerHtmlOverride] - html to override the beta banner
 	 * @param {string} [defaultSection] - default name for a section if none is provided
 	 */
 	constructor({
@@ -70,7 +70,7 @@ class Journey {
 		returnToListing,
 		makeSections,
 		initialBackLink,
-		bannerHtmlOverride,
+		makeBannerHtmlOverride,
 		defaultSection
 	}) {
 		if (!journeyId || typeof journeyId !== 'string') {
@@ -113,7 +113,8 @@ class Journey {
 
 		this.initialBackLink = initialBackLink ?? this.taskListUrl;
 
-		this.bannerHtmlOverride = bannerHtmlOverride ?? '';
+		const defaultBannerHtmlOverride = () => '';
+		this.makeBannerHtmlOverride = makeBannerHtmlOverride ?? defaultBannerHtmlOverride;
 
 		this.defaultSection = defaultSection ?? 'default';
 	}

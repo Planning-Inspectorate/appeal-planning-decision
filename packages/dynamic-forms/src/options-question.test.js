@@ -17,7 +17,8 @@ describe('./src/dynamic-forms/question.js', () => {
 		getNextQuestionUrl: jest.fn(),
 		getCurrentQuestionUrl: jest.fn(),
 		getSection: jest.fn(),
-		getBackLink: jest.fn()
+		getBackLink: jest.fn(),
+		makeBannerHtmlOverride: jest.fn()
 	};
 
 	const getTestQuestion = ({ options = [] } = {}) => {
