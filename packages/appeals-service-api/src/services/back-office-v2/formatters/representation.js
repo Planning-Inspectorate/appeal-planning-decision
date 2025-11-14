@@ -74,10 +74,7 @@ exports.formatter = async (representationFormatterParams) => {
 		}
 	}
 
-	const documents =
-		repType === APPEAL_REPRESENTATION_TYPE.COMMENT
-			? []
-			: await getDocuments(representationSubmission);
+	const documents = await getDocuments(representationSubmission);
 
 	/** @type {AppealRepresentationSubmission} */
 	const payload = {

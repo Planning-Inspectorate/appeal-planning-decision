@@ -1,0 +1,79 @@
+{% extends "layouts/comment-planning-appeal/index.njk" %}
+
+{%- from "govuk/components/file-upload/macro.njk" import govukFileUpload -%}
+{%- from "govuk/components/button/macro.njk" import govukButton -%}
+{%- from "govuk/components/error-summary/macro.njk" import govukErrorSummary -%}
+{%- from "components/multi-file-upload/macro.njk" import mojMultiFileUpload -%}
+
+{% set title = "Upload your supporting documents" %}
+
+{% set supportingDocumentsErrorMessage %}
+  {% if errorSummary %}
+    {%- for error in errorSummary -%}
+      {{- error.text -}}<br>
+    {%- endfor -%}
+  {% endif %}
+{% endset %}
+
+{% set uploadHtml %}
+  {{ govukFileUpload({
+    id: "supporting-documents",
+    name: "supporting-documents",
+    classes: 'moj-multi-file-upload__input',
+    label: {
+      text: "Upload files",
+      classes: 'govuk-label--m'
+    },
+		hint: {
+			text: 'The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than 25MB'
+		},
+    attributes: { multiple: '' },
+    errorMessage: errorSummary and {
+      html: supportingDocumentsErrorMessage
+    }
+  }) }}
+
+  {{govukButton({
+    text: 'Upload file',
+    classes: 'govuk-button--secondary moj-multi-file-upload__button',
+    name: 'upload-and-remain-on-page',
+    value: 'upload-and-remain-on-page',
+    attributes: { "data-cy":"button-upload-file"}
+  })}}
+{% endset %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="post" novalidate encType="multipart/form-data">
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
+        <span class="govuk-caption-l">Comment on a planning appeal</span>
+        <h1 class="govuk-heading-l">Upload your supporting documents</h1>
+
+        {{ mojMultiFileUpload({
+          uploadedFiles: {
+            heading: { text: 'Files added' },
+            items: interestedParty.uploadedFiles
+          },
+          uploadHtml: uploadHtml
+        }) }}
+
+        <div class="govuk-button-group">
+					{{ govukButton({
+						text: "Continue",
+						type: "submit",
+						attributes: { "data-cy":"button-save-and-continue"}
+					}) }}
+				</div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
