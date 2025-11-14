@@ -142,7 +142,7 @@ describe('Representation Formatter', () => {
 		expect(result.newUser).toBe(expectedNewIPUser);
 		expect(result).not.toHaveProperty('serviceUserId');
 		expect(result).not.toHaveProperty('lpaCode');
-		expect(result.documents).toEqual([]);
+		expect(result.documents).toEqual([1]);
 	});
 
 	it('should throw an error if representationSubmission is not provided', async () => {

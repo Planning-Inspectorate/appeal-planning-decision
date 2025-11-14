@@ -38,3 +38,12 @@ components:
           format: date-time
         AppealCase:
           type: object
+        hasDocumentsToSupportComment:
+          type: boolean
+        uploadInterestedPartyDocuments:
+          type: boolean
+          nullable: true
+        SubmissionDocumentUpload:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionDocumentUpload'

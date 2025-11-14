@@ -985,6 +985,9 @@ export interface InterestedPartySubmission {
 	/** @format date-time */
 	createdAt?: string;
 	AppealCase?: object;
+	hasDocumentsToSupportComment?: boolean;
+	uploadInterestedPartyDocuments?: boolean | null;
+	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
 /** A listed building */
@@ -1450,6 +1453,11 @@ export interface SubmissionDocumentUpload {
 	 * @format uuid
 	 */
 	appellantProofOfEvidenceId?: string;
+	/**
+	 * ip comment id this document is associated with, can be null
+	 * @format uuid
+	 */
+	interestedPartySubmissionId?: string;
 	name?: string;
 	fileName?: string;
 	originalFileName?: string;

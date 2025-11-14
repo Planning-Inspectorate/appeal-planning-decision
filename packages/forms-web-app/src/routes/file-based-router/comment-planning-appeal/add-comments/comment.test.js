@@ -66,7 +66,7 @@ describe('Add comments controller tests', () => {
 			await addCommentsPost(req, res);
 
 			expect(updateInterestedPartySession).toHaveBeenCalledWith(req, { comments: 'Test comment' });
-			expect(res.redirect).toHaveBeenCalledWith('check-answers');
+			expect(res.redirect).toHaveBeenCalledWith('documents-to-support');
 		});
 	});
 });
