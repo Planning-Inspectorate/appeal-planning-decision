@@ -135,8 +135,12 @@ const formatIpSummaryList = (interestedParty) => {
 						text: 'Supporting documents'
 					},
 					value: {
-						// need to loop through all documents and list them here.
-						html: `<a href="${interestedParty.uploadedDocuments[0].tempFilePath}" class="govuk-link">${interestedParty.uploadedDocuments[0].name}</a>`
+						html: interestedParty.uploadedDocuments
+							.map(
+								(doc) =>
+									`<a href="${doc.tempFilePath}" class="govuk-link">${doc.originalFileName}</a>`
+							)
+							.join('<br />')
 					},
 					actions: {
 						items: [

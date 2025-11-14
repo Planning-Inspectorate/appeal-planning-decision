@@ -22,8 +22,19 @@ const documentsUploaddPost = async (req, res) => {
 
 	const uploadedDocuments = body.files?.['supporting-documents'] ?? [];
 
+	const documentsWithRenamedKey = uploadedDocuments.map((doc) => {
+		const { name, ...rest } = doc;
+
+		return {
+			...rest,
+			originalFileName: name
+		};
+	});
+
 	/** @type {InterestedParty} */
-	const interestedParty = updateInterestedPartySession(req, { uploadedDocuments });
+	const interestedParty = updateInterestedPartySession(req, {
+		uploadedDocuments: documentsWithRenamedKey
+	});
 	if (Object.keys(errors).length > 0) {
 		return res.render(`comment-planning-appeal/documents-upload/index`, {
 			interestedParty,
