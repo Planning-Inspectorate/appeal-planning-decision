@@ -1,0 +1,50 @@
+{% extends "layouts/comment-planning-appeal/index.njk" %}
+
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set title = "Do you have additional documents to support your comment?" %}
+
+{% block content %}
+  <form method="post">
+	<input type="hidden" name="_csrf" value="{{_csrf}}">
+  <span class="govuk-caption-l">Comment on a planning appeal</span>
+  <div class="govuk-form-group">
+      {{ govukRadios({
+          classes: "govuk-radios",
+          idPrefix: "documents-to-support-comment",
+          name: "documents-to-support-comment",
+          errorMessage: errors['documents-to-support-comment'] and {
+            text: errors['documents-to-support-comment'].msg
+          },
+          fieldset: {
+            legend: {
+              text: "Do you have additional documents to support your comment?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "yes",
+              text: "Yes",
+              attributes: { "data-cy": "answer-yes" },
+              checked: interestedParty.hasDocumentsToSupportComment == "yes"
+            },
+            {
+              value: "no",
+              text: "No",
+              attributes: { "data-cy": "answer-no" },
+              checked: interestedParty.hasDocumentsToSupportComment == "no"
+            }
+          ]
+        }) }}
+
+	</div>
+
+	<div class="govuk-button-group">
+    {{ govukButton({text: "Continue", type: "submit"}) }}
+	</div>
+  </form>
+
+{% endblock content %}

@@ -185,7 +185,7 @@ function multiFileUpload(document, container) {
 		if (files.length < 1) {
 			return '';
 		}
-
+		console.log('files', files);
 		return `${files
 			.map(
 				(file) => `

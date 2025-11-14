@@ -4,6 +4,7 @@ const {
 	markInterestedPartySessionAsSubmitted
 } = require('../../../../services/interested-party.service');
 const logger = require('../../../../lib/logger');
+const { capitalize } = require('@pins/dynamic-forms/src/lib/string-functions');
 
 /**
  * @typedef {import('../../../../services/interested-party.service').InterestedParty} InterestedParty
@@ -111,7 +112,46 @@ const formatIpSummaryList = (interestedParty) => {
 					}
 				]
 			}
-		}
+		},
+		{
+			key: {
+				text: 'Documents to support your comment'
+			},
+			value: {
+				text: capitalize(interestedParty.hasDocumentsToSupportComment)
+			},
+			actions: {
+				items: [
+					{
+						href: 'documents-to-support',
+						text: 'Change'
+					}
+				]
+			}
+		},
+		interestedParty.uploadedDocuments?.length > 0
+			? {
+					key: {
+						text: 'Supporting documents'
+					},
+					value: {
+						html: interestedParty.uploadedDocuments
+							.map(
+								(doc) =>
+									`<a href="${doc.tempFilePath}" class="govuk-link">${doc.originalFileName}</a>`
+							)
+							.join('<br />')
+					},
+					actions: {
+						items: [
+							{
+								href: 'documents-upload',
+								text: 'Change'
+							}
+						]
+					}
+				}
+			: undefined
 	];
 };
 
