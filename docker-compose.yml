@@ -208,6 +208,7 @@ services:
       FILE_UPLOAD_USE_TEMP_FILES: 'true'
       FILE_UPLOAD_TMP_PATH: '/tmp'
       GOOGLE_ANALYTICS_ID: G-TZBWMVPTHV
+      GRID_REF_ENABLED: 'false'
       LOGGER_LEVEL: 'debug'
       LOGGER_PRETTY_PRINT: 'true'
       PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'

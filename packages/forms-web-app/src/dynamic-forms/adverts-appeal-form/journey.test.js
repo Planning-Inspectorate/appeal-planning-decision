@@ -63,6 +63,7 @@ describe('ADVERTS Appeal Form Journey', () => {
 		).toBe(false);
 	});
 	it('should display grid reference when it is defined and site address is not defined', () => {
+		// fix this test
 		const answers = {
 			siteAddress: null,
 			siteGridReferenceEasting: '123456',
