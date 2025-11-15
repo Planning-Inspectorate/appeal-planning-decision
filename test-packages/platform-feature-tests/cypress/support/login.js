@@ -16,6 +16,7 @@ const timeout = async (ms) => await new Promise((resolve) => setTimeout(resolve,
 
 const azureSignIn = async (config) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	const browser = await puppeteer.launch({
 		headless: false, //false, //'new',
 		ignoreHTTPSErrors: true,
@@ -33,17 +34,23 @@ const azureSignIn = async (config) => {
 		await page.keyboard.press('Enter');
 		await timeout(5000);
 =======
+=======
+>>>>>>> Stashed changes
     const browser = await puppeteer.launch({
         headless: false, // Set to false for debugging
         ignoreHTTPSErrors: true,
         args: ['--no-sandbox', '--ignore-certificate-errors']
     });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
     try {
         const page = await browser.newPage();
         await page.goto(config.loginUrl, { waitUntil: 'networkidle2', timeout: 120000 });
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 		if (!fs.existsSync(BrowserAuthData.BrowserAuthDataFolder)) {
 			fs.mkdirSync(BrowserAuthData.BrowserAuthDataFolder, { recursive: true });
@@ -68,6 +75,11 @@ const azureSignIn = async (config) => {
         // Debugging: Log the page URL to ensure navigation is successful
         console.log('Navigated to:', page.url());
 
+=======
+        // Debugging: Log the page URL to ensure navigation is successful
+        console.log('Navigated to:', page.url());
+
+>>>>>>> Stashed changes
         // Retry logic for username input
         let retries = 3;
         while (retries > 0) {
@@ -125,6 +137,9 @@ const azureSignIn = async (config) => {
         await browser.close();
         throw error;
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

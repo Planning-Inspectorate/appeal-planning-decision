@@ -1,6 +1,10 @@
 {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "FullAppealType": "Planning",
+=======
+    "CasAppealType": "Cas planning appeal",
+>>>>>>> Stashed changes
 =======
     "CasAppealType": "Cas planning appeal",
 >>>>>>> Stashed changes
