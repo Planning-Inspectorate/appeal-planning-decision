@@ -149,7 +149,8 @@ const PROCEDURE_TYPES = Object.freeze({
 const LPA_NOTIFICATION_METHODS = Object.freeze({
 	notice: { key: 'notice', name: 'A site notice' },
 	letter: { key: 'letter', name: 'Letter/email to interested parties' },
-	pressAdvert: { key: 'advert', name: 'A press advert' }
+	pressAdvert: { key: 'advert', name: 'A press advert' },
+	noOneNotified: { key: 'none', name: 'No one notified' }
 });
 
 /**

@@ -54,17 +54,33 @@ const makeSections = (response) => [
 		.addQuestion(questions.areaOfOutstandingNaturalBeauty)
 		.addQuestion(questions.designatedSitesCheck),
 	new Section('Notifying relevant parties', 'notified')
-		.addQuestion(questions.whoWasNotified)
 		.addQuestion(questions.howYouNotifiedPeople)
 		.addQuestion(questions.uploadSiteNotice)
-		.withCondition(() => questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice'))
+		.withCondition(
+			() =>
+				questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice') &&
+				!questionHasAnswer(response, questions.howYouNotifiedPeople, 'no-one-notified')
+		)
 		.addQuestion(questions.uploadNeighbourLetterAddresses)
-		.withCondition(() =>
-			questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails')
+		.withCondition(
+			() =>
+				questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails') &&
+				!questionHasAnswer(response, questions.howYouNotifiedPeople, 'no-one-notified')
 		)
 		.addQuestion(questions.pressAdvertUpload)
-		.withCondition(() => questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert'))
-		.addQuestion(questions.appealNotification),
+		.withCondition(
+			() =>
+				questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert') &&
+				!questionHasAnswer(response, questions.howYouNotifiedPeople, 'no-one-notified')
+		)
+		.addQuestion(questions.whoWasNotified)
+		.withCondition(
+			() => !questionHasAnswer(response, questions.howYouNotifiedPeople, 'no-one-notified')
+		)
+		.addQuestion(questions.appealNotification)
+		.withCondition(
+			() => !questionHasAnswer(response, questions.howYouNotifiedPeople, 'no-one-notified')
+		),
 	new Section('Consultation responses and representations', 'consultation')
 		.addQuestion(questions.statutoryConsultees)
 		.addQuestion(questions.representationsFromOthers)

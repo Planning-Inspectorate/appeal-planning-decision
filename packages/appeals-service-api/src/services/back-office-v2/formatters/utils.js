@@ -117,6 +117,8 @@ exports.howYouNotifiedPeople = (answers) => {
 					return LPA_NOTIFICATION_METHODS.letter.key;
 				case 'advert':
 					return LPA_NOTIFICATION_METHODS.pressAdvert.key;
+				case 'no-one-notified':
+					return LPA_NOTIFICATION_METHODS.noOneNotified.key;
 				default:
 					return null;
 			}

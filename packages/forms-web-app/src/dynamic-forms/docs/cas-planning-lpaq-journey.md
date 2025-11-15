@@ -23,27 +23,42 @@ condition: () =>
 
 ## Notifying relevant parties
 
-- multi-file-upload `/upload-who-you-notified/` Who did you notify about this application?
 - checkbox `/notification-type/` How did you notify relevant parties about the planning application?
 - multi-file-upload `/upload-site-notice/` Upload the site notice
 
 ```js
-condition: () => questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice');
+condition: () =>
+	questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice') &&
+	!questionHasAnswer(response, questions.howYouNotifiedPeople, 'other');
 ```
 
 - multi-file-upload `/letters-interested-parties/` Upload letters or emails sent to interested parties with their addresses
 
 ```js
-condition: () => questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails');
+condition: () =>
+	questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails') &&
+	!questionHasAnswer(response, questions.howYouNotifiedPeople, 'other');
 ```
 
 - multi-file-upload `/upload-press-advert/` Upload the press advertisement
 
 ```js
-condition: () => questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert');
+condition: () =>
+	questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert') &&
+	!questionHasAnswer(response, questions.howYouNotifiedPeople, 'other');
+```
+
+- multi-file-upload `/upload-who-you-notified/` Who did you notify about this application?
+
+```js
+condition: () => !questionHasAnswer(response, questions.howYouNotifiedPeople, 'other');
 ```
 
 - multi-file-upload `/appeal-notification-letter/` Upload the appeal notification letter and the list of people that you notified
+
+```js
+condition: () => !questionHasAnswer(response, questions.howYouNotifiedPeople, 'other');
+```
 
 ## Consultation responses and representations
 
