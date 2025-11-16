@@ -21,23 +21,33 @@ const documents = {
     uploadSupplementaryPlanningDocs: 'supplementary-planning-docs.pdf',
     uploadCommunityInfrastructureLevy: 'community-infrastructure-levy.pdf'  
 };
-export const casPlanningQuestionnaireTestCases = [
+export const commercialAdvertQuestionnaireTestCases = [
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
             isAffectListedBuildings: true,           
             isAffectedListedBuildings: true,
+            isScheduledMonuments: true,
             isConservationArea: true,
+            isProtectedSpecies: true,
+            isSpecialControl: true,
             isGreenBelt: true,
+            isNationalLandscape: true,
+            isAllDesignatedSite: true,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
+            isStatutoryConsultees: true,            
             isOtherPartyRepresentations: true,
         },
         poReportAndSupportDocs:{
+            isHighway:true,
+            isPhotographsPlans:true,
+            isStatutoryPlan:true,
             isEmergingPlan: true,
+            isRelevantPolcies:true,    
             isSupplementaryPlanningDocs: true,
         },
         siteAccess:{
@@ -46,6 +56,7 @@ export const casPlanningQuestionnaireTestCases = [
             isLpaSiteSafetyRisks: true,
         },
         appealProcess:{
+            isProcedureType: 'written',
             isOngoingAppeals: true,
             isNearbyAppeals: true,
             isNewConditions: true,
@@ -58,25 +69,37 @@ export const casPlanningQuestionnaireTestCases = [
             isCorrectTypeOfAppeal: false,
             isAffectListedBuildings: false,           
             isAffectedListedBuildings: false,
-            isConservationArea: true,
-            isGreenBelt: false,
+            isScheduledMonuments: false,
+            isConservationArea: false,  
+            isProtectedSpecies: true,
+            isSpecialControl: true,
+            isGreenBelt: true,
+            isNationalLandscape: true,
+            isAllDesignatedSite: true,
         },
+        
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
+            isStatutoryConsultees: true,            
             isOtherPartyRepresentations: true,
         },
         poReportAndSupportDocs:{
+            isHighway:true,
+            isPhotographsPlans:true,
+            isStatutoryPlan:true,
             isEmergingPlan: false,
+            isRelevantPolcies:true,    
             isSupplementaryPlanningDocs: true,
         },
         siteAccess:{
             isLpaSiteAccess: true,
             isNeighbourSiteAccess: false,
-            isLpaSiteSafetyRisks: true,
+            isLpaSiteSafetyRisks: true,           
         },
         appealProcess:{
+            isProcedureType: 'written',
             isOngoingAppeals: false,
             isNearbyAppeals: false,
             isNewConditions: true,
@@ -88,29 +111,40 @@ export const casPlanningQuestionnaireTestCases = [
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
-            isAffectListedBuildings: false,            
+            isAffectListedBuildings: false,           
             isAffectedListedBuildings: false,
+            isScheduledMonuments: false,
             isConservationArea: false,
+            isProtectedSpecies: false,
+            isSpecialControl: false,
             isGreenBelt: false,
+            isNationalLandscape: false,
+            isAllDesignatedSite: false,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
-            isOtherPartyRepresentations: false,
+            isStatutoryConsultees: true,            
+            isOtherPartyRepresentations: true,
         },
         poReportAndSupportDocs:{
-            isEmergingPlan: false,
-            isSupplementaryPlanningDocs: false,
+            isHighway:true,
+            isPhotographsPlans:true,
+            isStatutoryPlan:true,
+            isEmergingPlan: true,
+            isRelevantPolcies:true,    
+            isSupplementaryPlanningDocs: true,
         },
         siteAccess:{
-            isLpaSiteAccess: false,
+            isLpaSiteAccess: true,
             isNeighbourSiteAccess: false,
-            isLpaSiteSafetyRisks: false,
+            isLpaSiteSafetyRisks: true,
         },
         appealProcess:{
-            isOngoingAppeals: false,
-            isNearbyAppeals: false,
+            isProcedureType: 'written',
+            isOngoingAppeals: true,
+            isNearbyAppeals: true,
             isNewConditions: false,
         },
         documents,

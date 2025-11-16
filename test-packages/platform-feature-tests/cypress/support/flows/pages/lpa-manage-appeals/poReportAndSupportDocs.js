@@ -29,12 +29,41 @@ export class PoReportAndSupportDocs {
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadDevelopmentPlanPolicies);
         cy.advanceToNextPage();
     };
+
+    selectPOReportAndSupportDocsAdv(context, lpaManageAppealsData, lpaAppealType) {
+       const basePage = new BasePage();
+        //Upload the planning officer’s report or what your decision notice would have said
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
+        cy.advanceToNextPage();
+
+    };
     selectPOReportAndSupportDocsS78(context) {
         const basePage = new BasePage();
         //Upload the planning officer’s report or what your decision notice would have said
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
         cy.advanceToNextPage();
 
+    };
+    selectHighwaytraficPlans(context) {
+        const basePage = new BasePage();
+        if (context?.poReportAndSupportDocs?.isHighwayTrafficPlans) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    };
+
+    selectPhotographsPlans(context) {
+        const basePage = new BasePage();
+        if (context?.poReportAndSupportDocs?.isPhotographsPlans) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
     };
     //Select relevant policies from your statutory development plan
     selectStatuorydevelopmentplan(context) {
@@ -63,6 +92,21 @@ export class PoReportAndSupportDocs {
     };
 
     selectEmergingPlansS78(context) {
+        const basePage = new BasePage();
+        if (context?.poReportAndSupportDocs?.isEmergingPlan) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            //Upload the emerging plan and supporting information
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadEmergingPlan);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+
+    };
+
+    selectEmergingPlansAdvert(context) {
         const basePage = new BasePage();
         if (context?.poReportAndSupportDocs?.isEmergingPlan) {
             cy.getByData(basePage?._selectors.answerYes).click();
