@@ -124,6 +124,16 @@ export class ConstraintsAndDesignations {
             cy.advanceToNextPage();
         }
     };
+    selectSpecialControlAdvertisement(context) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.isSpecialControlAdvertisement) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    };
     selectGreenBelt(context) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.isGreenBelt) {
