@@ -1,0 +1,86 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %},
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+
+{% set title="When did you contact the Planning Inspectorate?​ - Before you start - Appeal a householder planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary and [
+        {
+          text: errorSummary[0].text,
+          href: "#contact-planning-inspectorate-date-day" if errorSummary[0].href === "#contact-planning-inspectorate-date" else errorSummary[0].href
+        }
+      ]
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <div class="govuk-form-group {{ 'govuk-form-group--error' if errors }}">
+          <span class="govuk-caption-l">Before you start</span>
+
+          {{ govukDateInput({
+            id: "contact-planning-inspectorate-date",
+            namePrefix: "contact-planning-inspectorate-date",
+            fieldset: {
+              legend: {
+                text: "When did you contact the Planning Inspectorate?​",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+
+            errorMessage: errorSummary and {
+              text: errors['contact-planning-inspectorate-date'].msg or errors['contact-planning-inspectorate-date-day'].msg or errors['contact-planning-inspectorate-date-month'].msg or errors['contact-planning-inspectorate-date-year'].msg
+            },
+						hint: {
+							text: hint.contactPlanningInspectorateDate
+						},
+            items: [
+              {
+                classes: "govuk-input--width-2 govuk-input--error" if errors['contact-planning-inspectorate-date'] or errors['contact-planning-inspectorate-date-day'] else "govuk-input--width-2",
+                name: "day",
+                id: "contact-planning-inspectorate-date-day",
+                value: contactPlanningInspectorateDate.day
+              },
+              {
+                classes: "govuk-input--width-2 govuk-input--error" if errors['contact-planning-inspectorate-date'] or errors['contact-planning-inspectorate-date-month'] else "govuk-input--width-2",
+                name: "month",
+                id: "contact-planning-inspectorate-date-month",
+                value: contactPlanningInspectorateDate.month
+              },
+              {
+                classes: "govuk-input--width-4 govuk-input--error" if errors['contact-planning-inspectorate-date'] or errors['contact-planning-inspectorate-date-year'] else "govuk-input--width-4",
+                name: "year",
+                id: "contact-planning-inspectorate-date-year",
+                value: contactPlanningInspectorateDate.year
+              }
+            ]
+          }) }}
+        </div>
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
