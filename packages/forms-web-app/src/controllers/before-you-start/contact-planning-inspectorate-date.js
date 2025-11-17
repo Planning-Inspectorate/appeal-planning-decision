@@ -83,5 +83,5 @@ exports.postContactPlanningInspectorateDate = async (req, res) => {
 		return;
 	}
 
-	res.redirect('/before-you-start/cannot-appeal');
+	res.redirect('/before-you-start/cannot-appeal-enforcement');
 };

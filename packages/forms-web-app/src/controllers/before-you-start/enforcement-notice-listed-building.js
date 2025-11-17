@@ -66,7 +66,7 @@ exports.postEnforcementNoticeListedBuilding = async (req, res) => {
 	}
 
 	if (isEnforcementNoticeForListedBuilding) {
-		res.redirect('/before-you-start/use-existing-service-application-type');
+		res.redirect('/before-you-start/use-existing-service-enforcement-notice');
 		return;
 	}
 
