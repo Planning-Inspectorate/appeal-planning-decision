@@ -104,6 +104,23 @@ jest.mock('../../../service', () => ({
 					siteGridReferenceEasting: '359608',
 					siteGridReferenceNorthing: '172607'
 				};
+			case '006':
+				return {
+					id: 'appeal-006',
+					appealTypeCode: 'ADVERT',
+					LPACode: 'LPA_001',
+					caseReference: '006',
+					applicationReference: 'APP/006',
+					caseStartedDate: new Date(),
+					users: [
+						{
+							serviceUserType: 'Appellant',
+							emailAddress: 'advert@example.com'
+						}
+					],
+					siteGridReferenceEasting: '359608',
+					siteGridReferenceNorthing: '172607'
+				};
 			default:
 				return null;
 		}
@@ -320,6 +337,40 @@ jest.mock('../service', () => ({
 					wasApplicationRefusedDueToHighwayOrTraffic: false,
 					didAppellantSubmitCompletePhotosAndPlans: true
 				};
+			case '006':
+				return {
+					...hasCase,
+					AppealCase: {
+						LPACode: 'LPA_001',
+						appealTypeCode: 'ADVERTS'
+					},
+					affectsScheduledMonument: true,
+					protectedSpecies: false,
+					areaOutstandingBeauty: true,
+					designatedSites: 'yes',
+					designatedSites_otherDesignations: 'other designations',
+					statutoryConsultees: 'yes',
+					statutoryConsultees_consultedBodiesDetails: 'consultation details',
+					emergingPlan: true,
+					lpaPreferHearingDetails: 'Hearing details',
+					lpaProcedurePreference_lpaPreferInquiryDuration: '12',
+					lpaProcedurePreference: 'hearing',
+					isSiteInAreaOfSpecialControlAdverts: true,
+					wasApplicationRefusedDueToHighwayOrTraffic: false,
+					didAppellantSubmitCompletePhotosAndPlans: true,
+					addChangedListedBuilding: true,
+					changesListedBuilding: true,
+					SubmissionListedBuilding: [
+						{
+							fieldName: 'changedListedBuildingNumber',
+							reference: '010101'
+						},
+						{
+							fieldName: 'affectedListedBuildingNumber',
+							reference: '1010101'
+						}
+					]
+				};
 			default:
 				return null;
 		}
@@ -520,31 +571,32 @@ const formattedCASAdverts = [
 		documents: [...expectedHAS.documents]
 	})
 ];
-// const formattedAdverts = [
-// 	expect.objectContaining({
-// 		casedata: {
-// 			...expectedHAS.casedata,
-// 			caseType: CASE_TYPES.ADVERTS.key,
-// 			caseReference: '006',
-// 			changesListedBuilding: false,
-// 			affectsScheduledMonument: true,
-// 			hasProtectedSpecies: false,
-// 			isAonbNationalLandscape: true,
-// 			designatedSitesNames: ['yes', 'other designations'],
-// 			hasStatutoryConsultees: true,
-// 			consultedBodiesDetails: 'consultation details',
-// 			hasEmergingPlan: true,
-// 			lpaProcedurePreference: APPEAL_CASE_PROCEDURE.HEARING,
-// 			lpaProcedurePreferenceDetails: 'Hearing details',
-// 			lpaProcedurePreferenceDuration: null,
-// 			lpaQuestionnaireSubmittedDate: expect.any(String),
-// 			isSiteInAreaOfSpecialControlAdverts: true,
-// 			wasApplicationRefusedDueToHighwayOrTraffic: false,
-// 			didAppellantSubmitCompletePhotosAndPlans: true
-// 		},
-// 		documents: [...expectedHAS.documents]
-// 	})
-// ];
+const formattedAdverts = [
+	expect.objectContaining({
+		casedata: {
+			...expectedHAS.casedata,
+			caseType: CASE_TYPES.ADVERTS.key,
+			changedListedBuildingNumbers: ['010101'],
+			affectedListedBuildingNumbers: ['1010101'],
+			caseReference: '006',
+			affectsScheduledMonument: true,
+			hasProtectedSpecies: false,
+			isAonbNationalLandscape: true,
+			designatedSitesNames: ['yes', 'other designations'],
+			hasStatutoryConsultees: true,
+			consultedBodiesDetails: 'consultation details',
+			hasEmergingPlan: true,
+			lpaProcedurePreference: APPEAL_CASE_PROCEDURE.HEARING,
+			lpaProcedurePreferenceDetails: 'Hearing details',
+			lpaProcedurePreferenceDuration: null,
+			lpaQuestionnaireSubmittedDate: expect.any(String),
+			isSiteInAreaOfSpecialControlAdverts: true,
+			wasApplicationRefusedDueToHighwayOrTraffic: false,
+			didAppellantSubmitCompletePhotosAndPlans: true
+		},
+		documents: [...expectedHAS.documents]
+	})
+];
 
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 	const expectEmail = (email, appealReferenceNumber) => {
@@ -568,8 +620,8 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 		['S78', '002', formattedS78],
 		['S20', '003', formattedS20],
 		['CAS_PLANNING', '004', formattedCASPlanning],
-		['CAS_ADVERTS', '005', formattedCASAdverts]
-		// ['ADVERTS', '006', formattedAdverts]
+		['CAS_ADVERTS', '005', formattedCASAdverts],
+		['ADVERTS', '006', formattedAdverts]
 	])('Formats %s questionnaires then sends it to back office', async (_, id, expectation) => {
 		mockNotifyClient.sendEmail.mockClear();
 
