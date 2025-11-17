@@ -3,7 +3,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 
-{% set title="Which local planning authority (LPA) do you want to appeal against? - Before you start - Appeal a planning decision - GOV.UK" %}
+{% set title="Find your local planning authority - Appeal a planning decision - GOV.UK" %}
 
 {% block pageTitle %}
   {% if errors %}
@@ -32,7 +32,7 @@
             name: "local-planning-department",
             attributes: {"data-cy": "local-planning-department"},
             label: {
-              text: "Which local planning authority (LPA) do you want to appeal against?",
+              text: "Find your local planning authority",
               classes: "govuk-label--l",
               isPageHeading: true
             },
