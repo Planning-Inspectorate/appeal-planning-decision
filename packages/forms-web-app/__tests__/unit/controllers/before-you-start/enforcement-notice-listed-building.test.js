@@ -13,7 +13,7 @@ const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 const navigationPages = {
 	enforcementPage: '/before-you-start/enforcement-issue-date',
-	shutterPage: '/before-you-start/use-existing-service-application-type'
+	shutterPage: '/before-you-start/use-existing-service-enforcement-notice'
 };
 const logger = require('../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../mocks');
@@ -131,7 +131,7 @@ describe('controllers/before-you-start/enforcement-notice-listed-building', () =
 			expect(res.redirect).toHaveBeenCalledWith(navigationPages.enforcementPage);
 		});
 
-		it('should redirect to `/before-you-start/use-existing-service-application-type` if `enforcement-notice-listed-building` is `yes`', async () => {
+		it('should redirect to `/before-you-start/use-existing-service-enforcement-notice` if `enforcement-notice-listed-building` is `yes`', async () => {
 			const mockRequest = {
 				...req,
 				body: {

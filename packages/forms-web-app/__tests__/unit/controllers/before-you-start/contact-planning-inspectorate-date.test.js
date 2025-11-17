@@ -12,7 +12,7 @@ const {
 
 const navigationPages = {
 	checkYourAnswersPage: '/before-you-start/check-your-answers',
-	cannotAppealPage: '/before-you-start/cannot-appeal'
+	cannotAppealPage: '/before-you-start/cannot-appeal-enforcement'
 };
 const logger = require('../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../mocks');
