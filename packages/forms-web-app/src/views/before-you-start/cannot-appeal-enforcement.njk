@@ -4,7 +4,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
-{% set title="You cannot appeal - Appeal a householder planning decision - GOV.UK" %}
+{% set title="You cannot appeal - Appeal a planning decision - GOV.UK" %}
 
 {% block pageTitle %}
   {% if errors %}
@@ -38,7 +38,7 @@
       </p>
 
       <p class="govuk-body">
-       		Your deadline was {{ deadlineDate.date }} {{ deadlineDate.month }} {{ deadlineDate.year }}. This is {{ deadlinePeriod }} from the decision date.
+       	Your deadline has passed. The deadline to appeal was the day before the effective date on your enforcement notice.
       </p>
 
       <p class="govuk-body">

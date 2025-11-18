@@ -1,18 +1,13 @@
 const {
 	VIEW: {
-		APPELLANT_SUBMISSION: { CANNOT_APPEAL }
+		BEFORE_YOU_START: { CANNOT_APPEAL_ENFORCEMENT: cannotAppealEnforcement }
 	}
 } = require('../../lib/views');
 
-const getCannotAppealEnforcement = (_, res) => {
+exports.getCannotAppealEnforcement = async (_, res) => {
 	const beforeYouStartFirstPage = '/before-you-start';
 
-	res.render(CANNOT_APPEAL, {
-		beforeYouStartFirstPage,
-		isEnforcement: true
+	res.render(cannotAppealEnforcement, {
+		beforeYouStartFirstPage
 	});
-};
-
-module.exports = {
-	getCannotAppealEnforcement
 };

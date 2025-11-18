@@ -11,7 +11,7 @@ const {
 } = require('../../../../src/lib/views');
 
 const navigationPages = {
-	checkYourAnswersPage: '/before-you-start/check-your-answers',
+	checkYourAnswersPage: '/before-you-start/can-use-service',
 	cannotAppealPage: '/before-you-start/cannot-appeal-enforcement'
 };
 const logger = require('../../../../src/lib/logger');

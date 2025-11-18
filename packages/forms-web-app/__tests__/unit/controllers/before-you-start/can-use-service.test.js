@@ -9,6 +9,7 @@ const { getDepartmentFromId } = require('../../../../src/services/department.ser
 const { TYPE_OF_PLANNING_APPLICATION, APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
 	VIEW: {
+		BEFORE_YOU_START: { ENFORCEMENT_CAN_USE_SERVICE: canUseServiceEnforcementView },
 		HOUSEHOLDER_PLANNING: {
 			ELIGIBILITY: {
 				CAN_USE_SERVICE_HOUSEHOLDER: canUseServiceHouseholder,
@@ -39,6 +40,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 	let res;
 	let fullAppeal;
 	let householderAppeal;
+	let enforcementNotice;
 	const bannerHtmlOverrideHAS =
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'));
@@ -50,6 +52,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 		jest.isolateModules(() => {
 			fullAppeal = require('../../../mockData/full-appeal');
 			householderAppeal = require('../../../mockData/householder-appeal');
+			enforcementNotice = require('../../../mockData/enforcement-notice');
 		});
 		jest.resetAllMocks();
 		res = mockRes();
@@ -681,6 +684,54 @@ describe('controllers/before-you-start/can-use-service', () => {
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('CAS_ADVERTS'))
+			});
+		});
+	});
+
+	describe('getCanUseService - enforcement notice', () => {
+		it('renders page - enforcement - effective date not passed', async () => {
+			req = mockReq(enforcementNotice);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceEnforcementView, {
+				deadlineDate: { date: 3, day: 'Tuesday', month: 'May', year: 2022 },
+				appealLPD: 'Bradford',
+				enforcementNotice: 'Yes',
+				enforcementNoticeListedBuilding: 'No',
+				enforcementIssueDate: '4 May 2022',
+				enforcementEffectiveDate: '4 May 2022',
+				contactedPlanningInspectorate: false,
+				hasContactedPlanningInspectorate: null,
+				contactedPlanningInspectorateDate: null,
+				nextPageUrl: '/enforcement/enforcement-reference-number',
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ENFORCEMENT'))
+			});
+		});
+
+		it('renders page - enforcement - effective date passed and contacted PINS', async () => {
+			enforcementNotice.eligibility.hasContactedPlanningInspectorate = true;
+			enforcementNotice.eligibility.contactPlanningInspectorateDate = '2022-05-04T10:55:46.164Z';
+			req = mockReq(enforcementNotice);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceEnforcementView, {
+				deadlineDate: { date: 3, day: 'Tuesday', month: 'May', year: 2022 },
+				appealLPD: 'Bradford',
+				enforcementNotice: 'Yes',
+				enforcementNoticeListedBuilding: 'No',
+				enforcementIssueDate: '4 May 2022',
+				enforcementEffectiveDate: '4 May 2022',
+				contactedPlanningInspectorate: true,
+				hasContactedPlanningInspectorate: 'Yes',
+				contactedPlanningInspectorateDate: '4 May 2022',
+				nextPageUrl: '/enforcement/enforcement-reference-number',
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ENFORCEMENT'))
 			});
 		});
 	});

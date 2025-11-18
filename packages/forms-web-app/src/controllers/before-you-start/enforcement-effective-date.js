@@ -71,7 +71,8 @@ exports.postEnforcementEffectiveDate = async (req, res) => {
 
 	// TODO: both redirect URLs are placeholders for later tickets
 	if (isAfter(enforcementEffectiveDate, new Date())) {
-		res.redirect('/before-you-start/check-your-answers');
+		res.redirect('/before-you-start/can-use-service');
+		return;
 	}
 
 	res.redirect('/before-you-start/contact-planning-inspectorate');
