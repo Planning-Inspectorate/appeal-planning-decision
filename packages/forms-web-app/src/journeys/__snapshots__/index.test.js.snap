@@ -7745,6 +7745,43 @@ exports[`Dynamic forms journey tests appellant Householder Householder should re
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Householder Householder should render the site-area question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">What is the area of the appeal site?</h1>
+            <p class="govuk-body"></p>
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <div id="siteAreaSquareMetres-hint" class="govuk-hint">Total site area, in square metres.</div>
+                    <div class="govuk-input__wrapper">
+                        <input class="govuk-input govuk-input--width-5" id="siteAreaSquareMetres"
+                        name="siteAreaSquareMetres" type="text" spellcheck="false" value="" aria-describedby="siteAreaSquareMetres-hint"
+                        inputmode="numeric">
+                        <div class="govuk-input__suffix" aria-hidden="true">m²</div>
+                    </div>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/householder/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Householder Householder should render the telling-landowners question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -8134,6 +8171,12 @@ exports[`Dynamic forms journey tests appellant Householder renders listing page 
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/householder/prepare-appeal/appeal-site-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the address of the appeal site?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is the area of the appeal site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/householder/prepare-appeal/site-area?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the area of the appeal site?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site in a green belt?</dt>

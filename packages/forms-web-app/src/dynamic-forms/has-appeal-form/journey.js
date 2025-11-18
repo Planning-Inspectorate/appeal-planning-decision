@@ -32,6 +32,7 @@ const makeSections = (response) => [
 		.addQuestion(questions.contactDetails)
 		.addQuestion(questions.contactPhoneNumber)
 		.addQuestion(questions.appealSiteAddress)
+		.addQuestion(questions.siteArea)
 		.addQuestion(questions.appellantGreenBelt)
 		.addQuestion(questions.ownsAllLand)
 		.addQuestion(questions.ownsSomeLand)
