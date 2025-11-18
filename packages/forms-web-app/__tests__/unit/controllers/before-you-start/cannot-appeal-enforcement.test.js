@@ -4,7 +4,7 @@ const {
 const { mockReq, mockRes } = require('../../mocks');
 const {
 	VIEW: {
-		APPELLANT_SUBMISSION: { CANNOT_APPEAL }
+		BEFORE_YOU_START: { CANNOT_APPEAL_ENFORCEMENT }
 	}
 } = require('../../../../src/lib/views');
 
@@ -23,9 +23,8 @@ describe('controllers/appeal-householder-decision/cannot-appeal', () => {
 			getCannotAppealEnforcement(req, res);
 			const beforeYouStartFirstPage = '/before-you-start';
 			expect(res.render).toHaveBeenCalledTimes(1);
-			expect(res.render).toHaveBeenCalledWith(CANNOT_APPEAL, {
-				beforeYouStartFirstPage,
-				isEnforcement: true
+			expect(res.render).toHaveBeenCalledWith(CANNOT_APPEAL_ENFORCEMENT, {
+				beforeYouStartFirstPage
 			});
 		});
 	});

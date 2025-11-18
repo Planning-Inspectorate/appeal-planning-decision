@@ -1,9 +1,11 @@
 const {
 	getAppealPropsForCanUseServicePage
 } = require('../../lib/get-appeal-props-for-can-use-service-page');
+const { getEnforcementNoticeProps } = require('../../lib/get-enforcement-notice-props');
 const { businessRulesDeadline } = require('../../lib/calculate-deadline');
 const {
 	VIEW: {
+		BEFORE_YOU_START: { ENFORCEMENT_CAN_USE_SERVICE: canUseServiceEnforcementView },
 		HOUSEHOLDER_PLANNING: {
 			ELIGIBILITY: {
 				CAN_USE_SERVICE_HOUSEHOLDER: canUseServiceHouseholder,
@@ -285,8 +287,45 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 	}
 };
 
+const canUseServiceEnforcement = async (req, res) => {
+	const { appeal } = req.session;
+	const {
+		appealLPD,
+		enforcementNotice,
+		enforcementNoticeListedBuilding,
+		enforcementIssueDate,
+		enforcementEffectiveDate,
+		contactedPlanningInspectorate,
+		hasContactedPlanningInspectorate,
+		contactedPlanningInspectorateDate,
+		nextPageUrl,
+		deadlineDate
+	} = await getEnforcementNoticeProps(appeal);
+
+	res.render(canUseServiceEnforcementView, {
+		deadlineDate,
+		appealLPD,
+		enforcementNotice,
+		enforcementNoticeListedBuilding,
+		enforcementIssueDate,
+		enforcementEffectiveDate,
+		contactedPlanningInspectorate,
+		hasContactedPlanningInspectorate,
+		contactedPlanningInspectorateDate,
+		nextPageUrl,
+		bannerHtmlOverride:
+			config.betaBannerText +
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ENFORCEMENT'))
+	});
+};
+
 exports.getCanUseService = async (req, res) => {
 	const { appeal } = req.session;
+
+	if (appeal.eligibility?.enforcementNotice) {
+		return await canUseServiceEnforcement(req, res);
+	}
+
 	const applicationType = appeal.typeOfPlanningApplication;
 
 	switch (applicationType) {

@@ -79,7 +79,7 @@ exports.postContactPlanningInspectorateDate = async (req, res) => {
 			new Date(req.session.appeal.eligibility.enforcementEffectiveDate)
 		)
 	) {
-		res.redirect('/before-you-start/check-your-answers');
+		res.redirect('/before-you-start/can-use-service');
 		return;
 	}
 
