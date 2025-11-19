@@ -94,6 +94,12 @@ module.exports = class Repo {
 	 * @returns {Promise<void>}
 	 */
 	async delete(id) {
+		await this.dbClient.representationDocument.deleteMany({
+			where: {
+				documentId: id
+			}
+		});
+
 		await this.dbClient.document.delete({
 			where: {
 				id

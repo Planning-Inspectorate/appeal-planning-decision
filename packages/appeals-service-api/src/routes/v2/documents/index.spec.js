@@ -225,13 +225,75 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 
 				expect(response.status).toBe(200);
 
-				const notDoc = await sqlClient.document.findFirst({
+				const notDoc = await sqlClient.document.count({
 					where: {
 						id: docId
 					}
 				});
 
-				expect(notDoc).toBe(null);
+				expect(notDoc).toBe(0);
+			});
+
+			it('deletes representation document', async () => {
+				const caseRef = 'deleteDocument_ref_002';
+				await sqlClient.appealCase.create({
+					data: {
+						Appeal: { create: {} },
+						...createTestAppealCase(caseRef, 'HAS', 'lpa_001')
+					}
+				});
+
+				const rep = await sqlClient.representation.create({
+					data: {
+						representationId: '8a624412-ce6b-44d5-8f6d-f3bc8cb9b1bf',
+						caseReference: caseRef,
+						representationStatus: 'valid'
+					}
+				});
+
+				const docId = 'd14885f7-9483-4b7a-aef3-59181c335da2';
+				await sqlClient.document.create({
+					data: {
+						id: docId,
+						dateCreated: new Date('2024').toISOString(),
+						dateReceived: new Date('2024').toISOString(),
+						lastModified: new Date('2024').toISOString(),
+						datePublished: new Date('2024').toISOString(),
+						stage: 'appeal-decision',
+						published: true,
+						redacted: true,
+						filename: 'goose.jpg',
+						originalFilename: 'large_goose.jpg',
+						size: 22,
+						mime: 'image/jpeg',
+						documentURI: 'https://example.com/images/goose.jpg',
+						caseReference: caseRef
+					}
+				});
+				await sqlClient.representationDocument.create({
+					data: {
+						documentId: docId,
+						representationId: rep.id
+					}
+				});
+
+				const response = await appealsApi.delete(`/api/v2/documents/${docId}`);
+
+				expect(response.status).toBe(200);
+
+				const notDoc = await sqlClient.document.count({
+					where: {
+						id: docId
+					}
+				});
+				const notRepDoc = await sqlClient.representationDocument.count({
+					where: {
+						id: docId
+					}
+				});
+
+				expect(notDoc).toBe(0);
+				expect(notRepDoc).toBe(0);
 			});
 		});
 
