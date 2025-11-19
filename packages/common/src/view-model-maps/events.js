@@ -74,12 +74,17 @@ const formatInquiries = (events, role) => {
 			const address = formatEventAddress(inquiry);
 
 			if (
-				inquiry.status !== 'withdrawn' &&
-				(role === LPA_USER_ROLE ||
-					role === APPEAL_USER_ROLES.APPELLANT ||
-					role === APPEAL_USER_ROLES.AGENT ||
-					role === APPEAL_USER_ROLES.RULE_6_PARTY)
+				role === LPA_USER_ROLE ||
+				role === APPEAL_USER_ROLES.APPELLANT ||
+				role === APPEAL_USER_ROLES.AGENT ||
+				role === APPEAL_USER_ROLES.RULE_6_PARTY
 			) {
+				if (inquiry.status === 'withdrawn') {
+					return {
+						lineOne: `We have cancelled ${role === APPEAL_USER_ROLES.APPELLANT ? 'your' : 'the'} inquiry on ${formattedStartDate}. We will contact you when we rearrange your inquiry.`,
+						lineTwo: null
+					};
+				}
 				return {
 					lineOne:
 						`${role === APPEAL_USER_ROLES.APPELLANT ? `Your` : `The`} inquiry will start at ${formattedStartTime} on ${formattedStartDate}. ` +
