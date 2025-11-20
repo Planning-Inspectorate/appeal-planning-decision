@@ -50,13 +50,24 @@ exports.postEnforcementEffectiveDate = async (req, res) => {
 
 	const enforcementEffectiveDate = new Date(body['enforcement-effective-date']);
 
+	const effectiveDateIsInFuture = isAfter(enforcementEffectiveDate, new Date());
+
 	try {
+		const eligibility = {
+			...appeal.eligibility,
+			enforcementEffectiveDate: enforcementEffectiveDate.toISOString()
+		};
+
+		// nullify contacted PINS fields if previously set & effective date in future
+		// eg if appellant previously set effective date in past then changes to future
+		if (effectiveDateIsInFuture && eligibility.hasContactedPlanningInspectorate) {
+			eligibility.hasContactedPlanningInspectorate = null;
+			eligibility.contactPlanningInspectorateDate = null;
+		}
+
 		req.session.appeal = await createOrUpdateAppeal({
 			...appeal,
-			eligibility: {
-				...appeal.eligibility,
-				enforcementEffectiveDate: enforcementEffectiveDate.toISOString()
-			}
+			eligibility
 		});
 	} catch (e) {
 		logger.error(e);
@@ -70,7 +81,7 @@ exports.postEnforcementEffectiveDate = async (req, res) => {
 	}
 
 	// TODO: both redirect URLs are placeholders for later tickets
-	if (isAfter(enforcementEffectiveDate, new Date())) {
+	if (effectiveDateIsInFuture) {
 		res.redirect('/before-you-start/can-use-service');
 		return;
 	}

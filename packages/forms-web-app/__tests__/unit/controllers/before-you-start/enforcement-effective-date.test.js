@@ -26,7 +26,7 @@ describe('controllers/before-you-start/enforcement-effective-date', () => {
 
 	const appeal = {
 		...fullAppeal,
-		appealType: '1005'
+		appealType: '1000'
 	};
 
 	beforeEach(() => {

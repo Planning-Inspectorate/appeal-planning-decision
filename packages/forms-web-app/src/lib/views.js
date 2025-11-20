@@ -181,6 +181,15 @@ const VIEW = {
 		NEED_NEW_CODE: 'adverts/need-new-code', // redirect only
 		EMAIL_CONFIRMED: 'adverts/email-address-confirmed' // redirect only
 	},
+	ENFORCEMENT: {
+		ENFORCEMENT_REFERENCE_NUMBER: 'enforcement/enforcement-reference-number',
+		EMAIL_ADDRESS: 'enforcement/email-address', // redirect only
+		ENTER_CODE: 'enforcement/enter-code', // redirect only
+		REQUEST_NEW_CODE: 'enforcement/request-new-code', // redirect only
+		CODE_EXPIRED: 'enforcement/code-expired', // redirect only
+		NEED_NEW_CODE: 'enforcement/need-new-code', // redirect only
+		EMAIL_CONFIRMED: 'enforcement/email-address-confirmed' // redirect only
+	},
 	COMMON: {
 		ENTER_CODE: 'common/enter-code',
 		REQUEST_NEW_CODE: 'common/request-new-code',

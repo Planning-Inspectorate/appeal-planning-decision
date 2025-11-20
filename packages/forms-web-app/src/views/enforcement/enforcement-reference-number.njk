@@ -1,0 +1,59 @@
+{% extends "layouts/full-appeal-banner/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% set title="What is the reference number on the enforcement notice? - Appeal a planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+
+      <form action="" method="post" novalidate>
+				<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <span class="govuk-caption-l">
+
+        {{ govukInput({
+          label: {
+            text: "What is the reference number on the enforcement notice?",
+            classes: "govuk-label govuk-label--l",
+            isPageHeading: true
+          },
+          id: "reference-number",
+          name: "reference-number",
+          attributes: {"data-cy": "reference-number"},
+          classes: "govuk-!-width-one-half",
+          spellcheck: false,
+          value: enforcementReferenceNumber,
+          errorMessage: errors['reference-number'] and {
+            text: errors['reference-number'].msg
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: {"data-cy": "button-save-and-continue"}
+        }) }}
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

@@ -107,6 +107,10 @@ function isValidAppeal(appeal) {
 		return true;
 	}
 
+	if (appeal.appealType === APPEAL_ID.ENFORCEMENT_NOTICE || APPEAL_ID.ENFORCEMENT_LISTED_BUILDING) {
+		return true;
+	}
+
 	let errors;
 
 	// we do not use v1 validators for s20 listed building appeal but we need to validate
