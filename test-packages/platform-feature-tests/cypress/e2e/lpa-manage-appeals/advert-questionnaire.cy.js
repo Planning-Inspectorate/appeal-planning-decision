@@ -2,8 +2,7 @@
 /// <reference types="cypress"/>
 import { users } from '../../fixtures/users.js';
 import { advertQuestionnaireTestCases } from "../../helpers/lpaManageAppeals/advertQuestionnaireData.js";
-const { commercialAdvertQuestionnaire } = require('../../support/flows/sections/lpaManageAppeals/commercialAdvQuestionnaire.js');
-const {  } = require('../../support/flows/sections/lpaManageAppeals/questionnaire.js');
+const { questionnaire } = require('../../support/flows/sections/lpaManageAppeals/questionnaire');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector.js");
 
 describe('commercial advert Questionnaire Test Cases', { tags: '@Commercial-advert-LPAQ-Submission' } , () => {
@@ -58,7 +57,7 @@ describe('commercial advert Questionnaire Test Cases', { tags: '@Commercial-adve
             - User selects new conditions${context.appealProcess?.isNewConditions}
             - User selects procedure type${context.appealProcess?.isProcedureType}
              `, () => {
-                        commercialAdvertQuestionnaire(context, lpaManageAppealsData, lpaManageAppealsData?.commercialadvAppealType);
+                       questionnaire(context, lpaManageAppealsData, lpaManageAppealsData?.commercialadvAppealType);
                 });
         });
 });

@@ -5,6 +5,7 @@
     "hasAppealType": "Householder",
     "s78AppealType": "Planning",
     "s20AppealType": "Planning listed building and conservation area",
+    "casPlanningAppealType": "Commercial planning (CAS)",
     "commercialadvAppealType": "Commercial advertisement",
     "advertAppealType": "Advertisement",    
     "todoInvalid": "Invalid",

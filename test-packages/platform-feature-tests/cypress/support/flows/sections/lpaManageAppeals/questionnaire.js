@@ -90,9 +90,17 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 				}
 			});
 		});
+		//const correctTypeText = lpaAppealType === lpaManageAppealsData?.s20AppealType
+			//? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealListedBuilding
+			//: lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealFullPlanning;
+
 		const correctTypeText = lpaAppealType === lpaManageAppealsData?.s20AppealType
-			? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealListedBuilding
-			: lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealFullPlanning;
+            ? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealListedBuilding
+            : lpaAppealType === lpaManageAppealsData?.commercialadvAppealType
+            ? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealCommercialAdvertisement
+            : lpaAppealType === lpaManageAppealsData?.advertAppealType
+            ? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealAdvertisement
+            : lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealFullPlanning;
 
 		cy.contains(correctTypeText)
 			.closest(basePage?._selectors.govukSummaryListRow)
@@ -114,6 +122,9 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 		constraintsAndDesignations.selectAffectScheduledMonument(context);
 		constraintsAndDesignations.selectConservationArea(context);
 		constraintsAndDesignations.selectProtectedSpecies(context);
+		if (lpaAppealType === lpaManageAppealsData?.commercialadvAppealType || lpaAppealType === lpaManageAppealsData?.advertAppealType) {
+			constraintsAndDesignations.selectSpecialControlAdvertisement(context);					
+		}
 		constraintsAndDesignations.selectGreenBelt(context);
 		constraintsAndDesignations.selectAreaOfOutstandingNaturalBeauty(context, lpaManageAppealsData);
 		constraintsAndDesignations.selectTreePreservationOrder(context);
@@ -126,6 +137,10 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 		consultResponseAndRepresent.selectOtherPartyRepresentations(context);
 		//Planning officer's report and supplementary documents
 		poReportAndSupportDocs.selectPOReportAndSupportDocsS78(context);
+		if (lpaAppealType === lpaManageAppealsData?.commercialadvAppealType || lpaAppealType === lpaManageAppealsData?.advertAppealType) {
+			poReportAndSupportDocs.selectHighwaytraficPlans(context);
+			poReportAndSupportDocs.selectPhotographsPlans(context);				
+		}			
 		poReportAndSupportDocs.selectStatuorydevelopmentplan(context);
 		poReportAndSupportDocs.selectEmergingPlansS78(context);
 		poReportAndSupportDocs.selectOtherRelevantPolicies(context);
