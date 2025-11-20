@@ -27,8 +27,7 @@ describe('controllers/before-you-start/enforcement-notice-listed-building', () =
 	let res;
 
 	const appeal = {
-		...fullAppeal,
-		appealType: '1005'
+		...fullAppeal
 	};
 
 	beforeEach(() => {
@@ -125,7 +124,8 @@ describe('controllers/before-you-start/enforcement-notice-listed-building', () =
 				eligibility: {
 					...appeal.eligibility,
 					enforcementNoticeListedBuilding: false
-				}
+				},
+				appealType: '1000'
 			});
 
 			expect(res.redirect).toHaveBeenCalledWith(navigationPages.enforcementPage);
@@ -147,7 +147,8 @@ describe('controllers/before-you-start/enforcement-notice-listed-building', () =
 				eligibility: {
 					...appeal.eligibility,
 					enforcementNoticeListedBuilding: true
-				}
+				},
+				appealType: '1002'
 			});
 
 			expect(res.redirect).toHaveBeenCalledWith(navigationPages.shutterPage);

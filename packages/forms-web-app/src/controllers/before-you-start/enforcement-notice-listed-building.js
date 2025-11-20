@@ -8,6 +8,7 @@ const {
 const {
 	validEnforcementNoticeListedBuildingOptions
 } = require('../../validators/before-you-start/enforcement-notice-listed-building');
+const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
 exports.getEnforcementNoticeListedBuilding = (req, res) => {
 	const { appeal } = req.session;
@@ -46,13 +47,18 @@ exports.postEnforcementNoticeListedBuilding = async (req, res) => {
 		return;
 	}
 
+	const appealType = isEnforcementNoticeForListedBuilding
+		? APPEAL_ID.ENFORCEMENT_LISTED_BUILDING
+		: APPEAL_ID.ENFORCEMENT_NOTICE;
+
 	try {
 		req.session.appeal = await createOrUpdateAppeal({
 			...appeal,
 			eligibility: {
 				...appeal.eligibility,
 				enforcementNoticeListedBuilding: isEnforcementNoticeForListedBuilding
-			}
+			},
+			appealType
 		});
 	} catch (e) {
 		logger.error(e);

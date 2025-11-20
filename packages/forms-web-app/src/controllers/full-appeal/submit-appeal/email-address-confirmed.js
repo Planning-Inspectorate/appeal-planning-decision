@@ -44,6 +44,10 @@ const getEmailConfirmed = async (req, res) => {
 			await hideFromDashboard(req, appeal);
 			listOfDocumentsUrl = '/appeals/adverts/appeal-form/before-you-start';
 			break;
+		case APPEAL_ID.ENFORCEMENT_NOTICE:
+			await hideFromDashboard(req, appeal);
+			listOfDocumentsUrl = '/appeals/enforcement/appeal-form/before-you-start';
+			break;
 	}
 
 	res.render(EMAIL_CONFIRMED, {
