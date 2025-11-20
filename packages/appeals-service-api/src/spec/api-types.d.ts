@@ -725,6 +725,16 @@ export interface AppellantSubmission {
 	highwayLand?: boolean;
 	advertInPosition?: boolean;
 	landownerPermission?: boolean;
+	/** @format date-time */
+	enforcementIssueDate?: string;
+	/** @format date-time */
+	enforcementEffectiveDate?: string;
+	hasContactedPlanningInspectorate?: boolean;
+	/** @format date-time */
+	contactPlanningInspectorateDate?: string;
+	enforcementReferenceNumber?: string;
+	enforcementWhoIsAppealing?: string;
+	enforcementOrganisationName?: string;
 	SubmissionAddress?: SubmissionAddress[];
 	SubmissionListedBuilding?: object[];
 	SubmissionIndividual?: SubmissionIndividual[];

@@ -780,9 +780,8 @@ model AppellantSubmission {
   statusPlanningObligation                       String?
 
   // radio
-  majorMinorDevelopment     String?
-  typeDevelopment           String?
-  enforcementWhoIsAppealing String?
+  majorMinorDevelopment String?
+  typeDevelopment       String?
 
   // plain text
   applicationReference           String?
@@ -791,7 +790,6 @@ model AppellantSubmission {
   contactPhoneNumber             String?
   appellantPreferHearingDetails  String?
   appellantPreferInquiryDetails  String?
-  enforcementOrganisationName    String?
 
   // number entries
   siteAreaSquareMetres            Decimal?
@@ -830,6 +828,14 @@ model AppellantSubmission {
   contactAddress              Boolean?
 
   // enforcement
+  enforcementIssueDate             DateTime?
+  enforcementEffectiveDate         DateTime?
+  hasContactedPlanningInspectorate Boolean?
+  contactPlanningInspectorateDate  DateTime?
+  enforcementReferenceNumber       String?
+  enforcementWhoIsAppealing        String?
+  enforcementOrganisationName      String?
+
   SubmissionIndividual SubmissionIndividual[]
 }
 

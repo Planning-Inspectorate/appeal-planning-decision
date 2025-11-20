@@ -6604,7 +6604,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
             <h1 class="govuk-heading-l"> Your appeal</h1>
         </div>
         <div class="govuk-grid-column-full">
-            <p class="govuk-body">Your deadline to submit this appeal is 28 Aug 2025.</p>
+            <p class="govuk-body">Your deadline to submit this appeal is 31 Jul 2025.</p>
             <p class="govuk-body"><a href="/appeals/your-appeals" class="govuk-link--no-visited-state">Save and come back later</a>.</p>
             <hr
             class="govuk-section-break govuk-section-break--visible govuk-section-break--l">

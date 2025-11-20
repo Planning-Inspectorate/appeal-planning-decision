@@ -218,6 +218,24 @@ components:
         landownerPermission:
           type: boolean
 
+        enforcementIssueDate:
+          type: string
+          format: date-time
+        enforcementEffectiveDate:
+          type: string
+          format: date-time
+        hasContactedPlanningInspectorate:
+          type: boolean
+        contactPlanningInspectorateDate:
+          type: string
+          format: date-time
+        enforcementReferenceNumber:
+          type: string
+        enforcementWhoIsAppealing:
+          type: string
+        enforcementOrganisationName:
+          type: string
+
         SubmissionAddress:
           type: array
           items:

@@ -168,6 +168,37 @@ function buildSummaryListData(journey, journeyResponse) {
 }
 
 /**
+ * build an object to create an AppellantSubmission entry on starting an appeal
+ * @param {string} lpaCode
+ * @param {"HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING" | "ENFORCEMENT" | undefined} appealTypeCode
+ * @param {object} appeal
+ */
+function buildCreateAppellantSubmissionData(lpaCode, appealTypeCode, appeal) {
+	if (appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode) {
+		return {
+			appealId: appeal.appealSqlId,
+			LPACode: lpaCode,
+			appealTypeCode,
+			enforcementIssueDate: appeal.eligibility.enforcementIssueDate,
+			enforcementEffectiveDate: appeal.eligibility.enforcementEffectiveDate,
+			hasContactedPlanningInspectorate: appeal.eligibility.hasContactedPlanningInspectorate,
+			contactPlanningInspectorateDate: appeal.eligibility.contactPlanningInspectorateDate,
+			enforcementReferenceNumber: appeal.enforcementReferenceNumber
+		};
+	} else {
+		return {
+			appealId: appeal.appealSqlId,
+			LPACode: lpaCode,
+			appealTypeCode,
+			applicationDecisionDate: appeal.decisionDate,
+			applicationReference: appeal.planningApplicationNumber,
+			applicationDecision: appeal.eligibility.applicationDecision,
+			typeOfPlanningApplication: appeal.typeOfPlanningApplication
+		};
+	}
+}
+
+/**
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  * @param {string} pageCaption
@@ -497,16 +528,14 @@ exports.appellantStartAppeal = async (req, res) => {
 	const caseType = caseTypeLookup(appealType, 'id');
 	if (!caseType) throw new Error(`No case type found for appeal type ${appealType}`);
 
-	// todo: convert before sending
-	const appealSubmission = await req.appealsApiClient.createAppellantSubmission({
-		appealId: appeal.appealSqlId,
-		LPACode: lpaCode,
-		appealTypeCode: caseType.processCode,
-		applicationDecisionDate: appeal.decisionDate,
-		applicationReference: appeal.planningApplicationNumber,
-		applicationDecision: appeal.eligibility.applicationDecision,
-		typeOfPlanningApplication: appeal.typeOfPlanningApplication
-	});
+	const appealSubmissionData = buildCreateAppellantSubmissionData(
+		lpaCode,
+		caseType.processCode,
+		appeal
+	);
+
+	const appealSubmission =
+		await req.appealsApiClient.createAppellantSubmission(appealSubmissionData);
 
 	await deleteAppeal(appeal.id);
 	req.session.appeal = null;
