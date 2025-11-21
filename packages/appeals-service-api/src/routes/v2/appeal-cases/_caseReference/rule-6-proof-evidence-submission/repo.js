@@ -1,5 +1,5 @@
 const { createPrismaClient } = require('#db-client');
-const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const { Prisma } = require('@pins/database/src/client');
 
 /**
  * @typedef {import('./rule-6-proof-evidence-submission').Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
@@ -51,7 +51,7 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 				}
 			});
 		} catch (e) {
-			if (e instanceof PrismaClientKnownRequestError) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
 					// probably an invalid ID/GUID
 					return null;

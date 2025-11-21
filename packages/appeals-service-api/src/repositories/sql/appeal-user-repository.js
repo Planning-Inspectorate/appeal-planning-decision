@@ -1,25 +1,25 @@
 const { createPrismaClient } = require('../../db/db-client');
-const { Prisma } = require('@prisma/client');
+const { Prisma } = require('@pins/database/src/client');
 const logger = require('../../lib/logger');
 const ApiError = require('../../errors/apiError');
 const { APPEAL_USER_ROLES, STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 /**
- * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
- * @typedef { import("@prisma/client").AppealUser } AppealUser
- * @typedef { import("@prisma/client").AppealToUser } AppealToUser
- * @typedef { import("@prisma/client").Prisma.AppealUserCreateInput } AppealUserCreateInput
- * @typedef { import('@prisma/client').PrismaClient } PrismaClient
+ * @typedef { import('@pins/common/src/constants').AppealToUserRoles } AppealToUserRoles
+ * @typedef { import('@pins/database/src/client').AppealUser } AppealUser
+ * @typedef { import('@pins/database/src/client').AppealToUser } AppealToUser
+ * @typedef { import('@pins/database/src/client').Prisma.AppealUserCreateInput } AppealUserCreateInput
+ * @typedef { import('@pins/database/src/client').PrismaClient } PrismaClient
  */
 
 class AppealUserRepository {
 	/**
-	 * @type {import('@prisma/client').PrismaClient | import('@prisma/client').Prisma.TransactionClient}
+	 * @type {PrismaClient | Prisma.TransactionClient}
 	 */
 	dbClient;
 
 	/**
-	 * @param {import('@prisma/client').Prisma.TransactionClient} [client]
+	 * @param {Prisma.TransactionClient} [client]
 	 */
 	constructor(client) {
 		this.dbClient = client ?? createPrismaClient();
@@ -75,7 +75,7 @@ class AppealUserRepository {
 
 	/**
 	 * Search users
-	 * @param {import('@prisma/client').Prisma.AppealUserWhereInput} [searchOptions]
+	 * @param {import('@pins/database/src/client').Prisma.AppealUserWhereInput} [searchOptions]
 	 * @returns {Promise<AppealUser[]>}
 	 */
 	async search(searchOptions) {

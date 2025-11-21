@@ -1,9 +1,9 @@
 const { createPrismaClient } = require('#db-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const { Prisma } = require('@pins/database/src/client');
 const { DocumentsArgsPublishedOnly } = require('../../../../appeal-cases/repo');
 /**
- * @typedef {import('@prisma/client').AppealCase} AppealCase
+ * @typedef {import('@pins/database/src/client').AppealCase} AppealCase
  */
 
 module.exports = class Repo {
@@ -22,7 +22,7 @@ module.exports = class Repo {
 	async get({ caseReference, role, userId }) {
 		try {
 			/**
-			 * @type {import('@prisma/client').Prisma.AppealToUserWhereInput}
+			 * @type {import('@pins/database/src/client').Prisma.AppealToUserWhereInput}
 			 */
 			const where = {};
 			if (role === APPEAL_USER_ROLES.APPELLANT || role === APPEAL_USER_ROLES.AGENT) {
@@ -57,7 +57,7 @@ module.exports = class Repo {
 				}
 			});
 		} catch (e) {
-			if (e instanceof PrismaClientKnownRequestError) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
 					// probably an invalid ID/GUID
 					return null;
@@ -97,7 +97,7 @@ module.exports = class Repo {
 				});
 			});
 		} catch (e) {
-			if (e instanceof PrismaClientKnownRequestError) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
 					// probably an invalid ID/GUID
 					return null;

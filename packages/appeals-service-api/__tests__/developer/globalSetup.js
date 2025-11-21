@@ -21,9 +21,10 @@ module.exports = async () => {
 	await create();
 
 	const schemaPath = path.resolve(__dirname, '../../../database/src/schema.prisma');
+	await run(`npx prisma generate --schema ${schemaPath}`);
 	await run(`npx prisma migrate deploy --schema ${schemaPath}`);
 
-	const sqlClient = createPrismaClient();
+	const sqlClient = createPrismaClient(process.env.SQL_CONNECTION_STRING);
 	await seedStaticData(sqlClient);
 	await sqlClient.$disconnect();
 };

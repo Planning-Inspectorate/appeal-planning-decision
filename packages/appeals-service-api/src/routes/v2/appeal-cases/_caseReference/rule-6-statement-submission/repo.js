@@ -1,5 +1,5 @@
 const { createPrismaClient } = require('#db-client');
-const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const { Prisma } = require('@pins/database/src/client');
 
 /**
  * @typedef {import('./rule-6-statement-submission').Rule6StatementSubmission} Rule6StatementSubmission
@@ -50,7 +50,7 @@ class Rule6StatementSubmissionRepository {
 				}
 			});
 		} catch (e) {
-			if (e instanceof PrismaClientKnownRequestError) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
 					// probably an invalid ID/GUID
 					return null;

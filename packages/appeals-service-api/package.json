@@ -6,20 +6,16 @@
 		"node": ">=22.0.0 <23.0.0"
 	},
 	"main": "src/main.js",
-	"prisma": {
-		"schema": "../database/src/schema.prisma"
-	},
 	"scripts": {
 		"doc": "node src/spec/write-api-types.js",
-		"db:generate": "npx prisma generate",
-		"test": "npm run db:generate && cross-env NODE_OPTIONS=\"--expose-gc\" jest --logHeapUsage --ci --verbose",
-		"test:cov": "npm run db:generate && cross-env NODE_OPTIONS=\"--expose-gc\" jest --logHeapUsage --ci --verbose --coverage",
+		"test": "cross-env NODE_OPTIONS=\"--expose-gc\" jest --logHeapUsage --ci --verbose",
+		"test:cov": "cross-env NODE_OPTIONS=\"--expose-gc\" jest --logHeapUsage --ci --verbose --coverage",
 		"gen-api-types": "node src/spec/write-api-types.js",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
 		"start": "node ./",
-		"start:dev": "npm run db:generate && nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
-		"start:dev:debug": "npm run db:generate && nodemon --inspect=0.0.0.0 ./"
+		"start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
+		"start:dev:debug": "nodemon --inspect=0.0.0.0 ./"
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {

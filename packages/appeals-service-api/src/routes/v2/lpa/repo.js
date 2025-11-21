@@ -1,10 +1,10 @@
 const { createPrismaClient } = require('#db-client');
-const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
+const { Prisma } = require('@pins/database/src/client');
 const ApiError = require('#errors/apiError');
 
 /**
  * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealDocument} DataModelDocument
- * @typedef {import('@prisma/client').LPA} PrismaLPA
+ * @typedef {import('@pins/database/src/client').LPA} PrismaLPA
  */
 
 /**
@@ -77,7 +77,7 @@ module.exports = class Repo {
 				data: mappedData
 			});
 		} catch (e) {
-			if (e instanceof PrismaClientValidationError) {
+			if (e instanceof Prisma.PrismaClientValidationError) {
 				throw ApiError.badRequest(e.message);
 			}
 			throw e;

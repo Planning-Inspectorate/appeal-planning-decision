@@ -197,3 +197,6 @@ eicar.com.txt
 # Structurizr
 structurizr/workspace.json
 structurizr/.structurizr/*
+
+# prisma
+packages/database/src/client

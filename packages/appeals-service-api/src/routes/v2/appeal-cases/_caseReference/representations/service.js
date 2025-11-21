@@ -1,6 +1,6 @@
 const { RepresentationsRepository } = require('./repo');
 const { appendAppellantAndAgent, appendLinkedCases } = require('../../service');
-const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
+const { Prisma } = require('@pins/database/src/client');
 const ApiError = require('#errors/apiError');
 const { REPRESENTATION_TYPES } = require('@pins/common/src/constants');
 const { getServiceUsersWithEmailsByIdAndCaseReference } = require('../../../service-users/service');
@@ -15,8 +15,8 @@ const { getValidator } = new SchemaValidator();
  */
 
 /**
- * @typedef {import('@prisma/client').AppealCase} AppealCase
- * @typedef {import('@prisma/client').Representation} Representation
+ * @typedef {import('@pins/database/src/client').AppealCase} AppealCase
+ * @typedef {import('@pins/database/src/client').Representation} Representation
  *
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  * @typedef { 'LPAUser' } LpaUserRole
@@ -104,7 +104,7 @@ async function putRepresentation(representationId, data) {
 
 		return result;
 	} catch (err) {
-		if (err instanceof PrismaClientValidationError) {
+		if (err instanceof Prisma.PrismaClientValidationError) {
 			throw ApiError.badRequest(err.message);
 		}
 		throw err;
