@@ -143,60 +143,60 @@ export const advertAppealGrantedTestCases = [
         },
         documents,
     }
-    // {
-    //     statusOfOriginalApplication: 'granted',
-    //     typeOfDecisionRequested: 'written',
-    //     statusOfPlanningObligation: 'not started',
-    //     typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
-    //     applicationForm: {
-    //         isAppellant: false,
-    //         isHighwayLand: true,
-    //         isAdvertisementPosition: true,
-    //         appellantInGreenBelt: true,
-    //         isOwnsAllLand: false,
-    //         isOwnsSomeLand: false,
-    //         knowsAllOwners: 'some',
-    //         isInspectorNeedAccess: true,
-    //         isAppellantSiteSafety: false,
-    //         isUpdateDevelopmentDescription: true,
-    //         appellantProcedurePreference: 'written',
-    //         anyOtherAppeals: true,
-    //     },
-    //     uploadDocuments: {
-    //         isApplyAwardCost: true,
-    //     },
-    //     documents,
-    //     otherAppeals: [{
-    //         appealReferenceNumber: '1234567'
-    //     }, {
-    //         appealReferenceNumber: '7654321'
-    //     }],
+    {
+        statusOfOriginalApplication: 'granted',
+        typeOfDecisionRequested: 'written',
+        statusOfPlanningObligation: 'not started',
+        typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
+        applicationForm: {
+            isAppellant: false,
+            isHighwayLand: true,
+            isAdvertisementPosition: true,
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: false,
+            knowsAllOwners: 'some',
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: false,
+            isUpdateDevelopmentDescription: true,
+            appellantProcedurePreference: 'written',
+            anyOtherAppeals: true,
+        },
+        uploadDocuments: {
+            isApplyAwardCost: true,
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],
 
-    // },
-    // {
-    //     statusOfOriginalApplication: 'granted',
-    //     typeOfDecisionRequested: 'written',
-    //     statusOfPlanningObligation: 'not started',
-    //     typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
-    //     applicationForm: {
-    //         isAppellant: false,
-    //         isHighwayLand: true,
-    //         isAdvertisementPosition: true,
-    //         appellantInGreenBelt: true,
-    //         isOwnsAllLand: false,
-    //         isOwnsSomeLand: false,
-    //         knowsAllOwners: 'no',
-    //         isInspectorNeedAccess: true,
-    //         isAppellantSiteSafety: false,
-    //         iaUpdateDevelopmentDescription: true,
-    //         appellantProcedurePreference: 'written',
-    //         anyOtherAppeals: false,
-    //     },
-    //     uploadDocuments: {
-    //         isApplyAwardCost: true,
-    //     },
-    //     documents,
-    // }
+    },
+    {
+        statusOfOriginalApplication: 'granted',
+        typeOfDecisionRequested: 'written',
+        statusOfPlanningObligation: 'not started',
+        typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
+        applicationForm: {
+            isAppellant: false,
+            isHighwayLand: true,
+            isAdvertisementPosition: true,
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: false,
+            knowsAllOwners: 'no',
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: false,
+            iaUpdateDevelopmentDescription: true,
+            appellantProcedurePreference: 'written',
+            anyOtherAppeals: false,
+        },
+        uploadDocuments: {
+            isApplyAwardCost: true,
+        },
+        documents,
+    }
 ];
 
 
