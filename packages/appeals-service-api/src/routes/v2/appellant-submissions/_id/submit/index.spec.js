@@ -8,7 +8,7 @@ const lpaEmail = 'lpa@example.com';
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
  * @param {function(string): void} dependencies.setCurrentSub
  * @param {import('supertest').Agent} dependencies.appealsApi
  * @param {import('../../../index.test').NotifyClientMock} dependencies.mockNotifyClient
@@ -255,7 +255,7 @@ module.exports = ({
 	 * @type {Array<{
 	 * testName: string,
 	 * appeal: {id: string},
-	 * submission: import('@prisma/client').AppellantSubmission,
+	 * submission: import('@pins/database/src/client').AppellantSubmission,
 	 * expectedData: import('@planning-inspectorate/data-model/src/schemas').AppellantSubmissionCommand
 	 * }> }
 	 */

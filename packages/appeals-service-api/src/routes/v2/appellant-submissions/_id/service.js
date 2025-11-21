@@ -3,8 +3,8 @@ const Repo = require('../repo');
 const repo = new Repo();
 
 /**
- * @typedef {import('@prisma/client').AppellantSubmission} AppellantSubmission
- * @typedef {import('@prisma/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
+ * @typedef {import('@pins/database/src/client').AppellantSubmission} AppellantSubmission
+ * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
  * @typedef {import('../repo').FullAppellantSubmission} FullAppellantSubmission
  */
 

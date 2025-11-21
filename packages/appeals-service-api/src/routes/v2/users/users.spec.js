@@ -3,7 +3,7 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
  * @param {import('supertest').Agent} dependencies.appealsApi
  */
 module.exports = ({ getSqlClient, appealsApi }) => {
@@ -11,7 +11,7 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 
 	/**
 	 * @param {string} email
-	 * @returns {Promise.<import('@prisma/client').AppealUser>}
+	 * @returns {Promise.<import('@pins/database/src/client').AppealUser>}
 	 */
 	const _createSqlUser = async (email) => {
 		const user = await sqlClient.appealUser.upsert({
@@ -29,7 +29,7 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 	};
 
 	/**
-	 * @returns {Promise.<import('@prisma/client').Appeal>}
+	 * @returns {Promise.<import('@pins/database/src/client').Appeal>}
 	 */
 	const _createSqlAppeal = async () => {
 		const appeal = await sqlClient.appeal.create({});

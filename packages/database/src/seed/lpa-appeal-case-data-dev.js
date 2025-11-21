@@ -40,7 +40,7 @@ const lpaAppealIds = {
 };
 
 /**
- * @type {import('@prisma/client').Prisma.AppealCreateInput[]}
+ * @type {import('@pins/database/src/client').Prisma.AppealCreateInput[]}
  */
 const lpaAppeals = [
 	{ id: lpaAppealIds.appealOne },
@@ -97,10 +97,10 @@ const commonAppealCaseDataProperties = {
  * @param {string} lpaCode
  * @param {string} type
  * @param {'new'|'questionnaire'} state
- * @returns {import('@prisma/client').Prisma.AppealCaseCreateWithoutAppealInput}
+ * @returns {import('@pins/database/src/client').Prisma.AppealCaseCreateWithoutAppealInput}
  */
 const createAppealCase = (caseReference, lpaCode, type, state) => {
-	/** @type {import('@prisma/client').Prisma.AppealCaseCreateWithoutAppealInput} */
+	/** @type {import('@pins/database/src/client').Prisma.AppealCaseCreateWithoutAppealInput} */
 	const appeal = {
 		...commonAppealCaseDataProperties,
 		LPACode: lpaCode,
@@ -126,7 +126,7 @@ const createAppealCase = (caseReference, lpaCode, type, state) => {
 };
 
 /**
- * @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]}
+ * @type {import('@pins/database/src/client').Prisma.AppealCaseCreateInput[]}
  */
 const lpaAppealCaseData = [
 	{

@@ -7,7 +7,7 @@ const { subMonths } = require('date-fns');
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
  * @param {function(string): void} dependencies.setCurrentSub
  * @param {import('supertest').Agent} dependencies.appealsApi
  */
@@ -95,7 +95,7 @@ module.exports = ({ getSqlClient, setCurrentSub, appealsApi }) => {
 	};
 
 	/**
-	 * @returns {Promise<import('@prisma/client').AppealUser>}
+	 * @returns {Promise<import('@pins/database/src/client').AppealUser>}
 	 */
 	async function createNewUser() {
 		const user = await sqlClient.appealUser.create({

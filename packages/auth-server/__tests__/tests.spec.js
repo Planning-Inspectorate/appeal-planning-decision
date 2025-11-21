@@ -8,7 +8,7 @@ import app from '../src/app.js';
 import createPrismaClient from '../src/adapter/prisma-client.js';
 import { seedStaticData } from '@pins/database/src/seed/data-static';
 
-/** @type {import('@prisma/client').PrismaClient} */
+/** @type {import('@pins/database/src/client').PrismaClient} */
 let sqlClient;
 /** @type {import('supertest').SuperTest<import('supertest').Test>} */
 let authServer;
@@ -539,7 +539,7 @@ const _clearSqlData = async () => {
 /**
  * @param {string} email
  * @param {boolean} [lpaUser]
- * @returns {Promise.<import('@prisma/client').AppealUser>}
+ * @returns {Promise.<import('@pins/database/src/client').AppealUser>}
  */
 const _createSqlUser = async (email, lpaUser = false) => {
 	let lpaDetails = {};

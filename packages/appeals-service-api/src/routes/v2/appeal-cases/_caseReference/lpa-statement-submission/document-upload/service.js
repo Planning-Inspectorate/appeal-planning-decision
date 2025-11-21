@@ -3,7 +3,7 @@ const { SubmissionDocumentUploadRepository } = require('./repo');
 const repo = new SubmissionDocumentUploadRepository();
 
 /**
- * @typedef {import("@prisma/client").LPAStatementSubmission} LPAStatementSubmission
+ * @typedef {import('@pins/database/src/client').LPAStatementSubmission} LPAStatementSubmission
  * @typedef {import('./repo').DocumentUploadData} DocumentUploadData
  */
 

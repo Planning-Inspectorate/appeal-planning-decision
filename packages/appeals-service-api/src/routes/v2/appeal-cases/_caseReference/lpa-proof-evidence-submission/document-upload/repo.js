@@ -1,7 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 
 /**
- * @typedef {import('@prisma/client').LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
+ * @typedef {import('@pins/database/src/client').LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  */
 
 /**

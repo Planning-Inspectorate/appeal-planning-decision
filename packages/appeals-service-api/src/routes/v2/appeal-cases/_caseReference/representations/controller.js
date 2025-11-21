@@ -36,7 +36,7 @@ async function getAppealCaseWithRepresentations(req, res) {
 		throw ApiError.withMessage(400, 'logged-in email required');
 	}
 
-	/** @type { Array<import("@prisma/client").AppealToUser> } */
+	/** @type { Array<import('@pins/database/src/client').AppealToUser> } */
 	let appealUserRoles = [];
 
 	// todo: lpaCode scope + middleware
@@ -126,7 +126,7 @@ async function filterRepresentations(caseWithRepresentations, email, isLpa) {
 }
 
 /**
- * @param {Array<import('@prisma/client').Representation>} representations
+ * @param {Array<import('@pins/database/src/client').Representation>} representations
  * @returns {Map<string, import('@pins/common/src/access/representation-ownership').FlatRepDocOwnership>}
  */
 function getRepDocOwnershipMap(representations) {

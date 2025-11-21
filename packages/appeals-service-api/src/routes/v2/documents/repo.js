@@ -9,7 +9,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
  * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealDocument} DataModelDocument
- * @typedef {import('@prisma/client').Document} PrismaDocument
+ * @typedef {import('@pins/database/src/client').Document} PrismaDocument
  */
 
 /**

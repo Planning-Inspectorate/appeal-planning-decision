@@ -10,7 +10,7 @@ const email = crypto.randomUUID() + '@example.com';
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
  * @param {import('supertest').Agent} dependencies.appealsApi
  */
 module.exports = ({ getSqlClient, appealsApi }) => {
@@ -18,7 +18,7 @@ module.exports = ({ getSqlClient, appealsApi }) => {
 
 	/**
 	 * @param {string} email
-	 * @returns {Promise.<import('@prisma/client').AppealUser>}
+	 * @returns {Promise.<import('@pins/database/src/client').AppealUser>}
 	 */
 	const _createSqlUser = async (email) => {
 		const user = await sqlClient.appealUser.upsert({

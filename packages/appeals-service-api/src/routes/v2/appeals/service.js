@@ -8,7 +8,7 @@ const repo = new UserAppealsRepository();
 const cosmosAppeals = new AppealsRepository();
 
 /**
- * @typedef {import("@prisma/client").AppealCase} AppealCase
+ * @typedef {import('@pins/database/src/client').AppealCase} AppealCase
  * // TODO: define type for submission (ideally generated from spec)
  * @typedef {AppealCase | any} AppealCaseOrSubmission
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles

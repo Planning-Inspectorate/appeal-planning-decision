@@ -24,7 +24,7 @@ const CASE_VALIDATION_OUTCOMES_ARRAY = Object.values(CASE_VALIDATION_OUTCOMES);
 const LPAQ_VALIDATION_OUTCOMES_ARRAY = Object.values(LPAQ_VALIDATION_OUTCOMES);
 
 /**
- * @param {import('@prisma/client').PrismaClient} dbClient
+ * @param {import('@pins/database/src/client').PrismaClient} dbClient
  */
 async function seedStaticData(dbClient) {
 	for (const role of APPEAL_USER_ROLES_ARRAY) {
