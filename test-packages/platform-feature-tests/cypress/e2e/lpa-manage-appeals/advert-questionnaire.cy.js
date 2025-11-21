@@ -37,7 +37,7 @@ describe('commercial advert Questionnaire Test Cases', { tags: '@Commercial-adve
             - User selects schedule monument ${context.constraintsAndDesignations?.isScheduleMonument}
             - User selects conservation area ${context.constraintsAndDesignations?.isConservationArea}
             - User selects protected spices ${context.constraintsAndDesignations?.isProtectedSpecies}
-            - User selects protected spices ${context.constraintsAndDesignations?.isSpecialControl}
+            - User selects Special Control ${context.constraintsAndDesignations?.isSpecialControl}
             - User selects green belt area ${context.constraintsAndDesignations?.isGreenBelt}
             - User selects area outstanding beauty  ${context.constraintsAndDesignations?.isAreaOutstandingBeauty}
             - User selects all designated sites ${context.constraintsAndDesignations?.isAllDesignatedSite}           
