@@ -4,7 +4,7 @@ const serviceUserRepository = new ServiceUserRepository();
 
 /**
  * @param {import('@planning-inspectorate/data-model/src/schemas').ServiceUser} data
- * @returns {Promise<import('@prisma/client').ServiceUser>}
+ * @returns {Promise<import('@pins/database/src/client').ServiceUser>}
  */
 exports.put = (data) => {
 	return serviceUserRepository.put(data);

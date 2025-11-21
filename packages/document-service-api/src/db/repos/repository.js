@@ -5,8 +5,8 @@ const {
 } = require('@pins/common/src/access/representation-ownership');
 
 /**
- * @typedef {import('@prisma/client').Representation} Representation
- * @typedef {import('@prisma/client').ServiceUser} ServiceUser
+ * @typedef {import('@pins/database/src/client').Representation} Representation
+ * @typedef {import('@pins/database/src/client').ServiceUser} ServiceUser
  * @typedef {Pick<ServiceUser, 'id' | 'emailAddress' | 'serviceUserType'>} BasicServiceUser
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  * @typedef { 'LPAUser' } LpaUserRole
@@ -40,7 +40,7 @@ class DocumentsRepository {
 
 	/**
 	 * @param {string} id SubmissionDocumentUpload id
-	 * @returns {Promise<import("@prisma/client").SubmissionDocumentUpload & { LPAQuestionnaireSubmission: { appealCaseReference: string} }>} documentWithAppeal
+	 * @returns {Promise<import('@pins/database/src/client').SubmissionDocumentUpload & { LPAQuestionnaireSubmission: { appealCaseReference: string} }>} documentWithAppeal
 	 */
 	async getSubmissionDocument(id) {
 		return this.dbClient.submissionDocumentUpload.findUnique({
@@ -82,7 +82,7 @@ class DocumentsRepository {
 
 	/**
 	 * @param {string} id SubmissionDocumentUpload id
-	 * @return {Promise<import("@prisma/client").SubmissionDocumentUpload>}
+	 * @return {Promise<import('@pins/database/src/client').SubmissionDocumentUpload>}
 	 */
 	async deleteSubmissionDocument(id) {
 		return this.dbClient.submissionDocumentUpload.delete({
@@ -94,7 +94,7 @@ class DocumentsRepository {
 
 	/**
 	 * @param {string} lookup document lookup, id or uri
-	 * @return {Promise<import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string, appealTypeCode: string} }>}
+	 * @return {Promise<import('@pins/database/src/client').Document & { AppealCase: { LPACode:string, appealId: string, appealTypeCode: string} }>}
 	 */
 	async getDocumentWithAppeal(lookup) {
 		return await this.dbClient.document.findFirstOrThrow({
@@ -116,7 +116,7 @@ class DocumentsRepository {
 	 * @param {object} params
 	 * @param {string} params.documentType
 	 * @param {string} params.caseReference
-	 * @returns {Promise<import("@prisma/client").Document[]>}
+	 * @returns {Promise<import('@pins/database/src/client').Document[]>}
 	 */
 	async getDocuments({ documentType, caseReference }) {
 		if (!caseReference) throw new Error('caseReference required');
@@ -134,7 +134,7 @@ class DocumentsRepository {
 	 * @param {object} params
 	 * @param {string[]} params.documentTypes
 	 * @param {string} params.caseReference
-	 * @returns {Promise<import("@prisma/client").Document[]>}
+	 * @returns {Promise<import('@pins/database/src/client').Document[]>}
 	 */
 	async getDocumentsByTypes({ documentTypes, caseReference }) {
 		if (!caseReference) throw new Error('caseReference required');
@@ -260,7 +260,7 @@ class DocumentsRepository {
 	 * @param {Object} params
 	 * @param {string} params.appealId
 	 * @param {string} params.userId
-	 * @returns {Promise<import("@prisma/client").AppealToUser[]>}
+	 * @returns {Promise<import('@pins/database/src/client').AppealToUser[]>}
 	 */
 	async getAppealUserRoles({ appealId, userId }) {
 		return await this.dbClient.appealToUser.findMany({
@@ -338,10 +338,10 @@ class DocumentsRepository {
 	/**
 	 * document lookup, can be blob storage uri or an id
 	 * @param {string} documentLookup
-	 * @returns {import('@prisma/client').Prisma.DocumentWhereUniqueInput}
+	 * @returns {import('@pins/database/src/client').Prisma.DocumentWhereUniqueInput}
 	 */
 	#getDocumentLookupQuery(documentLookup) {
-		/** @type {import('@prisma/client').Prisma.DocumentWhereUniqueInput} */
+		/** @type {import('@pins/database/src/client').Prisma.DocumentWhereUniqueInput} */
 		let where = {};
 		if (documentLookup.includes('http')) {
 			where.documentURI = documentLookup;

@@ -6,7 +6,7 @@ const { getValidator } = new SchemaValidator();
 
 /**
  * @param {import('@planning-inspectorate/data-model/src/schemas').AppealEvent} data
- * @returns {Promise<import('@prisma/client').Event>}
+ * @returns {Promise<import('@pins/database/src/client').Event>}
  */
 exports.put = (data) => {
 	const eventValidator = getValidator('appeal-event');

@@ -1,7 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 
 /**
- * @typedef {import('@prisma/client').AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
+ * @typedef {import('@pins/database/src/client').AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  */
 
 /**

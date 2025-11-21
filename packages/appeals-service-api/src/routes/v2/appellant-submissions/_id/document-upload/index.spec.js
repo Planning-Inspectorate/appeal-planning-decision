@@ -8,7 +8,7 @@ let email = '';
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
  * @param {function(string): void} dependencies.setCurrentSub
  * @param {import('supertest').Agent} dependencies.appealsApi
  */
@@ -32,7 +32,7 @@ module.exports = ({
 
 	/**
 	 * @param {string} caseType
-	 * @returns {Promise<import('@prisma/client').AppellantSubmission & { AppellantSubmission: import('@prisma/client').AppellantSubmission })}>}
+	 * @returns {Promise<import('@pins/database/src/client').AppellantSubmission & { AppellantSubmission: import('@pins/database/src/client').AppellantSubmission })}>}
 	 */
 	const createAppellantSubmission = async (caseType) => {
 		const appeal = await sqlClient.appeal.create({
