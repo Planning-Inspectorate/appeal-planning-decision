@@ -1,10 +1,10 @@
 const { createPrismaClient } = require('#db-client');
-const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
+const { Prisma } = require('@pins/database/src/client');
 const ApiError = require('#errors/apiError');
 
 /**
- * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
- * @typedef {import("@prisma/client").Prisma.InterestedPartySubmissionCreateInput} IPSubmissionData
+ * @typedef {import('@pins/database/src/client').InterestedPartySubmission} InterestedPartySubmission
+ * @typedef {import('@pins/database/src/client').Prisma.InterestedPartySubmissionCreateInput} IPSubmissionData
  * @typedef {InterestedPartySubmission & {AppealCase?: {LPACode: string, appealTypeCode: string | null}}} DetailedInterestedPartySubmission
  */
 
@@ -36,7 +36,7 @@ class InterestedPartySubmissionRepository {
 				}
 			});
 		} catch (e) {
-			if (e instanceof PrismaClientValidationError) {
+			if (e instanceof Prisma.PrismaClientValidationError) {
 				throw ApiError.badRequest(e.message);
 			}
 			throw e;

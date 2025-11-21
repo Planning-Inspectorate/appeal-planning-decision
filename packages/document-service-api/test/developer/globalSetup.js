@@ -24,5 +24,6 @@ module.exports = async () => {
 	process.env.LOGGER_LEVEL = 'error';
 
 	const schemaPath = path.resolve(__dirname, '../../../database/src/schema.prisma');
+	await run(`npx prisma generate --schema ${schemaPath}`);
 	await run(`npx prisma migrate deploy --schema ${schemaPath}`);
 };

@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@pins/database/src/client/index.js';
 
 import createPrismaClient from '../adapter/prisma-client.js';
 import logger from '../lib/logger.js';

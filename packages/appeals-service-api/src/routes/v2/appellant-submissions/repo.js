@@ -1,20 +1,20 @@
 const { createPrismaClient } = require('#db-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const { Prisma } = require('@pins/database/src/client');
 const ApiError = require('#errors/apiError');
 const logger = require('#lib/logger');
 const { subMonths } = require('date-fns');
 
 /**
- * @typedef {import('@prisma/client').AppellantSubmission} BareAppellantSubmission
- * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
+ * @typedef {import('@pins/database/src/client').AppellantSubmission} BareAppellantSubmission
+ * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionGetPayload<{
  *   include: {
  *     SubmissionDocumentUpload: true,
  *     SubmissionAddress: true,
  *     SubmissionLinkedCase: true,
  *   }
  * }>} AppellantSubmission
- * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
+ * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionGetPayload<{
  *   include: {
  *     SubmissionDocumentUpload: true,
  *     SubmissionAddress: true,
@@ -31,9 +31,9 @@ const { subMonths } = require('date-fns');
  *     }
  *   }
  * }>} FullAppellantSubmission
- * @typedef {import('@prisma/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
- * @typedef {import('@prisma/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
- * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
+ * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
+ * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
+ * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionGetPayload<{
  *   select: {
  *    	id: true,
  *		applicationDecisionDate: true,
@@ -201,7 +201,7 @@ module.exports = class Repo {
 
 			return result;
 		} catch (e) {
-			if (e instanceof PrismaClientKnownRequestError) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
 					// probably an invalid ID/GUID
 					return null;
@@ -273,7 +273,7 @@ module.exports = class Repo {
 				data: data
 			});
 		} catch (e) {
-			if (e instanceof PrismaClientKnownRequestError) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
 					// probably an invalid ID/GUID
 					return null;
@@ -342,7 +342,7 @@ module.exports = class Repo {
 
 			return result;
 		} catch (e) {
-			if (e instanceof PrismaClientKnownRequestError) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
 					// probably an invalid ID/GUID
 					return null;
@@ -375,7 +375,7 @@ module.exports = class Repo {
 				}
 			});
 		} catch (e) {
-			if (e instanceof PrismaClientKnownRequestError) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
 					// probably an invalid ID/GUID
 					return null;
@@ -388,7 +388,7 @@ module.exports = class Repo {
 	/**
 	 * Get all document uploads for a submission
 	 * @param {string} submissionId
-	 * @returns {Promise<import('@prisma/client').SubmissionDocumentUpload[]>}
+	 * @returns {Promise<import('@pins/database/src/client').SubmissionDocumentUpload[]>}
 	 */
 	async getSubmissionDocumentUploads(submissionId) {
 		return this.dbClient.submissionDocumentUpload.findMany({

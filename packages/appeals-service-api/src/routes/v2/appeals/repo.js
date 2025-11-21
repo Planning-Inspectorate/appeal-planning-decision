@@ -1,11 +1,11 @@
 const { createPrismaClient } = require('#db-client');
-const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const { Prisma } = require('@pins/database/src/client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
- * @typedef {import("@prisma/client").Prisma.AppealUserGetPayload<{include: {Appeals: {include: {Appeal: { include: {AppealCase: true }}}}}}>} UserWithAppeals
+ * @typedef {import('@pins/database/src/client').Prisma.AppealUserGetPayload<{include: {Appeals: {include: {Appeal: { include: {AppealCase: true }}}}}}>} UserWithAppeals
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
- * @typedef {import("@prisma/client").Appeal} Appeal
+ * @typedef {import('@pins/database/src/client').Appeal} Appeal
  */
 
 class UserAppealsRepository {
@@ -91,7 +91,7 @@ class UserAppealsRepository {
 				}
 			});
 		} catch (e) {
-			if (e instanceof PrismaClientKnownRequestError) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
 					// probably an invalid ID/GUID
 					return null;
@@ -116,7 +116,7 @@ class UserAppealsRepository {
 				data: data
 			});
 		} catch (e) {
-			if (e instanceof PrismaClientKnownRequestError) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023' || e.code === 'P2025') {
 					// probably an invalid ID/GUID
 					return null;
