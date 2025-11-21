@@ -6,6 +6,7 @@ const initialiseHouseHolderPlanning = require("./initialiseHouseHolderPlanning")
 const initialiseFullPlanning = require("./initialiseFullPlanning");
 const initialiseListedBuilding = require("./initialiseListedBuilding");
 const initialiseCasPlanning = require("./initialiseCasPlanning");
+const initialiseAdvertPlanning = require("./initialiseAdvertPlanning");
 module.exports = (statusOfOriginalApplication, planning, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases = [], fullAppealStatementTestCases = []) => {
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const basePage = new BasePage();
@@ -65,5 +66,9 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 			//cas planning route
 			initialiseCasPlanning(planning, grantedOrRefusedId, context, prepareAppealData)
 		}
+	} else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialAdvertisement) {
+
+			initialiseAdvertPlanning(planning, grantedOrRefusedId, context, prepareAppealData)
+
 	}
 };
