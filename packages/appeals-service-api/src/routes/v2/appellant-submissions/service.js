@@ -7,8 +7,8 @@ const ApiError = require('#errors/apiError');
 const logger = require('#lib/logger');
 
 /**
- * @typedef {import('@prisma/client').AppellantSubmission} AppellantSubmission
- * @typedef {import('@prisma/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
+ * @typedef {import('@pins/database/src/client').AppellantSubmission} AppellantSubmission
+ * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
  */
 
 /**

@@ -13,8 +13,8 @@ const { checkDocAccess } = require('@pins/common/src/access/document-access');
 /**
  * @param {string} caseStage
  * @param {string} caseReference
- * @param {import('@prisma/client').AppealCase} appealCase
- * @param {import("@prisma/client").AppealToUser[]} appealUserRoles
+ * @param {import('@pins/database/src/client').AppealCase} appealCase
+ * @param {import('@pins/database/src/client').AppealToUser[]} appealUserRoles
  * @param {import('express-oauth2-jwt-bearer').JWTPayload|undefined} access_token
  * @param {object} id_token
  * @returns {Promise<Array<{fullName: string, blobStorageContainer: string | undefined, blobStoragePath: string, documentURI: string}>>}

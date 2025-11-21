@@ -11,7 +11,7 @@ function containsAny(arr1, arr2) {
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
  * @param {import('supertest').Agent} dependencies.appealsApi
  */
 module.exports = ({ getSqlClient, appealsApi: lpaApi }) => {

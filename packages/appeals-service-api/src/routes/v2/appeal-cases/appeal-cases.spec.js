@@ -31,7 +31,7 @@ const { appendLinkedCasesForMultipleAppeals } = require('./service');
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
  * @param {function(string): void} dependencies.setCurrentLpa
  * @param {import('../index.test').NotifyClientMock} dependencies.mockNotifyClient
  * @param {import('supertest').Agent} dependencies.appealsApi
@@ -50,7 +50,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 	 * @param {string} lpaCode
 	 * @param {string} postCode
 	 * @param {boolean} casePublished
-	 * @returns {import('@prisma/client').Prisma.AppealCaseCreateInput}
+	 * @returns {import('@pins/database/src/client').Prisma.AppealCaseCreateInput}
 	 */
 	function appealCase(lpaCode, postCode, casePublished = true) {
 		caseRef++;
@@ -71,7 +71,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 	const postCodes = ['BS1 6PM', 'BS1 6AA', 'BS1 6PO', 'BS1 6PP'];
 	const LPAs = ['LPA1', 'LPA1a', 'LPA2', 'LPA2a', 'LPA3', 'LPA3a'];
 
-	/** @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]} */
+	/** @type {import('@pins/database/src/client').Prisma.AppealCaseCreateInput[]} */
 	const publishedTestCases = [
 		appealCase('LPA1', 'BS1 6PM'),
 		appealCase('LPA1', 'BS1 6AA'),
@@ -85,7 +85,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 		appealCase('LPA3a', 'BS1 6PO')
 	];
 
-	/** @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]} */
+	/** @type {import('@pins/database/src/client').Prisma.AppealCaseCreateInput[]} */
 	const notPublishedCases = [
 		appealCase('LPA1', 'BS1 6PM', false),
 		appealCase('LPA1', 'BS1 6AA', false),
@@ -99,7 +99,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 		appealCase('LPA3a', 'BS1 6PO', false)
 	];
 
-	/** @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]} */
+	/** @type {import('@pins/database/src/client').Prisma.AppealCaseCreateInput[]} */
 	const testCases = [...publishedTestCases, ...notPublishedCases];
 
 	afterAll(async () => {
@@ -803,8 +803,8 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 	};
 
 	/**
-	 * @param {import('@prisma/client').Prisma.AppealCaseCreateInput} data
-	 * @returns {Promise.<import('@prisma/client').AppealCase>}
+	 * @param {import('@pins/database/src/client').Prisma.AppealCaseCreateInput} data
+	 * @returns {Promise.<import('@pins/database/src/client').AppealCase>}
 	 */
 	async function _createSqlAppealCase(data) {
 		const appeal = await sqlClient.appealCase.create({ data });
@@ -815,8 +815,8 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 	}
 
 	/**
-	 * @param {import('@prisma/client').Prisma.AppealCaseRelationshipCreateInput} data
-	 * @returns {Promise.<import('@prisma/client').AppealCaseRelationship>}
+	 * @param {import('@pins/database/src/client').Prisma.AppealCaseRelationshipCreateInput} data
+	 * @returns {Promise.<import('@pins/database/src/client').AppealCaseRelationship>}
 	 */
 	async function _createSqlLinkedCases(data) {
 		const appealCaseRelationship = await sqlClient.appealCaseRelationship.create({ data });

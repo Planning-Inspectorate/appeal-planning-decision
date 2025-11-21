@@ -3,7 +3,7 @@ const { SubmissionDocumentUploadRepository } = require('./repo');
 const repo = new SubmissionDocumentUploadRepository();
 
 /**
- * @typedef {import("@prisma/client").AppellantSubmission} AppellantSubmission
+ * @typedef {import('@pins/database/src/client').AppellantSubmission} AppellantSubmission
  * @typedef {import('./repo').DocumentUploadData} DocumentUploadData
  */
 

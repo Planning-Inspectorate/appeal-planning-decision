@@ -6,7 +6,7 @@ const { getDocType } = require('@pins/common/src/document-types');
 
 /**
  * @typedef {import('@pins/common/src/document-types').DocType} DocType
- * @typedef {import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string, appealTypeCode: string} }} DocMetaData
+ * @typedef {import('@pins/database/src/client').Document & { AppealCase: { LPACode:string, appealId: string, appealTypeCode: string} }} DocMetaData
  * @typedef {function(DocMetaData, DocType): boolean|null} PermissionsCheck
  */
 
@@ -59,8 +59,8 @@ module.exports.canAccessBODocument = ({ docMetaData, role }) => {
 /**
  * @param { Object } params
  * @param {import("pino").BaseLogger } [params.logger]
- * @param {import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string, appealTypeCode: string} }} params.documentWithAppeal
- * @param {import("@prisma/client").AppealToUser[]} params.appealUserRoles
+ * @param {import('@pins/database/src/client').Document & { AppealCase: { LPACode:string, appealId: string, appealTypeCode: string} }} params.documentWithAppeal
+ * @param {import('@pins/database/src/client').AppealToUser[]} params.appealUserRoles
  * @param {import('express-oauth2-jwt-bearer').JWTPayload} params.appealUserRoles
  * @param {import('express-oauth2-jwt-bearer').JWTPayload} params.access_token
  * @param {object} params.id_token
@@ -94,8 +94,8 @@ module.exports.checkDocAccess = ({
 };
 
 /**
- * @param {import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string} }} documentWithAppeal
- * @param {import("@prisma/client").AppealToUser[]} appealUserRoles
+ * @param {import('@pins/database/src/client').Document & { AppealCase: { LPACode:string, appealId: string} }} documentWithAppeal
+ * @param {import('@pins/database/src/client').AppealToUser[]} appealUserRoles
  * @param {import('express-oauth2-jwt-bearer').JWTPayload} access_token
  * @param {object} id_token
  */

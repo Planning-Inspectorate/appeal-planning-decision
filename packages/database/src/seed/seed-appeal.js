@@ -7,9 +7,9 @@ const {
 const { randomUUID } = require('crypto');
 
 /**
- * @typedef {import('@prisma/client').Prisma.AppealCaseCreateWithoutAppealInput} AppealCreate
- * @typedef {import('@prisma/client').Prisma.ServiceUserCreateInput} ServiceUserCreate
- * @typedef {import('@prisma/client').Prisma.RepresentationCreateInput} RepresentationCreate
+ * @typedef {import('@pins/database/src/client').Prisma.AppealCaseCreateWithoutAppealInput} AppealCreate
+ * @typedef {import('@pins/database/src/client').Prisma.ServiceUserCreateInput} ServiceUserCreate
+ * @typedef {import('@pins/database/src/client').Prisma.RepresentationCreateInput} RepresentationCreate
  */
 
 const commonAppealProps = {
