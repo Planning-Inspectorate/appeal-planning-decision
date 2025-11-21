@@ -180,21 +180,21 @@ Though we use JavaScript, which uses [dynamic & weak typing](https://developer.m
 In the `packages/appeals-service/api` package, to import Prisma types in jsdoc, use
 
 ```
-import('@prisma/client').MyType
+import('@pins/database/src/client').MyType
 ```
 
 Types for creates or updates may not have all fields, so use the `*CreateInput` or `*UpdateInput` variations for those:
 
 ```
-import('@prisma/client').Prisma.MyTypeUncheckedCreateInput
+import('@pins/database/src/client').Prisma.MyTypeUncheckedCreateInput
 // or
-import('@prisma/client').Prisma.MyTypeUncheckedUpdateInput
+import('@pins/database/src/client').Prisma.MyTypeUncheckedUpdateInput
 ```
 
 If you need a type with a relation included, say an `AppealUser` with a `SecurityToken`, you can use:
 
 ```
-import('@prisma/client').Prisma.AppealUserGetPayload<{include: {SecurityToken: true}}>
+import('@pins/database/src/client').Prisma.AppealUserGetPayload<{include: {SecurityToken: true}}>
 ```
 
 This type will have a `.SecurityToken` property with the fields from that model.

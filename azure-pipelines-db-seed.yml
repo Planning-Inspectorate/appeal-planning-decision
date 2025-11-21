@@ -65,7 +65,7 @@ jobs:
                 environmentVariables:
                   SQL_CONNECTION_STRING: $(SQL_CONNECTION_STRING)
                   BO_DOCUMENTS_ENDPOINT: $(BO_DOCUMENTS_ENDPOINT)
-                script: npm run generate && npm run seed
+                script: npm run seed
                 workingDirectory: $(Build.Repository.LocalPath)/packages/database
             - template: steps/node_script.yml@templates
               parameters:

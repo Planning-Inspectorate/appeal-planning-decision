@@ -7,19 +7,15 @@
 	"engines": {
 		"node": ">=22.0.0 <23.0.0"
 	},
-	"prisma": {
-		"schema": "../database/src/schema.prisma"
-	},
 	"scripts": {
-		"db:generate": "npx prisma generate",
 		"lint": "eslint ./",
 		"gen-client": "node ./dev/gen-client.js",
 		"gen-keys": "node ./dev/gen-keys.js",
 		"start": "node ./src/main.js",
-		"start:dev": "npm run db:generate && nodemon ./src/main.js | pino-pretty -tlc",
-		"start:dev:debug": "npm run db:generate && nodemon --inspect=0.0.0.0 ./src/main.js",
-		"test": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose",
-		"test:cov": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --coverage"
+		"start:dev": "nodemon ./src/main.js | pino-pretty -tlc",
+		"start:dev:debug": "nodemon --inspect=0.0.0.0 ./src/main.js",
+		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose",
+		"test:cov": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --coverage"
 	},
 	"dependencies": {
 		"@pins/common": "^0.0.0",

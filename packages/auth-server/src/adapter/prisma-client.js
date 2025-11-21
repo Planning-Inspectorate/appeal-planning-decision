@@ -2,16 +2,13 @@ import createClient from '@pins/database/src/create-client.js';
 import config from '../configuration/config.js';
 import logger from '../lib/logger.js';
 
-/** @type {import('@pins/database/src/create-client').prismaConfig} */
-const prismaConfig = {
-	datasourceUrl: config.db.sql.connectionString
-};
-
 /**
- * @returns {import('@prisma/client').PrismaClient}
+ * @param {string} [connectionString]
+ * @returns {import('@pins/database/src/client').PrismaClient}
  */
-const createPrismaClient = () => {
-	return createClient(prismaConfig, logger);
+const createPrismaClient = (connectionString) => {
+	const prismaConnectionString = connectionString ?? config.db.sql.connectionString;
+	return createClient(prismaConnectionString, logger);
 };
 
 export default createPrismaClient;
