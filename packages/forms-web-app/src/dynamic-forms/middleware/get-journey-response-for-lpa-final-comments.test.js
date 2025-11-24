@@ -6,6 +6,7 @@ const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const {
 	isLPAFinalCommentOpen
 } = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 jest.mock('../../services/user.service');
 jest.mock('./utils');
@@ -16,7 +17,13 @@ describe('getJourneyResponseForLpaFinalComments', () => {
 	const refId = 'ref';
 	const lpaCode = 'Q9999';
 	const mockUser = { id: '123', lpaCode };
-	const mockAppeal = { LPACode: lpaCode };
+	const mockAppeal = {
+		LPACode: lpaCode,
+		users: [{ serviceUserType: SERVICE_USER_TYPE.APPELLANT, firstName: 'John', lastName: 'Doe' }],
+		appealTypeCode: 'HAS',
+		applicationReference: 'APP-123',
+		address: { addressLine1: 'LINE 1' }
+	};
 	const testDBResponse = { answer1: '1', AppealCase: { LPACode: lpaCode } };
 
 	beforeEach(() => {

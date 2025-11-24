@@ -269,7 +269,7 @@ exports.list = async (req, res, pageCaption, viewData) => {
 exports.question = async (req, res) => {
 	//render an individual question
 	const { section, question } = req.params;
-	const { journey } = res.locals;
+	const { journey, appeal } = res.locals;
 
 	const sectionObj = journey.getSection(section);
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
@@ -283,7 +283,10 @@ exports.question = async (req, res) => {
 	const viewModel = questionObj.prepQuestionForRendering({
 		section: sectionObj,
 		journey,
-		sessionBackLink
+		sessionBackLink,
+		customViewData: {
+			appeal
+		}
 	});
 	return questionObj.renderAction(res, viewModel);
 };

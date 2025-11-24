@@ -11,7 +11,7 @@ const Question = require('../../question');
  * @typedef {QuestionViewModel & { question: QuestionViewModel['question'] & { label?: string} }} ContinueViewModel
  */
 
-class ContinueQuestion extends Question {
+class ContentQuestion extends Question {
 	/**
 	 * @param {Object} params
 	 * @param {string} params.title
@@ -19,16 +19,20 @@ class ContinueQuestion extends Question {
 	 * @param {string} params.fieldName
 	 * @param {string} [params.description]
 	 * @param {string} [params.url]
+	 * @param {string} [params.html]
+	 * @param {string} [params.backLinkText]
 	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
 	 */
-	constructor({ title, question, fieldName, url, label, description }) {
+	constructor({ title, question, fieldName, url, label, description, html, backLinkText }) {
 		super({
 			title,
-			viewFolder: 'continue',
+			viewFolder: 'content',
 			fieldName,
 			url,
+			html,
 			question,
-			description
+			description,
+			backLinkText
 		});
 
 		this.label = label;
@@ -67,4 +71,4 @@ class ContinueQuestion extends Question {
 	}
 }
 
-module.exports = ContinueQuestion;
+module.exports = ContentQuestion;
