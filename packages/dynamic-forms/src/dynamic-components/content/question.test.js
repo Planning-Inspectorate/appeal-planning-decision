@@ -1,4 +1,4 @@
-const ContinueQuestion = require('./question');
+const ContentQuestion = require('./question');
 
 const TITLE = 'title';
 const QUESTION = 'Question?';
@@ -7,7 +7,7 @@ const LABEL = 'A label';
 
 describe('./src/dynamic-forms/dynamic-components/continue/question.js', () => {
 	const getQuestion = () => {
-		return new ContinueQuestion({
+		return new ContentQuestion({
 			title: TITLE,
 			question: QUESTION,
 			fieldName: FIELDNAME,
@@ -21,7 +21,7 @@ describe('./src/dynamic-forms/dynamic-components/continue/question.js', () => {
 		expect(question.title).toEqual(TITLE);
 		expect(question.question).toEqual(QUESTION);
 		expect(question.fieldName).toEqual(FIELDNAME);
-		expect(question.viewFolder).toEqual('continue');
+		expect(question.viewFolder).toEqual('content');
 		expect(question.label).toEqual(LABEL);
 	});
 

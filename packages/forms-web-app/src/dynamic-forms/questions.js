@@ -18,7 +18,7 @@ const NumberEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/
 const SiteAddressQuestion = require('@pins/dynamic-forms/src/dynamic-components/site-address/question');
 const UnitOptionEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/unit-option-entry/question');
 const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
-const ContinueQuestion = require('@pins/dynamic-forms/src/dynamic-components/continue/question');
+const ContentQuestion = require('@pins/dynamic-forms/src/dynamic-components/content/question');
 
 // validators
 const RequiredValidator = require('@pins/dynamic-forms/src/validator/required-validator');
@@ -2321,9 +2321,30 @@ exports.questionProps = {
 			})
 		]
 	},
+	appellantContinue: {
+		// @ts-ignore
+		type: 'content',
+		title: 'Submit final comments',
+		html: 'resources/appellant-final-comment-notice/appellant-final-comment-notice.html',
+		label: 'You can upload any supporting documents after you add your final comments.',
+		question: 'Submit final comments',
+		url: 'upload-final-comments',
+		fieldName: 'statementContinue'
+	},
+	lpaContinue: {
+		// @ts-ignore
+		type: 'content',
+		title: 'Submit your final comments',
+		label: 'You can upload any supporting documents after you add your final comments.',
+		description: 'You can upload any supporting documents after you add your appeal statement.',
+		backLinkText: 'Back to manage your appeals',
+		question: 'Submit your final comments',
+		url: 'upload-final-comments',
+		fieldName: 'statementContinue'
+	},
 	statementContinue: {
 		// @ts-ignore
-		type: 'continue',
+		type: 'content',
 		title: 'Submit an appeal statement',
 		description: 'You can upload any supporting documents after you add your appeal statement.',
 		label: 'You can upload any supporting documents after you add your appeal statement.',
@@ -3083,7 +3104,7 @@ const questionClasses = {
 	'site-address': SiteAddressQuestion,
 	'unit-option': UnitOptionEntryQuestion,
 	'list-add-more': ListAddMoreQuestion,
-	continue: ContinueQuestion
+	content: ContentQuestion
 };
 
 exports.getQuestions = () =>

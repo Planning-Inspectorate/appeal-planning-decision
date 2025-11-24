@@ -72,6 +72,8 @@ class Question {
 	shouldDisplay = () => true;
 	/** @type {Array.<string>|undefined} optional variables content*/
 	variables;
+	/** @type {string|undefined} optional back link text */
+	backLinkText;
 
 	details = {
 		title: '',
@@ -94,6 +96,7 @@ class Question {
 	 * @param {string} [params.interfaceType]
 	 * @param {(response: JourneyResponse) => boolean} [params.shouldDisplay]
 	 * @param {Array.<QuestionVariables>} [params.variables]
+	 * @param {string} [params.backLinkText]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
@@ -112,7 +115,8 @@ class Question {
 			interfaceType,
 			shouldDisplay,
 			variables,
-			showSkipLink
+			showSkipLink,
+			backLinkText
 		},
 		methodOverrides
 	) {
@@ -132,6 +136,7 @@ class Question {
 		this.interfaceType = interfaceType;
 		this.variables = variables;
 		this.showSkipLink = showSkipLink || false;
+		this.backLinkText = backLinkText;
 
 		if (shouldDisplay) {
 			this.shouldDisplay = shouldDisplay;
@@ -188,6 +193,7 @@ class Question {
 			journeyTitle: journey.journeyTitle,
 			payload,
 			bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
+			backLinkText: this.backLinkText,
 			...customViewData
 		};
 

@@ -23,6 +23,7 @@ const {
  */
 const makeSections = (response) => [
 	new Section('', config.dynamicForms.DEFAULT_SECTION)
+		.addQuestion(questions.appellantContinue)
 		.addQuestion(questions.appellantFinalComment)
 		.addQuestion(questions.appellantFinalCommentDetails)
 		.withCondition(() => questionHasAnswer(response, questions.appellantFinalComment, 'yes'))
