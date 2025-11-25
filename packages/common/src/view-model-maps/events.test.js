@@ -249,6 +249,40 @@ describe('view-model-maps/events', () => {
 		]);
 	});
 
+	it('returns correct string array if valid cancel inquiry event & LPA user', () => {
+		const events = [
+			{
+				...inquiryEvent,
+				status: 'withdrawn'
+			}
+		];
+		const role = LPA_USER_ROLE;
+		expect(formatInquiries(events, role)).toEqual([
+			{
+				lineOne:
+					'We have cancelled the inquiry on 29 December 2024. We will contact you when we rearrange your inquiry.',
+				lineTwo: null
+			}
+		]);
+	});
+
+	it('returns correct string array if valid cancel inquiry event & Appellant user', () => {
+		const events = [
+			{
+				...inquiryEvent,
+				status: 'withdrawn'
+			}
+		];
+		const role = APPEAL_USER_ROLES.APPELLANT;
+		expect(formatInquiries(events, role)).toEqual([
+			{
+				lineOne:
+					'We have cancelled your inquiry on 29 December 2024. We will contact you when we rearrange your inquiry.',
+				lineTwo: null
+			}
+		]);
+	});
+
 	describe('formatHearings', () => {
 		it('returns empty array if not a valid user', () => {
 			const events = [hearingEvent];

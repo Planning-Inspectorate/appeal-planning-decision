@@ -7,6 +7,9 @@ const { DefaultAzureCredential } = require('@azure/identity');
  * @class
  */
 class ServiceBusEventClient {
+	/**
+	 * @param {string} serviceBusHostname
+	 */
 	constructor(serviceBusHostname) {
 		this.client = new ServiceBusClient(serviceBusHostname, new DefaultAzureCredential());
 	}
@@ -33,7 +36,7 @@ class ServiceBusEventClient {
 	 * @param {object[]} events
 	 * @param {number} traceId
 	 * @param {import('./event-type.js').EventType} type
-	 * @returns {MessageObjectToSend[]}
+	 * @returns {import('@azure/service-bus').ServiceBusMessage []}
 	 */
 	#transformMessagesToSend = (events, traceId, type) => {
 		return events.map((body) => ({
@@ -56,13 +59,19 @@ class ServiceBusEventClient {
 	sendEvents = async (topic, events, eventType) => {
 		const sender = this.#createSender(topic);
 
-		const traceId = this.#createTraceId();
+		try {
+			const traceId = this.#createTraceId();
 
-		logger.info(`Publishing ${events.length} events to topic ${topic} with trace id ${traceId}`);
+			logger.info(`Publishing ${events.length} events to topic ${topic} with trace id ${traceId}`);
 
-		await sender.sendMessages(this.#transformMessagesToSend(events, traceId, eventType));
+			await sender.sendMessages(this.#transformMessagesToSend(events, traceId, eventType));
 
-		return events;
+			return events;
+		} finally {
+			if (!sender.isClosed) {
+				await sender.close();
+			}
+		}
 	};
 }
 

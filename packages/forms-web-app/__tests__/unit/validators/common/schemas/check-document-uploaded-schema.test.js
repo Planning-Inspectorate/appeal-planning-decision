@@ -90,7 +90,7 @@ describe('validators/common/schemas/check-document-upload-schema', () => {
 	it('should throw error if no files being uploaded/already uploaded', async () => {
 		// if supporting documents is empty
 		req.files = null;
-		req.session.finalComment.supportingDocuments = {};
+		req.session.finalComment.supportingDocuments = [];
 
 		findTargetValueInJSON.mockReturnValueOnce(req.session.finalComment.supportingDocuments);
 

@@ -1,0 +1,55 @@
+{% extends "../layouts/householder-banner/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% set title="You cannot appeal - Appeal a planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
+
+    {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+
+    <span class="govuk-caption-l"></span>
+
+    <div class="govuk-form-group">
+
+      <label class="govuk-label govuk-label--l" for="postcode">
+        You cannot appeal
+      </label>
+
+      <p class="govuk-body">
+        Your deadline to appeal has passed.
+      </p>
+
+      <p class="govuk-body">
+       	Your deadline has passed. The deadline to appeal was the day before the effective date on your enforcement notice.
+      </p>
+
+      <p class="govuk-body">
+        <a href={{ beforeYouStartFirstPage }} class="govuk-link">
+          Start a new appeal
+        </a>
+      </p>
+
+    </div>
+
+    </div>
+  </div>
+
+{% endblock %}

@@ -13,12 +13,15 @@ const VIEW = {
 		USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building',
 		USE_EXISTING_SERVICE_APPLICATION_TYPE: 'before-you-start/use-existing-service-application-type',
 		LISTED_BUILDING: 'before-you-start/listed-building',
+		ENFORCEMENT_CAN_USE_SERVICE: 'before-you-start/enforcement-can-use-service',
 		ENFORCEMENT_NOTICE: 'before-you-start/enforcement-notice',
 		ENFORCEMENT_NOTICE_LISTED_BUILDING: 'before-you-start/enforcement-notice-listed-building',
 		ENFORCEMENT_ISSUE_DATE: 'before-you-start/enforcement-issue-date',
 		ENFORCEMENT_EFFECTIVE_DATE: 'before-you-start/enforcement-effective-date',
 		APPLICATION_ABOUT: 'before-you-start/planning-application-about',
-		CONTACT_PLANNING_INSPECTORATE: 'before-you-start/contact-planning-inspectorate'
+		CONTACT_PLANNING_INSPECTORATE: 'before-you-start/contact-planning-inspectorate',
+		CONTACT_PLANNING_INSPECTORATE_DATE: 'before-you-start/contact-planning-inspectorate-date',
+		CANNOT_APPEAL_ENFORCEMENT: 'before-you-start/cannot-appeal-enforcement'
 	},
 
 	APPELLANT_SUBMISSION: {
@@ -177,6 +180,15 @@ const VIEW = {
 		CODE_EXPIRED: 'adverts/code-expired', // redirect only
 		NEED_NEW_CODE: 'adverts/need-new-code', // redirect only
 		EMAIL_CONFIRMED: 'adverts/email-address-confirmed' // redirect only
+	},
+	ENFORCEMENT: {
+		ENFORCEMENT_REFERENCE_NUMBER: 'enforcement/enforcement-reference-number',
+		EMAIL_ADDRESS: 'enforcement/email-address', // redirect only
+		ENTER_CODE: 'enforcement/enter-code', // redirect only
+		REQUEST_NEW_CODE: 'enforcement/request-new-code', // redirect only
+		CODE_EXPIRED: 'enforcement/code-expired', // redirect only
+		NEED_NEW_CODE: 'enforcement/need-new-code', // redirect only
+		EMAIL_CONFIRMED: 'enforcement/email-address-confirmed' // redirect only
 	},
 	COMMON: {
 		ENTER_CODE: 'common/enter-code',

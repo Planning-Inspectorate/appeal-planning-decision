@@ -1,3 +1,4 @@
+const config = require('../../config');
 const { Journey } = require('@pins/dynamic-forms/src/journey');
 const { baseAdvertsSubmissionUrl, ...params } = require('./journey');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
@@ -62,7 +63,9 @@ describe('ADVERTS Appeal Form Journey', () => {
 				})
 		).toBe(false);
 	});
-	it('should display grid reference when it is defined and site address is not defined', () => {
+
+	it('should display grid reference when it is defined and site address is not defined if feature flag is on', () => {
+		config.featureFlag.gridReferenceEnabled = true;
 		const answers = {
 			siteAddress: null,
 			siteGridReferenceEasting: '123456',
@@ -92,6 +95,39 @@ describe('ADVERTS Appeal Form Journey', () => {
 				})
 		).toBe(true);
 	});
+
+	it('should display site address when grid reference is defined and site address is not defined if feature flag is off', () => {
+		config.featureFlag.gridReferenceEnabled = false;
+		const answers = {
+			siteAddress: null,
+			siteGridReferenceEasting: '123456',
+			siteGridReferenceNorthing: '654321'
+		};
+		const journey = new Journey({
+			...params,
+			response: {
+				...mockResponse,
+				answers: { ...answers }
+			}
+		});
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.title.includes('What is the address of the appeal site?'))
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { ...answers }
+				})
+		).toBe(true);
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.title.includes('Grid reference'))
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { ...answers }
+				})
+		).toBe(false);
+	});
+
 	it('should display only site address if both site address and grid reference are defined', () => {
 		const answers = {
 			siteAddress: true,

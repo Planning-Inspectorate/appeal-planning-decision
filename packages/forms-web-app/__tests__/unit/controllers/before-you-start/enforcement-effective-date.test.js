@@ -11,7 +11,7 @@ const {
 } = require('../../../../src/lib/views');
 
 const navigationPages = {
-	checkYouAnswersPage: '/before-you-start/check-your-answers',
+	checkYouAnswersPage: '/before-you-start/can-use-service',
 	contactPlanningInspectoratePage: '/before-you-start/contact-planning-inspectorate'
 };
 const logger = require('../../../../src/lib/logger');
@@ -26,7 +26,7 @@ describe('controllers/before-you-start/enforcement-effective-date', () => {
 
 	const appeal = {
 		...fullAppeal,
-		appealType: '1005'
+		appealType: '1000'
 	};
 
 	beforeEach(() => {

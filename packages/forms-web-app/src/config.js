@@ -23,7 +23,7 @@ const generateBetaBannerFeedbackLink = (feedbackUrl) => {
 
 /**
  *
- * @param {string} appealTypeCode
+ * @param {string|undefined} appealTypeCode
  * @returns {string}
  */
 const getAppealTypeFeedbackUrl = (appealTypeCode) => {
@@ -34,8 +34,12 @@ const getAppealTypeFeedbackUrl = (appealTypeCode) => {
 			return feedbackUrlS20;
 		case 'HAS':
 			return feedbackUrlHAS;
-		// todo - add feedback url for CAS and ADVERTS
-		// we could move these to static data but then we lose the ability to override the URLs in config?
+		case 'CAS_PLANNING':
+			return feedbackUrlCASPlanning;
+		case 'CAS_ADVERTS':
+			return feedbackUrlCasAdverts;
+		case 'ADVERTS':
+			return feedbackUrlAdverts;
 		default:
 			return feedbackUrl;
 	}
@@ -63,6 +67,15 @@ const feedbackUrlS78 =
 const feedbackUrlS20 =
 	process.env.FEEDBACK_URL_S20 ||
 	'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UQjI0R09ONVRVNVJZVk9XMzBYTFo2RDlQUy4u&route=shorturl';
+const feedbackUrlCASPlanning =
+	process.env.FEEDBACK_URL_CAS_PLANNING ||
+	'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5URE1RMzFNSVQzUjBWRlQ2VFFPUTI3TkVSVC4u';
+const feedbackUrlCasAdverts =
+	process.env.FEEDBACK_URL_CAS_ADVERTS ||
+	'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UOVZRWTJSOUdWUDk3T0owQTVFNExTUzlVSC4u';
+const feedbackUrlAdverts =
+	process.env.FEEDBACK_URL_ADVERTS ||
+	'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UREdSMUZXUFhUMUdBUERBUFFGVkRQVEFBTS4u';
 
 module.exports = {
 	gitSha: process.env.GIT_SHA ?? 'NO GIT SHA FOUND',
@@ -169,6 +182,7 @@ module.exports = {
 	featureFlag: {
 		commentsEnabled: process.env.COMMENTS_ENABLED === 'true',
 		googleTagManager: process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true',
+		gridReferenceEnabled: process.env.GRID_REF_ENABLED === 'true',
 		rule6Enabled: process.env.RULE_6_ENABLED === 'true',
 		scopingOpinionEnabled: process.env.SCOPING_OPINION_ENABLED === 'true'
 	},

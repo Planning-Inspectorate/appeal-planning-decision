@@ -23,6 +23,7 @@ const {
  */
 const makeSections = (response) => [
 	new Section('', config.dynamicForms.DEFAULT_SECTION)
+		.addQuestion(questions.statementContinue)
 		.addQuestion(questions.lpaStatement)
 		.addQuestion(questions.additionalDocuments)
 		.addQuestion(questions.uploadLpaStatementDocuments)

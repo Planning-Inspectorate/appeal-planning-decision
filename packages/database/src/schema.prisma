@@ -650,19 +650,24 @@ model Document {
 
 // This table stores unedited IP submissions at the point of submission to BO
 model InterestedPartySubmission {
-  id            String     @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  caseReference String
-  firstName     String
-  lastName      String
-  addressLine1  String?
-  addressLine2  String?
-  townCity      String?
-  county        String?
-  postcode      String?
-  emailAddress  String?
-  comments      String     @db.NVarChar(Max)
-  createdAt     DateTime   @default(now())
-  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+  id                             String   @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  caseReference                  String
+  firstName                      String
+  lastName                       String
+  addressLine1                   String?
+  addressLine2                   String?
+  townCity                       String?
+  county                         String?
+  postcode                       String?
+  emailAddress                   String?
+  comments                       String   @db.NVarChar(Max)
+  createdAt                      DateTime @default(now())
+  hasDocumentsToSupportComment   Boolean?
+  uploadInterestedPartyDocuments Boolean?
+
+  // Uploaded documents and details linked to this comment
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+  AppealCase               AppealCase                 @relation(fields: [caseReference], references: [caseReference])
 
   // indexes
   @@index([caseReference])
@@ -780,9 +785,8 @@ model AppellantSubmission {
   statusPlanningObligation                       String?
 
   // radio
-  majorMinorDevelopment     String?
-  typeDevelopment           String?
-  enforcementWhoIsAppealing String?
+  majorMinorDevelopment String?
+  typeDevelopment       String?
 
   // plain text
   applicationReference           String?
@@ -791,7 +795,6 @@ model AppellantSubmission {
   contactPhoneNumber             String?
   appellantPreferHearingDetails  String?
   appellantPreferInquiryDetails  String?
-  enforcementOrganisationName    String?
 
   // number entries
   siteAreaSquareMetres            Decimal?
@@ -830,6 +833,14 @@ model AppellantSubmission {
   contactAddress              Boolean?
 
   // enforcement
+  enforcementIssueDate             DateTime?
+  enforcementEffectiveDate         DateTime?
+  hasContactedPlanningInspectorate Boolean?
+  contactPlanningInspectorateDate  DateTime?
+  enforcementReferenceNumber       String?
+  enforcementWhoIsAppealing        String?
+  enforcementOrganisationName      String?
+
   SubmissionIndividual SubmissionIndividual[]
 }
 
@@ -1160,6 +1171,9 @@ model SubmissionDocumentUpload {
   Rule6StatementSubmission   Rule6StatementSubmission? @relation(fields: [rule6StatementSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   rule6StatementSubmissionId String?                   @db.UniqueIdentifier
 
+  InterestedPartySubmission   InterestedPartySubmission? @relation(fields: [interestedPartySubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  interestedPartySubmissionId String?                    @db.UniqueIdentifier
+
   name             String
   fileName         String
   originalFileName String
@@ -1177,6 +1191,7 @@ model SubmissionDocumentUpload {
   @@index([lpaProofOfEvidenceId])
   @@index([rule6ProofOfEvidenceSubmissionId])
   @@index([rule6StatementSubmissionId])
+  @@index([interestedPartySubmissionId])
 }
 
 model SubmissionAddress {

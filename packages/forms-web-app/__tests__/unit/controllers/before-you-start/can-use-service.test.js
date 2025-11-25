@@ -9,6 +9,7 @@ const { getDepartmentFromId } = require('../../../../src/services/department.ser
 const { TYPE_OF_PLANNING_APPLICATION, APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
 	VIEW: {
+		BEFORE_YOU_START: { ENFORCEMENT_CAN_USE_SERVICE: canUseServiceEnforcementView },
 		HOUSEHOLDER_PLANNING: {
 			ELIGIBILITY: {
 				CAN_USE_SERVICE_HOUSEHOLDER: canUseServiceHouseholder,
@@ -39,6 +40,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 	let res;
 	let fullAppeal;
 	let householderAppeal;
+	let enforcementNotice;
 	const bannerHtmlOverrideHAS =
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('HAS'));
@@ -50,6 +52,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 		jest.isolateModules(() => {
 			fullAppeal = require('../../../mockData/full-appeal');
 			householderAppeal = require('../../../mockData/householder-appeal');
+			enforcementNotice = require('../../../mockData/enforcement-notice');
 		});
 		jest.resetAllMocks();
 		res = mockRes();
@@ -100,6 +103,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				bannerHtmlOverride: bannerHtmlOverrideHAS
 			});
 		});
+
 		it('renders page - HAS - date decision due - v2 - s20 flag', async () => {
 			isLpaInFeatureFlag.mockReturnValue(true);
 			const householderAppealNoDecisionReceived = { ...householderAppeal };
@@ -523,6 +527,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				return flag === FLAG.S20_APPEAL_FORM_V2;
 			});
 			const s20Appeal = {
+				appealType: APPEAL_ID.PLANNING_LISTED_BUILDING,
 				typeOfPlanningApplication: 'listed-building',
 				lpaCode: 'E60000068',
 				decisionDate: fullAppeal.decisionDate,
@@ -564,6 +569,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			});
 			const casPlanningAppeal = {
 				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+				appealType: APPEAL_ID.MINOR_COMMERCIAL,
 				lpaCode: 'E60000068',
 				decisionDate: fullAppeal.decisionDate,
 				eligibility: {
@@ -580,7 +586,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				applicationAbout: ['None of these'],
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Minor commercial development',
-				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
+				deadlineDate: { date: 27, day: 'Wednesday', month: 'July', year: 2022 },
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
@@ -597,6 +603,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			});
 		});
 	});
+
 	describe('getCanUseService - adverts', () => {
 		it('renders page - adverts', async () => {
 			isLpaInFeatureFlag.mockImplementation((_, flag) => {
@@ -637,45 +644,94 @@ describe('controllers/before-you-start/can-use-service', () => {
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ADVERTS'))
 			});
 		});
-		describe('getCanUseService - cas adverts', () => {
-			it('renders page - adverts', async () => {
-				isLpaInFeatureFlag.mockImplementation((_, flag) => {
-					return flag === FLAG.CAS_ADVERTS_APPEAL_FORM_V2;
-				});
-				const advertsAppeal = {
-					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT,
-					appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT,
-					lpaCode: 'E60000068',
-					decisionDate: fullAppeal.decisionDate,
-					eligibility: {
-						applicationDecision: 'refused'
-					}
-				};
-				req = mockReq(advertsAppeal);
+	});
 
-				await getCanUseService(req, res);
+	describe('getCanUseService - cas adverts', () => {
+		it('renders page - cas adverts', async () => {
+			isLpaInFeatureFlag.mockImplementation((_, flag) => {
+				return flag === FLAG.CAS_ADVERTS_APPEAL_FORM_V2;
+			});
+			const advertsAppeal = {
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT,
+				appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT,
+				lpaCode: 'E60000068',
+				decisionDate: fullAppeal.decisionDate,
+				eligibility: {
+					applicationDecision: 'refused'
+				}
+			};
+			req = mockReq(advertsAppeal);
 
-				expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-					appealLPD: 'Bradford',
-					applicationAbout: null,
-					applicationDecision: 'Refused',
-					applicationType: 'Advertisement',
-					deadlineDate: { date: 29, day: 'Wednesday', month: 'June', year: 2022 },
-					decisionDate: '04 May 2022',
-					dateOfDecisionLabel: 'Date of decision',
-					enforcementNotice: 'No',
-					isListedBuilding: 'No',
-					nextPageUrl: '/adverts/email-address',
-					changeLpaUrl: '/before-you-start/local-planning-authority',
-					isV2forS78: false,
-					isV2forCAS: false,
-					isV2forCASAdverts: true,
-					isV2forAdverts: false,
+			await getCanUseService(req, res);
 
-					bannerHtmlOverride:
-						config.betaBannerText +
-						config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ADVERTS'))
-				});
+			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				appealLPD: 'Bradford',
+				applicationAbout: null,
+				applicationDecision: 'Refused',
+				applicationType: 'Advertisement',
+				deadlineDate: { date: 29, day: 'Wednesday', month: 'June', year: 2022 },
+				decisionDate: '04 May 2022',
+				dateOfDecisionLabel: 'Date of decision',
+				enforcementNotice: 'No',
+				isListedBuilding: 'No',
+				nextPageUrl: '/adverts/email-address',
+				changeLpaUrl: '/before-you-start/local-planning-authority',
+				isV2forS78: false,
+				isV2forCAS: false,
+				isV2forCASAdverts: true,
+				isV2forAdverts: false,
+
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('CAS_ADVERTS'))
+			});
+		});
+	});
+
+	describe('getCanUseService - enforcement notice', () => {
+		it('renders page - enforcement - effective date not passed', async () => {
+			req = mockReq(enforcementNotice);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceEnforcementView, {
+				deadlineDate: { date: 3, day: 'Tuesday', month: 'May', year: 2022 },
+				appealLPD: 'Bradford',
+				enforcementNotice: 'Yes',
+				enforcementNoticeListedBuilding: 'No',
+				enforcementIssueDate: '4 May 2022',
+				enforcementEffectiveDate: '4 May 2022',
+				contactedPlanningInspectorate: false,
+				hasContactedPlanningInspectorate: null,
+				contactedPlanningInspectorateDate: null,
+				nextPageUrl: '/enforcement/enforcement-reference-number',
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ENFORCEMENT'))
+			});
+		});
+
+		it('renders page - enforcement - effective date passed and contacted PINS', async () => {
+			enforcementNotice.eligibility.hasContactedPlanningInspectorate = true;
+			enforcementNotice.eligibility.contactPlanningInspectorateDate = '2022-05-04T10:55:46.164Z';
+			req = mockReq(enforcementNotice);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceEnforcementView, {
+				deadlineDate: { date: 3, day: 'Tuesday', month: 'May', year: 2022 },
+				appealLPD: 'Bradford',
+				enforcementNotice: 'Yes',
+				enforcementNoticeListedBuilding: 'No',
+				enforcementIssueDate: '4 May 2022',
+				enforcementEffectiveDate: '4 May 2022',
+				contactedPlanningInspectorate: true,
+				hasContactedPlanningInspectorate: 'Yes',
+				contactedPlanningInspectorateDate: '4 May 2022',
+				nextPageUrl: '/enforcement/enforcement-reference-number',
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ENFORCEMENT'))
 			});
 		});
 	});

@@ -13,6 +13,6 @@ describe('routes/before-you-start/index', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(use.mock.calls.length).toBe(15);
+		expect(use.mock.calls.length).toBe(17);
 	});
 });

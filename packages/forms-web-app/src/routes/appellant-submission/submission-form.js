@@ -18,8 +18,7 @@ const {
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-appellant');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
-const { businessRulesDeadline } = require('../../lib/calculate-deadline');
-const { mapTypeCodeToAppealId } = require('@pins/common');
+const { getDeadlineV2 } = require('../../lib/calculate-deadline');
 const { format } = require('date-fns');
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
@@ -48,12 +47,13 @@ const appellantSubmissionTaskList = async (req, res) => {
 
 	const appealType = journey.response.answers.appealTypeCode;
 
-	const deadline = businessRulesDeadline(
-		journey.response.answers.applicationDecisionDate,
-		mapTypeCodeToAppealId(appealType),
-		null,
-		true
+	const deadline = getDeadlineV2(
+		appealType,
+		journey.response.answers.enforcementEffectiveDate,
+		journey.response.answers.applicationDecisionDate
 	);
+
+	// @ts-ignore //
 	const formattedDeadline = format(deadline, 'dd MMM yyyy');
 
 	const caseType = caseTypeLookup(appealType, 'processCode');

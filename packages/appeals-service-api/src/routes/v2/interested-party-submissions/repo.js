@@ -31,7 +31,8 @@ class InterestedPartySubmissionRepository {
 							LPACode: true,
 							appealTypeCode: true
 						}
-					}
+					},
+					SubmissionDocumentUpload: true
 				}
 			});
 		} catch (e) {

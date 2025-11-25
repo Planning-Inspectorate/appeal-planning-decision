@@ -11,6 +11,8 @@
  * @property {string} [county]
  * @property {string} [postcode]
  * @property {string} [comments]
+ * @property {string} [hasDocumentsToSupportComment]
+ * @property {Object[]} [uploadedFiles]
  * @property {boolean} [submitted]
  */
 
@@ -69,7 +71,8 @@ const getInterestedPartySubmissionFromSession = (req) => {
 		townCity,
 		county,
 		postcode,
-		comments
+		comments,
+		uploadedFiles
 	} = req.session.interestedParty;
 	return {
 		caseReference,
@@ -81,7 +84,8 @@ const getInterestedPartySubmissionFromSession = (req) => {
 		townCity,
 		county,
 		postcode,
-		comments
+		comments,
+		uploadedFiles
 	};
 };
 

@@ -137,6 +137,7 @@ describe('Dynamic forms journey tests', () => {
 					mockExternalRequests.get(baseQuestionUrl).reply(200, {
 						applicationDecisionDate: today?.toISOString(),
 						appealTypeCode: caseType.processCode,
+						enforcementEffectiveDate: today?.toISOString(),
 						SubmissionAddress: [],
 						SubmissionLinkedCase: [],
 						SubmissionListedBuilding: [],

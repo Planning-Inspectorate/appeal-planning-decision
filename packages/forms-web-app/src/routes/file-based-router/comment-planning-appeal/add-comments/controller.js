@@ -30,7 +30,7 @@ const addCommentsPost = async (req, res) => {
 		});
 	}
 
-	return res.redirect(`check-answers`);
+	return res.redirect(`documents-to-support`);
 };
 
 module.exports = { addCommentsGet, addCommentsPost };

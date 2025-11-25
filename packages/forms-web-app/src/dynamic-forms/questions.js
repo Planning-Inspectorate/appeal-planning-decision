@@ -18,6 +18,7 @@ const NumberEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/
 const SiteAddressQuestion = require('@pins/dynamic-forms/src/dynamic-components/site-address/question');
 const UnitOptionEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/unit-option-entry/question');
 const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
+const ContinueQuestion = require('@pins/dynamic-forms/src/dynamic-components/continue/question');
 
 // validators
 const RequiredValidator = require('@pins/dynamic-forms/src/validator/required-validator');
@@ -2320,6 +2321,16 @@ exports.questionProps = {
 			})
 		]
 	},
+	statementContinue: {
+		// @ts-ignore
+		type: 'continue',
+		title: 'Submit an appeal statement',
+		description: 'You can upload any supporting documents after you add your appeal statement.',
+		label: 'You can upload any supporting documents after you add your appeal statement.',
+		question: 'Submit an appeal statement',
+		url: 'upload-appeal-statement',
+		fieldName: 'statementContinue'
+	},
 	lpaStatement: {
 		type: 'text-entry',
 		title: 'Appeal statement',
@@ -3071,7 +3082,8 @@ const questionClasses = {
 	number: NumberEntryQuestion,
 	'site-address': SiteAddressQuestion,
 	'unit-option': UnitOptionEntryQuestion,
-	'list-add-more': ListAddMoreQuestion
+	'list-add-more': ListAddMoreQuestion,
+	continue: ContinueQuestion
 };
 
 exports.getQuestions = () =>

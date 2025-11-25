@@ -12,15 +12,13 @@ const {
 } = require('../../lib/session-helper');
 const { logoutUser } = require('../../services/user.service');
 const config = require('../../config');
-const {
-	typeOfPlanningApplicationToAppealTypeMapper
-} = require('#lib/full-appeal/map-planning-application');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 const getEmailAddress = (views, appealInSession) => {
 	return (req, res) => {
 		const { email } = appealInSession ? req.session.appeal : req.session;
-		const appealType =
-			typeOfPlanningApplicationToAppealTypeMapper[req.session?.appeal?.typeOfPlanningApplication];
+		const appealType = caseTypeLookup(req.session?.appeal?.appealType, 'id')?.processCode;
+
 		res.render(views.EMAIL_ADDRESS, {
 			email,
 			bannerHtmlOverride:
@@ -38,11 +36,12 @@ const postEmailAddress = (views, appealInSession) => {
 		const email = body['email-address']?.trim();
 		setSessionEmail(req.session, email, appealInSession);
 		let appeal;
+		let appealType;
 		if (appealInSession) {
 			appeal = getSessionAppeal(req.session);
+			appealType = caseTypeLookup(appeal?.appealType, 'id')?.processCode;
 		}
-		const appealType =
-			typeOfPlanningApplicationToAppealTypeMapper[req.session?.appeal?.typeOfPlanningApplication];
+
 		if (Object.keys(errors).length > 0) {
 			res.render(views.EMAIL_ADDRESS, {
 				email,

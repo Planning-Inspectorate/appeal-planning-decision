@@ -113,7 +113,8 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				},
 				addToCurrentQuestionUrl: () => {
 					return 'current/123';
-				}
+				},
+				makeBannerHtmlOverride: jest.fn()
 			};
 
 			const result = question.prepQuestionForRendering({ section: {}, journey });
@@ -207,7 +208,8 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				response: { answers: {} },
 				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: jest.fn(() => expectedBackLink),
-				getCurrentQuestionUrl: jest.fn(() => expectedBackLink)
+				getCurrentQuestionUrl: jest.fn(() => expectedBackLink),
+				makeBannerHtmlOverride: jest.fn()
 			};
 			const section = {};
 

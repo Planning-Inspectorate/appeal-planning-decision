@@ -4,7 +4,7 @@ const { Section } = require('@pins/dynamic-forms/src/section');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 const {
-	CASE_TYPES: { CAS_ADVERTS }
+	CASE_TYPES: { CAS_ADVERTS, ADVERTS }
 } = require('@pins/common/src/database/data-static');
 const config = require('../../config');
 const {
@@ -38,9 +38,9 @@ const makeSections = (response) => [
 		.addQuestion(questions.contactDetails)
 		.addQuestion(questions.contactPhoneNumber)
 		.addQuestion(questions.appealSiteAddress)
-		.withCondition(() => !shouldDisplayGridReference(response))
+		.withCondition(() => !shouldDisplayGridReference(response, config))
 		.addQuestion(questions.appealSiteGridReference)
-		.withCondition(() => shouldDisplayGridReference(response))
+		.withCondition(() => shouldDisplayGridReference(response, config))
 		.addQuestion(questions.highwayLand)
 		.addQuestion(questions.advertInPosition)
 		.addQuestion(questions.appellantGreenBelt)
@@ -151,6 +151,17 @@ const baseAdvertsSubmissionUrl = `/appeals/${CAS_ADVERTS.friendlyUrl}`;
  */
 const makeBaseUrl = (response) => `${baseAdvertsSubmissionUrl}?id=${response.referenceId}`;
 
+/**
+ * @param {JourneyResponse} response
+ * @returns {string}
+ */
+const makeBannerHtmlOverride = (response) => {
+	const caseType = shouldDisplayAdvertsQuestions(response)
+		? ADVERTS.processCode
+		: CAS_ADVERTS.processCode;
+	return `${config.betaBannerText}${config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(caseType))}`;
+};
+
 const advertsParams = {
 	journeyId: JOURNEY_TYPES.ADVERTS_APPEAL_FORM.id,
 	makeSections,
@@ -161,9 +172,7 @@ const advertsParams = {
 	journeyTitle: 'Appeal a planning decision',
 	returnToListing: true,
 	makeBaseUrl,
-	bannerHtmlOverride:
-		config.betaBannerText +
-		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(CAS_ADVERTS.processCode))
+	makeBannerHtmlOverride
 };
 
 module.exports = {

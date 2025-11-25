@@ -74,8 +74,7 @@ const escape = require('escape-html');
 const { calculateDueInDays } = require('@pins/common/src/lib/calculate-due-in-days');
 
 const { getAppealTypeName } = require('./full-appeal/map-planning-application');
-const { mapTypeCodeToAppealId } = require('@pins/common');
-const { businessRulesDeadline } = require('./calculate-deadline');
+const { businessRulesDeadline, getDeadlineV2 } = require('./calculate-deadline');
 const {
 	APPEAL_CASE_STATUS,
 	APPEAL_LINKED_CASE_STATUS
@@ -267,11 +266,10 @@ const calculateAppealDueDeadline = (appealSubmission) => {
 			true
 		);
 	} else if (isV2Submission(appealSubmission)) {
-		return businessRulesDeadline(
-			appealSubmission?.AppellantSubmission?.applicationDecisionDate,
-			mapTypeCodeToAppealId(appealSubmission.AppellantSubmission.appealTypeCode),
-			null,
-			true
+		return getDeadlineV2(
+			appealSubmission.AppellantSubmission.appealTypeCode,
+			appealSubmission.AppellantSubmission.enforcementEffectiveDate,
+			appealSubmission.AppellantSubmission.applicationDecisionDate
 		);
 	}
 };

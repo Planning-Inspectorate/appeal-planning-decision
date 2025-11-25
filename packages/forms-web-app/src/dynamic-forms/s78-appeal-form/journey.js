@@ -215,7 +215,7 @@ const params = {
 	journeyTitle: 'Appeal a planning decision',
 	returnToListing: true,
 	makeBaseUrl,
-	bannerHtmlOverride:
+	makeBannerHtmlOverride: () =>
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(S78.processCode))
 };

@@ -32,6 +32,7 @@ const makeSections = (response) => [
 		.addQuestion(questions.contactDetails)
 		.addQuestion(questions.contactPhoneNumber)
 		.addQuestion(questions.appealSiteAddress)
+		.addQuestion(questions.siteArea)
 		.addQuestion(questions.appellantGreenBelt)
 		.addQuestion(questions.ownsAllLand)
 		.addQuestion(questions.ownsSomeLand)
@@ -106,7 +107,7 @@ const params = {
 	journeyTitle: 'Appeal a planning decision',
 	returnToListing: true,
 	makeBaseUrl,
-	bannerHtmlOverride:
+	makeBannerHtmlOverride: () =>
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(HAS.processCode))
 };

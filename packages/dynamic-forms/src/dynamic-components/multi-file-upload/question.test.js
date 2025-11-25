@@ -117,7 +117,8 @@ describe('MultiFileUploadQuestion', () => {
 				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: () => {
 					return 'back';
-				}
+				},
+				makeBannerHtmlOverride: jest.fn()
 			};
 
 			const customViewData = { hello: 'hi' };
@@ -155,8 +156,8 @@ describe('MultiFileUploadQuestion', () => {
 				response: { answers: {} },
 				getBackLink: () => 'back',
 				taskListUrl: 'my-task-list',
-
-				getNextQuestionUrl: jest.fn(() => null)
+				getNextQuestionUrl: jest.fn(() => null),
+				makeBannerHtmlOverride: jest.fn()
 			};
 			const section = { segment: 'test-section' };
 

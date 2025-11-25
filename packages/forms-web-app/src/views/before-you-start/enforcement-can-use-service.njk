@@ -1,0 +1,179 @@
+{% extends "../layouts/no-banner-link/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "../macros/bool-to-sentence-case.njk" import boolToSentenceCaseField %}
+{% from "../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
+{% from "../macros/summary-field.njk" import summaryField %}
+{% from "../macros/array-new-line.njk" import arrayToNewLine %}
+
+{% if contactedPlanningInspectorate %}
+	{% set contactedPlanningInspectorateRow = {
+ 		key: {
+    	text: "Did you contact the Planning Inspectorate to tell them you will appeal the enforcement notice?"
+  	},
+  	value: {
+    	text: summaryField(hasContactedPlanningInspectorate, { 'data-cy': "contact-planning-inspectorate" })
+  	},
+  	actions: {
+    	items: [
+      	{
+        	href: "/before-you-start/contact-planning-inspectorate",
+        	text: "Change",
+        	visuallyHiddenText: "Did you contact the Planning Inspectorate to tell them you will appeal the enforcement notice?",
+        		attributes: { "data-cy":"contactedPlanningInspectorate"}
+      		}
+    		]
+  		}
+		}
+	%}
+  {% set contactPlanningInspectorateDateRow = {
+    key: {
+      text: "When did you contact the Planning Inspectorate?"
+    },
+    value: {
+      text: summaryField(contactedPlanningInspectorateDate, { 'data-cy': "contact-planning-inspectorate-date" })
+    },
+    actions: {
+      items: [
+      	{
+          href: "/before-you-start/contact-planning-inspectorate-date",
+          text: "Change",
+          visuallyHiddenText: "When did you contact the Planning Inspectorate?",
+          attributes: { "data-cy":"contactPlanningInspectorateDate"}
+        }
+      ]
+    }
+  }
+  %}
+{% else %}
+	{% set contactedPlanningInspectorateRow = null %}
+  {% set contactPlanningInspectorateDateRow = null %}
+{% endif %}
+
+
+{% block pageTitle %}
+  You can appeal using this service - Appeal a planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <form action="" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
+        <h1 class="govuk-heading-l">
+          You can appeal using this service
+        </h1>
+        <p>Based on your answers, you can appeal using this service.</p>
+        <p>Your deadline to appeal is 11.59pm on {{ deadlineDate.day }} {{deadlineDate.date}} {{deadlineDate.month}} {{deadlineDate.year}}.</p>
+
+        <h2 class="govuk-heading-m">Check your answers</h2>
+        {{ govukSummaryList({
+          classes: "govuk-summary-list govuk-!-margin-bottom-9",
+          rows: [
+            {
+              key: {
+                text: "Local planning authority"
+              },
+              value: {
+                text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: '/before-you-start/local-planning-authority',
+                    text: "Change",
+                    visuallyHiddenText: "Local planning authority",
+                    attributes: { "data-cy":"localPlanningDepartment"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Have you received an enforcement notice?"
+              },
+              value: {
+                text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/enforcement-notice",
+                    text: "Change",
+                    visuallyHiddenText: "Have you received an enforcement notice?",
+                    attributes: { "data-cy":"enforcementNotice"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "Is your enforcement notice about a listed building?"
+              },
+              value: {
+                text: summaryField(enforcementNoticeListedBuilding, { 'data-cy': "application-type" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/enforcement-notice-listed-building",
+                    text: "Change",
+                    visuallyHiddenText: "Is your enforcement notice about a listed building?",
+                    attributes: { "data-cy":"enforcementNoticeListedBuilding"}
+                  }
+                ]
+              }
+            },
+            {
+              key: {
+                text: "What is the issue date on your enforcement notice?"
+              },
+              value: {
+                text: summaryField(enforcementIssueDate, { 'data-cy': "enforcement-issue-date" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/enforcement-issue-date",
+                    text: "Change",
+                    visuallyHiddenText: "What is the issue date on your enforcement notice?",
+                    attributes: { "data-cy":"enforcementIssueDate"}
+                  }
+                ]
+              }
+            },
+						            {
+              key: {
+                text: "What is the effective date on your enforcement notice?"
+              },
+              value: {
+                text: summaryField(enforcementEffectiveDate, { 'data-cy': "enforcement-effective-date" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/enforcement-effective-date",
+                    text: "Change",
+                    visuallyHiddenText: "What is the effective date on your enforcement notice?",
+                    attributes: { "data-cy":"enforcementEffectiveDate"}
+                  }
+                ]
+              }
+            },
+            contactedPlanningInspectorateRow,
+            contactPlanningInspectorateDateRow
+          ]
+        }) }}
+
+        {{ govukButton({
+            text: "Start appeal",
+            type: "submit",
+            href: nextPageUrl,
+            attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

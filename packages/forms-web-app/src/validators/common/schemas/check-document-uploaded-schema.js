@@ -8,11 +8,13 @@ const schema = (path, documentType, submissionType, errorMsg = 'Select a file to
 					let uploadedFiles;
 
 					if (req.session[submissionType]) {
-						uploadedFiles = findTargetValueInJSON(
+						const searchResult = findTargetValueInJSON(
 							req.session[submissionType],
 							documentType,
 							'sectionStates'
-						).uploadedFiles;
+						);
+
+						uploadedFiles = searchResult?.uploadedFiles || searchResult;
 					}
 
 					if (uploadedFiles) {

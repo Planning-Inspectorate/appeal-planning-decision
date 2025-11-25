@@ -27,9 +27,6 @@ const { getUserFromSession } = require('../services/user.service');
 const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 const config = require('../config');
 const {
-	typeOfPlanningApplicationToAppealTypeMapper
-} = require('#lib/full-appeal/map-planning-application');
-const {
 	generateRequiredDocuments,
 	generateOptionalDocuments
 } = require('#lib/documents-for-submission');
@@ -171,6 +168,37 @@ function buildSummaryListData(journey, journeyResponse) {
 }
 
 /**
+ * build an object to create an AppellantSubmission entry on starting an appeal
+ * @param {string} lpaCode
+ * @param {"HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING" | "ENFORCEMENT" | undefined} appealTypeCode
+ * @param {object} appeal
+ */
+function buildCreateAppellantSubmissionData(lpaCode, appealTypeCode, appeal) {
+	if (appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode) {
+		return {
+			appealId: appeal.appealSqlId,
+			LPACode: lpaCode,
+			appealTypeCode,
+			enforcementIssueDate: appeal.eligibility.enforcementIssueDate,
+			enforcementEffectiveDate: appeal.eligibility.enforcementEffectiveDate,
+			hasContactedPlanningInspectorate: appeal.eligibility.hasContactedPlanningInspectorate,
+			contactPlanningInspectorateDate: appeal.eligibility.contactPlanningInspectorateDate,
+			enforcementReferenceNumber: appeal.enforcementReferenceNumber
+		};
+	} else {
+		return {
+			appealId: appeal.appealSqlId,
+			LPACode: lpaCode,
+			appealTypeCode,
+			applicationDecisionDate: appeal.decisionDate,
+			applicationReference: appeal.planningApplicationNumber,
+			applicationDecision: appeal.eligibility.applicationDecision,
+			typeOfPlanningApplication: appeal.typeOfPlanningApplication
+		};
+	}
+}
+
+/**
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  * @param {string} pageCaption
@@ -231,7 +259,7 @@ exports.list = async (req, res, pageCaption, viewData) => {
 		journeyComplete: journey.isComplete(),
 		layoutTemplate: journey.journeyTemplate,
 		journeyTitle: journey.journeyTitle,
-		bannerHtmlOverride: journey.bannerHtmlOverride
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response)
 	});
 };
 
@@ -457,8 +485,7 @@ exports.lpaQuestionnaireSubmissionInformation = async (req, res) => {
  */
 exports.appellantBYSListOfDocuments = (req, res) => {
 	const appeal = req.session.appeal;
-	const appealType =
-		typeOfPlanningApplicationToAppealTypeMapper[req.session.appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 	const bannerHtmlOverride =
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
@@ -501,16 +528,14 @@ exports.appellantStartAppeal = async (req, res) => {
 	const caseType = caseTypeLookup(appealType, 'id');
 	if (!caseType) throw new Error(`No case type found for appeal type ${appealType}`);
 
-	// todo: convert before sending
-	const appealSubmission = await req.appealsApiClient.createAppellantSubmission({
-		appealId: appeal.appealSqlId,
-		LPACode: lpaCode,
-		appealTypeCode: caseType.processCode,
-		applicationDecisionDate: appeal.decisionDate,
-		applicationReference: appeal.planningApplicationNumber,
-		applicationDecision: appeal.eligibility.applicationDecision,
-		typeOfPlanningApplication: appeal.typeOfPlanningApplication
-	});
+	const appealSubmissionData = buildCreateAppellantSubmissionData(
+		lpaCode,
+		caseType.processCode,
+		appeal
+	);
+
+	const appealSubmission =
+		await req.appealsApiClient.createAppellantSubmission(appealSubmissionData);
 
 	await deleteAppeal(appeal.id);
 	req.session.appeal = null;
@@ -579,7 +604,7 @@ exports.appellantSubmissionDeclaration = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-declaration/index', {
 		layoutTemplate: journey.journeyTemplate,
-		bannerHtmlOverride: journey.bannerHtmlOverride
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response)
 	});
 };
 
@@ -623,7 +648,7 @@ exports.appellantSubmissionInformation = async (req, res) => {
 		journeyTitle: journey.journeyTitle,
 		css,
 		displayCookieBanner: false,
-		bannerHtmlOverride: journey.bannerHtmlOverride
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response)
 	});
 };
 
@@ -658,7 +683,7 @@ exports.appellantSubmitted = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-screen/appellant', {
 		caseReference: journey.response.answers.applicationReference,
-		bannerHtmlOverride: journey.bannerHtmlOverride,
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
 		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
@@ -707,7 +732,7 @@ exports.appellantFinalCommentSubmitted = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-screen/appellant-final-comment', {
 		caseReference,
-		bannerHtmlOverride: journey.bannerHtmlOverride,
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
 		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
@@ -744,7 +769,7 @@ exports.appellantProofEvidenceSubmitted = async (req, res) => {
 	return res.render('./dynamic-components/submission-screen/appellant-proof-evidence', {
 		caseReference,
 		dashboardUrl: '/appeals/your-appeals',
-		bannerHtmlOverride: journey.bannerHtmlOverride,
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
 		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
@@ -781,7 +806,7 @@ exports.rule6ProofEvidenceSubmitted = async (req, res) => {
 	return res.render('./dynamic-components/submission-screen/appellant-proof-evidence', {
 		caseReference,
 		dashboardUrl: '/rule-6/your-appeals',
-		bannerHtmlOverride: journey.bannerHtmlOverride,
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
 		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };
@@ -817,7 +842,7 @@ exports.rule6StatementSubmitted = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-screen/rule-6-statement', {
 		caseReference,
-		bannerHtmlOverride: journey.bannerHtmlOverride,
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
 		feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
 	});
 };

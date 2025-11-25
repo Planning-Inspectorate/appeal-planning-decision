@@ -74,7 +74,8 @@ describe('./src/dynamic-forms/dynamic-components/single-line-input/question.js',
 				getNextQuestionUrl: jest.fn(() => 'mock-skip-url'),
 				getBackLink: () => {
 					return 'back';
-				}
+				},
+				makeBannerHtmlOverride: jest.fn()
 			};
 
 			const customViewData = { hello: 'hi' };

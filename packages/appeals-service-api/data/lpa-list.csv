@@ -114,7 +114,7 @@
 111;E60000118;B3410;East Staffordshire;dcsupport@eaststaffsbc.gov.uk;eaststaffsbc.gov.uk;TRUE\n
 112;E60000119;K3415;Lichfield;appeals@lichfielddc.gov.uk;lichfielddc.gov.uk;TRUE\n
 113;E60000120;P3420;Newcastle under Lyme;planningapplications@newcastle-staffs.gov.uk;newcastle-staffs.gov.uk;TRUE\n
-114;E60000121;C3430;South Staffordshire District Council;dcapps@sstaffs.gov.uk;sstaffs.gov.uk;TRUE\n
+114;E60000121;C3430;South Staffordshire District Council;Appeals@sstaffs.gov.uk;sstaffs.gov.uk;TRUE\n
 115;E60000122;Y3425;Stafford;planning@staffordbc.gov.uk;staffordbc.gov.uk;TRUE\n
 116;E60000123;B3438;Staffordshire Moorlands;planning@staffsmoorlands.gov.uk;staffsmoorlands.gov.uk;TRUE\n
 117;E60000124;Z3445;Tamworth;planningadmin@tamworth.gov.uk;tamworth.gov.uk;TRUE\n
@@ -146,7 +146,7 @@
 143;E60000150;V0510;East Cambridgeshire;appeals@eastcambs.gov.uk;eastcambs.gov.uk;TRUE\n
 144;E60000151;D0515;Fenland;planningappeals@fenland.gov.uk;fenland.gov.uk;TRUE\n
 145;E60000152;H0520;Huntingdonshire;planning.appeals@huntingdonshire.gov.uk;huntingdonshire.gov.uk;TRUE\n
-146;E60000153;W0530;South Cambridgeshire;appeals@scambs.gov.uk;scambs.gov.uk;TRUE\n
+146;E60000153;W0530;South Cambridgeshire;DSAppeals@scambs.gov.uk;scambs.gov.uk;TRUE\n
 147;E60000154;V1505;Basildon;appeals@basildon.gov.uk;basildon.gov.uk;TRUE\n
 148;E60000155;Z1510;Braintree;appeals@braintree.gov.uk;braintree.gov.uk;TRUE\n
 149;E60000156;H1515;Brentwood;planning@brentwood.gov.uk;brentwood.gov.uk;TRUE\n
@@ -227,7 +227,7 @@
 225;E60000232;X0360;Wokingham Borough Council;planning.appeals@wokingham.gov.uk;wokingham.gov.uk;TRUE\n
 226;E60000237;T1410;Eastbourne Borough Council;customerfirst@lewes-eastbourne.gov.uk;lewes-eastbourne.gov.uk;TRUE\n
 227;E60000238;B1415;Hastings;dcenquiries@hastings.gov.uk;hastings.gov.uk;TRUE\n
-228;E60000239;P1425;Lewes District Council;planning@lewes.gov.uk;lewes.gov.uk;TRUE\n
+228;E60000239;P1425;Lewes District Council;planningfirst@lewes-eastbourne.gov.uk;lewes-eastbourne.gov.uk;TRUE\n
 229;E60000240;U1430;Rother District Council;Planning-Appeals@rother.gov.uk;rother.gov.uk;TRUE\n
 230;E60000241;C1435;Wealden;planning.appeals@wealden.gov.uk;wealden.gov.uk;TRUE\n
 231;E60000242;H1705;Basingstoke and Deane;appeals@basingstoke.gov.uk;basingstoke.gov.uk;TRUE\n

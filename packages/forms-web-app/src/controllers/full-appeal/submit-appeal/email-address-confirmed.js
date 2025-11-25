@@ -7,18 +7,15 @@ const { FLAG } = require('@pins/common/src/feature-flags');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const config = require('../../../config');
-const {
-	typeOfPlanningApplicationToAppealTypeMapper
-} = require('#lib/full-appeal/map-planning-application');
 const { hideFromDashboard } = require('#lib/hide-from-dashboard');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 const getEmailConfirmed = async (req, res) => {
 	const appeal = req.session.appeal;
 
 	const usingV2Form = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
 
-	const appealType =
-		typeOfPlanningApplicationToAppealTypeMapper[req.session.appeal.typeOfPlanningApplication];
+	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 	const bannerHtmlOverride =
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
@@ -46,6 +43,10 @@ const getEmailConfirmed = async (req, res) => {
 		case APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT:
 			await hideFromDashboard(req, appeal);
 			listOfDocumentsUrl = '/appeals/adverts/appeal-form/before-you-start';
+			break;
+		case APPEAL_ID.ENFORCEMENT_NOTICE:
+			await hideFromDashboard(req, appeal);
+			listOfDocumentsUrl = '/appeals/enforcement/appeal-form/before-you-start';
 			break;
 	}
 
