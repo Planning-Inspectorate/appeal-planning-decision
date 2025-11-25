@@ -27,6 +27,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { BrowserAuthData } from '../fixtures/browser-auth-data';
+import { appealsApiClient } from './appealsApiClient';
 const cookiesToSet = ['domain', 'expiry', 'httpOnly', 'path', 'secure'];
 
 Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
@@ -241,4 +242,54 @@ Cypress.Commands.add('loginWithPuppeteer', (user) => {
 		});
 	});
 	return
+});
+
+Cypress.Commands.add('getBusinessActualDate', (date, days) => {
+	return cy.wrap(null).then(() => {
+		const formattedDate = new Date(date).toISOString();
+		return appealsApiClient.getBusinessDate(formattedDate, days).then((result) => {
+			return new Date(result);
+		});
+	});
+});
+
+Cypress.Commands.add('updateAppealDetailsViaApi', (caseObj, caseDetails) => {
+	return cy.wrap(null).then(async () => {
+		const details = await appealsApiClient.loadCaseDetails(caseObj);
+		const appealId = details.appealId;
+		const appellantCaseId = details.appellantCaseId;
+		return await appealsApiClient.updateAppealCases(appealId, appellantCaseId, caseDetails);
+	});
+});
+
+Cypress.Commands.add('startAppeal', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.startAppeal(caseObj);
+		cy.log('Started case for ref ' + caseObj);
+		return;
+	});
+});
+
+Cypress.Commands.add('reviewLpaqSubmission', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.reviewLpaq(caseObj);
+		cy.log('Reviewed lpaq submission for case ref ' + caseObj);
+		return;
+	});
+});
+
+Cypress.Commands.add('reviewStatementViaApi', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.reviewStatement(caseObj.reference);
+		cy.log('Reviewed lpa statement for case ref ' + caseObj.reference);
+		return;
+	});
+});
+
+Cypress.Commands.add('reviewIpCommentsViaApi', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.reviewIpComments(caseObj.reference);
+		cy.log('Reviewed IP comments for case ref ' + caseObj.reference);
+		return;
+	});
 });

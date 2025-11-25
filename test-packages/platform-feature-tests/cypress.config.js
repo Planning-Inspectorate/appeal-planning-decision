@@ -64,6 +64,7 @@ module.exports = defineConfig({
     },
     appeals_beta_base_url: process.env.CYPRESS_APPEALS_BETA_BASE_URL || 'https://appeals-service-test.planninginspectorate.gov.uk',
     back_office_base_url: process.env.CYPRESS_BACK_OFFICE_BASE_URL || 'https://back-office-appeals-test.planninginspectorate.gov.uk',
+    apiBaseUrl: process.env.API_BASE_URL || 'https://pins-app-appeals-bo-api-test.azurewebsites.net/',    
     supportFile: 'cypress/support/e2e.js',
     testIsolation: false,
     experimetalSessionAndOrigin: true,
