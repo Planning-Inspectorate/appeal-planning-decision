@@ -21,7 +21,7 @@ describe('controllers/appeal-householder-decision/cannot-appeal', () => {
 	describe('getCannotAppealEnforcement', () => {
 		it('should call the correct template if cannot appeal an enforcement notice', () => {
 			getCannotAppealEnforcement(req, res);
-			const beforeYouStartFirstPage = '/before-you-start';
+			const beforeYouStartFirstPage = '/before-you-start/local-planning-authority';
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(CANNOT_APPEAL_ENFORCEMENT, {
 				beforeYouStartFirstPage

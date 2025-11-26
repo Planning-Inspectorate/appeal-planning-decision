@@ -5,7 +5,7 @@ const {
 } = require('../../lib/views');
 
 exports.getCannotAppealEnforcement = async (_, res) => {
-	const beforeYouStartFirstPage = '/before-you-start';
+	const beforeYouStartFirstPage = '/before-you-start/local-planning-authority';
 
 	res.render(cannotAppealEnforcement, {
 		beforeYouStartFirstPage
