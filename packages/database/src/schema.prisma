@@ -844,6 +844,8 @@ model AppellantSubmission {
   addNamedIndividual                Boolean?
   selectedNamedIndividualId         String?
   enforcementOrganisationName       String?
+  interestInAppealLand              String?
+  interestInAppealLandDetails       String?
   allegedBreachDescription          String?
   applicationMadeAndFeePaid         Boolean?
   uploadApplicationReceipt          Boolean?

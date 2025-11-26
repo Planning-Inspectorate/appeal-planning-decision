@@ -76,6 +76,7 @@ const {
 } = require('../config');
 const { createQuestions } = require('@pins/dynamic-forms/src/create-questions');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
+const { INTERESTS_IN_LAND } = require('@pins/common/src/constants');
 
 // method overrides
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
@@ -90,6 +91,7 @@ const formatNumber = require('@pins/dynamic-forms/src/dynamic-components/utils/f
  */
 
 const { getExampleDate, formatEnforcementSelectNamesOptions } = require('./questions-utils');
+const { capitalize } = require('../lib/string-functions');
 
 const defaultFileUploadValidatorParams = {
 	allowedFileTypes: Object.values(allowedFileTypes),
@@ -518,7 +520,6 @@ exports.getQuestionProps = (response) => ({
 				fieldName: getConditionalFieldName('lpaProcedurePreference', 'lpaPreferInquiryDuration')
 			})
 		],
-
 		options: [
 			{
 				text: 'Written representations',
@@ -2952,6 +2953,55 @@ exports.getQuestionProps = (response) => ({
 		url: 'complete-appeal',
 		fieldName: 'confirmedCompleteOnBehalf',
 		variables: [QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES]
+	},
+	interestInLand: {
+		type: 'radio',
+		title: `What is ${QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY} interest in the land?`,
+		question: `What is ${QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY} interest in the land?`,
+		fieldName: 'interestInAppealLand',
+		url: 'land-interest',
+		validators: [
+			new RequiredValidator(
+				`Select ${QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY} interest in the land`
+			),
+			new ConditionalRequiredValidator(
+				`Enter ${QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY} interest in the land?`
+			),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `${capitalize(QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY)} interest in the land must be ${appealFormV2.textInputMaxLength} characters or less`
+				},
+				fieldName: getConditionalFieldName('interestInAppealLand', 'interestInAppealLandDetails')
+			})
+		],
+		options: [
+			{
+				text: 'Owner',
+				value: INTERESTS_IN_LAND.OWNER
+			},
+			{
+				text: 'Tenant',
+				value: INTERESTS_IN_LAND.TENANT
+			},
+			{
+				text: 'Mortgage lender',
+				value: INTERESTS_IN_LAND.MORTGAGE_LENDER
+			},
+			{
+				[DIVIDER]: 'or'
+			},
+			{
+				text: 'Other',
+				value: INTERESTS_IN_LAND.OTHER,
+				conditional: {
+					question: 'Enter interest in the land',
+					fieldName: 'interestInAppealLandDetails',
+					type: 'textarea'
+				}
+			}
+		],
+		variables: [QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY]
 	},
 	enforcementInspectorAccess: {
 		type: 'radio',

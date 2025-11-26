@@ -239,12 +239,17 @@ components:
           type: string
         enforcementOrganisationName:
           type: string
+        interestInAppealLand:
+          type: string
+        interestInAppealLandDetails:
+          type: string
         allegedBreachDescription:
           type: string
         applicationMadeAndFeePaid:
           type: boolean
         uploadApplicationReceipt:
           type: boolean
+          nullable: true
         applicationPartOrWholeDevelopment:
           type: string
 

@@ -6697,6 +6697,73 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the land-interest question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> What is Named Individual&#39;s interest in the land?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="interestInAppealLand" name="interestInAppealLand"
+                                type="radio" value="owner" data-cy="answer-owner">
+                                <label class="govuk-label govuk-radios__label" for="interestInAppealLand">Owner</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="interestInAppealLand-2" name="interestInAppealLand"
+                                type="radio" value="tenant" data-cy="answer-tenant">
+                                <label class="govuk-label govuk-radios__label" for="interestInAppealLand-2">Tenant</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="interestInAppealLand-3" name="interestInAppealLand"
+                                type="radio" value="mortgageLender" data-cy="answer-mortgageLender">
+                                <label class="govuk-label govuk-radios__label" for="interestInAppealLand-3">Mortgage lender</label>
+                            </div>
+                            <div class="govuk-radios__divider">or</div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="interestInAppealLand-5" name="interestInAppealLand"
+                                type="radio" value="other" data-aria-controls="conditional-interestInAppealLand-5"
+                                data-cy="answer-other">
+                                <label class="govuk-label govuk-radios__label" for="interestInAppealLand-5">Other</label>
+                            </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-interestInAppealLand-5">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="interestInAppealLand_interestInAppealLandDetails">Enter interest in the land</label>
+                                    <div id="interestInAppealLand_interestInAppealLandDetails-hint"
+                                    class="govuk-hint"></div>
+                                    <textarea class="govuk-textarea" id="interestInAppealLand_interestInAppealLandDetails"
+                                    name="interestInAppealLand_interestInAppealLandDetails" rows="5" aria-describedby="interestInAppealLand_interestInAppealLandDetails-hint"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the organisation-name question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -7451,6 +7518,12 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/is-contact-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Is the appeal site address your contact address?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is Named Individual&#39;s interest in the land?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/land-interest?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is &lt;interest in land party&gt; interest in the land?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Will an inspector need to access the land or property?</dt>
