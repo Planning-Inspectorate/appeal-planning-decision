@@ -17,6 +17,7 @@ const timeout = async (ms) => await new Promise((resolve) => setTimeout(resolve,
 const azureSignIn = async (config) => {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	const browser = await puppeteer.launch({
 		headless: false, //false, //'new',
 		ignoreHTTPSErrors: true,
@@ -36,12 +37,17 @@ const azureSignIn = async (config) => {
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     const browser = await puppeteer.launch({
         headless: false, // Set to false for debugging
         ignoreHTTPSErrors: true,
         args: ['--no-sandbox', '--ignore-certificate-errors']
     });
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -50,6 +56,7 @@ const azureSignIn = async (config) => {
         const page = await browser.newPage();
         await page.goto(config.loginUrl, { waitUntil: 'networkidle2', timeout: 120000 });
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 		if (!fs.existsSync(BrowserAuthData.BrowserAuthDataFolder)) {
@@ -75,6 +82,11 @@ const azureSignIn = async (config) => {
         // Debugging: Log the page URL to ensure navigation is successful
         console.log('Navigated to:', page.url());
 
+=======
+        // Debugging: Log the page URL to ensure navigation is successful
+        console.log('Navigated to:', page.url());
+
+>>>>>>> Stashed changes
 =======
         // Debugging: Log the page URL to ensure navigation is successful
         console.log('Navigated to:', page.url());
@@ -138,6 +150,9 @@ const azureSignIn = async (config) => {
         throw error;
     }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

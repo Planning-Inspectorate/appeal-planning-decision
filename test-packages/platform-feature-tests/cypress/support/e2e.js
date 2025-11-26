@@ -25,6 +25,7 @@ require('cy-verify-downloads').addCustomCommand();
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 // Ignore transient AAD CDN script load errors that should not fail user flows
 Cypress.on('uncaught:exception', (err) => {
   const msg = err && err.message ? err.message : '';
@@ -37,6 +38,8 @@ Cypress.on('uncaught:exception', (err) => {
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 // Ignore Microsoft/Azure login script errors-below lines aded
 Cypress.on('uncaught:exception', (err, runnable) => {
 	if (
@@ -46,6 +49,9 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 		return false; // Prevent Cypress from failing the test
 	}
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes

@@ -30,7 +30,12 @@ export class PrepareAppealSelector {
         listedBuildingText: "Listed building consent",
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         systemTest2BoroughCouncil: "System Test Borough Council 2"
+=======
+        minorCommercialDevelopmentText:"Minor commercial development",
+        systemTest2BoroughCouncil: "System Test Borough Council 2"//this is been changed
+>>>>>>> Stashed changes
 =======
         minorCommercialDevelopmentText:"Minor commercial development",
         systemTest2BoroughCouncil: "System Test Borough Council 2"//this is been changed
