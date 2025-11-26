@@ -38,6 +38,12 @@ module.exports = {
 		ACCESS: 'accessRequired',
 		VIRTUAL: 'virtual'
 	},
+	INTERESTS_IN_LAND: {
+		OWNER: 'owner',
+		MORTGAGE_LENDER: 'mortgageLender',
+		TENANT: 'tenant',
+		OTHER: 'other'
+	},
 	/**
 	 * @type {Record<string, AppealRepresentationType>}
 	 */

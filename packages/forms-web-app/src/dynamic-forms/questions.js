@@ -76,6 +76,7 @@ const {
 } = require('../config');
 const { createQuestions } = require('@pins/dynamic-forms/src/create-questions');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
+const { INTERESTS_IN_LAND } = require('@pins/common/src/constants');
 
 // method overrides
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
@@ -512,7 +513,6 @@ exports.questionProps = {
 				fieldName: getConditionalFieldName('lpaProcedurePreference', 'lpaPreferInquiryDuration')
 			})
 		],
-
 		options: [
 			{
 				text: 'Written representations',
@@ -2909,6 +2909,50 @@ exports.questionProps = {
 				})
 			]
 		}
+	},
+	interestInLand: {
+		type: 'radio',
+		title: 'What is your interest in the land?',
+		question: 'What is your interest in the land?',
+		fieldName: 'interestInLand',
+		url: 'land-interest',
+		validators: [
+			new RequiredValidator('Select the interest in the land'),
+			new ConditionalRequiredValidator('Enter the interest in the land'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `The interest in the land must be ${appealFormV2.textInputMaxLength} characters or less`
+				},
+				fieldName: getConditionalFieldName('appellantSiteAccess', 'appellantSiteAccessDetails')
+			})
+		],
+		options: [
+			{
+				text: 'Owner',
+				value: INTERESTS_IN_LAND.OWNER
+			},
+			{
+				text: 'Tenant',
+				value: INTERESTS_IN_LAND.TENANT
+			},
+			{
+				text: 'Mortgage lender',
+				value: INTERESTS_IN_LAND.MORTGAGE_LENDER
+			},
+			{
+				[DIVIDER]: 'or'
+			},
+			{
+				text: 'Other',
+				value: INTERESTS_IN_LAND.OTHER,
+				conditional: {
+					question: 'Enter interest in the land',
+					fieldName: 'interestInLandDetails',
+					type: 'textarea'
+				}
+			}
+		]
 	},
 	enforcementInspectorAccess: {
 		type: 'radio',
