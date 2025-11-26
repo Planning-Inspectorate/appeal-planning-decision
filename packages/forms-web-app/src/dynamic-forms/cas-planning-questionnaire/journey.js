@@ -43,17 +43,29 @@ const makeSections = (response) => [
 		)
 		.addQuestion(questions.greenBelt),
 	new Section('Notifying relevant parties', 'notified')
-		.addQuestion(questions.whoWasNotified)
 		.addQuestion(questions.howYouNotifiedPeople)
 		.addQuestion(questions.uploadSiteNotice)
-		.withCondition(() => questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice'))
+		.withCondition(
+			() =>
+				questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice') &&
+				!questionHasAnswer(response, questions.howYouNotifiedPeople, 'other')
+		)
 		.addQuestion(questions.uploadNeighbourLetterAddresses)
-		.withCondition(() =>
-			questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails')
+		.withCondition(
+			() =>
+				questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails') &&
+				!questionHasAnswer(response, questions.howYouNotifiedPeople, 'other')
 		)
 		.addQuestion(questions.pressAdvertUpload)
-		.withCondition(() => questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert'))
-		.addQuestion(questions.appealNotification),
+		.withCondition(
+			() =>
+				questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert') &&
+				!questionHasAnswer(response, questions.howYouNotifiedPeople, 'other')
+		)
+		.addQuestion(questions.whoWasNotified)
+		.withCondition(() => !questionHasAnswer(response, questions.howYouNotifiedPeople, 'other'))
+		.addQuestion(questions.appealNotification)
+		.withCondition(() => !questionHasAnswer(response, questions.howYouNotifiedPeople, 'other')),
 	new Section('Consultation responses and representations', 'consultation')
 		.addQuestion(questions.representationsFromOthers)
 		.addQuestion(questions.representationUpload)
