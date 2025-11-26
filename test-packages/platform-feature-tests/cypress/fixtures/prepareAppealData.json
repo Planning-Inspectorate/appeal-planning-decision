@@ -1,27 +1,12 @@
 {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
     "FullAppealType": "Planning",
-=======
     "CasAppealType": "Cas planning appeal",
->>>>>>> Stashed changes
-=======
-    "CasAppealType": "Cas planning appeal",
->>>>>>> Stashed changes
-=======
-    "CasAppealType": "Cas planning appeal",
->>>>>>> Stashed changes
-=======
-    "CasAppealType": "Cas planning appeal",
->>>>>>> Stashed changes
     "todoProofsOfEvidence": "Proofs of evidence",
     "todoFinalComments": "Final comments",
     "proofsOfEvidenceLink": "proof-evidence",
     "finalCommentsLink": "final-comments",
     "commentOpen": "Open",
-    "commentOnThisAppealButton": "Comment on this appeal", 
+    "commentOnThisAppealButton": "Comment on this appeal",
     "button": "Continue to my appeal",
     "todoInvalid": "Invalid",
     "email": {
