@@ -73,13 +73,19 @@ const makeSections = (response) => [
 		.addQuestion(questions.supplementaryPlanningUpload)
 		.withCondition(() => questionHasAnswer(response, questions.supplementaryPlanning, 'yes')),
 	new Section('Site access', 'site-access')
+		.withVariables({
+			test: 'hello there'
+		})
 		.addQuestion(questions.accessForInspection)
 		.addQuestion(questions.neighbouringSite)
 		.addQuestion(questions.neighbouringSitesToBeVisited)
 		.withCondition(
 			() => response.answers && response.answers[questions.neighbouringSite.fieldName] == 'yes'
 		)
-		.addQuestion(questions.potentialSafetyRisks),
+		.addQuestion(questions.potentialSafetyRisks)
+		.withVariables({
+			test: 'hello there 2'
+		}),
 	new Section('Appeal process', 'appeal-process')
 		.addQuestion(questions.appealsNearSite)
 		.addQuestion(questions.nearbyAppeals)

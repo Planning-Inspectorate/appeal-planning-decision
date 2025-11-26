@@ -188,6 +188,11 @@ class Question {
 			journeyTitle: journey.journeyTitle,
 			payload,
 			bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
+			questionVariables: {
+				test: 'initial value',
+				...section.sectionVariables,
+				...this.variables
+			},
 			...customViewData
 		};
 

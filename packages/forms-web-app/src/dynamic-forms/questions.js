@@ -461,7 +461,7 @@ exports.questionProps = {
 		title: 'Potential safety risks',
 		question: 'Add potential safety risks',
 		description: 'You need to tell inspectors how to prepare for a site visit and what to bring.',
-		html: 'resources/safety-risks/content.html',
+		html: 'resources/safety-risks/content.njk',
 		fieldName: 'lpaSiteSafetyRisks',
 		url: 'potential-safety-risks',
 		validators: [
