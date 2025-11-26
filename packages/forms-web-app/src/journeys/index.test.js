@@ -617,6 +617,7 @@ const questionExpectations = (question, element, caseType) => {
 						.replace('<appeal type with an or a>', getAppealTypeStringWithAnOrA(caseType))
 						.replace('<individual name>', 'Named Individual')
 						.replace('<dynamic named parties>', 'Named Individual')
+						.replace('<interest in land party>', "Named Individual's")
 						.trim()
 				)
 			);

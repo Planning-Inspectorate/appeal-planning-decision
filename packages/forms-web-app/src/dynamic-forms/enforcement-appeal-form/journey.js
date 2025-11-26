@@ -85,6 +85,28 @@ const formatDynamicNames = (response) => {
 
 /**
  * @param {JourneyResponse} response
+ * @returns {string}
+ */
+const formatInterestInLandNames = (response) => {
+	const party = response.answers['enforcementWhoIsAppealing'];
+
+	if (!party) return "Named Individual's";
+
+	if (response.answers['isAppellant'] === 'yes') return 'your';
+
+	let partyName;
+	if (party === fieldValues.enforcementWhoIsAppealing.ORGANISATION) {
+		/** @ts-ignore */
+		partyName = escape(response.answers['enforcementOrganisationName'] || 'Named Company');
+	} else {
+		partyName = formatEnforcementIndividualName(response);
+	}
+
+	return `${partyName}'s`;
+};
+
+/**
+ * @param {JourneyResponse} response
  * @returns {Section[]}
  */
 const makeSections = (response) => {
@@ -153,6 +175,10 @@ const makeSections = (response) => {
 			.addQuestion(questions.appealSiteIsContactAddress)
 			.addQuestion(questions.contactAddress)
 			.withCondition(() => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no'))
+			.addQuestion(questions.interestInLand)
+			.withVariables({
+				[QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY]: formatInterestInLandNames(response)
+			})
 			.addQuestion(questions.enforcementInspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterAllegedBreachDescription)
