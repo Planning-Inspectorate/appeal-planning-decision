@@ -142,7 +142,7 @@ export const advertAppealGrantedTestCases = [
 
         },
         documents,
-    }
+    },
     {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'written',
