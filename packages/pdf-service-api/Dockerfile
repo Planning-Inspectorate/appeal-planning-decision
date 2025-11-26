@@ -17,7 +17,7 @@ COPY packages/pdf-service-api/package*.json ./packages/pdf-service-api/
 COPY package*.json ./
 
 # Install
-RUN npm ci --workspaces --if-present --omit=dev
+RUN npm ci --workspaces --if-present --omit=dev --ignore-scripts
 
 # Copy app
 WORKDIR /opt/packages/pdf-service-api
