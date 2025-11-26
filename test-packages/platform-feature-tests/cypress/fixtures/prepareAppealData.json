@@ -1,5 +1,8 @@
 {
+<<<<<<< Updated upstream
     "FullAppealType": "Planning",
+=======
+>>>>>>> Stashed changes
     "CasAppealType": "Cas planning appeal",
     "todoProofsOfEvidence": "Proofs of evidence",
     "todoFinalComments": "Final comments",
