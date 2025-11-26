@@ -40,7 +40,7 @@ jobs:
             - template: steps/node_script.yml@templates
               parameters:
                 nodeVersion: 22
-                script: npm ci --workspace=@pins/database
+                script: npm ci --ignore-scripts --workspace=@pins/database
             - template: steps/azure_auth.yml@templates
             - bash: |
                 if [[ $ENVIRONMENT == "staging"  || $ENVIRONMENT == "training" ]]; then
