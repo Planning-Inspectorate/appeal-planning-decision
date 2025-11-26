@@ -42,7 +42,7 @@ __Initial setup__
 
 - create an `.env` file in the [/packages/database](./packages/database) (copy the `.env.example`)
 - create an `.env` file in [/packages/document-service-api](./packages/document-service-api) (copy the `.env.example`)
-- `npm ci`
+- `npm ci --ignore-scripts`
 - `make database`
 - `npm run db:generate`
 - `npm run db:migrate:dev`
