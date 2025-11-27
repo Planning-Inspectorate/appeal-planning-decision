@@ -280,16 +280,16 @@ Cypress.Commands.add('reviewLpaqSubmission', (caseObj) => {
 
 Cypress.Commands.add('reviewStatementViaApi', (caseObj) => {
 	return cy.wrap(null).then(async () => {
-		await appealsApiClient.reviewStatement(caseObj.reference);
-		cy.log('Reviewed lpa statement for case ref ' + caseObj.reference);
+		await appealsApiClient.reviewStatement(caseObj);
+		cy.log('Reviewed lpa statement for case ref ' + caseObj);
 		return;
 	});
 });
 
 Cypress.Commands.add('reviewIpCommentsViaApi', (caseObj) => {
 	return cy.wrap(null).then(async () => {
-		await appealsApiClient.reviewIpComments(caseObj.reference);
-		cy.log('Reviewed IP comments for case ref ' + caseObj.reference);
+		await appealsApiClient.reviewIpComments(caseObj);
+		cy.log('Reviewed IP comments for case ref ' + caseObj);
 		return;
 	});
 });
