@@ -34,6 +34,8 @@ export class IpComments {
         cy.get(this?._selectors.comments).type('Interested Party comments with reference number');
         cy.get(this?._selectors.commentsConfirmation).check();
         cy.advanceToNextPage();
+        cy.getByData(basePage?._selectors.answerNo).click();
+		cy.advanceToNextPage();       
         cy.get(basePage?._selectors?.govukButton).contains('Submit comments').click({ force: true });
     };   
 }

@@ -245,10 +245,11 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 			//cy.visit(`${Cypress.config('back_office_base_url')}/appeals-service/all-cases`);
 
 			//happyPathHelper.addLpaStatement(caseRef, true);
+
 			cy.reviewStatementViaApi(caseRef);
 
 			// Provide IP Comments
-			//	ipCommentsForAppealRef(caseRef);
+			ipCommentsForAppealRef(caseRef);
 			cy.reviewIpCommentsViaApi(caseRef);
 
 				// Review IP Comments in Back Office
