@@ -66,6 +66,8 @@ const formatGroupOfIndividuals = (response) => {
 const formatDynamicNames = (response) => {
 	const party = response.answers['enforcementWhoIsAppealing'];
 
+	if (!party) return 'Named Individual';
+
 	switch (party) {
 		case fieldValues.enforcementWhoIsAppealing.ORGANISATION:
 			return response.answers['enforcementOrganisationName'];

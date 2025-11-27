@@ -2322,7 +2322,6 @@ exports.questionProps = {
 		]
 	},
 	appellantContinue: {
-		// @ts-ignore
 		type: 'content',
 		title: 'Submit final comments',
 		html: 'resources/appellant-final-comment-notice/appellant-final-comment-notice.html',
@@ -2332,7 +2331,6 @@ exports.questionProps = {
 		fieldName: 'statementContinue'
 	},
 	lpaContinue: {
-		// @ts-ignore
 		type: 'content',
 		title: 'Submit your final comments',
 		label: 'You can upload any supporting documents after you add your final comments.',
@@ -2343,7 +2341,6 @@ exports.questionProps = {
 		fieldName: 'statementContinue'
 	},
 	statementContinue: {
-		// @ts-ignore
 		type: 'content',
 		title: 'Submit an appeal statement',
 		description: 'You can upload any supporting documents after you add your appeal statement.',
