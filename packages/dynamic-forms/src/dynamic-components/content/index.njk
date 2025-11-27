@@ -51,7 +51,7 @@
 
 				{% if question.description %}
 					<p class="govuk-body">
-						{{ question.description }}
+						{{ question.description | safe }}
 					</p>
 				{% endif %}
 				{% if question.html %}

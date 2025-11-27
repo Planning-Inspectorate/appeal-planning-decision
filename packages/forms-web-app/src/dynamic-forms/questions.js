@@ -2970,7 +2970,7 @@ exports.questionProps = {
 		]
 	},
 	completeOnBehalfOf: {
-		type: 'continue',
+		type: 'content',
 		title: `Complete the appeal on behalf of ${QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES}`,
 		description: `We will ask you questions to complete the appeal. For example, ‘What is your interest in the land?’.
 			<p class="govuk-!-margin-bottom-2">You must answer these questions on behalf of ${QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES}.</p>`,

@@ -293,7 +293,6 @@ describe('Dynamic forms journey tests', () => {
 									};
 								// skipping due to variations/complications in list questions for now
 								case 'ListAddMoreQuestion':
-								case 'ContinueQuestion':
 									return null;
 								default:
 									throw new Error(q.constructor.name + ' not handled in journey save tests');

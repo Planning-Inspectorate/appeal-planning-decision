@@ -49,7 +49,7 @@ condition: () =>
 
 - multi-field-input `/contact-details/` Contact details
 - single-line-input `/phone-number/` What is your phone number?
-- continue `/complete-appeal/` Complete the appeal on behalf of <dynamic named parties>
+- content `/complete-appeal/` Complete the appeal on behalf of <dynamic named parties>
 
 ```js
 condition: () => questionHasNonEmptyStringAnswer(response, questions.enforcementWhoIsAppealing);
