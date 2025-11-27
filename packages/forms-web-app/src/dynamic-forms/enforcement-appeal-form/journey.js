@@ -76,7 +76,17 @@ const makeSections = (response) => [
 		.addQuestion(questions.contactAddress)
 		.withCondition(() => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no'))
 		.addQuestion(questions.enforcementInspectorAccess)
-		.addQuestion(questions.healthAndSafety),
+		.addQuestion(questions.healthAndSafety)
+		.addQuestion(questions.enterAllegedBreachDescription)
+		.addQuestion(questions.submittedPlanningApplication)
+		.addQuestion(questions.uploadApplicationReceipt)
+		.withCondition(() => questionHasAnswer(response, questions.submittedPlanningApplication, 'yes'))
+		.addQuestion(questions.allOrPartOfDevelopment)
+		.addQuestion(questions.planningApplicationReference)
+		.addQuestion(questions.planningApplicationDate)
+		.addQuestion(questions.enforcementEnterDevelopmentDescription)
+		.addQuestion(questions.updateDevelopmentDescription)
+		.addQuestion(questions.grantedOrRefused),
 	new Section('Upload documents', 'upload-documents')
 		.addQuestion(questions.submitPlanningObligation)
 		.addQuestion(questions.planningObligationStatus)

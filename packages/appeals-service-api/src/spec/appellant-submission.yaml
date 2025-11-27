@@ -235,6 +235,14 @@ components:
           type: string
         enforcementOrganisationName:
           type: string
+        allegedBreachDescription:
+          type: string
+        applicationMadeAndFeePaid:
+          type: boolean
+        uploadApplicationReceipt:
+          type: boolean
+        applicationPartOrWholeDevelopment:
+          type: string
 
         SubmissionAddress:
           type: array
