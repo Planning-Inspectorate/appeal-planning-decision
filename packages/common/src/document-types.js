@@ -680,6 +680,17 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
+	uploadApplicationReceipt: {
+		name: 'uploadApplicationReceipt',
+		dataModelName: 'applicationReceipt', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
 	caseDecisionLetter: {
 		name: 'caseDecisionLetter',
 		dataModelName: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER,

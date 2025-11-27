@@ -48,6 +48,20 @@ condition: () => questionHasAnswer(response, questions.appealSiteIsContactAddres
 
 - radio `/inspector-need-access/` Will an inspector need to access the land or property?
 - radio `/health-safety-issues/` Health and safety issues
+- text-entry `/description-alleged-breach/` Enter the description of the alleged breach
+- boolean `/submit-planning-application/` Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?
+- multi-file-upload `/upload-application-receipt/` Upload your application receipt
+
+```js
+condition: () => questionHasAnswer(response, questions.submittedPlanningApplication, 'yes');
+```
+
+- radio `/all-or-part/` Was the application for all or part of the development?
+- single-line-input `/planning-application-number/` What is the application reference number?
+- date `/application-date/` What date did you submit your application?
+- text-entry `/enter-description-of-development/` Enter the description of development
+- boolean `/description-development-correct/` Did the local planning authority change the description of development?
+- radio `/granted-or-refused/` Was the application granted or refused?
 
 ## Upload documents
 

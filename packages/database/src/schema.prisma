@@ -833,13 +833,17 @@ model AppellantSubmission {
   contactAddress              Boolean?
 
   // enforcement
-  enforcementIssueDate             DateTime?
-  enforcementEffectiveDate         DateTime?
-  hasContactedPlanningInspectorate Boolean?
-  contactPlanningInspectorateDate  DateTime?
-  enforcementReferenceNumber       String?
-  enforcementWhoIsAppealing        String?
-  enforcementOrganisationName      String?
+  enforcementIssueDate              DateTime?
+  enforcementEffectiveDate          DateTime?
+  hasContactedPlanningInspectorate  Boolean?
+  contactPlanningInspectorateDate   DateTime?
+  enforcementReferenceNumber        String?
+  enforcementWhoIsAppealing         String?
+  enforcementOrganisationName       String?
+  allegedBreachDescription          String?
+  applicationMadeAndFeePaid         Boolean?
+  uploadApplicationReceipt          Boolean?
+  applicationPartOrWholeDevelopment String?
 
   SubmissionIndividual SubmissionIndividual[]
 }
