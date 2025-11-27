@@ -292,7 +292,9 @@ describe('Dynamic forms journey tests', () => {
 										]
 									};
 								// skipping due to variations/complications in list questions for now
+								// skipping content question as nothing saved
 								case 'ListAddMoreQuestion':
+								case 'ContentQuestion':
 									return null;
 								default:
 									throw new Error(q.constructor.name + ' not handled in journey save tests');
@@ -607,6 +609,7 @@ const questionExpectations = (question, element, caseType) => {
 					question.question
 						.replace('<appeal type with an or a>', getAppealTypeStringWithAnOrA(caseType))
 						.replace('<individual name>', 'Named Individual')
+						.replace('<dynamic named parties>', 'Named Individual')
 						.trim()
 				)
 			);

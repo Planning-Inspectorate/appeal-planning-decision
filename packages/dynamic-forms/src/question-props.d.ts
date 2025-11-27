@@ -15,13 +15,13 @@ type QuestionTypes =
 	| 'site-address'
 	| 'unit-option'
 	| 'list-add-more'
+	| 'content'
 	// strictly for add more sub question type
 	// todo refactor list add mores so there's no sub question
 	| 'case'
 	| 'address'
 	| 'listed-building'
-	| 'individual'
-	| 'content';
+	| 'individual';
 
 interface CommonQuestionProps {
 	type: QuestionTypes;

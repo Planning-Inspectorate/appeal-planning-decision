@@ -2322,7 +2322,6 @@ exports.questionProps = {
 		]
 	},
 	appellantContinue: {
-		// @ts-ignore
 		type: 'content',
 		title: 'Submit final comments',
 		html: 'resources/appellant-final-comment-notice/appellant-final-comment-notice.html',
@@ -2332,7 +2331,6 @@ exports.questionProps = {
 		fieldName: 'statementContinue'
 	},
 	lpaContinue: {
-		// @ts-ignore
 		type: 'content',
 		title: 'Submit your final comments',
 		label: 'You can upload any supporting documents after you add your final comments.',
@@ -2343,7 +2341,6 @@ exports.questionProps = {
 		fieldName: 'statementContinue'
 	},
 	statementContinue: {
-		// @ts-ignore
 		type: 'content',
 		title: 'Submit an appeal statement',
 		description: 'You can upload any supporting documents after you add your appeal statement.',
@@ -2892,13 +2889,13 @@ exports.questionProps = {
 		title: 'Add named individuals',
 		pageTitle: 'Enforcement named individual added',
 		question: 'Do you need to add another individual?',
-		fieldName: 'appellantLinkedCaseAdd',
+		fieldName: 'addNamedIndividuals',
 		url: 'add-individuals',
 		subQuestionLabel: 'Appellant',
 		subQuestionTitle: 'Appellant',
 		subQuestionInputClasses: 'govuk-input--width-25',
 		width: ListAddMoreQuestion.FULL_WIDTH,
-		// validators: [new RequiredValidator()],
+		// validators: [new RequiredValidator('Select yes if you need to add another individual')],
 		subQuestionProps: {
 			type: 'individual',
 			title: 'What is the name of the individual appealing against the enforcement notice?',
@@ -2968,6 +2965,16 @@ exports.questionProps = {
 				value: 'no'
 			}
 		]
+	},
+	completeOnBehalfOf: {
+		type: 'content',
+		title: `Complete the appeal on behalf of ${QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES}`,
+		description: `We will ask you questions to complete the appeal. For example, ‘What is your interest in the land?’.
+			<p class="govuk-!-margin-bottom-2">You must answer these questions on behalf of ${QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES}.</p>`,
+		question: `Complete the appeal on behalf of ${QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES}`,
+		url: 'complete-appeal',
+		fieldName: 'confirmedCompleteOnBehalf',
+		variables: [QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES]
 	},
 	highwayLand: {
 		type: 'boolean',
