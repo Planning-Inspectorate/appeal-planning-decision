@@ -62,6 +62,59 @@ condition: () => questionHasAnswer(response, questions.submittedPlanningApplicat
 - text-entry `/enter-description-of-development/` Enter the description of development
 - boolean `/description-development-correct/` Did the local planning authority change the description of development?
 - radio `/granted-or-refused/` Was the application granted or refused?
+- radio `/decide-appeal/` How would you prefer us to decide your appeal?
+- text-entry `/why-prefer-hearing/` Why would you prefer a hearing?
+
+```js
+condition: () =>
+	questionHasAnswer(
+		response,
+		questions.appellantProcedurePreference,
+		APPEAL_CASE_PROCEDURE.HEARING
+	);
+```
+
+- text-entry `/why-prefer-inquiry/` Why would you prefer an inquiry?
+
+```js
+condition: () =>
+	questionHasAnswer(
+		response,
+		questions.appellantProcedurePreference,
+		APPEAL_CASE_PROCEDURE.INQUIRY
+	);
+```
+
+- number-entry `/how-many-days-inquiry/` How many days would you expect the inquiry to last?
+
+```js
+condition: () =>
+	questionHasAnswer(
+		response,
+		questions.appellantProcedurePreference,
+		APPEAL_CASE_PROCEDURE.INQUIRY
+	) && questionHasNonEmptyStringAnswer(response, questions.appellantPreferInquiry);
+```
+
+- number-entry `/how-many-witnesses/` How many witnesses would you expect to give evidence at the inquiry?
+
+```js
+condition: () =>
+	questionHasAnswer(
+		response,
+		questions.appellantProcedurePreference,
+		APPEAL_CASE_PROCEDURE.INQUIRY
+	) &&
+	questionHasNonEmptyStringAnswer(response, questions.appellantPreferInquiry) &&
+	questionHasNonEmptyNumberAnswer(response, questions.inquiryHowManyDays);
+```
+
+- boolean `/other-appeals/` Are there other appeals linked to your development?
+- list-add-more `/enter-appeal-reference/` Add another appeal?
+
+```js
+condition: () => questionHasAnswer(response, questions.anyOtherAppeals, 'yes');
+```
 
 ## Upload documents
 
