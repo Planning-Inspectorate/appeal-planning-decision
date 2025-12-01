@@ -15,13 +15,14 @@ type QuestionTypes =
 	| 'site-address'
 	| 'unit-option'
 	| 'list-add-more'
+	| 'content'
+	| 'dynamic-radio'
 	// strictly for add more sub question type
 	// todo refactor list add mores so there's no sub question
 	| 'case'
 	| 'address'
 	| 'listed-building'
-	| 'individual'
-	| 'content';
+	| 'individual';
 
 interface CommonQuestionProps {
 	type: QuestionTypes;
@@ -203,6 +204,12 @@ export type ContentQuestionProps = CommonQuestionProps & {
 	backLinkText?: string;
 };
 
+type DynamicRadioProps = CommonQuestionProps & {
+	type: 'dynamic-radio';
+	dynamicOptionsVariable: string;
+	legend?: string;
+};
+
 export type QuestionProps =
 	| CheckboxQuestionProps
 	| MultiFileUploadQuestionProps
@@ -216,4 +223,5 @@ export type QuestionProps =
 	| SiteAddressQuestionProps
 	| UnitOptionEntryQuestionProps
 	| ListAddMoreQuestionProps
-	| ContentQuestionProps;
+	| ContentQuestionProps
+	| DynamicRadioProps;

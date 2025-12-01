@@ -19,6 +19,7 @@ const SiteAddressQuestion = require('@pins/dynamic-forms/src/dynamic-components/
 const UnitOptionEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/unit-option-entry/question');
 const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
 const ContentQuestion = require('@pins/dynamic-forms/src/dynamic-components/content/question');
+const DynamicRadioQuestion = require('@pins/dynamic-forms/src/dynamic-components/dynamic-radio/question');
 
 // validators
 const RequiredValidator = require('@pins/dynamic-forms/src/validator/required-validator');
@@ -2931,6 +2932,15 @@ exports.questionProps = {
 			]
 		}
 	},
+	enforcementSelectYourName: {
+		type: 'dynamic-radio',
+		title: 'Select your name',
+		question: 'Select your name',
+		fieldName: 'isAppellant',
+		url: 'select-name',
+		dynamicOptionsVariable: QUESTION_VARIABLES.ENFORCEMENT_SELECT_NAME,
+		validators: [new RequiredValidator('Select your name')]
+	},
 	enforcementInspectorAccess: {
 		type: 'radio',
 		title: 'Will an inspector need to access the land or property?',
@@ -3227,7 +3237,8 @@ const questionClasses = {
 	'site-address': SiteAddressQuestion,
 	'unit-option': UnitOptionEntryQuestion,
 	'list-add-more': ListAddMoreQuestion,
-	content: ContentQuestion
+	content: ContentQuestion,
+	'dynamic-radio': DynamicRadioQuestion
 };
 
 exports.getQuestions = () =>

@@ -166,6 +166,9 @@ class Question {
 		const answer = journey.response.answers[this.fieldName] || '';
 		const backLink = journey.getBackLink(section.segment, this.fieldName, sessionBackLink);
 
+		console.log('bookbook');
+		console.log(journey.response.answers);
+
 		// gets url for next qs
 		let nextQuestionUrl = journey.getNextQuestionUrl(
 			section.segment,
