@@ -403,6 +403,15 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					expect(response.status).toBe(200);
 					expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
 				});
+
+				it(`upserts adverts case for ${testCase.caseReference}`, async () => {
+					advertsExample.caseReference = testCase.caseReference;
+					const response = await appealsApi
+						.put(`/api/v2/appeal-cases/` + testCase.caseReference)
+						.send(advertsExample);
+					expect(response.status).toBe(200);
+					expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
+				});
 			}
 
 			const testCase1 = testCases[0];
