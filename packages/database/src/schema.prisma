@@ -1,10 +1,12 @@
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
+  output     = "./client"
+  engineType = "client"
+  runtime    = "nodejs"
 }
 
 datasource db {
   provider = "sqlserver"
-  url      = env("SQL_CONNECTION_STRING_ADMIN")
 }
 
 // NOTES
@@ -833,13 +835,17 @@ model AppellantSubmission {
   contactAddress              Boolean?
 
   // enforcement
-  enforcementIssueDate             DateTime?
-  enforcementEffectiveDate         DateTime?
-  hasContactedPlanningInspectorate Boolean?
-  contactPlanningInspectorateDate  DateTime?
-  enforcementReferenceNumber       String?
-  enforcementWhoIsAppealing        String?
-  enforcementOrganisationName      String?
+  enforcementIssueDate              DateTime?
+  enforcementEffectiveDate          DateTime?
+  hasContactedPlanningInspectorate  Boolean?
+  contactPlanningInspectorateDate   DateTime?
+  enforcementReferenceNumber        String?
+  enforcementWhoIsAppealing         String?
+  enforcementOrganisationName       String?
+  allegedBreachDescription          String?
+  applicationMadeAndFeePaid         Boolean?
+  uploadApplicationReceipt          Boolean?
+  applicationPartOrWholeDevelopment String?
 
   SubmissionIndividual SubmissionIndividual[]
 }

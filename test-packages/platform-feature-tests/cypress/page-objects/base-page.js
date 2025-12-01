@@ -40,6 +40,7 @@ export class BasePage {
 		govukLabelGovukLabel:".govuk-label.govuk-label--l",		
         govukLabelGovUkLabel1:"label.govuk-label.govuk-label--l",
 		govukHeaderLinkGovukHeaderServiceName:".govuk-header__link.govuk-header__service-name",
+		govukCaption1: ".govuk-caption-l",
 	};
 
 	basePageElements = {
@@ -57,7 +58,7 @@ export class BasePage {
 		completedTask: () => cy.get('[data-cy="task-list-item-contactDetailsSection"]'),
 		clickRadioBtn: (radioId) => cy.get(radioId),
 		clickCheckBox: (checkboxId) => cy.get(checkboxId),
-		addTextField: (fieldType) => cy.get(fieldType),
+		addTextField: (fieldType) => cy.get(fieldType),		
 	};
 
 	backBtn() {

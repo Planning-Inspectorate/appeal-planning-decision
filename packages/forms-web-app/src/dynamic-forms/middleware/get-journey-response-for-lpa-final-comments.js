@@ -13,6 +13,8 @@ const {
 		LPA_DASHBOARD: { APPEAL_OVERVIEW }
 	}
 } = require('../../lib/views');
+const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 /**
  * @param {boolean} checkSubmitted
@@ -63,15 +65,21 @@ module.exports =
 		if (result.LPACode !== user.lpaCode) {
 			return res.status(404).render('error/not-found');
 		}
-
+		appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
+		const appellant = appeal.users.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
+		if (appellant) {
+			appeal.appellantFirstName = appellant.firstName;
+			appeal.appellantLastName = appellant.lastName;
+		}
 		res.locals.journeyResponse = result;
+		res.locals.appeal = appeal;
 
 		return next();
 	};
 
 /**
  * returns a default response for a journey
- * @param {JourneyType} journeyId - the type of journey
+ * @param {import('../controller').JourneyType} journeyId - the type of journey
  * @param {string} referenceId - unique ref used in journey url
  * @param {string} lpaCode - the lpa code the journey response belongs to
  * @returns {JourneyResponse}

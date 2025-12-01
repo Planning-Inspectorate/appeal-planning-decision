@@ -3,7 +3,7 @@ const {
 	ServiceUserType
 } = require('#repositories/sql/service-user-repository');
 const { AppealCaseRepository } = require('./repo');
-const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
+const { Prisma } = require('@pins/database/src/client');
 const ApiError = require('#errors/apiError');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { sendSubmissionConfirmationEmailToAppellantV2 } = require('#lib/notify');
@@ -21,11 +21,11 @@ const { getValidator } = new SchemaValidator();
  */
 
 /**
- * @typedef {import("@prisma/client").AppealCase} AppealCase
- * @typedef {import('@prisma/client').Prisma.AppealCaseCreateInput} AppealCaseCreateInput
- * @typedef {import("@prisma/client").ServiceUser} ServiceUser
- * @typedef {import("@prisma/client").AppealCaseRelationship} AppealRelations
- * @typedef {import("@prisma/client").SubmissionLinkedCase} SubmissionLinkedCase
+ * @typedef {import('@pins/database/src/client').AppealCase} AppealCase
+ * @typedef {import('@pins/database/src/client').Prisma.AppealCaseCreateInput} AppealCaseCreateInput
+ * @typedef {import('@pins/database/src/client').ServiceUser} ServiceUser
+ * @typedef {import('@pins/database/src/client').AppealCaseRelationship} AppealRelations
+ * @typedef {import('@pins/database/src/client').SubmissionLinkedCase} SubmissionLinkedCase
  * @typedef {AppealCase & {users?: Array.<ServiceUser>} & {relations?: Array.<AppealRelations>}} AppealCaseDetailed
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealHASCase} AppealHASCase
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealS78Case} AppealS78Case
@@ -335,10 +335,7 @@ const mapAdvertsDataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
 	...getAdvertsAppealFormFields(dataModel),
 	...getCASAdvertsLPAQFields(dataModel),
-	appellantProcedurePreference: dataModel.appellantProcedurePreference,
-	appellantProcedurePreferenceDetails: dataModel.appellantProcedurePreferenceDetails,
-	appellantProcedurePreferenceDuration: dataModel.appellantProcedurePreferenceDuration,
-	appellantProcedurePreferenceWitnessCount: dataModel.appellantProcedurePreferenceWitnessCount
+	...mapS78DataModelToAppealCase(caseProcessCode, dataModel)
 });
 
 /**
@@ -456,7 +453,7 @@ async function putCase(caseReference, data) {
 
 		return result.appealCase;
 	} catch (err) {
-		if (err instanceof PrismaClientValidationError) {
+		if (err instanceof Prisma.PrismaClientValidationError) {
 			throw ApiError.badRequest(err.message);
 		}
 		throw err;

@@ -4,7 +4,7 @@ const getAzureBlobPathFromUri = require('@pins/common/src/lib/getAzureBlobPathFr
 
 /**
  * Maps a document object to blob info.
- * @param {import("@prisma/client").Document} document
+ * @param {import('@pins/database/src/client').Document} document
  * @returns {{fullName: string, blobStorageContainer: string | undefined, blobStoragePath: string, documentURI: string}|null}
  */
 exports.mapDocumentToBlobInfo = (document) => {

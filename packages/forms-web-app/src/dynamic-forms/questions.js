@@ -18,7 +18,7 @@ const NumberEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/
 const SiteAddressQuestion = require('@pins/dynamic-forms/src/dynamic-components/site-address/question');
 const UnitOptionEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/unit-option-entry/question');
 const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
-const ContinueQuestion = require('@pins/dynamic-forms/src/dynamic-components/continue/question');
+const ContentQuestion = require('@pins/dynamic-forms/src/dynamic-components/content/question');
 
 // validators
 const RequiredValidator = require('@pins/dynamic-forms/src/validator/required-validator');
@@ -2321,9 +2321,30 @@ exports.questionProps = {
 			})
 		]
 	},
+	appellantContinue: {
+		// @ts-ignore
+		type: 'content',
+		title: 'Submit final comments',
+		html: 'resources/appellant-final-comment-notice/appellant-final-comment-notice.html',
+		label: 'You can upload any supporting documents after you add your final comments.',
+		question: 'Submit final comments',
+		url: 'upload-final-comments',
+		fieldName: 'statementContinue'
+	},
+	lpaContinue: {
+		// @ts-ignore
+		type: 'content',
+		title: 'Submit your final comments',
+		label: 'You can upload any supporting documents after you add your final comments.',
+		description: 'You can upload any supporting documents after you add your appeal statement.',
+		backLinkText: 'Back to manage your appeals',
+		question: 'Submit your final comments',
+		url: 'upload-final-comments',
+		fieldName: 'statementContinue'
+	},
 	statementContinue: {
 		// @ts-ignore
-		type: 'continue',
+		type: 'content',
 		title: 'Submit an appeal statement',
 		description: 'You can upload any supporting documents after you add your appeal statement.',
 		label: 'You can upload any supporting documents after you add your appeal statement.',
@@ -2948,6 +2969,129 @@ exports.questionProps = {
 			}
 		]
 	},
+	enterAllegedBreachDescription: {
+		type: 'text-entry',
+		title: 'Enter the description of the alleged breach',
+		question: 'Enter the description of the alleged breach',
+		fieldName: 'allegedBreachDescription',
+		url: 'description-alleged-breach',
+		hint: 'The description must match what is on the enforcement notice.',
+		validators: [
+			new RequiredValidator('Enter a description'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Your description must be ${appealFormV2.textInputMaxLength} characters or less`
+				}
+			})
+		]
+	},
+	submittedPlanningApplication: {
+		type: 'boolean',
+		title:
+			'Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?',
+		question:
+			'Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?',
+		fieldName: 'applicationMadeAndFeePaid',
+		url: 'submit-planning-application',
+		validators: [
+			new RequiredValidator(
+				'Select yes if anyone submitted a planning application and paid the correct fee'
+			)
+		]
+	},
+	uploadApplicationReceipt: {
+		type: 'multi-file-upload',
+		title: 'Upload your application receipt',
+		question: 'Upload your application receipt',
+		fieldName: 'uploadApplicationReceipt',
+		url: 'upload-application-receipt',
+		validators: [
+			new RequiredFileUploadValidator('Select your application receipt'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.uploadApplicationReceipt
+	},
+	allOrPartOfDevelopment: {
+		type: 'radio',
+		title: 'Was the application for all or part of the development?',
+		question: 'Was the application for all or part of the development?',
+		fieldName: 'applicationPartOrWholeDevelopment',
+		url: 'all-or-part',
+		options: [
+			{
+				text: 'All of the development',
+				value: 'all-of-the-development'
+			},
+			{
+				text: 'Part of the development',
+				value: 'part-of-the-development'
+			}
+		],
+		validators: [
+			new RequiredValidator(
+				'Select if you know who owns the rest of the land involved in the appeal'
+			)
+		]
+	},
+	planningApplicationReference: {
+		type: 'single-line-input',
+		title: 'What is the application reference number?',
+		question: 'What is the application reference number?',
+		fieldName: 'applicationReference',
+		url: 'planning-application-number',
+		hint: 'You can find this on any correspondence from the local planning authority. For example, the letter confirming your application.',
+		validators: [
+			new RequiredValidator('Enter the application reference number'),
+			new StringValidator({
+				maxLength: {
+					maxLength: 250,
+					maxLengthMessage: `Reference number must be 250 characters or less`
+				}
+			})
+		]
+	},
+	enforcementEnterDevelopmentDescription: {
+		type: 'text-entry',
+		title: 'Enter the description of development',
+		question: 'Enter the description of development',
+		fieldName: 'developmentDescriptionOriginal',
+		url: 'enter-description-of-development',
+		validators: [
+			new RequiredValidator('Enter a description'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Your description must be ${appealFormV2.textInputMaxLength} characters or less`
+				}
+			})
+		]
+	},
+	grantedOrRefused: {
+		type: 'radio',
+		title: 'Was the application granted or refused?',
+		question: 'Was the application granted or refused?',
+		fieldName: 'applicationDecision',
+		url: 'granted-or-refused',
+		options: [
+			{
+				text: 'Granted with conditions',
+				value: 'granted'
+			},
+			{
+				text: 'Refused',
+				value: 'refused'
+			},
+			{
+				[DIVIDER]: 'or'
+			},
+			{
+				text: 'I have not received a decision',
+				value: 'nodecisionreceived'
+			}
+		],
+		validators: [new RequiredValidator('Select if the application was granted or refused')]
+	},
 	highwayLand: {
 		type: 'boolean',
 		title: 'Is the appeal site on highway land?',
@@ -3083,7 +3227,7 @@ const questionClasses = {
 	'site-address': SiteAddressQuestion,
 	'unit-option': UnitOptionEntryQuestion,
 	'list-add-more': ListAddMoreQuestion,
-	continue: ContinueQuestion
+	content: ContentQuestion
 };
 
 exports.getQuestions = () =>

@@ -47,7 +47,7 @@
       } %}
     {% else %}
       {% set back = {
-        text: "Back",
+				text: backLinkText | default("Back"),
         href: navigation[1]
       } %}
     {% endif %}

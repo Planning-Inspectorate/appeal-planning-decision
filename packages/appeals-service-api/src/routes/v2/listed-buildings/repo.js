@@ -1,10 +1,10 @@
 const { createPrismaClient } = require('#db-client');
-const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
+const { Prisma } = require('@pins/database/src/client');
 const ApiError = require('#errors/apiError');
 
 /**
- * @typedef {import('@prisma/client').ListedBuilding} ListedBuilding
- * @typedef {import("@prisma/client").Prisma.ListedBuildingCreateInput} ListedBuildingCreateInput
+ * @typedef {import('@pins/database/src/client').ListedBuilding} ListedBuilding
+ * @typedef {import('@pins/database/src/client').Prisma.ListedBuildingCreateInput} ListedBuildingCreateInput
  * @typedef {{updated: Set<string>, created: Set<string>}} ListedBuildingUpsertManyResponse
  */
 
@@ -69,7 +69,7 @@ class ListedBuildingRepository {
 				created: new Set(toCreate.map((lb) => lb.reference))
 			};
 		} catch (e) {
-			if (e instanceof PrismaClientValidationError) {
+			if (e instanceof Prisma.PrismaClientValidationError) {
 				throw ApiError.badRequest(e.message);
 			}
 			throw e;

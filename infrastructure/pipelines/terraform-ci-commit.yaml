@@ -26,7 +26,7 @@ extends:
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
-              script: npm ci
+              script: npm ci --ignore-scripts
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22

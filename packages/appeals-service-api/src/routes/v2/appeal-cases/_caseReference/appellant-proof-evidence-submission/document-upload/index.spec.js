@@ -13,7 +13,7 @@ const validLpa = 'Q9999';
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
  * @param {function(string): void} dependencies.setCurrentSub
  * @param {function(string): void} dependencies.setCurrentLpa
  * @param {import('supertest').Agent} dependencies.appealsApi
@@ -32,7 +32,7 @@ module.exports = ({ getSqlClient, setCurrentSub, setCurrentLpa, appealsApi }) =>
 	});
 
 	/**
-	 * @returns {Promise<import('@prisma/client').AppellantProofOfEvidenceSubmission>}
+	 * @returns {Promise<import('@pins/database/src/client').AppellantProofOfEvidenceSubmission>}
 	 */
 	const createProofsSubmission = async (caseRef, caseType) => {
 		const appeal = await sqlClient.appeal.create({

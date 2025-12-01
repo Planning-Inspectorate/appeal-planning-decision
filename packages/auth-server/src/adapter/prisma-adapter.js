@@ -178,7 +178,7 @@ export default class PrismaAdapter {
 
 	/**
 	 * Validates and transforms Oidc result
-	 * @param { () => (Promise<import('@prisma/client').Oidc|null>) } query
+	 * @param { () => (Promise<import('@pins/database/src/client').Oidc|null>) } query
 	 * @returns {Promise<AdapterPayload|undefined>}
 	 */
 	async #get(query) {
@@ -192,7 +192,7 @@ export default class PrismaAdapter {
 	}
 
 	/**
-	 * @param { import("@prisma/client").Oidc|null } doc
+	 * @param { import('@pins/database/src/client').Oidc|null } doc
 	 * @returns {boolean}
 	 */
 	#isValidOidc(doc) {
@@ -205,7 +205,7 @@ export default class PrismaAdapter {
 
 	/**
 	 * Parse json field from db before returning it
-	 * @param { import("@prisma/client").Oidc } doc
+	 * @param { import('@pins/database/src/client').Oidc } doc
 	 * @returns {AdapterPayload}
 	 */
 	#convertPayloadJson(doc) {

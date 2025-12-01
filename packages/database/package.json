@@ -6,15 +6,11 @@
 	"engines": {
 		"node": ">=22.0.0 <23.0.0"
 	},
-	"prisma": {
-		"schema": "src/schema.prisma",
-		"seed": "node src/seed/seed-dev.js"
-	},
 	"scripts": {
 		"migrate:dev": "npx prisma migrate dev",
 		"migrate:prod": "npx prisma migrate deploy",
 		"generate": "npx prisma generate",
-		"seed": "npx prisma db seed",
+		"seed": "npm run generate && npx prisma db seed",
 		"seed:prod": "npm run generate && node src/seed/seed-prod.js",
 		"lint": "eslint ./"
 	},
@@ -23,9 +19,11 @@
 	"dependencies": {
 		"@pins/common": "^0.0.0",
 		"@planning-inspectorate/data-model": "*",
+		"@prisma/adapter-mssql": "*",
 		"@prisma/client": "*"
 	},
 	"devDependencies": {
+		"dotenv": "*",
 		"prisma": "*"
 	}
 }

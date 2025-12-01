@@ -7,10 +7,10 @@ const { sendLPADashboardInviteEmail } = require('#lib/notify');
 const appealUserRepository = new AppealUserRepository();
 
 /**
- * @typedef { import("@prisma/client").AppealToUser } AppealToUser
+ * @typedef { import('@pins/database/src/client').AppealToUser } AppealToUser
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
- * @typedef { import("@prisma/client").AppealUser } AppealUser
- * @typedef { import("@prisma/client").Prisma.AppealUserWhereInput } AppealUserWhere
+ * @typedef { import('@pins/database/src/client').AppealUser } AppealUser
+ * @typedef { import('@pins/database/src/client').Prisma.AppealUserWhereInput } AppealUserWhere
  */
 
 /**

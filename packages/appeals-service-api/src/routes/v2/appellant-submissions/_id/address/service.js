@@ -3,7 +3,7 @@ const { SubmissionAddressRepository } = require('./repo');
 const addressRepo = new SubmissionAddressRepository();
 
 /**
- * @typedef {import("@prisma/client").AppellantSubmission} AppellantSubmission
+ * @typedef {import('@pins/database/src/client').AppellantSubmission} AppellantSubmission
  * @typedef {import('./repo').AddressData} AddressData
  */
 

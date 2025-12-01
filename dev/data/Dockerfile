@@ -10,7 +10,7 @@ COPY package.json .
 COPY package-lock.json .
 
 # install from root
-RUN npm ci --workspaces --if-present --omit=dev
+RUN npm ci --workspaces --if-present --omit=dev --ignore-scripts
 
 WORKDIR /opt/app/data
 

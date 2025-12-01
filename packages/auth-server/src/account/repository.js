@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@pins/database/src/client/index.js';
 
 import createPrismaClient from '../adapter/prisma-client.js';
 import logger from '../lib/logger.js';
@@ -6,9 +6,9 @@ import { DuplicateAccount } from './account-errors.js';
 import { InvalidRequest } from 'oidc-provider/lib/helpers/errors.js';
 
 /**
- * @typedef { import("@prisma/client").AppealUser } AppealUser
- * @typedef { import("@prisma/client").AppealToUser } AppealToUser
- * @typedef { import("@prisma/client").Prisma.AppealUserCreateInput } AppealUserCreateInput
+ * @typedef { import('@pins/database/src/client').AppealUser } AppealUser
+ * @typedef { import('@pins/database/src/client').AppealToUser } AppealToUser
+ * @typedef { import('@pins/database/src/client').Prisma.AppealUserCreateInput } AppealUserCreateInput
  */
 
 export default class AppealUserRepository {

@@ -9,6 +9,8 @@ updates:
     directory: '/' # Location of package manifests
     schedule:
       interval: 'weekly'
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 10
     groups:
       commitlint:
@@ -36,3 +38,5 @@ updates:
     schedule:
       interval: 'weekly'
       day: 'tuesday' # day after npm updates
+    cooldown:
+      default-days: 7

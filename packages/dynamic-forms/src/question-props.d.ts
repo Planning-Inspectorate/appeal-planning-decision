@@ -20,7 +20,8 @@ type QuestionTypes =
 	| 'case'
 	| 'address'
 	| 'listed-building'
-	| 'individual';
+	| 'individual'
+	| 'content';
 
 interface CommonQuestionProps {
 	type: QuestionTypes;
@@ -197,6 +198,10 @@ type ListAddMoreQuestionProps = CommonQuestionProps & {
 	subQuestionInputClasses?: string;
 	width?: string;
 };
+export type ContentQuestionProps = CommonQuestionProps & {
+	type: 'content';
+	backLinkText?: string;
+};
 
 export type QuestionProps =
 	| CheckboxQuestionProps
@@ -210,4 +215,5 @@ export type QuestionProps =
 	| NumberEntryQuestionProps
 	| SiteAddressQuestionProps
 	| UnitOptionEntryQuestionProps
-	| ListAddMoreQuestionProps;
+	| ListAddMoreQuestionProps
+	| ContentQuestionProps;

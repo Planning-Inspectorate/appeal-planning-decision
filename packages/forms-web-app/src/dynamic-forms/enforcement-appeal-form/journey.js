@@ -3,11 +3,11 @@ const questions = getQuestions();
 const { Section } = require('@pins/dynamic-forms/src/section');
 const {
 	questionHasAnswer,
-	questionsHaveAnswers
-	// questionHasNonEmptyStringAnswer,
-	// questionHasNonEmptyNumberAnswer
+	questionsHaveAnswers,
+	questionHasNonEmptyStringAnswer,
+	questionHasNonEmptyNumberAnswer
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
-// const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
+const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const {
 	CASE_TYPES: { ENFORCEMENT }
@@ -76,7 +76,57 @@ const makeSections = (response) => [
 		.addQuestion(questions.contactAddress)
 		.withCondition(() => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no'))
 		.addQuestion(questions.enforcementInspectorAccess)
-		.addQuestion(questions.healthAndSafety),
+		.addQuestion(questions.healthAndSafety)
+		.addQuestion(questions.enterAllegedBreachDescription)
+		.addQuestion(questions.submittedPlanningApplication)
+		.addQuestion(questions.uploadApplicationReceipt)
+		.withCondition(() => questionHasAnswer(response, questions.submittedPlanningApplication, 'yes'))
+		.addQuestion(questions.allOrPartOfDevelopment)
+		.addQuestion(questions.planningApplicationReference)
+		.addQuestion(questions.planningApplicationDate)
+		.addQuestion(questions.enforcementEnterDevelopmentDescription)
+		.addQuestion(questions.updateDevelopmentDescription)
+		.addQuestion(questions.grantedOrRefused)
+		.addQuestion(questions.appellantProcedurePreference)
+		.addQuestion(questions.appellantPreferHearing)
+		.withCondition(() =>
+			questionHasAnswer(
+				response,
+				questions.appellantProcedurePreference,
+				APPEAL_CASE_PROCEDURE.HEARING
+			)
+		)
+		.addQuestion(questions.appellantPreferInquiry)
+		.withCondition(() =>
+			questionHasAnswer(
+				response,
+				questions.appellantProcedurePreference,
+				APPEAL_CASE_PROCEDURE.INQUIRY
+			)
+		)
+		.addQuestion(questions.inquiryHowManyDays)
+		.withCondition(
+			() =>
+				questionHasAnswer(
+					response,
+					questions.appellantProcedurePreference,
+					APPEAL_CASE_PROCEDURE.INQUIRY
+				) && questionHasNonEmptyStringAnswer(response, questions.appellantPreferInquiry)
+		)
+		.addQuestion(questions.inquiryHowManyWitnesses)
+		.withCondition(
+			() =>
+				questionHasAnswer(
+					response,
+					questions.appellantProcedurePreference,
+					APPEAL_CASE_PROCEDURE.INQUIRY
+				) &&
+				questionHasNonEmptyStringAnswer(response, questions.appellantPreferInquiry) &&
+				questionHasNonEmptyNumberAnswer(response, questions.inquiryHowManyDays)
+		)
+		.addQuestion(questions.anyOtherAppeals)
+		.addQuestion(questions.linkAppeals)
+		.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
 	new Section('Upload documents', 'upload-documents')
 		.addQuestion(questions.submitPlanningObligation)
 		.addQuestion(questions.planningObligationStatus)

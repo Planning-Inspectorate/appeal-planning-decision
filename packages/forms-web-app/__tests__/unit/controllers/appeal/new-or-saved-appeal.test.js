@@ -60,11 +60,13 @@ describe('controllers/appeal/new-or-saved-appeal', () => {
 	});
 
 	it('Test post method redirects to correct page when user chose to return to an existing appeal', async () => {
+		req.session.loginRedirect = '/some/other/page';
 		req.body = {
 			'new-or-saved-appeal': 'return'
 		};
 		await post(req, res);
 
+		expect(req.session.loginRedirect).toBeUndefined();
 		expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPEAL.EMAIL_ADDRESS}`);
 	});
 });

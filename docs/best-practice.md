@@ -67,7 +67,7 @@ See:
 You will need to install the dependencies locally, even though we're using
 Docker Compose to run locally.
 
-Run `npm ci` in the root of the repo to install all dependencies.
+Run `npm ci --ignore-scripts` in the root of the repo to install all dependencies.
 
 As we are using a workspace in order to add new dependencies run install in root:
 
@@ -86,7 +86,7 @@ This ensures the version is handled once across all packages, although we can sp
 Docker files omit unrequired packages to keep the image as slim as possible
 
 ```sh
-npm ci --workspaces --if-present --omit=dev
+npm ci --workspaces --if-present --omit=dev --ignore-scripts
 ```
 
 ## Auth
@@ -180,21 +180,21 @@ Though we use JavaScript, which uses [dynamic & weak typing](https://developer.m
 In the `packages/appeals-service/api` package, to import Prisma types in jsdoc, use
 
 ```
-import('@prisma/client').MyType
+import('@pins/database/src/client').MyType
 ```
 
 Types for creates or updates may not have all fields, so use the `*CreateInput` or `*UpdateInput` variations for those:
 
 ```
-import('@prisma/client').Prisma.MyTypeUncheckedCreateInput
+import('@pins/database/src/client').Prisma.MyTypeUncheckedCreateInput
 // or
-import('@prisma/client').Prisma.MyTypeUncheckedUpdateInput
+import('@pins/database/src/client').Prisma.MyTypeUncheckedUpdateInput
 ```
 
 If you need a type with a relation included, say an `AppealUser` with a `SecurityToken`, you can use:
 
 ```
-import('@prisma/client').Prisma.AppealUserGetPayload<{include: {SecurityToken: true}}>
+import('@pins/database/src/client').Prisma.AppealUserGetPayload<{include: {SecurityToken: true}}>
 ```
 
 This type will have a `.SecurityToken` property with the fields from that model.

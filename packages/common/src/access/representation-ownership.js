@@ -5,12 +5,12 @@ const {
 } = require('@planning-inspectorate/data-model');
 
 /**
- * @typedef {import('@prisma/client').Representation} Representation
+ * @typedef {import('@pins/database/src/client').Representation} Representation
  * @typedef {Pick<Representation, 'source' | 'serviceUserId' | 'representationType'>} RepresentationInput
  * @typedef {RepresentationInput & { userOwnsRepresentation: boolean, submittingPartyType?: string } } RepresentationResult
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  * @typedef { 'LPAUser' } LpaUserRole
- * @typedef {import('@prisma/client').ServiceUser} ServiceUser
+ * @typedef {import('@pins/database/src/client').ServiceUser} ServiceUser
  * @typedef {Pick<ServiceUser, 'id' | 'emailAddress' | 'serviceUserType'>} BasicServiceUser
  * @typedef { {
  *   representationStatus: string|null,
@@ -71,7 +71,7 @@ function ascertainSubmittingParty(representation, serviceUsersWithEmails) {
 
 /**
  * Determines if a document is available for the user based on representation ownership and status.
- * @param {import("@prisma/client").Document} document
+ * @param {import('@pins/database/src/client').Document} document
  * @param {Map<string, FlatRepDocOwnership>} representationMap
  * @returns {boolean}
  */

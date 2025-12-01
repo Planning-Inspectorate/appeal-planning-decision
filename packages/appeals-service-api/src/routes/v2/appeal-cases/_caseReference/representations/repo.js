@@ -1,12 +1,12 @@
 const { createPrismaClient } = require('#db-client');
-const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const { Prisma } = require('@pins/database/src/client');
 const { dashboardSelect, DocumentsArgsPublishedOnly } = require('../../repo');
 const ApiError = require('#errors/apiError');
 
 /**
- * @typedef {import('@prisma/client').AppealCase} AppealCase
- * @typedef {import('@prisma/client').Representation} Representation
- * @typedef {import('@prisma/client').Document} Document
+ * @typedef {import('@pins/database/src/client').AppealCase} AppealCase
+ * @typedef {import('@pins/database/src/client').Representation} Representation
+ * @typedef {import('@pins/database/src/client').Document} Document
  * @typedef {AppealCase & { Representations?: Array.<Representation>} & { Documents?: Array.<Document>}} AppealWithRepresentations
  *
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealRepresentation} AppealRepresentation
@@ -14,7 +14,7 @@ const ApiError = require('#errors/apiError');
 
 /**
  * @param {AppealRepresentation} dataModel
- * @returns {import('@prisma/client').Prisma.RepresentationCreateWithoutAppealCaseInput}
+ * @returns {import('@pins/database/src/client').Prisma.RepresentationCreateWithoutAppealCaseInput}
  */
 const mapRepresentationDataModelToRepresentation = ({
 	representationId,
@@ -80,7 +80,7 @@ class RepresentationsRepository {
 				}
 			});
 		} catch (e) {
-			if (e instanceof PrismaClientKnownRequestError) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
 					// probably an invalid ID/GUID
 					return null;
@@ -117,7 +117,7 @@ class RepresentationsRepository {
 				}
 			});
 		} catch (e) {
-			if (e instanceof PrismaClientKnownRequestError) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
 					// probably an invalid ID/GUID
 					return null;

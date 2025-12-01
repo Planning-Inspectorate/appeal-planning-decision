@@ -6,18 +6,14 @@
 		"node": ">=22.0.0 <23.0.0"
 	},
 	"main": "src/main.js",
-	"prisma": {
-		"schema": "../database/src/schema.prisma"
-	},
 	"scripts": {
-		"db:generate": "npx prisma generate",
 		"lint": "eslint ./",
 		"start": "node ./",
-		"start:dev": "npm run db:generate && nodemon ./ | pino-pretty -tlc",
-		"start:dev:debug": "npm run db:generate && nodemon --inspect=0.0.0.0 ./",
+		"start:dev": "nodemon ./ | pino-pretty -tlc",
+		"start:dev:debug": "nodemon --inspect=0.0.0.0 ./",
 		"seed:dev": "node ./dev/seed.js",
-		"test": "npm run db:generate && jest --ci --verbose",
-		"test:cov": "npm run db:generate && jest --ci --verbose --coverage"
+		"test": "jest --ci --verbose",
+		"test:cov": "jest --ci --verbose --coverage"
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {

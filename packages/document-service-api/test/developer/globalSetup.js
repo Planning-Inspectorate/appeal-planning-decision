@@ -1,9 +1,14 @@
 const { exec } = require('child_process');
 const path = require('path');
 
-function run(cmd) {
+/**
+ * @param {string} cmd
+ * @param {string} workingDirectory
+ * @returns {Promise<string>}
+ */
+function run(cmd, workingDirectory) {
 	return new Promise((resolve, reject) => {
-		exec(cmd, (err, stdout) => {
+		exec(cmd, { cwd: workingDirectory }, (err, stdout) => {
 			if (err) {
 				reject(err);
 			} else {
@@ -23,6 +28,7 @@ module.exports = async () => {
 	process.env.FILE_UPLOAD_PATH = __dirname;
 	process.env.LOGGER_LEVEL = 'error';
 
-	const schemaPath = path.resolve(__dirname, '../../../database/src/schema.prisma');
-	await run(`npx prisma migrate deploy --schema ${schemaPath}`);
+	const databasePath = path.resolve(__dirname, '../../../database');
+	await run(`npx prisma generate`, databasePath);
+	await run(`npx prisma migrate deploy`, databasePath);
 };

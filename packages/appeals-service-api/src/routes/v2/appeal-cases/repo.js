@@ -10,23 +10,23 @@ const ApiError = require('#errors/apiError');
 const sanitizePostcode = require('#lib/sanitize-postcode');
 
 /**
- * @typedef {import("@prisma/client").Appeal} Appeal
- * @typedef {import("@prisma/client").AppealToUser} AppealToUser
- * @typedef {import("@prisma/client").AppellantSubmission} AppellantSubmission
- * @typedef {import("@prisma/client").SubmissionLinkedCase} SubmissionLinkedCase
- * @typedef {import("@prisma/client").AppealCase} AppealCase
- * @typedef {import("@prisma/client").AppealCaseRelationship} AppealCaseRelationship
- * @typedef {import("@prisma/client").Prisma.AppealCaseCreateInput} AppealCaseCreateInput
- * @typedef {import('@prisma/client').Prisma.AppealCaseFindManyArgs} AppealCaseFindManyArgs
- * @typedef {import('@prisma/client').Prisma.AppealCaseWhereInput} AppealCaseWhereInput
- * @typedef {import('@prisma/client').Prisma.AppealCaseCountArgs} AppealCaseCountArgs
+ * @typedef {import('@pins/database/src/client').Appeal} Appeal
+ * @typedef {import('@pins/database/src/client').AppealToUser} AppealToUser
+ * @typedef {import('@pins/database/src/client').AppellantSubmission} AppellantSubmission
+ * @typedef {import('@pins/database/src/client').SubmissionLinkedCase} SubmissionLinkedCase
+ * @typedef {import('@pins/database/src/client').AppealCase} AppealCase
+ * @typedef {import('@pins/database/src/client').AppealCaseRelationship} AppealCaseRelationship
+ * @typedef {import('@pins/database/src/client').Prisma.AppealCaseCreateInput} AppealCaseCreateInput
+ * @typedef {import('@pins/database/src/client').Prisma.AppealCaseFindManyArgs} AppealCaseFindManyArgs
+ * @typedef {import('@pins/database/src/client').Prisma.AppealCaseWhereInput} AppealCaseWhereInput
+ * @typedef {import('@pins/database/src/client').Prisma.AppealCaseCountArgs} AppealCaseCountArgs
  * @typedef {(import('@planning-inspectorate/data-model/src/schemas').AppealHASCase['neighbouringSiteAddresses'])} NeighbouringSiteAddresses
  * @typedef {{childCaseReference: string, leadCaseReference: string}} LinkedCase
  */
 
 /**
  * get generic appeal data for dashboards
- * @type {import('@prisma/client').Prisma.AppealCaseSelect}
+ * @type {import('@pins/database/src/client').Prisma.AppealCaseSelect}
  */
 const dashboardSelect = {
 	id: true,
@@ -89,7 +89,7 @@ const dashboardSelect = {
 	interestedPartyRepsDueDate: true
 };
 
-/** @type {import('@prisma/client').Prisma.AppealCase$DocumentsArgs} */
+/** @type {import('@pins/database/src/client').Prisma.AppealCase$DocumentsArgs} */
 const DocumentsArgsPublishedOnly = {
 	where: {
 		publishedDocumentURI: { not: null }

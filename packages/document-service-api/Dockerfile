@@ -16,9 +16,7 @@ COPY packages/database /opt/packages/database
 
 # install from root
 WORKDIR /opt
-RUN npm ci --workspaces --if-present --omit=dev
-# generate prisma client
-WORKDIR /opt/packages/document-service-api
+RUN npm ci --workspaces --if-present --omit=dev --ignore-scripts
 RUN npm run db:generate
 
 # Stage 2/2: App Run

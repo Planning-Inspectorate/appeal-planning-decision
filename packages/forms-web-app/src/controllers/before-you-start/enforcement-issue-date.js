@@ -21,7 +21,7 @@ exports.getEnforcementIssueDate = (req, res) => {
 			year: String(issueDate?.getFullYear())
 		},
 		hint: {
-			enforcementIssueDate: `For example ${getExampleDate('past', 14)}`
+			enforcementIssueDate: `For example ${getExampleDate('past', 27)}`
 		}
 	});
 };

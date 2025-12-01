@@ -7,7 +7,7 @@ const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@prisma/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
  * @param {import('supertest').Agent} dependencies.appealsApi
  */
 module.exports = ({ getSqlClient, appealsApi }) => {

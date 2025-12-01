@@ -68,7 +68,7 @@ extends:
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
-              script: npm ci
+              script: npm ci --ignore-scripts
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
@@ -236,7 +236,7 @@ extends:
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
-              script: npm ci --omit=dev --workspace=integration-functions --workspace=@pins/common
+              script: npm ci --omit=dev --ignore-scripts --workspace=integration-functions --workspace=@pins/common
               workingDirectory: $(Build.Repository.LocalPath)
           - script: |
               source ~/.bashrc

@@ -8,9 +8,14 @@ const __dirname = path.dirname(__filename);
 import { create } from './external-dependencies/database/test-database.js';
 import { MockedExternalApis } from './external-dependencies/rest-apis/mocked-external-apis.js';
 
-function run(cmd) {
+/**
+ * @param {string} cmd
+ * @param {string} workingDirectory
+ * @returns {Promise<string>}
+ */
+function run(cmd, workingDirectory) {
 	return new Promise((resolve, reject) => {
-		exec(cmd, (err, stdout) => {
+		exec(cmd, { cwd: workingDirectory }, (err, stdout) => {
 			if (err) {
 				reject(err);
 			} else {
@@ -24,6 +29,7 @@ export default async () => {
 	await create();
 	await MockedExternalApis.setup();
 
-	const schemaPath = path.resolve(__dirname, '../../database/src/schema.prisma');
-	await run(`npx prisma migrate deploy --schema ${schemaPath}`);
+	const databasePath = path.resolve(__dirname, '../../database');
+	await run(`npx prisma generate`, databasePath);
+	await run(`npx prisma migrate deploy`, databasePath);
 };
