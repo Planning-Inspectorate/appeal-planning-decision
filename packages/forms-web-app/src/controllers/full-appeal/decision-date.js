@@ -8,25 +8,19 @@ const {
 		FULL_APPEAL: { DECISION_DATE: currentPage }
 	}
 } = require('../../lib/views');
-const config = require('../../config');
-const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 exports.getDecisionDate = async (req, res) => {
 	const { appeal } = req.session;
 
 	const appealDecisionDate = parseISO(appeal.decisionDate);
 	const decisionDate = isValid(appealDecisionDate) ? appealDecisionDate : null;
-	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	res.render(currentPage, {
 		decisionDate: decisionDate && {
 			day: `0${decisionDate?.getDate()}`.slice(-2),
 			month: `0${decisionDate?.getMonth() + 1}`.slice(-2),
 			year: String(decisionDate?.getFullYear())
-		},
-		bannerHtmlOverride:
-			config.betaBannerText +
-			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
+		}
 	});
 };
 
@@ -34,7 +28,6 @@ exports.postDecisionDate = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 	const { appeal } = req.session;
-	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(currentPage, {
@@ -44,10 +37,7 @@ exports.postDecisionDate = async (req, res) => {
 				year: body['decision-date-year']
 			},
 			errors,
-			errorSummary,
-			bannerHtmlOverride:
-				config.betaBannerText +
-				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
+			errorSummary
 		});
 	}
 
@@ -91,10 +81,7 @@ exports.postDecisionDate = async (req, res) => {
 		return res.render(currentPage, {
 			appeal,
 			errors,
-			errorSummary: [{ text: e.toString(), href: 'decision-date' }],
-			bannerHtmlOverride:
-				config.betaBannerText +
-				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
+			errorSummary: [{ text: e.toString(), href: 'decision-date' }]
 		});
 	}
 };
