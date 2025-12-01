@@ -51,11 +51,13 @@ describe('controllers/appeal/new-or-saved-appeal', () => {
 	});
 
 	it('Test post method redirects to correct page when user chose to start a new appeal', async () => {
+		req.session.loginRedirect = '/some/other/page';
 		req.body = {
 			'new-or-saved-appeal': 'save-new'
 		};
 		await post(req, res);
 
+		expect(req.session.loginRedirect).toBeUndefined();
 		expect(res.redirect).toHaveBeenCalledWith('/before-you-start');
 	});
 
