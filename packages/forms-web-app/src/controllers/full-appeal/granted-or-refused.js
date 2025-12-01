@@ -11,10 +11,8 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
 	validApplicationDecisionOptions
 } = require('../../validators/full-appeal/granted-or-refused');
-const config = require('../../config');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { FLAG } = require('@pins/common/src/feature-flags');
-const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 exports.forwardPage = (status) => {
 	const statuses = {
@@ -30,12 +28,8 @@ exports.forwardPage = (status) => {
 
 exports.getGrantedOrRefused = async (req, res) => {
 	const { appeal } = req.session;
-	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 	res.render(currentPage, {
-		appeal,
-		bannerHtmlOverride:
-			config.betaBannerText +
-			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
+		appeal
 	});
 };
 
@@ -58,16 +52,12 @@ exports.postGrantedOrRefused = async (req, res) => {
 	}
 
 	appeal.eligibility.applicationDecision = selectedApplicationStatus;
-	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	if (Object.keys(errors).length > 0) {
 		res.render(currentPage, {
 			appeal,
 			errors,
-			errorSummary,
-			bannerHtmlOverride:
-				config.betaBannerText +
-				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
+			errorSummary
 		});
 		return;
 	}
@@ -87,10 +77,7 @@ exports.postGrantedOrRefused = async (req, res) => {
 		res.render(currentPage, {
 			appeal,
 			errors,
-			errorSummary: [{ text: e.toString(), href: '#' }],
-			bannerHtmlOverride:
-				config.betaBannerText +
-				config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
+			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
 		return;
 	}
