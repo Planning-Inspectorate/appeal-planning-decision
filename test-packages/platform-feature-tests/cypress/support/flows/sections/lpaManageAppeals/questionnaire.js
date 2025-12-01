@@ -80,12 +80,19 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 			cy.get(basePage?._selectors.govukSummaryListRow).each(($row) => {
 				const $key = $row.find(basePage?._selectors.govukSummaryListKey);
 				if ($key.text().trim() === lpaManageAppealsData?.appealType) {
-					const expectedType = lpaManageAppealsData?.appealTypeFullPlanning;
-					// Use the correct expected value for listed building appeals
-					const expectedText = lpaAppealType === lpaManageAppealsData?.s20AppealType
-						? lpaManageAppealsData?.appealTypeListedBuilding
-						: expectedType;
-					cy.wrap($row).find(basePage?._selectors.govukSummaryListValue).should('contain.text', expectedText);
+					let expectedText;
+					if (lpaAppealType === lpaManageAppealsData?.s20AppealType) {
+						expectedText = lpaManageAppealsData?.appealTypeListedBuilding;
+					} else if (lpaAppealType === lpaManageAppealsData?.commercialadvAppealType) {
+						expectedText = lpaManageAppealsData?.appealTypeCommercialAdvert;
+					} else if (lpaAppealType === lpaManageAppealsData?.advertAppealType) {
+						expectedText = lpaManageAppealsData?.appealTypeAdvert;
+					} else {
+						expectedText = lpaManageAppealsData?.appealTypeFullPlanning;
+					}
+					cy.wrap($row)
+						.find(basePage?._selectors.govukSummaryListValue)
+						.should('contain.text', expectedText);
 					return false;
 				}
 			});
