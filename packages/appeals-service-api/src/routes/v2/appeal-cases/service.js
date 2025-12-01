@@ -335,10 +335,7 @@ const mapAdvertsDataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
 	...getAdvertsAppealFormFields(dataModel),
 	...getCASAdvertsLPAQFields(dataModel),
-	appellantProcedurePreference: dataModel.appellantProcedurePreference,
-	appellantProcedurePreferenceDetails: dataModel.appellantProcedurePreferenceDetails,
-	appellantProcedurePreferenceDuration: dataModel.appellantProcedurePreferenceDuration,
-	appellantProcedurePreferenceWitnessCount: dataModel.appellantProcedurePreferenceWitnessCount
+	...mapS78DataModelToAppealCase(caseProcessCode, dataModel)
 });
 
 /**
