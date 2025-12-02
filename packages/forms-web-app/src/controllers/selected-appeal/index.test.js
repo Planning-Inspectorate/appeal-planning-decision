@@ -1,4 +1,4 @@
-const { get } = require('./index');
+const { get, formatDateForNotification } = require('./index');
 const { determineUser } = require('../../lib/determine-user');
 const { getUserFromSession } = require('../../services/user.service');
 const { getDepartmentFromCode } = require('../../services/department.service');
@@ -115,5 +115,20 @@ describe('get', () => {
 				})
 			})
 		);
+	});
+});
+describe('formatDateForNotification', () => {
+	it('should return null if date is null or undefined', () => {
+		expect(formatDateForNotification(undefined)).toBeUndefined();
+	});
+
+	it('should format a valid date string correctly', () => {
+		const date = '2023-01-15T10:00:00Z';
+		expect(formatDateForNotification(date)).toBe('11:59pm on 15 January 2023');
+	});
+
+	it('should format a date with single digit day and month correctly', () => {
+		const date = '2023-03-05T00:00:00Z';
+		expect(formatDateForNotification(date)).toBe('11:59pm on 5 March 2023');
 	});
 });

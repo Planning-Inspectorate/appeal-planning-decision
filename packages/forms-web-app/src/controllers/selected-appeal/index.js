@@ -179,16 +179,18 @@ const filterDecisionDocuments = (documents) => {
 };
 
 /**
- *
  * @param {string | undefined} dateStr
  * @returns {string | undefined}
  */
 const formatDateForNotification = (dateStr) => {
 	if (!dateStr) return;
 	const date = new Date(dateStr);
+	date.setHours(23, 59, 59, 999);
 	return `${formatInTimeZone(date, targetTimezone, 'h:mmaaa')} on ${formatInTimeZone(
 		date,
 		targetTimezone,
 		'd LLLL yyyy'
-	)}`; // eg 11:59pm on 21 March 2024
+	)}`;
 };
+
+exports.formatDateForNotification = formatDateForNotification;
