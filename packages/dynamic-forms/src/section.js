@@ -29,7 +29,7 @@ class Section {
 	#conditionAdded = false;
 
 	/**
-	 * @type {any}} - variables within the section
+	 * @type {any} - variables within the section
 	 */
 	sectionVariables;
 

@@ -31,6 +31,8 @@ class MultiFileUploadQuestion extends Question {
 	 * @param {string} [params.actionHiddenText] // text to be used for visually hidden text - primarily to avoid repetition of Upload with action
 	 * @param {Array<import('../../question').BaseValidator>} [params.validators]
 	 *
+	 * @param {JourneyResponse} [response]
+	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
 	constructor(
@@ -47,6 +49,7 @@ class MultiFileUploadQuestion extends Question {
 			actionHiddenText,
 			showSkipLink
 		},
+		response,
 		methodOverrides
 	) {
 		super(
@@ -62,6 +65,7 @@ class MultiFileUploadQuestion extends Question {
 				html,
 				showSkipLink
 			},
+			response,
 			methodOverrides
 		);
 

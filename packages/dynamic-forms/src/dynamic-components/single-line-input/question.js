@@ -31,12 +31,17 @@ class SingleLineInputQuestion extends Question {
 	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {Record<string, string>} [params.inputAttributes] html attributes to add to the input
+	 *
+	 * @param {JourneyResponse} [response]
 	 */
-	constructor(params) {
-		super({
-			...params,
-			viewFolder: 'single-line-input'
-		});
+	constructor(params, response) {
+		super(
+			{
+				...params,
+				viewFolder: 'single-line-input'
+			},
+			response
+		);
 
 		this.label = params.label;
 		this.inputAttributes = params.inputAttributes || {};

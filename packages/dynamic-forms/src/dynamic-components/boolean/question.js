@@ -1,5 +1,9 @@
 const RadioQuestion = require('../radio/question');
 
+/**
+ * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
+ */
+
 class BooleanQuestion extends RadioQuestion {
 	/**
 	 * @param {Object} params
@@ -15,6 +19,8 @@ class BooleanQuestion extends RadioQuestion {
 	 * @param {Array<string>} [params.variables]
 	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 *
+	 * @param {JourneyResponse} [response]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
@@ -33,6 +39,7 @@ class BooleanQuestion extends RadioQuestion {
 			options,
 			variables
 		},
+		response,
 		methodOverrides
 	) {
 		let defaultOptions = options || [
@@ -67,6 +74,7 @@ class BooleanQuestion extends RadioQuestion {
 				html,
 				variables
 			},
+			response,
 			methodOverrides
 		);
 

@@ -16,15 +16,20 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 	 * @param {string} params.fieldName
 	 * @param {string} params.viewFolder
 	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
+	 *
+	 * @param {JourneyResponse} [response]
 	 */
-	constructor({ title, question, fieldName, viewFolder, validators }) {
-		super({
-			title: title,
-			viewFolder: viewFolder,
-			fieldName: fieldName,
-			question: question,
-			validators: validators
-		});
+	constructor({ title, question, fieldName, viewFolder, validators }, response) {
+		super(
+			{
+				title: title,
+				viewFolder: viewFolder,
+				fieldName: fieldName,
+				question: question,
+				validators: validators
+			},
+			response
+		);
 	}
 
 	/**

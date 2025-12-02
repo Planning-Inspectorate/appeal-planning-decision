@@ -19,7 +19,6 @@ const SiteAddressQuestion = require('@pins/dynamic-forms/src/dynamic-components/
 const UnitOptionEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/unit-option-entry/question');
 const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
 const ContentQuestion = require('@pins/dynamic-forms/src/dynamic-components/content/question');
-const DynamicRadioQuestion = require('@pins/dynamic-forms/src/dynamic-components/dynamic-radio/question');
 
 // validators
 const RequiredValidator = require('@pins/dynamic-forms/src/validator/required-validator');
@@ -84,8 +83,11 @@ const siteAddressOverrides = require('../journeys/question-overrides/site-addres
 const multiFieldInputOverrides = require('../journeys/question-overrides/multi-field-input');
 const formatNumber = require('@pins/dynamic-forms/src/dynamic-components/utils/format-number');
 
-/** @typedef {import('@pins/dynamic-forms/src/question-props').QuestionProps} QuestionProps */
-/** @typedef {import('@pins/dynamic-forms/src/question')} Question */
+/**
+ * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('@pins/dynamic-forms/src/question-props').QuestionProps} QuestionProps
+ * @typedef {import('@pins/dynamic-forms/src/question')} Question
+ */
 
 const { getExampleDate } = require('./questions-utils');
 
@@ -2893,7 +2895,7 @@ exports.questionProps = {
 		title: 'Add named individuals',
 		pageTitle: 'Enforcement named individual added',
 		question: 'Do you need to add another individual?',
-		fieldName: 'appellantLinkedCaseAdd',
+		fieldName: 'addNamedIndividuals',
 		url: 'add-individuals',
 		subQuestionLabel: 'Appellant',
 		subQuestionTitle: 'Appellant',
@@ -2931,15 +2933,6 @@ exports.questionProps = {
 				})
 			]
 		}
-	},
-	enforcementSelectYourName: {
-		type: 'dynamic-radio',
-		title: 'Select your name',
-		question: 'Select your name',
-		fieldName: 'isAppellant',
-		url: 'select-name',
-		dynamicOptionsVariable: QUESTION_VARIABLES.ENFORCEMENT_SELECT_NAME,
-		validators: [new RequiredValidator('Select your name')]
 	},
 	enforcementInspectorAccess: {
 		type: 'radio',
@@ -3237,12 +3230,12 @@ const questionClasses = {
 	'site-address': SiteAddressQuestion,
 	'unit-option': UnitOptionEntryQuestion,
 	'list-add-more': ListAddMoreQuestion,
-	content: ContentQuestion,
-	'dynamic-radio': DynamicRadioQuestion
+	content: ContentQuestion
 };
 
-exports.getQuestions = () =>
-	createQuestions(exports.questionProps, questionClasses, {
+/** @param {JourneyResponse} response */
+exports.getQuestions = (response = {}) =>
+	createQuestions(response, exports.questionProps, questionClasses, {
 		'multi-file-upload': multiFileUploadOverrides,
 		'site-address': siteAddressOverrides,
 		'multi-field-input': multiFieldInputOverrides

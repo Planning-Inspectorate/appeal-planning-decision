@@ -43,6 +43,8 @@ class MultiFieldInputQuestion extends Question {
 	 * @param {InputField[]} [params.inputFields] input fields
 	 * @param {'gridReference' | 'standard' | null} [params.formatType] optional type field used for formatting for task list
 	 *
+	 * @param {JourneyResponse} [response]
+	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
 	constructor(
@@ -60,19 +62,23 @@ class MultiFieldInputQuestion extends Question {
 			inputFields,
 			formatType
 		},
+		response,
 		methodOverrides
 	) {
-		super({
-			title,
-			viewFolder: 'multi-field-input',
-			fieldName,
-			description,
-			url,
-			question,
-			validators,
-			hint,
-			html
-		});
+		super(
+			{
+				title,
+				viewFolder: 'multi-field-input',
+				fieldName,
+				description,
+				url,
+				question,
+				validators,
+				hint,
+				html
+			},
+			response
+		);
 		this.label = label;
 		this.inputAttributes = inputAttributes;
 		this.formatType = formatType;

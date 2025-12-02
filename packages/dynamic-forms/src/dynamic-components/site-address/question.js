@@ -35,10 +35,13 @@ class SiteAddressQuestion extends Question {
 	 * @param {string} [params.html]
 	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
 	 *
+	 * @param {JourneyResponse} [response]
+	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
 	constructor(
 		{ title, question, fieldName, viewFolder, validators, url, hint, html },
+		response,
 		methodOverrides
 	) {
 		super(
@@ -51,6 +54,7 @@ class SiteAddressQuestion extends Question {
 				hint: hint,
 				html: html
 			},
+			response,
 			methodOverrides
 		);
 

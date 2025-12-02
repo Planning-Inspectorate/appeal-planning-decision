@@ -21,17 +21,22 @@ class DateQuestion extends Question {
 	 * @param {string} [params.hint]
 	 * @param {string} [params.url]
 	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
+	 *
+	 * @param {JourneyResponse} [response]
 	 */
-	constructor({ title, question, fieldName, validators, hint, url }) {
-		super({
-			title,
-			viewFolder: 'date',
-			fieldName,
-			question,
-			validators,
-			hint,
-			url
-		});
+	constructor({ title, question, fieldName, validators, hint, url }, response) {
+		super(
+			{
+				title,
+				viewFolder: 'date',
+				fieldName,
+				question,
+				validators,
+				hint,
+				url
+			},
+			response
+		);
 	}
 
 	/**

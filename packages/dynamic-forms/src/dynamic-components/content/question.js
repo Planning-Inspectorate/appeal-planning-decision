@@ -22,18 +22,26 @@ class ContentQuestion extends Question {
 	 * @param {string} [params.html]
 	 * @param {string} [params.backLinkText]
 	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
+	 *
+	 * @param {JourneyResponse} [response]
 	 */
-	constructor({ title, question, fieldName, url, label, description, html, backLinkText }) {
-		super({
-			title,
-			viewFolder: 'content',
-			fieldName,
-			url,
-			html,
-			question,
-			description,
-			backLinkText
-		});
+	constructor(
+		{ title, question, fieldName, url, label, description, html, backLinkText },
+		response
+	) {
+		super(
+			{
+				title,
+				viewFolder: 'content',
+				fieldName,
+				url,
+				html,
+				question,
+				description,
+				backLinkText
+			},
+			response
+		);
 
 		this.label = label;
 	}

@@ -17,17 +17,22 @@ class CaseAddMoreQuestion extends AddMoreQuestion {
 	 * @param {string} [params.hint]
 	 * @param {string} [params.html]
 	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
+	 *
+	 * @param {JourneyResponse} [response]
 	 */
-	constructor({ title, question, fieldName, viewFolder, hint, html, validators }) {
-		super({
-			title,
-			viewFolder,
-			fieldName,
-			question,
-			hint,
-			html,
-			validators
-		});
+	constructor({ title, question, fieldName, viewFolder, hint, html, validators }, response) {
+		super(
+			{
+				title,
+				viewFolder,
+				fieldName,
+				question,
+				hint,
+				html,
+				validators
+			},
+			response
+		);
 	}
 
 	/**

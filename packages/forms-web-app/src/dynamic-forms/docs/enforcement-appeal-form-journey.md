@@ -36,17 +36,6 @@ condition: () =>
 	);
 ```
 
-- radio `/select-name/` Select your name
-
-```js
-condition: () =>
-	questionHasAnswer(
-		response,
-		questions.enforcementWhoIsAppealing,
-		fieldValues.enforcementWhoIsAppealing.GROUP
-	);
-```
-
 - single-line-input `/organisation-name/` What is the name of the organisation?
 
 ```js
@@ -61,7 +50,7 @@ condition: () =>
 - multi-field-input `/contact-details/` Contact details
 
 ```js
-condition: () => response.answers['isAppellant'] !== 'yes';
+condition: () => !questionHasAnswer(response, questions.enforcementAreYouIndividual, 'yes');
 ```
 
 - single-line-input `/phone-number/` What is your phone number?

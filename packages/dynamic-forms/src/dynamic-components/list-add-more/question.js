@@ -42,41 +42,49 @@ class ListAddMoreQuestion extends Question {
 	 * @param {string} [params.url]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
-	 * @param {import('src/dynamic-forms/question-props').SubQuestionProps} [params.subQuestionProps]
+	 * @param {import('../../question-props').SubQuestionProps} [params.subQuestionProps]
 	 * @param {string} [params.subQuestionLabel]
 	 * @param {string} [params.subQuestionTitle] the text used as the key for display on task list
 	 * @param {string} [params.subQuestionFieldLabel]
 	 * @param {string} [params.subQuestionInputClasses]
 	 * @param {string} [params.width]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 *
+	 * @param {JourneyResponse} [response]
 	 */
-	constructor({
-		title,
-		question,
-		fieldName,
-		url,
-		pageTitle,
-		description,
-		subQuestionProps,
-		subQuestionLabel,
-		subQuestionTitle,
-		subQuestionFieldLabel,
-		subQuestionInputClasses,
-		validators,
-		width
-	}) {
-		if (!subQuestionProps) throw new Error('subQuestionProps are required');
-
-		super({
+	constructor(
+		{
 			title,
 			question,
-			viewFolder: 'list-add-more',
 			fieldName,
 			url,
 			pageTitle,
 			description,
-			validators
-		});
+			subQuestionProps,
+			subQuestionLabel,
+			subQuestionTitle,
+			subQuestionFieldLabel,
+			subQuestionInputClasses,
+			validators,
+			width
+		},
+		response
+	) {
+		if (!subQuestionProps) throw new Error('subQuestionProps are required');
+
+		super(
+			{
+				title,
+				question,
+				viewFolder: 'list-add-more',
+				fieldName,
+				url,
+				pageTitle,
+				description,
+				validators
+			},
+			response
+		);
 
 		this.subQuestion = new subQuestions[subQuestionProps.type](subQuestionProps);
 		this.subQuestionLabel = subQuestionLabel ?? 'Answer';

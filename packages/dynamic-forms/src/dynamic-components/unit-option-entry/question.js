@@ -32,6 +32,8 @@ class UnitOptionEntryQuestion extends Question {
 	 * @param {Array.<UnitOption>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 *
+	 * @param {JourneyResponse} [response]
+	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */ constructor(
 		{
@@ -49,6 +51,7 @@ class UnitOptionEntryQuestion extends Question {
 			options,
 			validators
 		},
+		response,
 		methodOverrides
 	) {
 		super(
@@ -63,6 +66,7 @@ class UnitOptionEntryQuestion extends Question {
 				description,
 				validators
 			},
+			response,
 			methodOverrides
 		);
 

@@ -62,7 +62,7 @@ describe('multi-file-upload', () => {
 		const overrides = {
 			'multi-file-upload': multiFileUploadOverrides
 		};
-		const questions = createQuestions(questionProps, questionClasses, overrides);
+		const questions = createQuestions({}, questionProps, questionClasses, overrides);
 		questionInstance = questions.test;
 		questionInstance.handleNextQuestion = jest.fn();
 		questionInstance.renderAction = jest.fn();

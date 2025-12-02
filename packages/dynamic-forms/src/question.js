@@ -74,6 +74,8 @@ class Question {
 	variables;
 	/** @type {string|undefined} optional back link text */
 	backLinkText;
+	/** @type {JourneyResponse|undefined} */
+	response;
 
 	details = {
 		title: '',
@@ -98,7 +100,10 @@ class Question {
 	 * @param {Array.<QuestionVariables>} [params.variables]
 	 * @param {string} [params.backLinkText]
 	 *
+	 * @param {JourneyResponse} [response]
+	 *
 	 * @param {Record<string, Function>} [methodOverrides]
+	 *
 	 */
 	constructor(
 		{
@@ -118,6 +123,7 @@ class Question {
 			showSkipLink,
 			backLinkText
 		},
+		response,
 		methodOverrides
 	) {
 		if (!title || title === '') throw new Error('title parameter is mandatory');
@@ -150,6 +156,8 @@ class Question {
 			// @ts-ignore
 			this[methodName] = methodOverride.bind(this);
 		});
+
+		this.response = response;
 	}
 
 	/**
@@ -165,9 +173,6 @@ class Question {
 	prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
 		const answer = journey.response.answers[this.fieldName] || '';
 		const backLink = journey.getBackLink(section.segment, this.fieldName, sessionBackLink);
-
-		console.log('bookbook');
-		console.log(journey.response.answers);
 
 		// gets url for next qs
 		let nextQuestionUrl = journey.getNextQuestionUrl(

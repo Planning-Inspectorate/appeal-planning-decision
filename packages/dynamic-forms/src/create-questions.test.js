@@ -2,17 +2,24 @@ const { createQuestions } = require('./create-questions');
 
 describe('createQuestions', () => {
 	class CheckboxQ {
-		constructor(props, overrides) {
-			this.constructorArgs = { props, overrides };
+		constructor(props, response, overrides) {
+			this.constructorArgs = { props, response, overrides };
 		}
 	}
 	class RadioQ {
-		constructor(props, overrides) {
-			this.constructorArgs = { props, overrides };
+		constructor(props, response, overrides) {
+			this.constructorArgs = { props, response, overrides };
 		}
 	}
 
 	const questionClasses = { checkbox: CheckboxQ, radio: RadioQ };
+
+	const response = {
+		referenceId: '123',
+		journeyId: '123',
+		answers: {},
+		LPACode: 'Q1111'
+	};
 
 	it('creates an instance per entry keyed by question name', () => {
 		const propsRecord = {
@@ -41,16 +48,17 @@ describe('createQuestions', () => {
 				options: []
 			}
 		};
+
 		const overrides = { checkbox: {}, radio: {} };
 
-		const result = createQuestions(propsRecord, questionClasses, overrides);
+		const result = createQuestions(response, propsRecord, questionClasses, overrides);
 
 		expect(result.question1).toBeInstanceOf(CheckboxQ);
 		expect(result.question2).toBeInstanceOf(CheckboxQ);
 		expect(result.question3).toBeInstanceOf(RadioQ);
 	});
 
-	it('passes method overrides as second constructor arg', () => {
+	it('passes response as second constructor arg', () => {
 		const overrides = { checkbox: { custom: () => 'test' } };
 		const propsRecord = {
 			q1: {
@@ -63,7 +71,25 @@ describe('createQuestions', () => {
 			}
 		};
 
-		const { q1 } = createQuestions(propsRecord, questionClasses, overrides);
+		const { q1 } = createQuestions(response, propsRecord, questionClasses, overrides);
+
+		expect(q1.constructorArgs.response).toBe(response);
+	});
+
+	it('passes method overrides as third constructor arg', () => {
+		const overrides = { checkbox: { custom: () => 'test' } };
+		const propsRecord = {
+			q1: {
+				type: 'checkbox',
+				title: 'title',
+				question: 'question',
+				fieldName: 'field',
+				viewFolder: 'vf',
+				options: []
+			}
+		};
+
+		const { q1 } = createQuestions(response, propsRecord, questionClasses, overrides);
 
 		expect(q1.constructorArgs.overrides).toBe(overrides.checkbox);
 	});
@@ -72,6 +98,6 @@ describe('createQuestions', () => {
 		const propsRecord = {
 			broken: { type: 'boolean', title: 't', question: 'q', fieldName: 'f', viewFolder: 'vf' }
 		};
-		expect(() => createQuestions(propsRecord, questionClasses, {})).toThrow();
+		expect(() => createQuestions(response, propsRecord, questionClasses, {})).toThrow();
 	});
 });

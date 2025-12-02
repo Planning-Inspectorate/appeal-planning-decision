@@ -3,6 +3,7 @@ const { OptionsQuestion } = require('../../options-question');
 const defaultOptionJoinString = ',';
 
 /**
+ * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../journey').Journey} Journey
  */
 
@@ -25,10 +26,13 @@ class CheckboxQuestion extends OptionsQuestion {
 	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 *
+	 * @param {JourneyResponse} [response]
+	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
 	constructor(
 		{ title, question, fieldName, url, pageTitle, description, options, validators },
+		response,
 		methodOverrides
 	) {
 		super(
@@ -43,6 +47,7 @@ class CheckboxQuestion extends OptionsQuestion {
 				options,
 				validators
 			},
+			response,
 			methodOverrides
 		);
 

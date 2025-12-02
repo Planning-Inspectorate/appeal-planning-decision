@@ -3,6 +3,7 @@ const { getPersistedNumberAnswer } = require('../utils/persisted-number-answer')
 
 /**
  * @typedef {import('../../journey').Journey} Journey
+ * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
 
  * @typedef {QuestionViewModel & { answer?: string | number, question: QuestionViewModel['question'] & { label?: string, suffix?: string } }} NumberViewModel
@@ -20,18 +21,26 @@ class NumberEntryQuestion extends Question {
 	 * @param {string} [params.suffix]
 	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 *
+	 * @param {JourneyResponse} [response]
 	 */
-	constructor({ title, question, fieldName, url, hint, label, html, validators, suffix }) {
-		super({
-			title,
-			question,
-			viewFolder: 'number-entry',
-			fieldName,
-			url,
-			hint,
-			validators,
-			html
-		});
+	constructor(
+		{ title, question, fieldName, url, hint, label, html, validators, suffix },
+		response
+	) {
+		super(
+			{
+				title,
+				question,
+				viewFolder: 'number-entry',
+				fieldName,
+				url,
+				hint,
+				validators,
+				html
+			},
+			response
+		);
 
 		this.suffix = suffix;
 		this.label = label;

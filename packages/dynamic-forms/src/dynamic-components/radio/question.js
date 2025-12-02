@@ -1,6 +1,7 @@
 const { OptionsQuestion } = require('../../options-question');
 
 /**
+ * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../options-question').OptionsViewModel} OptionsViewModel
  * @typedef {OptionsViewModel & { question: OptionsViewModel['question'] & { label?: string, legend?: string } }} RadioViewModel
  */
@@ -23,6 +24,8 @@ class RadioQuestion extends OptionsQuestion {
 	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 *
+	 * @param {JourneyResponse} [response]
+	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
 	constructor(
@@ -42,6 +45,7 @@ class RadioQuestion extends OptionsQuestion {
 			legend,
 			variables
 		},
+		response,
 		methodOverrides
 	) {
 		super(
@@ -58,6 +62,7 @@ class RadioQuestion extends OptionsQuestion {
 				validators,
 				variables
 			},
+			response,
 			methodOverrides
 		);
 

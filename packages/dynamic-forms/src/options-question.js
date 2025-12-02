@@ -40,6 +40,8 @@ class OptionsQuestion extends Question {
 	 * @param {Array<string>} [params.variables]
 	 * @param {Array<import('./question').BaseValidator>} [params.validators]
 	 *
+	 * @param {JourneyResponse} [response]
+	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
 	constructor(
@@ -56,6 +58,7 @@ class OptionsQuestion extends Question {
 			validators,
 			variables
 		},
+		response,
 		methodOverrides
 	) {
 		// add default valid options validator to all options questions
@@ -77,6 +80,7 @@ class OptionsQuestion extends Question {
 				validators: optionsValidators,
 				variables
 			},
+			response,
 			methodOverrides
 		);
 		this.hint = hint;
