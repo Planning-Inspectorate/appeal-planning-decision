@@ -14,7 +14,7 @@ export const uploadFilesWithWrongFormats = (context) => {
     cy.uploadFileFromFixtureDirectory(context?.documents?.uploadWrongFormatFile);
     cy.uploadFileFromFixtureDirectory(context?.documents?.uploadWrongFormatFile);
     cy.advanceToNextPage();
-    cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${context?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
+    cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${context?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
 }
 
 export const uploadDuplicateFiles = (context) => {
@@ -22,7 +22,7 @@ export const uploadDuplicateFiles = (context) => {
      expectedFileNames.forEach((fileName) => {
         cy.uploadFileFromFixtureDirectory(fileName);
     })
-     cy.get('.govuk-summary-list moj-multi-file-upload__list').should('have.length', 1);
-    cy.advanceToNextPage();
+     cy.get('.govuk-summary-list moj-multi-file-upload__list').should('have.length', 1);                
+    cy.advanceToNextPage();    
 }
 

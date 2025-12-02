@@ -142,7 +142,7 @@ describe('LPA Full Planning Final comment validations', { tags: '@S78-LPA-Final-
                 cy.advanceToNextPage();
                 cy.uploadFileFromFixtureDirectory(finalCommentTestCases[0]?.documents?.uploadWrongFormatFile);
                 cy.advanceToNextPage();
-                cy.shouldHaveErrorMessage('a[href*="#uploadLPAFinalCommentDocuments"]', `${finalCommentTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
+                cy.shouldHaveErrorMessage('a[href*="#uploadLPAFinalCommentDocuments"]', `${finalCommentTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
         });
 
         it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {

@@ -35,9 +35,7 @@ describe('validators/common/schemas/multifile-upload-schema', () => {
 			try {
 				await fn({ mimetype: 'not/valid', name: 'pingu.penguin' });
 			} catch (err) {
-				expect(err.message).toEqual(
-					'pingu.penguin must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX'
-				);
+				expect(err.message).toEqual('pingu.penguin must be a DOC, DOCX, PDF, TIF, JPG or PNG');
 			}
 		});
 

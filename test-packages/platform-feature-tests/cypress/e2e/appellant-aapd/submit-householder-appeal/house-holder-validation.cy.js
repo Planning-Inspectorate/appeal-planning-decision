@@ -27,7 +27,7 @@ describe('House Holder Date Validations',{ tags:'@HAS-validation-1' }, () => {
     before(() => {
 		cy.login(users.appeals.authUser);
 	});
-    beforeEach(() => {
+    beforeEach(() => {       
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         })
@@ -115,9 +115,9 @@ describe('House Holder Date Validations',{ tags:'@HAS-validation-1' }, () => {
 
 describe('House Holder Validations for enforcement',{ tags:'@HAS-validation-2' },() => {
     const prepareAppealSelector = new PrepareAppealSelector();
-    const basePage = new BasePage();
+    const basePage = new BasePage();   
 
-    let prepareAppealData;
+    let prepareAppealData;   
     before(() => {
 		cy.login(users.appeals.authUser);
 	});
@@ -208,7 +208,7 @@ describe('House Holder Validations',{ tags:'@HAS-validation-3' }, () => {
         cy.advanceToNextPage();
     })
 
-    it(`Validate emails address with correct email format`, () => {
+    it(`Validate emails address with correct email format`, () => {        
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type('abcdtestemail');
         cy.advanceToNextPage();
 
@@ -352,7 +352,7 @@ describe('Returns to pre appeals validations',{ tags:'@HAS-validation-4' }, () =
         })
     })
 
-    it(`Validate Save and come back later for return to appeal `, () => {
+    it(`Validate Save and come back later for return to appeal `, () => {   
         cy.containsMessage('.govuk-link--no-visited-state', 'Save and come back later');
         cy.get('.govuk-link--no-visited-state').click();
         cy.containsMessage('.govuk-heading-l', 'Your appeals');
@@ -388,7 +388,7 @@ describe('Returns to pre appeals validations',{ tags:'@HAS-validation-4' }, () =
         cy.get('a[href*="upload-documents"]').first().click();
         cy.uploadFileFromFixtureDirectory(context?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="uploadOriginal"]', `${context?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
+        cy.shouldHaveErrorMessage('a[href*="uploadOriginal"]', `${context?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
     });
 
     it(`Validate user should be allowed to remove uploaded files`, () => {
