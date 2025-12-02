@@ -2895,7 +2895,7 @@ exports.questionProps = {
 		title: 'Add named individuals',
 		pageTitle: 'Enforcement named individual added',
 		question: 'Do you need to add another individual?',
-		fieldName: 'addNamedIndividuals',
+		fieldName: 'appellantLinkedCaseAdd',
 		url: 'add-individuals',
 		subQuestionLabel: 'Appellant',
 		subQuestionTitle: 'Appellant',

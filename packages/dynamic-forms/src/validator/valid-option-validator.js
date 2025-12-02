@@ -38,10 +38,6 @@ class ValidOptionValidator extends BaseValidator {
 	validate(question, _journeyResponse) {
 		return body(question.fieldName)
 			.custom((value) => {
-				console.log('radiohead');
-				console.log(value);
-				console.log(question.options);
-
 				if (!value) return true;
 				value = Array.isArray(value) ? value : [value];
 				return value.every((/** @type {string} */ element) => {
