@@ -21,7 +21,6 @@ const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-
  */
 
 const escape = require('escape-html');
-
 /**
  * @param {JourneyResponse} response
  * @returns {string}
@@ -32,6 +31,56 @@ const formatEnforcementIndividualName = (response) => {
 	const lastName = response.answers['appellantLastName'] || 'Individual';
 
 	return escape(`${firstName} ${lastName}`);
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {string}
+ */
+const formatGroupOfIndividuals = (response) => {
+	const baseIndividuals = response.answers['SubmissionIndividual'] || [];
+
+	const individuals = Array.isArray(baseIndividuals) ? baseIndividuals : [baseIndividuals];
+
+	if (!individuals.length) {
+		return 'Named Individual';
+	}
+
+	const finalNamedIndividual = individuals.pop();
+
+	/**
+	 * @param {import('appeals-service-api').Api.SubmissionIndividual} individual
+	 * @return {string}
+	 */
+	const formatIndividual = (individual) => {
+		const firstName = individual.firstName || 'Named';
+		const lastName = individual.lastName || 'Individual';
+		return escape(`${firstName} ${lastName}`);
+	};
+
+	const formattedStringPartOne = individuals.map(formatIndividual).join(', ');
+
+	return [formattedStringPartOne, formatIndividual(finalNamedIndividual)].join(' and ');
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {string}
+ */
+const formatDynamicNames = (response) => {
+	const party = response.answers['enforcementWhoIsAppealing'];
+
+	if (!party) return 'Named Individual';
+
+	switch (party) {
+		case fieldValues.enforcementWhoIsAppealing.ORGANISATION:
+			/** @ts-ignore */
+			return response.answers['enforcementOrganisationName'] || 'Named Company';
+		case fieldValues.enforcementWhoIsAppealing.GROUP:
+			return formatGroupOfIndividuals(response);
+		default:
+			return formatEnforcementIndividualName(response);
+	}
 };
 
 /**
@@ -92,6 +141,13 @@ const makeSections = (response) => {
 				() => !questionHasAnswer(response, questions.enforcementAreYouIndividual, 'yes')
 			)
 			.addQuestion(questions.contactPhoneNumber)
+			.addQuestion(questions.completeOnBehalfOf)
+			.withCondition(() =>
+				questionHasNonEmptyStringAnswer(response, questions.enforcementWhoIsAppealing)
+			)
+			.withVariables({
+				[QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES]: formatDynamicNames(response)
+			})
 			// consider whether to make dynamic to generate hint...
 			.addQuestion(questions.appealSiteAddress)
 			.addQuestion(questions.appealSiteIsContactAddress)

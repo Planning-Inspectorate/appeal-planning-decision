@@ -2329,7 +2329,6 @@ exports.getQuestionProps = (response) => ({
 		]
 	},
 	appellantContinue: {
-		// @ts-ignore
 		type: 'content',
 		title: 'Submit final comments',
 		html: 'resources/appellant-final-comment-notice/appellant-final-comment-notice.html',
@@ -2339,7 +2338,6 @@ exports.getQuestionProps = (response) => ({
 		fieldName: 'statementContinue'
 	},
 	lpaContinue: {
-		// @ts-ignore
 		type: 'content',
 		title: 'Submit your final comments',
 		label: 'You can upload any supporting documents after you add your final comments.',
@@ -2350,7 +2348,6 @@ exports.getQuestionProps = (response) => ({
 		fieldName: 'statementContinue'
 	},
 	statementContinue: {
-		// @ts-ignore
 		type: 'content',
 		title: 'Submit an appeal statement',
 		description: 'You can upload any supporting documents after you add your appeal statement.',
@@ -2946,6 +2943,16 @@ exports.getQuestionProps = (response) => ({
 		url: 'select-name',
 		validators: [new RequiredValidator('Select your name')],
 		options: formatEnforcementSelectNamesOptions(response)
+	},
+	completeOnBehalfOf: {
+		type: 'content',
+		title: `Complete the appeal on behalf of ${QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES}`,
+		html: 'resources/enforcement/complete-on-behalf-of.html',
+		description: `You must answer these questions on behalf of ${QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES}.`,
+		question: `Complete the appeal on behalf of ${QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES}`,
+		url: 'complete-appeal',
+		fieldName: 'confirmedCompleteOnBehalf',
+		variables: [QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES]
 	},
 	enforcementInspectorAccess: {
 		type: 'radio',

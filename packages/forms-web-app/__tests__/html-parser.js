@@ -17,7 +17,9 @@ module.exports.parseHtml = (
 	const parsedHtml = parse(html, options).removeWhitespace();
 	const root = parsedHtml.querySelector(rootElement);
 
-	if (!root) throw new Error(`Root element "${rootElement}" not found in HTML.`);
+	if (!root) {
+		throw new Error(`Root element "${rootElement}" not found in HTML. ${parsedHtml}`);
+	}
 
 	// removes unique references where applicable
 	if (stripSecurityStrings) {
