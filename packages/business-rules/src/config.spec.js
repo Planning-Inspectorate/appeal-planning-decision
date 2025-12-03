@@ -26,7 +26,7 @@ describe('config', () => {
 			variables: {
 				name: householderAppeal.aboutYouSection.yourDetails.name,
 				'appeal site address': formatAddress(householderAppeal.appealSiteSection.siteAddress),
-				'local planning department': lpa.name,
+				'local planning authority': lpa.name,
 				'pdf copy URL': `${process.env.APP_APPEALS_BASE_URL}/document/${householderAppeal.id}/${householderAppeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
 			},
 			reference: householderAppeal.id
@@ -59,7 +59,7 @@ describe('config', () => {
 			variables: {
 				name: fullAppeal.contactDetailsSection.contact.name,
 				'appeal site address': formatAddress(fullAppeal.appealSiteSection.siteAddress),
-				'local planning department': lpa.name,
+				'local planning authority': lpa.name,
 				'link to pdf': `${process.env.APP_APPEALS_BASE_URL}/document/${fullAppeal.id}/${fullAppeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
 			},
 			reference: fullAppeal.id

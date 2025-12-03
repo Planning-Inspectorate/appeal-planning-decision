@@ -13,11 +13,9 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 	// Visit the "Before You Start" page
 	cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 	cy.advanceToNextPage();
-	// Select the local planning department
-	cy.get(basePage?._selectors?.localPlanningDepartment)
-		.type(prepareAppealSelector?._selectors?.systemTest2BoroughCouncil)
-		.get(basePage?._selectors?.localPlanningDepartmentOptionZero)
-		.click();
+	// Select the local planning authority
+	cy.get(basePage?._selectors?.localPlanningDepartment).type(prepareAppealSelector?._selectors?.systemTest2BoroughCouncil);
+	cy.get(basePage?._selectors?.localPlanningDepartmentOptionZero).click();
 	cy.advanceToNextPage();
 	// Select the enforcement notice as 'No'
 	cy.getByData(basePage?._selectors.answerNo).click();
