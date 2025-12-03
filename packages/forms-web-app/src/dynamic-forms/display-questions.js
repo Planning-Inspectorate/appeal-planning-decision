@@ -6,11 +6,12 @@ const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('@pins/dynamic-forms/src/question')} Question
  */
 
 /**
  * @param {JourneyResponse} response
- * @param {import('./questions').questionProps} questions
+ * @param {Record<string, Question>} questions
  * @returns {boolean}
  */
 exports.shouldDisplayIdentifyingLandowners = (response, questions) => {
@@ -31,7 +32,7 @@ exports.shouldDisplayIdentifyingLandowners = (response, questions) => {
 
 /**
  * @param {JourneyResponse} response
- * @param {import('./questions').questionProps} questions
+ * @param {Record<string, Question>} questions
  * @returns {boolean}
  */
 exports.shouldDisplayTellingLandowners = (response, questions) => {
@@ -62,7 +63,7 @@ exports.shouldDisplayTellingLandowners = (response, questions) => {
 
 /**
  * @param {JourneyResponse} response
- * @param {import('./questions').questionProps} questions
+ * @param {Record<string, Question>} questions
  * @returns {boolean}
  */
 exports.shouldDisplayTellingTenants = (response, questions) => {

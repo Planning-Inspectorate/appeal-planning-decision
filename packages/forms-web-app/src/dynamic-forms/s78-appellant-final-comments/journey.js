@@ -1,5 +1,4 @@
 const { getQuestions } = require('../questions');
-const questions = getQuestions();
 const { Section } = require('@pins/dynamic-forms/src/section');
 const config = require('../../config');
 const {
@@ -21,19 +20,22 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const makeSections = (response) => [
-	new Section('', config.dynamicForms.DEFAULT_SECTION)
-		.addQuestion(questions.appellantContinue)
-		.addQuestion(questions.appellantFinalComment)
-		.addQuestion(questions.appellantFinalCommentDetails)
-		.withCondition(() => questionHasAnswer(response, questions.appellantFinalComment, 'yes'))
-		.addQuestion(questions.appellantFinalCommentDocuments)
-		.withCondition(() => questionHasAnswer(response, questions.appellantFinalComment, 'yes'))
-		.addQuestion(questions.uploadAppellantFinalCommentDocuments)
-		.withCondition(() =>
-			questionHasAnswer(response, questions.appellantFinalCommentDocuments, 'yes')
-		)
-];
+const makeSections = (response) => {
+	const questions = getQuestions(response);
+	return [
+		new Section('', config.dynamicForms.DEFAULT_SECTION)
+			.addQuestion(questions.appellantContinue)
+			.addQuestion(questions.appellantFinalComment)
+			.addQuestion(questions.appellantFinalCommentDetails)
+			.withCondition(() => questionHasAnswer(response, questions.appellantFinalComment, 'yes'))
+			.addQuestion(questions.appellantFinalCommentDocuments)
+			.withCondition(() => questionHasAnswer(response, questions.appellantFinalComment, 'yes'))
+			.addQuestion(questions.uploadAppellantFinalCommentDocuments)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.appellantFinalCommentDocuments, 'yes')
+			)
+	];
+};
 
 const baseAppellantFinalCommentUrl = '/appeals/final-comments';
 

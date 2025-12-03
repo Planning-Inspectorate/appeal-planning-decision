@@ -1,5 +1,4 @@
 const { getQuestions } = require('../questions');
-const questions = getQuestions();
 const { Section } = require('@pins/dynamic-forms/src/section');
 const config = require('../../config');
 const {
@@ -21,14 +20,17 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const makeSections = (response) => [
-	new Section('', config.dynamicForms.DEFAULT_SECTION)
-		.addQuestion(questions.statementContinue)
-		.addQuestion(questions.rule6Statement)
-		.addQuestion(questions.rule6AdditionalDocuments)
-		.addQuestion(questions.uploadRule6StatementDocuments)
-		.withCondition(() => questionHasAnswer(response, questions.rule6AdditionalDocuments, 'yes'))
-];
+const makeSections = (response) => {
+	const questions = getQuestions(response);
+	return [
+		new Section('', config.dynamicForms.DEFAULT_SECTION)
+			.addQuestion(questions.statementContinue)
+			.addQuestion(questions.rule6Statement)
+			.addQuestion(questions.rule6AdditionalDocuments)
+			.addQuestion(questions.uploadRule6StatementDocuments)
+			.withCondition(() => questionHasAnswer(response, questions.rule6AdditionalDocuments, 'yes'))
+	];
+};
 
 const baseRule6StatementUrl = '/rule-6/appeal-statement';
 

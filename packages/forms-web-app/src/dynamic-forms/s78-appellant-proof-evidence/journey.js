@@ -1,5 +1,4 @@
 const { getQuestions } = require('../questions');
-const questions = getQuestions();
 const { Section } = require('@pins/dynamic-forms/src/section');
 const config = require('../../config');
 const {
@@ -21,13 +20,16 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const makeSections = (response) => [
-	new Section('', config.dynamicForms.DEFAULT_SECTION)
-		.addQuestion(questions.uploadAppellantProofOfEvidenceDocuments)
-		.addQuestion(questions.appellantAddWitnesses)
-		.addQuestion(questions.uploadAppellantWitnessesEvidence)
-		.withCondition(() => questionHasAnswer(response, questions.appellantAddWitnesses, 'yes'))
-];
+const makeSections = (response) => {
+	const questions = getQuestions(response);
+	return [
+		new Section('', config.dynamicForms.DEFAULT_SECTION)
+			.addQuestion(questions.uploadAppellantProofOfEvidenceDocuments)
+			.addQuestion(questions.appellantAddWitnesses)
+			.addQuestion(questions.uploadAppellantWitnessesEvidence)
+			.withCondition(() => questionHasAnswer(response, questions.appellantAddWitnesses, 'yes'))
+	];
+};
 
 const baseAppellantProofEvidenceUrl = '/appeals/proof-evidence';
 
