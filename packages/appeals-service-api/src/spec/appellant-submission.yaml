@@ -233,6 +233,10 @@ components:
           type: string
         enforcementWhoIsAppealing:
           type: string
+        addNamedIndividual:
+          type: boolean
+        selectedNamedIndividualId:
+          type: string
         enforcementOrganisationName:
           type: string
         allegedBreachDescription:

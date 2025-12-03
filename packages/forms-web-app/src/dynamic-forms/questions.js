@@ -89,7 +89,7 @@ const formatNumber = require('@pins/dynamic-forms/src/dynamic-components/utils/f
  * @typedef {import('@pins/dynamic-forms/src/question')} Question
  */
 
-const { getExampleDate } = require('./questions-utils');
+const { getExampleDate, formatEnforcementSelectNamesOptions } = require('./questions-utils');
 
 const defaultFileUploadValidatorParams = {
 	allowedFileTypes: Object.values(allowedFileTypes),
@@ -2899,7 +2899,7 @@ exports.getQuestionProps = (response) => ({
 		title: 'Add named individuals',
 		pageTitle: 'Enforcement named individual added',
 		question: 'Do you need to add another individual?',
-		fieldName: 'appellantLinkedCaseAdd',
+		fieldName: 'addNamedIndividual',
 		url: 'add-individuals',
 		subQuestionLabel: 'Appellant',
 		subQuestionTitle: 'Appellant',
@@ -2937,6 +2937,15 @@ exports.getQuestionProps = (response) => ({
 				})
 			]
 		}
+	},
+	enforcementSelectYourName: {
+		type: 'radio',
+		title: 'Select your name',
+		question: 'Select your name',
+		fieldName: 'selectedNamedIndividualId',
+		url: 'select-name',
+		validators: [new RequiredValidator('Select your name')],
+		options: formatEnforcementSelectNamesOptions(response)
 	},
 	enforcementInspectorAccess: {
 		type: 'radio',

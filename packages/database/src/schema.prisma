@@ -841,6 +841,8 @@ model AppellantSubmission {
   contactPlanningInspectorateDate   DateTime?
   enforcementReferenceNumber        String?
   enforcementWhoIsAppealing         String?
+  addNamedIndividual                Boolean?
+  selectedNamedIndividualId         String?
   enforcementOrganisationName       String?
   allegedBreachDescription          String?
   applicationMadeAndFeePaid         Boolean?
