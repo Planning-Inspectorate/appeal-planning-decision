@@ -36,6 +36,17 @@ condition: () =>
 	);
 ```
 
+- radio `/select-name/` Select your name
+
+```js
+condition: () =>
+	questionHasAnswer(
+		response,
+		questions.enforcementWhoIsAppealing,
+		fieldValues.enforcementWhoIsAppealing.GROUP
+	);
+```
+
 - single-line-input `/organisation-name/` What is the name of the organisation?
 
 ```js

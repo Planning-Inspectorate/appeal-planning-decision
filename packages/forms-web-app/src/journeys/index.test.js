@@ -66,7 +66,13 @@ jest.mock('@pins/dynamic-forms/src/validator/validator', () => () => (req, res, 
 
 // skip example dates to avoid issues dates in snapshots
 jest.mock('../dynamic-forms/questions-utils', () => ({
-	getExampleDate: jest.fn(() => '5 6 2025')
+	getExampleDate: jest.fn(() => '5 6 2025'),
+	formatEnforcementSelectNamesOptions: jest.fn(() => [
+		{
+			text: 'testOption',
+			value: 'testvalue'
+		}
+	])
 }));
 
 const request = require('supertest');

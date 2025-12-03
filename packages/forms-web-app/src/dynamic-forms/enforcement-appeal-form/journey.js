@@ -21,7 +21,7 @@ const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-
  */
 
 const escape = require('escape-html');
-// const { DIVIDER } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-utils');
+
 /**
  * @param {JourneyResponse} response
  * @returns {string}
@@ -33,39 +33,6 @@ const formatEnforcementIndividualName = (response) => {
 
 	return escape(`${firstName} ${lastName}`);
 };
-
-// /**
-//  * @param {JourneyResponse} response
-//  */
-// const formatEnforcementSelectNamesOptions = (response) => {
-// 	const individuals = response.answers['SubmissionIndividual'] || [''];
-
-// 	if (!individuals.length) {
-// 		return [];
-// 	}
-
-// 	const formatIndividualOption = (individual) => {
-// 		const firstName = individual.firstName || 'Named';
-// 		const lastName = individual.lastName || 'Individual';
-// 		return {
-// 			text: escape(`${firstName} ${lastName}`),
-// 			value: escape(`${firstName}_${lastName}`)
-// 		};
-// 	};
-
-// 	const dynamicOptions = individuals.map(formatIndividualOption);
-
-// 	dynamicOptions.push({
-// 		[DIVIDER]: 'or'
-// 	});
-
-// 	dynamicOptions.push({
-// 		text: 'I am appealing on behalf of the group of individuals',
-// 		value: 'None'
-// 	});
-
-// 	return dynamicOptions;
-// };
 
 /**
  * @param {JourneyResponse} response
@@ -96,6 +63,14 @@ const makeSections = (response) => {
 				[QUESTION_VARIABLES.INDIVIDUAL_NAME]: formatEnforcementIndividualName(response)
 			})
 			.addQuestion(questions.enforcementAddNamedIndividuals)
+			.withCondition(() =>
+				questionHasAnswer(
+					response,
+					questions.enforcementWhoIsAppealing,
+					fieldValues.enforcementWhoIsAppealing.GROUP
+				)
+			)
+			.addQuestion(questions.enforcementSelectYourName)
 			.withCondition(() =>
 				questionHasAnswer(
 					response,
