@@ -52,7 +52,7 @@ const config = {
 						variables: {
 							name: appeal.aboutYouSection.yourDetails.name,
 							'appeal site address': formatAddress(appeal.appealSiteSection.siteAddress),
-							'local planning department': lpa.name,
+							'local planning authority': lpa.name,
 							'pdf copy URL': `${process.env.APP_APPEALS_BASE_URL}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
 						},
 						reference: appeal.id
@@ -149,7 +149,7 @@ const config = {
 						variables: {
 							name: appeal.contactDetailsSection.contact.name,
 							'appeal site address': formatAddress(appeal.appealSiteSection.siteAddress),
-							'local planning department': lpa.name,
+							'local planning authority': lpa.name,
 							'link to pdf': `${process.env.APP_APPEALS_BASE_URL}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
 						},
 						reference: appeal.id

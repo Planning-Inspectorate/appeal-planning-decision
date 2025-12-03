@@ -24,7 +24,7 @@ describe('controllers/appellant-submission/check-answers', () => {
 	});
 
 	describe('getCheckAnswers', () => {
-		it('should call the correct template with empty local planning department', () => {
+		it('should call the correct template with empty local planning authority', () => {
 			delete req.session.appeal.lpaCode;
 			getCheckAnswers(req, res);
 			expect(res.render).toHaveBeenCalledWith(CHECK_ANSWERS, {
@@ -32,7 +32,7 @@ describe('controllers/appellant-submission/check-answers', () => {
 				appeal
 			});
 		});
-		it('should call the correct template with empty local planning department', async () => {
+		it('should call the correct template with empty local planning authority', async () => {
 			await getDepartmentFromId.mockResolvedValue(undefined);
 
 			appeal.lpaCode = 'lpdCode';
@@ -43,7 +43,7 @@ describe('controllers/appellant-submission/check-answers', () => {
 				appeal
 			});
 		});
-		it('should call the correct template with local planning department name', async () => {
+		it('should call the correct template with local planning authority name', async () => {
 			await getDepartmentFromId.mockResolvedValue({ name: 'lpdName' });
 
 			appeal.lpaCode = 'lpdCode';

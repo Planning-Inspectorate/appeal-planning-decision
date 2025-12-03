@@ -34,7 +34,7 @@ const getDeclarationInformation = async (req, res) => {
 	}
 
 	if (!appealLPD) {
-		const message = 'Unable to locate the Local Planning Department for the given LPA Code.';
+		const message = 'Unable to locate the Local Planning Authority for the given LPA Code.';
 		res.status(400);
 		log.debug(message);
 
