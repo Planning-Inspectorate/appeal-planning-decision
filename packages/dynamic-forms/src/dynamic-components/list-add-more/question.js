@@ -42,7 +42,7 @@ class ListAddMoreQuestion extends Question {
 	 * @param {string} [params.url]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
-	 * @param {import('src/dynamic-forms/question-props').SubQuestionProps} [params.subQuestionProps]
+	 * @param {import('../../question-props').SubQuestionProps} [params.subQuestionProps]
 	 * @param {string} [params.subQuestionLabel]
 	 * @param {string} [params.subQuestionTitle] the text used as the key for display on task list
 	 * @param {string} [params.subQuestionFieldLabel]

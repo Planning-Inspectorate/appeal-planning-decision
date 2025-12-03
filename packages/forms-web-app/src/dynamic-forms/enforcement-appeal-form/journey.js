@@ -1,5 +1,4 @@
 const { getQuestions } = require('../questions');
-const questions = getQuestions();
 const { Section } = require('@pins/dynamic-forms/src/section');
 const {
 	questionHasAnswer,
@@ -22,6 +21,7 @@ const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-
  */
 
 const escape = require('escape-html');
+// const { DIVIDER } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-utils');
 /**
  * @param {JourneyResponse} response
  * @returns {string}
@@ -34,121 +34,171 @@ const formatEnforcementIndividualName = (response) => {
 	return escape(`${firstName} ${lastName}`);
 };
 
+// /**
+//  * @param {JourneyResponse} response
+//  */
+// const formatEnforcementSelectNamesOptions = (response) => {
+// 	const individuals = response.answers['SubmissionIndividual'] || [''];
+
+// 	if (!individuals.length) {
+// 		return [];
+// 	}
+
+// 	const formatIndividualOption = (individual) => {
+// 		const firstName = individual.firstName || 'Named';
+// 		const lastName = individual.lastName || 'Individual';
+// 		return {
+// 			text: escape(`${firstName} ${lastName}`),
+// 			value: escape(`${firstName}_${lastName}`)
+// 		};
+// 	};
+
+// 	const dynamicOptions = individuals.map(formatIndividualOption);
+
+// 	dynamicOptions.push({
+// 		[DIVIDER]: 'or'
+// 	});
+
+// 	dynamicOptions.push({
+// 		text: 'I am appealing on behalf of the group of individuals',
+// 		value: 'None'
+// 	});
+
+// 	return dynamicOptions;
+// };
+
 /**
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const makeSections = (response) => [
-	new Section('Prepare appeal', 'prepare-appeal')
-		.addQuestion(questions.enforcementWhoIsAppealing)
-		.addQuestion(questions.enforcementIndividualName)
-		.withCondition(() =>
-			questionHasAnswer(
-				response,
-				questions.enforcementWhoIsAppealing,
-				fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+const makeSections = (response) => {
+	const questions = getQuestions(response);
+	return [
+		new Section('Prepare appeal', 'prepare-appeal')
+			.addQuestion(questions.enforcementWhoIsAppealing)
+			.addQuestion(questions.enforcementIndividualName)
+			.withCondition(() =>
+				questionHasAnswer(
+					response,
+					questions.enforcementWhoIsAppealing,
+					fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+				)
 			)
-		)
-		.addQuestion(questions.enforcementAreYouIndividual)
-		.withCondition(() =>
-			questionHasAnswer(
-				response,
-				questions.enforcementWhoIsAppealing,
-				fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+			.addQuestion(questions.enforcementAreYouIndividual)
+			.withCondition(() =>
+				questionHasAnswer(
+					response,
+					questions.enforcementWhoIsAppealing,
+					fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+				)
 			)
-		)
-		.withVariables({
-			[QUESTION_VARIABLES.INDIVIDUAL_NAME]: formatEnforcementIndividualName(response)
-		})
-		.addQuestion(questions.enforcementOrganisationName)
-		.withCondition(() =>
-			questionHasAnswer(
-				response,
-				questions.enforcementWhoIsAppealing,
-				fieldValues.enforcementWhoIsAppealing.ORGANISATION
+			.withVariables({
+				[QUESTION_VARIABLES.INDIVIDUAL_NAME]: formatEnforcementIndividualName(response)
+			})
+			.addQuestion(questions.enforcementAddNamedIndividuals)
+			.withCondition(() =>
+				questionHasAnswer(
+					response,
+					questions.enforcementWhoIsAppealing,
+					fieldValues.enforcementWhoIsAppealing.GROUP
+				)
 			)
-		)
-		.addQuestion(questions.contactDetails)
-		.addQuestion(questions.contactPhoneNumber)
-		// consider whether to make dynamic to generate hint...
-		.addQuestion(questions.appealSiteAddress)
-		.addQuestion(questions.appealSiteIsContactAddress)
-		.addQuestion(questions.contactAddress)
-		.withCondition(() => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no'))
-		.addQuestion(questions.enforcementInspectorAccess)
-		.addQuestion(questions.healthAndSafety)
-		.addQuestion(questions.enterAllegedBreachDescription)
-		.addQuestion(questions.submittedPlanningApplication)
-		.addQuestion(questions.uploadApplicationReceipt)
-		.withCondition(() => questionHasAnswer(response, questions.submittedPlanningApplication, 'yes'))
-		.addQuestion(questions.allOrPartOfDevelopment)
-		.addQuestion(questions.planningApplicationReference)
-		.addQuestion(questions.planningApplicationDate)
-		.addQuestion(questions.enforcementEnterDevelopmentDescription)
-		.addQuestion(questions.updateDevelopmentDescription)
-		.addQuestion(questions.grantedOrRefused)
-		.addQuestion(questions.appellantProcedurePreference)
-		.addQuestion(questions.appellantPreferHearing)
-		.withCondition(() =>
-			questionHasAnswer(
-				response,
-				questions.appellantProcedurePreference,
-				APPEAL_CASE_PROCEDURE.HEARING
+			.addQuestion(questions.enforcementOrganisationName)
+			.withCondition(() =>
+				questionHasAnswer(
+					response,
+					questions.enforcementWhoIsAppealing,
+					fieldValues.enforcementWhoIsAppealing.ORGANISATION
+				)
 			)
-		)
-		.addQuestion(questions.appellantPreferInquiry)
-		.withCondition(() =>
-			questionHasAnswer(
-				response,
-				questions.appellantProcedurePreference,
-				APPEAL_CASE_PROCEDURE.INQUIRY
+			// question will appear if user is not the appellant (will also appear if filling out on behalf of a company)
+			.addQuestion(questions.contactDetails)
+			.withCondition(
+				() => !questionHasAnswer(response, questions.enforcementAreYouIndividual, 'yes')
 			)
-		)
-		.addQuestion(questions.inquiryHowManyDays)
-		.withCondition(
-			() =>
+			.addQuestion(questions.contactPhoneNumber)
+			// consider whether to make dynamic to generate hint...
+			.addQuestion(questions.appealSiteAddress)
+			.addQuestion(questions.appealSiteIsContactAddress)
+			.addQuestion(questions.contactAddress)
+			.withCondition(() => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no'))
+			.addQuestion(questions.enforcementInspectorAccess)
+			.addQuestion(questions.healthAndSafety)
+			.addQuestion(questions.enterAllegedBreachDescription)
+			.addQuestion(questions.submittedPlanningApplication)
+			.addQuestion(questions.uploadApplicationReceipt)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.submittedPlanningApplication, 'yes')
+			)
+			.addQuestion(questions.allOrPartOfDevelopment)
+			.addQuestion(questions.planningApplicationReference)
+			.addQuestion(questions.planningApplicationDate)
+			.addQuestion(questions.enforcementEnterDevelopmentDescription)
+			.addQuestion(questions.updateDevelopmentDescription)
+			.addQuestion(questions.grantedOrRefused)
+			.addQuestion(questions.appellantProcedurePreference)
+			.addQuestion(questions.appellantPreferHearing)
+			.withCondition(() =>
+				questionHasAnswer(
+					response,
+					questions.appellantProcedurePreference,
+					APPEAL_CASE_PROCEDURE.HEARING
+				)
+			)
+			.addQuestion(questions.appellantPreferInquiry)
+			.withCondition(() =>
 				questionHasAnswer(
 					response,
 					questions.appellantProcedurePreference,
 					APPEAL_CASE_PROCEDURE.INQUIRY
-				) && questionHasNonEmptyStringAnswer(response, questions.appellantPreferInquiry)
-		)
-		.addQuestion(questions.inquiryHowManyWitnesses)
-		.withCondition(
-			() =>
-				questionHasAnswer(
-					response,
-					questions.appellantProcedurePreference,
-					APPEAL_CASE_PROCEDURE.INQUIRY
-				) &&
-				questionHasNonEmptyStringAnswer(response, questions.appellantPreferInquiry) &&
-				questionHasNonEmptyNumberAnswer(response, questions.inquiryHowManyDays)
-		)
-		.addQuestion(questions.anyOtherAppeals)
-		.addQuestion(questions.linkAppeals)
-		.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
-	new Section('Upload documents', 'upload-documents')
-		.addQuestion(questions.submitPlanningObligation)
-		.addQuestion(questions.planningObligationStatus)
-		.withCondition(() => questionHasAnswer(response, questions.submitPlanningObligation, 'yes'))
-		.addQuestion(questions.uploadPlanningObligation)
-		.withCondition(() =>
-			questionsHaveAnswers(
-				response,
-				[
-					[questions.submitPlanningObligation, 'yes'],
-					[questions.planningObligationStatus, 'finalised']
-				],
-				{ logicalCombinator: 'and' }
+				)
 			)
-		)
-		.addQuestion(questions.costApplication)
-		.addQuestion(questions.uploadCostApplication)
-		.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))
-		.addQuestion(questions.otherNewDocuments)
-		.addQuestion(questions.uploadOtherNewDocuments)
-		.withCondition(() => questionHasAnswer(response, questions.otherNewDocuments, 'yes'))
-];
+			.addQuestion(questions.inquiryHowManyDays)
+			.withCondition(
+				() =>
+					questionHasAnswer(
+						response,
+						questions.appellantProcedurePreference,
+						APPEAL_CASE_PROCEDURE.INQUIRY
+					) && questionHasNonEmptyStringAnswer(response, questions.appellantPreferInquiry)
+			)
+			.addQuestion(questions.inquiryHowManyWitnesses)
+			.withCondition(
+				() =>
+					questionHasAnswer(
+						response,
+						questions.appellantProcedurePreference,
+						APPEAL_CASE_PROCEDURE.INQUIRY
+					) &&
+					questionHasNonEmptyStringAnswer(response, questions.appellantPreferInquiry) &&
+					questionHasNonEmptyNumberAnswer(response, questions.inquiryHowManyDays)
+			)
+			.addQuestion(questions.anyOtherAppeals)
+			.addQuestion(questions.linkAppeals)
+			.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
+		new Section('Upload documents', 'upload-documents')
+			.addQuestion(questions.submitPlanningObligation)
+			.addQuestion(questions.planningObligationStatus)
+			.withCondition(() => questionHasAnswer(response, questions.submitPlanningObligation, 'yes'))
+			.addQuestion(questions.uploadPlanningObligation)
+			.withCondition(() =>
+				questionsHaveAnswers(
+					response,
+					[
+						[questions.submitPlanningObligation, 'yes'],
+						[questions.planningObligationStatus, 'finalised']
+					],
+					{ logicalCombinator: 'and' }
+				)
+			)
+			.addQuestion(questions.costApplication)
+			.addQuestion(questions.uploadCostApplication)
+			.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))
+			.addQuestion(questions.otherNewDocuments)
+			.addQuestion(questions.uploadOtherNewDocuments)
+			.withCondition(() => questionHasAnswer(response, questions.otherNewDocuments, 'yes'))
+	];
+};
 
 const baseEnforcementSubmissionUrl = `/appeals/${ENFORCEMENT.friendlyUrl}`;
 

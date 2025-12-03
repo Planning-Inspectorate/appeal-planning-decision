@@ -83,8 +83,11 @@ const siteAddressOverrides = require('../journeys/question-overrides/site-addres
 const multiFieldInputOverrides = require('../journeys/question-overrides/multi-field-input');
 const formatNumber = require('@pins/dynamic-forms/src/dynamic-components/utils/format-number');
 
-/** @typedef {import('@pins/dynamic-forms/src/question-props').QuestionProps} QuestionProps */
-/** @typedef {import('@pins/dynamic-forms/src/question')} Question */
+/**
+ * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('@pins/dynamic-forms/src/question-props').QuestionProps} QuestionProps
+ * @typedef {import('@pins/dynamic-forms/src/question')} Question
+ */
 
 const { getExampleDate } = require('./questions-utils');
 
@@ -107,8 +110,12 @@ const defaultAddressValidatorParams = {
 };
 
 // Define all questions
-/** @type {Record<string, QuestionProps>} */
-exports.questionProps = {
+/**
+ * @param {JourneyResponse} response
+ * @returns {Record<string, QuestionProps>}
+ */
+// eslint-disable-next-line no-unused-vars
+exports.getQuestionProps = (response) => ({
 	appealTypeAppropriate: {
 		type: 'boolean',
 		title: `Is ${QUESTION_VARIABLES.APPEAL_TYPE_WITH_AN_OR_A} appeal the correct type of appeal?`,
@@ -3211,7 +3218,7 @@ exports.questionProps = {
 			)
 		]
 	}
-};
+});
 
 /** @type {Record<string, typeof import('@pins/dynamic-forms/src/question')>} */
 const questionClasses = {
@@ -3230,8 +3237,9 @@ const questionClasses = {
 	content: ContentQuestion
 };
 
-exports.getQuestions = () =>
-	createQuestions(exports.questionProps, questionClasses, {
+/** @param {JourneyResponse} response */
+exports.getQuestions = (response = {}) =>
+	createQuestions(exports.getQuestionProps(response), questionClasses, {
 		'multi-file-upload': multiFileUploadOverrides,
 		'site-address': siteAddressOverrides,
 		'multi-field-input': multiFieldInputOverrides

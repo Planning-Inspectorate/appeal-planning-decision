@@ -1,5 +1,5 @@
 const { getQuestions } = require('../questions');
-const questions = getQuestions();
+
 const { Section } = require('@pins/dynamic-forms/src/section');
 const config = require('../../config');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
@@ -21,17 +21,20 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const makeSections = (response) => [
-	new Section('', config.dynamicForms.DEFAULT_SECTION)
-		.addQuestion(questions.lpaContinue)
-		.addQuestion(questions.lpaFinalComment)
-		.addQuestion(questions.lpaFinalCommentDetails)
-		.withCondition(() => questionHasAnswer(response, questions.lpaFinalComment, 'yes'))
-		.addQuestion(questions.lpaFinalCommentDocuments)
-		.withCondition(() => questionHasAnswer(response, questions.lpaFinalComment, 'yes'))
-		.addQuestion(questions.uploadLPAFinalCommentDocuments)
-		.withCondition(() => questionHasAnswer(response, questions.lpaFinalCommentDocuments, 'yes'))
-];
+const makeSections = (response) => {
+	const questions = getQuestions(response);
+	return [
+		new Section('', config.dynamicForms.DEFAULT_SECTION)
+			.addQuestion(questions.lpaContinue)
+			.addQuestion(questions.lpaFinalComment)
+			.addQuestion(questions.lpaFinalCommentDetails)
+			.withCondition(() => questionHasAnswer(response, questions.lpaFinalComment, 'yes'))
+			.addQuestion(questions.lpaFinalCommentDocuments)
+			.withCondition(() => questionHasAnswer(response, questions.lpaFinalComment, 'yes'))
+			.addQuestion(questions.uploadLPAFinalCommentDocuments)
+			.withCondition(() => questionHasAnswer(response, questions.lpaFinalCommentDocuments, 'yes'))
+	];
+};
 
 const baseS78LPAFinalCommentsUrl = '/manage-appeals/final-comments';
 
