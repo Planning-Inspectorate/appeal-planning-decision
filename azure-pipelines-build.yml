@@ -65,10 +65,19 @@ extends:
         - name: collectCoverage
           value: ${{ parameters.collectCoverage }}
         steps:
+          - task: Cache@2
+            inputs:
+              key: 'npm | "$(Agent.OS)" | package-lock.json'
+              restoreKeys: |
+                npm | "$(Agent.OS)" | package-lock.json
+              path: $(npm_config_cache)
+            displayName: Cache NPM
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
               script: npm ci --ignore-scripts
+              environmentVariables:
+                npm_config_cache: $(npm_config_cache)
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
@@ -233,11 +242,20 @@ extends:
         dependsOn:
           - Run Linting & Tests
         steps:
+          - task: Cache@2
+            inputs:
+              key: 'npm | "$(Agent.OS)" | package-lock.json'
+              restoreKeys: |
+                npm | "$(Agent.OS)" | package-lock.json
+              path: $(npm_config_cache)
+            displayName: Cache NPM
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
               script: npm ci --omit=dev --ignore-scripts --workspace=integration-functions --workspace=@pins/common
               workingDirectory: $(Build.Repository.LocalPath)
+              environmentVariables:
+                npm_config_cache: $(npm_config_cache)
           - script: |
               source ~/.bashrc
               # ensure there is a @pins/common folder
