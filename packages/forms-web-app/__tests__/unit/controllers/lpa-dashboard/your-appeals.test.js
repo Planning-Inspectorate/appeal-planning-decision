@@ -75,7 +75,6 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				waitingForReviewAppeals: [],
 				appealDetailsLink: `/${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}`,
 				appealQuestionnaireLink: baseHASUrl,
-				showQuestionnaire: false,
 				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
 				decidedAppealsCount: 1,
 				noToDoAppeals: false
@@ -102,7 +101,6 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				waitingForReviewAppeals: [],
 				appealDetailsLink: `/${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}`,
 				appealQuestionnaireLink: baseHASUrl,
-				showQuestionnaire: true,
 				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
 				decidedAppealsCount: 1,
 				noToDoAppeals: false

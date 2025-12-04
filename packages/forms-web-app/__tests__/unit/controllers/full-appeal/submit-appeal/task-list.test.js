@@ -20,8 +20,10 @@ const { mockReq, mockRes } = require('../../../mocks');
 describe('controllers/full-appeal/submit-appeal/task-list', () => {
 	describe('getTaskList', () => {
 		it('All the tasks except check answers should be in not started', () => {
+			const mockAppeal = structuredClone(appeal);
+			delete mockAppeal.hideFromDashboard;
 			const req = mockReq({
-				...appeal,
+				...mockAppeal,
 				state: undefined
 			});
 			const res = mockRes();

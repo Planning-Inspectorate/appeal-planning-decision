@@ -1,6 +1,5 @@
 const { use } = require('../router-mock');
 
-const anyOfFollowingRouter = require('../../../../src/routes/full-appeal/any-of-following');
 const grantedOrRefusedRouter = require('../../../../src/routes/full-appeal/granted-or-refused');
 const localPlanningAuthorityRouter = require('../../../../src/routes/before-you-start/local-planning-authority');
 const typeOfPlanningRouter = require('../../../../src/routes/before-you-start/type-of-planning-application');
@@ -22,7 +21,6 @@ describe('routes/full-appeal/index', () => {
 	it('should define the expected routes', () => {
 		expect(use).toHaveBeenCalledWith(localPlanningAuthorityRouter);
 		expect(use).toHaveBeenCalledWith(typeOfPlanningRouter);
-		expect(use).toHaveBeenCalledWith(anyOfFollowingRouter);
 		expect(use).toHaveBeenCalledWith(grantedOrRefusedRouter);
 		expect(use).toHaveBeenCalledWith(useExistingServiceApplicationType);
 		expect(use).toHaveBeenCalledWith(outOfTimeRouter);

@@ -53,32 +53,21 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 		nextPageUrl
 	} = await getAppealPropsForCanUseServicePage(appeal);
 
-	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
-	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
-
 	const deadlineDate = businessRulesDeadline(
 		appeal.decisionDate,
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
 	);
 
-	const claimingCosts =
-		typeof appeal.eligibility.isClaimingCosts === 'boolean'
-			? appeal.eligibility.isClaimingCosts
-				? 'Yes'
-				: 'No'
-			: null;
 	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	res.render(canUseServiceHouseholder, {
 		deadlineDate,
 		appealLPD,
 		applicationType,
-		isListedBuilding,
 		applicationDecision,
 		decisionDate,
 		enforcementNotice,
-		claimingCosts,
 		dateOfDecisionLabel,
 		nextPageUrl,
 		changeLpaUrl,
@@ -107,17 +96,12 @@ const canUseServiceFullAppeal = async (req, res) => {
 		appeal.eligibility.applicationDecision
 	);
 
-	const [isV2forS78, isV2forS20, isV2forCAS, isV2forCASAdverts, isV2forAdverts] = await Promise.all(
-		[
-			isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2),
-			isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2),
-			isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
-			isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
-			isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2)
-		]
-	);
+	const [isV2forCAS, isV2forCASAdverts, isV2forAdverts] = await Promise.all([
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2)
+	]);
 
-	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	res.render(canUseServiceFullAppealView, {
@@ -129,8 +113,6 @@ const canUseServiceFullAppeal = async (req, res) => {
 		decisionDate,
 		enforcementNotice,
 		dateOfDecisionLabel,
-		isListedBuilding,
-		isV2forS78,
 		isV2forCAS,
 		isV2forCASAdverts,
 		isV2forAdverts,
@@ -158,9 +140,6 @@ const canUseServicePriorApproval = async (req, res) => {
 		? 'Yes'
 		: 'No';
 
-	const isV2forS20 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S20_APPEAL_FORM_V2);
-	const isListedBuilding = isV2forS20 ? null : appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
-
 	if (appeal.eligibility.hasPriorApprovalForExistingHome) {
 		const deadlineDate = businessRulesDeadline(
 			appeal.decisionDate,
@@ -168,22 +147,13 @@ const canUseServicePriorApproval = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
-		const claimingCosts =
-			typeof appeal.eligibility.isClaimingCosts === 'boolean'
-				? appeal.eligibility.isClaimingCosts
-					? 'Yes'
-					: 'No'
-				: null;
-
 		res.render(canUseServicePriorApprovalHouseholder, {
 			deadlineDate,
 			appealLPD,
 			applicationType,
-			isListedBuilding,
 			applicationDecision,
 			decisionDate,
 			enforcementNotice,
-			claimingCosts,
 			dateOfDecisionLabel,
 			hasPriorApprovalForExistingHome,
 			changeLpaUrl,
@@ -196,8 +166,6 @@ const canUseServicePriorApproval = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
-		const isV2forS78 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
-
 		res.render(canUseServicePriorApprovalFull, {
 			deadlineDate,
 			appealLPD,
@@ -207,8 +175,6 @@ const canUseServicePriorApproval = async (req, res) => {
 			enforcementNotice,
 			dateOfDecisionLabel,
 			hasPriorApprovalForExistingHome,
-			isListedBuilding,
-			isV2forS78,
 			changeLpaUrl,
 			nextPageUrl
 		});
@@ -240,13 +206,6 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
-		const claimingCosts =
-			typeof appeal.eligibility.isClaimingCosts === 'boolean'
-				? appeal.eligibility.isClaimingCosts
-					? 'Yes'
-					: 'No'
-				: null;
-
 		res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
 			deadlineDate,
 			appealLPD,
@@ -255,7 +214,6 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			applicationDecision,
 			decisionDate,
 			enforcementNotice,
-			claimingCosts,
 			dateOfDecisionLabel,
 			hasHouseholderPermissionConditions,
 			changeLpaUrl,
@@ -268,8 +226,6 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
-		const isV2 = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.S78_APPEAL_FORM_V2);
-
 		res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
 			deadlineDate,
 			appealLPD,
@@ -280,7 +236,6 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			dateOfDecisionLabel,
 			hasHouseholderPermissionConditions,
 			isListedBuilding,
-			isV2,
 			changeLpaUrl,
 			nextPageUrl
 		});

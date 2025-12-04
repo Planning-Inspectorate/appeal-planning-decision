@@ -54,8 +54,6 @@ const VIEW = {
 
 	HOUSEHOLDER_PLANNING: {
 		ELIGIBILITY: {
-			CLAIMING_COSTS: 'householder-planning/eligibility/claiming-costs-householder',
-			USE_EXISTING_SERVICE_COSTS: 'householder-planning/eligibility/use-existing-service-costs',
 			DATE_DECISION_DUE_HOUSEHOLDER:
 				'householder-planning/eligibility/date-decision-due-householder',
 			ENFORCEMENT_NOTICE_HOUSEHOLDER:
@@ -83,7 +81,6 @@ const VIEW = {
 		CODE_EXPIRED: 'full-appeal/submit-appeal/code-expired',
 		NEED_NEW_CODE: 'full-appeal/submit-appeal/need-new-code',
 		ADVERTISING_YOUR_APPEAL: 'full-appeal/submit-appeal/advertising-your-appeal',
-		ANY_OF_FOLLOWING: 'full-appeal/any-of-following',
 		AGRICULTURAL_HOLDING: 'full-appeal/submit-appeal/agricultural-holding',
 		APPLICANT_NAME: 'full-appeal/submit-appeal/applicant-name',
 		APPEAL_STATEMENT: 'full-appeal/submit-appeal/appeal-statement',
@@ -119,7 +116,6 @@ const VIEW = {
 		IDENTIFYING_THE_OWNERS: 'full-appeal/submit-appeal/identifying-the-owners',
 		KNOW_THE_OWNERS: 'full-appeal/submit-appeal/know-the-owners',
 		LETTER_CONFIRMING_APPLICATION: 'full-appeal/submit-appeal/letter-confirming-application',
-		LIST_OF_DOCUMENTS_V1: 'full-appeal/submit-appeal/list-of-documents-v1',
 		LIST_OF_DOCUMENTS_V2: 'full-appeal/submit-appeal/list-of-documents-v2',
 		LOCAL_PLANNING_AUTHORITY: 'full-appeal/local-planning-authority',
 		NEW_PLANS_DRAWINGS: 'full-appeal/submit-appeal/new-plans-drawings',

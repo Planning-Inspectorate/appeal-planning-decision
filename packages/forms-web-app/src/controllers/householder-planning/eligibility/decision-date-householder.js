@@ -10,8 +10,6 @@ const {
 		}
 	}
 } = require('../../../lib/views');
-const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
-const { FLAG } = require('@pins/common/src/feature-flags');
 const config = require('../../../config');
 
 exports.getDecisionDateHouseholder = async (req, res) => {
@@ -81,11 +79,7 @@ exports.postDecisionDateHouseholder = async (req, res) => {
 		return res.redirect(`/before-you-start/you-cannot-appeal`);
 	}
 
-	const usingV2Form = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.HAS_APPEAL_FORM_V2);
-
-	const nextPage = usingV2Form
-		? '/before-you-start/can-use-service'
-		: '/before-you-start/claiming-costs-householder';
+	const nextPage = '/before-you-start/can-use-service';
 
 	try {
 		req.session.appeal = await createOrUpdateAppeal({

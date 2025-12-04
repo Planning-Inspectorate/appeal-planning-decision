@@ -46,6 +46,7 @@ exports.postPlanningDepartment = async (req, res) => {
 	const lpa = await getDepartmentFromName(lpaName);
 
 	appeal.lpaCode = lpa.id;
+	appeal.hideFromDashboard = true;
 	try {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 	} catch (e) {

@@ -69,11 +69,11 @@ module.exports = async (request, response, next) => {
 const appealTypeFlagActive = async (appealTypeCode, LPACode) => {
 	switch (appealTypeCode) {
 		case CASE_TYPES.HAS.processCode:
-			return await isFeatureActive(FLAG.HAS_APPEAL_FORM_V2, LPACode);
+			return true;
 		case CASE_TYPES.S78.processCode:
-			return await isFeatureActive(FLAG.S78_APPEAL_FORM_V2, LPACode);
+			return true;
 		case CASE_TYPES.S20.processCode:
-			return await isFeatureActive(FLAG.S20_APPEAL_FORM_V2, LPACode);
+			return true;
 		case CASE_TYPES.ADVERTS.processCode:
 			return await isFeatureActive(FLAG.ADVERTS_APPEAL_FORM_V2, LPACode);
 		case CASE_TYPES.CAS_ADVERTS.processCode:

@@ -26,6 +26,8 @@ describe('controllers/appellant-submission/task-list', () => {
 			const req = mockReq();
 			const res = mockRes();
 
+			delete req.session.appeal.hideFromDashboard;
+
 			getTaskList(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(TASK_LIST, {

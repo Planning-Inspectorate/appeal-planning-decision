@@ -9,11 +9,6 @@ const {
 } = require('../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../mocks');
-const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
-const { hideFromDashboard } = require('#lib/hide-from-dashboard');
-
-jest.mock('#lib/is-lpa-in-feature-flag');
-jest.mock('#lib/hide-from-dashboard');
 
 describe('controllers/appeal-householder-decision/email-address-confirmed', () => {
 	let req;
@@ -26,21 +21,8 @@ describe('controllers/appeal-householder-decision/email-address-confirmed', () =
 	});
 
 	describe('getEmailConfirmed', () => {
-		it('calls correct template: token valid, V1 routes', async () => {
-			isLpaInFeatureFlag.mockResolvedValueOnce(false);
-
-			await getEmailConfirmed(req, res);
-			expect(hideFromDashboard).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
-				listOfDocumentsUrl: 'list-of-documents'
-			});
-		});
-
 		it('calls correct template: token valid, V2 routes', async () => {
-			isLpaInFeatureFlag.mockResolvedValueOnce(true);
-
 			await getEmailConfirmed(req, res);
-			expect(hideFromDashboard).toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/householder/appeal-form/before-you-start'
 			});
