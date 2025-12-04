@@ -29,8 +29,6 @@ flowchart TD
     decideAdvert{appeal type = Adverts}:::decisionStyle
 
     %% Appeal Forms
-    HAS_V1@{ shape: doc, label: "HAS Appeal V1" }
-    S78_V1@{ shape: doc, label: "S78 Appeal V1" }
     HAS@{ shape: doc, label: "HAS Appeal" }
     S78@{ shape: doc, label: "S78 Appeal" }
     S20@{ shape: doc, label: "S20 Appeal" }
@@ -46,12 +44,10 @@ flowchart TD
     applicationAboutCAS[commercial application about?]
     existingHome[existing-home?]
     conditionsHouseholder[conditions for householder?]
-    listedBuildingV1[is listed building v1?]
     listedBuilding[is listed building?]
     grantedRefused[granted/refused?]
     grantedRefusedUndecided[granted/refused - undecided?]
     decisionDate[date of decision?]
-    costsHouseholder[applying for costs?]
     enforcementListedBuilding[enforcement listed building?]
     enforcementIssueDate[enforcement issue date?]
     enforcementEffectiveDate[enforcement effective date?]
@@ -61,8 +57,7 @@ flowchart TD
     %% routing
     lpa --> enforcement
 
-    enforcement -- v1 Yes --> acp1
-    enforcement -- v2 Yes --> enforcementListedBuilding
+    enforcement -- Yes --> enforcementListedBuilding
     enforcement -- No --> applicationType
 
     enforcementListedBuilding -- Yes --> acp1
@@ -79,10 +74,8 @@ flowchart TD
     contactPlanningInspectorateDate -- valid date --> Enforcement
     contactPlanningInspectorateDate -- missed deadline --> deadline
 
-    applicationType -- v1 full/outline/reserved --> applicationAbout
-    applicationType -- v2 full/outline/reserved --> decideS78A
-    applicationType -- v1 householder --> listedBuildingV1
-    applicationType -- v2 householder --> grantedRefusedUndecided
+    applicationType -- full/outline/reserved --> decideS78A
+    applicationType -- householder --> grantedRefusedUndecided
     applicationType -- listed building consent --> decideS20
     applicationType -- display advert --> decideAdvert
     applicationType -- minor commercial --> applicationAboutCAS
@@ -96,20 +89,11 @@ flowchart TD
     applicationAboutCAS -- none --> decideCAS
     applicationAboutCAS -- any other --> decideS78A
 
-    existingHome -- v1 yes --> listedBuildingV1
-    existingHome -- v1 no --> applicationAbout
+    existingHome -- yes --> grantedRefusedUndecided
+	existingHome -- no --> decideS78A
 
-    existingHome -- v2 yes --> grantedRefusedUndecided
-	existingHome -- v2 no --> decideS78A
-
-    conditionsHouseholder -- v1 yes --> listedBuildingV1
-    conditionsHouseholder -- v1 no --> applicationAbout
-
-    conditionsHouseholder -- v2 yes --> listedBuilding
-    conditionsHouseholder -- v2 no --> listedBuilding
-
-    listedBuildingV1 -- yes --> acp1
-    listedBuildingV1 -- no --> grantedRefusedUndecided
+    conditionsHouseholder -- yes --> listedBuilding
+    conditionsHouseholder -- no --> listedBuilding
 
     listedBuilding -- yes --> decideS20
     listedBuilding -- no --> decideS78A
@@ -133,16 +117,11 @@ flowchart TD
     decisionDate -- Advert --> Advert
     decisionDate -- CAS --> CAS
     decisionDate -- S20 --> S20
-    decisionDate -- S78 V1 --> S78_V1
-    decisionDate -- HAS V1 --> costsHouseholder
-
-    costsHouseholder -- no --> HAS_V1
-    costsHouseholder -- yes --> acpCosts(((-> ACP))):::exitStyle
 
     %% styles
     classDef decisionStyle fill:#ffe8c6,stroke:#c26d00,color:#111,stroke-width:2px;
     classDef appealForm fill:#e5f8ec,stroke:#1b7f3c,color:#111,stroke-width:2px;
     classDef exitStyle fill:#ffe6e6,stroke:#d4351c,color:#111,stroke-width:2px;
 
-    class HAS_V1,S78_V1,HAS,S78,S20,Advert,CAS,legAppealForm,Enforcement,example appealForm;
+    class HAS,S78,S20,Advert,CAS,legAppealForm,Enforcement,example appealForm;
 ```

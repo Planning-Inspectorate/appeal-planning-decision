@@ -67,10 +67,7 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 	});
 
 	describe('postDecisionDateHouseholder', () => {
-		it.each([
-			[false, 'claiming-costs-householder'],
-			[true, 'can-use-service']
-		])(
+		it.each([[true, 'can-use-service']])(
 			'should save the appeal and redirect to correct page if application decision is granted and date is within six months - v2 is %p',
 			async (isV2, page) => {
 				isLpaInFeatureFlag.mockReturnValueOnce(isV2);
@@ -97,10 +94,7 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 			}
 		);
 
-		it.each([
-			[false, 'claiming-costs-householder'],
-			[true, 'can-use-service']
-		])(
+		it.each([[true, 'can-use-service']])(
 			'should save the appeal and redirect to correct page if application decision is refused and date is within twelve weeks - v2 is %p',
 			async (isV2, page) => {
 				isLpaInFeatureFlag.mockReturnValueOnce(isV2);

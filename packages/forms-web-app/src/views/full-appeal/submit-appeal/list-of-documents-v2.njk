@@ -1,47 +1,40 @@
 {% extends "layouts/full-appeal-banner/main.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-
 {% set title = "Before you start - Appeal a planning decision - GOV.UK" %}
-{% block pageTitle %}{{ title }}{% endblock %}
-
+{% block pageTitle %}
+  {{ title }}
+{% endblock %}
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form action="" method="post" novalidate>
-<input type="hidden" name="_csrf" value="{{_csrf}}">
-        <h1 class="govuk-heading-l">Before you start</h1>
-
-        <p>You must submit your documents before the deadline or we cannot review them with the appeal.</p>
-        <p>{{subheading}}</p>
-
-        {% if requiredDocuments %}
-          <ul class="govuk-list govuk-list--bullet">
-            {% for document in requiredDocuments %}
-              <li>{{document}}</li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-
-        {% if optionalDocuments %}
-          <p>If you have any of the following documents, you’ll also need to upload your:​</p>
-
-          <ul class="govuk-list govuk-list--bullet">
-            {% for document in optionalDocuments %}
-              <li>{{document}}</li>
-            {% endfor %}
-          </ul>
-        {% endif %}
-
-        <div class="govuk-button-group">
-          {{ govukButton({
+        <input type="hidden" name="_csrf" value="{{ _csrf }}">
+          <h1 class="govuk-heading-l">Before you start</h1>
+          <p>You must submit your documents before the deadline or we cannot review them with the appeal.</p>
+          <p>{{ subheading }}</p>
+          {% if requiredDocuments %}
+            <ul class="govuk-list govuk-list--bullet">
+              {% for document in requiredDocuments %}
+                <li>{{ document }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+          {% if optionalDocuments %}
+            <p>If you have any of the following documents, you’ll also need to upload your:​</p>
+            <ul class="govuk-list govuk-list--bullet">
+              {% for document in optionalDocuments %}
+                <li>{{ document }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+          <div class="govuk-button-group">
+            {{ govukButton({
             text: "Continue",
             type: "submit",
             attributes: { "data-cy":"button-save-and-continue"}
           }) }}
-         
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
-{% endblock %}
-
+  {% endblock %}

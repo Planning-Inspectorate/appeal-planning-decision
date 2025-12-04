@@ -51,24 +51,6 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 	});
 
 	describe('Type of Planning Application Controller Tests', () => {
-		it('should call the correct template on getTypeOfPlanningApplication - v1', async () => {
-			isLpaInFeatureFlag.mockReturnValue(false);
-			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
-			await getTypeOfPlanningApplication(req, res);
-
-			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(
-				false,
-				false,
-				false,
-				false,
-				'full-appeal'
-			);
-			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
-				typeOfPlanningApplication: 'full-appeal',
-				radioItems: mockRadioItems
-			});
-		});
-
 		it('should call the correct template on getTypeOfPlanningApplication - v2', async () => {
 			isLpaInFeatureFlag.mockReturnValue(true);
 			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
@@ -78,33 +60,12 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				true,
 				true,
 				true,
-				true,
 				'full-appeal'
 			);
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				typeOfPlanningApplication: 'full-appeal',
 				radioItems: mockRadioItems
 			});
-		});
-
-		it('should redirect to the listed building page if HAS', async () => {
-			const planningApplication = 'householder-planning';
-			const mockRequest = {
-				...req,
-				body: { 'type-of-planning-application': planningApplication }
-			};
-
-			await postTypeOfPlanningApplication(mockRequest, res);
-
-			const updatedAppeal = appeal;
-			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
-			updatedAppeal.typeOfPlanningApplication = planningApplication;
-
-			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-				...updatedAppeal
-			});
-
-			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/listed-building-householder');
 		});
 
 		it('should redirect to the listed building page if HAS - v2 (s20 flag)', async () => {
@@ -179,67 +140,8 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		const defaultTypes = ['outline-planning', 'full-appeal', 'reserved-matters'];
 
 		it.each(defaultTypes)(
-			'should redirect to the any-of-following page if %s - v1',
+			'should redirect to the granted-or-refused page if %s - v2',
 			async (type) => {
-				isLpaInFeatureFlag.mockReturnValueOnce(false); // s20
-				isLpaInFeatureFlag.mockReturnValueOnce(false); // s78
-				const planningApplication = type;
-
-				const mockRequest = {
-					...req,
-					body: { 'type-of-planning-application': planningApplication }
-				};
-
-				await postTypeOfPlanningApplication(mockRequest, res);
-
-				const updatedAppeal = appeal;
-				updatedAppeal.appealType = mapPlanningApplication(planningApplication);
-				updatedAppeal.typeOfPlanningApplication = planningApplication;
-
-				expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-					...updatedAppeal
-				});
-
-				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/any-of-following');
-			}
-		);
-
-		it.each(defaultTypes)(
-			'should redirect to the listed-building page if %s - v2 (s78 flag only)',
-			async (type) => {
-				isLpaInFeatureFlag.mockImplementation((_, flag) => {
-					return flag === FLAG.S78_APPEAL_FORM_V2;
-				});
-
-				typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
-				const planningApplication = type;
-
-				const mockRequest = {
-					...req,
-					body: { 'type-of-planning-application': planningApplication }
-				};
-
-				await postTypeOfPlanningApplication(mockRequest, res);
-
-				const updatedAppeal = appeal;
-				updatedAppeal.appealType = mapPlanningApplication(planningApplication);
-				updatedAppeal.typeOfPlanningApplication = planningApplication;
-
-				expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-					...updatedAppeal
-				});
-
-				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/listed-building');
-			}
-		);
-
-		it.each(defaultTypes)(
-			'should redirect to the granted-or-refused page if %s - v2 (s20 flag only)',
-			async (type) => {
-				isLpaInFeatureFlag.mockImplementation((_, flag) => {
-					return flag === FLAG.S20_APPEAL_FORM_V2;
-				});
-
 				typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 				const planningApplication = type;
 
@@ -263,34 +165,28 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			}
 		);
 
-		it.each(defaultTypes)(
-			'should redirect to the granted-or-refused page if %s - v2 (s20 & s78 flags)',
-			async (type) => {
-				isLpaInFeatureFlag.mockImplementation((_, flag) => {
-					return flag === FLAG.S20_APPEAL_FORM_V2 || flag === FLAG.S78_APPEAL_FORM_V2;
-				});
-				typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
-				const planningApplication = type;
+		it.each(defaultTypes)('should redirect to the granted-or-refused page if %s', async (type) => {
+			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
+			const planningApplication = type;
 
-				const mockRequest = {
-					...req,
-					body: { 'type-of-planning-application': planningApplication }
-				};
+			const mockRequest = {
+				...req,
+				body: { 'type-of-planning-application': planningApplication }
+			};
 
-				await postTypeOfPlanningApplication(mockRequest, res);
+			await postTypeOfPlanningApplication(mockRequest, res);
 
-				const updatedAppeal = appeal;
-				updatedAppeal.appealType = mapPlanningApplication(planningApplication);
-				updatedAppeal.typeOfPlanningApplication = planningApplication;
-				updatedAppeal.eligibility.isListedBuilding = false;
+			const updatedAppeal = appeal;
+			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+			updatedAppeal.typeOfPlanningApplication = planningApplication;
+			updatedAppeal.eligibility.isListedBuilding = false;
 
-				expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-					...updatedAppeal
-				});
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...updatedAppeal
+			});
 
-				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
-			}
-		);
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
+		});
 
 		it('should redirect to the prior approval page', async () => {
 			const planningApplication = 'prior-approval';
@@ -314,33 +210,6 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		});
 
 		it('should redirect to the removal or variation of conditions page', async () => {
-			const planningApplication = 'removal-or-variation-of-conditions';
-
-			const mockRequest = {
-				...req,
-				body: { 'type-of-planning-application': planningApplication }
-			};
-
-			await postTypeOfPlanningApplication(mockRequest, res);
-
-			const updatedAppeal = appeal;
-			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
-			updatedAppeal.typeOfPlanningApplication = planningApplication;
-
-			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-				...updatedAppeal
-			});
-
-			expect(res.redirect).toHaveBeenCalledWith(
-				'/before-you-start/conditions-householder-permission'
-			);
-		});
-
-		it('should redirect to the removal or variation of conditions page - s20', async () => {
-			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.S20_APPEAL_FORM_V2;
-			});
-
 			const planningApplication = 'removal-or-variation-of-conditions';
 
 			const mockRequest = {
@@ -381,6 +250,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			const updatedAppeal = appeal;
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
+			updatedAppeal.eligibility.isListedBuilding = false;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal
@@ -406,6 +276,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			const updatedAppeal = appeal;
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
+			updatedAppeal.eligibility.isListedBuilding = false;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal
@@ -440,9 +311,6 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		});
 
 		it('should redirect to granted-or-refused page if listed-building selected (v2 only)', async () => {
-			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.S20_APPEAL_FORM_V2;
-			});
 			const planningApplication = 'listed-building';
 
 			const mockRequest = {

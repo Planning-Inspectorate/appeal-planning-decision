@@ -58,7 +58,10 @@ describe('getJourneyResponseForAppellant', () => {
 	});
 
 	it('should 404 if feature flag is not active', async () => {
-		req.appealsApiClient.getAppellantSubmission.mockResolvedValue(mockSubmission);
+		const submission = structuredClone(mockSubmission);
+		submission.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
+		req.appealsApiClient.getAppellantSubmission.mockResolvedValue(submission);
+
 		require('../../featureFlag').isFeatureActive.mockResolvedValue(false);
 		await getJourneyResponseForAppellant(req, res, next);
 		expect(res.status).toHaveBeenCalledWith(404);

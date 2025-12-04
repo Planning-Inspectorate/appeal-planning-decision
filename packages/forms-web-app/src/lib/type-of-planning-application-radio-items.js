@@ -17,14 +17,13 @@ const {
 } = require('@pins/business-rules');
 
 /**
- * @param {boolean} isS20featureFlag
  * @param {boolean} isCASPlanningFeatureFlag
+ * @param {boolean} isCASAdvertsFeatureFlag
  * @param {boolean} isAdvertsFeatureFlag
  * @param {string} [typeOfPlanningApplication]
  * @returns {Array<object>} an array of objects representing govuk radio items
  */
 exports.typeOfPlanningApplicationRadioItems = (
-	isS20featureFlag,
 	isCASPlanningFeatureFlag,
 	isCASAdvertsFeatureFlag,
 	isAdvertsFeatureFlag,
@@ -126,14 +125,10 @@ exports.typeOfPlanningApplicationRadioItems = (
 		}
 	];
 
-	// only return the listed building option if feature flag turned on
-	const s20Filtered = isS20featureFlag
-		? items
-		: items.filter((item) => item.value !== LISTED_BUILDING);
 	// only return the minor commercial development option if feature flag turned on
 	const casPlanningFiltered = isCASPlanningFeatureFlag
-		? s20Filtered
-		: s20Filtered.filter((item) => item.value !== MINOR_COMMERCIAL_DEVELOPMENT);
+		? items
+		: items.filter((item) => item.value !== MINOR_COMMERCIAL_DEVELOPMENT);
 	// only return the minor commercial advertisment option if feature flag turned on
 	return isAdvertsFeatureFlag || isCASAdvertsFeatureFlag
 		? casPlanningFiltered

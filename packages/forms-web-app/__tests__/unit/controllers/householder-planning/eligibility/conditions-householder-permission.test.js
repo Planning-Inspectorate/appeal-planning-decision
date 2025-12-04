@@ -126,30 +126,6 @@ describe('controllers/householder-planning/eligibility/conditions-householder-pe
 			expect(req.session.appeal).toEqual(submittedAppeal);
 		});
 
-		it('should redirect to the correct page if `no` has been selected - v1', async () => {
-			appeal[sectionName].hasHouseholderPermissionConditions = false;
-			appeal.appealType = '1005';
-
-			const submittedAppeal = {
-				...appeal,
-				state: 'SUBMITTED'
-			};
-
-			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
-
-			req = {
-				...req,
-				body: {
-					'conditions-householder-permission': 'no'
-				}
-			};
-
-			await postConditionsHouseholderPermission(req, res);
-
-			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/any-of-following');
-			expect(req.session.appeal).toEqual(submittedAppeal);
-		});
-
 		it('should redirect to the correct page if `no` has been selected - v2', async () => {
 			isLpaInFeatureFlag.mockReturnValueOnce(true);
 			appeal[sectionName].hasHouseholderPermissionConditions = false;

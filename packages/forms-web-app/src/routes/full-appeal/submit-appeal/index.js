@@ -47,8 +47,6 @@ const planningObligationDeadlineRouter = require('./planning-obligation-deadline
 const planningObligationDraftRouter = require('./draft-planning-obligation');
 const letterConfirmingApplicationRouter = require('./letter-confirming-application');
 const emailConfirmedRouter = require('./email-address-confirmed');
-const listOfDocuments = require('./list-of-documents');
-const listOfDocumentsRouter = require('./list-of-documents');
 const cannotAppealRouter = require('./cannot-appeal');
 const appealAlreadySubmittedRouter = require('./appeal-already-submitted');
 
@@ -102,8 +100,6 @@ router.use(planningObligationDraftRouter);
 router.use(planningObligationDeadlineRouter);
 router.use(letterConfirmingApplicationRouter);
 router.use(emailConfirmedRouter);
-router.use(listOfDocuments);
-router.use(listOfDocumentsRouter);
 router.use(cannotAppealRouter);
 router.use(appealAlreadySubmittedRouter);
 

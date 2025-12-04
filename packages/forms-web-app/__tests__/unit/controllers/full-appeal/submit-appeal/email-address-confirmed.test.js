@@ -8,7 +8,6 @@ const {
 	}
 } = require('../../../../../src/lib/views');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
-const { hideFromDashboard } = require('#lib/hide-from-dashboard');
 
 const { mockReq, mockRes } = require('../../../mocks');
 const { APPEAL_ID, TYPE_OF_PLANNING_APPLICATION } = require('@pins/business-rules/src/constants');
@@ -16,7 +15,6 @@ const config = require('../../../../../src/config');
 const { FLAG } = require('@pins/common/src/feature-flags');
 
 jest.mock('#lib/is-lpa-in-feature-flag');
-jest.mock('#lib/hide-from-dashboard');
 
 describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => {
 	let req;
@@ -32,29 +30,10 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 	});
 
 	describe('getEmailConfirmed', () => {
-		it('calls correct template: token valid, s78 V1 routes', async () => {
-			req.session.appeal.typeOfPlanningApplication = TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL;
-			req.session.appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
-			isLpaInFeatureFlag.mockImplementation(() => {
-				return false;
-			});
-
-			await getEmailConfirmed(req, res);
-			expect(hideFromDashboard).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
-				listOfDocumentsUrl: '/full-appeal/submit-appeal/list-of-documents-v1',
-				bannerHtmlOverride
-			});
-		});
-
 		it('calls correct template: token valid, s78 V2 routes', async () => {
 			req.session.appeal.typeOfPlanningApplication = TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL;
 			req.session.appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
-			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.S78_APPEAL_FORM_V2;
-			});
 			await getEmailConfirmed(req, res);
-			expect(hideFromDashboard).toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/full-planning/appeal-form/before-you-start',
 				bannerHtmlOverride
@@ -64,12 +43,8 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 		it('calls correct template: s20', async () => {
 			req.session.appeal.appealType = APPEAL_ID.PLANNING_LISTED_BUILDING;
 			req.session.appeal.typeOfPlanningApplication = TYPE_OF_PLANNING_APPLICATION.LISTED_BUILDING;
-			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.S78_APPEAL_FORM_V2;
-			});
 
 			await getEmailConfirmed(req, res);
-			expect(hideFromDashboard).toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/listed-building/appeal-form/before-you-start',
 				bannerHtmlOverride:
@@ -87,7 +62,6 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			});
 
 			await getEmailConfirmed(req, res);
-			expect(hideFromDashboard).toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/cas-planning/appeal-form/before-you-start',
 				bannerHtmlOverride:
@@ -103,7 +77,6 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			});
 
 			await getEmailConfirmed(req, res);
-			expect(hideFromDashboard).toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/adverts/appeal-form/before-you-start',
 				bannerHtmlOverride:
@@ -120,7 +93,6 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			});
 
 			await getEmailConfirmed(req, res);
-			expect(hideFromDashboard).toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/adverts/appeal-form/before-you-start',
 				bannerHtmlOverride:
@@ -136,7 +108,6 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			});
 
 			await getEmailConfirmed(req, res);
-			expect(hideFromDashboard).toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
 				listOfDocumentsUrl: '/appeals/enforcement/appeal-form/before-you-start',
 				bannerHtmlOverride:
