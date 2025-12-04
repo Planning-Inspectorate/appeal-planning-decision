@@ -182,20 +182,11 @@ extends:
                       variable: SQL_CONNECTION_STRING_ADMIN
                     - name: appeals-sql-server-connection-string-app
                       variable: SQL_CONNECTION_STRING
-              - task: Cache@2
-                inputs:
-                  key: 'npm | "$(Agent.OS)" | package-lock.json'
-                  restoreKeys: |
-                    npm | "$(Agent.OS)" | package-lock.json
-                  path: $(npm_config_cache)
-                displayName: Cache NPM
               - template: ../steps/node_script.yml
                 parameters:
                   nodeVersion: 22
                   script: npm ci --ignore-scripts --workspace=@pins/database
                   workingDirectory: $(Build.Repository.LocalPath)
-                  environmentVariables:
-                    npm_config_cache: $(npm_config_cache)
               - ${{ if eq(parameters.schemaMigration, true) }}:
                   - template: ../steps/node_script.yml
                     parameters:
