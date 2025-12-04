@@ -1,5 +1,4 @@
 const express = require('express');
-const anyOfFollowingRouter = require('./any-of-following');
 const grantedOrRefusedRouter = require('./granted-or-refused');
 const outOfTimeRouter = require('./you-cannot-appeal');
 const decisionDateRouter = require('./decision-date');
@@ -9,7 +8,6 @@ const listedBuildingRouter = require('./listed-building');
 
 const router = express.Router();
 
-router.use(anyOfFollowingRouter);
 router.use(grantedOrRefusedRouter);
 router.use(outOfTimeRouter);
 router.use(decisionDateRouter);
