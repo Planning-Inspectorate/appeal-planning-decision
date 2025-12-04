@@ -1755,7 +1755,7 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
 exports[`Dynamic forms journey tests appellant Advertisement renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Advertisement Appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Advertisement appeal</span>
         </div>
     </div>
     <style>
@@ -3730,7 +3730,7 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement Commerci
 exports[`Dynamic forms journey tests appellant Commercial advertisement renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Commercial advertisement Appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Commercial advertisement appeal</span>
         </div>
     </div>
     <style>
@@ -5501,7 +5501,7 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commerc
 exports[`Dynamic forms journey tests appellant Commercial planning (CAS) renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Commercial planning (CAS) Appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Commercial planning (CAS) appeal</span>
         </div>
     </div>
     <style>
@@ -7336,7 +7336,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 exports[`Dynamic forms journey tests appellant Enforcement notice renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Enforcement notice Appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Enforcement notice appeal</span>
         </div>
     </div>
     <style>
@@ -8902,7 +8902,7 @@ exports[`Dynamic forms journey tests appellant Householder Householder should re
 exports[`Dynamic forms journey tests appellant Householder renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Householder Appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Householder appeal</span>
         </div>
     </div>
     <style>
@@ -14098,7 +14098,7 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
 exports[`Dynamic forms journey tests appellant Planning listed building and conservation area renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning listed building and conservation area Appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning listed building and conservation area appeal</span>
         </div>
     </div>
     <style>
@@ -14339,7 +14339,7 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
 exports[`Dynamic forms journey tests appellant Planning renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning Appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning appeal</span>
         </div>
     </div>
     <style>
