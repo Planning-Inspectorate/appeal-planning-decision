@@ -108,7 +108,7 @@ We have incorporated Azure feature flag functionality into the common package fo
 and then specifying the name of the feature flag in the parameters, i.e.:
 
 ```
-  if (isFeatureActive(FLAGS.HAS_APPEAL_FORM_V2)) {
+  if (isFeatureActive(FLAGS.EXAMPLE_FEATURE_FLAG)) {
     `feature implementation goes here`
   }
 ```

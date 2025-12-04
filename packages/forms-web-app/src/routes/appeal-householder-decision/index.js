@@ -23,12 +23,7 @@ router.use(
 	checkDecisionDateDeadline,
 	require('./email-address-confirmed')
 );
-router.use(
-	checkLoggedIn,
-	checkAppealExists,
-	checkDecisionDateDeadline,
-	require('./list-of-documents')
-);
+
 router.use(
 	checkLoggedIn,
 	checkAppealExists,
