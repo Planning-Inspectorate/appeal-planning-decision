@@ -1395,8 +1395,8 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadCostApplication">Upload files</label>
-                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadCostApplication" name="uploadCostApplication" type="file" aria-describedby="uploadCostApplication-hint"
                             multiple="">
@@ -1469,8 +1469,8 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadAppellantStatement">Upload files</label>
-                            <div id="uploadAppellantStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadAppellantStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadAppellantStatement" name="uploadAppellantStatement" type="file"
                             aria-describedby="uploadAppellantStatement-hint" multiple="">
@@ -1517,8 +1517,8 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadOriginalApplicationForm">Upload files</label>
-                            <div id="uploadOriginalApplicationForm-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadOriginalApplicationForm-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadOriginalApplicationForm" name="uploadOriginalApplicationForm"
                             type="file" aria-describedby="uploadOriginalApplicationForm-hint" multiple="">
@@ -1567,8 +1567,8 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadApplicationDecisionLetter">Upload files</label>
-                            <div id="uploadApplicationDecisionLetter-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadApplicationDecisionLetter-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadApplicationDecisionLetter" name="uploadApplicationDecisionLetter"
                             type="file" aria-describedby="uploadApplicationDecisionLetter-hint" multiple="">
@@ -1613,8 +1613,8 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadChangeOfDescriptionEvidence">Upload files</label>
-                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadChangeOfDescriptionEvidence" name="uploadChangeOfDescriptionEvidence"
                             type="file" aria-describedby="uploadChangeOfDescriptionEvidence-hint" multiple="">
@@ -1661,8 +1661,8 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlansDrawings">Upload files</label>
-                                <div id="uploadPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlansDrawings" name="uploadPlansDrawings" type="file" aria-describedby="uploadPlansDrawings-hint"
                                 multiple="">
@@ -3370,8 +3370,8 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement Commerci
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadCostApplication">Upload files</label>
-                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadCostApplication" name="uploadCostApplication" type="file" aria-describedby="uploadCostApplication-hint"
                             multiple="">
@@ -3444,8 +3444,8 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement Commerci
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadAppellantStatement">Upload files</label>
-                            <div id="uploadAppellantStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadAppellantStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadAppellantStatement" name="uploadAppellantStatement" type="file"
                             aria-describedby="uploadAppellantStatement-hint" multiple="">
@@ -3492,8 +3492,8 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement Commerci
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadOriginalApplicationForm">Upload files</label>
-                            <div id="uploadOriginalApplicationForm-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadOriginalApplicationForm-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadOriginalApplicationForm" name="uploadOriginalApplicationForm"
                             type="file" aria-describedby="uploadOriginalApplicationForm-hint" multiple="">
@@ -3542,8 +3542,8 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement Commerci
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadApplicationDecisionLetter">Upload files</label>
-                            <div id="uploadApplicationDecisionLetter-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadApplicationDecisionLetter-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadApplicationDecisionLetter" name="uploadApplicationDecisionLetter"
                             type="file" aria-describedby="uploadApplicationDecisionLetter-hint" multiple="">
@@ -3588,8 +3588,8 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement Commerci
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadChangeOfDescriptionEvidence">Upload files</label>
-                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadChangeOfDescriptionEvidence" name="uploadChangeOfDescriptionEvidence"
                             type="file" aria-describedby="uploadChangeOfDescriptionEvidence-hint" multiple="">
@@ -3636,8 +3636,8 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement Commerci
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlansDrawings">Upload files</label>
-                                <div id="uploadPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlansDrawings" name="uploadPlansDrawings" type="file" aria-describedby="uploadPlansDrawings-hint"
                                 multiple="">
@@ -5145,8 +5145,8 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commerc
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadCostApplication">Upload files</label>
-                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadCostApplication" name="uploadCostApplication" type="file" aria-describedby="uploadCostApplication-hint"
                             multiple="">
@@ -5220,8 +5220,8 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commerc
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadAppellantStatement">Upload files</label>
-                            <div id="uploadAppellantStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadAppellantStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadAppellantStatement" name="uploadAppellantStatement" type="file"
                             aria-describedby="uploadAppellantStatement-hint" multiple="">
@@ -5269,8 +5269,8 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commerc
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadOriginalApplicationForm">Upload files</label>
-                            <div id="uploadOriginalApplicationForm-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadOriginalApplicationForm-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadOriginalApplicationForm" name="uploadOriginalApplicationForm"
                             type="file" aria-describedby="uploadOriginalApplicationForm-hint" multiple="">
@@ -5320,8 +5320,8 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commerc
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadApplicationDecisionLetter">Upload files</label>
-                            <div id="uploadApplicationDecisionLetter-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadApplicationDecisionLetter-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadApplicationDecisionLetter" name="uploadApplicationDecisionLetter"
                             type="file" aria-describedby="uploadApplicationDecisionLetter-hint" multiple="">
@@ -5367,8 +5367,8 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commerc
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadChangeOfDescriptionEvidence">Upload files</label>
-                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadChangeOfDescriptionEvidence" name="uploadChangeOfDescriptionEvidence"
                             type="file" aria-describedby="uploadChangeOfDescriptionEvidence-hint" multiple="">
@@ -5421,8 +5421,8 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commerc
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadDesignAccessStatement">Upload files</label>
-                            <div id="uploadDesignAccessStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadDesignAccessStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadDesignAccessStatement" name="uploadDesignAccessStatement" type="file"
                             aria-describedby="uploadDesignAccessStatement-hint" multiple="">
@@ -5470,8 +5470,8 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commerc
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlansDrawings">Upload files</label>
-                                <div id="uploadPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlansDrawings" name="uploadPlansDrawings" type="file" aria-describedby="uploadPlansDrawings-hint"
                                 multiple="">
@@ -7091,8 +7091,8 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadCostApplication">Upload files</label>
-                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadCostApplication" name="uploadCostApplication" type="file" aria-describedby="uploadCostApplication-hint"
                             multiple="">
@@ -7134,8 +7134,8 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadApplicationReceipt">Upload files</label>
-                            <div id="uploadApplicationReceipt-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadApplicationReceipt-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadApplicationReceipt" name="uploadApplicationReceipt" type="file"
                             aria-describedby="uploadApplicationReceipt-hint" multiple="">
@@ -7177,8 +7177,8 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadOtherNewDocuments">Upload files</label>
-                            <div id="uploadOtherNewDocuments-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadOtherNewDocuments-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadOtherNewDocuments" name="uploadOtherNewDocuments" type="file"
                             aria-describedby="uploadOtherNewDocuments-hint" multiple="">
@@ -7220,8 +7220,8 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadPlanningObligation">Upload files</label>
-                            <div id="uploadPlanningObligation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadPlanningObligation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadPlanningObligation" name="uploadPlanningObligation" type="file"
                             aria-describedby="uploadPlanningObligation-hint" multiple="">
@@ -8688,8 +8688,8 @@ exports[`Dynamic forms journey tests appellant Householder Householder should re
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadCostApplication">Upload files</label>
-                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadCostApplication" name="uploadCostApplication" type="file" aria-describedby="uploadCostApplication-hint"
                             multiple="">
@@ -8762,8 +8762,8 @@ exports[`Dynamic forms journey tests appellant Householder Householder should re
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadAppellantStatement">Upload files</label>
-                            <div id="uploadAppellantStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadAppellantStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadAppellantStatement" name="uploadAppellantStatement" type="file"
                             aria-describedby="uploadAppellantStatement-hint" multiple="">
@@ -8810,8 +8810,8 @@ exports[`Dynamic forms journey tests appellant Householder Householder should re
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadOriginalApplicationForm">Upload files</label>
-                            <div id="uploadOriginalApplicationForm-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadOriginalApplicationForm-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadOriginalApplicationForm" name="uploadOriginalApplicationForm"
                             type="file" aria-describedby="uploadOriginalApplicationForm-hint" multiple="">
@@ -8860,8 +8860,8 @@ exports[`Dynamic forms journey tests appellant Householder Householder should re
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadApplicationDecisionLetter">Upload files</label>
-                            <div id="uploadApplicationDecisionLetter-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadApplicationDecisionLetter-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadApplicationDecisionLetter" name="uploadApplicationDecisionLetter"
                             type="file" aria-describedby="uploadApplicationDecisionLetter-hint" multiple="">
@@ -8906,8 +8906,8 @@ exports[`Dynamic forms journey tests appellant Householder Householder should re
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadChangeOfDescriptionEvidence">Upload files</label>
-                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadChangeOfDescriptionEvidence" name="uploadChangeOfDescriptionEvidence"
                             type="file" aria-describedby="uploadChangeOfDescriptionEvidence-hint" multiple="">
@@ -11090,8 +11090,8 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadCostApplication">Upload files</label>
-                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadCostApplication" name="uploadCostApplication" type="file" aria-describedby="uploadCostApplication-hint"
                             multiple="">
@@ -11165,8 +11165,8 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadAppellantStatement">Upload files</label>
-                            <div id="uploadAppellantStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadAppellantStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadAppellantStatement" name="uploadAppellantStatement" type="file"
                             aria-describedby="uploadAppellantStatement-hint" multiple="">
@@ -11214,8 +11214,8 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadOriginalApplicationForm">Upload files</label>
-                            <div id="uploadOriginalApplicationForm-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadOriginalApplicationForm-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadOriginalApplicationForm" name="uploadOriginalApplicationForm"
                             type="file" aria-describedby="uploadOriginalApplicationForm-hint" multiple="">
@@ -11258,8 +11258,8 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadOwnershipCertificate">Upload files</label>
-                            <div id="uploadOwnershipCertificate-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadOwnershipCertificate-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadOwnershipCertificate" name="uploadOwnershipCertificate" type="file"
                             aria-describedby="uploadOwnershipCertificate-hint" multiple="">
@@ -11309,8 +11309,8 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadApplicationDecisionLetter">Upload files</label>
-                            <div id="uploadApplicationDecisionLetter-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadApplicationDecisionLetter-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadApplicationDecisionLetter" name="uploadApplicationDecisionLetter"
                             type="file" aria-describedby="uploadApplicationDecisionLetter-hint" multiple="">
@@ -11356,8 +11356,8 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadChangeOfDescriptionEvidence">Upload files</label>
-                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadChangeOfDescriptionEvidence" name="uploadChangeOfDescriptionEvidence"
                             type="file" aria-describedby="uploadChangeOfDescriptionEvidence-hint" multiple="">
@@ -11410,8 +11410,8 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadDesignAccessStatement">Upload files</label>
-                            <div id="uploadDesignAccessStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadDesignAccessStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadDesignAccessStatement" name="uploadDesignAccessStatement" type="file"
                             aria-describedby="uploadDesignAccessStatement-hint" multiple="">
@@ -11454,8 +11454,8 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadStatementCommonGround">Upload files</label>
-                            <div id="uploadStatementCommonGround-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadStatementCommonGround-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadStatementCommonGround" name="uploadStatementCommonGround" type="file"
                             aria-describedby="uploadStatementCommonGround-hint" multiple="">
@@ -11498,8 +11498,8 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadNewPlansDrawings">Upload files</label>
-                            <div id="uploadNewPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadNewPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadNewPlansDrawings" name="uploadNewPlansDrawings" type="file" aria-describedby="uploadNewPlansDrawings-hint"
                             multiple="">
@@ -11542,8 +11542,8 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadOtherNewDocuments">Upload files</label>
-                            <div id="uploadOtherNewDocuments-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadOtherNewDocuments-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadOtherNewDocuments" name="uploadOtherNewDocuments" type="file"
                             aria-describedby="uploadOtherNewDocuments-hint" multiple="">
@@ -11586,8 +11586,8 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadPlanningObligation">Upload files</label>
-                            <div id="uploadPlanningObligation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadPlanningObligation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadPlanningObligation" name="uploadPlanningObligation" type="file"
                             aria-describedby="uploadPlanningObligation-hint" multiple="">
@@ -11635,8 +11635,8 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlansDrawings">Upload files</label>
-                                <div id="uploadPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlansDrawings" name="uploadPlansDrawings" type="file" aria-describedby="uploadPlansDrawings-hint"
                                 multiple="">
@@ -13490,8 +13490,8 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadCostApplication">Upload files</label>
-                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadCostApplication-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadCostApplication" name="uploadCostApplication" type="file" aria-describedby="uploadCostApplication-hint"
                             multiple="">
@@ -13565,8 +13565,8 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadAppellantStatement">Upload files</label>
-                            <div id="uploadAppellantStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadAppellantStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadAppellantStatement" name="uploadAppellantStatement" type="file"
                             aria-describedby="uploadAppellantStatement-hint" multiple="">
@@ -13614,8 +13614,8 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadOriginalApplicationForm">Upload files</label>
-                            <div id="uploadOriginalApplicationForm-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadOriginalApplicationForm-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadOriginalApplicationForm" name="uploadOriginalApplicationForm"
                             type="file" aria-describedby="uploadOriginalApplicationForm-hint" multiple="">
@@ -13658,8 +13658,8 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadOwnershipCertificate">Upload files</label>
-                            <div id="uploadOwnershipCertificate-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadOwnershipCertificate-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadOwnershipCertificate" name="uploadOwnershipCertificate" type="file"
                             aria-describedby="uploadOwnershipCertificate-hint" multiple="">
@@ -13709,8 +13709,8 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadApplicationDecisionLetter">Upload files</label>
-                            <div id="uploadApplicationDecisionLetter-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadApplicationDecisionLetter-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadApplicationDecisionLetter" name="uploadApplicationDecisionLetter"
                             type="file" aria-describedby="uploadApplicationDecisionLetter-hint" multiple="">
@@ -13756,8 +13756,8 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadChangeOfDescriptionEvidence">Upload files</label>
-                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadChangeOfDescriptionEvidence-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadChangeOfDescriptionEvidence" name="uploadChangeOfDescriptionEvidence"
                             type="file" aria-describedby="uploadChangeOfDescriptionEvidence-hint" multiple="">
@@ -13810,8 +13810,8 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadDesignAccessStatement">Upload files</label>
-                            <div id="uploadDesignAccessStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadDesignAccessStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadDesignAccessStatement" name="uploadDesignAccessStatement" type="file"
                             aria-describedby="uploadDesignAccessStatement-hint" multiple="">
@@ -13854,8 +13854,8 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadStatementCommonGround">Upload files</label>
-                            <div id="uploadStatementCommonGround-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadStatementCommonGround-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadStatementCommonGround" name="uploadStatementCommonGround" type="file"
                             aria-describedby="uploadStatementCommonGround-hint" multiple="">
@@ -13898,8 +13898,8 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadNewPlansDrawings">Upload files</label>
-                            <div id="uploadNewPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadNewPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadNewPlansDrawings" name="uploadNewPlansDrawings" type="file" aria-describedby="uploadNewPlansDrawings-hint"
                             multiple="">
@@ -13942,8 +13942,8 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadOtherNewDocuments">Upload files</label>
-                            <div id="uploadOtherNewDocuments-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadOtherNewDocuments-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadOtherNewDocuments" name="uploadOtherNewDocuments" type="file"
                             aria-describedby="uploadOtherNewDocuments-hint" multiple="">
@@ -13986,8 +13986,8 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadPlanningObligation">Upload files</label>
-                            <div id="uploadPlanningObligation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadPlanningObligation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadPlanningObligation" name="uploadPlanningObligation" type="file"
                             aria-describedby="uploadPlanningObligation-hint" multiple="">
@@ -14035,8 +14035,8 @@ exports[`Dynamic forms journey tests appellant Planning listed building and cons
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlansDrawings">Upload files</label>
-                                <div id="uploadPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlansDrawings" name="uploadPlansDrawings" type="file" aria-describedby="uploadPlansDrawings-hint"
                                 multiple="">
@@ -14764,8 +14764,8 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="appealNotification">Upload files</label>
-                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="appealNotification" name="appealNotification" type="file" aria-describedby="appealNotification-hint"
                             multiple="">
@@ -15400,8 +15400,8 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadLettersInterestedParties">Upload files</label>
-                            <div id="uploadLettersInterestedParties-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadLettersInterestedParties-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadLettersInterestedParties" name="uploadLettersInterestedParties"
                             type="file" aria-describedby="uploadLettersInterestedParties-hint" multiple="">
@@ -16252,8 +16252,8 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadConservation">Upload files</label>
-                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadConservation" name="uploadConservation" type="file" aria-describedby="uploadConservation-hint"
                                 multiple="">
@@ -16305,8 +16305,8 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadDevelopmentPlanPolicies">Upload files</label>
-                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadDevelopmentPlanPolicies" name="uploadDevelopmentPlanPolicies"
                                 type="file" aria-describedby="uploadDevelopmentPlanPolicies-hint" multiple="">
@@ -16377,8 +16377,8 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadEmergingPlan">Upload files</label>
-                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadEmergingPlan" name="uploadEmergingPlan" type="file" aria-describedby="uploadEmergingPlan-hint"
                                 multiple="">
@@ -16422,8 +16422,8 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadOtherPolicies">Upload files</label>
-                                <div id="uploadOtherPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadOtherPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadOtherPolicies" name="uploadOtherPolicies" type="file" aria-describedby="uploadOtherPolicies-hint"
                                 multiple="">
@@ -16473,8 +16473,8 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlanningOfficerReport">Upload files</label>
-                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlanningOfficerReport" name="uploadPlanningOfficerReport" type="file"
                                 aria-describedby="uploadPlanningOfficerReport-hint" multiple="">
@@ -16525,8 +16525,8 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadSupplementaryPlanningDocs">Upload files</label>
-                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadSupplementaryPlanningDocs" name="uploadSupplementaryPlanningDocs"
                                 type="file" aria-describedby="uploadSupplementaryPlanningDocs-hint" multiple="">
@@ -16568,8 +16568,8 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadPressAdvert">Upload files</label>
-                            <div id="uploadPressAdvert-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadPressAdvert-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadPressAdvert" name="uploadPressAdvert" type="file" aria-describedby="uploadPressAdvert-hint"
                             multiple="">
@@ -16613,8 +16613,8 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadRepresentations">Upload files</label>
-                                <div id="uploadRepresentations-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadRepresentations-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadRepresentations" name="uploadRepresentations" type="file" aria-describedby="uploadRepresentations-hint"
                                 multiple="">
@@ -16656,8 +16656,8 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadSiteNotice">Upload files</label>
-                            <div id="uploadSiteNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadSiteNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadSiteNotice" name="uploadSiteNotice" type="file" aria-describedby="uploadSiteNotice-hint"
                             multiple="">
@@ -16705,8 +16705,8 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadWhoNotified">Upload files</label>
-                            <div id="uploadWhoNotified-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadWhoNotified-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadWhoNotified" name="uploadWhoNotified" type="file" aria-describedby="uploadWhoNotified-hint"
                             multiple="">
@@ -17154,8 +17154,8 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="appealNotification">Upload files</label>
-                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="appealNotification" name="appealNotification" type="file" aria-describedby="appealNotification-hint"
                             multiple="">
@@ -17790,8 +17790,8 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadLettersInterestedParties">Upload files</label>
-                            <div id="uploadLettersInterestedParties-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadLettersInterestedParties-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadLettersInterestedParties" name="uploadLettersInterestedParties"
                             type="file" aria-describedby="uploadLettersInterestedParties-hint" multiple="">
@@ -18642,8 +18642,8 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadConservation">Upload files</label>
-                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadConservation" name="uploadConservation" type="file" aria-describedby="uploadConservation-hint"
                                 multiple="">
@@ -18695,8 +18695,8 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadDevelopmentPlanPolicies">Upload files</label>
-                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadDevelopmentPlanPolicies" name="uploadDevelopmentPlanPolicies"
                                 type="file" aria-describedby="uploadDevelopmentPlanPolicies-hint" multiple="">
@@ -18767,8 +18767,8 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadEmergingPlan">Upload files</label>
-                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadEmergingPlan" name="uploadEmergingPlan" type="file" aria-describedby="uploadEmergingPlan-hint"
                                 multiple="">
@@ -18812,8 +18812,8 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadOtherPolicies">Upload files</label>
-                                <div id="uploadOtherPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadOtherPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadOtherPolicies" name="uploadOtherPolicies" type="file" aria-describedby="uploadOtherPolicies-hint"
                                 multiple="">
@@ -18863,8 +18863,8 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlanningOfficerReport">Upload files</label>
-                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlanningOfficerReport" name="uploadPlanningOfficerReport" type="file"
                                 aria-describedby="uploadPlanningOfficerReport-hint" multiple="">
@@ -18915,8 +18915,8 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadSupplementaryPlanningDocs">Upload files</label>
-                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadSupplementaryPlanningDocs" name="uploadSupplementaryPlanningDocs"
                                 type="file" aria-describedby="uploadSupplementaryPlanningDocs-hint" multiple="">
@@ -18958,8 +18958,8 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadPressAdvert">Upload files</label>
-                            <div id="uploadPressAdvert-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadPressAdvert-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadPressAdvert" name="uploadPressAdvert" type="file" aria-describedby="uploadPressAdvert-hint"
                             multiple="">
@@ -19003,8 +19003,8 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadRepresentations">Upload files</label>
-                                <div id="uploadRepresentations-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadRepresentations-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadRepresentations" name="uploadRepresentations" type="file" aria-describedby="uploadRepresentations-hint"
                                 multiple="">
@@ -19046,8 +19046,8 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadSiteNotice">Upload files</label>
-                            <div id="uploadSiteNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadSiteNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadSiteNotice" name="uploadSiteNotice" type="file" aria-describedby="uploadSiteNotice-hint"
                             multiple="">
@@ -19095,8 +19095,8 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadWhoNotified">Upload files</label>
-                            <div id="uploadWhoNotified-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadWhoNotified-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadWhoNotified" name="uploadWhoNotified" type="file" aria-describedby="uploadWhoNotified-hint"
                             multiple="">
@@ -19490,8 +19490,8 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="appealNotification">Upload files</label>
-                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="appealNotification" name="appealNotification" type="file" aria-describedby="appealNotification-hint"
                             multiple="">
@@ -19870,8 +19870,8 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadLettersInterestedParties">Upload files</label>
-                            <div id="uploadLettersInterestedParties-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadLettersInterestedParties-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadLettersInterestedParties" name="uploadLettersInterestedParties"
                             type="file" aria-describedby="uploadLettersInterestedParties-hint" multiple="">
@@ -20356,8 +20356,8 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadConservation">Upload files</label>
-                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadConservation" name="uploadConservation" type="file" aria-describedby="uploadConservation-hint"
                                 multiple="">
@@ -20409,8 +20409,8 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadDevelopmentPlanPolicies">Upload files</label>
-                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadDevelopmentPlanPolicies" name="uploadDevelopmentPlanPolicies"
                                 type="file" aria-describedby="uploadDevelopmentPlanPolicies-hint" multiple="">
@@ -20481,8 +20481,8 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadEmergingPlan">Upload files</label>
-                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadEmergingPlan" name="uploadEmergingPlan" type="file" aria-describedby="uploadEmergingPlan-hint"
                                 multiple="">
@@ -20532,8 +20532,8 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlanningOfficerReport">Upload files</label>
-                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlanningOfficerReport" name="uploadPlanningOfficerReport" type="file"
                                 aria-describedby="uploadPlanningOfficerReport-hint" multiple="">
@@ -20584,8 +20584,8 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadSupplementaryPlanningDocs">Upload files</label>
-                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadSupplementaryPlanningDocs" name="uploadSupplementaryPlanningDocs"
                                 type="file" aria-describedby="uploadSupplementaryPlanningDocs-hint" multiple="">
@@ -20627,8 +20627,8 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadPressAdvert">Upload files</label>
-                            <div id="uploadPressAdvert-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadPressAdvert-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadPressAdvert" name="uploadPressAdvert" type="file" aria-describedby="uploadPressAdvert-hint"
                             multiple="">
@@ -20672,8 +20672,8 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadRepresentations">Upload files</label>
-                                <div id="uploadRepresentations-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadRepresentations-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadRepresentations" name="uploadRepresentations" type="file" aria-describedby="uploadRepresentations-hint"
                                 multiple="">
@@ -20715,8 +20715,8 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadSiteNotice">Upload files</label>
-                            <div id="uploadSiteNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadSiteNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadSiteNotice" name="uploadSiteNotice" type="file" aria-describedby="uploadSiteNotice-hint"
                             multiple="">
@@ -20764,8 +20764,8 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadWhoNotified">Upload files</label>
-                            <div id="uploadWhoNotified-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadWhoNotified-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadWhoNotified" name="uploadWhoNotified" type="file" aria-describedby="uploadWhoNotified-hint"
                             multiple="">
@@ -23001,8 +23001,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadInfrastructureLevy">Upload files</label>
-                                <div id="uploadInfrastructureLevy-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadInfrastructureLevy-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadInfrastructureLevy" name="uploadInfrastructureLevy" type="file"
                                 aria-describedby="uploadInfrastructureLevy-hint" multiple="">
@@ -23046,8 +23046,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadConservation">Upload files</label>
-                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadConservation" name="uploadConservation" type="file" aria-describedby="uploadConservation-hint"
                                 multiple="">
@@ -23091,8 +23091,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadDefinitiveMapStatement">Upload files</label>
-                                <div id="uploadDefinitiveMapStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadDefinitiveMapStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadDefinitiveMapStatement" name="uploadDefinitiveMapStatement" type="file"
                                 aria-describedby="uploadDefinitiveMapStatement-hint" multiple="">
@@ -23144,8 +23144,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadDevelopmentPlanPolicies">Upload files</label>
-                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadDevelopmentPlanPolicies" name="uploadDevelopmentPlanPolicies"
                                 type="file" aria-describedby="uploadDevelopmentPlanPolicies-hint" multiple="">
@@ -23216,8 +23216,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadEmergingPlan">Upload files</label>
-                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadEmergingPlan" name="uploadEmergingPlan" type="file" aria-describedby="uploadEmergingPlan-hint"
                                 multiple="">
@@ -23261,8 +23261,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadEnvironmentalStatement">Upload files</label>
-                                <div id="uploadEnvironmentalStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadEnvironmentalStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadEnvironmentalStatement" name="uploadEnvironmentalStatement" type="file"
                                 aria-describedby="uploadEnvironmentalStatement-hint" multiple="">
@@ -23306,8 +23306,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadOtherPolicies">Upload files</label>
-                                <div id="uploadOtherPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadOtherPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadOtherPolicies" name="uploadOtherPolicies" type="file" aria-describedby="uploadOtherPolicies-hint"
                                 multiple="">
@@ -23351,8 +23351,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadTreePreservationOrder">Upload files</label>
-                                <div id="uploadTreePreservationOrder-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadTreePreservationOrder-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadTreePreservationOrder" name="uploadTreePreservationOrder" type="file"
                                 aria-describedby="uploadTreePreservationOrder-hint" multiple="">
@@ -23402,8 +23402,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlanningOfficerReport">Upload files</label>
-                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlanningOfficerReport" name="uploadPlanningOfficerReport" type="file"
                                 aria-describedby="uploadPlanningOfficerReport-hint" multiple="">
@@ -23454,8 +23454,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadSupplementaryPlanningDocs">Upload files</label>
-                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadSupplementaryPlanningDocs" name="uploadSupplementaryPlanningDocs"
                                 type="file" aria-describedby="uploadSupplementaryPlanningDocs-hint" multiple="">
@@ -23499,8 +23499,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadScopingOpinion">Upload files</label>
-                                <div id="uploadScopingOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadScopingOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadScopingOpinion" name="uploadScopingOpinion" type="file" aria-describedby="uploadScopingOpinion-hint"
                                 multiple="">
@@ -23544,8 +23544,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadScreeningDirection">Upload files</label>
-                                <div id="uploadScreeningDirection-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadScreeningDirection-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadScreeningDirection" name="uploadScreeningDirection" type="file"
                                 aria-describedby="uploadScreeningDirection-hint" multiple="">
@@ -23589,8 +23589,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadScreeningOpinion">Upload files</label>
-                                <div id="uploadScreeningOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadScreeningOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadScreeningOpinion" name="uploadScreeningOpinion" type="file" aria-describedby="uploadScreeningOpinion-hint"
                                 multiple="">
@@ -23966,8 +23966,8 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="appealNotification">Upload files</label>
-                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="appealNotification" name="appealNotification" type="file" aria-describedby="appealNotification-hint"
                             multiple="">
@@ -24346,8 +24346,8 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadLettersInterestedParties">Upload files</label>
-                            <div id="uploadLettersInterestedParties-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadLettersInterestedParties-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadLettersInterestedParties" name="uploadLettersInterestedParties"
                             type="file" aria-describedby="uploadLettersInterestedParties-hint" multiple="">
@@ -24832,8 +24832,8 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadConservation">Upload files</label>
-                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadConservation" name="uploadConservation" type="file" aria-describedby="uploadConservation-hint"
                                 multiple="">
@@ -24885,8 +24885,8 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadDevelopmentPlanPolicies">Upload files</label>
-                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadDevelopmentPlanPolicies" name="uploadDevelopmentPlanPolicies"
                                 type="file" aria-describedby="uploadDevelopmentPlanPolicies-hint" multiple="">
@@ -24957,8 +24957,8 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadEmergingPlan">Upload files</label>
-                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadEmergingPlan" name="uploadEmergingPlan" type="file" aria-describedby="uploadEmergingPlan-hint"
                                 multiple="">
@@ -25008,8 +25008,8 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlanningOfficerReport">Upload files</label>
-                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlanningOfficerReport" name="uploadPlanningOfficerReport" type="file"
                                 aria-describedby="uploadPlanningOfficerReport-hint" multiple="">
@@ -25060,8 +25060,8 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlansDrawings">Upload files</label>
-                                <div id="uploadPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlansDrawings-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlansDrawings" name="uploadPlansDrawings" type="file" aria-describedby="uploadPlansDrawings-hint"
                                 multiple="">
@@ -25105,8 +25105,8 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadSupplementaryPlanningDocs">Upload files</label>
-                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadSupplementaryPlanningDocs" name="uploadSupplementaryPlanningDocs"
                                 type="file" aria-describedby="uploadSupplementaryPlanningDocs-hint" multiple="">
@@ -25148,8 +25148,8 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadPressAdvert">Upload files</label>
-                            <div id="uploadPressAdvert-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadPressAdvert-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadPressAdvert" name="uploadPressAdvert" type="file" aria-describedby="uploadPressAdvert-hint"
                             multiple="">
@@ -25193,8 +25193,8 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadRepresentations">Upload files</label>
-                                <div id="uploadRepresentations-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadRepresentations-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadRepresentations" name="uploadRepresentations" type="file" aria-describedby="uploadRepresentations-hint"
                                 multiple="">
@@ -25236,8 +25236,8 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadSiteNotice">Upload files</label>
-                            <div id="uploadSiteNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadSiteNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadSiteNotice" name="uploadSiteNotice" type="file" aria-describedby="uploadSiteNotice-hint"
                             multiple="">
@@ -25285,8 +25285,8 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadWhoNotified">Upload files</label>
-                            <div id="uploadWhoNotified-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadWhoNotified-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadWhoNotified" name="uploadWhoNotified" type="file" aria-describedby="uploadWhoNotified-hint"
                             multiple="">
@@ -25630,8 +25630,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the app
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="appealNotification">Upload files</label>
-                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="appealNotification" name="appealNotification" type="file" aria-describedby="appealNotification-hint"
                             multiple="">
@@ -26719,8 +26719,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the let
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadLettersInterestedParties">Upload files</label>
-                            <div id="uploadLettersInterestedParties-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadLettersInterestedParties-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadLettersInterestedParties" name="uploadLettersInterestedParties"
                             type="file" aria-describedby="uploadLettersInterestedParties-hint" multiple="">
@@ -27860,8 +27860,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadInfrastructureLevy">Upload files</label>
-                                <div id="uploadInfrastructureLevy-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadInfrastructureLevy-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadInfrastructureLevy" name="uploadInfrastructureLevy" type="file"
                                 aria-describedby="uploadInfrastructureLevy-hint" multiple="">
@@ -27905,8 +27905,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadConservation">Upload files</label>
-                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadConservation" name="uploadConservation" type="file" aria-describedby="uploadConservation-hint"
                                 multiple="">
@@ -27950,8 +27950,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadConsultationResponses">Upload files</label>
-                                <div id="uploadConsultationResponses-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadConsultationResponses-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadConsultationResponses" name="uploadConsultationResponses" type="file"
                                 aria-describedby="uploadConsultationResponses-hint" multiple="">
@@ -27995,8 +27995,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadDefinitiveMapStatement">Upload files</label>
-                                <div id="uploadDefinitiveMapStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadDefinitiveMapStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadDefinitiveMapStatement" name="uploadDefinitiveMapStatement" type="file"
                                 aria-describedby="uploadDefinitiveMapStatement-hint" multiple="">
@@ -28048,8 +28048,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadDevelopmentPlanPolicies">Upload files</label>
-                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadDevelopmentPlanPolicies" name="uploadDevelopmentPlanPolicies"
                                 type="file" aria-describedby="uploadDevelopmentPlanPolicies-hint" multiple="">
@@ -28120,8 +28120,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadEmergingPlan">Upload files</label>
-                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadEmergingPlan" name="uploadEmergingPlan" type="file" aria-describedby="uploadEmergingPlan-hint"
                                 multiple="">
@@ -28165,8 +28165,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadEnvironmentalStatement">Upload files</label>
-                                <div id="uploadEnvironmentalStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadEnvironmentalStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadEnvironmentalStatement" name="uploadEnvironmentalStatement" type="file"
                                 aria-describedby="uploadEnvironmentalStatement-hint" multiple="">
@@ -28210,8 +28210,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadOtherPolicies">Upload files</label>
-                                <div id="uploadOtherPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadOtherPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadOtherPolicies" name="uploadOtherPolicies" type="file" aria-describedby="uploadOtherPolicies-hint"
                                 multiple="">
@@ -28255,8 +28255,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadTreePreservationOrder">Upload files</label>
-                                <div id="uploadTreePreservationOrder-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadTreePreservationOrder-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadTreePreservationOrder" name="uploadTreePreservationOrder" type="file"
                                 aria-describedby="uploadTreePreservationOrder-hint" multiple="">
@@ -28306,8 +28306,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlanningOfficerReport">Upload files</label>
-                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlanningOfficerReport" name="uploadPlanningOfficerReport" type="file"
                                 aria-describedby="uploadPlanningOfficerReport-hint" multiple="">
@@ -28358,8 +28358,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadSupplementaryPlanningDocs">Upload files</label>
-                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadSupplementaryPlanningDocs" name="uploadSupplementaryPlanningDocs"
                                 type="file" aria-describedby="uploadSupplementaryPlanningDocs-hint" multiple="">
@@ -28401,8 +28401,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadPressAdvert">Upload files</label>
-                            <div id="uploadPressAdvert-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadPressAdvert-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadPressAdvert" name="uploadPressAdvert" type="file" aria-describedby="uploadPressAdvert-hint"
                             multiple="">
@@ -28446,8 +28446,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadRepresentations">Upload files</label>
-                                <div id="uploadRepresentations-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadRepresentations-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadRepresentations" name="uploadRepresentations" type="file" aria-describedby="uploadRepresentations-hint"
                                 multiple="">
@@ -28491,8 +28491,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadScopingOpinion">Upload files</label>
-                                <div id="uploadScopingOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadScopingOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadScopingOpinion" name="uploadScopingOpinion" type="file" aria-describedby="uploadScopingOpinion-hint"
                                 multiple="">
@@ -28536,8 +28536,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadScreeningDirection">Upload files</label>
-                                <div id="uploadScreeningDirection-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadScreeningDirection-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadScreeningDirection" name="uploadScreeningDirection" type="file"
                                 aria-describedby="uploadScreeningDirection-hint" multiple="">
@@ -28581,8 +28581,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadScreeningOpinion">Upload files</label>
-                                <div id="uploadScreeningOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadScreeningOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadScreeningOpinion" name="uploadScreeningOpinion" type="file" aria-describedby="uploadScreeningOpinion-hint"
                                 multiple="">
@@ -28624,8 +28624,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadSiteNotice">Upload files</label>
-                            <div id="uploadSiteNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadSiteNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadSiteNotice" name="uploadSiteNotice" type="file" aria-describedby="uploadSiteNotice-hint"
                             multiple="">
@@ -28673,8 +28673,8 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadWhoNotified">Upload files</label>
-                            <div id="uploadWhoNotified-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadWhoNotified-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadWhoNotified" name="uploadWhoNotified" type="file" aria-describedby="uploadWhoNotified-hint"
                             multiple="">
@@ -28799,8 +28799,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="appealNotification">Upload files</label>
-                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="appealNotification" name="appealNotification" type="file" aria-describedby="appealNotification-hint"
                             multiple="">
@@ -29704,8 +29704,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadHistoricEnglandConsultation">Upload files</label>
-                                <div id="uploadHistoricEnglandConsultation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadHistoricEnglandConsultation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadHistoricEnglandConsultation" name="uploadHistoricEnglandConsultation"
                                 type="file" aria-describedby="uploadHistoricEnglandConsultation-hint" multiple="">
@@ -29979,8 +29979,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadLettersInterestedParties">Upload files</label>
-                            <div id="uploadLettersInterestedParties-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadLettersInterestedParties-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadLettersInterestedParties" name="uploadLettersInterestedParties"
                             type="file" aria-describedby="uploadLettersInterestedParties-hint" multiple="">
@@ -31168,8 +31168,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadInfrastructureLevy">Upload files</label>
-                                <div id="uploadInfrastructureLevy-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadInfrastructureLevy-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadInfrastructureLevy" name="uploadInfrastructureLevy" type="file"
                                 aria-describedby="uploadInfrastructureLevy-hint" multiple="">
@@ -31213,8 +31213,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadConservation">Upload files</label>
-                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadConservation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadConservation" name="uploadConservation" type="file" aria-describedby="uploadConservation-hint"
                                 multiple="">
@@ -31258,8 +31258,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadConsultationResponses">Upload files</label>
-                                <div id="uploadConsultationResponses-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadConsultationResponses-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadConsultationResponses" name="uploadConsultationResponses" type="file"
                                 aria-describedby="uploadConsultationResponses-hint" multiple="">
@@ -31303,8 +31303,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadDefinitiveMapStatement">Upload files</label>
-                                <div id="uploadDefinitiveMapStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadDefinitiveMapStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadDefinitiveMapStatement" name="uploadDefinitiveMapStatement" type="file"
                                 aria-describedby="uploadDefinitiveMapStatement-hint" multiple="">
@@ -31356,8 +31356,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadDevelopmentPlanPolicies">Upload files</label>
-                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadDevelopmentPlanPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadDevelopmentPlanPolicies" name="uploadDevelopmentPlanPolicies"
                                 type="file" aria-describedby="uploadDevelopmentPlanPolicies-hint" multiple="">
@@ -31428,8 +31428,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadEmergingPlan">Upload files</label>
-                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadEmergingPlan" name="uploadEmergingPlan" type="file" aria-describedby="uploadEmergingPlan-hint"
                                 multiple="">
@@ -31473,8 +31473,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadEnvironmentalStatement">Upload files</label>
-                                <div id="uploadEnvironmentalStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadEnvironmentalStatement-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadEnvironmentalStatement" name="uploadEnvironmentalStatement" type="file"
                                 aria-describedby="uploadEnvironmentalStatement-hint" multiple="">
@@ -31518,8 +31518,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadOtherPolicies">Upload files</label>
-                                <div id="uploadOtherPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadOtherPolicies-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadOtherPolicies" name="uploadOtherPolicies" type="file" aria-describedby="uploadOtherPolicies-hint"
                                 multiple="">
@@ -31563,8 +31563,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadTreePreservationOrder">Upload files</label>
-                                <div id="uploadTreePreservationOrder-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadTreePreservationOrder-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadTreePreservationOrder" name="uploadTreePreservationOrder" type="file"
                                 aria-describedby="uploadTreePreservationOrder-hint" multiple="">
@@ -31614,8 +31614,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadPlanningOfficerReport">Upload files</label>
-                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadPlanningOfficerReport" name="uploadPlanningOfficerReport" type="file"
                                 aria-describedby="uploadPlanningOfficerReport-hint" multiple="">
@@ -31666,8 +31666,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadSupplementaryPlanningDocs">Upload files</label>
-                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadSupplementaryPlanningDocs-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadSupplementaryPlanningDocs" name="uploadSupplementaryPlanningDocs"
                                 type="file" aria-describedby="uploadSupplementaryPlanningDocs-hint" multiple="">
@@ -31709,8 +31709,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadPressAdvert">Upload files</label>
-                            <div id="uploadPressAdvert-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadPressAdvert-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadPressAdvert" name="uploadPressAdvert" type="file" aria-describedby="uploadPressAdvert-hint"
                             multiple="">
@@ -31754,8 +31754,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadRepresentations">Upload files</label>
-                                <div id="uploadRepresentations-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadRepresentations-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadRepresentations" name="uploadRepresentations" type="file" aria-describedby="uploadRepresentations-hint"
                                 multiple="">
@@ -31799,8 +31799,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadScopingOpinion">Upload files</label>
-                                <div id="uploadScopingOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadScopingOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadScopingOpinion" name="uploadScopingOpinion" type="file" aria-describedby="uploadScopingOpinion-hint"
                                 multiple="">
@@ -31844,8 +31844,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadScreeningDirection">Upload files</label>
-                                <div id="uploadScreeningDirection-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadScreeningDirection-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadScreeningDirection" name="uploadScreeningDirection" type="file"
                                 aria-describedby="uploadScreeningDirection-hint" multiple="">
@@ -31889,8 +31889,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
                                 <label class="govuk-label govuk-label--m" for="uploadScreeningOpinion">Upload files</label>
-                                <div id="uploadScreeningOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                    1GB</div>
+                                <div id="uploadScreeningOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                    smaller than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
                                 id="uploadScreeningOpinion" name="uploadScreeningOpinion" type="file" aria-describedby="uploadScreeningOpinion-hint"
                                 multiple="">
@@ -31932,8 +31932,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadSiteNotice">Upload files</label>
-                            <div id="uploadSiteNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadSiteNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadSiteNotice" name="uploadSiteNotice" type="file" aria-describedby="uploadSiteNotice-hint"
                             multiple="">
@@ -31981,8 +31981,8 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                     <div class="moj-multi-file-upload__upload">
                         <div class="govuk-form-group">
                             <label class="govuk-label govuk-label--m" for="uploadWhoNotified">Upload files</label>
-                            <div id="uploadWhoNotified-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than
-                                1GB</div>
+                            <div id="uploadWhoNotified-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX and be
+                                smaller than 1GB</div>
                             <input class="govuk-file-upload moj-multi-file-upload__input"
                             id="uploadWhoNotified" name="uploadWhoNotified" type="file" aria-describedby="uploadWhoNotified-hint"
                             multiple="">
