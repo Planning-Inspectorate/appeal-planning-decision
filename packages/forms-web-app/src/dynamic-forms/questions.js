@@ -114,7 +114,6 @@ const defaultAddressValidatorParams = {
  * @param {JourneyResponse} response
  * @returns {Record<string, QuestionProps>}
  */
-// eslint-disable-next-line no-unused-vars
 exports.getQuestionProps = (response) => ({
 	appealTypeAppropriate: {
 		type: 'boolean',
@@ -3045,9 +3044,7 @@ exports.getQuestionProps = (response) => ({
 			}
 		],
 		validators: [
-			new RequiredValidator(
-				'Select if you know who owns the rest of the land involved in the appeal'
-			)
+			new RequiredValidator('Select if the application was for all or part of the development')
 		]
 	},
 	planningApplicationReference: {
