@@ -139,7 +139,7 @@ describe('Appellant Full Planning Final Comment Validation Test Cases', { tags: 
                 cy.advanceToNextPage();
                 cy.uploadFileFromFixtureDirectory(finalCommentTestCases[0]?.documents?.uploadWrongFormatFile);
                 cy.advanceToNextPage();
-                cy.shouldHaveErrorMessage('a[href*="#uploadAppellantFinalCommentDocuments"]', `${finalCommentTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
+                cy.shouldHaveErrorMessage('a[href*="#uploadAppellantFinalCommentDocuments"]', `${finalCommentTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
         });
 
         it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {

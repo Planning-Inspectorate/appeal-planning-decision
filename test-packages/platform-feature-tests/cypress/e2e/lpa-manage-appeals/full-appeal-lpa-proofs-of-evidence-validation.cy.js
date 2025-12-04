@@ -71,7 +71,7 @@ describe('LPA Proof of Evidence Validations', { tags: '@S78-LPA-POE-Validation' 
     it(`Validate user should not be allowed to upload wrong format file`, () => {
         cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadLpaProofOfEvidenceDocuments"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadLpaProofOfEvidenceDocuments"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
     });
 
     // it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {
@@ -132,7 +132,7 @@ describe('LPA Proof of Evidence Validations', { tags: '@S78-LPA-POE-Validation' 
         cy.advanceToNextPage();
         cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadLpaWitnessesEvidence"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadLpaWitnessesEvidence"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
     });
     // it(`Validate user should not be able to uploading document(s) greater than 25 MB for Upload your witnesses and their evidence`, () => {
     //     cy.advanceToNextPage();
@@ -140,7 +140,7 @@ describe('LPA Proof of Evidence Validations', { tags: '@S78-LPA-POE-Validation' 
     //     cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb);
     //     cy.advanceToNextPage();
     //     cy.shouldHaveErrorMessage('a[href*="#uploadLpaWitnessesEvidence"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
-    // }); 
+    // });
     it(`Validate multiple uploading documents Upload your witnesses and their evidence`, () => {
         const expectedFileNames = [proofsOfEvidenceTestCases[0]?.documents?.uploadEmergingPlan, proofsOfEvidenceTestCases[0]?.documents?.uploadOtherPolicies];
         cy.advanceToNextPage();

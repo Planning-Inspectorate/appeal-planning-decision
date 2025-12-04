@@ -41,9 +41,9 @@ describe('Full Planning Statement Test Cases', { tags: '@S78-appellant-statement
                     cy.wrap($row).within(() => {
                         cy.get(basePage?._selectors.trgovukTableCell).contains(prepareAppealData?.s78AppealType).should('be.visible');
                         cy.get('a').each(($link) => {
-                            if ($link.attr('href')?.includes('appeal-statement')) {                               
+                            if ($link.attr('href')?.includes('appeal-statement')) {
                                 const parts = $link.attr('href')?.split('/');
-                                appealId = parts?.[parts.length - 2];                               
+                                appealId = parts?.[parts.length - 2];
                                 cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
                                 return false;
                             }
@@ -103,7 +103,7 @@ describe('Full Planning Statement Test Cases', { tags: '@S78-appellant-statement
     it(`Validate user should not be allowed to upload wrong format file`, () => {
         cy.uploadFileFromFixtureDirectory(statementTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${statementTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${statementTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
     });
 
     it(`Validate multiple uploading documents`, () => {

@@ -154,7 +154,7 @@ describe('validators/common/schemas/file-upload', () => {
 				await schema(null, { req, path: 'file-upload' });
 			} catch (err) {
 				expect(err.message).toEqual(
-					`${invalidFile.fileName} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
+					`${invalidFile.fileName} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`
 				);
 			}
 		});
@@ -166,7 +166,7 @@ describe('validators/common/schemas/file-upload', () => {
 				await schema(null, { req, path: 'file-upload' });
 			} catch (err) {
 				expect(err.message).toEqual(
-					`${invalidFile.name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
+					`${invalidFile.name} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`
 				);
 			}
 		});
