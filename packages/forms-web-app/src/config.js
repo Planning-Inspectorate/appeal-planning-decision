@@ -138,7 +138,6 @@ module.exports = {
 				MIME_TYPE_TIF: 'image/tiff',
 				MIME_TYPE_JPEG: 'image/jpeg',
 				MIME_TYPE_PNG: 'image/png',
-				MIME_TYPE_XLS: 'application/vnd.ms-excel',
 				MIME_TYPE_XLSX: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 			}
 		},
