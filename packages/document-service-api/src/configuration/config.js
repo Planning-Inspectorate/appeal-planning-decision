@@ -34,7 +34,6 @@ module.exports = {
 			'image/tiff', // tiff
 			'image/jpeg', // jpeg
 			'image/png', // png
-			'application/vnd.ms-excel', // xls
 			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' // xlsx
 		],
 		path: process.env.FILE_UPLOAD_PATH || '/tmp/upload'
