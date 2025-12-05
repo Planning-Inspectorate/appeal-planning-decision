@@ -70,7 +70,7 @@ describe('Rule 6 Proof of Evidence Validations', { tags: '@S78-RULE6-POE-Validat
     it(`Validate user should not be allowed to upload wrong format file`, () => {
         cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadRule6ProofOfEvidenceDocuments"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadRule6ProofOfEvidenceDocuments"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX`);
     });
 
     // it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {
@@ -127,7 +127,7 @@ describe('Rule 6 Proof of Evidence Validations', { tags: '@S78-RULE6-POE-Validat
         cy.advanceToNextPage();
         cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadRule6WitnessesEvidence"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadRule6WitnessesEvidence"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX`);
     });
     // it(`Validate user should not be able to uploading document(s) greater than 25 MB for Upload your witnesses and their evidence`, () => {
     //     cy.advanceToNextPage();

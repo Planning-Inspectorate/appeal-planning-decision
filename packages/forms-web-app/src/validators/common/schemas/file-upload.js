@@ -31,7 +31,7 @@ const schema = (noFilesError) => ({
 				}
 
 				const uploadedFiles = !Array.isArray(files[path]) ? [files[path]] : files[path];
-				const errorMsg = 'must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX';
+				const errorMsg = 'must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX';
 
 				uploadedFiles.forEach(({ mimetype, name }) => {
 					if (!Object.values(allowedFileTypes).includes(mimetype)) {
