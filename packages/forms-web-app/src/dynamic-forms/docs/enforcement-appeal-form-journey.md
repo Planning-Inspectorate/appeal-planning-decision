@@ -152,6 +152,24 @@ condition: () => questionHasAnswer(response, questions.anyOtherAppeals, 'yes');
 
 ## Upload documents
 
+- multi-file-upload `/upload-planning-inspectorate-communication/` Upload your communication with the Planning Inspectorate
+- multi-file-upload `/upload-enforcement-notice/` Upload your enforcement notice
+- multi-file-upload `/upload-enforcement-plan/` Upload your enforcement notice plan
+- multi-file-upload `/upload-application-form/` Upload your application form
+- multi-file-upload `/upload-description-evidence/` Upload evidence of your agreement to change the description of development
+
+```js
+condition: () => questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes');
+```
+
+- multi-file-upload `/upload-decision-letter/` Upload the decision letter from the local planning authority
+
+```js
+condition: (response) => {
+	return response.answers.applicationDecision !== APPLICATION_DECISION.NODECISIONRECEIVED;
+};
+```
+
 - boolean `/submit-planning-obligation/` Do you plan to submit a planning obligation to support your appeal?
 - radio `/status-planning-obligation/` What is the status of your planning obligation?
 
@@ -173,7 +191,7 @@ condition: () =>
 	);
 ```
 
-- boolean `/apply-appeal-costs/` Do you need to apply for an award of appeal costs?
+- boolean `/apply-appeal-costs/` Do you want to apply for an award of appeal costs?
 - multi-file-upload `/upload-appeal-costs-application/` Upload your application for an award of appeal costs
 
 ```js

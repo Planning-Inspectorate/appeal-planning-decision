@@ -691,6 +691,39 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
+	uploadPriorCorrespondence: {
+		name: 'uploadPriorCorrespondence',
+		dataModelName: 'priorCorrespondenceWithPINS', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadEnforcementNotice: {
+		name: 'uploadEnforcementNotice',
+		dataModelName: 'enforcementNotice', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadEnforcementNoticePlan: {
+		name: 'uploadEnforcementNoticePlan',
+		dataModelName: 'enforcementNoticePlan', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
 	caseDecisionLetter: {
 		name: 'caseDecisionLetter',
 		dataModelName: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER,
