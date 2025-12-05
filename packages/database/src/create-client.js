@@ -1,5 +1,6 @@
 const { PrismaClient } = require('./client');
 const { PrismaMssql } = require('@prisma/adapter-mssql');
+const { parseConnectionString } = require('./connection-string');
 
 /**
  * @typedef {import('@pins/database/src/client').Prisma.PrismaClientOptions} prismaConfig
@@ -25,7 +26,15 @@ const createClient = (connectionString, logger, prismaConfigOptions) => {
 
 	/** @type {prismaConfig} */
 	const prismaConfig = prismaConfigOptions || {};
-	prismaConfig.adapter = new PrismaMssql(connectionString);
+	const connectionSettings = parseConnectionString(connectionString);
+	prismaConfig.adapter = new PrismaMssql({
+		...connectionSettings,
+		pool: {
+			max: 5,
+			idleTimeoutMillis: 300000
+		},
+		connectionTimeout: 5000
+	});
 	prismaConfig.log = [
 		{
 			emit: 'event',
