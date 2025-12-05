@@ -850,6 +850,9 @@ model AppellantSubmission {
   applicationMadeAndFeePaid         Boolean?
   uploadApplicationReceipt          Boolean?
   applicationPartOrWholeDevelopment String?
+  uploadPriorCorrespondence         Boolean?
+  uploadEnforcementNotice           Boolean?
+  uploadEnforcementNoticePlan       Boolean?
 
   SubmissionIndividual SubmissionIndividual[]
 }

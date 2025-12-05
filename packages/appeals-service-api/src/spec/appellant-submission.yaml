@@ -252,6 +252,15 @@ components:
           nullable: true
         applicationPartOrWholeDevelopment:
           type: string
+        uploadPriorCorrespondence:
+          type: boolean
+          nullable: true
+        uploadEnforcementNotice:
+          type: boolean
+          nullable: true
+        uploadEnforcementNoticePlan:
+          type: boolean
+          nullable: true
 
         SubmissionAddress:
           type: array
