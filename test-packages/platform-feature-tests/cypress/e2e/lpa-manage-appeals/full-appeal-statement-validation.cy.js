@@ -108,7 +108,7 @@ describe('Full Planning Statement Test Cases', { tags: '@S78-LPA-statement-Valid
         cy.advanceToNextPage();
         cy.uploadFileFromFixtureDirectory(statementTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${statementTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${statementTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX`);
     });
 
 
