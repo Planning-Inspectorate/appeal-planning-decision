@@ -1621,8 +1621,8 @@ exports.getQuestionProps = (response) => ({
 	},
 	costApplication: {
 		type: 'boolean',
-		title: 'Do you need to apply for an award of appeal costs?',
-		question: 'Do you need to apply for an award of appeal costs?',
+		title: 'Do you want to apply for an award of appeal costs?',
+		question: 'Do you want to apply for an award of appeal costs?',
 		fieldName: 'costApplication',
 		url: 'apply-appeal-costs',
 		options: [
@@ -1636,7 +1636,7 @@ exports.getQuestionProps = (response) => ({
 			}
 		],
 		validators: [
-			new RequiredValidator('Select yes if you need to apply for an award of appeal costs')
+			new RequiredValidator('Select yes if you want to apply for an award of appeal costs')
 		]
 	},
 	uploadCostApplication: {
@@ -3161,6 +3161,44 @@ exports.getQuestionProps = (response) => ({
 			}
 		],
 		validators: [new RequiredValidator('Select if the application was granted or refused')]
+	},
+	uploadPriorCorrespondence: {
+		type: 'multi-file-upload',
+		title: 'Upload your communication with the Planning Inspectorate',
+		question: 'Upload your communication with the Planning Inspectorate',
+		description:
+			'For example, the email you sent to confirm that you will appeal against the enforcement notice.',
+		fieldName: 'uploadPriorCorrespondence',
+		url: 'upload-planning-inspectorate-communication',
+		validators: [
+			new RequiredFileUploadValidator('Select your communication with the Planning Inspectorate'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.uploadPriorCorrespondence
+	},
+	uploadEnforcementNotice: {
+		type: 'multi-file-upload',
+		title: 'Upload your enforcement notice',
+		question: 'Upload your enforcement notice',
+		fieldName: 'uploadEnforcementNotice',
+		url: 'upload-enforcement-notice',
+		validators: [
+			new RequiredFileUploadValidator('Select your enforcement notice'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.uploadEnforcementNotice
+	},
+	uploadEnforcementNoticePlan: {
+		type: 'multi-file-upload',
+		title: 'Upload your enforcement notice plan',
+		question: 'Upload your enforcement notice plan',
+		fieldName: 'uploadEnforcementNoticePlan',
+		url: 'upload-enforcement-plan',
+		validators: [
+			new RequiredFileUploadValidator('Select your enforcement notice plan'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.uploadEnforcementNoticePlan
 	},
 	highwayLand: {
 		type: 'boolean',

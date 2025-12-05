@@ -168,7 +168,7 @@ condition: () => shouldDisplayUploadDecisionLetter(response);
 ```
 
 - multi-file-upload `/upload-appeal-statement/` Upload your appeal statement
-- boolean `/apply-appeal-costs/` Do you need to apply for an award of appeal costs?
+- boolean `/apply-appeal-costs/` Do you want to apply for an award of appeal costs?
 - multi-file-upload `/upload-appeal-costs-application/` Upload your application for an award of appeal costs
 
 ```js

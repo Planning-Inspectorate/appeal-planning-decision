@@ -93,7 +93,7 @@ condition: () => questionHasAnswer(response, questions.updateDevelopmentDescript
 
 - multi-file-upload `/upload-decision-letter/` Upload the decision letter from the local planning authority
 - multi-file-upload `/upload-appeal-statement/` Upload your appeal statement
-- boolean `/apply-appeal-costs/` Do you need to apply for an award of appeal costs?
+- boolean `/apply-appeal-costs/` Do you want to apply for an award of appeal costs?
 - multi-file-upload `/upload-appeal-costs-application/` Upload your application for an award of appeal costs
 
 ```js

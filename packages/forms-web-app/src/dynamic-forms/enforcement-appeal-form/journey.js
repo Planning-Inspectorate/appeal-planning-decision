@@ -12,6 +12,7 @@ const {
 	CASE_TYPES: { ENFORCEMENT }
 } = require('@pins/common/src/database/data-static');
 const config = require('../../config');
+const { shouldDisplayUploadDecisionLetter } = require('../display-questions');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 
@@ -234,6 +235,16 @@ const makeSections = (response) => {
 			.addQuestion(questions.linkAppeals)
 			.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
 		new Section('Upload documents', 'upload-documents')
+			.addQuestion(questions.uploadPriorCorrespondence)
+			.addQuestion(questions.uploadEnforcementNotice)
+			.addQuestion(questions.uploadEnforcementNoticePlan)
+			.addQuestion(questions.uploadOriginalApplicationForm)
+			.addQuestion(questions.uploadChangeOfDescriptionEvidence)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
+			)
+			.addQuestion(questions.uploadApplicationDecisionLetter)
+			.withCondition(shouldDisplayUploadDecisionLetter)
 			.addQuestion(questions.submitPlanningObligation)
 			.addQuestion(questions.planningObligationStatus)
 			.withCondition(() => questionHasAnswer(response, questions.submitPlanningObligation, 'yes'))
