@@ -15,7 +15,7 @@ const addressRepo = new SubmissionAddressRepository();
  * @return {Promise<AppellantSubmission|null>}
  */
 async function createAddress(appellantSubmissionId, uploadData) {
-	const updatedSubmission = addressRepo.createAddress(appellantSubmissionId, uploadData);
+	const updatedSubmission = await addressRepo.createAddress(appellantSubmissionId, uploadData);
 
 	if (!updatedSubmission) {
 		return null;
@@ -32,7 +32,7 @@ async function createAddress(appellantSubmissionId, uploadData) {
  * @return {Promise<AppellantSubmission|null>}
  */
 async function deleteAddress(appellantSubmissionId, addressId) {
-	const updatedSubmission = addressRepo.deleteAddress(appellantSubmissionId, addressId);
+	const updatedSubmission = await addressRepo.deleteAddress(appellantSubmissionId, addressId);
 
 	if (!updatedSubmission) {
 		return null;

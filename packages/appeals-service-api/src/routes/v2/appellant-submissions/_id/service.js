@@ -1,6 +1,6 @@
 const ApiError = require('#errors/apiError');
-const Repo = require('../repo');
-const repo = new Repo();
+const { AppellantSubmissionRepository } = require('../repo');
+const repo = new AppellantSubmissionRepository();
 
 /**
  * @typedef {import('@pins/database/src/client/client').AppellantSubmission} AppellantSubmission

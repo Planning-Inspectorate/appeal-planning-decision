@@ -1,4 +1,5 @@
 const { createPrismaClient } = require('#db-client');
+const { appellantSubmissionRelations } = require('../../repo');
 
 /**
  * @typedef {import('@pins/database/src/client/client').AppellantSubmission} AppellantSubmission
@@ -50,12 +51,7 @@ class SubmissionIndividualRepository {
 						}
 					}
 				},
-				include: {
-					SubmissionDocumentUpload: true,
-					SubmissionAddress: true,
-					SubmissionLinkedCase: true,
-					SubmissionIndividual: true
-				}
+				include: appellantSubmissionRelations
 			});
 		}
 
@@ -72,12 +68,7 @@ class SubmissionIndividualRepository {
 					}
 				}
 			},
-			include: {
-				SubmissionDocumentUpload: true,
-				SubmissionAddress: true,
-				SubmissionLinkedCase: true,
-				SubmissionIndividual: true
-			}
+			include: appellantSubmissionRelations
 		});
 	}
 
@@ -99,12 +90,7 @@ class SubmissionIndividualRepository {
 					}
 				}
 			},
-			include: {
-				SubmissionDocumentUpload: true,
-				SubmissionAddress: true,
-				SubmissionLinkedCase: true,
-				SubmissionIndividual: true
-			}
+			include: appellantSubmissionRelations
 		});
 	}
 }

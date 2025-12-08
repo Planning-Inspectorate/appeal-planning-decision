@@ -274,3 +274,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SubmissionIndividual'
+        SubmissionAppealGround:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionAppealGround'

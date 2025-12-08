@@ -1,7 +1,7 @@
-const Repo = require('./repo');
+const { AppellantSubmissionRepository } = require('./repo');
 const { rules } = require('@pins/business-rules');
 const { mapTypeCodeToAppealId } = require('@pins/common');
-const repo = new Repo();
+const repo = new AppellantSubmissionRepository();
 const { docsApiClient } = require('../../../doc-client/docs-api-client');
 const ApiError = require('#errors/apiError');
 const logger = require('#lib/logger');

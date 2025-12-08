@@ -1,0 +1,27 @@
+components:
+  schemas:
+    SubmissionAppealGround:
+      type: object
+      description: An appeal ground related to a submission
+      required:
+        - id
+        - appellantSubmissionId
+        - groundName
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: identifier for the submission appeal ground
+        appellantSubmissionId:
+          type: string
+          format: uuid
+          description: appeal submission id this appeal ground is associated with
+        groundName:
+          type: string
+          description: name of the appeal ground, 'a'-'g' for enforcement notice appeals
+        facts:
+          type: string
+          description: submitted facts in relation to the appeal
+        addSupportingDocuments:
+          type: boolean
+          description: whether documents in support of this appeal ground are submitted by an appellant

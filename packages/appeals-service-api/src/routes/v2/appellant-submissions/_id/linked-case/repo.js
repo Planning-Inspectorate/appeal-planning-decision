@@ -1,8 +1,9 @@
 const { createPrismaClient } = require('#db-client');
+const { appellantSubmissionRelations } = require('../../repo');
 
 /**
- * @typedef {import('@pins/database/src/client/client').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
- * @typedef {import('@pins/database/src/client/client').Prisma.SubmissionLinkedCaseCreateInput} LinkedCaseData
+ * @typedef {import('@pins/database/src/client').AppellantSubmission} AppellantSubmission
+ * @typedef {import('@pins/database/src/client').Prisma.SubmissionLinkedCaseCreateInput} LinkedCaseData
  */
 
 class LinkedCaseRepository {
@@ -13,11 +14,11 @@ class LinkedCaseRepository {
 	}
 
 	/**
-	 * Create submission address for a given questionnaire
+	 * Create submission address for a given appeal submission
 	 *
 	 * @param {string} id
 	 * @param {LinkedCaseData} linkedCase
-	 * @returns {Promise<LPAQuestionnaireSubmission>}
+	 * @returns {Promise<AppellantSubmission>}
 	 */
 	async createLinkedCase(id, linkedCase) {
 		return await this.dbClient.appellantSubmission.update({
@@ -31,11 +32,7 @@ class LinkedCaseRepository {
 					}
 				}
 			},
-			include: {
-				SubmissionDocumentUpload: true,
-				SubmissionAddress: true,
-				SubmissionLinkedCase: true
-			}
+			include: appellantSubmissionRelations
 		});
 	}
 
@@ -44,7 +41,7 @@ class LinkedCaseRepository {
 	 *
 	 * @param {string} id
 	 * @param {string} linkedCaseId
-	 * @returns {Promise<LPAQuestionnaireSubmission>}
+	 * @returns {Promise<AppellantSubmission>}
 	 */
 	async deleteLinkedCase(id, linkedCaseId) {
 		return await this.dbClient.appellantSubmission.update({
@@ -58,11 +55,7 @@ class LinkedCaseRepository {
 					}
 				}
 			},
-			include: {
-				SubmissionDocumentUpload: true,
-				SubmissionAddress: true,
-				SubmissionLinkedCase: true
-			}
+			include: appellantSubmissionRelations
 		});
 	}
 }

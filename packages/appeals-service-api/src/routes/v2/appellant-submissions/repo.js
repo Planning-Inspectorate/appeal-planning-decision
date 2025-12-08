@@ -12,6 +12,8 @@ const { subMonths } = require('date-fns');
  *     SubmissionDocumentUpload: true,
  *     SubmissionAddress: true,
  *     SubmissionLinkedCase: true,
+ * 		 SubmissionIndividual: true,
+ *     SubmissionAppealGround: true
  *   }
  * }>} AppellantSubmission
  * @typedef {import('@pins/database/src/client/client').Prisma.AppellantSubmissionGetPayload<{
@@ -20,6 +22,8 @@ const { subMonths } = require('date-fns');
  *     SubmissionAddress: true,
  *     SubmissionLinkedCase: true,
  * 	   SubmissionListedBuilding: true,
+ *     SubmissionIndividual: true,
+ *     SubmissionAppealGround: true,
  *	   Appeal: {
  *       include: {
  *         Users: {
@@ -43,7 +47,16 @@ const { subMonths } = require('date-fns');
  * }>} AppellantSubmissionCleanupData
  */
 
-module.exports = class Repo {
+const appellantSubmissionRelations = {
+	SubmissionDocumentUpload: true,
+	SubmissionAddress: true,
+	SubmissionLinkedCase: true,
+	SubmissionListedBuilding: true,
+	SubmissionIndividual: true,
+	SubmissionAppealGround: true
+};
+
+class AppellantSubmissionRepository {
 	dbClient;
 
 	constructor() {
@@ -181,6 +194,7 @@ module.exports = class Repo {
 					SubmissionAddress: true,
 					SubmissionLinkedCase: true,
 					SubmissionIndividual: true,
+					SubmissionAppealGround: true,
 					Appeal: {
 						select: {
 							id: true,
@@ -319,6 +333,7 @@ module.exports = class Repo {
 					SubmissionLinkedCase: true,
 					SubmissionListedBuilding: true,
 					SubmissionIndividual: true,
+					SubmissionAppealGround: true,
 					Appeal: {
 						select: {
 							id: true,
@@ -417,6 +432,9 @@ module.exports = class Repo {
 			}),
 			this.dbClient.submissionIndividual.deleteMany({
 				where: { appellantSubmissionId: submissionId }
+			}),
+			this.dbClient.submissionAppealGround.deleteMany({
+				where: { appellantSubmissionId: submissionId }
 			})
 		]);
 	}
@@ -447,4 +465,6 @@ module.exports = class Repo {
 			where: { id: appealId }
 		});
 	}
-};
+}
+
+module.exports = { AppellantSubmissionRepository, appellantSubmissionRelations };

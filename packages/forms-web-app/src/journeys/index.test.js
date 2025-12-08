@@ -148,7 +148,8 @@ describe('Dynamic forms journey tests', () => {
 						SubmissionLinkedCase: [],
 						SubmissionListedBuilding: [],
 						SubmissionDocumentUpload: [],
-						SubmissionIndividual: []
+						SubmissionIndividual: [],
+						SubmissionAppealGround: []
 					});
 				});
 
@@ -301,6 +302,7 @@ describe('Dynamic forms journey tests', () => {
 								// skipping due to variations/complications in list questions for now
 								// skipping content type as nothing saved
 								case 'ListAddMoreQuestion':
+								case 'AppealGroundsCheckboxQuestion':
 								case 'ContentQuestion':
 									return null;
 								default:

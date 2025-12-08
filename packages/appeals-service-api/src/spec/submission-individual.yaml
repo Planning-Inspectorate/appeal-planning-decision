@@ -13,11 +13,11 @@ components:
         id:
           type: string
           format: uuid
-          description: identifier for the submission address of an associated appeal
+          description: identifier for the submission individual
         appellantSubmissionId:
           type: string
           format: uuid
-          description: appeal submission id this address is associated with
+          description: appeal submission id this individual is associated with
         firstName:
           type: string
           description: first name of the named individual
