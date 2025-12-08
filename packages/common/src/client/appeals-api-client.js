@@ -20,6 +20,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
  * @typedef {import('appeals-service-api').Api.SubmissionIndividual} SubmissionIndividual
+ * @typedef {import('appeals-service-api').Api.SubmissionAppealGround} SubmissionAppealGround
  * @typedef {import('appeals-service-api').Api.Event} Event
  * @typedef {import('appeals-service-api').Api.ServiceUser} ServiceUserAPI
  * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealHASCase} AppealHASCase
@@ -1002,6 +1003,30 @@ class AppealsApiClient {
 	 */
 	async deleteSubmissionIndividual(referenceId, individualId) {
 		const endpoint = `${v2}/appellant-submissions/${referenceId}/individual/${individualId}`;
+
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} referenceId
+	 * @param {SubmissionAppealGround} data
+	 * @returns {Promise<(AppellantSubmission)>}
+	 */
+	async postSubmissionAppealGround(referenceId, data) {
+		const endpoint = `${v2}/appellant-submissions/${referenceId}/appeal-ground`;
+
+		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} referenceId
+	 * @param {string} appealGroundId
+	 * @returns {Promise<(AppellantSubmission)>}
+	 */
+	async deleteSubmissionAppealGround(referenceId, appealGroundId) {
+		const endpoint = `${v2}/appellant-submissions/${referenceId}/appeal-ground/${appealGroundId}`;
 
 		const response = await this.#makeDeleteRequest(endpoint);
 		return response.json();

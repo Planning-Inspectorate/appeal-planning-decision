@@ -1,6 +1,6 @@
 const { SubmissionIndividualRepository } = require('./repo');
 
-const addressRepo = new SubmissionIndividualRepository();
+const individualRepo = new SubmissionIndividualRepository();
 
 /**
  * @typedef {import('@pins/database/src/client/client').AppellantSubmission} AppellantSubmission
@@ -15,7 +15,10 @@ const addressRepo = new SubmissionIndividualRepository();
  * @return {Promise<AppellantSubmission|null>}
  */
 async function createIndividual(appellantSubmissionId, uploadData) {
-	const updatedSubmission = addressRepo.createIndividual(appellantSubmissionId, uploadData);
+	const updatedSubmission = await individualRepo.createIndividual(
+		appellantSubmissionId,
+		uploadData
+	);
 
 	if (!updatedSubmission) {
 		return null;
@@ -32,7 +35,10 @@ async function createIndividual(appellantSubmissionId, uploadData) {
  * @return {Promise<AppellantSubmission|null>}
  */
 async function deleteIndividual(appellantSubmissionId, individualId) {
-	const updatedSubmission = addressRepo.deleteIndividual(appellantSubmissionId, individualId);
+	const updatedSubmission = await individualRepo.deleteIndividual(
+		appellantSubmissionId,
+		individualId
+	);
 
 	if (!updatedSubmission) {
 		return null;

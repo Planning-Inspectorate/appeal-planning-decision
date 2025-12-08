@@ -849,6 +849,7 @@ model AppellantSubmission {
   interestInAppealLand              String?
   interestInAppealLandDetails       String?
   allegedBreachDescription          String?
+  appealGrounds                     String?
   applicationMadeAndFeePaid         Boolean?
   uploadApplicationReceipt          Boolean?
   applicationPartOrWholeDevelopment String?
@@ -856,7 +857,8 @@ model AppellantSubmission {
   uploadEnforcementNotice           Boolean?
   uploadEnforcementNoticePlan       Boolean?
 
-  SubmissionIndividual SubmissionIndividual[]
+  SubmissionIndividual   SubmissionIndividual[]
+  SubmissionAppealGround SubmissionAppealGround[]
 }
 
 /// LPAQuestionnaireSubmission represents the questionnaire responses from an LPAUser
@@ -1229,6 +1231,20 @@ model SubmissionAddress {
 
   // indexes
   @@index([questionnaireId])
+  @@index([appellantSubmissionId])
+}
+
+model SubmissionAppealGround {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  appellantSubmissionId String              @db.UniqueIdentifier
+  AppellantSubmission   AppellantSubmission @relation(fields: [appellantSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  groundName             String // 'a'-'g' for enforcement notice appeals, 'a'-'k' for enforcement listed buildings
+  facts                  String?
+  addSupportingDocuments Boolean?
+
+  // indexes
   @@index([appellantSubmissionId])
 }
 

@@ -6,5 +6,7 @@ export type AppellantSubmission = Prisma.AppellantSubmissionGetPayload<{
 		SubmissionAddress: true;
 		SubmissionLinkedCase: true;
 		SubmissionListedBuilding: true;
+		SubmissionIndividual: true;
+		SubmissionAppealGround: true;
 	};
 }>;

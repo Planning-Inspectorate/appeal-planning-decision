@@ -1,7 +1,7 @@
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const crypto = require('crypto');
 const { deleteOldSubmissions } = require('./service');
-const Repo = require('./repo');
+const { AppellantSubmissionRepository } = require('./repo');
 const { docsApiClient } = require('../../../doc-client/docs-api-client');
 const { subMonths } = require('date-fns');
 
@@ -405,9 +405,11 @@ module.exports = ({ getSqlClient, setCurrentSub, appealsApi }) => {
 				const mockGetSubmissionDocumentUploads = jest.fn();
 				const mockDeleteDocument = jest.fn();
 				const mockDeleteSubmission = jest.fn();
-				Repo.prototype.getNonSubmittedSubmissions = mockGetNonSubmittedSubmissions;
-				Repo.prototype.getSubmissionDocumentUploads = mockGetSubmissionDocumentUploads;
-				Repo.prototype.deleteSubmission = mockDeleteSubmission;
+				AppellantSubmissionRepository.prototype.getNonSubmittedSubmissions =
+					mockGetNonSubmittedSubmissions;
+				AppellantSubmissionRepository.prototype.getSubmissionDocumentUploads =
+					mockGetSubmissionDocumentUploads;
+				AppellantSubmissionRepository.prototype.deleteSubmission = mockDeleteSubmission;
 				docsApiClient.deleteSubmissionDocument = mockDeleteDocument;
 				const oldApplicationDate = new Date();
 				oldApplicationDate.setMonth(oldApplicationDate.getMonth() - 7);
@@ -436,9 +438,11 @@ module.exports = ({ getSqlClient, setCurrentSub, appealsApi }) => {
 				const mockDeleteDocument = jest.fn();
 				const mockDeleteSubmission = jest.fn();
 				docsApiClient.deleteSubmissionDocument = mockDeleteDocument;
-				Repo.prototype.getNonSubmittedSubmissions = mockGetNonSubmittedSubmissions;
-				Repo.prototype.getSubmissionDocumentUploads = mockGetSubmissionDocumentUploads;
-				Repo.prototype.deleteSubmission = mockDeleteSubmission;
+				AppellantSubmissionRepository.prototype.getNonSubmittedSubmissions =
+					mockGetNonSubmittedSubmissions;
+				AppellantSubmissionRepository.prototype.getSubmissionDocumentUploads =
+					mockGetSubmissionDocumentUploads;
+				AppellantSubmissionRepository.prototype.deleteSubmission = mockDeleteSubmission;
 
 				const oldApplicationDate = new Date();
 				oldApplicationDate.setMonth(oldApplicationDate.getMonth() - 7);

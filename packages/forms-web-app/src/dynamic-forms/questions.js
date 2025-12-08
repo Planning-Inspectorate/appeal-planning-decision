@@ -19,6 +19,7 @@ const SiteAddressQuestion = require('@pins/dynamic-forms/src/dynamic-components/
 const UnitOptionEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/unit-option-entry/question');
 const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
 const ContentQuestion = require('@pins/dynamic-forms/src/dynamic-components/content/question');
+const AppealGroundsCheckboxQuestion = require('@pins/dynamic-forms/src/dynamic-components/appeal-grounds-checkbox/question');
 
 // validators
 const RequiredValidator = require('@pins/dynamic-forms/src/validator/required-validator');
@@ -82,6 +83,7 @@ const { INTERESTS_IN_LAND } = require('@pins/common/src/constants');
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
 const siteAddressOverrides = require('../journeys/question-overrides/site-address');
 const multiFieldInputOverrides = require('../journeys/question-overrides/multi-field-input');
+const appealGroundsCheckboxOverrides = require('../journeys/question-overrides/appeal-grounds-checkbox');
 const formatNumber = require('@pins/dynamic-forms/src/dynamic-components/utils/format-number');
 
 /**
@@ -3058,6 +3060,67 @@ exports.getQuestionProps = (response) => ({
 			})
 		]
 	},
+	// future refactor when introducing enforcement listed buildings - convert options to a function to return option values
+	chooseGroundsOfAppeal: {
+		type: 'appeal-grounds-checkbox',
+		title: 'Choose your grounds of appeal',
+		question: 'Choose your grounds of appeal',
+		description: 'Select all that apply',
+		fieldName: 'appealGrounds',
+		url: 'choose-grounds',
+		validators: [new RequiredValidator('Select your grounds of appeal')],
+		options: [
+			{
+				text: 'Ground (a)',
+				value: 'a',
+				hint: {
+					text: 'The local planning authority (LPA) should grant planning permission for all (or part) of the development described in the alleged breach.'
+				}
+			},
+			{
+				text: 'Ground (b)',
+				value: 'b',
+				hint: {
+					text: 'The alleged breach did not happen.'
+				}
+			},
+			{
+				text: 'Ground (c)',
+				value: 'c',
+				hint: {
+					text: 'You do not need planning permission (for example, it is a permitted development or you already have planning permission).'
+				}
+			},
+			{
+				text: 'Ground (d)',
+				value: 'd',
+				hint: {
+					text: 'It is too late for the LPA to take enforcement action.'
+				}
+			},
+			{
+				text: 'Ground (e)',
+				value: 'e',
+				hint: {
+					text: 'The LPA did not serve the notice properly to everyone with an interest in the land.'
+				}
+			},
+			{
+				text: 'Ground (f)',
+				value: 'f',
+				hint: {
+					text: 'A simpler step (or steps) would achieve the same result.'
+				}
+			},
+			{
+				text: 'Ground (g)',
+				value: 'g',
+				hint: {
+					text: 'The time to comply with the notice is too short.'
+				}
+			}
+		]
+	},
 	submittedPlanningApplication: {
 		type: 'boolean',
 		title:
@@ -3368,7 +3431,8 @@ const questionClasses = {
 	'site-address': SiteAddressQuestion,
 	'unit-option': UnitOptionEntryQuestion,
 	'list-add-more': ListAddMoreQuestion,
-	content: ContentQuestion
+	content: ContentQuestion,
+	'appeal-grounds-checkbox': AppealGroundsCheckboxQuestion
 };
 
 /** @param {JourneyResponse} response */
@@ -3376,5 +3440,6 @@ exports.getQuestions = (response = {}) =>
 	createQuestions(exports.getQuestionProps(response), questionClasses, {
 		'multi-file-upload': multiFileUploadOverrides,
 		'site-address': siteAddressOverrides,
-		'multi-field-input': multiFieldInputOverrides
+		'multi-field-input': multiFieldInputOverrides,
+		'appeal-grounds-checkbox': appealGroundsCheckboxOverrides
 	});

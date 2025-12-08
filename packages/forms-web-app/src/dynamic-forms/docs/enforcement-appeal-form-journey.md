@@ -83,6 +83,7 @@ condition: () => questionHasAnswer(response, questions.appealSiteIsContactAddres
 - radio `/inspector-need-access/` Will an inspector need to access the land or property?
 - radio `/health-safety-issues/` Health and safety issues
 - text-entry `/description-alleged-breach/` Enter the description of the alleged breach
+- checkbox `/choose-grounds/` Choose your grounds of appeal
 - boolean `/submit-planning-application/` Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?
 - multi-file-upload `/upload-application-receipt/` Upload your application receipt
 

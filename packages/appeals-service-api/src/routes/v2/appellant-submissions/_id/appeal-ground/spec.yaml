@@ -1,0 +1,75 @@
+paths:
+  /api/v2/appellant-submissions/{id}/appeal-ground/:
+    post:
+      tags:
+        - appellant submissions
+      description: Add an appeal ground to the appeal submission
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: appeal submission reference
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmissionAppealGround'
+      responses:
+        200:
+          description: Returns the updated appeal submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppellantSubmission'
+        404:
+          description: Unable to find case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        400:
+          description: Unable to create appeal ground
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appellant-submissions/{id}/appeal-ground/{appealGroundId}:
+    delete:
+      tags:
+        - appellant submissions
+      description: delete an appeal ground from the appeal submission
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: appeal submission reference
+        - in: path
+          name: appealGroundId
+          required: true
+          schema:
+            type: string
+          description: appeal ground reference
+      responses:
+        200:
+          description: Returns the updated appeal submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppellantSubmission'
+        404:
+          description: Unable to find appeal ground to delete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        400:
+          description: Unable to delete appeal ground
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'

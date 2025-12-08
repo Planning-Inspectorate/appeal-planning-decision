@@ -1,8 +1,8 @@
 const ApiError = require('#errors/apiError');
 
-const Repo = require('../repo');
+const { AppellantSubmissionRepository } = require('../repo');
 
-const submissionRepo = new Repo();
+const submissionRepo = new AppellantSubmissionRepository();
 
 /**
  * Middleware to check the user owns the appellant submission record

@@ -276,6 +276,24 @@ class ApiError {
 		});
 	}
 
+	static unableToCreateAppealGroundl() {
+		return new ApiError(400, {
+			errors: ['Unable to create new SubmissionAppealGround entry']
+		});
+	}
+
+	static unableToDeleteAppealGround() {
+		return new ApiError(400, {
+			errors: ['Unable to delete SubmissionAppealGround entry']
+		});
+	}
+
+	static unableToUpdateAppealGround() {
+		return new ApiError(400, {
+			errors: ['Unable to update SubmissionAppealGround entry']
+		});
+	}
+
 	// proofs evidence
 
 	static proofEvidenceNotFound() {

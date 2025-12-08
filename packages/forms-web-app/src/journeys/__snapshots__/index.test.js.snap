@@ -6007,6 +6007,94 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the choose-grounds question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="appealGrounds-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Choose your grounds of appeal</h1>
+                        </legend>
+                        <div id="appealGrounds-hint" class="govuk-hint">Select all that apply</div>
+                        <div class="govuk-checkboxes govuk-checkboxes"
+                        data-module="govuk-checkboxes">
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="appealGrounds" name="appealGrounds"
+                                type="checkbox" value="a" aria-describedby="appealGrounds-item-hint" data-cy="answer-a">
+                                <label class="govuk-label govuk-checkboxes__label" for="appealGrounds">Ground (a)</label>
+                                <div id="appealGrounds-item-hint" class="govuk-hint govuk-checkboxes__hint">The local planning authority (LPA) should grant planning permission for
+                                    all (or part) of the development described in the alleged breach.</div>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="appealGrounds-2" name="appealGrounds"
+                                type="checkbox" value="b" aria-describedby="appealGrounds-2-item-hint"
+                                data-cy="answer-b">
+                                <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-2">Ground (b)</label>
+                                <div id="appealGrounds-2-item-hint" class="govuk-hint govuk-checkboxes__hint">The alleged breach did not happen.</div>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="appealGrounds-3" name="appealGrounds"
+                                type="checkbox" value="c" aria-describedby="appealGrounds-3-item-hint"
+                                data-cy="answer-c">
+                                <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-3">Ground (c)</label>
+                                <div id="appealGrounds-3-item-hint" class="govuk-hint govuk-checkboxes__hint">You do not need planning permission (for example, it is a permitted development
+                                    or you already have planning permission).</div>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="appealGrounds-4" name="appealGrounds"
+                                type="checkbox" value="d" aria-describedby="appealGrounds-4-item-hint"
+                                data-cy="answer-d">
+                                <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-4">Ground (d)</label>
+                                <div id="appealGrounds-4-item-hint" class="govuk-hint govuk-checkboxes__hint">It is too late for the LPA to take enforcement action.</div>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="appealGrounds-5" name="appealGrounds"
+                                type="checkbox" value="e" aria-describedby="appealGrounds-5-item-hint"
+                                data-cy="answer-e">
+                                <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-5">Ground (e)</label>
+                                <div id="appealGrounds-5-item-hint" class="govuk-hint govuk-checkboxes__hint">The LPA did not serve the notice properly to everyone with an interest
+                                    in the land.</div>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="appealGrounds-6" name="appealGrounds"
+                                type="checkbox" value="f" aria-describedby="appealGrounds-6-item-hint"
+                                data-cy="answer-f">
+                                <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-6">Ground (f)</label>
+                                <div id="appealGrounds-6-item-hint" class="govuk-hint govuk-checkboxes__hint">A simpler step (or steps) would achieve the same result.</div>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="appealGrounds-7" name="appealGrounds"
+                                type="checkbox" value="g" aria-describedby="appealGrounds-7-item-hint"
+                                data-cy="answer-g">
+                                <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-7">Ground (g)</label>
+                                <div id="appealGrounds-7-item-hint" class="govuk-hint govuk-checkboxes__hint">The time to comply with the notice is too short.</div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the complete-appeal question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -7818,6 +7906,12 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/description-alleged-breach?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Enter the description of the alleged breach</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Choose your grounds of appeal</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/choose-grounds?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Choose your grounds of appeal</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?</dt>

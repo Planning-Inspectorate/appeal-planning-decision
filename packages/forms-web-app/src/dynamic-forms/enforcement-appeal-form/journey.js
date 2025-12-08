@@ -183,6 +183,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.enforcementInspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterAllegedBreachDescription)
+			.addQuestion(questions.chooseGroundsOfAppeal)
 			.addQuestion(questions.submittedPlanningApplication)
 			.addQuestion(questions.uploadApplicationReceipt)
 			.withCondition(() =>
