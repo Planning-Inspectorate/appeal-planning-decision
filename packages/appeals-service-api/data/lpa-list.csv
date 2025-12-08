@@ -25,7 +25,7 @@
 23;E60000023;H0928;Eden;planning.services@eden.gov.uk;eden.gov.uk;TRUE\n
 24;E60000024;M0933;South Lakeland;development.management@southlakeland.gov.uk;southlakeland.gov.uk;TRUE\n
 25;E60000025;N4205;Bolton;planning.control@bolton.gov.uk;bolton.gov.uk;TRUE\n
-26;E60000026;T4210;Bury Metropolitan Borough Council;planningappeals@bury.gov.uk;bury.gov.uk;TRUE\n
+26;E60000026;T4210;Bury Metropolitan Borough Council;development.control@bury.gov.uk;bury.gov.uk;TRUE\n
 27;E60000027;B4215;Manchester City Council;planning@manchester.gov.uk;manchester.gov.uk;TRUE\n
 28;E60000028;W4223;Oldham Metropolitan Borough Council;planning@oldham.gov.uk;oldham.gov.uk;TRUE\n
 29;E60000029;P4225;Rochdale Metropolitan Borough Council;development.management@rochdale.gov.uk;rochdale.gov.uk;TRUE\n
@@ -47,7 +47,7 @@
 45;E60000045;P2365;West Lancashire District Council;plan.appeals@westlancs.gov.uk;westlancs.gov.uk;TRUE\n
 46;E60000046;U2370;Wyre;planning@wyre.gov.uk;wyre.gov.uk;TRUE\n
 47;E60000047;V4305;Knowsley;dcconsultations@knowsley.gov.uk;knowsley.gov.uk;TRUE\n
-48;E60000048;Z4310;Liverpool City Council;planningandbuildingcontrol@liverpool.gov.uk;liverpool.gov.uk;TRUE\n
+48;E60000048;Z4310;Liverpool City Council;planningappeals@liverpool.gov.uk;liverpool.gov.uk;TRUE\n
 49;E60000049;M4320;Sefton;planning.appeals@sefton.gov.uk;sefton.gov.uk;TRUE\n
 50;E60000050;H4315;St Helens Metropolitan Borough Council;planning@sthelens.gov.uk;sthelens.gov.uk;TRUE\n
 51;E60000051;W4325;Wirral;appeals@wirral.gov.uk;wirral.gov.uk;TRUE\n
@@ -378,7 +378,7 @@
 ;;C0820;North Cornwall District Council;;;FALSE\n
 ;;N3210;North Shropshire District Council;;;FALSE\n
 ;;J3910;North Wiltshire District Council;;;FALSE\n
-;P2745;P2745;North Yorkshire Council;planning.control@northyorks.gov.uk;northyorks.gov.uk;TRUE\n
+;P2745;P2745;North Yorkshire Council;NYCplanningappeals@northyorks.gov.uk;northyorks.gov.uk;TRUE\n
 ;;V2825;Northampton Borough Council;planning@northampton.gov.uk;northampton.gov.uk;FALSE\n
 ;;K2800;Northamptonshire County Council;;;FALSE\n
 ;;R2900;Northumberland County Council Pre 010409;;;FALSE\n
@@ -411,7 +411,7 @@
 ;;K3930;Wiltshire County Council Pre 010409;;;FALSE\n
 ;E1855;E1855;Worcestershire County Council;DevControlTeam@worcestershire.gov.uk;worcestershire.gov.uk;TRUE\n
 ;K0940;K0940;West Morland and Furness Council;appeals4@westmorlandandfurness.gov.uk;westmorlandandfurness.gov.uk;TRUE\n
-;E3335;E3335;Somerset Council;planning@somerset.gov.uk;somerset.gov.uk;TRUE\n
+;E3335;E3335;Somerset Council;planningappeals@somerset.gov.uk;somerset.gov.uk;TRUE\n
 ;F0935;F0935;Cumberland;planning.appeals@cumberland.gov.uk;cumberland.gov.uk;TRUE\n
 ;U2750;U2750;North Yorkshire  ;NYCplanningappeals@northyorks.gov.uk;northyorks.gov.uk;TRUE\n
 ;F0745;F0745;Hartlepool Development Corporation;HDCplanning@teesvalley-ca.gov.uk;teesvalley-ca.gov.uk;TRUE\n
