@@ -1,6 +1,6 @@
 const blobClient = require('#lib/back-office-storage-client');
 const archiver = require('archiver');
-const { FOLDERS } = require('@pins/common/src/constants');
+const { documentTypes } = require('@pins/common/src/document-types');
 const { DocumentsRepository } = require('../../../../../../db/repos/repository');
 const repo = new DocumentsRepository();
 const logger = require('#lib/logger');
@@ -30,10 +30,6 @@ async function getBlobCollection(
 	const { email, lpaCode } = id_token;
 	const isLpa = !!lpaCode;
 
-	const folders = FOLDERS.filter((folder) => folder.startsWith(`${caseStage}/`));
-	if (!folders.length) return [];
-	const documentTypes = folders.map((folder) => folder.split('/')[1]);
-
 	const [representations, allDocuments] = await Promise.all([
 		repo.getRepresentationDocsByCaseReference({
 			caseReference,
@@ -41,8 +37,9 @@ async function getBlobCollection(
 			isLpa
 		}),
 		repo.getDocumentsByTypes({
-			documentTypes,
-			caseReference
+			documentTypes: Object.keys(documentTypes),
+			caseReference,
+			stage: caseStage
 		})
 	]);
 

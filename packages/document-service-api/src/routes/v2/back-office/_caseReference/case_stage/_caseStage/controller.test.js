@@ -4,6 +4,8 @@ const testCaseReference = '1234567890';
 const testCaseStage = 'lpa-questionnaire';
 const testDocumentTypes = ['doctype-one', 'doc-type-two', 'doc-type-three'];
 
+const mockDocumentTypes = { 'doctype-one': '', 'doc-type-two': '', 'doc-type-three': '' };
+
 jest.mock('@pins/common/src/lib/getAzureBlobPathFromUri', () =>
 	jest.fn().mockImplementation((uri) => {
 		return uri;
@@ -14,9 +16,9 @@ jest.mock('../../../../../../configuration/featureFlag', () => ({
 	isFeatureActive: jest.fn().mockResolvedValue(true)
 }));
 
-jest.mock('@pins/common/src/constants', () => ({
-	...jest.requireActual('@pins/common/src/constants'),
-	FOLDERS: testDocumentTypes.map((documentType) => `${testCaseStage}/${documentType}`)
+jest.mock('@pins/common/src/document-types', () => ({
+	...jest.requireActual('@pins/common/src/document-types'),
+	documentTypes: mockDocumentTypes
 }));
 
 const { checkDocAccess } = require('@pins/common/src/access/document-access');
