@@ -134,9 +134,10 @@ class DocumentsRepository {
 	 * @param {object} params
 	 * @param {string[]} params.documentTypes
 	 * @param {string} params.caseReference
+	 * @param {string} params.stage
 	 * @returns {Promise<import('@pins/database/src/client').Document[]>}
 	 */
-	async getDocumentsByTypes({ documentTypes, caseReference }) {
+	async getDocumentsByTypes({ documentTypes, caseReference, stage }) {
 		if (!caseReference) throw new Error('caseReference required');
 		if (!Array.isArray(documentTypes) || !documentTypes.length)
 			throw new Error('documentTypes required');
@@ -144,7 +145,8 @@ class DocumentsRepository {
 		return await this.dbClient.document.findMany({
 			where: {
 				documentType: { in: documentTypes },
-				caseReference: caseReference
+				caseReference: caseReference,
+				stage: stage
 			}
 		});
 	}
