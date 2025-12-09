@@ -74,6 +74,10 @@ extends:
                 npm_config_cache: $(npm_config_cache)
           - template: ../steps/node_script.yml
             parameters:
+              nodeVersion: 22
+              script: npm run commitlint
+          - template: ../steps/node_script.yml
+            parameters:
               condition: succeededOrFailed()
               script: npm run lint
               nodeVersion: 22
