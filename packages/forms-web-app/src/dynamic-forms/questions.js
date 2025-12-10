@@ -2341,7 +2341,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'content',
 		title: 'Submit your final comments',
 		label: 'You can upload any supporting documents after you add your final comments.',
-		description: 'You can upload any supporting documents after you add your appeal statement.',
+		description: 'You can upload any supporting documents after you add your final comments.',
 		backLinkText: 'Back to manage your appeals',
 		question: 'Submit your final comments',
 		url: 'upload-final-comments',

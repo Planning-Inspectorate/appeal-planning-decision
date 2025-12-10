@@ -50,40 +50,20 @@ class ListAddMoreQuestion extends Question {
 	 * @param {string} [params.width]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 */
-	constructor({
-		title,
-		question,
-		fieldName,
-		url,
-		pageTitle,
-		description,
-		subQuestionProps,
-		subQuestionLabel,
-		subQuestionTitle,
-		subQuestionFieldLabel,
-		subQuestionInputClasses,
-		validators,
-		width
-	}) {
-		if (!subQuestionProps) throw new Error('subQuestionProps are required');
+	constructor(params) {
+		if (!params.subQuestionProps) throw new Error('subQuestionProps are required');
 
 		super({
-			title,
-			question,
-			viewFolder: 'list-add-more',
-			fieldName,
-			url,
-			pageTitle,
-			description,
-			validators
+			...params,
+			viewFolder: 'list-add-more'
 		});
 
-		this.subQuestion = new subQuestions[subQuestionProps.type](subQuestionProps);
-		this.subQuestionLabel = subQuestionLabel ?? 'Answer';
-		this.subQuestionTitle = subQuestionTitle;
-		this.subQuestionFieldLabel = subQuestionFieldLabel;
-		this.subQuestionInputClasses = subQuestionInputClasses;
-		this.width = width ?? ListAddMoreQuestion.TWO_THIRDS_WIDTH;
+		this.subQuestion = new subQuestions[params.subQuestionProps.type](params.subQuestionProps);
+		this.subQuestionLabel = params.subQuestionLabel ?? 'Answer';
+		this.subQuestionTitle = params.subQuestionTitle;
+		this.subQuestionFieldLabel = params.subQuestionFieldLabel;
+		this.subQuestionInputClasses = params.subQuestionInputClasses;
+		this.width = params.width ?? ListAddMoreQuestion.TWO_THIRDS_WIDTH;
 	}
 
 	/**
