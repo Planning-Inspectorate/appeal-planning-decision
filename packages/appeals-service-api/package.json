@@ -8,8 +8,8 @@
 	"main": "src/main.js",
 	"scripts": {
 		"doc": "node src/spec/write-api-types.js",
-		"test": "cross-env NODE_OPTIONS=\"--expose-gc\" jest --logHeapUsage --ci --verbose",
-		"test:cov": "cross-env NODE_OPTIONS=\"--expose-gc\" jest --logHeapUsage --ci --verbose --coverage",
+		"test": "cross-env NODE_OPTIONS=\"--expose-gc --experimental-vm-modules\" jest --logHeapUsage --ci --verbose",
+		"test:cov": "cross-env NODE_OPTIONS=\"--expose-gc --experimental-vm-modules\" jest --logHeapUsage --ci --verbose --coverage",
 		"gen-api-types": "node src/spec/write-api-types.js",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
