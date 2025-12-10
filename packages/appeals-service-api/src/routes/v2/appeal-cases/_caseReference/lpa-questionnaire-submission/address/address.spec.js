@@ -10,7 +10,7 @@ const invalidLpa = 'nope';
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client/client').PrismaClient} dependencies.getSqlClient
  * @param {function(string): void} dependencies.setCurrentSub
  * @param {function(string): void} dependencies.setCurrentLpa
  * @param {import('supertest').Agent} dependencies.appealsApi

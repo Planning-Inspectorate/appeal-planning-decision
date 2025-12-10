@@ -4,8 +4,8 @@ const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 const { AppealUserRepository } = require('#repositories/sql/appeal-user-repository');
 
 /**
- * @typedef {import('@pins/database/src/client').ServiceUser} ServiceUser
- * @typedef {import('@pins/database/src/client').AppealToUser} AppealToUser
+ * @typedef {import('@pins/database/src/client/client').ServiceUser} ServiceUser
+ * @typedef {import('@pins/database/src/client/client').AppealToUser} AppealToUser
  * @typedef {Pick<ServiceUser, 'id' | 'emailAddress' | 'serviceUserType'>} BasicServiceUser
  * @typedef {Pick<ServiceUser, 'firstName' | 'lastName' | 'serviceUserType'>} ServiceUserName
  */
@@ -26,12 +26,12 @@ const mapDataModelRoleToInternalRole = (modelRole) => {
 
 class ServiceUserRepository {
 	/**
-	 * @type {import('@pins/database/src/client').PrismaClient | import('@pins/database/src/client').Prisma.TransactionClient}
+	 * @type {import('@pins/database/src/client/client').PrismaClient | import('@pins/database/src/client/client').Prisma.TransactionClient}
 	 */
 	dbClient;
 
 	/**
-	 * @param {import('@pins/database/src/client').PrismaClient | import('@pins/database/src/client').Prisma.TransactionClient} [client]
+	 * @param {import('@pins/database/src/client/client').PrismaClient | import('@pins/database/src/client/client').Prisma.TransactionClient} [client]
 	 */
 	constructor(client) {
 		this.dbClient = client ?? createPrismaClient();

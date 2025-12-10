@@ -21,11 +21,11 @@ const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-s
 const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
 
 /**
- * @typedef {import('@pins/database/src/client').AppealCase } AppealCase
+ * @typedef {import('@pins/database/src/client/client').AppealCase } AppealCase
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
- * @typedef {import('@pins/database/src/client').AppellantSubmission} AppellantSubmission
+ * @typedef {import('@pins/database/src/client/client').AppellantSubmission} AppellantSubmission
  * @typedef {import('../routes/v2/appellant-submissions/_id/service').FullAppellantSubmission} FullAppellantSubmission
- * @typedef {import('@pins/database/src/client').InterestedPartySubmission} InterestedPartySubmission
+ * @typedef {import('@pins/database/src/client/client').InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
@@ -33,8 +33,8 @@ const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-
  * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
- * @typedef {import('@pins/database/src/client').ServiceUser} ServiceUser
- * @typedef {import('@pins/database/src/client').Prisma.AppealUserCreateInput } AppealUserCreateInput
+ * @typedef {import('@pins/database/src/client/client').ServiceUser} ServiceUser
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppealUserCreateInput } AppealUserCreateInput
  */
 
 /** @type {NotifyService|null} */ // todo: use dependency injection instead

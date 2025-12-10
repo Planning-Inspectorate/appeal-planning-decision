@@ -1,20 +1,20 @@
 const { createPrismaClient } = require('#db-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 const ApiError = require('#errors/apiError');
 const logger = require('#lib/logger');
 const { subMonths } = require('date-fns');
 
 /**
- * @typedef {import('@pins/database/src/client').AppellantSubmission} BareAppellantSubmission
- * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionGetPayload<{
+ * @typedef {import('@pins/database/src/client/client').AppellantSubmission} BareAppellantSubmission
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppellantSubmissionGetPayload<{
  *   include: {
  *     SubmissionDocumentUpload: true,
  *     SubmissionAddress: true,
  *     SubmissionLinkedCase: true,
  *   }
  * }>} AppellantSubmission
- * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionGetPayload<{
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppellantSubmissionGetPayload<{
  *   include: {
  *     SubmissionDocumentUpload: true,
  *     SubmissionAddress: true,
@@ -31,9 +31,9 @@ const { subMonths } = require('date-fns');
  *     }
  *   }
  * }>} FullAppellantSubmission
- * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
- * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
- * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionGetPayload<{
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppellantSubmissionGetPayload<{
  *   select: {
  *    	id: true,
  *		applicationDecisionDate: true,
@@ -388,7 +388,7 @@ module.exports = class Repo {
 	/**
 	 * Get all document uploads for a submission
 	 * @param {string} submissionId
-	 * @returns {Promise<import('@pins/database/src/client').SubmissionDocumentUpload[]>}
+	 * @returns {Promise<import('@pins/database/src/client/client').SubmissionDocumentUpload[]>}
 	 */
 	async getSubmissionDocumentUploads(submissionId) {
 		return this.dbClient.submissionDocumentUpload.findMany({

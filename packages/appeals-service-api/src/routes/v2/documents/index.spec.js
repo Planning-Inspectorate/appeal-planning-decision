@@ -6,7 +6,7 @@ const { APPEAL_REDACTED_STATUS } = require('@planning-inspectorate/data-model');
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client/client').PrismaClient} dependencies.getSqlClient
  * @param {import('supertest').Agent} dependencies.appealsApi
  */
 module.exports = ({ getSqlClient, appealsApi }) => {

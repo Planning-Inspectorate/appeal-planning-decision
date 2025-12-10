@@ -3,7 +3,7 @@ const { SubmissionAddressRepository } = require('./repo');
 const repo = new SubmissionAddressRepository();
 
 /**
- * @typedef {import('@pins/database/src/client').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
+ * @typedef {import('@pins/database/src/client/client').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  * @typedef {import('./repo').AddressData} AddressData
  */
 

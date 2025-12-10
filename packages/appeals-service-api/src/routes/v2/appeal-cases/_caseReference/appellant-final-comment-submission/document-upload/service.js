@@ -3,7 +3,7 @@ const { SubmissionDocumentUploadRepository } = require('./repo');
 const repo = new SubmissionDocumentUploadRepository();
 
 /**
- * @typedef {import('@pins/database/src/client').AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
+ * @typedef {import('@pins/database/src/client/client').AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('./repo').DocumentUploadData} DocumentUploadData
  */
 

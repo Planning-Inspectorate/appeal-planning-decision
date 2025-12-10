@@ -16,7 +16,7 @@ const HorizonIntegrationInputCondition = require('./utils/horizon-integration-in
 
 const { isFeatureActive } = require('../../src/configuration/featureFlag');
 
-/** @type {import('@pins/database/src/client').PrismaClient} */
+/** @type {import('@pins/database/src/client/client').PrismaClient} */
 let sqlClient;
 /** @type {import('supertest').SuperTest<import('supertest').Test>} */
 let appealsApi;
@@ -658,7 +658,7 @@ const _clearDatabaseCollections = async () => {
 /**
  *
  * @param {string} email
- * @returns {Promise.<import('@pins/database/src/client').AppealUser>}
+ * @returns {Promise.<import('@pins/database/src/client/client').AppealUser>}
  */
 const _createSqlUser = async (email) => {
 	const user = await sqlClient.appealUser.upsert({

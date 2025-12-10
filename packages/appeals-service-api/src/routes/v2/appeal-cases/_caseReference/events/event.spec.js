@@ -9,7 +9,7 @@ const validLpa = 'Q9999';
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client/client').PrismaClient} dependencies.getSqlClient
  * @param {function(string): void} dependencies.setCurrentSub
  * @param {import('supertest').Agent} dependencies.appealsApi
  */

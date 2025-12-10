@@ -5,7 +5,7 @@ const {
 } = require('./service');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 
 /**
  * @type {import('express').RequestHandler}

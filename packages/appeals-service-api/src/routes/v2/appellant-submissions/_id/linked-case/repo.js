@@ -1,8 +1,8 @@
 const { createPrismaClient } = require('#db-client');
 
 /**
- * @typedef {import('@pins/database/src/client').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
- * @typedef {import('@pins/database/src/client').Prisma.SubmissionLinkedCaseCreateInput} LinkedCaseData
+ * @typedef {import('@pins/database/src/client/client').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
+ * @typedef {import('@pins/database/src/client/client').Prisma.SubmissionLinkedCaseCreateInput} LinkedCaseData
  */
 
 class LinkedCaseRepository {

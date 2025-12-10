@@ -1,10 +1,10 @@
 const { createPrismaClient } = require('#db-client');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 const ApiError = require('#errors/apiError');
 
 /**
  * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealDocument} DataModelDocument
- * @typedef {import('@pins/database/src/client').LPA} PrismaLPA
+ * @typedef {import('@pins/database/src/client/client').LPA} PrismaLPA
  */
 
 /**

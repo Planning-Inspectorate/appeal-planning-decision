@@ -1,10 +1,10 @@
 const { createPrismaClient } = require('#db-client');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 const ApiError = require('#errors/apiError');
 
 /**
- * @typedef {import('@pins/database/src/client').InterestedPartySubmission} InterestedPartySubmission
- * @typedef {import('@pins/database/src/client').Prisma.InterestedPartySubmissionCreateInput} IPSubmissionData
+ * @typedef {import('@pins/database/src/client/client').InterestedPartySubmission} InterestedPartySubmission
+ * @typedef {import('@pins/database/src/client/client').Prisma.InterestedPartySubmissionCreateInput} IPSubmissionData
  * @typedef {InterestedPartySubmission & {AppealCase?: {LPACode: string, appealTypeCode: string | null}}} DetailedInterestedPartySubmission
  */
 

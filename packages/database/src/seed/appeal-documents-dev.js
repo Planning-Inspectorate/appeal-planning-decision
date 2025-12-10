@@ -4,7 +4,7 @@ const {
 } = require('@planning-inspectorate/data-model');
 
 /**
- * @type {import('@pins/database/src/client').Prisma.DocumentCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.DocumentCreateInput[]}
  */
 const appealDocuments = [
 	{
