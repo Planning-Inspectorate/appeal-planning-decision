@@ -33,46 +33,22 @@ class UnitOptionEntryQuestion extends Question {
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
-	 */ constructor(
-		{
-			title,
-			question,
-			fieldName,
-			conditionalFieldName,
-			viewFolder,
-			url,
-			hint,
-			pageTitle,
-			description,
-			label,
-			html,
-			options,
-			validators
-		},
-		methodOverrides
-	) {
+	 */ constructor(params, methodOverrides) {
 		super(
 			{
-				title,
-				question,
-				viewFolder: !viewFolder ? 'unit-option-entry' : viewFolder,
-				fieldName,
-				url,
-				hint,
-				pageTitle,
-				description,
-				validators
+				...params,
+				viewFolder: !params.viewFolder ? 'unit-option-entry' : params.viewFolder
 			},
 			methodOverrides
 		);
 
-		if (!options?.length) throw new Error('Options is mandatory');
-		if (!conditionalFieldName?.length) throw new Error('conditionalFieldName is mandatory');
+		if (!params.options?.length) throw new Error('Options is mandatory');
+		if (!params.conditionalFieldName?.length) throw new Error('conditionalFieldName is mandatory');
 
-		this.conditionalFieldName = conditionalFieldName;
-		this.options = options;
-		this.html = html;
-		this.label = label;
+		this.conditionalFieldName = params.conditionalFieldName;
+		this.options = params.options;
+		this.html = params.html;
+		this.label = params.label;
 		this.optionJoinString = defaultOptionJoinString;
 	}
 

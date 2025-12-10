@@ -45,41 +45,22 @@ class MultiFieldInputQuestion extends Question {
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
-	constructor(
-		{
-			title,
-			question,
-			fieldName,
-			description,
-			url,
-			hint,
-			validators,
-			html,
-			label,
-			inputAttributes = {},
-			inputFields,
-			formatType
-		},
-		methodOverrides
-	) {
+	constructor(params, methodOverrides) {
+		if (!params.inputAttributes) {
+			params.inputAttributes = {};
+		}
+
 		super({
-			title,
-			viewFolder: 'multi-field-input',
-			fieldName,
-			description,
-			url,
-			question,
-			validators,
-			hint,
-			html
+			...params,
+			viewFolder: 'multi-field-input'
 		});
-		this.label = label;
-		this.inputAttributes = inputAttributes;
-		this.formatType = formatType;
+		this.label = params.label;
+		this.inputAttributes = params.inputAttributes;
+		this.formatType = params.formatType;
 		this.methodOverrides = methodOverrides;
 
-		if (inputFields) {
-			this.inputFields = inputFields;
+		if (params.inputFields) {
+			this.inputFields = params.inputFields;
 		} else {
 			throw new Error('inputFields are mandatory');
 		}

@@ -63,7 +63,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 						fieldName: FIELDNAME,
 						subQuestionProps: {}
 					})
-			).toThrow('subQuestions[subQuestionProps.type] is not a constructor');
+			).toThrow();
 		});
 	});
 

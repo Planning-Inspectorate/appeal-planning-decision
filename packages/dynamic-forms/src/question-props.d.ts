@@ -37,6 +37,7 @@ interface CommonQuestionProps {
 	html?: string;
 	hint?: string;
 	shouldDisplay?: (response: JourneyResponse) => boolean;
+	shouldDisplayOnTaskList?: () => boolean;
 	variables?: QuestionVariables[];
 }
 

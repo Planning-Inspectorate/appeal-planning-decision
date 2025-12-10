@@ -47,17 +47,17 @@ const makeSections = () => [
 			{
 				title: 'Title 1a',
 				question: 'Why?',
-				taskList: true,
 				fieldName: 'title-1a',
 				shouldDisplay: () => true,
+				shouldDisplayOnTaskList: () => true,
 				formatAnswerForSummary: jest.fn()
 			},
 			{
 				title: 'Title 1b',
 				question: 'Who?',
-				taskList: false,
 				fieldName: 'title-1b',
 				shouldDisplay: () => true,
+				shouldDisplayOnTaskList: () => false,
 				formatAnswerForSummary: () => [
 					{
 						key: 'Title 1b',
@@ -85,9 +85,9 @@ const makeSections = () => [
 			{
 				title: 'Title 2a',
 				question: 'How?',
-				taskList: true,
 				fieldName: 'title-2a',
 				shouldDisplay: () => true,
+				shouldDisplayOnTaskList: () => true,
 				formatAnswerForSummary: () => [
 					{
 						key: 'Title 2a',
@@ -103,9 +103,9 @@ const makeSections = () => [
 			{
 				title: 'Title 2b',
 				question: 'What?',
-				taskList: true,
 				fieldName: 'title-2b',
 				shouldDisplay: () => true,
+				shouldDisplayOnTaskList: () => true,
 				formatAnswerForSummary: () => [
 					{
 						key: 'Title 2b',
@@ -131,9 +131,9 @@ const makeSections = () => [
 			{
 				title: 'Title 3a',
 				question: 'When?',
-				taskList: false,
 				fieldName: 'title-3a',
 				shouldDisplay: () => true,
+				shouldDisplayOnTaskList: () => false,
 				formatAnswerForSummary: () => [
 					{
 						key: 'Title 3a',
@@ -149,9 +149,9 @@ const makeSections = () => [
 			{
 				title: 'Title 3b',
 				question: 'Really?',
-				taskList: true,
 				fieldName: 'title-3b',
 				shouldDisplay: () => true,
+				shouldDisplayOnTaskList: () => true,
 				formatAnswerForSummary: () => [
 					{
 						key: 'Title 3b',

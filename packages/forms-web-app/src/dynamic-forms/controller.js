@@ -137,7 +137,7 @@ function buildSummaryListData(journey, journeyResponse) {
 		// add questions
 		for (const question of section.questions) {
 			// don't show question on tasklist if set to false
-			if (question.taskList === false) {
+			if (question.shouldDisplayOnTaskList(journeyResponse) === false) {
 				continue;
 			}
 			// don't show question on tasklist if it's hidden from journey
@@ -225,7 +225,7 @@ exports.list = async (req, res, pageCaption, viewData) => {
 		// add questions
 		for (const question of section.questions) {
 			// don't show question on tasklist if set to false
-			if (question.taskList === false) {
+			if (question.shouldDisplayOnTaskList(journeyResponse) === false) {
 				continue;
 			}
 
