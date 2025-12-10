@@ -23,31 +23,20 @@ class ContentQuestion extends Question {
 	 * @param {string} [params.backLinkText]
 	 * @param {Array<string>} [params.variables]
 	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
+	 * @param {() => boolean} [params.shouldDisplayOnTaskList]
 	 */
-	constructor({
-		title,
-		question,
-		fieldName,
-		url,
-		label,
-		description,
-		html,
-		backLinkText,
-		variables
-	}) {
+	constructor(params) {
 		super({
-			title,
-			viewFolder: 'content',
-			fieldName,
-			url,
-			html,
-			question,
-			description,
-			backLinkText,
-			variables
+			...params,
+			viewFolder: 'content'
 		});
 
-		this.label = label;
+		if (!params.shouldDisplayOnTaskList) {
+			// by default don't display content questions on the task list, as there is no action to take
+			this.shouldDisplayOnTaskList = () => false;
+		}
+
+		this.label = params.label;
 	}
 
 	/**

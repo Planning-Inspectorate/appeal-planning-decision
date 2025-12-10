@@ -42,45 +42,22 @@ class OptionsQuestion extends Question {
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
-	constructor(
-		{
-			title,
-			question,
-			viewFolder,
-			fieldName,
-			url,
-			hint,
-			pageTitle,
-			description,
-			options,
-			validators,
-			variables
-		},
-		methodOverrides
-	) {
+	constructor(params, methodOverrides) {
 		// add default valid options validator to all options questions
 		let optionsValidators = [new ValidOptionValidator()];
-		if (validators && Array.isArray(validators)) {
-			optionsValidators = validators.concat(optionsValidators);
+		if (params.validators && Array.isArray(params.validators)) {
+			optionsValidators = params.validators.concat(optionsValidators);
 		}
 
 		super(
 			{
-				title,
-				question,
-				viewFolder,
-				fieldName,
-				url,
-				hint,
-				pageTitle,
-				description,
-				validators: optionsValidators,
-				variables
+				...params,
+				validators: optionsValidators
 			},
 			methodOverrides
 		);
-		this.hint = hint;
-		this.options = options || [];
+		this.hint = params.hint;
+		this.options = params.options || [];
 		this.optionJoinString = defaultOptionJoinString;
 	}
 

@@ -17,14 +17,8 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 	 * @param {string} params.viewFolder
 	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
 	 */
-	constructor({ title, question, fieldName, viewFolder, validators }) {
-		super({
-			title: title,
-			viewFolder: viewFolder,
-			fieldName: fieldName,
-			question: question,
-			validators: validators
-		});
+	constructor(params) {
+		super(params);
 	}
 
 	/**

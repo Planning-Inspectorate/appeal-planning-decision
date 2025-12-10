@@ -27,21 +27,11 @@ class CheckboxQuestion extends OptionsQuestion {
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
-	constructor(
-		{ title, question, fieldName, url, pageTitle, description, options, validators },
-		methodOverrides
-	) {
+	constructor(params, methodOverrides) {
 		super(
 			{
-				title,
-				question,
-				viewFolder: 'checkbox',
-				fieldName,
-				url,
-				pageTitle,
-				description,
-				options,
-				validators
+				...params,
+				viewFolder: 'checkbox'
 			},
 			methodOverrides
 		);
