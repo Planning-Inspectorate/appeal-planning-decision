@@ -2405,10 +2405,12 @@ exports.getQuestionProps = (response) => ({
 	rule6Statement: {
 		type: 'text-entry',
 		title: 'Appeal statement',
-		question: 'Appeal statement',
+		question: 'Enter your statement',
 		label: 'Enter your statement',
 		url: 'appeal-statement',
 		fieldName: 'rule6Statement',
+		hint: 'Address each item separately, dealing with legal matters first',
+		html: 'resources/rule-6/rule-6-statement-guidance.html',
 		validators: [
 			new RequiredValidator('Enter your statement'),
 			new StringValidator({
