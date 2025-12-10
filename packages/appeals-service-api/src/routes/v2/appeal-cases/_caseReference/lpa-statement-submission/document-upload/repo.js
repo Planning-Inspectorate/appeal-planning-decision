@@ -1,7 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 
 /**
- * @typedef {import('@pins/database/src/client').LPAStatementSubmission} LPAStatementSubmission
+ * @typedef {import('@pins/database/src/client/client').LPAStatementSubmission} LPAStatementSubmission
  */
 
 /**

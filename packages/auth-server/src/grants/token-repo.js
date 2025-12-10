@@ -3,16 +3,16 @@ import { createToken } from '@pins/common/src/lib/token.js';
 export const MILLISECONDS_BETWEEN_TOKENS = 10_000;
 
 /**
- * @typedef { import('@pins/database/src/client').PrismaClient } PrismaClient
- * @typedef { import('@pins/database/src/client').SecurityToken } SecurityToken
- * @typedef { import('@pins/database/src/client').Prisma.SecurityTokenCreateInput } SecurityTokenCreateInput
+ * @typedef { import('@pins/database/src/client/client').PrismaClient } PrismaClient
+ * @typedef { import('@pins/database/src/client/client').SecurityToken } SecurityToken
+ * @typedef { import('@pins/database/src/client/client').Prisma.SecurityTokenCreateInput } SecurityTokenCreateInput
  */
 
 export class TokenRepository {
 	dbClient;
 
 	/**
-	 * @param {import('@pins/database/src/client').PrismaClient} client
+	 * @param {import('@pins/database/src/client/client').PrismaClient} client
 	 */
 	constructor(client) {
 		this.dbClient = client;

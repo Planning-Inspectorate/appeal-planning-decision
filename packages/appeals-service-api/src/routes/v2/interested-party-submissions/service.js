@@ -3,8 +3,8 @@ const repo = new InterestedPartySubmissionRepository();
 const logger = require('#lib/logger');
 
 /**
- * @typedef {import('@pins/database/src/client').InterestedPartySubmission} InterestedPartySubmission
- * @typedef {import('@pins/database/src/client').Prisma.InterestedPartySubmissionCreateInput} IPSubmissionData
+ * @typedef {import('@pins/database/src/client/client').InterestedPartySubmission} InterestedPartySubmission
+ * @typedef {import('@pins/database/src/client/client').Prisma.InterestedPartySubmissionCreateInput} IPSubmissionData
  */
 
 /**

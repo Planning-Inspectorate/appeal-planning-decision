@@ -9,14 +9,14 @@ const {
 } = require('@planning-inspectorate/data-model');
 
 /**
- * @typedef {import('@pins/database/src/client').Prisma.AppealToUserRoleCreateInput} AppealToUserRoleCreateInput
- * @typedef {import('@pins/database/src/client').Prisma.CaseTypeCreateInput} CaseTypeCreateInput
- * @typedef {import('@pins/database/src/client').Prisma.ProcedureTypeCreateInput} ProcedureTypeCreateInput
- * @typedef {import('@pins/database/src/client').Prisma.LPANotificationMethodsCreateInput} LPANotificationMethodsCreateInput
- * @typedef {import('@pins/database/src/client').Prisma.CaseStatusCreateInput} CaseStatusCreateInput
- * @typedef {import('@pins/database/src/client').Prisma.CaseDecisionOutcomeCreateInput} CaseDecisionOutcomeCreateInput
- * @typedef {import('@pins/database/src/client').Prisma.CaseValidationOutcomeCreateInput} CaseValidationOutcomeCreateInput
- * @typedef {import('@pins/database/src/client').Prisma.LPAQuestionnaireValidationOutcomeCreateInput} LPAQuestionnaireValidationOutcomeCreateInput
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppealToUserRoleCreateInput} AppealToUserRoleCreateInput
+ * @typedef {import('@pins/database/src/client/client').Prisma.CaseTypeCreateInput} CaseTypeCreateInput
+ * @typedef {import('@pins/database/src/client/client').Prisma.ProcedureTypeCreateInput} ProcedureTypeCreateInput
+ * @typedef {import('@pins/database/src/client/client').Prisma.LPANotificationMethodsCreateInput} LPANotificationMethodsCreateInput
+ * @typedef {import('@pins/database/src/client/client').Prisma.CaseStatusCreateInput} CaseStatusCreateInput
+ * @typedef {import('@pins/database/src/client/client').Prisma.CaseDecisionOutcomeCreateInput} CaseDecisionOutcomeCreateInput
+ * @typedef {import('@pins/database/src/client/client').Prisma.CaseValidationOutcomeCreateInput} CaseValidationOutcomeCreateInput
+ * @typedef {import('@pins/database/src/client/client').Prisma.LPAQuestionnaireValidationOutcomeCreateInput} LPAQuestionnaireValidationOutcomeCreateInput
  * @typedef {CaseTypeCreateInput & {
  * 	processCode: "HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING" | "ENFORCEMENT"
  *  friendlyUrl: string,

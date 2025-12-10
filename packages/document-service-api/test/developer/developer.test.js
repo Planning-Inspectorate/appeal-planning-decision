@@ -77,7 +77,7 @@ const getDoc = ({
 	return doc;
 };
 
-/** @type {import('@pins/database/src/client').PrismaClient} */
+/** @type {import('@pins/database/src/client/client').PrismaClient} */
 let sqlClient;
 
 beforeAll(async () => {

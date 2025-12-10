@@ -1,5 +1,5 @@
 const { createPrismaClient } = require('#db-client');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 
 /**
  * @typedef {import('./rule-6-statement-submission').Rule6StatementSubmission} Rule6StatementSubmission

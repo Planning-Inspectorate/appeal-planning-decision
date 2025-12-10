@@ -8,7 +8,7 @@ const repo = new Repository();
 class Account {
 	/**
 	 * @param {string} id
-	 * @param {import('@pins/database/src/client').AppealUser} user
+	 * @param {import('@pins/database/src/client/client').AppealUser} user
 	 */
 	constructor(id, user) {
 		user.email = user.email?.trim();

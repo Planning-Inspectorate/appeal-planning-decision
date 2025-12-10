@@ -1,10 +1,10 @@
 const { createPrismaClient } = require('#db-client');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 const ApiError = require('#errors/apiError');
 
 /**
- * @typedef {import('@pins/database/src/client').ListedBuilding} ListedBuilding
- * @typedef {import('@pins/database/src/client').Prisma.ListedBuildingCreateInput} ListedBuildingCreateInput
+ * @typedef {import('@pins/database/src/client/client').ListedBuilding} ListedBuilding
+ * @typedef {import('@pins/database/src/client/client').Prisma.ListedBuildingCreateInput} ListedBuildingCreateInput
  * @typedef {{updated: Set<string>, created: Set<string>}} ListedBuildingUpsertManyResponse
  */
 

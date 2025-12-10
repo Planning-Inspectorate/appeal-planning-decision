@@ -1,11 +1,11 @@
 const { createPrismaClient } = require('#db-client');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
- * @typedef {import('@pins/database/src/client').Prisma.AppealUserGetPayload<{include: {Appeals: {include: {Appeal: { include: {AppealCase: true }}}}}}>} UserWithAppeals
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppealUserGetPayload<{include: {Appeals: {include: {Appeal: { include: {AppealCase: true }}}}}}>} UserWithAppeals
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
- * @typedef {import('@pins/database/src/client').Appeal} Appeal
+ * @typedef {import('@pins/database/src/client/client').Appeal} Appeal
  */
 
 class UserAppealsRepository {

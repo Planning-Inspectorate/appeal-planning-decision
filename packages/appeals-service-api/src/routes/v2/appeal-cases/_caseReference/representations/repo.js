@@ -1,12 +1,12 @@
 const { createPrismaClient } = require('#db-client');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 const { dashboardSelect, DocumentsArgsPublishedOnly } = require('../../repo');
 const ApiError = require('#errors/apiError');
 
 /**
- * @typedef {import('@pins/database/src/client').AppealCase} AppealCase
- * @typedef {import('@pins/database/src/client').Representation} Representation
- * @typedef {import('@pins/database/src/client').Document} Document
+ * @typedef {import('@pins/database/src/client/client').AppealCase} AppealCase
+ * @typedef {import('@pins/database/src/client/client').Representation} Representation
+ * @typedef {import('@pins/database/src/client/client').Document} Document
  * @typedef {AppealCase & { Representations?: Array.<Representation>} & { Documents?: Array.<Document>}} AppealWithRepresentations
  *
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealRepresentation} AppealRepresentation
@@ -14,7 +14,7 @@ const ApiError = require('#errors/apiError');
 
 /**
  * @param {AppealRepresentation} dataModel
- * @returns {import('@pins/database/src/client').Prisma.RepresentationCreateWithoutAppealCaseInput}
+ * @returns {import('@pins/database/src/client/client').Prisma.RepresentationCreateWithoutAppealCaseInput}
  */
 const mapRepresentationDataModelToRepresentation = ({
 	representationId,

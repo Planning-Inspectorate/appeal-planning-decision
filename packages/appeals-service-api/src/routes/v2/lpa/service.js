@@ -7,7 +7,7 @@ const { chunkArray } = require('@pins/common/src/database/chunk-array');
 
 const chunckSize = 10;
 /**
- * @typedef {import('@pins/database/src/client').LPA} PrismaLPA
+ * @typedef {import('@pins/database/src/client/client').LPA} PrismaLPA
  */
 
 /**

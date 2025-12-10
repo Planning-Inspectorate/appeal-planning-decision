@@ -105,7 +105,7 @@ async function userIsRule6User(req, res) {
 
 /**
  * @param {string} userLookup
- * @returns {Promise<import('@pins/database/src/client').AppealUser>}
+ * @returns {Promise<import('@pins/database/src/client/client').AppealUser>}
  */
 async function resolveUser(userLookup) {
 	userLookup = userLookup.trim();

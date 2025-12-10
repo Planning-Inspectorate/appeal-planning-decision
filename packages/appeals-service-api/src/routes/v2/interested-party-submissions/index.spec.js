@@ -36,7 +36,7 @@ const formattedComment1 = {
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client/client').PrismaClient} dependencies.getSqlClient
  * @param {import('supertest').Agent} dependencies.appealsApi
  * @param {import('../index.test').NotifyClientMock} dependencies.mockNotifyClient
  * @param {import('../index.test').EventClientMock} dependencies.mockEventClient

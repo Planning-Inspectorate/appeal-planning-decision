@@ -188,7 +188,7 @@ const appealSubmissionDraft = {
 };
 
 /**
- * @type {import('@pins/database/src/client').Prisma.AppealUserCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.AppealUserCreateInput[]}
  */
 const users = [
 	lpaUsers.lpaUser,
@@ -214,7 +214,7 @@ const users = [
 ];
 
 /**
- * @type {import('@pins/database/src/client').Prisma.AppealCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.AppealCreateInput[]}
  */
 const appeals = [
 	{ id: appealIds.appealOne },
@@ -266,7 +266,7 @@ const commonAppealProperties = {
 };
 
 /**
- * @type {import('@pins/database/src/client').Prisma.AppealCaseCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.AppealCaseCreateInput[]}
  */
 const appealCases = [
 	{
@@ -836,7 +836,7 @@ const appealToUsers = [
 ];
 
 /**
- * @type {import('@pins/database/src/client').Prisma.ServiceUserCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.ServiceUserCreateInput[]}
  */
 const serviceUsers = [
 	{
@@ -980,7 +980,7 @@ const serviceUsers = [
 ];
 
 /**
- * @type {import('@pins/database/src/client').Prisma.NeighbouringAddressCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.NeighbouringAddressCreateInput[]}
  */
 const neighbourAddresses = [
 	{
@@ -1045,7 +1045,7 @@ const neighbourAddresses = [
 ];
 
 /**
- * @type {import('@pins/database/src/client').Prisma.ListedBuildingCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.ListedBuildingCreateInput[]}
  */
 const listedBuildings = [
 	{
@@ -1066,7 +1066,7 @@ const listedBuildings = [
 ];
 
 /**
- * @type {import('@pins/database/src/client').Prisma.AppealCaseListedBuildingCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.AppealCaseListedBuildingCreateInput[]}
  */
 const caseListedBuilding = [
 	{
@@ -1096,7 +1096,7 @@ const caseListedBuilding = [
 ];
 
 /**
- * @type {import('@pins/database/src/client').Prisma.AppealCaseLpaNotificationMethodCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.AppealCaseLpaNotificationMethodCreateInput[]}
  */
 const caseNotificationMethods = [
 	{
@@ -1174,7 +1174,7 @@ const caseNotificationMethods = [
 ];
 
 /**
- * @type {import('@pins/database/src/client').Prisma.AppealCaseRelationshipCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.AppealCaseRelationshipCreateInput[]}
  */
 const caseRelations = [
 	{
@@ -1200,7 +1200,7 @@ const caseRelations = [
 ];
 
 /**
- * @type { import('@pins/database/src/client').Prisma.EventCreateInput[] }
+ * @type { import('@pins/database/src/client/client').Prisma.EventCreateInput[] }
  */
 const events = [
 	{
@@ -1301,7 +1301,7 @@ const events = [
 ];
 
 /**
- * @type {import('@pins/database/src/client').Prisma.AppellantSubmissionCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.AppellantSubmissionCreateInput[]}
  */
 const appellantSubmissions = [
 	// v2 appellant submissions
@@ -1335,7 +1335,7 @@ const appellantSubmissions = [
 ];
 
 /**
- * @type {import('@pins/database/src/client').Prisma.SubmissionAddressCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.SubmissionAddressCreateInput[]}
  */
 const submissionAddresses = [
 	{
@@ -1351,7 +1351,7 @@ const submissionAddresses = [
 ];
 
 /**
- * @param {import('@pins/database/src/client').PrismaClient} dbClient
+ * @param {import('@pins/database/src/client/client').PrismaClient} dbClient
  */
 async function seedDev(dbClient) {
 	// ordering here is important to ensure relations are built up
@@ -1597,7 +1597,7 @@ async function seedDev(dbClient) {
 }
 
 /**
- * @param {import('@pins/database/src/client').PrismaClient} dbClient
+ * @param {import('@pins/database/src/client/client').PrismaClient} dbClient
  */
 async function createCasesInState(dbClient) {
 	const existingRefs = await dbClient.appealCase.findMany({
@@ -1750,7 +1750,7 @@ async function createCasesInState(dbClient) {
 }
 
 /**
- * @param {import('@pins/database/src/client').PrismaClient} db
+ * @param {import('@pins/database/src/client/client').PrismaClient} db
  * @param {string} caseRef
  */
 async function deleteSubmissionForCase(db, caseRef) {

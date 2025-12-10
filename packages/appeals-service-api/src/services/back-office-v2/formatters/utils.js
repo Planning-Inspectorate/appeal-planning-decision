@@ -53,7 +53,7 @@ const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-dat
 exports.toBool = (str) => str === 'yes';
 
 /**
- * @param {{ SubmissionDocumentUpload: import('@pins/database/src/client').SubmissionDocumentUpload[] }} answers
+ * @param {{ SubmissionDocumentUpload: import('@pins/database/src/client/client').SubmissionDocumentUpload[] }} answers
  * @param {string} [defaultDocType]
  * @returns {Promise<DataModelDocuments>}
  */
@@ -550,7 +550,7 @@ exports.getCommonLPAQSubmissionFields = (caseReference, answers) => ({
 
 /**
  *
- * @param {import('@pins/database/src/client').SubmissionListedBuilding[]} listedBuildings
+ * @param {import('@pins/database/src/client/client').SubmissionListedBuilding[]} listedBuildings
  * @param {import('@pins/common/src/dynamic-forms/field-names').DynamicFormFieldName} type
  * @returns {string[]}
  */

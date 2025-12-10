@@ -129,7 +129,7 @@ const representationDocuments = [
 ];
 
 /**
- * @type {import('@pins/database/src/client').Prisma.RepresentationCreateInput[]}
+ * @type {import('@pins/database/src/client/client').Prisma.RepresentationCreateInput[]}
  */
 const representations = [
 	// lpa statements

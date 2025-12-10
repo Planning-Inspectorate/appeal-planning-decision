@@ -3,7 +3,7 @@ const { LinkedCaseRepository } = require('./repo');
 const repo = new LinkedCaseRepository();
 
 /**
- * @typedef {import('@pins/database/src/client').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
+ * @typedef {import('@pins/database/src/client/client').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  * @typedef {import('./repo').ListedBuilding} ListedBuilding
  */
 

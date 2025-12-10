@@ -4,7 +4,7 @@ const { EVENT_TYPES, EVENT_SUB_TYPES } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('@planning-inspectorate/data-model/src/schemas').AppealEvent} DataModelEvent
- * @typedef {import('@pins/database/src/client').Event} PrismaEvent
+ * @typedef {import('@pins/database/src/client/client').Event} PrismaEvent
  */
 
 const eventTypeMap = {

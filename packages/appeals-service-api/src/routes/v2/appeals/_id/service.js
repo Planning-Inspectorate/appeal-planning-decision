@@ -2,7 +2,7 @@ const { UserAppealsRepository } = require('../repo');
 const repo = new UserAppealsRepository();
 
 /**
- * @typedef {import('@pins/database/src/client').Appeal} Appeal
+ * @typedef {import('@pins/database/src/client/client').Appeal} Appeal
  */
 
 /**
