@@ -33,45 +33,22 @@ class MultiFileUploadQuestion extends Question {
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
-	constructor(
-		{
-			title,
-			question,
-			fieldName,
-			url,
-			pageTitle,
-			description,
-			documentType,
-			validators,
-			html,
-			actionHiddenText,
-			showSkipLink
-		},
-		methodOverrides
-	) {
+	constructor(params, methodOverrides) {
 		super(
 			{
-				title,
-				question,
-				viewFolder: 'multi-file-upload',
-				fieldName,
-				url,
-				pageTitle,
-				description,
-				validators,
-				html,
-				showSkipLink
+				...params,
+				viewFolder: 'multi-file-upload'
 			},
 			methodOverrides
 		);
 
-		if (documentType) {
-			this.documentType = documentType;
+		if (params.documentType) {
+			this.documentType = params.documentType;
 		} else {
 			throw new Error('documentType is mandatory');
 		}
 
-		this.actionHiddenText = actionHiddenText || question;
+		this.actionHiddenText = params.actionHiddenText || params.question;
 	}
 
 	/**
