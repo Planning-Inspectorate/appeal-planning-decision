@@ -12,8 +12,8 @@
 		"start:dev": "nodemon ./ | pino-pretty -tlc",
 		"start:dev:debug": "nodemon --inspect=0.0.0.0 ./",
 		"seed:dev": "node ./dev/seed.js",
-		"test": "jest --ci --verbose",
-		"test:cov": "jest --ci --verbose --coverage"
+		"test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --ci --verbose",
+		"test:cov": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --ci --verbose --coverage"
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {
