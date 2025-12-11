@@ -11,7 +11,7 @@ exports.siteAccessRows = (caseData) => {
 	const accessForInspectionBool = !!caseData.siteAccessDetails?.[1];
 
 	const hasNeighbourAddressesField = caseData.NeighbouringAddresses !== undefined;
-	const hasNeighboursText = neighbourAddressesArray.length ? 'Yes' : 'No';
+	const hasNeighboursText = hasNeighbourAddressesField && !!caseData.reasonForNeighbourVisits;
 
 	/**
 	 * @type {import("@pins/common/src/view-model-maps/rows/def").Rows}
@@ -29,13 +29,13 @@ exports.siteAccessRows = (caseData) => {
 		},
 		{
 			keyText: 'Will the inspector need to enter a neighbour’s land or property?',
-			valueText: hasNeighboursText,
+			valueText: hasNeighboursText ? 'Yes' : 'No',
 			condition: () => hasNeighbourAddressesField
 		},
 		{
 			keyText: 'Reason for Inspector visit',
 			valueText: caseData.reasonForNeighbourVisits || '',
-			condition: () => hasNeighbourAddressesField && !!caseData.reasonForNeighbourVisits
+			condition: () => hasNeighboursText
 		},
 		{
 			keyText: 'Potential safety risks',
