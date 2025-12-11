@@ -27,7 +27,7 @@ describe('lpaQuestionnaireValidationRows', () => {
 		};
 		const rows = lpaQuestionnaireValidationRows({ caseData: caseData, userType: LPA_USER_ROLE });
 		expect(rows).toHaveLength(1);
-		expect(rows[0].keyText).toBe('');
+		expect(rows[0].keyText).toBe('Additional documents');
 		expect(rows[0].valueText).toContain('name.pdf');
 		expect(typeof rows[0].condition).toBe('function');
 		expect(rows[0].condition(caseData)).toBe(true);
@@ -50,7 +50,7 @@ describe('lpaQuestionnaireValidationRows', () => {
 			userType: APPEAL_USER_ROLES.APPELLANT
 		});
 		expect(rows).toHaveLength(1);
-		expect(rows[0].keyText).toBe('');
+		expect(rows[0].keyText).toBe('Additional documents');
 		expect(rows[0].valueText).toContain('<ul>');
 		expect(rows[0].valueText).toContain('name.pdf');
 		expect(typeof rows[0].condition).toBe('function');
