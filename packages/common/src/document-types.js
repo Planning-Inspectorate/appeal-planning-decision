@@ -888,6 +888,39 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	enforcementStopNoticeUpload: {
+		name: 'enforcementStopNoticeUpload',
+		dataModelName: 'stopNotice',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	enforcementDevelopmentRightsUpload: {
+		name: 'enforcementDevelopmentRightsUpload',
+		dataModelName: 'article4Direction',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	listOfPeopleSentEnforcementNotice: {
+		name: 'listOfPeopleSentEnforcementNotice',
+		dataModelName: 'enforcementList',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
 	}
 };
 

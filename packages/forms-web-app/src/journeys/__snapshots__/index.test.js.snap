@@ -15376,7 +15376,7 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="affectsListedBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the proposed development affect the setting of listed buildings?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the alleged development affect the setting of listed buildings?</h1>
                         </legend>
                         <div id="affectsListedBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -15664,7 +15664,7 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="changesListedBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the proposed development change a listed building?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the development change a listed building?</h1>
                         </legend>
                         <div id="changesListedBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -17504,33 +17504,35 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Changes a listed building</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development change a listed building?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/changes-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development change a listed building?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/changes-listed-building">Answer<span class="govuk-visually-hidden"> Does the development change a listed building?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development affect the setting of listed buildings?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development affect the setting of listed buildings?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the alleged development affect the setting of listed buildings?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a scheduled monument</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would the development affect a scheduled monument?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/scheduled-monument">Answer<span class="govuk-visually-hidden"> Would the development affect a scheduled monument?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Conservation area</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in, or next to a conservation area?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Protected species</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/protected-species">Answer<span class="govuk-visually-hidden"> Would the development affect a protected species?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would the development affect a protected species?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/protected-species">Answer<span class="govuk-visually-hidden"> Would the development affect a protected species?</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in an area of special control of advertisements?</dt>
                             <dd
@@ -17538,10 +17540,11 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-special-control">Answer<span class="govuk-visually-hidden"> Is the site in an area of special control of advertisements?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Green belt</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site in a green belt?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in a national landscape?</dt>
                             <dd
@@ -17549,10 +17552,11 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the site in a national landscape?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Designated sites</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites">Answer<span class="govuk-visually-hidden"> Is the development in, near or likely to affect any designated sites?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the development in, near or likely to affect any designated sites?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites">Answer<span class="govuk-visually-hidden"> Is the development in, near or likely to affect any designated sites?</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
@@ -17766,7 +17770,7 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="affectsListedBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the proposed development affect the setting of listed buildings?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the alleged development affect the setting of listed buildings?</h1>
                         </legend>
                         <div id="affectsListedBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -18054,7 +18058,7 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="changesListedBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the proposed development change a listed building?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the development change a listed building?</h1>
                         </legend>
                         <div id="changesListedBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -19894,27 +19898,29 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement renders listin
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development affect the setting of listed buildings?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development affect the setting of listed buildings?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the alleged development affect the setting of listed buildings?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a scheduled monument</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would the development affect a scheduled monument?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/scheduled-monument">Answer<span class="govuk-visually-hidden"> Would the development affect a scheduled monument?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Conservation area</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in, or next to a conservation area?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Protected species</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/protected-species">Answer<span class="govuk-visually-hidden"> Would the development affect a protected species?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would the development affect a protected species?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/protected-species">Answer<span class="govuk-visually-hidden"> Would the development affect a protected species?</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in an area of special control of advertisements?</dt>
                             <dd
@@ -19922,10 +19928,11 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement renders listin
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-special-control">Answer<span class="govuk-visually-hidden"> Is the site in an area of special control of advertisements?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Green belt</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site in a green belt?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in a national landscape?</dt>
                             <dd
@@ -19933,10 +19940,11 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement renders listin
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the site in a national landscape?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Designated sites</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites">Answer<span class="govuk-visually-hidden"> Is the development in, near or likely to affect any designated sites?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the development in, near or likely to affect any designated sites?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites">Answer<span class="govuk-visually-hidden"> Is the development in, near or likely to affect any designated sites?</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
@@ -20102,7 +20110,7 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="affectsListedBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the proposed development affect the setting of listed buildings?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the alleged development affect the setting of listed buildings?</h1>
                         </legend>
                         <div id="affectsListedBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -21563,21 +21571,23 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) renders listi
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development affect the setting of listed buildings?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development affect the setting of listed buildings?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the alleged development affect the setting of listed buildings?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Conservation area</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in, or next to a conservation area?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Green belt</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site in a green belt?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
@@ -21715,7 +21725,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="affectsListedBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the proposed development affect the setting of listed buildings?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the alleged development affect the setting of listed buildings?</h1>
                         </legend>
                         <div id="affectsListedBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -21771,6 +21781,98 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                     </div>
                     <button type="submit" class="govuk-button" data-module="govuk-button"
                     data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the agricultural-purposes question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementAgriculturalPurposes-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the building on agricultural land and will it be used for agricultural purposes?</h1>
+                        </legend>
+                        <div id="enforcementAgriculturalPurposes-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementAgriculturalPurposes"
+                                name="enforcementAgriculturalPurposes" type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementAgriculturalPurposes">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementAgriculturalPurposes-2"
+                                name="enforcementAgriculturalPurposes" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementAgriculturalPurposes-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the alleged-breach-area question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementAllegedBreachArea-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the area of the alleged breach the same as the site area?</h1>
+                        </legend>
+                        <div id="enforcementAllegedBreachArea-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementAllegedBreachArea" name="enforcementAllegedBreachArea"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementAllegedBreachArea">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementAllegedBreachArea-2"
+                                name="enforcementAllegedBreachArea" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementAllegedBreachArea-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
             </form>
         </div>
     </div>
@@ -21957,7 +22059,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="changesListedBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the proposed development change a listed building?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the development change a listed building?</h1>
                         </legend>
                         <div id="changesListedBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -22189,7 +22291,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="correctAppealType-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is an enforcement notice appeal the correct type of appeal?</h1>
+                            <h1 class="govuk-fieldset__heading"> Is enforcement the correct type of appeal?</h1>
                         </legend>
                         <div id="correctAppealType-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -22202,6 +22304,144 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                                 <input class="govuk-radios__input" id="correctAppealType-2" name="correctAppealType"
                                 type="radio" value="no" data-cy="answer-no">
                                 <label class="govuk-label govuk-radios__label" for="correctAppealType-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the create-building question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementCreateBuilding-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Does the enforcement notice include the erection of a building or buildings?</h1>
+                        </legend>
+                        <div id="enforcementCreateBuilding-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementCreateBuilding" name="enforcementCreateBuilding"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementCreateBuilding">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementCreateBuilding-2" name="enforcementCreateBuilding"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementCreateBuilding-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the create-floor-space question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementCreateFloorSpace-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Does the alleged breach create any floor space?</h1>
+                        </legend>
+                        <div id="enforcementCreateFloorSpace-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementCreateFloorSpace" name="enforcementCreateFloorSpace"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementCreateFloorSpace">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementCreateFloorSpace-2"
+                                name="enforcementCreateFloorSpace" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementCreateFloorSpace-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the crown-land question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementCrownLand-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the appeal site on Crown land?</h1>
+                        </legend>
+                        <div id="enforcementCrownLand-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementCrownLand" name="enforcementCrownLand"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementCrownLand">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementCrownLand-2" name="enforcementCrownLand"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementCrownLand-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -22548,6 +22788,52 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the gypsy-traveller question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="gypsyTraveller-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Does the development relate to anyone claiming to be a Gypsy or Traveller?</h1>
+                        </legend>
+                        <div id="gypsyTraveller-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="gypsyTraveller" name="gypsyTraveller"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="gypsyTraveller">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="gypsyTraveller-2" name="gypsyTraveller"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="gypsyTraveller-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the infrastructureLevyAdoptedDate question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -22844,6 +23130,52 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the mineral-extraction-materials question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementMineralExtractionMaterials-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?</h1>
+                        </legend>
+                        <div id="enforcementMineralExtractionMaterials-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementMineralExtractionMaterials"
+                                name="enforcementMineralExtractionMaterials" type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementMineralExtractionMaterials">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementMineralExtractionMaterials-2"
+                                name="enforcementMineralExtractionMaterials" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementMineralExtractionMaterials-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the neighbour-address question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -23044,6 +23376,52 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                                 <input class="govuk-radios__input" id="developmentPlanPolicies-2" name="developmentPlanPolicies"
                                 type="radio" value="no" data-cy="answer-no">
                                 <label class="govuk-label govuk-radios__label" for="developmentPlanPolicies-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the other-operations question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementOtherOperations-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Does the enforcement notice relate to building, engineering, mining or other operations?</h1>
+                        </legend>
+                        <div id="enforcementOtherOperations-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementOtherOperations" name="enforcementOtherOperations"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementOtherOperations">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementOtherOperations-2" name="enforcementOtherOperations"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementOtherOperations-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -23314,6 +23692,130 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                             </div>
                         </div>
                     </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the refuse-waste-materials question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementRefuseWasteMaterials-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Does the enforcement notice include a change of use of land to dispose refuse or waste materials?</h1>
+                        </legend>
+                        <div id="enforcementRefuseWasteMaterials-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementRefuseWasteMaterials"
+                                name="enforcementRefuseWasteMaterials" type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementRefuseWasteMaterials">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementRefuseWasteMaterials-2"
+                                name="enforcementRefuseWasteMaterials" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementRefuseWasteMaterials-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the remove-permitted-development-rights question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementDevelopmentRights-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Did you remove any permitted development rights for the appeal site?</h1>
+                        </legend>
+                        <div id="enforcementDevelopmentRights-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementDevelopmentRights" name="enforcementDevelopmentRights"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementDevelopmentRights">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementDevelopmentRights-2"
+                                name="enforcementDevelopmentRights" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementDevelopmentRights-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the rights-removed-direction question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="enforcementDevelopmentRightsRemoved"> What permitted development rights did you remove with the direction?</label></h1>
+                <div class="govuk-form-group">
+                    <div id="enforcementDevelopmentRightsRemoved-hint" class="govuk-hint"></div>
+                    <textarea class="govuk-textarea" id="enforcementDevelopmentRightsRemoved"
+                    name="enforcementDevelopmentRightsRemoved" rows="5" aria-describedby="enforcementDevelopmentRightsRemoved-hint"></textarea>
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
@@ -23620,6 +24122,182 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the single-house question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementSingleHouse-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the enforcement notice for a single private dwelling house?</h1>
+                        </legend>
+                        <div id="enforcementSingleHouse-hint" class="govuk-hint">Includes either building a new house or a change of use.</div>
+                        <div class="govuk-radios govuk-radios"
+                        data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementSingleHouse" name="enforcementSingleHouse"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementSingleHouse">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementSingleHouse-2" name="enforcementSingleHouse"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementSingleHouse-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the site-area question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">What is the area of the appeal site?</h1>
+            <p class="govuk-body"></p>
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <div id="siteAreaSquareMetres-hint" class="govuk-hint">Tell is the area of the appeal site from the notice plan.</div>
+                    <div class="govuk-input__wrapper">
+                        <input class="govuk-input govuk-input--width-5" id="siteAreaSquareMetres"
+                        name="siteAreaSquareMetres" type="text" spellcheck="false" value="" aria-describedby="siteAreaSquareMetres-hint"
+                        inputmode="numeric">
+                        <div class="govuk-input__suffix" aria-hidden="true">m²</div>
+                    </div>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the stop-notice question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementStopNotice-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Did you serve a stop notice?</h1>
+                        </legend>
+                        <div id="enforcementStopNotice-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementStopNotice" name="enforcementStopNotice"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementStopNotice">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementStopNotice-2" name="enforcementStopNotice"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementStopNotice-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the store-minerals question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementStoreMinerals-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Does the enforcement notice include a change of use of land to store minerals in the open?</h1>
+                        </legend>
+                        <div id="enforcementStoreMinerals-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementStoreMinerals" name="enforcementStoreMinerals"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementStoreMinerals">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementStoreMinerals-2" name="enforcementStoreMinerals"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementStoreMinerals-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the supplementary-planning-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -23711,6 +24389,99 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
             </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the trunk-road question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementTrunkRoad-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the appeal site within 67 metres of a trunk road?</h1>
+                        </legend>
+                        <div id="enforcementTrunkRoad-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementTrunkRoad" name="enforcementTrunkRoad"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementTrunkRoad">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="enforcementTrunkRoad-2" name="enforcementTrunkRoad"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementTrunkRoad-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-article-4-direction question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Constraints, designations and other issues</span>
+            <h1
+            class="govuk-heading-l">Upload the article 4 direction</h1>
+                <form action="" method="post" novalidate=null
+                enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="enforcementDevelopmentRightsUpload">Upload files</label>
+                                <div id="enforcementDevelopmentRightsUpload-hint"
+                                class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="enforcementDevelopmentRightsUpload" name="enforcementDevelopmentRightsUpload"
+                                type="file" aria-describedby="enforcementDevelopmentRightsUpload-hint"
+                                multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -24398,6 +25169,51 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-stop-notice question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Constraints, designations and other issues</span>
+            <h1
+            class="govuk-heading-l">Upload the stop notice</h1>
+                <form action="" method="post" novalidate=null
+                enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="enforcementStopNoticeUpload">Upload files</label>
+                                <div id="enforcementStopNoticeUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="enforcementStopNoticeUpload" name="enforcementStopNoticeUpload" type="file"
+                                aria-describedby="enforcementStopNoticeUpload-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -24468,44 +25284,47 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">1. </span> Constraints, designations and other issues<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is an enforcement notice appeal the correct type of appeal?</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is enforcement the correct type of appeal?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is enforcement the correct type of appeal?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Changes a listed building</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development change a listed building?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/changes-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development change a listed building?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/changes-listed-building">Answer<span class="govuk-visually-hidden"> Does the development change a listed building?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development affect the setting of listed buildings?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development affect the setting of listed buildings?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the alleged development affect the setting of listed buildings?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a scheduled monument</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would the development affect a scheduled monument?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/scheduled-monument">Answer<span class="govuk-visually-hidden"> Would the development affect a scheduled monument?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Conservation area</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in, or next to a conservation area?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Protected species</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/protected-species">Answer<span class="govuk-visually-hidden"> Would the development affect a protected species?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would the development affect a protected species?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/protected-species">Answer<span class="govuk-visually-hidden"> Would the development affect a protected species?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Green belt</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site in a green belt?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in a national landscape?</dt>
                             <dd
@@ -24513,20 +25332,119 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the site in a national landscape?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Designated sites</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites">Answer<span class="govuk-visually-hidden"> Is the development in, near or likely to affect any designated sites?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the development in, near or likely to affect any designated sites?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites">Answer<span class="govuk-visually-hidden"> Is the development in, near or likely to affect any designated sites?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Tree Preservation Order</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/tree-preservation-order">Answer<span class="govuk-visually-hidden"> Does a Tree Preservation Order (TPO) apply to any part of the appeal site?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does a Tree Preservation Order (TPO) apply to any part of the site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/tree-preservation-order">Answer<span class="govuk-visually-hidden"> Does a Tree Preservation Order (TPO) apply to any part of the appeal site?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Public right of way</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/public-right-of-way">Answer<span class="govuk-visually-hidden"> Would a public right of way need to be removed or diverted?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development relate to anyone claiming to be a Gypsy or Traveller?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/gypsy-traveller">Answer<span class="govuk-visually-hidden"> Does the development relate to anyone claiming to be a Gypsy or Traveller?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would a public right of way need to be removed or diverted?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/public-right-of-way">Answer<span class="govuk-visually-hidden"> Would a public right of way need to be removed or diverted?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice relate to building, engineering, mining or other operations?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/other-operations">Answer<span class="govuk-visually-hidden"> Does the enforcement notice relate to building, engineering, mining or other operations?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is the area of the appeal site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/site-area">Answer<span class="govuk-visually-hidden"> What is the area of the appeal site?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the area of the alleged breach the same as the site area?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/alleged-breach-area">Answer<span class="govuk-visually-hidden"> Is the area of the alleged breach the same as the site area?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the alleged breach create any floor space?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/create-floor-space">Answer<span class="govuk-visually-hidden"> Does the alleged breach create any floor space?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice include a change of use of land to dispose refuse or waste materials?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/refuse-waste-materials">Answer<span class="govuk-visually-hidden"> Does the enforcement notice include a change of use of land to dispose refuse or waste materials?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/mineral-extraction-materials">Answer<span class="govuk-visually-hidden"> Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice include a change of use of land to store minerals in the open?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/store-minerals">Answer<span class="govuk-visually-hidden"> Does the enforcement notice include a change of use of land to store minerals in the open?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice include the erection of a building or buildings?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/create-building">Answer<span class="govuk-visually-hidden"> Does the enforcement notice include the erection of a building or buildings?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the building on agricultural land and will it be used for agricultural purposes?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/agricultural-purposes">Answer<span class="govuk-visually-hidden"> Is the building on agricultural land and will it be used for agricultural purposes?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the enforcement notice for a single private dwelling house?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/single-house">Answer<span class="govuk-visually-hidden"> Is the enforcement notice for a single private dwelling house?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site within 67 metres of a trunk road?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/trunk-road">Answer<span class="govuk-visually-hidden"> Is the appeal site within 67 metres of a trunk road?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site on Crown land?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/crown-land">Answer<span class="govuk-visually-hidden"> Is the appeal site on Crown land?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you serve a stop notice?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/stop-notice">Answer<span class="govuk-visually-hidden"> Did you serve a stop notice?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you remove any permitted development rights for the appeal site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/remove-permitted-development-rights">Answer<span class="govuk-visually-hidden"> Did you remove any permitted development rights for the appeal site?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What permitted development rights did you remove with the direction?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/rights-removed-direction">Answer<span class="govuk-visually-hidden"> What permitted development rights did you remove with the direction?</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
@@ -24683,7 +25601,7 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="affectsListedBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the proposed development affect the setting of listed buildings?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the alleged development affect the setting of listed buildings?</h1>
                         </legend>
                         <div id="affectsListedBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -26189,21 +27107,23 @@ exports[`Dynamic forms journey tests lpa Householder renders listing page 1`] = 
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development affect the setting of listed buildings?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development affect the setting of listed buildings?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the alleged development affect the setting of listed buildings?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Conservation area</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in, or next to a conservation area?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Green belt</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site in a green belt?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
@@ -26347,7 +27267,7 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the aff
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="affectsListedBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the proposed development affect the setting of listed buildings?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the alleged development affect the setting of listed buildings?</h1>
                         </legend>
                         <div id="affectsListedBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -26589,7 +27509,7 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the cha
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="changesListedBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the proposed development change a listed building?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the development change a listed building?</h1>
                         </legend>
                         <div id="changesListedBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -29516,7 +30436,7 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="affectsListedBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the proposed development affect the setting of listed buildings?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the alleged development affect the setting of listed buildings?</h1>
                         </legend>
                         <div id="affectsListedBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -29758,7 +30678,7 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="changesListedBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the proposed development change a listed building?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the development change a listed building?</h1>
                         </legend>
                         <div id="changesListedBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -32885,16 +33805,16 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Changes a listed building</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development change a listed building?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/changes-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development change a listed building?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/changes-listed-building">Answer<span class="govuk-visually-hidden"> Does the development change a listed building?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development affect the setting of listed buildings?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development affect the setting of listed buildings?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the alleged development affect the setting of listed buildings?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Was a grant or loan made to preserve the listed building at the appeal site?</dt>
@@ -32909,26 +33829,29 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/consult-historic-england">Answer<span class="govuk-visually-hidden"> Did you consult Historic England?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a scheduled monument</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would the development affect a scheduled monument?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/scheduled-monument">Answer<span class="govuk-visually-hidden"> Would the development affect a scheduled monument?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Conservation area</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in, or next to a conservation area?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Protected species</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/protected-species">Answer<span class="govuk-visually-hidden"> Would the development affect a protected species?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would the development affect a protected species?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/protected-species">Answer<span class="govuk-visually-hidden"> Would the development affect a protected species?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Green belt</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site in a green belt?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in a national landscape?</dt>
                             <dd
@@ -32936,25 +33859,29 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the site in a national landscape?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Designated sites</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites">Answer<span class="govuk-visually-hidden"> Is the development in, near or likely to affect any designated sites?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the development in, near or likely to affect any designated sites?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites">Answer<span class="govuk-visually-hidden"> Is the development in, near or likely to affect any designated sites?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Tree Preservation Order</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/tree-preservation-order">Answer<span class="govuk-visually-hidden"> Does a Tree Preservation Order (TPO) apply to any part of the appeal site?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does a Tree Preservation Order (TPO) apply to any part of the site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/tree-preservation-order">Answer<span class="govuk-visually-hidden"> Does a Tree Preservation Order (TPO) apply to any part of the appeal site?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Gypsy or Traveller</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/gypsy-traveller">Answer<span class="govuk-visually-hidden"> Does the development relate to anyone claiming to be a Gypsy or Traveller?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development relate to anyone claiming to be a Gypsy or Traveller?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/gypsy-traveller">Answer<span class="govuk-visually-hidden"> Does the development relate to anyone claiming to be a Gypsy or Traveller?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Public right of way</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/public-right-of-way">Answer<span class="govuk-visually-hidden"> Would a public right of way need to be removed or diverted?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would a public right of way need to be removed or diverted?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/public-right-of-way">Answer<span class="govuk-visually-hidden"> Would a public right of way need to be removed or diverted?</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
@@ -33200,38 +34127,41 @@ exports[`Dynamic forms journey tests lpa Planning renders listing page 1`] = `
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/correct-appeal-type">Answer<span class="govuk-visually-hidden"> Is &lt;appeal type with an or a&gt; appeal the correct type of appeal?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Changes a listed building</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development change a listed building?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/changes-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development change a listed building?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/changes-listed-building">Answer<span class="govuk-visually-hidden"> Does the development change a listed building?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a listed building</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development affect the setting of listed buildings?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development affect the setting of listed buildings?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the alleged development affect the setting of listed buildings?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a scheduled monument</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would the development affect a scheduled monument?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/scheduled-monument">Answer<span class="govuk-visually-hidden"> Would the development affect a scheduled monument?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Conservation area</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in, or next to a conservation area?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/conservation-area">Answer<span class="govuk-visually-hidden"> Is the site in, or next to a conservation area?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Protected species</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/protected-species">Answer<span class="govuk-visually-hidden"> Would the development affect a protected species?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would the development affect a protected species?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/protected-species">Answer<span class="govuk-visually-hidden"> Would the development affect a protected species?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Green belt</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site in a green belt?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/green-belt">Answer<span class="govuk-visually-hidden"> Is the site in a green belt?</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the site in a national landscape?</dt>
                             <dd
@@ -33239,25 +34169,29 @@ exports[`Dynamic forms journey tests lpa Planning renders listing page 1`] = `
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/area-of-outstanding-natural-beauty">Answer<span class="govuk-visually-hidden"> Is the site in a national landscape?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Designated sites</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites">Answer<span class="govuk-visually-hidden"> Is the development in, near or likely to affect any designated sites?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the development in, near or likely to affect any designated sites?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites">Answer<span class="govuk-visually-hidden"> Is the development in, near or likely to affect any designated sites?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Tree Preservation Order</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/tree-preservation-order">Answer<span class="govuk-visually-hidden"> Does a Tree Preservation Order (TPO) apply to any part of the appeal site?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does a Tree Preservation Order (TPO) apply to any part of the site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/tree-preservation-order">Answer<span class="govuk-visually-hidden"> Does a Tree Preservation Order (TPO) apply to any part of the appeal site?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Gypsy or Traveller</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/gypsy-traveller">Answer<span class="govuk-visually-hidden"> Does the development relate to anyone claiming to be a Gypsy or Traveller?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the development relate to anyone claiming to be a Gypsy or Traveller?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/gypsy-traveller">Answer<span class="govuk-visually-hidden"> Does the development relate to anyone claiming to be a Gypsy or Traveller?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Public right of way</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/public-right-of-way">Answer<span class="govuk-visually-hidden"> Would a public right of way need to be removed or diverted?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Would a public right of way need to be removed or diverted?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/public-right-of-way">Answer<span class="govuk-visually-hidden"> Would a public right of way need to be removed or diverted?</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
