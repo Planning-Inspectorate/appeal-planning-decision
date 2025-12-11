@@ -25,7 +25,7 @@ const formatCaseValidationDocumentRows = (documents) => {
 	if (appellantCaseValidationDocs.length > 0) {
 		return [
 			{
-				keyText: '',
+				keyText: 'Additional Documents',
 				valueText: formatDocumentsAsBulletedList(appellantCaseValidationDocs),
 				condition: (/** @type {import('appeals-service-api').Api.AppealCaseDetailed} */ caseData) =>
 					!!caseData.caseValidationOutcome,

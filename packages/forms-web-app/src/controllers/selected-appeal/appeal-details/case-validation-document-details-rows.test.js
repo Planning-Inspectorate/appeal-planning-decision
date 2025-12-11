@@ -25,7 +25,7 @@ describe('caseValidationDocumentRows', () => {
 		const rows = caseValidationDocumentRows({ caseData, userType: LPA_USER_ROLE });
 		expect(formatRows(rows, caseData)).toHaveLength(1);
 		expect(rows).toHaveLength(1);
-		expect(rows[0].keyText).toBe('');
+		expect(rows[0].keyText).toBe('Additional Documents');
 		expect(rows[0].valueText).toContain('name.pdf');
 		expect(typeof rows[0].condition).toBe('function');
 		expect(rows[0].condition(caseData)).toBe(true);
@@ -45,7 +45,7 @@ describe('caseValidationDocumentRows', () => {
 		const rows = caseValidationDocumentRows({ caseData, userType: APPEAL_USER_ROLES.APPELLANT });
 		expect(formatRows(rows, caseData)).toHaveLength(1);
 		expect(rows).toHaveLength(1);
-		expect(rows[0].keyText).toBe('');
+		expect(rows[0].keyText).toBe('Additional Documents');
 		expect(rows[0].valueText).toContain('name.pdf');
 		expect(typeof rows[0].condition).toBe('function');
 		expect(rows[0].condition(caseData)).toBe(true);
@@ -66,7 +66,7 @@ describe('caseValidationDocumentRows', () => {
 		const rows = caseValidationDocumentRows({ caseData, userType: APPEAL_USER_ROLES.APPELLANT });
 		expect(formatRows(rows, caseData)).toHaveLength(1);
 		expect(rows).toHaveLength(1);
-		expect(rows[0].keyText).toBe('');
+		expect(rows[0].keyText).toBe('Additional Documents');
 		expect(rows[0].valueText).toContain('<ul>');
 		expect(rows[0].valueText).toContain('name.pdf');
 		expect(typeof rows[0].condition).toBe('function');
