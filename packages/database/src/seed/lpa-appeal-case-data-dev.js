@@ -36,7 +36,8 @@ const lpaAppealIds = {
 	appeal28: '0ade191c-7171-417f-aa66-61b5c23b1ac3',
 	appeal75: '7b8312e0-c724-4969-b7d4-441c60c6741b',
 	appealTP1: '7c8412e0-c734-4969-b7d4-441c60c6840b',
-	appealTP2: '7c8412e0-c734-4969-b7d4-441c60c6841b'
+	appealTP2: '7c8412e0-c734-4969-b7d4-441c60c6841b',
+	appealKN1: '7c8412e0-c676-4969-b7d4-231c60c6845b'
 };
 
 /**
@@ -73,7 +74,8 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appeal28 },
 	{ id: lpaAppealIds.appeal75 },
 	{ id: lpaAppealIds.appealTP1 },
-	{ id: lpaAppealIds.appealTP2 }
+	{ id: lpaAppealIds.appealTP2 },
+	{ id: lpaAppealIds.appealKN1 }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -1096,6 +1098,37 @@ const lpaAppealCaseData = [
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
 		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealKN1 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0670001',
+		siteAddressLine1: 'Questionnaire and statement due',
+		siteAddressLine2: null,
+		siteAddressTown: 'Not submitted',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		developmentDescription: 'test description',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		isGreenBelt: true,
+		ownsAllLand: true,
+		agriculturalHolding: true,
+		siteAccessDetails: JSON.stringify(['Clear access']),
+		siteSafetyDetails: JSON.stringify(['Cattle']),
+		changedDevelopmentDescription: true,
+		newConditionDetails: 'a test development',
+		statusPlanningObligation: 'a test planning status obligation',
+		caseWithdrawnDate: pickRandom(datesNMonthsAgo(1)),
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+		},
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.HEARING } },
+		CaseType: { connect: { processCode: 'ENFORCEMENT' } },
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{

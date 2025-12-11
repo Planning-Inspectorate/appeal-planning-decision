@@ -159,6 +159,11 @@ condition: () =>
 	);
 ```
 
+## Notifying relevant parties
+
+- multi-file-upload `/upload-enforcement-list/` Upload the list of people that you served the enforcement notice to
+- multi-file-upload `/appeal-notification-letter/` Upload the appeal notification letter and the list of people that you notified
+
 ## Planning officer’s report and supporting documents
 
 - multi-file-upload `/upload-planning-officers-report-decision-notice/` Upload the planning officer’s report or what your decision notice would have said

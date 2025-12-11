@@ -53,4 +53,37 @@ describe('Enforcement Journey', () => {
 		expect(Array.isArray(journey.sections[0].questions)).toBe(true);
 		expect(journey.sections[0].questions.length > 0).toBe(true);
 	});
+
+	it('should include the "Notifying relevant parties" section and verify its structure', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+		console.log(
+			'Available Section Names:',
+			journey.sections.map((s) => s.name)
+		);
+		const sectionTitle = 'Notifying relevant parties';
+		const notifiedSection = journey.sections.find((s) => s.name === sectionTitle);
+
+		expect(notifiedSection).toBeDefined();
+
+		if (notifiedSection) {
+			const questions = notifiedSection.questions || [];
+
+			expect(notifiedSection.name).toBe(sectionTitle);
+			expect(questions.length).toBe(2);
+
+			const question1 = questions[0];
+			expect(question1.title).toBe(
+				'Upload the list of people that you served the enforcement notice to'
+			);
+			expect(question1.fieldName).toBe('listOfPeopleSentEnforcementNotice');
+			expect(question1.url).toContain('upload-enforcement-list');
+
+			const question2 = questions[1];
+			expect(question2.title).toBe(
+				'Upload the appeal notification letter and the list of people that you notified'
+			);
+			expect(question2.fieldName).toBe('appealNotification');
+			expect(question2.url).toContain('appeal-notification-letter');
+		}
+	});
 });

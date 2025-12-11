@@ -21464,6 +21464,49 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the appeal-notification-letter question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Notifying relevant parties</span>
+            <h1 class="govuk-heading-l">Upload the appeal notification letter and the list of people that you notified</h1>
+            <form action="" method="post" novalidate=null enctype="multipart/form-data">
+                <div class="moj-multi-file-upload">
+                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                        </div>
+                    </div>
+                    <div class="moj-multi-file-upload__upload">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-label--m" for="appealNotification">Upload files</label>
+                            <div id="appealNotification-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                than 1GB</div>
+                            <input class="govuk-file-upload moj-multi-file-upload__input"
+                            id="appealNotification" name="appealNotification" type="file" aria-describedby="appealNotification-hint"
+                            multiple="">
+                        </div>
+                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    </div>
+                </div>
+                <div class="govuk-button-group">
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the appeal-reference-number question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -23620,6 +23663,49 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-enforcement-list question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Notifying relevant parties</span>
+            <h1 class="govuk-heading-l">Upload the list of people that you served the enforcement notice to</h1>
+            <form action="" method="post" novalidate=null enctype="multipart/form-data">
+                <div class="moj-multi-file-upload">
+                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                        </div>
+                    </div>
+                    <div class="moj-multi-file-upload__upload">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-label--m" for="listOfPeopleSentEnforcementNotice">Upload files</label>
+                            <div id="listOfPeopleSentEnforcementNotice-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                than 1GB</div>
+                            <input class="govuk-file-upload moj-multi-file-upload__input"
+                            id="listOfPeopleSentEnforcementNotice" name="listOfPeopleSentEnforcementNotice"
+                            type="file" aria-describedby="listOfPeopleSentEnforcementNotice-hint" multiple="">
+                        </div>
+                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    </div>
+                </div>
+                <div class="govuk-button-group">
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-environmental-statement question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -24034,7 +24120,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
         <div class="govuk-grid-column-three-quarters-from-desktop">
             <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
             <h2 class="govuk-heading-s">Complete the questionnaire</h2>
-            <p class="govuk-!-margin-bottom-7">You have completed 0 of 6 sections.</p>
+            <p class="govuk-!-margin-bottom-7">You have completed 0 of 7 sections.</p>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -24146,7 +24232,26 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                 </li>
                 <li class="govuk-!-margin-bottom-9">
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Planning officer’s report and supporting documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the list of people that you served the enforcement notice to</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-enforcement-list">Upload<span class="govuk-visually-hidden"> the list of people that you served the enforcement notice to</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the appeal notification letter and the list of people that you notified</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/appeal-notification-letter">Upload<span class="govuk-visually-hidden"> the appeal notification letter and the list of people that you notified</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">4. </span> Planning officer’s report and supporting documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload planning officer’s report</dt>
@@ -24188,7 +24293,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                 </li>
                 <li class="govuk-!-margin-bottom-9">
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">4. </span> Site access<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">5. </span> Site access<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Access for inspection</dt>
@@ -24211,7 +24316,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                 </li>
                 <li class="govuk-!-margin-bottom-9">
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">5. </span> Appeal process<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">6. </span> Appeal process<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Procedure type</dt>
@@ -24233,7 +24338,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                 </li>
                 <li>
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">6. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">7. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
                         <p>You cannot submit the questionnaire until all of the other sections are
                             complete.</p>
                     </div>
