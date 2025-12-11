@@ -151,6 +151,10 @@ const makeSections = (response) => {
 			),
 		// new section with enforcement specific questions
 		// new Section('Notifying relevant parties', 'notified'),
+		new Section('Notifying relevant parties', 'notified')
+			.addQuestion(questions.listOfPeopleSentEnforcementNotice)
+			.addQuestion(questions.enforcementAppealNotification),
+
 		new Section('Planning officer’s report and supporting documents', 'planning-officer-report')
 			.addQuestion(questions.planningOfficersReportUpload)
 			.addQuestion(questions.developmentPlanPolicies)

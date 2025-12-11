@@ -3200,6 +3200,39 @@ exports.getQuestionProps = (response) => ({
 		],
 		documentType: documentTypes.uploadEnforcementNoticePlan
 	},
+
+	listOfPeopleSentEnforcementNotice: {
+		type: 'multi-file-upload',
+		title: 'Upload the list of people that you served the enforcement notice to',
+		question: 'Upload the list of people that you served the enforcement notice to',
+		fieldName: 'listOfPeopleSentEnforcementNotice',
+		url: 'upload-enforcement-list',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the list of people that you served the enforcement notice to'
+			),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.appealNotification,
+		actionHiddenText: 'the list of people that you served the enforcement notice to'
+	},
+
+	enforcementAppealNotification: {
+		type: 'multi-file-upload',
+		title: 'Upload the appeal notification letter and the list of people that you notified',
+		question: 'Upload the appeal notification letter and the list of people that you notified',
+		fieldName: 'appealNotification',
+		url: 'appeal-notification-letter',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the appeal notification letter and the list of people that you notified'
+			),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.appealNotification,
+		actionHiddenText: 'the appeal notification letter and the list of people that you notified'
+	},
+
 	highwayLand: {
 		type: 'boolean',
 		title: 'Is the appeal site on highway land?',
