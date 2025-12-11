@@ -1,6 +1,6 @@
 const blobClient = require('#lib/back-office-storage-client');
 const archiver = require('archiver');
-const { documentTypes } = require('@pins/common/src/document-types');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { DocumentsRepository } = require('../../../../../../db/repos/repository');
 const repo = new DocumentsRepository();
 const logger = require('#lib/logger');
@@ -37,7 +37,7 @@ async function getBlobCollection(
 			isLpa
 		}),
 		repo.getDocumentsByTypes({
-			documentTypes: Object.keys(documentTypes),
+			documentTypes: Object.values(APPEAL_DOCUMENT_TYPE),
 			caseReference,
 			stage: caseStage
 		})
