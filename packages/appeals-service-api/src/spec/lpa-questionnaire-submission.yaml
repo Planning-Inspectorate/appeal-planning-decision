@@ -248,3 +248,57 @@ components:
         didAppellantSubmitCompletePhotosAndPlans:
           type: boolean
           nullable: true
+        listOfPeopleSentEnforcementNotice:
+          type: boolean
+          nullable: true
+        enforcementOtherOperations:
+          type: boolean
+          nullable: true
+        siteAreaSquareMetres:
+          type: number
+          nullable: true
+        enforcementAllegedBreachArea:
+          type: boolean
+          nullable: true
+        enforcementCreateFloorSpace:
+          type: boolean
+          nullable: true
+        enforcementRefuseWasteMaterials:
+          type: boolean
+          nullable: true
+        enforcementMineralExtractionMaterials:
+          type: boolean
+          nullable: true
+        enforcementStoreMinerals:
+          type: boolean
+          nullable: true
+        enforcementCreateBuilding:
+          type: boolean
+          nullable: true
+        enforcementAgriculturalPurposes:
+          type: boolean
+          nullable: true
+        enforcementSingleHouse:
+          type: boolean
+          nullable: true
+        enforcementTrunkRoad:
+          type: boolean
+          nullable: true
+        enforcementCrownLand:
+          type: boolean
+          nullable: true
+        enforcementStopNotice:
+          type: boolean
+          nullable: true
+        enforcementStopNoticeUpload:
+          type: boolean
+          nullable: true
+        enforcementDevelopmentRights:
+          type: boolean
+          nullable: true
+        enforcementDevelopmentRightsUpload:
+          type: boolean
+          nullable: true
+        enforcementDevelopmentRightsRemoved:
+          type: string
+          nullable: true

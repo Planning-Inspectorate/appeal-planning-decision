@@ -54,12 +54,217 @@ describe('Enforcement Journey', () => {
 		expect(journey.sections[0].questions.length > 0).toBe(true);
 	});
 
+	it('should include the "Constraints, designations and other issues" section and verify its structure and content', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+		const sectionTitle = 'Constraints, designations and other issues';
+		const sectionName = 'constraints';
+		const constraintsSection = journey.sections.find((s) => s.name === sectionTitle);
+
+		const expectedQuestions = [
+			{
+				fieldName: 'correctAppealType',
+				question: `Is enforcement the correct type of appeal?`,
+				urlSegment: 'correct-appeal-type'
+			},
+			{
+				fieldName: 'changesListedBuilding',
+				question: 'Does the development change a listed building?',
+				urlSegment: 'changes-listed-building'
+			},
+			{
+				fieldName: 'addChangedListedBuilding',
+				question: 'Add another building or site?',
+				urlSegment: 'changed-listed-buildings'
+			},
+
+			{
+				fieldName: 'affectsListedBuilding',
+				question: 'Does the alleged development affect the setting of listed buildings?',
+				urlSegment: 'affect-listed-building'
+			},
+			{
+				fieldName: 'addAffectedListedBuilding',
+				question: 'Add another building or site?',
+				urlSegment: 'affected-listed-buildings'
+			},
+
+			{
+				fieldName: 'affectsScheduledMonument',
+				question: 'Would the development affect a scheduled monument?',
+				urlSegment: 'scheduled-monument'
+			},
+			{
+				fieldName: 'conservationArea',
+				question: 'Is the site in, or next to a conservation area?',
+				urlSegment: 'conservation-area'
+			},
+			{
+				fieldName: 'uploadConservation',
+				urlSegment: 'upload-conservation-area-map-guidance',
+				question: 'Upload conservation map and guidance'
+			},
+
+			{
+				fieldName: 'protectedSpecies',
+				question: 'Would the development affect a protected species?',
+				urlSegment: 'protected-species'
+			},
+			{
+				fieldName: 'greenBelt',
+				question: 'Is the site in a green belt?',
+				urlSegment: 'green-belt'
+			},
+			{
+				fieldName: 'areaOutstandingBeauty',
+				urlSegment: 'area-of-outstanding-natural-beauty',
+				question: 'Is the site in a national landscape?'
+			},
+			{
+				fieldName: 'designatedSites',
+				question: 'Is the development in, near or likely to affect any designated sites?',
+				urlSegment: 'designated-sites'
+			},
+			{
+				fieldName: 'treePreservationOrder',
+				question: 'Does a Tree Preservation Order (TPO) apply to any part of the appeal site?',
+				urlSegment: 'tree-preservation-order'
+			},
+			{
+				fieldName: 'uploadTreePreservationOrder',
+				question: 'Upload a plan showing the extent of the order',
+				urlSegment: 'upload-plan-showing-order'
+			},
+
+			{
+				fieldName: 'gypsyTraveller',
+				question: 'Does the development relate to anyone claiming to be a Gypsy or Traveller?',
+				urlSegment: 'gypsy-traveller'
+			},
+			{
+				fieldName: 'publicRightOfWay',
+				question: 'Would a public right of way need to be removed or diverted?',
+				urlSegment: 'public-right-of-way'
+			},
+			{
+				fieldName: 'uploadDefinitiveMapStatement',
+				question: 'Upload the definitive map and statement extract',
+				urlSegment: 'upload-definitive-map-statement'
+			},
+
+			// Enforcement specific questions
+			{
+				fieldName: 'enforcementOtherOperations',
+				question:
+					'Does the enforcement notice relate to building, engineering, mining or other operations?',
+				urlSegment: 'other-operations'
+			},
+			{
+				fieldName: 'siteAreaSquareMetres',
+				question: 'What is the area of the appeal site?',
+				urlSegment: 'site-area'
+			},
+			{
+				fieldName: 'enforcementAllegedBreachArea',
+				question: 'Is the area of the alleged breach the same as the site area?',
+				urlSegment: 'alleged-breach-area'
+			},
+			{
+				fieldName: 'enforcementCreateFloorSpace',
+				question: 'Does the alleged breach create any floor space?',
+				urlSegment: 'create-floor-space'
+			},
+			{
+				fieldName: 'enforcementRefuseWasteMaterials',
+				question:
+					'Does the enforcement notice include a change of use of land to dispose refuse or waste materials?',
+				urlSegment: 'refuse-waste-materials'
+			},
+			{
+				fieldName: 'enforcementMineralExtractionMaterials',
+				question:
+					'Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?',
+				urlSegment: 'mineral-extraction-materials'
+			},
+			{
+				fieldName: 'enforcementStoreMinerals',
+				question:
+					'Does the enforcement notice include a change of use of land to store minerals in the open?',
+				urlSegment: 'store-minerals'
+			},
+			{
+				fieldName: 'enforcementCreateBuilding',
+				question: 'Does the enforcement notice include the erection of a building or buildings?',
+				urlSegment: 'create-building'
+			},
+			{
+				fieldName: 'enforcementAgriculturalPurposes',
+				question:
+					'Is the building on agricultural land and will it be used for agricultural purposes?',
+				urlSegment: 'agricultural-purposes'
+			},
+			{
+				fieldName: 'enforcementSingleHouse',
+				question: 'Is the enforcement notice for a single private dwelling house?',
+				urlSegment: 'single-house'
+			},
+			{
+				fieldName: 'enforcementTrunkRoad',
+				question: 'Is the appeal site within 67 metres of a trunk road?',
+				urlSegment: 'trunk-road'
+			},
+			{
+				fieldName: 'enforcementCrownLand',
+				question: 'Is the appeal site on Crown land?',
+				urlSegment: 'crown-land'
+			},
+			{
+				fieldName: 'enforcementStopNotice',
+				question: 'Did you serve a stop notice?',
+				urlSegment: 'stop-notice'
+			},
+			{
+				fieldName: 'enforcementStopNoticeUpload',
+				question: 'Upload the stop notice',
+				urlSegment: 'upload-stop-notice'
+			},
+			{
+				fieldName: 'enforcementDevelopmentRights',
+				question: 'Did you remove any permitted development rights for the appeal site?',
+				urlSegment: 'remove-permitted-development-rights'
+			},
+			{
+				fieldName: 'enforcementDevelopmentRightsUpload',
+				question: 'Upload the article 4 direction',
+				urlSegment: 'upload-article-4-direction'
+			},
+			{
+				fieldName: 'enforcementDevelopmentRightsRemoved',
+				question: 'What permitted development rights did you remove with the direction?',
+				urlSegment: 'rights-removed-direction'
+			}
+		];
+
+		expect(constraintsSection).toBeDefined();
+
+		if (constraintsSection) {
+			const questions = constraintsSection.questions;
+
+			expect(constraintsSection.name).toBe(sectionTitle);
+			expect(constraintsSection.segment).toBe(sectionName);
+
+			expectedQuestions.forEach((expected, index) => {
+				const actual = questions[index];
+
+				expect(actual).toBeDefined();
+				expect(actual.fieldName).toBe(expected.fieldName);
+				expect(actual.url).toBe(expected.urlSegment);
+				expect(actual.question).toBe(expected.question);
+			});
+		}
+	});
+
 	it('should include the "Notifying relevant parties" section and verify its structure', () => {
 		const journey = new Journey({ ...params, response: mockResponse });
-		console.log(
-			'Available Section Names:',
-			journey.sections.map((s) => s.name)
-		);
 		const sectionTitle = 'Notifying relevant parties';
 		const notifiedSection = journey.sections.find((s) => s.name === sectionTitle);
 

@@ -134,8 +134,8 @@ exports.getQuestionProps = (response) => ({
 	},
 	listedBuildingCheck: {
 		type: 'boolean',
-		title: 'Affects a listed building',
-		question: 'Does the proposed development affect the setting of listed buildings?',
+		title: 'Does the development affect the setting of listed buildings?',
+		question: 'Does the alleged development affect the setting of listed buildings?',
 		fieldName: 'affectsListedBuilding',
 		url: 'affect-listed-building',
 		validators: [
@@ -146,8 +146,8 @@ exports.getQuestionProps = (response) => ({
 	},
 	changesListedBuilding: {
 		type: 'boolean',
-		title: 'Changes a listed building',
-		question: 'Does the proposed development change a listed building?',
+		title: 'Does the development change a listed building?',
+		question: 'Does the development change a listed building?',
 		fieldName: 'changesListedBuilding',
 		url: 'changes-listed-building',
 		validators: [new RequiredValidator('Select yes if the development changes a listed building')]
@@ -204,7 +204,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	conservationArea: {
 		type: 'boolean',
-		title: 'Conservation area',
+		title: 'Is the site in, or next to a conservation area?',
 		question: 'Is the site in, or next to a conservation area?',
 		fieldName: 'conservationArea',
 		url: 'conservation-area',
@@ -227,7 +227,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	greenBelt: {
 		type: 'boolean',
-		title: 'Green belt',
+		title: 'Is the appeal site in a green belt?',
 		question: 'Is the site in a green belt?',
 		fieldName: 'greenBelt',
 		url: 'green-belt',
@@ -781,7 +781,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	treePreservationOrder: {
 		type: 'boolean',
-		title: 'Tree Preservation Order',
+		title: 'Does a Tree Preservation Order (TPO) apply to any part of the site?',
 		question: 'Does a Tree Preservation Order (TPO) apply to any part of the appeal site?',
 		fieldName: 'treePreservationOrder',
 		url: 'tree-preservation-order',
@@ -849,7 +849,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	scheduledMonument: {
 		type: 'boolean',
-		title: 'Affects a scheduled monument',
+		title: 'Would the development affect a scheduled monument?',
 		question: 'Would the development affect a scheduled monument?',
 		fieldName: 'affectsScheduledMonument',
 		url: 'scheduled-monument',
@@ -859,7 +859,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	gypsyOrTraveller: {
 		type: 'boolean',
-		title: 'Gypsy or Traveller',
+		title: 'Does the development relate to anyone claiming to be a Gypsy or Traveller?',
 		question: 'Does the development relate to anyone claiming to be a Gypsy or Traveller?',
 		fieldName: 'gypsyTraveller',
 		url: 'gypsy-traveller',
@@ -906,7 +906,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	protectedSpecies: {
 		type: 'boolean',
-		title: 'Protected species',
+		title: 'Would the development affect a protected species?',
 		question: 'Would the development affect a protected species?',
 		fieldName: 'protectedSpecies',
 		url: 'protected-species',
@@ -916,7 +916,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	rightOfWayCheck: {
 		type: 'boolean',
-		title: 'Public right of way',
+		title: 'Would a public right of way need to be removed or diverted?',
 		question: 'Would a public right of way need to be removed or diverted?',
 		fieldName: 'publicRightOfWay',
 		url: 'public-right-of-way',
@@ -937,7 +937,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	designatedSitesCheck: {
 		type: 'checkbox',
-		title: 'Designated sites',
+		title: 'Is the development in, near or likely to affect any designated sites?',
 		question: 'Is the development in, near or likely to affect any designated sites?',
 		fieldName: 'designatedSites',
 		url: 'designated-sites',
@@ -2780,7 +2780,241 @@ exports.getQuestionProps = (response) => ({
 			}
 		]
 	},
+
 	//enforcement questions
+	//  Constraints, designations and other issues
+	enforcementAppealTypeAppropriate: {
+		type: 'boolean',
+		title: `Is enforcement the correct type of appeal?`,
+		question: `Is enforcement the correct type of appeal?`,
+		fieldName: 'correctAppealType',
+		url: 'correct-appeal-type',
+		validators: [
+			new RequiredValidator(
+				`Select yes if ${QUESTION_VARIABLES.APPEAL_TYPE} appeal is the correct type of appeal`
+			)
+		],
+		variables: [QUESTION_VARIABLES.APPEAL_TYPE, QUESTION_VARIABLES.APPEAL_TYPE_WITH_AN_OR_A]
+	},
+
+	// Enforcement specific questions
+	enforcementOtherOperations: {
+		type: 'boolean',
+		title:
+			'Does the enforcement notice relate to building, engineering, mining or other operations?',
+		question:
+			'Does the enforcement notice relate to building, engineering, mining or other operations?',
+		fieldName: 'enforcementOtherOperations',
+		url: 'other-operations',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the enforcement notice is related to building, engineering, mining or other operations'
+			)
+		]
+	},
+	enforcementSiteArea: {
+		type: 'number',
+		title: 'What is the area of the appeal site?',
+		question: 'What is the area of the appeal site?',
+		suffix: 'm\u00B2',
+		fieldName: 'siteAreaSquareMetres',
+		hint: 'Tell is the area of the appeal site from the notice plan.',
+		url: 'site-area',
+		validators: [
+			new RequiredValidator('Enter the area of the appeal site'),
+			new NumericValidator({
+				regex: new RegExp(`^[0-9]{0,${appealFormV2.textInputMaxLength}}$`, 'gi'),
+				regexMessage: 'Enter the area of the site using numbers 0 to 9',
+				min: minValue,
+				minMessage: `Appeal site area must be at least ${minValue}m\u00B2`,
+				max: maxValue,
+				maxMessage: `Appeal site area must be ${maxValue.toLocaleString()}m\u00B2 or less`,
+				fieldName: 'siteAreaSquareMetres'
+			})
+		]
+	},
+	enforcementAllegedBreachArea: {
+		type: 'boolean',
+		title: 'Is the area of the alleged breach the same as the site area?',
+		question: 'Is the area of the alleged breach the same as the site area?',
+		fieldName: 'enforcementAllegedBreachArea',
+		url: 'alleged-breach-area',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the area of the alleged breach is the same as the site area'
+			)
+		]
+	},
+	enforcementCreateFloorSpace: {
+		type: 'boolean',
+		title: 'Does the alleged breach create any floor space?',
+		question: 'Does the alleged breach create any floor space?',
+		fieldName: 'enforcementCreateFloorSpace',
+		url: 'create-floor-space',
+		validators: [
+			new RequiredValidator('Select yes if the alleged breach does create any floor space')
+		]
+	},
+	enforcementRefuseWasteMaterials: {
+		type: 'boolean',
+		title:
+			'Does the enforcement notice include a change of use of land to dispose refuse or waste materials?',
+		question:
+			'Does the enforcement notice include a change of use of land to dispose refuse or waste materials?',
+		fieldName: 'enforcementRefuseWasteMaterials',
+		url: 'refuse-waste-materials',
+		validators: [
+			new RequiredValidator('Select yes if the alleged breach does create any floor space')
+		]
+	},
+	enforcementMineralExtractionMaterials: {
+		type: 'boolean',
+		title:
+			'Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?',
+		question:
+			'Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?',
+		fieldName: 'enforcementMineralExtractionMaterials',
+		url: 'mineral-extraction-materials',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the enforcement notice does include the change of use of land to dispose of remaining materials after mineral extraction'
+			)
+		]
+	},
+	enforcementStoreMinerals: {
+		type: 'boolean',
+		title:
+			'Does the enforcement notice include a change of use of land to store minerals in the open?',
+		question:
+			'Does the enforcement notice include a change of use of land to store minerals in the open?',
+		fieldName: 'enforcementStoreMinerals',
+		url: 'store-minerals',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the enforcement notice does include include a change of use of land to store minerals in the open'
+			)
+		]
+	},
+	enforcementCreateBuilding: {
+		type: 'boolean',
+		title: 'Does the enforcement notice include the erection of a building or buildings?',
+		question: 'Does the enforcement notice include the erection of a building or buildings?',
+		fieldName: 'enforcementCreateBuilding',
+		url: 'create-building',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the enforcement notice does include the erection of a building or buildings'
+			)
+		]
+	},
+	enforcementAgriculturalPurposes: {
+		type: 'boolean',
+		title: 'Is the building on agricultural land and will it be used for agricultural purposes?',
+		question: 'Is the building on agricultural land and will it be used for agricultural purposes?',
+		fieldName: 'enforcementAgriculturalPurposes',
+		url: 'agricultural-purposes',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the building is on agricultural land and will be used for agricultural purposes'
+			)
+		]
+	},
+	enforcementSingleHouse: {
+		type: 'boolean',
+		title: 'Is the enforcement notice for a single private dwelling house?',
+		question: 'Is the enforcement notice for a single private dwelling house?',
+		hint: 'Includes either building a new house or a change of use.',
+		fieldName: 'enforcementSingleHouse',
+		url: 'single-house',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the enforcement notice is for a single private dwelling house'
+			)
+		]
+	},
+	enforcementTrunkRoad: {
+		type: 'boolean',
+		title: 'Is the appeal site within 67 metres of a trunk road?',
+		question: 'Is the appeal site within 67 metres of a trunk road?',
+		fieldName: 'enforcementTrunkRoad',
+		url: 'trunk-road',
+		validators: [
+			new RequiredValidator('Select yes if the appeal site is within 67 metres of a trunk road')
+		]
+	},
+	enforcementCrownLand: {
+		type: 'boolean',
+		title: 'Is the appeal site on Crown land?',
+		question: 'Is the appeal site on Crown land?',
+		fieldName: 'enforcementCrownLand',
+		url: 'crown-land',
+		validators: [new RequiredValidator('Select yes if the appeal site is on Crown land')]
+	},
+	enforcementStopNotice: {
+		type: 'boolean',
+		title: 'Did you serve a stop notice?',
+		question: 'Did you serve a stop notice?',
+		fieldName: 'enforcementStopNotice',
+		url: 'stop-notice',
+		validators: [new RequiredValidator('Select yes if you did serve a stop notice')]
+	},
+	enforcementStopNoticeUpload: {
+		type: 'multi-file-upload',
+		title: 'Upload the stop notice',
+		question: 'Upload the stop notice',
+		fieldName: 'enforcementStopNoticeUpload',
+		url: 'upload-stop-notice',
+		validators: [
+			new RequiredFileUploadValidator('Select the stop notice served'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.enforcementStopNoticeUpload,
+		actionHiddenText: 'the stop notice served'
+	},
+	enforcementDevelopmentRights: {
+		type: 'boolean',
+		title: 'Did you remove any permitted development rights for the appeal site?',
+		question: 'Did you remove any permitted development rights for the appeal site?',
+		fieldName: 'enforcementDevelopmentRights',
+		url: 'remove-permitted-development-rights',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you did remove any permitted development rights for the appeal site'
+			)
+		]
+	},
+	enforcementDevelopmentRightsUpload: {
+		type: 'multi-file-upload',
+		title: 'Upload the article 4 direction',
+		question: 'Upload the article 4 direction',
+		fieldName: 'enforcementDevelopmentRightsUpload',
+		url: 'upload-article-4-direction',
+		validators: [
+			new RequiredFileUploadValidator('Select the article 4 direction'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.enforcementDevelopmentRightsUpload,
+		actionHiddenText: 'the article 4 direction'
+	},
+	enforcementDevelopmentRightsRemoved: {
+		type: 'text-entry',
+		title: 'What permitted development rights did you remove with the direction?',
+		question: 'What permitted development rights did you remove with the direction?',
+		url: 'rights-removed-direction',
+		fieldName: 'enforcementDevelopmentRightsRemoved',
+		validators: [
+			new RequiredValidator('Enter what permitted development rights have been removed'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textAreaMaxLength,
+					maxLengthMessage: `Your statement must be ${formatNumber(
+						appealFormV2.textAreaMaxLength
+					)} characters or less`
+				}
+			})
+		]
+	},
+
 	enforcementWhoIsAppealing: {
 		type: 'radio',
 		title: 'Who is appealing against the enforcement notice?',
@@ -3313,6 +3547,7 @@ exports.getQuestionProps = (response) => ({
 		documentType: documentTypes.uploadEnforcementNoticePlan
 	},
 
+	// Notifying relevant parties enforcement questions
 	listOfPeopleSentEnforcementNotice: {
 		type: 'multi-file-upload',
 		title: 'Upload the list of people that you served the enforcement notice to',
@@ -3325,10 +3560,9 @@ exports.getQuestionProps = (response) => ({
 			),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.appealNotification,
+		documentType: documentTypes.listOfPeopleSentEnforcementNotice,
 		actionHiddenText: 'the list of people that you served the enforcement notice to'
 	},
-
 	enforcementAppealNotification: {
 		type: 'multi-file-upload',
 		title: 'Upload the appeal notification letter and the list of people that you notified',

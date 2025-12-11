@@ -965,6 +965,26 @@ model LPAQuestionnaireSubmission {
   wasApplicationRefusedDueToHighwayOrTraffic      Boolean?
   didAppellantSubmitCompletePhotosAndPlans        Boolean?
 
+  // New enforcement fieldnames
+  listOfPeopleSentEnforcementNotice     Boolean?
+  enforcementOtherOperations            Boolean?
+  siteAreaSquareMetres                  Decimal?
+  enforcementAllegedBreachArea          Boolean?
+  enforcementCreateFloorSpace           Boolean?
+  enforcementRefuseWasteMaterials       Boolean?
+  enforcementMineralExtractionMaterials Boolean?
+  enforcementStoreMinerals              Boolean?
+  enforcementCreateBuilding             Boolean?
+  enforcementAgriculturalPurposes       Boolean?
+  enforcementSingleHouse                Boolean?
+  enforcementTrunkRoad                  Boolean?
+  enforcementCrownLand                  Boolean?
+  enforcementStopNotice                 Boolean?
+  enforcementStopNoticeUpload           Boolean?
+  enforcementDevelopmentRights          Boolean?
+  enforcementDevelopmentRightsUpload    Boolean?
+  enforcementDevelopmentRightsRemoved   String?
+
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
   SubmissionAddress        SubmissionAddress[]

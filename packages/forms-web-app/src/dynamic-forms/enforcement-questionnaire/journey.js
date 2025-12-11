@@ -28,7 +28,8 @@ const makeSections = (response) => {
 	const questions = getQuestions(response);
 	return [
 		new Section('Constraints, designations and other issues', 'constraints')
-			.addQuestion(questions.appealTypeAppropriate)
+			// s78 similar questions (many copy changes)
+			.addQuestion(questions.enforcementAppealTypeAppropriate)
 			.withVariables({
 				[QUESTION_VARIABLES.APPEAL_TYPE_WITH_AN_OR_A]:
 					mapAppealTypeToDisplayTextWithAnOrA(ENFORCEMENT),
@@ -51,10 +52,34 @@ const makeSections = (response) => {
 			.addQuestion(questions.treePreservationOrder)
 			.addQuestion(questions.treePreservationPlanUpload)
 			.withCondition(() => questionHasAnswer(response, questions.treePreservationOrder, 'yes'))
-			// right of way check to have different copy for enforcement
+			.addQuestion(questions.gypsyOrTraveller)
 			.addQuestion(questions.rightOfWayCheck)
 			.addQuestion(questions.uploadDefinitiveMap)
-			.withCondition(() => questionHasAnswer(response, questions.rightOfWayCheck, 'yes')),
+			.withCondition(() => questionHasAnswer(response, questions.rightOfWayCheck, 'yes'))
+			// Enforcement specific questions
+			.addQuestion(questions.enforcementOtherOperations)
+			.addQuestion(questions.enforcementSiteArea)
+			.addQuestion(questions.enforcementAllegedBreachArea)
+			.addQuestion(questions.enforcementCreateFloorSpace)
+			.addQuestion(questions.enforcementRefuseWasteMaterials)
+			// Missed questions here - will be for another release
+			.addQuestion(questions.enforcementMineralExtractionMaterials)
+			.addQuestion(questions.enforcementStoreMinerals)
+			.addQuestion(questions.enforcementCreateBuilding)
+			.addQuestion(questions.enforcementAgriculturalPurposes)
+			.addQuestion(questions.enforcementSingleHouse)
+			.addQuestion(questions.enforcementTrunkRoad)
+			.addQuestion(questions.enforcementCrownLand)
+			.addQuestion(questions.enforcementStopNotice)
+			.addQuestion(questions.enforcementStopNoticeUpload)
+			.withCondition(() => questionHasAnswer(response, questions.enforcementStopNotice, 'yes'))
+			.addQuestion(questions.enforcementDevelopmentRights)
+			.addQuestion(questions.enforcementDevelopmentRightsUpload)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.enforcementDevelopmentRights, 'yes')
+			)
+			.addQuestion(questions.enforcementDevelopmentRightsRemoved),
+
 		// enforcement specific questions to follow here
 		new Section('Environmental impact assessment', 'environmental-impact')
 			.addQuestion(questions.environmentalImpactSchedule)
