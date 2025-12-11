@@ -3,8 +3,11 @@ const { mockReq, mockRes } = require('../../../../../../../test/utils/mocks');
 const testCaseReference = '1234567890';
 const testCaseStage = 'lpa-questionnaire';
 const testDocumentTypes = ['doctype-one', 'doc-type-two', 'doc-type-three'];
-
-const mockDocumentTypes = { 'doctype-one': '', 'doc-type-two': '', 'doc-type-three': '' };
+const mockDocumentTypes = {
+	DOCUMENT_TYPE_ONE: testDocumentTypes[0],
+	DOCUMENT_TYPE_TWO: testDocumentTypes[1],
+	DOCUMENT_TYPE_THREE: testDocumentTypes[2]
+};
 
 jest.mock('@pins/common/src/lib/getAzureBlobPathFromUri', () =>
 	jest.fn().mockImplementation((uri) => {
@@ -16,9 +19,13 @@ jest.mock('../../../../../../configuration/featureFlag', () => ({
 	isFeatureActive: jest.fn().mockResolvedValue(true)
 }));
 
-jest.mock('@pins/common/src/document-types', () => ({
-	...jest.requireActual('@pins/common/src/document-types'),
-	documentTypes: mockDocumentTypes
+jest.mock('@pins/common/src/constants', () => ({
+	...jest.requireActual('@pins/common/src/constants')
+}));
+
+jest.mock('@planning-inspectorate/data-model', () => ({
+	...jest.requireActual('@planning-inspectorate/data-model'),
+	APPEAL_DOCUMENT_TYPE: mockDocumentTypes
 }));
 
 const { checkDocAccess } = require('@pins/common/src/access/document-access');
