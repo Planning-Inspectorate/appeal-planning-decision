@@ -6,7 +6,7 @@ let prisma: PrismaClient;
 const createClient = (
 	connectionString: string,
 	logger?: import('pino').Logger,
-	prismaConfig: Prisma.PrismaClientOptions = {}
+	prismaConfigOptions: Omit<Prisma.PrismaClientOptions, 'accelerateUrl'> = {}
 ): PrismaClient => {
 	if (prisma) {
 		return prisma;
@@ -16,27 +16,16 @@ const createClient = (
 		throw new Error('connectionString not provided to create Prisma Client');
 	}
 
-	prismaConfig.adapter = new PrismaMssql(connectionString);
-	prismaConfig.log = [
-		{
-			emit: 'event',
-			level: 'query'
-		},
-		{
-			emit: 'event',
-			level: 'error'
-		},
-		{
-			emit: 'event',
-			level: 'info'
-		},
-		{
-			emit: 'event',
-			level: 'warn'
-		}
-	];
-
-	prisma = new PrismaClient(prismaConfig);
+	const client = new PrismaClient({
+		adapter: new PrismaMssql(connectionString),
+		log: [
+			{ emit: 'event', level: 'query' },
+			{ emit: 'event', level: 'error' },
+			{ emit: 'event', level: 'info' },
+			{ emit: 'event', level: 'warn' }
+		],
+		...prismaConfigOptions
+	});
 
 	if (logger) {
 		const logQuery = (e: Prisma.QueryEvent) => {
@@ -54,7 +43,6 @@ const createClient = (
 	}
 
 	prisma = client;
-
 	return prisma;
 };
 
