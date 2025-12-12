@@ -27,6 +27,7 @@
 		"jest": "*",
 		"jest-junit": "*",
 		"nodemon": "*",
+		"ts-jest": "*",
 		"typescript": "*"
 	}
 }

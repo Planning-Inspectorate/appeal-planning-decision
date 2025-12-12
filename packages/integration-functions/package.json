@@ -27,6 +27,7 @@
 		"@planning-inspectorate/data-model": "*",
 		"@pins/common": "^0.0.0",
 		"stream-json": "*",
+		"ts-jest": "*",
 		"typescript": "*"
 	}
 }

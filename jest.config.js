@@ -1,3 +1,7 @@
+const { createDefaultPreset } = require('ts-jest');
+
+const tsDefaults = createDefaultPreset();
+
 /** @type {import('jest').Config} */
 module.exports = {
 	coverageDirectory: '<rootDir>/jest-reports/coverage',
@@ -10,5 +14,9 @@ module.exports = {
 	workerIdleMemoryLimit: '1000MB',
 	testEnvironmentOptions: {
 		globalsCleanup: 'on'
+	},
+	transform: {
+		'\\.jsx?$': 'babel-jest',
+		...tsDefaults.transform
 	}
 };

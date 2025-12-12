@@ -4,7 +4,7 @@ import logger from '../lib/logger.js';
 
 /**
  * @param {string} [connectionString]
- * @returns {import('@pins/database/src/client/client').PrismaClient}
+ * @returns {import('@pins/database/src/client/client.ts').PrismaClient}
  */
 const createPrismaClient = (connectionString) => {
 	const prismaConnectionString = connectionString ?? config.db.sql.connectionString;
