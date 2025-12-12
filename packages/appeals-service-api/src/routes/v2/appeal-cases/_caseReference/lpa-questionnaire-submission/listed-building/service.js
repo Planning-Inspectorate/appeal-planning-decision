@@ -15,7 +15,7 @@ const repo = new LinkedCaseRepository();
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
 async function createListedBuilding(caseReference, uploadData) {
-	const updatedQuestionnaire = repo.createListedBuilding(caseReference, uploadData);
+	const updatedQuestionnaire = await repo.createListedBuilding(caseReference, uploadData);
 
 	if (!updatedQuestionnaire) {
 		return null;
@@ -32,7 +32,7 @@ async function createListedBuilding(caseReference, uploadData) {
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
 async function deleteListedBuilding(caseReference, listedId) {
-	const updatedQuestionnaire = repo.deleteListedBuilding(caseReference, listedId);
+	const updatedQuestionnaire = await repo.deleteListedBuilding(caseReference, listedId);
 
 	if (!updatedQuestionnaire) {
 		return null;

@@ -15,7 +15,7 @@ const repo = new SubmissionAddressRepository();
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
 async function createAddress(caseReference, uploadData) {
-	const updatedQuestionnaire = repo.createAddress(caseReference, uploadData);
+	const updatedQuestionnaire = await repo.createAddress(caseReference, uploadData);
 
 	if (!updatedQuestionnaire) {
 		return null;
@@ -32,7 +32,7 @@ async function createAddress(caseReference, uploadData) {
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
 async function deleteAddress(caseReference, addressId) {
-	const updatedQuestionnaire = repo.deleteAddress(caseReference, addressId);
+	const updatedQuestionnaire = await repo.deleteAddress(caseReference, addressId);
 
 	if (!updatedQuestionnaire) {
 		return null;

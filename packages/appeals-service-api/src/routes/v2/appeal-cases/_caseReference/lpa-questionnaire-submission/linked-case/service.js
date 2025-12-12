@@ -15,7 +15,7 @@ const repo = new LinkedCaseRepository();
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
 async function createLinkedAppeal(caseReference, uploadData) {
-	const updatedQuestionnaire = repo.createLinkedCase(caseReference, uploadData);
+	const updatedQuestionnaire = await repo.createLinkedCase(caseReference, uploadData);
 
 	if (!updatedQuestionnaire) {
 		return null;
@@ -32,7 +32,7 @@ async function createLinkedAppeal(caseReference, uploadData) {
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
 async function deleteLinkedAppeal(caseReference, linkedCaseId) {
-	const updatedQuestionnaire = repo.deleteLinkedCase(caseReference, linkedCaseId);
+	const updatedQuestionnaire = await repo.deleteLinkedCase(caseReference, linkedCaseId);
 
 	if (!updatedQuestionnaire) {
 		return null;

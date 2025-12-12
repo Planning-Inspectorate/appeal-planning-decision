@@ -15,7 +15,7 @@ const repo = new SubmissionDocumentUploadRepository();
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
 async function createSubmissionDocument(caseReference, uploadData) {
-	const updatedQuestionnaire = repo.createSubmissionDocument(caseReference, uploadData);
+	const updatedQuestionnaire = await repo.createSubmissionDocument(caseReference, uploadData);
 
 	if (!updatedQuestionnaire) {
 		return null;
@@ -32,7 +32,7 @@ async function createSubmissionDocument(caseReference, uploadData) {
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
 async function deleteSubmissionDocument(caseReference, documentIds) {
-	const updatedQuestionnaire = repo.deleteSubmissionDocument(caseReference, documentIds);
+	const updatedQuestionnaire = await repo.deleteSubmissionDocument(caseReference, documentIds);
 
 	if (!updatedQuestionnaire) {
 		return null;

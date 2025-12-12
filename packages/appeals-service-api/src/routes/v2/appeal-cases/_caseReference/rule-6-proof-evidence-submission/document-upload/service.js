@@ -20,7 +20,7 @@ async function createSubmissionDocument(userId, caseReference, uploadData) {
 		return null;
 	}
 
-	const updatedProofs = repo.createSubmissionDocument(userId, caseReference, uploadData);
+	const updatedProofs = await repo.createSubmissionDocument(userId, caseReference, uploadData);
 
 	if (!updatedProofs) {
 		return null;
@@ -42,7 +42,7 @@ async function deleteSubmissionDocument(userId, caseReference, documentIds) {
 		return null;
 	}
 
-	const updatedProofs = repo.deleteSubmissionDocument(userId, caseReference, documentIds);
+	const updatedProofs = await repo.deleteSubmissionDocument(userId, caseReference, documentIds);
 
 	if (!updatedProofs) {
 		return null;
