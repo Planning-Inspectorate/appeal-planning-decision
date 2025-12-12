@@ -1,4 +1,4 @@
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 
 /**
  * Dummy event client for local development.

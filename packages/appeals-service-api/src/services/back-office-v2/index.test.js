@@ -54,11 +54,11 @@ const {
 	sendRule6StatementSubmissionEmailToRule6PartyV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2,
 	sendLPAHASQuestionnaireSubmittedEmailV2
-} = require('#lib/notify');
+} = require('#lib/notify.js');
 const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
-jest.mock('#lib/logger');
-jest.mock('#lib/notify');
+jest.mock('#lib/logger.js');
+jest.mock('#lib/notify.js');
 jest.mock('../../configuration/featureFlag');
 
 jest.mock('./validate');

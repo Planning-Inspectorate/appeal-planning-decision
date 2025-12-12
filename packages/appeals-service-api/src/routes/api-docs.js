@@ -1,7 +1,7 @@
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 const { generateOpenApiSpec } = require('../spec/gen-api-spec');
 
 const router = express.Router();

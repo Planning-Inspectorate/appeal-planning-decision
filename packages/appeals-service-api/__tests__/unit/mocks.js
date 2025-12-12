@@ -1,5 +1,5 @@
-jest.mock('../../src/lib/logger');
-const logger = require('../../src/lib/logger');
+jest.mock('../../src/lib/logger.js');
+const logger = require('../../src/lib/logger.js');
 
 const mockReq = () => ({
 	log: logger,

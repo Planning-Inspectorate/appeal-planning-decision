@@ -1,4 +1,4 @@
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 const ApiError = require('#errors/apiError');
 const { AppealCaseRepository } = require('./repo');
 const {
@@ -7,7 +7,7 @@ const {
 	listByLpaCodeWithAppellant,
 	listByPostcodeWithAppellant
 } = require('./service');
-const sanitizePostcode = require('#lib/sanitize-postcode');
+const sanitizePostcode = require('#lib/sanitize-postcode.js');
 
 const repo = new AppealCaseRepository();
 

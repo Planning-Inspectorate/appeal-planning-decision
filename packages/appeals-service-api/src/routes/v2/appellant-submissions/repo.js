@@ -2,7 +2,7 @@ const { createPrismaClient } = require('#db-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { Prisma } = require('@pins/database/src/client/client');
 const ApiError = require('#errors/apiError');
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 const { subMonths } = require('date-fns');
 
 /**

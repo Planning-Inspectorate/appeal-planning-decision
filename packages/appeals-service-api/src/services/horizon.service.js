@@ -2,7 +2,7 @@ const { HorizonGateway } = require('../gateway/horizon-gateway');
 const { getContactDetails, getAppealDocumentInBase64Encoding } = require('./appeal.service');
 const LpaService = require('./lpa.service');
 const BackOfficeSubmissionEntity = require('../models/entities/back-office-submission-entity');
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 
 class HorizonService {
 	#horizonGateway;

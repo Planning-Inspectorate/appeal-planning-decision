@@ -2,7 +2,7 @@ const ApiError = require('#errors/apiError');
 const Repo = require('./repo');
 const repo = new Repo();
 const LpaMapper = require('../../../mappers/lpa-mapper');
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 const { chunkArray } = require('@pins/common/src/database/chunk-array');
 
 const chunckSize = 10;

@@ -1,5 +1,5 @@
 const ApiError = require('#errors/apiError');
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 const service = require('./service');
 
 /**

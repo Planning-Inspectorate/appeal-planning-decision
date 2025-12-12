@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ApiError = require('../errors/apiError');
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 
 const BackOfficeService = require('../services/back-office.service');
 const backOfficeService = new BackOfficeService();

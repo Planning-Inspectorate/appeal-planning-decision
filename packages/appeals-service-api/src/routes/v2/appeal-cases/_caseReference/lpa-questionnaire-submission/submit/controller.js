@@ -1,5 +1,5 @@
 const ApiError = require('#errors/apiError');
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 const BackOfficeV2Service = require('../../../../../../services/back-office-v2');
 
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');

@@ -1,5 +1,5 @@
 const { createSubmissionDocument, deleteSubmissionDocument } = require('./service');
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 const ApiError = require('#errors/apiError');
 
 /**
