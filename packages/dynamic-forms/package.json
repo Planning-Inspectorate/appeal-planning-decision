@@ -25,6 +25,7 @@
 		"jest": "*",
 		"jest-fetch-mock": "*",
 		"jest-junit": "*",
+		"ts-jest": "*",
 		"typescript": "*"
 	},
 	"imports": {

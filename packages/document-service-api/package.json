@@ -50,6 +50,7 @@
 		"pino-pretty": "*",
 		"supertest": "*",
 		"testcontainers": "*",
+		"ts-jest": "*",
 		"typescript": "*"
 	},
 	"imports": {

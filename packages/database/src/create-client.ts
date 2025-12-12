@@ -1,4 +1,4 @@
-import { PrismaClient, type Prisma } from './client/client';
+import { PrismaClient, type Prisma } from './client/client.ts';
 import { PrismaMssql } from '@prisma/adapter-mssql';
 
 let prisma: PrismaClient;

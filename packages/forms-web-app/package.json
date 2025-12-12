@@ -75,6 +75,7 @@
 		"sass": "*",
 		"sinon": "*",
 		"@sinonjs/fake-timers": "*",
+		"ts-jest": "*",
 		"typescript": "*",
 		"webpack": "*",
 		"webpack-cli": "*",
