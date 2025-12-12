@@ -1,4 +1,4 @@
-[Create an account]({{createAccountUrl}}) for the Manage your appeals service. 
+[Create an account]({{loginUrl}}) for the Manage your appeals service. 
 
 You can use the service to:
 - view and manage appeals
