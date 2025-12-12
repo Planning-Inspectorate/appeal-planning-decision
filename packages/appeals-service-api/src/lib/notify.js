@@ -1329,7 +1329,7 @@ const sendLPADashboardInviteEmail = async (user) => {
 
 		let variables = {
 			...config.services.notify.templateVariables,
-			createAccountUrl: `${config.apps.appeals.baseUrl}/manage-appeals/service-invite/${user.lpaCode}`
+			loginUrl: `${config.apps.appeals.baseUrl}/manage-appeals/your-appeals`
 		};
 
 		const reference = user.id || user.email;
