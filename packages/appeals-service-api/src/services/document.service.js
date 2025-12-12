@@ -1,5 +1,5 @@
 const DocumentGateway = require('../gateway/document.gateway');
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 
 class DocumentService {
 	#documentGateway;

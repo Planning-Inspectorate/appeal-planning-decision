@@ -1,5 +1,5 @@
 const { MongoRepository } = require('./mongo-repository');
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 const mongodb = require('../db/db');
 
 class ForManualInterventionRepository extends MongoRepository {

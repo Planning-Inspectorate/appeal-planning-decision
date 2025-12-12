@@ -6,8 +6,8 @@ const { AppealCaseRepository } = require('./repo');
 const { Prisma } = require('@pins/database/src/client/client');
 const ApiError = require('#errors/apiError');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
-const { sendSubmissionConfirmationEmailToAppellantV2 } = require('#lib/notify');
-const sanitizePostcode = require('#lib/sanitize-postcode');
+const { sendSubmissionConfirmationEmailToAppellantV2 } = require('#lib/notify.js');
+const sanitizePostcode = require('#lib/sanitize-postcode.js');
 const config = require('../../../configuration/config');
 
 const repo = new AppealCaseRepository();

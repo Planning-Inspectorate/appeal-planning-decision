@@ -22,7 +22,7 @@ try {
 	console.warn({ err }, 'Application insights failed to start: ');
 }
 
-const logger = require('./lib/logger');
+const logger = require('./lib/logger.js');
 const server = require('./server');
 const mongodb = require('./db/db');
 const { setupIndexes } = require('./db/setup');

@@ -2,7 +2,7 @@ const { loadAllSchemasSync } = require('@planning-inspectorate/data-model');
 const { SchemaValidator } = require('./validate');
 
 jest.mock('@planning-inspectorate/data-model');
-jest.mock('#lib/logger');
+jest.mock('#lib/logger.js');
 
 describe('SchemaValidator', () => {
 	/** @type {import('./validate').SchemaValidator} */

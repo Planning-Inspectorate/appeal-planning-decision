@@ -1,6 +1,6 @@
 const axios = require('axios');
 const config = require('../configuration/config');
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 
 class DocumentApiGateway {
 	constructor() {}

@@ -1,4 +1,4 @@
-const sanitizePostcode = require('#lib/sanitize-postcode');
+const sanitizePostcode = require('#lib/sanitize-postcode.js');
 const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
 
 /**

@@ -22,10 +22,10 @@ const {
 	sendRule6StatementSubmissionEmailToRule6PartyV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2,
 	sendLPAHASQuestionnaireSubmittedEmailV2
-} = require('#lib/notify');
+} = require('#lib/notify.js');
 const { getUserById } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 const {
 	getAppellantFinalCommentByAppealId,
 	markAppellantFinalCommentAsSubmitted
