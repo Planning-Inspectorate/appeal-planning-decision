@@ -12,7 +12,8 @@
 		"start": "func start",
 		"test": "jest --ci --verbose",
 		"test:cov": "jest --ci --verbose --coverage",
-		"test:watch": "jest --watchAll --runInBand"
+		"test:watch": "jest --watchAll --runInBand",
+		"tscheck": "tsc"
 	},
 	"devDependencies": {
 		"jest": "*",
@@ -25,6 +26,8 @@
 		"@azure/storage-blob": "*",
 		"@planning-inspectorate/data-model": "*",
 		"@pins/common": "^0.0.0",
-		"stream-json": "*"
+		"stream-json": "*",
+		"ts-jest": "*",
+		"typescript": "*"
 	}
 }

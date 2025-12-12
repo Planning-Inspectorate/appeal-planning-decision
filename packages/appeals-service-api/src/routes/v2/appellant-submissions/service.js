@@ -4,7 +4,7 @@ const { mapTypeCodeToAppealId } = require('@pins/common');
 const repo = new AppellantSubmissionRepository();
 const { docsApiClient } = require('../../../doc-client/docs-api-client');
 const ApiError = require('#errors/apiError');
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 
 /**
  * @typedef {import('@pins/database/src/client/client').AppellantSubmission} AppellantSubmission

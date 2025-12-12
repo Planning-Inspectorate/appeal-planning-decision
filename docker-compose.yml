@@ -61,10 +61,11 @@ services:
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/database/src/:/opt/database/src
-      - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/auth-server:/opt/app
+      # mount all packages - referenced with a symlink in node_modules
+      - ./packages/:/opt/packages/
+      - ./packages/database/src/:/opt/database/src
+      - ./tsconfig.json:/tsconfig.json
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
@@ -129,12 +130,11 @@ services:
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
-      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/database/src/:/opt/database/src
-      - ./packages/database:/opt/app/node_modules/@pins/database
-      - ./packages/dynamic-forms:/opt/app/node_modules/@pins/dynamic-forms
       - ./packages/appeals-service-api:/opt/app
+      # mount all packages - referenced with a symlink in node_modules
+      - ./packages/:/opt/packages/
+      - ./packages/database/src/:/opt/database/src
+      - ./tsconfig.json:/tsconfig.json
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
@@ -175,12 +175,12 @@ services:
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
-      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/database/src/:/opt/database/src
-      - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/document-service-api:/opt/app
+      # mount all packages - referenced with a symlink in node_modules
+      - ./packages/:/opt/packages/
+      - ./packages/database/src/:/opt/database/src
       - ./tmp/documents-upload:/tmp/upload
+      - ./tsconfig.json:/tsconfig.json
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
@@ -231,11 +231,11 @@ services:
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
-      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/database:/opt/app/node_modules/@pins/database
-      - ./packages/dynamic-forms:/opt/app/node_modules/@pins/dynamic-forms
       - ./packages/forms-web-app:/opt/app
+      # mount all packages - referenced with a symlink in node_modules
+      - ./packages/:/opt/packages/
+      - ./packages/database/src/:/opt/database/src
+      - ./tsconfig.json:/tsconfig.json
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug

@@ -2,8 +2,8 @@ const { AppealUserRepository } = require('#repositories/sql/appeal-user-reposito
 const ApiError = require('#errors/apiError');
 const { APPEAL_USER_ROLES_ARRAY } = require('@pins/database/src/seed/data-static');
 const { STATUS_CONSTANTS, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const logger = require('#lib/logger');
-const { sendLPADashboardInviteEmail } = require('#lib/notify');
+const logger = require('#lib/logger.js');
+const { sendLPADashboardInviteEmail } = require('#lib/notify.js');
 const appealUserRepository = new AppealUserRepository();
 
 /**

@@ -1,5 +1,5 @@
 const cron = require('node-cron');
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 const config = require('../configuration/config');
 const BackOfficeService = require('../services/back-office.service');
 

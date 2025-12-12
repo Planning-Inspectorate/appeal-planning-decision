@@ -15,7 +15,6 @@ database:
 	docker compose --profile database -f docker-compose.yml -f docker-compose.slim.yml up
 .PHONY: database
 
-
 c4:
 	docker compose --profile c4 -f docker-compose.yml -f docker-compose.slim.yml up
 .PHONY: c4

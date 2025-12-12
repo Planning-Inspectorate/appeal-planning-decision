@@ -3,7 +3,7 @@ const {
 	createRule6ProofOfEvidence,
 	patchRule6ProofOfEvidenceByAppealId
 } = require('./service');
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 const ApiError = require('#errors/apiError');
 const { Prisma } = require('@pins/database/src/client/client');
 

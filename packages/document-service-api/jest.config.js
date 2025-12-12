@@ -6,7 +6,7 @@ module.exports = {
 	coveragePathIgnorePatterns: [
 		'node_modules',
 		'<rootDir>/src/app.js',
-		'<rootDir>/src/main.js',
+		'<rootDir>/src/main.ts',
 		'<rootDir>/src/server.js',
 		'<rootDir>/src/configuration',
 		'<rootDir>/src/routes'
@@ -20,8 +20,5 @@ module.exports = {
 		}
 	},
 	globalSetup: '<rootDir>/test/developer/globalSetup.js',
-	globalTeardown: '<rootDir>/test/developer/globalTeardown.js',
-	transform: {
-		'\\.[jt]sx?$': 'babel-jest'
-	}
+	globalTeardown: '<rootDir>/test/developer/globalTeardown.js'
 };

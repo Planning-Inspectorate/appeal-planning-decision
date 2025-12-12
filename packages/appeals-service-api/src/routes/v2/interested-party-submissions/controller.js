@@ -1,6 +1,6 @@
 const { createInterestedPartySubmission } = require('./service');
 const ApiError = require('#errors/apiError');
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 const BackOfficeV2Service = require('../../../services/back-office-v2');
 const { getFormatter } = require('../appeal-cases/_caseReference/get-representation-formatter');
 

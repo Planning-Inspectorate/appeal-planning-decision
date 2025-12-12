@@ -1,6 +1,6 @@
 const { createPrismaClient } = require('#db-client');
 const { Prisma } = require('@pins/database/src/client/client');
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 const ApiError = require('#errors/apiError');
 
 /**

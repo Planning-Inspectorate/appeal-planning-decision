@@ -1,7 +1,7 @@
 const { APPEAL_STATE } = require('@pins/business-rules/src/constants');
 const { UserAppealsRepository } = require('./repo');
 const { AppealsRepository } = require('#repositories/appeals-repository');
-const { filterNotNull } = require('#lib/filter');
+const { filterNotNull } = require('#lib/filter.js');
 const { appendLinkedCasesForMultipleAppeals } = require('../appeal-cases/service');
 
 const repo = new UserAppealsRepository();

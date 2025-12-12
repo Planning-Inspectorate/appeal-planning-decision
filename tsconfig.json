@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"strict": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"resolveJsonModule": true,
+		"checkJs": false,
+		"noEmit": true,
+		"rewriteRelativeImportExtensions": true,
+		"erasableSyntaxOnly": true,
+		"allowJs": true,
+		"allowImportingTsExtensions": true,
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": "."
+	},
+	"include": ["**/*.ts", "packages/pdf-service-api/src/config.js"],
+	"exclude": ["**/*.js", "dist", "node_modules"]
+}
