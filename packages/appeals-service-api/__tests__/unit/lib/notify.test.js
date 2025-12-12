@@ -42,7 +42,7 @@ describe('appeals-service-api/src/lib/notify.js', () => {
 
 			expect(NotifyServiceMock).toHaveBeenCalled();
 			expect(mockPopulateTemplate).toHaveBeenCalledWith('lpaq/v2-lpa-dashboard-invite-email.md', {
-				createAccountUrl: 'mock-base-url/manage-appeals/service-invite/Q9999',
+				loginUrl: 'mock-base-url/manage-appeals/your-appeals',
 				...config.services.notify.templateVariables
 			});
 			expect(mockSendEmail).toHaveBeenCalledWith({
