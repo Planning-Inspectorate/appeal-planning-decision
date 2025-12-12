@@ -6,9 +6,6 @@
 		"node": ">=22.0.0 <23.0.0"
 	},
 	"main": "src/main.ts",
-	"prisma": {
-		"schema": "../database/src/schema.prisma"
-	},
 	"scripts": {
 		"lint": "eslint ./",
 		"start": "node ./",

@@ -72,7 +72,7 @@
 		"test-cov:pdf-api": "cd packages/pdf-service-api && npm run test:cov",
 		"test-cov:web": "cd packages/forms-web-app && npm run test:cov",
 		"populate-db": "cd packages/appeals-service-api/data && ./populate-db.sh",
-		"tscheck": "cross-env run-p --continue-on-error --print-label \"tscheck:*\"",
+		"tscheck": "npm run db:generate && cross-env run-p --continue-on-error --print-label \"tscheck:*\"",
 		"tscheck:appeals-api": "cd packages/appeals-service-api && npm run tscheck",
 		"tscheck:auth-server": "cd packages/auth-server && npm run tscheck",
 		"tscheck:business-rules": "cd packages/business-rules && npm run tscheck",

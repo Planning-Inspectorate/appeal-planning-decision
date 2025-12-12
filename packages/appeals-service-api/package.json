@@ -6,9 +6,6 @@
 		"node": ">=22.0.0 <23.0.0"
 	},
 	"main": "src/main.ts",
-	"prisma": {
-		"schema": "../database/src/schema.prisma"
-	},
 	"scripts": {
 		"doc": "node src/spec/write-api-types.js",
 		"test": "cross-env NODE_OPTIONS=\"--expose-gc --experimental-vm-modules\" jest --logHeapUsage --ci --verbose",
