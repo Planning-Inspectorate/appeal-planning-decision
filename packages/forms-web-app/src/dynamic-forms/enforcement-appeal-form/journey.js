@@ -195,6 +195,26 @@ const makeSections = (response) => {
 			.addQuestion(questions.enforcementEnterDevelopmentDescription)
 			.addQuestion(questions.updateDevelopmentDescription)
 			.addQuestion(questions.grantedOrRefused)
+			.addQuestion(questions.applicationDecisionDate)
+			.withCondition(
+				() =>
+					questionHasAnswer(response, questions.grantedOrRefused, 'granted') ||
+					questionHasAnswer(response, questions.grantedOrRefused, 'refused')
+			)
+			.addQuestion(questions.applicationDecisionAppealed)
+			.withCondition(
+				() =>
+					questionHasAnswer(response, questions.grantedOrRefused, 'granted') ||
+					questionHasAnswer(response, questions.grantedOrRefused, 'refused')
+			)
+			.addQuestion(questions.appealDecisionDate)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.applicationDecisionAppealed, 'yes')
+			)
+			.addQuestion(questions.applicationDecisionDueDate)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.grantedOrRefused, 'nodecisionreceived')
+			)
 			.addQuestion(questions.appellantProcedurePreference)
 			.addQuestion(questions.appellantPreferHearing)
 			.withCondition(() =>

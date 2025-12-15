@@ -853,6 +853,8 @@ model AppellantSubmission {
   applicationMadeAndFeePaid         Boolean?
   uploadApplicationReceipt          Boolean?
   applicationPartOrWholeDevelopment String?
+  applicationDecisionAppealed       Boolean?
+  appealDecisionDate                DateTime?
   uploadPriorCorrespondence         Boolean?
   uploadEnforcementNotice           Boolean?
   uploadEnforcementNoticePlan       Boolean?
