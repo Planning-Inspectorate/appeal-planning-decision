@@ -8,13 +8,14 @@
 {% set title= question.pageTitle + " - " + journeyTitle + " - GOV.UK" %}
 {% set rowWidth= width %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+{% set listHeading= question.description if question.description else question.pageTitle %}
 
 {% block content %}
   <div class="govuk-grid-row">
     <div class="{{ rowWidth }}">
       {# TODO update to persist main question header text #}
-      
-      <p class="govuk-heading-l">{{question.pageTitle}}</p>
+
+      <p class="govuk-heading-l">{{listHeading}}</p>
 
       {{answerList(addMoreAnswers)}}
 
@@ -27,6 +28,7 @@
           errorMessage: errors[question.fieldName] and {
             text: errors[question.fieldName].msg
           },
+					hint: { text: question.hint },
           fieldset: {
             legend: {
               text: question.question,

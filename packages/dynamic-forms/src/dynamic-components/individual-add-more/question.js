@@ -28,8 +28,8 @@ class IndividualAddMoreQuestion extends AddMoreQuestion {
 	 */
 	async getDataToSave(req) {
 		const individual = new Individual({
-			firstName: req.body['firstName'],
-			lastName: req.body['lastName']
+			firstName: req.body[this.fieldName + '_firstName'],
+			lastName: req.body[this.fieldName + '_lastName']
 		});
 
 		return { answers: {}, addMoreId: randomUUID(), value: individual };

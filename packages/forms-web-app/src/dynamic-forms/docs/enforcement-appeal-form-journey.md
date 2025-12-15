@@ -25,7 +25,7 @@ condition: () =>
 	);
 ```
 
-- list-add-more `/add-individuals/` Do you need to add another individual?
+- list-add-more `/add-another-individual/` Do you need to add another individual?
 
 ```js
 condition: () =>

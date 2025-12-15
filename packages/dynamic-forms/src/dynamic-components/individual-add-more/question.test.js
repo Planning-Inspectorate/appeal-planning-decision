@@ -45,8 +45,8 @@ describe('IndividualAddMoreQuestion', () => {
 		it('should format the data correctly', async () => {
 			const req = {
 				body: {
-					[`firstName`]: testFirstName,
-					[`lastName`]: testLastName
+					[`fieldName_firstName`]: testFirstName,
+					[`fieldName_lastName`]: testLastName
 				}
 			};
 

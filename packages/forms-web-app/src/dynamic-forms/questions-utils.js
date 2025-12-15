@@ -43,7 +43,7 @@ exports.formatEnforcementSelectNamesOptions = (response) => {
 
 	const baseIndividuals = response.answers['SubmissionIndividual'] || [];
 
-	const individuals = Array.isArray(baseIndividuals) ? baseIndividuals : [baseIndividuals];
+	const individuals = Array.isArray(baseIndividuals) ? [...baseIndividuals] : [baseIndividuals];
 
 	if (!individuals.length) {
 		return [];
