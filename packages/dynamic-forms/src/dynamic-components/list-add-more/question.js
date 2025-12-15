@@ -40,6 +40,7 @@ class ListAddMoreQuestion extends Question {
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
 	 * @param {string} [params.url]
+	 * @param {string} [params.hint]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
 	 * @param {import('../../question-props').SubQuestionProps} [params.subQuestionProps]

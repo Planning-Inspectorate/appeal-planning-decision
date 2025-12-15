@@ -41,13 +41,14 @@ const formatEnforcementIndividualName = (response) => {
 const formatGroupOfIndividuals = (response) => {
 	const baseIndividuals = response.answers['SubmissionIndividual'] || [];
 
-	const individuals = Array.isArray(baseIndividuals) ? baseIndividuals : [baseIndividuals];
+	const individuals = Array.isArray(baseIndividuals) ? [...baseIndividuals] : [baseIndividuals];
 
 	if (!individuals.length) {
 		return 'Named Individual';
 	}
 
-	const finalNamedIndividual = individuals.pop();
+	const finalNamedIndividual = individuals.slice(-1)[0];
+	const allButFinalIndividuals = individuals.slice(0, -1);
 
 	/**
 	 * @param {import('appeals-service-api').Api.SubmissionIndividual} individual
@@ -59,7 +60,7 @@ const formatGroupOfIndividuals = (response) => {
 		return escape(`${firstName} ${lastName}`);
 	};
 
-	const formattedStringPartOne = individuals.map(formatIndividual).join(', ');
+	const formattedStringPartOne = allButFinalIndividuals.map(formatIndividual).join(', ');
 
 	return [formattedStringPartOne, formatIndividual(finalNamedIndividual)].join(' and ');
 };

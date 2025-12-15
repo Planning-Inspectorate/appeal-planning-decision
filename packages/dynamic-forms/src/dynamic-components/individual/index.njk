@@ -10,6 +10,9 @@
 {% set inputFields = question.inputFields %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
+{% set firstName= question.fieldName + "_firstName" %}
+{% set lastName= question.fieldName + "_lastName" %}
+
 {% block before_content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -60,14 +63,14 @@
                         label: {
                             text: 'First name',
                             classes: 'govuk-label',
-                            for: 'firstName'
+                            for: inputField.firstName
                         },
                         id: 'firstName',
-                        name: 'firstName',
-                        errorMessage: errors['firstName'] and {
-                            text: errors['firstName'].msg
+                        name: firstName,
+                        errorMessage: errors[firstName] and {
+                            text: errors[firstName].msg
                         },
-                        value: payload and payload[question.firstName]
+                        value: payload and payload[firstName]
                     }) }}
 
 										{{ govukInput({
@@ -77,13 +80,12 @@
                             for: inputField.lastName
                         },
                         id: 'lastName',
-                        name: 'lastName',
-                        errorMessage: errors['lastName'] and {
-                            text: errors['lastName'].msg
+                        name: lastName,
+                        errorMessage: errors[lastName] and {
+                            text: errors[lastName].msg
                         },
-                        value: payload and payload[question.lastName]
+                        value: payload and payload[lastName]
                     }) }}
-
 
                 {% endcall %}
 

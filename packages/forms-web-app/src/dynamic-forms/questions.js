@@ -3138,27 +3138,28 @@ exports.getQuestionProps = (response) => ({
 	enforcementAddNamedIndividuals: {
 		type: 'list-add-more',
 		title: 'Add named individuals',
-		pageTitle: 'Enforcement named individual added',
+		pageTitle: 'Do you need to add another individual?',
 		question: 'Do you need to add another individual?',
+		description: 'You have added an individual',
 		fieldName: 'addNamedIndividual',
-		url: 'add-individuals',
+		url: 'add-another-individual',
 		subQuestionLabel: 'Appellant',
 		subQuestionTitle: 'Appellant',
 		subQuestionInputClasses: 'govuk-input--width-25',
 		width: ListAddMoreQuestion.FULL_WIDTH,
-		// validators: [new RequiredValidator()],
+		hint: 'You must tell us about all of the individuals appealing against the enforcement notice.',
+		validators: [new RequiredValidator('Select yes if you need to add another individual')],
 		subQuestionProps: {
 			type: 'individual',
 			title: 'What is the name of the individual appealing against the enforcement notice?',
 			question: 'What is the name of the individual appealing against the enforcement notice?',
 			fieldName: fieldNames.enforcementNamedIndividual,
-			url: 'individual-name',
 			viewFolder: 'individual',
 			validators: [
 				new MultiFieldInputValidator({
 					requiredFields: [
 						{
-							fieldName: 'firstName',
+							fieldName: `${fieldNames.enforcementNamedIndividual}_firstName`,
 							errorMessage: "Enter the individual's first name",
 							maxLength: {
 								maxLength: 250,
@@ -3166,7 +3167,7 @@ exports.getQuestionProps = (response) => ({
 							}
 						},
 						{
-							fieldName: 'lastName',
+							fieldName: `${fieldNames.enforcementNamedIndividual}_lastName`,
 							errorMessage: "Enter the individual's last name",
 							maxLength: {
 								maxLength: 250,
