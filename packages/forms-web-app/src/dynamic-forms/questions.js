@@ -3225,6 +3225,53 @@ exports.getQuestionProps = (response) => ({
 		],
 		validators: [new RequiredValidator('Select if the application was granted or refused')]
 	},
+	applicationDecisionDate: {
+		type: 'date',
+		title: 'What is the date on the decision letter from the local planning authority?',
+		question: 'What is the date on the decision letter from the local planning authority?',
+		fieldName: 'applicationDecisionDate',
+		url: 'decision-date',
+		hint: `For example, ${getExampleDate('past')}`,
+		validators: [
+			new DateValidator('the date on the decision letter from the local planning authority', {
+				ensurePast: true
+			})
+		]
+	},
+	applicationDecisionDueDate: {
+		type: 'date',
+		title: 'What date was your decision due',
+		question: 'What date was your decision due',
+		fieldName: 'applicationDecisionDate',
+		url: 'decision-date-due',
+		hint: `For example, ${getExampleDate('past')}`,
+		validators: [
+			new DateValidator('the date the decision was due', {
+				ensurePast: true
+			})
+		]
+	},
+	applicationDecisionAppealed: {
+		type: 'boolean',
+		title: 'Did anyone appeal the decision?',
+		question: 'Did anyone appeal the decision?',
+		fieldName: 'applicationDecisionAppealed',
+		url: 'did-anyone-appeal',
+		validators: [new RequiredValidator('Select yes if anyone appealed the decision')]
+	},
+	appealDecisionDate: {
+		type: 'date',
+		title: 'When was the appeal decision?',
+		question: 'When was the appeal decision?',
+		fieldName: 'appealDecisionDate',
+		url: 'appeal-decision-date',
+		hint: `For example, ${getExampleDate('past')}`,
+		validators: [
+			new DateValidator('the decision date', {
+				ensurePast: true
+			})
+		]
+	},
 	uploadPriorCorrespondence: {
 		type: 'multi-file-upload',
 		title: 'Upload your communication with the Planning Inspectorate',

@@ -97,6 +97,34 @@ condition: () => questionHasAnswer(response, questions.submittedPlanningApplicat
 - text-entry `/enter-description-of-development/` Enter the description of development
 - boolean `/description-development-correct/` Did the local planning authority change the description of development?
 - radio `/granted-or-refused/` Was the application granted or refused?
+- date `/decision-date/` What is the date on the decision letter from the local planning authority?
+
+```js
+condition: () =>
+	questionHasAnswer(response, questions.grantedOrRefused, 'granted') ||
+	questionHasAnswer(response, questions.grantedOrRefused, 'refused');
+```
+
+- boolean `/did-anyone-appeal/` Did anyone appeal the decision?
+
+```js
+condition: () =>
+	questionHasAnswer(response, questions.grantedOrRefused, 'granted') ||
+	questionHasAnswer(response, questions.grantedOrRefused, 'refused');
+```
+
+- date `/appeal-decision-date/` When was the appeal decision?
+
+```js
+condition: () => questionHasAnswer(response, questions.applicationDecisionAppealed, 'yes');
+```
+
+- date `/decision-date-due/` What date was your decision due
+
+```js
+condition: () => questionHasAnswer(response, questions.grantedOrRefused, 'nodecisionreceived');
+```
+
 - radio `/decide-appeal/` How would you prefer us to decide your appeal?
 - text-entry `/why-prefer-hearing/` Why would you prefer a hearing?
 

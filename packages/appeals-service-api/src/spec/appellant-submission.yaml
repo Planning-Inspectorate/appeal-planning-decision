@@ -252,6 +252,11 @@ components:
           nullable: true
         applicationPartOrWholeDevelopment:
           type: string
+        applicationDecisionAppealed:
+          type: boolean
+        appealDecisionDate:
+          type: string
+          format: date-time
         uploadPriorCorrespondence:
           type: boolean
           nullable: true
