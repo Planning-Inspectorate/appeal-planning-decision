@@ -719,7 +719,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceEnforcementView, {
-				deadlineDate: { date: 3, day: 'Tuesday', month: 'May', year: 2022 },
+				deadlineDate: { date: 10, day: 'Tuesday', month: 'May', year: 2022 },
 				appealLPD: 'Bradford',
 				enforcementNotice: 'Yes',
 				enforcementNoticeListedBuilding: 'No',
