@@ -1012,8 +1012,8 @@ exports.getQuestionProps = (response) => ({
 	},
 	scopingOpinion: {
 		type: 'boolean',
-		title: 'Did you receive a scoping opinion?',
-		question: 'Did you receive a scoping opinion?',
+		title: 'Did you issue a scoping opinion?',
+		question: 'Did you issue a scoping opinion?',
 		fieldName: 'scopingOpinion',
 		url: 'scoping-opinion',
 		validators: [new RequiredValidator('Select yes if you have issued a scoping opinion')]
@@ -1212,7 +1212,7 @@ exports.getQuestionProps = (response) => ({
 		title: 'Did the applicant submit an environmental statement?',
 		question: 'Did the applicant submit an environmental statement?',
 		fieldName: 'applicantSubmittedEnvironmentalStatement',
-		url: 'environmental-statement',
+		url: 'environmental-submit-statement',
 		options: [
 			{
 				text: 'Yes',
@@ -3815,6 +3815,23 @@ exports.getQuestionProps = (response) => ({
 				'Select yes if the appellant submitted complete and accurate photographs and plans'
 			)
 		]
+	},
+	didYouDoTheEnvironmentalStatement: {
+		type: 'boolean',
+		title: 'Did you do the environmental statement?',
+		question: 'Did you do the environmental statement?',
+		fieldName: 'didYouDoTheEnvironmentalStatement',
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes'
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		],
+		url: 'environmental-statement'
 	}
 });
 

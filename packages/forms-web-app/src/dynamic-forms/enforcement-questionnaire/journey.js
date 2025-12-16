@@ -10,7 +10,6 @@ const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-
 const {
 	CASE_TYPES: { ENFORCEMENT }
 } = require('@pins/common/src/database/data-static');
-const config = require('../../config');
 const {
 	mapAppealTypeToDisplayText,
 	mapAppealTypeToDisplayTextWithAnOrA
@@ -81,98 +80,67 @@ const makeSections = (response) => {
 			.addQuestion(questions.enforcementDevelopmentRightsRemoved),
 
 		// enforcement specific questions to follow here
+
 		new Section('Environmental impact assessment', 'environmental-impact')
 			.addQuestion(questions.environmentalImpactSchedule)
-			.addQuestion(questions.developmentDescription)
+			.addQuestion(questions.didYouDoTheEnvironmentalStatement)
 			.withCondition(() =>
-				questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2')
+				questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1')
 			)
+			.addQuestion(questions.developmentDescription)
+			.withCondition(
+				() =>
+					questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2') ||
+					(questionHasAnswer(response, questions.didYouDoTheEnvironmentalStatement, 'yes') &&
+						questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1'))
+			)
+
 			.addQuestion(questions.sensitiveArea)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2')
+			.withCondition(
+				() =>
+					questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2') ||
+					(questionHasAnswer(response, questions.didYouDoTheEnvironmentalStatement, 'yes') &&
+						questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1'))
 			)
 			.addQuestion(questions.meetsColumnTwoThreshold)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2')
+			.withCondition(
+				() =>
+					questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2') ||
+					(questionHasAnswer(response, questions.didYouDoTheEnvironmentalStatement, 'yes') &&
+						questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1'))
 			)
+
 			.addQuestion(questions.screeningOpinion)
+			.withCondition(
+				() =>
+					questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2') ||
+					questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1') ||
+					questionHasAnswer(response, questions.environmentalImpactSchedule, 'no')
+			)
+			.addQuestion(questions.screeningOpinionUpload)
+			.withCondition(() => questionHasAnswer(response, questions.screeningOpinion, 'yes'))
+			.addQuestion(questions.screeningOpinionEnvironmentalStatement)
+			.withCondition(() => questionHasAnswer(response, questions.screeningOpinion, 'yes'))
+			.addQuestion(questions.submitEnvironmentalStatement)
 			.withCondition(() =>
 				questionsHaveAnswers(
 					response,
 					[
-						[questions.environmentalImpactSchedule, 'schedule-2'],
-						[questions.environmentalImpactSchedule, 'no']
+						[questions.screeningOpinion, 'no'],
+						[questions.screeningOpinionEnvironmentalStatement, 'no'],
+						[questions.screeningOpinionEnvironmentalStatement, 'yes']
 					],
 					{ logicalCombinator: 'or' }
 				)
 			)
-			.addQuestion(questions.screeningOpinionUpload)
-			.withCondition(
-				() =>
-					questionHasAnswer(response, questions.screeningOpinion, 'yes') &&
-					questionsHaveAnswers(
-						response,
-						[
-							[questions.environmentalImpactSchedule, 'schedule-2'],
-							[questions.environmentalImpactSchedule, 'no']
-						],
-						{ logicalCombinator: 'or' }
-					)
-			)
-			.addQuestion(questions.screeningOpinionEnvironmentalStatement)
-			.withCondition(
-				() =>
-					questionHasAnswer(response, questions.screeningOpinion, 'yes') &&
-					questionsHaveAnswers(
-						response,
-						[
-							[questions.environmentalImpactSchedule, 'schedule-2'],
-							[questions.environmentalImpactSchedule, 'no']
-						],
-						{ logicalCombinator: 'or' }
-					)
-			)
-			.addQuestion(questions.scopingOpinion)
-			.withCondition(
-				() =>
-					questionsHaveAnswers(
-						response,
-						[
-							[questions.screeningOpinion, 'yes'],
-							[questions.screeningOpinionEnvironmentalStatement, 'yes']
-						],
-						{ logicalCombinator: 'and' }
-					) && config.featureFlag.scopingOpinionEnabled
-			)
-			.addQuestion(questions.scopingOpinionUpload)
-			.withCondition(
-				() =>
-					questionsHaveAnswers(
-						response,
-						[
-							[questions.scopingOpinion, 'yes'],
-							[questions.screeningOpinion, 'yes'],
-							[questions.screeningOpinionEnvironmentalStatement, 'yes']
-						],
-						{ logicalCombinator: 'and' }
-					) && config.featureFlag.scopingOpinionEnabled
-			)
-			.addQuestion(questions.submitEnvironmentalStatement)
+
 			.addQuestion(questions.uploadEnvironmentalStatement)
 			.withCondition(() =>
 				questionHasAnswer(response, questions.submitEnvironmentalStatement, 'yes')
 			)
 			.addQuestion(questions.uploadScreeningDirection)
 			.withCondition(() =>
-				questionsHaveAnswers(
-					response,
-					[
-						[questions.submitEnvironmentalStatement, 'no'],
-						[questions.environmentalImpactSchedule, 'schedule-2'],
-						[questions.screeningOpinion, 'yes']
-					],
-					{ logicalCombinator: 'and' }
-				)
+				questionHasAnswer(response, questions.submitEnvironmentalStatement, 'no')
 			),
 		// new section with enforcement specific questions
 		// new Section('Notifying relevant parties', 'notified'),

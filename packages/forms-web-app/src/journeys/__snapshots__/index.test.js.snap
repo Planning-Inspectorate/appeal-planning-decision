@@ -22699,6 +22699,52 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="didYouDoTheEnvironmentalStatement-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Did you do the environmental statement?</h1>
+                        </legend>
+                        <div id="didYouDoTheEnvironmentalStatement-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="didYouDoTheEnvironmentalStatement"
+                                name="didYouDoTheEnvironmentalStatement" type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="didYouDoTheEnvironmentalStatement">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="didYouDoTheEnvironmentalStatement-2"
+                                name="didYouDoTheEnvironmentalStatement" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="didYouDoTheEnvironmentalStatement-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the environmental-submit-statement question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Environmental impact assessment</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                         <h1 class="govuk-fieldset__heading"> Did the applicant submit an environmental statement?</h1>
@@ -24058,52 +24104,6 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the scoping-opinion question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Environmental impact assessment</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="" method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="scopingOpinion-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Did you receive a scoping opinion?</h1>
-                        </legend>
-                        <div id="scopingOpinion-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="scopingOpinion" name="scopingOpinion"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="scopingOpinion">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="scopingOpinion-2" name="scopingOpinion"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="scopingOpinion-2">No</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the screening-opinion question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -25319,51 +25319,6 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-scoping-opinion question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Environmental impact assessment</span>
-            <h1
-            class="govuk-heading-l">Upload your scoping opinion</h1>
-                <form action="" method="post" novalidate=null
-                enctype="multipart/form-data">
-                    <div class="moj-multi-file-upload">
-                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
-                            </div>
-                        </div>
-                        <div class="moj-multi-file-upload__upload">
-                            <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="uploadScopingOpinion">Upload files</label>
-                                <div id="uploadScopingOpinion-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                    than 1GB</div>
-                                <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="uploadScopingOpinion" name="uploadScopingOpinion" type="file" aria-describedby="uploadScopingOpinion-hint"
-                                multiple="">
-                            </div>
-                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
-                        </div>
-                    </div>
-                    <div class="govuk-button-group">
-                        <button type="submit" class="govuk-button" data-module="govuk-button"
-                        data-cy="button-save-and-continue">Continue</button>
-                    </div>
-                </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-screening-direction question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -25742,12 +25697,6 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/environmental-impact/schedule-1-or-2">Answer<span class="govuk-visually-hidden"> What is the development category?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did the applicant submit an environmental statement?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/environmental-impact/environmental-statement">Answer<span class="govuk-visually-hidden"> Did the applicant submit an environmental statement?</span></a>
                                 </dd>
                         </div>
                     </dl>
@@ -28357,7 +28306,7 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the eme
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Planning Planning should render the environmental-statement question 1`] = `
+exports[`Dynamic forms journey tests lpa Planning Planning should render the environmental-submit-statement question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -29530,7 +29479,7 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the sco
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="scopingOpinion-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Did you receive a scoping opinion?</h1>
+                            <h1 class="govuk-fieldset__heading"> Did you issue a scoping opinion?</h1>
                         </legend>
                         <div id="scopingOpinion-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -31572,7 +31521,7 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Planning listed building and conservation area Planning listed building and conservation area should render the environmental-statement question 1`] = `
+exports[`Dynamic forms journey tests lpa Planning listed building and conservation area Planning listed building and conservation area should render the environmental-submit-statement question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -32838,7 +32787,7 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="scopingOpinion-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Did you receive a scoping opinion?</h1>
+                            <h1 class="govuk-fieldset__heading"> Did you issue a scoping opinion?</h1>
                         </legend>
                         <div id="scopingOpinion-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -34203,7 +34152,7 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did the applicant submit an environmental statement?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/environmental-impact/environmental-statement">Answer<span class="govuk-visually-hidden"> Did the applicant submit an environmental statement?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/environmental-impact/environmental-submit-statement">Answer<span class="govuk-visually-hidden"> Did the applicant submit an environmental statement?</span></a>
                                 </dd>
                         </div>
                     </dl>
@@ -34513,7 +34462,7 @@ exports[`Dynamic forms journey tests lpa Planning renders listing page 1`] = `
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did the applicant submit an environmental statement?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/environmental-impact/environmental-statement">Answer<span class="govuk-visually-hidden"> Did the applicant submit an environmental statement?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/environmental-impact/environmental-submit-statement">Answer<span class="govuk-visually-hidden"> Did the applicant submit an environmental statement?</span></a>
                                 </dd>
                         </div>
                     </dl>
