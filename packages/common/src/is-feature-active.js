@@ -1,9 +1,28 @@
 /**
+ * @param {string} featureFlagName
+ */
+function isLocalOverride(featureFlagName) {
+	const localFeatureFlagPrefix = 'LOCAL_FEATURE_FLAG_';
+
+	// If not a LOCAL_FEATURE_FLAG then use ALL_ON setting
+	if (
+		process.env.FEATURE_FLAGS_SETTING === 'ALL_ON' &&
+		!featureFlagName.startsWith(localFeatureFlagPrefix)
+	) {
+		return true;
+	}
+
+	// Check for local feature flag overrides
+	const envVarName = `LOCAL_FEATURE_FLAG_${featureFlagName.toUpperCase().replace(/-/g, '_')}`;
+	return process.env[envVarName] === 'true';
+}
+
+/**
  * @param {{ endpoint?: string, timeToLiveInMinutes: string | number }} [options]
  * @returns {(featureFlagName: string, localPlanningAuthorityCode?: string) => Promise<boolean>}
  */
 exports.isFeatureActive = (options) => async (featureFlagName, localPlanningAuthorityCode) => {
-	if (process.env.FEATURE_FLAGS_SETTING == 'ALL_ON') {
+	if (isLocalOverride(featureFlagName)) {
 		return true;
 	}
 
