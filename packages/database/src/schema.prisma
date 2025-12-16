@@ -964,6 +964,7 @@ model LPAQuestionnaireSubmission {
   isSiteInAreaOfSpecialControlAdverts             Boolean?
   wasApplicationRefusedDueToHighwayOrTraffic      Boolean?
   didAppellantSubmitCompletePhotosAndPlans        Boolean?
+	didYouDoTheEnvironmentalStatement								Boolean?
 
   // New enforcement fieldnames
   listOfPeopleSentEnforcementNotice      Boolean?

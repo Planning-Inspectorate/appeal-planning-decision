@@ -430,4 +430,87 @@ describe('Enforcement Journey', () => {
 			});
 		}
 	});
+
+	it('should include the "Environmental impact assessment" section and verify its structure and content', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+		const sectionTitle = 'Environmental impact assessment';
+		const sectionName = 'environmental-impact';
+		const constraintsSection = journey.sections.find((s) => s.name === sectionTitle);
+
+		const expectedQuestions = [
+			{
+				fieldName: 'environmentalImpactSchedule',
+				question: `What is the development category?`,
+				urlSegment: 'schedule-1-or-2'
+			},
+			{
+				fieldName: 'didYouDoTheEnvironmentalStatement',
+				question: `Did you do the environmental statement?`,
+				urlSegment: 'environmental-statement'
+			},
+			{
+				fieldName: 'developmentDescription',
+				question: `Description of development`,
+				urlSegment: 'development-description'
+			},
+			{
+				fieldName: 'sensitiveArea',
+				question: `Is the development in, partly in, or likely to affect a sensitive area?`,
+				urlSegment: 'sensitive-area'
+			},
+			{
+				fieldName: 'columnTwoThreshold',
+				question: `Does the development meet or exceed the threshold or criteria in column 2?`,
+				urlSegment: 'column-2-threshold'
+			},
+			{
+				fieldName: 'screeningOpinion',
+				question: `Have you issued a screening opinion?`,
+				urlSegment: 'screening-opinion'
+			},
+			{
+				fieldName: 'uploadScreeningOpinion',
+				question: `Upload your screening opinion and any correspondence`,
+				urlSegment: 'upload-screening-opinion'
+			},
+			{
+				fieldName: 'environmentalStatement',
+				question: `Did your screening opinion say the development needed an environmental statement?`,
+				urlSegment: 'screening-opinion-environmental-statement'
+			},
+			{
+				fieldName: 'applicantSubmittedEnvironmentalStatement',
+				question: `Did the applicant submit an environmental statement?`,
+				urlSegment: 'environmental-submit-statement'
+			},
+			{
+				fieldName: 'uploadEnvironmentalStatement',
+				question: `Upload the environmental statement and supporting information`,
+				urlSegment: 'upload-environmental-statement'
+			},
+			{
+				fieldName: 'uploadScreeningDirection',
+				question: 'Upload the screening direction',
+				urlSegment: 'upload-screening-direction'
+			}
+		];
+
+		expect(constraintsSection).toBeDefined();
+
+		if (constraintsSection) {
+			const questions = constraintsSection.questions;
+
+			expect(constraintsSection.name).toBe(sectionTitle);
+			expect(constraintsSection.segment).toBe(sectionName);
+
+			expectedQuestions.forEach((expected, index) => {
+				const actual = questions[index];
+
+				expect(actual).toBeDefined();
+				expect(actual.fieldName).toBe(expected.fieldName);
+				expect(actual.url).toBe(expected.urlSegment);
+				expect(actual.question).toBe(expected.question);
+			});
+		}
+	});
 });
