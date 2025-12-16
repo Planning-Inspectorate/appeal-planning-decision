@@ -185,9 +185,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.developmentPlanPolicies)
 			.addQuestion(questions.uploadDevelopmentPlanPolicies)
 			.withCondition(() => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes'))
-			.addQuestion(questions.emergingPlan)
-			.addQuestion(questions.emergingPlanUpload)
-			.withCondition(() => questionHasAnswer(response, questions.emergingPlan, 'yes'))
 			.addQuestion(questions.otherRelevantPolicies)
 			.addQuestion(questions.uploadOtherRelevantPolicies)
 			.withCondition(() => questionHasAnswer(response, questions.otherRelevantPolicies, 'yes'))
@@ -216,7 +213,29 @@ const makeSections = (response) => {
 					[questions.communityInfrastructureLevy, 'yes'],
 					[questions.communityInfrastructureLevyAdopted, 'no']
 				])
+			)
+			// New Enforcement Questions
+			.addQuestion(questions.localDevelopmentOrder)
+			.addQuestion(questions.localDevelopmentOrderUpload)
+			.withCondition(() => questionHasAnswer(response, questions.localDevelopmentOrder, 'yes'))
+			.addQuestion(questions.previousPlanningPermission)
+			.addQuestion(questions.previousPlanningPermissionUpload)
+			.withCondition(() => questionHasAnswer(response, questions.previousPlanningPermission, 'yes'))
+			.addQuestion(questions.enforcementNoticeDateApplication)
+			.addQuestion(questions.enforcementNoticeDateApplicationUpload)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes')
+			)
+			.addQuestion(questions.enforcementNoticePlanUpload)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes')
+			)
+			.addQuestion(questions.planningContraventionNotice)
+			.addQuestion(questions.planningContraventionNoticeUpload)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.planningContraventionNotice, 'yes')
 			),
+
 		new Section('Site access', 'site-access')
 			.addQuestion(questions.accessForInspection)
 			.addQuestion(questions.neighbouringSite)

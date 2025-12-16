@@ -17641,7 +17641,7 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/other-relevant-policies">Answer<span class="govuk-visually-hidden"> Do you have any other relevant policies to upload?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Supplementary planning documents</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did any supplementary planning documents inform the outcome of the planning application?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/supplementary-planning-documents">Answer<span class="govuk-visually-hidden"> Did any supplementary planning documents inform the outcome of the planning application?</span></a>
@@ -20029,7 +20029,7 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement renders listin
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/other-relevant-policies">Answer<span class="govuk-visually-hidden"> Do you have any other relevant policies to upload?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Supplementary planning documents</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did any supplementary planning documents inform the outcome of the planning application?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/supplementary-planning-documents">Answer<span class="govuk-visually-hidden"> Did any supplementary planning documents inform the outcome of the planning application?</span></a>
@@ -21649,7 +21649,7 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) renders listi
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/emerging-plan">Answer<span class="govuk-visually-hidden"> Do you have an emerging plan that is relevant to this appeal?</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Supplementary planning documents</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did any supplementary planning documents inform the outcome of the planning application?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/supplementary-planning-documents">Answer<span class="govuk-visually-hidden"> Did any supplementary planning documents inform the outcome of the planning application?</span></a>
@@ -22641,7 +22641,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the emerging-plan question 1`] = `
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the enforcement-notice-date-application question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -22654,29 +22654,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="emergingPlan-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementNoticeDateApplication-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Do you have an emerging plan that is relevant to this appeal?</h1>
+                            <h1 class="govuk-fieldset__heading"> Was there an enforcement notice in force at the date of the application?</h1>
                         </legend>
-                        <div id="emergingPlan-hint" class="govuk-hint">
-                            <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-0">Tell us if:</p>
-                            <ul class="govuk-list govuk-list--bullet">
-                                <li>you have a development plan that has been submitted for examination</li>
-                                <li>a development plan that has been examined and found to be sound or met
-                                    its basic conditions</li>
-                                <li>you have a neighbourhood plan that is awaiting, or has passed a referendum</li>
-                            </ul>
-                        </div>
+                        <div id="enforcementNoticeDateApplication-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="emergingPlan" name="emergingPlan"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="emergingPlan">Yes</label>
+                                <input class="govuk-radios__input" id="enforcementNoticeDateApplication"
+                                name="enforcementNoticeDateApplication" type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="enforcementNoticeDateApplication">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="emergingPlan-2" name="emergingPlan"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="emergingPlan-2">No</label>
+                                <input class="govuk-radios__input" id="enforcementNoticeDateApplication-2"
+                                name="enforcementNoticeDateApplication" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementNoticeDateApplication-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -23052,6 +23044,52 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         </div>
                     </div>
                 </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the local-development-order question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer’s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="localDevelopmentOrder-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Do you have a local development order?</h1>
+                        </legend>
+                        <div id="localDevelopmentOrder-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="localDevelopmentOrder" name="localDevelopmentOrder"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="localDevelopmentOrder">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="localDevelopmentOrder-2" name="localDevelopmentOrder"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="localDevelopmentOrder-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
             </form>
@@ -23486,6 +23524,52 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the planning-contravention-notice question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer’s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="planningContraventionNotice-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Did you serve a planning contravention notice?</h1>
+                        </legend>
+                        <div id="planningContraventionNotice-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="planningContraventionNotice" name="planningContraventionNotice"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="planningContraventionNotice">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="planningContraventionNotice-2"
+                                name="planningContraventionNotice" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="planningContraventionNotice-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the potential-safety-risks question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -23545,6 +23629,52 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         data-cy="button-save-and-continue">Continue</button>
         </form>
     </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the previous-planning-permission question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer’s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="previousPlanningPermission-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Did you previously grant any planning permission for this development?</h1>
+                        </legend>
+                        <div id="previousPlanningPermission-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="previousPlanningPermission" name="previousPlanningPermission"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="previousPlanningPermission">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="previousPlanningPermission-2" name="previousPlanningPermission"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="previousPlanningPermission-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -24681,78 +24811,6 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-emerging-plan question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer’s report and supporting documents</span>
-            <h1
-            class="govuk-heading-l">Upload the emerging plan and supporting information</h1>
-                <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-0">For each relevant plan, you must upload:</p>
-                <ul class="govuk-list govuk-list--bullet">
-                    <li>the front cover of the document</li>
-                    <li>the relevant sections or policies and their supporting text</li>
-                    <li>a summary of the plan's status and relevance to this appeal</li>
-                </ul>
-                <details class="govuk-details" data-module="govuk-details">
-                    <summary class="govuk-details__summary"><span class="govuk-details__summary-text"> What you must include in the summary </span>
-                    </summary>
-                    <div class="govuk-details__text">
-                        <p class="govuk-!-margin-bottom-2">For plans that have been found sound or have met their basic conditions,
-                            or have passed a referendum, you must include:</p>
-                        <ul class="govuk-list govuk-list--bullet">
-                            <li>the date you are likely to adopt the plan</li>
-                            <li>your policy position on the proposed development if you adopt the plan
-                                before we decide this appeal</li>
-                            <li>the status of existing policies and plans once you adopt the new plan,
-                                and if any will be superseded</li>
-                        </ul>
-                        <p class="govuk-!-margin-bottom-2">For plans that have been submitted for examination, or are awaiting a
-                            referendum, you must include:</p>
-                        <ul class="govuk-list govuk-list--bullet">
-                            <li>any substantive changes in the emerging plan</li>
-                            <li>how the changes are relevant to this appeal, if you are not likely to
-                                adopt the plan before we decide this appeal</li>
-                        </ul>
-                    </div>
-                </details>
-                <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                    <div class="moj-multi-file-upload">
-                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
-                            </div>
-                        </div>
-                        <div class="moj-multi-file-upload__upload">
-                            <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="uploadEmergingPlan">Upload files</label>
-                                <div id="uploadEmergingPlan-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                    than 1GB</div>
-                                <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="uploadEmergingPlan" name="uploadEmergingPlan" type="file" aria-describedby="uploadEmergingPlan-hint"
-                                multiple="">
-                            </div>
-                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
-                        </div>
-                    </div>
-                    <div class="govuk-button-group">
-                        <button type="submit" class="govuk-button" data-module="govuk-button"
-                        data-cy="button-save-and-continue">Continue</button>
-                    </div>
-                </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-enforcement-list question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -24785,6 +24843,98 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                     data-cy="button-save-and-continue">Continue</button>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-enforcement-notice question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer’s report and supporting documents</span>
+            <h1
+            class="govuk-heading-l">Upload the enforcement notice</h1>
+                <form action="" method="post" novalidate=null
+                enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="enforcementNoticeDateApplicationUpload">Upload files</label>
+                                <div id="enforcementNoticeDateApplicationUpload-hint"
+                                class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="enforcementNoticeDateApplicationUpload" name="enforcementNoticeDateApplicationUpload"
+                                type="file" aria-describedby="enforcementNoticeDateApplicationUpload-hint"
+                                multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-enforcement-notice-plan question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer’s report and supporting documents</span>
+            <h1
+            class="govuk-heading-l">Upload the enforcement notice plan</h1>
+                <form action="" method="post" novalidate=null
+                enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="enforcementNoticePlanUpload">Upload files</label>
+                                <div id="enforcementNoticePlanUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="enforcementNoticePlanUpload" name="enforcementNoticePlanUpload" type="file"
+                                aria-describedby="enforcementNoticePlanUpload-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -24830,6 +24980,51 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         data-cy="button-save-and-continue">Continue</button>
                     </div>
                     </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-local-development-order question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer’s report and supporting documents</span>
+            <h1
+            class="govuk-heading-l">Upload the local development order</h1>
+                <form action="" method="post" novalidate=null
+                enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="localDevelopmentOrderUpload">Upload files</label>
+                                <div id="localDevelopmentOrderUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="localDevelopmentOrderUpload" name="localDevelopmentOrderUpload" type="file"
+                                aria-describedby="localDevelopmentOrderUpload-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -24931,6 +25126,51 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-planning-contravention-notice question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer’s report and supporting documents</span>
+            <h1
+            class="govuk-heading-l">Upload the planning contravention notice</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="planningContraventionNoticeUpload">Upload files</label>
+                                <div id="planningContraventionNoticeUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="planningContraventionNoticeUpload" name="planningContraventionNoticeUpload"
+                                type="file" aria-describedby="planningContraventionNoticeUpload-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-planning-officers-report-decision-notice question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -24978,6 +25218,51 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
             <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/other-development-plan-policies"
                 class="govuk-link">Skip</a>
             </p>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the upload-planning-permission question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer’s report and supporting documents</span>
+            <h1
+            class="govuk-heading-l">Upload planning permission and any other relevant documents</h1>
+                <form
+                action="" method="post" novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="previousPlanningPermissionUpload">Upload files</label>
+                                <div id="previousPlanningPermissionUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="previousPlanningPermissionUpload" name="previousPlanningPermissionUpload"
+                                type="file" aria-describedby="previousPlanningPermissionUpload-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -25503,27 +25788,46 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/other-development-plan-policies">Answer<span class="govuk-visually-hidden"> Do you have any relevant policies from your statutory development plan?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Emerging plans</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/emerging-plan">Answer<span class="govuk-visually-hidden"> Do you have an emerging plan that is relevant to this appeal?</span></a>
-                            </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have any other relevant policies?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/other-relevant-policies">Answer<span class="govuk-visually-hidden"> Do you have any other relevant policies to upload?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Supplementary planning documents</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did any supplementary planning documents inform the outcome of the planning application?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/supplementary-planning-documents">Answer<span class="govuk-visually-hidden"> Did any supplementary planning documents inform the outcome of the planning application?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Community infrastructure levy</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have a community infrastructure levy?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/community-infrastructure-levy">Answer<span class="govuk-visually-hidden"> Do you have a community infrastructure levy?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have a local development order?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/local-development-order">Answer<span class="govuk-visually-hidden"> Do you have a local development order?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you previously grant any planning permission for this development?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/previous-planning-permission">Answer<span class="govuk-visually-hidden"> Did you previously grant any planning permission for this development?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Was there an enforcement notice in force at the date of the application?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/enforcement-notice-date-application">Answer<span class="govuk-visually-hidden"> Was there an enforcement notice in force at the date of the application?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you serve a planning contravention notice?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/planning-contravention-notice">Answer<span class="govuk-visually-hidden"> Did you serve a planning contravention notice?</span></a>
                                 </dd>
                         </div>
                     </dl>
@@ -27191,7 +27495,7 @@ exports[`Dynamic forms journey tests lpa Householder renders listing page 1`] = 
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/emerging-plan">Answer<span class="govuk-visually-hidden"> Do you have an emerging plan that is relevant to this appeal?</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Supplementary planning documents</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did any supplementary planning documents inform the outcome of the planning application?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/supplementary-planning-documents">Answer<span class="govuk-visually-hidden"> Did any supplementary planning documents inform the outcome of the planning application?</span></a>
@@ -33979,13 +34283,13 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/other-relevant-policies">Answer<span class="govuk-visually-hidden"> Do you have any other relevant policies to upload?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Supplementary planning documents</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did any supplementary planning documents inform the outcome of the planning application?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/supplementary-planning-documents">Answer<span class="govuk-visually-hidden"> Did any supplementary planning documents inform the outcome of the planning application?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Community infrastructure levy</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have a community infrastructure levy?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/community-infrastructure-levy">Answer<span class="govuk-visually-hidden"> Do you have a community infrastructure levy?</span></a>
@@ -34289,13 +34593,13 @@ exports[`Dynamic forms journey tests lpa Planning renders listing page 1`] = `
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/other-relevant-policies">Answer<span class="govuk-visually-hidden"> Do you have any other relevant policies to upload?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Supplementary planning documents</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did any supplementary planning documents inform the outcome of the planning application?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/supplementary-planning-documents">Answer<span class="govuk-visually-hidden"> Did any supplementary planning documents inform the outcome of the planning application?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Community infrastructure levy</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have a community infrastructure levy?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/community-infrastructure-levy">Answer<span class="govuk-visually-hidden"> Do you have a community infrastructure levy?</span></a>

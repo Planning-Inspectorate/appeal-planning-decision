@@ -203,13 +203,6 @@ condition: () =>
 condition: () => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes');
 ```
 
-- boolean `/emerging-plan/` Do you have an emerging plan that is relevant to this appeal?
-- multi-file-upload `/upload-emerging-plan/` Upload the emerging plan and supporting information
-
-```js
-condition: () => questionHasAnswer(response, questions.emergingPlan, 'yes');
-```
-
 - boolean `/other-relevant-policies/` Do you have any other relevant policies to upload?
 - multi-file-upload `/upload-other-relevant-policies/` Upload any other relevant policies
 
@@ -255,6 +248,40 @@ condition: () =>
 		[questions.communityInfrastructureLevy, 'yes'],
 		[questions.communityInfrastructureLevyAdopted, 'no']
 	]);
+```
+
+- boolean `/local-development-order/` Do you have a local development order?
+- multi-file-upload `/upload-local-development-order/` Upload the local development order
+
+```js
+condition: () => questionHasAnswer(response, questions.localDevelopmentOrder, 'yes');
+```
+
+- boolean `/previous-planning-permission/` Did you previously grant any planning permission for this development?
+- multi-file-upload `/upload-planning-permission/` Upload planning permission and any other relevant documents
+
+```js
+condition: () => questionHasAnswer(response, questions.previousPlanningPermission, 'yes');
+```
+
+- boolean `/enforcement-notice-date-application/` Was there an enforcement notice in force at the date of the application?
+- multi-file-upload `/upload-enforcement-notice/` Upload the enforcement notice
+
+```js
+condition: () => questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes');
+```
+
+- multi-file-upload `/upload-enforcement-notice-plan/` Upload the enforcement notice plan
+
+```js
+condition: () => questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes');
+```
+
+- boolean `/planning-contravention-notice/` Did you serve a planning contravention notice?
+- multi-file-upload `/upload-planning-contravention-notice/` Upload the planning contravention notice
+
+```js
+condition: () => questionHasAnswer(response, questions.planningContraventionNotice, 'yes');
 ```
 
 ## Site access

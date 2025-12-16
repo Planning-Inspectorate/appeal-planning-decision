@@ -291,4 +291,143 @@ describe('Enforcement Journey', () => {
 			expect(question2.url).toContain('appeal-notification-letter');
 		}
 	});
+
+	it('should include the "Planning officer’s report and supporting documents" section and verify its structure and content', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+
+		const sectionTitle = 'Planning officer’s report and supporting documents';
+		const sectionName = 'planning-officer-report';
+		const planningOfficerSection = journey.sections.find((s) => s.name === sectionTitle);
+
+		const expectedQuestions = [
+			// Existing Questions
+			{
+				fieldName: 'uploadPlanningOfficerReport',
+				question:
+					'Upload the planning officer’s report or what your decision notice would have said',
+				urlSegment: 'upload-planning-officers-report-decision-notice'
+			},
+			{
+				fieldName: 'developmentPlanPolicies',
+				question: 'Do you have any relevant policies from your statutory development plan?',
+				urlSegment: 'other-development-plan-policies'
+			},
+			{
+				fieldName: 'uploadDevelopmentPlanPolicies',
+				question: 'Upload relevant policies from your statutory development plan',
+				urlSegment: 'upload-development-plan-policies'
+			},
+			{
+				fieldName: 'otherRelevantPolicies',
+				question: 'Do you have any other relevant policies to upload?',
+				urlSegment: 'other-relevant-policies'
+			},
+			{
+				fieldName: 'uploadOtherPolicies',
+				question: 'Upload any other relevant policies',
+				urlSegment: 'upload-other-relevant-policies'
+			},
+			{
+				fieldName: 'supplementaryPlanningDocs',
+				question:
+					'Did any supplementary planning documents inform the outcome of the planning application?',
+				urlSegment: 'supplementary-planning-documents'
+			},
+			{
+				fieldName: 'uploadSupplementaryPlanningDocs',
+				question: 'Upload relevant policy extracts and supplementary planning documents',
+				urlSegment: 'upload-policies-supplementary-planning-documents'
+			},
+			{
+				fieldName: 'infrastructureLevy',
+				question: 'Do you have a community infrastructure levy?',
+				urlSegment: 'community-infrastructure-levy'
+			},
+			{
+				fieldName: 'uploadInfrastructureLevy',
+				question: 'Upload your community infrastructure levy',
+				urlSegment: 'upload-community-infrastructure-levy'
+			},
+			{
+				fieldName: 'infrastructureLevyAdopted',
+				question: 'Is the community infrastructure levy formally adopted?',
+				urlSegment: 'community-infrastructure-levy-adopted'
+			},
+			{
+				fieldName: 'infrastructureLevyAdoptedDate',
+				question: 'When was the community infrastructure levy formally adopted?',
+				urlSegment: 'infrastructureLevyAdoptedDate'
+			},
+			{
+				fieldName: 'infrastructureLevyExpectedDate',
+				question: 'When do you expect to formally adopt the community infrastructure levy?',
+				urlSegment: 'infrastructureLevyExpectedDate'
+			},
+
+			// New Enforcement Questions
+			{
+				fieldName: 'localDevelopmentOrder',
+				question: 'Do you have a local development order?',
+				urlSegment: 'local-development-order'
+			},
+			{
+				fieldName: 'localDevelopmentOrderUpload',
+				question: 'Upload the local development order',
+				urlSegment: 'upload-local-development-order'
+			},
+			{
+				fieldName: 'previousPlanningPermission',
+				question: 'Did you previously grant any planning permission for this development?',
+				urlSegment: 'previous-planning-permission'
+			},
+			{
+				fieldName: 'previousPlanningPermissionUpload',
+				question: 'Upload planning permission and any other relevant documents',
+				urlSegment: 'upload-planning-permission'
+			},
+			{
+				fieldName: 'enforcementNoticeDateApplication',
+				question: 'Was there an enforcement notice in force at the date of the application?',
+				urlSegment: 'enforcement-notice-date-application'
+			},
+			{
+				fieldName: 'enforcementNoticeDateApplicationUpload',
+				question: 'Upload the enforcement notice',
+				urlSegment: 'upload-enforcement-notice'
+			},
+			{
+				fieldName: 'enforcementNoticePlanUpload',
+				question: 'Upload the enforcement notice plan',
+				urlSegment: 'upload-enforcement-notice-plan'
+			},
+			{
+				fieldName: 'planningContraventionNotice',
+				question: 'Did you serve a planning contravention notice?',
+				urlSegment: 'planning-contravention-notice'
+			},
+			{
+				fieldName: 'planningContraventionNoticeUpload',
+				question: 'Upload the planning contravention notice',
+				urlSegment: 'upload-planning-contravention-notice'
+			}
+		];
+
+		expect(planningOfficerSection).toBeDefined();
+
+		if (planningOfficerSection) {
+			const questions = planningOfficerSection.questions;
+
+			expect(planningOfficerSection.name).toBe(sectionTitle);
+			expect(planningOfficerSection.segment).toBe(sectionName);
+
+			expectedQuestions.forEach((expected, index) => {
+				const actual = questions[index];
+
+				expect(actual).toBeDefined();
+				expect(actual.fieldName).toBe(expected.fieldName);
+				expect(actual.url).toBe(expected.urlSegment);
+				expect(actual.question).toBe(expected.question);
+			});
+		}
+	});
 });

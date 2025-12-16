@@ -302,3 +302,34 @@ components:
         enforcementDevelopmentRightsRemoved:
           type: string
           nullable: true
+        localDevelopmentOrder:
+          type: boolean
+          nullable: true
+        localDevelopmentOrderUpload:
+          type: boolean
+          nullable: true
+        previousPlanningPermission:
+          type: boolean
+          nullable: true
+        previousPlanningPermissionUpload:
+          type: boolean
+          nullable: true
+        enforcementNoticeDateApplication:
+          type: boolean
+          nullable: true
+        enforcementNoticeDateApplicationUpload:
+          type: boolean
+          nullable: true
+        enforcementNoticePlanUpload:
+          type: boolean
+          nullable: true
+        planningContraventionNotice:
+          type: boolean
+          nullable: true
+        planningContraventionNoticeUpload:
+          type: boolean
+          nullable: true
+
+
+
+
