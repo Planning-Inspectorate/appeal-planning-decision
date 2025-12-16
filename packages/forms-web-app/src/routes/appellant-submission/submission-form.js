@@ -50,7 +50,8 @@ const appellantSubmissionTaskList = async (req, res) => {
 	const deadline = getDeadlineV2(
 		appealType,
 		journey.response.answers.enforcementEffectiveDate,
-		journey.response.answers.applicationDecisionDate
+		journey.response.answers.applicationDecisionDate,
+		!!journey.response.answers.hasContactedPlanningInspectorate
 	);
 
 	// @ts-ignore //
