@@ -921,6 +921,61 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '',
 		horizonDocumentGroupType: ''
+	},
+	localDevelopmentOrderUpload: {
+		name: 'localDevelopmentOrderUpload',
+		dataModelName: 'localDevelopmentOrder',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	previousPlanningPermissionUpload: {
+		name: 'previousPlanningPermissionUpload',
+		dataModelName: 'planningPermission',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	enforcementNoticeDateApplicationUpload: {
+		name: 'enforcementNoticeDateApplicationUpload',
+		dataModelName: 'lpaEnforcementNoticeDateApplication',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	enforcementNoticePlanUpload: {
+		name: 'enforcementNoticePlanUpload',
+		dataModelName: 'lpaEnforcementNoticePlanUpload',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	planningContraventionNoticeUpload: {
+		name: 'planningContraventionNoticeUpload',
+		dataModelName: 'planningContraventionNotice',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
 	}
 };
 

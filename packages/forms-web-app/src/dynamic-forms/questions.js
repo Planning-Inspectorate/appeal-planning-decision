@@ -673,7 +673,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	uploadDevelopmentPlanPolicies: {
 		type: 'multi-file-upload',
-		title: 'Policies from statutory development plan',
+		title: 'Upload relevant policies from statutory development plan',
 		question: 'Upload relevant policies from your statutory development plan',
 		fieldName: 'uploadDevelopmentPlanPolicies',
 		url: 'upload-development-plan-policies',
@@ -710,7 +710,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	communityInfrastructureLevy: {
 		type: 'boolean',
-		title: 'Community infrastructure levy',
+		title: 'Do you have a community infrastructure levy?',
 		question: 'Do you have a community infrastructure levy?',
 		fieldName: 'infrastructureLevy',
 		url: 'community-infrastructure-levy',
@@ -745,6 +745,7 @@ exports.getQuestionProps = (response) => ({
 		title: 'Date community infrastructure levy adopted',
 		question: 'When was the community infrastructure levy formally adopted?',
 		fieldName: 'infrastructureLevyAdoptedDate',
+		url: 'infrastructureLevyAdoptedDate',
 		hint: `For example, ${getExampleDate('past')}`,
 		validators: [
 			new DateValidator('the date the infrastructure levy was formally adopted', {
@@ -757,6 +758,7 @@ exports.getQuestionProps = (response) => ({
 		title: 'Date community infrastructure levy expected to be adopted',
 		question: 'When do you expect to formally adopt the community infrastructure levy?',
 		fieldName: 'infrastructureLevyExpectedDate',
+		url: 'infrastructureLevyExpectedDate',
 		hint: `For example, ${getExampleDate('future')}`,
 		validators: [
 			new DateValidator('the date you expect to formally adopt the community infrastructure levy', {
@@ -819,7 +821,8 @@ exports.getQuestionProps = (response) => ({
 	},
 	supplementaryPlanning: {
 		type: 'boolean',
-		title: 'Supplementary planning documents',
+		title:
+			'Did any supplementary planning documents inform the outcome of the planning application?',
 		question:
 			'Did any supplementary planning documents inform the outcome of the planning application?',
 		fieldName: 'supplementaryPlanningDocs',
@@ -2780,7 +2783,6 @@ exports.getQuestionProps = (response) => ({
 			}
 		]
 	},
-
 	//enforcement questions
 	//  Constraints, designations and other issues
 	enforcementAppealTypeAppropriate: {
@@ -3577,6 +3579,122 @@ exports.getQuestionProps = (response) => ({
 		],
 		documentType: documentTypes.appealNotification,
 		actionHiddenText: 'the appeal notification letter and the list of people that you notified'
+	},
+
+	// Enforcement Specific questions (section 4) - Planning officer's report and supplementary documents
+	localDevelopmentOrder: {
+		type: 'boolean',
+		title: 'Do you have a local development order?',
+		question: 'Do you have a local development order?',
+		fieldName: 'localDevelopmentOrder',
+		url: 'local-development-order',
+		validators: [new RequiredValidator('Select yes if you have a local development order')]
+	},
+	localDevelopmentOrderUpload: {
+		type: 'multi-file-upload',
+		title: 'Local development order',
+		question: 'Upload the local development order',
+		fieldName: 'localDevelopmentOrderUpload',
+		url: 'upload-local-development-order',
+
+		validators: [
+			new RequiredFileUploadValidator('Select the relevant local development order documents'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.localDevelopmentOrderUpload,
+		actionHiddenText: 'relevant local development order documents'
+	},
+	previousPlanningPermission: {
+		type: 'boolean',
+		title: 'Did you previously grant any planning permission for this development?',
+		question: 'Did you previously grant any planning permission for this development?',
+		fieldName: 'previousPlanningPermission',
+		url: 'previous-planning-permission',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have you previously granted any planning permissions for this development'
+			)
+		]
+	},
+	previousPlanningPermissionUpload: {
+		type: 'multi-file-upload',
+		title: 'Upload planning permission and any other relevant documents',
+		question: 'Upload planning permission and any other relevant documents',
+		fieldName: 'previousPlanningPermissionUpload',
+		url: 'upload-planning-permission',
+
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the relevant planning permission and any other relevant documents'
+			),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.previousPlanningPermissionUpload,
+		actionHiddenText: 'relevant planning permission and any other relevant documents'
+	},
+	enforcementNoticeDateApplication: {
+		type: 'boolean',
+		title: 'Was there an enforcement notice in force at the date of the application?',
+		question: 'Was there an enforcement notice in force at the date of the application?',
+		fieldName: 'enforcementNoticeDateApplication',
+		url: 'enforcement-notice-date-application',
+		validators: [
+			new RequiredValidator(
+				'Select yes if there was an enforcement notice in force at the date of the application'
+			)
+		]
+	},
+	enforcementNoticeDateApplicationUpload: {
+		type: 'multi-file-upload',
+		title: 'The enforcement notice',
+		question: 'Upload the enforcement notice',
+		fieldName: 'enforcementNoticeDateApplicationUpload',
+		url: 'upload-enforcement-notice',
+
+		validators: [
+			new RequiredFileUploadValidator('Select the relevant enforcement notice'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.enforcementNoticeDateApplicationUpload,
+		actionHiddenText: 'relevant enforcement notice'
+	},
+	enforcementNoticePlanUpload: {
+		type: 'multi-file-upload',
+		title: 'The enforcement notice plan',
+		question: 'Upload the enforcement notice plan',
+		fieldName: 'enforcementNoticePlanUpload',
+		url: 'upload-enforcement-notice-plan',
+
+		validators: [
+			new RequiredFileUploadValidator('Select the relevant enforcement notice plan'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.enforcementNoticePlanUpload,
+		actionHiddenText: 'relevant enforcement notice plan'
+	},
+	planningContraventionNotice: {
+		type: 'boolean',
+		title: 'Did you serve a planning contravention notice?',
+		question: 'Did you serve a planning contravention notice?',
+		fieldName: 'planningContraventionNotice',
+		url: 'planning-contravention-notice',
+		validators: [
+			new RequiredValidator('Select yes if you did serve a planning contravention notice')
+		]
+	},
+	planningContraventionNoticeUpload: {
+		type: 'multi-file-upload',
+		title: 'Upload the planning contravention notice',
+		question: 'Upload the planning contravention notice',
+		fieldName: 'planningContraventionNoticeUpload',
+		url: 'upload-planning-contravention-notice',
+
+		validators: [
+			new RequiredFileUploadValidator('Select the relevant planning contravention notice'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.planningContraventionNoticeUpload,
+		actionHiddenText: 'relevant planning contravention notice'
 	},
 
 	highwayLand: {
