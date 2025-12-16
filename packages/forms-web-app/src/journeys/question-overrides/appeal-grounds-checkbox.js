@@ -2,12 +2,12 @@
  * @typedef {import('@pins/dynamic-forms/src/journey').Journey} Journey
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('@pins/dynamic-forms/src/section').Section} Section
- * @typedef {import('@pins/dynamic-forms/src/dynamic-components/appeal-grounds-checkbox/question')} AppealGroundsCheckboxQuestion
+ * @typedef {import('@pins/dynamic-forms/src/dynamic-components/checkbox/question')} CheckboxQuestion
  */
 
 /**
  * Save the answer to the question
- * @this {AppealGroundsCheckboxQuestion}
+ * @this {CheckboxQuestion}
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  * @param {function(string, Object): Promise<any>} saveFunction

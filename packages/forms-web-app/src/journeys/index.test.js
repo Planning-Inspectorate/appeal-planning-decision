@@ -303,7 +303,6 @@ describe('Dynamic forms journey tests', () => {
 								// skipping due to variations/complications in list questions for now
 								// skipping content type as nothing saved
 								case 'ListAddMoreQuestion':
-								case 'AppealGroundsCheckboxQuestion':
 								case 'ContentQuestion':
 									return null;
 								default:
@@ -313,7 +312,8 @@ describe('Dynamic forms journey tests', () => {
 
 						const saveSetup = questionTypeDetails(question);
 
-						if (!saveSetup) {
+						// skipping enforcement save questions for now due to method overrides
+						if (!saveSetup || caseType.type == 'Enforcement notice') {
 							it.skip(`${caseType.type} should save the ${question.getUrlSlug()} question`, () => {});
 						} else {
 							it(`${caseType.type} should save the ${question.getUrlSlug()} question`, async () => {

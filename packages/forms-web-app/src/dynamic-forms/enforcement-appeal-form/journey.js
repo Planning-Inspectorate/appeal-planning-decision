@@ -22,11 +22,17 @@ const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-
  */
 
 const escape = require('escape-html');
+const {
+	getAppealGroundsQuestions,
+	chooseGroundsOfAppealQuestion
+} = require('../appeal-grounds-questions');
+/** @type {Array<'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'>} */
+const appealGroundsArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+
 /**
  * @param {JourneyResponse} response
  * @returns {string}
  */
-
 const formatEnforcementIndividualName = (response) => {
 	const firstName = response.answers['appellantFirstName'] || 'Named';
 	const lastName = response.answers['appellantLastName'] || 'Individual';
@@ -113,6 +119,8 @@ const formatInterestInLandNames = (response) => {
  */
 const makeSections = (response) => {
 	const questions = getQuestions(response);
+	const appealGroundsQuestions = getAppealGroundsQuestions(response, appealGroundsArray);
+
 	return [
 		new Section('Prepare appeal', 'prepare-appeal')
 			.addQuestion(questions.enforcementWhoIsAppealing)
@@ -184,7 +192,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.enforcementInspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterAllegedBreachDescription)
-			.addQuestion(questions.chooseGroundsOfAppeal)
+			.addQuestion(chooseGroundsOfAppealQuestion)
 			.addQuestion(questions.submittedPlanningApplication)
 			.addQuestion(questions.uploadApplicationReceipt)
 			.withCondition(() =>
@@ -216,6 +224,7 @@ const makeSections = (response) => {
 			.withCondition(() =>
 				questionHasAnswer(response, questions.grantedOrRefused, 'nodecisionreceived')
 			)
+			.addQuestions(appealGroundsQuestions)
 			.addQuestion(questions.appellantProcedurePreference)
 			.addQuestion(questions.appellantPreferHearing)
 			.withCondition(() =>

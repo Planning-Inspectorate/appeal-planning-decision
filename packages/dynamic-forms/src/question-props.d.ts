@@ -16,7 +16,6 @@ type QuestionTypes =
 	| 'unit-option'
 	| 'list-add-more'
 	| 'content'
-	| 'appeal-grounds-checkbox'
 	// strictly for add more sub question type
 	// todo refactor list add mores so there's no sub question
 	| 'case'
@@ -122,11 +121,6 @@ type CheckboxQuestionProps = CommonQuestionProps & {
 	options: Option[];
 };
 
-type AppealGroundsCheckboxQuestionProps = CommonQuestionProps & {
-	type: 'appeal-grounds-checkbox';
-	options: Option[];
-};
-
 type MultiFileUploadQuestionProps = CommonQuestionProps & {
 	type: 'multi-file-upload';
 	documentType: { name: string };
@@ -212,7 +206,6 @@ export type ContentQuestionProps = CommonQuestionProps & {
 
 export type QuestionProps =
 	| CheckboxQuestionProps
-	| AppealGroundsCheckboxQuestionProps
 	| MultiFileUploadQuestionProps
 	| BooleanQuestionProps
 	| RadioQuestionProps

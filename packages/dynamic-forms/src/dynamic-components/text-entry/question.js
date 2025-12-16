@@ -31,12 +31,17 @@ class TextEntryQuestion extends Question {
 	 * @param {TextEntryCheckbox} [params.textEntryCheckbox]
 	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
 	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
+	 *
+	 * @param {Record<string, Function>} [methodOverrides]
 	 */
-	constructor(params) {
-		super({
-			...params,
-			viewFolder: 'text-entry'
-		});
+	constructor(params, methodOverrides) {
+		super(
+			{
+				...params,
+				viewFolder: 'text-entry'
+			},
+			methodOverrides
+		);
 
 		this.textEntryCheckbox = params.textEntryCheckbox;
 		this.label = params.label;
