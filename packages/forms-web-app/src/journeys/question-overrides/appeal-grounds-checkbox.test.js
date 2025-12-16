@@ -1,4 +1,4 @@
-const AppealGroundsCheckboxQuestion = require('@pins/dynamic-forms/src/dynamic-components/appeal-grounds-checkbox/question');
+const CheckboxQuestion = require('@pins/dynamic-forms/src/dynamic-components/checkbox/question');
 const { saveAction } = require('./appeal-grounds-checkbox');
 
 describe('appeal-grounds-checkbox-overrides', () => {
@@ -22,7 +22,7 @@ describe('appeal-grounds-checkbox-overrides', () => {
 		options: OPTIONS
 	};
 
-	const question = new AppealGroundsCheckboxQuestion(CHECKBOX_PARAMS, { saveAction });
+	const question = new CheckboxQuestion(CHECKBOX_PARAMS, { saveAction });
 
 	const mockApi = {
 		postSubmissionAppealGround: jest.fn().mockResolvedValue({}),

@@ -22,11 +22,17 @@ const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-
  */
 
 const escape = require('escape-html');
+const {
+	getAppealGroundsQuestions,
+	chooseGroundsOfAppealQuestion
+} = require('../appeal-grounds-questions');
+/** @type {Array<'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'>} */
+const appealGroundsArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+
 /**
  * @param {JourneyResponse} response
  * @returns {string}
  */
-
 const formatEnforcementIndividualName = (response) => {
 	const firstName = response.answers['appellantFirstName'] || 'Named';
 	const lastName = response.answers['appellantLastName'] || 'Individual';
@@ -41,13 +47,14 @@ const formatEnforcementIndividualName = (response) => {
 const formatGroupOfIndividuals = (response) => {
 	const baseIndividuals = response.answers['SubmissionIndividual'] || [];
 
-	const individuals = Array.isArray(baseIndividuals) ? baseIndividuals : [baseIndividuals];
+	const individuals = Array.isArray(baseIndividuals) ? [...baseIndividuals] : [baseIndividuals];
 
 	if (!individuals.length) {
 		return 'Named Individual';
 	}
 
-	const finalNamedIndividual = individuals.pop();
+	const finalNamedIndividual = individuals.slice(-1)[0];
+	const allButFinalIndividuals = individuals.slice(0, -1);
 
 	/**
 	 * @param {import('appeals-service-api').Api.SubmissionIndividual} individual
@@ -59,7 +66,7 @@ const formatGroupOfIndividuals = (response) => {
 		return escape(`${firstName} ${lastName}`);
 	};
 
-	const formattedStringPartOne = individuals.map(formatIndividual).join(', ');
+	const formattedStringPartOne = allButFinalIndividuals.map(formatIndividual).join(', ');
 
 	return [formattedStringPartOne, formatIndividual(finalNamedIndividual)].join(' and ');
 };
@@ -112,6 +119,8 @@ const formatInterestInLandNames = (response) => {
  */
 const makeSections = (response) => {
 	const questions = getQuestions(response);
+	const appealGroundsQuestions = getAppealGroundsQuestions(response, appealGroundsArray);
+
 	return [
 		new Section('Prepare appeal', 'prepare-appeal')
 			.addQuestion(questions.enforcementWhoIsAppealing)
@@ -183,7 +192,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.enforcementInspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterAllegedBreachDescription)
-			.addQuestion(questions.chooseGroundsOfAppeal)
+			.addQuestion(chooseGroundsOfAppealQuestion)
 			.addQuestion(questions.submittedPlanningApplication)
 			.addQuestion(questions.uploadApplicationReceipt)
 			.withCondition(() =>
@@ -215,6 +224,7 @@ const makeSections = (response) => {
 			.withCondition(() =>
 				questionHasAnswer(response, questions.grantedOrRefused, 'nodecisionreceived')
 			)
+			.addQuestions(appealGroundsQuestions)
 			.addQuestion(questions.appellantProcedurePreference)
 			.addQuestion(questions.appellantPreferHearing)
 			.withCondition(() =>

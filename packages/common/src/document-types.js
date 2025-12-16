@@ -682,7 +682,7 @@ const documentTypes = {
 	},
 	uploadApplicationReceipt: {
 		name: 'uploadApplicationReceipt',
-		dataModelName: 'applicationReceipt', // to be updated once data model confirmed
+		dataModelName: 'applicationFeeReceipt', // to be updated once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -716,6 +716,83 @@ const documentTypes = {
 	uploadEnforcementNoticePlan: {
 		name: 'uploadEnforcementNoticePlan',
 		dataModelName: 'enforcementNoticePlan', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundASupportingDocuments: {
+		name: 'groundASupportingDocuments',
+		dataModelName: 'groundASupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundBSupportingDocuments: {
+		name: 'groundBSupportingDocuments',
+		dataModelName: 'groundBSupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundCSupportingDocuments: {
+		name: 'groundCSupportingDocuments',
+		dataModelName: 'groundCSupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundDSupportingDocuments: {
+		name: 'groundDSupportingDocuments',
+		dataModelName: 'groundDSupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundESupportingDocuments: {
+		name: 'groundESupportingDocuments',
+		dataModelName: 'groundESupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundFSupportingDocuments: {
+		name: 'groundFSupportingDocuments',
+		dataModelName: 'groundFSupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundGSupportingDocuments: {
+		name: 'groundGSupportingDocuments',
+		dataModelName: 'groundGSupporting', // to be updated once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',

@@ -125,6 +125,132 @@ condition: () => questionHasAnswer(response, questions.applicationDecisionAppeal
 condition: () => questionHasAnswer(response, questions.grantedOrRefused, 'nodecisionreceived');
 ```
 
+- text-entry `/facts-ground-a/` Facts for ground (a)
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- boolean `/facts-ground-a-supporting-documents/` Do you have any documents to support your ground (a) facts?
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- multi-file-upload `/upload-facts-ground-a-supporting-documents/` Upload your ground (a) supporting documents
+
+```js
+condition: () => responseAppealGroundHasDocuments(response, `${appealGround}`);
+```
+
+- text-entry `/facts-ground-b/` Facts for ground (b)
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- boolean `/facts-ground-b-supporting-documents/` Do you have any documents to support your ground (b) facts?
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- multi-file-upload `/upload-facts-ground-b-supporting-documents/` Upload your ground (b) supporting documents
+
+```js
+condition: () => responseAppealGroundHasDocuments(response, `${appealGround}`);
+```
+
+- text-entry `/facts-ground-c/` Facts for ground (c)
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- boolean `/facts-ground-c-supporting-documents/` Do you have any documents to support your ground (c) facts?
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- multi-file-upload `/upload-facts-ground-c-supporting-documents/` Upload your ground (c) supporting documents
+
+```js
+condition: () => responseAppealGroundHasDocuments(response, `${appealGround}`);
+```
+
+- text-entry `/facts-ground-d/` Facts for ground (d)
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- boolean `/facts-ground-d-supporting-documents/` Do you have any documents to support your ground (d) facts?
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- multi-file-upload `/upload-facts-ground-d-supporting-documents/` Upload your ground (d) supporting documents
+
+```js
+condition: () => responseAppealGroundHasDocuments(response, `${appealGround}`);
+```
+
+- text-entry `/facts-ground-e/` Facts for ground (e)
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- boolean `/facts-ground-e-supporting-documents/` Do you have any documents to support your ground (e) facts?
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- multi-file-upload `/upload-facts-ground-e-supporting-documents/` Upload your ground (e) supporting documents
+
+```js
+condition: () => responseAppealGroundHasDocuments(response, `${appealGround}`);
+```
+
+- text-entry `/facts-ground-f/` Facts for ground (f)
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- boolean `/facts-ground-f-supporting-documents/` Do you have any documents to support your ground (f) facts?
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- multi-file-upload `/upload-facts-ground-f-supporting-documents/` Upload your ground (f) supporting documents
+
+```js
+condition: () => responseAppealGroundHasDocuments(response, `${appealGround}`);
+```
+
+- text-entry `/facts-ground-g/` Facts for ground (g)
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- boolean `/facts-ground-g-supporting-documents/` Do you have any documents to support your ground (g) facts?
+
+```js
+condition: () => responseHasAppealGround(response, `${appealGround}`);
+```
+
+- multi-file-upload `/upload-facts-ground-g-supporting-documents/` Upload your ground (g) supporting documents
+
+```js
+condition: () => responseAppealGroundHasDocuments(response, `${appealGround}`);
+```
+
 - radio `/decide-appeal/` How would you prefer us to decide your appeal?
 - text-entry `/why-prefer-hearing/` Why would you prefer a hearing?
 
