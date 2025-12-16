@@ -1,5 +1,5 @@
 ﻿OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n
-;E07000151;Y2810;Daventry District Council;plancare@daventrydc.gov.uk;daventrydc.gov.uk;TRUE\n
+;E07000151;Y2810;Daventry District Council;plancare@daventrydc.gov.uk;daventrydc.gov.uk;FALSE\n
 1;E60000001;X1355;Durham County Council;planning@durham.gov.uk;durham.gov.uk;TRUE\n
 2;E60000002;N1350;Darlington;planning.enquiries@darlington.gov.uk;darlington.gov.uk;TRUE\n
 3;E60000003;H0724;Hartlepool;developmentcontrol@hartlepool.gov.uk;hartlepool.gov.uk;TRUE\n
@@ -18,12 +18,12 @@
 16;E60000016;A0665;Cheshire West and Chester Council;planning.appeals@cheshirewestandchester.gov.uk;cheshirewestandchester.gov.uk;TRUE\n
 17;E60000017;D0650;Halton;dev.control@halton.gov.uk;halton.gov.uk;TRUE\n
 18;E60000018;M0655;Warrington Borough Council;devcontrol@warrington.gov.uk;warrington.gov.uk;TRUE\n
-19;E60000019;G0908;Allerdale;planning@allerdale.gov.uk;allerdale.gov.uk;TRUE\n
-20;E60000020;W0910;Barrow in Furness;planningapp@barrowbc.gov.uk;barrowbc.gov.uk;TRUE\n
-21;E60000021;E0915;Carlisle;EDAdmin@carlisle.gov.uk;carlisle.gov.uk;TRUE\n
-22;E60000022;Z0923;Copeland;devcontrol@copeland.gov.uk;copeland.gov.uk;TRUE\n
-23;E60000023;H0928;Eden;planning.services@eden.gov.uk;eden.gov.uk;TRUE\n
-24;E60000024;M0933;South Lakeland;development.management@southlakeland.gov.uk;southlakeland.gov.uk;TRUE\n
+19;E60000019;G0908;Allerdale;planning@allerdale.gov.uk;allerdale.gov.uk;FALSE\n
+20;E60000020;W0910;Barrow in Furness;planningapp@barrowbc.gov.uk;barrowbc.gov.uk;FALSE\n
+21;E60000021;E0915;Carlisle;EDAdmin@carlisle.gov.uk;carlisle.gov.uk;FALSE\n
+22;E60000022;Z0923;Copeland;devcontrol@copeland.gov.uk;copeland.gov.uk;FALSE\n
+23;E60000023;H0928;Eden;planning.services@eden.gov.uk;eden.gov.uk;FALSE\n
+24;E60000024;M0933;South Lakeland;development.management@southlakeland.gov.uk;southlakeland.gov.uk;FALSE\n
 25;E60000025;N4205;Bolton;planning.control@bolton.gov.uk;bolton.gov.uk;TRUE\n
 26;E60000026;T4210;Bury Metropolitan Borough Council;development.control@bury.gov.uk;bury.gov.uk;TRUE\n
 27;E60000027;B4215;Manchester City Council;planning@manchester.gov.uk;manchester.gov.uk;TRUE\n
@@ -56,13 +56,13 @@
 54;E60000054;B2002;North East Lincolnshire;Planning@nelincs.gov.uk;nelincs.gov.uk;TRUE\n
 55;E60000055;Y2003;North Lincolnshire Council;planning@northlincs.gov.uk;northlincs.gov.uk;TRUE\n
 56;E60000056;C2741;City of York Council;planning.appeals@york.gov.uk;york.gov.uk;TRUE\n
-57;E60000057;C2708;Craven;planningappeals@cravendc.gov.uk;cravendc.gov.uk;TRUE\n
-58;E60000058;G2713;Hambleton;planningappeals@hambleton.gov.uk;hambleton.gov.uk;TRUE\n
-59;E60000059;E2734;Harrogate;planning.appeals@harrogate.gov.uk;harrogate.gov.uk;TRUE\n
-60;E60000060;V2723;Richmondshire;PlanningAppeals@richmondshire.gov.uk;richmondshire.gov.uk;TRUE\n
-61;E60000061;Y2736;Ryedale;dc@ryedale.gov.uk;ryedale.gov.uk;TRUE\n
-62;E60000062;H2733;Scarborough;planning.services@scarborough.gov.uk;scarborough.gov.uk;TRUE\n
-63;E60000063;N2739;Selby;planningappeals@selby.gov.uk;selby.gov.uk;TRUE\n
+57;E60000057;C2708;Craven;planningappeals@cravendc.gov.uk;cravendc.gov.uk;FALSE\n
+58;E60000058;G2713;Hambleton;planningappeals@hambleton.gov.uk;hambleton.gov.uk;FALSE\n
+59;E60000059;E2734;Harrogate;planning.appeals@harrogate.gov.uk;harrogate.gov.uk;FALSE\n
+60;E60000060;V2723;Richmondshire;PlanningAppeals@richmondshire.gov.uk;richmondshire.gov.uk;FALSE\n
+61;E60000061;Y2736;Ryedale;dc@ryedale.gov.uk;ryedale.gov.uk;FALSE\n
+62;E60000062;H2733;Scarborough;planning.services@scarborough.gov.uk;scarborough.gov.uk;FALSE\n
+63;E60000063;N2739;Selby;planningappeals@selby.gov.uk;selby.gov.uk;FALSE\n
 64;E60000064;R4408;Barnsley;developmentcontrol@barnsley.gov.uk;barnsley.gov.uk;TRUE\n
 65;E60000065;F4410;Doncaster;tsi@doncaster.gov.uk;doncaster.gov.uk;TRUE\n
 66;E60000066;P4415;Rotherham;development.control@rotherham.gov.uk;rotherham.gov.uk;TRUE\n
@@ -305,7 +305,7 @@
 302;E60000313;G1630;Tewkesbury;appealsadmin@tewkesbury.gov.uk;tewkesbury.gov.uk;TRUE\n
 303;E60000314;Q3305;Mendip;appeals@mendip.gov.uk;mendip.gov.uk;FALSE\n
 304;E60000315;V3310;Sedgemoor;development.control@sedgemoor.gov.uk;sedgemoor.gov.uk;FALSE\n
-305;E60000316;W3330;Somerset West and Taunton;planningappealswest@somerset.gov.uk;somerset.gov.uk;TRUE\n
+305;E60000316;W3330;Somerset West and Taunton;planningappealswest@somerset.gov.uk;somerset.gov.uk;FALSE\n
 306;E60000317;R3325;South Somerset;planningappeals@southsomerset.gov.uk;southsomerset.gov.uk;FALSE\n
 307;E60000318;J9497;Dartmoor National Park;planning@dartmoor.gov.uk;dartmoor.gov.uk;TRUE\n
 308;E60000319;F9498;Exmoor National Park;plan@exmoor-nationalpark.gov.uk;exmoor-nationalpark.gov.uk;TRUE\n
@@ -318,7 +318,7 @@
 ;E60000326;E9505;Broads Authority;planning@broads-authority.gov.uk;broads-authority.gov.uk;TRUE\n
 316;E60000327;C9499;Yorkshire Dales National Park;planning@yorkshiredales.org.uk;yorkshiredales.org.uk;TRUE\n
 317;E60000328;J2285;Ebbsfleet Development Corporation;EDCplanning@ebbsfleetdc.org.uk;ebbsfleetdc.org.uk;TRUE\n
-318;E60000329;M9584;London Legacy Development Corporation;planningenquiries@londonlegacy.co.uk;londonlegacy.co.uk;TRUE\n
+318;E60000329;M9584;London Legacy Development Corporation;planningenquiries@londonlegacy.co.uk;londonlegacy.co.uk;FALSE\n
 319;E60000330;F5730;Old Oak and Park Royal Development Corporation;planningapplications@opdc.london.gov.uk;opdc.london.gov.uk;TRUE\n
 320;E60000331;P0430;Buckinghamshire Council Minerals and Waste Applications;mineralsandwaste@buckinghamshire.gov.uk;buckinghamshire.gov.uk;FALSE\n
 ;J0405;J0405;Buckinghamshire Council North and Central Area (formerly Aylesbury);devcontrol.av@buckinghamshire.gov.uk;buckinghamshire.gov.uk;FALSE\n
@@ -326,8 +326,8 @@
 ;K0425;K0425;Buckinghamshire Council West Area (formerly Wycombe);planning.wyc@buckinghamshire.gov.uk;wycombe.gov.uk;FALSE\n
 ;C0440;C0440;Buckinghamshire Council;planning.appeals@buckinghamshire.gov.uk;buckinghamshire.gov.uk;TRUE\n
 321;E60000332;M2840;North Northamptonshire Council;planningappeals@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
-;U2805;U2805;North Northamptonshire Council - Corby Area;planningservices.cbc@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
-;H2835;H2835;North Northamptonshire County Wellingborough;planningappeals.bcw@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
+;U2805;U2805;North Northamptonshire Council - Corby Area;planningservices.cbc@northnorthants.gov.uk;northnorthants.gov.uk;FALSE\n
+;H2835;H2835;North Northamptonshire County Wellingborough;planningappeals.bcw@northnorthants.gov.uk;northnorthants.gov.uk;FALSE\n
 322;E60000333;W2845;West Northamptonshire Council;planningappeals@westnorthants.gov.uk;westnorthants.gov.uk;TRUE\n
 323;E69999999;Q9999;System Test Borough Council;appealplanningdecisiontest@planninginspectorate.gov.uk;planninginspectorate.gov.uk;TRUE\n
 325;E69999991;Q1111;System Test Borough Council 2;appealplanningdecisiontest@planninginspectorate.gov.uk;planninginspectorate.gov.uk;TRUE\n
@@ -349,14 +349,14 @@
 ;;B0610;Congleton Borough Council;;;FALSE\n
 ;;B0800;Cornwall County Council Pre 010409;;;FALSE\n
 ;;K0615;Crewe and Nantwich Borough Council;;;FALSE\n
-;H0900;H0900;Cumbria County Council;developmentcontrol@cumbria.gov.uk;cumbria.gov.uk;TRUE\n
+;H0900;H0900;Cumbria County Council;developmentcontrol@cumbria.gov.uk;cumbria.gov.uk;FALSE\n
 ;;R6830;Denbighshire County Council;;;FALSE\n
 ;U1050;U1050;Derbyshire County Council;planningcontrol@derbyshire.gov.uk;derbyshire.gov.uk;TRUE\n
 ;;V1315;Derwentside District Council;;;FALSE\n
 ;J1155;J1155;Devon County Council;planning@devon.gov.uk;devon.gov.uk;TRUE\n
 ;;J1345;Durham County Council Pre 010409;;;FALSE\n
 ;;H1325;Easington District Council;;;FALSE\n
-;G2815;G2815;East Northamptonshire District Council;appeals@east-northamptonshire.gov.uk;east-northamptonshire.gov.uk;TRUE\n
+;G2815;G2815;East Northamptonshire District Council;appeals@east-northamptonshire.gov.uk;east-northamptonshire.gov.uk;FALSE\n
 ;G1440;G1440;East Sussex County Council;development.control@eastsussex.gov.uk;eastsussex.gov.uk;TRUE\n
 ;;P0620;Ellesmere Port and Neston Borough Council;;;FALSE\n
 ;Z1585;Z1585;Essex County Council;mineralsandwastedm@essex.gov.uk;essex.gov.uk;TRUE\n
@@ -392,7 +392,7 @@
 ;;Y9540;Sheffield Urban District Council;;;FALSE\n
 ;;B3220;Shrewsbury and Atcham Borough Council;;;FALSE\n
 ;;Y3235;Shropshire County Council Pre 010409;;;FALSE\n
-;G3300;G3300;Somerset County Council;planning@somerset.gov.uk;somerset.gov.uk;TRUE\n
+;G3300;G3300;Somerset County Council;planning@somerset.gov.uk;somerset.gov.uk;FALSE\n
 ;;N0220;South Bedfordshire District Council;;;FALSE\n
 ;;N0410;South Bucks District Council;;;FALSE\n
 ;;Z2830;South Northamptonshire District Council;appeals@southnorthants.gov.uk;southnorthants.gov.uk;FALSE\n
