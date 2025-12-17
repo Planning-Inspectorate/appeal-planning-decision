@@ -2,7 +2,7 @@ const {
 	ForManualInterventionRepository
 } = require('../repositories/for-manual-intervention-repository');
 const ApiError = require('../errors/apiError');
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 
 class ForManualInterventionService {
 	#forManualInterventionRepository;

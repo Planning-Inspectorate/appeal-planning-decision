@@ -1,6 +1,6 @@
 const { MongoClient, Logger } = require('mongodb');
 const config = require('../configuration/config');
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 
 let mongodb;
 

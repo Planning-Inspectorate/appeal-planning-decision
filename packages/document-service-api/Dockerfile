@@ -8,6 +8,7 @@ COPY packages/document-service-api/package.json ./
 COPY packages/document-service-api/src ./src
 
 # copy workspace deps
+COPY tsconfig.json /opt/
 COPY package.json /opt/
 COPY package-lock.json /opt/
 COPY packages/business-rules /opt/packages/business-rules

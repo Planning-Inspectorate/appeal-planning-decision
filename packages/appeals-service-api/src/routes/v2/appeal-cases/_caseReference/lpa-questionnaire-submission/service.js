@@ -1,6 +1,6 @@
 const ApiError = require('#errors/apiError');
 const { LPAQuestionnaireSubmissionRepository } = require('./repo');
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 
 const repo = new LPAQuestionnaireSubmissionRepository();
 

@@ -1,4 +1,5 @@
-const { msToDurationString } = require('#lib/duration');
+// @ts-ignore - not sure why this is erroring, we want to explicitly support .ts files
+import { msToDurationString } from '#lib/duration.ts';
 
 describe('duration', () => {
 	describe('msToDurationString', () => {

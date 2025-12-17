@@ -1,6 +1,6 @@
 const { InterestedPartySubmissionRepository } = require('./repo');
 const repo = new InterestedPartySubmissionRepository();
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 
 /**
  * @typedef {import('@pins/database/src/client/client').InterestedPartySubmission} InterestedPartySubmission

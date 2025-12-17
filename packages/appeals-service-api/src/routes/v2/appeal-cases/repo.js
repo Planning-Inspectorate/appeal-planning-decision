@@ -5,9 +5,9 @@ const {
 } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { subYears } = require('date-fns');
-const logger = require('#lib/logger');
+const logger = require('#lib/logger.js');
 const ApiError = require('#errors/apiError');
-const sanitizePostcode = require('#lib/sanitize-postcode');
+const sanitizePostcode = require('#lib/sanitize-postcode.js');
 
 /**
  * @typedef {import('@pins/database/src/client/client').Appeal} Appeal

@@ -7,7 +7,7 @@ module.exports = {
 	coveragePathIgnorePatterns: [
 		'node_modules',
 		'<rootDir>/src/app.js',
-		'<rootDir>/src/server.js',
+		'<rootDir>/src/server.ts',
 		'<rootDir>/src/public',
 		'packages/forms-web-app/src/dynamic-forms/s78-questionnaire/journey.js',
 		'packages/forms-web-app/src/dynamic-forms/s20-lpa-questionnaire/journey.js'

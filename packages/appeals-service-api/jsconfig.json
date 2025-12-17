@@ -6,7 +6,7 @@
 		"paths": {
 			"#db-client": ["./src/db/db-client.js"],
 			"#errors/*": ["./src/errors/*.js"],
-			"#lib/*": ["./src/lib/*.js"],
+			"#lib/*": ["./src/lib/*"],
 			"#repositories/*": ["./src/repositories/*.js"]
 		}
 	}

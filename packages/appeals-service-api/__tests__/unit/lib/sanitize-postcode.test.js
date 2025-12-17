@@ -1,4 +1,4 @@
-const sanitizePostcode = require('#lib/sanitize-postcode');
+const sanitizePostcode = require('#lib/sanitize-postcode.js');
 
 describe('sanitizePostcode', () => {
 	it('removes whitespace from postcode', () => {

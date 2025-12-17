@@ -1,4 +1,4 @@
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 const { ServiceBusClient } = require('@azure/service-bus');
 const { DefaultAzureCredential } = require('@azure/identity');
 

@@ -5,7 +5,7 @@ const jp = require('jsonpath');
 const {
 	constants: { APPEAL_ID }
 } = require('@pins/business-rules');
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 const ApiError = require('../errors/apiError');
 const validateFullAppeal = require('../validators/validate-full-appeal');
 const { validateAppeal } = require('../validators/validate-appeal');

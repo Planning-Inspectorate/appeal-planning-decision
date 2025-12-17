@@ -2,7 +2,7 @@ const jp = require('jsonpath');
 const { GenericContainer, Wait } = require('testcontainers/');
 const axios = require('axios');
 const crypto = require('crypto');
-// const logger = require('../../../logger');
+// const logger = require('../../../logger.js');
 
 /**
  * This class is intended to act as a mocking interface for all external APIs that the

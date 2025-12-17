@@ -1,3 +1,8 @@
+/**
+ * Main
+ *
+ * This is the main starting point for the application.
+ */
 const appInsights = require('applicationinsights');
 try {
 	if (process.env.APPLICATIONINSIGHTS_CONNECTION_STRING) {
@@ -8,21 +13,29 @@ try {
 			.setAutoCollectDependencies(true)
 			.setAutoCollectExceptions(true)
 			.setSendLiveMetrics(true);
+
 		appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] =
-			'pdf-service-api';
+			'appeals-service-api';
 		appInsights.start();
 	}
 } catch (err) {
-	logger.warn({ err }, 'Application insights failed to start: ');
+	console.warn({ err }, 'Application insights failed to start: ');
 }
 
-const logger = require('./lib/logger');
+const logger = require('./lib/logger.js');
 const server = require('./server');
+const mongodb = require('./db/db');
+const { setupIndexes } = require('./db/setup');
 
-const main = async () => {
-	server();
-};
+async function main() {
+	mongodb.connect(async () => {
+		await setupIndexes();
+		server();
+	});
+}
 
 main().catch((err) => {
 	logger.fatal({ err }, 'Unable to start application');
 });
+
+module.exports = main;

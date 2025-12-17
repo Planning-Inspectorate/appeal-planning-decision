@@ -1,10 +1,6 @@
 {
 	"extends": "../../jsconfig.json",
-	"include": [
-		"**/*.js",
-		"../common/src/lib/linked-appeals.js",
-		"../common/src/lib/linked-appeals.test.js"
-	],
+	"include": ["**/*.js"],
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {

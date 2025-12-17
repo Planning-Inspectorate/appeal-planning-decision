@@ -5,7 +5,7 @@
 	"engines": {
 		"node": ">=22.0.0 <23.0.0"
 	},
-	"main": "src/main.js",
+	"main": "src/main.ts",
 	"scripts": {
 		"lint": "eslint ./",
 		"start": "node ./",
@@ -13,7 +13,8 @@
 		"start:dev:debug": "nodemon --inspect=0.0.0.0 ./",
 		"seed:dev": "node ./dev/seed.js",
 		"test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --ci --verbose",
-		"test:cov": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --ci --verbose --coverage"
+		"test:cov": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --ci --verbose --coverage",
+		"tscheck": "tsc"
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {
@@ -45,7 +46,9 @@
 		"nodemon": "*",
 		"pino-pretty": "*",
 		"supertest": "*",
-		"testcontainers": "*"
+		"testcontainers": "*",
+		"ts-jest": "*",
+		"typescript": "*"
 	},
 	"imports": {
 		"#config/*": "./src/configuration/*.js",

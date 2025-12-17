@@ -1,7 +1,7 @@
 const {
 	schemas: { validate }
 } = require('@pins/business-rules');
-const logger = require('../../lib/logger');
+const logger = require('../../lib/logger.js');
 const ApiError = require('../../errors/apiError');
 
 const appealUpdateValidationRules = async (req, res, next) => {

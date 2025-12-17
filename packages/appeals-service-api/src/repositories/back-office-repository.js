@@ -1,4 +1,4 @@
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 const BackOfficeMapper = require('../mappers/back-office.mapper');
 const { MongoRepository } = require('./mongo-repository');
 const ApiError = require('../errors/apiError');

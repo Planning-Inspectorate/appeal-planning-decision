@@ -9,6 +9,7 @@ COPY packages/forms-web-app/webpack*.js ./
 COPY packages/forms-web-app/src ./src
 
 # copy workspace deps
+COPY tsconfig.json /opt/
 COPY package.json /opt/
 COPY package-lock.json /opt/
 COPY packages/common /opt/packages/common

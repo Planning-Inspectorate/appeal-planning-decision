@@ -1,4 +1,4 @@
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 const mongodb = require('../db/db');
 const LpaMapper = require('../mappers/lpa-mapper');
 const LpaEntity = require('../models/entities/lpa-entity');

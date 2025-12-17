@@ -7,7 +7,7 @@ const {
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const NotifyService = require('@pins/common/src/lib/notify/notify-service');
 const config = require('../configuration/config');
-const logger = require('./logger');
+const logger = require('./logger.js');
 const LpaService = require('../services/lpa.service');
 const { parseISO } = require('date-fns');
 const { formatInTimeZone } = require('date-fns-tz');

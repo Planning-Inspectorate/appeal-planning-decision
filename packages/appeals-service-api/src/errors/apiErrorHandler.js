@@ -1,5 +1,5 @@
 const ApiError = require('./apiError');
-const logger = require('../lib/logger');
+const logger = require('../lib/logger.js');
 
 /**
  * Error handler for OpenAPI Validation errors - maps to an ApiError
