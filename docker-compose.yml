@@ -193,6 +193,7 @@ services:
       SCOPING_OPINION_ENABLED: 'true'
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FEATURE_FLAGS_SETTING: 'ALL_ON'
+      LOCAL_FEATURE_FLAG_ENABLE_APPLICATION_API_LOOKUP: 'true'
       FILE_UPLOAD_DEBUG: 'false'
       FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 26214400
       FILE_UPLOAD_MAX_FILE_SIZE_BYTES_IP: 52428800
@@ -209,6 +210,8 @@ services:
       # please override this locally if using not using localhost or ip address to browse the site in dev.
       SUBDOMAIN_OFFSET: 0
       USE_SECURE_SESSION_COOKIES: 'false'
+      # local trusted cert
+      NODE_EXTRA_CA_CERTS: /usr/local/share/ca-certificates/extra-ca.crt
     ports:
       - 9003:3000
       # node debugger
@@ -223,6 +226,7 @@ services:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
       - ./packages/:/opt/packages/
+      - ./ExtraCA.crt:/usr/local/share/ca-certificates/extra-ca.crt:ro
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
