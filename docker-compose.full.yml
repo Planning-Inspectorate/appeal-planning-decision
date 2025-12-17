@@ -6,8 +6,6 @@
 #  - Websites: 9000-9999
 #
 
-version: '3.7'
-
 services:
   clamav-server:
     profiles: ['all', 'appeals']
@@ -19,7 +17,7 @@ services:
   pdf-service-api:
     profiles: ['all', 'appeals', 'pdf']
     # platform required to build chromium on Apple Silicon Macs
-    platform: 'linux/amd64' 
+    platform: 'linux/amd64'
     build:
       context: .
       dockerfile: ./packages/pdf-service-api/Dockerfile

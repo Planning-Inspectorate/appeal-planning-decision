@@ -9,8 +9,8 @@
 	"scripts": {
 		"lint": "eslint ./",
 		"start": "node ./",
-		"start:dev": "nodemon ./ | pino-pretty -tlc",
-		"start:dev:debug": "nodemon --inspect=0.0.0.0 ./",
+		"start:dev": "nodemon --watch ./ --watch ../business-rules/src --watch ../common/src --watch ../database/src --ext js,ts,json",
+		"start:dev:debug": "nodemon --inspect=0.0.0.0 --watch ./ --watch ../business-rules/src --watch ../common/src --watch ../database/src --ext js,ts,json",
 		"seed:dev": "node ./dev/seed.js",
 		"test": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --ci --verbose",
 		"test:cov": "cross-env NODE_OPTIONS=\"--experimental-vm-modules\" jest --ci --verbose --coverage"

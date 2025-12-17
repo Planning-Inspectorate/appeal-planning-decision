@@ -7,13 +7,14 @@
 	"engines": {
 		"node": ">=22.0.0 <23.0.0"
 	},
+	"main": "src/main.js",
 	"scripts": {
 		"lint": "eslint ./",
 		"gen-client": "node ./dev/gen-client.js",
 		"gen-keys": "node ./dev/gen-keys.js",
 		"start": "node ./src/main.js",
-		"start:dev": "nodemon ./src/main.js | pino-pretty -tlc",
-		"start:dev:debug": "nodemon --inspect=0.0.0.0 ./src/main.js",
+		"start:dev": "nodemon --watch ./ --watch ../common/src --watch ../common/database",
+		"start:dev:debug": "nodemon --inspect=0.0.0.0 --watch ./ --watch ../common/src --watch ../common/database",
 		"test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose",
 		"test:cov": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --ci --verbose --coverage"
 	},

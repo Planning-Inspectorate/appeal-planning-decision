@@ -9,40 +9,40 @@
 			"request": "attach",
 			"name": "web-app",
 			"address": "localhost",
-			"localRoot": "${workspaceFolder}/packages/forms-web-app",
+			"localRoot": "${workspaceFolder}",
 			"restart": true,
-			"remoteRoot": "/opt/app",
-			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/opt/common/**"]
+			"remoteRoot": "/opt",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**"]
 		},
 		{
 			"type": "node",
 			"request": "attach",
 			"name": "appeals-api",
 			"address": "localhost",
-			"localRoot": "${workspaceFolder}/packages/appeals-service-api",
+			"localRoot": "${workspaceFolder}",
 			"restart": true,
-			"remoteRoot": "/opt/app",
-			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/opt/common/**"]
+			"remoteRoot": "/opt",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**"]
 		},
 		{
 			"type": "node",
 			"request": "attach",
 			"name": "auth-server",
 			"address": "localhost",
-			"localRoot": "${workspaceFolder}/packages/auth-server",
+			"localRoot": "${workspaceFolder}",
 			"restart": true,
-			"remoteRoot": "/opt/app",
-			"skipFiles": ["<node_internals>/**"]
+			"remoteRoot": "/opt",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**"]
 		},
 		{
 			"type": "node",
 			"request": "attach",
 			"name": "docs-api",
 			"address": "localhost",
-			"localRoot": "${workspaceFolder}/packages/document-service-api",
+			"localRoot": "${workspaceFolder}",
 			"restart": true,
-			"remoteRoot": "/opt/app",
-			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/opt/common/**"]
+			"remoteRoot": "/opt",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**"]
 		}
 	]
 }
