@@ -14,8 +14,8 @@
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
 		"start": "node ./",
-		"start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
-		"start:dev:debug": "nodemon --inspect=0.0.0.0 ./"
+		"start:dev": "nodemon --watch ./ --watch ../business-rules/src --watch ../common/src --watch ../database/src --ext js,ts,json",
+		"start:dev:debug": "nodemon --inspect=0.0.0.0 --watch ./ --watch ../business-rules/src --watch ../common/src --watch ../database/src --ext js,ts,json"
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {

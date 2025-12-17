@@ -6,8 +6,6 @@
 #  - Websites: 9000-9999
 #
 
-version: '3.7'
-
 services:
   clamav-server:
     profiles: ['all', 'appeals']

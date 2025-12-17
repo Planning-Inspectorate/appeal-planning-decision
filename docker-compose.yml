@@ -6,7 +6,6 @@
 #  - Websites: 9000-9999
 #
 
-version: '3.7'
 services:
   auth-server:
     profiles: ['all', 'api', 'appeals', 'comment', 'documents']
@@ -54,17 +53,17 @@ services:
       - 3005:3000
       # node debugger
       # - 9229:9229
-    working_dir: /opt/app
+    working_dir: /opt/packages/auth-server
     depends_on:
       - mock-notify
       - mssql
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/database/src/:/opt/database/src
-      - ./packages/database:/opt/app/node_modules/@pins/database
-      - ./packages/auth-server:/opt/app
+      - ./packages/:/opt/packages/
+      - /opt/packages/auth-server/node_modules
+      - ./packages/common:/opt/packages/auth-server/node_modules/@pins/common
+      - ./packages/database:/opt/packages/auth-server/node_modules/@pins/database
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
@@ -117,7 +116,7 @@ services:
       - 3000:3000
       # node debugger
       # - 9229:9229
-    working_dir: /opt/app
+    working_dir: /opt/packages/appeals-service-api
     depends_on:
       - mongodb
       - mssql
@@ -129,12 +128,7 @@ services:
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
-      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/database/src/:/opt/database/src
-      - ./packages/database:/opt/app/node_modules/@pins/database
-      - ./packages/dynamic-forms:/opt/app/node_modules/@pins/dynamic-forms
-      - ./packages/appeals-service-api:/opt/app
+      - ./packages/:/opt/packages/
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
@@ -165,7 +159,7 @@ services:
       - 3001:3000
       # node debugger
       # - 9229:9229
-    working_dir: /opt/app
+    working_dir: /opt/packages/document-service-api
     depends_on:
       - mongodb
       - mssql
@@ -175,11 +169,7 @@ services:
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
-      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/database/src/:/opt/database/src
-      - ./packages/database:/opt/app/node_modules/@pins/database
-      - ./packages/document-service-api:/opt/app
+      - ./packages/:/opt/packages/
       - ./tmp/documents-upload:/tmp/upload
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
@@ -221,8 +211,8 @@ services:
     ports:
       - 9003:3000
       # node debugger
-      - 9229:9229
-    working_dir: /opt/app
+      # - 9229:9229
+    working_dir: /opt/packages/forms-web-app
     depends_on:
       - appeals-service-api
       - document-service-api
@@ -231,11 +221,7 @@ services:
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
-      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/database:/opt/app/node_modules/@pins/database
-      - ./packages/dynamic-forms:/opt/app/node_modules/@pins/dynamic-forms
-      - ./packages/forms-web-app:/opt/app
+      - ./packages/:/opt/packages/
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
