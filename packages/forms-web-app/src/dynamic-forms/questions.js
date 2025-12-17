@@ -455,7 +455,7 @@ exports.getQuestionProps = (response) => ({
 		pageTitle: 'Neighbour added',
 		question: 'Do you want to add another neighbour to be visited?',
 		fieldName: 'addNeighbourSiteAccess',
-		url: 'neighbour-address',
+		url: 'neighbours',
 		subQuestionLabel: 'Neighbour',
 		width: ListAddMoreQuestion.FULL_WIDTH,
 		validators: [new RequiredValidator()],
@@ -464,6 +464,7 @@ exports.getQuestionProps = (response) => ({
 			title: 'Tell us the address of the neighbour’s land or property',
 			question: 'Tell us the address of the neighbour’s land or property',
 			fieldName: 'neighbourSiteAddress',
+			url: 'neighbour-address',
 			validators: [new AddressValidator(defaultAddressValidatorParams)],
 			viewFolder: 'address-entry'
 		}

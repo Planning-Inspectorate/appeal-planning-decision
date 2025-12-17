@@ -60,11 +60,45 @@ class ListAddMoreQuestion extends Question {
 		});
 
 		this.subQuestion = new subQuestions[params.subQuestionProps.type](params.subQuestionProps);
+
+		this.baseTaskUrl = params.url ?? '';
+		this.subQuestionUrl = params.subQuestionProps.url ?? `${this.baseTaskUrl}-address`;
+
 		this.subQuestionLabel = params.subQuestionLabel ?? 'Answer';
 		this.subQuestionTitle = params.subQuestionTitle;
 		this.subQuestionFieldLabel = params.subQuestionFieldLabel;
 		this.subQuestionInputClasses = params.subQuestionInputClasses;
 		this.width = params.width ?? ListAddMoreQuestion.TWO_THIRDS_WIDTH;
+	}
+
+	getRoutes() {
+		return [this.baseTaskUrl, this.subQuestionUrl].filter(Boolean);
+	}
+
+	/**
+	 * Gets the URL slug for the current state of the question
+	 * @param {JourneyResponse} response
+	 * @returns {string}
+	 */
+	getQuestionUrl(response) {
+		const answers = this.subQuestion.getAddMoreAnswers(response, this.subQuestion.fieldName);
+
+		return this.#hasAtLeastOneAnswer(answers) ? this.baseTaskUrl : this.subQuestionUrl;
+	}
+
+	/**
+	 * gets the view model for this question
+	 * @param {Section | undefined} section - the current section
+	 * @param {any} [answer] - the current answer
+	 */
+	getQuestionModel(section, answer) {
+		const model = super.getQuestionModel(section, answer);
+
+		if (this.url === this.subQuestionUrl) {
+			model.fieldName = this.subQuestionUrl;
+		}
+
+		return model;
 	}
 
 	/**
@@ -87,7 +121,6 @@ class ListAddMoreQuestion extends Question {
 		if (viewModel.addMoreAnswers) {
 			return super.renderAction(res, viewModel);
 		}
-
 		return this.subQuestion.renderAction(res, viewModel);
 	}
 
@@ -105,6 +138,9 @@ class ListAddMoreQuestion extends Question {
 			journey.response,
 			this.subQuestion.fieldName
 		);
+
+		// Set default URL based on data presence
+		this.url = this.#hasAtLeastOneAnswer(answers) ? this.baseTaskUrl : this.subQuestionUrl;
 
 		// get viewModel for listing component
 		if (this.#hasAtLeastOneAnswer(answers)) {
@@ -297,6 +333,7 @@ class ListAddMoreQuestion extends Question {
 				const navigation = ['', viewModel.backLink];
 				const questionLabel = this.subQuestionFieldLabel;
 				const questionInputClasses = this.subQuestionInputClasses;
+
 				return this.renderAction(res, {
 					...viewModel,
 					backLink,

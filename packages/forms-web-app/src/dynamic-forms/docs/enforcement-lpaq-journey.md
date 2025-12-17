@@ -256,7 +256,7 @@ condition: () => questionHasAnswer(response, questions.planningContraventionNoti
 
 - radio `/inspector-access-appeal-site/` Will the inspector need access to the appellant’s land or property?
 - radio `/inspector-enter-neighbour-site/` Will the inspector need to enter a neighbour’s land or property?
-- list-add-more `/neighbour-address/` Do you want to add another neighbour to be visited?
+- list-add-more `/neighbours/` Do you want to add another neighbour to be visited?
 
 ```js
 condition: () => questionHasAnswer(response, questions.neighbouringSite, 'yes');

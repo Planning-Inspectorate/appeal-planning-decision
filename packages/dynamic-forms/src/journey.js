@@ -10,6 +10,8 @@
  * @typedef {import('./question')} Question
  */
 
+const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
+
 /**
  * A journey (An entire set of questions required for a completion of a submission)
  * @class
@@ -178,7 +180,14 @@ class Journey {
 	 */
 	#getQuestion(section, questionSegment) {
 		return section?.questions.find((q) => {
-			return q.fieldName === questionSegment || q.url === questionSegment;
+			const isMatch = q.fieldName === questionSegment || q.url === questionSegment;
+			if (isMatch) return true;
+
+			if (q instanceof ListAddMoreQuestion && q.subQuestionUrl === questionSegment) {
+				return true;
+			}
+
+			return false;
 		});
 	}
 
@@ -259,7 +268,15 @@ class Journey {
 				) {
 					const question = currentSection.questions[j];
 					if (takeNextQuestion && question.shouldDisplay(this.response)) {
-						return this.#buildQuestionUrl(currentSection.segment, question.getUrlSlug());
+						let slug = question.getUrlSlug();
+						if (
+							question instanceof ListAddMoreQuestion &&
+							typeof question.getQuestionUrl === 'function'
+						) {
+							slug = question.getQuestionUrl(this.response);
+						}
+
+						return this.#buildQuestionUrl(currentSection.segment, slug);
 					}
 
 					if (

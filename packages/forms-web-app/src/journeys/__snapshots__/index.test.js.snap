@@ -17062,7 +17062,7 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the neighbour-address question 1`] = `
+exports[`Dynamic forms journey tests lpa Advertisement Advertisement should render the neighbours question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -19456,7 +19456,7 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial advertisement should render the neighbour-address question 1`] = `
+exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial advertisement should render the neighbours question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -21476,7 +21476,7 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial planning (CAS) should render the neighbour-address question 1`] = `
+exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial planning (CAS) should render the neighbours question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -24135,7 +24135,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the neighbour-address question 1`] = `
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the neighbours question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -27220,7 +27220,7 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Householder Householder should render the neighbour-address question 1`] = `
+exports[`Dynamic forms journey tests lpa Householder Householder should render the neighbours question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -29659,7 +29659,7 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the lpa
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Planning Planning should render the neighbour-address question 1`] = `
+exports[`Dynamic forms journey tests lpa Planning Planning should render the neighbours question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
@@ -32919,7 +32919,7 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Planning listed building and conservation area Planning listed building and conservation area should render the neighbour-address question 1`] = `
+exports[`Dynamic forms journey tests lpa Planning listed building and conservation area Planning listed building and conservation area should render the neighbours question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>

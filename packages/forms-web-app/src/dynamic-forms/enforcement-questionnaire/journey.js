@@ -210,6 +210,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.neighbouringSitesToBeVisited)
 			.withCondition(() => questionHasAnswer(response, questions.neighbouringSite, 'yes'))
 			.addQuestion(questions.potentialSafetyRisks),
+
 		new Section('Appeal process', 'appeal-process')
 			.addQuestion(questions.procedureType)
 			.addQuestion(questions.whyInquiry)

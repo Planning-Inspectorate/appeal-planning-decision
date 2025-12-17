@@ -513,4 +513,53 @@ describe('Enforcement Journey', () => {
 			});
 		}
 	});
+
+	it('should include the "Site access" section and verify its structure and content', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+
+		const sectionTitle = 'Site access';
+		const sectionSegment = 'site-access';
+		const siteAccessSection = journey.sections.find((s) => s.name === sectionTitle);
+
+		const expectedQuestions = [
+			{
+				fieldName: 'lpaSiteAccess',
+				question: 'Will the inspector need access to the appellant’s land or property?',
+				urlSegment: 'inspector-access-appeal-site'
+			},
+			{
+				fieldName: 'neighbourSiteAccess',
+				question: 'Will the inspector need to enter a neighbour’s land or property?',
+				urlSegment: 'inspector-enter-neighbour-site'
+			},
+			{
+				fieldName: 'addNeighbourSiteAccess',
+				question: 'Do you want to add another neighbour to be visited?',
+				urlSegment: 'neighbours'
+			},
+			{
+				fieldName: 'lpaSiteSafetyRisks',
+				question: 'Add potential safety risks',
+				urlSegment: 'potential-safety-risks'
+			}
+		];
+
+		expect(siteAccessSection).toBeDefined();
+
+		if (siteAccessSection) {
+			const questions = siteAccessSection.questions;
+
+			expect(siteAccessSection.name).toBe(sectionTitle);
+			expect(siteAccessSection.segment).toBe(sectionSegment);
+
+			expectedQuestions.forEach((expected, index) => {
+				const actual = questions[index];
+
+				expect(actual).toBeDefined();
+				expect(actual.fieldName).toBe(expected.fieldName);
+				expect(actual.url).toBe(expected.urlSegment);
+				expect(actual.question).toBe(expected.question);
+			});
+		}
+	});
 });
