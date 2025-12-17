@@ -1,20 +1,12 @@
 /**
  * @param {string} featureFlagName
+ * @returns {boolean|null}
  */
-function isLocalOverride(featureFlagName) {
-	const localFeatureFlagPrefix = 'LOCAL_FEATURE_FLAG_';
-
-	// If not a LOCAL_FEATURE_FLAG then use ALL_ON setting
-	if (
-		process.env.FEATURE_FLAGS_SETTING === 'ALL_ON' &&
-		!featureFlagName.startsWith(localFeatureFlagPrefix)
-	) {
-		return true;
-	}
-
-	// Check for local feature flag overrides
+function getLocalOverride(featureFlagName) {
 	const envVarName = `LOCAL_FEATURE_FLAG_${featureFlagName.toUpperCase().replace(/-/g, '_')}`;
-	return process.env[envVarName] === 'true';
+	const value = process.env[envVarName];
+	if (!value) return null;
+	return value === 'true';
 }
 
 /**
@@ -22,14 +14,9 @@ function isLocalOverride(featureFlagName) {
  * @returns {(featureFlagName: string, localPlanningAuthorityCode?: string) => Promise<boolean>}
  */
 exports.isFeatureActive = (options) => async (featureFlagName, localPlanningAuthorityCode) => {
-	if (isLocalOverride(featureFlagName)) {
-		return true;
-	}
-
-	//if no env variable pointing to the config in azure, early return to avoid issues.
-	if (!options?.endpoint || typeof options.endpoint !== 'string' || options.endpoint.length <= 1) {
-		return false;
-	}
+	const localOverride = getLocalOverride(featureFlagName);
+	if (localOverride !== null) return localOverride;
+	if (process.env.FEATURE_FLAGS_SETTING === 'ALL_ON') return true;
 
 	const { AppConfigurationClient } = require('@azure/app-configuration');
 	const logger = require('./lib/logger');
