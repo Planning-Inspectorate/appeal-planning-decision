@@ -7,6 +7,7 @@ const useExistingServiceDevelopmentType = require('./use-existing-service-develo
 const useExistingServiceListedBuilding = require('./use-existing-service-listed-building');
 const canUseService = require('./can-use-service');
 const localPlanningAuthorityRouter = require('./local-planning-authority');
+const planningApplicationLookupRouter = require('./application-lookup');
 const typeOfPlanningApplicationRouter = require('./type-of-planning-application');
 const planningApplicationAbout = require('./planning-application-about');
 const useExistingServiceApplicationType = require('./use-existing-service-application-type');
@@ -25,6 +26,7 @@ router.use(useExistingServiceDevelopmentType);
 router.use(useExistingServiceListedBuilding);
 router.use(canUseService);
 router.use(localPlanningAuthorityRouter);
+router.use(planningApplicationLookupRouter);
 router.use(typeOfPlanningApplicationRouter);
 router.use(planningApplicationAbout);
 router.use(useExistingServiceApplicationType);

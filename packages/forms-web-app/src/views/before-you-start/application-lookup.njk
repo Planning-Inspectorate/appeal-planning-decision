@@ -1,0 +1,55 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% set title = "What's your application number? - Before you start - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}
+    {% if errors %}
+        {% set title = "Error: " + title %}
+    {% endif %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {% if errorSummary %}
+                {{ govukErrorSummary({
+                    titleText: "There is a problem",
+                    errorList: errorSummary
+                }) }}
+            {% endif %}
+            <form action="" method="post" novalidate>
+                <input type="hidden" name="_csrf" value="{{ _csrf }}"/>
+                <span class="govuk-caption-l">Before you start</span>
+                {{ govukInput({
+                        label: {
+                        text: "What’s your application number?",
+                        classes: "govuk-label--l",
+                        isPageHeading: true
+                    },
+                    hint: {
+                        text: "You can find this on communications from your local planning department about your application."
+                    },
+                    classes: "govuk-input govuk-input--width-10",
+                    id: "application-number",
+                    name: "application-number",
+                    spellcheck: false,
+                    errorMessage: errors['application-number'] and {
+                        text: errors['application-number'].msg
+                    },
+                    value: planningApplicationNumber
+                }) }}
+                {{ govukButton({
+                    text: "Continue",
+                    type: "submit",
+                    attributes: { "data-cy":"button-save-and-continue"}
+                }) }}
+
+                <p class="govuk-body">
+                    <a href="/before-you-start/type-of-planning-application" class="govuk-link">Continue without application number</a>
+                </p>
+            </form>
+        </div>
+    </div>
+{% endblock %}

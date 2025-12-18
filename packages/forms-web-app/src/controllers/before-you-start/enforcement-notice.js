@@ -76,5 +76,5 @@ exports.postEnforcementNotice = async (req, res) => {
 		return;
 	}
 
-	res.redirect('/before-you-start/type-of-planning-application');
+	res.redirect('/before-you-start/application-number');
 };
