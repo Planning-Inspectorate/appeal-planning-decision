@@ -508,7 +508,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	procedureType: {
 		type: 'radio',
-		title: 'Procedure type',
+		title: 'Which procedure do you think is the most appropriate for this appeal?',
 		question: 'Which procedure do you think is most appropriate for this appeal?',
 		fieldName: 'lpaProcedurePreference',
 		url: 'procedure-type',
@@ -562,7 +562,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	appealsNearSite: {
 		type: 'boolean',
-		title: 'Appeals near the site',
+		title: 'Are there any other ongoing appeals next to, or close to the site?',
 		question: 'Are there any other ongoing appeals next to, or close to the site?',
 		pageTitle: 'Are there any other ongoing appeals near the site?',
 		url: 'ongoing-appeals',
@@ -576,16 +576,16 @@ exports.getQuestionProps = (response) => ({
 	nearbyAppeals: {
 		type: 'list-add-more',
 		pageTitle: 'Nearby appeal added to the case',
-		title: 'n/a',
+		title: 'Do you want to add another appeal reference?',
 		question: 'Add another appeal?',
 		fieldName: 'addNearbyAppeal',
 		url: 'appeal-reference-number',
-		subQuestionLabel: 'Other appeal',
+		subQuestionLabel: 'Appeal references',
 		subQuestionInputClasses: 'govuk-input--width-10',
 		validators: [new RequiredValidator('Select yes if you want to add another appeal')],
 		subQuestionProps: {
 			type: 'case',
-			title: 'Enter an appeal reference number',
+			title: 'Enter the appeal reference',
 			question: 'Enter an appeal reference number',
 			fieldName: fieldNames.nearbyAppealReference,
 			hint: 'You can add more appeals later if there is more than one nearby',
@@ -599,7 +599,7 @@ exports.getQuestionProps = (response) => ({
 	addNewConditions: {
 		type: 'radio',
 		pageTitle: 'Are there any new conditions?',
-		title: 'Extra conditions', // this is summary list title
+		title: 'Are there any new conditions?', // this is summary list title
 		question: 'Check if there are any new conditions',
 		description: 'Tell us about any new conditions. Do not include the standard conditions.',
 		fieldName: 'newConditions',

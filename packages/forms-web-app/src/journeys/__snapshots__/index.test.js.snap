@@ -18552,20 +18552,23 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">6. </span> Appeal process<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Procedure type</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/procedure-type">Answer<span class="govuk-visually-hidden"> Which procedure do you think is most appropriate for this appeal?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Which procedure do you think is the most appropriate for this appeal?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/procedure-type">Answer<span class="govuk-visually-hidden"> Which procedure do you think is most appropriate for this appeal?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeals near the site</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any other ongoing appeals next to, or close to the site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Extra conditions</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any new conditions?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
@@ -20940,20 +20943,23 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement renders listin
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">6. </span> Appeal process<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Procedure type</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/procedure-type">Answer<span class="govuk-visually-hidden"> Which procedure do you think is most appropriate for this appeal?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Which procedure do you think is the most appropriate for this appeal?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/procedure-type">Answer<span class="govuk-visually-hidden"> Which procedure do you think is most appropriate for this appeal?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeals near the site</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any other ongoing appeals next to, or close to the site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Extra conditions</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any new conditions?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
@@ -22560,15 +22566,17 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) renders listi
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">6. </span> Appeal process<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeals near the site</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any other ongoing appeals next to, or close to the site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Extra conditions</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any new conditions?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
@@ -26684,20 +26692,23 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">6. </span> Appeal process<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Procedure type</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/procedure-type">Answer<span class="govuk-visually-hidden"> Which procedure do you think is most appropriate for this appeal?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Which procedure do you think is the most appropriate for this appeal?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/procedure-type">Answer<span class="govuk-visually-hidden"> Which procedure do you think is most appropriate for this appeal?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeals near the site</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any other ongoing appeals next to, or close to the site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Extra conditions</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any new conditions?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
@@ -28355,15 +28366,17 @@ exports[`Dynamic forms journey tests lpa Householder renders listing page 1`] = 
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">6. </span> Appeal process<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeals near the site</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any other ongoing appeals next to, or close to the site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Extra conditions</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any new conditions?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
@@ -35149,20 +35162,23 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">7. </span> Appeal process<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Procedure type</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/procedure-type">Answer<span class="govuk-visually-hidden"> Which procedure do you think is most appropriate for this appeal?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Which procedure do you think is the most appropriate for this appeal?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/procedure-type">Answer<span class="govuk-visually-hidden"> Which procedure do you think is most appropriate for this appeal?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeals near the site</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any other ongoing appeals next to, or close to the site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Extra conditions</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any new conditions?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>
@@ -35459,20 +35475,23 @@ exports[`Dynamic forms journey tests lpa Planning renders listing page 1`] = `
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">7. </span> Appeal process<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Procedure type</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/procedure-type">Answer<span class="govuk-visually-hidden"> Which procedure do you think is most appropriate for this appeal?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Which procedure do you think is the most appropriate for this appeal?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/procedure-type">Answer<span class="govuk-visually-hidden"> Which procedure do you think is most appropriate for this appeal?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeals near the site</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any other ongoing appeals next to, or close to the site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/ongoing-appeals">Answer<span class="govuk-visually-hidden"> Are there any other ongoing appeals next to, or close to the site?</span></a>
+                                </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Extra conditions</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any new conditions?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/appeal-process/new-conditions">Answer<span class="govuk-visually-hidden"> Check if there are any new conditions</span></a>
+                                </dd>
                         </div>
                     </dl>
                 </li>

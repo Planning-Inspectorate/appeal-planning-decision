@@ -513,4 +513,60 @@ describe('Enforcement Journey', () => {
 			});
 		}
 	});
+
+	it('should include the "Appeal process" section and verify its structure and content', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+		const sectionTitle = 'Appeal process';
+		const sectionName = 'appeal-process';
+		const constraintsSection = journey.sections.find((s) => s.name === sectionTitle);
+
+		const expectedQuestions = [
+			{
+				fieldName: 'lpaProcedurePreference',
+				question: `Which procedure do you think is most appropriate for this appeal?`,
+				urlSegment: 'procedure-type'
+			},
+			{
+				fieldName: 'lpaPreferInquiryDetails',
+				question: `Why would you prefer an inquiry?`
+			},
+			{
+				fieldName: 'lpaPreferHearingDetails',
+				question: `Why would you prefer a hearing?`
+			},
+			{
+				fieldName: 'nearbyAppeals',
+				question: `Are there any other ongoing appeals next to, or close to the site?`,
+				urlSegment: 'ongoing-appeals'
+			},
+			{
+				fieldName: 'addNearbyAppeal',
+				question: `Add another appeal?`,
+				urlSegment: 'appeal-reference-number'
+			},
+			{
+				fieldName: 'newConditions',
+				question: `Check if there are any new conditions`,
+				urlSegment: 'new-conditions'
+			}
+		];
+
+		expect(constraintsSection).toBeDefined();
+
+		if (constraintsSection) {
+			const questions = constraintsSection.questions;
+
+			expect(constraintsSection.name).toBe(sectionTitle);
+			expect(constraintsSection.segment).toBe(sectionName);
+
+			expectedQuestions.forEach((expected, index) => {
+				const actual = questions[index];
+
+				expect(actual).toBeDefined();
+				expect(actual.fieldName).toBe(expected.fieldName);
+				expect(actual.url).toBe(expected.urlSegment);
+				expect(actual.question).toBe(expected.question);
+			});
+		}
+	});
 });
