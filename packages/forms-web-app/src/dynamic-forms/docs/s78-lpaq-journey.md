@@ -109,7 +109,7 @@ condition: () =>
 	);
 ```
 
-- boolean `/scoping-opinion/` Did you receive a scoping opinion?
+- boolean `/scoping-opinion/` Did you issue a scoping opinion?
 
 ```js
 condition: () =>
@@ -138,7 +138,7 @@ condition: () =>
 	) && config.featureFlag.scopingOpinionEnabled;
 ```
 
-- radio `/environmental-statement/` Did the applicant submit an environmental statement?
+- radio `/environmental-submit-statement/` Did the applicant submit an environmental statement?
 - multi-file-upload `/upload-environmental-statement/` Upload the environmental statement and supporting information
 
 ```js

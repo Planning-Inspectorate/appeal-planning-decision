@@ -92,7 +92,11 @@ const formatNumber = require('@pins/dynamic-forms/src/dynamic-components/utils/f
  * @typedef {import('@pins/dynamic-forms/src/question')} Question
  */
 
-const { getExampleDate, formatEnforcementSelectNamesOptions } = require('./questions-utils');
+const {
+	getExampleDate,
+	formatEnforcementSelectNamesOptions,
+	getAppealSiteHtmlByAppealType
+} = require('./questions-utils');
 const { capitalize } = require('../lib/string-functions');
 
 const defaultFileUploadValidatorParams = {
@@ -1842,7 +1846,7 @@ exports.getQuestionProps = (response) => ({
 		title: 'What is the address of the appeal site?',
 		question: 'What is the address of the appeal site?',
 		fieldName: 'siteAddress',
-		html: 'resources/site-address/site-address.html',
+		html: getAppealSiteHtmlByAppealType(response),
 		url: 'appeal-site-address',
 		viewFolder: 'address-entry',
 		validators: [new AddressValidator(defaultAddressValidatorParams)]
