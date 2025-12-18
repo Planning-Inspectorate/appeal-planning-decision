@@ -12,7 +12,7 @@ const {
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 const navigationPages = {
-	nextPage: '/before-you-start/type-of-planning-application',
+	nextPage: '/before-you-start/application-number',
 	enforcementPage: '/before-you-start/enforcement-notice-listed-building',
 	shutterPage: '/before-you-start/use-existing-service-enforcement-notice'
 };
