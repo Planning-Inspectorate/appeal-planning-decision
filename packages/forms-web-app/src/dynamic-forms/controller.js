@@ -576,6 +576,8 @@ exports.submitAppellantSubmission = async (req, res) => {
 			return CASE_TYPES.CAS_PLANNING.friendlyUrl;
 		} else if (journeyId === JOURNEY_TYPES.ADVERTS_APPEAL_FORM.id) {
 			return CASE_TYPES.ADVERTS.friendlyUrl;
+		} else if (journeyId === JOURNEY_TYPES.ENFORCEMENT_APPEAL_FORM.id) {
+			return CASE_TYPES.ENFORCEMENT.friendlyUrl;
 		} else return '';
 	};
 
