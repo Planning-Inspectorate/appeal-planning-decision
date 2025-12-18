@@ -18,7 +18,9 @@ const lpaService = new LpaService();
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { templates } = config.services.notify;
 const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-static');
-const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
+const {
+	mapAppealTypeToDisplayTextWithAnOrA
+} = require('@pins/common/src/appeal-type-to-display-text');
 
 /**
  * @typedef {import('@pins/database/src/client/client').AppealCase } AppealCase
@@ -265,7 +267,9 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
 
 		const reference = appellantSubmission.id;
 
-		const appealType = mapAppealTypeToDisplayText(CASE_TYPES[appellantSubmission.appealTypeCode]);
+		const appealTypeWithAOrAn = mapAppealTypeToDisplayTextWithAnOrA(
+			CASE_TYPES[appellantSubmission.appealTypeCode]
+		);
 
 		const variables = {
 			...config.services.notify.templateVariables,
@@ -282,7 +286,7 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
 		);
 		await notifyService.sendEmail({
 			personalisation: {
-				subject: `We have received a ${appealType} appeal`,
+				subject: `We have received ${appealTypeWithAOrAn} appeal`,
 				content
 			},
 			destinationEmail: lpaEmail,

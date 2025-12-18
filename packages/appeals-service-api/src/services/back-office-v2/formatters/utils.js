@@ -431,6 +431,109 @@ exports.getAdvertsAppellantSubmissionFields = (appellantSubmission) => {
 
 /**
  * @param {FullAppellantSubmission} appellantSubmission
+ * @param {LPA} lpa
+ * @returns {AppellantS78SubmissionProperties}
+ */
+exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => {
+	const preference = exports.getAppellantProcedurePreference(appellantSubmission);
+
+	const address = appellantSubmission.SubmissionAddress?.find(
+		(address) => address.fieldName === 'siteAddress'
+	);
+
+	if (
+		exports.siteAddressAndGridReferenceAreMissing(
+			address,
+			appellantSubmission.siteGridReferenceEasting,
+			appellantSubmission.siteGridReferenceNorthing
+		)
+	) {
+		throw new Error(
+			'appellantSubmission.siteAddress should not be null or appellantSubmission.siteGridReferenceEasting && appellantSubmission.siteGridReferenceNorthing should not be null'
+		);
+	}
+
+	const getEnforcementNoticeDetails = () => {
+		return {
+			enforcementReferenceNumber: appellantSubmission.enforcementReferenceNumber ?? '',
+			enforcementIssueDate: appellantSubmission.enforcementIssueDate?.toISOString() ?? null,
+			enforcementEffectiveDate: appellantSubmission.enforcementEffectiveDate?.toISOString() ?? null,
+			hasContactedPlanningInspectorate:
+				appellantSubmission.hasContactedPlanningInspectorate ?? null,
+			contactPlanningInspectorateDate:
+				appellantSubmission.contactPlanningInspectorateDate?.toISOString() ?? null,
+
+			enforcementWhoIsAppealing: appellantSubmission.enforcementWhoIsAppealing ?? null,
+			enforcementOrganisationName: appellantSubmission.enforcementOrganisationName ?? null
+		};
+	};
+
+	// NamedIndividuals
+
+	// AppealGrounds
+
+	const getOriginalApplicationDetails = () => {
+		return {
+			applicationReference: appellantSubmission.applicationReference ?? null,
+			applicationDate: appellantSubmission.onApplicationDate?.toISOString() ?? null,
+			applicationDecision: appellantSubmission.applicationDecision
+				? exports.formatApplicationDecision(appellantSubmission.applicationDecision)
+				: null,
+			applicationDecisionDate: appellantSubmission.applicationDecisionDate?.toISOString() ?? null
+		};
+	};
+
+	const getSiteDetails = () => {
+		return {
+			siteAddressLine1: address?.addressLine1 ?? undefined,
+			siteAddressLine2: address?.addressLine2 ?? undefined,
+			siteAddressTown: address?.townCity ?? undefined,
+			siteAddressCounty: address?.county ?? undefined,
+			siteAddressPostcode: address?.postcode ?? undefined,
+			siteGridReferenceEasting: appellantSubmission.siteGridReferenceEasting,
+			siteGridReferenceNorthing: appellantSubmission.siteGridReferenceNorthing,
+			siteAccessDetails: [
+				appellantSubmission.appellantSiteAccess_appellantSiteAccessDetails
+			].filter(Boolean),
+			siteSafetyDetails: [
+				appellantSubmission.appellantSiteSafety_appellantSiteSafetyDetails
+			].filter(Boolean),
+			nearbyCaseReferences: appellantSubmission.SubmissionLinkedCase?.map(
+				({ caseReference }) => caseReference
+			)
+		};
+	};
+
+	return {
+		submissionId: appellantSubmission.appealId,
+		caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
+		lpaCode: lpa.getLpaCode(),
+		enforcementNotice: true,
+
+		...getEnforcementNoticeDetails(),
+
+		appellantCostsAppliedFor: appellantSubmission.costApplication ?? null,
+		planningObligation: appellantSubmission.planningObligation ?? null,
+		statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
+
+		caseSubmittedDate: new Date().toISOString(),
+		caseSubmissionDueDate: deadlineDate(
+			appellantSubmission.applicationDecisionDate,
+			CASE_TYPES[appellantSubmission.appealTypeCode].id.toString(),
+			appellantSubmission.applicationDecision
+		).toISOString(),
+
+		originalDevelopmentDescription: appellantSubmission.developmentDescriptionOriginal ?? null,
+		changedDevelopmentDescription: appellantSubmission.updateDevelopmentDescription ?? null,
+
+		...getOriginalApplicationDetails(),
+		...getSiteDetails(),
+		...preference
+	};
+};
+
+/**
+ * @param {FullAppellantSubmission} appellantSubmission
  * @returns {{appellantProcedurePreference: 'written'|'hearing'|'inquiry', appellantProcedurePreferenceDetails: string|null, appellantProcedurePreferenceDuration: Number|null, appellantProcedurePreferenceWitnessCount: Number|null}}
  */
 exports.getAppellantProcedurePreference = (appellantSubmission) => {
