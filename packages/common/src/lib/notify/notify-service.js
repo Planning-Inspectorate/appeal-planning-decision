@@ -27,6 +27,11 @@ class NotifyService {
 			v2LpaProofsEvidence: 'representations/v2-lpa-proofs-evidence.md',
 			v2R6ProofsEvidence: 'representations/v2-r6-proofs-evidence.md',
 			v2Rule6StatementSubmission: 'representations/v2-rule6-statement-submission.md'
+		},
+		rule6: {
+			partyCreated: 'rule-6/v2-rule-6-status-accepted-rule-6-party.md',
+			partyAddedToMainParties: 'rule-6/v2-rule-6-status-accepted-main-parties.md',
+			partyUpdated: 'rule-6/v2-rule-6-party-updated.md'
 		}
 	};
 
