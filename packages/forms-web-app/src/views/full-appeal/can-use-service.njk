@@ -2,34 +2,31 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../macros/summary-field.njk" import summaryField %}
 {% from "../macros/array-new-line.njk" import arrayToNewLine %}
-
 {% if not hideListedBuilding %}
-	{% set listedBuildingRow =
+    {% set listedBuildingRow =
 		{
 			key: {
-			text: "Is your appeal about a listed building?"
-		},
+				text: "Is your appeal about a listed building?"
+			},
 			value: {
-			text: summaryField(isListedBuilding, { 'data-cy': "listed-building" })
-		},
+				text: summaryField(isListedBuilding, { 'data-cy': "listed-building" })
+			},
 			actions: {
-			items: [
-				{
-					href: "/before-you-start/listed-building",
-					text: "Change",
-					visuallyHiddenText: "Is your appeal about a listed building?",
-					attributes: { "data-cy":"listedBuilding"}
-				}
-			]
-		}
-		}
-	%}
+				items: [
+					{
+						href: "/before-you-start/listed-building",
+						text: "Change",
+						visuallyHiddenText: "Is your appeal about a listed building?",
+						attributes: { "data-cy":"listedBuilding"}
+					}
+				]
+			}
+		} %}
 {% else %}
-	{% set listedBuildingRow = null %}
+    {% set listedBuildingRow = null %}
 {% endif %}
-
 {% if applicationAbout %}
-	{% set applicationAboutRow = {
+    {% set applicationAboutRow = {
 		key: {
 			text: "Application about?"
 		},
@@ -48,11 +45,10 @@
 		}
 	} %}
 {% else %}
-	{% set applicationAboutRow = null %}
+    {% set applicationAboutRow = null %}
 {% endif %}
-
 {% if not hideGrantedRefused %}
-	{%  set grantedRefusedRow = {
+    {% set grantedRefusedRow = {
 		key: {
 			text: "Was your application granted or refused?"
 		},
@@ -71,11 +67,10 @@
 		}
 	} %}
 {% else %}
-	{% set grantedRefusedRow = null %}
+    {% set grantedRefusedRow = null %}
 {% endif %}
-
 {% if not hideDecisionDate %}
-	{% set decisionDateRow = {
+    {% set decisionDateRow = {
 		key: {
 			text: dateOfDecisionLabel
 		},
@@ -94,55 +89,71 @@
 		}
 	} %}
 {% else %}
-	{% set decisionDateRow = null %}
+    {% set decisionDateRow = null %}
 {% endif %}
-
 {% block deadlineDateInfo %}
-	{% if not hideDecisionDate %}
-		{{ super() }}
-	{% endif %}
+    {% if not hideDecisionDate %}
+        {{ super() }}
+    {% endif %}
 {% endblock %}
-
 {% block canUseServiceSummaryList %}
-	{{ govukSummaryList({
+    {{ govukSummaryList({
 		classes: "govuk-summary-list govuk-!-margin-bottom-9",
 		rows: [
 			{
 				key: {
-				text: "Local planning authority"
-			},
+					text: "Local planning authority"
+				},
 				value: {
-				text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
-			},
+					text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
+				},
 				actions: {
-				items: [
-					{
-						href: changeLpaUrl,
-						text: "Change",
-						visuallyHiddenText: "Local planning authority",
-						attributes: { "data-cy":"localPlanningDepartment"}
-					}
-				]
-			}
+					items: [
+						{
+							href: changeLpaUrl,
+							text: "Change",
+							visuallyHiddenText: "Local planning authority",
+							attributes: { "data-cy":"localPlanningDepartment"}
+						}
+					]
+				}
 			},
 			{
 				key: {
-				text: "Have you received an enforcement notice?"
-			},
+					text: "Have you received an enforcement notice?"
+				},
 				value: {
-				text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
-			},
+					text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+				},
 				actions: {
-				items: [
-					{
-						href: "/before-you-start/enforcement-notice",
-						text: "Change",
-						visuallyHiddenText: "Have you received an enforcement notice?",
-						attributes: { "data-cy":"enforcementNotice"}
-					}
-				]
-			}
+					items: [
+						{
+							href: "/before-you-start/enforcement-notice",
+							text: "Change",
+							visuallyHiddenText: "Have you received an enforcement notice?",
+							attributes: { "data-cy":"enforcementNotice"}
+						}
+					]
+				}
 			},
+			{
+              key: {
+                text: "Application number"
+              },
+              value: {
+                text: summaryField(planningApplicationNumber, { 'data-cy': "application-number" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/application-number",
+                    text: "Change",
+                    visuallyHiddenText: "Application number",
+                    attributes: { "data-cy":"applicationNumber"}
+                  }
+                ]
+              }
+            } if planningApplicationNumber,
 			{
 				key: {
 				text: "Type of application"
@@ -151,15 +162,15 @@
 				text: summaryField(applicationType, { 'data-cy': "application-type" })
 			},
 				actions: {
-				items: [
-					{
-						href: "/before-you-start/type-of-planning-application",
-						text: "Change",
-						visuallyHiddenText: "Type of application",
-						attributes: { "data-cy":"applicationType"}
-					}
-				]
-			}
+					items: [
+						{
+							href: "/before-you-start/type-of-planning-application",
+							text: "Change",
+							visuallyHiddenText: "Type of application",
+							attributes: { "data-cy":"applicationType"}
+						}
+					]
+				}
 			},
 			listedBuildingRow,
 			applicationAboutRow,

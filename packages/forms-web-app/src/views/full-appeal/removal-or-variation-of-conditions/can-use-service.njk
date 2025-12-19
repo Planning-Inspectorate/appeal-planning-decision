@@ -2,134 +2,152 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../../macros/summary-field.njk" import summaryField %}
 {% block canUseServiceSummaryList %}
-	{{ govukSummaryList({
+    {{ govukSummaryList({
 		classes: "govuk-summary-list govuk-!-margin-bottom-9",
 		rows: [
 			{
 				key: {
-				text: "Local planning authority"
-			},
+					text: "Local planning authority"
+				},
 				value: {
-				text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
-			},
+					text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
+				},
 				actions: {
-				items: [
-					{
-						href: changeLpaUrl,
-						text: "Change",
-						visuallyHiddenText: "Local planning authority",
-						attributes: { "data-cy":"localPlanningDepartment"}
-					}
-				]
-			}
+					items: [
+						{
+							href: changeLpaUrl,
+							text: "Change",
+							visuallyHiddenText: "Local planning authority",
+							attributes: { "data-cy":"localPlanningDepartment"}
+						}
+					]
+				}
 			},
 			{
 				key: {
-				text: "Have you received an enforcement notice?"
-			},
+					text: "Have you received an enforcement notice?"
+				},
 				value: {
-				text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
-			},
+					text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+				},
 				actions: {
-				items: [
-					{
-						href: "/before-you-start/enforcement-notice",
-						text: "Change",
-						visuallyHiddenText: "Have you received an enforcement notice?",
-						attributes: { "data-cy":"enforcementNotice"}
-					}
-				]
-			}
+					items: [
+						{
+							href: "/before-you-start/enforcement-notice",
+							text: "Change",
+							visuallyHiddenText: "Have you received an enforcement notice?",
+							attributes: { "data-cy":"enforcementNotice"}
+						}
+					]
+				}
 			},
 			{
 				key: {
-				text: "Type of application"
-			},
+					text: "Application number"
+				},
 				value: {
-				text: summaryField(applicationType, { 'data-cy': "application-type" })
-			},
+					text: summaryField(planningApplicationNumber, { 'data-cy': "application-number" })
+				},
 				actions: {
-				items: [
-					{
-						href: "/before-you-start/type-of-planning-application",
-						text: "Change",
-						visuallyHiddenText: "Type of application",
-						attributes: { "data-cy":"applicationType"}
-					}
-				]
-			}
+					items: [
+						{
+							href: "/before-you-start/application-number",
+							text: "Change",
+							visuallyHiddenText: "Application number",
+							attributes: { "data-cy":"applicationNumber"}
+						}
+					]
+				}
+			} if planningApplicationNumber,
+			{
+				key: {
+					text: "Type of application"
+				},
+				value: {
+					text: summaryField(applicationType, { 'data-cy': "application-type" })
+				},
+				actions: {
+					items: [
+						{
+							href: "/before-you-start/type-of-planning-application",
+							text: "Change",
+							visuallyHiddenText: "Type of application",
+							attributes: { "data-cy":"applicationType"}
+						}
+					]
+				}
 			},
 			{
 				key: {
-				text: "Are the conditions for householder planning permission?"
-			},
+					text: "Are the conditions for householder planning permission?"
+				},
 				value: {
-				text: hasHouseholderPermissionConditions
-			},
+					text: hasHouseholderPermissionConditions
+				},
 				actions: {
-				items: [
-					{
-						href: "/before-you-start/conditions-householder-permission",
-						text: "Change",
-						visuallyHiddenText: "Are the conditions for householder planning permission?",
-						attributes: { "data-cy":"householderPermissionConditions"}
-					}
-				]
-			}
+					items: [
+						{
+							href: "/before-you-start/conditions-householder-permission",
+							text: "Change",
+							visuallyHiddenText: "Are the conditions for householder planning permission?",
+							attributes: { "data-cy":"householderPermissionConditions"}
+						}
+					]
+				}
 			},
 			{
 				key: {
-				text: "Is your appeal about a listed building?"
-			},
+					text: "Is your appeal about a listed building?"
+				},
 				value: {
-				text: summaryField(isListedBuilding, { 'data-cy': "listed-building" })
-			},
+					text: summaryField(isListedBuilding, { 'data-cy': "listed-building" })
+				},
 				actions: {
-				items: [
-					{
-						href: "/before-you-start/listed-building",
-						text: "Change",
-						visuallyHiddenText: "Is your appeal about a listed building?",
-						attributes: { "data-cy":"listedBuilding"}
-					}
-				]
-			}
+					items: [
+						{
+							href: "/before-you-start/listed-building",
+							text: "Change",
+							visuallyHiddenText: "Is your appeal about a listed building?",
+							attributes: { "data-cy":"listedBuilding"}
+						}
+					]
+				}
 			},
 			{
 				key: {
-				text: "Was your application granted or refused?"
-			},
+					text: "Was your application granted or refused?"
+				},
 				value: {
-				text: summaryField(applicationDecision, { 'data-cy': "application-decision" })
-			},
+					text: summaryField(applicationDecision, { 'data-cy': "application-decision" })
+				},
 				actions: {
-				items: [
-					{
-						href: "/before-you-start/granted-or-refused",
-						text: "Change",
-						visuallyHiddenText: "Was your application granted or refused?",
-						attributes: { "data-cy":"applicationDecision"}
-					}
-				]
-			}
+					items: [
+						{
+							href: "/before-you-start/granted-or-refused",
+							text: "Change",
+							visuallyHiddenText: "Was your application granted or refused?",
+							attributes: { "data-cy":"applicationDecision"}
+						}
+					]
+				}
 			},
 			{
 				key: {
-				text: dateOfDecisionLabel
-			},
+					text: dateOfDecisionLabel
+				},
 				value: {
-				text: summaryField(decisionDate, { 'data-cy': "decision-date" })
-			},
+					text: summaryField(decisionDate, { 'data-cy': "decision-date" })
+				},
 				actions: {
-				items: [
-					{
-						href: "/before-you-start/decision-date",
-						text: "Change",
-						visuallyHiddenText: dateOfDecisionLabel,
-						attributes: { "data-cy":"decisionDate"}
-					}
-				]
-			}
+					items: [
+						{
+							href: "/before-you-start/decision-date",
+							text: "Change",
+							visuallyHiddenText: dateOfDecisionLabel,
+							attributes: { "data-cy":"decisionDate"}
+						}
+					]
+				}
 			}
 		]
 	}) }}
