@@ -3,7 +3,7 @@
 ## Constraints, designations and other issues
 
 - boolean `/correct-appeal-type/` Is <appeal type with an or a> appeal the correct type of appeal?
-- boolean `/affect-listed-building/` Does the alleged development affect the setting of listed buildings?
+- boolean `/affect-listed-building/` Does the proposed development affect the setting of listed buildings?
 - list-add-more `/affected-listed-buildings/` Add another building or site?
 
 ```js

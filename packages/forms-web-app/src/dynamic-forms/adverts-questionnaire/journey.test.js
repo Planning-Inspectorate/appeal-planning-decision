@@ -104,14 +104,14 @@ describe.each([
 		);
 		expect(
 			journey.sections[CONSTRAINTS_SECTION_INDEX].questions[CHANGE_LISTED_BUILDING_INDEX].question
-		).toBe('Does the development change a listed building?');
+		).toBe('Does the proposed development change a listed building?');
 		expect(
 			journey.sections[CONSTRAINTS_SECTION_INDEX].questions[CHANGE_LISTED_BUILDING_NUMBER_INDEX]
 				.question
 		).toBe('Add another building or site?');
 		expect(
 			journey.sections[CONSTRAINTS_SECTION_INDEX].questions[AFFECT_LISTED_BUILDING_INDEX].question
-		).toBe('Does the alleged development affect the setting of listed buildings?');
+		).toBe('Does the proposed development affect the setting of listed buildings?');
 		expect(
 			journey.sections[CONSTRAINTS_SECTION_INDEX].questions[AFFECT_LISTED_BUILDING_NUMBER_INDEX]
 				.question
@@ -303,9 +303,7 @@ describe('Correctly display the fields which depend on the appeal type', () => {
 		});
 		expect(
 			journey.sections[0].questions
-				.find((question) =>
-					question.title.includes('Does the development change a listed building?')
-				)
+				.find((question) => question.title.includes('Changes a listed building'))
 				?.shouldDisplay({
 					...mockResponseCasAdverts
 				})
@@ -321,9 +319,7 @@ describe('Correctly display the fields which depend on the appeal type', () => {
 		});
 		expect(
 			journey.sections[0].questions
-				.find((question) =>
-					question.title.includes('Does the development change a listed building?')
-				)
+				.find((question) => question.title.includes('Changes a listed building'))
 				?.shouldDisplay({
 					...mockResponseAdverts
 				})

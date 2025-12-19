@@ -68,7 +68,7 @@ describe('Enforcement Journey', () => {
 			},
 			{
 				fieldName: 'changesListedBuilding',
-				question: 'Does the development change a listed building?',
+				question: 'Does the proposed development change a listed building?',
 				urlSegment: 'changes-listed-building'
 			},
 			{
@@ -79,7 +79,7 @@ describe('Enforcement Journey', () => {
 
 			{
 				fieldName: 'affectsListedBuilding',
-				question: 'Does the alleged development affect the setting of listed buildings?',
+				question: 'Does the proposed development affect the setting of listed buildings?',
 				urlSegment: 'affect-listed-building'
 			},
 			{
@@ -355,13 +355,11 @@ describe('Enforcement Journey', () => {
 			},
 			{
 				fieldName: 'infrastructureLevyAdoptedDate',
-				question: 'When was the community infrastructure levy formally adopted?',
-				urlSegment: 'infrastructureLevyAdoptedDate'
+				question: 'When was the community infrastructure levy formally adopted?'
 			},
 			{
 				fieldName: 'infrastructureLevyExpectedDate',
-				question: 'When do you expect to formally adopt the community infrastructure levy?',
-				urlSegment: 'infrastructureLevyExpectedDate'
+				question: 'When do you expect to formally adopt the community infrastructure levy?'
 			},
 
 			// New Enforcement Questions
@@ -446,7 +444,7 @@ describe('Enforcement Journey', () => {
 			{
 				fieldName: 'didYouDoTheEnvironmentalStatement',
 				question: `Did you do the environmental statement?`,
-				urlSegment: 'environmental-statement'
+				urlSegment: 'your-environmental-statement'
 			},
 			{
 				fieldName: 'developmentDescription',
@@ -481,7 +479,7 @@ describe('Enforcement Journey', () => {
 			{
 				fieldName: 'applicantSubmittedEnvironmentalStatement',
 				question: `Did the applicant submit an environmental statement?`,
-				urlSegment: 'environmental-submit-statement'
+				urlSegment: 'environmental-statement'
 			},
 			{
 				fieldName: 'uploadEnvironmentalStatement',
