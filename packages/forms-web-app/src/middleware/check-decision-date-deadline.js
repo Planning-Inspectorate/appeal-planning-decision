@@ -40,7 +40,9 @@ const checkDecisionDateDeadline = (req, res, next) => {
 	const { appeal } = req.session;
 
 	if (appeal && appeal.decisionDate) {
-		const isInAllowList = validationExclusionPages.some((path) => req.originalUrl.includes(path));
+		const isInAllowList =
+			validationExclusionPages.some((path) => req.originalUrl.includes(path)) &&
+			!req.originalUrl.startsWith('/before-you-start/can-use-service');
 
 		if (appeal.appealType && !isInAllowList) {
 			if (!isWithinExpiryPeriod(appeal)) {
