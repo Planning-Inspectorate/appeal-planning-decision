@@ -200,3 +200,6 @@ structurizr/.structurizr/*
 
 # prisma
 packages/database/src/client
+
+# certs
+ExtraCA.crt
