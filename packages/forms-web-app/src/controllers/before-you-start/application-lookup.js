@@ -20,6 +20,7 @@ const {
 } = require('@pins/business-rules');
 
 const typeOfApplicationPage = '/before-you-start/type-of-planning-application';
+const canUseServicePage = '/before-you-start/can-use-service';
 
 const getApplicationLookup = async (req, res) => {
 	const { appeal } = req.session;
@@ -53,6 +54,8 @@ const postApplicationLookup = async (req, res) => {
 
 	appeal.planningApplicationNumber = planningApplicationNumber;
 
+	let allDataRetrieved = false;
+
 	try {
 		const bopsClient = new BopsApiClient(bopsAPIBaseUrl, allowTestingOverrides);
 		const lookupResult = await bopsClient.getPublicApplication(planningApplicationNumber);
@@ -60,12 +63,12 @@ const postApplicationLookup = async (req, res) => {
 		// todo: map address and add to buildCreateAppellantSubmissionData
 		const mappedLookupData = mapBopsBeforeYouStart(lookupResult);
 		if (mappedLookupData) {
+			appeal.appealType = mappedLookupData.appealType;
 			appeal.eligibility.applicationDecision = mappedLookupData.eligibility.applicationDecision;
 			appeal.typeOfPlanningApplication = mappedLookupData.typeOfPlanningApplication;
 			appeal.decisionDate = mappedLookupData.decisionDate;
+			allDataRetrieved = mappedLookupData.allData;
 		}
-
-		// todo: ad-36 handle deadline
 	} catch (err) {
 		// todo: ad-42 redirect to not found page on failed call
 		return res.render(APPLICATION_LOOKUP, {
@@ -77,7 +80,10 @@ const postApplicationLookup = async (req, res) => {
 
 	try {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
-		// todo: ad-37 if all data present jump to check your answers page
+
+		if (allDataRetrieved) {
+			return res.redirect(canUseServicePage);
+		}
 	} catch (err) {
 		logger.error(err, 'Could not create or update appeal after application lookup');
 		return res.render(APPLICATION_LOOKUP, {

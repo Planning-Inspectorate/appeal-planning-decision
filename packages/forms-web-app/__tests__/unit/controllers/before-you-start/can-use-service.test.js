@@ -7,6 +7,7 @@ const removalOrVariationOfConditionsFPAppeal = require('../../../mockData/remova
 const removalOrVariationOfConditionsHASAppeal = require('../../../mockData/removal-or-variation-of-conditions/removal-or-variation-of-conditions-has-route');
 const { getDepartmentFromId } = require('../../../../src/services/department.service');
 const { TYPE_OF_PLANNING_APPLICATION, APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { validation } = require('@pins/business-rules');
 const {
 	VIEW: {
 		BEFORE_YOU_START: { ENFORCEMENT_CAN_USE_SERVICE: canUseServiceEnforcementView },
@@ -57,6 +58,11 @@ describe('controllers/before-you-start/can-use-service', () => {
 		jest.resetAllMocks();
 		res = mockRes();
 		getDepartmentFromId.mockImplementation(() => Promise.resolve({ name: 'Bradford' }));
+		validation.appeal = {
+			decisionDate: {
+				isWithinDecisionDateExpiryPeriod: jest.fn().mockReturnValue(true)
+			}
+		};
 	});
 
 	describe('getCanUseService', () => {
@@ -672,6 +678,25 @@ describe('controllers/before-you-start/can-use-service', () => {
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('LDC'))
 			});
+		});
+	});
+
+	describe('getCanUseService - missed deadline', () => {
+		it('redirects to deadline page', async () => {
+			validation.appeal = {
+				decisionDate: {
+					isWithinDecisionDateExpiryPeriod: jest.fn().mockReturnValue(false)
+				}
+			};
+
+			const mockAppeal = {
+				decisionDate: new Date()
+			};
+			req = mockReq(mockAppeal);
+
+			await getCanUseService(req, res);
+
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/you-cannot-appeal');
 		});
 	});
 });

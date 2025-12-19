@@ -46,6 +46,18 @@ describe('middleware/check-decision-date-deadline', () => {
 		expect(res.redirect).toHaveBeenCalledWith('/appeal-householder-decision/cannot-appeal');
 	});
 
+	it('should check deadline for before-you-start/can-use-service', () => {
+		req.session.appeal.appealType = HOUSEHOLDER;
+		req.session.appeal.eligibility.applicationDecision = GRANTED;
+		req.session.appeal.decisionDate = subYears(new Date(), 1);
+		req.originalUrl = '/before-you-start/can-use-service';
+
+		checkDecisionDateDeadline(req, res, next);
+
+		expect(res.redirect).toHaveBeenCalledTimes(1);
+		expect(res.redirect).toHaveBeenCalledWith('/appeal-householder-decision/cannot-appeal');
+	});
+
 	it('should continue if the decision date is inside the expiry period for Full-appeal and the decision date page is being rendered', () => {
 		req.session.appeal.appealType = FULL_APPEAL;
 		req.session.appeal.eligibility.applicationDecision = REFUSED;
