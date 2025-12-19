@@ -26,6 +26,7 @@ const {
 	getAppealGroundsQuestions,
 	chooseGroundsOfAppealQuestion
 } = require('../appeal-grounds-questions');
+const { generateInterestInLandQuestionsAndConditions } = require('../enforcement-questions');
 /** @type {Array<'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'>} */
 const appealGroundsArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
 
@@ -91,27 +92,27 @@ const formatDynamicNames = (response) => {
 	}
 };
 
-/**
- * @param {JourneyResponse} response
- * @returns {string}
- */
-const formatInterestInLandNames = (response) => {
-	const party = response.answers['enforcementWhoIsAppealing'];
+// /**
+//  * @param {JourneyResponse} response
+//  * @returns {string}
+//  */
+// const formatInterestInLandNames = (response) => {
+// 	const party = response.answers['enforcementWhoIsAppealing'];
 
-	if (!party) return "Named Individual's";
+// 	if (!party) return "Named Individual's";
 
-	if (response.answers['isAppellant'] === 'yes') return 'your';
+// 	if (response.answers['isAppellant'] === 'yes') return 'your';
 
-	let partyName;
-	if (party === fieldValues.enforcementWhoIsAppealing.ORGANISATION) {
-		/** @ts-ignore */
-		partyName = escape(response.answers['enforcementOrganisationName'] || 'Named Company');
-	} else {
-		partyName = formatEnforcementIndividualName(response);
-	}
+// 	let partyName;
+// 	if (party === fieldValues.enforcementWhoIsAppealing.ORGANISATION) {
+// 		/** @ts-ignore */
+// 		partyName = escape(response.answers['enforcementOrganisationName'] || 'Named Company');
+// 	} else {
+// 		partyName = formatEnforcementIndividualName(response);
+// 	}
 
-	return `${partyName}'s`;
-};
+// 	return `${partyName}'s`;
+// };
 
 /**
  * @param {JourneyResponse} response
@@ -120,6 +121,7 @@ const formatInterestInLandNames = (response) => {
 const makeSections = (response) => {
 	const questions = getQuestions(response);
 	const appealGroundsQuestions = getAppealGroundsQuestions(response, appealGroundsArray);
+	const interestInLandQuestions = generateInterestInLandQuestionsAndConditions(response);
 
 	return [
 		new Section('Prepare appeal', 'prepare-appeal')
@@ -185,10 +187,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.appealSiteIsContactAddress)
 			.addQuestion(questions.contactAddress)
 			.withCondition(() => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no'))
-			.addQuestion(questions.interestInLand)
-			.withVariables({
-				[QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY]: formatInterestInLandNames(response)
-			})
+			.addQuestions(interestInLandQuestions)
 			.addQuestion(questions.enforcementInspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterAllegedBreachDescription)
