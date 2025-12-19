@@ -15,13 +15,21 @@ class ApiClientError extends Error {
 }
 
 /**
- * @param {import('node-fetch').Response} response
+ * @param {import('node-fetch').Response|Response} response
  * @param {import('pino').BaseLogger} logger
  * @param {string} apiName
+ * @param {{logNotFound: boolean}} [options]
  * @throws {ApiClientError}
  * @returns {Promise<never>}
  */
-async function handleApiErrors(response, logger, apiName) {
+async function handleApiErrors(
+	response,
+	logger,
+	apiName,
+	options = {
+		logNotFound: true
+	}
+) {
 	const contentType = response.headers.get('content-type');
 
 	// unlikely scenario probably an api bug
@@ -58,6 +66,13 @@ async function handleApiErrors(response, logger, apiName) {
 		// list of errors on response body
 		logger.warn(errorResponse, apiName + ' error: errorResponse.array');
 		throw new ApiClientError(response.statusText, response.status, errorResponse);
+	}
+
+	if (response.status === 404) {
+		if (options.logNotFound) {
+			logger.warn(errorResponse, apiName + ' error: 404 not found');
+		}
+		throw new ApiClientError(response.statusText, response.status);
 	}
 
 	logger.error(errorResponse, apiName + ' error: unknown error format');

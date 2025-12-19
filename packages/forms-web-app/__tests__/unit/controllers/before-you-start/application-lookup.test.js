@@ -16,6 +16,23 @@ const { mockReq, mockRes } = require('../../mocks');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
 jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
+jest.mock('@pins/common/src/client/bops/bops-api-client', () => {
+	return {
+		BopsApiClient: jest.fn().mockImplementation(() => ({
+			getPublicApplication: jest.fn()
+		}))
+	};
+});
+jest.mock('@pins/business-rules', () => ({
+	mappings: {
+		bops: {
+			beforeYouStart: jest.fn()
+		}
+	}
+}));
+
+const { BopsApiClient } = require('@pins/common/src/client/bops/bops-api-client');
+const { mappings } = require('@pins/business-rules');
 
 describe('controllers/before-you-start/planning-application-lookup', () => {
 	let req;
@@ -59,6 +76,15 @@ describe('controllers/before-you-start/planning-application-lookup', () => {
 	});
 
 	describe('postApplicationLookup', () => {
+		let bopsClientInstance;
+
+		beforeEach(() => {
+			bopsClientInstance = {
+				getPublicApplication: jest.fn()
+			};
+			BopsApiClient.mockImplementation(() => bopsClientInstance);
+		});
+
 		it('re-renders with validation errors when input is invalid', async () => {
 			req.body = {
 				'application-number': '',
@@ -77,37 +103,121 @@ describe('controllers/before-you-start/planning-application-lookup', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 		});
 
+		it('re-renders with API error when BopsApiClient fails', async () => {
+			req.body = {
+				'application-number': 'APP-999'
+			};
+
+			bopsClientInstance.getPublicApplication.mockRejectedValue(new Error('Not found'));
+
+			await postApplicationLookup(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(APPLICATION_LOOKUP, {
+				planningApplicationNumber: 'APP-999',
+				errors: {},
+				errorSummary: [{ text: 'Could not find application APP-999', href: '#' }]
+			});
+			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
+			expect(res.redirect).not.toHaveBeenCalled();
+		});
+
+		it('maps lookup data and updates appeal when valid', async () => {
+			req.body = {
+				'application-number': 'APP-456'
+			};
+
+			const lookupResult = {
+				application: {
+					type: { value: 'pp_full_householder' },
+					decision: 'granted',
+					determinedAt: '2024-01-01T00:00:00Z'
+				}
+			};
+			bopsClientInstance.getPublicApplication.mockResolvedValue(lookupResult);
+
+			const mappedLookupData = {
+				typeOfPlanningApplication: 'householder-planning',
+				eligibility: { applicationDecision: 'GRANTED' },
+				decisionDate: new Date('2024-01-01T00:00:00Z')
+			};
+			mappings.bops.beforeYouStart.mockReturnValue(mappedLookupData);
+
+			const updatedAppeal = {
+				...appeal,
+				planningApplicationNumber: 'APP-456',
+				eligibility: { applicationDecision: 'GRANTED' },
+				typeOfPlanningApplication: 'householder-planning',
+				decisionDate: new Date('2024-01-01T00:00:00Z')
+			};
+			createOrUpdateAppeal.mockResolvedValue(updatedAppeal);
+
+			await postApplicationLookup(req, res);
+
+			expect(mappings.bops.beforeYouStart).toHaveBeenCalledWith(lookupResult);
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith(
+				expect.objectContaining({
+					planningApplicationNumber: 'APP-456',
+					eligibility: expect.objectContaining({ applicationDecision: 'GRANTED' }),
+					typeOfPlanningApplication: 'householder-planning',
+					decisionDate: new Date('2024-01-01T00:00:00Z')
+				})
+			);
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/type-of-planning-application');
+		});
+
+		it('does not update appeal fields if mapping returns null', async () => {
+			req.body = {
+				'application-number': 'APP-789'
+			};
+
+			const lookupResult = { application: { type: { value: 'unknown' } } };
+			bopsClientInstance.getPublicApplication.mockResolvedValue(lookupResult);
+
+			mappings.bops.beforeYouStart.mockReturnValue(null);
+
+			const updatedAppeal = { ...appeal, planningApplicationNumber: 'APP-789' };
+			createOrUpdateAppeal.mockResolvedValue(updatedAppeal);
+
+			await postApplicationLookup(req, res);
+
+			expect(mappings.bops.beforeYouStart).toHaveBeenCalledWith(lookupResult);
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith(
+				expect.objectContaining({
+					planningApplicationNumber: 'APP-789'
+				})
+			);
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/type-of-planning-application');
+		});
+
 		it('re-renders with API error when createOrUpdateAppeal fails', async () => {
 			req.body = {
 				'application-number': 'APP-999'
 			};
+
+			const lookupResult = { application: { type: { value: 'pp_full_householder' } } };
+			bopsClientInstance.getPublicApplication.mockResolvedValue(lookupResult);
+
+			mappings.bops.beforeYouStart.mockReturnValue({
+				typeOfPlanningApplication: 'householder-planning',
+				eligibility: { applicationDecision: 'GRANTED' },
+				decisionDate: new Date('2024-01-01T00:00:00Z')
+			});
 
 			const error = new Error('API down');
 			createOrUpdateAppeal.mockRejectedValue(error);
 
 			await postApplicationLookup(req, res);
 
-			expect(logger.error).toHaveBeenCalledWith(error);
+			expect(logger.error).toHaveBeenCalledWith(
+				error,
+				'Could not create or update appeal after application lookup'
+			);
 			expect(res.render).toHaveBeenCalledWith(APPLICATION_LOOKUP, {
 				planningApplicationNumber: 'APP-999',
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
 			});
 			expect(res.redirect).not.toHaveBeenCalled();
-		});
-
-		it('updates appeal and redirects to next page when valid', async () => {
-			req.body = {
-				'application-number': 'APP-456'
-			};
-
-			const updatedAppeal = { ...appeal, planningApplicationNumber: 'APP-456' };
-			createOrUpdateAppeal.mockResolvedValue(updatedAppeal);
-
-			await postApplicationLookup(req, res);
-
-			expect(createOrUpdateAppeal).toHaveBeenCalledWith(updatedAppeal);
-			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/type-of-planning-application');
 		});
 	});
 });
