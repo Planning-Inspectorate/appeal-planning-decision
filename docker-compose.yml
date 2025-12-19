@@ -182,6 +182,7 @@ services:
       ALLOW_TESTING_OVERRIDES: 'true'
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       AUTH_BASE_URL: http://auth-server:3000
+      BOPS_BASE_URL: https://camden.bops-staging.services
       IS_LOCALHOST: 'true'
       CLAMAV_HOST: clamav-server
       CLAMAV_PORT: 3310
