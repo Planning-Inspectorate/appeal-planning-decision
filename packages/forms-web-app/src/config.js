@@ -93,6 +93,9 @@ module.exports = {
 		timeout: numberWithDefault(process.env.APPEALS_SERVICE_API_TIMEOUT, 10000),
 		url: process.env.APPEALS_SERVICE_API_URL
 	},
+	bopsApi: {
+		baseUrl: process.env.BOPS_BASE_URL
+	},
 	cacheControl: {
 		maxAge: process.env.CACHE_CONTROL_MAX_AGE || '1d'
 	},
