@@ -1,15 +1,13 @@
 {% from "govuk/components/cookie-banner/macro.njk" import govukCookieBanner %}
-
 {% macro cookieBannerRejected(attributes = {}) -%}
   {% set serviceName = attributes.serviceName | default('appeal a planning decision service', true) %}
   {% set cookiePagePath = attributes.cookiePagePath | default('/cookies', true) %}
-
   {% set ariaLabel = 'Cookies on %serviceName%' | replace('%serviceName%', serviceName) %}
-
   {% set rejectedHtml %}
-    <p class="govuk-body">You’ve rejected analytics cookies. You can <a class="govuk-link" href="{{ cookiePagePath }}">change your cookie settings</a> at any time.</p>
+  <p class="govuk-body">You’ve rejected analytics cookies. You can
+    <a class="govuk-link" href="{{ cookiePagePath }}">change your cookie settings</a>
+    at any time.</p>
   {% endset %}
-
   {{ govukCookieBanner({
     ariaLabel: ariaLabel,
     attributes: {
@@ -26,7 +24,10 @@
             type: "submit",
             name: "cookie_banner_rejected",
             value: "hide",
-            attributes: { "data-cy": "cookie-banner-rejected-hide-message" }
+            attributes: {
+							"data-cy": "cookie-banner-rejected-hide-message",
+							"aria-label": "Hide the cookie confirmation message"
+						}
           }
         ]
       }
