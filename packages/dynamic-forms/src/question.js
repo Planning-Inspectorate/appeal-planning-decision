@@ -76,6 +76,8 @@ class Question {
 	variables;
 	/** @type {string|undefined} optional back link text */
 	backLinkText;
+	/** @type {object|undefined} optional custom data object */
+	customData;
 
 	details = {
 		title: '',
@@ -100,6 +102,7 @@ class Question {
 	 * @param {() => boolean} [params.shouldDisplayOnTaskList]
 	 * @param {Array.<QuestionVariables>} [params.variables]
 	 * @param {string} [params.backLinkText]
+	 * @param {object} [params.customData]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
@@ -120,7 +123,8 @@ class Question {
 			shouldDisplayOnTaskList,
 			variables,
 			showSkipLink,
-			backLinkText
+			backLinkText,
+			customData
 		},
 		methodOverrides
 	) {
@@ -141,6 +145,7 @@ class Question {
 		this.variables = variables;
 		this.showSkipLink = showSkipLink || false;
 		this.backLinkText = backLinkText;
+		this.customData = customData;
 
 		if (shouldDisplay) {
 			this.shouldDisplay = shouldDisplay;

@@ -15,6 +15,7 @@ class BooleanQuestion extends RadioQuestion {
 	 * @param {Array<string>} [params.variables]
 	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 * @param {object} [params.customData]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */

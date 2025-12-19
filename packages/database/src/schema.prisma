@@ -837,27 +837,28 @@ model AppellantSubmission {
   contactAddress              Boolean?
 
   // enforcement
-  enforcementIssueDate              DateTime?
-  enforcementEffectiveDate          DateTime?
-  hasContactedPlanningInspectorate  Boolean?
-  contactPlanningInspectorateDate   DateTime?
-  enforcementReferenceNumber        String?
-  enforcementWhoIsAppealing         String?
-  addNamedIndividual                Boolean?
-  selectedNamedIndividualId         String?
-  enforcementOrganisationName       String?
-  interestInAppealLand              String?
-  interestInAppealLandDetails       String?
-  allegedBreachDescription          String?
-  appealGrounds                     String?
-  applicationMadeAndFeePaid         Boolean?
-  uploadApplicationReceipt          Boolean?
-  applicationPartOrWholeDevelopment String?
-  applicationDecisionAppealed       Boolean?
-  appealDecisionDate                DateTime?
-  uploadPriorCorrespondence         Boolean?
-  uploadEnforcementNotice           Boolean?
-  uploadEnforcementNoticePlan       Boolean?
+  enforcementIssueDate                             DateTime?
+  enforcementEffectiveDate                         DateTime?
+  hasContactedPlanningInspectorate                 Boolean?
+  contactPlanningInspectorateDate                  DateTime?
+  enforcementReferenceNumber                       String?
+  enforcementWhoIsAppealing                        String?
+  addNamedIndividual                               Boolean?
+  selectedNamedIndividualId                        String?
+  enforcementOrganisationName                      String?
+  interestInAppealLand                             String?
+  interestInAppealLand_interestInAppealLandDetails String?
+  hasPermissionToUseLand                           Boolean?
+  allegedBreachDescription                         String?
+  appealGrounds                                    String?
+  applicationMadeAndFeePaid                        Boolean?
+  uploadApplicationReceipt                         Boolean?
+  applicationPartOrWholeDevelopment                String?
+  applicationDecisionAppealed                      Boolean?
+  appealDecisionDate                               DateTime?
+  uploadPriorCorrespondence                        Boolean?
+  uploadEnforcementNotice                          Boolean?
+  uploadEnforcementNoticePlan                      Boolean?
 
   SubmissionIndividual   SubmissionIndividual[]
   SubmissionAppealGround SubmissionAppealGround[]
@@ -964,7 +965,7 @@ model LPAQuestionnaireSubmission {
   isSiteInAreaOfSpecialControlAdverts             Boolean?
   wasApplicationRefusedDueToHighwayOrTraffic      Boolean?
   didAppellantSubmitCompletePhotosAndPlans        Boolean?
-	didYouDoTheEnvironmentalStatement								Boolean?
+  didYouDoTheEnvironmentalStatement               Boolean?
 
   // New enforcement fieldnames
   listOfPeopleSentEnforcementNotice      Boolean?
@@ -1292,8 +1293,9 @@ model SubmissionIndividual {
   // the fieldName of the submission question / subquestion - required for display filtering
   fieldName String
 
-  interestInAppealLand            String? // 'owner', 'mortgage lender', 'tenant', 'other'
-  interestInAppealLandDescription String? // required is interest is 'other'
+  interestInAppealLand                             String? // 'owner', 'mortgage lender', 'tenant', 'other'
+  interestInAppealLand_interestInAppealLandDetails String? // required is interest is 'other'
+  hasPermissionToUseLand                           Boolean? // required if interest is 'other'
 
   // indexes
   @@index([appellantSubmissionId])

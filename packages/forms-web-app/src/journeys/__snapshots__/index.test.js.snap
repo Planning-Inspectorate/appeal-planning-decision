@@ -6674,15 +6674,15 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts-a"> Facts for ground (a)</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts"> Facts for ground (a)</label></h1>
                 <p class="govuk-!-margin-bottom-2">Enter your grounds of appeal and supporting fact. Do not repeat the local
                     planning authority's reasons for issuing the enforcement notice.</p>
                 <p
                 class="govuk-!-margin-bottom-2">You can upload supporting documents later.</p>
                     <div class="govuk-form-group">
-                        <div id="facts-a-hint" class="govuk-hint"></div>
-                        <textarea class="govuk-textarea" id="facts-a" name="facts-a" rows="5"
-                        aria-describedby="facts-a-hint"></textarea>
+                        <div id="facts-hint" class="govuk-hint"></div>
+                        <textarea class="govuk-textarea" id="facts" name="facts" rows="5"
+                        aria-describedby="facts-hint"></textarea>
                     </div>
                     <button type="submit" class="govuk-button" data-module="govuk-button"
                     data-cy="button-save-and-continue">Continue</button>
@@ -6711,21 +6711,21 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-(a)-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Do you have any documents to support your ground (a) facts?</h1>
                         </legend>
-                        <div id="addSupportingDocuments-(a)-hint" class="govuk-hint"></div>
+                        <div id="addSupportingDocuments-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(a)" name="addSupportingDocuments-(a)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments" name="addSupportingDocuments"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(a)">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(a)-2" name="addSupportingDocuments-(a)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments-2" name="addSupportingDocuments"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(a)-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -6756,15 +6756,15 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts-b"> Facts for ground (b)</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts"> Facts for ground (b)</label></h1>
                 <p class="govuk-!-margin-bottom-2">Enter your grounds of appeal and supporting fact. Do not repeat the local
                     planning authority's reasons for issuing the enforcement notice.</p>
                 <p
                 class="govuk-!-margin-bottom-2">You can upload supporting documents later.</p>
                     <div class="govuk-form-group">
-                        <div id="facts-b-hint" class="govuk-hint"></div>
-                        <textarea class="govuk-textarea" id="facts-b" name="facts-b" rows="5"
-                        aria-describedby="facts-b-hint"></textarea>
+                        <div id="facts-hint" class="govuk-hint"></div>
+                        <textarea class="govuk-textarea" id="facts" name="facts" rows="5"
+                        aria-describedby="facts-hint"></textarea>
                     </div>
                     <button type="submit" class="govuk-button" data-module="govuk-button"
                     data-cy="button-save-and-continue">Continue</button>
@@ -6793,21 +6793,21 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-(b)-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Do you have any documents to support your ground (b) facts?</h1>
                         </legend>
-                        <div id="addSupportingDocuments-(b)-hint" class="govuk-hint"></div>
+                        <div id="addSupportingDocuments-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(b)" name="addSupportingDocuments-(b)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments" name="addSupportingDocuments"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(b)">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(b)-2" name="addSupportingDocuments-(b)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments-2" name="addSupportingDocuments"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(b)-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -6838,15 +6838,15 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts-c"> Facts for ground (c)</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts"> Facts for ground (c)</label></h1>
                 <p class="govuk-!-margin-bottom-2">Enter your grounds of appeal and supporting fact. Do not repeat the local
                     planning authority's reasons for issuing the enforcement notice.</p>
                 <p
                 class="govuk-!-margin-bottom-2">You can upload supporting documents later.</p>
                     <div class="govuk-form-group">
-                        <div id="facts-c-hint" class="govuk-hint"></div>
-                        <textarea class="govuk-textarea" id="facts-c" name="facts-c" rows="5"
-                        aria-describedby="facts-c-hint"></textarea>
+                        <div id="facts-hint" class="govuk-hint"></div>
+                        <textarea class="govuk-textarea" id="facts" name="facts" rows="5"
+                        aria-describedby="facts-hint"></textarea>
                     </div>
                     <button type="submit" class="govuk-button" data-module="govuk-button"
                     data-cy="button-save-and-continue">Continue</button>
@@ -6875,21 +6875,21 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-(c)-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Do you have any documents to support your ground (c) facts?</h1>
                         </legend>
-                        <div id="addSupportingDocuments-(c)-hint" class="govuk-hint"></div>
+                        <div id="addSupportingDocuments-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(c)" name="addSupportingDocuments-(c)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments" name="addSupportingDocuments"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(c)">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(c)-2" name="addSupportingDocuments-(c)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments-2" name="addSupportingDocuments"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(c)-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -6920,15 +6920,15 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts-d"> Facts for ground (d)</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts"> Facts for ground (d)</label></h1>
                 <p class="govuk-!-margin-bottom-2">Enter your grounds of appeal and supporting fact. Do not repeat the local
                     planning authority's reasons for issuing the enforcement notice.</p>
                 <p
                 class="govuk-!-margin-bottom-2">You can upload supporting documents later.</p>
                     <div class="govuk-form-group">
-                        <div id="facts-d-hint" class="govuk-hint"></div>
-                        <textarea class="govuk-textarea" id="facts-d" name="facts-d" rows="5"
-                        aria-describedby="facts-d-hint"></textarea>
+                        <div id="facts-hint" class="govuk-hint"></div>
+                        <textarea class="govuk-textarea" id="facts" name="facts" rows="5"
+                        aria-describedby="facts-hint"></textarea>
                     </div>
                     <button type="submit" class="govuk-button" data-module="govuk-button"
                     data-cy="button-save-and-continue">Continue</button>
@@ -6957,21 +6957,21 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-(d)-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Do you have any documents to support your ground (d) facts?</h1>
                         </legend>
-                        <div id="addSupportingDocuments-(d)-hint" class="govuk-hint"></div>
+                        <div id="addSupportingDocuments-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(d)" name="addSupportingDocuments-(d)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments" name="addSupportingDocuments"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(d)">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(d)-2" name="addSupportingDocuments-(d)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments-2" name="addSupportingDocuments"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(d)-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -7002,15 +7002,15 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts-e"> Facts for ground (e)</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts"> Facts for ground (e)</label></h1>
                 <p class="govuk-!-margin-bottom-2">Enter your grounds of appeal and supporting fact. Do not repeat the local
                     planning authority's reasons for issuing the enforcement notice.</p>
                 <p
                 class="govuk-!-margin-bottom-2">You can upload supporting documents later.</p>
                     <div class="govuk-form-group">
-                        <div id="facts-e-hint" class="govuk-hint"></div>
-                        <textarea class="govuk-textarea" id="facts-e" name="facts-e" rows="5"
-                        aria-describedby="facts-e-hint"></textarea>
+                        <div id="facts-hint" class="govuk-hint"></div>
+                        <textarea class="govuk-textarea" id="facts" name="facts" rows="5"
+                        aria-describedby="facts-hint"></textarea>
                     </div>
                     <button type="submit" class="govuk-button" data-module="govuk-button"
                     data-cy="button-save-and-continue">Continue</button>
@@ -7039,21 +7039,21 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-(e)-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Do you have any documents to support your ground (e) facts?</h1>
                         </legend>
-                        <div id="addSupportingDocuments-(e)-hint" class="govuk-hint"></div>
+                        <div id="addSupportingDocuments-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(e)" name="addSupportingDocuments-(e)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments" name="addSupportingDocuments"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(e)">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(e)-2" name="addSupportingDocuments-(e)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments-2" name="addSupportingDocuments"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(e)-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -7084,15 +7084,15 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts-f"> Facts for ground (f)</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts"> Facts for ground (f)</label></h1>
                 <p class="govuk-!-margin-bottom-2">Enter your grounds of appeal and supporting fact. Do not repeat the local
                     planning authority's reasons for issuing the enforcement notice.</p>
                 <p
                 class="govuk-!-margin-bottom-2">You can upload supporting documents later.</p>
                     <div class="govuk-form-group">
-                        <div id="facts-f-hint" class="govuk-hint"></div>
-                        <textarea class="govuk-textarea" id="facts-f" name="facts-f" rows="5"
-                        aria-describedby="facts-f-hint"></textarea>
+                        <div id="facts-hint" class="govuk-hint"></div>
+                        <textarea class="govuk-textarea" id="facts" name="facts" rows="5"
+                        aria-describedby="facts-hint"></textarea>
                     </div>
                     <button type="submit" class="govuk-button" data-module="govuk-button"
                     data-cy="button-save-and-continue">Continue</button>
@@ -7121,21 +7121,21 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-(f)-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Do you have any documents to support your ground (f) facts?</h1>
                         </legend>
-                        <div id="addSupportingDocuments-(f)-hint" class="govuk-hint"></div>
+                        <div id="addSupportingDocuments-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(f)" name="addSupportingDocuments-(f)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments" name="addSupportingDocuments"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(f)">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(f)-2" name="addSupportingDocuments-(f)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments-2" name="addSupportingDocuments"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(f)-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -7166,15 +7166,15 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts-g"> Facts for ground (g)</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="facts"> Facts for ground (g)</label></h1>
                 <p class="govuk-!-margin-bottom-2">Enter your grounds of appeal and supporting fact. Do not repeat the local
                     planning authority's reasons for issuing the enforcement notice.</p>
                 <p
                 class="govuk-!-margin-bottom-2">You can upload supporting documents later.</p>
                     <div class="govuk-form-group">
-                        <div id="facts-g-hint" class="govuk-hint"></div>
-                        <textarea class="govuk-textarea" id="facts-g" name="facts-g" rows="5"
-                        aria-describedby="facts-g-hint"></textarea>
+                        <div id="facts-hint" class="govuk-hint"></div>
+                        <textarea class="govuk-textarea" id="facts" name="facts" rows="5"
+                        aria-describedby="facts-hint"></textarea>
                     </div>
                     <button type="submit" class="govuk-button" data-module="govuk-button"
                     data-cy="button-save-and-continue">Continue</button>
@@ -7203,21 +7203,21 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-(g)-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="addSupportingDocuments-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Do you have any documents to support your ground (g) facts?</h1>
                         </legend>
-                        <div id="addSupportingDocuments-(g)-hint" class="govuk-hint"></div>
+                        <div id="addSupportingDocuments-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(g)" name="addSupportingDocuments-(g)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments" name="addSupportingDocuments"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(g)">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="addSupportingDocuments-(g)-2" name="addSupportingDocuments-(g)"
+                                <input class="govuk-radios__input" id="addSupportingDocuments-2" name="addSupportingDocuments"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-(g)-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="addSupportingDocuments-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -7567,73 +7567,6 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                         </div>
                     </fieldset>
                 </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the land-interest question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="" method="post" novalidate=null>
-                <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <h1 class="govuk-fieldset__heading"> What is Named Individual&#39;s interest in the land?</h1>
-                    </legend>
-                    <div class="govuk-form-group">
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="interestInAppealLand" name="interestInAppealLand"
-                                type="radio" value="owner" data-cy="answer-owner">
-                                <label class="govuk-label govuk-radios__label" for="interestInAppealLand">Owner</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="interestInAppealLand-2" name="interestInAppealLand"
-                                type="radio" value="tenant" data-cy="answer-tenant">
-                                <label class="govuk-label govuk-radios__label" for="interestInAppealLand-2">Tenant</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="interestInAppealLand-3" name="interestInAppealLand"
-                                type="radio" value="mortgageLender" data-cy="answer-mortgageLender">
-                                <label class="govuk-label govuk-radios__label" for="interestInAppealLand-3">Mortgage lender</label>
-                            </div>
-                            <div class="govuk-radios__divider">or</div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="interestInAppealLand-5" name="interestInAppealLand"
-                                type="radio" value="other" data-aria-controls="conditional-interestInAppealLand-5"
-                                data-cy="answer-other">
-                                <label class="govuk-label govuk-radios__label" for="interestInAppealLand-5">Other</label>
-                            </div>
-                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
-                            id="conditional-interestInAppealLand-5">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label" for="interestInAppealLand_interestInAppealLandDetails">Enter interest in the land</label>
-                                    <div id="interestInAppealLand_interestInAppealLandDetails-hint"
-                                    class="govuk-hint"></div>
-                                    <textarea class="govuk-textarea" id="interestInAppealLand_interestInAppealLandDetails"
-                                    name="interestInAppealLand_interestInAppealLandDetails" rows="5" aria-describedby="interestInAppealLand_interestInAppealLandDetails-hint"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
             </form>
@@ -8979,12 +8912,6 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/is-contact-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Is the appeal site address your contact address?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is Named Individual&#39;s interest in the land?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/land-interest?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is &lt;interest in land party&gt; interest in the land?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Will an inspector need to access the land or property?</dt>

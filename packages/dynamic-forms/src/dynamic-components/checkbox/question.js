@@ -24,6 +24,7 @@ class CheckboxQuestion extends OptionsQuestion {
 	 * @param {string} [params.description]
 	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 * @param {object} [params.customData]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */

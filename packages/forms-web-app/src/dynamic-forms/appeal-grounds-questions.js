@@ -17,8 +17,7 @@ const StringValidator = require('@pins/dynamic-forms/src/validator/string-valida
 
 const { documentTypes } = require('@pins/common');
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
-const appealGroundsBooleanOverrides = require('../journeys/question-overrides/appeal-grounds-boolean');
-const appealGroundsTextEntryOverrides = require('../journeys/question-overrides/appeal-grounds-text-entry');
+const appealGroundsQuestionsOverrides = require('../journeys/question-overrides/appeal-grounds-questions');
 const appealGroundsCheckboxOverrides = require('../journeys/question-overrides/appeal-grounds-checkbox');
 
 const {
@@ -100,7 +99,7 @@ const getCommonAppealGroundsQuestionProps = (response, appealGround) => [
 			type: 'text-entry',
 			title: `Facts for ground (${appealGround})`,
 			question: `Facts for ground (${appealGround})`,
-			fieldName: `facts-${appealGround}`,
+			fieldName: `facts`,
 			url: `facts-ground-${appealGround}`,
 			html: 'resources/enforcement/appeal-ground-facts.html',
 			validators: [
@@ -111,7 +110,10 @@ const getCommonAppealGroundsQuestionProps = (response, appealGround) => [
 						maxLengthMessage: `Your description must be ${appealFormV2.textInputMaxLength} characters or less`
 					}
 				})
-			]
+			],
+			customData: {
+				groundName: appealGround
+			}
 		},
 		condition: () => responseHasAppealGround(response, `${appealGround}`)
 	},
@@ -120,13 +122,16 @@ const getCommonAppealGroundsQuestionProps = (response, appealGround) => [
 			type: 'boolean',
 			title: `Do you have any documents to support your ground (${appealGround}) facts?`,
 			question: `Do you have any documents to support your ground (${appealGround}) facts?`,
-			fieldName: `addSupportingDocuments-(${appealGround})`,
+			fieldName: `addSupportingDocuments`,
 			url: `facts-ground-${appealGround}-supporting-documents`,
 			validators: [
 				new RequiredValidator(
 					`Select yes if you have any documents to support your ground (${appealGround}) facts`
 				)
-			]
+			],
+			customData: {
+				groundName: appealGround
+			}
 		},
 		condition: () => responseHasAppealGround(response, `${appealGround}`)
 	},
@@ -161,8 +166,8 @@ const questionClasses = {
 
 const questionMethodOverrides = {
 	'multi-file-upload': multiFileUploadOverrides,
-	boolean: appealGroundsBooleanOverrides,
-	'text-entry': appealGroundsTextEntryOverrides,
+	boolean: appealGroundsQuestionsOverrides,
+	'text-entry': appealGroundsQuestionsOverrides,
 	checkbox: appealGroundsCheckboxOverrides
 };
 

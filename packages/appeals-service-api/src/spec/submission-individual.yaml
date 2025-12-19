@@ -33,3 +33,6 @@ components:
         interestInAppealLandDescription:
           type: string
           description: further details of individual's interest in land covered by appeal
+        hasPermissionToUseLand:
+          type: boolean
+          description: if interest is 'other', does individual have permission to use land

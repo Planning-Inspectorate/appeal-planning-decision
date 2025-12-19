@@ -39,6 +39,7 @@ interface CommonQuestionProps {
 	shouldDisplay?: (response: JourneyResponse) => boolean;
 	shouldDisplayOnTaskList?: () => boolean;
 	variables?: QuestionVariables[];
+	customData?: object;
 }
 
 export type OptionWithoutDivider = {

@@ -79,7 +79,6 @@ condition: () => questionHasNonEmptyStringAnswer(response, questions.enforcement
 condition: () => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no');
 ```
 
-- radio `/land-interest/` What is <interest in land party> interest in the land?
 - radio `/inspector-need-access/` Will an inspector need to access the land or property?
 - radio `/health-safety-issues/` Health and safety issues
 - text-entry `/description-alleged-breach/` Enter the description of the alleged breach

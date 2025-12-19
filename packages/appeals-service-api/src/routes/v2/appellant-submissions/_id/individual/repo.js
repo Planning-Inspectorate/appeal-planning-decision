@@ -11,6 +11,9 @@ const { appellantSubmissionRelations } = require('../../repo');
  * @property {string} firstName
  * @property {string} lastName
  * @property {string} fieldName
+ * @property {string} [interestInAppealLand]
+ * @property {string} [interestInAppealLand_interestInAppealLandDetails]
+ * @property {boolean} [hasPermissionToUseLand]
  */
 
 class SubmissionIndividualRepository {
@@ -28,7 +31,15 @@ class SubmissionIndividualRepository {
 	 * @returns {Promise<AppellantSubmission>}
 	 */
 	async createIndividual(appellantSubmissionId, individualData) {
-		const { firstName, lastName, fieldName, id } = individualData;
+		const {
+			firstName,
+			lastName,
+			fieldName,
+			id,
+			interestInAppealLand,
+			interestInAppealLand_interestInAppealLandDetails,
+			hasPermissionToUseLand
+		} = individualData;
 
 		if (id) {
 			const existingIndividual = await this.dbClient.submissionIndividual.findUniqueOrThrow({
@@ -46,7 +57,10 @@ class SubmissionIndividualRepository {
 							data: {
 								firstName,
 								lastName,
-								fieldName
+								fieldName,
+								interestInAppealLand,
+								interestInAppealLand_interestInAppealLandDetails,
+								hasPermissionToUseLand
 							}
 						}
 					}
@@ -64,7 +78,10 @@ class SubmissionIndividualRepository {
 					create: {
 						firstName,
 						lastName,
-						fieldName
+						fieldName,
+						interestInAppealLand,
+						interestInAppealLand_interestInAppealLandDetails,
+						hasPermissionToUseLand
 					}
 				}
 			},

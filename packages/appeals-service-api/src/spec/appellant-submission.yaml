@@ -243,6 +243,8 @@ components:
           type: string
         interestInAppealLandDetails:
           type: string
+        hasPermissionToUseLand:
+          type: boolean
         allegedBreachDescription:
           type: string
         applicationMadeAndFeePaid:
