@@ -45,6 +45,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 
 	const {
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationDecision,
 		decisionDate,
@@ -64,6 +65,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 	res.render(canUseServiceHouseholder, {
 		deadlineDate,
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationDecision,
 		decisionDate,
@@ -81,6 +83,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 	const { appeal } = req.session;
 	const {
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationAbout,
 		applicationDecision,
@@ -107,6 +110,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 	res.render(canUseServiceFullAppealView, {
 		deadlineDate,
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationAbout,
 		applicationDecision,
@@ -129,6 +133,7 @@ const canUseServicePriorApproval = async (req, res) => {
 	const { appeal } = req.session;
 	const {
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationDecision,
 		decisionDate,
@@ -151,6 +156,7 @@ const canUseServicePriorApproval = async (req, res) => {
 		res.render(canUseServicePriorApprovalHouseholder, {
 			deadlineDate,
 			appealLPD,
+			planningApplicationNumber,
 			applicationType,
 			applicationDecision,
 			decisionDate,
@@ -170,6 +176,7 @@ const canUseServicePriorApproval = async (req, res) => {
 		res.render(canUseServicePriorApprovalFull, {
 			deadlineDate,
 			appealLPD,
+			planningApplicationNumber,
 			applicationType,
 			applicationDecision,
 			decisionDate,
@@ -186,6 +193,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 	const { appeal } = req.session;
 	const {
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationDecision,
 		decisionDate,
@@ -210,6 +218,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 		res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
 			deadlineDate,
 			appealLPD,
+			planningApplicationNumber,
 			applicationType,
 			isListedBuilding,
 			applicationDecision,
@@ -230,6 +239,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 		res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
 			deadlineDate,
 			appealLPD,
+			planningApplicationNumber,
 			applicationType,
 			applicationDecision,
 			decisionDate,

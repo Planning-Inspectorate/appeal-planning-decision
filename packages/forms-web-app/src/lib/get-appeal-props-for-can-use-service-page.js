@@ -3,8 +3,9 @@ const { getDepartmentFromId } = require('../services/department.service');
 const { removeDashesAndCapitaliseString } = require('./capitalised-dashed-strings');
 const { getNextPageFromCanUseServicePage } = require('./get-next-page-from-can-use-service-page');
 const {
-	TYPE_OF_PLANNING_APPLICATION,
-	APPLICATION_ABOUT_LABELS
+	APPLICATION_ABOUT_LABELS,
+	APPLICATION_DECISION,
+	TYPE_OF_PLANNING_APPLICATION
 } = require('@pins/business-rules/src/constants');
 
 const getAppealPropsForCanUseServicePage = async (appeal) => {
@@ -17,6 +18,8 @@ const getAppealPropsForCanUseServicePage = async (appeal) => {
 		}
 	}
 
+	const planningApplicationNumber = appeal.planningApplicationNumber;
+
 	let applicationType;
 
 	if (appeal.typeOfPlanningApplication) {
@@ -28,11 +31,11 @@ const getAppealPropsForCanUseServicePage = async (appeal) => {
 	}
 
 	let { applicationDecision = '' } = appeal.eligibility;
-	if (applicationDecision === 'nodecisionreceived') {
+	if (applicationDecision === APPLICATION_DECISION.NODECISIONRECEIVED) {
 		applicationDecision = 'No decision received';
-	} else if (applicationDecision === 'granted') {
+	} else if (applicationDecision === APPLICATION_DECISION.GRANTED) {
 		applicationDecision = 'Granted with conditions';
-	} else if (applicationDecision === 'refused') {
+	} else if (applicationDecision === APPLICATION_DECISION.REFUSED) {
 		applicationDecision = 'Refused';
 	} else {
 		applicationDecision = removeDashesAndCapitaliseString(applicationDecision);
@@ -78,6 +81,7 @@ const getAppealPropsForCanUseServicePage = async (appeal) => {
 
 	return {
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationAbout,
 		applicationDecision,
