@@ -3,7 +3,7 @@
 ## Constraints, designations and other issues
 
 - boolean `/correct-appeal-type/` Is <appeal type with an or a> appeal the correct type of appeal?
-- boolean `/changes-listed-building/` Does the development change a listed building?
+- boolean `/changes-listed-building/` Does the proposed development change a listed building?
 
 ```js
 condition: () => response.journeyId === JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE.id;
@@ -15,7 +15,7 @@ condition: () => response.journeyId === JOURNEY_TYPES.ADVERTS_QUESTIONNAIRE.id;
 condition: () => questionHasAnswer(response, questions.changesListedBuilding, 'yes');
 ```
 
-- boolean `/affect-listed-building/` Does the alleged development affect the setting of listed buildings?
+- boolean `/affect-listed-building/` Does the proposed development affect the setting of listed buildings?
 - list-add-more `/affected-listed-buildings/` Add another building or site?
 
 ```js

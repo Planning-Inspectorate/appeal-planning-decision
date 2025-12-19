@@ -3,14 +3,14 @@
 ## Constraints, designations and other issues
 
 - boolean `/correct-appeal-type/` Is <appeal type with an or a> appeal the correct type of appeal?
-- boolean `/changes-listed-building/` Does the development change a listed building?
+- boolean `/changes-listed-building/` Does the proposed development change a listed building?
 - list-add-more `/changed-listed-buildings/` Add another building or site?
 
 ```js
 condition: () => questionHasAnswer(response, questions.changesListedBuilding, 'yes');
 ```
 
-- boolean `/affect-listed-building/` Does the alleged development affect the setting of listed buildings?
+- boolean `/affect-listed-building/` Does the proposed development affect the setting of listed buildings?
 - list-add-more `/affected-listed-buildings/` Add another building or site?
 
 ```js
@@ -109,7 +109,7 @@ condition: () =>
 	);
 ```
 
-- boolean `/scoping-opinion/` Did you issue a scoping opinion?
+- boolean `/scoping-opinion/` Did you receive a scoping opinion?
 
 ```js
 condition: () =>
@@ -138,7 +138,7 @@ condition: () =>
 	) && config.featureFlag.scopingOpinionEnabled;
 ```
 
-- radio `/environmental-submit-statement/` Did the applicant submit an environmental statement?
+- radio `/environmental-statement/` Did the applicant submit an environmental statement?
 - multi-file-upload `/upload-environmental-statement/` Upload the environmental statement and supporting information
 
 ```js
