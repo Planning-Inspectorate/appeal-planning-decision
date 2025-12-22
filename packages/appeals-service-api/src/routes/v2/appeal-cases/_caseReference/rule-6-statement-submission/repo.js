@@ -30,8 +30,10 @@ class Rule6StatementSubmissionRepository {
 		try {
 			return await this.dbClient.rule6StatementSubmission.findUnique({
 				where: {
-					caseReference,
-					userId
+					caseReference_userId: {
+						caseReference,
+						userId
+					}
 				},
 				include: {
 					AppealCase: {
@@ -96,8 +98,10 @@ class Rule6StatementSubmissionRepository {
 	async patchRule6StatementByAppealId(userId, caseReference, data) {
 		return await this.dbClient.rule6StatementSubmission.update({
 			where: {
-				caseReference,
-				userId
+				caseReference_userId: {
+					caseReference,
+					userId
+				}
 			},
 			data,
 			include: {
@@ -119,8 +123,10 @@ class Rule6StatementSubmissionRepository {
 	markRule6StatementAsSubmitted(userId, caseReference) {
 		return this.dbClient.rule6StatementSubmission.update({
 			where: {
-				caseReference,
-				userId
+				caseReference_userId: {
+					caseReference,
+					userId
+				}
 			},
 			data: {
 				submitted: true
