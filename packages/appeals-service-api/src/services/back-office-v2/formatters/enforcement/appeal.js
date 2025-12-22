@@ -1,6 +1,6 @@
 const {
 	getDocuments,
-	formatApplicationSubmissionUsers,
+	// formatEnforcementApplicationSubmissionUsers,
 	getEnforcementAppellantSubmissionFields
 } = require('../utils');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
@@ -15,7 +15,7 @@ exports.formatter = async (appellantSubmission, lpa) => {
 			caseType: ENFORCEMENT.key,
 			...getEnforcementAppellantSubmissionFields(appellantSubmission, lpa)
 		},
-		documents: await getDocuments(appellantSubmission),
-		users: formatApplicationSubmissionUsers(appellantSubmission)
+		documents: await getDocuments(appellantSubmission)
+		// users: formatEnforcementApplicationSubmissionUsers(appellantSubmission)
 	};
 };

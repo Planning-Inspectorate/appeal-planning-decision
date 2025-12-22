@@ -15,6 +15,9 @@ const {
 } = require('@planning-inspectorate/data-model');
 const { LPA_NOTIFICATION_METHODS, CASE_TYPES } = require('@pins/common/src/database/data-static');
 const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-date');
+const { parseISO, endOfDay, addDays, subDays } = require('date-fns');
+const { utcToZonedTime, zonedTimeToUtc } = require('date-fns-tz');
+const targetTimezone = 'Europe/London';
 
 /**
  * @typedef {import('../../../routes/v2/appellant-submissions/repo').FullAppellantSubmission} FullAppellantSubmission
@@ -51,6 +54,17 @@ const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-dat
  * @returns {boolean}
  */
 exports.toBool = (str) => str === 'yes';
+
+/**
+ * @param {boolean | null} bool
+ * @returns {strin}
+ */
+exports.boolToYesNo = (bool) => {
+	if (bool === false) return 'No';
+	if (bool === true) return 'Yes';
+
+	return '';
+};
 
 /**
  * @param {{ SubmissionDocumentUpload: import('@pins/database/src/client/client').SubmissionDocumentUpload[] }} answers
@@ -441,6 +455,10 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 		(address) => address.fieldName === 'siteAddress'
 	);
 
+	const contactAddress = appellantSubmission.SubmissionAddress?.find(
+		(address) => address.fieldName === 'contactAddress'
+	);
+
 	if (
 		exports.siteAddressAndGridReferenceAreMissing(
 			address,
@@ -453,24 +471,53 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 		);
 	}
 
+	const enforcementNoticeDeadline = () => {
+		const enforcementDateUK = utcToZonedTime(
+			parseISO(appellantSubmission.enforcementEffectiveDate),
+			targetTimezone
+		);
+
+		const deadlineDate = appellantSubmission.hasContactedPlanningInspectorate
+			? endOfDay(addDays(enforcementDateUK, 6))
+			: endOfDay(subDays(enforcementDateUK, 1));
+
+		return zonedTimeToUtc(deadlineDate, targetTimezone).toISOString();
+	};
+
 	const getEnforcementNoticeDetails = () => {
 		return {
-			enforcementReferenceNumber: appellantSubmission.enforcementReferenceNumber ?? '',
+			enforcementReference: appellantSubmission.enforcementReferenceNumber ?? '',
 			enforcementIssueDate: appellantSubmission.enforcementIssueDate?.toISOString() ?? null,
 			enforcementEffectiveDate: appellantSubmission.enforcementEffectiveDate?.toISOString() ?? null,
-			hasContactedPlanningInspectorate:
-				appellantSubmission.hasContactedPlanningInspectorate ?? null,
 			contactPlanningInspectorateDate:
 				appellantSubmission.contactPlanningInspectorateDate?.toISOString() ?? null,
-
-			enforcementWhoIsAppealing: appellantSubmission.enforcementWhoIsAppealing ?? null,
-			enforcementOrganisationName: appellantSubmission.enforcementOrganisationName ?? null
+			interestInLand: appellantSubmission.interestInAppealLand ?? null,
+			writtenOrVerbalPermission: exports.boolToYesNo(appellantSubmission.hasPermissionToUseLand),
+			descriptionOfAllegedBreach: appellantSubmission.allegedBreachDescription ?? null,
+			applicationMadeAndFeePaid: appellantSubmission.applicationMadeAndFeePaid ?? null,
+			applicationDevelopmentAllOrPart: appellantSubmission.applicationPartOrWholeDevelopment ?? null
 		};
 	};
 
 	// NamedIndividuals
+	const getNamedIndividuals = () => {
+		return appellantSubmission.SubmissionIndividual?.map((individual) => ({
+			firstName: individual.firstName,
+			lastName: individual.lastName,
+			interestInLand:
+				individual.interestInAppealLand_interestInAppealLandDetails ??
+				individual.interestInAppealLand,
+			writtenOrVerbalPermission: exports.boolToYesNo(individual.hasPermissionToUseLand)
+		}));
+	};
 
 	// AppealGrounds
+	const getAppealGrounds = () => {
+		return appellantSubmission.SubmissionAppealGround?.map((appealGround) => ({
+			groundRef: appealGround.groundName,
+			factsForGround: appealGround.facts
+		}));
+	};
 
 	const getOriginalApplicationDetails = () => {
 		return {
@@ -479,7 +526,9 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 			applicationDecision: appellantSubmission.applicationDecision
 				? exports.formatApplicationDecision(appellantSubmission.applicationDecision)
 				: null,
-			applicationDecisionDate: appellantSubmission.applicationDecisionDate?.toISOString() ?? null
+			applicationDecisionDate: appellantSubmission.applicationDecisionDate?.toISOString() ?? null,
+			applicationDecisionAppealed: appellantSubmission.applicationDecisionAppealed ?? null,
+			appealDecisionDate: appellantSubmission.appealDecisionDate?.toISOString() ?? null
 		};
 	};
 
@@ -504,30 +553,32 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 		};
 	};
 
+	const getContactAddressDetails = () => ({
+		contactAddressLine1: contactAddress?.addressLine1 ?? undefined,
+		contactAddressLine2: contactAddress?.addressLine2 ?? undefined,
+		contactAddressTown: contactAddress?.townCity ?? undefined,
+		contactAddressCounty: contactAddress?.county ?? undefined,
+		contactAddressPostcode: contactAddress?.postcode ?? undefined
+	});
+
 	return {
 		submissionId: appellantSubmission.appealId,
 		caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
 		lpaCode: lpa.getLpaCode(),
+		caseSubmittedDate: new Date().toISOString(),
+		caseSubmissionDueDate: enforcementNoticeDeadline(),
 		enforcementNotice: true,
-
-		...getEnforcementNoticeDetails(),
-
 		appellantCostsAppliedFor: appellantSubmission.costApplication ?? null,
 		planningObligation: appellantSubmission.planningObligation ?? null,
 		statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
-
-		caseSubmittedDate: new Date().toISOString(),
-		caseSubmissionDueDate: deadlineDate(
-			appellantSubmission.applicationDecisionDate,
-			CASE_TYPES[appellantSubmission.appealTypeCode].id.toString(),
-			appellantSubmission.applicationDecision
-		).toISOString(),
-
 		originalDevelopmentDescription: appellantSubmission.developmentDescriptionOriginal ?? null,
 		changedDevelopmentDescription: appellantSubmission.updateDevelopmentDescription ?? null,
-
+		namedIndividuals: getNamedIndividuals(),
+		appealGrounds: getAppealGrounds(),
+		...getEnforcementNoticeDetails(),
 		...getOriginalApplicationDetails(),
 		...getSiteDetails(),
+		...getContactAddressDetails(),
 		...preference
 	};
 };
