@@ -442,11 +442,6 @@ describe('Enforcement Journey', () => {
 				urlSegment: 'schedule-1-or-2'
 			},
 			{
-				fieldName: 'didYouDoTheEnvironmentalStatement',
-				question: `Did you do the environmental statement?`,
-				urlSegment: 'your-environmental-statement'
-			},
-			{
 				fieldName: 'developmentDescription',
 				question: `Description of development`,
 				urlSegment: 'development-description'
@@ -477,8 +472,8 @@ describe('Enforcement Journey', () => {
 				urlSegment: 'screening-opinion-environmental-statement'
 			},
 			{
-				fieldName: 'applicantSubmittedEnvironmentalStatement',
-				question: `Did the applicant submit an environmental statement?`,
+				fieldName: 'appellantSubmittedEnvironmentalStatement',
+				question: `Did the appellant submit an environmental statement?`,
 				urlSegment: 'environmental-statement'
 			},
 			{

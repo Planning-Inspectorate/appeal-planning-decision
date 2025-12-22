@@ -248,9 +248,6 @@ components:
         didAppellantSubmitCompletePhotosAndPlans:
           type: boolean
           nullable: true
-        didYouDoTheEnvironmentalStatement:
-          type: boolean
-          nullable: true
         listOfPeopleSentEnforcementNotice:
           type: boolean
           nullable: true
@@ -330,6 +327,9 @@ components:
           type: boolean
           nullable: true
         planningContraventionNoticeUpload:
+          type: boolean
+          nullable: true
+        appellantSubmittedEnvironmentalStatement:
           type: boolean
           nullable: true
 

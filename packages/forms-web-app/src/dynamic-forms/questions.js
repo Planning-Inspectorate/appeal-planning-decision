@@ -1226,6 +1226,26 @@ exports.getQuestionProps = (response) => ({
 			new RequiredValidator('Select yes if the applicant submitted an environmental statement')
 		]
 	},
+	submitEnvironmentalStatementAppellant: {
+		type: 'radio',
+		title: 'Did the appellant submit an environmental statement?',
+		question: 'Did the appellant submit an environmental statement?',
+		fieldName: 'appellantSubmittedEnvironmentalStatement',
+		url: 'environmental-statement',
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes'
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		],
+		validators: [
+			new RequiredValidator('Select yes if the appellant submitted an environmental statement')
+		]
+	},
 	siteArea: {
 		type: 'number',
 		title: 'What is the area of the appeal site?',
@@ -3754,23 +3774,6 @@ exports.getQuestionProps = (response) => ({
 				'Select yes if the appellant submitted complete and accurate photographs and plans'
 			)
 		]
-	},
-	didYouDoTheEnvironmentalStatement: {
-		type: 'boolean',
-		title: 'Did you do the environmental statement?',
-		question: 'Did you do the environmental statement?',
-		fieldName: 'didYouDoTheEnvironmentalStatement',
-		options: [
-			{
-				text: 'Yes',
-				value: 'yes'
-			},
-			{
-				text: 'No',
-				value: 'no'
-			}
-		],
-		url: 'your-environmental-statement'
 	}
 });
 

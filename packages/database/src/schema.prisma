@@ -965,36 +965,36 @@ model LPAQuestionnaireSubmission {
   isSiteInAreaOfSpecialControlAdverts             Boolean?
   wasApplicationRefusedDueToHighwayOrTraffic      Boolean?
   didAppellantSubmitCompletePhotosAndPlans        Boolean?
-  didYouDoTheEnvironmentalStatement               Boolean?
 
   // New enforcement fieldnames
-  listOfPeopleSentEnforcementNotice      Boolean?
-  enforcementOtherOperations             Boolean?
-  siteAreaSquareMetres                   Decimal?
-  enforcementAllegedBreachArea           Boolean?
-  enforcementCreateFloorSpace            Boolean?
-  enforcementRefuseWasteMaterials        Boolean?
-  enforcementMineralExtractionMaterials  Boolean?
-  enforcementStoreMinerals               Boolean?
-  enforcementCreateBuilding              Boolean?
-  enforcementAgriculturalPurposes        Boolean?
-  enforcementSingleHouse                 Boolean?
-  enforcementTrunkRoad                   Boolean?
-  enforcementCrownLand                   Boolean?
-  enforcementStopNotice                  Boolean?
-  enforcementStopNoticeUpload            Boolean?
-  enforcementDevelopmentRights           Boolean?
-  enforcementDevelopmentRightsUpload     Boolean?
-  enforcementDevelopmentRightsRemoved    String?
-  localDevelopmentOrder                  Boolean?
-  localDevelopmentOrderUpload            Boolean?
-  previousPlanningPermission             Boolean?
-  previousPlanningPermissionUpload       Boolean?
-  enforcementNoticeDateApplication       Boolean?
-  enforcementNoticeDateApplicationUpload Boolean?
-  enforcementNoticePlanUpload            Boolean?
-  planningContraventionNotice            Boolean?
-  planningContraventionNoticeUpload      Boolean?
+  listOfPeopleSentEnforcementNotice        Boolean?
+  enforcementOtherOperations               Boolean?
+  siteAreaSquareMetres                     Decimal?
+  enforcementAllegedBreachArea             Boolean?
+  enforcementCreateFloorSpace              Boolean?
+  enforcementRefuseWasteMaterials          Boolean?
+  enforcementMineralExtractionMaterials    Boolean?
+  enforcementStoreMinerals                 Boolean?
+  enforcementCreateBuilding                Boolean?
+  enforcementAgriculturalPurposes          Boolean?
+  enforcementSingleHouse                   Boolean?
+  enforcementTrunkRoad                     Boolean?
+  enforcementCrownLand                     Boolean?
+  enforcementStopNotice                    Boolean?
+  enforcementStopNoticeUpload              Boolean?
+  enforcementDevelopmentRights             Boolean?
+  enforcementDevelopmentRightsUpload       Boolean?
+  enforcementDevelopmentRightsRemoved      String?
+  localDevelopmentOrder                    Boolean?
+  localDevelopmentOrderUpload              Boolean?
+  previousPlanningPermission               Boolean?
+  previousPlanningPermissionUpload         Boolean?
+  enforcementNoticeDateApplication         Boolean?
+  enforcementNoticeDateApplicationUpload   Boolean?
+  enforcementNoticePlanUpload              Boolean?
+  planningContraventionNotice              Boolean?
+  planningContraventionNoticeUpload        Boolean?
+  appellantSubmittedEnvironmentalStatement String?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]

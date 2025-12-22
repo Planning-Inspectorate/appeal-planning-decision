@@ -83,65 +83,35 @@ const makeSections = (response) => {
 
 		new Section('Environmental impact assessment', 'environmental-impact')
 			.addQuestion(questions.environmentalImpactSchedule)
-			.addQuestion(questions.didYouDoTheEnvironmentalStatement)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1')
-			)
 			.addQuestion(questions.developmentDescription)
-			.withCondition(
-				() =>
-					questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2') ||
-					(questionHasAnswer(response, questions.didYouDoTheEnvironmentalStatement, 'yes') &&
-						questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1'))
+			.withCondition(() =>
+				questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2')
 			)
-
 			.addQuestion(questions.sensitiveArea)
-			.withCondition(
-				() =>
-					questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2') ||
-					(questionHasAnswer(response, questions.didYouDoTheEnvironmentalStatement, 'yes') &&
-						questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1'))
+			.withCondition(() =>
+				questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2')
 			)
 			.addQuestion(questions.meetsColumnTwoThreshold)
-			.withCondition(
-				() =>
-					questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2') ||
-					(questionHasAnswer(response, questions.didYouDoTheEnvironmentalStatement, 'yes') &&
-						questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1'))
+			.withCondition(() =>
+				questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2')
 			)
-
 			.addQuestion(questions.screeningOpinion)
 			.withCondition(
 				() =>
-					questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2') ||
-					questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1') ||
-					questionHasAnswer(response, questions.environmentalImpactSchedule, 'no')
+					questionHasAnswer(response, questions.environmentalImpactSchedule, 'no') ||
+					questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2')
 			)
 			.addQuestion(questions.screeningOpinionUpload)
 			.withCondition(() => questionHasAnswer(response, questions.screeningOpinion, 'yes'))
 			.addQuestion(questions.screeningOpinionEnvironmentalStatement)
 			.withCondition(() => questionHasAnswer(response, questions.screeningOpinion, 'yes'))
-			.addQuestion(questions.submitEnvironmentalStatement)
-			.withCondition(() =>
-				questionsHaveAnswers(
-					response,
-					[
-						[questions.screeningOpinion, 'no'],
-						[questions.screeningOpinionEnvironmentalStatement, 'no'],
-						[questions.screeningOpinionEnvironmentalStatement, 'yes']
-					],
-					{ logicalCombinator: 'or' }
-				)
-			)
-
+			.addQuestion(questions.submitEnvironmentalStatementAppellant)
 			.addQuestion(questions.uploadEnvironmentalStatement)
 			.withCondition(() =>
-				questionHasAnswer(response, questions.submitEnvironmentalStatement, 'yes')
+				questionHasAnswer(response, questions.submitEnvironmentalStatementAppellant, 'yes')
 			)
 			.addQuestion(questions.uploadScreeningDirection)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.submitEnvironmentalStatement, 'no')
-			),
+			.withCondition(() => questionHasAnswer(response, questions.screeningOpinion, 'yes')),
 		// new section with enforcement specific questions
 		// new Section('Notifying relevant parties', 'notified'),
 		new Section('Notifying relevant parties', 'notified')
