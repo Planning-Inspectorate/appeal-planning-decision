@@ -30,8 +30,10 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 		try {
 			return await this.dbClient.rule6ProofOfEvidenceSubmission.findUnique({
 				where: {
-					caseReference,
-					userId
+					caseReference_userId: {
+						caseReference,
+						userId
+					}
 				},
 				include: {
 					AppealCase: {
@@ -97,8 +99,10 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 	async patchRule6ProofOfEvidenceByAppealId(userId, caseReference, data) {
 		return await this.dbClient.rule6ProofOfEvidenceSubmission.update({
 			where: {
-				caseReference,
-				userId
+				caseReference_userId: {
+					caseReference,
+					userId
+				}
 			},
 			data,
 			include: {
@@ -121,8 +125,10 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 	markRule6ProofOfEvidenceAsSubmitted(userId, caseReference, _submissionDate) {
 		return this.dbClient.rule6ProofOfEvidenceSubmission.update({
 			where: {
-				caseReference,
-				userId
+				caseReference_userId: {
+					caseReference,
+					userId
+				}
 			},
 			data: {
 				submitted: true

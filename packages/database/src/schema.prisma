@@ -415,8 +415,8 @@ model AppealCase {
   Events                          Event[]
   AppealCaseLpaNotificationMethod AppealCaseLpaNotificationMethod[]
   InterestedPartySubmissions      InterestedPartySubmission[]
-  Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission?
-  Rule6StatementSubmission        Rule6StatementSubmission?
+  Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission[]
+  Rule6StatementSubmission        Rule6StatementSubmission[]
   Representations                 Representation[]
   AdvertDetails                   AdvertDetails[]
 
@@ -1035,7 +1035,7 @@ model Rule6StatementSubmission {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
   // link the submission to the appeal
-  caseReference String     @unique
+  caseReference String
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 
   /// relation to a User - required as can have more than one rule6 party per apeal
@@ -1056,6 +1056,7 @@ model Rule6StatementSubmission {
   // Uploaded documents and details linked to this statement
   SubmissionDocumentUpload SubmissionDocumentUpload[]
 
+  @@unique([caseReference, userId])
   // indexes
   @@index([caseReference])
 }
@@ -1089,7 +1090,7 @@ model Rule6ProofOfEvidenceSubmission {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
   // link the submission to the appeal
-  caseReference String     @unique
+  caseReference String
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 
   /// relation to a User
@@ -1110,6 +1111,7 @@ model Rule6ProofOfEvidenceSubmission {
   // Uploaded documents and details linked to this proof of evidence
   SubmissionDocumentUpload SubmissionDocumentUpload[]
 
+  @@unique([caseReference, userId])
   // indexes
   @@index([caseReference])
 }
