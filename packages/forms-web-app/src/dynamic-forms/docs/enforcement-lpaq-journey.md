@@ -75,46 +75,30 @@ condition: () => questionHasAnswer(response, questions.enforcementDevelopmentRig
 ## Environmental impact assessment
 
 - radio `/schedule-1-or-2/` What is the development category?
-- boolean `/your-environmental-statement/` Did you do the environmental statement?
-
-```js
-condition: () => questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1');
-```
-
 - radio `/development-description/` Description of development
 
 ```js
-condition: () =>
-	questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2') ||
-	(questionHasAnswer(response, questions.didYouDoTheEnvironmentalStatement, 'yes') &&
-		questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1'));
+condition: () => questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2');
 ```
 
 - radio `/sensitive-area/` Is the development in, partly in, or likely to affect a sensitive area?
 
 ```js
-condition: () =>
-	questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2') ||
-	(questionHasAnswer(response, questions.didYouDoTheEnvironmentalStatement, 'yes') &&
-		questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1'));
+condition: () => questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2');
 ```
 
 - boolean `/column-2-threshold/` Does the development meet or exceed the threshold or criteria in column 2?
 
 ```js
-condition: () =>
-	questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2') ||
-	(questionHasAnswer(response, questions.didYouDoTheEnvironmentalStatement, 'yes') &&
-		questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1'));
+condition: () => questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2');
 ```
 
 - boolean `/screening-opinion/` Have you issued a screening opinion?
 
 ```js
 condition: () =>
-	questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2') ||
-	questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-1') ||
-	questionHasAnswer(response, questions.environmentalImpactSchedule, 'no');
+	questionHasAnswer(response, questions.environmentalImpactSchedule, 'no') ||
+	questionHasAnswer(response, questions.environmentalImpactSchedule, 'schedule-2');
 ```
 
 - multi-file-upload `/upload-screening-opinion/` Upload your screening opinion and any correspondence
@@ -129,31 +113,18 @@ condition: () => questionHasAnswer(response, questions.screeningOpinion, 'yes');
 condition: () => questionHasAnswer(response, questions.screeningOpinion, 'yes');
 ```
 
-- radio `/environmental-statement/` Did the applicant submit an environmental statement?
-
-```js
-condition: () =>
-	questionsHaveAnswers(
-		response,
-		[
-			[questions.screeningOpinion, 'no'],
-			[questions.screeningOpinionEnvironmentalStatement, 'no'],
-			[questions.screeningOpinionEnvironmentalStatement, 'yes']
-		],
-		{ logicalCombinator: 'or' }
-	);
-```
-
+- radio `/environmental-statement/` Did the appellant submit an environmental statement?
 - multi-file-upload `/upload-environmental-statement/` Upload the environmental statement and supporting information
 
 ```js
-condition: () => questionHasAnswer(response, questions.submitEnvironmentalStatement, 'yes');
+condition: () =>
+	questionHasAnswer(response, questions.submitEnvironmentalStatementAppellant, 'yes');
 ```
 
 - multi-file-upload `/upload-screening-direction/` Upload the screening direction
 
 ```js
-condition: () => questionHasAnswer(response, questions.submitEnvironmentalStatement, 'no');
+condition: () => questionHasAnswer(response, questions.screeningOpinion, 'yes');
 ```
 
 ## Notifying relevant parties

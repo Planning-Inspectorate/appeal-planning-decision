@@ -23487,21 +23487,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
             <form action="" method="post" novalidate=null>
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <h1 class="govuk-fieldset__heading"> Did the applicant submit an environmental statement?</h1>
+                        <h1 class="govuk-fieldset__heading"> Did the appellant submit an environmental statement?</h1>
                     </legend>
                     <div class="govuk-form-group">
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="applicantSubmittedEnvironmentalStatement"
-                                name="applicantSubmittedEnvironmentalStatement" type="radio" value="yes"
+                                <input class="govuk-radios__input" id="appellantSubmittedEnvironmentalStatement"
+                                name="appellantSubmittedEnvironmentalStatement" type="radio" value="yes"
                                 data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="applicantSubmittedEnvironmentalStatement">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="appellantSubmittedEnvironmentalStatement">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="applicantSubmittedEnvironmentalStatement-2"
-                                name="applicantSubmittedEnvironmentalStatement" type="radio" value="no"
+                                <input class="govuk-radios__input" id="appellantSubmittedEnvironmentalStatement-2"
+                                name="appellantSubmittedEnvironmentalStatement" type="radio" value="no"
                                 data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="applicantSubmittedEnvironmentalStatement-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="appellantSubmittedEnvironmentalStatement-2">No</label>
                             </div>
                         </div>
                     </div>
@@ -26194,52 +26194,6 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the your-environmental-statement question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Environmental impact assessment</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="" method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="didYouDoTheEnvironmentalStatement-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Did you do the environmental statement?</h1>
-                        </legend>
-                        <div id="didYouDoTheEnvironmentalStatement-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="didYouDoTheEnvironmentalStatement"
-                                name="didYouDoTheEnvironmentalStatement" type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="didYouDoTheEnvironmentalStatement">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="didYouDoTheEnvironmentalStatement-2"
-                                name="didYouDoTheEnvironmentalStatement" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="didYouDoTheEnvironmentalStatement-2">No</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -26476,6 +26430,12 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/environmental-impact/schedule-1-or-2">Answer<span class="govuk-visually-hidden"> What is the development category?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did the appellant submit an environmental statement?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/environmental-impact/environmental-statement">Answer<span class="govuk-visually-hidden"> Did the appellant submit an environmental statement?</span></a>
                                 </dd>
                         </div>
                     </dl>
