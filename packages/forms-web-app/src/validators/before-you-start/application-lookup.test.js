@@ -19,11 +19,31 @@ describe('validators/before-you-start/application-lookup', () => {
 		expect(errors[0].msg).toBe('Enter a valid application number');
 	});
 
+	it('should error when application-number is empty space', async () => {
+		const req = { body: { 'application-number': ' ' } };
+
+		const result = await runRules(req);
+
+		expect(result.isEmpty()).toBe(false);
+		const errors = result.array();
+		// Assert on error message (field name differs across versions)
+		expect(errors[0].msg).toBe('Enter a valid application number');
+	});
+
 	it('should pass when application-number is provided', async () => {
 		const req = { body: { 'application-number': 'APP-123' } };
 
 		const result = await runRules(req);
 
 		expect(result.isEmpty()).toBe(true);
+	});
+
+	it('should trim application-number provided', async () => {
+		const req = { body: { 'application-number': ' APP-123 ' } };
+
+		const result = await runRules(req);
+
+		expect(result.isEmpty()).toBe(true);
+		expect(req.body['application-number']).toBe('APP-123');
 	});
 });
