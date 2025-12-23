@@ -300,6 +300,12 @@ describe('Enforcement Journey', () => {
 		const planningOfficerSection = journey.sections.find((s) => s.name === sectionTitle);
 
 		const expectedQuestions = [
+			// New starting qs
+			{
+				fieldName: 'planningOfficerReport',
+				question: 'Do you have a planning officer’s report?',
+				urlSegment: 'planning-officer-report'
+			},
 			// Existing Questions
 			{
 				fieldName: 'uploadPlanningOfficerReport',
