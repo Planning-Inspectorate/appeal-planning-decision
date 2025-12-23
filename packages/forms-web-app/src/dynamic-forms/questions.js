@@ -2896,7 +2896,7 @@ exports.getQuestionProps = (response) => ({
 		url: 'mineral-extraction-materials',
 		validators: [
 			new RequiredValidator(
-				'Select yes if the enforcement notice does include the change of use of land to dispose of remaining materials after mineral extraction'
+				'Select yes if the enforcement notice includes the change of use of land to dispose of remaining materials after mineral extraction'
 			)
 		]
 	},
