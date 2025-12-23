@@ -20,6 +20,7 @@ const VIEW = {
 		ENFORCEMENT_EFFECTIVE_DATE: 'before-you-start/enforcement-effective-date',
 		APPLICATION_ABOUT: 'before-you-start/planning-application-about',
 		APPLICATION_LOOKUP: 'before-you-start/application-lookup',
+		APPLICATION_LOOKUP_FAILED: 'before-you-start/application-not-found',
 		CONTACT_PLANNING_INSPECTORATE: 'before-you-start/contact-planning-inspectorate',
 		CONTACT_PLANNING_INSPECTORATE_DATE: 'before-you-start/contact-planning-inspectorate-date',
 		CANNOT_APPEAL_ENFORCEMENT: 'before-you-start/cannot-appeal-enforcement'
