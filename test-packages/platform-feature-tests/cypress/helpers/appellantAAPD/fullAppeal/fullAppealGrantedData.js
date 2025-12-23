@@ -110,6 +110,7 @@ export const fullAppealGrantedTestCases = [
         typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: true,
             areaUnits: 'squaremeter',

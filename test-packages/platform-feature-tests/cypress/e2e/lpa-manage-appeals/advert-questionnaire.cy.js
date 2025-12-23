@@ -29,7 +29,7 @@ describe('commercial advert Questionnaire Test Cases', { tags: '@Commercial-adve
         advertQuestionnaireTestCases.forEach((context) => {
 
                 it(`
-            Should validate advert questionnaire screen, Appeal Type: Cpmercial Advert
+            Should validate advert questionnaire screen, Appeal Type: Commercial Advert
             - User selects correct type of appeal ${context.constraintsAndDesignations?.isCorrectTypeOfAppeal}
             - User selects change listed building ${context.constraintsAndDesignations?.isChangesListedBuilding}             
             - User selects affect listed buildings ${context.constraintsAndDesignations?.isAffectListedBuildings}
@@ -57,7 +57,7 @@ describe('commercial advert Questionnaire Test Cases', { tags: '@Commercial-adve
             - User selects new conditions${context.appealProcess?.isNewConditions}
             - User selects procedure type${context.appealProcess?.isProcedureType}
              `, () => {
-                       questionnaire(context, lpaManageAppealsData, lpaManageAppealsData?.commercialadvAppealType);
+                       questionnaire(context, lpaManageAppealsData, lpaManageAppealsData?.advertAppealType);
                 });
         });
 });

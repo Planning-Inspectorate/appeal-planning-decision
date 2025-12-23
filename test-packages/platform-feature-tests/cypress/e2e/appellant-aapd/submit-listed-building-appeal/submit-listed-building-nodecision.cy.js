@@ -1,19 +1,25 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { listedBuildingNoDecisionTestCases } from "../../../helpers/appellantAAPD/listedBuilding/listedBuildingNoDecisionData";
+import { listedBuildingQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/listedBuildingQuestionnaireData";
+import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
 describe('Submit Full Appeal No Decision Test cases',{ tags:'@S20-nodecision' }, () => {
 	let prepareAppealData;
-	before(() => {
-		cy.login(users.appeals.authUser);
-	});
-	beforeEach(() => {
+    let lpaManageAppealsData;
+    before(() => {
+        cy.login(users.appeals.authUser);
+    });
+    beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
-        })
-	});
+        });
+        cy.fixture('lpaManageAppealsData').then(data => {
+            lpaManageAppealsData = data;
+        });
+    });
 
 	listedBuildingNoDecisionTestCases.forEach((context) => {
 		const {
@@ -50,7 +56,10 @@ describe('Submit Full Appeal No Decision Test cases',{ tags:'@S20-nodecision' },
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
 				context,
-				prepareAppealData
+				prepareAppealData,			
+				lpaManageAppealsData,
+				questionnaireTestCases,
+				statementTestCases
 			});
 		});
 	});

@@ -106,23 +106,22 @@ export const appealsApiClient = {
 	// 		return false;
 	// 	}
 	// },
-	// async simulateSiteVisitElapsed(reference) {
-	// 	try {
-	// 		const url = `${baseUrl}appeals/${reference}/site-visit-elapsed`;
-	// 		const response = await fetch(url, {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-	// 			}
-	// 		});
-
-	// 		expect(response.status).eq(200);
-	// 		return await response.json();
-	// 	} catch {
-	// 		return false;
-	// 	}
-	// },
+	async simulateSiteVisitElapsed(reference) {
+		try {
+			const url = `${baseUrl}appeals/${reference}/site-visit-elapsed`;
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				}
+			});
+			expect(response.status).eq(200);
+			return await response.json();
+		} catch {
+			return false;
+		}
+	},
 
 	// async simulateHearingElapsed(reference) {
 	// 	try {
@@ -142,45 +141,11 @@ export const appealsApiClient = {
 	// 	}
 	// },
 
-	// async simulateStatementsElapsed(reference) {
-	// 	try {
-	// 		const url = `${baseUrl}appeals/${reference}/statements-elapsed`;
-	// 		const response = await fetch(url, {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-	// 			}
-	// 		});
-
-	// 		const result = await response.json();
-	// 		return result;
-	// 	} catch {
-	// 		return false;
-	// 	}
-	// },
-	// async simulateFinalCommentsElapsed(reference) {
-	// 	try {
-	// 		const url = `${baseUrl}appeals/${reference}/final-comments-elapsed`;
-	// 		const response = await fetch(url, {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-	// 			}
-	// 		});
-
-	// 		const result = await response.json();
-	// 		return result;
-	// 	} catch {
-	// 		return false;
-	// 	}
-	// },
-	async loadCaseDetails(reference) {
+	async simulateStatementsElapsed(reference) {
 		try {
-			const url = `${baseUrl}appeals/case-reference/${reference}`;
+			const url = `${baseUrl}appeals/${reference}/statements-elapsed`;
 			const response = await fetch(url, {
-				method: 'GET',
+				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
@@ -193,24 +158,54 @@ export const appealsApiClient = {
 			return false;
 		}
 	},
-	async getBusinessDate(date, days = 7) {
+	async simulateFinalCommentsElapsed(reference) {
 		try {
-			const url = `${baseUrl}appeals/add-business-days`;
+			const url = `${baseUrl}appeals/${reference}/final-comments-elapsed`;
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					inputDate: date,
-					numDays: days
-				})
+					'Content-Type': 'application/json',
+					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				}
 			});
-			expect(response.status).eq(200);
-			return await response.json();
+
+			const result = await response.json();
+			return result;
 		} catch {
 			return false;
 		}
+	},
+	async loadCaseDetails(reference) {
+		// Use Cypress request so the test runner controls timing/cleanup
+		return cy.request({
+			method: 'GET',
+			url: `${baseUrl}appeals/case-reference/${reference}`,
+			headers: {
+				'Content-Type': 'application/json',
+				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+			},
+			failOnStatusCode: false
+		}).then(({ status, body }) => {
+			expect(status).to.eq(200);
+			return body;
+		});
+	},
+	getBusinessDate(date, days = 7) {
+		return cy.request({
+			method: 'POST',
+			url: `${baseUrl}appeals/add-business-days`,
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: {
+				inputDate: date,
+				numDays: days
+			},
+			failOnStatusCode: false
+		}).then(({ status, body }) => {
+			expect(status).to.eq(200);
+			return body;
+		});
 	},
 	// async getSpecialisms() {
 	// 	try {
@@ -310,22 +305,20 @@ export const appealsApiClient = {
 	// 	}
 	// },
 
-	async updateAppealCases(appealId, appellantCaseId, requestBody) {
-		try {
-			const url = `${baseUrl}appeals/${appealId}/appellant-cases/${appellantCaseId}`;
-			const response = await fetch(url, {
-				method: 'PATCH',
-				headers: {
-					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-				},
-				body: JSON.stringify(requestBody)
-			});
-			expect(response.status).eq(200);
-			return await response.json();
-		} catch {
-			return false;
-		}
+	updateAppealCases(appealId, appellantCaseId, requestBody) {
+		return cy.request({
+			method: 'PATCH',
+			url: `${baseUrl}appeals/${appealId}/appellant-cases/${appellantCaseId}`,
+			headers: {
+				'Content-Type': 'application/json',
+				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+			},
+			body: requestBody,
+			failOnStatusCode: false
+		}).then(({ status, body }) => {
+			expect(status).to.eq(200);
+			return body;
+		});
 	},
 
 	// async updateTimeTable(appealId, timeTableId, requestBody) {
@@ -385,9 +378,38 @@ export const appealsApiClient = {
 	// 	}
 	// },
 
-	async reviewStatement(reference) {
+	reviewStatement(reference) {
+		return cy.request({
+			method: 'POST',
+			url: `${baseUrl}appeals/${reference}/review-lpa-statement`,
+			headers: {
+				'Content-Type': 'application/json',
+				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+			},
+			failOnStatusCode: false
+		}).then(({ status }) => {
+			expect(status).to.eq(200);
+			return true;
+		});
+	},
+
+	reviewIpComments(reference) {
+		return cy.request({
+			method: 'POST',
+			url: `${baseUrl}appeals/${reference}/review-ip-comment`,
+			headers: {
+				'Content-Type': 'application/json',
+				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+			},
+			failOnStatusCode: false
+		}).then(({ status }) => {
+			expect(status).to.eq(200);
+			return true;
+		});
+	},
+	async shareCommentsAndStatements(reference) {
 		try {
-			const url = `${baseUrl}appeals/${reference}/review-lpa-statement`;
+			const url = `${baseUrl}appeals/${reference}/share-comments-and-statement`;
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: {
@@ -401,84 +423,53 @@ export const appealsApiClient = {
 		}
 	},
 
-	async reviewIpComments(reference) {
+	async reviewAppellantFinalComments(reference) {
 		try {
-			const url = `${baseUrl}appeals/${reference}/review-ip-comment`;
+			const url = `${baseUrl}appeals/${reference}/review-appellant-final-comments`;
 			const response = await fetch(url, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
 				}
-		});
-		expect(response.status).eq(200);
+			});
+			expect(response.status).eq(200);
 		} catch {
 			return false;
 		}
 	},
-	// async shareCommentsAndStatements(reference) {
-	// 	try {
-	// 		const url = `${baseUrl}appeals/${reference}/share-comments-and-statement`;
-	// 		const response = await fetch(url, {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-	// 			}
-	// 		});
-	// 		expect(response.status).eq(200);
-	// 	} catch {
-	// 		return false;
-	// 	}
-	// },
 
-	// async reviewAppellantFinalComments(reference) {
-	// 	try {
-	// 		const url = `${baseUrl}appeals/${reference}/review-appellant-final-comments`;
-	// 		const response = await fetch(url, {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-	// 			}
-	// 		});
-	// 		expect(response.status).eq(200);
-	// 	} catch {
-	// 		return false;
-	// 	}
-	// },
+	async reviewLpaFinalComments(reference) {
+		try {
+			const url = `${baseUrl}appeals/${reference}/review-lpa-final-comments`;
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				}
+			});
+			expect(response.status).eq(200);
+		} catch {
+			return false;
+		}
+	},
 
-	// async reviewLpaFinalComments(reference) {
-	// 	try {
-	// 		const url = `${baseUrl}appeals/${reference}/review-lpa-final-comments`;
-	// 		const response = await fetch(url, {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-	// 			}
-	// 		});
-	// 		expect(response.status).eq(200);
-	// 	} catch {
-	// 		return false;
-	// 	}
-	// },
-
-	// async setupSiteVisit(reference) {
-	// 	try {
-	// 		const url = `${baseUrl}appeals/${reference}/set-up-site-visit`;
-	// 		const response = await fetch(url, {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-	// 			}
-	// 		});
-	// 		expect(response.status).eq(201);
-	// 	} catch {
-	// 		return false;
-	// 	}
-	// },
+	async setupSiteVisit(reference) {
+		try {
+			const url = `${baseUrl}appeals/${reference}/set-up-site-visit`;
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				}
+			});
+			expect(response.status).eq(201);
+		} catch {
+			return false;
+		}
+	},
 
 	// async issueDecision(reference) {
 	// 	try {
@@ -553,24 +544,22 @@ export const appealsApiClient = {
 	// 	}
 	// },
 
-	async assignCaseOfficer(appealId) {
-		try {
-			const url = `${baseUrl}appeals/${appealId}`;
-			const response = await fetch(url, {
-				method: 'PATCH',
-				headers: {
-					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-				},
-				body: JSON.stringify({
-					caseOfficerId: '544f5029-e660-4bc3-81b1-adc19d47e970'
-				})
-			});
-			expect(response.status).eq(200);
-			return await response.json();
-		} catch {
-			return false;
-		}
+	assignCaseOfficer(appealId) {
+		return cy.request({
+			method: 'PATCH',
+			url: `${baseUrl}appeals/${appealId}`,
+			headers: {
+				'Content-Type': 'application/json',
+				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+			},
+			body: {
+				caseOfficerId: '544f5029-e660-4bc3-81b1-adc19d47e970'
+			},
+			failOnStatusCode: false
+		}).then(({ status, body }) => {
+			expect(status).to.eq(200);
+			return body;
+		});
 	},
 
 	// async deleteAppeals(appealId) {
@@ -592,37 +581,112 @@ export const appealsApiClient = {
 	// 	}
 	// },
 
-	async startAppeal(appealReference) {
-		try {
-			const url = `${baseUrl}appeals/${appealReference}/start-appeal`;
-			const response = await fetch(url, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-				}
-			});
-			expect(response.status).eq(201);
-		} catch {
-			return false;
-		}
+	startAppeal(appealReference) {
+		return cy.request({
+			method: 'POST',
+			url: `${baseUrl}appeals/${appealReference}/start-appeal`,
+			headers: {
+				'Content-Type': 'application/json',
+				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+			},
+			failOnStatusCode: false
+		}).then(({ status }) => {
+			expect(status).to.eq(201);
+			return true;
+		});
 	},
 
+	// reviewLpaq(appealReference) {
+	// 	return cy.request({
+	// 		method: 'POST',
+	// 		url: `${baseUrl}appeals/${appealReference}/review-lpaq`,
+	// 		headers: {
+	// 			'Content-Type': 'application/json',
+	// 			azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 		},
+	// 		failOnStatusCode: false
+	// 	}).then(({ status, body }) => {			
+	// 		expect(body.validationOutcome.name).to.eq('Complete');
+	// 		return body;
+	// 	});
+	// }
+
 	async reviewLpaq(appealReference) {
+		// Add detailed logging around the review-lpaq call to help debug 500s and other failures
+		const url = `${baseUrl}appeals/${appealReference}/review-lpaq`;
+		const headers = {
+			'Content-Type': 'application/json',
+			azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+		};
+
+		console.log('[reviewLpaq] POST', url);
+		console.log('[reviewLpaq] headers', headers);
+
+		let response;
 		try {
-			const url = `${baseUrl}appeals/${appealReference}/review-lpaq`;
-			const response = await fetch(url, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-				}
-			});
-			expect(response.status).eq(200);
-			const body = await response.json();
-			expect(body.validationOutcome.name).eq('Complete');
-		} catch {
-			return false;
+			response = await fetch(url, { method: 'POST', headers });
+		} catch (networkErr) {
+			console.error('[reviewLpaq] network error:', networkErr);
+			throw new Error(`reviewLpaq network error: ${networkErr?.message || networkErr}`);
 		}
+
+		const status = response.status;
+		console.log('[reviewLpaq] status', status);
+
+		let bodyText = '';
+		let bodyJson = null;
+		const contentType = response.headers?.get?.('content-type') || '';
+		try {
+			if (contentType.includes('application/json')) {
+				bodyJson = await response.json();
+				console.log('[reviewLpaq] body (json)', bodyJson);
+			} else {
+				bodyText = await response.text();
+				console.log('[reviewLpaq] body (text)', bodyText);
+			}
+		} catch (parseErr) {
+			console.warn('[reviewLpaq] failed to parse response body', parseErr);
+		}
+
+		if (status !== 200) {
+			// throw with rich context so Cypress shows it in the test output
+			const details = bodyJson || bodyText || '(no body)';
+			throw new Error(`reviewLpaq failed: HTTP ${status} ${typeof details === 'string' ? details : JSON.stringify(details)}`);
+		}
+
+		// Validate expected contract and log if missing
+		const validationName = bodyJson?.validationOutcome?.name;
+		if (!validationName) {
+			console.warn('[reviewLpaq] missing validationOutcome.name in response');
+		}
+		try {
+			expect(validationName).eq('Complete');
+		} catch (assertErr) {
+			console.error('[reviewLpaq] assertion failed: expected validationOutcome.name === "Complete"', {
+				validationName
+			});
+			throw assertErr;
+		}
+
+		return bodyJson;
 	}
+
+	// async reviewLpaq(appealReference) {
+	// 	try {
+	// 		const url = `${baseUrl}appeals/${appealReference}/review-lpaq`;
+	// 		const response = await fetch(url, {
+	// 			method: 'POST',
+	// 			headers: {
+	// 				'Content-Type': 'application/json',
+	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 			}
+	// 		});
+	// 		expect(response.status).eq(200);
+	// 		const body = await response.json();
+	// 		expect(body.validationOutcome.name).eq('Complete');
+	// 	} catch {
+	// 		return false;
+
+	// 	}
+	// }
 };
