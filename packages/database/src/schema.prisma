@@ -985,6 +985,7 @@ model LPAQuestionnaireSubmission {
   enforcementDevelopmentRights             Boolean?
   enforcementDevelopmentRightsUpload       Boolean?
   enforcementDevelopmentRightsRemoved      String?
+  planningOfficerReport                    Boolean?
   localDevelopmentOrder                    Boolean?
   localDevelopmentOrderUpload              Boolean?
   previousPlanningPermission               Boolean?

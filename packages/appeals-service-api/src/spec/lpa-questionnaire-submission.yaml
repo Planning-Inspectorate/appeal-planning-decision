@@ -302,6 +302,9 @@ components:
         enforcementDevelopmentRightsRemoved:
           type: string
           nullable: true
+        planningOfficerReport:
+          type: boolean
+          nullable: true
         localDevelopmentOrder:
           type: boolean
           nullable: true

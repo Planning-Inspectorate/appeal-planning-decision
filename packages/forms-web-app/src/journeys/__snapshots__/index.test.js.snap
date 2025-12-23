@@ -24356,6 +24356,52 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the planning-officer-report question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer’s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="planningOfficerReport-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Do you have a planning officer’s report?</h1>
+                        </legend>
+                        <div id="planningOfficerReport-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="planningOfficerReport" name="planningOfficerReport"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="planningOfficerReport">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="planningOfficerReport-2" name="planningOfficerReport"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="planningOfficerReport-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice should render the potential-safety-risks question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -26464,10 +26510,10 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">4. </span> Planning officer’s report and supporting documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload planning officer’s report</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have a planning officer’s report?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/upload-planning-officers-report-decision-notice">Upload<span class="govuk-visually-hidden"> the planning officer’s report or what your decision notice would have said</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/planning-officer-report">Answer<span class="govuk-visually-hidden"> Do you have a planning officer’s report?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have any relevant policies from your statutory development plan?</dt>

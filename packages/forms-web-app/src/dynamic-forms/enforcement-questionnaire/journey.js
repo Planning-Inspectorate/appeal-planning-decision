@@ -119,7 +119,9 @@ const makeSections = (response) => {
 			.addQuestion(questions.enforcementAppealNotification),
 
 		new Section('Planning officer’s report and supporting documents', 'planning-officer-report')
+			.addQuestion(questions.planningOfficersReport)
 			.addQuestion(questions.planningOfficersReportUpload)
+			.withCondition(() => questionHasAnswer(response, questions.planningOfficersReport, 'yes'))
 			.addQuestion(questions.developmentPlanPolicies)
 			.addQuestion(questions.uploadDevelopmentPlanPolicies)
 			.withCondition(() => questionHasAnswer(response, questions.developmentPlanPolicies, 'yes'))

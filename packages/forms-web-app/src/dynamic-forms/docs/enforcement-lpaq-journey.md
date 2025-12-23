@@ -134,7 +134,13 @@ condition: () => questionHasAnswer(response, questions.screeningOpinion, 'yes');
 
 ## Planning officer’s report and supporting documents
 
+- boolean `/planning-officer-report/` Do you have a planning officer’s report?
 - multi-file-upload `/upload-planning-officers-report-decision-notice/` Upload the planning officer’s report or what your decision notice would have said
+
+```js
+condition: () => questionHasAnswer(response, questions.planningOfficersReport, 'yes');
+```
+
 - boolean `/other-development-plan-policies/` Do you have any relevant policies from your statutory development plan?
 - multi-file-upload `/upload-development-plan-policies/` Upload relevant policies from your statutory development plan
 
