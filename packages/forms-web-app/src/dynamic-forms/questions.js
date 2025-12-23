@@ -2809,7 +2809,7 @@ exports.getQuestionProps = (response) => ({
 		url: 'other-operations',
 		validators: [
 			new RequiredValidator(
-				'Select yes if the enforcement notice is related to building, engineering, mining or other operations'
+				'Select yes if the enforcement notice relates to building, engineering, mining or other operations'
 			)
 		]
 	},
