@@ -2852,9 +2852,7 @@ exports.getQuestionProps = (response) => ({
 		question: 'Does the alleged breach create any floor space?',
 		fieldName: 'enforcementCreateFloorSpace',
 		url: 'create-floor-space',
-		validators: [
-			new RequiredValidator('Select yes if the alleged breach does create any floor space')
-		]
+		validators: [new RequiredValidator('Select yes if the alleged breach creates any floor space')]
 	},
 	enforcementRefuseWasteMaterials: {
 		type: 'boolean',
