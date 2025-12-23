@@ -2877,9 +2877,9 @@ exports.getQuestionProps = (response) => ({
 	enforcementRefuseWasteMaterials: {
 		type: 'boolean',
 		title:
-			'Does the enforcement notice include a change of use of land to dispose refuse or waste materials?',
+			'Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?',
 		question:
-			'Does the enforcement notice include a change of use of land to dispose refuse or waste materials?',
+			'Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?',
 		fieldName: 'enforcementRefuseWasteMaterials',
 		url: 'refuse-waste-materials',
 		validators: [
