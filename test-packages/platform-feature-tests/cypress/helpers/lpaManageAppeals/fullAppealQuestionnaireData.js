@@ -37,7 +37,7 @@ export const fullAppealQuestionnaireTestCases = [
             isAllDesignatedSite: true,
             isTreePreservationOrder: true,
             isGypsyTraveller: true,
-            isPublicRightOfWay: true
+            isPublicRightOfWay: false,
         },
         environmentalImpact: {
             isSchedule: 'one',

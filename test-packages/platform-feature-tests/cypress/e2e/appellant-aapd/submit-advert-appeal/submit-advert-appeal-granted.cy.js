@@ -2,6 +2,8 @@
 /// <reference types="cypress"/>
 
 import { advertAppealGrantedTestCases } from "../../../helpers/appellantAAPD/advertAppeal/advertAppealGrantedData";
+import { advertQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/advertQuestionnaireData";
+import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require("../../../support/flows/sections/appellantAAPD/appeal");
 
@@ -29,7 +31,9 @@ describe('Submit Advert Appeal Granted Test Cases', { tags: '@Advert-granted' },
                 planning: typeOfPlanningApplication,
                 context, //: { ...context, advertAppeal: true },
                 prepareAppealData,
-                lpaManageAppealsData
+                lpaManageAppealsData,
+				questionnaireTestCases,
+				statementTestCases
             });
         });
     });

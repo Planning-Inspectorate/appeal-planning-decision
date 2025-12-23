@@ -2,6 +2,7 @@ const documents = {
     uploadAppealStmt: 'appeal-statement-valid.pdf',
     uploadApplicationForAppealCost: 'other-supporting-docs.pdf',
     uploadDecisionLetter: 'decision-letter.pdf',
+    uploadNotifyParties: 'notify-parties.pdf',
     uploadDevelopmentDescription: 'additional-final-comments-1.pdf',
     uploadPlanningApplConfirmLetter: 'letter-confirming-planning-application.pdf',
     uploadPlansDrawingAndSupportingDocs: 'plans-drawings-and-supporting-documents.pdf',
@@ -14,6 +15,7 @@ export const advertAppealGrantedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'not started',
         typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: true,
             isHighwayLand: true,
@@ -45,6 +47,7 @@ export const advertAppealGrantedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: false,
             isHighwayLand: false,
@@ -70,6 +73,7 @@ export const advertAppealGrantedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'not started',
         typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: false,
             isHighwayLand: true,
@@ -148,6 +152,7 @@ export const advertAppealGrantedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'not started',
         typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: false,
             isHighwayLand: true,
@@ -178,6 +183,7 @@ export const advertAppealGrantedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'not started',
         typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: false,
             isHighwayLand: true,

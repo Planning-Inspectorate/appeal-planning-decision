@@ -20,6 +20,7 @@ export const casPlanningAppealNoDecisionTestCases = [
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-minor-commercial-development',
         selectAllPlanningApplicationAbout: true,
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: true,
             areaUnits: 'hectare',

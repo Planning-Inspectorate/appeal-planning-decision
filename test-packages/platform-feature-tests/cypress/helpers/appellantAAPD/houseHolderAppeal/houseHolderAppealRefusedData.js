@@ -21,6 +21,7 @@ export const houseHolderAppealRefusedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: true,
             //areaUnits:'hectare',

@@ -2,18 +2,23 @@
 /// <reference types="cypress"/>
 
 import { fullAppealRefusedTestCases } from "../../../helpers/appellantAAPD/fullAppeal/fullAppealRefusedData";
+import { fullAppealQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/fullAppealQuestionnaireData";
+import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from '../../../fixtures/users.js';
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
 describe('Submit Full Appeal Refused Test cases',{ tags:'@S78-refused' }, () => {
 	let prepareAppealData;
+	let lpaManageAppealsData;
 	before(() => {
 		cy.login(users.appeals.authUser);
 	});
-	beforeEach(() => {
-		
+	beforeEach(() => {		
 		cy.fixture('prepareAppealData').then(data => {
 			prepareAppealData = data;
+		})
+		cy.fixture('lpaManageAppealsData').then(data => {
+			lpaManageAppealsData = data;
 		})
 	});
 	// Iterate through each test case in the fullAppealRefusedTestCases array
@@ -55,7 +60,10 @@ describe('Submit Full Appeal Refused Test cases',{ tags:'@S78-refused' }, () => 
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
 				context,
-				prepareAppealData
+				prepareAppealData,
+				lpaManageAppealsData,
+				questionnaireTestCases,
+				statementTestCases
 			});
 		});
 	});

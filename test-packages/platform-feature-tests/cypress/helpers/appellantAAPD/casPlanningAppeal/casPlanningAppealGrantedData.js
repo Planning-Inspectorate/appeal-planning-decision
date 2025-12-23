@@ -62,13 +62,14 @@ export const casPlanningAppealGrantedTestCases = [
             uploadAdditionalDocuments: false
         }
     },
-    //this case is for Full planning
+    // this case is for Full planning
     {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-minor-commercial-development',
         selectAllPlanningApplicationAbout: true,
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: true,
             areaUnits: 'squaremeter',

@@ -2,6 +2,7 @@
 /// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
 import { DateService } from "../../../../utils/dateService";
+import { appealsE2EIntegration } from "../appealsE2EIntegration";
 const applicationFormPage = require("../../pages/appellant-aapd/prepare-appeal/applicationFormPage");
 const { ApplicationNamePage } = require("../../pages/appellant-aapd/prepare-appeal/applicationNamePage");
 const { ContactDetailsPage } = require("../../pages/appellant-aapd/prepare-appeal/contactDetailsPage");
@@ -17,7 +18,7 @@ const { ApplyAppealCostsPage } = require("../../pages/appellant-aapd/upload-docu
 const { HealthSafetyIssuesPage } = require("../../pages/appellant-aapd/prepare-appeal/healthSafetyIssuesPage");
 const { PrepareAppealSelector } = require("../../../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
+module.exports = (planning, grantedOrRefusedId, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
 	const basePage = new BasePage();
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const applicationNamePage = new ApplicationNamePage();
@@ -44,11 +45,7 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
 	cy.advanceToNextPage();
 
-	// cy.getByData(basePage?._selectors.answerNo).click();
-	// cy.advanceToNextPage();
-
 	cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.householderPlanningText);
-
 	cy.advanceToNextPage(prepareAppealData?.button);
 
 	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/email-address`);
@@ -167,4 +164,7 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 			expect(text.trim()).to.equal(prepareAppealData?.appealSubmitted);
 		});
 	});
+	if (context?.endToEndIntegration){
+		appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+	}
 };

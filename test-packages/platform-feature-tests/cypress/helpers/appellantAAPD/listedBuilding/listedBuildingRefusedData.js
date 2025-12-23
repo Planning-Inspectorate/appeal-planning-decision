@@ -20,6 +20,7 @@ export const listedBuildingRefusedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-listed-building',
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: true,
             areaUnits: 'hectare',

@@ -34,3 +34,15 @@ export const finalComment = (context, lpaManageAppealsData, appealType) => {
 	cy.get('.govuk-button').contains('Submit final comments').click();
 	cy.get(basePage?._selectors.govukPanelTitle).contains('Final comments submitted');
 };
+
+export const finalCommnetForCaseRef = (context, appealId) => {
+	const basePage = new BasePage();
+	const finalComment = new FinalComment();	
+	cy.get(`a[href*="/manage-appeals/final-comments/${appealId}/entry"]`).click();
+	cy.advanceToNextPage();
+	finalComment.selectSubmitAnyFinalComment(context);
+
+	// commented for test during coding
+	cy.get('.govuk-button').contains('Submit final comments').click();
+	cy.get(basePage?._selectors.govukPanelTitle).contains('Final comments submitted');
+};

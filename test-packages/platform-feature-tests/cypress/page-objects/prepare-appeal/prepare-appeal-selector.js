@@ -32,8 +32,8 @@ export class PrepareAppealSelector {
         casPlanningText: "Minor commercial development",
         advertText: "Advertisement",
 
-        advertisementAppealCaption: "Advertisement Appeal",
-        commercialAdvertisementAppealCaption: "Commercial advertisement Appeal",
+        advertisementAppealCaption: "Advertisement appeal",
+        commercialAdvertisementAppealCaption: "Commercial advertisement appeal",
         listedBuildingText: "Listed building consent",
         systemTest2BoroughCouncil: "System Test Borough Council 2"
     }

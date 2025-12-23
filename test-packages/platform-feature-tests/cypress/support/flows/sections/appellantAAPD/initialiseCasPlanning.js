@@ -2,6 +2,13 @@
 /// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
 import { DateService } from "../../../../utils/dateService";
+import { appealIdWaitingForReview } from "./../appealIdWaitingForReview";
+import { ipCommentsForAppealRef } from "./../ipComments/ipComments";
+import { householderQuestionnaire } from "./../lpaManageAppeals/houseHolderQuestionnaire";
+import { statementForCaseRef } from "./../lpaManageAppeals/statement";
+import { viewValidatedAppealDetailsLPA } from "./../lpaManageAppeals/viewValidatedAppealDetailsLPA";
+import { appealsApiClient} from "./../../../../support/appealsApiClient";
+import { appealsE2EIntegration } from "../appealsE2EIntegration";
 const applicationFormPage = require("../../pages/appellant-aapd/prepare-appeal/applicationFormPage");
 const { ApplicationNamePage } = require("../../pages/appellant-aapd/prepare-appeal/applicationNamePage");
 const { ContactDetailsPage } = require("../../pages/appellant-aapd/prepare-appeal/contactDetailsPage");
@@ -18,7 +25,7 @@ const { HealthSafetyIssuesPage } = require("../../pages/appellant-aapd/prepare-a
 const { PrepareAppealSelector } = require("../../../../page-objects/prepare-appeal/prepare-appeal-selector");
 const { SubmitDesignAccessStatementPage } = require("../../pages/appellant-aapd/upload-documents/submitDesignAccessStatementPage");
 
-module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
+module.exports = (planning, grantedOrRefusedId, applicationType, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
 	const basePage = new BasePage();
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const applicationNamePage = new ApplicationNamePage();
@@ -38,14 +45,13 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 
 	cy.getByData(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
+
 	if (grantedOrRefusedId === basePage._selectors?.answerNodecisionreceived) {
 		cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.beforeYouStart}/date-decision-due`);
 	}
 	else {
 		cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.beforeYouStart}/decision-date`);
 	}
-
-	//cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.beforeYouStart}/decision-date`);
 
 	cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateDay).type(date.today());
 	cy.get(prepareAppealSelector?._casPlanningSelectors?.decisionDateMonth).type(date.currentMonth());
@@ -56,7 +62,6 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 	// cy.advanceToNextPage();
 
 	cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.casPlanningText);
-
 	cy.advanceToNextPage(prepareAppealData?.button);
 
 	cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.casplanning}/email-address`);
@@ -185,4 +190,7 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 			expect(text.trim()).to.equal(prepareAppealData?.appealSubmitted);
 		});
 	});
+	if (context?.endToEndIntegration){
+		appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+	}	
 };

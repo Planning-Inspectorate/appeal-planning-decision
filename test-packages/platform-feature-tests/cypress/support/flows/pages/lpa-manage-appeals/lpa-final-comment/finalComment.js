@@ -5,12 +5,6 @@ export class FinalComment {
     _selectors = {
 
     }
-    addStatement(context) {
-        cy.get('#lpaStatement').clear();
-        cy.get('#lpaStatement').type("Statement test");
-        cy.advanceToNextPage();
-    }
-
     selectSubmitAnyFinalComment(context) {
         const basePage = new BasePage();
 
@@ -26,7 +20,7 @@ export class FinalComment {
             if (context?.additionalDocument?.selectAnswer) {
                 cy.getByData(basePage?._selectors?.answerYes).click();
                 cy.advanceToNextPage();
-               cy.get('body').then($body => {
+                cy.get('body').then($body => {
                     if ($body.find('button[name="delete"]:contains("Remove")').length > 0) {
                         cy.contains('button[name="delete"]', 'Remove').click();
                     }
@@ -41,9 +35,6 @@ export class FinalComment {
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
-            //Upload your witnesses and their evidence
-            //    cy.uploadFileFromFixtureDirectories(context?.documents?.uploadSupportDocsFinalComments);
-            //     cy.advanceToNextPage();
         }
     };
 }

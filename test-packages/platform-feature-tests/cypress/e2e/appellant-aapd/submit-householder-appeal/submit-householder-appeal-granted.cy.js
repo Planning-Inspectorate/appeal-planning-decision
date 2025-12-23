@@ -2,7 +2,7 @@
 /// <reference types="cypress"/>
 
 import { houseHolderAppealGrantedTestCases } from "../../../helpers/appellantAAPD/houseHolderAppeal/houseHolderAppealGrantedData";
-import { fullAppealQuestionnaireTestCases } from "../../../helpers/lpaManageAppeals/fullAppealQuestionnaireData";
+import { fullAppealQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/fullAppealQuestionnaireData";
 import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
@@ -60,7 +60,7 @@ describe('Submit House Holder Appeal Granted Test Cases',{ tags:'@HAS-granted' }
 				context,
 				prepareAppealData,
 				lpaManageAppealsData,
-				fullAppealQuestionnaireTestCases,
+				questionnaireTestCases,
 				statementTestCases
 			});
 		});
