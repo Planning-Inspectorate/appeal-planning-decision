@@ -2840,11 +2840,7 @@ exports.getQuestionProps = (response) => ({
 		question: 'Is the area of the alleged breach the same as the site area?',
 		fieldName: 'enforcementAllegedBreachArea',
 		url: 'alleged-breach-area',
-		validators: [
-			new RequiredValidator(
-				'Select yes if the area of the alleged breach is the same as the site area'
-			)
-		]
+		validators: [new RequiredValidator('Select yes if the alleged breach creates any floor space')]
 	},
 	enforcementCreateFloorSpace: {
 		type: 'boolean',
