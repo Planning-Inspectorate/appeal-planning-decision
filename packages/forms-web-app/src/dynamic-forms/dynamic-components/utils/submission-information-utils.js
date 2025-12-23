@@ -3,10 +3,6 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const { formatAddress } = require('@pins/common/src/lib/format-address');
 const { formatApplicant } = require('@pins/common/src/lib/format-applicant');
-const typeCodeToSubmissionInformationString = {
-	[CASE_TYPES.HAS.processCode]: 'Householder',
-	[CASE_TYPES.S78.processCode]: 'Full planning'
-};
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 /**
@@ -25,7 +21,7 @@ exports.formatBeforeYouStartSection = async (appellantSubmission) => {
 		lpa = await getLPAById(LPACode);
 	}
 
-	const appealType = typeCodeToSubmissionInformationString[appealTypeCode];
+	const appealType = appealTypeCode === 'S78' ? 'Full planning' : CASE_TYPES[appealTypeCode].type;
 
 	const decisionDate = formatDateForDisplay(applicationDecisionDate, { format: 'd MMMM yyyy' });
 
@@ -74,7 +70,7 @@ exports.formatBeforeYouStartSection = async (appellantSubmission) => {
 
 exports.formatQuestionnaireAppealInformationSection = (appeal, role) => {
 	const { appealTypeCode } = appeal;
-	const appealType = typeCodeToSubmissionInformationString[appealTypeCode];
+	const appealType = appealTypeCode === 'S78' ? 'Full planning' : CASE_TYPES[appealTypeCode].type;
 	const address = formatAddress(appeal);
 	const applicant = formatApplicant(appeal.users, role);
 

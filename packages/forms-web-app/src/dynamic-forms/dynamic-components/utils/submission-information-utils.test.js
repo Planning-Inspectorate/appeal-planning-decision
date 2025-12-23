@@ -80,12 +80,51 @@ describe('formatBeforeYouStartSection', () => {
 			}
 		});
 	});
+
+	it.each([
+		['Householder', 'HAS'],
+		['Full planning', 'S78'],
+		['Planning listed building and conservation area', 'S20'],
+		['Advertisement', 'ADVERTS'],
+		['Commercial advertisement', 'CAS_ADVERTS'],
+		['Commercial planning (CAS)', 'CAS_PLANNING']
+	])('formats section correctly for appealType', async (appealType, appealTypeCode) => {
+		mockAppellantSubmission.appealTypeCode = appealTypeCode;
+		const result = await formatBeforeYouStartSection(mockAppellantSubmission);
+
+		expect(result).toEqual({
+			heading: 'Before you start',
+			list: {
+				rows: [
+					{
+						key: { text: 'Local planning authority', classes: 'govuk-!-width-one-half' },
+						value: { html: 'Test LPA' }
+					},
+					{
+						key: { text: 'Appeal type', classes: 'govuk-!-width-one-half' },
+						value: { html: appealType }
+					},
+					{
+						key: { text: 'Decision date', classes: 'govuk-!-width-one-half' },
+						value: { html: '1 January 2023' }
+					}
+				]
+			}
+		});
+	});
 });
 
 describe('formatQuestionnaireAppealInformationSection', () => {
-	it('formats section correctly', () => {
+	it.each([
+		['Householder', 'HAS'],
+		['Full planning', 'S78'],
+		['Planning listed building and conservation area', 'S20'],
+		['Advertisement', 'ADVERTS'],
+		['Commercial advertisement', 'CAS_ADVERTS'],
+		['Commercial planning (CAS)', 'CAS_PLANNING']
+	])('formats section correctly for appealType', (appealType, appealTypeCode) => {
 		const appeal = {
-			appealTypeCode: 'HAS',
+			appealTypeCode: appealTypeCode,
 			applicationReference: '123/abc/678',
 			users: [
 				{ firstName: 'Fname', lastName: 'Lname', serviceUserType: APPEAL_USER_ROLES.APPELLANT }
@@ -105,7 +144,7 @@ describe('formatQuestionnaireAppealInformationSection', () => {
 							classes: 'govuk-!-width-one-half'
 						},
 						value: {
-							html: 'Householder'
+							html: appealType
 						}
 					},
 					{
