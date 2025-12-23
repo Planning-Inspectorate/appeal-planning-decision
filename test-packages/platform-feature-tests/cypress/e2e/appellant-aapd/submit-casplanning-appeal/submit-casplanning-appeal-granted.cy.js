@@ -3,6 +3,7 @@
 
 import { casPlanningAppealGrantedTestCases } from "../../../helpers/appellantAAPD/casPlanningAppeal/casPlanningAppealGrantedData";
 import { fullAppealQuestionnaireTestCases } from "../../../helpers/lpaManageAppeals/fullAppealQuestionnaireData";
+import { casPlanningQuestionnaireTestCases } from "../../../helpers/lpaManageAppeals/casPlanningQuestionnaireData";
 import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
@@ -61,7 +62,7 @@ describe('Submit Cas Planning Appeal Granted Test Cases', { tags: '@CAS-Planning
 				context,
 				prepareAppealData,
 				lpaManageAppealsData,
-				fullAppealQuestionnaireTestCases,
+				questionnaireTestCases: selectAllPlanningApplicationAbout ? fullAppealQuestionnaireTestCases : casPlanningQuestionnaireTestCases,
 				statementTestCases
 			});
 		});

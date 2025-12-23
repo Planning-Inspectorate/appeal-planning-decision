@@ -23,6 +23,7 @@ export class EnvImpactAssess {
     }
 
     selectScheduleType(context, lpaManageAppealsData) {
+        cy.log('isSchedule:', context?.environmentalImpact?.isSchedule);  
         if (context?.environmentalImpact?.isSchedule === 'one') {
             this.selectScheduleOne(context);
         } else if (context?.environmentalImpact?.isSchedule === 'two') {

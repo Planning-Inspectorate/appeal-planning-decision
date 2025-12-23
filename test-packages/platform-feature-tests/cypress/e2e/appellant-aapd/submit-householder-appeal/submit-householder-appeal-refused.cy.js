@@ -2,18 +2,23 @@
 /// <reference types="cypress"/>
 
 import { houseHolderAppealRefusedTestCases } from "../../../helpers/appellantAAPD/houseHolderAppeal/houseHolderAppealRefusedData";
+import { houseHolderAppealQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/houseHolderQuestionnaireData";
+import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
 describe('Submit House Holder Appeal Refused Test Cases',{ tags:'@HAS-refused' }, () => {
 	let prepareAppealData;
+	let lpaManageAppealsData;
 	before(() => {
 		cy.login(users.appeals.authUser);
 	});
 	beforeEach(() => {		
-		// Load the fixture data for prepareAppealData
 		cy.fixture('prepareAppealData').then(data => {
 			prepareAppealData = data;
+		})
+		cy.fixture('lpaManageAppealsData').then(data => {
+			lpaManageAppealsData = data;
 		})
 	});
 	houseHolderAppealRefusedTestCases.forEach((context) => {
@@ -53,7 +58,10 @@ describe('Submit House Holder Appeal Refused Test Cases',{ tags:'@HAS-refused' }
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
 				context,
-				prepareAppealData
+				prepareAppealData,
+				lpaManageAppealsData,
+				questionnaireTestCases,
+				statementTestCases
 			});
 		});
 	});

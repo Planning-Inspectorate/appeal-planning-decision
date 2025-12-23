@@ -24,7 +24,7 @@ const documents = {
 export const commercialAdvertQuestionnaireTestCases = [
     {  
         constraintsAndDesignations:{
-            isCorrectTypeOfAppeal: true,
+            isCorrectTypeOfAppeal: true,          
             isAffectListedBuildings: true,           
             isAffectedListedBuildings: true,
             isScheduledMonuments: true,
