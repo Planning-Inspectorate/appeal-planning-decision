@@ -3539,6 +3539,14 @@ exports.getQuestionProps = (response) => ({
 	},
 
 	// Enforcement Specific questions (section 4) - Planning officer's report and supplementary documents
+	planningOfficersReport: {
+		type: 'boolean',
+		title: 'Do you have a planning officer’s report?',
+		question: 'Do you have a planning officer’s report?',
+		fieldName: 'planningOfficerReport',
+		url: 'planning-officer-report',
+		validators: [new RequiredValidator('Select yes you have a planning officer’s report?')]
+	},
 	localDevelopmentOrder: {
 		type: 'boolean',
 		title: 'Do you have a local development order?',

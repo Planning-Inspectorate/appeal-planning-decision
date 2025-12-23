@@ -1193,6 +1193,7 @@ export interface LPAQuestionnaireSubmission {
 	enforcementDevelopmentRights?: boolean | null;
 	enforcementDevelopmentRightsUpload?: boolean | null;
 	enforcementDevelopmentRightsRemoved?: string | null;
+	planningOfficerReport?: boolean | null;
 	localDevelopmentOrder?: boolean | null;
 	localDevelopmentOrderUpload?: boolean | null;
 	previousPlanningPermission?: boolean | null;
