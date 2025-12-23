@@ -2882,9 +2882,7 @@ exports.getQuestionProps = (response) => ({
 			'Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?',
 		fieldName: 'enforcementRefuseWasteMaterials',
 		url: 'refuse-waste-materials',
-		validators: [
-			new RequiredValidator('Select yes if the alleged breach does create any floor space')
-		]
+		validators: [new RequiredValidator('Select yes if the alleged breach creates any floor space')]
 	},
 	enforcementMineralExtractionMaterials: {
 		type: 'boolean',
@@ -2910,7 +2908,7 @@ exports.getQuestionProps = (response) => ({
 		url: 'store-minerals',
 		validators: [
 			new RequiredValidator(
-				'Select yes if the enforcement notice does include include a change of use of land to store minerals in the open'
+				'Select yes if the enforcement notice includes a change of use of land to store minerals in the open'
 			)
 		]
 	},
@@ -2922,7 +2920,7 @@ exports.getQuestionProps = (response) => ({
 		url: 'create-building',
 		validators: [
 			new RequiredValidator(
-				'Select yes if the enforcement notice does include the erection of a building or buildings'
+				'Select yes if the enforcement notice includes the erection of a building or buildings'
 			)
 		]
 	},
