@@ -1,3 +1,12 @@
+const { AppConfigurationClient } = require('@azure/app-configuration');
+const logger = require('./lib/logger');
+const { getOrSetCache } = require('./lib/memory-cache');
+const { retryAsync } = require('./lib/retry-async');
+
+const retryDelayMs = 100;
+const retryAttempts = 3;
+const msIn1Minute = 60000;
+
 /**
  * @param {string} featureFlagName
  */
@@ -18,77 +27,92 @@ function isLocalOverride(featureFlagName) {
 }
 
 /**
- * @param {{ endpoint?: string, timeToLiveInMinutes: string | number }} [options]
+ * @param {{ endpoint?: string, timeToLiveInMinutes: string | number }} options
  * @returns {(featureFlagName: string, localPlanningAuthorityCode?: string) => Promise<boolean>}
  */
 exports.isFeatureActive = (options) => async (featureFlagName, localPlanningAuthorityCode) => {
+	if (!featureFlagName || typeof featureFlagName !== 'string' || featureFlagName === '') {
+		throw new Error('isFeatureActive: featureFlagName is required');
+	}
+
+	let ttlMinutes = options?.timeToLiveInMinutes;
+	if (typeof ttlMinutes === 'string') {
+		ttlMinutes = parseInt(ttlMinutes, 10);
+		if (isNaN(ttlMinutes)) {
+			throw new Error('isFeatureActive: timeToLiveInMinutes must be a valid number');
+		}
+	}
+	if (typeof ttlMinutes !== 'number' || ttlMinutes < 0) {
+		throw new Error('isFeatureActive: timeToLiveInMinutes must be a positive number');
+	}
+
 	if (isLocalOverride(featureFlagName)) {
 		return true;
 	}
 
-	//if no env variable pointing to the config in azure, early return to avoid issues.
-	if (!options?.endpoint || typeof options.endpoint !== 'string' || options.endpoint.length <= 1) {
-		return false;
+	// For local use, sets all features on for development
+	if (process.env.FEATURE_FLAGS_SETTING === 'ALL_ON') {
+		return true;
 	}
 
-	const { AppConfigurationClient } = require('@azure/app-configuration');
-	const logger = require('./lib/logger');
-
-	const appConfigClient = new AppConfigurationClient(options.endpoint);
-	let featureFlagCache = {};
-
-	let flagName = featureFlagName.toString().trim();
-
-	logger.info(`Retrieving configuration for feature flag with name '${flagName}'`);
-
-	if (!flagName) {
-		logger.error('A feature flag key must be supplied.');
-		return false;
+	if (!options || typeof options.endpoint !== 'string' || options.endpoint === '') {
+		throw new Error('isFeatureActive: AppConfigurationClient endpoint is required');
 	}
 
-	logger.info('Feature flag cache pre-cache check:', featureFlagCache);
+	const getFlag = async () =>
+		getFeatureFlag(
+			/** @ts-ignore type checked above */
+			options.endpoint,
+			featureFlagName
+		);
+	const logRetryAttempt = (/** @type {any} */ error, /** @type {number} */ attempt) =>
+		logger.warn(error, `error retrieving flag '${featureFlagName}' (retry ${attempt})`);
 
-	const currentTime = Date.now();
-	const timeToLive = featureFlagCache[flagName]?.timeToLive;
-
-	logger.info('Current time: ' + currentTime + '// Time to live: ' + timeToLive);
-
-	const timeToLiveEvaluation = currentTime >= timeToLive;
-
-	logger.info('Time to live evaluation: ' + timeToLiveEvaluation);
-
-	if (featureFlagCache[flagName] === undefined || timeToLiveEvaluation) {
-		logger.info('Retrieving feature flag configuration from Azure');
-		try {
-			const azureFeatureFlagConfiguration = await appConfigClient.getConfigurationSetting({
-				key: `.appconfig.featureflag/${flagName}`
-			});
-
-			if (azureFeatureFlagConfiguration && typeof azureFeatureFlagConfiguration === 'object') {
-				logger.info(`Retrieved valid feature flag configuration, updating cache...`);
-				featureFlagCache[flagName] = JSON.parse(azureFeatureFlagConfiguration.value);
-				featureFlagCache[flagName].timeToLive =
-					Date.now() + Number(options.timeToLiveInMinutes) * 60000;
-			} else {
-				logger.info(`Retrieved invalid feature flag configuration; retrieved value follows...`);
-				logger.info(azureFeatureFlagConfiguration);
-			}
-		} catch (error) {
-			logger.error(error);
-			return false;
-		}
-	}
-
-	logger.info('Feature flag cache post-cache check:', featureFlagCache);
-
-	const featureFlagConfiguration = featureFlagCache[flagName];
-	const userGroup = featureFlagConfiguration.conditions.client_filters[0].parameters.Audience.Users;
-	const isUserInUserGroup =
-		(Array.isArray(userGroup) && !userGroup.length) ||
-		userGroup.includes(localPlanningAuthorityCode);
-	logger.info(
-		'Feature flag: ' + featureFlagConfiguration.id + ' ' + featureFlagConfiguration.enabled
+	const featureFlagConfiguration = await getOrSetCache(
+		`featureFlag-${featureFlagName}`,
+		() => retryAsync(getFlag, retryDelayMs, retryAttempts, logRetryAttempt),
+		ttlMinutes * msIn1Minute
 	);
-	logger.info('Is local planning authority code in feature flag user group: ' + isUserInUserGroup);
-	return featureFlagConfiguration.enabled && isUserInUserGroup;
+
+	if (!featureFlagConfiguration || typeof featureFlagConfiguration !== 'object') {
+		logger.error(`Feature flag '${featureFlagName}' missing or invalid after retrieval.`);
+		return false;
+	}
+
+	const clientFilters = featureFlagConfiguration.conditions?.client_filters;
+	const audience = clientFilters?.[0]?.parameters?.Audience;
+	const userGroup = audience?.Users;
+	if (!Array.isArray(userGroup)) {
+		logger.warn(`Feature flag '${featureFlagName}' has no valid user group. Returning false.`);
+		return false;
+	}
+	const isUserInUserGroup =
+		userGroup.length === 0 || userGroup.includes(localPlanningAuthorityCode || '');
+	return Boolean(featureFlagConfiguration.enabled && isUserInUserGroup);
+};
+
+/**
+ * @typedef {Object} FeatureFlagConfiguration
+ * @property {boolean} enabled - Whether the feature flag is enabled
+ * @property {Object} conditions - Conditions for the feature flag
+ * @property {Array<{parameters: {Audience: { Users: Array<string>}}}>} conditions.client_filters - Array of client filter objects
+ */
+
+/**
+ * @param {string} endpoint
+ * @param {string} flagName
+ * @returns {Promise<FeatureFlagConfiguration>}
+ */
+const getFeatureFlag = async (endpoint, flagName) => {
+	const appConfigClient = new AppConfigurationClient(endpoint);
+
+	const azureFeatureFlagConfiguration = await appConfigClient.getConfigurationSetting({
+		key: `.appconfig.featureflag/${flagName}`
+	});
+
+	if (!azureFeatureFlagConfiguration || typeof azureFeatureFlagConfiguration.value !== 'string') {
+		throw new Error(`Feature flag '${flagName}' not found in Azure App Configuration`);
+	}
+
+	return JSON.parse(azureFeatureFlagConfiguration.value);
 };
