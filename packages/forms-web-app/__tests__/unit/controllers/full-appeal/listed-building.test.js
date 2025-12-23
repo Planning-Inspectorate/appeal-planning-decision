@@ -109,7 +109,7 @@ describe('controllers/full-appeal/listed-building', () => {
 		});
 
 		it(`should set appeal type to s20 and redirect to the granted-or-refused page if householder permissions and 'yes' is selected`, async () => {
-			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			isLpaInFeatureFlag.mockReturnValueOnce(false);
 			const mockRequest = {
 				...req,
 				body: { 'listed-building': 'yes' }

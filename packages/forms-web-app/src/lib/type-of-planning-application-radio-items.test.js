@@ -12,7 +12,7 @@ const {
 } = require('./type-of-planning-application-radio-items');
 
 describe('typeOfPlanningApplicationRadioItems', () => {
-	it('returns items list with listed building if s20 feature flag true', () => {
+	it('returns items list with listed building', () => {
 		const itemsList = typeOfPlanningApplicationRadioItems(false, false, false);
 		expect(itemsList.length).toEqual(10);
 		expect(itemsList[2].value).toEqual(LISTED_BUILDING);

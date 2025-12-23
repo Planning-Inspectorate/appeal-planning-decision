@@ -92,8 +92,8 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 			});
 		});
 
-		it('should redirect to the correct page if `yes` has been selected - v2', async () => {
-			isLpaInFeatureFlag.mockReturnValueOnce(true);
+		it('should redirect to the correct page if `yes` has been selected', async () => {
+			isLpaInFeatureFlag.mockReturnValueOnce(false);
 			fullAppealCopy[sectionName].hasPriorApprovalForExistingHome = true;
 			fullAppealCopy.appealType = '1001';
 

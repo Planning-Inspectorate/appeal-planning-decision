@@ -2,7 +2,7 @@
  * @type {import('express').RequestHandler}
  */
 const getEmailConfirmed = async (req, res) => {
-	let listOfDocumentsUrl = '/appeals/householder/appeal-form/before-you-start';
+	const listOfDocumentsUrl = '/appeals/householder/appeal-form/before-you-start';
 
 	return res.render('appeal-householder-decision/email-address-confirmed', {
 		listOfDocumentsUrl
