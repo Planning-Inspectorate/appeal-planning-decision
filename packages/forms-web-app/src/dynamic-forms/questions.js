@@ -2973,7 +2973,7 @@ exports.getQuestionProps = (response) => ({
 		question: 'Did you serve a stop notice?',
 		fieldName: 'enforcementStopNotice',
 		url: 'stop-notice',
-		validators: [new RequiredValidator('Select yes if you did serve a stop notice')]
+		validators: [new RequiredValidator('Select yes if you served a stop notice')]
 	},
 	enforcementStopNoticeUpload: {
 		type: 'multi-file-upload',
@@ -2982,11 +2982,11 @@ exports.getQuestionProps = (response) => ({
 		fieldName: 'enforcementStopNoticeUpload',
 		url: 'upload-stop-notice',
 		validators: [
-			new RequiredFileUploadValidator('Select the stop notice served'),
+			new RequiredFileUploadValidator('Select the stop notice'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		documentType: documentTypes.enforcementStopNoticeUpload,
-		actionHiddenText: 'the stop notice served'
+		actionHiddenText: 'the stop notice'
 	},
 	enforcementDevelopmentRights: {
 		type: 'boolean',
@@ -2996,7 +2996,7 @@ exports.getQuestionProps = (response) => ({
 		url: 'remove-permitted-development-rights',
 		validators: [
 			new RequiredValidator(
-				'Select yes if you did remove any permitted development rights for the appeal site'
+				'Select yes if you removed any permitted development rights for the appeal site'
 			)
 		]
 	},
@@ -3020,7 +3020,9 @@ exports.getQuestionProps = (response) => ({
 		url: 'rights-removed-direction',
 		fieldName: 'enforcementDevelopmentRightsRemoved',
 		validators: [
-			new RequiredValidator('Enter what permitted development rights have been removed'),
+			new RequiredValidator(
+				'Enter the permitted development rights that you removed with the direction'
+			),
 			new StringValidator({
 				maxLength: {
 					maxLength: appealFormV2.textAreaMaxLength,
