@@ -1,0 +1,60 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% set title = "We could not find an application with this number - Before you start - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}
+    {% if errors %}
+        {% set title = "Error: " + title %}
+    {% endif %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {% if errorSummary %}
+                {{ govukErrorSummary({
+                    titleText: "There is a problem",
+                    errorList: errorSummary
+                }) }}
+            {% endif %}
+            <form action="" method="post" novalidate>
+                <input type="hidden" name="_csrf" value="{{ _csrf }}"/>
+                <span class="govuk-caption-l">Before you start</span>
+                <h1 class="govuk-heading-l">We could not find an application with this number</h1>
+                {{ govukRadios({
+                    name: 'confirm-application-number',
+                    errorMessage: errors['confirm-application-number'] and {
+                        text: errors['confirm-application-number'].msg
+                    },
+                    fieldset: {
+                        legend: {
+                            text: 'Are you sure ' + planningApplicationNumber + ' is your application number?',
+                            isPageHeading: false,
+                            classes: "govuk-fieldset__legend--m"
+                        }
+                    },
+                    items: [
+                        {
+                            value: "yes",
+                            text: "Yes",
+                            attributes: { "data-cy": "answer-yes" },
+                            checked: hasHouseholderPermissionConditions === true
+                        },
+                        {
+                            value: "no",
+                            text: "No, I need to correct it",
+                            attributes: { "data-cy": "answer-no" },
+                            checked: hasHouseholderPermissionConditions === false
+                        }
+                    ]
+                }) }}
+                {{ govukButton({
+                    text: "Continue",
+                    type: "submit",
+                    attributes: { "data-cy":"button-save-and-continue"}
+                }) }}
+            </form>
+        </div>
+    </div>
+{% endblock %}
