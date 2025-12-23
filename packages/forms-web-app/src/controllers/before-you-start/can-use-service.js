@@ -59,12 +59,6 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 		appeal.eligibility.applicationDecision
 	);
 
-	const claimingCosts =
-		typeof appeal.eligibility.isClaimingCosts === 'boolean'
-			? appeal.eligibility.isClaimingCosts
-				? 'Yes'
-				: 'No'
-			: null;
 	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	res.render(canUseServiceHouseholder, {
@@ -74,7 +68,6 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 		applicationDecision,
 		decisionDate,
 		enforcementNotice,
-		claimingCosts,
 		dateOfDecisionLabel,
 		nextPageUrl,
 		changeLpaUrl,
@@ -154,13 +147,6 @@ const canUseServicePriorApproval = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
-		const claimingCosts =
-			typeof appeal.eligibility.isClaimingCosts === 'boolean'
-				? appeal.eligibility.isClaimingCosts
-					? 'Yes'
-					: 'No'
-				: null;
-
 		res.render(canUseServicePriorApprovalHouseholder, {
 			deadlineDate,
 			appealLPD,
@@ -168,7 +154,6 @@ const canUseServicePriorApproval = async (req, res) => {
 			applicationDecision,
 			decisionDate,
 			enforcementNotice,
-			claimingCosts,
 			dateOfDecisionLabel,
 			hasPriorApprovalForExistingHome,
 			changeLpaUrl,
@@ -221,13 +206,6 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
-		const claimingCosts =
-			typeof appeal.eligibility.isClaimingCosts === 'boolean'
-				? appeal.eligibility.isClaimingCosts
-					? 'Yes'
-					: 'No'
-				: null;
-
 		res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
 			deadlineDate,
 			appealLPD,
@@ -236,7 +214,6 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			applicationDecision,
 			decisionDate,
 			enforcementNotice,
-			claimingCosts,
 			dateOfDecisionLabel,
 			hasHouseholderPermissionConditions,
 			changeLpaUrl,
