@@ -2,7 +2,7 @@ const { body } = require('express-validator');
 
 const rules = () => {
 	return [
-		body('application-number').trim().notEmpty().withMessage('Enter a valid application number')
+		body('confirm-application-number').notEmpty().withMessage('Confirm your application number')
 	];
 };
 
