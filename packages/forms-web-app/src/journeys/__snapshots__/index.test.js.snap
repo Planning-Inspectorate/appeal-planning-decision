@@ -24684,7 +24684,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="enforcementRefuseWasteMaterials-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the enforcement notice include a change of use of land to dispose refuse or waste materials?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?</h1>
                         </legend>
                         <div id="enforcementRefuseWasteMaterials-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -26399,10 +26399,10 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/create-floor-space">Answer<span class="govuk-visually-hidden"> Does the alleged breach create any floor space?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice include a change of use of land to dispose refuse or waste materials?</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/refuse-waste-materials">Answer<span class="govuk-visually-hidden"> Does the enforcement notice include a change of use of land to dispose refuse or waste materials?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/refuse-waste-materials">Answer<span class="govuk-visually-hidden"> Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?</dt>

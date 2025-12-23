@@ -48,7 +48,7 @@ condition: () => questionHasAnswer(response, questions.rightOfWayCheck, 'yes');
 - number-entry `/site-area/` What is the area of the appeal site?
 - boolean `/alleged-breach-area/` Is the area of the alleged breach the same as the site area?
 - boolean `/create-floor-space/` Does the alleged breach create any floor space?
-- boolean `/refuse-waste-materials/` Does the enforcement notice include a change of use of land to dispose refuse or waste materials?
+- boolean `/refuse-waste-materials/` Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?
 - boolean `/mineral-extraction-materials/` Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?
 - boolean `/store-minerals/` Does the enforcement notice include a change of use of land to store minerals in the open?
 - boolean `/create-building/` Does the enforcement notice include the erection of a building or buildings?

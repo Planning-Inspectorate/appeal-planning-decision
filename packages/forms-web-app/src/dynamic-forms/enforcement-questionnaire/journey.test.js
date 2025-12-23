@@ -176,7 +176,7 @@ describe('Enforcement Journey', () => {
 			{
 				fieldName: 'enforcementRefuseWasteMaterials',
 				question:
-					'Does the enforcement notice include a change of use of land to dispose refuse or waste materials?',
+					'Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?',
 				urlSegment: 'refuse-waste-materials'
 			},
 			{
