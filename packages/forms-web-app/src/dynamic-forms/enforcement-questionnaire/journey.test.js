@@ -386,7 +386,7 @@ describe('Enforcement Journey', () => {
 			},
 			{
 				fieldName: 'previousPlanningPermissionUpload',
-				question: 'Upload planning permission and any other relevant documents',
+				question: 'Upload the planning permission and any other relevant documents',
 				urlSegment: 'upload-planning-permission'
 			},
 			{
