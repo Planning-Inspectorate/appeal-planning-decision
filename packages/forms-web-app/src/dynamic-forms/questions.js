@@ -3568,7 +3568,7 @@ exports.getQuestionProps = (response) => ({
 		question: 'Do you have a planning officer’s report?',
 		fieldName: 'planningOfficerReport',
 		url: 'planning-officer-report',
-		validators: [new RequiredValidator('Select yes you have a planning officer’s report?')]
+		validators: [new RequiredValidator('Select yes if you have a planning officer’s report?')]
 	},
 	localDevelopmentOrder: {
 		type: 'boolean',
