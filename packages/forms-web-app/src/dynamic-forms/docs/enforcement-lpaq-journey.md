@@ -54,7 +54,7 @@ condition: () => questionHasAnswer(response, questions.rightOfWayCheck, 'yes');
 - boolean `/create-building/` Does the enforcement notice include the erection of a building or buildings?
 - boolean `/agricultural-purposes/` Is the building on agricultural land and will it be used for agricultural purposes?
 - boolean `/single-house/` Is the enforcement notice for a single private dwelling house?
-- boolean `/trunk-road/` Is the appeal site within 67 metres of a trunk road?
+- radio `/trunk-road/` Is the appeal site within 67 metres of a trunk road?
 - boolean `/crown-land/` Is the appeal site on Crown land?
 - boolean `/stop-notice/` Did you serve a stop notice?
 - multi-file-upload `/upload-stop-notice/` Upload the stop notice
