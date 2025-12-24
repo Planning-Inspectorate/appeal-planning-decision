@@ -2823,7 +2823,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'boolean',
 		title: 'Public right of way',
 		question: 'Was a public right of way removed or diverted?',
-		fieldName: 'enforcementPublicRightOfWay',
+		fieldName: 'publicRightOfWay',
 		url: 'public-right-of-way',
 		validators: [
 			new RequiredValidator('Select yes if a public right of way was removed or diverted')
@@ -2835,7 +2835,7 @@ exports.getQuestionProps = (response) => ({
 			'Does the enforcement notice relate to building, engineering, mining or other operations?',
 		question:
 			'Does the enforcement notice relate to building, engineering, mining or other operations?',
-		fieldName: 'enforcementOtherOperations',
+		fieldName: 'otherOperations',
 		url: 'other-operations',
 		validators: [
 			new RequiredValidator(
@@ -2847,7 +2847,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'boolean',
 		title: 'Is the area of the alleged breach the same as the site area?',
 		question: 'Is the area of the alleged breach the same as the site area?',
-		fieldName: 'enforcementAllegedBreachArea',
+		fieldName: 'allegedBreachArea',
 		url: 'alleged-breach-area',
 		validators: [
 			new RequiredValidator(
@@ -2859,7 +2859,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'boolean',
 		title: 'Does the alleged breach create any floor space?',
 		question: 'Does the alleged breach create any floor space?',
-		fieldName: 'enforcementCreateFloorSpace',
+		fieldName: 'createFloorSpace',
 		url: 'create-floor-space',
 		validators: [new RequiredValidator('Select yes if the alleged breach creates any floor space')]
 	},
@@ -2869,7 +2869,7 @@ exports.getQuestionProps = (response) => ({
 			'Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?',
 		question:
 			'Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?',
-		fieldName: 'enforcementRefuseWasteMaterials',
+		fieldName: 'refuseWasteMaterials',
 		url: 'refuse-waste-materials',
 		validators: [new RequiredValidator('Select yes if the alleged breach creates any floor space')]
 	},
@@ -2879,7 +2879,7 @@ exports.getQuestionProps = (response) => ({
 			'Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?',
 		question:
 			'Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?',
-		fieldName: 'enforcementMineralExtractionMaterials',
+		fieldName: 'mineralExtractionMaterials',
 		url: 'mineral-extraction-materials',
 		validators: [
 			new RequiredValidator(
@@ -2893,7 +2893,7 @@ exports.getQuestionProps = (response) => ({
 			'Does the enforcement notice include a change of use of land to store minerals in the open?',
 		question:
 			'Does the enforcement notice include a change of use of land to store minerals in the open?',
-		fieldName: 'enforcementStoreMinerals',
+		fieldName: 'storeMinerals',
 		url: 'store-minerals',
 		validators: [
 			new RequiredValidator(
@@ -2905,7 +2905,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'boolean',
 		title: 'Does the enforcement notice include the erection of a building or buildings?',
 		question: 'Does the enforcement notice include the erection of a building or buildings?',
-		fieldName: 'enforcementCreateBuilding',
+		fieldName: 'createBuilding',
 		url: 'create-building',
 		validators: [
 			new RequiredValidator(
@@ -2917,7 +2917,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'boolean',
 		title: 'Is the building on agricultural land and will it be used for agricultural purposes?',
 		question: 'Is the building on agricultural land and will it be used for agricultural purposes?',
-		fieldName: 'enforcementAgriculturalPurposes',
+		fieldName: 'agriculturalPurposes',
 		url: 'agricultural-purposes',
 		validators: [
 			new RequiredValidator(
@@ -2930,7 +2930,7 @@ exports.getQuestionProps = (response) => ({
 		title: 'Is the enforcement notice for a single private dwelling house?',
 		question: 'Is the enforcement notice for a single private dwelling house?',
 		hint: 'Includes either building a new house or a change of use.',
-		fieldName: 'enforcementSingleHouse',
+		fieldName: 'singleHouse',
 		url: 'single-house',
 		validators: [
 			new RequiredValidator(
@@ -2942,7 +2942,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'radio',
 		title: 'Is the appeal site within 67 metres of a trunk road?',
 		question: 'Is the appeal site within 67 metres of a trunk road?',
-		fieldName: 'enforcementTrunkRoad',
+		fieldName: 'trunkRoad',
 		url: 'trunk-road',
 		options: [
 			{
@@ -2950,7 +2950,7 @@ exports.getQuestionProps = (response) => ({
 				value: 'yes',
 				conditional: {
 					question: 'Enter the road name',
-					fieldName: 'enforcementTrunkRoadDetails',
+					fieldName: 'trunkRoadDetails',
 					type: 'textarea'
 				}
 			},
@@ -2967,7 +2967,7 @@ exports.getQuestionProps = (response) => ({
 					maxLength: appealFormV2.textInputMaxLength,
 					maxLengthMessage: `The road name must be ${appealFormV2.textInputMaxLength} characters or less`
 				},
-				fieldName: getConditionalFieldName('enforcementTrunkRoad', 'enforcementTrunkRoadDetails')
+				fieldName: getConditionalFieldName('trunkRoad', 'trunkRoadDetails')
 			})
 		]
 	},
@@ -2975,7 +2975,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'boolean',
 		title: 'Is the appeal site on Crown land?',
 		question: 'Is the appeal site on Crown land?',
-		fieldName: 'enforcementCrownLand',
+		fieldName: 'crownLand',
 		url: 'crown-land',
 		validators: [new RequiredValidator('Select yes if the appeal site is on Crown land')]
 	},
@@ -2983,7 +2983,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'boolean',
 		title: 'Did you serve a stop notice?',
 		question: 'Did you serve a stop notice?',
-		fieldName: 'enforcementStopNotice',
+		fieldName: 'stopNotice',
 		url: 'stop-notice',
 		validators: [new RequiredValidator('Select yes if you served a stop notice')]
 	},
@@ -2991,7 +2991,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'multi-file-upload',
 		title: 'Upload the stop notice',
 		question: 'Upload the stop notice',
-		fieldName: 'enforcementStopNoticeUpload',
+		fieldName: 'stopNoticeUpload',
 		url: 'upload-stop-notice',
 		validators: [
 			new RequiredFileUploadValidator('Select the stop notice'),
@@ -3004,7 +3004,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'boolean',
 		title: 'Did you remove any permitted development rights for the appeal site?',
 		question: 'Did you remove any permitted development rights for the appeal site?',
-		fieldName: 'enforcementDevelopmentRights',
+		fieldName: 'developmentRights',
 		url: 'remove-permitted-development-rights',
 		validators: [
 			new RequiredValidator(
@@ -3016,7 +3016,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'multi-file-upload',
 		title: 'Upload the article 4 direction',
 		question: 'Upload the article 4 direction',
-		fieldName: 'enforcementDevelopmentRightsUpload',
+		fieldName: 'developmentRightsUpload',
 		url: 'upload-article-4-direction',
 		validators: [
 			new RequiredFileUploadValidator('Select the article 4 direction'),
@@ -3030,7 +3030,7 @@ exports.getQuestionProps = (response) => ({
 		title: 'What permitted development rights did you remove with the direction?',
 		question: 'What permitted development rights did you remove with the direction?',
 		url: 'rights-removed-direction',
-		fieldName: 'enforcementDevelopmentRightsRemoved',
+		fieldName: 'developmentRightsRemoved',
 		validators: [
 			new RequiredValidator(
 				'Enter the permitted development rights that you removed with the direction'
@@ -3079,7 +3079,7 @@ exports.getQuestionProps = (response) => ({
 		title: 'What is the name of the individual appealing against the enforcement notice?',
 		question: 'What is the name of the individual appealing against the enforcement notice?',
 		// html: 'resources/your-details/applicant-name.html',
-		fieldName: 'enforcementIndividualName',
+		fieldName: 'individualName',
 		url: 'individual-name',
 		formatType: 'contactDetails',
 		inputFields: [
@@ -3147,7 +3147,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'single-line-input',
 		title: 'What is the name of the organisation?',
 		question: 'What is the name of the organisation?',
-		fieldName: 'enforcementOrganisationName',
+		fieldName: 'organisationName',
 		url: 'organisation-name',
 		hint: 'Enter the name of the organisation on the enforcement notice.',
 		validators: [
@@ -3178,13 +3178,13 @@ exports.getQuestionProps = (response) => ({
 			type: 'individual',
 			title: 'What is the name of the individual appealing against the enforcement notice?',
 			question: 'What is the name of the individual appealing against the enforcement notice?',
-			fieldName: fieldNames.enforcementNamedIndividual,
+			fieldName: fieldNames.namedIndividual,
 			viewFolder: 'individual',
 			validators: [
 				new MultiFieldInputValidator({
 					requiredFields: [
 						{
-							fieldName: `${fieldNames.enforcementNamedIndividual}_firstName`,
+							fieldName: `${fieldNames.namedIndividual}_firstName`,
 							errorMessage: "Enter the individual's first name",
 							maxLength: {
 								maxLength: 250,
@@ -3192,7 +3192,7 @@ exports.getQuestionProps = (response) => ({
 							}
 						},
 						{
-							fieldName: `${fieldNames.enforcementNamedIndividual}_lastName`,
+							fieldName: `${fieldNames.namedIndividual}_lastName`,
 							errorMessage: "Enter the individual's last name",
 							maxLength: {
 								maxLength: 250,
@@ -3598,7 +3598,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'boolean',
 		title: 'Was there an enforcement notice in force at the date of the application?',
 		question: 'Was there an enforcement notice in force at the date of the application?',
-		fieldName: 'enforcementNoticeDateApplication',
+		fieldName: 'noticeDateApplication',
 		url: 'enforcement-notice-date-application',
 		validators: [
 			new RequiredValidator(
@@ -3610,7 +3610,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'multi-file-upload',
 		title: 'The enforcement notice',
 		question: 'Upload the enforcement notice',
-		fieldName: 'enforcementNoticeDateApplicationUpload',
+		fieldName: 'noticeDateApplicationUpload',
 		url: 'upload-enforcement-notice',
 
 		validators: [
@@ -3624,7 +3624,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'multi-file-upload',
 		title: 'The enforcement notice plan',
 		question: 'Upload the enforcement notice plan',
-		fieldName: 'enforcementNoticePlanUpload',
+		fieldName: 'noticePlanUpload',
 		url: 'upload-enforcement-notice-plan',
 
 		validators: [

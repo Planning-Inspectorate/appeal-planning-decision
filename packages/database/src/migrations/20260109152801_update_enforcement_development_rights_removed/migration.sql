@@ -3,7 +3,7 @@ BEGIN TRY
 BEGIN TRAN;
 
 -- AlterTable
-ALTER TABLE [dbo].[LPAQuestionnaireSubmission] ALTER COLUMN [enforcementDevelopmentRightsRemoved] NVARCHAR(max) NULL;
+ALTER TABLE [dbo].[LPAQuestionnaireSubmission] ALTER COLUMN [developmentRightsRemoved] NVARCHAR(max) NULL;
 
 COMMIT TRAN;
 

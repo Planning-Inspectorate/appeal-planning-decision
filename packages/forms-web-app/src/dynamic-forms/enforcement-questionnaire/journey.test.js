@@ -141,7 +141,7 @@ describe('Enforcement Journey', () => {
 				urlSegment: 'gypsy-traveller'
 			},
 			{
-				fieldName: 'enforcementPublicRightOfWay',
+				fieldName: 'publicRightOfWay',
 				question: 'Was a public right of way removed or diverted?',
 				urlSegment: 'public-right-of-way'
 			},
@@ -153,7 +153,7 @@ describe('Enforcement Journey', () => {
 
 			// Enforcement specific questions
 			{
-				fieldName: 'enforcementOtherOperations',
+				fieldName: 'otherOperations',
 				question:
 					'Does the enforcement notice relate to building, engineering, mining or other operations?',
 				urlSegment: 'other-operations'
@@ -164,81 +164,81 @@ describe('Enforcement Journey', () => {
 				urlSegment: 'site-area'
 			},
 			{
-				fieldName: 'enforcementAllegedBreachArea',
+				fieldName: 'allegedBreachArea',
 				question: 'Is the area of the alleged breach the same as the site area?',
 				urlSegment: 'alleged-breach-area'
 			},
 			{
-				fieldName: 'enforcementCreateFloorSpace',
+				fieldName: 'createFloorSpace',
 				question: 'Does the alleged breach create any floor space?',
 				urlSegment: 'create-floor-space'
 			},
 			{
-				fieldName: 'enforcementRefuseWasteMaterials',
+				fieldName: 'refuseWasteMaterials',
 				question:
 					'Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?',
 				urlSegment: 'refuse-waste-materials'
 			},
 			{
-				fieldName: 'enforcementMineralExtractionMaterials',
+				fieldName: 'mineralExtractionMaterials',
 				question:
 					'Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?',
 				urlSegment: 'mineral-extraction-materials'
 			},
 			{
-				fieldName: 'enforcementStoreMinerals',
+				fieldName: 'storeMinerals',
 				question:
 					'Does the enforcement notice include a change of use of land to store minerals in the open?',
 				urlSegment: 'store-minerals'
 			},
 			{
-				fieldName: 'enforcementCreateBuilding',
+				fieldName: 'createBuilding',
 				question: 'Does the enforcement notice include the erection of a building or buildings?',
 				urlSegment: 'create-building'
 			},
 			{
-				fieldName: 'enforcementAgriculturalPurposes',
+				fieldName: 'agriculturalPurposes',
 				question:
 					'Is the building on agricultural land and will it be used for agricultural purposes?',
 				urlSegment: 'agricultural-purposes'
 			},
 			{
-				fieldName: 'enforcementSingleHouse',
+				fieldName: 'singleHouse',
 				question: 'Is the enforcement notice for a single private dwelling house?',
 				urlSegment: 'single-house'
 			},
 			{
-				fieldName: 'enforcementTrunkRoad',
+				fieldName: 'trunkRoad',
 				question: 'Is the appeal site within 67 metres of a trunk road?',
 				urlSegment: 'trunk-road'
 			},
 			{
-				fieldName: 'enforcementCrownLand',
+				fieldName: 'crownLand',
 				question: 'Is the appeal site on Crown land?',
 				urlSegment: 'crown-land'
 			},
 			{
-				fieldName: 'enforcementStopNotice',
+				fieldName: 'stopNotice',
 				question: 'Did you serve a stop notice?',
 				urlSegment: 'stop-notice'
 			},
 			{
-				fieldName: 'enforcementStopNoticeUpload',
+				fieldName: 'stopNoticeUpload',
 				question: 'Upload the stop notice',
 				urlSegment: 'upload-stop-notice'
 			},
 			{
-				fieldName: 'enforcementDevelopmentRights',
+				fieldName: 'developmentRights',
 				question: 'Did you remove any permitted development rights for the appeal site?',
 				urlSegment: 'remove-permitted-development-rights'
 			},
 			{
-				fieldName: 'enforcementDevelopmentRightsUpload',
+				fieldName: 'developmentRightsUpload',
 				question: 'Upload the article 4 direction',
 				urlSegment: 'upload-article-4-direction'
 			},
 			{
-				fieldName: 'enforcementDevelopmentRightsRemoved',
+				fieldName: 'developmentRightsRemoved',
 				question: 'What permitted development rights did you remove with the direction?',
 				urlSegment: 'rights-removed-direction'
 			}
@@ -388,17 +388,17 @@ describe('Enforcement Journey', () => {
 				urlSegment: 'upload-planning-permission'
 			},
 			{
-				fieldName: 'enforcementNoticeDateApplication',
+				fieldName: 'noticeDateApplication',
 				question: 'Was there an enforcement notice in force at the date of the application?',
 				urlSegment: 'enforcement-notice-date-application'
 			},
 			{
-				fieldName: 'enforcementNoticeDateApplicationUpload',
+				fieldName: 'noticeDateApplicationUpload',
 				question: 'Upload the enforcement notice',
 				urlSegment: 'upload-enforcement-notice'
 			},
 			{
-				fieldName: 'enforcementNoticePlanUpload',
+				fieldName: 'noticePlanUpload',
 				question: 'Upload the enforcement notice plan',
 				urlSegment: 'upload-enforcement-notice-plan'
 			},

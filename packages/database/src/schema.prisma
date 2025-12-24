@@ -978,37 +978,36 @@ model LPAQuestionnaireSubmission {
   didAppellantSubmitCompletePhotosAndPlans        Boolean?
 
   // New enforcement fieldnames
-  listOfPeopleSentEnforcementNotice                Boolean?
-  enforcementPublicRightOfWay                      Boolean?
-  enforcementOtherOperations                       Boolean?
-  siteAreaSquareMetres                             Decimal?
-  enforcementAllegedBreachArea                     Boolean?
-  enforcementCreateFloorSpace                      Boolean?
-  enforcementRefuseWasteMaterials                  Boolean?
-  enforcementMineralExtractionMaterials            Boolean?
-  enforcementStoreMinerals                         Boolean?
-  enforcementCreateBuilding                        Boolean?
-  enforcementAgriculturalPurposes                  Boolean?
-  enforcementSingleHouse                           Boolean?
-  enforcementTrunkRoad                             String?
-  enforcementTrunkRoad_enforcementTrunkRoadDetails String?
-  enforcementCrownLand                             Boolean?
-  enforcementStopNotice                            Boolean?
-  enforcementStopNoticeUpload                      Boolean?
-  enforcementDevelopmentRights                     Boolean?
-  enforcementDevelopmentRightsUpload               Boolean?
-  enforcementDevelopmentRightsRemoved              String?  @db.NVarChar(MAX)
-  planningOfficerReport                            Boolean?
-  localDevelopmentOrder                            Boolean?
-  localDevelopmentOrderUpload                      Boolean?
-  previousPlanningPermission                       Boolean?
-  previousPlanningPermissionUpload                 Boolean?
-  enforcementNoticeDateApplication                 Boolean?
-  enforcementNoticeDateApplicationUpload           Boolean?
-  enforcementNoticePlanUpload                      Boolean?
-  planningContraventionNotice                      Boolean?
-  planningContraventionNoticeUpload                Boolean?
-  appellantSubmittedEnvironmentalStatement         String?
+  listOfPeopleSentEnforcementNotice        Boolean?
+  otherOperations                          Boolean?
+  siteAreaSquareMetres                     Decimal?
+  allegedBreachArea                        Boolean?
+  createFloorSpace                         Boolean?
+  refuseWasteMaterials                     Boolean?
+  mineralExtractionMaterials               Boolean?
+  storeMinerals                            Boolean?
+  createBuilding                           Boolean?
+  agriculturalPurposes                     Boolean?
+  singleHouse                              Boolean?
+  trunkRoad                                String?
+  trunkRoad_trunkRoadDetails               String?
+  crownLand                                Boolean?
+  stopNotice                               Boolean?
+  stopNoticeUpload                         Boolean?
+  developmentRights                        Boolean?
+  developmentRightsUpload                  Boolean?
+  developmentRightsRemoved                 String?  @db.NVarChar(MAX)
+  planningOfficerReport                    Boolean?
+  localDevelopmentOrder                    Boolean?
+  localDevelopmentOrderUpload              Boolean?
+  previousPlanningPermission               Boolean?
+  previousPlanningPermissionUpload         Boolean?
+  noticeDateApplication                    Boolean?
+  noticeDateApplicationUpload              Boolean?
+  noticePlanUpload                         Boolean?
+  planningContraventionNotice              Boolean?
+  planningContraventionNoticeUpload        Boolean?
+  appellantSubmittedEnvironmentalStatement String?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]

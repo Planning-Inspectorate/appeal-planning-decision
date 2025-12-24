@@ -4,8 +4,10 @@
  * @property {DynamicFormFieldName} affectedListedBuildingNumber
  * @property {DynamicFormFieldName} appellantLinkedCaseReference
  * @property {DynamicFormFieldName} nearbyAppealReference
- * @property {DynamicFormFieldName} enforcementNamedIndividual
+ * @property {DynamicFormFieldName} namedIndividual
  * @property {DynamicFormFieldName} contactAddress
+ * @property {DynamicFormFieldName} neighbourSiteAddress
+
  */
 
 /**
@@ -13,8 +15,9 @@
  *   | 'affectedListedBuildingNumber'
  *   | 'appellantLinkedCaseReference'
  *   | 'nearbyAppealReference'
- * 	 | 'enforcementNamedIndividual'
+ * 	 | 'namedIndividual'
  * 	 | 'contactAddress'
+ *   | 'neighbourSiteAddress'
  * } DynamicFormFieldName
  */
 
@@ -26,6 +29,7 @@ exports.fieldNames = Object.freeze({
 	affectedListedBuildingNumber: 'affectedListedBuildingNumber',
 	appellantLinkedCaseReference: 'appellantLinkedCaseReference',
 	nearbyAppealReference: 'nearbyAppealReference',
-	enforcementNamedIndividual: 'enforcementNamedIndividual',
-	contactAddress: 'contactAddress'
+	namedIndividual: 'namedIndividual',
+	contactAddress: 'contactAddress',
+	neighbourSiteAddress: 'neighbourSiteAddress'
 });
