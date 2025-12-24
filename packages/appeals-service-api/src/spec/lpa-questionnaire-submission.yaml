@@ -282,7 +282,10 @@ components:
           type: boolean
           nullable: true
         enforcementTrunkRoad:
-          type: boolean
+          type: string
+          nullable: true
+        enforcementTrunkRoadDetails:
+          type: string
           nullable: true
         enforcementCrownLand:
           type: boolean

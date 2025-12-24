@@ -25328,17 +25328,27 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementTrunkRoad-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the appeal site within 67 metres of a trunk road?</h1>
-                        </legend>
-                        <div id="enforcementTrunkRoad-hint" class="govuk-hint"></div>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Is the appeal site within 67 metres of a trunk road?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="enforcementTrunkRoad" name="enforcementTrunkRoad"
-                                type="radio" value="yes" data-cy="answer-yes">
+                                type="radio" value="yes" data-aria-controls="conditional-enforcementTrunkRoad"
+                                data-cy="answer-yes">
                                 <label class="govuk-label govuk-radios__label" for="enforcementTrunkRoad">Yes</label>
+                            </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-enforcementTrunkRoad">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="enforcementTrunkRoad_enforcementTrunkRoadDetails">Enter the road name</label>
+                                    <div id="enforcementTrunkRoad_enforcementTrunkRoadDetails-hint"
+                                    class="govuk-hint"></div>
+                                    <textarea class="govuk-textarea" id="enforcementTrunkRoad_enforcementTrunkRoadDetails"
+                                    name="enforcementTrunkRoad_enforcementTrunkRoadDetails" rows="5" aria-describedby="enforcementTrunkRoad_enforcementTrunkRoadDetails-hint"></textarea>
+                                </div>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="enforcementTrunkRoad-2" name="enforcementTrunkRoad"
@@ -25346,8 +25356,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                                 <label class="govuk-label govuk-radios__label" for="enforcementTrunkRoad-2">No</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
+                    </div>
+                </fieldset>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
             </form>

@@ -2950,13 +2950,36 @@ exports.getQuestionProps = (response) => ({
 		]
 	},
 	enforcementTrunkRoad: {
-		type: 'boolean',
+		type: 'radio',
 		title: 'Is the appeal site within 67 metres of a trunk road?',
 		question: 'Is the appeal site within 67 metres of a trunk road?',
 		fieldName: 'enforcementTrunkRoad',
 		url: 'trunk-road',
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Enter the road name',
+					fieldName: 'enforcementTrunkRoadDetails',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		],
 		validators: [
-			new RequiredValidator('Select yes if the appeal site is within 67 metres of a trunk road')
+			new RequiredValidator('Select yes if the appeal site is within 67 metres of a trunk road'),
+			new ConditionalRequiredValidator('Enter road name'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `The road name must be ${appealFormV2.textInputMaxLength} characters or less`
+				},
+				fieldName: getConditionalFieldName('enforcementTrunkRoad', 'enforcementTrunkRoadDetails')
+			})
 		]
 	},
 	enforcementCrownLand: {
