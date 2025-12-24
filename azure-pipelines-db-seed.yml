@@ -61,7 +61,7 @@ jobs:
                     variable: SQL_CONNECTION_STRING
             - template: steps/node_script.yml@templates
               parameters:
-                condition: in('${{ parameters.environment }}', 'Dev', 'Test')
+                condition: in('${{ parameters.environment }}', 'Dev', 'Test', 'Staging')
                 environmentVariables:
                   SQL_CONNECTION_STRING: $(SQL_CONNECTION_STRING)
                   BO_DOCUMENTS_ENDPOINT: $(BO_DOCUMENTS_ENDPOINT)
