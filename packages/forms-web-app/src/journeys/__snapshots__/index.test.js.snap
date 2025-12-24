@@ -5725,14 +5725,14 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
                     <p class="govuk-hint">Enter the name of each individual appealing against the enforcement notice.
                         You can add more names later.</p>
                     <div class="govuk-form-group">
-                        <label class="govuk-label govuk-label" for="enforcementNamedIndividual_firstName">First name</label>
-                        <input class="govuk-input" id="enforcementNamedIndividual_firstName"
-                        name="enforcementNamedIndividual_firstName" type="text">
+                        <label class="govuk-label govuk-label" for="namedIndividual_firstName">First name</label>
+                        <input class="govuk-input" id="namedIndividual_firstName"
+                        name="namedIndividual_firstName" type="text">
                     </div>
                     <div class="govuk-form-group">
-                        <label class="govuk-label govuk-label" for="enforcementNamedIndividual_lastName">Last name</label>
-                        <input class="govuk-input" id="enforcementNamedIndividual_lastName"
-                        name="enforcementNamedIndividual_lastName" type="text">
+                        <label class="govuk-label govuk-label" for="namedIndividual_lastName">Last name</label>
+                        <input class="govuk-input" id="namedIndividual_lastName"
+                        name="namedIndividual_lastName" type="text">
                     </div>
                 </fieldset>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
@@ -7501,11 +7501,11 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="enforcementOrganisationName"> What is the name of the organisation?</label></h1>
-                    <div id="enforcementOrganisationName-hint" class="govuk-hint">Enter the name of the organisation on the enforcement notice.</div>
+                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="organisationName"> What is the name of the organisation?</label></h1>
+                    <div id="organisationName-hint" class="govuk-hint">Enter the name of the organisation on the enforcement notice.</div>
                     <input
-                    class="govuk-input govuk-input--width-10" id="enforcementOrganisationName"
-                    name="enforcementOrganisationName" type="text" value="" aria-describedby="enforcementOrganisationName-hint">
+                    class="govuk-input govuk-input--width-10" id="organisationName" name="organisationName"
+                    type="text" value="" aria-describedby="organisationName-hint">
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
@@ -8722,14 +8722,14 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                     <p class="govuk-hint">Enter the name of each individual appealing against the enforcement notice.
                         You can add more names later.</p>
                     <div class="govuk-form-group">
-                        <label class="govuk-label govuk-label" for="enforcementNamedIndividual_firstName">First name</label>
-                        <input class="govuk-input" id="enforcementNamedIndividual_firstName"
-                        name="enforcementNamedIndividual_firstName" type="text">
+                        <label class="govuk-label govuk-label" for="namedIndividual_firstName">First name</label>
+                        <input class="govuk-input" id="namedIndividual_firstName"
+                        name="namedIndividual_firstName" type="text">
                     </div>
                     <div class="govuk-form-group">
-                        <label class="govuk-label govuk-label" for="enforcementNamedIndividual_lastName">Last name</label>
-                        <input class="govuk-input" id="enforcementNamedIndividual_lastName"
-                        name="enforcementNamedIndividual_lastName" type="text">
+                        <label class="govuk-label govuk-label" for="namedIndividual_lastName">Last name</label>
+                        <input class="govuk-input" id="namedIndividual_lastName"
+                        name="namedIndividual_lastName" type="text">
                     </div>
                 </fieldset>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
@@ -10591,11 +10591,11 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="enforcementOrganisationName"> What is the name of the organisation?</label></h1>
-                    <div id="enforcementOrganisationName-hint" class="govuk-hint">Enter the name of the organisation on the enforcement notice.</div>
+                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="organisationName"> What is the name of the organisation?</label></h1>
+                    <div id="organisationName-hint" class="govuk-hint">Enter the name of the organisation on the enforcement notice.</div>
                     <input
-                    class="govuk-input govuk-input--width-10" id="enforcementOrganisationName"
-                    name="enforcementOrganisationName" type="text" value="" aria-describedby="enforcementOrganisationName-hint">
+                    class="govuk-input govuk-input--width-10" id="organisationName" name="organisationName"
+                    type="text" value="" aria-describedby="organisationName-hint">
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
@@ -25493,21 +25493,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementAgriculturalPurposes-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="agriculturalPurposes-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Is the building on agricultural land and will it be used for agricultural purposes?</h1>
                         </legend>
-                        <div id="enforcementAgriculturalPurposes-hint" class="govuk-hint"></div>
+                        <div id="agriculturalPurposes-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementAgriculturalPurposes"
-                                name="enforcementAgriculturalPurposes" type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementAgriculturalPurposes">Yes</label>
+                                <input class="govuk-radios__input" id="agriculturalPurposes" name="agriculturalPurposes"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="agriculturalPurposes">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementAgriculturalPurposes-2"
-                                name="enforcementAgriculturalPurposes" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementAgriculturalPurposes-2">No</label>
+                                <input class="govuk-radios__input" id="agriculturalPurposes-2" name="agriculturalPurposes"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="agriculturalPurposes-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -25539,21 +25539,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementAllegedBreachArea-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="allegedBreachArea-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Is the area of the alleged breach the same as the site area?</h1>
                         </legend>
-                        <div id="enforcementAllegedBreachArea-hint" class="govuk-hint"></div>
+                        <div id="allegedBreachArea-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementAllegedBreachArea" name="enforcementAllegedBreachArea"
+                                <input class="govuk-radios__input" id="allegedBreachArea" name="allegedBreachArea"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementAllegedBreachArea">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="allegedBreachArea">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementAllegedBreachArea-2"
-                                name="enforcementAllegedBreachArea" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementAllegedBreachArea-2">No</label>
+                                <input class="govuk-radios__input" id="allegedBreachArea-2" name="allegedBreachArea"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="allegedBreachArea-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -26022,21 +26022,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementCreateBuilding-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="createBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Does the enforcement notice include the erection of a building or buildings?</h1>
                         </legend>
-                        <div id="enforcementCreateBuilding-hint" class="govuk-hint"></div>
+                        <div id="createBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementCreateBuilding" name="enforcementCreateBuilding"
+                                <input class="govuk-radios__input" id="createBuilding" name="createBuilding"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementCreateBuilding">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="createBuilding">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementCreateBuilding-2" name="enforcementCreateBuilding"
+                                <input class="govuk-radios__input" id="createBuilding-2" name="createBuilding"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementCreateBuilding-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="createBuilding-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -26068,21 +26068,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementCreateFloorSpace-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="createFloorSpace-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Does the alleged breach create any floor space?</h1>
                         </legend>
-                        <div id="enforcementCreateFloorSpace-hint" class="govuk-hint"></div>
+                        <div id="createFloorSpace-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementCreateFloorSpace" name="enforcementCreateFloorSpace"
+                                <input class="govuk-radios__input" id="createFloorSpace" name="createFloorSpace"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementCreateFloorSpace">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="createFloorSpace">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementCreateFloorSpace-2"
-                                name="enforcementCreateFloorSpace" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementCreateFloorSpace-2">No</label>
+                                <input class="govuk-radios__input" id="createFloorSpace-2" name="createFloorSpace"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="createFloorSpace-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -26114,21 +26114,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementCrownLand-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="crownLand-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Is the appeal site on Crown land?</h1>
                         </legend>
-                        <div id="enforcementCrownLand-hint" class="govuk-hint"></div>
+                        <div id="crownLand-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementCrownLand" name="enforcementCrownLand"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementCrownLand">Yes</label>
+                                <input class="govuk-radios__input" id="crownLand" name="crownLand" type="radio"
+                                value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="crownLand">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementCrownLand-2" name="enforcementCrownLand"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementCrownLand-2">No</label>
+                                <input class="govuk-radios__input" id="crownLand-2" name="crownLand" type="radio"
+                                value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="crownLand-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -26341,21 +26341,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementNoticeDateApplication-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="noticeDateApplication-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Was there an enforcement notice in force at the date of the application?</h1>
                         </legend>
-                        <div id="enforcementNoticeDateApplication-hint" class="govuk-hint"></div>
+                        <div id="noticeDateApplication-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementNoticeDateApplication"
-                                name="enforcementNoticeDateApplication" type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementNoticeDateApplication">Yes</label>
+                                <input class="govuk-radios__input" id="noticeDateApplication" name="noticeDateApplication"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="noticeDateApplication">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementNoticeDateApplication-2"
-                                name="enforcementNoticeDateApplication" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementNoticeDateApplication-2">No</label>
+                                <input class="govuk-radios__input" id="noticeDateApplication-2" name="noticeDateApplication"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="noticeDateApplication-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -26868,21 +26868,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementMineralExtractionMaterials-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="mineralExtractionMaterials-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?</h1>
                         </legend>
-                        <div id="enforcementMineralExtractionMaterials-hint" class="govuk-hint"></div>
+                        <div id="mineralExtractionMaterials-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementMineralExtractionMaterials"
-                                name="enforcementMineralExtractionMaterials" type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementMineralExtractionMaterials">Yes</label>
+                                <input class="govuk-radios__input" id="mineralExtractionMaterials" name="mineralExtractionMaterials"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="mineralExtractionMaterials">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementMineralExtractionMaterials-2"
-                                name="enforcementMineralExtractionMaterials" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementMineralExtractionMaterials-2">No</label>
+                                <input class="govuk-radios__input" id="mineralExtractionMaterials-2" name="mineralExtractionMaterials"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="mineralExtractionMaterials-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -27132,21 +27132,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementOtherOperations-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="otherOperations-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Does the enforcement notice relate to building, engineering, mining or other operations?</h1>
                         </legend>
-                        <div id="enforcementOtherOperations-hint" class="govuk-hint"></div>
+                        <div id="otherOperations-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementOtherOperations" name="enforcementOtherOperations"
+                                <input class="govuk-radios__input" id="otherOperations" name="otherOperations"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementOtherOperations">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="otherOperations">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementOtherOperations-2" name="enforcementOtherOperations"
+                                <input class="govuk-radios__input" id="otherOperations-2" name="otherOperations"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementOtherOperations-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="otherOperations-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -27537,21 +27537,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementPublicRightOfWay-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="publicRightOfWay-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Was a public right of way removed or diverted?</h1>
                         </legend>
-                        <div id="enforcementPublicRightOfWay-hint" class="govuk-hint"></div>
+                        <div id="publicRightOfWay-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementPublicRightOfWay" name="enforcementPublicRightOfWay"
+                                <input class="govuk-radios__input" id="publicRightOfWay" name="publicRightOfWay"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementPublicRightOfWay">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="publicRightOfWay">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementPublicRightOfWay-2"
-                                name="enforcementPublicRightOfWay" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementPublicRightOfWay-2">No</label>
+                                <input class="govuk-radios__input" id="publicRightOfWay-2" name="publicRightOfWay"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="publicRightOfWay-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -27583,21 +27583,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementRefuseWasteMaterials-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="refuseWasteMaterials-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?</h1>
                         </legend>
-                        <div id="enforcementRefuseWasteMaterials-hint" class="govuk-hint"></div>
+                        <div id="refuseWasteMaterials-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementRefuseWasteMaterials"
-                                name="enforcementRefuseWasteMaterials" type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementRefuseWasteMaterials">Yes</label>
+                                <input class="govuk-radios__input" id="refuseWasteMaterials" name="refuseWasteMaterials"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="refuseWasteMaterials">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementRefuseWasteMaterials-2"
-                                name="enforcementRefuseWasteMaterials" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementRefuseWasteMaterials-2">No</label>
+                                <input class="govuk-radios__input" id="refuseWasteMaterials-2" name="refuseWasteMaterials"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="refuseWasteMaterials-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -27629,21 +27629,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementDevelopmentRights-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="developmentRights-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Did you remove any permitted development rights for the appeal site?</h1>
                         </legend>
-                        <div id="enforcementDevelopmentRights-hint" class="govuk-hint"></div>
+                        <div id="developmentRights-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementDevelopmentRights" name="enforcementDevelopmentRights"
+                                <input class="govuk-radios__input" id="developmentRights" name="developmentRights"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementDevelopmentRights">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="developmentRights">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementDevelopmentRights-2"
-                                name="enforcementDevelopmentRights" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementDevelopmentRights-2">No</label>
+                                <input class="govuk-radios__input" id="developmentRights-2" name="developmentRights"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="developmentRights-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -27674,11 +27674,11 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="enforcementDevelopmentRightsRemoved"> What permitted development rights did you remove with the direction?</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="developmentRightsRemoved"> What permitted development rights did you remove with the direction?</label></h1>
                 <div class="govuk-form-group">
-                    <div id="enforcementDevelopmentRightsRemoved-hint" class="govuk-hint"></div>
-                    <textarea class="govuk-textarea" id="enforcementDevelopmentRightsRemoved"
-                    name="enforcementDevelopmentRightsRemoved" rows="5" aria-describedby="enforcementDevelopmentRightsRemoved-hint"></textarea>
+                    <div id="developmentRightsRemoved-hint" class="govuk-hint"></div>
+                    <textarea class="govuk-textarea" id="developmentRightsRemoved" name="developmentRightsRemoved"
+                    rows="5" aria-describedby="developmentRightsRemoved-hint"></textarea>
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
@@ -27952,22 +27952,22 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementSingleHouse-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="singleHouse-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Is the enforcement notice for a single private dwelling house?</h1>
                         </legend>
-                        <div id="enforcementSingleHouse-hint" class="govuk-hint">Includes either building a new house or a change of use.</div>
+                        <div id="singleHouse-hint" class="govuk-hint">Includes either building a new house or a change of use.</div>
                         <div class="govuk-radios govuk-radios"
                         data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementSingleHouse" name="enforcementSingleHouse"
+                                <input class="govuk-radios__input" id="singleHouse" name="singleHouse"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementSingleHouse">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="singleHouse">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementSingleHouse-2" name="enforcementSingleHouse"
+                                <input class="govuk-radios__input" id="singleHouse-2" name="singleHouse"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementSingleHouse-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="singleHouse-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -28036,21 +28036,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementStopNotice-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="stopNotice-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Did you serve a stop notice?</h1>
                         </legend>
-                        <div id="enforcementStopNotice-hint" class="govuk-hint"></div>
+                        <div id="stopNotice-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementStopNotice" name="enforcementStopNotice"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementStopNotice">Yes</label>
+                                <input class="govuk-radios__input" id="stopNotice" name="stopNotice" type="radio"
+                                value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="stopNotice">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementStopNotice-2" name="enforcementStopNotice"
+                                <input class="govuk-radios__input" id="stopNotice-2" name="stopNotice"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementStopNotice-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="stopNotice-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -28082,21 +28082,21 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementStoreMinerals-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="storeMinerals-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Does the enforcement notice include a change of use of land to store minerals in the open?</h1>
                         </legend>
-                        <div id="enforcementStoreMinerals-hint" class="govuk-hint"></div>
+                        <div id="storeMinerals-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementStoreMinerals" name="enforcementStoreMinerals"
+                                <input class="govuk-radios__input" id="storeMinerals" name="storeMinerals"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementStoreMinerals">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="storeMinerals">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementStoreMinerals-2" name="enforcementStoreMinerals"
+                                <input class="govuk-radios__input" id="storeMinerals-2" name="storeMinerals"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementStoreMinerals-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="storeMinerals-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -28236,25 +28236,23 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                     <div class="govuk-form-group">
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementTrunkRoad" name="enforcementTrunkRoad"
-                                type="radio" value="yes" data-aria-controls="conditional-enforcementTrunkRoad"
-                                data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementTrunkRoad">Yes</label>
+                                <input class="govuk-radios__input" id="trunkRoad" name="trunkRoad" type="radio"
+                                value="yes" data-aria-controls="conditional-trunkRoad" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="trunkRoad">Yes</label>
                             </div>
                             <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
-                            id="conditional-enforcementTrunkRoad">
+                            id="conditional-trunkRoad">
                                 <div class="govuk-form-group">
-                                    <label class="govuk-label" for="enforcementTrunkRoad_enforcementTrunkRoadDetails">Enter the road name</label>
-                                    <div id="enforcementTrunkRoad_enforcementTrunkRoadDetails-hint"
-                                    class="govuk-hint"></div>
-                                    <textarea class="govuk-textarea" id="enforcementTrunkRoad_enforcementTrunkRoadDetails"
-                                    name="enforcementTrunkRoad_enforcementTrunkRoadDetails" rows="5" aria-describedby="enforcementTrunkRoad_enforcementTrunkRoadDetails-hint"></textarea>
+                                    <label class="govuk-label" for="trunkRoad_trunkRoadDetails">Enter the road name</label>
+                                    <div id="trunkRoad_trunkRoadDetails-hint" class="govuk-hint"></div>
+                                    <textarea class="govuk-textarea" id="trunkRoad_trunkRoadDetails"
+                                    name="trunkRoad_trunkRoadDetails" rows="5" aria-describedby="trunkRoad_trunkRoadDetails-hint"></textarea>
                                 </div>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementTrunkRoad-2" name="enforcementTrunkRoad"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementTrunkRoad-2">No</label>
+                                <input class="govuk-radios__input" id="trunkRoad-2" name="trunkRoad" type="radio"
+                                value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="trunkRoad-2">No</label>
                             </div>
                         </div>
                     </div>
@@ -28290,14 +28288,12 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                         </div>
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="enforcementDevelopmentRightsUpload">Upload files</label>
-                                <div id="enforcementDevelopmentRightsUpload-hint"
-                                class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                <label class="govuk-label govuk-label--m" for="developmentRightsUpload">Upload files</label>
+                                <div id="developmentRightsUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
                                     than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="enforcementDevelopmentRightsUpload" name="enforcementDevelopmentRightsUpload"
-                                type="file" aria-describedby="enforcementDevelopmentRightsUpload-hint"
-                                multiple="">
+                                id="developmentRightsUpload" name="developmentRightsUpload" type="file"
+                                aria-describedby="developmentRightsUpload-hint" multiple="">
                             </div>
                             <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
                             class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
@@ -28568,14 +28564,12 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                         </div>
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="enforcementNoticeDateApplicationUpload">Upload files</label>
-                                <div id="enforcementNoticeDateApplicationUpload-hint"
-                                class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                <label class="govuk-label govuk-label--m" for="noticeDateApplicationUpload">Upload files</label>
+                                <div id="noticeDateApplicationUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
                                     than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="enforcementNoticeDateApplicationUpload" name="enforcementNoticeDateApplicationUpload"
-                                type="file" aria-describedby="enforcementNoticeDateApplicationUpload-hint"
-                                multiple="">
+                                id="noticeDateApplicationUpload" name="noticeDateApplicationUpload" type="file"
+                                aria-describedby="noticeDateApplicationUpload-hint" multiple="">
                             </div>
                             <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
                             class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
@@ -28615,12 +28609,12 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                         </div>
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="enforcementNoticePlanUpload">Upload files</label>
-                                <div id="enforcementNoticePlanUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                <label class="govuk-label govuk-label--m" for="noticePlanUpload">Upload files</label>
+                                <div id="noticePlanUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
                                     than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="enforcementNoticePlanUpload" name="enforcementNoticePlanUpload" type="file"
-                                aria-describedby="enforcementNoticePlanUpload-hint" multiple="">
+                                id="noticePlanUpload" name="noticePlanUpload" type="file" aria-describedby="noticePlanUpload-hint"
+                                multiple="">
                             </div>
                             <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
                             class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
@@ -29123,12 +29117,12 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                         </div>
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="enforcementStopNoticeUpload">Upload files</label>
-                                <div id="enforcementStopNoticeUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                <label class="govuk-label govuk-label--m" for="stopNoticeUpload">Upload files</label>
+                                <div id="stopNoticeUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
                                     than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="enforcementStopNoticeUpload" name="enforcementStopNoticeUpload" type="file"
-                                aria-describedby="enforcementStopNoticeUpload-hint" multiple="">
+                                id="stopNoticeUpload" name="stopNoticeUpload" type="file" aria-describedby="stopNoticeUpload-hint"
+                                multiple="">
                             </div>
                             <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
                             class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
@@ -29625,21 +29619,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementAgriculturalPurposes-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="agriculturalPurposes-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Is the building on agricultural land and will it be used for agricultural purposes?</h1>
                         </legend>
-                        <div id="enforcementAgriculturalPurposes-hint" class="govuk-hint"></div>
+                        <div id="agriculturalPurposes-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementAgriculturalPurposes"
-                                name="enforcementAgriculturalPurposes" type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementAgriculturalPurposes">Yes</label>
+                                <input class="govuk-radios__input" id="agriculturalPurposes" name="agriculturalPurposes"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="agriculturalPurposes">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementAgriculturalPurposes-2"
-                                name="enforcementAgriculturalPurposes" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementAgriculturalPurposes-2">No</label>
+                                <input class="govuk-radios__input" id="agriculturalPurposes-2" name="agriculturalPurposes"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="agriculturalPurposes-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -29671,21 +29665,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementAllegedBreachArea-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="allegedBreachArea-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Is the area of the alleged breach the same as the site area?</h1>
                         </legend>
-                        <div id="enforcementAllegedBreachArea-hint" class="govuk-hint"></div>
+                        <div id="allegedBreachArea-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementAllegedBreachArea" name="enforcementAllegedBreachArea"
+                                <input class="govuk-radios__input" id="allegedBreachArea" name="allegedBreachArea"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementAllegedBreachArea">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="allegedBreachArea">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementAllegedBreachArea-2"
-                                name="enforcementAllegedBreachArea" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementAllegedBreachArea-2">No</label>
+                                <input class="govuk-radios__input" id="allegedBreachArea-2" name="allegedBreachArea"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="allegedBreachArea-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -30154,21 +30148,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementCreateBuilding-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="createBuilding-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Does the enforcement notice include the erection of a building or buildings?</h1>
                         </legend>
-                        <div id="enforcementCreateBuilding-hint" class="govuk-hint"></div>
+                        <div id="createBuilding-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementCreateBuilding" name="enforcementCreateBuilding"
+                                <input class="govuk-radios__input" id="createBuilding" name="createBuilding"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementCreateBuilding">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="createBuilding">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementCreateBuilding-2" name="enforcementCreateBuilding"
+                                <input class="govuk-radios__input" id="createBuilding-2" name="createBuilding"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementCreateBuilding-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="createBuilding-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -30200,21 +30194,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementCreateFloorSpace-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="createFloorSpace-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Does the alleged breach create any floor space?</h1>
                         </legend>
-                        <div id="enforcementCreateFloorSpace-hint" class="govuk-hint"></div>
+                        <div id="createFloorSpace-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementCreateFloorSpace" name="enforcementCreateFloorSpace"
+                                <input class="govuk-radios__input" id="createFloorSpace" name="createFloorSpace"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementCreateFloorSpace">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="createFloorSpace">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementCreateFloorSpace-2"
-                                name="enforcementCreateFloorSpace" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementCreateFloorSpace-2">No</label>
+                                <input class="govuk-radios__input" id="createFloorSpace-2" name="createFloorSpace"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="createFloorSpace-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -30246,21 +30240,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementCrownLand-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="crownLand-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Is the appeal site on Crown land?</h1>
                         </legend>
-                        <div id="enforcementCrownLand-hint" class="govuk-hint"></div>
+                        <div id="crownLand-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementCrownLand" name="enforcementCrownLand"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementCrownLand">Yes</label>
+                                <input class="govuk-radios__input" id="crownLand" name="crownLand" type="radio"
+                                value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="crownLand">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementCrownLand-2" name="enforcementCrownLand"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementCrownLand-2">No</label>
+                                <input class="govuk-radios__input" id="crownLand-2" name="crownLand" type="radio"
+                                value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="crownLand-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -30473,21 +30467,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementNoticeDateApplication-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="noticeDateApplication-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Was there an enforcement notice in force at the date of the application?</h1>
                         </legend>
-                        <div id="enforcementNoticeDateApplication-hint" class="govuk-hint"></div>
+                        <div id="noticeDateApplication-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementNoticeDateApplication"
-                                name="enforcementNoticeDateApplication" type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementNoticeDateApplication">Yes</label>
+                                <input class="govuk-radios__input" id="noticeDateApplication" name="noticeDateApplication"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="noticeDateApplication">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementNoticeDateApplication-2"
-                                name="enforcementNoticeDateApplication" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementNoticeDateApplication-2">No</label>
+                                <input class="govuk-radios__input" id="noticeDateApplication-2" name="noticeDateApplication"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="noticeDateApplication-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -31000,21 +30994,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementMineralExtractionMaterials-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="mineralExtractionMaterials-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?</h1>
                         </legend>
-                        <div id="enforcementMineralExtractionMaterials-hint" class="govuk-hint"></div>
+                        <div id="mineralExtractionMaterials-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementMineralExtractionMaterials"
-                                name="enforcementMineralExtractionMaterials" type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementMineralExtractionMaterials">Yes</label>
+                                <input class="govuk-radios__input" id="mineralExtractionMaterials" name="mineralExtractionMaterials"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="mineralExtractionMaterials">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementMineralExtractionMaterials-2"
-                                name="enforcementMineralExtractionMaterials" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementMineralExtractionMaterials-2">No</label>
+                                <input class="govuk-radios__input" id="mineralExtractionMaterials-2" name="mineralExtractionMaterials"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="mineralExtractionMaterials-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -31264,21 +31258,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementOtherOperations-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="otherOperations-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Does the enforcement notice relate to building, engineering, mining or other operations?</h1>
                         </legend>
-                        <div id="enforcementOtherOperations-hint" class="govuk-hint"></div>
+                        <div id="otherOperations-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementOtherOperations" name="enforcementOtherOperations"
+                                <input class="govuk-radios__input" id="otherOperations" name="otherOperations"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementOtherOperations">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="otherOperations">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementOtherOperations-2" name="enforcementOtherOperations"
+                                <input class="govuk-radios__input" id="otherOperations-2" name="otherOperations"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementOtherOperations-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="otherOperations-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -31669,21 +31663,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementPublicRightOfWay-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="publicRightOfWay-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Was a public right of way removed or diverted?</h1>
                         </legend>
-                        <div id="enforcementPublicRightOfWay-hint" class="govuk-hint"></div>
+                        <div id="publicRightOfWay-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementPublicRightOfWay" name="enforcementPublicRightOfWay"
+                                <input class="govuk-radios__input" id="publicRightOfWay" name="publicRightOfWay"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementPublicRightOfWay">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="publicRightOfWay">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementPublicRightOfWay-2"
-                                name="enforcementPublicRightOfWay" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementPublicRightOfWay-2">No</label>
+                                <input class="govuk-radios__input" id="publicRightOfWay-2" name="publicRightOfWay"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="publicRightOfWay-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -31715,21 +31709,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementRefuseWasteMaterials-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="refuseWasteMaterials-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?</h1>
                         </legend>
-                        <div id="enforcementRefuseWasteMaterials-hint" class="govuk-hint"></div>
+                        <div id="refuseWasteMaterials-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementRefuseWasteMaterials"
-                                name="enforcementRefuseWasteMaterials" type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementRefuseWasteMaterials">Yes</label>
+                                <input class="govuk-radios__input" id="refuseWasteMaterials" name="refuseWasteMaterials"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="refuseWasteMaterials">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementRefuseWasteMaterials-2"
-                                name="enforcementRefuseWasteMaterials" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementRefuseWasteMaterials-2">No</label>
+                                <input class="govuk-radios__input" id="refuseWasteMaterials-2" name="refuseWasteMaterials"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="refuseWasteMaterials-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -31761,21 +31755,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementDevelopmentRights-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="developmentRights-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Did you remove any permitted development rights for the appeal site?</h1>
                         </legend>
-                        <div id="enforcementDevelopmentRights-hint" class="govuk-hint"></div>
+                        <div id="developmentRights-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementDevelopmentRights" name="enforcementDevelopmentRights"
+                                <input class="govuk-radios__input" id="developmentRights" name="developmentRights"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementDevelopmentRights">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="developmentRights">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementDevelopmentRights-2"
-                                name="enforcementDevelopmentRights" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementDevelopmentRights-2">No</label>
+                                <input class="govuk-radios__input" id="developmentRights-2" name="developmentRights"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="developmentRights-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -31806,11 +31800,11 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="enforcementDevelopmentRightsRemoved"> What permitted development rights did you remove with the direction?</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="developmentRightsRemoved"> What permitted development rights did you remove with the direction?</label></h1>
                 <div class="govuk-form-group">
-                    <div id="enforcementDevelopmentRightsRemoved-hint" class="govuk-hint"></div>
-                    <textarea class="govuk-textarea" id="enforcementDevelopmentRightsRemoved"
-                    name="enforcementDevelopmentRightsRemoved" rows="5" aria-describedby="enforcementDevelopmentRightsRemoved-hint"></textarea>
+                    <div id="developmentRightsRemoved-hint" class="govuk-hint"></div>
+                    <textarea class="govuk-textarea" id="developmentRightsRemoved" name="developmentRightsRemoved"
+                    rows="5" aria-describedby="developmentRightsRemoved-hint"></textarea>
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
@@ -32084,22 +32078,22 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementSingleHouse-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="singleHouse-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Is the enforcement notice for a single private dwelling house?</h1>
                         </legend>
-                        <div id="enforcementSingleHouse-hint" class="govuk-hint">Includes either building a new house or a change of use.</div>
+                        <div id="singleHouse-hint" class="govuk-hint">Includes either building a new house or a change of use.</div>
                         <div class="govuk-radios govuk-radios"
                         data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementSingleHouse" name="enforcementSingleHouse"
+                                <input class="govuk-radios__input" id="singleHouse" name="singleHouse"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementSingleHouse">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="singleHouse">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementSingleHouse-2" name="enforcementSingleHouse"
+                                <input class="govuk-radios__input" id="singleHouse-2" name="singleHouse"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementSingleHouse-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="singleHouse-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -32168,21 +32162,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementStopNotice-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="stopNotice-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Did you serve a stop notice?</h1>
                         </legend>
-                        <div id="enforcementStopNotice-hint" class="govuk-hint"></div>
+                        <div id="stopNotice-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementStopNotice" name="enforcementStopNotice"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementStopNotice">Yes</label>
+                                <input class="govuk-radios__input" id="stopNotice" name="stopNotice" type="radio"
+                                value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="stopNotice">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementStopNotice-2" name="enforcementStopNotice"
+                                <input class="govuk-radios__input" id="stopNotice-2" name="stopNotice"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementStopNotice-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="stopNotice-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -32214,21 +32208,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="enforcementStoreMinerals-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="storeMinerals-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Does the enforcement notice include a change of use of land to store minerals in the open?</h1>
                         </legend>
-                        <div id="enforcementStoreMinerals-hint" class="govuk-hint"></div>
+                        <div id="storeMinerals-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementStoreMinerals" name="enforcementStoreMinerals"
+                                <input class="govuk-radios__input" id="storeMinerals" name="storeMinerals"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementStoreMinerals">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="storeMinerals">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementStoreMinerals-2" name="enforcementStoreMinerals"
+                                <input class="govuk-radios__input" id="storeMinerals-2" name="storeMinerals"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementStoreMinerals-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="storeMinerals-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -32368,25 +32362,23 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                     <div class="govuk-form-group">
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementTrunkRoad" name="enforcementTrunkRoad"
-                                type="radio" value="yes" data-aria-controls="conditional-enforcementTrunkRoad"
-                                data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="enforcementTrunkRoad">Yes</label>
+                                <input class="govuk-radios__input" id="trunkRoad" name="trunkRoad" type="radio"
+                                value="yes" data-aria-controls="conditional-trunkRoad" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="trunkRoad">Yes</label>
                             </div>
                             <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
-                            id="conditional-enforcementTrunkRoad">
+                            id="conditional-trunkRoad">
                                 <div class="govuk-form-group">
-                                    <label class="govuk-label" for="enforcementTrunkRoad_enforcementTrunkRoadDetails">Enter the road name</label>
-                                    <div id="enforcementTrunkRoad_enforcementTrunkRoadDetails-hint"
-                                    class="govuk-hint"></div>
-                                    <textarea class="govuk-textarea" id="enforcementTrunkRoad_enforcementTrunkRoadDetails"
-                                    name="enforcementTrunkRoad_enforcementTrunkRoadDetails" rows="5" aria-describedby="enforcementTrunkRoad_enforcementTrunkRoadDetails-hint"></textarea>
+                                    <label class="govuk-label" for="trunkRoad_trunkRoadDetails">Enter the road name</label>
+                                    <div id="trunkRoad_trunkRoadDetails-hint" class="govuk-hint"></div>
+                                    <textarea class="govuk-textarea" id="trunkRoad_trunkRoadDetails"
+                                    name="trunkRoad_trunkRoadDetails" rows="5" aria-describedby="trunkRoad_trunkRoadDetails-hint"></textarea>
                                 </div>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="enforcementTrunkRoad-2" name="enforcementTrunkRoad"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="enforcementTrunkRoad-2">No</label>
+                                <input class="govuk-radios__input" id="trunkRoad-2" name="trunkRoad" type="radio"
+                                value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="trunkRoad-2">No</label>
                             </div>
                         </div>
                     </div>
@@ -32422,14 +32414,12 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         </div>
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="enforcementDevelopmentRightsUpload">Upload files</label>
-                                <div id="enforcementDevelopmentRightsUpload-hint"
-                                class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                <label class="govuk-label govuk-label--m" for="developmentRightsUpload">Upload files</label>
+                                <div id="developmentRightsUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
                                     than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="enforcementDevelopmentRightsUpload" name="enforcementDevelopmentRightsUpload"
-                                type="file" aria-describedby="enforcementDevelopmentRightsUpload-hint"
-                                multiple="">
+                                id="developmentRightsUpload" name="developmentRightsUpload" type="file"
+                                aria-describedby="developmentRightsUpload-hint" multiple="">
                             </div>
                             <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
                             class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
@@ -32700,14 +32690,12 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         </div>
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="enforcementNoticeDateApplicationUpload">Upload files</label>
-                                <div id="enforcementNoticeDateApplicationUpload-hint"
-                                class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                <label class="govuk-label govuk-label--m" for="noticeDateApplicationUpload">Upload files</label>
+                                <div id="noticeDateApplicationUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
                                     than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="enforcementNoticeDateApplicationUpload" name="enforcementNoticeDateApplicationUpload"
-                                type="file" aria-describedby="enforcementNoticeDateApplicationUpload-hint"
-                                multiple="">
+                                id="noticeDateApplicationUpload" name="noticeDateApplicationUpload" type="file"
+                                aria-describedby="noticeDateApplicationUpload-hint" multiple="">
                             </div>
                             <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
                             class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
@@ -32747,12 +32735,12 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         </div>
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="enforcementNoticePlanUpload">Upload files</label>
-                                <div id="enforcementNoticePlanUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                <label class="govuk-label govuk-label--m" for="noticePlanUpload">Upload files</label>
+                                <div id="noticePlanUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
                                     than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="enforcementNoticePlanUpload" name="enforcementNoticePlanUpload" type="file"
-                                aria-describedby="enforcementNoticePlanUpload-hint" multiple="">
+                                id="noticePlanUpload" name="noticePlanUpload" type="file" aria-describedby="noticePlanUpload-hint"
+                                multiple="">
                             </div>
                             <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
                             class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
@@ -33255,12 +33243,12 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         </div>
                         <div class="moj-multi-file-upload__upload">
                             <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="enforcementStopNoticeUpload">Upload files</label>
-                                <div id="enforcementStopNoticeUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                <label class="govuk-label govuk-label--m" for="stopNoticeUpload">Upload files</label>
+                                <div id="stopNoticeUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
                                     than 1GB</div>
                                 <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="enforcementStopNoticeUpload" name="enforcementStopNoticeUpload" type="file"
-                                aria-describedby="enforcementStopNoticeUpload-hint" multiple="">
+                                id="stopNoticeUpload" name="stopNoticeUpload" type="file" aria-describedby="stopNoticeUpload-hint"
+                                multiple="">
                             </div>
                             <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
                             class="govuk-button govuk-button--secondary moj-multi-file-upload__button"

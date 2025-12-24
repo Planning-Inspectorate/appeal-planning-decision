@@ -251,61 +251,58 @@ components:
         listOfPeopleSentEnforcementNotice:
           type: boolean
           nullable: true
-        enforcementPublicRightOfWay:
-          type: boolean
-          nullable: true
-        enforcementOtherOperations:
+        otherOperations:
           type: boolean
           nullable: true
         siteAreaSquareMetres:
           type: number
           nullable: true
-        enforcementAllegedBreachArea:
+        allegedBreachArea:
           type: boolean
           nullable: true
-        enforcementCreateFloorSpace:
+        createFloorSpace:
           type: boolean
           nullable: true
-        enforcementRefuseWasteMaterials:
+        refuseWasteMaterials:
           type: boolean
           nullable: true
-        enforcementMineralExtractionMaterials:
+        mineralExtractionMaterials:
           type: boolean
           nullable: true
-        enforcementStoreMinerals:
+        storeMinerals:
           type: boolean
           nullable: true
-        enforcementCreateBuilding:
+        createBuilding:
           type: boolean
           nullable: true
-        enforcementAgriculturalPurposes:
+        agriculturalPurposes:
           type: boolean
           nullable: true
-        enforcementSingleHouse:
+        singleHouse:
           type: boolean
           nullable: true
-        enforcementTrunkRoad:
+        trunkRoad:
           type: string
           nullable: true
-        enforcementTrunkRoadDetails:
+        trunkRoadDetails:
           type: string
           nullable: true
-        enforcementCrownLand:
+        crownLand:
           type: boolean
           nullable: true
-        enforcementStopNotice:
+        stopNotice:
           type: boolean
           nullable: true
-        enforcementStopNoticeUpload:
+        stopNoticeUpload:
           type: boolean
           nullable: true
-        enforcementDevelopmentRights:
+        developmentRights:
           type: boolean
           nullable: true
-        enforcementDevelopmentRightsUpload:
+        developmentRightsUpload:
           type: boolean
           nullable: true
-        enforcementDevelopmentRightsRemoved:
+        developmentRightsRemoved:
           type: string
           nullable: true
         planningOfficerReport:
@@ -323,13 +320,13 @@ components:
         previousPlanningPermissionUpload:
           type: boolean
           nullable: true
-        enforcementNoticeDateApplication:
+        noticeDateApplication:
           type: boolean
           nullable: true
-        enforcementNoticeDateApplicationUpload:
+        noticeDateApplicationUpload:
           type: boolean
           nullable: true
-        enforcementNoticePlanUpload:
+        noticePlanUpload:
           type: boolean
           nullable: true
         planningContraventionNotice:
