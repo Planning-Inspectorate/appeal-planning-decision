@@ -6,6 +6,8 @@
  * @property {DynamicFormFieldName} nearbyAppealReference
  * @property {DynamicFormFieldName} enforcementNamedIndividual
  * @property {DynamicFormFieldName} contactAddress
+ * @property {DynamicFormFieldName} neighbourSiteAddress
+
  */
 
 /**
@@ -15,6 +17,7 @@
  *   | 'nearbyAppealReference'
  * 	 | 'enforcementNamedIndividual'
  * 	 | 'contactAddress'
+ *   | 'neighbourSiteAddress'
  * } DynamicFormFieldName
  */
 
@@ -27,5 +30,6 @@ exports.fieldNames = Object.freeze({
 	appellantLinkedCaseReference: 'appellantLinkedCaseReference',
 	nearbyAppealReference: 'nearbyAppealReference',
 	enforcementNamedIndividual: 'enforcementNamedIndividual',
-	contactAddress: 'contactAddress'
+	contactAddress: 'contactAddress',
+	neighbourSiteAddress: 'neighbourSiteAddress'
 });
