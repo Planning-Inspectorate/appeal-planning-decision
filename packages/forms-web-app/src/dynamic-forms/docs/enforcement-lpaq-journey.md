@@ -203,7 +203,7 @@ condition: () => questionHasAnswer(response, questions.localDevelopmentOrder, 'y
 ```
 
 - boolean `/previous-planning-permission/` Did you previously grant any planning permission for this development?
-- multi-file-upload `/upload-planning-permission/` Upload planning permission and any other relevant documents
+- multi-file-upload `/upload-planning-permission/` Upload the planning permission and any other relevant documents
 
 ```js
 condition: () => questionHasAnswer(response, questions.previousPlanningPermission, 'yes');

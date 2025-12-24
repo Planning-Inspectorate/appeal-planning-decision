@@ -26030,7 +26030,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer’s report and supporting documents</span>
             <h1
-            class="govuk-heading-l">Upload planning permission and any other relevant documents</h1>
+            class="govuk-heading-l">Upload the planning permission and any other relevant documents</h1>
                 <form
                 action="" method="post" novalidate=null enctype="multipart/form-data">
                     <div class="moj-multi-file-upload">

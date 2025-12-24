@@ -3568,7 +3568,7 @@ exports.getQuestionProps = (response) => ({
 		question: 'Do you have a planning officer’s report?',
 		fieldName: 'planningOfficerReport',
 		url: 'planning-officer-report',
-		validators: [new RequiredValidator('Select yes you have a planning officer’s report?')]
+		validators: [new RequiredValidator('Select yes if you have a planning officer’s report?')]
 	},
 	localDevelopmentOrder: {
 		type: 'boolean',
@@ -3586,11 +3586,11 @@ exports.getQuestionProps = (response) => ({
 		url: 'upload-local-development-order',
 
 		validators: [
-			new RequiredFileUploadValidator('Select the relevant local development order documents'),
+			new RequiredFileUploadValidator('Select the local development order'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		documentType: documentTypes.localDevelopmentOrderUpload,
-		actionHiddenText: 'relevant local development order documents'
+		actionHiddenText: 'local development order'
 	},
 	previousPlanningPermission: {
 		type: 'boolean',
@@ -3600,25 +3600,25 @@ exports.getQuestionProps = (response) => ({
 		url: 'previous-planning-permission',
 		validators: [
 			new RequiredValidator(
-				'Select yes if you have you previously granted any planning permissions for this development'
+				'Select yes if you previously granted any planning permission for this development'
 			)
 		]
 	},
 	previousPlanningPermissionUpload: {
 		type: 'multi-file-upload',
-		title: 'Upload planning permission and any other relevant documents',
-		question: 'Upload planning permission and any other relevant documents',
+		title: 'Upload the planning permission and any other relevant documents',
+		question: 'Upload the planning permission and any other relevant documents',
 		fieldName: 'previousPlanningPermissionUpload',
 		url: 'upload-planning-permission',
 
 		validators: [
 			new RequiredFileUploadValidator(
-				'Select the relevant planning permission and any other relevant documents'
+				'Select the planning permission and any other relevant documents'
 			),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		documentType: documentTypes.previousPlanningPermissionUpload,
-		actionHiddenText: 'relevant planning permission and any other relevant documents'
+		actionHiddenText: 'planning permission and any other relevant documents'
 	},
 	enforcementNoticeDateApplication: {
 		type: 'boolean',
@@ -3640,11 +3640,11 @@ exports.getQuestionProps = (response) => ({
 		url: 'upload-enforcement-notice',
 
 		validators: [
-			new RequiredFileUploadValidator('Select the relevant enforcement notice'),
+			new RequiredFileUploadValidator('Select the enforcement notice'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		documentType: documentTypes.enforcementNoticeDateApplicationUpload,
-		actionHiddenText: 'relevant enforcement notice'
+		actionHiddenText: 'enforcement notice'
 	},
 	enforcementNoticePlanUpload: {
 		type: 'multi-file-upload',
@@ -3654,11 +3654,11 @@ exports.getQuestionProps = (response) => ({
 		url: 'upload-enforcement-notice-plan',
 
 		validators: [
-			new RequiredFileUploadValidator('Select the relevant enforcement notice plan'),
+			new RequiredFileUploadValidator('Select the enforcement notice plan'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		documentType: documentTypes.enforcementNoticePlanUpload,
-		actionHiddenText: 'relevant enforcement notice plan'
+		actionHiddenText: 'enforcement notice plan'
 	},
 	planningContraventionNotice: {
 		type: 'boolean',
@@ -3666,9 +3666,7 @@ exports.getQuestionProps = (response) => ({
 		question: 'Did you serve a planning contravention notice?',
 		fieldName: 'planningContraventionNotice',
 		url: 'planning-contravention-notice',
-		validators: [
-			new RequiredValidator('Select yes if you did serve a planning contravention notice')
-		]
+		validators: [new RequiredValidator('Select yes if you served a planning contravention notice')]
 	},
 	planningContraventionNoticeUpload: {
 		type: 'multi-file-upload',
@@ -3678,11 +3676,11 @@ exports.getQuestionProps = (response) => ({
 		url: 'upload-planning-contravention-notice',
 
 		validators: [
-			new RequiredFileUploadValidator('Select the relevant planning contravention notice'),
+			new RequiredFileUploadValidator('Select the planning contravention notice'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		documentType: documentTypes.planningContraventionNoticeUpload,
-		actionHiddenText: 'relevant planning contravention notice'
+		actionHiddenText: 'planning contravention notice'
 	},
 
 	highwayLand: {
