@@ -1620,7 +1620,7 @@ async function createCasesInState(dbClient) {
 		// APPEAL_CASE_STATUS.EVIDENCE,
 		// APPEAL_CASE_STATUS.FINAL_COMMENTS,
 		// APPEAL_CASE_STATUS.COMPLETE
-	];
+	].map((state, index) => ({ state, index }));
 	const variations = [
 		// { type: CASE_TYPES.HAS, process: APPEAL_CASE_PROCEDURE.WRITTEN },
 		// { type: CASE_TYPES.S78, process: APPEAL_CASE_PROCEDURE.WRITTEN },
@@ -1639,7 +1639,7 @@ async function createCasesInState(dbClient) {
 		{ type: CASE_TYPES.ENFORCEMENT, process: APPEAL_CASE_PROCEDURE.INQUIRY }
 	];
 
-	for (const state of states) {
+	for (const { state, index } of states) {
 		for (const variation of variations) {
 			if (
 				variation.type.expedited &&
@@ -1649,7 +1649,7 @@ async function createCasesInState(dbClient) {
 				continue;
 			}
 
-			const friendlyName = `${state}-${variation.type.processCode}-${variation.process}`;
+			const friendlyName = `${state}-${variation.type.processCode}-${variation.process}-${index}`;
 
 			try {
 				const generatedCaseRef = generateCaseRef(4000000, refSet);
