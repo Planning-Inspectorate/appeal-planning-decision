@@ -2819,6 +2819,16 @@ exports.getQuestionProps = (response) => ({
 	},
 
 	// Enforcement specific questions
+	enforcementRightOfWayCheck: {
+		type: 'boolean',
+		title: 'Public right of way',
+		question: 'Was a public right of way removed or diverted?',
+		fieldName: 'enforcementPublicRightOfWay',
+		url: 'public-right-of-way',
+		validators: [
+			new RequiredValidator('Select yes if a public right of way was removed or diverted')
+		]
+	},
 	enforcementOtherOperations: {
 		type: 'boolean',
 		title:

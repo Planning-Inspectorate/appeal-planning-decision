@@ -251,6 +251,9 @@ components:
         listOfPeopleSentEnforcementNotice:
           type: boolean
           nullable: true
+        enforcementPublicRightOfWay:
+          type: boolean
+          nullable: true
         enforcementOtherOperations:
           type: boolean
           nullable: true

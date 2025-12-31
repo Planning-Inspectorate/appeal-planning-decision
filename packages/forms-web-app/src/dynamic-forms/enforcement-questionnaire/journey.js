@@ -52,9 +52,9 @@ const makeSections = (response) => {
 			.addQuestion(questions.treePreservationPlanUpload)
 			.withCondition(() => questionHasAnswer(response, questions.treePreservationOrder, 'yes'))
 			.addQuestion(questions.gypsyOrTraveller)
-			.addQuestion(questions.rightOfWayCheck)
+			.addQuestion(questions.enforcementRightOfWayCheck) // Enforcement
 			.addQuestion(questions.uploadDefinitiveMap)
-			.withCondition(() => questionHasAnswer(response, questions.rightOfWayCheck, 'yes'))
+			.withCondition(() => questionHasAnswer(response, questions.enforcementRightOfWayCheck, 'yes'))
 			// Enforcement specific questions
 			.addQuestion(questions.enforcementOtherOperations)
 			.addQuestion(questions.enforcementSiteArea)

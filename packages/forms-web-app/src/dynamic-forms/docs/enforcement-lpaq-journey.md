@@ -37,11 +37,11 @@ condition: () => questionHasAnswer(response, questions.treePreservationOrder, 'y
 ```
 
 - boolean `/gypsy-traveller/` Does the development relate to anyone claiming to be a Gypsy or Traveller?
-- boolean `/public-right-of-way/` Would a public right of way need to be removed or diverted?
+- boolean `/public-right-of-way/` Was a public right of way removed or diverted?
 - multi-file-upload `/upload-definitive-map-statement/` Upload the definitive map and statement extract
 
 ```js
-condition: () => questionHasAnswer(response, questions.rightOfWayCheck, 'yes');
+condition: () => questionHasAnswer(response, questions.enforcementRightOfWayCheck, 'yes');
 ```
 
 - boolean `/other-operations/` Does the enforcement notice relate to building, engineering, mining or other operations?
