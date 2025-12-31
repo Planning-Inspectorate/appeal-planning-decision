@@ -77,7 +77,10 @@ const makeSections = (response) => {
 			.withCondition(() =>
 				questionHasAnswer(response, questions.enforcementDevelopmentRights, 'yes')
 			)
-			.addQuestion(questions.enforcementDevelopmentRightsRemoved),
+			.addQuestion(questions.enforcementDevelopmentRightsRemoved)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.enforcementDevelopmentRights, 'yes')
+			),
 
 		// enforcement specific questions to follow here
 

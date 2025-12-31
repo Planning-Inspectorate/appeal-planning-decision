@@ -72,6 +72,10 @@ condition: () => questionHasAnswer(response, questions.enforcementDevelopmentRig
 
 - text-entry `/rights-removed-direction/` What permitted development rights did you remove with the direction?
 
+```js
+condition: () => questionHasAnswer(response, questions.enforcementDevelopmentRights, 'yes');
+```
+
 ## Environmental impact assessment
 
 - radio `/schedule-1-or-2/` What is the development category?

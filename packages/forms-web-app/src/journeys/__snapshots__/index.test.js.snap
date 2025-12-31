@@ -26469,12 +26469,6 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/remove-permitted-development-rights">Answer<span class="govuk-visually-hidden"> Did you remove any permitted development rights for the appeal site?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What permitted development rights did you remove with the direction?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/rights-removed-direction">Answer<span class="govuk-visually-hidden"> What permitted development rights did you remove with the direction?</span></a>
-                                </dd>
-                        </div>
                     </dl>
                 </li>
                 <li class="govuk-!-margin-bottom-9">
