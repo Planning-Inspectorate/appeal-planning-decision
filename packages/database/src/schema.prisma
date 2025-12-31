@@ -968,6 +968,7 @@ model LPAQuestionnaireSubmission {
 
   // New enforcement fieldnames
   listOfPeopleSentEnforcementNotice                Boolean?
+  enforcementPublicRightOfWay                      Boolean?
   enforcementOtherOperations                       Boolean?
   siteAreaSquareMetres                             Decimal?
   enforcementAllegedBreachArea                     Boolean?

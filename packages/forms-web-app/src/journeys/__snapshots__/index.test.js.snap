@@ -24636,21 +24636,21 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="publicRightOfWay-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="enforcementPublicRightOfWay-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Would a public right of way need to be removed or diverted?</h1>
+                            <h1 class="govuk-fieldset__heading"> Was a public right of way removed or diverted?</h1>
                         </legend>
-                        <div id="publicRightOfWay-hint" class="govuk-hint"></div>
+                        <div id="enforcementPublicRightOfWay-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="publicRightOfWay" name="publicRightOfWay"
+                                <input class="govuk-radios__input" id="enforcementPublicRightOfWay" name="enforcementPublicRightOfWay"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="publicRightOfWay">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="enforcementPublicRightOfWay">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="publicRightOfWay-2" name="publicRightOfWay"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="publicRightOfWay-2">No</label>
+                                <input class="govuk-radios__input" id="enforcementPublicRightOfWay-2"
+                                name="enforcementPublicRightOfWay" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="enforcementPublicRightOfWay-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -26382,7 +26382,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Public right of way</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/public-right-of-way">Answer<span class="govuk-visually-hidden"> Would a public right of way need to be removed or diverted?</span></a>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/public-right-of-way">Answer<span class="govuk-visually-hidden"> Was a public right of way removed or diverted?</span></a>
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice relate to building, engineering, mining or other operations?</dt>

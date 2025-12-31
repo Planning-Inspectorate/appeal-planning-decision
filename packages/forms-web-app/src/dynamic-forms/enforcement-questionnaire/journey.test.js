@@ -141,8 +141,8 @@ describe('Enforcement Journey', () => {
 				urlSegment: 'gypsy-traveller'
 			},
 			{
-				fieldName: 'publicRightOfWay',
-				question: 'Would a public right of way need to be removed or diverted?',
+				fieldName: 'enforcementPublicRightOfWay',
+				question: 'Was a public right of way removed or diverted?',
 				urlSegment: 'public-right-of-way'
 			},
 			{
