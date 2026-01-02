@@ -524,24 +524,7 @@ exports.getCommonLPAQSubmissionFields = (caseReference, answers) => ({
 	siteSafetyDetails: answers.lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails
 		? [answers.lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails]
 		: null,
-	neighbouringSiteAddresses: answers.SubmissionAddress?.filter((address) => {
-		return (
-			address.fieldName === 'neighbourSiteAddress' &&
-			address.addressLine1 &&
-			address.townCity &&
-			address.postcode
-		);
-	}).map((address) => {
-		return {
-			neighbouringSiteAddressLine1: address.addressLine1,
-			neighbouringSiteAddressLine2: address.addressLine2,
-			neighbouringSiteAddressTown: address.townCity,
-			neighbouringSiteAddressCounty: address.county,
-			neighbouringSiteAddressPostcode: address.postcode,
-			neighbouringSiteAccessDetails: null, // not asked
-			neighbouringSiteSafetyDetails: null // not asked
-		};
-	}),
+	neighbouringSiteAddresses: getListedAddress(answers, fieldNames.neighbourSiteAddress),
 	reasonForNeighbourVisits: answers.neighbourSiteAccess_neighbourSiteAccessDetails
 		? answers.neighbourSiteAccess_neighbourSiteAccessDetails
 		: null,
@@ -739,6 +722,134 @@ exports.getS20LPAQSubmissionFields = (answers) => {
 		// Appeal process
 		...preference
 	};
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {LPAQS78SubmissionProperties}
+ */
+exports.getEnforcementLPAQSubmissionFields = (answers) => {
+	const levy = getInfrastructureLevy(answers);
+	const preference = getLPAProcedurePreference(answers);
+	const designatedSitesNames = exports.getDesignatedSiteNames(answers);
+
+	return {
+		// Constraints, designations and other issues
+		isCorrectAppealType: answers.correctAppealType,
+		hasChangesListedBuilding: answers.changesListedBuilding,
+		addChangedListedBuilding: getListedBuildings(answers, 'changedListedBuildingNumber') || null,
+		isAffectsListedBuilding: answers.affectsListedBuilding,
+		affectedListedBuildings: getListedBuildings(answers, 'affectedListedBuildingNumber') || null,
+
+		affectsScheduledMonument: answers.affectsScheduledMonument,
+		conservationArea: answers.conservationArea,
+		hasProtectedSpecies: answers.protectedSpecies,
+		isGreenBelt: answers.greenBelt,
+		isAonbNationalLandscape: answers.areaOutstandingBeauty,
+		designatedSitesNames,
+		hasTreePreservationOrder: answers.treePreservationOrder,
+		preserveGrantLoan: answers.section3aGrant,
+		consultHistoricEngland: answers.consultHistoricEngland,
+		isGypsyOrTravellerSite: answers.gypsyTraveller,
+		isPublicRightOfWay: answers.publicRightOfWay,
+		enforcementOtherOperations: answers.enforcementOtherOperations,
+		sireAreaSquareMetres: answers.siteAreaSquareMetres,
+		enforcementAllegedBreachArea: answers.enforcementAllegedBreachArea,
+		enforcementCreateFloorSpace: answers.enforcementCreateFloorSpace,
+		enforcementRefuseWasteMaterials: answers.enforcementRefuseWasteMaterials,
+		enforcementMineralExtractionMaterials: answers.enforcementMineralExtractionMaterials,
+		enforcementStoreMinerals: answers.enforcementStoreMinerals,
+		enforcementCreateBuilding: answers.enforcementCreateBuilding,
+		enforcementAgriculturalPurposes: answers.enforcementAgriculturalPurposes,
+		enforcementSingleHouse: answers.enforcementSingleHouse,
+		enforcementTrunkRoad: answers.enforcementTrunkRoad,
+		enforcementCrownLand: answers.enforcementCrownLand,
+		enforcementStopNotice: answers.enforcementStopNotice,
+		enforcementDevelopmentRights: answers.enforcementDevelopmentRights,
+		enforcementDevelopmentRightsRemoved: answers.enforcementDevelopmentRightsRemoved,
+
+		// Environmental impact assessment, todo: handle dependent logic in journey so we don't send redundant data
+		eiaEnvironmentalImpactSchedule: getSchedule(answers),
+		eiaDevelopmentDescription: answers.developmentDescription || null,
+		eiaSensitiveAreaDetails: answers.sensitiveArea_sensitiveAreaDetails || null,
+		eiaColumnTwoThreshold: answers.columnTwoThreshold,
+		eiaScreeningOpinion: answers.screeningOpinion,
+		eiaRequiresEnvironmentalStatement: answers.environmentalStatement,
+		eiaCompletedEnvironmentalStatement: exports.toBool(
+			answers.applicantSubmittedEnvironmentalStatement
+		),
+
+		// Planning officer’s report and supporting documents
+		hasDevelopmentPlanPolicies: answers.developmentPlanPolicies,
+		hasOtherRelevantPolicies: answers.otherRelevantPolicies,
+		hasEmergingPlan: answers.emergingPlan,
+		hasSupplementaryPlanningDocs: answers.supplementaryPlanningDocs,
+		localDevelopmentOrder: answers.localDevelopmentOrder,
+		previousPlanningPermission: answers.previousPlanningPermission,
+		enforcementNoticeDateApplication: answers.enforcementNoticeDateApplication,
+		planningContraventionNotice: answers.planningContraventionNotice,
+		...levy,
+
+		// Site access
+		accessForInspection: answers.accessForInspection,
+		neighbouringSite: answers.neighbouringSite,
+
+		// Appeal process
+		...preference,
+		lpaPreferInquiryDetails: answers.lpaPreferInquiryDetails,
+		lpaPreferHearingDetails: answers.lpaPreferHearingDetails,
+		hasNearbyAppeals: answers.nearbyAppeals,
+		newConditions: answers.newConditions
+	};
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @param {string} fieldName
+ * @returns {{neighbouringSiteAddressLine1: string, neighbouringSiteAddressLine2: string|null, neighbouringSiteAddressTown: string, neighbouringSiteAddressCounty: string|null, neighbouringSiteAddressPostcode: string, neighbouringSiteAccessDetails: null, neighbouringSiteSafetyDetails: null}[]|null}
+ */
+const getListedAddress = (answers, fieldName) => {
+	// @ts-ignore
+	return answers.SubmissionAddress?.filter((address) => {
+		return (
+			address.fieldName === fieldName &&
+			address.addressLine1 &&
+			address.townCity &&
+			address.postcode
+		);
+		// @ts-ignore
+	}).map((address) => {
+		return {
+			neighbouringSiteAddressLine1: address.addressLine1,
+			neighbouringSiteAddressLine2: address.addressLine2,
+			neighbouringSiteAddressTown: address.townCity,
+			neighbouringSiteAddressCounty: address.county,
+			neighbouringSiteAddressPostcode: address.postcode,
+			neighbouringSiteAccessDetails: null, // not asked
+			neighbouringSiteSafetyDetails: null // not asked
+		};
+	});
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @param {import('@pins/common/src/dynamic-forms/field-names').DynamicFormFieldName} type
+ * @returns {string[] |null}
+ */
+const getListedBuildings = (answers, type) => {
+	const SubmissionListedBuilding = answers.SubmissionListedBuilding;
+	if (!SubmissionListedBuilding) {
+		return null;
+	}
+	// @ts-ignore
+	return SubmissionListedBuilding.filter((lb) => lb.fieldName === type).map((lb) => {
+		return {
+			reference: lb.reference,
+			name: lb.name,
+			id: lb.id,
+			listedBuildingGrade: lb.listedBuildingGrade
+		};
+	});
 };
 
 /**

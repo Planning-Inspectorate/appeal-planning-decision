@@ -22,6 +22,10 @@ const {
 	formatter: advertsFormatter
 } = require('../../../../../../services/back-office-v2/formatters/adverts/questionnaire');
 
+const {
+	formatter: enforcementFormatter
+} = require('../../../../../../services/back-office-v2/formatters/enforcements/questionnaire');
+
 const { getLPAQuestionnaireByAppealId } = require('../service');
 
 const backOfficeV2Service = new BackOfficeV2Service();
@@ -48,6 +52,9 @@ const getFormatter = (appealTypeCode) => {
 			return casAdvertsFormatter;
 		case CASE_TYPES.ADVERTS.processCode:
 			return advertsFormatter;
+		case CASE_TYPES.ENFORCEMENT.processCode:
+			return enforcementFormatter;
+
 		default:
 			throw new Error('unknown formatter');
 	}
@@ -74,5 +81,5 @@ exports.post = async (req, res) => {
 		throw ApiError.unableToSubmitResponse();
 	}
 
-	res.sendStatus(200);
+	return res.sendStatus(200);
 };
