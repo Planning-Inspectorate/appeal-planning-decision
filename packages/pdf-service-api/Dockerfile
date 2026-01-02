@@ -1,5 +1,9 @@
 FROM node:22-alpine3.22
 
+#COPY ZscalerRootCA.crt /usr/local/share/ca-certificates/ZscalerRootCA.crt
+#ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/ZscalerRootCA.crt
+#RUN cat /usr/local/share/ca-certificates/ZscalerRootCA.crt >> /etc/ssl/certs/ca-certificates.crt
+
 # add chromium
 RUN apk add --no-cache \
     chromium \
@@ -31,3 +35,4 @@ EXPOSE 3000
 USER node
 
 CMD ["npm", "start"]
+
