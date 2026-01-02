@@ -10,7 +10,8 @@ const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { BopsApiClient } = require('@pins/common/src/client/bops/bops-api-client');
 const {
-	bopsApi: { baseUrl: bopsAPIBaseUrl }
+	bopsApi: { baseUrl: bopsAPIBaseUrl },
+	server: { allowTestingOverrides }
 } = require('../../config');
 const {
 	mappings: {
@@ -56,7 +57,7 @@ const postApplicationLookup = async (req, res) => {
 	let allDataRetrieved = false;
 	let lookupResult;
 	try {
-		const bopsClient = new BopsApiClient(bopsAPIBaseUrl);
+		const bopsClient = new BopsApiClient(bopsAPIBaseUrl, allowTestingOverrides);
 		lookupResult = await bopsClient.getPublicApplication(planningApplicationNumber);
 		// todo: ad-45 add loading screen while we wait for api response
 	} catch {

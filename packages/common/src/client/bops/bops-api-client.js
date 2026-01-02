@@ -10,16 +10,19 @@ const trailingSlashRegex = /\/$/;
 class BopsApiClient {
 	/**
 	 * @param {string} baseUrl - e.g. https://example.com
+	 * @param {boolean} [allowTestingOverrides]
 	 * @param {string} [access_token]
 	 * @param {number} [timeout] - timeout in ms defaults to 2000 (ms)
 	 */
-	constructor(baseUrl, access_token, timeout = 2000) {
+	constructor(baseUrl, allowTestingOverrides = false, access_token = undefined, timeout = 2000) {
 		if (!baseUrl) {
 			throw new Error('baseUrl is required');
 		}
 
 		/** @type {string} */
 		this.baseUrl = baseUrl.replace(trailingSlashRegex, '');
+		/** @type {boolean} */
+		this.allowTestingOverrides = allowTestingOverrides;
 		/** @type {string|undefined} */
 		this.access_token = access_token;
 		/** @type {number} */
@@ -33,7 +36,7 @@ class BopsApiClient {
 	 * @returns {Promise<Document>}
 	 */
 	async getPublicApplication(reference) {
-		if (process.env.LOCAL_FEATURE_FLAG_USE_EXAMPLE_APPLICATION_API_LOOKUP === 'true') {
+		if (this.allowTestingOverrides) {
 			switch (reference) {
 				case 'HH-REFUSED': {
 					const householderRefused = require('./examples/application-householder-refused.json');
