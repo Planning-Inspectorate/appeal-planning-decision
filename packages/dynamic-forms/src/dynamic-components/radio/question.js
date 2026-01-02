@@ -22,48 +22,22 @@ class RadioQuestion extends OptionsQuestion {
 	 * @param {string} [params.legend] - optional legend, used instead of h1
 	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 * @param {object} [params.customData]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
-	constructor(
-		{
-			title,
-			question,
-			fieldName,
-			viewFolder,
-			url,
-			hint,
-			pageTitle,
-			description,
-			label,
-			html,
-			options,
-			validators,
-			legend,
-			variables
-		},
-		methodOverrides
-	) {
+	constructor(params, methodOverrides) {
 		super(
 			{
-				title,
-				question,
-				viewFolder: !viewFolder ? 'radio' : viewFolder,
-				fieldName,
-				url,
-				hint,
-				pageTitle,
-				description,
-				options,
-				validators,
-				variables
+				...params,
+				viewFolder: !params.viewFolder ? 'radio' : params.viewFolder
 			},
 			methodOverrides
 		);
 
-		this.html = html;
-		this.label = label;
-		this.legend = legend;
+		this.html = params.html;
+		this.label = params.label;
+		this.legend = params.legend;
 	}
 
 	/**

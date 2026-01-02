@@ -15,27 +15,12 @@ class BooleanQuestion extends RadioQuestion {
 	 * @param {Array<string>} [params.variables]
 	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 * @param {object} [params.customData]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
-	constructor(
-		{
-			title,
-			question,
-			fieldName,
-			url,
-			hint,
-			pageTitle,
-			description,
-			html,
-			validators,
-			interfaceType = 'radio',
-			options,
-			variables
-		},
-		methodOverrides
-	) {
-		let defaultOptions = options || [
+	constructor(params, methodOverrides) {
+		let defaultOptions = params.options || [
 			{
 				text: 'Yes',
 				value: 'yes',
@@ -48,29 +33,24 @@ class BooleanQuestion extends RadioQuestion {
 			}
 		];
 
-		if (interfaceType === 'checkbox') {
-			defaultOptions = options || [{ text: 'Confirm', value: 'yes' }];
+		if (!params.interfaceType) {
+			params.interfaceType = 'radio';
+		}
+
+		if (params.interfaceType === 'checkbox') {
+			defaultOptions = params.options || [{ text: 'Confirm', value: 'yes' }];
 		}
 
 		super(
 			{
-				title,
-				question,
+				...params,
 				viewFolder: 'boolean',
-				fieldName,
-				url,
-				hint,
-				pageTitle,
-				description,
-				options: defaultOptions,
-				validators,
-				html,
-				variables
+				options: defaultOptions
 			},
 			methodOverrides
 		);
 
-		this.interfaceType = interfaceType;
+		this.interfaceType = params.interfaceType;
 	}
 
 	/**

@@ -19,15 +19,8 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 	 * @param {string} [params.html]
 	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
 	 */
-	constructor({ title, question, fieldName, viewFolder, html, validators }) {
-		super({
-			title,
-			viewFolder,
-			fieldName,
-			question,
-			html,
-			validators
-		});
+	constructor(params) {
+		super(params);
 	}
 
 	/**

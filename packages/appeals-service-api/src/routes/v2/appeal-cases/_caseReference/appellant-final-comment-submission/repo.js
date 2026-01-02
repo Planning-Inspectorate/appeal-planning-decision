@@ -1,5 +1,5 @@
 const { createPrismaClient } = require('#db-client');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 
 /**
 * @typedef {import('./appellant-final-comment-submission').AppellantFinalCommentSubmission} AppellantFinalCommentSubmission

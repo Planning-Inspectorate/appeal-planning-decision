@@ -1,14 +1,14 @@
-const Repo = require('./repo');
+const { AppellantSubmissionRepository } = require('./repo');
 const { rules } = require('@pins/business-rules');
 const { mapTypeCodeToAppealId } = require('@pins/common');
-const repo = new Repo();
+const repo = new AppellantSubmissionRepository();
 const { docsApiClient } = require('../../../doc-client/docs-api-client');
 const ApiError = require('#errors/apiError');
 const logger = require('#lib/logger');
 
 /**
- * @typedef {import('@pins/database/src/client').AppellantSubmission} AppellantSubmission
- * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
+ * @typedef {import('@pins/database/src/client/client').AppellantSubmission} AppellantSubmission
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
  */
 
 /**

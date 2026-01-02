@@ -1,8 +1,10 @@
 generator client {
-  provider   = "prisma-client-js"
-  output     = "./client"
-  engineType = "client"
-  runtime    = "nodejs"
+  provider            = "prisma-client"
+  output              = "./client"
+  engineType          = "client"
+  runtime             = "nodejs"
+  moduleFormat        = "cjs"
+  importFileExtension = "js"
 }
 
 datasource db {
@@ -413,8 +415,8 @@ model AppealCase {
   Events                          Event[]
   AppealCaseLpaNotificationMethod AppealCaseLpaNotificationMethod[]
   InterestedPartySubmissions      InterestedPartySubmission[]
-  Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission?
-  Rule6StatementSubmission        Rule6StatementSubmission?
+  Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission[]
+  Rule6StatementSubmission        Rule6StatementSubmission[]
   Representations                 Representation[]
   AdvertDetails                   AdvertDetails[]
 
@@ -835,19 +837,31 @@ model AppellantSubmission {
   contactAddress              Boolean?
 
   // enforcement
-  enforcementIssueDate              DateTime?
-  enforcementEffectiveDate          DateTime?
-  hasContactedPlanningInspectorate  Boolean?
-  contactPlanningInspectorateDate   DateTime?
-  enforcementReferenceNumber        String?
-  enforcementWhoIsAppealing         String?
-  enforcementOrganisationName       String?
-  allegedBreachDescription          String?
-  applicationMadeAndFeePaid         Boolean?
-  uploadApplicationReceipt          Boolean?
-  applicationPartOrWholeDevelopment String?
+  enforcementIssueDate                             DateTime?
+  enforcementEffectiveDate                         DateTime?
+  hasContactedPlanningInspectorate                 Boolean?
+  contactPlanningInspectorateDate                  DateTime?
+  enforcementReferenceNumber                       String?
+  enforcementWhoIsAppealing                        String?
+  addNamedIndividual                               Boolean?
+  selectedNamedIndividualId                        String?
+  enforcementOrganisationName                      String?
+  interestInAppealLand                             String?
+  interestInAppealLand_interestInAppealLandDetails String?
+  hasPermissionToUseLand                           Boolean?
+  allegedBreachDescription                         String?
+  appealGrounds                                    String?
+  applicationMadeAndFeePaid                        Boolean?
+  uploadApplicationReceipt                         Boolean?
+  applicationPartOrWholeDevelopment                String?
+  applicationDecisionAppealed                      Boolean?
+  appealDecisionDate                               DateTime?
+  uploadPriorCorrespondence                        Boolean?
+  uploadEnforcementNotice                          Boolean?
+  uploadEnforcementNoticePlan                      Boolean?
 
-  SubmissionIndividual SubmissionIndividual[]
+  SubmissionIndividual   SubmissionIndividual[]
+  SubmissionAppealGround SubmissionAppealGround[]
 }
 
 /// LPAQuestionnaireSubmission represents the questionnaire responses from an LPAUser
@@ -952,6 +966,39 @@ model LPAQuestionnaireSubmission {
   wasApplicationRefusedDueToHighwayOrTraffic      Boolean?
   didAppellantSubmitCompletePhotosAndPlans        Boolean?
 
+  // New enforcement fieldnames
+  listOfPeopleSentEnforcementNotice                Boolean?
+  enforcementPublicRightOfWay                      Boolean?
+  enforcementOtherOperations                       Boolean?
+  siteAreaSquareMetres                             Decimal?
+  enforcementAllegedBreachArea                     Boolean?
+  enforcementCreateFloorSpace                      Boolean?
+  enforcementRefuseWasteMaterials                  Boolean?
+  enforcementMineralExtractionMaterials            Boolean?
+  enforcementStoreMinerals                         Boolean?
+  enforcementCreateBuilding                        Boolean?
+  enforcementAgriculturalPurposes                  Boolean?
+  enforcementSingleHouse                           Boolean?
+  enforcementTrunkRoad                             String?
+  enforcementTrunkRoad_enforcementTrunkRoadDetails String?
+  enforcementCrownLand                             Boolean?
+  enforcementStopNotice                            Boolean?
+  enforcementStopNoticeUpload                      Boolean?
+  enforcementDevelopmentRights                     Boolean?
+  enforcementDevelopmentRightsUpload               Boolean?
+  enforcementDevelopmentRightsRemoved              String?
+  planningOfficerReport                            Boolean?
+  localDevelopmentOrder                            Boolean?
+  localDevelopmentOrderUpload                      Boolean?
+  previousPlanningPermission                       Boolean?
+  previousPlanningPermissionUpload                 Boolean?
+  enforcementNoticeDateApplication                 Boolean?
+  enforcementNoticeDateApplicationUpload           Boolean?
+  enforcementNoticePlanUpload                      Boolean?
+  planningContraventionNotice                      Boolean?
+  planningContraventionNoticeUpload                Boolean?
+  appellantSubmittedEnvironmentalStatement         String?
+
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
   SubmissionAddress        SubmissionAddress[]
@@ -991,7 +1038,7 @@ model Rule6StatementSubmission {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
   // link the submission to the appeal
-  caseReference String     @unique
+  caseReference String
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 
   /// relation to a User - required as can have more than one rule6 party per apeal
@@ -1012,6 +1059,7 @@ model Rule6StatementSubmission {
   // Uploaded documents and details linked to this statement
   SubmissionDocumentUpload SubmissionDocumentUpload[]
 
+  @@unique([caseReference, userId])
   // indexes
   @@index([caseReference])
 }
@@ -1045,7 +1093,7 @@ model Rule6ProofOfEvidenceSubmission {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
   // link the submission to the appeal
-  caseReference String     @unique
+  caseReference String
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 
   /// relation to a User
@@ -1066,6 +1114,7 @@ model Rule6ProofOfEvidenceSubmission {
   // Uploaded documents and details linked to this proof of evidence
   SubmissionDocumentUpload SubmissionDocumentUpload[]
 
+  @@unique([caseReference, userId])
   // indexes
   @@index([caseReference])
 }
@@ -1223,6 +1272,20 @@ model SubmissionAddress {
   @@index([appellantSubmissionId])
 }
 
+model SubmissionAppealGround {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  appellantSubmissionId String              @db.UniqueIdentifier
+  AppellantSubmission   AppellantSubmission @relation(fields: [appellantSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  groundName             String // 'a'-'g' for enforcement notice appeals, 'a'-'k' for enforcement listed buildings
+  facts                  String?
+  addSupportingDocuments Boolean?
+
+  // indexes
+  @@index([appellantSubmissionId])
+}
+
 model SubmissionIndividual {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
@@ -1235,8 +1298,9 @@ model SubmissionIndividual {
   // the fieldName of the submission question / subquestion - required for display filtering
   fieldName String
 
-  interestInAppealLand            String? // 'owner', 'mortgage lender', 'tenant', 'other'
-  interestInAppealLandDescription String? // required is interest is 'other'
+  interestInAppealLand                             String? // 'owner', 'mortgage lender', 'tenant', 'other'
+  interestInAppealLand_interestInAppealLandDetails String? // required is interest is 'other'
+  hasPermissionToUseLand                           Boolean? // required if interest is 'other'
 
   // indexes
   @@index([appellantSubmissionId])

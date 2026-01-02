@@ -59,10 +59,23 @@ extends:
                 - name: forms_web_app
                   path: packages/forms-web-app
               stepName: check_files
+          - task: Cache@2
+            inputs:
+              key: 'npm | "$(Agent.OS)" | package-lock.json'
+              restoreKeys: |
+                npm | "$(Agent.OS)" | package-lock.json
+              path: $(npm_config_cache)
+            displayName: Cache NPM
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
               script: npm ci --ignore-scripts
+              environmentVariables:
+                npm_config_cache: $(npm_config_cache)
+          - template: ../steps/node_script.yml
+            parameters:
+              nodeVersion: 22
+              script: npm run commitlint
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
@@ -97,10 +110,19 @@ extends:
           ${{ else }}:
             value: npm run test-cov
         steps:
+          - task: Cache@2
+            inputs:
+              key: 'npm | "$(Agent.OS)" | package-lock.json'
+              restoreKeys: |
+                npm | "$(Agent.OS)" | package-lock.json
+              path: $(npm_config_cache)
+            displayName: Cache NPM
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
               script: npm ci --ignore-scripts
+              environmentVariables:
+                npm_config_cache: $(npm_config_cache)
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
@@ -130,10 +152,19 @@ extends:
           ${{ else }}:
             value: npm run test-cov
         steps:
+          - task: Cache@2
+            inputs:
+              key: 'npm | "$(Agent.OS)" | package-lock.json'
+              restoreKeys: |
+                npm | "$(Agent.OS)" | package-lock.json
+              path: $(npm_config_cache)
+            displayName: Cache NPM
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
               script: npm ci --ignore-scripts
+              environmentVariables:
+                npm_config_cache: $(npm_config_cache)
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
@@ -162,10 +193,19 @@ extends:
           ${{ else }}:
             value: npm run test-cov
         steps:
+          - task: Cache@2
+            inputs:
+              key: 'npm | "$(Agent.OS)" | package-lock.json'
+              restoreKeys: |
+                npm | "$(Agent.OS)" | package-lock.json
+              path: $(npm_config_cache)
+            displayName: Cache NPM
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
               script: npm ci --ignore-scripts
+              environmentVariables:
+                npm_config_cache: $(npm_config_cache)
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
@@ -194,10 +234,19 @@ extends:
           ${{ else }}:
             value: npm run test-cov
         steps:
+          - task: Cache@2
+            inputs:
+              key: 'npm | "$(Agent.OS)" | package-lock.json'
+              restoreKeys: |
+                npm | "$(Agent.OS)" | package-lock.json
+              path: $(npm_config_cache)
+            displayName: Cache NPM
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
               script: npm ci --ignore-scripts
+              environmentVariables:
+                npm_config_cache: $(npm_config_cache)
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
@@ -224,10 +273,19 @@ extends:
           ${{ else }}:
             value: npm run test-cov
         steps:
+          - task: Cache@2
+            inputs:
+              key: 'npm | "$(Agent.OS)" | package-lock.json'
+              restoreKeys: |
+                npm | "$(Agent.OS)" | package-lock.json
+              path: $(npm_config_cache)
+            displayName: Cache NPM
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 22
               script: npm ci --ignore-scripts
+              environmentVariables:
+                npm_config_cache: $(npm_config_cache)
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()

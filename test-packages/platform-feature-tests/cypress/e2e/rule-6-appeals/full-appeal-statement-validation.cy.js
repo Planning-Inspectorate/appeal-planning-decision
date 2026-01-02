@@ -102,7 +102,7 @@ describe('Full Planning Statement Test Cases', { tags: '@S78-RULE6-statement-Val
     it(`Validate user should not be allowed to upload wrong format file`, () => {
         cy.uploadFileFromFixtureDirectory(statementTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadRule6StatementDocuments"]', `${statementTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadRule6StatementDocuments"]', `${statementTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX`);
     });
 
     it(`Validate multiple uploading documents`, () => {

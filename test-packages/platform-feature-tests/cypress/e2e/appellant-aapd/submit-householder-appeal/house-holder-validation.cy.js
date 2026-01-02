@@ -388,7 +388,7 @@ describe('Returns to pre appeals validations',{ tags:'@HAS-validation-4' }, () =
         cy.get('a[href*="upload-documents"]').first().click();
         cy.uploadFileFromFixtureDirectory(context?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="uploadOriginal"]', `${context?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
+        cy.shouldHaveErrorMessage('a[href*="uploadOriginal"]', `${context?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX`);
     });
 
     it(`Validate user should be allowed to remove uploaded files`, () => {

@@ -1,4 +1,4 @@
-const { format, parseISO, subDays } = require('date-fns');
+const { format, parseISO, subDays, addDays } = require('date-fns');
 const { getDepartmentFromId } = require('../services/department.service');
 const { boolToYesNo } = require('@pins/common');
 const formatDate = require('./format-date-check-your-answers');
@@ -17,8 +17,6 @@ const getEnforcementNoticeProps = async (appeal) => {
 
 	const effectiveDate = parseISO(appeal.eligibility.enforcementEffectiveDate);
 
-	const deadlineDate = formatDate(subDays(effectiveDate, 1));
-
 	const enforcementNotice = appeal.eligibility.enforcementNotice ? 'Yes' : 'No';
 
 	const enforcementNoticeListedBuilding = appeal.eligibility.enforcementNoticeListedBuilding
@@ -33,6 +31,10 @@ const getEnforcementNoticeProps = async (appeal) => {
 	const enforcementEffectiveDate = format(effectiveDate, 'd MMMM yyyy');
 
 	const contactedPlanningInspectorate = appeal.eligibility.hasContactedPlanningInspectorate != null;
+
+	const deadlineDate = contactedPlanningInspectorate
+		? formatDate(addDays(effectiveDate, 6))
+		: formatDate(subDays(effectiveDate, 1));
 
 	const hasContactedPlanningInspectorate = contactedPlanningInspectorate
 		? boolToYesNo(appeal.eligibility.hasContactedPlanningInspectorate)

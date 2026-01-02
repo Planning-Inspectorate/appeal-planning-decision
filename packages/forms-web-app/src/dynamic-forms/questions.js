@@ -76,6 +76,7 @@ const {
 } = require('../config');
 const { createQuestions } = require('@pins/dynamic-forms/src/create-questions');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
+const { INTERESTS_IN_LAND } = require('@pins/common/src/constants');
 
 // method overrides
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
@@ -83,10 +84,18 @@ const siteAddressOverrides = require('../journeys/question-overrides/site-addres
 const multiFieldInputOverrides = require('../journeys/question-overrides/multi-field-input');
 const formatNumber = require('@pins/dynamic-forms/src/dynamic-components/utils/format-number');
 
-/** @typedef {import('@pins/dynamic-forms/src/question-props').QuestionProps} QuestionProps */
-/** @typedef {import('@pins/dynamic-forms/src/question')} Question */
+/**
+ * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('@pins/dynamic-forms/src/question-props').QuestionProps} QuestionProps
+ * @typedef {import('@pins/dynamic-forms/src/question')} Question
+ */
 
-const { getExampleDate } = require('./questions-utils');
+const {
+	getExampleDate,
+	formatEnforcementSelectNamesOptions,
+	getAppealSiteHtmlByAppealType
+} = require('./questions-utils');
+const { capitalize } = require('../lib/string-functions');
 
 const defaultFileUploadValidatorParams = {
 	allowedFileTypes: Object.values(allowedFileTypes),
@@ -107,8 +116,11 @@ const defaultAddressValidatorParams = {
 };
 
 // Define all questions
-/** @type {Record<string, QuestionProps>} */
-exports.questionProps = {
+/**
+ * @param {JourneyResponse} response
+ * @returns {Record<string, QuestionProps>}
+ */
+exports.getQuestionProps = (response) => ({
 	appealTypeAppropriate: {
 		type: 'boolean',
 		title: `Is ${QUESTION_VARIABLES.APPEAL_TYPE_WITH_AN_OR_A} appeal the correct type of appeal?`,
@@ -512,7 +524,6 @@ exports.questionProps = {
 				fieldName: getConditionalFieldName('lpaProcedurePreference', 'lpaPreferInquiryDuration')
 			})
 		],
-
 		options: [
 			{
 				text: 'Written representations',
@@ -1215,6 +1226,26 @@ exports.questionProps = {
 			new RequiredValidator('Select yes if the applicant submitted an environmental statement')
 		]
 	},
+	submitEnvironmentalStatementAppellant: {
+		type: 'radio',
+		title: 'Did the appellant submit an environmental statement?',
+		question: 'Did the appellant submit an environmental statement?',
+		fieldName: 'appellantSubmittedEnvironmentalStatement',
+		url: 'environmental-statement',
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes'
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		],
+		validators: [
+			new RequiredValidator('Select yes if the appellant submitted an environmental statement')
+		]
+	},
 	siteArea: {
 		type: 'number',
 		title: 'What is the area of the appeal site?',
@@ -1369,7 +1400,7 @@ exports.questionProps = {
 	},
 	inspectorAccess: {
 		type: 'radio',
-		title: 'Will an inspector need to access your land or property?',
+		title: 'Access for inspection',
 		question: 'Will an inspector need to access your land or property?',
 		html: 'resources/inspector-access/content.html',
 		fieldName: 'appellantSiteAccess',
@@ -1614,8 +1645,8 @@ exports.questionProps = {
 	},
 	costApplication: {
 		type: 'boolean',
-		title: 'Do you need to apply for an award of appeal costs?',
-		question: 'Do you need to apply for an award of appeal costs?',
+		title: 'Do you want to apply for an award of appeal costs?',
+		question: 'Do you want to apply for an award of appeal costs?',
 		fieldName: 'costApplication',
 		url: 'apply-appeal-costs',
 		options: [
@@ -1629,7 +1660,7 @@ exports.questionProps = {
 			}
 		],
 		validators: [
-			new RequiredValidator('Select yes if you need to apply for an award of appeal costs')
+			new RequiredValidator('Select yes if you want to apply for an award of appeal costs')
 		]
 	},
 	uploadCostApplication: {
@@ -1830,7 +1861,7 @@ exports.questionProps = {
 		title: 'What is the address of the appeal site?',
 		question: 'What is the address of the appeal site?',
 		fieldName: 'siteAddress',
-		html: 'resources/site-address/site-address.html',
+		html: getAppealSiteHtmlByAppealType(response),
 		url: 'appeal-site-address',
 		viewFolder: 'address-entry',
 		validators: [new AddressValidator(defaultAddressValidatorParams)]
@@ -2322,7 +2353,6 @@ exports.questionProps = {
 		]
 	},
 	appellantContinue: {
-		// @ts-ignore
 		type: 'content',
 		title: 'Submit final comments',
 		html: 'resources/appellant-final-comment-notice/appellant-final-comment-notice.html',
@@ -2332,18 +2362,16 @@ exports.questionProps = {
 		fieldName: 'statementContinue'
 	},
 	lpaContinue: {
-		// @ts-ignore
 		type: 'content',
 		title: 'Submit your final comments',
 		label: 'You can upload any supporting documents after you add your final comments.',
-		description: 'You can upload any supporting documents after you add your appeal statement.',
+		description: 'You can upload any supporting documents after you add your final comments.',
 		backLinkText: 'Back to manage your appeals',
 		question: 'Submit your final comments',
 		url: 'upload-final-comments',
 		fieldName: 'statementContinue'
 	},
 	statementContinue: {
-		// @ts-ignore
 		type: 'content',
 		title: 'Submit an appeal statement',
 		description: 'You can upload any supporting documents after you add your appeal statement.',
@@ -2399,10 +2427,12 @@ exports.questionProps = {
 	rule6Statement: {
 		type: 'text-entry',
 		title: 'Appeal statement',
-		question: 'Appeal statement',
+		question: 'Enter your statement',
 		label: 'Enter your statement',
 		url: 'appeal-statement',
 		fieldName: 'rule6Statement',
+		hint: 'Address each item separately, dealing with legal matters first',
+		html: 'resources/rule-6/rule-6-statement-guidance.html',
 		validators: [
 			new RequiredValidator('Enter your statement'),
 			new StringValidator({
@@ -2773,6 +2803,270 @@ exports.questionProps = {
 		]
 	},
 	//enforcement questions
+	//  Constraints, designations and other issues
+	enforcementAppealTypeAppropriate: {
+		type: 'boolean',
+		title: `Is enforcement the correct type of appeal?`,
+		question: `Is enforcement the correct type of appeal?`,
+		fieldName: 'correctAppealType',
+		url: 'correct-appeal-type',
+		validators: [
+			new RequiredValidator(
+				`Select yes if ${QUESTION_VARIABLES.APPEAL_TYPE} appeal is the correct type of appeal`
+			)
+		],
+		variables: [QUESTION_VARIABLES.APPEAL_TYPE, QUESTION_VARIABLES.APPEAL_TYPE_WITH_AN_OR_A]
+	},
+
+	// Enforcement specific questions
+	enforcementRightOfWayCheck: {
+		type: 'boolean',
+		title: 'Public right of way',
+		question: 'Was a public right of way removed or diverted?',
+		fieldName: 'enforcementPublicRightOfWay',
+		url: 'public-right-of-way',
+		validators: [
+			new RequiredValidator('Select yes if a public right of way was removed or diverted')
+		]
+	},
+	enforcementOtherOperations: {
+		type: 'boolean',
+		title:
+			'Does the enforcement notice relate to building, engineering, mining or other operations?',
+		question:
+			'Does the enforcement notice relate to building, engineering, mining or other operations?',
+		fieldName: 'enforcementOtherOperations',
+		url: 'other-operations',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the enforcement notice relates to building, engineering, mining or other operations'
+			)
+		]
+	},
+	enforcementSiteArea: {
+		type: 'number',
+		title: 'What is the area of the appeal site?',
+		question: 'What is the area of the appeal site?',
+		suffix: 'm\u00B2',
+		fieldName: 'siteAreaSquareMetres',
+		hint: 'Tell is the area of the appeal site from the notice plan.',
+		url: 'site-area',
+		validators: [
+			new RequiredValidator('Enter the area of the appeal site'),
+			new NumericValidator({
+				regex: new RegExp(`^[0-9]{0,${appealFormV2.textInputMaxLength}}$`, 'gi'),
+				regexMessage: 'Enter the area of the site using numbers 0 to 9',
+				min: minValue,
+				minMessage: `Appeal site area must be at least ${minValue}m\u00B2`,
+				max: maxValue,
+				maxMessage: `Appeal site area must be ${maxValue.toLocaleString()}m\u00B2 or less`,
+				fieldName: 'siteAreaSquareMetres'
+			})
+		]
+	},
+	enforcementAllegedBreachArea: {
+		type: 'boolean',
+		title: 'Is the area of the alleged breach the same as the site area?',
+		question: 'Is the area of the alleged breach the same as the site area?',
+		fieldName: 'enforcementAllegedBreachArea',
+		url: 'alleged-breach-area',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the area of the alleged breach is the same as the site area'
+			)
+		]
+	},
+	enforcementCreateFloorSpace: {
+		type: 'boolean',
+		title: 'Does the alleged breach create any floor space?',
+		question: 'Does the alleged breach create any floor space?',
+		fieldName: 'enforcementCreateFloorSpace',
+		url: 'create-floor-space',
+		validators: [new RequiredValidator('Select yes if the alleged breach creates any floor space')]
+	},
+	enforcementRefuseWasteMaterials: {
+		type: 'boolean',
+		title:
+			'Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?',
+		question:
+			'Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?',
+		fieldName: 'enforcementRefuseWasteMaterials',
+		url: 'refuse-waste-materials',
+		validators: [new RequiredValidator('Select yes if the alleged breach creates any floor space')]
+	},
+	enforcementMineralExtractionMaterials: {
+		type: 'boolean',
+		title:
+			'Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?',
+		question:
+			'Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?',
+		fieldName: 'enforcementMineralExtractionMaterials',
+		url: 'mineral-extraction-materials',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the enforcement notice includes the change of use of land to dispose of remaining materials after mineral extraction'
+			)
+		]
+	},
+	enforcementStoreMinerals: {
+		type: 'boolean',
+		title:
+			'Does the enforcement notice include a change of use of land to store minerals in the open?',
+		question:
+			'Does the enforcement notice include a change of use of land to store minerals in the open?',
+		fieldName: 'enforcementStoreMinerals',
+		url: 'store-minerals',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the enforcement notice includes a change of use of land to store minerals in the open'
+			)
+		]
+	},
+	enforcementCreateBuilding: {
+		type: 'boolean',
+		title: 'Does the enforcement notice include the erection of a building or buildings?',
+		question: 'Does the enforcement notice include the erection of a building or buildings?',
+		fieldName: 'enforcementCreateBuilding',
+		url: 'create-building',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the enforcement notice includes the erection of a building or buildings'
+			)
+		]
+	},
+	enforcementAgriculturalPurposes: {
+		type: 'boolean',
+		title: 'Is the building on agricultural land and will it be used for agricultural purposes?',
+		question: 'Is the building on agricultural land and will it be used for agricultural purposes?',
+		fieldName: 'enforcementAgriculturalPurposes',
+		url: 'agricultural-purposes',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the building is on agricultural land and will be used for agricultural purposes'
+			)
+		]
+	},
+	enforcementSingleHouse: {
+		type: 'boolean',
+		title: 'Is the enforcement notice for a single private dwelling house?',
+		question: 'Is the enforcement notice for a single private dwelling house?',
+		hint: 'Includes either building a new house or a change of use.',
+		fieldName: 'enforcementSingleHouse',
+		url: 'single-house',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the enforcement notice is for a single private dwelling house'
+			)
+		]
+	},
+	enforcementTrunkRoad: {
+		type: 'radio',
+		title: 'Is the appeal site within 67 metres of a trunk road?',
+		question: 'Is the appeal site within 67 metres of a trunk road?',
+		fieldName: 'enforcementTrunkRoad',
+		url: 'trunk-road',
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Enter the road name',
+					fieldName: 'enforcementTrunkRoadDetails',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		],
+		validators: [
+			new RequiredValidator('Select yes if the appeal site is within 67 metres of a trunk road'),
+			new ConditionalRequiredValidator('Enter road name'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `The road name must be ${appealFormV2.textInputMaxLength} characters or less`
+				},
+				fieldName: getConditionalFieldName('enforcementTrunkRoad', 'enforcementTrunkRoadDetails')
+			})
+		]
+	},
+	enforcementCrownLand: {
+		type: 'boolean',
+		title: 'Is the appeal site on Crown land?',
+		question: 'Is the appeal site on Crown land?',
+		fieldName: 'enforcementCrownLand',
+		url: 'crown-land',
+		validators: [new RequiredValidator('Select yes if the appeal site is on Crown land')]
+	},
+	enforcementStopNotice: {
+		type: 'boolean',
+		title: 'Did you serve a stop notice?',
+		question: 'Did you serve a stop notice?',
+		fieldName: 'enforcementStopNotice',
+		url: 'stop-notice',
+		validators: [new RequiredValidator('Select yes if you served a stop notice')]
+	},
+	enforcementStopNoticeUpload: {
+		type: 'multi-file-upload',
+		title: 'Upload the stop notice',
+		question: 'Upload the stop notice',
+		fieldName: 'enforcementStopNoticeUpload',
+		url: 'upload-stop-notice',
+		validators: [
+			new RequiredFileUploadValidator('Select the stop notice'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.enforcementStopNoticeUpload,
+		actionHiddenText: 'the stop notice'
+	},
+	enforcementDevelopmentRights: {
+		type: 'boolean',
+		title: 'Did you remove any permitted development rights for the appeal site?',
+		question: 'Did you remove any permitted development rights for the appeal site?',
+		fieldName: 'enforcementDevelopmentRights',
+		url: 'remove-permitted-development-rights',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you removed any permitted development rights for the appeal site'
+			)
+		]
+	},
+	enforcementDevelopmentRightsUpload: {
+		type: 'multi-file-upload',
+		title: 'Upload the article 4 direction',
+		question: 'Upload the article 4 direction',
+		fieldName: 'enforcementDevelopmentRightsUpload',
+		url: 'upload-article-4-direction',
+		validators: [
+			new RequiredFileUploadValidator('Select the article 4 direction'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.enforcementDevelopmentRightsUpload,
+		actionHiddenText: 'the article 4 direction'
+	},
+	enforcementDevelopmentRightsRemoved: {
+		type: 'text-entry',
+		title: 'What permitted development rights did you remove with the direction?',
+		question: 'What permitted development rights did you remove with the direction?',
+		url: 'rights-removed-direction',
+		fieldName: 'enforcementDevelopmentRightsRemoved',
+		validators: [
+			new RequiredValidator(
+				'Enter the permitted development rights that you removed with the direction'
+			),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textAreaMaxLength,
+					maxLengthMessage: `Your statement must be ${formatNumber(
+						appealFormV2.textAreaMaxLength
+					)} characters or less`
+				}
+			})
+		]
+	},
+
 	enforcementWhoIsAppealing: {
 		type: 'radio',
 		title: 'Who is appealing against the enforcement notice?',
@@ -2890,27 +3184,28 @@ exports.questionProps = {
 	enforcementAddNamedIndividuals: {
 		type: 'list-add-more',
 		title: 'Add named individuals',
-		pageTitle: 'Enforcement named individual added',
+		pageTitle: 'Do you need to add another individual?',
 		question: 'Do you need to add another individual?',
-		fieldName: 'appellantLinkedCaseAdd',
-		url: 'add-individuals',
+		description: 'You have added an individual',
+		fieldName: 'addNamedIndividual',
+		url: 'add-another-individual',
 		subQuestionLabel: 'Appellant',
 		subQuestionTitle: 'Appellant',
 		subQuestionInputClasses: 'govuk-input--width-25',
 		width: ListAddMoreQuestion.FULL_WIDTH,
-		// validators: [new RequiredValidator()],
+		hint: 'You must tell us about all of the individuals appealing against the enforcement notice.',
+		validators: [new RequiredValidator('Select yes if you need to add another individual')],
 		subQuestionProps: {
 			type: 'individual',
 			title: 'What is the name of the individual appealing against the enforcement notice?',
 			question: 'What is the name of the individual appealing against the enforcement notice?',
 			fieldName: fieldNames.enforcementNamedIndividual,
-			url: 'individual-name',
 			viewFolder: 'individual',
 			validators: [
 				new MultiFieldInputValidator({
 					requiredFields: [
 						{
-							fieldName: 'firstName',
+							fieldName: `${fieldNames.enforcementNamedIndividual}_firstName`,
 							errorMessage: "Enter the individual's first name",
 							maxLength: {
 								maxLength: 250,
@@ -2918,7 +3213,7 @@ exports.questionProps = {
 							}
 						},
 						{
-							fieldName: 'lastName',
+							fieldName: `${fieldNames.enforcementNamedIndividual}_lastName`,
 							errorMessage: "Enter the individual's last name",
 							maxLength: {
 								maxLength: 250,
@@ -2930,6 +3225,74 @@ exports.questionProps = {
 				})
 			]
 		}
+	},
+	enforcementSelectYourName: {
+		type: 'radio',
+		title: 'Select your name',
+		question: 'Select your name',
+		fieldName: 'selectedNamedIndividualId',
+		url: 'select-name',
+		validators: [new RequiredValidator('Select your name')],
+		options: formatEnforcementSelectNamesOptions(response)
+	},
+	completeOnBehalfOf: {
+		type: 'content',
+		title: `Complete the appeal on behalf of ${QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES}`,
+		html: 'resources/enforcement/complete-on-behalf-of.html',
+		description: `You must answer these questions on behalf of ${QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES}.`,
+		question: `Complete the appeal on behalf of ${QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES}`,
+		url: 'complete-appeal',
+		fieldName: 'confirmedCompleteOnBehalf',
+		variables: [QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES]
+	},
+	interestInLand: {
+		type: 'radio',
+		title: `What is ${QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY} interest in the land?`,
+		question: `What is ${QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY} interest in the land?`,
+		fieldName: 'interestInAppealLand',
+		url: 'land-interest',
+		validators: [
+			new RequiredValidator(
+				`Select ${QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY} interest in the land`
+			),
+			new ConditionalRequiredValidator(
+				`Enter ${QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY} interest in the land?`
+			),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `${capitalize(QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY)} interest in the land must be ${appealFormV2.textInputMaxLength} characters or less`
+				},
+				fieldName: getConditionalFieldName('interestInAppealLand', 'interestInAppealLandDetails')
+			})
+		],
+		options: [
+			{
+				text: 'Owner',
+				value: INTERESTS_IN_LAND.OWNER
+			},
+			{
+				text: 'Tenant',
+				value: INTERESTS_IN_LAND.TENANT
+			},
+			{
+				text: 'Mortgage lender',
+				value: INTERESTS_IN_LAND.MORTGAGE_LENDER
+			},
+			{
+				[DIVIDER]: 'or'
+			},
+			{
+				text: 'Other',
+				value: INTERESTS_IN_LAND.OTHER,
+				conditional: {
+					question: 'Enter interest in the land',
+					fieldName: 'interestInAppealLandDetails',
+					type: 'textarea'
+				}
+			}
+		],
+		variables: [QUESTION_VARIABLES.INTEREST_IN_LAND_PARTY]
 	},
 	enforcementInspectorAccess: {
 		type: 'radio',
@@ -3029,9 +3392,7 @@ exports.questionProps = {
 			}
 		],
 		validators: [
-			new RequiredValidator(
-				'Select if you know who owns the rest of the land involved in the appeal'
-			)
+			new RequiredValidator('Select if the application was for all or part of the development')
 		]
 	},
 	planningApplicationReference: {
@@ -3092,6 +3453,246 @@ exports.questionProps = {
 		],
 		validators: [new RequiredValidator('Select if the application was granted or refused')]
 	},
+	applicationDecisionDate: {
+		type: 'date',
+		title: 'What is the date on the decision letter from the local planning authority?',
+		question: 'What is the date on the decision letter from the local planning authority?',
+		fieldName: 'applicationDecisionDate',
+		url: 'decision-date',
+		hint: `For example, ${getExampleDate('past')}`,
+		validators: [
+			new DateValidator('the date on the decision letter from the local planning authority', {
+				ensurePast: true
+			})
+		]
+	},
+	applicationDecisionDueDate: {
+		type: 'date',
+		title: 'What date was your decision due',
+		question: 'What date was your decision due',
+		fieldName: 'applicationDecisionDate',
+		url: 'decision-date-due',
+		hint: `For example, ${getExampleDate('past')}`,
+		validators: [
+			new DateValidator('the date the decision was due', {
+				ensurePast: true
+			})
+		]
+	},
+	applicationDecisionAppealed: {
+		type: 'boolean',
+		title: 'Did anyone appeal the decision?',
+		question: 'Did anyone appeal the decision?',
+		fieldName: 'applicationDecisionAppealed',
+		url: 'did-anyone-appeal',
+		validators: [new RequiredValidator('Select yes if anyone appealed the decision')]
+	},
+	appealDecisionDate: {
+		type: 'date',
+		title: 'When was the appeal decision?',
+		question: 'When was the appeal decision?',
+		fieldName: 'appealDecisionDate',
+		url: 'appeal-decision-date',
+		hint: `For example, ${getExampleDate('past')}`,
+		validators: [
+			new DateValidator('the decision date', {
+				ensurePast: true
+			})
+		]
+	},
+	uploadPriorCorrespondence: {
+		type: 'multi-file-upload',
+		title: 'Upload your communication with the Planning Inspectorate',
+		question: 'Upload your communication with the Planning Inspectorate',
+		description:
+			'For example, the email you sent to confirm that you will appeal against the enforcement notice.',
+		fieldName: 'uploadPriorCorrespondence',
+		url: 'upload-planning-inspectorate-communication',
+		validators: [
+			new RequiredFileUploadValidator('Select your communication with the Planning Inspectorate'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.uploadPriorCorrespondence
+	},
+	uploadEnforcementNotice: {
+		type: 'multi-file-upload',
+		title: 'Upload your enforcement notice',
+		question: 'Upload your enforcement notice',
+		fieldName: 'uploadEnforcementNotice',
+		url: 'upload-enforcement-notice',
+		validators: [
+			new RequiredFileUploadValidator('Select your enforcement notice'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.uploadEnforcementNotice
+	},
+	uploadEnforcementNoticePlan: {
+		type: 'multi-file-upload',
+		title: 'Upload your enforcement notice plan',
+		question: 'Upload your enforcement notice plan',
+		fieldName: 'uploadEnforcementNoticePlan',
+		url: 'upload-enforcement-plan',
+		validators: [
+			new RequiredFileUploadValidator('Select your enforcement notice plan'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.uploadEnforcementNoticePlan
+	},
+
+	// Notifying relevant parties enforcement questions
+	listOfPeopleSentEnforcementNotice: {
+		type: 'multi-file-upload',
+		title: 'Upload the list of people that you served the enforcement notice to',
+		question: 'Upload the list of people that you served the enforcement notice to',
+		fieldName: 'listOfPeopleSentEnforcementNotice',
+		url: 'upload-enforcement-list',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the list of people that you served the enforcement notice to'
+			),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.listOfPeopleSentEnforcementNotice,
+		actionHiddenText: 'the list of people that you served the enforcement notice to'
+	},
+	enforcementAppealNotification: {
+		type: 'multi-file-upload',
+		title: 'Upload the appeal notification letter and the list of people that you notified',
+		question: 'Upload the appeal notification letter and the list of people that you notified',
+		fieldName: 'appealNotification',
+		url: 'appeal-notification-letter',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the appeal notification letter and the list of people that you notified'
+			),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.appealNotification,
+		actionHiddenText: 'the appeal notification letter and the list of people that you notified'
+	},
+
+	// Enforcement Specific questions (section 4) - Planning officer's report and supplementary documents
+	planningOfficersReport: {
+		type: 'boolean',
+		title: 'Do you have a planning officer’s report?',
+		question: 'Do you have a planning officer’s report?',
+		fieldName: 'planningOfficerReport',
+		url: 'planning-officer-report',
+		validators: [new RequiredValidator('Select yes if you have a planning officer’s report?')]
+	},
+	localDevelopmentOrder: {
+		type: 'boolean',
+		title: 'Do you have a local development order?',
+		question: 'Do you have a local development order?',
+		fieldName: 'localDevelopmentOrder',
+		url: 'local-development-order',
+		validators: [new RequiredValidator('Select yes if you have a local development order')]
+	},
+	localDevelopmentOrderUpload: {
+		type: 'multi-file-upload',
+		title: 'Local development order',
+		question: 'Upload the local development order',
+		fieldName: 'localDevelopmentOrderUpload',
+		url: 'upload-local-development-order',
+
+		validators: [
+			new RequiredFileUploadValidator('Select the local development order'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.localDevelopmentOrderUpload,
+		actionHiddenText: 'local development order'
+	},
+	previousPlanningPermission: {
+		type: 'boolean',
+		title: 'Did you previously grant any planning permission for this development?',
+		question: 'Did you previously grant any planning permission for this development?',
+		fieldName: 'previousPlanningPermission',
+		url: 'previous-planning-permission',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you previously granted any planning permission for this development'
+			)
+		]
+	},
+	previousPlanningPermissionUpload: {
+		type: 'multi-file-upload',
+		title: 'Upload the planning permission and any other relevant documents',
+		question: 'Upload the planning permission and any other relevant documents',
+		fieldName: 'previousPlanningPermissionUpload',
+		url: 'upload-planning-permission',
+
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the planning permission and any other relevant documents'
+			),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.previousPlanningPermissionUpload,
+		actionHiddenText: 'planning permission and any other relevant documents'
+	},
+	enforcementNoticeDateApplication: {
+		type: 'boolean',
+		title: 'Was there an enforcement notice in force at the date of the application?',
+		question: 'Was there an enforcement notice in force at the date of the application?',
+		fieldName: 'enforcementNoticeDateApplication',
+		url: 'enforcement-notice-date-application',
+		validators: [
+			new RequiredValidator(
+				'Select yes if there was an enforcement notice in force at the date of the application'
+			)
+		]
+	},
+	enforcementNoticeDateApplicationUpload: {
+		type: 'multi-file-upload',
+		title: 'The enforcement notice',
+		question: 'Upload the enforcement notice',
+		fieldName: 'enforcementNoticeDateApplicationUpload',
+		url: 'upload-enforcement-notice',
+
+		validators: [
+			new RequiredFileUploadValidator('Select the enforcement notice'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.enforcementNoticeDateApplicationUpload,
+		actionHiddenText: 'enforcement notice'
+	},
+	enforcementNoticePlanUpload: {
+		type: 'multi-file-upload',
+		title: 'The enforcement notice plan',
+		question: 'Upload the enforcement notice plan',
+		fieldName: 'enforcementNoticePlanUpload',
+		url: 'upload-enforcement-notice-plan',
+
+		validators: [
+			new RequiredFileUploadValidator('Select the enforcement notice plan'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.enforcementNoticePlanUpload,
+		actionHiddenText: 'enforcement notice plan'
+	},
+	planningContraventionNotice: {
+		type: 'boolean',
+		title: 'Did you serve a planning contravention notice?',
+		question: 'Did you serve a planning contravention notice?',
+		fieldName: 'planningContraventionNotice',
+		url: 'planning-contravention-notice',
+		validators: [new RequiredValidator('Select yes if you served a planning contravention notice')]
+	},
+	planningContraventionNoticeUpload: {
+		type: 'multi-file-upload',
+		title: 'Upload the planning contravention notice',
+		question: 'Upload the planning contravention notice',
+		fieldName: 'planningContraventionNoticeUpload',
+		url: 'upload-planning-contravention-notice',
+
+		validators: [
+			new RequiredFileUploadValidator('Select the planning contravention notice'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.planningContraventionNoticeUpload,
+		actionHiddenText: 'planning contravention notice'
+	},
+
 	highwayLand: {
 		type: 'boolean',
 		title: 'Is the appeal site on highway land?',
@@ -3211,7 +3812,7 @@ exports.questionProps = {
 			)
 		]
 	}
-};
+});
 
 /** @type {Record<string, typeof import('@pins/dynamic-forms/src/question')>} */
 const questionClasses = {
@@ -3230,8 +3831,9 @@ const questionClasses = {
 	content: ContentQuestion
 };
 
-exports.getQuestions = () =>
-	createQuestions(exports.questionProps, questionClasses, {
+/** @param {JourneyResponse} response */
+exports.getQuestions = (response = {}) =>
+	createQuestions(exports.getQuestionProps(response), questionClasses, {
 		'multi-file-upload': multiFileUploadOverrides,
 		'site-address': siteAddressOverrides,
 		'multi-field-input': multiFieldInputOverrides

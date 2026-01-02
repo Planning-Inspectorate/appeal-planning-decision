@@ -30,6 +30,6 @@ export default async () => {
 	await MockedExternalApis.setup();
 
 	const databasePath = path.resolve(__dirname, '../../database');
-	await run(`npx prisma generate`, databasePath);
+	await run(`npm run generate`, databasePath);
 	await run(`npx prisma migrate deploy`, databasePath);
 };

@@ -233,16 +233,41 @@ components:
           type: string
         enforcementWhoIsAppealing:
           type: string
+        addNamedIndividual:
+          type: boolean
+        selectedNamedIndividualId:
+          type: string
         enforcementOrganisationName:
           type: string
+        interestInAppealLand:
+          type: string
+        interestInAppealLandDetails:
+          type: string
+        hasPermissionToUseLand:
+          type: boolean
         allegedBreachDescription:
           type: string
         applicationMadeAndFeePaid:
           type: boolean
         uploadApplicationReceipt:
           type: boolean
+          nullable: true
         applicationPartOrWholeDevelopment:
           type: string
+        applicationDecisionAppealed:
+          type: boolean
+        appealDecisionDate:
+          type: string
+          format: date-time
+        uploadPriorCorrespondence:
+          type: boolean
+          nullable: true
+        uploadEnforcementNotice:
+          type: boolean
+          nullable: true
+        uploadEnforcementNoticePlan:
+          type: boolean
+          nullable: true
 
         SubmissionAddress:
           type: array
@@ -256,3 +281,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SubmissionIndividual'
+        SubmissionAppealGround:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionAppealGround'

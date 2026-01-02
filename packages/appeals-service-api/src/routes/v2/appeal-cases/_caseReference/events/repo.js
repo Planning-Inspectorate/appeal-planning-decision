@@ -1,7 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 
 /**
- * @typedef {import('@pins/database/src/client').Event} Event
+ * @typedef {import('@pins/database/src/client/client').Event} Event
  */
 class AppealEventRepository {
 	dbClient;
@@ -20,7 +20,7 @@ class AppealEventRepository {
 	 * @returns {Promise<Array<Event>>}
 	 */
 	getEventsByAppealRef(caseReference, options) {
-		/** @type {import('@pins/database/src/client').Prisma.EventWhereInput} */
+		/** @type {import('@pins/database/src/client/client').Prisma.EventWhereInput} */
 		const where = {
 			caseReference: caseReference,
 			published: true

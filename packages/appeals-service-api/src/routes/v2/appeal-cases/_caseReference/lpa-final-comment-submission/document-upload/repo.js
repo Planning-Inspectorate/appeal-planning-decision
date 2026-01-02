@@ -1,7 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 
 /**
- * @typedef {import('@pins/database/src/client').LPAFinalCommentSubmission} LPAFinalCommentSubmission
+ * @typedef {import('@pins/database/src/client/client').LPAFinalCommentSubmission} LPAFinalCommentSubmission
  */
 
 /**

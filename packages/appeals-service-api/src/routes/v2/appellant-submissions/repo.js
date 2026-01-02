@@ -1,25 +1,29 @@
 const { createPrismaClient } = require('#db-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 const ApiError = require('#errors/apiError');
 const logger = require('#lib/logger');
 const { subMonths } = require('date-fns');
 
 /**
- * @typedef {import('@pins/database/src/client').AppellantSubmission} BareAppellantSubmission
- * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionGetPayload<{
+ * @typedef {import('@pins/database/src/client/client').AppellantSubmission} BareAppellantSubmission
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppellantSubmissionGetPayload<{
  *   include: {
  *     SubmissionDocumentUpload: true,
  *     SubmissionAddress: true,
  *     SubmissionLinkedCase: true,
+ * 		 SubmissionIndividual: true,
+ *     SubmissionAppealGround: true
  *   }
  * }>} AppellantSubmission
- * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionGetPayload<{
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppellantSubmissionGetPayload<{
  *   include: {
  *     SubmissionDocumentUpload: true,
  *     SubmissionAddress: true,
  *     SubmissionLinkedCase: true,
  * 	   SubmissionListedBuilding: true,
+ *     SubmissionIndividual: true,
+ *     SubmissionAppealGround: true,
  *	   Appeal: {
  *       include: {
  *         Users: {
@@ -31,9 +35,9 @@ const { subMonths } = require('date-fns');
  *     }
  *   }
  * }>} FullAppellantSubmission
- * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
- * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
- * @typedef {import('@pins/database/src/client').Prisma.AppellantSubmissionGetPayload<{
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppellantSubmissionGetPayload<{
  *   select: {
  *    	id: true,
  *		applicationDecisionDate: true,
@@ -43,7 +47,16 @@ const { subMonths } = require('date-fns');
  * }>} AppellantSubmissionCleanupData
  */
 
-module.exports = class Repo {
+const appellantSubmissionRelations = {
+	SubmissionDocumentUpload: true,
+	SubmissionAddress: true,
+	SubmissionLinkedCase: true,
+	SubmissionListedBuilding: true,
+	SubmissionIndividual: true,
+	SubmissionAppealGround: true
+};
+
+class AppellantSubmissionRepository {
 	dbClient;
 
 	constructor() {
@@ -181,6 +194,7 @@ module.exports = class Repo {
 					SubmissionAddress: true,
 					SubmissionLinkedCase: true,
 					SubmissionIndividual: true,
+					SubmissionAppealGround: true,
 					Appeal: {
 						select: {
 							id: true,
@@ -319,6 +333,7 @@ module.exports = class Repo {
 					SubmissionLinkedCase: true,
 					SubmissionListedBuilding: true,
 					SubmissionIndividual: true,
+					SubmissionAppealGround: true,
 					Appeal: {
 						select: {
 							id: true,
@@ -388,7 +403,7 @@ module.exports = class Repo {
 	/**
 	 * Get all document uploads for a submission
 	 * @param {string} submissionId
-	 * @returns {Promise<import('@pins/database/src/client').SubmissionDocumentUpload[]>}
+	 * @returns {Promise<import('@pins/database/src/client/client').SubmissionDocumentUpload[]>}
 	 */
 	async getSubmissionDocumentUploads(submissionId) {
 		return this.dbClient.submissionDocumentUpload.findMany({
@@ -416,6 +431,9 @@ module.exports = class Repo {
 				where: { appellantSubmissionId: submissionId }
 			}),
 			this.dbClient.submissionIndividual.deleteMany({
+				where: { appellantSubmissionId: submissionId }
+			}),
+			this.dbClient.submissionAppealGround.deleteMany({
 				where: { appellantSubmissionId: submissionId }
 			})
 		]);
@@ -447,4 +465,6 @@ module.exports = class Repo {
 			where: { id: appealId }
 		});
 	}
-};
+}
+
+module.exports = { AppellantSubmissionRepository, appellantSubmissionRelations };

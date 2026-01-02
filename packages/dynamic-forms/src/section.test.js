@@ -34,6 +34,29 @@ describe('./src/dynamic-forms/section.js', () => {
 		});
 	});
 
+	describe('addQuestions', () => {
+		it('should return self from addQuestions method as a fluent api', () => {
+			const section = new Section();
+			const result = section.addQuestions([{ question: mockQuestion }]);
+			expect(result instanceof Section).toEqual(true);
+			expect(result).toEqual(section);
+		});
+
+		it('should add questions from an array', () => {
+			const section = new Section();
+			const mockQuestion2 = {
+				fieldName: 'visitFrequently',
+				isRequired: () => true,
+				shouldDisplay: () => true,
+				isAnswered: () => false
+			};
+			section.addQuestions([{ question: mockQuestion }, { question: mockQuestion2 }]);
+			expect(section.questions.length).toEqual(2);
+			expect(section.questions[0]).toEqual(mockQuestion);
+			expect(section.questions[1]).toEqual(mockQuestion2);
+		});
+	});
+
 	describe('getStatus', () => {
 		it('should return NOT_STARTED when no answers are given', () => {
 			const mockJourneyResponse = {

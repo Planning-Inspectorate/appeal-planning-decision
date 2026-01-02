@@ -15,7 +15,7 @@ const schema = (path) => ({
 				const { name, mimetype, size } = value;
 				// check file extension type
 				if (!Object.values(config.fileUpload.pins.allowedFileTypes).includes(mimetype)) {
-					throw new Error(`${name} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
+					throw new Error(`${name} must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX`);
 				}
 
 				// check file size

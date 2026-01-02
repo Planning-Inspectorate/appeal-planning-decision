@@ -3,7 +3,7 @@ const { SubmissionDocumentUploadRepository } = require('./repo');
 const repo = new SubmissionDocumentUploadRepository();
 
 /**
- * @typedef {import('@pins/database/src/client').LPAFinalCommentSubmission} LPAFinalCommentSubmission
+ * @typedef {import('@pins/database/src/client/client').LPAFinalCommentSubmission} LPAFinalCommentSubmission
  * @typedef {import('./repo').DocumentUploadData} DocumentUploadData
  */
 

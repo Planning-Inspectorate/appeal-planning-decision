@@ -24,7 +24,7 @@ module.exports = async () => {
 	await create();
 
 	const databasePath = path.resolve(__dirname, '../../../database');
-	await run(`npx prisma generate`, databasePath);
+	await run(`npm run generate`, databasePath);
 	await run(`npx prisma migrate deploy`, databasePath);
 
 	const { createPrismaClient } = require('../../src/db/db-client');

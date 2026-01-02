@@ -50,7 +50,8 @@ const appellantSubmissionTaskList = async (req, res) => {
 	const deadline = getDeadlineV2(
 		appealType,
 		journey.response.answers.enforcementEffectiveDate,
-		journey.response.answers.applicationDecisionDate
+		journey.response.answers.applicationDecisionDate,
+		!!journey.response.answers.hasContactedPlanningInspectorate
 	);
 
 	// @ts-ignore //
@@ -61,7 +62,7 @@ const appellantSubmissionTaskList = async (req, res) => {
 
 	const declarationUrl = `/appeals/${caseType.friendlyUrl}/submit/declaration?id=${journey.response.referenceId}`;
 
-	return list(req, res, `${caseType.type} Appeal`, {
+	return list(req, res, `${caseType.type} appeal`, {
 		declarationUrl,
 		formattedDeadline,
 		navigation: ['', dashboardUrl],

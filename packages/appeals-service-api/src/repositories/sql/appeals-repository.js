@@ -1,11 +1,11 @@
 const { createPrismaClient } = require('../../db/db-client');
 const logger = require('../../lib/logger');
 const ApiError = require('../../errors/apiError');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 
 /**
- * @typedef { import('@pins/database/src/client').Appeal } Appeal
- * @typedef { import('@pins/database/src/client').Prisma.AppealCreateInput } AppealCreateInput
+ * @typedef { import('@pins/database/src/client/client').Appeal } Appeal
+ * @typedef { import('@pins/database/src/client/client').Prisma.AppealCreateInput } AppealCreateInput
  */
 
 class AppealsRepository {

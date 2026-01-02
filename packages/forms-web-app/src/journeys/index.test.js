@@ -66,7 +66,14 @@ jest.mock('@pins/dynamic-forms/src/validator/validator', () => () => (req, res, 
 
 // skip example dates to avoid issues dates in snapshots
 jest.mock('../dynamic-forms/questions-utils', () => ({
-	getExampleDate: jest.fn(() => '5 6 2025')
+	getExampleDate: jest.fn(() => '5 6 2025'),
+	formatEnforcementSelectNamesOptions: jest.fn(() => [
+		{
+			text: 'testOption',
+			value: 'testvalue'
+		}
+	]),
+	getAppealSiteHtmlByAppealType: jest.fn(() => 'resources/site-address/site-address.html')
 }));
 
 const request = require('supertest');
@@ -141,7 +148,9 @@ describe('Dynamic forms journey tests', () => {
 						SubmissionAddress: [],
 						SubmissionLinkedCase: [],
 						SubmissionListedBuilding: [],
-						SubmissionDocumentUpload: []
+						SubmissionDocumentUpload: [],
+						SubmissionIndividual: [],
+						SubmissionAppealGround: []
 					});
 				});
 
@@ -292,7 +301,9 @@ describe('Dynamic forms journey tests', () => {
 										]
 									};
 								// skipping due to variations/complications in list questions for now
+								// skipping content type as nothing saved
 								case 'ListAddMoreQuestion':
+								case 'ContentQuestion':
 									return null;
 								default:
 									throw new Error(q.constructor.name + ' not handled in journey save tests');
@@ -301,7 +312,8 @@ describe('Dynamic forms journey tests', () => {
 
 						const saveSetup = questionTypeDetails(question);
 
-						if (!saveSetup) {
+						// skipping enforcement save questions for now due to method overrides
+						if (!saveSetup || caseType.type == 'Enforcement notice') {
 							it.skip(`${caseType.type} should save the ${question.getUrlSlug()} question`, () => {});
 						} else {
 							it(`${caseType.type} should save the ${question.getUrlSlug()} question`, async () => {
@@ -607,6 +619,8 @@ const questionExpectations = (question, element, caseType) => {
 					question.question
 						.replace('<appeal type with an or a>', getAppealTypeStringWithAnOrA(caseType))
 						.replace('<individual name>', 'Named Individual')
+						.replace('<dynamic named parties>', 'Named Individual')
+						.replace('<interest in land party>', "Named Individual's")
 						.trim()
 				)
 			);

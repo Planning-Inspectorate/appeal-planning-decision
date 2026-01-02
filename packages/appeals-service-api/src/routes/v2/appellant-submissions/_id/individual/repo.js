@@ -1,7 +1,8 @@
 const { createPrismaClient } = require('#db-client');
+const { appellantSubmissionRelations } = require('../../repo');
 
 /**
- * @typedef {import('@pins/database/src/client').AppellantSubmission} AppellantSubmission
+ * @typedef {import('@pins/database/src/client/client').AppellantSubmission} AppellantSubmission
  */
 
 /**
@@ -10,6 +11,9 @@ const { createPrismaClient } = require('#db-client');
  * @property {string} firstName
  * @property {string} lastName
  * @property {string} fieldName
+ * @property {string} [interestInAppealLand]
+ * @property {string} [interestInAppealLand_interestInAppealLandDetails]
+ * @property {boolean} [hasPermissionToUseLand]
  */
 
 class SubmissionIndividualRepository {
@@ -27,7 +31,15 @@ class SubmissionIndividualRepository {
 	 * @returns {Promise<AppellantSubmission>}
 	 */
 	async createIndividual(appellantSubmissionId, individualData) {
-		const { firstName, lastName, fieldName, id } = individualData;
+		const {
+			firstName,
+			lastName,
+			fieldName,
+			id,
+			interestInAppealLand,
+			interestInAppealLand_interestInAppealLandDetails,
+			hasPermissionToUseLand
+		} = individualData;
 
 		if (id) {
 			const existingIndividual = await this.dbClient.submissionIndividual.findUniqueOrThrow({
@@ -45,17 +57,15 @@ class SubmissionIndividualRepository {
 							data: {
 								firstName,
 								lastName,
-								fieldName
+								fieldName,
+								interestInAppealLand,
+								interestInAppealLand_interestInAppealLandDetails,
+								hasPermissionToUseLand
 							}
 						}
 					}
 				},
-				include: {
-					SubmissionDocumentUpload: true,
-					SubmissionAddress: true,
-					SubmissionLinkedCase: true,
-					SubmissionIndividual: true
-				}
+				include: appellantSubmissionRelations
 			});
 		}
 
@@ -68,16 +78,14 @@ class SubmissionIndividualRepository {
 					create: {
 						firstName,
 						lastName,
-						fieldName
+						fieldName,
+						interestInAppealLand,
+						interestInAppealLand_interestInAppealLandDetails,
+						hasPermissionToUseLand
 					}
 				}
 			},
-			include: {
-				SubmissionDocumentUpload: true,
-				SubmissionAddress: true,
-				SubmissionLinkedCase: true,
-				SubmissionIndividual: true
-			}
+			include: appellantSubmissionRelations
 		});
 	}
 
@@ -99,12 +107,7 @@ class SubmissionIndividualRepository {
 					}
 				}
 			},
-			include: {
-				SubmissionDocumentUpload: true,
-				SubmissionAddress: true,
-				SubmissionLinkedCase: true,
-				SubmissionIndividual: true
-			}
+			include: appellantSubmissionRelations
 		});
 	}
 }

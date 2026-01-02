@@ -49,7 +49,7 @@
 - **forms-web-app:** cookies set to defaults, GA disabled by default ([c6e26ed](https://github.com/MrSimonEmms/appeal-planning-decision/commit/c6e26edaccfa1f131aa0985bd11f194ad73a9e03))
 - **forms-web-app:** decision date persistent and date passed url change ([0390c21](https://github.com/MrSimonEmms/appeal-planning-decision/commit/0390c21ef9c0888ff380f460a724694590ed0e99))
 - **forms-web-app:** ensure LPD data is always refreshed in LPD controller ([1e1b021](https://github.com/MrSimonEmms/appeal-planning-decision/commit/1e1b0210be55bcdcd8462809e803e28683cc0f2d))
-- **forms-web-app:** extends forms webapp to capture local planning department in the appeal ([e758e9e](https://github.com/MrSimonEmms/appeal-planning-decision/commit/e758e9e30afc06bdb775dc136d520c42ed61ecaf))
+- **forms-web-app:** extends forms webapp to capture local planning authority in the appeal ([e758e9e](https://github.com/MrSimonEmms/appeal-planning-decision/commit/e758e9e30afc06bdb775dc136d520c42ed61ecaf))
 - **forms-web-app:** extends the appeal for save and navigation feature ([376ffb1](https://github.com/MrSimonEmms/appeal-planning-decision/commit/376ffb138d0322024c9a9983c42fa72f70115771))
 - **forms-web-app:** redirect the root URL depending on ACP mode or not ([3f9274c](https://github.com/MrSimonEmms/appeal-planning-decision/commit/3f9274c04627f9fef3be9bdf24bb85e29d53cc14))
 - **forms-web-app:** remove other appeals from check-answers page ([de41401](https://github.com/MrSimonEmms/appeal-planning-decision/commit/de41401837e2841cf8eefc6052ce930f2d0d97e0))

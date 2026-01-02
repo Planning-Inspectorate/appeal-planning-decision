@@ -1,9 +1,9 @@
 const { createPrismaClient } = require('#db-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 const { DocumentsArgsPublishedOnly } = require('../../../../appeal-cases/repo');
 /**
- * @typedef {import('@pins/database/src/client').AppealCase} AppealCase
+ * @typedef {import('@pins/database/src/client/client').AppealCase} AppealCase
  */
 
 module.exports = class Repo {
@@ -22,7 +22,7 @@ module.exports = class Repo {
 	async get({ caseReference, role, userId }) {
 		try {
 			/**
-			 * @type {import('@pins/database/src/client').Prisma.AppealToUserWhereInput}
+			 * @type {import('@pins/database/src/client/client').Prisma.AppealToUserWhereInput}
 			 */
 			const where = {};
 			if (role === APPEAL_USER_ROLES.APPELLANT || role === APPEAL_USER_ROLES.AGENT) {

@@ -14,7 +14,7 @@ export const uploadFilesWithWrongFormats = (context) => {
     cy.uploadFileFromFixtureDirectory(context?.documents?.uploadWrongFormatFile);
     cy.uploadFileFromFixtureDirectory(context?.documents?.uploadWrongFormatFile);
     cy.advanceToNextPage();
-    cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${context?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
+    cy.shouldHaveErrorMessage('a[href*="#uploadLpaStatementDocuments"]', `${context?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX`);
 }
 
 export const uploadDuplicateFiles = (context) => {

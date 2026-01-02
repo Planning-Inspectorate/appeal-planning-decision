@@ -1,6 +1,6 @@
 const { RepresentationsRepository } = require('./repo');
 const { appendAppellantAndAgent, appendLinkedCases } = require('../../service');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 const ApiError = require('#errors/apiError');
 const { REPRESENTATION_TYPES } = require('@pins/common/src/constants');
 const { getServiceUsersWithEmailsByIdAndCaseReference } = require('../../../service-users/service');
@@ -15,8 +15,8 @@ const { getValidator } = new SchemaValidator();
  */
 
 /**
- * @typedef {import('@pins/database/src/client').AppealCase} AppealCase
- * @typedef {import('@pins/database/src/client').Representation} Representation
+ * @typedef {import('@pins/database/src/client/client').AppealCase} AppealCase
+ * @typedef {import('@pins/database/src/client/client').Representation} Representation
  *
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  * @typedef { 'LPAUser' } LpaUserRole

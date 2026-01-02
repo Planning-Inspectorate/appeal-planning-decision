@@ -1,7 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 
 /**
- * @typedef {import('@pins/database/src/client').Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
+ * @typedef {import('@pins/database/src/client/client').Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  */
 
 /**
@@ -41,8 +41,10 @@ class SubmissionDocumentUploadRepository {
 
 		return await this.dbClient.rule6ProofOfEvidenceSubmission.update({
 			where: {
-				userId,
-				caseReference: caseReference
+				caseReference_userId: {
+					userId,
+					caseReference
+				}
 			},
 			data: {
 				SubmissionDocumentUpload: {
@@ -73,8 +75,10 @@ class SubmissionDocumentUploadRepository {
 	async deleteSubmissionDocument(userId, caseReference, documentIds) {
 		return await this.dbClient.rule6ProofOfEvidenceSubmission.update({
 			where: {
-				userId,
-				caseReference: caseReference
+				caseReference_userId: {
+					userId,
+					caseReference
+				}
 			},
 			data: {
 				SubmissionDocumentUpload: {

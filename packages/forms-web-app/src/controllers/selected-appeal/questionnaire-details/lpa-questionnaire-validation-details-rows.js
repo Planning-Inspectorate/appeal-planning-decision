@@ -24,11 +24,10 @@ const formatLPAQuestionnaireValidationRows = (documents) => {
 	const lpaQuestionnaireValidationDocs = documents.filter(
 		(doc) => doc.documentType === APPEAL_DOCUMENT_TYPE.LPA_CASE_CORRESPONDENCE
 	);
-
 	if (lpaQuestionnaireValidationDocs.length === 1) {
 		return [
 			{
-				keyText: '',
+				keyText: 'Additional documents',
 				valueText: formatDocumentLink(lpaQuestionnaireValidationDocs[0]),
 				condition: (/** @type {import('appeals-service-api').Api.AppealCaseDetailed} */ caseData) =>
 					caseData?.lpaQuestionnaireValidationOutcome ===
@@ -39,7 +38,7 @@ const formatLPAQuestionnaireValidationRows = (documents) => {
 	} else if (lpaQuestionnaireValidationDocs.length > 1) {
 		return [
 			{
-				keyText: '',
+				keyText: 'Additional documents',
 				valueText: formatDocumentsAsBulletedList(lpaQuestionnaireValidationDocs),
 				condition: (/** @type {import('appeals-service-api').Api.AppealCaseDetailed} */ caseData) =>
 					caseData?.lpaQuestionnaireValidationOutcome ===

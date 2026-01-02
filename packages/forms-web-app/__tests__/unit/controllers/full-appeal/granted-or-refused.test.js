@@ -14,7 +14,6 @@ const {
 const { APPEAL_ID, TYPE_OF_PLANNING_APPLICATION } = require('@pins/business-rules/src/constants');
 const logger = require('../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../mocks');
-const config = require('../../../../src/config');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -24,9 +23,6 @@ jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
 describe('controllers/full-appeal/granted-or-refused', () => {
 	let req;
 	let res;
-	const bannerHtmlOverride =
-		config.betaBannerText +
-		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'));
 
 	beforeEach(() => {
 		req = mockReq(appeal);
@@ -40,8 +36,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 			getGrantedOrRefused(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED, {
-				appeal: req.session.appeal,
-				bannerHtmlOverride
+				appeal: req.session.appeal
 			});
 		});
 	});
@@ -103,8 +98,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 					}
 				},
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
-				errors: { a: 'b' },
-				bannerHtmlOverride
+				errors: { a: 'b' }
 			});
 		});
 
@@ -127,8 +121,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED, {
 				appeal: req.session.appeal,
 				errors: {},
-				errorSummary: [{ text: error.toString(), href: '#' }],
-				bannerHtmlOverride
+				errorSummary: [{ text: error.toString(), href: '#' }]
 			});
 		});
 

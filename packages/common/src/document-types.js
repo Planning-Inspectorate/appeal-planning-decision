@@ -682,7 +682,117 @@ const documentTypes = {
 	},
 	uploadApplicationReceipt: {
 		name: 'uploadApplicationReceipt',
-		dataModelName: 'applicationReceipt', // to be updated once data model confirmed
+		dataModelName: 'applicationFeeReceipt', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadPriorCorrespondence: {
+		name: 'uploadPriorCorrespondence',
+		dataModelName: 'priorCorrespondenceWithPINS', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadEnforcementNotice: {
+		name: 'uploadEnforcementNotice',
+		dataModelName: 'enforcementNotice', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadEnforcementNoticePlan: {
+		name: 'uploadEnforcementNoticePlan',
+		dataModelName: 'enforcementNoticePlan', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundASupportingDocuments: {
+		name: 'groundASupportingDocuments',
+		dataModelName: 'groundASupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundBSupportingDocuments: {
+		name: 'groundBSupportingDocuments',
+		dataModelName: 'groundBSupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundCSupportingDocuments: {
+		name: 'groundCSupportingDocuments',
+		dataModelName: 'groundCSupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundDSupportingDocuments: {
+		name: 'groundDSupportingDocuments',
+		dataModelName: 'groundDSupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundESupportingDocuments: {
+		name: 'groundESupportingDocuments',
+		dataModelName: 'groundESupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundFSupportingDocuments: {
+		name: 'groundFSupportingDocuments',
+		dataModelName: 'groundFSupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundGSupportingDocuments: {
+		name: 'groundGSupportingDocuments',
+		dataModelName: 'groundGSupporting', // to be updated once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -855,6 +965,94 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	enforcementStopNoticeUpload: {
+		name: 'enforcementStopNoticeUpload',
+		dataModelName: 'stopNotice',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	enforcementDevelopmentRightsUpload: {
+		name: 'enforcementDevelopmentRightsUpload',
+		dataModelName: 'article4Direction',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	listOfPeopleSentEnforcementNotice: {
+		name: 'listOfPeopleSentEnforcementNotice',
+		dataModelName: 'enforcementList',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	localDevelopmentOrderUpload: {
+		name: 'localDevelopmentOrderUpload',
+		dataModelName: 'localDevelopmentOrder',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	previousPlanningPermissionUpload: {
+		name: 'previousPlanningPermissionUpload',
+		dataModelName: 'planningPermission',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	enforcementNoticeDateApplicationUpload: {
+		name: 'enforcementNoticeDateApplicationUpload',
+		dataModelName: 'lpaEnforcementNoticeDateApplication',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	enforcementNoticePlanUpload: {
+		name: 'enforcementNoticePlanUpload',
+		dataModelName: 'lpaEnforcementNoticePlanUpload',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	planningContraventionNoticeUpload: {
+		name: 'planningContraventionNoticeUpload',
+		dataModelName: 'planningContraventionNotice',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
 	}
 };
 

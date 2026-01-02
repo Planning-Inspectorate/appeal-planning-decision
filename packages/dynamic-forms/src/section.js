@@ -55,6 +55,19 @@ class Section {
 	}
 
 	/**
+	 * Fluent API method for adding multiple questions and conditions
+	 * @param {Array<{question: any, condition?: (response: JourneyResponse) => boolean}>} questionsArray
+	 * @returns {Section}
+	 */
+	addQuestions(questionsArray) {
+		questionsArray.forEach((question) => {
+			this.addQuestion(question.question);
+			if (question.condition) this.withCondition(question.condition);
+		});
+		return this;
+	}
+
+	/**
 	 * @param {any} questionVariable
 	 * @returns {this}
 	 */

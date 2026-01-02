@@ -17,14 +17,8 @@ class IndividualAddMoreQuestion extends AddMoreQuestion {
 	 * @param {string} params.viewFolder
 	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
 	 */
-	constructor({ title, question, fieldName, viewFolder, validators }) {
-		super({
-			title: title,
-			viewFolder: viewFolder,
-			fieldName: fieldName,
-			question: question,
-			validators: validators
-		});
+	constructor(params) {
+		super(params);
 	}
 
 	/**
@@ -34,8 +28,8 @@ class IndividualAddMoreQuestion extends AddMoreQuestion {
 	 */
 	async getDataToSave(req) {
 		const individual = new Individual({
-			firstName: req.body['firstName'],
-			lastName: req.body['lastName']
+			firstName: req.body[this.fieldName + '_firstName'],
+			lastName: req.body[this.fieldName + '_lastName']
 		});
 
 		return { answers: {}, addMoreId: randomUUID(), value: individual };

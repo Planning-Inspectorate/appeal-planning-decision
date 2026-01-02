@@ -29,7 +29,7 @@ async function deleteSubmissionIndividual(req, res) {
 	}
 
 	if (!individualId) {
-		throw ApiError.badRequest({ errors: ['addressId is required'] });
+		throw ApiError.badRequest({ errors: ['individualId is required'] });
 	}
 
 	const content = await deleteIndividual(id, individualId);

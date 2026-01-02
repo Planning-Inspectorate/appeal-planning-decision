@@ -70,10 +70,14 @@ class Question {
 	interfaceType;
 	/** @type {(response: JourneyResponse) => boolean} */
 	shouldDisplay = () => true;
+	/** @type {() => boolean} */
+	shouldDisplayOnTaskList = () => true;
 	/** @type {Array.<string>|undefined} optional variables content*/
 	variables;
 	/** @type {string|undefined} optional back link text */
 	backLinkText;
+	/** @type {object|undefined} optional custom data object */
+	customData;
 
 	details = {
 		title: '',
@@ -95,8 +99,10 @@ class Question {
 	 * @param {string} [params.hint]
 	 * @param {string} [params.interfaceType]
 	 * @param {(response: JourneyResponse) => boolean} [params.shouldDisplay]
+	 * @param {() => boolean} [params.shouldDisplayOnTaskList]
 	 * @param {Array.<QuestionVariables>} [params.variables]
 	 * @param {string} [params.backLinkText]
+	 * @param {object} [params.customData]
 	 *
 	 * @param {Record<string, Function>} [methodOverrides]
 	 */
@@ -114,9 +120,11 @@ class Question {
 			hint,
 			interfaceType,
 			shouldDisplay,
+			shouldDisplayOnTaskList,
 			variables,
 			showSkipLink,
-			backLinkText
+			backLinkText,
+			customData
 		},
 		methodOverrides
 	) {
@@ -137,9 +145,14 @@ class Question {
 		this.variables = variables;
 		this.showSkipLink = showSkipLink || false;
 		this.backLinkText = backLinkText;
+		this.customData = customData;
 
 		if (shouldDisplay) {
 			this.shouldDisplay = shouldDisplay;
+		}
+
+		if (shouldDisplayOnTaskList) {
+			this.shouldDisplayOnTaskList = shouldDisplayOnTaskList;
 		}
 
 		if (Array.isArray(validators)) {

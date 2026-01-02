@@ -19,13 +19,14 @@ const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { templates } = config.services.notify;
 const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 /**
- * @typedef {import('@pins/database/src/client').AppealCase } AppealCase
+ * @typedef {import('@pins/database/src/client/client').AppealCase } AppealCase
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
- * @typedef {import('@pins/database/src/client').AppellantSubmission} AppellantSubmission
+ * @typedef {import('@pins/database/src/client/client').AppellantSubmission} AppellantSubmission
  * @typedef {import('../routes/v2/appellant-submissions/_id/service').FullAppellantSubmission} FullAppellantSubmission
- * @typedef {import('@pins/database/src/client').InterestedPartySubmission} InterestedPartySubmission
+ * @typedef {import('@pins/database/src/client/client').InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
@@ -33,8 +34,8 @@ const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-
  * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
- * @typedef {import('@pins/database/src/client').ServiceUser} ServiceUser
- * @typedef {import('@pins/database/src/client').Prisma.AppealUserCreateInput } AppealUserCreateInput
+ * @typedef {import('@pins/database/src/client/client').ServiceUser} ServiceUser
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppealUserCreateInput } AppealUserCreateInput
  */
 
 /** @type {NotifyService|null} */ // todo: use dependency injection instead
@@ -85,8 +86,8 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 				content
 			},
 			destinationEmail: recipientEmail,
-			templateId: templates.generic,
-			reference
+			templateId: templates.generic || '',
+			reference: reference || ''
 		});
 	} catch (err) {
 		logger.error(
@@ -130,8 +131,8 @@ const sendSubmissionFollowUpEmailToAppellant = async (appeal) => {
 				content
 			},
 			destinationEmail: recipientEmail,
-			templateId: templates.generic,
-			reference
+			templateId: templates.generic || '',
+			reference: reference || ''
 		});
 	} catch (err) {
 		logger.error(
@@ -181,8 +182,8 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 				content
 			},
 			destinationEmail: recipientEmail,
-			templateId: templates.generic,
-			reference
+			templateId: templates.generic || '',
+			reference: reference || ''
 		});
 	} catch (err) {
 		logger.error(
@@ -239,8 +240,8 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
 				content
 			},
 			destinationEmail: recipientEmail,
-			templateId: templates.generic,
-			reference
+			templateId: templates.generic || '',
+			reference: reference || ''
 		});
 	} catch (err) {
 		logger.error(
@@ -286,8 +287,8 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
 				content
 			},
 			destinationEmail: lpaEmail,
-			templateId: templates.generic,
-			reference
+			templateId: templates.generic || '',
+			reference: reference || ''
 		});
 	} catch (err) {
 		logger.error(
@@ -355,7 +356,7 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 				content
 			},
 			destinationEmail: lpaEmail,
-			templateId: templates.generic,
+			templateId: templates.generic || '',
 			reference
 		});
 	} catch (err) {
@@ -425,7 +426,7 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 				content
 			},
 			destinationEmail: lpaEmail,
-			templateId: templates.generic,
+			templateId: templates.generic || '',
 			reference
 		});
 	} catch (err) {
@@ -492,7 +493,7 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 				content
 			},
 			destinationEmail: lpaEmail,
-			templateId: templates.generic,
+			templateId: templates.generic || '',
 			reference
 		});
 	} catch (err) {
@@ -564,8 +565,8 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 				content
 			},
 			destinationEmail: lpaEmailAddress,
-			templateId: templates.generic,
-			reference
+			templateId: templates.generic || '',
+			reference: reference || ''
 		});
 	} catch (err) {
 		logger.error(
@@ -630,7 +631,7 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 				content
 			},
 			destinationEmail: recipientEmail,
-			templateId: templates.generic,
+			templateId: templates.generic || '',
 			reference
 		});
 	} catch (err) {
@@ -910,8 +911,8 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 				content
 			},
 			destinationEmail: lpaEmail,
-			templateId: templates.generic,
-			reference
+			templateId: templates.generic || '',
+			reference: reference || ''
 		});
 	} catch (err) {
 		logger.error(
@@ -994,6 +995,332 @@ const sendFailureToUploadToHorizonEmail = async (appealId) => {
 };
 
 /**
+ * @param { ServiceUser } serviceUser
+ * @param { AppealCaseDetailed } appealCase
+ */
+const sendRule6PartyAddedEmailToRule6Party = async (serviceUser, appealCase) => {
+	try {
+		const recipientEmail = serviceUser.emailAddress;
+
+		if (!recipientEmail) {
+			throw new Error('Recipient email missing');
+		}
+
+		const formattedAddress = formatSubmissionAddress({
+			id: '',
+			fieldName: '',
+			addressLine1: appealCase.siteAddressLine1 || '',
+			addressLine2: appealCase.siteAddressLine2 || undefined,
+			townCity: appealCase.siteAddressTown || '',
+			county: appealCase.siteAddressCounty || undefined,
+			postcode: appealCase.siteAddressPostcode || ''
+		});
+
+		let variables = {
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: appealCase.caseReference,
+			siteAddress: formattedAddress,
+			lpaReference: appealCase.applicationReference || '',
+			statementsDueDate: appealCase.statementDueDate
+				? formatInTimeZone(appealCase.statementDueDate, ukTimeZone, 'dd MMMM yyyy')
+				: '',
+			proofsDueDate: appealCase.proofsOfEvidenceDueDate
+				? formatInTimeZone(appealCase.proofsOfEvidenceDueDate, ukTimeZone, 'dd MMMM yyyy')
+				: ''
+		};
+
+		const reference = appealCase.id;
+
+		logger.debug({ recipientEmail, variables, reference }, 'Sending Rule 6 party created email');
+
+		const notifyService = getNotifyService();
+
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.rule6.partyCreated,
+			variables
+		);
+
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We have accepted your application for Rule 6 status: ${appealCase.caseReference}`,
+				content
+			},
+			destinationEmail: recipientEmail,
+			templateId: templates.generic || '',
+			reference: reference || ''
+		});
+	} catch (err) {
+		logger.error(
+			{ err, userId: serviceUser.id },
+			'Unable to send Rule 6 party created email to Rule 6 party'
+		);
+	}
+};
+
+/**
+ * @param { ServiceUser } rule6Party
+ * @param { AppealCaseDetailed } appealCase
+ */
+const sendRule6PartyAddedEmailToMainParties = async (rule6Party, appealCase) => {
+	try {
+		const {
+			LPACode: lpaCode,
+			caseReference,
+			siteAddressLine1,
+			siteAddressLine2,
+			siteAddressTown,
+			siteAddressCounty,
+			siteAddressPostcode,
+			applicationReference
+		} = appealCase;
+
+		let lpa;
+		try {
+			lpa = await lpaService.getLpaByCode(lpaCode);
+		} catch (err) {
+			logger.warn({ err, lpaCode }, 'Failed to retrieve LPA by code, falling back to ID');
+			lpa = await lpaService.getLpaById(lpaCode);
+		}
+
+		if (!lpa) {
+			logger.error(`LPA not found for code: ${lpaCode}`);
+			return;
+		}
+
+		const lpaEmail = lpa.getEmail();
+		const appellant = appealCase.users?.find(
+			(user) => user.serviceUserType === SERVICE_USER_TYPE.APPELLANT
+		);
+		const agent = appealCase.users?.find(
+			(user) => user.serviceUserType === SERVICE_USER_TYPE.AGENT
+		);
+		const appellantEmail = appellant?.emailAddress;
+		const agentEmail = agent?.emailAddress;
+
+		if (!lpaEmail && !appellantEmail && !agentEmail) {
+			logger.warn('No main party emails found for Rule 6 added notification');
+			return;
+		}
+
+		const formattedAddress = formatSubmissionAddress({
+			id: '',
+			fieldName: '',
+			addressLine1: siteAddressLine1 || '',
+			addressLine2: siteAddressLine2 || undefined,
+			townCity: siteAddressTown || '',
+			county: siteAddressCounty || undefined,
+			postcode: siteAddressPostcode || ''
+		});
+
+		const variables = {
+			...config.services.notify.templateVariables,
+			rule6Organisation: rule6Party.organisation || '',
+			rule6Name: `${rule6Party.firstName} ${rule6Party.lastName}`,
+			rule6PhoneNumber: rule6Party.telephoneNumber || '',
+			proofsDueDate: appealCase.proofsOfEvidenceDueDate
+				? formatInTimeZone(appealCase.proofsOfEvidenceDueDate, ukTimeZone, 'dd MMMM yyyy')
+				: '',
+			appealReferenceNumber: caseReference,
+			siteAddress: formattedAddress,
+			lpaReference: applicationReference || ''
+		};
+
+		const notifyService = getNotifyService();
+		const reference = appealCase.id;
+
+		const emailPromises = [];
+		const subjectText = `Rule 6 status application accepted: ${caseReference}`;
+		if (lpaEmail) {
+			logger.debug({ lpaEmail, variables }, 'Sending Rule 6 added email to LPA');
+			emailPromises.push(
+				notifyService.sendEmail({
+					personalisation: {
+						subject: subjectText,
+						content: notifyService.populateTemplate(
+							NotifyService.templates.rule6.partyAddedToMainParties,
+							variables
+						)
+					},
+					destinationEmail: lpaEmail,
+					templateId: templates.generic || '',
+					reference: reference || ''
+				})
+			);
+		}
+
+		if (appellantEmail) {
+			logger.debug({ appellantEmail, variables }, 'Sending Rule 6 added email to Appellant');
+			emailPromises.push(
+				notifyService.sendEmail({
+					personalisation: {
+						subject: subjectText,
+						content: notifyService.populateTemplate(
+							NotifyService.templates.rule6.partyAddedToMainParties,
+							variables
+						)
+					},
+					destinationEmail: appellantEmail,
+					templateId: templates.generic || '',
+					reference: reference || ''
+				})
+			);
+		}
+
+		if (agentEmail) {
+			logger.debug({ agentEmail, variables }, 'Sending Rule 6 added email to Agent');
+			emailPromises.push(
+				notifyService.sendEmail({
+					personalisation: {
+						subject: subjectText,
+						content: notifyService.populateTemplate(
+							NotifyService.templates.rule6.partyAddedToMainParties,
+							variables
+						)
+					},
+					destinationEmail: agentEmail,
+					templateId: templates.generic || '',
+					reference: reference || ''
+				})
+			);
+		}
+
+		await Promise.all(emailPromises);
+	} catch (err) {
+		logger.error({ err }, 'Unable to send Rule 6 added email to main parties');
+	}
+};
+
+/**
+ * @param { ServiceUser } rule6Party
+ * @param { AppealCaseDetailed } appealCase
+ */
+const sendRule6PartyUpdatedEmailToMainParties = async (rule6Party, appealCase) => {
+	try {
+		const {
+			LPACode: lpaCode,
+			caseReference,
+			siteAddressLine1,
+			siteAddressLine2,
+			siteAddressTown,
+			siteAddressCounty,
+			siteAddressPostcode,
+			applicationReference
+		} = appealCase;
+
+		let lpa;
+		try {
+			lpa = await lpaService.getLpaByCode(lpaCode);
+		} catch (err) {
+			logger.warn({ err, lpaCode }, 'Failed to retrieve LPA by code, falling back to ID');
+			lpa = await lpaService.getLpaById(lpaCode);
+		}
+
+		if (!lpa) {
+			logger.error(`LPA not found for code: ${lpaCode}`);
+			return;
+		}
+
+		const lpaEmail = lpa.getEmail();
+		const appellant = appealCase.users?.find(
+			(user) => user.serviceUserType === SERVICE_USER_TYPE.APPELLANT
+		);
+		const agent = appealCase.users?.find(
+			(user) => user.serviceUserType === SERVICE_USER_TYPE.AGENT
+		);
+		const appellantEmail = appellant?.emailAddress;
+		const agentEmail = agent?.emailAddress;
+
+		if (!lpaEmail && !appellantEmail && !agentEmail) {
+			logger.warn('No main party emails found for Rule 6 updated notification');
+			return;
+		}
+
+		const formattedAddress = formatSubmissionAddress({
+			id: '',
+			fieldName: '',
+			addressLine1: siteAddressLine1 || '',
+			addressLine2: siteAddressLine2 || undefined,
+			townCity: siteAddressTown || '',
+			county: siteAddressCounty || undefined,
+			postcode: siteAddressPostcode || ''
+		});
+
+		const variables = {
+			...config.services.notify.templateVariables,
+			rule6Organisation: rule6Party.organisation || '',
+			rule6Name: `${rule6Party.firstName} ${rule6Party.lastName}`,
+			appealReferenceNumber: caseReference,
+			siteAddress: formattedAddress,
+			lpaReference: applicationReference || ''
+		};
+
+		const notifyService = getNotifyService();
+		const reference = appealCase.id;
+
+		const emailPromises = [];
+		const subjectText = `Updated Rule 6 group contact details: ${caseReference}`;
+
+		if (lpaEmail) {
+			logger.debug({ lpaEmail, variables }, 'Sending Rule 6 updated email to LPA');
+			emailPromises.push(
+				notifyService.sendEmail({
+					personalisation: {
+						subject: subjectText,
+						content: notifyService.populateTemplate(
+							NotifyService.templates.rule6.partyUpdated,
+							variables
+						)
+					},
+					destinationEmail: lpaEmail,
+					templateId: templates.generic || '',
+					reference: reference || ''
+				})
+			);
+		}
+
+		if (appellantEmail) {
+			logger.debug({ appellantEmail, variables }, 'Sending Rule 6 updated email to Appellant');
+			emailPromises.push(
+				notifyService.sendEmail({
+					personalisation: {
+						subject: subjectText,
+						content: notifyService.populateTemplate(
+							NotifyService.templates.rule6.partyUpdated,
+							variables
+						)
+					},
+					destinationEmail: appellantEmail,
+					templateId: templates.generic || '',
+					reference: reference || ''
+				})
+			);
+		}
+
+		if (agentEmail) {
+			logger.debug({ agentEmail, variables }, 'Sending Rule 6 updated email to Agent');
+			emailPromises.push(
+				notifyService.sendEmail({
+					personalisation: {
+						subject: subjectText,
+						content: notifyService.populateTemplate(
+							NotifyService.templates.rule6.partyUpdated,
+							variables
+						)
+					},
+					destinationEmail: agentEmail,
+					templateId: templates.generic || '',
+					reference: reference || ''
+				})
+			);
+		}
+
+		await Promise.all(emailPromises);
+	} catch (err) {
+		logger.error({ err }, 'Unable to send Rule 6 updated email to main parties');
+	}
+};
+
+/**
  * @param { AppealUserCreateInput } user
  */
 const sendLPADashboardInviteEmail = async (user) => {
@@ -1002,7 +1329,7 @@ const sendLPADashboardInviteEmail = async (user) => {
 
 		let variables = {
 			...config.services.notify.templateVariables,
-			createAccountUrl: `${config.apps.appeals.baseUrl}/manage-appeals/service-invite/${user.lpaCode}`
+			loginUrl: `${config.apps.appeals.baseUrl}/manage-appeals/your-appeals`
 		};
 
 		const reference = user.id || user.email;
@@ -1106,5 +1433,8 @@ module.exports = {
 	sendSaveAndReturnContinueWithAppealEmail,
 	sendFailureToUploadToHorizonEmail,
 	sendLPADashboardInviteEmail,
-	sendCommentSubmissionConfirmationEmailToIp
+	sendCommentSubmissionConfirmationEmailToIp,
+	sendRule6PartyAddedEmailToRule6Party,
+	sendRule6PartyAddedEmailToMainParties,
+	sendRule6PartyUpdatedEmailToMainParties
 };

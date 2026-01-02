@@ -7,7 +7,7 @@ const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
  * @param {string} lpaCode
  * @param {string} postCode
  * @param {boolean} casePublished
- * @returns {import('@pins/database/src/client').Prisma.AppealCaseCreateWithoutAppealInput}
+ * @returns {import('@pins/database/src/client/client').Prisma.AppealCaseCreateWithoutAppealInput}
  */
 function createTestAppealCase(
 	caseRef,

@@ -1,7 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 
 /**
- * @typedef {import('@pins/database/src/client').AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
+ * @typedef {import('@pins/database/src/client/client').AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
  */
 
 /**

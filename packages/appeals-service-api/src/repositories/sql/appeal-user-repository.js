@@ -1,15 +1,15 @@
 const { createPrismaClient } = require('../../db/db-client');
-const { Prisma } = require('@pins/database/src/client');
+const { Prisma } = require('@pins/database/src/client/client');
 const logger = require('../../lib/logger');
 const ApiError = require('../../errors/apiError');
 const { APPEAL_USER_ROLES, STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 /**
  * @typedef { import('@pins/common/src/constants').AppealToUserRoles } AppealToUserRoles
- * @typedef { import('@pins/database/src/client').AppealUser } AppealUser
- * @typedef { import('@pins/database/src/client').AppealToUser } AppealToUser
- * @typedef { import('@pins/database/src/client').Prisma.AppealUserCreateInput } AppealUserCreateInput
- * @typedef { import('@pins/database/src/client').PrismaClient } PrismaClient
+ * @typedef { import('@pins/database/src/client/client').AppealUser } AppealUser
+ * @typedef { import('@pins/database/src/client/client').AppealToUser } AppealToUser
+ * @typedef { import('@pins/database/src/client/client').Prisma.AppealUserCreateInput } AppealUserCreateInput
+ * @typedef { import('@pins/database/src/client/client').PrismaClient } PrismaClient
  */
 
 class AppealUserRepository {
@@ -75,7 +75,7 @@ class AppealUserRepository {
 
 	/**
 	 * Search users
-	 * @param {import('@pins/database/src/client').Prisma.AppealUserWhereInput} [searchOptions]
+	 * @param {import('@pins/database/src/client/client').Prisma.AppealUserWhereInput} [searchOptions]
 	 * @returns {Promise<AppealUser[]>}
 	 */
 	async search(searchOptions) {

@@ -86,4 +86,47 @@ describe('siteAccessRows', () => {
 		expect(rows[3].condition()).toEqual(false);
 		expect(rows[4].condition()).toEqual(true);
 	});
+
+	it('should set neighbourAddressesArray to empty array if undefined', () => {
+		const caseData = {};
+		const rows = require('./site-access-details-rows').siteAccessRows(caseData);
+		// neighbourAddressesArray is used for extra rows, so only 5 default rows should exist
+		expect(rows.length).toBe(5);
+	});
+
+	it('should set accessForInspectionBool correctly', () => {
+		const caseDataTrue = { siteAccessDetails: ['', 'some value'] };
+		const caseDataFalse = { siteAccessDetails: ['', ''] };
+		const { siteAccessRows } = require('./site-access-details-rows');
+		const rowsTrue = siteAccessRows(caseDataTrue);
+		const rowsFalse = siteAccessRows(caseDataFalse);
+
+		expect(rowsTrue[0].valueText).toBe('Yes');
+		expect(rowsFalse[0].valueText).toBe('No');
+	});
+
+	it('should set hasNeighbourAddressesField correctly', () => {
+		const caseDataWithField = { NeighbouringAddresses: [] };
+		const caseDataWithoutField = {};
+		const { siteAccessRows } = require('./site-access-details-rows');
+		const rowsWith = siteAccessRows(caseDataWithField);
+		const rowsWithout = siteAccessRows(caseDataWithoutField);
+
+		expect(rowsWith[2].condition()).toBe(true);
+		expect(rowsWithout[2].condition()).toBe(false);
+	});
+
+	it('should set hasNeighboursText correctly', () => {
+		const caseDataTrue = {
+			NeighbouringAddresses: [{}],
+			reasonForNeighbourVisits: 'visit reason'
+		};
+		const caseDataFalse = { NeighbouringAddresses: [{}] };
+		const { siteAccessRows } = require('./site-access-details-rows');
+		const rowsTrue = siteAccessRows(caseDataTrue);
+		const rowsFalse = siteAccessRows(caseDataFalse);
+
+		expect(rowsTrue[3].condition()).toBe(true);
+		expect(rowsFalse[3].condition()).toBe(false);
+	});
 });

@@ -1,5 +1,4 @@
 const { getQuestions } = require('../questions');
-const questions = getQuestions();
 const { Section } = require('@pins/dynamic-forms/src/section');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const {
@@ -25,74 +24,79 @@ const {
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const makeSections = (response) => [
-	new Section('Prepare appeal', 'prepare-appeal')
-		.addQuestion(questions.applicationName)
-		.addQuestion(questions.applicantName)
-		.withCondition(() => questionHasAnswer(response, questions.applicationName, 'no'))
-		.addQuestion(questions.contactDetails)
-		.addQuestion(questions.contactPhoneNumber)
-		.addQuestion(questions.appealSiteAddress)
-		.addQuestion(questions.siteArea)
-		.addQuestion(questions.appellantGreenBelt)
-		.addQuestion(questions.ownsAllLand)
-		.addQuestion(questions.ownsSomeLand)
-		.withCondition(() => questionHasAnswer(response, questions.ownsAllLand, 'no'))
-		.addQuestion(questions.knowsWhoOwnsRestOfLand)
-		.withCondition(() =>
-			questionsHaveAnswers(
-				response,
-				[
-					[questions.ownsSomeLand, 'yes'],
-					[questions.ownsAllLand, 'no']
-				],
-				{ logicalCombinator: 'and' }
+const makeSections = (response) => {
+	const questions = getQuestions(response);
+	return [
+		new Section('Prepare appeal', 'prepare-appeal')
+			.addQuestion(questions.applicationName)
+			.addQuestion(questions.applicantName)
+			.withCondition(() => questionHasAnswer(response, questions.applicationName, 'no'))
+			.addQuestion(questions.contactDetails)
+			.addQuestion(questions.contactPhoneNumber)
+			.addQuestion(questions.appealSiteAddress)
+			.addQuestion(questions.siteArea)
+			.addQuestion(questions.appellantGreenBelt)
+			.addQuestion(questions.ownsAllLand)
+			.addQuestion(questions.ownsSomeLand)
+			.withCondition(() => questionHasAnswer(response, questions.ownsAllLand, 'no'))
+			.addQuestion(questions.knowsWhoOwnsRestOfLand)
+			.withCondition(() =>
+				questionsHaveAnswers(
+					response,
+					[
+						[questions.ownsSomeLand, 'yes'],
+						[questions.ownsAllLand, 'no']
+					],
+					{ logicalCombinator: 'and' }
+				)
 			)
-		)
-		.addQuestion(questions.knowsWhoOwnsLandInvolved)
-		.withCondition(() =>
-			questionsHaveAnswers(
-				response,
-				[
-					[questions.ownsSomeLand, 'no'],
-					[questions.ownsAllLand, 'no']
-				],
-				{ logicalCombinator: 'and' }
+			.addQuestion(questions.knowsWhoOwnsLandInvolved)
+			.withCondition(() =>
+				questionsHaveAnswers(
+					response,
+					[
+						[questions.ownsSomeLand, 'no'],
+						[questions.ownsAllLand, 'no']
+					],
+					{ logicalCombinator: 'and' }
+				)
 			)
-		)
-		.addQuestion(questions.identifyingLandowners)
-		.withCondition(() => shouldDisplayIdentifyingLandowners(response, questions))
-		.addQuestion(questions.advertisingAppeal)
-		.withCondition(
-			() =>
-				shouldDisplayIdentifyingLandowners(response, questions) &&
-				questionHasAnswer(response, questions.identifyingLandowners, 'yes')
-		)
-		.addQuestion(questions.tellingLandowners)
-		.withCondition(() => shouldDisplayTellingLandowners(response, questions))
-		.addQuestion(questions.inspectorAccess)
-		.addQuestion(questions.healthAndSafety)
-		.addQuestion(questions.enterApplicationReference)
-		.addQuestion(questions.planningApplicationDate)
-		.addQuestion(questions.enterDevelopmentDescription)
-		.addQuestion(questions.updateDevelopmentDescription)
-		.addQuestion(questions.anyOtherAppeals)
-		.addQuestion(questions.linkAppeals)
-		.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
-	new Section('Upload documents', 'upload-documents')
-		.addQuestion(questions.uploadOriginalApplicationForm)
-		.addQuestion(questions.uploadChangeOfDescriptionEvidence)
-		.withCondition(() => questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes'))
-		.addQuestion(questions.uploadApplicationDecisionLetter)
-		.addQuestion(questions.uploadAppellantStatement)
-		.addQuestion(questions.costApplication)
-		.addQuestion(questions.uploadCostApplication)
-		.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))
-		.addQuestion(questions.designAccessStatement)
-		.addQuestion(questions.uploadDesignAccessStatement)
-		.withCondition(() => questionHasAnswer(response, questions.designAccessStatement, 'yes'))
-		.addQuestion(questions.uploadPlansDrawingsDocuments)
-];
+			.addQuestion(questions.identifyingLandowners)
+			.withCondition(() => shouldDisplayIdentifyingLandowners(response, questions))
+			.addQuestion(questions.advertisingAppeal)
+			.withCondition(
+				() =>
+					shouldDisplayIdentifyingLandowners(response, questions) &&
+					questionHasAnswer(response, questions.identifyingLandowners, 'yes')
+			)
+			.addQuestion(questions.tellingLandowners)
+			.withCondition(() => shouldDisplayTellingLandowners(response, questions))
+			.addQuestion(questions.inspectorAccess)
+			.addQuestion(questions.healthAndSafety)
+			.addQuestion(questions.enterApplicationReference)
+			.addQuestion(questions.planningApplicationDate)
+			.addQuestion(questions.enterDevelopmentDescription)
+			.addQuestion(questions.updateDevelopmentDescription)
+			.addQuestion(questions.anyOtherAppeals)
+			.addQuestion(questions.linkAppeals)
+			.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
+		new Section('Upload documents', 'upload-documents')
+			.addQuestion(questions.uploadOriginalApplicationForm)
+			.addQuestion(questions.uploadChangeOfDescriptionEvidence)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
+			)
+			.addQuestion(questions.uploadApplicationDecisionLetter)
+			.addQuestion(questions.uploadAppellantStatement)
+			.addQuestion(questions.costApplication)
+			.addQuestion(questions.uploadCostApplication)
+			.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))
+			.addQuestion(questions.designAccessStatement)
+			.addQuestion(questions.uploadDesignAccessStatement)
+			.withCondition(() => questionHasAnswer(response, questions.designAccessStatement, 'yes'))
+			.addQuestion(questions.uploadPlansDrawingsDocuments)
+	];
+};
 
 const baseCASPlanningSubmissionUrl = `/appeals/${CAS_PLANNING.friendlyUrl}`;
 

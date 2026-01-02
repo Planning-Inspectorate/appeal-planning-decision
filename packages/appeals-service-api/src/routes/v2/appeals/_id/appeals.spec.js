@@ -3,7 +3,7 @@ const crypto = require('crypto');
 
 /**
  * @param {Object} dependencies
- * @param {function(): import('@pins/database/src/client').PrismaClient} dependencies.getSqlClient
+ * @param {function(): import('@pins/database/src/client/client').PrismaClient} dependencies.getSqlClient
  * @param {import('supertest').Agent} dependencies.appealsApi
  */
 module.exports = ({ getSqlClient, appealsApi }) => {

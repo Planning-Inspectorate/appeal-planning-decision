@@ -83,7 +83,7 @@ jest.mock('../../services/lpa.service', () => {
 });
 
 const { createPrismaClient } = require('../../db/db-client');
-/** @type {import('@pins/database/src/client').PrismaClient} */
+/** @type {import('@pins/database/src/client/client').PrismaClient} */
 let sqlClient = createPrismaClient();
 
 const { isFeatureActive } = require('../../configuration/featureFlag');

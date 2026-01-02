@@ -50,7 +50,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
 
 			expect(res.status).toHaveBeenCalledWith(400);
 			expect(res.render).toHaveBeenCalledWith('error/400', {
-				message: 'Unable to locate the Local Planning Department for the given LPA Code.'
+				message: 'Unable to locate the Local Planning Authority for the given LPA Code.'
 			});
 		});
 		it('should return 404 if appeal not found', async () => {

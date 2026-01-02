@@ -1,6 +1,6 @@
 const blobClient = require('#lib/back-office-storage-client');
 const archiver = require('archiver');
-const { FOLDERS } = require('@pins/common/src/constants');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { DocumentsRepository } = require('../../../../../../db/repos/repository');
 const repo = new DocumentsRepository();
 const logger = require('#lib/logger');
@@ -13,8 +13,8 @@ const { checkDocAccess } = require('@pins/common/src/access/document-access');
 /**
  * @param {string} caseStage
  * @param {string} caseReference
- * @param {import('@pins/database/src/client').AppealCase} appealCase
- * @param {import('@pins/database/src/client').AppealToUser[]} appealUserRoles
+ * @param {import('@pins/database/src/client/client').AppealCase} appealCase
+ * @param {import('@pins/database/src/client/client').AppealToUser[]} appealUserRoles
  * @param {import('express-oauth2-jwt-bearer').JWTPayload|undefined} access_token
  * @param {object} id_token
  * @returns {Promise<Array<{fullName: string, blobStorageContainer: string | undefined, blobStoragePath: string, documentURI: string}>>}
@@ -30,10 +30,6 @@ async function getBlobCollection(
 	const { email, lpaCode } = id_token;
 	const isLpa = !!lpaCode;
 
-	const folders = FOLDERS.filter((folder) => folder.startsWith(`${caseStage}/`));
-	if (!folders.length) return [];
-	const documentTypes = folders.map((folder) => folder.split('/')[1]);
-
 	const [representations, allDocuments] = await Promise.all([
 		repo.getRepresentationDocsByCaseReference({
 			caseReference,
@@ -41,8 +37,9 @@ async function getBlobCollection(
 			isLpa
 		}),
 		repo.getDocumentsByTypes({
-			documentTypes,
-			caseReference
+			documentTypes: Object.values(APPEAL_DOCUMENT_TYPE),
+			caseReference,
+			stage: caseStage
 		})
 	]);
 

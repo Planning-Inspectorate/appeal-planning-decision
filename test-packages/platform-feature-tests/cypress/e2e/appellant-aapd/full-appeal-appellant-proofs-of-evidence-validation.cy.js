@@ -70,7 +70,7 @@ describe('Appellant Full Planning Proof Of Evidence Validations', { tags: '@S78-
     it(`Validate user should not be allowed to upload wrong format file`, () => {
         cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadAppellantProofOfEvidenceDocuments"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadAppellantProofOfEvidenceDocuments"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX`);
     });
     it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {
         cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadFileGreaterThan25mb);
@@ -129,7 +129,7 @@ describe('Appellant Full Planning Proof Of Evidence Validations', { tags: '@S78-
         cy.advanceToNextPage();
         cy.uploadFileFromFixtureDirectory(proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="#uploadAppellantWitnessesEvidence"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG, XLS or XLSX`);
+        cy.shouldHaveErrorMessage('a[href*="#uploadAppellantWitnessesEvidence"]', `${proofsOfEvidenceTestCases[0]?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX`);
     });
 
     // it(`Validate user should not be able to uploading document(s) greater than 25 MB for Upload your witnesses and their evidence`, () => {

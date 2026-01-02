@@ -38,7 +38,7 @@ parameters:
   - name: seedData
     displayName: Add static (required) data to SQL database
     type: boolean
-    default: false
+    default: true
 
 pr: none
 trigger: none
@@ -64,9 +64,6 @@ extends:
     automaticDeployments:
       environments:
         - name: Dev
-        - name: Test
-          dependsOn:
-            - Dev
     environments:
       - name: Dev
       - name: Test

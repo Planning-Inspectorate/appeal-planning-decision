@@ -5,7 +5,8 @@ const FLAG = {
 	ENFORCEMENT_APPEAL_FORM_V2: 'enforcement-appeal-form-v2',
 	HAS_APPEAL_FORM_V2: 'has-appeal-form-v2',
 	S20_APPEAL_FORM_V2: 's20-appeal-form-v2',
-	S78_APPEAL_FORM_V2: 's78-appeal-form-v2'
+	S78_APPEAL_FORM_V2: 's78-appeal-form-v2',
+	APPLICATION_API_LOOKUP: 'enable-application-api-lookup'
 };
 
 module.exports = {
