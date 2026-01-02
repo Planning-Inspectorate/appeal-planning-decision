@@ -34,9 +34,23 @@ class BopsApiClient {
 	 */
 	async getPublicApplication(reference) {
 		if (process.env.LOCAL_FEATURE_FLAG_USE_EXAMPLE_APPLICATION_API_LOOKUP === 'true') {
-			const exampleResponse = require('./examples/v2-public-planning-applications-ref.json');
-			exampleResponse.application.determinedAt = new Date().toISOString();
-			return exampleResponse;
+			switch (reference) {
+				case 'HOUSEHOLDER-REFUSED': {
+					const householderRefused = require('./examples/application-householder-refused.json');
+					householderRefused.application.determinedAt = new Date().toISOString();
+					return householderRefused;
+				}
+				case 'HOUSEHOLDER-GRANTED': {
+					const householderGranted = require('./examples/application-householder-granted.json');
+					householderGranted.application.determinedAt = new Date().toISOString();
+					return householderGranted;
+				}
+				case 'HOUSEHOLDER-NODECISION': {
+					const householderNoDecision = require('./examples/application-householder-no-decision.json');
+					householderNoDecision.application.expiryDate = new Date().toISOString();
+					return householderNoDecision;
+				}
+			}
 		}
 
 		const endpoint = `${v2}/public/planning_applications/${reference}`;
