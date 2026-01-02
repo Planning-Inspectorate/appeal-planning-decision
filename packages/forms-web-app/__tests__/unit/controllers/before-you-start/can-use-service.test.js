@@ -60,28 +60,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 	});
 
 	describe('getCanUseService', () => {
-		it('renders page - HAS - date of decision', async () => {
-			req = mockReq(householderAppeal);
-
-			await getCanUseService(req, res);
-
-			expect(res.render).toHaveBeenCalledWith(canUseServiceHouseholder, {
-				appealLPD: 'Bradford',
-				applicationDecision: 'Granted with conditions',
-				applicationType: 'Householder planning',
-				claimingCosts: 'No',
-				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
-				decisionDate: '04 May 2022',
-				dateOfDecisionLabel: 'Date of decision',
-				enforcementNotice: 'No',
-				isListedBuilding: 'No',
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
-				changeLpaUrl: '/before-you-start/local-planning-authority',
-				bannerHtmlOverride: bannerHtmlOverrideHAS
-			});
-		});
-
-		it('renders page - HAS - date decision due', async () => {
+		it('renders page - HAS - date decision due - v2', async () => {
 			const householderAppealNoDecisionReceived = { ...householderAppeal };
 			householderAppealNoDecisionReceived.eligibility.applicationDecision = 'nodecisionreceived';
 			req = mockReq(householderAppealNoDecisionReceived);
@@ -92,44 +71,17 @@ describe('controllers/before-you-start/can-use-service', () => {
 				appealLPD: 'Bradford',
 				applicationDecision: 'No decision received',
 				applicationType: 'Householder planning',
-				claimingCosts: 'No',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date decision due',
 				enforcementNotice: 'No',
-				isListedBuilding: 'No',
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
-				changeLpaUrl: '/before-you-start/local-planning-authority',
-				bannerHtmlOverride: bannerHtmlOverrideHAS
-			});
-		});
-
-		it('renders page - HAS - date decision due - v2 - s20 flag', async () => {
-			isLpaInFeatureFlag.mockReturnValue(true);
-			const householderAppealNoDecisionReceived = { ...householderAppeal };
-			householderAppealNoDecisionReceived.eligibility.applicationDecision = 'nodecisionreceived';
-			req = mockReq(householderAppealNoDecisionReceived);
-
-			await getCanUseService(req, res);
-
-			expect(res.render).toHaveBeenCalledWith(canUseServiceHouseholder, {
-				appealLPD: 'Bradford',
-				applicationDecision: 'No decision received',
-				applicationType: 'Householder planning',
-				claimingCosts: 'No',
-				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
-				decisionDate: '04 May 2022',
-				dateOfDecisionLabel: 'Date decision due',
-				enforcementNotice: 'No',
-				isListedBuilding: null,
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				bannerHtmlOverride: bannerHtmlOverrideHAS
 			});
 		});
 
-		it('renders page - HAS - date of decision - v2 - s20 flag', async () => {
-			isLpaInFeatureFlag.mockReturnValue(true);
+		it('renders page - HAS - date of decision - v2', async () => {
 			req = mockReq(householderAppeal);
 
 			await getCanUseService(req, res);
@@ -138,12 +90,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 				appealLPD: 'Bradford',
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Householder planning',
-				claimingCosts: 'No',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
-				isListedBuilding: null,
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				bannerHtmlOverride: bannerHtmlOverrideHAS
@@ -152,7 +102,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 	});
 
 	describe('getCanUseService - prior approval', () => {
-		it('renders page - s78 - no prior approval - v1', async () => {
+		it('renders page - s78 - no prior approval - v2', async () => {
 			req = mockReq(priorApprovalFPAppeal);
 
 			await getCanUseService(req, res);
@@ -166,41 +116,12 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				dateOfDecisionLabel: 'Date of decision',
 				hasPriorApprovalForExistingHome: 'No',
-				isListedBuilding: 'No',
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
-				changeLpaUrl: '/before-you-start/local-planning-authority'
-			});
-		});
-
-		it('renders page - s78 - no prior approval - v2 - s78 flag', async () => {
-			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.S78_APPEAL_FORM_V2;
-			});
-			req = mockReq(priorApprovalFPAppeal);
-
-			await getCanUseService(req, res);
-
-			expect(res.render).toHaveBeenCalledWith(canUseServicePriorApprovalFull, {
-				appealLPD: 'Bradford',
-				applicationDecision: 'Refused',
-				applicationType: 'Prior approval',
-				deadlineDate: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
-				decisionDate: '20 February 2022',
-				enforcementNotice: 'No',
-				dateOfDecisionLabel: 'Date of decision',
-				hasPriorApprovalForExistingHome: 'No',
-				isListedBuilding: 'No',
-				isV2forS78: true,
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority'
 			});
 		});
 
-		it('renders page - s78 - no prior approval - v2 - s78 and s20 flag', async () => {
-			isLpaInFeatureFlag.mockImplementation(() => {
-				return true;
-			});
-
+		it('renders page - s78 - no prior approval - v2', async () => {
 			req = mockReq(priorApprovalFPAppeal);
 
 			await getCanUseService(req, res);
@@ -214,39 +135,12 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				dateOfDecisionLabel: 'Date of decision',
 				hasPriorApprovalForExistingHome: 'No',
-				isListedBuilding: null,
-				isV2forS78: true,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address'
 			});
 		});
 
-		it('renders page - HAS - prior approval', async () => {
-			req = mockReq(priorApprovalHASAppeal);
-
-			await getCanUseService(req, res);
-
-			expect(res.render).toHaveBeenCalledWith(canUseServicePriorApprovalHouseholder, {
-				appealLPD: 'Bradford',
-				applicationDecision: 'Refused',
-				applicationType: 'Prior approval',
-				deadlineDate: { date: 15, day: 'Sunday', month: 'May', year: 2022 },
-				decisionDate: '20 February 2022',
-				enforcementNotice: 'No',
-				dateOfDecisionLabel: 'Date of decision',
-				claimingCosts: 'No',
-				hasPriorApprovalForExistingHome: 'Yes',
-				isListedBuilding: 'No',
-				changeLpaUrl: '/before-you-start/local-planning-authority',
-				nextPageUrl: '/appeal-householder-decision/planning-application-number'
-			});
-		});
-
-		it('renders page - HAS - prior approval - v2 - s20 flag', async () => {
-			isLpaInFeatureFlag.mockImplementation(() => {
-				return true;
-			});
-
+		it('renders page - HAS - prior approval - v2', async () => {
 			req = mockReq(priorApprovalHASAppeal);
 
 			await getCanUseService(req, res);
@@ -258,9 +152,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '20 February 2022',
 				enforcementNotice: 'No',
 				dateOfDecisionLabel: 'Date of decision',
-				claimingCosts: 'No',
 				hasPriorApprovalForExistingHome: 'Yes',
-				isListedBuilding: null,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/appeal-householder-decision/email-address'
 			});
@@ -268,7 +160,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 	});
 
 	describe('getCanUseService - removal or variation of conditions', () => {
-		it('renders page - s78 - v1', async () => {
+		it('renders page - s78', async () => {
 			req = mockReq(removalOrVariationOfConditionsFPAppeal);
 
 			await getCanUseService(req, res);
@@ -284,33 +176,6 @@ describe('controllers/before-you-start/can-use-service', () => {
 					enforcementNotice: 'No',
 					dateOfDecisionLabel: 'Date of decision',
 					hasHouseholderPermissionConditions: 'No',
-					isListedBuilding: 'No',
-					changeLpaUrl: '/before-you-start/local-planning-authority',
-					nextPageUrl: '/full-appeal/submit-appeal/planning-application-number'
-				}
-			);
-		});
-		it('renders page - s78 - v2', async () => {
-			isLpaInFeatureFlag.mockImplementation(() => {
-				return true;
-			});
-
-			req = mockReq(removalOrVariationOfConditionsFPAppeal);
-
-			await getCanUseService(req, res);
-
-			expect(res.render).toHaveBeenCalledWith(
-				canUseServiceRemovalOrVariationOfConditionsFullAppeal,
-				{
-					appealLPD: 'Bradford',
-					applicationDecision: 'Refused',
-					applicationType: 'Removal or variation of conditions',
-					deadlineDate: { date: 20, day: 'Saturday', month: 'August', year: 2022 },
-					decisionDate: '20 February 2022',
-					enforcementNotice: 'No',
-					dateOfDecisionLabel: 'Date of decision',
-					hasHouseholderPermissionConditions: 'No',
-					isV2: true,
 					isListedBuilding: 'No',
 					changeLpaUrl: '/before-you-start/local-planning-authority',
 					nextPageUrl: '/full-appeal/submit-appeal/email-address'
@@ -332,51 +197,21 @@ describe('controllers/before-you-start/can-use-service', () => {
 					decisionDate: '20 February 2022',
 					enforcementNotice: 'No',
 					dateOfDecisionLabel: 'Date of decision',
-					claimingCosts: 'No',
 					hasHouseholderPermissionConditions: 'Yes',
 					isListedBuilding: 'No',
 					changeLpaUrl: '/before-you-start/local-planning-authority',
-					nextPageUrl: '/appeal-householder-decision/planning-application-number'
+					nextPageUrl: '/appeal-householder-decision/email-address'
 				}
 			);
 		});
 	});
 
 	describe('getCanUseService - s78', () => {
-		it('renders page - s78 - date of decision - v1', async () => {
-			req = mockReq(fullAppeal);
-
-			isLpaInFeatureFlag.mockImplementation(() => {
-				return false;
-			});
-
-			await getCanUseService(req, res);
-
-			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				appealLPD: 'Bradford',
-				applicationAbout: null,
-				applicationDecision: 'Granted with conditions',
-				applicationType: 'Full appeal',
-				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
-				decisionDate: '04 May 2022',
-				dateOfDecisionLabel: 'Date of decision',
-				enforcementNotice: 'No',
-				isListedBuilding: 'No',
-				changeLpaUrl: '/before-you-start/local-planning-authority',
-				isV2forCAS: false,
-				isV2forCASAdverts: false,
-				isV2forS78: false,
-				isV2forAdverts: false,
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
-				bannerHtmlOverride
-			});
+		beforeEach(() => {
+			isLpaInFeatureFlag.mockImplementation(() => false);
 		});
 
-		it('renders page - s78 - date of decision - v2 - s78 flag', async () => {
-			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.S78_APPEAL_FORM_V2;
-			});
-
+		it('renders page - s78 - date of decision - v2', async () => {
 			req = mockReq(fullAppeal);
 
 			await getCanUseService(req, res);
@@ -390,10 +225,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
-				isListedBuilding: 'No',
 				isV2forCAS: false,
 				isV2forCASAdverts: false,
-				isV2forS78: true,
 				isV2forAdverts: false,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
@@ -401,10 +234,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			});
 		});
 
-		it('renders page - s78 - date of decision - v2 - s20 & s78 flag', async () => {
-			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.S78_APPEAL_FORM_V2 || flag === FLAG.S20_APPEAL_FORM_V2;
-			});
+		it('renders page - s78 - date of decision - v2', async () => {
 			req = mockReq(fullAppeal);
 
 			await getCanUseService(req, res);
@@ -418,10 +248,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
-				isListedBuilding: null,
 				isV2forCAS: false,
 				isV2forCASAdverts: false,
-				isV2forS78: true,
 				isV2forAdverts: false,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
@@ -429,14 +257,11 @@ describe('controllers/before-you-start/can-use-service', () => {
 			});
 		});
 
-		it('renders page - s78 - date decision due - v1', async () => {
+		it('renders page - s78 - date decision due - v2', async () => {
 			const fullAppealNoDecisionReceived = { ...fullAppeal };
 			fullAppealNoDecisionReceived.eligibility.applicationDecision = 'nodecisionreceived';
-			req = mockReq(fullAppealNoDecisionReceived);
 
-			isLpaInFeatureFlag.mockImplementation(() => {
-				return false;
-			});
+			req = mockReq(fullAppealNoDecisionReceived);
 
 			await getCanUseService(req, res);
 
@@ -449,21 +274,16 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date decision due',
 				enforcementNotice: 'No',
-				isListedBuilding: 'No',
 				isV2forCAS: false,
 				isV2forCASAdverts: false,
-				isV2forS78: false,
 				isV2forAdverts: false,
-				nextPageUrl: '/full-appeal/submit-appeal/planning-application-number',
+				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				bannerHtmlOverride
 			});
 		});
 
-		it('renders page - s78 - date decision due - v2 - s78 flag', async () => {
-			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.S78_APPEAL_FORM_V2;
-			});
+		it('renders page - s78 - date decision due - v2', async () => {
 			const fullAppealNoDecisionReceived = { ...fullAppeal };
 			fullAppealNoDecisionReceived.eligibility.applicationDecision = 'nodecisionreceived';
 			req = mockReq(fullAppealNoDecisionReceived);
@@ -479,40 +299,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date decision due',
 				enforcementNotice: 'No',
-				isListedBuilding: 'No',
 				isV2forCAS: false,
 				isV2forCASAdverts: false,
-				isV2forS78: true,
-				isV2forAdverts: false,
-				nextPageUrl: '/full-appeal/submit-appeal/email-address',
-				changeLpaUrl: '/before-you-start/local-planning-authority',
-				bannerHtmlOverride
-			});
-		});
-
-		it('renders page - s78 - date decision due - v2 - s20 & s78 flag', async () => {
-			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.S78_APPEAL_FORM_V2 || flag === FLAG.S20_APPEAL_FORM_V2;
-			});
-			const fullAppealNoDecisionReceived = { ...fullAppeal };
-			fullAppealNoDecisionReceived.eligibility.applicationDecision = 'nodecisionreceived';
-			req = mockReq(fullAppealNoDecisionReceived);
-
-			await getCanUseService(req, res);
-
-			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				appealLPD: 'Bradford',
-				applicationAbout: null,
-				applicationDecision: 'No decision received',
-				applicationType: 'Full appeal',
-				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
-				decisionDate: '04 May 2022',
-				dateOfDecisionLabel: 'Date decision due',
-				enforcementNotice: 'No',
-				isListedBuilding: null,
-				isV2forCAS: false,
-				isV2forCASAdverts: false,
-				isV2forS78: true,
 				isV2forAdverts: false,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
@@ -522,10 +310,11 @@ describe('controllers/before-you-start/can-use-service', () => {
 	});
 
 	describe('getCanUseService - s20', () => {
+		beforeEach(() => {
+			isLpaInFeatureFlag.mockImplementation(() => false);
+		});
+
 		it('renders page - s20', async () => {
-			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.S20_APPEAL_FORM_V2;
-			});
 			const s20Appeal = {
 				appealType: APPEAL_ID.PLANNING_LISTED_BUILDING,
 				typeOfPlanningApplication: 'listed-building',
@@ -548,10 +337,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
-				isListedBuilding: null,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/listed-building/email-address',
-				isV2forS78: false,
 				isV2forCAS: false,
 				isV2forCASAdverts: false,
 				isV2forAdverts: false,
@@ -590,10 +377,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
-				isListedBuilding: 'No',
 				nextPageUrl: '/cas-planning/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				isV2forS78: false,
 				isV2forCAS: true,
 				isV2forCASAdverts: false,
 				isV2forAdverts: false,
@@ -632,10 +417,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
-				isListedBuilding: 'No',
 				nextPageUrl: '/adverts/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				isV2forS78: false,
 				isV2forCAS: false,
 				isV2forCASAdverts: false,
 				isV2forAdverts: true,
@@ -673,10 +456,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
-				isListedBuilding: 'No',
 				nextPageUrl: '/adverts/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				isV2forS78: false,
 				isV2forCAS: false,
 				isV2forCASAdverts: true,
 				isV2forAdverts: false,

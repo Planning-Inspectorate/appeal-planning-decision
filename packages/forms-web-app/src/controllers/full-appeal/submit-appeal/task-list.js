@@ -46,6 +46,12 @@ function countTasks(sections) {
 
 exports.getTaskList = (req, res) => {
 	const { appeal } = req.session;
+
+	// block appeals that have not completed before you start
+	if (appeal?.hideFromDashboard) {
+		throw new Error(`Appeal ${appeal._id} has not completed before you start`);
+	}
+
 	const sections = buildTaskLists(appeal);
 
 	const applicationStatus = 'Appeal incomplete';
