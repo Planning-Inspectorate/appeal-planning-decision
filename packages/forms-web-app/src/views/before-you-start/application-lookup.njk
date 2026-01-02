@@ -13,43 +13,85 @@
 {% block content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            {% if errorSummary %}
-                {{ govukErrorSummary({
-                    titleText: "There is a problem",
-                    errorList: errorSummary
-                }) }}
-            {% endif %}
-            <form action="" method="post" novalidate>
-                <input type="hidden" name="_csrf" value="{{ _csrf }}"/>
-                <span class="govuk-caption-l">Before you start</span>
-                {{ govukInput({
-                        label: {
-                        text: "What’s your application number?",
-                        classes: "govuk-label--l",
-                        isPageHeading: true
-                    },
-                    hint: {
-                        text: "You can find this on communications from your local planning department about your application."
-                    },
-                    classes: "govuk-input govuk-input--width-10",
-                    id: "application-number",
-                    name: "application-number",
-                    spellcheck: false,
-                    errorMessage: errors['application-number'] and {
-                        text: errors['application-number'].msg
-                    },
-                    value: planningApplicationNumber
-                }) }}
-                {{ govukButton({
-                    text: "Continue",
-                    type: "submit",
-                    attributes: { "data-cy":"button-save-and-continue"}
-                }) }}
-
-                <p class="govuk-body">
-                    <a href="/before-you-start/type-of-planning-application" class="govuk-link">Continue without application number</a>
-                </p>
-            </form>
+            <div id="application-lookup-form">
+                {% if errorSummary %}
+                    {{ govukErrorSummary({
+                        titleText: "There is a problem",
+                        errorList: errorSummary
+                    }) }}
+                {% endif %}
+                <form action="" method="post" novalidate>
+                    <input type="hidden" name="_csrf" value="{{ _csrf }}"/>
+                    <span class="govuk-caption-l">Before you start</span>
+                    {{ govukInput({
+                            label: {
+                            text: "What’s your application number?",
+                            classes: "govuk-label--l",
+                            isPageHeading: true
+                        },
+                        hint: {
+                            text: "You can find this on communications from your local planning department about your application."
+                        },
+                        classes: "govuk-input govuk-input--width-10",
+                        id: "application-number",
+                        name: "application-number",
+                        spellcheck: false,
+                        errorMessage: errors['application-number'] and {
+                            text: errors['application-number'].msg
+                        },
+                        value: planningApplicationNumber
+                    }) }}
+                    {{ govukButton({
+                        text: "Continue",
+                        type: "submit",
+                        attributes: { "data-cy":"button-save-and-continue"}
+                    }) }}
+                    <p class="govuk-body">
+                        <a href="/before-you-start/type-of-planning-application" class="govuk-link">Continue without application number</a>
+                    </p>
+                </form>
+            </div>
+            <div
+                id="loading-overlay"
+                tabindex="-1"
+                class="hods-loading-spinner hods-loading-spinner--hidden"
+                role="status"
+                aria-hidden="true">
+                <div class="hods-loading-spinner__spinner"></div>
+                <div class="hods-loading-spinner__content">
+                    <p class="govuk-heading-m">Retrieving application details...</p>
+                </div>
+            </div>
         </div>
     </div>
+{% endblock %}
+{% block pageScripts %}
+    <script {% if cspNonce %} nonce={{ cspNonce }} {% endif %}>
+        document.addEventListener('DOMContentLoaded', () => {
+            const formWrapper = document.getElementById('application-lookup-form');
+            const form = formWrapper.querySelector('form');
+            const overlay = document.getElementById('loading-overlay');
+            const input = document.getElementById('application-number');
+            form.addEventListener('submit', (e) => {
+                if (input.value.trim() === '') {
+                    return;
+                }
+                e.preventDefault();
+                overlay.setAttribute('aria-hidden', 'false');
+                overlay.classList.remove('hods-loading-spinner--hidden');
+                overlay.focus();
+                formWrapper.classList.add('remove-content');
+                formWrapper.setAttribute('aria-hidden', 'true');
+                formWrapper.setAttribute('aria-busy', 'true');
+                setTimeout(() => form.submit(), 120);
+            });
+            window.addEventListener('pageshow', (event) => {
+                formWrapper.classList.remove('remove-content');
+                formWrapper.removeAttribute('aria-hidden');
+                formWrapper.removeAttribute('aria-busy');
+                overlay.classList.add('hods-loading-spinner--hidden');
+                overlay.setAttribute('aria-hidden', 'true');
+            });
+        });
+    </script>
 {% endblock %}

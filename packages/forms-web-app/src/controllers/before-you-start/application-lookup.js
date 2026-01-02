@@ -59,7 +59,6 @@ const postApplicationLookup = async (req, res) => {
 	try {
 		const bopsClient = new BopsApiClient(bopsAPIBaseUrl, allowTestingOverrides);
 		lookupResult = await bopsClient.getPublicApplication(planningApplicationNumber);
-		// todo: ad-45 add loading screen while we wait for api response
 	} catch {
 		logger.debug('failed application lookup asking user to confirm');
 		// save application number to appeal and ask them to confirm if request fails for any reason
