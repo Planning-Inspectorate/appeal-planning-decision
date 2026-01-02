@@ -35,17 +35,17 @@ class BopsApiClient {
 	async getPublicApplication(reference) {
 		if (process.env.LOCAL_FEATURE_FLAG_USE_EXAMPLE_APPLICATION_API_LOOKUP === 'true') {
 			switch (reference) {
-				case 'HOUSEHOLDER-REFUSED': {
+				case 'HH-REFUSED': {
 					const householderRefused = require('./examples/application-householder-refused.json');
 					householderRefused.application.determinedAt = new Date().toISOString();
 					return householderRefused;
 				}
-				case 'HOUSEHOLDER-GRANTED': {
+				case 'HH-GRANTED': {
 					const householderGranted = require('./examples/application-householder-granted.json');
 					householderGranted.application.determinedAt = new Date().toISOString();
 					return householderGranted;
 				}
-				case 'HOUSEHOLDER-NODECISION': {
+				case 'HH-NODECISION': {
 					const householderNoDecision = require('./examples/application-householder-no-decision.json');
 					householderNoDecision.application.expiryDate = new Date().toISOString();
 					return householderNoDecision;
