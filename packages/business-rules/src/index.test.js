@@ -4,6 +4,7 @@ const validation = require('./validation');
 const schemas = require('./schemas');
 const constants = require('./constants');
 const config = require('./config');
+const mappings = require('./mappings');
 
 describe('index', () => {
 	it('should export the expected data shape', () => {
@@ -12,7 +13,8 @@ describe('index', () => {
 			validation,
 			schemas,
 			constants,
-			config
+			config,
+			mappings
 		});
 	});
 });
