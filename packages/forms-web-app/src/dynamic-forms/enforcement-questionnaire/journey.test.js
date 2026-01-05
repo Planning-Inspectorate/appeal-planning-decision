@@ -284,9 +284,7 @@ describe('Enforcement Journey', () => {
 			expect(question1.url).toContain('upload-enforcement-list');
 
 			const question2 = questions[1];
-			expect(question2.title).toBe(
-				'Upload the appeal notification letter and the list of people that you notified'
-			);
+			expect(question2.title).toBe('Appeal notification letter');
 			expect(question2.fieldName).toBe('appealNotification');
 			expect(question2.url).toContain('appeal-notification-letter');
 		}

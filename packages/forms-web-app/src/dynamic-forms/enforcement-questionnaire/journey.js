@@ -119,7 +119,7 @@ const makeSections = (response) => {
 		// new Section('Notifying relevant parties', 'notified'),
 		new Section('Notifying relevant parties', 'notified')
 			.addQuestion(questions.listOfPeopleSentEnforcementNotice)
-			.addQuestion(questions.enforcementAppealNotification),
+			.addQuestion(questions.appealNotification),
 
 		new Section('Planning officer’s report and supporting documents', 'planning-officer-report')
 			.addQuestion(questions.planningOfficersReport)
