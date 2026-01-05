@@ -26501,7 +26501,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-enforcement-list">Upload<span class="govuk-visually-hidden"> the list of people that you served the enforcement notice to</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the appeal notification letter and the list of people that you notified</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/appeal-notification-letter">Upload<span class="govuk-visually-hidden"> the appeal notification letter and the list of people that you notified</span></a>
