@@ -283,6 +283,76 @@ describe('controllers/before-you-start/can-use-service', () => {
 			});
 		});
 
+		it('renders page - s78 - decision is granted and type of application is minor commercial development', async () => {
+			const fullPlanningAppealMinorCommercialGranted = {
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+				appealType: APPEAL_ID.PLANNING_SECTION_78,
+				lpaCode: 'E60000068',
+				decisionDate: fullAppeal.decisionDate,
+				eligibility: {
+					applicationDecision: 'granted',
+					planningApplicationAbout: ['none_of_these']
+				}
+			};
+			req = mockReq(fullPlanningAppealMinorCommercialGranted);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				appealLPD: 'Bradford',
+				applicationAbout: ['None of these'],
+				applicationDecision: 'Granted with conditions',
+				applicationType: 'Minor commercial development',
+				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
+				decisionDate: '04 May 2022',
+				dateOfDecisionLabel: 'Date of decision',
+				enforcementNotice: 'No',
+				nextPageUrl: '/full-appeal/submit-appeal/email-address',
+				changeLpaUrl: '/before-you-start/local-planning-authority',
+				isV2forCAS: false,
+				isV2forCASAdverts: false,
+				isV2forAdverts: false,
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'))
+			});
+		});
+
+		it('renders page - s78 - decision is no decision and type of application is minor commercial development', async () => {
+			const fullPlanningAppealMinorCommercialNoDecision = {
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+				appealType: APPEAL_ID.PLANNING_SECTION_78,
+				lpaCode: 'E60000068',
+				decisionDate: fullAppeal.decisionDate,
+				eligibility: {
+					applicationDecision: 'nodecisionreceived',
+					planningApplicationAbout: ['none_of_these']
+				}
+			};
+			req = mockReq(fullPlanningAppealMinorCommercialNoDecision);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				appealLPD: 'Bradford',
+				applicationAbout: ['None of these'],
+				applicationDecision: 'No decision received',
+				applicationType: 'Minor commercial development',
+				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
+				decisionDate: '04 May 2022',
+				dateOfDecisionLabel: 'Date decision due',
+				enforcementNotice: 'No',
+				nextPageUrl: '/full-appeal/submit-appeal/email-address',
+				changeLpaUrl: '/before-you-start/local-planning-authority',
+				isV2forCAS: false,
+				isV2forCASAdverts: false,
+				isV2forAdverts: false,
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'))
+			});
+		});
+
 		it('renders page - s78 - date decision due - v2', async () => {
 			const fullAppealNoDecisionReceived = { ...fullAppeal };
 			fullAppealNoDecisionReceived.eligibility.applicationDecision = 'nodecisionreceived';
@@ -360,7 +430,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				lpaCode: 'E60000068',
 				decisionDate: fullAppeal.decisionDate,
 				eligibility: {
-					applicationDecision: 'granted',
+					applicationDecision: 'refused',
 					planningApplicationAbout: ['none_of_these']
 				}
 			};
@@ -371,7 +441,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
 				appealLPD: 'Bradford',
 				applicationAbout: ['None of these'],
-				applicationDecision: 'Granted with conditions',
+				applicationDecision: 'Refused',
 				applicationType: 'Minor commercial development',
 				deadlineDate: { date: 27, day: 'Wednesday', month: 'July', year: 2022 },
 				decisionDate: '04 May 2022',

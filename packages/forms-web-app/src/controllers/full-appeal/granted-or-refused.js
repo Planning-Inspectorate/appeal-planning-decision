@@ -68,6 +68,14 @@ exports.postGrantedOrRefused = async (req, res) => {
 				? (appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT)
 				: (appeal.appealType = APPEAL_ID.ADVERTISEMENT);
 	}
+	if (
+		appeal.typeOfPlanningApplication == TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT
+	) {
+		appeal.appealType =
+			applicationDecision == APPLICATION_DECISION.REFUSED
+				? (appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL)
+				: (appeal.appealType = APPEAL_ID.PLANNING_SECTION_78);
+	}
 
 	try {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
