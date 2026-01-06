@@ -10,8 +10,7 @@ import { questionnaire } from "./lpaManageAppeals/questionnaire";
 import { statementForCaseRef } from "./lpaManageAppeals/statement";
 import { viewValidatedAppealDetailsLPA } from "./lpaManageAppeals/viewValidatedAppealDetailsLPA";
 
-export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, questionnaireTestCases, statementTestCases) => {
-    cy.log('Starting End-to-End Integration flow for Appeals', context.endToEndIntegration, context, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, questionnaireTestCases, statementTestCases) => {  
     if (context?.endToEndIntegration) {
         // Get the Case Reference and validate submitted appeal details
         cy.get(`a[href="/appeals/your-appeals"]`).click();
@@ -34,42 +33,11 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
             cy.startAppeal(caseRef);
 
             // Submit the LPA questionnaire 
-            viewValidatedAppealDetailsLPA(caseRef);
-            cy.log('Appeal type for questionnaire submission:', appealType);
+            viewValidatedAppealDetailsLPA(caseRef);            
 
-            // // Map UI labels to your canonical appeal type strings
-            // const uiToCanonical = {
-            //     'planning': lpaManageAppealsData?.s78AppealType,
-            //     'planning listed building and conservation area': lpaManageAppealsData?.s20AppealType,
-            //     'advertisement': lpaManageAppealsData?.advertAppealType,
-            //     'commercial advertisement': lpaManageAppealsData?.commercialadvAppealType,
-            //     'householder': lpaManageAppealsData?.hasAppealType // if present
-            // };
-
-            // const normalizedUI = String(appealType).trim().toLowerCase();
-            // const canonicalType = uiToCanonical[normalizedUI] ?? appealType;
-
-            // // Use canonicalType for routing
-            // const genericQuestionnaireTypes = [
-            //     lpaManageAppealsData?.s78AppealType,
-            //     lpaManageAppealsData?.s20AppealType,
-            //     lpaManageAppealsData?.commercialadvAppealType,
-            //     lpaManageAppealsData?.advertAppealType
-            // ].filter(Boolean);
-
-            // if (genericQuestionnaireTypes.includes(canonicalType)) {
-            //     cy.log('questionnaire submission:', canonicalType);
-            //     questionnaire(questionnaireTestCases[0], lpaManageAppealsData, canonicalType, caseRef);
-            // } else {
-            //     cy.log('house holder questionnaire submission:', canonicalType);
-            //     householderQuestionnaire(questionnaireTestCases[0], lpaManageAppealsData, canonicalType, caseRef);
-            // }
-
-            if ( appealType === lpaManageAppealsData?.s78AppealType || appealType === lpaManageAppealsData?.s20AppealType || appealType === lpaManageAppealsData?.commercialadvAppealType || appealType === lpaManageAppealsData?.advertAppealType ) {
-                cy.log('questionnaire submission:', appealType);
+            if ( appealType === lpaManageAppealsData?.s78AppealType || appealType === lpaManageAppealsData?.s20AppealType || appealType === lpaManageAppealsData?.commercialadvAppealType || appealType === lpaManageAppealsData?.advertAppealType ) {                
                 questionnaire(questionnaireTestCases[0], lpaManageAppealsData, appealType, caseRef);
-            } else {
-                cy.log('house holder questionnaire submission:', appealType);
+            } else {               
                 householderQuestionnaire(questionnaireTestCases[0], lpaManageAppealsData, appealType, caseRef);
             }
 

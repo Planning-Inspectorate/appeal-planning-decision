@@ -43,6 +43,7 @@ export const advertAppealNoDecisionTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'not started',
         typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
+        endToEndIntegration: false,
 
         applicationForm: {
             isAppellant: true,

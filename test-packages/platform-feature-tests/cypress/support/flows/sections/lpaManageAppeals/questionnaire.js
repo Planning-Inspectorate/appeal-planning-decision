@@ -70,8 +70,7 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 	const siteAccess = new SiteAccess();
 	const notifyParties = new NotifyParties();
 	const poReportAndSupportDocs = new PoReportAndSupportDocs();
-	selectAppealIdFromTable(context, lpaManageAppealsData, lpaAppealType, caseRef).then(($link) => {
-		cy.log('Link found:', $link.text());
+	selectAppealIdFromTable(context, lpaManageAppealsData, lpaAppealType, caseRef).then(($link) => {	
 		if (caseRef) {
 			appealId = caseRef;
 			cy.contains('a.govuk-link', 'Submit questionnaire').click();
@@ -138,12 +137,6 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 		}
 		constraintsAndDesignations.selectGreenBelt(context);
 		constraintsAndDesignations.selectAreaOfOutstandingNaturalBeauty(context, lpaManageAppealsData);
-		cy.log('lpaAppealType:', lpaAppealType);
-		cy.log('s20AppealType:', lpaManageAppealsData?.s20AppealType);
-		cy.log('s78AppealType:', lpaManageAppealsData?.s78AppealType);
-		cy.log('commercialadvAppealType:', lpaManageAppealsData?.commercialadvAppealType);
-		cy.log('advertAppealType:', lpaManageAppealsData?.advertAppealType);
-		cy.log('context:', JSON.stringify(context));
 		if (lpaAppealType === lpaManageAppealsData?.s20AppealType || lpaAppealType === lpaManageAppealsData?.s78AppealType) {
 			constraintsAndDesignations.selectTreePreservationOrder(context);
 			constraintsAndDesignations.selectGypsyTraveller(context);
@@ -152,14 +145,10 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 		}
 		notifyParties.selectAndNotifyParties(context, lpaManageAppealsData);
 		consultResponseAndRepresent.selectStatutoryConsultees(context, lpaManageAppealsData);
-		cy.log('lpaAppealType in questionnaire:', lpaAppealType);
 		if (lpaAppealType === lpaManageAppealsData?.s20AppealType || lpaAppealType === lpaManageAppealsData?.s78AppealType) {
 			consultResponseAndRepresent.selectConsultationResponses(context);
 		}
-		cy.log('lpaAppealType in questionnaire 2:', lpaAppealType);
-
-		consultResponseAndRepresent.selectOtherPartyRepresentations(context);
-		cy.log('lpaAppealType in questionnaire 3:', lpaAppealType);
+		consultResponseAndRepresent.selectOtherPartyRepresentations(context);		
 		//Planning officer's report and supplementary documents
 		poReportAndSupportDocs.selectPOReportAndSupportDocsS78(context);
 		if (lpaAppealType === lpaManageAppealsData?.commercialadvAppealType || lpaAppealType === lpaManageAppealsData?.advertAppealType) {

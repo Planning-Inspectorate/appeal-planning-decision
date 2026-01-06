@@ -52,9 +52,9 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 		initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.fullAppealText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerListedBuilding) {		
 		initialiseListedBuilding(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.listedBuildingText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
-	} else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {
+	} else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {	
 		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? 
-		initialiseHouseHolderPlanning(planning, grantedOrRefusedId, context, prepareAppealData,  lpaManageAppealsData,questionnaireTestCases, statementTestCases) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);	
+		initialiseHouseHolderPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData,  lpaManageAppealsData,questionnaireTestCases, statementTestCases) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);	
 	} else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
 		if(context?.selectAllPlanningApplicationAbout) {
 			//s78 route

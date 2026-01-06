@@ -30,7 +30,9 @@ export const statement = (context, lpaManageAppealsData,appealType) => {
 			rowCounter++;
 		}
 	}).then(() => {
+		cy.advanceToNextPage();
 		cy.url().should('include', `/manage-appeals/appeal-statement/${appealId}/appeal-statement`);
+		
 		statement.addStatement(context);
 		statement.haveAdditionalDocumentforStatement(context);
 	});

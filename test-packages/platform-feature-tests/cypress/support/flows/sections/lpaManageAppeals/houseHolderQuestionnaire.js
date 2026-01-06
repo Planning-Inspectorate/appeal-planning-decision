@@ -78,6 +78,7 @@ export const householderQuestionnaire = (context, lpaManageAppealsData, lpaAppea
 						.invoke('text')
 						.then((txt) => {
 							const normalized = txt.replace(/\s+/g, ' ').trim();
+							cy.log(`Verifying appeal type. Expected: "${expected}", Found: "${normalized}"`);
 							expect(normalized).to.include(expected);
 						});
 					return false;
@@ -88,8 +89,7 @@ export const householderQuestionnaire = (context, lpaManageAppealsData, lpaAppea
 		// Determine the correct "Is this the correct type" label.
 		const correctTypeText = targetAppealType === lpaManageAppealsData?.casPlanningAppealType
 			? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealCASPlanning
-			: lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealHouseHolder;
-
+			: lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealHouseHolder;	
 		cy.contains(correctTypeText)
 			.closest(basePage?._selectors.govukSummaryListRow)
 			.find(basePage?._selectors.agovukLink)

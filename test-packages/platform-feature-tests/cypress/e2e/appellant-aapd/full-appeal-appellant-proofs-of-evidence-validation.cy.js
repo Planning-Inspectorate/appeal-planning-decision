@@ -99,8 +99,7 @@ describe('Appellant Full Planning Proof Of Evidence Validations', { tags: '@S78-
         cy.advanceToNextPage();
         cy.get(basePage?._selectors.govukFieldsetHeading).contains('Do you need to add any witnesses?');
         cy.get('input[name="appellantWitnesses"]').then(($input) => {
-            const checked = $input.filter(':checked')
-            cy.log('Check status', checked);
+            const checked = $input.filter(':checked');           
             if (checked.length > 0) {
                 cy.getByData(basePage?._selectors?.answerYes).click();
             }
@@ -182,8 +181,7 @@ describe('Appellant Full Planning Proof Of Evidence Validations', { tags: '@S78-
             const expected = expectedRows[index];
             if (!expected) return;
             const rowText = $row.text().trim();
-            if (expected.optional && !rowText.includes(expected.key)) {
-                cy.log('Skipping optional row:${expected.key}');
+            if (expected.optional && !rowText.includes(expected.key)) {             
                 return;
             }
             expect(rowText).to.include(expected.key);

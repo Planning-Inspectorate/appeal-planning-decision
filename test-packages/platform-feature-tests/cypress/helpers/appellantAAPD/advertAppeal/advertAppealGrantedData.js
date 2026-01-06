@@ -47,7 +47,7 @@ export const advertAppealGrantedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
-        endToEndIntegration: true,
+        endToEndIntegration: false,
         applicationForm: {
             isAppellant: false,
             isHighwayLand: false,
@@ -73,7 +73,7 @@ export const advertAppealGrantedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'not started',
         typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
-        endToEndIntegration: true,
+        endToEndIntegration: false,
         applicationForm: {
             isAppellant: false,
             isHighwayLand: true,
@@ -152,7 +152,7 @@ export const advertAppealGrantedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'not started',
         typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
-        endToEndIntegration: true,
+        endToEndIntegration: false,
         applicationForm: {
             isAppellant: false,
             isHighwayLand: true,
@@ -183,7 +183,7 @@ export const advertAppealGrantedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'not started',
         typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
-        endToEndIntegration: true,
+        endToEndIntegration: false,
         applicationForm: {
             isAppellant: false,
             isHighwayLand: true,
