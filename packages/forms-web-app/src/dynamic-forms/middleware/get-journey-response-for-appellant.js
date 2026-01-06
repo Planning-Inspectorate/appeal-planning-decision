@@ -62,7 +62,7 @@ module.exports = async (request, response, next) => {
 };
 
 /**
- * @param {'HAS' | 'S78' | 'S20' | 'ADVERTS' | 'CAS_ADVERTS' | 'CAS_PLANNING' | 'ENFORCEMENT' | undefined } appealTypeCode
+ * @param {'HAS' | 'S78' | 'S20' | 'ADVERTS' | 'CAS_ADVERTS' | 'CAS_PLANNING' | 'ENFORCEMENT' | 'ENFORCEMENT_LISTED' | undefined } appealTypeCode
  * @param { string | undefined } LPACode
  * @returns {Promise<boolean>}
  */
@@ -82,6 +82,8 @@ const appealTypeFlagActive = async (appealTypeCode, LPACode) => {
 			return await isFeatureActive(FLAG.CAS_PLANNING_APPEAL_FORM_V2, LPACode);
 		case CASE_TYPES.ENFORCEMENT.processCode:
 			return await isFeatureActive(FLAG.ENFORCEMENT_APPEAL_FORM_V2, LPACode);
+		case CASE_TYPES.ENFORCEMENT_LISTED.processCode:
+			return await isFeatureActive(FLAG.ENFORCEMENT_LISTED_APPEAL_FORM_V2, LPACode);
 		default:
 			return false;
 	}

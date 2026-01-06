@@ -14,7 +14,9 @@ const mapAppealTypeToDisplayText = (appealType) => {
  */
 const mapAppealTypeToDisplayTextWithAnOrA = (appealType) => {
 	const appealTypeDisplayText = mapAppealTypeToDisplayText(appealType);
-	return appealTypeDisplayText === 'advertisement' || appealTypeDisplayText === 'enforcement notice'
+	return appealTypeDisplayText === 'advertisement' ||
+		appealTypeDisplayText === 'enforcement notice' ||
+		appealTypeDisplayText === 'enforcement listed building and conservation area'
 		? 'an ' + appealTypeDisplayText
 		: 'a ' + appealTypeDisplayText;
 };

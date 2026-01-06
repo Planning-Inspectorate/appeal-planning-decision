@@ -47,7 +47,11 @@ const supportingDocTypesLookup = {
 	d: documentTypes.groundDSupportingDocuments,
 	e: documentTypes.groundESupportingDocuments,
 	f: documentTypes.groundFSupportingDocuments,
-	g: documentTypes.groundGSupportingDocuments
+	g: documentTypes.groundGSupportingDocuments,
+	h: documentTypes.groundHSupportingDocuments,
+	i: documentTypes.groundISupportingDocuments,
+	j: documentTypes.groundJSupportingDocuments,
+	k: documentTypes.groundKSupportingDocuments
 };
 
 /**
@@ -174,7 +178,7 @@ const questionMethodOverrides = {
 
 /**
  * @param {JourneyResponse} response
- * @param {Array<'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'>} appealGrounds
+ * @param {Array<'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k'>} appealGrounds
  */
 
 exports.getAppealGroundsQuestions = (response, appealGrounds) => {

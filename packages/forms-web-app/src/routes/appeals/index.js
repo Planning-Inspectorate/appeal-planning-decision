@@ -35,6 +35,9 @@ router.use(`/${CASE_TYPES.CAS_ADVERTS.friendlyUrl}`, dynamicSubmission);
 // enforcement notice
 router.use(`/${CASE_TYPES.ENFORCEMENT.friendlyUrl}`, dynamicSubmission);
 
+// enforcement listed building
+router.use(`/${CASE_TYPES.ENFORCEMENT_LISTED.friendlyUrl}`, dynamicSubmission);
+
 // reps
 router.use('/final-comments', finalCommentsRouter);
 router.use('/proof-evidence', proofEvidenceRouter);

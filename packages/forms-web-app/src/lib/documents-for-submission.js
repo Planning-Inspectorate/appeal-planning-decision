@@ -26,6 +26,7 @@ const generateRequiredDocuments = (appealType) => {
 				'any other relevant correspondence with the local authority'
 			];
 		case APPEAL_ID.ENFORCEMENT_NOTICE:
+		case APPEAL_ID.ENFORCEMENT_LISTED_BUILDING:
 			return ['enforcement notice', 'enforcement notice plan'];
 		case APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE:
 			return [
@@ -73,6 +74,7 @@ const generateOptionalDocuments = (appealType) => {
 		case APPEAL_ID.ADVERTISEMENT:
 			return;
 		case APPEAL_ID.ENFORCEMENT_NOTICE:
+		case APPEAL_ID.ENFORCEMENT_LISTED_BUILDING:
 			return [
 				'documents that support your grounds and facts',
 				'planning obligation',

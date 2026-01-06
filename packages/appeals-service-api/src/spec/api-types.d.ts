@@ -643,7 +643,8 @@ export interface AppellantSubmission {
 		| 'ADVERTS'
 		| 'CAS_ADVERTS'
 		| 'CAS_PLANNING'
-		| 'ENFORCEMENT';
+		| 'ENFORCEMENT'
+		| 'ENFORCEMENT_LISTED';
 	/** @format date-time */
 	applicationDecisionDate?: string;
 	applicationDecision?: string;

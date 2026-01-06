@@ -9,6 +9,8 @@ const {
 	validEnforcementNoticeListedBuildingOptions
 } = require('../../validators/before-you-start/enforcement-notice-listed-building');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { isLpaInFeatureFlag } = require('../../lib/is-lpa-in-feature-flag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 exports.getEnforcementNoticeListedBuilding = (req, res) => {
 	const { appeal } = req.session;
@@ -21,6 +23,11 @@ exports.postEnforcementNoticeListedBuilding = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 	const { appeal } = req.session;
+
+	const isV2forEnforcementListed = await isLpaInFeatureFlag(
+		appeal.lpaCode,
+		FLAG.ENFORCEMENT_LISTED_APPEAL_FORM_V2
+	);
 
 	let isEnforcementNoticeForListedBuilding = null;
 	if (
@@ -72,7 +79,10 @@ exports.postEnforcementNoticeListedBuilding = async (req, res) => {
 	}
 
 	if (isEnforcementNoticeForListedBuilding) {
-		res.redirect('/before-you-start/use-existing-service-enforcement-notice');
+		const redirectEnforcementUrl = isV2forEnforcementListed
+			? 'enforcement-issue-date'
+			: 'use-existing-service-enforcement-notice';
+		res.redirect(`/before-you-start/${redirectEnforcementUrl}`);
 		return;
 	}
 

@@ -18,7 +18,7 @@ const {
  * @typedef {import('@pins/database/src/client/client').Prisma.CaseValidationOutcomeCreateInput} CaseValidationOutcomeCreateInput
  * @typedef {import('@pins/database/src/client/client').Prisma.LPAQuestionnaireValidationOutcomeCreateInput} LPAQuestionnaireValidationOutcomeCreateInput
  * @typedef {CaseTypeCreateInput & {
- * 	processCode: "HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING" | "ENFORCEMENT" | "LAWFUL_DEVELOPMENT_CERTIFICATE",
+ * 	processCode: "HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING" | "ENFORCEMENT" | "ENFORCEMENT_LISTED"| "LAWFUL_DEVELOPMENT_CERTIFICATE",
  *  friendlyUrl: string,
  *  expedited: boolean
  * }} CASE_TYPE
@@ -106,6 +106,14 @@ const CASE_TYPES = Object.freeze({
 		friendlyUrl: 'enforcement',
 		expedited: false
 	},
+	ENFORCEMENT_LISTED: {
+		id: 1002,
+		key: APPEAL_CASE_TYPE.F,
+		type: 'Enforcement listed building and conservation area',
+		processCode: 'ENFORCEMENT_LISTED',
+		friendlyUrl: 'enforcement-listed-building',
+		expedited: false
+	},
 	LDC: {
 		id: 1012,
 		key: APPEAL_CASE_TYPE.X,
@@ -114,8 +122,6 @@ const CASE_TYPES = Object.freeze({
 		friendlyUrl: 'ldc',
 		expedited: false
 	}
-
-	// { id: 1002, key: 'F', type: 'Enforcement listed building and conservation area appeal' },
 	// { key: 'G', type: 'Discontinuance notice appeal' },
 	// { key: 'L', type: 'Community infrastructure levy' },
 	// { id: 1004, key: 'Q', type: 'Planning obligation appeal' },

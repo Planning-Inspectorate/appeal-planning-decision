@@ -801,6 +801,50 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
+	groundHSupportingDocuments: {
+		name: 'groundHSupportingDocuments',
+		dataModelName: 'groundHSupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundISupportingDocuments: {
+		name: 'groundISupportingDocuments',
+		dataModelName: 'groundISupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundJSupportingDocuments: {
+		name: 'groundJSupportingDocuments',
+		dataModelName: 'groundJSupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	groundKSupportingDocuments: {
+		name: 'groundKSupportingDocuments',
+		dataModelName: 'groundKSupporting', // to be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
 	caseDecisionLetter: {
 		name: 'caseDecisionLetter',
 		dataModelName: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER,

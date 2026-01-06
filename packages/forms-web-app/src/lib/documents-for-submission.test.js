@@ -48,6 +48,7 @@ describe('required documents-for-submission', () => {
 			]
 		],
 		[APPEAL_ID.ENFORCEMENT_NOTICE, ['enforcement notice', 'enforcement notice plan']],
+		[APPEAL_ID.ENFORCEMENT_LISTED_BUILDING, ['enforcement notice', 'enforcement notice plan']],
 		[
 			APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE,
 			[
@@ -113,6 +114,15 @@ describe('optional documents-for-submission', () => {
 		[APPEAL_ID.ADVERTISEMENT, undefined],
 		[
 			APPEAL_ID.ENFORCEMENT_NOTICE,
+			[
+				'documents that support your grounds and facts',
+				'planning obligation',
+				'draft statement of common ground',
+				'appeal costs application'
+			]
+		],
+		[
+			APPEAL_ID.ENFORCEMENT_LISTED_BUILDING,
 			[
 				'documents that support your grounds and facts',
 				'planning obligation',
