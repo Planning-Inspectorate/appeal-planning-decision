@@ -30,47 +30,14 @@ class SubmissionDocumentUploadRepository {
 	 * @returns {Promise<AppellantSubmission>}
 	 */
 	async createSubmissionDocument(id, uploadData) {
-		const mappedUploadData = uploadData.map((file) => {
-			let correctedOriginalFileName = file.originalFileName;
-			try {
-				const buffer = Buffer.from(file.originalFileName, 'latin1');
-				correctedOriginalFileName = buffer.toString('utf8');
-			} catch (e) {
-				console.error('Failed to fix Mojibake', e);
-			}
-
-			const correctBaseName = correctedOriginalFileName.substring(
-				0,
-				correctedOriginalFileName.lastIndexOf('.')
-			);
-			const correctExtension = correctedOriginalFileName.substring(
-				correctedOriginalFileName.lastIndexOf('.')
-			);
-
-			let correctedStorageName = file.name;
-			try {
-				const parts = file.name.split('-');
-				if (parts.length > 5) {
-					const uuidPrefix = parts.slice(0, 5).join('-');
-
-					correctedStorageName = `${uuidPrefix}-${correctBaseName}${correctExtension}`;
-				} else {
-					correctedStorageName = file.name.replace(/---(\.pdf)$/i, correctExtension);
-				}
-			} catch (e) {
-				console.error('Failed to correct storage name format:', e);
-				correctedStorageName = file.name;
-			}
-
-			return {
-				name: correctedStorageName,
-				fileName: correctedStorageName,
-				originalFileName: correctedOriginalFileName,
-				location: file.location.replace(file.name, correctedStorageName),
-				type: file.type,
-				storageId: file.id
-			};
-		});
+		const mappedUploadData = uploadData.map((file) => ({
+			name: file.name,
+			fileName: file.fileName,
+			originalFileName: file.originalFileName,
+			location: file.location,
+			type: file.type,
+			storageId: file.id
+		}));
 
 		return await this.dbClient.appellantSubmission.update({
 			where: {
