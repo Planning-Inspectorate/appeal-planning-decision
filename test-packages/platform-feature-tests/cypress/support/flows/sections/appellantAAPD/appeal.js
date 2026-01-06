@@ -22,11 +22,9 @@ function submitAppealFlow(appealOptions) {
 		throw new Error(
 			`The status of planning obligation "${statusOfPlanningObligation}" is not supported!`
 		);
-	}
-
+	}	
 	initialiseApplicationTypeAppeal(statusOfOriginalApplication, planning, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 }
-
 module.exports = {
 	submitAppealFlow
 };

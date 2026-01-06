@@ -188,8 +188,7 @@ describe('Comment on a planning appeal validations', { tags: '@IP-Comments-Valid
             const expected = expectedRows[index];
             if (!expected) return;
             const rowText = $row.text().trim();
-            if (expected.optional && !rowText.includes(expected.key)) {
-                cy.log('Skipping optional row:${expected.key}');
+            if (expected.optional && !rowText.includes(expected.key)) {               
                 return;
             }
             expect(rowText).to.include(expected.key);

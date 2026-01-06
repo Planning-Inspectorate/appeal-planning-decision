@@ -235,8 +235,7 @@ Cypress.Commands.add('loginWithPuppeteer', (user) => {
 				secure: cookie.secure,
 				log: false
 			});
-			if (cookiesToSet.includes(cookie.name)) {
-				cy.log('cookie name');
+			if (cookiesToSet.includes(cookie.name)) {				
 				cy.getCookie(cookie.name).should('not.be.empty');
 			}
 		});
@@ -286,15 +285,9 @@ Cypress.Commands.add('updateAppealDetailsViaApi', (caseObj, caseDetails) => {
 
 Cypress.Commands.add('startAppeal', (caseObj) => {
 	return appealsApiClient.startAppeal(caseObj).then(() => {
-		cy.log('Started case for ref ' + caseObj);
+		
 	});
 });
-
-// Cypress.Commands.add('reviewLpaqSubmission', (caseObj) => {
-// 	return appealsApiClient.reviewLpaq(caseObj).then(() => {
-// 		cy.log('Reviewed lpaq submission for case ref ' + caseObj);
-// 	});
-// });
 
 Cypress.Commands.add('reviewLpaqSubmission', (caseObj) => {
 	return cy.wrap(null).then(async () => {

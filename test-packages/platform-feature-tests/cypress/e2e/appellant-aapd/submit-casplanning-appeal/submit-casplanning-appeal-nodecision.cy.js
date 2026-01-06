@@ -30,6 +30,7 @@ describe('Submit CAS Planning Appeal No Decision Test Cases', { tags: '@CAS-Plan
 			typeOfDecisionRequested,
 			statusOfPlanningObligation,
 			typeOfPlanningApplication,
+			selectAllPlanningApplicationAbout,
 			applicationForm,
 		} = context;
 
@@ -61,33 +62,11 @@ describe('Submit CAS Planning Appeal No Decision Test Cases', { tags: '@CAS-Plan
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
 				context,
-				prepareAppealData
+				prepareAppealData,
+				lpaManageAppealsData,
+				questionnaireTestCases: selectAllPlanningApplicationAbout ? fullAppealQuestionnaireTestCases : casPlanningQuestionnaireTestCases,
+				statementTestCases
 			});
 		});
 	});
-
-	// example smoke test case
-	it('CAS Smoke Test', { tags: tag.smoke }, () => {
-		const context = casPlanningAppealNoDecisionTestCases[0];
-		const {
-			statusOfOriginalApplication,
-			typeOfDecisionRequested,
-			statusOfPlanningObligation,
-			typeOfPlanningApplication,
-			selectAllPlanningApplicationAbout,
-		} = context;
-
-		submitAppealFlow({
-			statusOfOriginalApplication,
-			typeOfDecisionRequested,
-			statusOfPlanningObligation,
-			planning: typeOfPlanningApplication,
-			context,
-			prepareAppealData,
-			lpaManageAppealsData,
-			questionnaireTestCases: selectAllPlanningApplicationAbout ? fullAppealQuestionnaireTestCases : casPlanningQuestionnaireTestCases,
-			statementTestCases
-		});
-	});
-
 });

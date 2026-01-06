@@ -60,8 +60,7 @@ export const assignCaseOfficer = (app = 'back-office', appealId) => {
                 return;
             }
 
-            if (isLoginPage) {
-                cy.log('Redirected to login page when opening back-office. Authentication is required.');
+            if (isLoginPage) {               
                 cy.screenshot('assign-case-officer-redirected-to-login');
                 throw new Error('Redirected to login page when opening back-office. Ensure test user is authenticated or set cookies before this step.');
             }
@@ -80,8 +79,7 @@ export const assignCaseOfficer = (app = 'back-office', appealId) => {
                     try {
                         // avoid failing if task is not registered
                         // eslint-disable-next-line no-undef
-                        cy.task('writeFile', { path: 'cypress/debug/assign-case-officer-page.html', contents: html }).then(() => {
-                            cy.log('Wrote debug HTML to cypress/debug/assign-case-officer-page.html');
+                        cy.task('writeFile', { path: 'cypress/debug/assign-case-officer-page.html', contents: html }).then(() => {                          
                         }).catch(() => {});
                     } catch (e) {
                         // ignore

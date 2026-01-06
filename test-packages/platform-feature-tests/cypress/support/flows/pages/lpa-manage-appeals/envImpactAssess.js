@@ -22,8 +22,7 @@ export class EnvImpactAssess {
         sensitiveAreaSensitiveAreaDetails: "#sensitiveArea_sensitiveAreaDetails"
     }
 
-    selectScheduleType(context, lpaManageAppealsData) {
-        cy.log('isSchedule:', context?.environmentalImpact?.isSchedule);  
+    selectScheduleType(context, lpaManageAppealsData) {       
         if (context?.environmentalImpact?.isSchedule === 'one') {
             this.selectScheduleOne(context);
         } else if (context?.environmentalImpact?.isSchedule === 'two') {
