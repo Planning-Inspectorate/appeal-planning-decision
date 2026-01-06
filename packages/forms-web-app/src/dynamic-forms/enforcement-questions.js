@@ -18,7 +18,8 @@ const {
 } = require('../config');
 const { capitalize } = require('../lib/string-functions');
 const { createQuestions } = require('@pins/dynamic-forms/src/create-questions');
-const interestInLandQuestionsOverrides = require('../journeys/question-overrides/interest-in-land-questions');
+const interestInLandRadioOverrides = require('../journeys/question-overrides/interest-in-land/interest-in-land-radio');
+const interestInLandBooleanOverrides = require('../journeys/question-overrides/interest-in-land/interest-in-land-boolean');
 
 const escape = require('escape-html');
 
@@ -222,7 +223,7 @@ const getProps = (propsParams) => {
 			type: 'radio',
 			title: `What is ${interestName} interest in the land?`,
 			question: `What is ${interestName} interest in the land?`,
-			fieldName: 'interestInAppealLand',
+			fieldName: `interestInAppealLand${urlExtension}`,
 			url: `land-interest${urlExtension}`,
 			validators: [
 				new RequiredValidator(`Select ${interestName} interest in the land`),
@@ -232,7 +233,7 @@ const getProps = (propsParams) => {
 						maxLength: appealFormV2.textInputMaxLength,
 						maxLengthMessage: `${capitalize(interestName)} interest in the land must be ${appealFormV2.textInputMaxLength} characters or less`
 					},
-					fieldName: getConditionalFieldName('interestInAppealLand', 'interestInAppealLandDetails')
+					fieldName: getConditionalFieldName(`interestInAppealLand`, 'interestInAppealLandDetails')
 				})
 			],
 			options: [
@@ -268,7 +269,7 @@ const getProps = (propsParams) => {
 			title: `${doOrDoes} ${permissionName} have written or verbal permission to use the land?`,
 			question: `${doOrDoes} ${permissionName} have written or verbal permission to use the land?`,
 			hint: `Only select yes if ${permissionName} ${haveOrHas} permission to use the land today and on the enforcement notice issue date.`,
-			fieldName: `hasPermissionToUseLand`,
+			fieldName: `hasPermissionToUseLand${urlExtension}`,
 			url: `land-permission${urlExtension}`,
 			validators: [
 				new RequiredValidator(
@@ -289,8 +290,8 @@ const questionClasses = {
 };
 
 const questionMethodOverrides = {
-	boolean: interestInLandQuestionsOverrides,
-	radio: interestInLandQuestionsOverrides
+	boolean: interestInLandBooleanOverrides,
+	radio: interestInLandRadioOverrides
 };
 
 const getInterestInLandQuestionObjects = (props, overrides = {}) =>

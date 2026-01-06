@@ -17,8 +17,9 @@ const StringValidator = require('@pins/dynamic-forms/src/validator/string-valida
 
 const { documentTypes } = require('@pins/common');
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
-const appealGroundsQuestionsOverrides = require('../journeys/question-overrides/appeal-grounds-questions');
-const appealGroundsCheckboxOverrides = require('../journeys/question-overrides/appeal-grounds-checkbox');
+const appealGroundsBooleanOverrides = require('../journeys/question-overrides/appeal-grounds/appeal-grounds-boolean');
+const appealGroundsTextEntryOverrides = require('../journeys/question-overrides/appeal-grounds/appeal-grounds-text-entry');
+const appealGroundsCheckboxOverrides = require('../journeys/question-overrides/appeal-grounds/appeal-grounds-checkbox');
 
 const {
 	validation: {
@@ -99,7 +100,7 @@ const getCommonAppealGroundsQuestionProps = (response, appealGround) => [
 			type: 'text-entry',
 			title: `Facts for ground (${appealGround})`,
 			question: `Facts for ground (${appealGround})`,
-			fieldName: `facts`,
+			fieldName: `facts-${appealGround}`,
 			url: `facts-ground-${appealGround}`,
 			html: 'resources/enforcement/appeal-ground-facts.html',
 			validators: [
@@ -122,7 +123,7 @@ const getCommonAppealGroundsQuestionProps = (response, appealGround) => [
 			type: 'boolean',
 			title: `Do you have any documents to support your ground (${appealGround}) facts?`,
 			question: `Do you have any documents to support your ground (${appealGround}) facts?`,
-			fieldName: `addSupportingDocuments`,
+			fieldName: `addSupportingDocuments-${appealGround}`,
 			url: `facts-ground-${appealGround}-supporting-documents`,
 			validators: [
 				new RequiredValidator(
@@ -140,7 +141,7 @@ const getCommonAppealGroundsQuestionProps = (response, appealGround) => [
 			type: 'multi-file-upload',
 			title: `Upload your ground (${appealGround}) supporting documents`,
 			question: `Upload your ground (${appealGround}) supporting documents`,
-			fieldName: 'uploadAppealStatement',
+			fieldName: `uploadGround${appealGround.toUpperCase()}Supporting`,
 			url: `upload-facts-ground-${appealGround}-supporting-documents`,
 			validators: [
 				new RequiredFileUploadValidator(
@@ -166,8 +167,8 @@ const questionClasses = {
 
 const questionMethodOverrides = {
 	'multi-file-upload': multiFileUploadOverrides,
-	boolean: appealGroundsQuestionsOverrides,
-	'text-entry': appealGroundsQuestionsOverrides,
+	boolean: appealGroundsBooleanOverrides,
+	'text-entry': appealGroundsTextEntryOverrides,
 	checkbox: appealGroundsCheckboxOverrides
 };
 
