@@ -14,6 +14,9 @@ const {
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const config = require('../../config');
 
+const { filterAppealsWithinGivenDate } = require('../../lib/filter-decided-appeals');
+const { filterTime } = require('../../config');
+
 const getYourAppealsR6 = async (req, res) => {
 	let viewContext = {};
 	try {
@@ -26,12 +29,23 @@ const getYourAppealsR6 = async (req, res) => {
 
 		logger.debug({ appeals }, 'appeals');
 
-		const undecidedAppeals = appeals
-			.filter(isNotWithdrawn)
-			.filter(isNotTransferred)
-			.map(mapToRule6DashboardDisplayData)
-			.filter(Boolean)
-			.filter((appeal) => !appeal.appealDecision);
+		const filteredAppeals = appeals.filter(isNotWithdrawn).filter(isNotTransferred);
+
+		const mappedAppeals = filteredAppeals
+			.map((/** @type {any} */ a) => mapToRule6DashboardDisplayData(a))
+			.filter(Boolean);
+
+		const decidedAppealsCount = mappedAppeals.filter(
+			(/** @type {any} */ appeal) =>
+				appeal.appealDecision &&
+				filterAppealsWithinGivenDate(
+					appeal,
+					'caseDecisionOutcomeDate',
+					filterTime.FIVE_YEARS_IN_MILISECONDS
+				)
+		).length;
+
+		const undecidedAppeals = mappedAppeals.filter((appeal) => !appeal.appealDecision);
 
 		logger.debug({ undecidedAppeals }, 'undecided appeals');
 
@@ -58,7 +72,13 @@ const getYourAppealsR6 = async (req, res) => {
 			config.betaBannerText +
 			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'));
 
-		viewContext = { toDoAppeals, waitingForReviewAppeals, noToDoAppeals, bannerHtmlOverride };
+		viewContext = {
+			toDoAppeals,
+			waitingForReviewAppeals,
+			noToDoAppeals,
+			bannerHtmlOverride,
+			decidedAppealsCount
+		};
 
 		res.render(DASHBOARD, viewContext);
 	} catch (error) {
