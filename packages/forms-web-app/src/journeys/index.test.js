@@ -313,7 +313,11 @@ describe('Dynamic forms journey tests', () => {
 						const saveSetup = questionTypeDetails(question);
 
 						// skipping enforcement save questions for now due to method overrides
-						if (!saveSetup || caseType.type == 'Enforcement notice') {
+						if (
+							!saveSetup ||
+							caseType.type == 'Enforcement notice' ||
+							caseType.type == 'Enforcement listed building and conservation area'
+						) {
 							it.skip(`${caseType.type} should save the ${question.getUrlSlug()} question`, () => {});
 						} else {
 							it(`${caseType.type} should save the ${question.getUrlSlug()} question`, async () => {

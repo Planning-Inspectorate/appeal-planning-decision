@@ -108,14 +108,14 @@ describe('controllers/before-you-start/enforcement-notice-listed-building', () =
 			});
 		});
 
-		it('should redirect to `/before-you-start/enforcement-issue-date` if `enforcement-notice-listed-building` is `no`', async () => {
+		it('should redirect to `/before-you-start/enforcement-issue-date` if not listed', async () => {
 			const mockRequest = {
 				...req,
 				body: {
 					'enforcement-notice-listed-building': 'no'
 				}
 			};
-			isLpaInFeatureFlag.mockReturnValue(false);
+			isLpaInFeatureFlag.mockReturnValue(true);
 
 			await postEnforcementNoticeListedBuilding(mockRequest, res);
 
@@ -131,7 +131,7 @@ describe('controllers/before-you-start/enforcement-notice-listed-building', () =
 			expect(res.redirect).toHaveBeenCalledWith(navigationPages.enforcementPage);
 		});
 
-		it('should redirect to `/before-you-start/use-existing-service-enforcement-notice` if `enforcement-notice-listed-building` is `yes`', async () => {
+		it('should redirect to `/before-you-start/enforcement-issue-date` if is listed and feature flag is on', async () => {
 			const mockRequest = {
 				...req,
 				body: {
@@ -139,6 +139,29 @@ describe('controllers/before-you-start/enforcement-notice-listed-building', () =
 				}
 			};
 			isLpaInFeatureFlag.mockReturnValue(true);
+
+			await postEnforcementNoticeListedBuilding(mockRequest, res);
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...appeal,
+				eligibility: {
+					...appeal.eligibility,
+					enforcementNoticeListedBuilding: true
+				},
+				appealType: '1002'
+			});
+
+			expect(res.redirect).toHaveBeenCalledWith(navigationPages.enforcementPage);
+		});
+
+		it('should redirect to `/before-you-start/use-existing-service-enforcement-notice` if `enforcement-notice-listed-building` is `yes` and feature flag is off', async () => {
+			const mockRequest = {
+				...req,
+				body: {
+					'enforcement-notice-listed-building': 'yes'
+				}
+			};
+			isLpaInFeatureFlag.mockReturnValue(false);
 
 			await postEnforcementNoticeListedBuilding(mockRequest, res);
 
