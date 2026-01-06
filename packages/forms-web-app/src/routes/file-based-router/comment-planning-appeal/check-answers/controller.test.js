@@ -60,6 +60,46 @@ describe('checkAnswers Controller Tests', () => {
 				ipSummaryList: expect.any(Array)
 			});
 		});
+
+		it('should render the check-answers page with interestedParty and ipSummaryList with html formatting', () => {
+			const interestedParty = {
+				firstName: 'John',
+				lastName: 'Doe',
+				comments: `Test comment
+This is line 2
+This is line 3
+Line 4`
+			};
+			getInterestedPartyFromSession.mockReturnValue(interestedParty);
+
+			checkAnswersGet(req, res);
+
+			expect(getInterestedPartyFromSession).toHaveBeenCalledWith(req);
+			expect(res.render).toHaveBeenCalledWith(
+				'comment-planning-appeal/check-answers/index',
+				expect.objectContaining({
+					interestedParty,
+					ipSummaryList: expect.arrayContaining([
+						expect.objectContaining({
+							key: {
+								text: 'Your comments'
+							},
+							value: {
+								html: 'Test comment<br>This is line 2<br>This is line 3<br>Line 4'
+							},
+							actions: {
+								items: [
+									{
+										href: 'add-comments',
+										text: 'Change'
+									}
+								]
+							}
+						})
+					])
+				})
+			);
+		});
 	});
 
 	describe('checkAnswersPost', () => {
