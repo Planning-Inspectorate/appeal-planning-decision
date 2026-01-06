@@ -90,7 +90,8 @@ describe('controllers/appeals/your-appeals', () => {
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
 				toDoAppeals: [toDoData],
 				waitingForReviewAppeals: [],
-				noToDoAppeals: false
+				noToDoAppeals: false,
+				decidedAppealsCount: 0
 			});
 		});
 
@@ -103,7 +104,8 @@ describe('controllers/appeals/your-appeals', () => {
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
 				toDoAppeals: [],
 				waitingForReviewAppeals: [completedData],
-				noToDoAppeals: true
+				noToDoAppeals: true,
+				decidedAppealsCount: 0
 			});
 		});
 
@@ -116,7 +118,8 @@ describe('controllers/appeals/your-appeals', () => {
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
 				toDoAppeals: [],
 				waitingForReviewAppeals: [],
-				noToDoAppeals: true
+				noToDoAppeals: true,
+				decidedAppealsCount: 0
 			});
 		});
 
@@ -129,15 +132,16 @@ describe('controllers/appeals/your-appeals', () => {
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
 				toDoAppeals: [],
 				waitingForReviewAppeals: [waitingForReviewData],
-				noToDoAppeals: true
+				noToDoAppeals: true,
+				decidedAppealsCount: 0
 			});
 		});
 
 		it('hides appeals where hideFromDashboard is true', async () => {
 			req.appealsApiClient.getUserAppeals.mockResolvedValue([
-				{ appeal: { hideFromDashboard: true } },
-				{ appeal: { hideFromDashboard: false } },
-				{ test: 'hideFromDashboard not set' }
+				{ appeal: { hideFromDashboard: true, status: 'confirmed' } },
+				{ appeal: { hideFromDashboard: false, status: 'confirmed' } },
+				{ appeal: { hideFromDashboard: false, status: 'confirmed' } }
 			]);
 
 			mapToAppellantDashboardDisplayData.mockImplementation((data) => {
@@ -154,7 +158,8 @@ describe('controllers/appeals/your-appeals', () => {
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
 				toDoAppeals: [toDoData, toDoData],
 				waitingForReviewAppeals: [],
-				noToDoAppeals: false
+				noToDoAppeals: false,
+				decidedAppealsCount: 0
 			});
 		});
 	});

@@ -10,6 +10,9 @@ const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdraw
 const { isNotTransferred } = require('@pins/business-rules/src/lib/filter-transferred-appeal');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
+const { filterAppealsWithinGivenDate } = require('../../lib/filter-decided-appeals');
+const { filterTime } = require('../../config');
+
 exports.get = async (req, res) => {
 	let viewContext = {};
 	try {
@@ -22,13 +25,28 @@ exports.get = async (req, res) => {
 
 		logger.debug({ appeals }, 'appeals');
 
-		const undecidedAppeals = appeals
+		const validAppeals = appeals
 			.filter((data) => data.appeal?.hideFromDashboard !== true)
 			.filter(isNotWithdrawn)
-			.filter(isNotTransferred)
-			.map(mapToAppellantDashboardDisplayData)
-			.filter(Boolean)
-			.filter((appeal) => !appeal.appealDecision || appeal.displayInvalid);
+			.filter(isNotTransferred);
+
+		const mappedAppeals = validAppeals
+			.map((a) => mapToAppellantDashboardDisplayData(a))
+			.filter(Boolean);
+
+		const decidedAppealsCount = mappedAppeals
+			.filter((appeal) => appeal.appealDecision)
+			.filter((appeal) =>
+				filterAppealsWithinGivenDate(
+					appeal,
+					'caseDecisionOutcomeDate',
+					filterTime.FIVE_YEARS_IN_MILISECONDS
+				)
+			).length;
+
+		const undecidedAppeals = mappedAppeals.filter(
+			(appeal) => !appeal.appealDecision || appeal.displayInvalid
+		);
 
 		logger.debug({ undecidedAppeals }, 'undecided appeals');
 
@@ -57,7 +75,12 @@ exports.get = async (req, res) => {
 		waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
 		const noToDoAppeals = !arrayHasItems(toDoAppeals);
 
-		viewContext = { toDoAppeals, waitingForReviewAppeals, noToDoAppeals };
+		viewContext = {
+			toDoAppeals,
+			waitingForReviewAppeals,
+			noToDoAppeals,
+			decidedAppealsCount
+		};
 
 		res.render(VIEW.APPEALS.YOUR_APPEALS, viewContext);
 	} catch (error) {
