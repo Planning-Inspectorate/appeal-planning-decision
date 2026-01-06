@@ -4,7 +4,8 @@ const {
 	markInterestedPartySessionAsSubmitted
 } = require('../../../../services/interested-party.service');
 const logger = require('../../../../lib/logger');
-const { capitalize } = require('@pins/dynamic-forms/src/lib/string-functions');
+const escape = require('escape-html');
+const { capitalize, nl2br } = require('@pins/dynamic-forms/src/lib/string-functions');
 
 /**
  * @typedef {import('../../../../services/interested-party.service').InterestedParty} InterestedParty
@@ -102,7 +103,7 @@ const formatIpSummaryList = (interestedParty) => {
 				text: 'Your comments'
 			},
 			value: {
-				text: interestedParty.comments
+				html: nl2br(escape(interestedParty.comments || ''))
 			},
 			actions: {
 				items: [
