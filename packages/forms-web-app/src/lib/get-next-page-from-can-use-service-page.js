@@ -45,7 +45,10 @@ const getNextPageFromCanUseServicePage = async (appeal) => {
 		case LISTED_BUILDING:
 			return nextPage.listedBuilding;
 		case MINOR_COMMERCIAL_DEVELOPMENT:
-			if (appeal.eligibility.planningApplicationAbout?.includes(APPLICATION_ABOUT.NON_OF_THESE)) {
+			if (
+				appeal.eligibility.planningApplicationAbout?.includes(APPLICATION_ABOUT.NON_OF_THESE) &&
+				applicationDecision === REFUSED
+			) {
 				return nextPage.casAppeal;
 			}
 			return nextPage.fullAppeal;
