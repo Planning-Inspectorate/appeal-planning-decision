@@ -12,7 +12,10 @@ const {
 	CASE_TYPES: { ENFORCEMENT }
 } = require('@pins/common/src/database/data-static');
 const config = require('../../config');
-const { shouldDisplayUploadDecisionLetter } = require('../display-questions');
+const {
+	shouldDisplayUploadDecisionLetter,
+	shouldDisplayPreviousApplicationQuestions
+} = require('../display-questions');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 
@@ -91,28 +94,6 @@ const formatDynamicNames = (response) => {
 			return formatEnforcementIndividualName(response);
 	}
 };
-
-// /**
-//  * @param {JourneyResponse} response
-//  * @returns {string}
-//  */
-// const formatInterestInLandNames = (response) => {
-// 	const party = response.answers['enforcementWhoIsAppealing'];
-
-// 	if (!party) return "Named Individual's";
-
-// 	if (response.answers['isAppellant'] === 'yes') return 'your';
-
-// 	let partyName;
-// 	if (party === fieldValues.enforcementWhoIsAppealing.ORGANISATION) {
-// 		/** @ts-ignore */
-// 		partyName = escape(response.answers['enforcementOrganisationName'] || 'Named Company');
-// 	} else {
-// 		partyName = formatEnforcementIndividualName(response);
-// 	}
-
-// 	return `${partyName}'s`;
-// };
 
 /**
  * @param {JourneyResponse} response
@@ -193,16 +174,23 @@ const makeSections = (response) => {
 			.addQuestion(questions.enterAllegedBreachDescription)
 			.addQuestion(chooseGroundsOfAppealQuestion)
 			.addQuestion(questions.submittedPlanningApplication)
+			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.uploadApplicationReceipt)
 			.withCondition(() =>
 				questionHasAnswer(response, questions.submittedPlanningApplication, 'yes')
 			)
 			.addQuestion(questions.allOrPartOfDevelopment)
+			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.planningApplicationReference)
+			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.planningApplicationDate)
+			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.enforcementEnterDevelopmentDescription)
+			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.updateDevelopmentDescription)
+			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.grantedOrRefused)
+			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.applicationDecisionDate)
 			.withCondition(
 				() =>

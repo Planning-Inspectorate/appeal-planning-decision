@@ -189,6 +189,39 @@ components:
         uploadPlanningObligation:
           type: boolean
           nullable: true
+        uploadGroundASupporting:
+          type: boolean
+          nullable: true
+        uploadGroundBSupporting:
+          type: boolean
+          nullable: true
+        uploadGroundCSupporting:
+          type: boolean
+          nullable: true
+        uploadGroundDSupporting:
+          type: boolean
+          nullable: true
+        uploadGroundESupporting:
+          type: boolean
+          nullable: true
+        uploadGroundFSupporting:
+          type: boolean
+          nullable: true
+        uploadGroundGSupporting:
+          type: boolean
+          nullable: true
+        uploadGroundHSupporting:
+          type: boolean
+          nullable: true
+        uploadGroundISupporting:
+          type: boolean
+          nullable: true
+        uploadGroundJSupporting:
+          type: boolean
+          nullable: true
+        uploadGroundKSupporting:
+          type: boolean
+          nullable: true
         SubmissionDocumentUpload:
           type: array
           items:

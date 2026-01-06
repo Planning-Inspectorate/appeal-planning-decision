@@ -825,6 +825,17 @@ model AppellantSubmission {
   uploadNewPlansDrawings            Boolean?
   uploadOtherNewDocuments           Boolean?
   uploadPlanningObligation          Boolean?
+  uploadGroundASupporting           Boolean?
+  uploadGroundBSupporting           Boolean?
+  uploadGroundCSupporting           Boolean?
+  uploadGroundDSupporting           Boolean?
+  uploadGroundESupporting           Boolean?
+  uploadGroundFSupporting           Boolean?
+  uploadGroundGSupporting           Boolean?
+  uploadGroundHSupporting           Boolean?
+  uploadGroundISupporting           Boolean?
+  uploadGroundJSupporting           Boolean?
+  uploadGroundKSupporting           Boolean?
   SubmissionDocumentUpload          SubmissionDocumentUpload[]
 
   // addresses

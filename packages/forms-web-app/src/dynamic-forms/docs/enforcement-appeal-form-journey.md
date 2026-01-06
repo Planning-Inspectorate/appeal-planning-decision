@@ -84,6 +84,18 @@ condition: () => questionHasAnswer(response, questions.appealSiteIsContactAddres
 - text-entry `/description-alleged-breach/` Enter the description of the alleged breach
 - checkbox `/choose-grounds/` Choose your grounds of appeal
 - boolean `/submit-planning-application/` Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?
+
+```js
+condition: (response) => {
+	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
+	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
+		? baseSubmittedAppealGrounds
+		: [baseSubmittedAppealGrounds];
+	if (!submittedAppealGrounds.length) return false;
+	return submittedAppealGrounds.some((ground) => ground.groundName === 'a');
+};
+```
+
 - multi-file-upload `/upload-application-receipt/` Upload your application receipt
 
 ```js
@@ -91,11 +103,83 @@ condition: () => questionHasAnswer(response, questions.submittedPlanningApplicat
 ```
 
 - radio `/all-or-part/` Was the application for all or part of the development?
+
+```js
+condition: (response) => {
+	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
+	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
+		? baseSubmittedAppealGrounds
+		: [baseSubmittedAppealGrounds];
+	if (!submittedAppealGrounds.length) return false;
+	return submittedAppealGrounds.some((ground) => ground.groundName === 'a');
+};
+```
+
 - single-line-input `/planning-application-number/` What is the application reference number?
+
+```js
+condition: (response) => {
+	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
+	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
+		? baseSubmittedAppealGrounds
+		: [baseSubmittedAppealGrounds];
+	if (!submittedAppealGrounds.length) return false;
+	return submittedAppealGrounds.some((ground) => ground.groundName === 'a');
+};
+```
+
 - date `/application-date/` What date did you submit your application?
+
+```js
+condition: (response) => {
+	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
+	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
+		? baseSubmittedAppealGrounds
+		: [baseSubmittedAppealGrounds];
+	if (!submittedAppealGrounds.length) return false;
+	return submittedAppealGrounds.some((ground) => ground.groundName === 'a');
+};
+```
+
 - text-entry `/enter-description-of-development/` Enter the description of development
+
+```js
+condition: (response) => {
+	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
+	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
+		? baseSubmittedAppealGrounds
+		: [baseSubmittedAppealGrounds];
+	if (!submittedAppealGrounds.length) return false;
+	return submittedAppealGrounds.some((ground) => ground.groundName === 'a');
+};
+```
+
 - boolean `/description-development-correct/` Did the local planning authority change the description of development?
+
+```js
+condition: (response) => {
+	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
+	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
+		? baseSubmittedAppealGrounds
+		: [baseSubmittedAppealGrounds];
+	if (!submittedAppealGrounds.length) return false;
+	return submittedAppealGrounds.some((ground) => ground.groundName === 'a');
+};
+```
+
 - radio `/granted-or-refused/` Was the application granted or refused?
+
+```js
+condition: (response) => {
+	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
+	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
+		? baseSubmittedAppealGrounds
+		: [baseSubmittedAppealGrounds];
+	if (!submittedAppealGrounds.length) return false;
+	return submittedAppealGrounds.some((ground) => ground.groundName === 'a');
+};
+```
+
 - date `/decision-date/` What is the date on the decision letter from the local planning authority?
 
 ```js
