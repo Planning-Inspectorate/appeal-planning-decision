@@ -164,7 +164,8 @@ const mapCommonDataModelToAppealCase = (
 		newConditionDetails,
 		appellantCostsAppliedFor,
 		lpaCostsAppliedFor,
-		typeOfPlanningApplication
+		typeOfPlanningApplication,
+		reasonForNeighbourVisits
 	}
 ) => ({
 	// custom mappings
@@ -258,7 +259,8 @@ const mapCommonDataModelToAppealCase = (
 	newConditionDetails,
 	appellantCostsAppliedFor,
 	lpaCostsAppliedFor,
-	typeOfPlanningApplication
+	typeOfPlanningApplication,
+	reasonForNeighbourVisits
 });
 
 /**
@@ -398,7 +400,6 @@ const mapS78DataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	proofsOfEvidenceDueDate: dataModel.proofsOfEvidenceDueDate,
 	siteNoticesSentDate: dataModel.siteNoticesSentDate,
 	statementDueDate: dataModel.statementDueDate,
-	reasonForNeighbourVisits: dataModel.reasonForNeighbourVisits,
 	numberOfResidencesNetChange: dataModel.numberOfResidencesNetChange,
 	siteGridReferenceEasting: dataModel.siteGridReferenceEasting,
 	siteGridReferenceNorthing: dataModel.siteGridReferenceNorthing,

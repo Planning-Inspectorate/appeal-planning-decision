@@ -354,6 +354,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					const response = await appealsApi.put(`/api/v2/appeal-cases/` + testCaseRef).send(data);
 					expect(response.status).toBe(200);
 					expect(response.body).toHaveProperty('caseReference', testCaseRef);
+					expect(response.body.reasonForNeighbourVisits).toEqual(data.reasonForNeighbourVisits);
 					expectEmail(email, testCaseRef);
 				});
 			}

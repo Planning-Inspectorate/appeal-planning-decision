@@ -80,6 +80,7 @@ const exampleHASDataModel = {
 	changedDevelopmentDescription: false,
 	newConditionDetails: 'pariatur id commodo officia',
 	nearbyCaseReferences: ['6000456', '8004567'],
+	reasonForNeighbourVisits: 'velit enim elit tempor cillum',
 	neighbouringSiteAddresses: [
 		{
 			neighbouringSiteAddressLine1: 'cupidatat commodo aliqua',
