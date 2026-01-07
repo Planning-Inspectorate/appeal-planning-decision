@@ -2843,27 +2843,6 @@ exports.getQuestionProps = (response) => ({
 			)
 		]
 	},
-	enforcementSiteArea: {
-		type: 'number',
-		title: 'What is the area of the appeal site?',
-		question: 'What is the area of the appeal site?',
-		suffix: 'm\u00B2',
-		fieldName: 'siteAreaSquareMetres',
-		hint: 'Tell is the area of the appeal site from the notice plan.',
-		url: 'site-area',
-		validators: [
-			new RequiredValidator('Enter the area of the appeal site'),
-			new NumericValidator({
-				regex: new RegExp(`^[0-9]{0,${appealFormV2.textInputMaxLength}}$`, 'gi'),
-				regexMessage: 'Enter the area of the site using numbers 0 to 9',
-				min: minValue,
-				minMessage: `Appeal site area must be at least ${minValue}m\u00B2`,
-				max: maxValue,
-				maxMessage: `Appeal site area must be ${maxValue.toLocaleString()}m\u00B2 or less`,
-				fieldName: 'siteAreaSquareMetres'
-			})
-		]
-	},
 	enforcementAllegedBreachArea: {
 		type: 'boolean',
 		title: 'Is the area of the alleged breach the same as the site area?',

@@ -25100,7 +25100,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
             <p class="govuk-body"></p>
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <div id="siteAreaSquareMetres-hint" class="govuk-hint">Tell is the area of the appeal site from the notice plan.</div>
+                    <div id="siteAreaSquareMetres-hint" class="govuk-hint">Total site area, in square metres.</div>
                     <div class="govuk-input__wrapper">
                         <input class="govuk-input govuk-input--width-5" id="siteAreaSquareMetres"
                         name="siteAreaSquareMetres" type="text" spellcheck="false" value="" aria-describedby="siteAreaSquareMetres-hint"
