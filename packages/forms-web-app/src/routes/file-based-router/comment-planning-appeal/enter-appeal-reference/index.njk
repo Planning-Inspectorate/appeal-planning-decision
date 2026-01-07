@@ -3,29 +3,34 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% block content %}
-    <form method="post">
-<input type="hidden" name="_csrf" value="{{_csrf}}">
-        <div class="govuk-form-group">
-            <label class="govuk-label govuk-label--l" for="appeal-reference">Enter the appeal reference number</label>
-            <p class="govuk-body">	
-You can find the appeal reference on the letter from the local planning authority telling you about the appeal.</p>
-            {{ govukInput({
-                        "classes": "govuk-input--width-10",
-                        "hint": {
-                        "text": "For example, 0221532."
-                        },
-                        "id": "appeal-reference",
-                        "name": "appeal-reference",
-                        "inputmode": "numeric",
-                        "spellcheck": false,
-                        "errorMessage": error,
-                        "value": value
-                        }) 
-            }}
-        </div>
-        <p class="govuk-body">
-            <a href="enter-postcode">I do not have an appeal reference number</a>
-        </p>
-        {{ govukButton({"text": "Continue", "type": "submit"}) }}
-    </form>
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+			<form method="post">
+				<input type="hidden" name="_csrf" value="{{_csrf}}">
+					<div class="govuk-form-group">
+							<label class="govuk-label govuk-label--l" for="appeal-reference">Enter the appeal reference number</label>
+							<p class="govuk-body">
+	You can find the appeal reference on the letter from the local planning authority telling you about the appeal.</p>
+							{{ govukInput({
+													"classes": "govuk-input--width-10",
+													"hint": {
+													"text": "For example, 0221532."
+													},
+													"id": "appeal-reference",
+													"name": "appeal-reference",
+													"inputmode": "numeric",
+													"spellcheck": false,
+													"errorMessage": error,
+													"value": value
+													})
+							}}
+					</div>
+					<p class="govuk-body">
+							<a href="enter-postcode">I do not have an appeal reference number</a>
+					</p>
+					{{ govukButton({"text": "Continue", "type": "submit"}) }}
+			</form>
+	</div>
+</div>
 {% endblock content %}
