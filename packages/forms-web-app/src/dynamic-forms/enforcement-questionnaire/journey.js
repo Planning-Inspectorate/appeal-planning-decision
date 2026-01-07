@@ -57,7 +57,7 @@ const makeSections = (response) => {
 			.withCondition(() => questionHasAnswer(response, questions.enforcementRightOfWayCheck, 'yes'))
 			// Enforcement specific questions
 			.addQuestion(questions.enforcementOtherOperations)
-			.addQuestion(questions.enforcementSiteArea)
+			.addQuestion(questions.siteArea)
 			.addQuestion(questions.enforcementAllegedBreachArea)
 			.addQuestion(questions.enforcementCreateFloorSpace)
 			.addQuestion(questions.enforcementRefuseWasteMaterials)
