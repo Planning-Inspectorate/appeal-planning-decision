@@ -1115,8 +1115,6 @@ const sendRule6PartyAddedEmailToMainParties = async (rule6Party, appealCase) => 
 		const variables = {
 			...config.services.notify.templateVariables,
 			rule6Organisation: rule6Party.organisation || '',
-			rule6Name: `${rule6Party.firstName} ${rule6Party.lastName}`,
-			rule6PhoneNumber: rule6Party.telephoneNumber || '',
 			proofsDueDate: appealCase.proofsOfEvidenceDueDate
 				? formatInTimeZone(appealCase.proofsOfEvidenceDueDate, ukTimeZone, 'dd MMMM yyyy')
 				: '',
@@ -1248,7 +1246,6 @@ const sendRule6PartyUpdatedEmailToMainParties = async (rule6Party, appealCase) =
 		const variables = {
 			...config.services.notify.templateVariables,
 			rule6Organisation: rule6Party.organisation || '',
-			rule6Name: `${rule6Party.firstName} ${rule6Party.lastName}`,
 			appealReferenceNumber: caseReference,
 			siteAddress: formattedAddress,
 			lpaReference: applicationReference || ''
