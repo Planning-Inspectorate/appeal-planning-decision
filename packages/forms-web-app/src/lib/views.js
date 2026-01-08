@@ -198,7 +198,8 @@ const VIEW = {
 	},
 
 	YOUR_APPEALS: {
-		DECIDED_APPEALS: 'appeals/your-appeals/decided-appeals'
+		DECIDED_APPEALS: 'appeals/your-appeals/decided-appeals',
+		WITHDRAWN_APPEALS: 'appeals/your-appeals/withdrawn-appeals'
 	},
 
 	SELECTED_APPEAL: {
@@ -244,6 +245,7 @@ const VIEW = {
 		REQUEST_NEW_CODE: 'rule-6/request-new-code',
 		DASHBOARD: 'rule-6/your-appeals',
 		DECIDED_APPEALS: 'rule-6/decided-appeals',
+		WITHDRAWN_APPEALS: 'rule-6/withdrawn-appeals',
 		APPEAL_OVERVIEW: '/rule-6'
 	},
 

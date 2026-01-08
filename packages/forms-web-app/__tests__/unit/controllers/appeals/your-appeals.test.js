@@ -92,7 +92,9 @@ describe('controllers/appeals/your-appeals', () => {
 				waitingForReviewAppeals: [],
 				noToDoAppeals: false,
 				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
-				decidedAppealsCount: 0
+				decidedAppealsCount: 0,
+				withdrawnAppealsCount: 0,
+				withdrawnAppealsLink: `/${VIEW.YOUR_APPEALS.WITHDRAWN_APPEALS}`
 			});
 		});
 
@@ -107,7 +109,9 @@ describe('controllers/appeals/your-appeals', () => {
 				waitingForReviewAppeals: [completedData],
 				noToDoAppeals: true,
 				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
-				decidedAppealsCount: 0
+				decidedAppealsCount: 0,
+				withdrawnAppealsCount: 0,
+				withdrawnAppealsLink: `/${VIEW.YOUR_APPEALS.WITHDRAWN_APPEALS}`
 			});
 		});
 
@@ -122,7 +126,9 @@ describe('controllers/appeals/your-appeals', () => {
 				waitingForReviewAppeals: [],
 				noToDoAppeals: true,
 				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
-				decidedAppealsCount: 0
+				decidedAppealsCount: 0,
+				withdrawnAppealsCount: 0,
+				withdrawnAppealsLink: `/${VIEW.YOUR_APPEALS.WITHDRAWN_APPEALS}`
 			});
 		});
 
@@ -137,7 +143,9 @@ describe('controllers/appeals/your-appeals', () => {
 				waitingForReviewAppeals: [waitingForReviewData],
 				noToDoAppeals: true,
 				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
-				decidedAppealsCount: 0
+				decidedAppealsCount: 0,
+				withdrawnAppealsCount: 0,
+				withdrawnAppealsLink: `/${VIEW.YOUR_APPEALS.WITHDRAWN_APPEALS}`
 			});
 		});
 
@@ -164,7 +172,9 @@ describe('controllers/appeals/your-appeals', () => {
 				waitingForReviewAppeals: [],
 				noToDoAppeals: false,
 				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
-				decidedAppealsCount: 0
+				decidedAppealsCount: 0,
+				withdrawnAppealsCount: 0,
+				withdrawnAppealsLink: `/${VIEW.YOUR_APPEALS.WITHDRAWN_APPEALS}`
 			});
 		});
 	});

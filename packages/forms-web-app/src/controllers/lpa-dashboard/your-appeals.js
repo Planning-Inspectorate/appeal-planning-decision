@@ -5,6 +5,8 @@ const {
 	updateChildAppealDisplayData
 } = require('../../lib/dashboard-functions');
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
+const { filterAppealsWithinGivenDate } = require('../../lib/filter-decided-appeals');
+const { filterTime } = require('../../config');
 
 const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdrawn-appeal');
 const { isNotTransferred } = require('@pins/business-rules/src/lib/filter-transferred-appeal');
@@ -29,9 +31,17 @@ const getYourAppeals = async (req, res) => {
 
 	const appealsCaseData = await req.appealsApiClient.getAppealsCaseDataV2(lpaCode);
 
-	const withdrawnAppealsCount = appealsCaseData.filter(
-		(appeal) => appeal.caseStatus === APPEAL_CASE_STATUS.WITHDRAWN
-	).length;
+	const withdrawnAppealsCount = appealsCaseData
+		.filter((appeal) => appeal.caseWithdrawnDate)
+		.map(mapToLPADashboardDisplayData)
+		.filter(Boolean)
+		.filter((appeal) =>
+			filterAppealsWithinGivenDate(
+				appeal,
+				'caseWithdrawnDate',
+				filterTime.FIVE_YEARS_IN_MILISECONDS
+			)
+		).length;
 
 	const invalidAppeals = await req.appealsApiClient.getAppealsCasesByLpaAndStatus({
 		lpaCode,
