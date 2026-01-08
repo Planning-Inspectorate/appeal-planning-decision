@@ -91,6 +91,7 @@ describe('controllers/appeals/your-appeals', () => {
 				toDoAppeals: [toDoData],
 				waitingForReviewAppeals: [],
 				noToDoAppeals: false,
+				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
 				decidedAppealsCount: 0
 			});
 		});
@@ -105,6 +106,7 @@ describe('controllers/appeals/your-appeals', () => {
 				toDoAppeals: [],
 				waitingForReviewAppeals: [completedData],
 				noToDoAppeals: true,
+				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
 				decidedAppealsCount: 0
 			});
 		});
@@ -119,6 +121,7 @@ describe('controllers/appeals/your-appeals', () => {
 				toDoAppeals: [],
 				waitingForReviewAppeals: [],
 				noToDoAppeals: true,
+				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
 				decidedAppealsCount: 0
 			});
 		});
@@ -133,6 +136,7 @@ describe('controllers/appeals/your-appeals', () => {
 				toDoAppeals: [],
 				waitingForReviewAppeals: [waitingForReviewData],
 				noToDoAppeals: true,
+				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
 				decidedAppealsCount: 0
 			});
 		});
@@ -159,6 +163,7 @@ describe('controllers/appeals/your-appeals', () => {
 				toDoAppeals: [toDoData, toDoData],
 				waitingForReviewAppeals: [],
 				noToDoAppeals: false,
+				decidedAppealsLink: `/${VIEW.YOUR_APPEALS.DECIDED_APPEALS}`,
 				decidedAppealsCount: 0
 			});
 		});

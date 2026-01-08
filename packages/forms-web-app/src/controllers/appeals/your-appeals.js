@@ -9,6 +9,11 @@ const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
 const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdrawn-appeal');
 const { isNotTransferred } = require('@pins/business-rules/src/lib/filter-transferred-appeal');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const {
+	VIEW: {
+		YOUR_APPEALS: { DECIDED_APPEALS }
+	}
+} = require('../../lib/views');
 
 const { filterAppealsWithinGivenDate } = require('../../lib/filter-decided-appeals');
 const { filterTime } = require('../../config');
@@ -79,7 +84,8 @@ exports.get = async (req, res) => {
 			toDoAppeals,
 			waitingForReviewAppeals,
 			noToDoAppeals,
-			decidedAppealsCount
+			decidedAppealsCount,
+			decidedAppealsLink: `/${DECIDED_APPEALS}`
 		};
 
 		res.render(VIEW.APPEALS.YOUR_APPEALS, viewContext);

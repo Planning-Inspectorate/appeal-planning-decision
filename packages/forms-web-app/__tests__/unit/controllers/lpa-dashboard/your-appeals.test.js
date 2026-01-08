@@ -77,7 +77,9 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				appealQuestionnaireLink: baseHASUrl,
 				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
 				decidedAppealsCount: 1,
-				noToDoAppeals: false
+				noToDoAppeals: false,
+				withdrawnAppealsCount: 0,
+				withdrawnAppealsLink: `/${VIEW.LPA_DASHBOARD.WITHDRAWN_APPEALS}`
 			});
 		});
 
@@ -102,7 +104,9 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				appealDetailsLink: `/${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}`,
 				appealQuestionnaireLink: baseHASUrl,
 				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
+				withdrawnAppealsLink: `/${VIEW.LPA_DASHBOARD.WITHDRAWN_APPEALS}`,
 				decidedAppealsCount: 1,
+				withdrawnAppealsCount: 0,
 				noToDoAppeals: false
 			});
 		});

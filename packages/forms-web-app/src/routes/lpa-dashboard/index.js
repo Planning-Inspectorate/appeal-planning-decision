@@ -19,6 +19,7 @@ router.get('/', (_, res) => res.redirect('/manage-appeals/your-appeals'));
 router.use(require('./your-appeals'));
 router.use(require('./questionnaire'));
 router.use(require('./decided-appeals'));
+router.use(require('./withdrawn-appeals'));
 router.use(require('./statement'));
 router.use(require('./final-comments'));
 router.use(require('./proof-evidence'));
