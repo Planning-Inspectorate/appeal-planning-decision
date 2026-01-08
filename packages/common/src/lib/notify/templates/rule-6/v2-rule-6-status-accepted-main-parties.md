@@ -1,7 +1,6 @@
 We have accepted a new application for Rule 6 status.
 
 ^Organisation name: {{rule6Organisation}}
-Name of representative: {{rule6Name}}
 
 # Appeal details
 ^Appeal reference number: {{appealReferenceNumber}}
