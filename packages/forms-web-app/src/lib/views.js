@@ -228,6 +228,7 @@ const VIEW = {
 		CONFIRM_REMOVE_USER: 'manage-appeals/confirm-remove-user',
 		YOUR_EMAIL_ADDRESS: 'manage-appeals/your-email-address',
 		DECIDED_APPEALS: 'manage-appeals/decided-appeals',
+		WITHDRAWN_APPEALS: 'manage-appeals/withdrawn-appeals',
 		APPEAL_OVERVIEW: '/manage-appeals'
 	},
 

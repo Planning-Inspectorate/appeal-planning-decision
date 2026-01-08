@@ -10,7 +10,13 @@ const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdraw
 const { isNotTransferred } = require('@pins/business-rules/src/lib/filter-transferred-appeal');
 const {
 	VIEW: {
-		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, APPEAL_DETAILS, DECIDED_APPEALS }
+		LPA_DASHBOARD: {
+			DASHBOARD,
+			ADD_REMOVE_USERS,
+			APPEAL_DETAILS,
+			DECIDED_APPEALS,
+			WITHDRAWN_APPEALS
+		}
 	}
 } = require('../../lib/views');
 const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
@@ -22,6 +28,10 @@ const getYourAppeals = async (req, res) => {
 	const { lpaCode } = user;
 
 	const appealsCaseData = await req.appealsApiClient.getAppealsCaseDataV2(lpaCode);
+
+	const withdrawnAppealsCount = appealsCaseData.filter(
+		(appeal) => appeal.caseStatus === APPEAL_CASE_STATUS.WITHDRAWN
+	).length;
 
 	const invalidAppeals = await req.appealsApiClient.getAppealsCasesByLpaAndStatus({
 		lpaCode,
@@ -64,7 +74,9 @@ const getYourAppeals = async (req, res) => {
 		appealDetailsLink: `/${APPEAL_DETAILS}`,
 		appealQuestionnaireLink: baseHASUrl,
 		decidedAppealsLink: `/${DECIDED_APPEALS}`,
+		withdrawnAppealsLink: `/${WITHDRAWN_APPEALS}`,
 		decidedAppealsCount: decidedAppealsCount.count,
+		withdrawnAppealsCount,
 		noToDoAppeals
 	});
 };

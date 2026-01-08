@@ -8,7 +8,7 @@ const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdraw
 const { isNotTransferred } = require('@pins/business-rules/src/lib/filter-transferred-appeal');
 const {
 	VIEW: {
-		RULE_6: { DASHBOARD }
+		RULE_6: { DASHBOARD, DECIDED_APPEALS }
 	}
 } = require('../../lib/views');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
@@ -77,7 +77,8 @@ const getYourAppealsR6 = async (req, res) => {
 			waitingForReviewAppeals,
 			noToDoAppeals,
 			bannerHtmlOverride,
-			decidedAppealsCount
+			decidedAppealsCount,
+			decidedAppealsLink: `/${DECIDED_APPEALS}`
 		};
 
 		res.render(DASHBOARD, viewContext);
