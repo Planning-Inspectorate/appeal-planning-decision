@@ -9,6 +9,7 @@ const exampleS78DataModel = {
 	caseType: 'W',
 
 	// S78 fields
+	developmentType: 'major-industry-storage',
 	changedListedBuildingNumbers: ['9000009'],
 	agriculturalHolding: null,
 	tenantAgriculturalHolding: true,
