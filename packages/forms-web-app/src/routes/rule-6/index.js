@@ -14,6 +14,7 @@ router.use(requireRule6User);
 router.get('/', (_, res) => res.redirect('/rule-6/your-appeals'));
 router.use(require('./your-appeals'));
 router.use(require('./decided-appeals'));
+router.use(require('./withdrawn-appeals'));
 router.use(require('./selected-appeal'));
 router.use(require('./proof-evidence'));
 router.use(require('./appeal-statement'));

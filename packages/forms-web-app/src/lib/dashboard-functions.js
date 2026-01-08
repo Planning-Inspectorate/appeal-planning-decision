@@ -49,6 +49,7 @@ const escape = require('escape-html');
  * @property {string | undefined | null} appealDecision the PINS decision in respect of the appeal
  * @property {string | null} [appealDecisionColor] tag color to use for the decision
  * @property {string | undefined | null} caseDecisionOutcomeDate
+ * @property {string | undefined | null} caseWithdrawnDate
  * @property {LinkedCaseDetails | null} linkedCaseDetails if appeal is linked, including linked role ie 'lead', 'child'
  * @property {boolean} [displayNextJourneyLink] whether the next journey link should be displayed
  * @property {{ appealType: string | undefined, appealId: string | undefined }} [continueParams]
@@ -121,6 +122,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => {
 		appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 		appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
 		caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
+		caseWithdrawnDate: appealCaseData.caseWithdrawnDate,
 		linkedCaseDetails: formatDashboardLinkedCaseDetails(appealCaseData),
 		displayNextJourneyLink: displayNextJourneyLink(appealCaseData, LPA_USER_ROLE)
 	};
@@ -165,6 +167,10 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
 				isAppealSubmission(appealData) || isV2Submission(appealData)
 					? null
 					: appealData.caseDecisionOutcomeDate,
+			caseWithdrawnDate:
+				isAppealSubmission(appealData) || isV2Submission(appealData)
+					? null
+					: appealData.caseWithdrawnDate,
 			linkedCaseDetails: isAppealSubmission(appealData)
 				? null
 				: formatDashboardLinkedCaseDetails(appealData),
@@ -201,6 +207,7 @@ const mapToRule6DashboardDisplayData = (appealCaseData) => {
 		appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 		appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
 		caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
+		caseWithdrawnDate: appealCaseData.caseWithdrawnDate,
 		linkedCaseDetails: formatDashboardLinkedCaseDetails(appealCaseData)
 	};
 };
