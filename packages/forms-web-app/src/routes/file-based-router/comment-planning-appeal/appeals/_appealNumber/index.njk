@@ -4,6 +4,7 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "pins/components/appeal-decision-block.njk" import appealDecisionBlock %}
+{% from '../../../../../dynamic-forms/dynamic-components/macros/status-tag-colour.njk' import statusTagColor %}
 
 {% set title=appeal.headlineText + " - Comment on a planning appeal - GOV.UK" %}
 
@@ -21,7 +22,11 @@
         }) }}
       {% endif %}
 
-      <h1 class="govuk-heading-l">{{appeal.headlineText}}</h1>
+		<h1 class="govuk-heading-l">
+			{{appeal.headlineText}}
+			<br>
+			{{ statusTagColor(appeal.caseStatus) }}
+		</h1>
 
 	  {% if appeal.status === 'decided' %}
 	  	{{ appealDecisionBlock(
