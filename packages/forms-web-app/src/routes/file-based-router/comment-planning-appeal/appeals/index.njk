@@ -1,6 +1,7 @@
 {% extends "layouts/comment-planning-appeal/index.njk" %}
 {% set title = ["Appeals at ", postcode] | join %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from '../../../../dynamic-forms/dynamic-components/macros/status-tag-colour.njk' import statusTagColor %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% block content %}
   <div class="govuk-form-group">
@@ -9,10 +10,10 @@
     <table class="govuk-table govuk-!-margin-top-3">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header govuk-!-width-one-third">Appeal number</th>
-          <th scope="col" class="govuk-table__header govuk-!-width-one-third">Appeal site</th>
+					<th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Appeal reference number</th>
           <th scope="col" class="govuk-table__header govuk-!-width-one-third">Applicant</th>
-          <th scope="col" class="govuk-table__header">Comment</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-third">Site address</th>
+          <th scope="col" class="govuk-table__header">Status</th>
         </tr>
       </thead>
       <tbody class="govuk-table__body">
@@ -23,11 +24,11 @@
                 {{ appeal.caseReference }}
               </a>
             </td>
-            <td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
             <td class="govuk-table__cell">{{ appeal.appellantFirstName }} {{ appeal.appellantLastName }}</td>
-            <td class="govuk-table__cell">
-              <strong class="govuk-tag govuk-tag--blue">Open</strong>
-            </td>
+            <td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
+						<td class="govuk-table__cell">
+							{{ statusTagColor(appeal.caseStatus) }}
+						</td>
           </tr>
         {% endfor %}
         {% for appeal in closedAppeals %}
@@ -37,10 +38,10 @@
                 {{ appeal.caseReference }}
               </a>
             </td>
-            <td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
             <td class="govuk-table__cell">{{ appeal.appellantFirstName }} {{ appeal.appellantLastName }}</td>
+            <td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
             <td class="govuk-table__cell">
-              <strong class="govuk-tag govuk-tag--grey">Closed</strong>
+            	{{ statusTagColor(appeal.caseStatus) }}
             </td>
           </tr>
         {% endfor %}
