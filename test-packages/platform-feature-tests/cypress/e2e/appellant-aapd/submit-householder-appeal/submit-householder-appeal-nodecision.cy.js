@@ -67,4 +67,26 @@ describe('Submit House Holder Appeal No Decision Test Cases',{ tags:'@HAS-nodeci
 			});
 		});
 	});
+	// example smoke test case
+	it('HAS Smoke Test', { tags: tag.smoke }, () => {
+		const context = houseHolderAppealNoDecisionTestCases[0];
+		const {
+			statusOfOriginalApplication,
+			typeOfDecisionRequested,
+			statusOfPlanningObligation,
+			typeOfPlanningApplication,
+		} = context;
+
+		submitAppealFlow({
+			statusOfOriginalApplication,
+			typeOfDecisionRequested,
+			statusOfPlanningObligation,
+			planning: typeOfPlanningApplication,
+			context,
+			prepareAppealData,
+			lpaManageAppealsData,
+			questionnaireTestCases,
+			statementTestCases
+		});
+	});
 });

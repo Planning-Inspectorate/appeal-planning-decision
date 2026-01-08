@@ -28,6 +28,7 @@ export const finalComment = (context, prepareAppealData, appealType) => {
 			counter++;
 		}
 	}).then(() => {
+		cy.advanceToNextPage();
 		finalComment.selectSubmitAnyFinalComment(context);
 	});
 	//commented for test during coding

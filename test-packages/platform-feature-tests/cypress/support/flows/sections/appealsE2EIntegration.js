@@ -22,17 +22,17 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
             // Ensure replace is called on a string
             truncatedAppealId = String(truncatedAppealId).replace(/^\d{2}/, '');
             cy.log(`Case Ref updated: ${truncatedAppealId} -> ${truncatedAppealId}`);
-
+            //Assign Case Officer via API
             appealsApiClient.assignCaseOfficer(truncatedAppealId);
 
-            // Validated appeal details in LPA            
+            // Validated appeal details via API and start appeal          
             cy.getBusinessActualDate(new Date(), 0).then((date) => {
                 cy.updateAppealDetailsViaApi(caseRef, { validationOutcome: 'valid', validAt: date });
             });
             cy.reload();
             cy.startAppeal(caseRef);
 
-            // Submit the LPA questionnaire 
+            // Submit the LPA questionnaire in LPA dash board
             viewValidatedAppealDetailsLPA(caseRef);            
 
             if ( appealType === lpaManageAppealsData?.s78AppealType || appealType === lpaManageAppealsData?.s20AppealType || appealType === lpaManageAppealsData?.commercialadvAppealType || appealType === lpaManageAppealsData?.advertAppealType ) {                
@@ -40,10 +40,10 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
             } else {               
                 householderQuestionnaire(questionnaireTestCases[0], lpaManageAppealsData, appealType, caseRef);
             }
-
+            // Review LPA questionnaire via API
             cy.reviewLpaqSubmission(caseRef);
             
-            // Submit the LPA statement
+            // Submit the LPA statement in LPA dash board
 
             if ( appealType === lpaManageAppealsData?.s78AppealType || appealType === lpaManageAppealsData?.s20AppealType || appealType === lpaManageAppealsData?.advertAppealType) {
 

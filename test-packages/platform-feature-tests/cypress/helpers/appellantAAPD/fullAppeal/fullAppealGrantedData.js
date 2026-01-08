@@ -15,96 +15,97 @@ const documents = {
     uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf'
 };
 export const fullAppealGrantedTestCases = [
-    // {
-    //     statusOfOriginalApplication: 'granted',
-    //     typeOfDecisionRequested: 'written',
-    //     statusOfPlanningObligation: 'in draft',
-    //     typeOfPlanningApplication: 'answer-full-appeal',
-    //     applicationForm: {
-    //         isAppellant: true,
-    //         areaUnits: 'hectare',
-    //         appellantInGreenBelt: true,
-    //         isOwnsAllLand: false,
-    //         isOwnsSomeLand: true,
-    //         // knowsAllOwners: 'yes',
-    //         knowsOtherOwners: 'yes',
-    //         isAgriculturalHolding: false,
-    //         // isTenantAgricultureHolding : true,
-    //         // anyOtherTenants: true,
-    //         majorMionorDevelopmentData: 'major',
-    //         applicationAboutData: 'householder',
-    //         isInspectorNeedAccess: true,
-    //         isAppellantSiteSafety: true,
-    //         iaUpdateDevelopmentDescription: true,
-    //         appellantProcedurePreference: 'written',
-    //         anyOtherAppeals: true,
-    //         isAppellantLinkedCaseAdd: false
-    //     },
-    //     uploadDocuments: {
-    //         submitPlanningObligation: true,
-    //         finalisedPlanningStatus: 'ready',
-    //         haveSeparateOwnershipAndLandDecl: true,
-    //         isApplyAwardCost: true,
-    //         isSubmitDesignAndAccessStmt: true,
-    //         isNewPlanOrDrawingAvailable: true,
-    //         isOtherNewDocumentAvailable: true
-    //     },
-    //     documents,
-    //     otherAppeals: [{
-    //         appealReferenceNumber: '1234567'
-    //     }, {
-    //         appealReferenceNumber: '7654321'
-    //     }],
-    //     finalComments: {
-    //         check: false, // TODO: set these to true after feature flag introduced
-    //         uploadAdditionalDocuments: false
-    //     }
-    // },
-    // {
-    //     statusOfOriginalApplication: 'granted',
-    //     typeOfDecisionRequested: 'inquiry',
-    //     statusOfPlanningObligation: 'in draft',
-    //     typeOfPlanningApplication: 'answer-full-appeal',
-    //     applicationForm: {
-    //         isAppellant: true,
-    //         areaUnits: 'squaremeter',
-    //         appellantInGreenBelt: true,
-    //         isOwnsAllLand: false,
-    //         isOwnsSomeLand: true,
-    //         // knowsAllOwners: 'yes',
-    //         knowsOtherOwners: 'some',
-    //         isAgriculturalHolding: false,
-    //         // isTenantAgricultureHolding : true,
-    //         // anyOtherTenants: true,
-    //         majorMionorDevelopmentData: 'minor',
-    //         applicationAboutData: 'changeofuse',
-    //         isInspectorNeedAccess: true,
-    //         isAppellantSiteSafety: true,
-    //         iaUpdateDevelopmentDescription: true,
-    //         appellantProcedurePreference: 'inquiry',
-    //         anyOtherAppeals: true,
-    //         isAppellantLinkedCaseAdd: false
-    //     },
-    //     uploadDocuments: {
-    //         submitPlanningObligation: true,
-    //         finalisedPlanningStatus: 'ready',
-    //         haveSeparateOwnershipAndLandDecl: true,
-    //         isApplyAwardCost: true,
-    //         isSubmitDesignAndAccessStmt: true,
-    //         isNewPlanOrDrawingAvailable: true,
-    //         isOtherNewDocumentAvailable: true
-    //     },
-    //     documents,
-    //     otherAppeals: [{
-    //         appealReferenceNumber: '1234567'
-    //     }, {
-    //         appealReferenceNumber: '7654321'
-    //     }],
-    //     finalComments: {
-    //         check: false, // TODO: set these to true after feature flag introduced
-    //         uploadAdditionalDocuments: false
-    //     }
-    // },
+    {
+        statusOfOriginalApplication: 'granted',
+        typeOfDecisionRequested: 'written',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-full-appeal',
+        endToEndIntegration: true,
+        applicationForm: {
+            isAppellant: true,
+            areaUnits: 'hectare',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            // knowsAllOwners: 'yes',
+            knowsOtherOwners: 'yes',
+            isAgriculturalHolding: false,
+            // isTenantAgricultureHolding : true,
+            // anyOtherTenants: true,
+            majorMionorDevelopmentData: 'major',
+            applicationAboutData: 'householder',
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,
+            appellantProcedurePreference: 'written',
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: false
+        },
+        uploadDocuments: {
+            submitPlanningObligation: true,
+            finalisedPlanningStatus: 'ready',
+            haveSeparateOwnershipAndLandDecl: true,
+            isApplyAwardCost: true,
+            isSubmitDesignAndAccessStmt: true,
+            isNewPlanOrDrawingAvailable: true,
+            isOtherNewDocumentAvailable: true
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }
+    },
+    {
+        statusOfOriginalApplication: 'granted',
+        typeOfDecisionRequested: 'inquiry',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-full-appeal',
+        applicationForm: {
+            isAppellant: true,
+            areaUnits: 'squaremeter',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            // knowsAllOwners: 'yes',
+            knowsOtherOwners: 'some',
+            isAgriculturalHolding: false,
+            // isTenantAgricultureHolding : true,
+            // anyOtherTenants: true,
+            majorMionorDevelopmentData: 'minor',
+            applicationAboutData: 'changeofuse',
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,
+            appellantProcedurePreference: 'inquiry',
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: false
+        },
+        uploadDocuments: {
+            submitPlanningObligation: true,
+            finalisedPlanningStatus: 'ready',
+            haveSeparateOwnershipAndLandDecl: true,
+            isApplyAwardCost: true,
+            isSubmitDesignAndAccessStmt: true,
+            isNewPlanOrDrawingAvailable: true,
+            isOtherNewDocumentAvailable: true
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }
+    },
     {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'hearing',
