@@ -75,17 +75,23 @@ exports.sortDocumentsByDate = (documents) => {
 
 /**
  * @param {import('appeals-service-api').Api.Document[]} documents
- * @returns {string}
+ * @param {string} documentType
  */
-exports.formatDocumentsAsBulletedList = (documents) => {
-	if (documents.length === 1) {
-		return exports.formatDocumentLink(documents[0]);
-	} else if (documents.length > 1) {
-		let listHtml = '<ul>';
-		documents.forEach((document) => {
-			listHtml += `<li>${exports.formatDocumentLink(document)}</li>`;
-		});
-		listHtml += '</ul>';
-		return listHtml;
+exports.formatDocumentsAsNumberedList = (documents, documentType) => {
+	const filteredDocuments = documents.filter((document) => document.documentType === documentType);
+
+	if (filteredDocuments.length < 1) {
+		return 'No';
 	}
+
+	if (filteredDocuments.length === 1) {
+		return exports.formatDocumentLink(filteredDocuments[0]);
+	}
+
+	let listHtml = '<ol>';
+	filteredDocuments.forEach((filteredDocument) => {
+		listHtml += `<li>${exports.formatDocumentLink(filteredDocument)}</li>`;
+	});
+	listHtml += '</ol>';
+	return listHtml;
 };

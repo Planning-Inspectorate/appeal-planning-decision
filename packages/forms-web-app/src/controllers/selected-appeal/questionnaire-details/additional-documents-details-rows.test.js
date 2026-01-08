@@ -1,4 +1,4 @@
-const { lpaQuestionnaireValidationRows } = require('./lpa-questionnaire-validation-details-rows');
+const { additionalDocumentsRows } = require('./additional-documents-details-rows');
 const {
 	APPEAL_DOCUMENT_TYPE,
 	APPEAL_LPA_QUESTIONNAIRE_VALIDATION_OUTCOME
@@ -6,17 +6,27 @@ const {
 const { makeDocument } = require('./test-factory');
 const { LPA_USER_ROLE, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
-describe('lpaQuestionnaireValidationRows', () => {
-	it('should return empty array if no LPA_CASE_CORRESPONDENCE documents for lpa', () => {
+describe('additionalDocumentsRows', () => {
+	it('should not display if no LPA_CASE_CORRESPONDENCE documents for lpa', () => {
 		const caseData = { Documents: [makeDocument(APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP)] };
-		expect(lpaQuestionnaireValidationRows({ caseData, userType: LPA_USER_ROLE })).toEqual([]);
+		const visibleRows = additionalDocumentsRows({
+			caseData,
+			userType: LPA_USER_ROLE
+		}).map((visibleRow) => {
+			return { title: visibleRow.keyText, value: visibleRow.valueText };
+		});
+		expect(visibleRows).toEqual([{ title: 'Additional documents', value: 'No' }]);
 	});
 
-	it('should return empty array if no LPA_CASE_CORRESPONDENCE documents for appellant', () => {
+	it('should not display if no LPA_CASE_CORRESPONDENCE documents for appellant', () => {
 		const caseData = { Documents: [makeDocument(APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP)] };
-		expect(
-			lpaQuestionnaireValidationRows({ caseData, userType: APPEAL_USER_ROLES.APPELLANT })
-		).toEqual([]);
+		const visibleRows = additionalDocumentsRows({
+			caseData,
+			userType: APPEAL_USER_ROLES.APPELLANT
+		}).map((visibleRow) => {
+			return { title: visibleRow.keyText, value: visibleRow.valueText };
+		});
+		expect(visibleRows).toEqual([{ title: 'Additional documents', value: 'No' }]);
 	});
 
 	it('should return a single row if an additional document exists and outcome is COMPLETE', () => {
@@ -25,7 +35,7 @@ describe('lpaQuestionnaireValidationRows', () => {
 			Documents: [doc],
 			lpaQuestionnaireValidationOutcome: APPEAL_LPA_QUESTIONNAIRE_VALIDATION_OUTCOME.COMPLETE
 		};
-		const rows = lpaQuestionnaireValidationRows({ caseData: caseData, userType: LPA_USER_ROLE });
+		const rows = additionalDocumentsRows({ caseData, userType: LPA_USER_ROLE });
 		expect(rows).toHaveLength(1);
 		expect(rows[0].keyText).toBe('Additional documents');
 		expect(rows[0].valueText).toContain('name.pdf');
@@ -38,20 +48,20 @@ describe('lpaQuestionnaireValidationRows', () => {
 		expect(rows[0].condition(incompleteCase)).toBe(false);
 	});
 
-	it('should return a bulleted list if multiple additional documents exist and outcome is COMPLETE', () => {
+	it('should return a numbered list if multiple additional documents exist and outcome is COMPLETE', () => {
 		const doc1 = makeDocument(APPEAL_DOCUMENT_TYPE.LPA_CASE_CORRESPONDENCE);
 		const doc2 = makeDocument(APPEAL_DOCUMENT_TYPE.LPA_CASE_CORRESPONDENCE);
 		const caseData = {
 			Documents: [doc1, doc2],
 			lpaQuestionnaireValidationOutcome: APPEAL_LPA_QUESTIONNAIRE_VALIDATION_OUTCOME.COMPLETE
 		};
-		const rows = lpaQuestionnaireValidationRows({
+		const rows = additionalDocumentsRows({
 			caseData: caseData,
 			userType: APPEAL_USER_ROLES.APPELLANT
 		});
 		expect(rows).toHaveLength(1);
 		expect(rows[0].keyText).toBe('Additional documents');
-		expect(rows[0].valueText).toContain('<ul>');
+		expect(rows[0].valueText).toContain('<ol>');
 		expect(rows[0].valueText).toContain('name.pdf');
 		expect(typeof rows[0].condition).toBe('function');
 		expect(rows[0].condition(caseData)).toBe(true);
@@ -64,6 +74,12 @@ describe('lpaQuestionnaireValidationRows', () => {
 
 	it('should handle missing Documents array gracefully', () => {
 		const caseData = {};
-		expect(lpaQuestionnaireValidationRows({ caseData, userType: LPA_USER_ROLE })).toEqual([]);
+		const visibleRows = additionalDocumentsRows({
+			caseData,
+			userType: LPA_USER_ROLE
+		}).map((visibleRow) => {
+			return { title: visibleRow.keyText, value: visibleRow.valueText };
+		});
+		expect(visibleRows).toEqual([{ title: 'Additional documents', value: 'No' }]);
 	});
 });
