@@ -1,19 +1,33 @@
-const { caseValidationDocumentRows } = require('./case-validation-documents-details-rows');
+const { appealAdditionalDocumentsRows } = require('./appeal-additional-documents-rows');
 const {
 	APPEAL_DOCUMENT_TYPE,
 	APPEAL_CASE_VALIDATION_OUTCOME
 } = require('@planning-inspectorate/data-model');
-const { makeDocument } = require('./../questionnaire-details/test-factory');
+const { makeDocument } = require('../questionnaire-details/test-factory');
 const { formatRows } = require('@pins/common');
 const { LPA_USER_ROLE, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
-describe('caseValidationDocumentRows', () => {
-	it('should return empty array when no additional documents uploaded for appeal validation', () => {
+describe('appealAdditionalDocumentsRows', () => {
+	it('should not display if no LPA_CASE_CORRESPONDENCE documents for lpa', () => {
 		const caseData = { Documents: [makeDocument(APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP)] };
-		expect(caseValidationDocumentRows({ caseData, userType: LPA_USER_ROLE })).toEqual([]);
-		expect(caseValidationDocumentRows({ caseData, userType: APPEAL_USER_ROLES.APPELLANT })).toEqual(
-			[]
-		);
+		const visibleRows = appealAdditionalDocumentsRows({
+			caseData,
+			userType: LPA_USER_ROLE
+		}).map((visibleRow) => {
+			return { title: visibleRow.keyText, value: visibleRow.valueText };
+		});
+		expect(visibleRows).toEqual([{ title: 'Additional documents', value: 'No' }]);
+	});
+
+	it('should not display if no LPA_CASE_CORRESPONDENCE documents for appellant', () => {
+		const caseData = { Documents: [makeDocument(APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP)] };
+		const visibleRows = appealAdditionalDocumentsRows({
+			caseData,
+			userType: APPEAL_USER_ROLES.APPELLANT
+		}).map((visibleRow) => {
+			return { title: visibleRow.keyText, value: visibleRow.valueText };
+		});
+		expect(visibleRows).toEqual([{ title: 'Additional documents', value: 'No' }]);
 	});
 
 	it('should return a single row if an APPELLANT_CASE_CORRESPONDENCE document exists and outcome exists (LPA user)', () => {
@@ -22,10 +36,10 @@ describe('caseValidationDocumentRows', () => {
 			Documents: [doc],
 			caseValidationOutcome: APPEAL_CASE_VALIDATION_OUTCOME.VALID
 		};
-		const rows = caseValidationDocumentRows({ caseData, userType: LPA_USER_ROLE });
+		const rows = appealAdditionalDocumentsRows({ caseData, userType: LPA_USER_ROLE });
 		expect(formatRows(rows, caseData)).toHaveLength(1);
 		expect(rows).toHaveLength(1);
-		expect(rows[0].keyText).toBe('Additional Documents');
+		expect(rows[0].keyText).toBe('Additional documents');
 		expect(rows[0].valueText).toContain('name.pdf');
 		expect(typeof rows[0].condition).toBe('function');
 		expect(rows[0].condition(caseData)).toBe(true);
@@ -42,10 +56,10 @@ describe('caseValidationDocumentRows', () => {
 			Documents: [doc],
 			caseValidationOutcome: APPEAL_CASE_VALIDATION_OUTCOME.INVALID
 		};
-		const rows = caseValidationDocumentRows({ caseData, userType: APPEAL_USER_ROLES.APPELLANT });
+		const rows = appealAdditionalDocumentsRows({ caseData, userType: APPEAL_USER_ROLES.APPELLANT });
 		expect(formatRows(rows, caseData)).toHaveLength(1);
 		expect(rows).toHaveLength(1);
-		expect(rows[0].keyText).toBe('Additional Documents');
+		expect(rows[0].keyText).toBe('Additional documents');
 		expect(rows[0].valueText).toContain('name.pdf');
 		expect(typeof rows[0].condition).toBe('function');
 		expect(rows[0].condition(caseData)).toBe(true);
@@ -63,11 +77,11 @@ describe('caseValidationDocumentRows', () => {
 			Documents: [doc1, doc2],
 			caseValidationOutcome: APPEAL_CASE_VALIDATION_OUTCOME.VALID
 		};
-		const rows = caseValidationDocumentRows({ caseData, userType: APPEAL_USER_ROLES.APPELLANT });
+		const rows = appealAdditionalDocumentsRows({ caseData, userType: APPEAL_USER_ROLES.APPELLANT });
 		expect(formatRows(rows, caseData)).toHaveLength(1);
 		expect(rows).toHaveLength(1);
-		expect(rows[0].keyText).toBe('Additional Documents');
-		expect(rows[0].valueText).toContain('<ul>');
+		expect(rows[0].keyText).toBe('Additional documents');
+		expect(rows[0].valueText).toContain('<ol>');
 		expect(rows[0].valueText).toContain('name.pdf');
 		expect(typeof rows[0].condition).toBe('function');
 		expect(rows[0].condition(caseData)).toBe(true);
@@ -84,12 +98,18 @@ describe('caseValidationDocumentRows', () => {
 			Documents: [doc],
 			caseValidationOutcome: null
 		};
-		const rows = caseValidationDocumentRows({ caseData, userType: LPA_USER_ROLE });
+		const rows = appealAdditionalDocumentsRows({ caseData, userType: LPA_USER_ROLE });
 		expect(formatRows(rows, caseData)).toEqual([]);
 	});
 
 	it('should handle missing Documents array gracefully', () => {
 		const caseData = {};
-		expect(caseValidationDocumentRows({ caseData, userType: LPA_USER_ROLE })).toEqual([]);
+		const visibleRows = appealAdditionalDocumentsRows({
+			caseData,
+			userType: LPA_USER_ROLE
+		}).map((visibleRow) => {
+			return { title: visibleRow.keyText, value: visibleRow.valueText };
+		});
+		expect(visibleRows).toEqual([{ title: 'Additional documents', value: 'No' }]);
 	});
 });
