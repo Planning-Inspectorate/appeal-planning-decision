@@ -6,7 +6,10 @@ const {
 	}
 } = require('../../lib/views');
 const { getExampleDate } = require('../../dynamic-forms/questions-utils');
-const { parseISO, isBefore, isValid } = require('date-fns');
+const { addDays, parseISO, isBefore, isValid } = require('date-fns');
+const { utcToZonedTime } = require('date-fns-tz');
+
+const targetTimezone = 'Europe/London';
 
 exports.getContactPlanningInspectorateDate = (req, res) => {
 	const { appeal } = req.session;
@@ -73,11 +76,19 @@ exports.postContactPlanningInspectorateDate = async (req, res) => {
 		return;
 	}
 
+	const zonedEffectiveDate = utcToZonedTime(
+		new Date(req.session.appeal.eligibility.enforcementEffectiveDate),
+		targetTimezone
+	);
+	const extendedDeadline = addDays(zonedEffectiveDate, 6);
+	const zonedContactPlanningInspectorateDate = utcToZonedTime(
+		contactPlanningInspectorateDate,
+		targetTimezone
+	);
+
 	if (
-		isBefore(
-			contactPlanningInspectorateDate,
-			new Date(req.session.appeal.eligibility.enforcementEffectiveDate)
-		)
+		isBefore(zonedContactPlanningInspectorateDate, zonedEffectiveDate) &&
+		isBefore(new Date(), extendedDeadline)
 	) {
 		res.redirect('/before-you-start/can-use-service');
 		return;
