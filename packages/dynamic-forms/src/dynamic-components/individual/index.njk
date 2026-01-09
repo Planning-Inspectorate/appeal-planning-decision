@@ -7,7 +7,6 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% set title = question.pageTitle + " - " + journeyTitle + " - GOV.UK" %}
-{% set inputFields = question.inputFields %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% set firstName= question.fieldName + "_firstName" %}
@@ -63,9 +62,9 @@
                         label: {
                             text: 'First name',
                             classes: 'govuk-label',
-                            for: inputField.firstName
+                            for: firstName
                         },
-                        id: 'firstName',
+                        id: firstName,
                         name: firstName,
                         errorMessage: errors[firstName] and {
                             text: errors[firstName].msg
@@ -77,9 +76,9 @@
                         label: {
                             text: 'Last name',
                             classes: 'govuk-label',
-                            for: inputField.lastName
+                            for: lastName
                         },
-                        id: 'lastName',
+                        id: lastName,
                         name: lastName,
                         errorMessage: errors[lastName] and {
                             text: errors[lastName].msg

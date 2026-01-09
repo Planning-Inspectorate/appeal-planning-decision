@@ -5725,14 +5725,14 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                     <p class="govuk-hint">Enter the name of each individual appealing against the enforcement notice.
                         You can add more names later.</p>
                     <div class="govuk-form-group">
-                        <label class="govuk-label govuk-label" for="firstName">First name</label>
-                        <input class="govuk-input" id="firstName" name="enforcementNamedIndividual_firstName"
-                        type="text">
+                        <label class="govuk-label govuk-label" for="enforcementNamedIndividual_firstName">First name</label>
+                        <input class="govuk-input" id="enforcementNamedIndividual_firstName"
+                        name="enforcementNamedIndividual_firstName" type="text">
                     </div>
                     <div class="govuk-form-group">
-                        <label class="govuk-label govuk-label" for="lastName">Last name</label>
-                        <input class="govuk-input" id="lastName" name="enforcementNamedIndividual_lastName"
-                        type="text">
+                        <label class="govuk-label govuk-label" for="enforcementNamedIndividual_lastName">Last name</label>
+                        <input class="govuk-input" id="enforcementNamedIndividual_lastName"
+                        name="enforcementNamedIndividual_lastName" type="text">
                     </div>
                 </fieldset>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
