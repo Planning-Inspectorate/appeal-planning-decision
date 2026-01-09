@@ -2871,7 +2871,11 @@ exports.getQuestionProps = (response) => ({
 			'Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?',
 		fieldName: 'enforcementRefuseWasteMaterials',
 		url: 'refuse-waste-materials',
-		validators: [new RequiredValidator('Select yes if the alleged breach creates any floor space')]
+		validators: [
+			new RequiredValidator(
+				'Select yes if the enforcement notice includes a change of use of land to dispose refuse or waste materials'
+			)
+		]
 	},
 	enforcementMineralExtractionMaterials: {
 		type: 'boolean',
