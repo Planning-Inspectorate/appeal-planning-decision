@@ -3,59 +3,35 @@
 ## Prepare appeal
 
 - radio `/who-is-appealing/` Who is appealing against the enforcement notice?
-- multi-field-input `/individual-name/` What is the name of the individual appealing against the enforcement notice?
+
+- Multiquestion condition started: individual appellant
 
 ```js
-condition: () =>
-	questionHasAnswer(
-		response,
-		questions.enforcementWhoIsAppealing,
-		fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
-	);
+condition: () => enforcementParty(response, fieldValues.enforcementWhoIsAppealing.INDIVIDUAL);
 ```
 
+- multi-field-input `/individual-name/` What is the name of the individual appealing against the enforcement notice?
 - boolean `/are-you-individual/` Are you <individual name>?
 
 ```js
-condition: () =>
-	questionHasAnswer(
-		response,
-		questions.enforcementWhoIsAppealing,
-		fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
-	);
+condition: () => questionHasNonEmptyStringAnswer(response, { fieldName: 'appellantFirstName' });
+```
+
+- Multiquestion condition started: group of appellants
+
+```js
+condition: () => enforcementParty(response, fieldValues.enforcementWhoIsAppealing.GROUP);
 ```
 
 - list-add-more `/add-another-individual/` Do you need to add another individual?
-
-```js
-condition: () =>
-	questionHasAnswer(
-		response,
-		questions.enforcementWhoIsAppealing,
-		fieldValues.enforcementWhoIsAppealing.GROUP
-	);
-```
-
 - radio `/select-name/` Select your name
 
-```js
-condition: () =>
-	questionHasAnswer(
-		response,
-		questions.enforcementWhoIsAppealing,
-		fieldValues.enforcementWhoIsAppealing.GROUP
-	);
-```
+- Multiquestion condition ended: group of appellants
 
 - single-line-input `/organisation-name/` What is the name of the organisation?
 
 ```js
-condition: () =>
-	questionHasAnswer(
-		response,
-		questions.enforcementWhoIsAppealing,
-		fieldValues.enforcementWhoIsAppealing.ORGANISATION
-	);
+condition: () => enforcementParty(response, fieldValues.enforcementWhoIsAppealing.ORGANISATION);
 ```
 
 - multi-field-input `/contact-details/` Contact details

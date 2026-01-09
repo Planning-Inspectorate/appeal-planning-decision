@@ -30,7 +30,10 @@ const {
 	getAppealGroundsQuestions,
 	chooseGroundsOfAppealQuestion
 } = require('../appeal-grounds-questions');
-const { generateInterestInLandQuestionsAndConditions } = require('../enforcement-questions');
+const {
+	generateInterestInLandQuestionsAndConditions,
+	enforcementParty
+} = require('../enforcement-questions');
 /** @type {Array<'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'>} */
 const appealGroundsArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
 
@@ -108,48 +111,27 @@ const makeSections = (response) => {
 	return [
 		new Section('Prepare appeal', 'prepare-appeal')
 			.addQuestion(questions.enforcementWhoIsAppealing)
-			.addQuestion(questions.enforcementIndividualName)
-			.withCondition(() =>
-				questionHasAnswer(
-					response,
-					questions.enforcementWhoIsAppealing,
-					fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
-				)
+			.startMultiQuestionCondition('individual appellant', () =>
+				enforcementParty(response, fieldValues.enforcementWhoIsAppealing.INDIVIDUAL)
 			)
+			.addQuestion(questions.enforcementIndividualName)
 			.addQuestion(questions.enforcementAreYouIndividual)
 			.withCondition(() =>
-				questionHasAnswer(
-					response,
-					questions.enforcementWhoIsAppealing,
-					fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
-				)
+				questionHasNonEmptyStringAnswer(response, { fieldName: 'appellantFirstName' })
 			)
 			.withVariables({
 				[QUESTION_VARIABLES.INDIVIDUAL_NAME]: formatEnforcementIndividualName(response)
 			})
+			.endMultiQuestionCondition('individual appellant')
+			.startMultiQuestionCondition('group of appellants', () =>
+				enforcementParty(response, fieldValues.enforcementWhoIsAppealing.GROUP)
+			)
 			.addQuestion(questions.enforcementAddNamedIndividuals)
-			.withCondition(() =>
-				questionHasAnswer(
-					response,
-					questions.enforcementWhoIsAppealing,
-					fieldValues.enforcementWhoIsAppealing.GROUP
-				)
-			)
 			.addQuestion(questions.enforcementSelectYourName)
-			.withCondition(() =>
-				questionHasAnswer(
-					response,
-					questions.enforcementWhoIsAppealing,
-					fieldValues.enforcementWhoIsAppealing.GROUP
-				)
-			)
+			.endMultiQuestionCondition('group of appellants')
 			.addQuestion(questions.enforcementOrganisationName)
 			.withCondition(() =>
-				questionHasAnswer(
-					response,
-					questions.enforcementWhoIsAppealing,
-					fieldValues.enforcementWhoIsAppealing.ORGANISATION
-				)
+				enforcementParty(response, fieldValues.enforcementWhoIsAppealing.ORGANISATION)
 			)
 			// question will appear if user is not the appellant (will also appear if filling out on behalf of a company)
 			.addQuestion(questions.contactDetails)
