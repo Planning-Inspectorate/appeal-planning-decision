@@ -22,6 +22,7 @@ describe('planningOfficerReportRows', () => {
 		CASE_TYPES.CAS_ADVERTS.processCode,
 		'planningOfficersReport'
 	);
+	const ldcLPAQData = caseTypeLPAQFactory(CASE_TYPES.LDC.processCode, 'planningOfficersReport');
 
 	const expectedRowsHas = [
 		{
@@ -121,7 +122,8 @@ describe('planningOfficerReportRows', () => {
 		['S78', s78LPAQData, expectedRowsS78],
 		['S20', s20LPAQData, expectedRowsS78],
 		['Adverts', advertsLPAQData, expectedRowsAdverts],
-		['CAS Adverts', casAdvertsLPAQData, expectedRowsAdverts]
+		['CAS Adverts', casAdvertsLPAQData, expectedRowsAdverts],
+		['LDC', ldcLPAQData, []]
 	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
 		const visibleRows = planningOfficerReportRows(caseData)
 			.filter((row) => row.condition(caseData))

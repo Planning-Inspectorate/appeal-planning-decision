@@ -18,7 +18,7 @@ const {
  * @typedef {import('@pins/database/src/client/client').Prisma.CaseValidationOutcomeCreateInput} CaseValidationOutcomeCreateInput
  * @typedef {import('@pins/database/src/client/client').Prisma.LPAQuestionnaireValidationOutcomeCreateInput} LPAQuestionnaireValidationOutcomeCreateInput
  * @typedef {CaseTypeCreateInput & {
- * 	processCode: "HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING" | "ENFORCEMENT" | "ENFORCEMENT_LISTED"| "LAWFUL_DEVELOPMENT_CERTIFICATE",
+ * 	processCode: "HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING" | "ENFORCEMENT" | "ENFORCEMENT_LISTED" | "LDC",
  *  friendlyUrl: string,
  *  expedited: boolean
  * }} CASE_TYPE

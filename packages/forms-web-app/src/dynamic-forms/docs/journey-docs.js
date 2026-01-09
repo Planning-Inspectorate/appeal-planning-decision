@@ -36,6 +36,7 @@ const appealJourneys = async () => {
 	const {
 		makeSections: enforcementListedSections
 	} = require('../enforcement-listed-appeal-form/journey');
+	const { makeSections: ldcSections } = require('../ldc-appeal-form/journey');
 
 	await getJourneyDetails(
 		'has-appeal-form',
@@ -101,6 +102,15 @@ const appealJourneys = async () => {
 			answers: {}
 		})
 	);
+	await getJourneyDetails(
+		'ldc-appeal-form',
+		ldcSections({
+			journeyId: 'ldc-appeal-form',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
 };
 
 const lpaqJourneys = async () => {
@@ -116,6 +126,7 @@ const lpaqJourneys = async () => {
 	const {
 		makeSections: enforcementListedSections
 	} = require('../enforcement-listed-questionnaire/journey');
+	const { makeSections: ldcSections } = require('../ldc-questionnaire/journey');
 
 	await getJourneyDetails(
 		'has-lpaq',
@@ -184,6 +195,15 @@ const lpaqJourneys = async () => {
 		'enforcement-listed-lpaq',
 		enforcementListedSections({
 			journeyId: 'enforcement-listed-questionnaire',
+			LPACode: 'Q9999',
+			referenceId: '123',
+			answers: {}
+		})
+	);
+	await getJourneyDetails(
+		'ldc-lpaq',
+		ldcSections({
+			journeyId: 'ldc-questionnaire',
 			LPACode: 'Q9999',
 			referenceId: '123',
 			answers: {}
