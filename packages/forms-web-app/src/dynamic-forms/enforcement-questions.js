@@ -60,6 +60,15 @@ exports.generateInterestInLandQuestionsAndConditions = (response) => {
 
 /**
  * @param {JourneyResponse} response
+ * @param {string} party
+ * @returns {boolean}
+ */
+exports.enforcementParty = (response, party) => {
+	return response.answers?.enforcementWhoIsAppealing === party;
+};
+
+/**
+ * @param {JourneyResponse} response
  * @returns {string}
  */
 const formatEnforcementIndividualName = (response) => {
@@ -106,19 +115,20 @@ const individualInterestInLandQuestions = (response) => {
 
 	const responseName = formatEnforcementIndividualName(response);
 
-	const propsParams = isAppellant
-		? {
-				interestName: 'your',
-				permissionName: 'you',
-				doOrDoes: 'Do',
-				haveOrHas: 'have'
-			}
-		: {
-				interestName: `${responseName}'s`,
-				permissionName: responseName,
-				doOrDoes: 'Does',
-				haveOrHas: 'has'
-			};
+	const propsParams =
+		isAppellant === 'yes' || isAppellant === true
+			? {
+					interestName: 'your',
+					permissionName: 'you',
+					doOrDoes: 'Do',
+					haveOrHas: 'have'
+				}
+			: {
+					interestName: `${responseName}'s`,
+					permissionName: responseName,
+					doOrDoes: 'Does',
+					haveOrHas: 'has'
+				};
 
 	const questionProps = getProps(propsParams);
 
@@ -195,9 +205,6 @@ const groupInterestInLandQuestions = (response) => {
 			questionProps,
 			questionMethodOverrides
 		);
-
-		console.log('say word em up');
-		console.log(questionObjects);
 
 		return [
 			{
