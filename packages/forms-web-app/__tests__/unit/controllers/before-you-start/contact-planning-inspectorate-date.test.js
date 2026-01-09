@@ -142,6 +142,39 @@ describe('controllers/before-you-start/contact-planning-inspectorate-date', () =
 			}
 		);
 
+		it('should redirect to `before-you-start/cannot-appeal` if the extended deadline has passed', async () => {
+			const mockRequest = {
+				...req,
+				body: {
+					'contact-planning-inspectorate-date-day': 11,
+					'contact-planning-inspectorate-date-month': 12,
+					'contact-planning-inspectorate-date-year': 2024,
+					'contact-planning-inspectorate-date': '2024-12-11'
+				}
+			};
+			createOrUpdateAppeal.mockImplementation(() =>
+				Promise.resolve({
+					...mockRequest.session.appeal,
+					eligibility: {
+						...mockRequest.session.appeal.eligibility,
+						enforcementEffectiveDate: new Date('2024-12-12').toISOString()
+					}
+				})
+			);
+
+			await postContactPlanningInspectorateDate(mockRequest, res);
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...appeal,
+				eligibility: {
+					...appeal.eligibility,
+					contactPlanningInspectorateDate: expect.any(String)
+				}
+			});
+
+			expect(res.redirect).toHaveBeenCalledWith(navigationPages.cannotAppealPage);
+		});
+
 		it('should redirect to `/before-you-start/check-your-answers` if the issue date is valid', async () => {
 			const mockRequest = {
 				...req,
