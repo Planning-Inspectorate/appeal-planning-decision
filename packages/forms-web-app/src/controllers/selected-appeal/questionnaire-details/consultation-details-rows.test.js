@@ -13,6 +13,7 @@ describe('consultationRows', () => {
 	const s78LPAQData = caseTypeLPAQFactory(CASE_TYPES.S78.processCode, 'consultation');
 	const s20LPAQData = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'consultation');
 	const advertLPAQData = caseTypeLPAQFactory(CASE_TYPES.ADVERTS.processCode, 'consultation');
+	const ldcLPAQData = caseTypeLPAQFactory(CASE_TYPES.LDC.processCode, 'consultation');
 
 	const expectedRowsHas = [
 		{ title: 'Representations from other parties', value: 'Yes' },
@@ -51,13 +52,16 @@ describe('consultationRows', () => {
 		}
 	];
 
+	const expectedRowsLDC = [{ title: 'Representations from other parties', value: 'No' }];
+
 	it.each([
 		['HAS', hasLPAQData, expectedRowsHas],
 		['CAS Planning', casPlanningLPAQData, expectedRowsHas],
 		['CAS Adverts', casAdvertLPAQData, expectedRowsHas],
 		['ADVERTS', advertLPAQData, expectedRowsAdverts],
 		['S78', s78LPAQData, expectedRowsS78],
-		['S20', s20LPAQData, expectedRowsS78]
+		['S20', s20LPAQData, expectedRowsS78],
+		['LDC', ldcLPAQData, expectedRowsLDC]
 	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
 		const visibleRows = consultationRows(caseData)
 			.filter((row) => row.condition(caseData))

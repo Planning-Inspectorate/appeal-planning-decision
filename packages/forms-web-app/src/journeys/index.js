@@ -25,6 +25,8 @@ const enforcementAppealParams = require('../dynamic-forms/enforcement-appeal-for
 const enforcementQuestionnaireParams = require('../dynamic-forms/enforcement-questionnaire/journey');
 const enforcementListedAppealParams = require('../dynamic-forms/enforcement-listed-appeal-form/journey');
 const enforcementListedQuestionnaireParams = require('../dynamic-forms/enforcement-listed-questionnaire/journey');
+const ldcAppealParams = require('../dynamic-forms/ldc-appeal-form/journey');
+const ldcQuestionnaireParams = require('../dynamic-forms/ldc-questionnaire/journey');
 
 const { Journeys } = require('@pins/dynamic-forms/src/journeys');
 
@@ -56,5 +58,7 @@ journeys.registerJourney({ ...commonParams, ...enforcementAppealParams });
 journeys.registerJourney({ ...commonParams, ...enforcementQuestionnaireParams });
 journeys.registerJourney({ ...commonParams, ...enforcementListedAppealParams });
 journeys.registerJourney({ ...commonParams, ...enforcementListedQuestionnaireParams });
+journeys.registerJourney({ ...commonParams, ...ldcAppealParams });
+journeys.registerJourney({ ...commonParams, ...ldcQuestionnaireParams });
 
 module.exports = { journeys };

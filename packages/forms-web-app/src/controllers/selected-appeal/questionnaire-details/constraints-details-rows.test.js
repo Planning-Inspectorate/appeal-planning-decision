@@ -12,6 +12,7 @@ describe('constraintsRows', () => {
 	const s20LPAQData = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'constraints');
 	const advertsLPAQData = caseTypeLPAQFactory(CASE_TYPES.ADVERTS.processCode, 'constraints');
 	const casAdvertsLPAQData = caseTypeLPAQFactory(CASE_TYPES.CAS_ADVERTS.processCode, 'constraints');
+	const ldcLPAQData = caseTypeLPAQFactory(CASE_TYPES.LDC.processCode, 'constraints');
 
 	const sharedHasCasRows = [
 		{ title: 'Affects a listed building', value: 'Yes' },
@@ -116,13 +117,35 @@ describe('constraintsRows', () => {
 		{ title: 'Listed building details', value: 'LB2' }
 	];
 
+	const expectedRowsLDC = [
+		{
+			title: 'Is a lawful development certificate appeal the correct type of appeal?',
+			value: 'Yes'
+		},
+		{ title: 'Changes a listed building', value: 'Yes' },
+		{ title: 'Listed building details', value: 'LB2' },
+		{ title: 'Affects a listed building', value: 'Yes' },
+		{ title: 'Listed building details', value: 'LB1' },
+		{ title: 'Conservation area', value: 'Yes' },
+		{
+			title: 'Uploaded conservation area map and guidance',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Protected species', value: 'Yes' },
+		{ title: 'Green belt', value: 'Yes' },
+		{ title: 'Is the site in a national landscape?', value: 'Yes' },
+		{ title: 'Gypsy or Traveller', value: 'Yes' },
+		{ title: 'Public right of way', value: 'Yes' }
+	];
+
 	it.each([
 		['HAS', hasLPAQData, expectedRowsHas],
 		['CAS Planning', casPlanningLPAQData, expectedRowsCasPlanning],
 		['S78', s78LPAQData, expectedRowsS78],
 		['S20', s20LPAQData, expectedRowsS20],
 		['Adverts', advertsLPAQData, expectedRowsAdverts],
-		['CAS Adverts', casAdvertsLPAQData, expectedRowsCasAdverts]
+		['CAS Adverts', casAdvertsLPAQData, expectedRowsCasAdverts],
+		['LDC', ldcLPAQData, expectedRowsLDC]
 	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
 		const visibleRows = constraintsRows(caseData)
 			.filter((row) => row.condition(caseData))

@@ -496,14 +496,14 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
 			nearbyCaseReferences: appellantSubmission.SubmissionLinkedCase?.map(
 				({ caseReference }) => caseReference
 			),
-			// not in enforcement
+			// not in enforcement or ldc
 			ownsAllLand: appellantSubmission.ownsAllLand ?? null,
 			ownsSomeLand: appellantSubmission.ownsSomeLand ?? null,
 			knowsOtherOwners: exports.formatYesNoSomeAnswer(appellantSubmission.knowsOtherOwners),
 			knowsAllOwners: exports.formatYesNoSomeAnswer(appellantSubmission.knowsAllOwners),
 			advertisedAppeal: appellantSubmission.advertisedAppeal ?? null,
 			ownersInformed: appellantSubmission.informedOwners ?? null,
-			// not in adverts
+			// not in adverts or ldc
 			siteAreaSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null,
 			floorSpaceSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null, // should this be on model?
 			// unused
