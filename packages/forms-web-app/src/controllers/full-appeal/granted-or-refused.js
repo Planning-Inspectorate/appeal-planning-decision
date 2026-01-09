@@ -73,7 +73,7 @@ exports.postGrantedOrRefused = async (req, res) => {
 	) {
 		appeal.appealType =
 			applicationDecision == APPLICATION_DECISION.REFUSED
-				? (appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL)
+				? appeal.appealType // leave as current appeal type (either CAS planning or S78 based on planning application about answer)
 				: (appeal.appealType = APPEAL_ID.PLANNING_SECTION_78);
 	}
 
