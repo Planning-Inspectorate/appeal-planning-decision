@@ -15,7 +15,7 @@ const { environmentalRows } = require('./environmental-details-rows');
 const { notifiedRows } = require('./notified-details-rows');
 const { planningOfficerReportRows } = require('./planning-officer-details-rows');
 const { siteAccessRows } = require('./site-access-details-rows');
-const { lpaQuestionnaireValidationRows } = require('./lpa-questionnaire-validation-details-rows');
+const { additionalDocumentsRows } = require('./additional-documents-details-rows');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
@@ -95,13 +95,13 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		// appeal process rows
 		const appealProcessDetailsRows = appealProcessRows(caseData);
 		const appealProcessDetails = formatQuestionnaireRows(appealProcessDetailsRows, caseData);
-		// lpa questionnaire validation rows
-		const lpaQuestionnaireValidationDetailsRows = lpaQuestionnaireValidationRows({
+		// additional documents row
+		const additionalDocumentsDetailsRows = additionalDocumentsRows({
 			caseData,
 			userType: userType
 		});
-		const lpaQuestionnaireValidationDetails = formatQuestionnaireRows(
-			lpaQuestionnaireValidationDetailsRows,
+		const additionalDocumentsDetails = formatQuestionnaireRows(
+			additionalDocumentsDetailsRows,
 			caseData
 		);
 
@@ -120,7 +120,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				planningOfficerDetails,
 				siteAccessDetails,
 				appealProcessDetails,
-				lpaQuestionnaireValidationDetails
+				additionalDocumentsDetails
 			},
 			pdfDownloadUrl,
 			zipDownloadUrl

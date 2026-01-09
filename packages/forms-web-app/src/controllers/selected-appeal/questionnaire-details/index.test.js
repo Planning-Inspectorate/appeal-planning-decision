@@ -75,7 +75,7 @@ const expectedViewContext = {
 		planningOfficerDetails: 'some formatted row data',
 		siteAccessDetails: 'some formatted row data',
 		appealProcessDetails: 'some formatted row data',
-		lpaQuestionnaireValidationDetails: 'some formatted row data'
+		additionalDocumentsDetails: 'some formatted row data'
 	},
 	pdfDownloadUrl: 'a/fake/url?pdf=true',
 	zipDownloadUrl: `a/fake/download/back-office/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`
