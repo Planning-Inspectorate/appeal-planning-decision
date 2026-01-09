@@ -589,6 +589,8 @@ exports.submitAppellantSubmission = async (req, res) => {
 			return CASE_TYPES.ENFORCEMENT.friendlyUrl;
 		} else if (journeyId === JOURNEY_TYPES.ENFORCEMENT_LISTED_APPEAL_FORM.id) {
 			return CASE_TYPES.ENFORCEMENT_LISTED.friendlyUrl;
+		} else if (journeyId === JOURNEY_TYPES.LDC_APPEAL_FORM.id) {
+			return CASE_TYPES.LDC.friendlyUrl;
 		} else return '';
 	};
 

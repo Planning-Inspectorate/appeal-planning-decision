@@ -84,6 +84,8 @@ const appealTypeFlagActive = async (appealTypeCode, LPACode) => {
 			return await isFeatureActive(FLAG.ENFORCEMENT_APPEAL_FORM_V2, LPACode);
 		case CASE_TYPES.ENFORCEMENT_LISTED.processCode:
 			return await isFeatureActive(FLAG.ENFORCEMENT_LISTED_APPEAL_FORM_V2, LPACode);
+		case CASE_TYPES.LDC.processCode:
+			return await isFeatureActive(FLAG.LDC_APPEAL_FORM_V2, LPACode);
 		default:
 			return false;
 	}

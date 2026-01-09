@@ -38,6 +38,9 @@ router.use(`/${CASE_TYPES.ENFORCEMENT.friendlyUrl}`, dynamicSubmission);
 // enforcement listed building
 router.use(`/${CASE_TYPES.ENFORCEMENT_LISTED.friendlyUrl}`, dynamicSubmission);
 
+// LDC lawful development certificate
+router.use(`/${CASE_TYPES.LDC.friendlyUrl}`, dynamicSubmission);
+
 // reps
 router.use('/final-comments', finalCommentsRouter);
 router.use('/proof-evidence', proofEvidenceRouter);
