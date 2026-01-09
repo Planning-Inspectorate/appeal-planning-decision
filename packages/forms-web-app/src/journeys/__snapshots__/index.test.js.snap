@@ -8050,49 +8050,6 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the upload-application-receipt question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your application receipt</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
-                        </div>
-                    </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadApplicationReceipt">Upload files</label>
-                            <div id="uploadApplicationReceipt-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadApplicationReceipt" name="uploadApplicationReceipt" type="file"
-                            aria-describedby="uploadApplicationReceipt-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
-                    </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/enforcement/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the upload-decision-letter question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -8957,12 +8914,6 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Upload documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload your communication with the Planning Inspectorate</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/upload-documents/upload-planning-inspectorate-communication?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your communication with the Planning Inspectorate</span></a>
-                                </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload your enforcement notice</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
@@ -8974,11 +8925,6 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/upload-documents/upload-enforcement-plan?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your enforcement notice plan</span></a>
                                 </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Application form</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/upload-documents/upload-application-form?id=appeal-ref">Upload<span class="govuk-visually-hidden"> your application form</span></a>
-                            </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Decision letter</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>

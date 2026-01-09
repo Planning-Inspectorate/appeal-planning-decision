@@ -10,6 +10,21 @@ Section.prototype.withCondition = function (condition) {
 	return this;
 };
 
+Section.prototype.startMultiQuestionCondition = function (conditionName, condition) {
+	const lastQuestionAdded = this.questions.length - 1;
+	const multiQuestionConditionNameString = `\n - Multiquestion condition started: ${conditionName}\n`;
+	this.questions[lastQuestionAdded].logMultiConditionName = multiQuestionConditionNameString;
+	this.questions[lastQuestionAdded].logMultiCondition = String(condition);
+	return this;
+};
+
+Section.prototype.endMultiQuestionCondition = function (conditionName) {
+	const lastQuestionAdded = this.questions.length - 1;
+	const multiQuestionConditionNameString = `\n - Multiquestion condition ended: ${conditionName}\n`;
+	this.questions[lastQuestionAdded].logMultiConditionName = multiQuestionConditionNameString;
+	return this;
+};
+
 // todo: duplication
 const appealJourneys = async () => {
 	const { makeSections: hasSections } = require('../has-appeal-form/journey');
@@ -172,6 +187,14 @@ const getJourneyDetails = async (name, sections) => {
 			if (question.logCondition) {
 				details.push(
 					`\`\`\`js\n condition: ${question.logCondition.replace(/\s+/g, ' ').trim()}\n\`\`\``
+				);
+			}
+			if (question.logMultiConditionName) {
+				details.push(question.logMultiConditionName);
+			}
+			if (question.logMultiCondition) {
+				details.push(
+					`\`\`\`js\n condition: ${question.logMultiCondition.replace(/\s+/g, ' ').trim()}\n\`\`\``
 				);
 			}
 		});
