@@ -282,4 +282,95 @@ describe('./src/dynamic-forms/section.js', () => {
 			expect(section.questions[5].shouldDisplay()).toEqual(false);
 		});
 	});
+
+	describe('withMultiQuestionCondition', () => {
+		it('should return self as a fluent api', () => {
+			const section = new Section('s1', 'S');
+			let result = section.startMultiQuestionCondition('group-1', () => false);
+			expect(result).toBeInstanceOf(Section);
+			expect(result).toEqual(section);
+			result = section.endMultiQuestionCondition('group-1');
+			expect(result).toBeInstanceOf(Section);
+			expect(result).toEqual(section);
+		});
+
+		it('should check conditionName is not repeated', () => {
+			const section = new Section('s1', 'S');
+			section.startMultiQuestionCondition('group-1', () => false).addQuestion({ ...mockQuestion });
+			expect(() => section.startMultiQuestionCondition('group-1', () => false)).toThrow(
+				'group condition already started'
+			);
+		});
+
+		it('should check conditionName has been started', () => {
+			const section = new Section('s1', 'S');
+			section.addQuestion({ ...mockQuestion });
+			expect(() => section.endMultiQuestionCondition('group-1')).toThrow(
+				'group condition not started'
+			);
+		});
+
+		it('should add condition to all questions until end', () => {
+			const section = new Section('s1', 'S');
+			const mockCondition = jest.fn(() => true);
+			section
+				.startMultiQuestionCondition('group-1', mockCondition)
+				.addQuestion({ ...mockQuestion })
+				.addQuestion({ ...mockQuestion })
+				.addQuestion({ ...mockQuestion })
+				.endMultiQuestionCondition('group-1')
+				.addQuestion({ ...mockQuestion })
+				.addQuestion({ ...mockQuestion });
+
+			expect(section.questions.length).toEqual(5);
+			expect(mockCondition).toHaveBeenCalledTimes(0);
+			for (const q of section.questions) {
+				q.shouldDisplay();
+			}
+			expect(mockCondition).toHaveBeenCalledTimes(3);
+		});
+
+		it('should add conditions for multiple groups', () => {
+			const section = new Section('s1', 'S');
+			const mockCondition1 = jest.fn(() => true);
+			const mockCondition2 = jest.fn(() => true);
+			const mockCondition3 = jest.fn(() => true);
+			section
+				.startMultiQuestionCondition('group-1', mockCondition1)
+				.addQuestion({ ...mockQuestion })
+				.startMultiQuestionCondition('group-2', mockCondition2)
+				.addQuestion({ ...mockQuestion })
+				.endMultiQuestionCondition('group-2')
+				.startMultiQuestionCondition('group-3', mockCondition3)
+				.addQuestion({ ...mockQuestion })
+				.endMultiQuestionCondition('group-1')
+				.addQuestion({ ...mockQuestion })
+				.endMultiQuestionCondition('group-3')
+				.addQuestion({ ...mockQuestion });
+
+			expect(section.questions.length).toEqual(5);
+			expect(mockCondition1).toHaveBeenCalledTimes(0);
+			expect(mockCondition2).toHaveBeenCalledTimes(0);
+			expect(mockCondition3).toHaveBeenCalledTimes(0);
+
+			const conditionsCounts = [
+				[1, 0, 0], // first q - just group-1
+				[1, 1, 0], // second q - group-1 and group-2
+				[1, 0, 1], // third q - group-1 and group-3
+				[0, 0, 1], // fourth q - just group-3
+				[0, 0, 0] // fifth q - no groups
+			];
+
+			for (let i = 0; i < 5; i++) {
+				const [group1, group2, group3] = conditionsCounts[i];
+				mockCondition1.mockClear();
+				mockCondition2.mockClear();
+				mockCondition3.mockClear();
+				section.questions[i].shouldDisplay();
+				expect(mockCondition1).toHaveBeenCalledTimes(group1);
+				expect(mockCondition2).toHaveBeenCalledTimes(group2);
+				expect(mockCondition3).toHaveBeenCalledTimes(group3);
+			}
+		});
+	});
 });

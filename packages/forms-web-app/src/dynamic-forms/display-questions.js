@@ -131,3 +131,10 @@ exports.shouldDisplayPreviousApplicationQuestions = (response) => {
 
 	return submittedAppealGrounds.some((ground) => ground.groundName === 'a');
 };
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {boolean}
+ */
+exports.shouldDisplayPriorCorrespondenceUpload = (response) =>
+	!!response.answers.hasContactedPlanningInspectorate;

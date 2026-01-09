@@ -14,7 +14,8 @@ const {
 const config = require('../../config');
 const {
 	shouldDisplayUploadDecisionLetter,
-	shouldDisplayPreviousApplicationQuestions
+	shouldDisplayPreviousApplicationQuestions,
+	shouldDisplayPriorCorrespondenceUpload
 } = require('../display-questions');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
@@ -173,24 +174,17 @@ const makeSections = (response) => {
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterAllegedBreachDescription)
 			.addQuestion(chooseGroundsOfAppealQuestion)
-			.addQuestion(questions.submittedPlanningApplication)
-			.withCondition(shouldDisplayPreviousApplicationQuestions)
-			.addQuestion(questions.uploadApplicationReceipt)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.submittedPlanningApplication, 'yes')
+			.startMultiQuestionCondition(
+				'groundAPreviousApplication',
+				shouldDisplayPreviousApplicationQuestions
 			)
+			.addQuestion(questions.submittedPlanningApplication)
 			.addQuestion(questions.allOrPartOfDevelopment)
-			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.planningApplicationReference)
-			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.planningApplicationDate)
-			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.enforcementEnterDevelopmentDescription)
-			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.updateDevelopmentDescription)
-			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.grantedOrRefused)
-			.withCondition(shouldDisplayPreviousApplicationQuestions)
 			.addQuestion(questions.applicationDecisionDate)
 			.withCondition(
 				() =>
@@ -211,6 +205,7 @@ const makeSections = (response) => {
 			.withCondition(() =>
 				questionHasAnswer(response, questions.grantedOrRefused, 'nodecisionreceived')
 			)
+			.endMultiQuestionCondition('groundAPreviousApplication')
 			.addQuestions(appealGroundsQuestions)
 			.addQuestion(questions.appellantProcedurePreference)
 			.addQuestion(questions.appellantPreferHearing)
@@ -254,9 +249,13 @@ const makeSections = (response) => {
 			.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
 		new Section('Upload documents', 'upload-documents')
 			.addQuestion(questions.uploadPriorCorrespondence)
+			.withCondition(shouldDisplayPriorCorrespondenceUpload)
 			.addQuestion(questions.uploadEnforcementNotice)
 			.addQuestion(questions.uploadEnforcementNoticePlan)
 			.addQuestion(questions.uploadOriginalApplicationForm)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.submittedPlanningApplication, 'yes')
+			)
 			.addQuestion(questions.uploadChangeOfDescriptionEvidence)
 			.withCondition(() =>
 				questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
