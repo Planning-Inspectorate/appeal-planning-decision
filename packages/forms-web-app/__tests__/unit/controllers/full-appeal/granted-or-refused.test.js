@@ -338,5 +338,184 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 				);
 			});
 		});
+
+		describe('Type of planning application is MINOR_COMMERCIAL_DEVELOPMENT', () => {
+			describe('Appeal type is PLANNING_SECTION_78 on input to this question', () => {
+				const fullPlanningApplicationAppeal = {
+					...appeal,
+					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+					appealType: APPEAL_ID.PLANNING_SECTION_78
+				};
+
+				it(`'should redirect to '/${DECISION_DATE}' with appeal type PLANNING_SECTION_78 when 'applicationDecision' is 'granted'`, async () => {
+					isLpaInFeatureFlag.mockReturnValue(true);
+					const applicationDecision = 'granted';
+					const mockRequest = {
+						...req,
+						body: {
+							'granted-or-refused': applicationDecision
+						},
+						session: {
+							...req.session,
+							appeal: {
+								...req.session.appeal,
+								typeOfPlanningApplication:
+									TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+								appealType: APPEAL_ID.PLANNING_SECTION_78
+							}
+						}
+					};
+
+					await postGrantedOrRefused(mockRequest, res);
+
+					expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullPlanningApplicationAppeal);
+
+					expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
+				});
+
+				it(`'should redirect to '/${DECISION_DATE}' with appeal type PLANNING_SECTION_78 when 'applicationDecision' is 'refused'`, async () => {
+					isLpaInFeatureFlag.mockReturnValue(true);
+					const applicationDecision = 'refused';
+					const mockRequest = {
+						...req,
+						body: {
+							'granted-or-refused': applicationDecision
+						},
+						session: {
+							...req.session,
+							appeal: {
+								...req.session.appeal,
+								typeOfPlanningApplication:
+									TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+								appealType: APPEAL_ID.PLANNING_SECTION_78
+							}
+						}
+					};
+
+					await postGrantedOrRefused(mockRequest, res);
+
+					expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullPlanningApplicationAppeal);
+
+					expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
+				});
+
+				it(`'should redirect to '/${DATE_DECISION_DUE}' with appeal type PLANNING_SECTION_78 when 'applicationDecision' is 'nodecisionreceived'`, async () => {
+					isLpaInFeatureFlag.mockReturnValue(true);
+					const applicationDecision = 'nodecisionreceived';
+					const mockRequest = {
+						...req,
+						body: {
+							'granted-or-refused': applicationDecision
+						},
+						session: {
+							...req.session,
+							appeal: {
+								...req.session.appeal,
+								typeOfPlanningApplication:
+									TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+								appealType: APPEAL_ID.PLANNING_SECTION_78
+							}
+						}
+					};
+
+					await postGrantedOrRefused(mockRequest, res);
+
+					expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullPlanningApplicationAppeal);
+
+					expect(res.redirect).toHaveBeenCalledWith('/before-you-start/date-decision-due');
+				});
+			});
+
+			describe('Appeal type is MINOR_COMMERCIAL on input to this question', () => {
+				const fullPlanningApplicationAppeal = {
+					...appeal,
+					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+					appealType: APPEAL_ID.PLANNING_SECTION_78
+				};
+
+				const casPlanningApplicationAppeal = {
+					...fullPlanningApplicationAppeal,
+					appealType: APPEAL_ID.MINOR_COMMERCIAL
+				};
+
+				it(`'should redirect to '/${DECISION_DATE}' with appeal type PLANNING_SECTION_78 when 'applicationDecision' is 'granted'`, async () => {
+					isLpaInFeatureFlag.mockReturnValue(true);
+					const applicationDecision = 'granted';
+					const mockRequest = {
+						...req,
+						body: {
+							'granted-or-refused': applicationDecision
+						},
+						session: {
+							...req.session,
+							appeal: {
+								...req.session.appeal,
+								typeOfPlanningApplication:
+									TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+								appealType: APPEAL_ID.MINOR_COMMERCIAL
+							}
+						}
+					};
+
+					await postGrantedOrRefused(mockRequest, res);
+
+					expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullPlanningApplicationAppeal);
+
+					expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
+				});
+
+				it(`'should redirect to '/${DECISION_DATE}' with appeal type MINOR_COMMERCIAL when 'applicationDecision' is 'refused'`, async () => {
+					isLpaInFeatureFlag.mockReturnValue(true);
+					const applicationDecision = 'refused';
+					const mockRequest = {
+						...req,
+						body: {
+							'granted-or-refused': applicationDecision
+						},
+						session: {
+							...req.session,
+							appeal: {
+								...req.session.appeal,
+								typeOfPlanningApplication:
+									TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+								appealType: APPEAL_ID.MINOR_COMMERCIAL
+							}
+						}
+					};
+
+					await postGrantedOrRefused(mockRequest, res);
+
+					expect(createOrUpdateAppeal).toHaveBeenCalledWith(casPlanningApplicationAppeal);
+
+					expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
+				});
+
+				it(`'should redirect to '/${DATE_DECISION_DUE}' with appeal type PLANNING_SECTION_78 when 'applicationDecision' is 'nodecisionreceived'`, async () => {
+					isLpaInFeatureFlag.mockReturnValue(true);
+					const applicationDecision = 'nodecisionreceived';
+					const mockRequest = {
+						...req,
+						body: {
+							'granted-or-refused': applicationDecision
+						},
+						session: {
+							...req.session,
+							appeal: {
+								...req.session.appeal,
+								typeOfPlanningApplication:
+									TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+								appealType: APPEAL_ID.MINOR_COMMERCIAL
+							}
+						}
+					};
+
+					await postGrantedOrRefused(mockRequest, res);
+
+					expect(createOrUpdateAppeal).toHaveBeenCalledWith(fullPlanningApplicationAppeal);
+
+					expect(res.redirect).toHaveBeenCalledWith('/before-you-start/date-decision-due');
+				});
+			});
+		});
 	});
 });
