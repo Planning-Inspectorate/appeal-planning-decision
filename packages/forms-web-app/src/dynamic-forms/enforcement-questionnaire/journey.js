@@ -61,7 +61,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.enforcementAllegedBreachArea)
 			.addQuestion(questions.enforcementCreateFloorSpace)
 			.addQuestion(questions.enforcementRefuseWasteMaterials)
-			// Missed questions here - will be for another release
 			.addQuestion(questions.enforcementMineralExtractionMaterials)
 			.addQuestion(questions.enforcementStoreMinerals)
 			.addQuestion(questions.enforcementCreateBuilding)
