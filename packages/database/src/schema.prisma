@@ -997,7 +997,7 @@ model LPAQuestionnaireSubmission {
   enforcementStopNoticeUpload                      Boolean?
   enforcementDevelopmentRights                     Boolean?
   enforcementDevelopmentRightsUpload               Boolean?
-  enforcementDevelopmentRightsRemoved              String?
+  enforcementDevelopmentRightsRemoved              String?  @db.NVarChar(MAX)
   planningOfficerReport                            Boolean?
   localDevelopmentOrder                            Boolean?
   localDevelopmentOrderUpload                      Boolean?
