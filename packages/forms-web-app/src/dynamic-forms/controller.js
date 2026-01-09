@@ -501,18 +501,23 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 			APPEAL_ID.MINOR_COMMERCIAL,
 			APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT,
 			APPEAL_ID.ADVERTISEMENT,
-			APPEAL_ID.ENFORCEMENT_NOTICE
+			APPEAL_ID.ENFORCEMENT_NOTICE,
+			APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE
 		].includes(appeal.appealType)
 	)
 		return res.render('./error/not-found.njk');
 
 	return res.render(LIST_OF_DOCUMENTS_V2, {
 		bannerHtmlOverride,
-		subheading:
+		requiredDocumentsSubheading:
 			appeal.appealType === APPEAL_ID.HOUSEHOLDER
 				? 'You’ll need your planning application form. Do not submit your plans or drawings, the local planning authority will provide them.'
 				: 'You’ll need your:',
 		requiredDocuments: generateRequiredDocuments(appeal.appealType),
+		optionalDocumentsSubheading:
+			appeal.appealType === APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE
+				? 'If you think your land or building is lawful because the time limit has passed, you’ll also need to upload your:'
+				: 'If you have any of the following documents, you’ll also need to upload your:',
 		optionalDocuments: generateOptionalDocuments(appeal.appealType)
 	});
 };

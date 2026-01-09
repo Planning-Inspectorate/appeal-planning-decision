@@ -279,6 +279,19 @@ const config = {
 					time: 2,
 					duration: 'weeks'
 				}
+			},
+			[APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE]: {
+				id: 'X',
+				name: 'Lawful development certificate',
+				procedureType: [WRITTEN_REPRESENTATION, HEARING, INQUIRY],
+				appealDue: {
+					time: 6,
+					duration: 'months'
+				},
+				questionnaireDue: {
+					time: 2,
+					duration: 'weeks'
+				}
 			}
 		}
 	}

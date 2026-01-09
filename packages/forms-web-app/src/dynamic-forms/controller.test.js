@@ -706,8 +706,10 @@ describe('dynamic-form/controller', () => {
 					'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
 				],
 				requiredDocuments: undefined,
-				subheading:
-					'You’ll need your planning application form. Do not submit your plans or drawings, the local planning authority will provide them.'
+				requiredDocumentsSubheading:
+					'You’ll need your planning application form. Do not submit your plans or drawings, the local planning authority will provide them.',
+				optionalDocumentsSubheading:
+					'If you have any of the following documents, you’ll also need to upload your:'
 			});
 		});
 		it('renders correct page for S78 - full appeal', () => {
@@ -733,7 +735,9 @@ describe('dynamic-form/controller', () => {
 					'new plans or drawings to support your appeal',
 					'other documents to support your appeal'
 				],
-				subheading: 'You’ll need your:'
+				requiredDocumentsSubheading: 'You’ll need your:',
+				optionalDocumentsSubheading:
+					'If you have any of the following documents, you’ll also need to upload your:'
 			});
 		});
 		it('renders correct page for S20 - listed building', () => {
@@ -759,7 +763,9 @@ describe('dynamic-form/controller', () => {
 					'new plans or drawings to support your appeal',
 					'other documents to support your appeal'
 				],
-				subheading: 'You’ll need your:'
+				requiredDocumentsSubheading: 'You’ll need your:',
+				optionalDocumentsSubheading:
+					'If you have any of the following documents, you’ll also need to upload your:'
 			});
 		});
 		it('renders correct page for CAS Planning', () => {
@@ -780,7 +786,9 @@ describe('dynamic-form/controller', () => {
 					'planning application form',
 					'plans, drawings and supporting documents for your application'
 				],
-				subheading: 'You’ll need your:'
+				requiredDocumentsSubheading: 'You’ll need your:',
+				optionalDocumentsSubheading:
+					'If you have any of the following documents, you’ll also need to upload your:'
 			});
 		});
 		it('renders correct page for CAS Adverts', () => {
@@ -799,7 +807,9 @@ describe('dynamic-form/controller', () => {
 					'decision letter from the local planning authority',
 					'any other relevant correspondence with the local authority'
 				],
-				subheading: 'You’ll need your:'
+				requiredDocumentsSubheading: 'You’ll need your:',
+				optionalDocumentsSubheading:
+					'If you have any of the following documents, you’ll also need to upload your:'
 			});
 		});
 		it('renders correct page for Adverts', () => {
@@ -818,7 +828,57 @@ describe('dynamic-form/controller', () => {
 					'decision letter from the local planning authority',
 					'any other relevant correspondence with the local authority'
 				],
-				subheading: 'You’ll need your:'
+				requiredDocumentsSubheading: 'You’ll need your:',
+				optionalDocumentsSubheading:
+					'If you have any of the following documents, you’ll also need to upload your:'
+			});
+		});
+		it('renders correct page for enforcement', () => {
+			req.session.appeal = { appealType: APPEAL_ID.ENFORCEMENT_NOTICE };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl(CASE_TYPES.ENFORCEMENT.processCode)
+					),
+				optionalDocuments: [
+					'documents that support your grounds and facts',
+					'planning obligation',
+					'draft statement of common ground',
+					'appeal costs application'
+				],
+				requiredDocuments: ['enforcement notice', 'enforcement notice plan'],
+				requiredDocumentsSubheading: 'You’ll need your:',
+				optionalDocumentsSubheading:
+					'If you have any of the following documents, you’ll also need to upload your:'
+			});
+		});
+		it('renders correct page for lawful development certificate', () => {
+			req.session.appeal = { appealType: APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl(CASE_TYPES.LDC.processCode)
+					),
+				optionalDocuments: [
+					'dated photographs of the site',
+					'letters from neighbours',
+					'receipts or invoices for work',
+					'plans and drawings'
+				],
+				requiredDocuments: [
+					'application form',
+					'plans, drawings and supporting documents for your application',
+					'decision letter from the local authority',
+					'any other relevant correspondence with the local authority',
+					'map of the appeal site'
+				],
+				requiredDocumentsSubheading: 'You’ll need your:',
+				optionalDocumentsSubheading:
+					'If you think your land or building is lawful because the time limit has passed, you’ll also need to upload your:'
 			});
 		});
 		it('renders error page if appeal type not found', () => {
