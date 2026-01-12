@@ -132,7 +132,8 @@ class AppealCaseRepository {
 				AppealCaseLpaNotificationMethod: true,
 				NeighbouringAddresses: true,
 				Events: true,
-				AdvertDetails: true
+				AdvertDetails: true,
+				EnforcementAppealGroundsDetails: true
 			}
 		});
 	}
@@ -303,6 +304,7 @@ class AppealCaseRepository {
 	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['changedListedBuildingNumbers']} [changedListedBuildingNumbers]
 	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['notificationMethod']} [notificationMethod]
 	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['advertDetails']} [advertDetails]
+	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['enforcementAppealGroundsDetails']} [enforcementAppealGroundsDetails]
 	 */
 	/**
 	 * Upsert an appeal's relations by case reference (aka appeal number)
@@ -319,7 +321,8 @@ class AppealCaseRepository {
 			affectedListedBuildingNumbers,
 			changedListedBuildingNumbers,
 			notificationMethod,
-			advertDetails
+			advertDetails,
+			enforcementAppealGroundsDetails
 		}
 	) {
 		// case relations
@@ -508,6 +511,28 @@ class AppealCaseRepository {
 						advertType: detail.advertType,
 						isAdvertInPosition: detail.isAdvertInPosition ?? false,
 						isSiteOnHighwayLand: detail.isSiteOnHighwayLand ?? false
+					}))
+				});
+			}
+		});
+
+		// appeal grounds details
+		await this.dbClient.$transaction(async (tx) => {
+			// delete all existing
+			await tx.enforcementAppealGroundsDetails.deleteMany({
+				where: {
+					caseReference
+				}
+			});
+
+			if (enforcementAppealGroundsDetails?.length) {
+				// add all advert details
+				await tx.enforcementAppealGroundsDetails.createMany({
+					data: enforcementAppealGroundsDetails.map((detail) => ({
+						caseReference,
+						appealGroundLetter: detail.appealGroundLetter,
+						groundForAppealStartDate: detail.groundForAppealStartDate,
+						groundFacts: detail.groundFacts
 					}))
 				});
 			}

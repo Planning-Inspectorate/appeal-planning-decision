@@ -680,9 +680,9 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
-	uploadApplicationReceipt: {
-		name: 'uploadApplicationReceipt',
-		dataModelName: 'applicationFeeReceipt', // to be updated once data model confirmed
+	uploadGroundAFeeReceipt: {
+		name: 'uploadGroundAFeeReceipt',
+		dataModelName: 'groundAFeeReceipt', // to be updated once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',

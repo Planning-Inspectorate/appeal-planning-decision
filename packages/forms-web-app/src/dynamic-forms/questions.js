@@ -3356,7 +3356,7 @@ exports.getQuestionProps = (response) => ({
 			new RequiredFileUploadValidator('Select your application receipt'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadApplicationReceipt
+		documentType: documentTypes.uploadGroundAFeeReceipt
 	},
 	allOrPartOfDevelopment: {
 		type: 'radio',
