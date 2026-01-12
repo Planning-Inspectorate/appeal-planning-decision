@@ -26,6 +26,9 @@ const {
 const {
 	exampleAdvertsDataModel
 } = require('../../../../__tests__/developer/fixtures/appeals-adverts-data-model');
+const {
+	exampleEnforcementDataModel
+} = require('../../../../__tests__/developer/fixtures/appeals-enforcement-data-model');
 
 const { appendLinkedCasesForMultipleAppeals } = require('./service');
 
@@ -305,6 +308,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 			const casPlanningExample = { ...exampleCasPlanningDataModel };
 			const casAdvertsExample = { ...exampleCasAdvertsDataModel };
 			const advertsExample = { ...exampleAdvertsDataModel };
+			const enforcementExample = { ...exampleEnforcementDataModel };
 
 			const appealExamples = [
 				{ name: CASE_TYPES.HAS.processCode, data: hasExample },
@@ -312,7 +316,8 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				{ name: CASE_TYPES.S20.processCode, data: s20Example },
 				{ name: CASE_TYPES.CAS_PLANNING.processCode, data: casPlanningExample },
 				{ name: CASE_TYPES.CAS_ADVERTS.processCode, data: casAdvertsExample },
-				{ name: CASE_TYPES.ADVERTS.processCode, data: advertsExample }
+				{ name: CASE_TYPES.ADVERTS.processCode, data: advertsExample },
+				{ name: CASE_TYPES.ENFORCEMENT.processCode, data: enforcementExample }
 			];
 
 			for (const appealExample of appealExamples) {
@@ -434,6 +439,19 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 						isSiteInAreaOfSpecialControlAdverts: data.isSiteInAreaOfSpecialControlAdverts ?? null,
 						didAppellantSubmitCompletePhotosAndPlans:
 							data.didAppellantSubmitCompletePhotosAndPlans ?? null,
+						ownerOccupancyStatus: data.ownerOccupancyStatus ?? null,
+						occupancyConditionsMet: data.occupancyConditionsMet ?? null,
+						applicationMadeAndFeePaid: data.applicationMadeAndFeePaid ?? null,
+						previousPlanningPermissionGranted: data.previousPlanningPermissionGranted ?? null,
+						issueDateOfEnforcementNotice: data.issueDateOfEnforcementNotice ?? null,
+						effectiveDateOfEnforcementNotice: data.effectiveDateOfEnforcementNotice ?? null,
+						didAppellantAppealLpaDecision: data.didAppellantAppealLpaDecision ?? null,
+						dateLpaDecisionDue: data.dateLpaDecisionDue ?? null,
+						dateLpaDecisionReceived: data.dateLpaDecisionReceived ?? null,
+						enforcementReference: data.enforcementReference ?? null,
+						descriptionOfAllegedBreach: data.descriptionOfAllegedBreach ?? null,
+						applicationPartOrWholeDevelopment: data.applicationPartOrWholeDevelopment ?? null,
+						contactPlanningInspectorateDate: data.contactPlanningInspectorateDate ?? null,
 						agriculturalHolding: data.agriculturalHolding ?? null,
 						tenantAgriculturalHolding: data.tenantAgriculturalHolding ?? null,
 						otherTenantsAgriculturalHolding: data.otherTenantsAgriculturalHolding ?? null,
@@ -561,6 +579,15 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					const response = await appealsApi
 						.put(`/api/v2/appeal-cases/` + testCase.caseReference)
 						.send(advertsExample);
+					expect(response.status).toBe(200);
+					expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
+				});
+
+				it(`upserts enforcement case for ${testCase.caseReference}`, async () => {
+					enforcementExample.caseReference = testCase.caseReference;
+					const response = await appealsApi
+						.put(`/api/v2/appeal-cases/` + testCase.caseReference)
+						.send(enforcementExample);
 					expect(response.status).toBe(200);
 					expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
 				});
@@ -695,6 +722,53 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2); // the number of notification methods in example json
 				expect(appealCase?.NeighbouringAddresses.length).toBe(4); // the number of neighbouring addresses in example json
 				expect(appealCase?.CaseType?.processCode).toBe('ADVERTS');
+				expect(appealCase?.ProcedureType?.name).toBe('Written');
+
+				const appealRelations = await sqlClient.appealCaseRelationship.findMany({
+					where: {
+						OR: [
+							{
+								caseReference: testCase1.caseReference
+							},
+							{
+								caseReference2: testCase1.caseReference
+							}
+						]
+					}
+				});
+				expect(appealRelations.length).toBe(5); // nearbyCaseReferences (linked bi-directional) + leadCaseReference (one-directional)
+			});
+
+			it('upserts all relational data for enforcement', async () => {
+				enforcementExample.caseReference = testCase1.caseReference;
+				await appealsApi
+					.put(`/api/v2/appeal-cases/` + testCase1.caseReference)
+					.send(enforcementExample);
+
+				await appealsApi
+					.put(`/api/v2/appeal-cases/` + testCase1.caseReference)
+					.send(enforcementExample);
+
+				const appealCase = await sqlClient.appealCase.findFirst({
+					where: { caseReference: testCase1.caseReference },
+					include: {
+						ListedBuildings: true,
+						AppealCaseLpaNotificationMethod: true,
+						NeighbouringAddresses: true,
+						CaseType: true,
+						ProcedureType: true,
+						EnforcementAppealGroundsDetails: true
+					}
+				});
+
+				expect(appealCase?.EnforcementAppealGroundsDetails.length).toBe(2); // the number of appeal ground details in example json
+				expect(
+					appealCase?.ListedBuildings.filter((x) => x.type === LISTED_RELATION_TYPES.affected)
+						.length
+				).toBe(3); // the number of listed buildings in example json
+				expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2); // the number of notification methods in example json
+				expect(appealCase?.NeighbouringAddresses.length).toBe(4); // the number of neighbouring addresses in example json
+				expect(appealCase?.CaseType?.processCode).toBe('ENFORCEMENT');
 				expect(appealCase?.ProcedureType?.name).toBe('Written');
 
 				const appealRelations = await sqlClient.appealCaseRelationship.findMany({
