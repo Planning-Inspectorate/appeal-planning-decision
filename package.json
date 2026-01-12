@@ -163,9 +163,9 @@
 		"yup": "^0.32.9"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^20.2.0",
-		"@commitlint/config-conventional": "^20.2.0",
-		"@commitlint/cz-commitlint": "^20.2.0",
+		"@commitlint/cli": "^20.3.0",
+		"@commitlint/config-conventional": "^20.3.0",
+		"@commitlint/cz-commitlint": "^20.3.0",
 		"@shelf/jest-mongodb": "^5.2.2",
 		"@sinonjs/fake-timers": "^15.1.0",
 		"@testing-library/dom": "^10.4.1",
