@@ -2,7 +2,7 @@ We have updated the contact details for a Rule 6 group.
 
 # Contact details
 {% if rule6Organisation %}
-Organisation name: {{rule6Organisation}}
+^Organisation name: {{rule6Organisation}}
 {% endif %}
 
 # Appeal details
