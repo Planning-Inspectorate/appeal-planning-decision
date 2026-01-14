@@ -11845,11 +11845,6 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/who-is-appealing?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Who is appealing against the enforcement notice?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Contact details</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/contact-details?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Contact details</span></a>
-                            </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is your phone number?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>

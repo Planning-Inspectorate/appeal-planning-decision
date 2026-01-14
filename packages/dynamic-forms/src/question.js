@@ -414,17 +414,18 @@ class Question {
 	 * }>}
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer, capitals = true) {
+		const section = journey.getSection(sectionSegment);
 		const formattedAnswer = capitals
 			? capitalize(answer ?? this.NOT_STARTED)
 			: (answer ?? this.NOT_STARTED);
+		const displayAnswer = this.replaceVariables(section, formattedAnswer);
 		const action = this.getAction(sectionSegment, journey, answer);
-		const section = journey.getSection(sectionSegment);
 		const model = this.replaceVariables(section, { title: this.title, question: this.question });
 		const key = model.title ?? model.question;
 		let rowParams = [];
 		rowParams.push({
 			key: key,
-			value: nl2br(escape(formattedAnswer)),
+			value: nl2br(escape(displayAnswer)),
 			action: action
 		});
 		return rowParams;

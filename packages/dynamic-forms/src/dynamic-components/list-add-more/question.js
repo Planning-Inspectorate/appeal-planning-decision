@@ -165,9 +165,19 @@ class ListAddMoreQuestion extends Question {
 			this.subQuestion.fieldName
 		);
 
+		if (answerArray?.length < 1) {
+			return [
+				{
+					key: this.title ?? this.subQuestionInputClasses,
+					value: this.NOT_STARTED,
+					action: this.getAction(sectionSegment, journey, 'Answer')
+				}
+			];
+		}
+
 		for (let i = 0; i < answerArray?.length; i++) {
 			const answer = answerArray[i];
-			const action = this.getAction(sectionSegment, journey);
+			const action = this.getAction(sectionSegment, journey, 'Change');
 			const key = this.subQuestionTitle ?? this.subQuestionLabel;
 			rowParams.push({
 				key,
@@ -183,16 +193,17 @@ class ListAddMoreQuestion extends Question {
 	 * Returns the action link for the question
 	 * @param {Journey} journey
 	 * @param {string} sectionSegment
+	 * @param {string} cta
 	 * @returns {{
 	 *   href: string;
 	 *   text: string;
 	 *   visuallyHiddenText: string;
 	 * }}
 	 */
-	getAction(sectionSegment, journey) {
+	getAction(sectionSegment, journey, cta) {
 		const action = {
 			href: journey.getCurrentQuestionUrl(sectionSegment, this.fieldName),
-			text: 'Change',
+			text: cta,
 			visuallyHiddenText: this.question
 		};
 		return action;

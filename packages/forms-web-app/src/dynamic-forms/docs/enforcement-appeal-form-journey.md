@@ -7,7 +7,12 @@
 - Multiquestion condition started: individual appellant
 
 ```js
-condition: () => enforcementParty(response, fieldValues.enforcementWhoIsAppealing.INDIVIDUAL);
+condition: () =>
+	questionHasAnswer(
+		response,
+		questions.enforcementWhoIsAppealing,
+		fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+	);
 ```
 
 - multi-field-input `/individual-name/` What is the name of the individual appealing against the enforcement notice?
@@ -20,7 +25,12 @@ condition: () => questionHasNonEmptyStringAnswer(response, { fieldName: 'appella
 - Multiquestion condition started: group of appellants
 
 ```js
-condition: () => enforcementParty(response, fieldValues.enforcementWhoIsAppealing.GROUP);
+condition: () =>
+	questionHasAnswer(
+		response,
+		questions.enforcementWhoIsAppealing,
+		fieldValues.enforcementWhoIsAppealing.GROUP
+	);
 ```
 
 - list-add-more `/add-another-individual/` Do you need to add another individual?
@@ -31,20 +41,25 @@ condition: () => enforcementParty(response, fieldValues.enforcementWhoIsAppealin
 - single-line-input `/organisation-name/` What is the name of the organisation?
 
 ```js
-condition: () => enforcementParty(response, fieldValues.enforcementWhoIsAppealing.ORGANISATION);
+condition: () =>
+	questionHasAnswer(
+		response,
+		questions.enforcementWhoIsAppealing,
+		fieldValues.enforcementWhoIsAppealing.ORGANISATION
+	);
 ```
 
 - multi-field-input `/contact-details/` Contact details
 
 ```js
-condition: () => !questionHasAnswer(response, questions.enforcementAreYouIndividual, 'yes');
+condition: () => shouldDisplayEnforcementContactDetails(response, questions);
 ```
 
 - single-line-input `/phone-number/` What is your phone number?
 - content `/complete-appeal/` Complete the appeal on behalf of <dynamic named parties>
 
 ```js
-condition: () => questionHasNonEmptyStringAnswer(response, questions.enforcementWhoIsAppealing);
+condition: () => shouldDisplayEnforcementCompleteOnBehalfOf(response, questions);
 ```
 
 - address-entry `/appeal-site-address/` What is the address of the appeal site?
@@ -295,7 +310,7 @@ condition: () => questionHasAnswer(response, questions.anyOtherAppeals, 'yes');
 - multi-file-upload `/upload-planning-inspectorate-communication/` Upload your communication with the Planning Inspectorate
 
 ```js
-condition: (response) => !!response.answers.hasContactedPlanningInspectorate;
+condition: () => shouldDisplayPriorCorrespondenceUpload(response);
 ```
 
 - multi-file-upload `/upload-enforcement-notice/` Upload your enforcement notice

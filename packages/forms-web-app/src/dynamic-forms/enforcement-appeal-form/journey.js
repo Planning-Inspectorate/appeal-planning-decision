@@ -15,7 +15,9 @@ const config = require('../../config');
 const {
 	shouldDisplayUploadDecisionLetter,
 	shouldDisplayPreviousApplicationQuestions,
-	shouldDisplayPriorCorrespondenceUpload
+	shouldDisplayPriorCorrespondenceUpload,
+	shouldDisplayEnforcementContactDetails,
+	shouldDisplayEnforcementCompleteOnBehalfOf
 } = require('../display-questions');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
@@ -30,10 +32,7 @@ const {
 	getAppealGroundsQuestions,
 	chooseGroundsOfAppealQuestion
 } = require('../appeal-grounds-questions');
-const {
-	generateInterestInLandQuestionsAndConditions,
-	enforcementParty
-} = require('../enforcement-questions');
+const { generateInterestInLandQuestionsAndConditions } = require('../enforcement-questions');
 /** @type {Array<'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'>} */
 const appealGroundsArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
 
@@ -112,7 +111,11 @@ const makeSections = (response) => {
 		new Section('Prepare appeal', 'prepare-appeal')
 			.addQuestion(questions.enforcementWhoIsAppealing)
 			.startMultiQuestionCondition('individual appellant', () =>
-				enforcementParty(response, fieldValues.enforcementWhoIsAppealing.INDIVIDUAL)
+				questionHasAnswer(
+					response,
+					questions.enforcementWhoIsAppealing,
+					fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+				)
 			)
 			.addQuestion(questions.enforcementIndividualName)
 			.addQuestion(questions.enforcementAreYouIndividual)
@@ -124,25 +127,29 @@ const makeSections = (response) => {
 			})
 			.endMultiQuestionCondition('individual appellant')
 			.startMultiQuestionCondition('group of appellants', () =>
-				enforcementParty(response, fieldValues.enforcementWhoIsAppealing.GROUP)
+				questionHasAnswer(
+					response,
+					questions.enforcementWhoIsAppealing,
+					fieldValues.enforcementWhoIsAppealing.GROUP
+				)
 			)
 			.addQuestion(questions.enforcementAddNamedIndividuals)
 			.addQuestion(questions.enforcementSelectYourName)
 			.endMultiQuestionCondition('group of appellants')
 			.addQuestion(questions.enforcementOrganisationName)
 			.withCondition(() =>
-				enforcementParty(response, fieldValues.enforcementWhoIsAppealing.ORGANISATION)
+				questionHasAnswer(
+					response,
+					questions.enforcementWhoIsAppealing,
+					fieldValues.enforcementWhoIsAppealing.ORGANISATION
+				)
 			)
 			// question will appear if user is not the appellant (will also appear if filling out on behalf of a company)
 			.addQuestion(questions.contactDetails)
-			.withCondition(
-				() => !questionHasAnswer(response, questions.enforcementAreYouIndividual, 'yes')
-			)
+			.withCondition(() => shouldDisplayEnforcementContactDetails(response, questions))
 			.addQuestion(questions.contactPhoneNumber)
 			.addQuestion(questions.completeOnBehalfOf)
-			.withCondition(() =>
-				questionHasNonEmptyStringAnswer(response, questions.enforcementWhoIsAppealing)
-			)
+			.withCondition(() => shouldDisplayEnforcementCompleteOnBehalfOf(response, questions))
 			.withVariables({
 				[QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES]: formatDynamicNames(response)
 			})
@@ -231,7 +238,7 @@ const makeSections = (response) => {
 			.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
 		new Section('Upload documents', 'upload-documents')
 			.addQuestion(questions.uploadPriorCorrespondence)
-			.withCondition(shouldDisplayPriorCorrespondenceUpload)
+			.withCondition(() => shouldDisplayPriorCorrespondenceUpload(response))
 			.addQuestion(questions.uploadEnforcementNotice)
 			.addQuestion(questions.uploadEnforcementNoticePlan)
 			.addQuestion(questions.uploadOriginalApplicationForm)
