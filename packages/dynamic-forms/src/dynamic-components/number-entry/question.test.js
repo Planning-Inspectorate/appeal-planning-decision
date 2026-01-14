@@ -34,21 +34,28 @@ describe('number-entry/question', () => {
 			const q = buildQuestion();
 			const journey = buildJourney(0);
 			const vm = q.prepQuestionForRendering({ section, journey });
-			expect(vm.answer).toBe('0');
+			expect(vm.question.value).toBe('0');
 		});
 
 		it('keeps numeric answer as number', () => {
 			const q = buildQuestion();
 			const journey = buildJourney(42);
 			const vm = q.prepQuestionForRendering({ section, journey });
-			expect(vm.answer).toBe(42);
+			expect(vm.question.value).toBe(42);
 		});
 
 		it('returns empty string when answer missing', () => {
 			const q = buildQuestion();
 			const journey = buildJourney(undefined);
 			const vm = q.prepQuestionForRendering({ section, journey });
-			expect(vm.answer).toBe('');
+			expect(vm.question.value).toBe('');
+		});
+
+		it('uses payload for question value when present', () => {
+			const q = buildQuestion();
+			const journey = buildJourney(undefined);
+			const vm = q.prepQuestionForRendering({ section, journey, payload: { age: '99' } });
+			expect(vm.question.value).toBe('99');
 		});
 	});
 
