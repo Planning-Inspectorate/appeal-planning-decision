@@ -57,6 +57,10 @@ async function saveAction(req, res, saveFunction, journey, section, journeyRespo
 
 	await req.appealsApiClient.postSubmissionIndividual(referenceId, updatedIndividual);
 
+	journeyResponse.answers['SubmissionIndividual'] = submissionIndividuals.map((individual) => {
+		return individual.id === individualId ? { ...updatedIndividual } : { ...individual };
+	});
+
 	// check for saving validation errors
 	const saveViewModel = this.checkForSavingErrors(req, section, journey);
 	if (saveViewModel) {
@@ -98,10 +102,13 @@ async function getDataToSave(req, journeyResponse) {
 			`User submitted option(s) did not correlate with valid answers to ${this.fieldName} question`
 		);
 
+	// Variation from standard boolean question
+	// question field name has individual id appended with '-' for navigation
+	// this needs to be removed for saving
 	const interestFieldName = this.fieldName.split('-')[0];
 
 	responseToSave.answers[interestFieldName] = fieldValues.join(this.optionJoinString);
-	journeyResponse.answers[this.fieldName] = fieldValues;
+	journeyResponse.answers[interestFieldName] = fieldValues.join(this.optionJoinString);
 
 	this.options.forEach((option) => {
 		if (optionIsDivider(option)) return;
@@ -157,6 +164,9 @@ function formatAnswerForSummary(sectionSegment, journey, answer, capitals = true
 		(individual) => individual.id === individualId
 	);
 
+	// Variation from standard boolean question
+	// question field name has individual id appended with '-' for navigation
+	// this needs to be removed for saving
 	const interestFieldName = this.fieldName.split('-')[0];
 
 	const individualAnswer = relevantIndividual[interestFieldName];
@@ -217,6 +227,9 @@ function isAnswered(journeyResponse) {
 		(individual) => individual.id === individualId
 	);
 
+	// Variation from standard boolean question
+	// question field name has individual id appended with '-' for navigation
+	// this needs to be removed for saving
 	const interestFieldName = this.fieldName.split('-')[0];
 
 	const individualAnswer = relevantIndividual[interestFieldName];

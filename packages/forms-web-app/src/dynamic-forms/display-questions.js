@@ -1,8 +1,10 @@
 const {
 	questionHasAnswer,
-	questionsHaveAnswers
+	questionsHaveAnswers,
+	questionHasNonEmptyStringAnswer
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer.js');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
+const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -114,6 +116,59 @@ exports.shouldDisplayGridReference = (response, config) => {
 			response.answers.siteGridReferenceEasting !== null &&
 			response.answers.siteGridReferenceNorthing !== null
 		);
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @param {Record<string, Question>} questions
+ * @returns {boolean}
+ */
+exports.shouldDisplayEnforcementContactDetails = (response, questions) => {
+	if (
+		(questionHasAnswer(
+			response,
+			questions.enforcementWhoIsAppealing,
+			fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+		) &&
+			questionHasAnswer(response, questions.enforcementAreYouIndividual, 'no')) ||
+		(questionHasAnswer(
+			response,
+			questions.enforcementWhoIsAppealing,
+			fieldValues.enforcementWhoIsAppealing.GROUP
+		) &&
+			questionHasAnswer(response, questions.enforcementSelectYourName, 'None')) ||
+		questionHasAnswer(
+			response,
+			questions.enforcementWhoIsAppealing,
+			fieldValues.enforcementWhoIsAppealing.ORGANISATION
+		)
+	) {
+		return true;
+	}
+
+	return false;
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @param {Record<string, Question>} questions
+ * @returns {boolean}
+ */
+exports.shouldDisplayEnforcementCompleteOnBehalfOf = (response, questions) => {
+	if (
+		questionHasNonEmptyStringAnswer(response, questions.enforcementWhoIsAppealing) &&
+		!(
+			questionHasAnswer(
+				response,
+				questions.enforcementWhoIsAppealing,
+				fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
+			) && questionHasAnswer(response, questions.enforcementAreYouIndividual, 'yes')
+		)
+	) {
+		return true;
+	}
+
+	return false;
 };
 
 /**

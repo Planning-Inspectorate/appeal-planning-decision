@@ -68,11 +68,16 @@ async function saveAction(req, res, saveFunction, journey, section, journeyRespo
 				)
 			: selectedAppealGroundsArray;
 
+	// update journeyResponse with grounds to keep
+	journeyResponse.answers['SubmissionAppealGround'] = [...previousGroundsToKeep];
+
 	// create a SubmissionAppealGround entry for any new grounds
 	if (newGrounds.length > 0) {
 		await Promise.all(
 			newGrounds.map((groundName) => {
 				const data = { groundName };
+				// add new grounds to journeyResponse
+				journeyResponse.answers['SubmissionAppealGround'].push(data);
 				return req.appealsApiClient.postSubmissionAppealGround(referenceId, data);
 			})
 		);

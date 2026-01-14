@@ -71,6 +71,8 @@ async function getDataToSave(req, journeyResponse) {
 	const fieldValue = req.body[this.fieldName]?.trim();
 
 	// Variation from standard boolean question
+	// question field name has ground name appended with '-' for navigation
+	// this needs to be removed for saving
 	const appealGroundFieldName = this.fieldName.split('-')[0];
 
 	if (fieldValue === 'yes') {
@@ -86,7 +88,18 @@ async function getDataToSave(req, journeyResponse) {
 		}
 	}
 
-	journeyResponse.answers[this.fieldName] = fieldValue;
+	// update the journeyResponse, required for getting next question url
+	const groundName = this.customData?.groundName;
+	const existingGrounds = journeyResponse.answers['SubmissionAppealGround'];
+	const updatedGrounds = existingGrounds.map((ground) => {
+		const newGround = { ...ground };
+		if (ground.groundName === groundName) {
+			newGround[appealGroundFieldName] = responseToSave.answers[appealGroundFieldName];
+		}
+		return newGround;
+	});
+
+	journeyResponse.answers['SubmissionAppealGround'] = updatedGrounds;
 
 	return responseToSave;
 }
@@ -127,6 +140,9 @@ function formatAnswerForSummary(sectionSegment, journey, answer, capitals = true
 
 	const relevantGround = submissionAppealGrounds.find((ground) => ground.groundName === groundName);
 
+	// Variation from standard boolean question
+	// question field name has ground name appended with '-' for navigation
+	// this needs to be removed for saving
 	const appealGroundFieldName = this.fieldName.split('-')[0];
 
 	const answerForSummary = relevantGround[appealGroundFieldName];
@@ -160,6 +176,9 @@ function isAnswered(journeyResponse) {
 
 	const relevantGround = submissionAppealGrounds.find((ground) => ground.groundName === groundName);
 
+	// Variation from standard boolean question
+	// question field name has ground name appended with '-' for navigation
+	// this needs to be removed for saving
 	const appealGroundFieldName = this.fieldName.split('-')[0];
 
 	const answerForSummary = relevantGround[appealGroundFieldName];

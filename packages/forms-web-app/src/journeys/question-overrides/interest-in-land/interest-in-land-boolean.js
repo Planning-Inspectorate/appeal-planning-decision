@@ -73,6 +73,8 @@ async function getDataToSave(req, journeyResponse) {
 	const fieldValue = req.body[this.fieldName]?.trim();
 
 	// Variation from standard boolean question
+	// question field name has individual id appended with '-' for navigation
+	// this needs to be removed for saving
 	const interestFieldName = this.fieldName.split('-')[0];
 
 	if (fieldValue === 'yes') {
@@ -88,7 +90,18 @@ async function getDataToSave(req, journeyResponse) {
 		}
 	}
 
-	journeyResponse.answers[this.fieldName] = fieldValue;
+	// update the journeyResponse, required for getting next question url
+	const individualId = this.customData?.individualId;
+	const existingIndividuals = journeyResponse.answers['SubmissionIndividual'];
+	const updatedIndividuals = existingIndividuals.map((individual) => {
+		const newIndividual = { ...individual };
+		if (individual.id === individualId) {
+			newIndividual[interestFieldName] = responseToSave.answers[interestFieldName];
+		}
+		return newIndividual;
+	});
+
+	journeyResponse.answers['SubmissionIndividual'] = updatedIndividuals;
 
 	return responseToSave;
 }
@@ -131,6 +144,9 @@ function formatAnswerForSummary(sectionSegment, journey, answer, capitals = true
 		(individual) => individual.id === individualId
 	);
 
+	// Variation from standard boolean question
+	// question field name has individual id appended with '-' for navigation
+	// this needs to be removed for saving
 	const interestFieldName = this.fieldName.split('-')[0];
 
 	const individualAnswer = relevantIndividual[interestFieldName];
@@ -166,6 +182,9 @@ function isAnswered(journeyResponse) {
 		(individual) => individual.id === individualId
 	);
 
+	// Variation from standard boolean question
+	// question field name has individual id appended with '-' for navigation
+	// this needs to be removed for saving
 	const interestFieldName = this.fieldName.split('-')[0];
 
 	const individualAnswer = relevantIndividual[interestFieldName];

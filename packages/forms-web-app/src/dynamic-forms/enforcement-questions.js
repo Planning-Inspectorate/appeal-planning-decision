@@ -60,15 +60,6 @@ exports.generateInterestInLandQuestionsAndConditions = (response) => {
 
 /**
  * @param {JourneyResponse} response
- * @param {string} party
- * @returns {boolean}
- */
-exports.enforcementParty = (response, party) => {
-	return response.answers?.enforcementWhoIsAppealing === party;
-};
-
-/**
- * @param {JourneyResponse} response
  * @returns {string}
  */
 const formatEnforcementIndividualName = (response) => {
