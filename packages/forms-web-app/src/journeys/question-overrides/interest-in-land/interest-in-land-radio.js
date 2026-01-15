@@ -120,8 +120,11 @@ async function getDataToSave(req, journeyResponse) {
 		);
 
 		const value = optionIsSelectedOption ? req.body[key]?.trim() : null;
-		responseToSave.answers[key] = value;
-		journeyResponse.answers[key] = value;
+
+		const answerKey = getConditionalFieldName(interestFieldName, option.conditional.fieldName);
+
+		responseToSave.answers[answerKey] = value;
+		journeyResponse.answers[answerKey] = value;
 	});
 
 	return responseToSave;

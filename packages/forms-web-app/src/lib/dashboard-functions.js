@@ -135,7 +135,10 @@ const mapToLPADashboardDisplayData = (appealCaseData) => {
 const mapToAppellantDashboardDisplayData = (appealData) => {
 	const id = isAppealSubmission(appealData) ? appealData._id : appealData.id;
 
-	const address = appealData.siteAddressLine1
+	const hasAddress =
+		appealData.siteAddressLine1 || appealData.AppellantSubmission?.siteAddress === true;
+
+	const address = hasAddress
 		? formatAddress(appealData)
 		: formatGridReference(
 				appealData.siteGridReferenceEasting,
