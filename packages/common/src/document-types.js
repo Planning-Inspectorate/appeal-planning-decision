@@ -682,7 +682,7 @@ const documentTypes = {
 	},
 	uploadGroundAFeeReceipt: {
 		name: 'uploadGroundAFeeReceipt',
-		dataModelName: 'groundAFeeReceipt', // to be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_A_FEE_RECEIPT,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -693,7 +693,7 @@ const documentTypes = {
 	},
 	uploadPriorCorrespondence: {
 		name: 'uploadPriorCorrespondence',
-		dataModelName: 'priorCorrespondenceWithPINS', // to be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.PRIOR_CORRESPONDENCE_WITH_PINS,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -704,7 +704,7 @@ const documentTypes = {
 	},
 	uploadEnforcementNotice: {
 		name: 'uploadEnforcementNotice',
-		dataModelName: 'enforcementNotice', // to be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.ENFORCEMENT_NOTICE,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -715,7 +715,7 @@ const documentTypes = {
 	},
 	uploadEnforcementNoticePlan: {
 		name: 'uploadEnforcementNoticePlan',
-		dataModelName: 'enforcementNoticePlan', // to be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.ENFORCEMENT_NOTICE_PLAN,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -726,7 +726,7 @@ const documentTypes = {
 	},
 	groundASupportingDocuments: {
 		name: 'groundASupportingDocuments',
-		dataModelName: 'groundASupporting', // to be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_A_SUPPORTING,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -737,7 +737,7 @@ const documentTypes = {
 	},
 	groundBSupportingDocuments: {
 		name: 'groundBSupportingDocuments',
-		dataModelName: 'groundBSupporting', // to be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_B_SUPPORTING,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -748,7 +748,7 @@ const documentTypes = {
 	},
 	groundCSupportingDocuments: {
 		name: 'groundCSupportingDocuments',
-		dataModelName: 'groundCSupporting', // to be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_C_SUPPORTING,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -759,7 +759,7 @@ const documentTypes = {
 	},
 	groundDSupportingDocuments: {
 		name: 'groundDSupportingDocuments',
-		dataModelName: 'groundDSupporting', // to be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_D_SUPPORTING,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -770,7 +770,7 @@ const documentTypes = {
 	},
 	groundESupportingDocuments: {
 		name: 'groundESupportingDocuments',
-		dataModelName: 'groundESupporting', // to be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_E_SUPPORTING,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -781,7 +781,7 @@ const documentTypes = {
 	},
 	groundFSupportingDocuments: {
 		name: 'groundFSupportingDocuments',
-		dataModelName: 'groundFSupporting', // to be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_F_SUPPORTING,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -792,7 +792,7 @@ const documentTypes = {
 	},
 	groundGSupportingDocuments: {
 		name: 'groundGSupportingDocuments',
-		dataModelName: 'groundGSupporting', // to be updated once data model confirmed
+		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_G_SUPPORTING,
 		multiple: true,
 		displayName: '',
 		involvement: '',

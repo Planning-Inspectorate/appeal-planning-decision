@@ -143,7 +143,7 @@ const getCommonAppealGroundsQuestionProps = (response, appealGround) => [
 	{
 		question: {
 			type: 'multi-file-upload',
-			title: `Upload your ground (${appealGround}) supporting documents`,
+			title: `Ground (${appealGround}) supporting documents`,
 			question: `Upload your ground (${appealGround}) supporting documents`,
 			fieldName: `uploadGround${appealGround.toUpperCase()}Supporting`,
 			url: `upload-facts-ground-${appealGround}-supporting-documents`,

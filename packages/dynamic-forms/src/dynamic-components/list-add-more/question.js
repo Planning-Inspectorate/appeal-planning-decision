@@ -168,7 +168,7 @@ class ListAddMoreQuestion extends Question {
 		if (answerArray?.length < 1) {
 			return [
 				{
-					key: this.title ?? this.subQuestionInputClasses,
+					key: this.title ?? this.question,
 					value: this.NOT_STARTED,
 					action: this.getAction(sectionSegment, journey, 'Answer')
 				}

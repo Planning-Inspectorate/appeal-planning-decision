@@ -225,7 +225,7 @@ const getProps = (propsParams) => {
 			url: `land-interest${urlExtension}`,
 			validators: [
 				new RequiredValidator(`Select ${interestName} interest in the land`),
-				new ConditionalRequiredValidator(`Enter ${interestName} interest in the land?`),
+				new ConditionalRequiredValidator(`Enter ${interestName} interest in the land`),
 				new StringValidator({
 					maxLength: {
 						maxLength: appealFormV2.textInputMaxLength,
