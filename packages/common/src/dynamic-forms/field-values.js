@@ -29,5 +29,10 @@ exports.fieldValues = Object.freeze({
 		INDIVIDUAL: 'individual',
 		GROUP: 'group',
 		ORGANISATION: 'organisation'
+	},
+	lawfulDevelopmentCertificateType: {
+		EXISTING_DEVELOPMENT: 'existing-development',
+		PROPOSED_USE_DEVELOPMENT: 'proposed-use-development',
+		PROPOSED_CHANGES_LISTED_BUILDING: 'proposed-changes-listed-building'
 	}
 });

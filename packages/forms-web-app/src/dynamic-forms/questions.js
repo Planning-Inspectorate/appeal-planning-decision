@@ -3779,6 +3779,49 @@ exports.getQuestionProps = (response) => ({
 				'Select yes if the appellant submitted complete and accurate photographs and plans'
 			)
 		]
+	},
+	existingUse: {
+		type: 'text-entry',
+		title: 'What did you use the appeal site for when you made the application?',
+		question: 'What did you use the appeal site for when you made the application?',
+		hint: 'Tell us about the existing use of the appeal site.',
+		fieldName: 'existingUse',
+		url: 'existing-use',
+		validators: [
+			new RequiredValidator('Enter a description'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Your description must be ${appealFormV2.textInputMaxLength} characters or less`
+				}
+			})
+		]
+	},
+	lawfulDevelopmentCertificateType: {
+		type: 'radio',
+		title: 'What type of lawful development certificate is the appeal about?',
+		question: 'What type of lawful development certificate is the appeal about?',
+		fieldName: 'lawfulDevelopmentCertificateType',
+		url: 'lawful-development-certificate-type',
+		validators: [
+			new RequiredValidator(
+				'Select what type of lawful development certificate the appeal is about'
+			)
+		],
+		options: [
+			{
+				text: 'Existing development',
+				value: fieldValues.lawfulDevelopmentCertificateType.EXISTING_DEVELOPMENT
+			},
+			{
+				text: 'Proposed use of a development',
+				value: fieldValues.lawfulDevelopmentCertificateType.PROPOSED_USE_DEVELOPMENT
+			},
+			{
+				text: 'Proposed changes to a listed building',
+				value: fieldValues.lawfulDevelopmentCertificateType.PROPOSED_CHANGES_LISTED_BUILDING
+			}
+		]
 	}
 });
 

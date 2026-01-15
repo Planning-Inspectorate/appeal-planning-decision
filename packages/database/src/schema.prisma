@@ -415,6 +415,12 @@ model AppealCase {
   contactPlanningInspectorateDate   DateTime?
 
   //***************************************************************************
+  // LDC fields
+  //***************************************************************************
+  // lawfulDevelopmentCertificateType String?
+  // existingUse String?
+
+  //***************************************************************************
   // Relations
   //***************************************************************************
 
@@ -822,8 +828,9 @@ model AppellantSubmission {
   statusPlanningObligation                       String?
 
   // radio
-  majorMinorDevelopment String?
-  typeDevelopment       String?
+  majorMinorDevelopment            String?
+  typeDevelopment                  String?
+  lawfulDevelopmentCertificateType String?
 
   // plain text
   applicationReference           String?
@@ -832,6 +839,7 @@ model AppellantSubmission {
   contactPhoneNumber             String?
   appellantPreferHearingDetails  String?
   appellantPreferInquiryDetails  String?
+  existingUse                    String?
 
   // number entries
   siteAreaSquareMetres            Decimal?

@@ -50,6 +50,9 @@ components:
         typeDevelopment:
           type: string
           nullable: true
+        lawfulDevelopmentCertificateType:
+          type: string
+          nullable: true
 
         isAppellant:
           type: boolean
@@ -130,6 +133,9 @@ components:
           type: string
         appellantPreferInquiryDetails:
           type: string
+        existingUse:
+          type: string
+          nullable: true
 
         siteAreaSquareMetres:
           type: number
