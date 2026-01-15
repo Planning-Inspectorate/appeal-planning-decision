@@ -378,7 +378,6 @@
 ;;C0820;North Cornwall District Council;;;FALSE\n
 ;;N3210;North Shropshire District Council;;;FALSE\n
 ;;J3910;North Wiltshire District Council;;;FALSE\n
-;P2745;P2745;North Yorkshire Council;NYCplanningappeals@northyorks.gov.uk;northyorks.gov.uk;TRUE\n
 ;;V2825;Northampton Borough Council;planning@northampton.gov.uk;northampton.gov.uk;FALSE\n
 ;;K2800;Northamptonshire County Council;;;FALSE\n
 ;;R2900;Northumberland County Council Pre 010409;;;FALSE\n
@@ -413,7 +412,7 @@
 ;K0940;K0940;West Morland and Furness Council;appeals4@westmorlandandfurness.gov.uk;westmorlandandfurness.gov.uk;TRUE\n
 ;E3335;E3335;Somerset Council;planningappeals@somerset.gov.uk;somerset.gov.uk;TRUE\n
 ;F0935;F0935;Cumberland;planning.appeals@cumberland.gov.uk;cumberland.gov.uk;TRUE\n
-;U2750;U2750;North Yorkshire  ;NYCplanningappeals@northyorks.gov.uk;northyorks.gov.uk;TRUE\n
+;U2750;U2750;North Yorkshire Council;NYCplanningappeals@northyorks.gov.uk;northyorks.gov.uk;TRUE\n
 ;F0745;F0745;Hartlepool Development Corporation;HDCplanning@teesvalley-ca.gov.uk;teesvalley-ca.gov.uk;TRUE\n
 ;K0750;K0750;Middlesborough Development Corporation;MDCplanning@teesvalley-ca.gov.uk;teesvalley-ca.gov.uk;TRUE\n
 ;W3520;W3520;Mid Suffolk District Council;planning@baberghmidsuffolk.gov.uk;baberghmidsuffolk.gov.uk;TRUE\n
