@@ -117,7 +117,7 @@ condition: () =>
 condition: () => questionHasAnswer(response, questions.applicationDecisionAppealed, 'yes');
 ```
 
-- date `/decision-date-due/` What date was your decision due
+- date `/decision-date-due/` What date was your decision due?
 
 ```js
 condition: () => questionHasAnswer(response, questions.grantedOrRefused, 'nodecisionreceived');

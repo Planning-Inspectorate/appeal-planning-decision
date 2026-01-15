@@ -3166,14 +3166,15 @@ exports.getQuestionProps = (response) => ({
 	},
 	enforcementAddNamedIndividuals: {
 		type: 'list-add-more',
-		title: 'Add named individuals',
+		title: 'What is the name of the individual appealing against the enforcement notice?',
 		pageTitle: 'Do you need to add another individual?',
 		question: 'Do you need to add another individual?',
 		description: 'You have added an individual',
 		fieldName: 'addNamedIndividual',
 		url: 'add-another-individual',
 		subQuestionLabel: 'Appellant',
-		subQuestionTitle: 'Appellant',
+		subQuestionTitle:
+			'What is the name of the individual appealing against the enforcement notice?',
 		subQuestionInputClasses: 'govuk-input--width-25',
 		width: ListAddMoreQuestion.FULL_WIDTH,
 		hint: 'You must tell us about all of the individuals appealing against the enforcement notice.',
@@ -3451,8 +3452,8 @@ exports.getQuestionProps = (response) => ({
 	},
 	applicationDecisionDueDate: {
 		type: 'date',
-		title: 'What date was your decision due',
-		question: 'What date was your decision due',
+		title: 'What date was your decision due?',
+		question: 'What date was your decision due?',
 		fieldName: 'applicationDecisionDate',
 		url: 'decision-date-due',
 		hint: `For example, ${getExampleDate('past')}`,
@@ -3485,7 +3486,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	uploadPriorCorrespondence: {
 		type: 'multi-file-upload',
-		title: 'Upload your communication with the Planning Inspectorate',
+		title: 'Communication with the Planning Inspectorate',
 		question: 'Upload your communication with the Planning Inspectorate',
 		description:
 			'For example, the email you sent to confirm that you will appeal against the enforcement notice.',
@@ -3499,7 +3500,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	uploadEnforcementNotice: {
 		type: 'multi-file-upload',
-		title: 'Upload your enforcement notice',
+		title: 'Enforcement notice',
 		question: 'Upload your enforcement notice',
 		fieldName: 'uploadEnforcementNotice',
 		url: 'upload-enforcement-notice',
@@ -3511,7 +3512,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	uploadEnforcementNoticePlan: {
 		type: 'multi-file-upload',
-		title: 'Upload your enforcement notice plan',
+		title: 'Enforcement notice plan',
 		question: 'Upload your enforcement notice plan',
 		fieldName: 'uploadEnforcementNoticePlan',
 		url: 'upload-enforcement-plan',

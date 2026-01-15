@@ -1,3 +1,4 @@
+const nunjucks = require('nunjucks');
 const {
 	getConditionalFieldName,
 	optionIsDivider,
@@ -12,12 +13,141 @@ const { nl2br } = require('@pins/dynamic-forms/src/lib/string-functions');
  * @typedef {import('@pins/dynamic-forms/src/section').Section} Section
  * @typedef {import('@pins/dynamic-forms/src/question-props').OptionWithoutDivider} OptionWithoutDivider
  * @typedef {import('@pins/dynamic-forms/src/dynamic-components/boolean/question')} RadioQuestion
- * @typedef {import('@pins/dynamic-forms/src/dynamic-components/boolean/question')} BooleanQuestion
+ * @typedef {import('@pins/dynamic-forms/src/options-question').OptionsViewModel} OptionsViewModel
+ * @typedef {OptionsViewModel & { question: OptionsViewModel['question'] & { label?: string, legend?: string } }} RadioViewModel
  */
 
 /**
+ * gets the view model for this question
+ * @this {RadioQuestion}
+ * @param {Object} options - the current section
+ * @param {Section} options.section - the current section
+ * @param {Journey} options.journey - the journey we are in
+ * @param {Record<string, unknown>} [options.customViewData] additional data to send to view
+ * @param {Record<string, unknown>} [options.payload]
+ * @param {string} [options.sessionBackLink]
+ * @returns {RadioViewModel}
+ */
+function prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
+	const individualId = this.customData?.individualId;
+
+	if (!individualId) throw new Error('individual Id data missing from question');
+
+	const submissionIndividuals = journey.response.answers.SubmissionIndividual || [];
+
+	if (!Array.isArray(submissionIndividuals))
+		throw new Error('Submission individuals data was an unexpected shape');
+
+	const relevantIndividual = submissionIndividuals.find(
+		(individual) => individual.id === individualId
+	);
+
+	const interestFieldName = this.fieldName.split('-')[0];
+
+	const answer = relevantIndividual[interestFieldName] || '';
+
+	const backLink = journey.getBackLink(section.segment, this.fieldName, sessionBackLink);
+
+	// gets url for next qs
+	let nextQuestionUrl = journey.getNextQuestionUrl(
+		section.segment,
+		this.fieldName,
+		false // get next question
+	);
+	// If last qs, default to task list
+	if (nextQuestionUrl === null) {
+		nextQuestionUrl = journey.taskListUrl;
+	}
+
+	const questionValue = payload ? payload[this.fieldName] : answer;
+
+	const viewModel = {
+		question: {
+			value: questionValue,
+			question: this.question,
+			fieldName: this.fieldName,
+			pageTitle: this.pageTitle,
+			description: this.description,
+			html: this.html,
+			hint: this.hint,
+			interfaceType: this.interfaceType,
+			label: this.label,
+			legend: this.legend,
+			options: []
+		},
+		answer,
+
+		layoutTemplate: journey.journeyTemplate,
+		pageCaption: section?.name,
+
+		navigation: ['', backLink],
+		backLink,
+		showBackToListLink: this.showBackToListLink,
+		showSkipLink: this.showSkipLink,
+		listLink: journey.taskListUrl,
+		skipLinkUrl: nextQuestionUrl,
+		journeyTitle: journey.journeyTitle,
+		payload,
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
+		backLinkText: this.backLinkText,
+		...customViewData
+	};
+
+	for (const option of this.options) {
+		const optionData = { ...option };
+
+		// Skip if the option is a divider
+		if (optionIsDivider(optionData)) {
+			viewModel.question.options.push(optionData);
+			continue;
+		}
+
+		if (optionData.value !== undefined) {
+			optionData.checked = (',' + answer + ',').includes(',' + optionData.value + ',');
+			if (!optionData.attributes) {
+				optionData.attributes = { 'data-cy': 'answer-' + optionData.value };
+			}
+		}
+
+		// handle conditional (dependant) fields & set their answers
+		if (optionData.conditional !== undefined) {
+			if (conditionalIsJustHTML(optionData.conditional)) continue;
+
+			let conditionalField = { ...optionData.conditional };
+
+			const relevantIndividualKey = getConditionalFieldName(
+				interestFieldName,
+				conditionalField.fieldName
+			);
+
+			conditionalField.fieldName = getConditionalFieldName(
+				this.fieldName,
+				conditionalField.fieldName
+			);
+
+			conditionalField.value = payload
+				? payload[conditionalField.fieldName]
+				: relevantIndividual[relevantIndividualKey] || '';
+
+			optionData.conditional = {
+				// note, as this is an override, the filepath is in the dynamic-forms package, where the question itself sits
+				html: nunjucks.render(`./dynamic-components/conditional/${conditionalField.type}.njk`, {
+					payload,
+					...conditionalField,
+					...customViewData
+				})
+			};
+		}
+
+		viewModel.question.options.push(optionData);
+	}
+
+	return viewModel;
+}
+
+/**
  * Save the answer to the question
- * @this {BooleanQuestion | RadioQuestion}
+ * @this {RadioQuestion}
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  * @param {function(string, Object): Promise<any>} saveFunction
@@ -138,7 +268,7 @@ async function getDataToSave(req, journeyResponse) {
 
 /**
 	 * returns the formatted answers values to be used to build task list elements
-	 * @this {BooleanQuestion | RadioQuestion}
+	 * @this {RadioQuestion}
 	 * @param {String} sectionSegment
 	 * @param {Journey} journey
 	 * @param {string | OptionWithoutDivider | ConditionalAnswerObject | null} answer
@@ -212,7 +342,7 @@ function formatAnswerForSummary(sectionSegment, journey, answer, capitals = true
 }
 
 /**
- * @this {BooleanQuestion | RadioQuestion}
+ * @this {RadioQuestion}
  * @param {JourneyResponse} journeyResponse
  * @returns {boolean}
  */
@@ -240,4 +370,10 @@ function isAnswered(journeyResponse) {
 	return !!individualAnswer;
 }
 
-module.exports = { saveAction, formatAnswerForSummary, isAnswered, getDataToSave };
+module.exports = {
+	prepQuestionForRendering,
+	saveAction,
+	formatAnswerForSummary,
+	isAnswered,
+	getDataToSave
+};

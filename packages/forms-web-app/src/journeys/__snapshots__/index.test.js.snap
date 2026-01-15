@@ -8654,23 +8654,21 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Upload documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload your communication with the Planning Inspectorate</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Communication with the Planning Inspectorate</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/upload-documents/upload-planning-inspectorate-communication?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your communication with the Planning Inspectorate</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload your enforcement notice</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/upload-documents/upload-enforcement-notice?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your enforcement notice</span></a>
-                                </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enforcement notice</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/upload-documents/upload-enforcement-notice?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your enforcement notice</span></a>
+                            </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload your enforcement notice plan</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/upload-documents/upload-enforcement-plan?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your enforcement notice plan</span></a>
-                                </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enforcement notice plan</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/upload-documents/upload-enforcement-plan?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your enforcement notice plan</span></a>
+                            </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you want to apply for an award of appeal costs?</dt>
                             <dd
@@ -9421,7 +9419,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" role="group" aria-describedby="applicationDecisionDate-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> What date was your decision due</h1>
+                            <h1 class="govuk-fieldset__heading"> What date was your decision due?</h1>
                         </legend>
                         <div id="applicationDecisionDate-hint" class="govuk-hint">For example, 5 6 2025</div>
                         <div class="govuk-date-input" id="applicationDecisionDate">
@@ -11906,17 +11904,15 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Upload documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload your enforcement notice</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/upload-documents/upload-enforcement-notice?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your enforcement notice</span></a>
-                                </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enforcement notice</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/upload-documents/upload-enforcement-notice?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your enforcement notice</span></a>
+                            </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload your enforcement notice plan</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/upload-documents/upload-enforcement-plan?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your enforcement notice plan</span></a>
-                                </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enforcement notice plan</dt>
+                            <dd class="govuk-summary-list__value">Not started</dd>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/upload-documents/upload-enforcement-plan?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your enforcement notice plan</span></a>
+                            </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Decision letter</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>

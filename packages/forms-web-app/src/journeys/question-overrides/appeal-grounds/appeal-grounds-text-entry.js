@@ -3,13 +3,99 @@
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('@pins/dynamic-forms/src/section').Section} Section
  * @typedef {import('@pins/dynamic-forms/src/question-props').OptionWithoutDivider} OptionWithoutDivider
- * @typedef {import('@pins/dynamic-forms/src/dynamic-components/boolean/question')} BooleanQuestion
  * @typedef {import('@pins/dynamic-forms/src/dynamic-components/text-entry/question')} TextEntryQuestion
+ * @typedef {import('@pins/dynamic-forms/src/question').QuestionViewModel} QuestionViewModel
+ * @typedef {QuestionViewModel & { question: QuestionViewModel['question'] & { label?: string, textEntryCheckbox?: TextEntryCheckbox } }} TextEntryViewModel
  */
 
 /**
+ * @typedef {Object} TextEntryCheckbox
+ * @property {string} header
+ * @property {string} text
+ * @property {string} name
+ * @property {string} [errorMessage]
+ */
+
+/**
+ * gets the view model for this question
+ * @this {TextEntryQuestion}
+ * @param {Object} options - the current section
+ * @param {Section} options.section - the current section
+ * @param {Journey} options.journey - the journey we are in
+ * @param {Record<string, unknown>} [options.customViewData] additional data to send to view
+ * @param {Record<string, unknown>} [options.payload]
+ * @param {string} [options.sessionBackLink]
+ * @returns {QuestionViewModel}
+ */
+function prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
+	const groundName = this.customData?.groundName;
+
+	const appealGroundFieldName = this.fieldName.split('-')[0];
+
+	const submissionAppealGrounds = journey.response.answers['SubmissionAppealGround'] || [];
+
+	if (!Array.isArray(submissionAppealGrounds))
+		throw new Error('Existing grounds data was an unexpected shape');
+
+	const relevantSubmittedGround = submissionAppealGrounds.find(
+		(ground) => ground.groundName === groundName
+	);
+
+	const answer = relevantSubmittedGround[appealGroundFieldName] || '';
+	const backLink = journey.getBackLink(section.segment, this.fieldName, sessionBackLink);
+
+	// gets url for next qs
+	let nextQuestionUrl = journey.getNextQuestionUrl(
+		section.segment,
+		this.fieldName,
+		false // get next question
+	);
+	// If last qs, default to task list
+	if (nextQuestionUrl === null) {
+		nextQuestionUrl = journey.taskListUrl;
+	}
+
+	const questionLabel = this.label;
+	const questionValue = payload ? payload[this.fieldName] : answer;
+	const questionTextEntryCheckbox = this.textEntryCheckbox;
+
+	const viewModel = {
+		question: {
+			value: questionValue,
+			question: this.question,
+			fieldName: this.fieldName,
+			pageTitle: this.pageTitle,
+			description: this.description,
+			html: this.html,
+			hint: this.hint,
+			interfaceType: this.interfaceType,
+			label: questionLabel,
+			textEntryCheckbox: questionTextEntryCheckbox
+		},
+		answer,
+
+		layoutTemplate: journey.journeyTemplate,
+		pageCaption: section?.name,
+
+		navigation: ['', backLink],
+		backLink,
+		showBackToListLink: this.showBackToListLink,
+		showSkipLink: this.showSkipLink,
+		listLink: journey.taskListUrl,
+		skipLinkUrl: nextQuestionUrl,
+		journeyTitle: journey.journeyTitle,
+		payload,
+		bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
+		backLinkText: this.backLinkText,
+		...customViewData
+	};
+
+	return viewModel;
+}
+
+/**
  * Save the answer to the question
- * @this {BooleanQuestion | TextEntryQuestion}
+ * @this {TextEntryQuestion}
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  * @param {function(string, Object): Promise<any>} saveFunction
@@ -110,7 +196,7 @@ async function getDataToSave(req, journeyResponse) {
 
 /**
 	 * returns the formatted answers values to be used to build task list elements
-	 * @this {BooleanQuestion | TextEntryQuestion}
+	 * @this {TextEntryQuestion}
 	 * @param {String} sectionSegment
 	 * @param {Journey} journey
 	 * @param {string | OptionWithoutDivider | ConditionalAnswerObject | null} answer
@@ -156,7 +242,7 @@ function formatAnswerForSummary(sectionSegment, journey, answer, capitals = true
 }
 
 /**
- * @this {BooleanQuestion | TextEntryQuestion}
+ * @this {TextEntryQuestion}
  * @param {JourneyResponse} journeyResponse
  * @returns {boolean}
  */
@@ -179,4 +265,10 @@ function isAnswered(journeyResponse) {
 	return !!answerForSummary;
 }
 
-module.exports = { saveAction, formatAnswerForSummary, isAnswered, getDataToSave };
+module.exports = {
+	prepQuestionForRendering,
+	saveAction,
+	formatAnswerForSummary,
+	isAnswered,
+	getDataToSave
+};
