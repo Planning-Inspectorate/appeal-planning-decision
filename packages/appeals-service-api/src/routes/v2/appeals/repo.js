@@ -80,6 +80,7 @@ class UserAppealsRepository {
 											submitted: true,
 											appealTypeCode: true,
 											applicationDecisionDate: true,
+											siteAddress: true,
 											SubmissionAddress: true,
 											enforcementEffectiveDate: true
 										}

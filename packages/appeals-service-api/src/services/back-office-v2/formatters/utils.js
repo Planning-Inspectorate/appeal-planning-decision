@@ -317,6 +317,7 @@ const formatEnforcementGroupUsers = ({
 	);
 
 	if (!namedIndividual) {
+		const firstNamedIndividual = SubmissionIndividual.slice(0, 1).pop();
 		return [
 			{
 				salutation: null,
@@ -326,6 +327,15 @@ const formatEnforcementGroupUsers = ({
 				serviceUserType: SERVICE_USER_TYPE.AGENT,
 				telephoneNumber: contactPhoneNumber ?? null,
 				organisation: contactCompanyName ?? null
+			},
+			{
+				salutation: null,
+				firstName: firstNamedIndividual.firstName,
+				lastName: firstNamedIndividual.lastName,
+				emailAddress: null,
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+				telephoneNumber: null,
+				organisation: null
 			}
 		];
 	}
@@ -641,6 +651,32 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 		return zonedTimeToUtc(deadlineDate, targetTimezone).toISOString();
 	};
 
+	const getInterestInLand = () => {
+		const isGroup = appellantSubmission.SubmissionIndividual.length > 0;
+		if (!isGroup) {
+			return {
+				interestInLand:
+					appellantSubmission.interestInAppealLand === 'other'
+						? appellantSubmission.interestInAppealLand_interestInAppealLandDetails
+						: appellantSubmission.interestInAppealLand,
+				writtenOrVerbalPermission: exports.boolToYesNo(appellantSubmission.hasPermissionToUseLand)
+			};
+		}
+
+		const selectedNamedIndividual =
+			appellantSubmission.SubmissionIndividual.find(
+				(individual) => individual.id === appellantSubmission.selectedNamedIndividualId
+			) || appellantSubmission.SubmissionIndividual.slice(0, 1).pop();
+
+		return {
+			interestInLand:
+				selectedNamedIndividual.interestInAppealLand === 'other'
+					? selectedNamedIndividual.interestInAppealLand_interestInAppealLandDetails
+					: selectedNamedIndividual.interestInAppealLand,
+			writtenOrVerbalPermission: exports.boolToYesNo(appellantSubmission.hasPermissionToUseLand)
+		};
+	};
+
 	const getEnforcementNoticeDetails = () => {
 		return {
 			enforcementReference: appellantSubmission.enforcementReferenceNumber ?? '',
@@ -648,8 +684,6 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 			enforcementEffectiveDate: appellantSubmission.enforcementEffectiveDate?.toISOString() ?? null,
 			contactPlanningInspectorateDate:
 				appellantSubmission.contactPlanningInspectorateDate?.toISOString() ?? null,
-			interestInLand: appellantSubmission.interestInAppealLand ?? null,
-			writtenOrVerbalPermission: exports.boolToYesNo(appellantSubmission.hasPermissionToUseLand),
 			descriptionOfAllegedBreach: appellantSubmission.allegedBreachDescription ?? null,
 			applicationMadeAndFeePaid: appellantSubmission.applicationMadeAndFeePaid ?? null,
 			applicationDevelopmentAllOrPart: appellantSubmission.applicationPartOrWholeDevelopment ?? null
@@ -658,14 +692,23 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 
 	// NamedIndividuals
 	const getNamedIndividuals = () => {
+		const isGroup = appellantSubmission.SubmissionIndividual.length > 0;
+		if (!isGroup) return [];
+
+		const selectedNamedIndividual =
+			appellantSubmission.SubmissionIndividual.find(
+				(individual) => individual.id === appellantSubmission.selectedNamedIndividualId
+			) || appellantSubmission.SubmissionIndividual.slice(0, 1).pop();
+
 		return appellantSubmission.SubmissionIndividual?.filter(
-			(individual) => individual.id !== appellantSubmission.selectedNamedIndividualId
+			(individual) => individual.id !== selectedNamedIndividual.id
 		).map((individual) => ({
 			firstName: individual.firstName,
 			lastName: individual.lastName,
 			interestInLand:
-				individual.interestInAppealLand_interestInAppealLandDetails ??
-				individual.interestInAppealLand,
+				individual.interestInAppealLand === 'other'
+					? individual.interestInAppealLand_interestInAppealLandDetails
+					: individual.interestInAppealLand,
 			writtenOrVerbalPermission: exports.boolToYesNo(individual.hasPermissionToUseLand)
 		}));
 	};
@@ -734,6 +777,7 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 		changedDevelopmentDescription: appellantSubmission.updateDevelopmentDescription ?? null,
 		namedIndividuals: getNamedIndividuals(),
 		appealGrounds: getAppealGrounds(),
+		...getInterestInLand(),
 		...getEnforcementNoticeDetails(),
 		...getOriginalApplicationDetails(),
 		...getSiteDetails(),
