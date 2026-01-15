@@ -61,7 +61,9 @@ describe('appeal-documents-rows', () => {
 				CASE_TYPES.CAS_PLANNING.processCode,
 				CASE_TYPES.ADVERTS.processCode,
 				CASE_TYPES.CAS_ADVERTS.processCode,
-				CASE_TYPES.ENFORCEMENT.processCode
+				CASE_TYPES.ENFORCEMENT.processCode,
+				CASE_TYPES.ENFORCEMENT_LISTED.processCode,
+				CASE_TYPES.LDC.processCode
 			]
 		],
 		[
@@ -140,7 +142,8 @@ describe('appeal-documents-rows', () => {
 			['HAS', CASE_TYPES.S78.processCode],
 			['S78', CASE_TYPES.S78.processCode],
 			['S20', CASE_TYPES.S20.processCode],
-			['CAS_PLANNING', CASE_TYPES.CAS_PLANNING.processCode]
+			['CAS_PLANNING', CASE_TYPES.CAS_PLANNING.processCode],
+			['LDC', CASE_TYPES.LDC.processCode]
 		])('should display field if %s', (_, processCode) => {
 			const caseData = { appealTypeCode: processCode, changedDevelopmentDescription: true };
 			const rows = documentsRows(caseData);

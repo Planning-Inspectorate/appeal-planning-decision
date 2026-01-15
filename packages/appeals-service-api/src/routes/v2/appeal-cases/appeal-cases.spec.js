@@ -26,6 +26,9 @@ const {
 const {
 	exampleAdvertsDataModel
 } = require('../../../../__tests__/developer/fixtures/appeals-adverts-data-model');
+const {
+	exampleEnforcementDataModel
+} = require('../../../../__tests__/developer/fixtures/appeals-enforcement-data-model');
 
 const { appendLinkedCasesForMultipleAppeals } = require('./service');
 
@@ -305,6 +308,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 			const casPlanningExample = { ...exampleCasPlanningDataModel };
 			const casAdvertsExample = { ...exampleCasAdvertsDataModel };
 			const advertsExample = { ...exampleAdvertsDataModel };
+			const enforcementExample = { ...exampleEnforcementDataModel };
 
 			const appealExamples = [
 				{ name: CASE_TYPES.HAS.processCode, data: hasExample },
@@ -312,12 +316,14 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				{ name: CASE_TYPES.S20.processCode, data: s20Example },
 				{ name: CASE_TYPES.CAS_PLANNING.processCode, data: casPlanningExample },
 				{ name: CASE_TYPES.CAS_ADVERTS.processCode, data: casAdvertsExample },
-				{ name: CASE_TYPES.ADVERTS.processCode, data: advertsExample }
+				{ name: CASE_TYPES.ADVERTS.processCode, data: advertsExample },
+				{ name: CASE_TYPES.ENFORCEMENT.processCode, data: enforcementExample }
 			];
 
 			for (const appealExample of appealExamples) {
 				it(`creates initial case for ${appealExample.name}`, async () => {
 					const data = structuredClone(appealExample.data);
+					data.lpaCode = 'Q1111';
 					const testCaseRef = 'put-initial-case-test-' + appealExample.name;
 					const submission = await sqlClient.appellantSubmission.create({
 						data: {
@@ -353,7 +359,171 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					data.caseReference = testCaseRef;
 					const response = await appealsApi.put(`/api/v2/appeal-cases/` + testCaseRef).send(data);
 					expect(response.status).toBe(200);
-					expect(response.body).toHaveProperty('caseReference', testCaseRef);
+					expect(response.body).toEqual({
+						id: expect.any(String),
+						appealId: expect.any(String),
+						appealTypeCode: appealExample.name,
+						caseId: data.caseId ?? null,
+						caseReference: data.caseReference ?? null,
+						caseOfficerId: data.caseOfficerId ?? null,
+						inspectorId: data.inspectorId ?? null,
+						allocationLevel: data.allocationLevel ?? null,
+						allocationBand: data.allocationBand ?? null,
+						caseSubmittedDate: data.caseSubmittedDate ?? null,
+						caseCreatedDate: data.caseCreatedDate ?? null,
+						caseUpdatedDate: data.caseUpdatedDate ?? null,
+						caseValidDate: data.caseValidDate ?? null,
+						caseValidationDate: data.caseValidationDate ?? null,
+						caseExtensionDate: data.caseExtensionDate ?? null,
+						caseStartedDate: data.caseStartedDate ?? null,
+						casePublishedDate: data.casePublishedDate ?? null,
+						lpaQuestionnaireDueDate: data.lpaQuestionnaireDueDate ?? null,
+						lpaQuestionnaireSubmittedDate: data.lpaQuestionnaireSubmittedDate ?? null,
+						lpaQuestionnaireCreatedDate: data.lpaQuestionnaireCreatedDate ?? null,
+						lpaQuestionnairePublishedDate: data.lpaQuestionnairePublishedDate ?? null,
+						lpaQuestionnaireValidationOutcomeDate:
+							data.lpaQuestionnaireValidationOutcomeDate ?? null,
+						lpaStatement: data.lpaStatement ?? null,
+						caseWithdrawnDate: data.caseWithdrawnDate ?? null,
+						caseTransferredDate: data.caseTransferredDate ?? null,
+						transferredCaseClosedDate: data.transferredCaseClosedDate ?? null,
+						caseDecisionOutcomeDate: data.caseDecisionOutcomeDate ?? null,
+						caseDecisionPublishedDate: data.caseDecisionPublishedDate ?? null,
+						caseCompletedDate: data.caseCompletedDate ?? null,
+						enforcementNotice: data.enforcementNotice ?? null,
+						applicationReference: data.applicationReference ?? null,
+						applicationDate: data.applicationDate ?? null,
+						applicationDecision: data.applicationDecision ?? null,
+						applicationDecisionDate: data.applicationDecisionDate ?? null,
+						caseSubmissionDueDate: data.caseSubmissionDueDate ?? null,
+						siteAddressLine1: data.siteAddressLine1 ?? null,
+						siteAddressLine2: data.siteAddressLine2 ?? null,
+						siteAddressTown: data.siteAddressTown ?? null,
+						siteAddressCounty: data.siteAddressCounty ?? null,
+						siteGridReferenceEasting: data.siteGridReferenceEasting ?? null,
+						siteGridReferenceNorthing: data.siteGridReferenceNorthing ?? null,
+						siteAreaSquareMetres: data.siteAreaSquareMetres?.toString() ?? null,
+						floorSpaceSquareMetres: data.floorSpaceSquareMetres?.toString() ?? null,
+						isCorrectAppealType: data.isCorrectAppealType ?? null,
+						isGreenBelt: data.isGreenBelt ?? null,
+						inConservationArea: data.inConservationArea ?? null,
+						ownsAllLand: data.ownsAllLand ?? null,
+						ownsSomeLand: data.ownsSomeLand ?? null,
+						knowsOtherOwners: data.knowsOtherOwners ?? null,
+						knowsAllOwners: data.knowsAllOwners ?? null,
+						advertisedAppeal: data.advertisedAppeal ?? null,
+						ownersInformed: data.ownersInformed ?? null,
+						originalDevelopmentDescription: data.originalDevelopmentDescription ?? null,
+						changedDevelopmentDescription: data.changedDevelopmentDescription ?? null,
+						newConditionDetails: data.newConditionDetails ?? null,
+						appellantCostsAppliedFor: data.appellantCostsAppliedFor ?? null,
+						lpaCostsAppliedFor: data.lpaCostsAppliedFor ?? null,
+						typeOfPlanningApplication: data.typeOfPlanningApplication ?? null,
+						reasonForNeighbourVisits: data.reasonForNeighbourVisits ?? null,
+						statutoryConsultees: data.hasStatutoryConsultees ?? null,
+						consultedBodiesDetails: data.consultedBodiesDetails ?? null,
+						hasLandownersPermission: data.hasLandownersPermission ?? null,
+						siteAddressPostcode: data.siteAddressPostcode ?? null,
+						siteAddressPostcodeSanitized: data.siteAddressPostcode?.toUpperCase().replace(' ', ''),
+						scheduledMonument: data.affectsScheduledMonument ?? null,
+						protectedSpecies: data.hasProtectedSpecies ?? null,
+						areaOutstandingBeauty: data.isAonbNationalLandscape ?? null,
+						designatedSitesNames: data.designatedSitesNames
+							? JSON.stringify(data.designatedSitesNames)
+							: null,
+						lpaProcedurePreference: data.lpaProcedurePreference ?? null,
+						lpaProcedurePreferenceDetails: data.lpaProcedurePreferenceDetails ?? null,
+						lpaProcedurePreferenceDuration: data.lpaProcedurePreferenceDuration ?? null,
+						wasApplicationRefusedDueToHighwayOrTraffic:
+							data.wasApplicationRefusedDueToHighwayOrTraffic ?? null,
+						isSiteInAreaOfSpecialControlAdverts: data.isSiteInAreaOfSpecialControlAdverts ?? null,
+						didAppellantSubmitCompletePhotosAndPlans:
+							data.didAppellantSubmitCompletePhotosAndPlans ?? null,
+						ownerOccupancyStatus: data.ownerOccupancyStatus ?? null,
+						occupancyConditionsMet: data.occupancyConditionsMet ?? null,
+						applicationMadeAndFeePaid: data.applicationMadeAndFeePaid ?? null,
+						previousPlanningPermissionGranted: data.previousPlanningPermissionGranted ?? null,
+						issueDateOfEnforcementNotice: data.issueDateOfEnforcementNotice ?? null,
+						effectiveDateOfEnforcementNotice: data.effectiveDateOfEnforcementNotice ?? null,
+						didAppellantAppealLpaDecision: data.didAppellantAppealLpaDecision ?? null,
+						dateLpaDecisionDue: data.dateLpaDecisionDue ?? null,
+						dateLpaDecisionReceived: data.dateLpaDecisionReceived ?? null,
+						enforcementReference: data.enforcementReference ?? null,
+						descriptionOfAllegedBreach: data.descriptionOfAllegedBreach ?? null,
+						applicationPartOrWholeDevelopment: data.applicationPartOrWholeDevelopment ?? null,
+						contactPlanningInspectorateDate: data.contactPlanningInspectorateDate ?? null,
+						agriculturalHolding: data.agriculturalHolding ?? null,
+						tenantAgriculturalHolding: data.tenantAgriculturalHolding ?? null,
+						otherTenantsAgriculturalHolding: data.otherTenantsAgriculturalHolding ?? null,
+						informedTenantsAgriculturalHolding: data.informedTenantsAgriculturalHolding ?? null,
+						appellantProcedurePreference: data.appellantProcedurePreference ?? null,
+						appellantProcedurePreferenceDetails: data.appellantProcedurePreferenceDetails ?? null,
+						appellantProcedurePreferenceDuration: data.appellantProcedurePreferenceDuration ?? null,
+						appellantProcedurePreferenceWitnessCount:
+							data.appellantProcedurePreferenceWitnessCount ?? null,
+						statusPlanningObligation: data.statusPlanningObligation ?? null,
+						gypsyTraveller: data.isGypsyOrTravellerSite ?? null,
+						publicRightOfWay: data.isPublicRightOfWay ?? null,
+						environmentalImpactSchedule: data.eiaEnvironmentalImpactSchedule ?? null,
+						developmentDescription: data.eiaDevelopmentDescription ?? null,
+						sensitiveAreaDetails: data.eiaSensitiveAreaDetails ?? null,
+						columnTwoThreshold: data.eiaColumnTwoThreshold ?? null,
+						screeningOpinion: data.eiaScreeningOpinion ?? null,
+						requiresEnvironmentalStatement: data.eiaRequiresEnvironmentalStatement ?? null,
+						completedEnvironmentalStatement: data.eiaCompletedEnvironmentalStatement ?? null,
+						infrastructureLevy: data.hasInfrastructureLevy ?? null,
+						infrastructureLevyAdopted: data.isInfrastructureLevyFormallyAdopted ?? null,
+						infrastructureLevyAdoptedDate: data.infrastructureLevyAdoptedDate ?? null,
+						infrastructureLevyExpectedDate: data.infrastructureLevyExpectedDate ?? null,
+						caseworkReason: data.caseworkReason ?? null,
+						developmentType: data.developmentType ?? null,
+						importantInformation: data.importantInformation ?? null,
+						jurisdiction: data.jurisdiction ?? null,
+						redeterminedIndicator: data.redeterminedIndicator ?? null,
+						dateCostsReportDespatched: data.dateCostsReportDespatched ?? null,
+						dateNotRecoveredOrDerecovered: data.dateNotRecoveredOrDerecovered ?? null,
+						dateRecovered: data.dateRecovered ?? null,
+						originalCaseDecisionDate: data.originalCaseDecisionDate ?? null,
+						targetDate: data.targetDate ?? null,
+						appellantCommentsSubmittedDate: data.appellantCommentsSubmittedDate ?? null,
+						appellantStatementSubmittedDate: data.appellantStatementSubmittedDate ?? null,
+						appellantProofsSubmittedDate: data.appellantProofsSubmittedDate ?? null,
+						finalCommentsDueDate: data.finalCommentsDueDate ?? null,
+						interestedPartyRepsDueDate: data.interestedPartyRepsDueDate ?? null,
+						LPACommentsSubmittedDate: data.lpaCommentsSubmittedDate ?? null,
+						LPAProofsSubmittedDate: data.lpaProofsSubmittedDate ?? null,
+						LPAStatementSubmittedDate: data.lpaStatementSubmittedDate ?? null,
+						proofsOfEvidenceDueDate: data.proofsOfEvidenceDueDate ?? null,
+						siteNoticesSentDate: data.siteNoticesSentDate ?? null,
+						statementDueDate: data.statementDueDate ?? null,
+						numberOfResidencesNetChange: data.numberOfResidencesNetChange ?? null,
+						siteViewableFromRoad: data.siteViewableFromRoad ?? null,
+						siteWithinSSSI: data.siteWithinSSSI ?? null,
+						preserveGrantLoan: data.preserveGrantLoan ?? null,
+						consultHistoricEngland: data.consultHistoricEngland ?? null,
+						caseStatus: data.caseStatus,
+						caseDecisionOutcome: data.caseDecisionOutcome,
+						caseValidationOutcome: data.caseValidationOutcome,
+						lpaQuestionnaireValidationOutcome: data.lpaQuestionnaireValidationOutcome,
+						caseProcedure: data.caseProcedure,
+						LPACode: data.lpaCode,
+						caseSpecialisms: data.caseSpecialisms ? JSON.stringify(data.caseSpecialisms) : null,
+						caseValidationInvalidDetails: data.caseValidationInvalidDetails
+							? JSON.stringify(data.caseValidationInvalidDetails)
+							: null,
+						caseValidationIncompleteDetails: data.caseValidationIncompleteDetails
+							? JSON.stringify(data.caseValidationIncompleteDetails)
+							: null,
+						lpaQuestionnaireValidationDetails: data.lpaQuestionnaireValidationDetails
+							? JSON.stringify(data.lpaQuestionnaireValidationDetails)
+							: null,
+						siteAccessDetails: data.siteAccessDetails
+							? JSON.stringify(data.siteAccessDetails)
+							: null,
+						siteSafetyDetails: data.siteSafetyDetails
+							? JSON.stringify(data.siteSafetyDetails)
+							: null
+					});
 					expectEmail(email, testCaseRef);
 				});
 			}
@@ -409,6 +579,15 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					const response = await appealsApi
 						.put(`/api/v2/appeal-cases/` + testCase.caseReference)
 						.send(advertsExample);
+					expect(response.status).toBe(200);
+					expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
+				});
+
+				it(`upserts enforcement case for ${testCase.caseReference}`, async () => {
+					enforcementExample.caseReference = testCase.caseReference;
+					const response = await appealsApi
+						.put(`/api/v2/appeal-cases/` + testCase.caseReference)
+						.send(enforcementExample);
 					expect(response.status).toBe(200);
 					expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
 				});
@@ -543,6 +722,53 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2); // the number of notification methods in example json
 				expect(appealCase?.NeighbouringAddresses.length).toBe(4); // the number of neighbouring addresses in example json
 				expect(appealCase?.CaseType?.processCode).toBe('ADVERTS');
+				expect(appealCase?.ProcedureType?.name).toBe('Written');
+
+				const appealRelations = await sqlClient.appealCaseRelationship.findMany({
+					where: {
+						OR: [
+							{
+								caseReference: testCase1.caseReference
+							},
+							{
+								caseReference2: testCase1.caseReference
+							}
+						]
+					}
+				});
+				expect(appealRelations.length).toBe(5); // nearbyCaseReferences (linked bi-directional) + leadCaseReference (one-directional)
+			});
+
+			it('upserts all relational data for enforcement', async () => {
+				enforcementExample.caseReference = testCase1.caseReference;
+				await appealsApi
+					.put(`/api/v2/appeal-cases/` + testCase1.caseReference)
+					.send(enforcementExample);
+
+				await appealsApi
+					.put(`/api/v2/appeal-cases/` + testCase1.caseReference)
+					.send(enforcementExample);
+
+				const appealCase = await sqlClient.appealCase.findFirst({
+					where: { caseReference: testCase1.caseReference },
+					include: {
+						ListedBuildings: true,
+						AppealCaseLpaNotificationMethod: true,
+						NeighbouringAddresses: true,
+						CaseType: true,
+						ProcedureType: true,
+						EnforcementAppealGroundsDetails: true
+					}
+				});
+
+				expect(appealCase?.EnforcementAppealGroundsDetails.length).toBe(2); // the number of appeal ground details in example json
+				expect(
+					appealCase?.ListedBuildings.filter((x) => x.type === LISTED_RELATION_TYPES.affected)
+						.length
+				).toBe(3); // the number of listed buildings in example json
+				expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2); // the number of notification methods in example json
+				expect(appealCase?.NeighbouringAddresses.length).toBe(4); // the number of neighbouring addresses in example json
+				expect(appealCase?.CaseType?.processCode).toBe('ENFORCEMENT');
 				expect(appealCase?.ProcedureType?.name).toBe('Written');
 
 				const appealRelations = await sqlClient.appealCaseRelationship.findMany({

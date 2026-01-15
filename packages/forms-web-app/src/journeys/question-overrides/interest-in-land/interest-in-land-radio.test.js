@@ -1,7 +1,7 @@
 const BooleanQuestion = require('@pins/dynamic-forms/src/dynamic-components/boolean/question');
 const RadioQuestion = require('@pins/dynamic-forms/src/dynamic-components/radio/question');
 
-const { saveAction } = require('./interest-in-land-questions');
+const { saveAction } = require('./interest-in-land-radio');
 
 describe('interest-in-land-question-overrides', () => {
 	const TITLE = 'title';

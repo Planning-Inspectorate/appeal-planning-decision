@@ -2,6 +2,8 @@
 /// <reference types="cypress"/>
 
 import { casAdvertAppealRefusedTestCases } from "../../../helpers/appellantAAPD/casAdvertAppeal/casAdvertAppealRefusedData";
+import { commercialAdvertQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/commercialAdvertQuestionnaireData";
+import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require("../../../support/flows/sections/appellantAAPD/appeal");
 
@@ -29,7 +31,9 @@ describe('Submit CAS Advert Appeal Refused Test Cases', { tags: '@CAS-Advert-ref
                 planning: typeOfPlanningApplication,
                 context,
                 prepareAppealData,
-                lpaManageAppealsData
+                lpaManageAppealsData,
+				questionnaireTestCases,
+				statementTestCases
             });
         });
     });

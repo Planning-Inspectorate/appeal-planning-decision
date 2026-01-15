@@ -1,0 +1,44 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% set title="Withdrawn appeals - Rule 6 party - GOV.UK" %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: "Back to your appeals",
+    href: "/rule-6/your-appeals"
+  }) }}
+{% endblock %}
+
+{% block pageTitle %}{{ title }}{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-l">Withdrawn appeals</h1>
+      
+      <table class="govuk-table govuk-!-margin-top-3">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Appeal number</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-half">Site address</th>
+            <th scope="col" class="govuk-table__header">Withdrawn date</th>
+            <th scope="col" class="govuk-table__header">Appeal type</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {% for item in withdrawnAppeals %}
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <a href="/rule-6/{{item.appealNumber}}" class="govuk-link">{{ item.appealNumber }}</a>
+              </td>
+              <td class="govuk-table__cell">{{ item.address | safe }}</td>
+              <td class="govuk-table__cell">{{ item.caseWithdrawnDate | date('D MMM YYYY') }}</td>
+              <td class="govuk-table__cell">{{ item.appealType }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

@@ -164,7 +164,8 @@ const mapCommonDataModelToAppealCase = (
 		newConditionDetails,
 		appellantCostsAppliedFor,
 		lpaCostsAppliedFor,
-		typeOfPlanningApplication
+		typeOfPlanningApplication,
+		reasonForNeighbourVisits
 	}
 ) => ({
 	// custom mappings
@@ -258,7 +259,8 @@ const mapCommonDataModelToAppealCase = (
 	newConditionDetails,
 	appellantCostsAppliedFor,
 	lpaCostsAppliedFor,
-	typeOfPlanningApplication
+	typeOfPlanningApplication,
+	reasonForNeighbourVisits
 });
 
 /**
@@ -339,6 +341,39 @@ const mapAdvertsDataModelToAppealCase = (caseProcessCode, dataModel) => ({
 });
 
 /**
+ * @param {AppealS78Case} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const getEnforcementAppealFormFields = (dataModel) => {
+	return {
+		ownerOccupancyStatus: dataModel.ownerOccupancyStatus,
+		occupancyConditionsMet: dataModel.occupancyConditionsMet,
+		applicationMadeAndFeePaid: dataModel.applicationMadeAndFeePaid,
+		previousPlanningPermissionGranted: dataModel.previousPlanningPermissionGranted,
+		issueDateOfEnforcementNotice: dataModel.issueDateOfEnforcementNotice,
+		effectiveDateOfEnforcementNotice: dataModel.effectiveDateOfEnforcementNotice,
+		didAppellantAppealLpaDecision: dataModel.didAppellantAppealLpaDecision,
+		dateLpaDecisionDue: dataModel.dateLpaDecisionDue,
+		dateLpaDecisionReceived: dataModel.dateLpaDecisionReceived,
+		enforcementReference: dataModel.enforcementReference,
+		descriptionOfAllegedBreach: dataModel.descriptionOfAllegedBreach,
+		applicationPartOrWholeDevelopment: dataModel.applicationPartOrWholeDevelopment,
+		contactPlanningInspectorateDate: dataModel.contactPlanningInspectorateDate
+	};
+};
+
+/**
+ * @param {String} caseProcessCode
+ * @param {AppealS78Case} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const mapEnforcementDataModelToAppealCase = (caseProcessCode, dataModel) => ({
+	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
+	...getEnforcementAppealFormFields(dataModel),
+	...mapS78DataModelToAppealCase(caseProcessCode, dataModel)
+});
+
+/**
  * @param {String} caseProcessCode
  * @param {AppealS78Case} dataModel
  * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
@@ -398,7 +433,6 @@ const mapS78DataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	proofsOfEvidenceDueDate: dataModel.proofsOfEvidenceDueDate,
 	siteNoticesSentDate: dataModel.siteNoticesSentDate,
 	statementDueDate: dataModel.statementDueDate,
-	reasonForNeighbourVisits: dataModel.reasonForNeighbourVisits,
 	numberOfResidencesNetChange: dataModel.numberOfResidencesNetChange,
 	siteGridReferenceEasting: dataModel.siteGridReferenceEasting,
 	siteGridReferenceNorthing: dataModel.siteGridReferenceNorthing,
@@ -434,7 +468,9 @@ async function putCase(caseReference, data) {
 			notificationMethod: data.notificationMethod,
 
 			neighbouringSiteAddresses: data.neighbouringSiteAddresses,
-			advertDetails: data.advertDetails
+			advertDetails: data.advertDetails,
+
+			enforcementAppealGroundsDetails: data.enforcementAppealGroundsDetails
 		});
 
 		// send email confirming appeal to user if this creates a new appeal
@@ -498,6 +534,12 @@ const getMappedData = (data) => {
 			const s78Validator = getValidator('appeal-s78');
 			if (!s78Validator(data)) throw ApiError.badRequest('Payload was invalid');
 			return mapAdvertsDataModelToAppealCase(CASE_TYPES.ADVERTS.processCode, data);
+		}
+		case CASE_TYPES.ENFORCEMENT.key: {
+			// uses s78 data model
+			const s78Validator = getValidator('appeal-s78');
+			if (!s78Validator(data)) throw ApiError.badRequest('Payload was invalid');
+			return mapEnforcementDataModelToAppealCase(CASE_TYPES.ENFORCEMENT.processCode, data);
 		}
 		default:
 			throw Error(`putCase: unhandled casetype: ${data.caseType}`);

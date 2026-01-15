@@ -6,8 +6,8 @@ export class NotifyParties {
 
     }
     selectAndNotifyParties(context, lpaManageAppealsData) {
-        //Who did you notify about this application
-        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadNotifyParties);
+        //Who did you notify about this application      
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadNotifyParties);   
         cy.advanceToNextPage();
         cy.checkIfUnchecked(lpaManageAppealsData?.notifyParties?.siteNotice);
         cy.checkIfUnchecked(lpaManageAppealsData?.notifyParties?.lettersEmailsToParties);

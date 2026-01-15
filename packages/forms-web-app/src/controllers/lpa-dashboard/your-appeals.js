@@ -5,12 +5,20 @@ const {
 	updateChildAppealDisplayData
 } = require('../../lib/dashboard-functions');
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
+const { filterAppealsWithinGivenDate } = require('../../lib/filter-decided-appeals');
+const { filterTime } = require('../../config');
 
 const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdrawn-appeal');
 const { isNotTransferred } = require('@pins/business-rules/src/lib/filter-transferred-appeal');
 const {
 	VIEW: {
-		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, APPEAL_DETAILS, DECIDED_APPEALS }
+		LPA_DASHBOARD: {
+			DASHBOARD,
+			ADD_REMOVE_USERS,
+			APPEAL_DETAILS,
+			DECIDED_APPEALS,
+			WITHDRAWN_APPEALS
+		}
 	}
 } = require('../../lib/views');
 const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
@@ -22,6 +30,18 @@ const getYourAppeals = async (req, res) => {
 	const { lpaCode } = user;
 
 	const appealsCaseData = await req.appealsApiClient.getAppealsCaseDataV2(lpaCode);
+
+	const withdrawnAppealsCount = appealsCaseData
+		.filter((appeal) => appeal.caseWithdrawnDate)
+		.map(mapToLPADashboardDisplayData)
+		.filter(Boolean)
+		.filter((appeal) =>
+			filterAppealsWithinGivenDate(
+				appeal,
+				'caseWithdrawnDate',
+				filterTime.FIVE_YEARS_IN_MILISECONDS
+			)
+		).length;
 
 	const invalidAppeals = await req.appealsApiClient.getAppealsCasesByLpaAndStatus({
 		lpaCode,
@@ -64,7 +84,9 @@ const getYourAppeals = async (req, res) => {
 		appealDetailsLink: `/${APPEAL_DETAILS}`,
 		appealQuestionnaireLink: baseHASUrl,
 		decidedAppealsLink: `/${DECIDED_APPEALS}`,
+		withdrawnAppealsLink: `/${WITHDRAWN_APPEALS}`,
 		decidedAppealsCount: decidedAppealsCount.count,
+		withdrawnAppealsCount,
 		noToDoAppeals
 	});
 };

@@ -30,7 +30,9 @@ export const statement = (context, lpaManageAppealsData,appealType) => {
 			rowCounter++;
 		}
 	}).then(() => {
+		cy.advanceToNextPage();
 		cy.url().should('include', `/manage-appeals/appeal-statement/${appealId}/appeal-statement`);
+		
 		statement.addStatement(context);
 		statement.haveAdditionalDocumentforStatement(context);
 	});
@@ -45,6 +47,7 @@ export const statementForCaseRef = (context, appealId) => {
 	const statement = new Statement();
 	//cy.url().should('include', `/manage-appeals/appeal-statement/${appealId}/appeal-statement`);
 	cy.get(`a[href*="/manage-appeals/appeal-statement/${appealId}/entry"]`).click();
+	cy.advanceToNextPage();
 	statement.addStatement(context);
 	statement.haveAdditionalDocumentforStatement(context);
 

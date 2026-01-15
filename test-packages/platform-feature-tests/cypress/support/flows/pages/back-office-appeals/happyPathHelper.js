@@ -15,16 +15,13 @@ let sampleFiles = caseDetailsPage.sampleFiles;
 export const happyPathHelper = {
 	assignCaseOfficer(caseRef) {
 		//cy.visit(urlPaths.appealsList);
-		listCasesPage.clickAppealByRef(caseRef);
-		cy.log('Assigning case officer for case:', caseRef);
+		listCasesPage.clickAppealByRef(caseRef);	
 		//caseDetailsPage.clickAssignCaseOfficer();
 		cy.get('a.govuk-notification-banner__link').contains('Assign case officer').click();
 
-		cy.log('Searching for case officer');
 		//caseDetailsPage.searchForCaseOfficer('case');
-		cy.log('Selecting case officer:', users.appeals.caseAdmin.email);
 		caseDetailsPage.chooseSummaryListValue(users.appeals.caseAdmin.email);
-		cy.log('Continuing to assign case officer');
+
 		//caseDetailsPage.clickLinkByText('Choose');
 		//caseDetailsPage.selectRadioButtonByValue('Yes');
 		caseDetailsPage.clickButtonByText('Continue');

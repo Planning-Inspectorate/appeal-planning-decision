@@ -14,6 +14,7 @@ export const casAdvertAppealRefusedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-minor-commercial-advertisment',
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: true,
             isHighwayLand: true,

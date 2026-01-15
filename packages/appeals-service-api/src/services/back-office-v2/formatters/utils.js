@@ -496,14 +496,14 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
 			nearbyCaseReferences: appellantSubmission.SubmissionLinkedCase?.map(
 				({ caseReference }) => caseReference
 			),
-			// not in enforcement
+			// not in enforcement or ldc
 			ownsAllLand: appellantSubmission.ownsAllLand ?? null,
 			ownsSomeLand: appellantSubmission.ownsSomeLand ?? null,
 			knowsOtherOwners: exports.formatYesNoSomeAnswer(appellantSubmission.knowsOtherOwners),
 			knowsAllOwners: exports.formatYesNoSomeAnswer(appellantSubmission.knowsAllOwners),
 			advertisedAppeal: appellantSubmission.advertisedAppeal ?? null,
 			ownersInformed: appellantSubmission.informedOwners ?? null,
-			// not in adverts
+			// not in adverts or ldc
 			siteAreaSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null,
 			floorSpaceSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null, // should this be on model?
 			// unused
@@ -835,24 +835,7 @@ exports.getCommonLPAQSubmissionFields = (caseReference, answers) => ({
 	siteSafetyDetails: answers.lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails
 		? [answers.lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails]
 		: null,
-	neighbouringSiteAddresses: answers.SubmissionAddress?.filter((address) => {
-		return (
-			address.fieldName === 'neighbourSiteAddress' &&
-			address.addressLine1 &&
-			address.townCity &&
-			address.postcode
-		);
-	}).map((address) => {
-		return {
-			neighbouringSiteAddressLine1: address.addressLine1,
-			neighbouringSiteAddressLine2: address.addressLine2,
-			neighbouringSiteAddressTown: address.townCity,
-			neighbouringSiteAddressCounty: address.county,
-			neighbouringSiteAddressPostcode: address.postcode,
-			neighbouringSiteAccessDetails: null, // not asked
-			neighbouringSiteSafetyDetails: null // not asked
-		};
-	}),
+	neighbouringSiteAddresses: getListedAddress(answers, fieldNames.neighbourSiteAddress),
 	reasonForNeighbourVisits: answers.neighbourSiteAccess_neighbourSiteAccessDetails
 		? answers.neighbourSiteAccess_neighbourSiteAccessDetails
 		: null,
@@ -1054,7 +1037,77 @@ exports.getS20LPAQSubmissionFields = (answers) => {
 
 /**
  * @param {LPAQAnswers} answers
- * @returns {string|null}
+ * @returns {LPAQS78SubmissionProperties}
+ */
+exports.getEnforcementLPAQSubmissionFields = (answers) => {
+	return {
+		// Constraints, designations and other issues
+		hasChangesListedBuilding: answers.changesListedBuilding,
+		isAffectsListedBuilding: answers.affectsListedBuilding,
+		otherOperations: answers.otherOperations,
+		sireAreaSquareMetres: answers.siteAreaSquareMetres,
+		allegedBreachArea: answers.allegedBreachArea,
+		createFloorSpace: answers.createFloorSpace,
+		refuseWasteMaterials: answers.refuseWasteMaterials,
+		mineralExtractionMaterials: answers.mineralExtractionMaterials,
+		storeMinerals: answers.storeMinerals,
+		createBuilding: answers.createBuilding,
+		agriculturalPurposes: answers.agriculturalPurposes,
+		singleHouse: answers.singleHouse,
+		trunkRoadDetails: answers.trunkRoad_enforcementTrunkRoadDetails || null,
+		crownLand: answers.crownLand,
+		stopNotice: answers.stopNotice,
+		developmentRightsRemoved: answers.developmentRightsRemoved || null,
+
+		// Planning officer’s report and supporting documents
+		hasDevelopmentPlanPolicies: answers.developmentPlanPolicies,
+		hasOtherRelevantPolicies: answers.otherRelevantPolicies,
+		localDevelopmentOrder: answers.localDevelopmentOrder,
+		previousPlanningPermission: answers.previousPlanningPermission,
+		noticeDateApplication: answers.noticeDateApplication,
+		planningContraventionNotice: answers.planningContraventionNotice,
+
+		// Site access
+		accessForInspection: answers.accessForInspection,
+		neighbouringSite: answers.neighbouringSite,
+
+		// Appeal process
+		hasNearbyAppeals: answers.nearbyAppeals,
+		newConditions: answers.newConditions
+	};
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @param {string} fieldName
+ * @returns {{neighbouringSiteAddressLine1: string, neighbouringSiteAddressLine2: string|null, neighbouringSiteAddressTown: string, neighbouringSiteAddressCounty: string|null, neighbouringSiteAddressPostcode: string, neighbouringSiteAccessDetails: null, neighbouringSiteSafetyDetails: null}[]|null}
+ */
+const getListedAddress = (answers, fieldName) => {
+	// @ts-ignore
+	return answers.SubmissionAddress?.filter((address) => {
+		return (
+			address.fieldName === fieldName &&
+			address.addressLine1 &&
+			address.townCity &&
+			address.postcode
+		);
+		// @ts-ignore
+	}).map((address) => {
+		return {
+			neighbouringSiteAddressLine1: address.addressLine1,
+			neighbouringSiteAddressLine2: address.addressLine2,
+			neighbouringSiteAddressTown: address.townCity,
+			neighbouringSiteAddressCounty: address.county,
+			neighbouringSiteAddressPostcode: address.postcode,
+			neighbouringSiteAccessDetails: null, // not asked
+			neighbouringSiteSafetyDetails: null // not asked
+		};
+	});
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {"schedule-1" | "schedule-2"|null}
  */
 const getSchedule = (answers) => {
 	if (!answers.environmentalImpactSchedule || answers.environmentalImpactSchedule === 'no')

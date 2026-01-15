@@ -9,6 +9,7 @@ const exampleS78DataModel = {
 	caseType: 'W',
 
 	// S78 fields
+	developmentType: 'major-industry-storage',
 	changedListedBuildingNumbers: ['9000009'],
 	agriculturalHolding: null,
 	tenantAgriculturalHolding: true,
@@ -61,7 +62,6 @@ const exampleS78DataModel = {
 	proofsOfEvidenceDueDate: '2023-07-27T20:30:00.000Z',
 	siteNoticesSentDate: '2023-07-27T20:30:00.000Z',
 	statementDueDate: '2023-07-27T20:30:00.000Z',
-	reasonForNeighbourVisits: 'velit enim elit tempor cillum',
 	numberOfResidencesNetChange: null,
 	siteGridReferenceEasting: null,
 	siteGridReferenceNorthing: null,

@@ -26,7 +26,16 @@ const generateRequiredDocuments = (appealType) => {
 				'any other relevant correspondence with the local authority'
 			];
 		case APPEAL_ID.ENFORCEMENT_NOTICE:
+		case APPEAL_ID.ENFORCEMENT_LISTED_BUILDING:
 			return ['enforcement notice', 'enforcement notice plan'];
+		case APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE:
+			return [
+				'application form',
+				'plans, drawings and supporting documents for your application',
+				'decision letter from the local authority',
+				'any other relevant correspondence with the local authority',
+				'map of the appeal site'
+			];
 	}
 };
 
@@ -65,11 +74,19 @@ const generateOptionalDocuments = (appealType) => {
 		case APPEAL_ID.ADVERTISEMENT:
 			return;
 		case APPEAL_ID.ENFORCEMENT_NOTICE:
+		case APPEAL_ID.ENFORCEMENT_LISTED_BUILDING:
 			return [
 				'documents that support your grounds and facts',
 				'planning obligation',
 				'draft statement of common ground',
 				'appeal costs application'
+			];
+		case APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE:
+			return [
+				'dated photographs of the site',
+				'letters from neighbours',
+				'receipts or invoices for work',
+				'plans and drawings'
 			];
 	}
 };

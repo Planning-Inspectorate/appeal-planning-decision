@@ -2,6 +2,8 @@
 /// <reference types="cypress"/>
 
 import { advertAppealNoDecisionTestCases } from "../../../helpers/appellantAAPD/advertAppeal/advertAppealNoDecisionData";
+import { advertQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/advertQuestionnaireData";
+import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require("../../../support/flows/sections/appellantAAPD/appeal");
 
@@ -29,7 +31,9 @@ describe('Submit Advert Appeal No Decision Test Cases', { tags: '@Advert-nodecis
                 planning: typeOfPlanningApplication,
                 context,
                 prepareAppealData,
-                lpaManageAppealsData
+                lpaManageAppealsData,
+				questionnaireTestCases,
+				statementTestCases
             });
         });
     });

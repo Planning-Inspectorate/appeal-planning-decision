@@ -2,6 +2,7 @@
 /// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
 import { DateService } from "../../../../utils/dateService";
+import { appealsE2EIntegration } from "../appealsE2EIntegration";
 const applicationFormPage = require("../../pages/appellant-aapd/prepare-appeal/applicationFormPage");
 const { ApplicationNamePage } = require("../../pages/appellant-aapd/prepare-appeal/applicationNamePage");
 const { ContactDetailsPage } = require("../../pages/appellant-aapd/prepare-appeal/contactDetailsPage");
@@ -26,7 +27,7 @@ const { ApplicationAboutPage } = require("../../pages/appellant-aapd/prepare-app
 
 const { PrepareAppealSelector } = require("../../../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-module.exports = (planning, grantedOrRefusedId, applicationType, context, prepareAppealData) => {
+module.exports = (planning, grantedOrRefusedId, applicationType, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
 	const basePage = new BasePage();
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const applicationNamePage = new ApplicationNamePage();
@@ -67,13 +68,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 	cy.advanceToNextPage();
 
 	cy.getByData(basePage?._selectors.applicationType).should('have.text', applicationType);
-
-	cy.advanceToNextPage(prepareAppealData?.button);
-
-	// cy.validateURL(`${prepareAppealSelector?._listedBuildingURLs?.listedBuildingSubmit}/planning-application-number`);
-	// const applicationNumber = `TEST-${Date.now()}`;
-	// cy.getByData(prepareAppealSelector?._selectors?.applicationNumber).type(applicationNumber);
-	// cy.advanceToNextPage();
+	cy.advanceToNextPage(prepareAppealData?.button);	
 	
 	cy.validateURL(`${prepareAppealSelector?._listedBuildingURLs?.listedBuildingSubmit}/email-address`);
 	cy.getByData(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
@@ -196,4 +191,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 			expect(text.trim()).to.equal(prepareAppealData?.appealSubmitted);
 		});
 	});
+	if (context?.endToEndIntegration){
+		appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+	}
 };

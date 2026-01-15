@@ -85,6 +85,11 @@ const makeConstraintsSectionData = (appealTypeCode) => {
 				didAppellantSubmitCompletePhotosAndPlans: true,
 				Documents: [...groupBShared.Documents]
 			};
+		case CASE_TYPES.LDC.processCode:
+			return {
+				...groupBShared,
+				Documents: [...groupBShared.Documents]
+			};
 	}
 };
 
@@ -173,6 +178,8 @@ const makeConsultationResponsesSectionData = (appealTypeCode) => {
 				consultedBodiesDetails: 'Consulted bodies details here',
 				Documents: [makeDocument(APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS)]
 			};
+		default:
+			return [];
 	}
 };
 

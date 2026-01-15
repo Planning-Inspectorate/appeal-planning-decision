@@ -198,7 +198,8 @@ const VIEW = {
 	},
 
 	YOUR_APPEALS: {
-		DECIDED_APPEALS: 'appeals/your-appeals/decided-appeals'
+		DECIDED_APPEALS: 'appeals/your-appeals/decided-appeals',
+		WITHDRAWN_APPEALS: 'appeals/your-appeals/withdrawn-appeals'
 	},
 
 	SELECTED_APPEAL: {
@@ -228,6 +229,7 @@ const VIEW = {
 		CONFIRM_REMOVE_USER: 'manage-appeals/confirm-remove-user',
 		YOUR_EMAIL_ADDRESS: 'manage-appeals/your-email-address',
 		DECIDED_APPEALS: 'manage-appeals/decided-appeals',
+		WITHDRAWN_APPEALS: 'manage-appeals/withdrawn-appeals',
 		APPEAL_OVERVIEW: '/manage-appeals'
 	},
 
@@ -243,6 +245,7 @@ const VIEW = {
 		REQUEST_NEW_CODE: 'rule-6/request-new-code',
 		DASHBOARD: 'rule-6/your-appeals',
 		DECIDED_APPEALS: 'rule-6/decided-appeals',
+		WITHDRAWN_APPEALS: 'rule-6/withdrawn-appeals',
 		APPEAL_OVERVIEW: '/rule-6'
 	},
 

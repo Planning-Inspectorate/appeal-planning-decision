@@ -9,9 +9,15 @@ export const appealIdWaitingForReview = () => {
     cy.wait(10000);
     cy.reload();
     cy.get(basePage?._selectors.trgovukTableRow).should('exist');    
-    return cy.get('table tr').last().find('td').eq(0).invoke('text').then((text) => {
-        const appealId = text.trim();
-        Cypress.log({ name: 'Appeal ID', message: appealId });
-        return cy.wrap(appealId); // Return the appeal ID for further use
+    // Grab both the first (eq(0)) and third (eq(2)) TD values from the last table row
+    return cy.get('table tr').last().find('td').then(($tds) => {
+        const firstTdText = $tds.eq(0).text().trim();
+        const thirdTdText = $tds.eq(2).text().trim();
+
+        Cypress.log({ name: 'TD[0]', message: firstTdText });
+        Cypress.log({ name: 'TD[2]', message: thirdTdText });
+
+        // Return both values so they can be used by the caller
+        return cy.wrap({ caseRef: String(firstTdText), appealType: thirdTdText });
     });
 }

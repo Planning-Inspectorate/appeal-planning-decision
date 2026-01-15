@@ -58,7 +58,8 @@ const getDeadlineV2 = (
 	hasContactedPlanningInspectorate = false
 ) => {
 	const deadline =
-		appealType === CASE_TYPES.ENFORCEMENT.processCode
+		appealType === CASE_TYPES.ENFORCEMENT.processCode ||
+		appealType === CASE_TYPES.ENFORCEMENT_LISTED.processCode
 			? enforcementNoticeDeadline(enforcementEffectiveDate, hasContactedPlanningInspectorate)
 			: businessRulesDeadline(
 					applicationDecisionDate,

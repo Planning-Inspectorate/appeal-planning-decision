@@ -112,6 +112,30 @@ exports.JOURNEY_TYPES = Object.freeze({
 		userType: LPA_USER_ROLE,
 		caseType: CASE_TYPES.ENFORCEMENT.processCode
 	},
+	ENFORCEMENT_LISTED_APPEAL_FORM: {
+		id: 'enforcement-listed-appeal-form',
+		type: exports.JOURNEY_TYPE.appealForm,
+		userType: APPEAL_USER_ROLES.APPELLANT,
+		caseType: CASE_TYPES.ENFORCEMENT_LISTED.processCode
+	},
+	ENFORCEMENT_LISTED_QUESTIONNAIRE: {
+		id: 'enforcement-listed-questionnaire',
+		type: exports.JOURNEY_TYPE.questionnaire,
+		userType: LPA_USER_ROLE,
+		caseType: CASE_TYPES.ENFORCEMENT_LISTED.processCode
+	},
+	LDC_APPEAL_FORM: {
+		id: 'ldc-appeal-form',
+		type: exports.JOURNEY_TYPE.appealForm,
+		userType: APPEAL_USER_ROLES.APPELLANT,
+		caseType: CASE_TYPES.LDC.processCode
+	},
+	LDC_QUESTIONNAIRE: {
+		id: 'ldc-questionnaire',
+		type: exports.JOURNEY_TYPE.questionnaire,
+		userType: LPA_USER_ROLE,
+		caseType: CASE_TYPES.LDC.processCode
+	},
 	// todo: remove s78 from name if possible so more obvious can be shared between appeal types
 	LPA_STATEMENT: {
 		id: 's78-lpa-statement',

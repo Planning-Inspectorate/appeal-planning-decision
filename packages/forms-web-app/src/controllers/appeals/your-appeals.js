@@ -9,6 +9,11 @@ const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
 const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdrawn-appeal');
 const { isNotTransferred } = require('@pins/business-rules/src/lib/filter-transferred-appeal');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const {
+	VIEW: {
+		YOUR_APPEALS: { DECIDED_APPEALS, WITHDRAWN_APPEALS }
+	}
+} = require('../../lib/views');
 
 const { filterAppealsWithinGivenDate } = require('../../lib/filter-decided-appeals');
 const { filterTime } = require('../../config');
@@ -24,6 +29,18 @@ exports.get = async (req, res) => {
 		}
 
 		logger.debug({ appeals }, 'appeals');
+
+		const withdrawnAppealsCount = appeals
+			.filter((appeal) => appeal.caseWithdrawnDate)
+			.map(mapToAppellantDashboardDisplayData)
+			.filter(Boolean)
+			.filter((appeal) =>
+				filterAppealsWithinGivenDate(
+					appeal,
+					'caseWithdrawnDate',
+					filterTime.FIVE_YEARS_IN_MILISECONDS
+				)
+			).length;
 
 		const validAppeals = appeals
 			.filter((data) => data.appeal?.hideFromDashboard !== true)
@@ -79,7 +96,10 @@ exports.get = async (req, res) => {
 			toDoAppeals,
 			waitingForReviewAppeals,
 			noToDoAppeals,
-			decidedAppealsCount
+			decidedAppealsCount,
+			withdrawnAppealsCount,
+			decidedAppealsLink: `/${DECIDED_APPEALS}`,
+			withdrawnAppealsLink: `/${WITHDRAWN_APPEALS}`
 		};
 
 		res.render(VIEW.APPEALS.YOUR_APPEALS, viewContext);

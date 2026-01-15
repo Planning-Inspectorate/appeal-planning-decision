@@ -115,3 +115,26 @@ exports.shouldDisplayGridReference = (response, config) => {
 			response.answers.siteGridReferenceNorthing !== null
 		);
 };
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {boolean}
+ */
+exports.shouldDisplayPreviousApplicationQuestions = (response) => {
+	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
+
+	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
+		? baseSubmittedAppealGrounds
+		: [baseSubmittedAppealGrounds];
+
+	if (!submittedAppealGrounds.length) return false;
+
+	return submittedAppealGrounds.some((ground) => ground.groundName === 'a');
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {boolean}
+ */
+exports.shouldDisplayPriorCorrespondenceUpload = (response) =>
+	!!response.answers.hasContactedPlanningInspectorate;

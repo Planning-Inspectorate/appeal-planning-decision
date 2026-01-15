@@ -75,7 +75,7 @@ components:
           example: 'Q9999'
         appealTypeCode:
           type: string
-          enum: ['HAS', 'S78', 'S20', 'ADVERTS', 'CAS_ADVERTS', 'CAS_PLANNING']
+          enum: ['HAS', 'S78', 'S20', 'ADVERTS', 'CAS_ADVERTS', 'CAS_PLANNING', 'LDC']
         caseStatus:
           type: string
           enum:

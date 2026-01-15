@@ -27,6 +27,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { BrowserAuthData } from '../fixtures/browser-auth-data';
+import { appealsApiClient } from './appealsApiClient';
 const cookiesToSet = ['domain', 'expiry', 'httpOnly', 'path', 'secure'];
 
 Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
@@ -234,11 +235,141 @@ Cypress.Commands.add('loginWithPuppeteer', (user) => {
 				secure: cookie.secure,
 				log: false
 			});
-			if (cookiesToSet.includes(cookie.name)) {
-				cy.log('cookie name');
+			if (cookiesToSet.includes(cookie.name)) {				
 				cy.getCookie(cookie.name).should('not.be.empty');
 			}
 		});
 	});
 	return
+});
+
+Cypress.Commands.add('getBusinessActualDate', (date, days) => {
+	return cy.wrap(null).then(() => {
+		const formattedDate = new Date(date).toISOString();
+		return appealsApiClient.getBusinessDate(formattedDate, days).then((result) => {
+			return new Date(result);
+		});
+	});
+});
+
+Cypress.Commands.add('updateAppealDetailsViaApi', (caseObj, caseDetails) => {
+	// Build as a pure Cypress chain to avoid returning native Promises
+	return cy.request({
+		method: 'GET',
+		url: `${Cypress.config('apiBaseUrl')}appeals/case-reference/${caseObj}`,
+		headers: {
+			'Content-Type': 'application/json',
+			azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+		},
+		failOnStatusCode: false
+	}).then(({ status, body }) => {
+		expect(status).to.eq(200);
+		cy.log(`Loaded case details ${JSON.stringify(body)}`);
+		const appealId = body.appealId;
+		const appellantCaseId = body.appellantCaseId;
+		return cy.request({
+			method: 'PATCH',
+			url: `${Cypress.config('apiBaseUrl')}appeals/${appealId}/appellant-cases/${appellantCaseId}`,
+			headers: {
+				'Content-Type': 'application/json',
+				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+			},
+			body: caseDetails,
+			failOnStatusCode: false
+		}).then(({ status, body }) => {
+			expect(status).to.eq(200);
+			return body;
+		});
+	});
+});
+
+Cypress.Commands.add('startAppeal', (caseObj) => {
+	return appealsApiClient.startAppeal(caseObj).then(() => {
+		
+	});
+});
+
+Cypress.Commands.add('reviewLpaqSubmission', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		cy.log(`[reviewLpaqSubmission] Starting review for case ${caseObj}`);
+		try {
+			const body = await appealsApiClient.reviewLpaq(caseObj);
+			cy.log(`[reviewLpaqSubmission] Success. validationOutcome: ${body?.validationOutcome?.name || 'unknown'}`);
+		} catch (err) {
+			// Surface maximum context in Cypress runner
+			const message = err?.message || String(err);
+			cy.log(`[reviewLpaqSubmission] ERROR: ${message}`);
+			// Optionally fail the test explicitly so we see logs above
+			throw err;
+		}
+		cy.log('Reviewed lpaq submission for case ref ' + caseObj);
+		cy.reload();
+	});
+});
+
+Cypress.Commands.add('reviewStatementViaApi', (caseObj) => {
+	return appealsApiClient.reviewStatement(caseObj).then(() => {
+		cy.log('Reviewed lpa statement for case ref ' + caseObj);
+	});
+});
+
+Cypress.Commands.add('reviewIpCommentsViaApi', (caseObj) => {
+	return appealsApiClient.reviewIpComments(caseObj).then(() => {
+		cy.log('Reviewed IP comments for case ref ' + caseObj);
+	});
+});
+
+Cypress.Commands.add('simulateStatementsDeadlineElapsed', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.simulateStatementsElapsed(caseObj);
+		return;
+	});
+});
+
+Cypress.Commands.add('shareCommentsAndStatementsViaApi', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.shareCommentsAndStatements(caseObj);
+		cy.log('Shared IP Comments and Statements for case ref ' + caseObj);
+		return;
+	});
+});
+
+Cypress.Commands.add('reviewLpaFinalCommentsViaApi', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.reviewLpaFinalComments(caseObj);
+		cy.log('Reviewed LPA final comments for case ref ' + caseObj);
+		return;
+	});
+});
+
+Cypress.Commands.add('reviewAppellantFinalCommentsViaApi', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.reviewAppellantFinalComments(caseObj);
+		cy.log('Reviewed appellant final comments for case ref ' + caseObj);
+		return;
+	});
+});
+
+Cypress.Commands.add('simulateFinalCommentsDeadlineElapsed', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.simulateFinalCommentsElapsed(caseObj);
+		cy.log('Simulated site visit elapsed for case ref ' + caseObj);
+		return;
+	});
+});
+
+Cypress.Commands.add('setupSiteVisitViaAPI', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.setupSiteVisit(caseObj);
+		cy.log('Setup site visit for case ref ' + caseObj);
+		return;
+	});
+});
+
+Cypress.Commands.add('simulateSiteVisit', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.simulateSiteVisitElapsed(caseObj);
+		cy.log('Simulated site visit elapsed for case ref ' + caseObj);
+		return;
+	});
 });

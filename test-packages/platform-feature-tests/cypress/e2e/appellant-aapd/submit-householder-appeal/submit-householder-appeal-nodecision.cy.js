@@ -2,6 +2,8 @@
 /// <reference types="cypress"/>
 
 import { houseHolderAppealNoDecisionTestCases } from "../../../helpers/appellantAAPD/houseHolderAppeal/houseHolderAppealNoDecisionData";
+import { fullAppealQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/fullAppealQuestionnaireData";
+import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from "../../../fixtures/users.js";
 import { tag } from '#support/tag.js';
 
@@ -9,12 +11,16 @@ const { submitAppealFlow } = require('../../../support/flows/sections/appellantA
 
 describe('Submit House Holder Appeal No Decision Test Cases',{ tags:'@HAS-nodecision' }, () => {
 	let prepareAppealData;
+	let lpaManageAppealsData;
 	before(() => {
 		cy.login(users.appeals.authUser);
 	});
 	beforeEach(() => {		
 		cy.fixture('prepareAppealData').then(data => {
 			prepareAppealData = data;
+		})
+		cy.fixture('lpaManageAppealsData').then(data => {
+			lpaManageAppealsData = data;
 		})
 	});
 	houseHolderAppealNoDecisionTestCases.forEach((context) => {
@@ -54,11 +60,13 @@ describe('Submit House Holder Appeal No Decision Test Cases',{ tags:'@HAS-nodeci
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
 				context,
-				prepareAppealData
+				prepareAppealData,
+				lpaManageAppealsData,
+				questionnaireTestCases,
+				statementTestCases
 			});
 		});
 	});
-
 	// example smoke test case
 	it('HAS Smoke Test', { tags: tag.smoke }, () => {
 		const context = houseHolderAppealNoDecisionTestCases[0];
@@ -75,8 +83,10 @@ describe('Submit House Holder Appeal No Decision Test Cases',{ tags:'@HAS-nodeci
 			statusOfPlanningObligation,
 			planning: typeOfPlanningApplication,
 			context,
-			prepareAppealData
+			prepareAppealData,
+			lpaManageAppealsData,
+			questionnaireTestCases,
+			statementTestCases
 		});
 	});
-
 });

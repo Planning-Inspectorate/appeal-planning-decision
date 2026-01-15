@@ -20,6 +20,7 @@ export const fullAppealRefusedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: true,
             areaUnits: 'hectare',

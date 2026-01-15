@@ -392,6 +392,14 @@ class ListAddMoreQuestion extends Question {
 			);
 		}
 
+		if (this.subQuestion instanceof IndividualAddMoreQuestion) {
+			if (!Array.isArray(journeyResponse.answers.SubmissionIndividual))
+				throw new Error('SubmissionIndividual was an unexpected shape');
+			return journeyResponse.answers.SubmissionIndividual.some(
+				(individual) => individual.fieldName === this.subQuestion.fieldName
+			);
+		}
+
 		return false;
 	}
 }

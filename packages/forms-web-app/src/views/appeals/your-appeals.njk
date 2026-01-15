@@ -161,9 +161,18 @@
           }
         ]
         }) }}
-
         <p class="govuk-body">
-          <a href="/appeals/your-appeals/decided-appeals" class="govuk-link">
+          <a href="{{withdrawnAppealsLink}}" class="govuk-link">
+            {{ withdrawnAppealsCount }} withdrawn 
+            {% if withdrawnAppealsCount == 1 %}
+                appeal
+            {% else %}
+                appeals
+            {% endif %}
+          </a>
+        </p>
+        <p class="govuk-body">
+          <a href="{{decidedAppealsLink}}" class="govuk-link">
               {{ decidedAppealsCount }} decided 
               {% if decidedAppealsCount == 1 %}
                   appeal

@@ -20,6 +20,10 @@ describe('mapAppealTypeToDisplayText', () => {
 		expect(mapAppealTypeToDisplayText(CASE_TYPES.CAS_ADVERTS)).toBe('commercial advertisement');
 		expect(mapAppealTypeToDisplayText(CASE_TYPES.ADVERTS)).toBe('advertisement');
 		expect(mapAppealTypeToDisplayText(CASE_TYPES.ENFORCEMENT)).toBe('enforcement notice');
+		expect(mapAppealTypeToDisplayText(CASE_TYPES.ENFORCEMENT_LISTED)).toBe(
+			'enforcement listed building and conservation area'
+		);
+		expect(mapAppealTypeToDisplayText(CASE_TYPES.LDC)).toBe('lawful development certificate');
 		// add more type codes/ ids as they are added to CASE_TYPES
 	});
 });

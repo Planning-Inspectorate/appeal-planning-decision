@@ -1,0 +1,62 @@
+{% extends "layouts/lpa-dashboard/main.njk" %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block backButton %}
+    {{ govukBackLink({
+        text: "Back to manage appeals",
+        href: yourAppealsLink,
+        attributes: {
+        'data-cy': 'back'
+        }
+    }) }}
+{% endblock %}
+
+{% set title="Withdrawn appeals - Manage appeals - GOV.UK" %}
+
+{% block pageTitle %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl">
+          {{lpaName}}
+        </span>
+        Withdrawn appeals
+      </h1>
+    </div>
+  </div>
+
+  <div>
+      <table class="govuk-table govuk-!-margin-top-3">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Appeal number</th>
+            <th scope="col" class="govuk-table__header">Site address</th>
+            <th scope="col" class="govuk-table__header">Withdrawn date</th>
+            <th scope="col" class="govuk-table__header">Appeal type</th>
+          </tr>
+        </thead>
+
+        <tbody class="govuk-table__body">
+          {% for appeal in withdrawnAppeals %}
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                  <a href="/manage-appeals/{{appeal.appealNumber}}" class="govuk-link">
+                   {{appeal.appealNumber}}
+                  </a>
+                  {% if appeal.linkedCaseDetails %}
+                    <p><strong class='govuk-tag govuk-tag--grey'>{{appeal.linkedCaseDetails.linkedCaseStatusLabel}}</strong></p>
+                  {% endif %}
+                </td>
+                <td class="govuk-table__cell">{{appeal.address}}</td>
+                <td class="govuk-table__cell">{{appeal.caseWithdrawnDate | date('D MMM YYYY')}}</td>
+                <td class="govuk-table__cell">{{appeal.appealType}}</td>
+              </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+   </div>
+{% endblock %}

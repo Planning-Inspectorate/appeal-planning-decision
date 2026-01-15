@@ -28,9 +28,22 @@ export const finalComment = (context, prepareAppealData, appealType) => {
 			counter++;
 		}
 	}).then(() => {
+		cy.advanceToNextPage();
 		finalComment.selectSubmitAnyFinalComment(context);
 	});
 	//commented for test during coding
 	cy.contains('button', prepareAppealData?.submitFinalComments).click();
 	//cy.get(basePage?._selectors.govukPanelTitle).contains(prepareAppealData?.finalCommentsSubmitted);
+};
+export const finalCommnetForCaseRef = (context, appealId) => {
+	const basePage = new BasePage();
+	const finalComment = new FinalComment();	
+	//cy.url().should('include', `/manage-appeals/appeal-statement/${appealId}/appeal-statement`);
+	cy.get(`a[href*="/appeals/final-comments/${appealId}/entry"]`).click();
+	cy.advanceToNextPage();
+	finalComment.selectSubmitAnyFinalComment(context);
+
+	// commented for test during coding
+	cy.get('.govuk-button').contains('Submit final comments').click();
+	cy.get(basePage?._selectors.govukPanelTitle).contains('Final comments submitted');
 };

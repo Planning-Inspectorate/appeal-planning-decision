@@ -12,7 +12,11 @@ const {
 	CASE_TYPES: { ENFORCEMENT }
 } = require('@pins/common/src/database/data-static');
 const config = require('../../config');
-const { shouldDisplayUploadDecisionLetter } = require('../display-questions');
+const {
+	shouldDisplayUploadDecisionLetter,
+	shouldDisplayPreviousApplicationQuestions,
+	shouldDisplayPriorCorrespondenceUpload
+} = require('../display-questions');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 
@@ -26,7 +30,10 @@ const {
 	getAppealGroundsQuestions,
 	chooseGroundsOfAppealQuestion
 } = require('../appeal-grounds-questions');
-const { generateInterestInLandQuestionsAndConditions } = require('../enforcement-questions');
+const {
+	generateInterestInLandQuestionsAndConditions,
+	enforcementParty
+} = require('../enforcement-questions');
 /** @type {Array<'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'>} */
 const appealGroundsArray = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
 
@@ -92,28 +99,6 @@ const formatDynamicNames = (response) => {
 	}
 };
 
-// /**
-//  * @param {JourneyResponse} response
-//  * @returns {string}
-//  */
-// const formatInterestInLandNames = (response) => {
-// 	const party = response.answers['enforcementWhoIsAppealing'];
-
-// 	if (!party) return "Named Individual's";
-
-// 	if (response.answers['isAppellant'] === 'yes') return 'your';
-
-// 	let partyName;
-// 	if (party === fieldValues.enforcementWhoIsAppealing.ORGANISATION) {
-// 		/** @ts-ignore */
-// 		partyName = escape(response.answers['enforcementOrganisationName'] || 'Named Company');
-// 	} else {
-// 		partyName = formatEnforcementIndividualName(response);
-// 	}
-
-// 	return `${partyName}'s`;
-// };
-
 /**
  * @param {JourneyResponse} response
  * @returns {Section[]}
@@ -126,48 +111,27 @@ const makeSections = (response) => {
 	return [
 		new Section('Prepare appeal', 'prepare-appeal')
 			.addQuestion(questions.enforcementWhoIsAppealing)
-			.addQuestion(questions.enforcementIndividualName)
-			.withCondition(() =>
-				questionHasAnswer(
-					response,
-					questions.enforcementWhoIsAppealing,
-					fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
-				)
+			.startMultiQuestionCondition('individual appellant', () =>
+				enforcementParty(response, fieldValues.enforcementWhoIsAppealing.INDIVIDUAL)
 			)
+			.addQuestion(questions.enforcementIndividualName)
 			.addQuestion(questions.enforcementAreYouIndividual)
 			.withCondition(() =>
-				questionHasAnswer(
-					response,
-					questions.enforcementWhoIsAppealing,
-					fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
-				)
+				questionHasNonEmptyStringAnswer(response, { fieldName: 'appellantFirstName' })
 			)
 			.withVariables({
 				[QUESTION_VARIABLES.INDIVIDUAL_NAME]: formatEnforcementIndividualName(response)
 			})
+			.endMultiQuestionCondition('individual appellant')
+			.startMultiQuestionCondition('group of appellants', () =>
+				enforcementParty(response, fieldValues.enforcementWhoIsAppealing.GROUP)
+			)
 			.addQuestion(questions.enforcementAddNamedIndividuals)
-			.withCondition(() =>
-				questionHasAnswer(
-					response,
-					questions.enforcementWhoIsAppealing,
-					fieldValues.enforcementWhoIsAppealing.GROUP
-				)
-			)
 			.addQuestion(questions.enforcementSelectYourName)
-			.withCondition(() =>
-				questionHasAnswer(
-					response,
-					questions.enforcementWhoIsAppealing,
-					fieldValues.enforcementWhoIsAppealing.GROUP
-				)
-			)
+			.endMultiQuestionCondition('group of appellants')
 			.addQuestion(questions.enforcementOrganisationName)
 			.withCondition(() =>
-				questionHasAnswer(
-					response,
-					questions.enforcementWhoIsAppealing,
-					fieldValues.enforcementWhoIsAppealing.ORGANISATION
-				)
+				enforcementParty(response, fieldValues.enforcementWhoIsAppealing.ORGANISATION)
 			)
 			// question will appear if user is not the appellant (will also appear if filling out on behalf of a company)
 			.addQuestion(questions.contactDetails)
@@ -192,11 +156,11 @@ const makeSections = (response) => {
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterAllegedBreachDescription)
 			.addQuestion(chooseGroundsOfAppealQuestion)
-			.addQuestion(questions.submittedPlanningApplication)
-			.addQuestion(questions.uploadApplicationReceipt)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.submittedPlanningApplication, 'yes')
+			.startMultiQuestionCondition(
+				'groundAPreviousApplication',
+				shouldDisplayPreviousApplicationQuestions
 			)
+			.addQuestion(questions.submittedPlanningApplication)
 			.addQuestion(questions.allOrPartOfDevelopment)
 			.addQuestion(questions.planningApplicationReference)
 			.addQuestion(questions.planningApplicationDate)
@@ -223,6 +187,7 @@ const makeSections = (response) => {
 			.withCondition(() =>
 				questionHasAnswer(response, questions.grantedOrRefused, 'nodecisionreceived')
 			)
+			.endMultiQuestionCondition('groundAPreviousApplication')
 			.addQuestions(appealGroundsQuestions)
 			.addQuestion(questions.appellantProcedurePreference)
 			.addQuestion(questions.appellantPreferHearing)
@@ -266,9 +231,13 @@ const makeSections = (response) => {
 			.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
 		new Section('Upload documents', 'upload-documents')
 			.addQuestion(questions.uploadPriorCorrespondence)
+			.withCondition(shouldDisplayPriorCorrespondenceUpload)
 			.addQuestion(questions.uploadEnforcementNotice)
 			.addQuestion(questions.uploadEnforcementNoticePlan)
 			.addQuestion(questions.uploadOriginalApplicationForm)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.submittedPlanningApplication, 'yes')
+			)
 			.addQuestion(questions.uploadChangeOfDescriptionEvidence)
 			.withCondition(() =>
 				questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')

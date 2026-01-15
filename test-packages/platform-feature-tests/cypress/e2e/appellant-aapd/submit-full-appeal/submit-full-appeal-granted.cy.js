@@ -1,18 +1,23 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { fullAppealGrantedTestCases } from "../../../helpers/appellantAAPD/fullAppeal/fullAppealGrantedData";
+import { fullAppealQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/fullAppealQuestionnaireData";
+import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from '../../../fixtures/users.js';
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
 describe('Submit Full Appeal Granted Test cases',{ tags:'@S78-granted' }, () => {
 	let prepareAppealData;
+	let lpaManageAppealsData;
 	before(() => {
 		cy.login(users.appeals.authUser);
 	});
 	beforeEach(() => {		
-		// Load the fixture data for prepareAppealData
 		cy.fixture('prepareAppealData').then(data => {
 			prepareAppealData = data;
+		})
+		cy.fixture('lpaManageAppealsData').then(data => {
+			lpaManageAppealsData = data;
 		})
 	});
 	// Iterate through each test case in the fullAppealGrantedTestCases array
@@ -53,7 +58,10 @@ describe('Submit Full Appeal Granted Test cases',{ tags:'@S78-granted' }, () => 
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
 				context,
-				prepareAppealData
+				prepareAppealData,
+				lpaManageAppealsData,
+				questionnaireTestCases,
+				statementTestCases
 			});
 		});
 	});

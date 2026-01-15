@@ -2,6 +2,9 @@
 /// <reference types="cypress"/>
 
 import { casPlanningAppealNoDecisionTestCases } from "../../../helpers/appellantAAPD/casPlanningAppeal/casPlanningAppealNoDecisionData";
+import { fullAppealQuestionnaireTestCases } from "../../../helpers/lpaManageAppeals/fullAppealQuestionnaireData";
+import { casPlanningQuestionnaireTestCases } from "../../../helpers/lpaManageAppeals/casPlanningQuestionnaireData";
+import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from "../../../fixtures/users.js";
 import { tag } from '#support/tag.js';
 
@@ -9,20 +12,25 @@ const { submitAppealFlow } = require('../../../support/flows/sections/appellantA
 
 describe('Submit CAS Planning Appeal No Decision Test Cases', { tags: '@CAS-Planning-nodecision' }, () => {
 	let prepareAppealData;
-	before(() => {
-		cy.login(users.appeals.authUser);
-	});
-	beforeEach(() => {
-		cy.fixture('prepareAppealData').then(data => {
-			prepareAppealData = data;
-		})
-	});
+    let lpaManageAppealsData;
+    before(() => {
+        cy.login(users.appeals.authUser);
+    });
+    beforeEach(() => {
+        cy.fixture('prepareAppealData').then(data => {
+            prepareAppealData = data;
+        });
+        cy.fixture('lpaManageAppealsData').then(data => {
+            lpaManageAppealsData = data;
+        });
+    });
 	casPlanningAppealNoDecisionTestCases.forEach((context) => {
 		const {
 			statusOfOriginalApplication,
 			typeOfDecisionRequested,
 			statusOfPlanningObligation,
 			typeOfPlanningApplication,
+			selectAllPlanningApplicationAbout,
 			applicationForm,
 		} = context;
 
@@ -54,11 +62,14 @@ describe('Submit CAS Planning Appeal No Decision Test Cases', { tags: '@CAS-Plan
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
 				context,
-				prepareAppealData
+				prepareAppealData,
+				lpaManageAppealsData,
+				questionnaireTestCases: selectAllPlanningApplicationAbout ? fullAppealQuestionnaireTestCases : casPlanningQuestionnaireTestCases,
+				statementTestCases
 			});
 		});
 	});
-
+	
 	// example smoke test case
 	it('CAS Smoke Test', { tags: tag.smoke }, () => {
 		const context = casPlanningAppealNoDecisionTestCases[0];
@@ -76,8 +87,10 @@ describe('Submit CAS Planning Appeal No Decision Test Cases', { tags: '@CAS-Plan
 			statusOfPlanningObligation,
 			planning: typeOfPlanningApplication,
 			context,
-			prepareAppealData
+			prepareAppealData,
+			lpaManageAppealsData,
+			questionnaireTestCases: selectAllPlanningApplicationAbout ? fullAppealQuestionnaireTestCases : casPlanningQuestionnaireTestCases,
+			statementTestCases
 		});
 	});
-
 });

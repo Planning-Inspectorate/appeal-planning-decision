@@ -9,6 +9,9 @@ import { ipCommentsForAppealRef } from "./../ipComments/ipComments";
 import { questionnaire } from "./../lpaManageAppeals/questionnaire";
 import { statementForCaseRef } from "./../lpaManageAppeals/statement";
 import { viewValidatedAppealDetailsLPA } from "./../lpaManageAppeals/viewValidatedAppealDetailsLPA";
+import { appealsApiClient } from "./../../../../support/appealsApiClient";
+import { appealsE2EIntegration } from "../appealsE2EIntegration";
+
 const applicationFormPage = require("../../pages/appellant-aapd/prepare-appeal/applicationFormPage");
 const { ApplicationNamePage } = require("../../pages/appellant-aapd/prepare-appeal/applicationNamePage");
 const { ContactDetailsPage } = require("../../pages/appellant-aapd/prepare-appeal/contactDetailsPage");
@@ -201,73 +204,6 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 		});
 	});
 	if (context?.endToEndIntegration) {
-		// Get the Case Reference and validate submitted appeal details
-		cy.get(`a[href="/appeals/your-appeals"]`).click();
-		appealIdWaitingForReview().then((caseRef) => {
-			cy.log(`Case Reference: ${caseRef}`); // Log the actual string value, not JSON.stringify
-			//	validateAppealDetailsForAppellant(appealId)
-			// Assign the case officer
-			assignCaseOfficer('back-office', caseRef);
-			// Validated appeal details in LPA
-			viewValidatedAppealDetailsLPA(caseRef);
-			cy.visit(`${Cypress.config('back_office_base_url')}/appeals-service/all-cases`);
-			//Start case
-			happyPathHelper.startS78Case(caseRef, context?.applicationForm?.appellantProcedurePreference);
-			// Submit the LPA questionnaire 
-			viewValidatedAppealDetailsLPA(caseRef);
-			questionnaire(questionnaireTestCases[0], lpaManageAppealsData, applicationType,caseRef);
-			cy.visit(`${Cypress.config('back_office_base_url')}/appeals-service/all-cases`);
-			happyPathHelper.reviewS78Lpaq(caseRef);
-
-			viewValidatedAppealDetailsLPA(caseRef);
-			statementForCaseRef(statementTestCases[0], caseRef);
-			cy.visit(`${Cypress.config('back_office_base_url')}/appeals-service/all-cases`);
-
-			happyPathHelper.addLpaStatement(caseRef, true);
-
-			// Provide IP Comments
-				ipCommentsForAppealRef(caseRef);
-
-				// Review IP Comments in Back Office
-				cy.visit(`${Cypress.config('back_office_base_url')}/appeals-service/all-cases`);
-				happyPathHelper.addThirdPartyComment(caseRef, true);
-
-				// Elapse duedate through api call
-
-				// Share satatements and IP comments in Back Office
-
-				// Submit LPA final comments
-
-				// Subnmit appellant final comments in AAPD
-
-				// Review LPA final comments in Back Office
-
-				// Review appellant final comments in Back Office
-
-				// Elaspse site visit date through api call
-
-				// Share fineal comments in Back Office
-
-				// Setup site visit in back office
-
-				// Validate site visit text in LPA dash board
-
-				// validate site visit text in appellant dash board
-
-				// Elapse site visit date through api call
-
-				// Issue decision in back office
-
-				// validate issued decision in back office
-
-				// Valiidate issued dicision in LPA dash board
-
-				// Validate issued decision in appellant dash board
-
-				// Validate issued decision in IP  dash board
-
-				// Valiodate notification email.
-
-		});
-	};
+		appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+	}
 };

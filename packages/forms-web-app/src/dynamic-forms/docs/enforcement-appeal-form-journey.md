@@ -3,59 +3,35 @@
 ## Prepare appeal
 
 - radio `/who-is-appealing/` Who is appealing against the enforcement notice?
-- multi-field-input `/individual-name/` What is the name of the individual appealing against the enforcement notice?
+
+- Multiquestion condition started: individual appellant
 
 ```js
-condition: () =>
-	questionHasAnswer(
-		response,
-		questions.enforcementWhoIsAppealing,
-		fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
-	);
+condition: () => enforcementParty(response, fieldValues.enforcementWhoIsAppealing.INDIVIDUAL);
 ```
 
+- multi-field-input `/individual-name/` What is the name of the individual appealing against the enforcement notice?
 - boolean `/are-you-individual/` Are you <individual name>?
 
 ```js
-condition: () =>
-	questionHasAnswer(
-		response,
-		questions.enforcementWhoIsAppealing,
-		fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
-	);
+condition: () => questionHasNonEmptyStringAnswer(response, { fieldName: 'appellantFirstName' });
+```
+
+- Multiquestion condition started: group of appellants
+
+```js
+condition: () => enforcementParty(response, fieldValues.enforcementWhoIsAppealing.GROUP);
 ```
 
 - list-add-more `/add-another-individual/` Do you need to add another individual?
-
-```js
-condition: () =>
-	questionHasAnswer(
-		response,
-		questions.enforcementWhoIsAppealing,
-		fieldValues.enforcementWhoIsAppealing.GROUP
-	);
-```
-
 - radio `/select-name/` Select your name
 
-```js
-condition: () =>
-	questionHasAnswer(
-		response,
-		questions.enforcementWhoIsAppealing,
-		fieldValues.enforcementWhoIsAppealing.GROUP
-	);
-```
+- Multiquestion condition ended: group of appellants
 
 - single-line-input `/organisation-name/` What is the name of the organisation?
 
 ```js
-condition: () =>
-	questionHasAnswer(
-		response,
-		questions.enforcementWhoIsAppealing,
-		fieldValues.enforcementWhoIsAppealing.ORGANISATION
-	);
+condition: () => enforcementParty(response, fieldValues.enforcementWhoIsAppealing.ORGANISATION);
 ```
 
 - multi-field-input `/contact-details/` Contact details
@@ -83,13 +59,21 @@ condition: () => questionHasAnswer(response, questions.appealSiteIsContactAddres
 - radio `/health-safety-issues/` Health and safety issues
 - text-entry `/description-alleged-breach/` Enter the description of the alleged breach
 - checkbox `/choose-grounds/` Choose your grounds of appeal
-- boolean `/submit-planning-application/` Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?
-- multi-file-upload `/upload-application-receipt/` Upload your application receipt
+
+- Multiquestion condition started: groundAPreviousApplication
 
 ```js
-condition: () => questionHasAnswer(response, questions.submittedPlanningApplication, 'yes');
+condition: (response) => {
+	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
+	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
+		? baseSubmittedAppealGrounds
+		: [baseSubmittedAppealGrounds];
+	if (!submittedAppealGrounds.length) return false;
+	return submittedAppealGrounds.some((ground) => ground.groundName === 'a');
+};
 ```
 
+- boolean `/submit-planning-application/` Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?
 - radio `/all-or-part/` Was the application for all or part of the development?
 - single-line-input `/planning-application-number/` What is the application reference number?
 - date `/application-date/` What date did you submit your application?
@@ -123,6 +107,8 @@ condition: () => questionHasAnswer(response, questions.applicationDecisionAppeal
 ```js
 condition: () => questionHasAnswer(response, questions.grantedOrRefused, 'nodecisionreceived');
 ```
+
+- Multiquestion condition ended: groundAPreviousApplication
 
 - text-entry `/facts-ground-a/` Facts for ground (a)
 
@@ -307,9 +293,19 @@ condition: () => questionHasAnswer(response, questions.anyOtherAppeals, 'yes');
 ## Upload documents
 
 - multi-file-upload `/upload-planning-inspectorate-communication/` Upload your communication with the Planning Inspectorate
+
+```js
+condition: (response) => !!response.answers.hasContactedPlanningInspectorate;
+```
+
 - multi-file-upload `/upload-enforcement-notice/` Upload your enforcement notice
 - multi-file-upload `/upload-enforcement-plan/` Upload your enforcement notice plan
 - multi-file-upload `/upload-application-form/` Upload your application form
+
+```js
+condition: () => questionHasAnswer(response, questions.submittedPlanningApplication, 'yes');
+```
+
 - multi-file-upload `/upload-description-evidence/` Upload evidence of your agreement to change the description of development
 
 ```js

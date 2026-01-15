@@ -1,0 +1,70 @@
+{%- macro statusTagColor(status, classes = '') -%}
+	{%- set statusTagColor = 'grey' -%}
+	{%- set statusText = status -%}
+	{#
+		list of available color classes can be found
+		at https://design-system.service.gov.uk/components/tag/#additional-colours
+		or https://github.dev/alphagov/govuk-frontend/src/govuk/components/tag/_index.scss
+	#}
+	{%- switch (status | string | lower) -%}
+		{# appeal statuses #}
+		{%- case 'assign_case_officer' -%}
+			{%- set statusTagColor = 'green' -%}
+			{%- set statusText = 'Assign case officer' -%}
+		{%- case 'validation' -%}
+			{%- set statusTagColor = 'green' -%}
+			{%- set statusText = 'Validation' -%}
+		{%- case 'ready_to_start' -%}
+			{%- set statusTagColor = 'green' -%}
+			{%- set statusText = 'Assign case officer' -%}
+		{%- case 'lpa_questionnaire' -%}
+			{%- set statusTagColor = 'green' -%}
+			{%- set statusText = 'LPA Questionnaire' -%}
+		{%- case 'statements' -%}
+      {%- set statusTagColor = 'green' -%}
+      {%- set statusText = 'Statements' -%}
+    {%- case 'final_comments' -%}
+      {%- set statusTagColor = 'green' -%}
+      {%- set statusText = 'Final comments' -%}
+    {%- case 'evidence' -%}
+      {%- set statusTagColor = 'green' -%}
+     	{%- set statusText = 'Evidence' -%}
+    {%- case 'site_visit_ready_to_set_up' -%}
+      {%- set statusTagColor = 'green' -%}
+      {%- set statusText = 'Site visit ready to set up' -%}
+    {%- case 'awaiting_site_visit' -%}
+      {%- set statusTagColor = 'yellow' -%}
+      {%- set statusText = 'Awaiting site visit' -%}
+    {%- case 'hearing_ready_to_set_up' -%}
+      {%- set statusTagColor = 'green' -%}
+      {%- set statusText = 'Hearing ready to set up' -%}
+    {%- case 'awaiting_hearing' -%}
+      {%- set statusTagColor = 'yellow' -%}
+      {%- set statusText = 'Awaiting hearing' -%}
+    {%- case 'inquiry_ready_to_set_up' -%}
+      {%- set statusTagColor = 'green' -%}
+      {%- set statusText = 'Inquiry ready to set up' -%}
+    {%- case 'awaiting_inquiry' -%}
+      {%- set statusTagColor = 'yellow' -%}
+      {%- set statusText = 'Awaiting inquiry' -%}
+    {%- case 'issue_determination' -%}
+      {%- set statusTagColor = 'green' -%}
+      {%- set statusText = 'Issue determination'-%}
+    {%- case 'complete' -%}
+      {%- set statusTagColor = 'blue' -%}
+      {%- set statusText = 'Complete' -%}
+    {%- case 'invalid' -%}
+      {%- set statusTagColor = 'grey' -%}
+      {%- set statusText = 'Invalid' -%}
+    {%- case 'withdrawn' -%}
+      {%- set statusTagColor = 'grey' -%}
+      {%- set statusText = 'Withdrawn' -%}
+    {%- case 'awaiting_transfer' -%}
+      {%- set statusTagColor = 'green' -%}
+     	{%- set statusText = 'Awaiting transfer' -%}
+    {%- case 'transferred' -%}
+      {%- set statusTagColor = 'blue' -%}
+     	{%- set statusText = 'Transferred' -%}
+	{%- endswitch -%}
+	<strong class="govuk-tag govuk-tag--{{ statusTagColor }}">{{ statusText }}</strong>
+{%- endmacro -%}

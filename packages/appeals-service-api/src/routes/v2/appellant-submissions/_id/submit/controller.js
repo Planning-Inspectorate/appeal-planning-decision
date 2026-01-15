@@ -25,6 +25,9 @@ const {
 const {
 	formatter: enforcementFormatter
 } = require('../../../../../services/back-office-v2/formatters/enforcement/appeal');
+const {
+	formatter: ldcFormatter
+} = require('../../../../../services/back-office-v2/formatters/ldc/appeal');
 
 const { getUserById } = require('../../../users/service');
 
@@ -58,6 +61,8 @@ const getFormatter = (appealTypeCode) => {
 			return casPlanningFormatter;
 		case CASE_TYPES.ENFORCEMENT.processCode:
 			return enforcementFormatter;
+		case CASE_TYPES.LDC.processCode:
+			return ldcFormatter;
 		default:
 			throw new Error('unknown formatter');
 	}

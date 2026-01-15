@@ -1,9 +1,9 @@
 const BooleanQuestion = require('@pins/dynamic-forms/src/dynamic-components/boolean/question');
-const TextEntryQuestion = require('@pins/dynamic-forms/src/dynamic-components/text-entry/question');
+const RadioQuestion = require('@pins/dynamic-forms/src/dynamic-components/radio/question');
 
-const { saveAction } = require('./appeal-grounds-questions');
+const { saveAction } = require('./interest-in-land-boolean');
 
-describe('appeal-grounds-questions-overrides', () => {
+describe('interest-in-land-question-overrides', () => {
 	const TITLE = 'title';
 	const QUESTION = 'Question?';
 	const DESCRIPTION = 'Describe';
@@ -11,7 +11,7 @@ describe('appeal-grounds-questions-overrides', () => {
 	const URL = 'url-a';
 	const PAGE_TITLE = 'this appears in <title>';
 	const CUSTOM_DATA = {
-		groundName: 'a'
+		individualId: '123'
 	};
 
 	const NO_CUSTOM_DATA_PARAMS = {
@@ -28,17 +28,27 @@ describe('appeal-grounds-questions-overrides', () => {
 		customData: CUSTOM_DATA
 	};
 
+	const FULL_RADIO_PARAMS = {
+		...FULL_PARAMS,
+		options: [
+			{
+				text: 'Test text',
+				value: 'A mock radio option'
+			}
+		]
+	};
+
 	const mockApi = {
-		postSubmissionAppealGround: jest.fn().mockResolvedValue({})
+		postSubmissionIndividual: jest.fn().mockResolvedValue({})
 	};
 
 	const journeyResponse = {
 		journeyId: 'journey123',
 		referenceId: '1234',
 		answers: {
-			SubmissionAppealGround: [
+			SubmissionIndividual: [
 				{
-					groundName: 'a',
+					id: '123',
 					fieldName: null
 				}
 			]
@@ -52,7 +62,7 @@ describe('appeal-grounds-questions-overrides', () => {
 	});
 
 	describe('saveAction', () => {
-		it('should successfully save a boolean to an updated appeal ground and call the next question', async () => {
+		it('should successfully save a boolean to an individual and call the next question', async () => {
 			const question = new BooleanQuestion(FULL_PARAMS, { saveAction });
 
 			const req = {
@@ -67,20 +77,20 @@ describe('appeal-grounds-questions-overrides', () => {
 
 			await question.saveAction(req, {}, mockSaveAction, {}, {}, journeyResponse);
 
-			expect(mockApi.postSubmissionAppealGround).toHaveBeenCalledWith(journeyResponse.referenceId, {
-				...journeyResponse.answers.SubmissionAppealGround[0],
+			expect(mockApi.postSubmissionIndividual).toHaveBeenCalledWith(journeyResponse.referenceId, {
+				...journeyResponse.answers.SubmissionIndividual[0],
 				fieldName: true
 			});
 			expect(mockSaveAction).not.toHaveBeenCalled();
 			expect(question.handleNextQuestion).toHaveBeenCalled();
 		});
 
-		it('should successfully save text entry to an updated appeal ground and call the next question', async () => {
-			const question = new TextEntryQuestion(FULL_PARAMS, { saveAction });
+		it('should successfully save radio entry to an individual and call the next question', async () => {
+			const question = new RadioQuestion(FULL_RADIO_PARAMS, { saveAction });
 
 			const req = {
 				body: {
-					fieldName: 'A large amount of text about appeal grounds'
+					fieldName: 'A mock radio option'
 				},
 				appealsApiClient: mockApi
 			};
@@ -90,9 +100,9 @@ describe('appeal-grounds-questions-overrides', () => {
 
 			await question.saveAction(req, {}, mockSaveAction, {}, {}, journeyResponse);
 
-			expect(mockApi.postSubmissionAppealGround).toHaveBeenCalledWith(journeyResponse.referenceId, {
-				...journeyResponse.answers.SubmissionAppealGround[0],
-				fieldName: 'A large amount of text about appeal grounds'
+			expect(mockApi.postSubmissionIndividual).toHaveBeenCalledWith(journeyResponse.referenceId, {
+				...journeyResponse.answers.SubmissionIndividual[0],
+				fieldName: 'A mock radio option'
 			});
 			expect(mockSaveAction).not.toHaveBeenCalled();
 			expect(question.handleNextQuestion).toHaveBeenCalled();
@@ -113,7 +123,7 @@ describe('appeal-grounds-questions-overrides', () => {
 
 			await expect(
 				noDataQuestion.saveAction(req, {}, mockSaveAction, {}, {}, journeyResponse)
-			).rejects.toThrow('Ground name data missing from question');
+			).rejects.toThrow('individual Id data missing from question');
 		});
 	});
 });

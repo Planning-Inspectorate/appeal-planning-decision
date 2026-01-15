@@ -31,12 +31,13 @@ export const householderQuestionnaire = (context, lpaManageAppealsData, lpaAppea
 
 	const selectAppealRow = () => {
 		if (caseRef) {
-			return cy.contains('a.govuk-link', caseRef).should('be.visible').then($a => {
-				appealId = caseRef;
-				// navigate into questionnaire if needed
-				cy.contains('a.govuk-link', 'Submit questionnaire').click();
-				return $a;
-			});
+			return cy.contains('a.govuk-link', caseRef)
+				.should('be.visible')
+				.then(() => {
+					appealId = caseRef;
+					// navigate into questionnaire if needed; return Cypress command to continue the chain
+					return cy.contains('a.govuk-link', 'Submit questionnaire').click();
+				});
 		}
 		return cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
 			if (linkFound) return false;
@@ -71,8 +72,15 @@ export const householderQuestionnaire = (context, lpaManageAppealsData, lpaAppea
 					// Determine expected value: householder, or fallback, or passed type
 					const expected = targetAppealType === lpaManageAppealsData?.hasAppealType
 						? lpaManageAppealsData?.appealTypeHouseholder
-						: (lpaManageAppealsData?.appealTypeCASPlanning || targetAppealType);
-					cy.wrap($row).find(basePage?._selectors.govukSummaryListValue).should('contain.text', expected);
+						: (lpaManageAppealsData?.casPlanningAppealType || targetAppealType);
+					cy.wrap($row)
+						.find(basePage?._selectors.govukSummaryListValue)
+						.invoke('text')
+						.then((txt) => {
+							const normalized = txt.replace(/\s+/g, ' ').trim();
+							cy.log(`Verifying appeal type. Expected: "${expected}", Found: "${normalized}"`);
+							expect(normalized).to.include(expected);
+						});
 					return false;
 				}
 			});
@@ -81,8 +89,7 @@ export const householderQuestionnaire = (context, lpaManageAppealsData, lpaAppea
 		// Determine the correct "Is this the correct type" label.
 		const correctTypeText = targetAppealType === lpaManageAppealsData?.casPlanningAppealType
 			? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealCASPlanning
-			: lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealHouseHolder;
-
+			: lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealHouseHolder;	
 		cy.contains(correctTypeText)
 			.closest(basePage?._selectors.govukSummaryListRow)
 			.find(basePage?._selectors.agovukLink)

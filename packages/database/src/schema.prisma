@@ -398,6 +398,23 @@ model AppealCase {
   didAppellantSubmitCompletePhotosAndPlans   Boolean? /// Indicates if the appellant submitted complete and accurate photographs and plans
 
   //***************************************************************************
+  // enforcement fields
+  //***************************************************************************
+  ownerOccupancyStatus              String?
+  occupancyConditionsMet            Boolean?
+  applicationMadeAndFeePaid         Boolean?
+  previousPlanningPermissionGranted Boolean?
+  issueDateOfEnforcementNotice      DateTime?
+  effectiveDateOfEnforcementNotice  DateTime?
+  didAppellantAppealLpaDecision     Boolean?
+  dateLpaDecisionDue                DateTime?
+  dateLpaDecisionReceived           DateTime?
+  enforcementReference              String?
+  descriptionOfAllegedBreach        String?
+  applicationPartOrWholeDevelopment String?
+  contactPlanningInspectorateDate   DateTime?
+
+  //***************************************************************************
   // Relations
   //***************************************************************************
 
@@ -419,6 +436,7 @@ model AppealCase {
   Rule6StatementSubmission        Rule6StatementSubmission[]
   Representations                 Representation[]
   AdvertDetails                   AdvertDetails[]
+  EnforcementAppealGroundsDetails EnforcementAppealGroundsDetails[]
 
   // indexes
   @@index([LPACode])
@@ -550,6 +568,21 @@ model AdvertDetails {
   advertType          String? /// what type of advert is this e.g. Monolith/Totem Signs Illuminated
   isAdvertInPosition  Boolean /// Is the advertisement in position
   isSiteOnHighwayLand Boolean /// Is the site on highway land
+
+  caseReference String
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // indexes
+  @@index([caseReference])
+}
+
+/// Appeal Grounds, broadcast from BO
+model EnforcementAppealGroundsDetails {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  appealGroundLetter       String? /// 'a' - 'g', or 'a' - 'k' if enforcement listed
+  groundForAppealStartDate DateTime? /// time at which the ground started
+  groundFacts              String? /// facts plead by appellant in relation to the particualr ground
 
   caseReference String
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
@@ -825,6 +858,17 @@ model AppellantSubmission {
   uploadNewPlansDrawings            Boolean?
   uploadOtherNewDocuments           Boolean?
   uploadPlanningObligation          Boolean?
+  uploadGroundASupporting           Boolean?
+  uploadGroundBSupporting           Boolean?
+  uploadGroundCSupporting           Boolean?
+  uploadGroundDSupporting           Boolean?
+  uploadGroundESupporting           Boolean?
+  uploadGroundFSupporting           Boolean?
+  uploadGroundGSupporting           Boolean?
+  uploadGroundHSupporting           Boolean?
+  uploadGroundISupporting           Boolean?
+  uploadGroundJSupporting           Boolean?
+  uploadGroundKSupporting           Boolean?
   SubmissionDocumentUpload          SubmissionDocumentUpload[]
 
   // addresses
@@ -967,37 +1011,36 @@ model LPAQuestionnaireSubmission {
   didAppellantSubmitCompletePhotosAndPlans        Boolean?
 
   // New enforcement fieldnames
-  listOfPeopleSentEnforcementNotice                Boolean?
-  enforcementPublicRightOfWay                      Boolean?
-  enforcementOtherOperations                       Boolean?
-  siteAreaSquareMetres                             Decimal?
-  enforcementAllegedBreachArea                     Boolean?
-  enforcementCreateFloorSpace                      Boolean?
-  enforcementRefuseWasteMaterials                  Boolean?
-  enforcementMineralExtractionMaterials            Boolean?
-  enforcementStoreMinerals                         Boolean?
-  enforcementCreateBuilding                        Boolean?
-  enforcementAgriculturalPurposes                  Boolean?
-  enforcementSingleHouse                           Boolean?
-  enforcementTrunkRoad                             String?
-  enforcementTrunkRoad_enforcementTrunkRoadDetails String?
-  enforcementCrownLand                             Boolean?
-  enforcementStopNotice                            Boolean?
-  enforcementStopNoticeUpload                      Boolean?
-  enforcementDevelopmentRights                     Boolean?
-  enforcementDevelopmentRightsUpload               Boolean?
-  enforcementDevelopmentRightsRemoved              String?
-  planningOfficerReport                            Boolean?
-  localDevelopmentOrder                            Boolean?
-  localDevelopmentOrderUpload                      Boolean?
-  previousPlanningPermission                       Boolean?
-  previousPlanningPermissionUpload                 Boolean?
-  enforcementNoticeDateApplication                 Boolean?
-  enforcementNoticeDateApplicationUpload           Boolean?
-  enforcementNoticePlanUpload                      Boolean?
-  planningContraventionNotice                      Boolean?
-  planningContraventionNoticeUpload                Boolean?
-  appellantSubmittedEnvironmentalStatement         String?
+  listOfPeopleSentEnforcementNotice        Boolean?
+  otherOperations                          Boolean?
+  siteAreaSquareMetres                     Decimal?
+  allegedBreachArea                        Boolean?
+  createFloorSpace                         Boolean?
+  refuseWasteMaterials                     Boolean?
+  mineralExtractionMaterials               Boolean?
+  storeMinerals                            Boolean?
+  createBuilding                           Boolean?
+  agriculturalPurposes                     Boolean?
+  singleHouse                              Boolean?
+  trunkRoad                                String?
+  trunkRoad_trunkRoadDetails               String?
+  crownLand                                Boolean?
+  stopNotice                               Boolean?
+  stopNoticeUpload                         Boolean?
+  developmentRights                        Boolean?
+  developmentRightsUpload                  Boolean?
+  developmentRightsRemoved                 String?  @db.NVarChar(MAX)
+  planningOfficerReport                    Boolean?
+  localDevelopmentOrder                    Boolean?
+  localDevelopmentOrderUpload              Boolean?
+  previousPlanningPermission               Boolean?
+  previousPlanningPermissionUpload         Boolean?
+  noticeDateApplication                    Boolean?
+  noticeDateApplicationUpload              Boolean?
+  noticePlanUpload                         Boolean?
+  planningContraventionNotice              Boolean?
+  planningContraventionNoticeUpload        Boolean?
+  appellantSubmittedEnvironmentalStatement String?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]

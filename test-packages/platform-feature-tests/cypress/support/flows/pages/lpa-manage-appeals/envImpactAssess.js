@@ -22,7 +22,7 @@ export class EnvImpactAssess {
         sensitiveAreaSensitiveAreaDetails: "#sensitiveArea_sensitiveAreaDetails"
     }
 
-    selectScheduleType(context, lpaManageAppealsData) {
+    selectScheduleType(context, lpaManageAppealsData) {       
         if (context?.environmentalImpact?.isSchedule === 'one') {
             this.selectScheduleOne(context);
         } else if (context?.environmentalImpact?.isSchedule === 'two') {

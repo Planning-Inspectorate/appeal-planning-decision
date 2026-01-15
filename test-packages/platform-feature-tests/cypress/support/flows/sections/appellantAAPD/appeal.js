@@ -3,7 +3,7 @@
 const initialiseApplicationTypeAppeal = require('./initialiseApplicationTypeAppeal');
 
 function submitAppealFlow(appealOptions) {
-	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, planning, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases, fullAppealStatementTestCases } =
+	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, planning, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases } =
 		appealOptions;
 
 	if (['granted', 'refused', 'no decision'].includes(statusOfOriginalApplication) === false) {
@@ -22,11 +22,9 @@ function submitAppealFlow(appealOptions) {
 		throw new Error(
 			`The status of planning obligation "${statusOfPlanningObligation}" is not supported!`
 		);
-	}
-
-	initialiseApplicationTypeAppeal(statusOfOriginalApplication, planning, context, prepareAppealData, lpaManageAppealsData, fullAppealQuestionnaireTestCases, fullAppealStatementTestCases);
+	}	
+	initialiseApplicationTypeAppeal(statusOfOriginalApplication, planning, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 }
-
 module.exports = {
 	submitAppealFlow
 };
