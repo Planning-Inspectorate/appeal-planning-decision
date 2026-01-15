@@ -1012,7 +1012,7 @@ const documentTypes = {
 	},
 	enforcementStopNoticeUpload: {
 		name: 'enforcementStopNoticeUpload',
-		dataModelName: 'stopNotice',
+		dataModelName: APPEAL_DOCUMENT_TYPE.STOP_NOTICE,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -1023,7 +1023,7 @@ const documentTypes = {
 	},
 	enforcementDevelopmentRightsUpload: {
 		name: 'enforcementDevelopmentRightsUpload',
-		dataModelName: 'article4Direction',
+		dataModelName: APPEAL_DOCUMENT_TYPE.ARTICLE_4_DIRECTION,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -1034,7 +1034,7 @@ const documentTypes = {
 	},
 	listOfPeopleSentEnforcementNotice: {
 		name: 'listOfPeopleSentEnforcementNotice',
-		dataModelName: 'enforcementList',
+		dataModelName: APPEAL_DOCUMENT_TYPE.ENFORCEMENT_LIST,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -1045,7 +1045,7 @@ const documentTypes = {
 	},
 	localDevelopmentOrderUpload: {
 		name: 'localDevelopmentOrderUpload',
-		dataModelName: 'localDevelopmentOrder',
+		dataModelName: APPEAL_DOCUMENT_TYPE.LOCAL_DEVELOPMENT_ORDER,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -1056,7 +1056,7 @@ const documentTypes = {
 	},
 	previousPlanningPermissionUpload: {
 		name: 'previousPlanningPermissionUpload',
-		dataModelName: 'planningPermission',
+		dataModelName: APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -1067,7 +1067,7 @@ const documentTypes = {
 	},
 	enforcementNoticeDateApplicationUpload: {
 		name: 'enforcementNoticeDateApplicationUpload',
-		dataModelName: 'lpaEnforcementNoticeDateApplication',
+		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -1078,7 +1078,7 @@ const documentTypes = {
 	},
 	enforcementNoticePlanUpload: {
 		name: 'enforcementNoticePlanUpload',
-		dataModelName: 'lpaEnforcementNoticePlanUpload',
+		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -1089,7 +1089,7 @@ const documentTypes = {
 	},
 	planningContraventionNoticeUpload: {
 		name: 'planningContraventionNoticeUpload',
-		dataModelName: 'planningContraventionNotice',
+		dataModelName: APPEAL_DOCUMENT_TYPE.PLANNING_CONTRAVENTION_NOTICE,
 		multiple: true,
 		displayName: '',
 		involvement: '',

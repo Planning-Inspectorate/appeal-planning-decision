@@ -41,6 +41,8 @@ const targetTimezone = 'Europe/London';
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQS78SubmissionProperties} LPAQS78SubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQCasAdvertSubmissionProperties} LPAQCasAdvertSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQEnforcementSubmissionProperties} LPAQEnforcementSubmissionProperties
+
  * @typedef {function(FullAppellantSubmission, LPA): Promise<AppellantSubmissionCommand>} AppellantSubmissionMapper
  *
  * @typedef {import ('../../../models/entities/lpa-entity')} LPA
@@ -1037,43 +1039,23 @@ exports.getS20LPAQSubmissionFields = (answers) => {
 
 /**
  * @param {LPAQAnswers} answers
- * @returns {LPAQS78SubmissionProperties}
+ * @returns {LPAQEnforcementSubmissionProperties}
  */
 exports.getEnforcementLPAQSubmissionFields = (answers) => {
 	return {
-		// Constraints, designations and other issues
-		hasChangesListedBuilding: answers.changesListedBuilding,
-		isAffectsListedBuilding: answers.affectsListedBuilding,
-		otherOperations: answers.otherOperations,
-		sireAreaSquareMetres: answers.siteAreaSquareMetres,
-		allegedBreachArea: answers.allegedBreachArea,
-		createFloorSpace: answers.createFloorSpace,
-		refuseWasteMaterials: answers.refuseWasteMaterials,
-		mineralExtractionMaterials: answers.mineralExtractionMaterials,
-		storeMinerals: answers.storeMinerals,
-		createBuilding: answers.createBuilding,
-		agriculturalPurposes: answers.agriculturalPurposes,
-		singleHouse: answers.singleHouse,
-		trunkRoadDetails: answers.trunkRoad_enforcementTrunkRoadDetails || null,
-		crownLand: answers.crownLand,
-		stopNotice: answers.stopNotice,
-		developmentRightsRemoved: answers.developmentRightsRemoved || null,
-
-		// Planning officer’s report and supporting documents
-		hasDevelopmentPlanPolicies: answers.developmentPlanPolicies,
-		hasOtherRelevantPolicies: answers.otherRelevantPolicies,
-		localDevelopmentOrder: answers.localDevelopmentOrder,
-		previousPlanningPermission: answers.previousPlanningPermission,
-		noticeDateApplication: answers.noticeDateApplication,
-		planningContraventionNotice: answers.planningContraventionNotice,
-
-		// Site access
-		accessForInspection: answers.accessForInspection,
-		neighbouringSite: answers.neighbouringSite,
-
-		// Appeal process
-		hasNearbyAppeals: answers.nearbyAppeals,
-		newConditions: answers.newConditions
+		noticeRelatesToBuildingEngineeringMiningOther: answers.otherOperations,
+		siteAreaSquareMetres: answers.siteAreaSquareMetres,
+		hasAllegedBreachArea: answers.allegedBreachArea,
+		doesAllegedBreachCreateFloorSpace: answers.createFloorSpace,
+		changeOfUseRefuseOrWaste: answers.refuseWasteMaterials,
+		changeOfUseMineralExtraction: answers.mineralExtractionMaterials,
+		changeOfUseMineralStorage: answers.storeMinerals,
+		relatesToErectionOfBuildingOrBuildings: answers.createBuilding,
+		relatesToBuildingWithAgriculturalPurpose: answers.agriculturalPurposes,
+		relatesToBuildingSingleDwellingHouse: answers.singleHouse,
+		affectedTrunkRoadName: answers.trunkRoad_enforcementTrunkRoadDetails || null,
+		isSiteOnCrownLand: answers.crownLand,
+		article4AffectedDevelopmentRights: answers.developmentRightsRemoved || null
 	};
 };
 
