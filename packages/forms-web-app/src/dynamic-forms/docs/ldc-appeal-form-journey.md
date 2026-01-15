@@ -28,8 +28,34 @@ condition: () => shouldDisplayGridReference(response, config);
 - radio `/health-safety-issues/` Health and safety issues
 - single-line-input `/reference-number/` What is the application reference number?
 - date `/application-date/` What date did you submit your application?
+- text-entry `/existing-use/` What did you use the appeal site for when you made the application?
+- radio `/lawful-development-certificate-type/` What type of lawful development certificate is the appeal about?
+
+- Multiquestion condition started: ldc-about
+
+```js
+condition: () =>
+	questionsHaveAnswers(
+		response,
+		[
+			[
+				questions.lawfulDevelopmentCertificateType,
+				fieldValues.lawfulDevelopmentCertificateType.PROPOSED_USE_DEVELOPMENT
+			],
+			[
+				questions.lawfulDevelopmentCertificateType,
+				fieldValues.lawfulDevelopmentCertificateType.PROPOSED_CHANGES_LISTED_BUILDING
+			]
+		],
+		{ logicalCombinator: 'or' }
+	);
+```
+
 - text-entry `/enter-description-of-development/` Enter the description of development that you submitted in your application
 - boolean `/description-development-correct/` Did the local planning authority change the description of development?
+
+- Multiquestion condition ended: ldc-about
+
 - radio `/decide-appeal/` How would you prefer us to decide your appeal?
 - text-entry `/why-prefer-hearing/` Why would you prefer a hearing?
 

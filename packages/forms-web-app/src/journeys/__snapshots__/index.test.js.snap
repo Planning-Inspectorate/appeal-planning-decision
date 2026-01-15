@@ -14001,6 +14001,38 @@ exports[`Dynamic forms journey tests appellant Lawful development certificate La
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Lawful development certificate Lawful development certificate should render the existing-use question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="existingUse"> What did you use the appeal site for when you made the application?</label></h1>
+                <div class="govuk-form-group">
+                    <div id="existingUse-hint" class="govuk-hint">Tell us about the existing use of the appeal site.</div>
+                    <textarea class="govuk-textarea"
+                    id="existingUse" name="existingUse" rows="5" aria-describedby="existingUse-hint"></textarea>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/ldc/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Lawful development certificate Lawful development certificate should render the green-belt question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -14291,6 +14323,59 @@ exports[`Dynamic forms journey tests appellant Lawful development certificate La
         data-cy="button-save-and-continue">Continue</button>
         </form>
     </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/ldc/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Lawful development certificate Lawful development certificate should render the lawful-development-certificate-type question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> What type of lawful development certificate is the appeal about?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="lawfulDevelopmentCertificateType"
+                                name="lawfulDevelopmentCertificateType" type="radio" value="existing-development"
+                                data-cy="answer-existing-development">
+                                <label class="govuk-label govuk-radios__label" for="lawfulDevelopmentCertificateType">Existing development</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="lawfulDevelopmentCertificateType-2"
+                                name="lawfulDevelopmentCertificateType" type="radio" value="proposed-use-development"
+                                data-cy="answer-proposed-use-development">
+                                <label class="govuk-label govuk-radios__label" for="lawfulDevelopmentCertificateType-2">Proposed use of a development</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="lawfulDevelopmentCertificateType-3"
+                                name="lawfulDevelopmentCertificateType" type="radio" value="proposed-changes-listed-building"
+                                data-cy="answer-proposed-changes-listed-building">
+                                <label class="govuk-label govuk-radios__label" for="lawfulDevelopmentCertificateType-3">Proposed changes to a listed building</label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -15260,16 +15345,16 @@ exports[`Dynamic forms journey tests appellant Lawful development certificate re
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/ldc/prepare-appeal/application-date?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What date did you submit your application?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the description of development that you submitted in your application</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What did you use the appeal site for when you made the application?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/ldc/prepare-appeal/enter-description-of-development?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Enter the description of development that you submitted in your application</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/ldc/prepare-appeal/existing-use?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What did you use the appeal site for when you made the application?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did the local planning authority change the description of development?</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What type of lawful development certificate is the appeal about?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/ldc/prepare-appeal/description-development-correct?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Did the local planning authority change the description of development?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/ldc/prepare-appeal/lawful-development-certificate-type?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What type of lawful development certificate is the appeal about?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> How would you prefer us to decide your appeal?</dt>

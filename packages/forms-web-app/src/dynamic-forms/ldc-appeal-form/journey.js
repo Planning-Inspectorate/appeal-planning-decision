@@ -16,6 +16,7 @@ const {
 	shouldDisplayUploadDecisionLetter,
 	shouldDisplayGridReference
 } = require('../display-questions');
+const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -44,8 +45,27 @@ const makeSections = (response) => {
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterApplicationReference)
 			.addQuestion(questions.planningApplicationDate)
-			.addQuestion(questions.enterDevelopmentDescription) // todo: condition - ldc about, new question
-			.addQuestion(questions.updateDevelopmentDescription) // todo: condition - ldc about, new question
+			.addQuestion(questions.existingUse)
+			.addQuestion(questions.lawfulDevelopmentCertificateType)
+			.startMultiQuestionCondition('ldc-about', () =>
+				questionsHaveAnswers(
+					response,
+					[
+						[
+							questions.lawfulDevelopmentCertificateType,
+							fieldValues.lawfulDevelopmentCertificateType.PROPOSED_USE_DEVELOPMENT
+						],
+						[
+							questions.lawfulDevelopmentCertificateType,
+							fieldValues.lawfulDevelopmentCertificateType.PROPOSED_CHANGES_LISTED_BUILDING
+						]
+					],
+					{ logicalCombinator: 'or' }
+				)
+			)
+			.addQuestion(questions.enterDevelopmentDescription)
+			.addQuestion(questions.updateDevelopmentDescription)
+			.endMultiQuestionCondition('ldc-about')
 			.addQuestion(questions.appellantProcedurePreference)
 			.addQuestion(questions.appellantPreferHearing)
 			.withCondition(() =>
