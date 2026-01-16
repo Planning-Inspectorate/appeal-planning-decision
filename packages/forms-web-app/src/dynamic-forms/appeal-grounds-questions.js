@@ -20,6 +20,10 @@ const multiFileUploadOverrides = require('../journeys/question-overrides/multi-f
 const appealGroundsBooleanOverrides = require('../journeys/question-overrides/appeal-grounds/appeal-grounds-boolean');
 const appealGroundsTextEntryOverrides = require('../journeys/question-overrides/appeal-grounds/appeal-grounds-text-entry');
 const appealGroundsCheckboxOverrides = require('../journeys/question-overrides/appeal-grounds/appeal-grounds-checkbox');
+const {
+	responseHasAppealGround,
+	responseAppealGroundHasDocuments
+} = require('./display-questions');
 
 const {
 	validation: {
@@ -52,44 +56,6 @@ const supportingDocTypesLookup = {
 	i: documentTypes.groundISupportingDocuments,
 	j: documentTypes.groundJSupportingDocuments,
 	k: documentTypes.groundKSupportingDocuments
-};
-
-/**
- * @param {JourneyResponse} response
- * @param {'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'} appealGround
- * @returns {boolean}
- */
-const responseHasAppealGround = (response, appealGround) => {
-	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
-
-	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
-		? baseSubmittedAppealGrounds
-		: [baseSubmittedAppealGrounds];
-
-	if (!submittedAppealGrounds.length) return false;
-
-	return submittedAppealGrounds.some((ground) => ground.groundName === appealGround);
-};
-
-/**
- * @param {JourneyResponse} response
- * @param {'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'} appealGround
- * @returns {boolean}
- */
-const responseAppealGroundHasDocuments = (response, appealGround) => {
-	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
-
-	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
-		? baseSubmittedAppealGrounds
-		: [baseSubmittedAppealGrounds];
-
-	if (!submittedAppealGrounds.length) return false;
-
-	const relevantGround = submittedAppealGrounds.find(
-		(ground) => ground.groundName === appealGround
-	);
-
-	return relevantGround?.addSupportingDocuments === true;
 };
 
 /**

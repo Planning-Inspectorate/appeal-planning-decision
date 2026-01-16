@@ -17,7 +17,8 @@ const {
 	shouldDisplayPreviousApplicationQuestions,
 	shouldDisplayPriorCorrespondenceUpload,
 	shouldDisplayEnforcementContactDetails,
-	shouldDisplayEnforcementCompleteOnBehalfOf
+	shouldDisplayEnforcementCompleteOnBehalfOf,
+	responseHasAppealGround
 } = require('../display-questions');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
@@ -241,6 +242,9 @@ const makeSections = (response) => {
 			.withCondition(() => shouldDisplayPriorCorrespondenceUpload(response))
 			.addQuestion(questions.uploadEnforcementNotice)
 			.addQuestion(questions.uploadEnforcementNoticePlan)
+			.startMultiQuestionCondition('ground a supplementary documents', () =>
+				responseHasAppealGround(response, 'a')
+			)
 			.addQuestion(questions.uploadOriginalApplicationForm)
 			.withCondition(() =>
 				questionHasAnswer(response, questions.submittedPlanningApplication, 'yes')
@@ -265,6 +269,7 @@ const makeSections = (response) => {
 					{ logicalCombinator: 'and' }
 				)
 			)
+			.endMultiQuestionCondition('ground a supplementary documents')
 			.addQuestion(questions.costApplication)
 			.addQuestion(questions.uploadCostApplication)
 			.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))

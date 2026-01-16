@@ -193,3 +193,41 @@ exports.shouldDisplayPreviousApplicationQuestions = (response) => {
  */
 exports.shouldDisplayPriorCorrespondenceUpload = (response) =>
 	!!response.answers.hasContactedPlanningInspectorate;
+
+/**
+ * @param {JourneyResponse} response
+ * @param {'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'} appealGround
+ * @returns {boolean}
+ */
+exports.responseHasAppealGround = (response, appealGround) => {
+	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
+
+	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
+		? baseSubmittedAppealGrounds
+		: [baseSubmittedAppealGrounds];
+
+	if (!submittedAppealGrounds.length) return false;
+
+	return submittedAppealGrounds.some((ground) => ground.groundName === appealGround);
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @param {'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'} appealGround
+ * @returns {boolean}
+ */
+exports.responseAppealGroundHasDocuments = (response, appealGround) => {
+	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
+
+	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
+		? baseSubmittedAppealGrounds
+		: [baseSubmittedAppealGrounds];
+
+	if (!submittedAppealGrounds.length) return false;
+
+	const relevantGround = submittedAppealGrounds.find(
+		(ground) => ground.groundName === appealGround
+	);
+
+	return relevantGround?.addSupportingDocuments === true;
+};
