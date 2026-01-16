@@ -8,51 +8,45 @@
 	#}
 {%- switch (status | string | lower) -%}
 		{# appeal statuses #}
-		{%- case 'assign_case_officer' -%}
-			{%- set statusTagColor = 'green' -%}
-			{%- set statusText = 'Assign case officer' -%}
-		{%- case 'validation' -%}
-			{%- set statusTagColor = 'green' -%}
-			{%- set statusText = 'Validation' -%}
-		{%- case 'ready_to_start' -%}
-			{%- set statusTagColor = 'green' -%}
-			{%- set statusText = 'Assign case officer' -%}
 		{%- case 'lpa_questionnaire' -%}
 			{%- set statusTagColor = 'green' -%}
-			{%- set statusText = 'LPA Questionnaire' -%}
+			{%- set statusText = 'Open for comments' -%}
 		{%- case 'statements' -%}
       {%- set statusTagColor = 'green' -%}
       {%- set statusText = 'Open for comments' -%}
     {%- case 'final_comments' -%}
-      {%- set statusTagColor = 'green' -%}
-      {%- set statusText = 'Final comments' -%}
+      {%- set statusTagColor = 'yellow' -%}
+      {%- set statusText = 'Awaiting site visit' -%}
     {%- case 'evidence' -%}
-      {%- set statusTagColor = 'green' -%}
-     	{%- set statusText = 'Evidence' -%}
+      {%- set statusTagColor = 'yellow' -%}
+     	{%- set statusText = 'Awaiting inquiry' -%}
     {%- case 'site_visit_ready_to_set_up' -%}
-      {%- set statusTagColor = 'green' -%}
-      {%- set statusText = 'Site visit ready to set up' -%}
+      {%- set statusTagColor = 'yellow' -%}
+      {%- set statusText = 'Awaiting site visit' -%}
     {%- case 'awaiting_site_visit' -%}
       {%- set statusTagColor = 'yellow' -%}
       {%- set statusText = 'Awaiting site visit' -%}
     {%- case 'hearing_ready_to_set_up' -%}
-      {%- set statusTagColor = 'green' -%}
-      {%- set statusText = 'Hearing ready to set up' -%}
+      {%- set statusTagColor = 'yellow' -%}
+      {%- set statusText = 'Awaiting hearing' -%}
     {%- case 'awaiting_hearing' -%}
       {%- set statusTagColor = 'yellow' -%}
       {%- set statusText = 'Awaiting hearing' -%}
     {%- case 'inquiry_ready_to_set_up' -%}
-      {%- set statusTagColor = 'green' -%}
-      {%- set statusText = 'Inquiry ready to set up' -%}
+      {%- set statusTagColor = 'yellow' -%}
+      {%- set statusText = 'Awaiting inquiry' -%}
     {%- case 'awaiting_inquiry' -%}
       {%- set statusTagColor = 'yellow' -%}
       {%- set statusText = 'Awaiting inquiry' -%}
     {%- case 'issue_determination' -%}
-      {%- set statusTagColor = 'green' -%}
-      {%- set statusText = 'Issue determination'-%}
+      {%- set statusTagColor = 'yellow' -%}
+      {%- set statusText = 'Awaiting decision'-%}
     {%- case 'complete' -%}
       {%- set statusTagColor = 'blue' -%}
-      {%- set statusText = 'Complete' -%}
+      {%- set statusText = 'Decision issued' -%}
+    {%- case 'valid' -%}
+      {%- set statusTagColor = 'grey' -%}
+      {%- set statusText = 'Valid' -%}
     {%- case 'invalid' -%}
       {%- set statusTagColor = 'grey' -%}
       {%- set statusText = 'Invalid' -%}
