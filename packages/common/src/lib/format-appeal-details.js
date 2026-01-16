@@ -193,6 +193,71 @@ exports.formatSubmissionDate = (submission, date) => {
 };
 
 /**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ * @param {string} ground
+ */
+exports.formatFactsForGround = (caseData, ground) => {
+	const relevantGroundDetails = caseData.EnforcementAppealGroundDetails?.find(
+		(groundDetails) => groundDetails.appealGroundLetter === ground
+	);
+
+	if (!relevantGroundDetails?.groundFacts) return '';
+
+	return escape(relevantGroundDetails.groundFacts);
+};
+
+/**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ * @param {string} ground
+ */
+exports.hasAppealGround = (caseData, ground) => {
+	return caseData.EnforcementAppealGroundDetails?.some(
+		(groundDetails) => groundDetails.appealGroundLetter === ground
+	);
+};
+
+/**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed['EnforcementAppealGroundDetails']} grounds
+ */
+exports.formatGroundsOfAppeal = (grounds) => {
+	return grounds.map((groundDetails) => groundDetails.appealGroundLetter).join('\n');
+};
+
+/**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ */
+exports.formatAllOrPart = (caseData) => {
+	const { applicationPartOrWholeDevelopment } = caseData;
+
+	switch (applicationPartOrWholeDevelopment) {
+		case 'part-of-the-development':
+			return 'Part of the development';
+		case 'all-of-the-development':
+			return 'All of the development';
+		default:
+			return '';
+	}
+};
+
+/**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ */
+exports.formatInterestInLand = (caseData) => {
+	const { ownerOccupancyStatus, occupancyConditionsMet } = caseData;
+
+	const interestInLand = ownerOccupancyStatus ?? '';
+
+	const interests = ['Owner', 'Tenant', 'MortgageLender'];
+
+	const hasPermission = interests.includes(interestInLand) ? null : !!occupancyConditionsMet;
+
+	return {
+		interestInLand,
+		hasPermission
+	};
+};
+
+/**
  * this can't be a hyperlink unless we check it exists in FO first, or as per back office we link to external site via ref
  * @param {import('appeals-service-api').Api.AppealCaseRelationship} linkedAppeal
  */

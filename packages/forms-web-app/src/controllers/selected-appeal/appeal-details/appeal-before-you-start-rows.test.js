@@ -69,3 +69,76 @@ describe('bys-rows', () => {
 		expect(rows[5].valueText).toEqual('1 Feb 2025');
 	});
 });
+
+describe('bys-rows - enforcement and enforcement listed', () => {
+	const enforcementCaseData = {
+		caseReference: 'test-ref',
+		LPACode: '111111',
+		appealTypeCode: CASE_TYPES.ENFORCEMENT.processCode,
+		enforcementNotice: true,
+		issueDateOfEnforcementNotice: '2025-02-01T08:00:00.000Z',
+		effectiveDateOfEnforcementNotice: '2025-02-01T08:00:00.000Z',
+		contactPlanningInspectorateDate: '2025-02-01T08:00:00.000Z',
+		enforcementReference: 'enf-ref'
+	};
+	/**
+	 * @type {import("@pins/common/src/view-model-maps/rows/def").Rows} Rows
+	 */
+	let rows;
+
+	// @ts-ignore
+	beforeEach(() => (rows = bysRows(enforcementCaseData, 'Test LPA')));
+
+	it('should display the lpa name row', () => {
+		expect(rows[0].keyText).toEqual(
+			'Which local planning authority (LPA) do you want to appeal against?'
+		);
+		expect(rows[0].valueText).toEqual('Test LPA');
+	});
+
+	it('should display the enforcement notice row', () => {
+		expect(rows[1].keyText).toEqual('Have you received an enforcement notice?');
+		expect(rows[1].valueText).toEqual('Yes');
+	});
+
+	it('should display the enforcement listed building row - enforcement notice', () => {
+		expect(rows[6].keyText).toEqual('Is your enforcement notice about a listed building?');
+		expect(rows[6].valueText).toEqual('No');
+	});
+
+	it('should display the enforcement listed building row - enforcement notice', () => {
+		const data = structuredClone(enforcementCaseData);
+		data.appealTypeCode = CASE_TYPES.ENFORCEMENT_LISTED.processCode;
+		// @ts-ignore
+		const rowData = bysRows(data, 'Test LPA');
+		expect(rowData[6].keyText).toEqual('Is your enforcement notice about a listed building?');
+		expect(rowData[6].valueText).toEqual('Yes');
+	});
+
+	it('should display issue date of enforcement notice row', () => {
+		expect(rows[7].keyText).toEqual('What is the issue date on your enforcement notice?');
+		expect(rows[7].valueText).toEqual('1 Feb 2025');
+	});
+
+	it('should display effective date of enforcement notice row', () => {
+		expect(rows[8].keyText).toEqual('What is the effective date on your enforcement notice?');
+		expect(rows[8].valueText).toEqual('1 Feb 2025');
+	});
+
+	it('should display contact PINS row if relevant', () => {
+		expect(rows[9].keyText).toEqual(
+			'Did you contact the Planning Inspectorate to tell them you will appeal the enforcement notice?'
+		);
+		expect(rows[9].valueText).toEqual('Yes');
+	});
+
+	it('should display contact PINS date row if relevant', () => {
+		expect(rows[10].keyText).toEqual('When did you contact the Planning Inspectorate?');
+		expect(rows[10].valueText).toEqual('1 Feb 2025');
+	});
+
+	it('should display enforcement reference row', () => {
+		expect(rows[11].keyText).toEqual('What is the reference number on the enforcement notice?');
+		expect(rows[11].valueText).toEqual('enf-ref');
+	});
+});
