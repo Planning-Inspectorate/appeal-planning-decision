@@ -315,6 +315,13 @@ condition: () => shouldDisplayPriorCorrespondenceUpload(response);
 
 - multi-file-upload `/upload-enforcement-notice/` Upload your enforcement notice
 - multi-file-upload `/upload-enforcement-plan/` Upload your enforcement notice plan
+
+- Multiquestion condition started: ground a supplementary documents
+
+```js
+condition: () => responseHasAppealGround(response, 'a');
+```
+
 - multi-file-upload `/upload-application-form/` Upload your application form
 
 ```js
@@ -355,6 +362,8 @@ condition: () =>
 		{ logicalCombinator: 'and' }
 	);
 ```
+
+- Multiquestion condition ended: ground a supplementary documents
 
 - boolean `/apply-appeal-costs/` Do you want to apply for an award of appeal costs?
 - multi-file-upload `/upload-appeal-costs-application/` Upload your application for an award of appeal costs

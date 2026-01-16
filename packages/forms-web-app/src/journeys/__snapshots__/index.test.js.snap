@@ -11914,17 +11914,6 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/upload-documents/upload-enforcement-plan?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your enforcement notice plan</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Decision letter</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/upload-documents/upload-decision-letter?id=appeal-ref">Upload<span class="govuk-visually-hidden"> the decision letter from the local planning authority</span></a>
-                            </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you plan to submit a planning obligation to support your appeal?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/upload-documents/submit-planning-obligation?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Do you plan to submit a planning obligation to support your appeal?</span></a>
-                                </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you want to apply for an award of appeal costs?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
