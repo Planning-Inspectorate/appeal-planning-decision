@@ -33,7 +33,15 @@ describe('appeal-documents-rows', () => {
 		);
 	});
 
-	const allAppealTypes = Object.values(CASE_TYPES).map((caseType) => caseType.processCode);
+	const allNonEnforcementAppealTypes = Object.values(CASE_TYPES)
+		.map((caseType) => caseType.processCode)
+		.filter(
+			(processCode) =>
+				!(
+					processCode === CASE_TYPES.ENFORCEMENT.processCode ||
+					processCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode
+				)
+		);
 
 	// displayed for all appeal types
 	describe.each([
@@ -41,7 +49,7 @@ describe('appeal-documents-rows', () => {
 		['Decision letter', 4],
 		['Appeal statement', 5]
 	])('%s', (rowName, rowNumber) => {
-		test.each(allAppealTypes)('should display field for %s', (processCode) => {
+		test.each(allNonEnforcementAppealTypes)('should display field for %s', (processCode) => {
 			const rows = documentsRows({ appealTypeCode: processCode });
 			expect(rows[rowNumber].keyText).toEqual(rowName);
 			expect(rows[rowNumber].valueText).toEqual('No');
@@ -61,8 +69,6 @@ describe('appeal-documents-rows', () => {
 				CASE_TYPES.CAS_PLANNING.processCode,
 				CASE_TYPES.ADVERTS.processCode,
 				CASE_TYPES.CAS_ADVERTS.processCode,
-				CASE_TYPES.ENFORCEMENT.processCode,
-				CASE_TYPES.ENFORCEMENT_LISTED.processCode,
 				CASE_TYPES.LDC.processCode
 			]
 		],
@@ -80,7 +86,7 @@ describe('appeal-documents-rows', () => {
 		['Planning obligation', 8, [CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode]],
 		['New supporting documents', 9, [CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode]]
 	])('%s', (rowName, rowNumber, expectedAppealTypes) => {
-		allAppealTypes
+		allNonEnforcementAppealTypes
 			.filter((x) => !expectedAppealTypes.includes(x))
 			.forEach((processCode) => {
 				it(`should not display field if ${processCode}`, () => {
@@ -171,5 +177,92 @@ describe('appeal-documents-rows', () => {
 			expect(rows[evidenceRow].condition(caseData)).toEqual(true);
 			expect(rows[evidenceRow].isEscaped).toEqual(true);
 		});
+	});
+});
+
+describe('appeal-documents-rows - enforcement and enforcement listed', () => {
+	it('should create rows for an enforcement appeal', () => {
+		const rows = documentsRows({
+			appealTypeCode: CASE_TYPES.ENFORCEMENT.processCode,
+			Documents: []
+		});
+		expect(rows.length).toEqual(10);
+	});
+
+	const enforcementNoticeRow = 1;
+	it('should show a document', () => {
+		const rows = documentsRows({
+			appealTypeCode: CASE_TYPES.ENFORCEMENT.processCode,
+			Documents: [
+				{
+					id: 1,
+					documentType: APPEAL_DOCUMENT_TYPE.ENFORCEMENT_NOTICE,
+					filename: 'test.txt',
+					redacted: true
+				}
+			]
+		});
+
+		expect(rows[enforcementNoticeRow].condition()).toEqual(true);
+		expect(rows[enforcementNoticeRow].isEscaped).toEqual(true);
+		expect(rows[enforcementNoticeRow].keyText).toEqual('Enforcement notice');
+		expect(rows[enforcementNoticeRow].valueText).toEqual(
+			'<a href="/published-document/1" class="govuk-link">test.txt</a>'
+		);
+	});
+
+	const enforcementAppealTypes = [
+		CASE_TYPES.ENFORCEMENT.processCode,
+		CASE_TYPES.ENFORCEMENT_LISTED.processCode
+	];
+
+	// displayed for both enforcement appeal types
+	describe.each([
+		['Communication with Planning Inspectorate', 0],
+		['Enforcement notice', 1],
+		['Enforcement notice plan', 2],
+		['Application form', 3],
+		['Evidence of agreement to change description of development', 4],
+		['Decision letter', 5],
+		['Planning obligation', 7],
+		['Costs application', 8],
+		['New supporting documents', 9]
+	])('%s', (rowName, rowNumber) => {
+		test.each(enforcementAppealTypes)('should display field for %s', (processCode) => {
+			const caseData = {
+				appealTypeCode: processCode,
+				applicationMadeAndFeePaid: true,
+				contactPlanningInspectorateDate: '2025-02-01T08:00:00.000Z',
+				changedDevelopmentDescription: true,
+				appellantCostsAppliedFor: true
+			};
+			const rows = documentsRows(caseData);
+			expect(rows[rowNumber].keyText).toEqual(rowName);
+			expect(rows[rowNumber].valueText).toEqual('No');
+			expect(rows[rowNumber].condition(caseData)).toEqual(true);
+			expect(rows[rowNumber].isEscaped).toEqual(true);
+		});
+	});
+
+	// depends on whether it is written or not
+	describe('Planning obligation status', () => {
+		const enforcementAppealTypes = [
+			CASE_TYPES.ENFORCEMENT.processCode,
+			CASE_TYPES.ENFORCEMENT_LISTED.processCode
+		];
+
+		test.each(enforcementAppealTypes)(
+			'should display planning obligation status',
+			(processCode) => {
+				const caseData = {
+					appealTypeCode: processCode,
+					statusPlanningObligation: 'test status'
+				};
+				const rows = documentsRows(caseData);
+				expect(rows[6].keyText).toEqual('Planning obligation status');
+				expect(rows[6].valueText).toEqual(caseData.statusPlanningObligation);
+				expect(rows[6].condition(caseData)).toEqual(true);
+			}
+		);
 	});
 });
