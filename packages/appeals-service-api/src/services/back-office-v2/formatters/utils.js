@@ -59,13 +59,13 @@ exports.toBool = (str) => str === 'yes';
 
 /**
  * @param {boolean | null} bool
- * @returns {strin}
+ * @returns {string | null}
  */
 exports.boolToYesNo = (bool) => {
-	if (bool === false) return 'No';
-	if (bool === true) return 'Yes';
+	if (bool === false) return 'no';
+	if (bool === true) return 'yes';
 
-	return '';
+	return null;
 };
 
 /**
@@ -659,7 +659,10 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 					appellantSubmission.interestInAppealLand === 'other'
 						? appellantSubmission.interestInAppealLand_interestInAppealLandDetails
 						: appellantSubmission.interestInAppealLand,
-				writtenOrVerbalPermission: exports.boolToYesNo(appellantSubmission.hasPermissionToUseLand)
+				writtenOrVerbalPermission:
+					appellantSubmission.interestInAppealLand === 'other'
+						? exports.boolToYesNo(appellantSubmission.hasPermissionToUseLand)
+						: null
 			};
 		}
 
@@ -673,7 +676,10 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 				selectedNamedIndividual.interestInAppealLand === 'other'
 					? selectedNamedIndividual.interestInAppealLand_interestInAppealLandDetails
 					: selectedNamedIndividual.interestInAppealLand,
-			writtenOrVerbalPermission: exports.boolToYesNo(appellantSubmission.hasPermissionToUseLand)
+			writtenOrVerbalPermission:
+				selectedNamedIndividual.interestInAppealLand === 'other'
+					? exports.boolToYesNo(appellantSubmission.hasPermissionToUseLand)
+					: null
 		};
 	};
 
@@ -709,7 +715,10 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 				individual.interestInAppealLand === 'other'
 					? individual.interestInAppealLand_interestInAppealLandDetails
 					: individual.interestInAppealLand,
-			writtenOrVerbalPermission: exports.boolToYesNo(individual.hasPermissionToUseLand)
+			writtenOrVerbalPermission:
+				individual.interestInAppealLand === 'other'
+					? exports.boolToYesNo(individual.hasPermissionToUseLand)
+					: null
 		}));
 	};
 
