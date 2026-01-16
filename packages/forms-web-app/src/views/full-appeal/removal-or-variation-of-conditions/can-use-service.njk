@@ -80,6 +80,24 @@
             },
             {
               key: {
+                text: "Application number"
+              },
+              value: {
+                text: summaryField(planningApplicationNumber, { 'data-cy': "application-number" })
+              },
+              actions: {
+                items: [
+                  {
+                    href: "/before-you-start/application-number",
+                    text: "Change",
+                    visuallyHiddenText: "Application number",
+                    attributes: { "data-cy":"applicationNumber"}
+                  }
+                ]
+              }
+            }  if planningApplicationNumber,
+            {
+              key: {
                 text: "Type of application"
               },
               value: {
