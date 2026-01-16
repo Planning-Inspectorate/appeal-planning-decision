@@ -934,7 +934,6 @@ exports.getHASLPAQSubmissionFields = (answers) => {
  * @returns {LPAQCasAdvertSubmissionProperties}
  */
 exports.getCASAdvertsLPAQSubmissionFields = (answers) => {
-	const preference = getLPAProcedurePreference(answers);
 	const designatedSitesNames = exports.getDesignatedSiteNames(answers);
 
 	return {
@@ -945,7 +944,6 @@ exports.getCASAdvertsLPAQSubmissionFields = (answers) => {
 		hasStatutoryConsultees: exports.toBool(answers.statutoryConsultees),
 		consultedBodiesDetails: answers.statutoryConsultees_consultedBodiesDetails || null,
 		hasEmergingPlan: answers.emergingPlan,
-		...preference,
 		// adverts specific
 		isSiteInAreaOfSpecialControlAdverts: answers.isSiteInAreaOfSpecialControlAdverts,
 		wasApplicationRefusedDueToHighwayOrTraffic: answers.wasApplicationRefusedDueToHighwayOrTraffic,
@@ -995,34 +993,14 @@ exports.getCASPlanningLPAQSubmissionFields = (answers) => {
  * @returns {LPAQS78SubmissionProperties}
  */
 exports.getS78LPAQSubmissionFields = (answers) => {
-	const levy = getInfrastructureLevy(answers);
-	const preference = getLPAProcedurePreference(answers);
-	const designatedSitesNames = exports.getDesignatedSiteNames(answers);
-
 	return {
 		// Constraints, designations and other issues
 		changedListedBuildingNumbers: getListedBuildingByType(
 			answers.SubmissionListedBuilding,
 			fieldNames.changedListedBuildingNumber
 		),
-		affectsScheduledMonument: answers.affectsScheduledMonument,
-		hasProtectedSpecies: answers.protectedSpecies,
-		isAonbNationalLandscape: answers.areaOutstandingBeauty,
-		designatedSitesNames,
 		hasTreePreservationOrder: answers.treePreservationOrder,
-		isGypsyOrTravellerSite: answers.gypsyTraveller,
 		isPublicRightOfWay: answers.publicRightOfWay,
-
-		// Environmental impact assessment, todo: handle dependent logic in journey so we don't send redundant data
-		eiaEnvironmentalImpactSchedule: getSchedule(answers),
-		eiaDevelopmentDescription: answers.developmentDescription || null,
-		eiaSensitiveAreaDetails: answers.sensitiveArea_sensitiveAreaDetails || null,
-		eiaColumnTwoThreshold: answers.columnTwoThreshold,
-		eiaScreeningOpinion: answers.screeningOpinion,
-		eiaRequiresEnvironmentalStatement: answers.environmentalStatement,
-		eiaCompletedEnvironmentalStatement: exports.toBool(
-			answers.applicantSubmittedEnvironmentalStatement
-		),
 
 		// Consultation responses and representations
 		hasStatutoryConsultees: exports.toBool(answers.statutoryConsultees),
@@ -1031,11 +1009,7 @@ exports.getS78LPAQSubmissionFields = (answers) => {
 
 		// Planning officer’s report and supporting documents
 		hasEmergingPlan: answers.emergingPlan,
-		hasSupplementaryPlanningDocs: answers.supplementaryPlanningDocs,
-		...levy,
-
-		// Appeal process
-		...preference
+		hasSupplementaryPlanningDocs: answers.supplementaryPlanningDocs
 	};
 };
 
@@ -1044,36 +1018,17 @@ exports.getS78LPAQSubmissionFields = (answers) => {
  * @returns {LPAQS78SubmissionProperties}
  */
 exports.getS20LPAQSubmissionFields = (answers) => {
-	const levy = getInfrastructureLevy(answers);
-	const preference = getLPAProcedurePreference(answers);
-	const designatedSitesNames = exports.getDesignatedSiteNames(answers);
-
 	return {
 		// Constraints, designations and other issues
 		changedListedBuildingNumbers: getListedBuildingByType(
 			answers.SubmissionListedBuilding,
 			fieldNames.changedListedBuildingNumber
 		),
-		affectsScheduledMonument: answers.affectsScheduledMonument,
-		hasProtectedSpecies: answers.protectedSpecies,
-		isAonbNationalLandscape: answers.areaOutstandingBeauty,
-		designatedSitesNames,
+
 		hasTreePreservationOrder: answers.treePreservationOrder,
 		preserveGrantLoan: answers.section3aGrant,
 		consultHistoricEngland: answers.consultHistoricEngland,
-		isGypsyOrTravellerSite: answers.gypsyTraveller,
 		isPublicRightOfWay: answers.publicRightOfWay,
-
-		// Environmental impact assessment, todo: handle dependent logic in journey so we don't send redundant data
-		eiaEnvironmentalImpactSchedule: getSchedule(answers),
-		eiaDevelopmentDescription: answers.developmentDescription || null,
-		eiaSensitiveAreaDetails: answers.sensitiveArea_sensitiveAreaDetails || null,
-		eiaColumnTwoThreshold: answers.columnTwoThreshold,
-		eiaScreeningOpinion: answers.screeningOpinion,
-		eiaRequiresEnvironmentalStatement: answers.environmentalStatement,
-		eiaCompletedEnvironmentalStatement: exports.toBool(
-			answers.applicantSubmittedEnvironmentalStatement
-		),
 
 		// Consultation responses and representations
 		hasStatutoryConsultees: exports.toBool(answers.statutoryConsultees),
@@ -1082,11 +1037,7 @@ exports.getS20LPAQSubmissionFields = (answers) => {
 
 		// Planning officer’s report and supporting documents
 		hasEmergingPlan: answers.emergingPlan,
-		hasSupplementaryPlanningDocs: answers.supplementaryPlanningDocs,
-		...levy,
-
-		// Appeal process
-		...preference
+		hasSupplementaryPlanningDocs: answers.supplementaryPlanningDocs
 	};
 };
 
@@ -1094,10 +1045,10 @@ exports.getS20LPAQSubmissionFields = (answers) => {
  * @param {LPAQAnswers} answers
  * @returns {LPAQEnforcementSubmissionProperties}
  */
-exports.getEnforcementLPAQSubmissionFields = (answers) => {
+exports.getEnforcementSpecificLPAQSubmissionFields = (answers) => {
 	return {
 		noticeRelatesToBuildingEngineeringMiningOther: answers.otherOperations,
-		siteAreaSquareMetres: answers.siteAreaSquareMetres,
+		siteAreaSquareMetres: Number(answers.siteAreaSquareMetres),
 		hasAllegedBreachArea: answers.allegedBreachArea,
 		doesAllegedBreachCreateFloorSpace: answers.createFloorSpace,
 		changeOfUseRefuseOrWaste: answers.refuseWasteMaterials,
@@ -1154,7 +1105,7 @@ const getSchedule = (answers) => {
  * @param {LPAQAnswers} answers
  * @returns {{hasInfrastructureLevy: boolean, isInfrastructureLevyFormallyAdopted: boolean|null, infrastructureLevyAdoptedDate: string|null, infrastructureLevyExpectedDate: string|null}}
  */
-const getInfrastructureLevy = (answers) => {
+exports.getInfrastructureLevy = (answers) => {
 	if (!answers.infrastructureLevy)
 		return {
 			hasInfrastructureLevy: false,
@@ -1183,7 +1134,7 @@ const getInfrastructureLevy = (answers) => {
  * @param {LPAQAnswers} answers
  * @returns {{lpaProcedurePreference: 'written'|'hearing'|'inquiry', lpaProcedurePreferenceDetails: string|null, lpaProcedurePreferenceDuration: Number|null}}
  */
-const getLPAProcedurePreference = (answers) => {
+exports.getLPAProcedurePreference = (answers) => {
 	switch (answers.lpaProcedurePreference) {
 		case APPEAL_CASE_PROCEDURE.WRITTEN:
 			return {
@@ -1228,4 +1179,49 @@ exports.getDesignatedSiteNames = (answers) => {
 
 	/* @ts-ignore filter(Boolean) removes null values */
 	return designatedSitesNames;
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {Object}
+ */
+exports.getEIAFields = (answers) => ({
+	eiaEnvironmentalImpactSchedule: getSchedule(answers),
+	eiaDevelopmentDescription: answers.developmentDescription || null,
+	eiaSensitiveAreaDetails: answers.sensitiveArea_sensitiveAreaDetails || null,
+	eiaColumnTwoThreshold: answers.columnTwoThreshold,
+	eiaScreeningOpinion: answers.screeningOpinion,
+	eiaRequiresEnvironmentalStatement: answers.environmentalStatement,
+	eiaCompletedEnvironmentalStatement: exports.toBool(
+		answers.applicantSubmittedEnvironmentalStatement
+	)
+});
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {Object}
+ */
+exports.getCommonSiteDesignationAndProtectionFields = (answers) => {
+	const designatedSitesNames = exports.getDesignatedSiteNames(answers);
+
+	return {
+		isGypsyOrTravellerSite: answers.gypsyTraveller,
+		affectsScheduledMonument: answers.affectsScheduledMonument,
+		hasProtectedSpecies: answers.protectedSpecies,
+		isAonbNationalLandscape: answers.areaOutstandingBeauty,
+		designatedSitesNames
+	};
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {Object}
+ */
+exports.getChangedListedBuildingNumbersFields = (answers) => {
+	return {
+		changedListedBuildingNumbers: getListedBuildingByType(
+			answers.SubmissionListedBuilding,
+			fieldNames.changedListedBuildingNumber
+		)
+	};
 };
