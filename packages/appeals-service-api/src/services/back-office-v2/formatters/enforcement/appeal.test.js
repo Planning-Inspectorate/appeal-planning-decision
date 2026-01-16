@@ -129,7 +129,7 @@ describe('enforcement notice formatter', () => {
 				enforcementEffectiveDate: expect.any(String),
 				contactPlanningInspectorateDate: expect.any(String),
 				interestInLand: appellantSubmission.interestInAppealLand,
-				writtenOrVerbalPermission: '',
+				writtenOrVerbalPermission: null,
 				descriptionOfAllegedBreach: appellantSubmission.allegedBreachDescription,
 				applicationMadeAndFeePaid: appellantSubmission.applicationMadeAndFeePaid,
 				applicationDevelopmentAllOrPart: appellantSubmission.applicationPartOrWholeDevelopment,
@@ -216,7 +216,7 @@ describe('enforcement notice formatter', () => {
 				enforcementEffectiveDate: expect.any(String),
 				contactPlanningInspectorateDate: expect.any(String),
 				interestInLand: appellantSubmission.interestInAppealLand,
-				writtenOrVerbalPermission: '',
+				writtenOrVerbalPermission: null,
 				descriptionOfAllegedBreach: appellantSubmission.allegedBreachDescription,
 				applicationMadeAndFeePaid: appellantSubmission.applicationMadeAndFeePaid,
 				applicationDevelopmentAllOrPart: appellantSubmission.applicationPartOrWholeDevelopment,
@@ -325,7 +325,7 @@ describe('enforcement notice formatter', () => {
 				enforcementEffectiveDate: expect.any(String),
 				contactPlanningInspectorateDate: expect.any(String),
 				interestInLand: groupSubmission.SubmissionIndividual[0].interestInAppealLand,
-				writtenOrVerbalPermission: '',
+				writtenOrVerbalPermission: null,
 				descriptionOfAllegedBreach: appellantSubmission.allegedBreachDescription,
 				applicationMadeAndFeePaid: appellantSubmission.applicationMadeAndFeePaid,
 				applicationDevelopmentAllOrPart: appellantSubmission.applicationPartOrWholeDevelopment,
@@ -363,7 +363,7 @@ describe('enforcement notice formatter', () => {
 						firstName: groupSubmission.SubmissionIndividual[1].firstName,
 						lastName: groupSubmission.SubmissionIndividual[1].lastName,
 						interestInLand: groupSubmission.SubmissionIndividual[1].interestInAppealLand,
-						writtenOrVerbalPermission: ''
+						writtenOrVerbalPermission: null
 					}
 				],
 				appealGrounds: [
