@@ -7,7 +7,11 @@ const {
 	getDocuments,
 	getCommonLPAQSubmissionFields,
 	getHASLPAQSubmissionFields,
-	getS20LPAQSubmissionFields
+	getS20LPAQSubmissionFields,
+	getEIAFields,
+	getInfrastructureLevy,
+	getCommonSiteDesignationAndProtectionFields,
+	getLPAProcedurePreference
 } = require('../utils');
 const { documentTypes } = require('@pins/common/src/document-types');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
@@ -27,8 +31,12 @@ exports.formatter = async (caseReference, { ...answers }) => {
 			...getCommonLPAQSubmissionFields(caseReference, answers),
 			// HAS
 			...getHASLPAQSubmissionFields(answers),
-			// S78
-			...getS20LPAQSubmissionFields(answers)
+			// S20
+			...getS20LPAQSubmissionFields(answers),
+			...getEIAFields(answers),
+			...getInfrastructureLevy(answers),
+			...getCommonSiteDesignationAndProtectionFields(answers),
+			...getLPAProcedurePreference(answers)
 		},
 		documents: await getDocuments(answers, documentTypes.planningOfficersReportUpload.dataModelName)
 	};
