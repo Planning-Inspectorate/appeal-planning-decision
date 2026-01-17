@@ -2,7 +2,10 @@ const {
 	formatHealthAndSafety,
 	formatAccessDetails,
 	formatDevelopmentType,
-	formatSubmissionRelatedAppeals
+	formatSubmissionRelatedAppeals,
+	formatFactsForGround,
+	hasAppealGround,
+	formatInterestInLand
 } = require('./format-appeal-details');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 const escape = require('escape-html');
@@ -131,6 +134,76 @@ describe('format-appeal-details', () => {
 
 		it('throws if unknown development type', () => {
 			expect(() => formatDevelopmentType('nope')).toThrow('unhandled developmentType mapping');
+		});
+	});
+
+	describe('formatFactsForGround', () => {
+		it('should return an empty string if there is no matching ground', () => {
+			const caseData = { EnforcementAppealGroundDetails: [] };
+			const result = formatFactsForGround(caseData, 'a');
+			expect(result).toBe('');
+		});
+
+		it('should return an empty string if there is a matching ground with no facts', () => {
+			const caseData = {
+				EnforcementAppealGroundDetails: [
+					{
+						appealGroundLetter: 'a',
+						groundFacts: null
+					}
+				]
+			};
+			const result = formatFactsForGround(caseData, 'a');
+			expect(result).toBe('');
+		});
+
+		it('should return the facts if there is a matching ground with facts', () => {
+			const caseData = {
+				EnforcementAppealGroundDetails: [
+					{
+						appealGroundLetter: 'a',
+						groundFacts: 'test facts'
+					}
+				]
+			};
+			const result = formatFactsForGround(caseData, 'a');
+			expect(result).toBe('test facts');
+		});
+	});
+
+	describe('hasAppealGround', () => {
+		it('should return false if there is no matching ground', () => {
+			const caseData = { EnforcementAppealGroundDetails: [] };
+			const result = hasAppealGround(caseData, 'a');
+			expect(result).toBe(false);
+		});
+
+		it('should return true if there is a matching ground', () => {
+			const caseData = {
+				EnforcementAppealGroundDetails: [
+					{
+						appealGroundLetter: 'a'
+					}
+				]
+			};
+			const result = hasAppealGround(caseData, 'a');
+			expect(result).toBe(true);
+		});
+	});
+
+	describe('formatInterestInLand', () => {
+		it('should return an object with interest in land details and permission as null if accepted interest', () => {
+			const caseData = { ownerOccupancyStatus: 'Owner' };
+			const result = formatInterestInLand(caseData);
+			expect(result.interestInLand).toBe('Owner');
+			expect(result.hasPermission).toBe(null);
+		});
+
+		it('should return an object with interest in land details and permission boolean if not accepted interest', () => {
+			const caseData = { ownerOccupancyStatus: 'Other', occupancyConditionsMet: true };
+			const result = formatInterestInLand(caseData);
+			expect(result.interestInLand).toBe('Other');
+			expect(result.hasPermission).toBe(true);
 		});
 	});
 });

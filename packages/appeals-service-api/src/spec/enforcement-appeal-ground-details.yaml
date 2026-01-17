@@ -1,0 +1,41 @@
+components:
+  schemas:
+    EnforcementAppealGroundDetails:
+      description: details about an appeal ground
+      type: object
+      required:
+        - id
+        - caseReference
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: unique identifier for the appeal ground details
+        appealGroundLetter:
+          type: string
+          nullable: true
+          enum: [
+              "a",
+              "b",
+              "c",
+              "d",
+              "e",
+              "f",
+              "g",
+              "h",
+              "i",
+              "j",
+              "k",
+              null
+            ]
+          description: letter of appeal ground
+        groundForAppealStartDate:
+          type: string
+          format: date-time
+          description: start dat for appeal ground
+        groundFacts:
+          type: string
+          description: facts supporting the pleading of the appeal ground
+        caseReference:
+          type: string
+          description: the case reference this advert detail is associated with

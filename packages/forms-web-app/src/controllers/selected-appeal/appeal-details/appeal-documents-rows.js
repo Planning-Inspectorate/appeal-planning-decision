@@ -16,6 +16,12 @@ const {
  * @returns {Rows}
  */
 exports.documentsRows = (caseData) => {
+	if (
+		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode
+	)
+		return enforcementDocumentsRows(caseData);
+
 	const documents = caseData.Documents || [];
 
 	const isS20orS78 =
@@ -106,6 +112,79 @@ exports.documentsRows = (caseData) => {
 			keyText: 'Costs application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION),
 			condition: (caseData) => caseData.appellantCostsAppliedFor,
+			isEscaped: true
+		}
+	];
+};
+
+/**
+ * @param {AppealCaseDetailed} caseData
+ * @returns {Rows}
+ */
+const enforcementDocumentsRows = (caseData) => {
+	const documents = caseData.Documents || [];
+
+	return [
+		{
+			keyText: 'Communication with Planning Inspectorate',
+			valueText: formatDocumentDetails(
+				documents,
+				APPEAL_DOCUMENT_TYPE.PRIOR_CORRESPONDENCE_WITH_PINS
+			),
+			condition: (caseData) => !!caseData.contactPlanningInspectorateDate,
+			isEscaped: true
+		},
+		{
+			keyText: 'Enforcement notice',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.ENFORCEMENT_NOTICE),
+			condition: () => true,
+			isEscaped: true
+		},
+		{
+			keyText: 'Enforcement notice plan',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.ENFORCEMENT_NOTICE_PLAN),
+			condition: () => true,
+			isEscaped: true
+		},
+		{
+			keyText: 'Application form',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM),
+			condition: (caseData) => !!caseData.applicationMadeAndFeePaid,
+			isEscaped: true
+		},
+		{
+			keyText: 'Evidence of agreement to change description of development',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION),
+			condition: (caseData) => !!caseData.changedDevelopmentDescription,
+			isEscaped: true
+		},
+		{
+			keyText: 'Decision letter',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPLICATION_DECISION_LETTER),
+			condition: (caseData) => !!caseData.applicationMadeAndFeePaid,
+			isEscaped: true
+		},
+		{
+			keyText: 'Planning obligation status',
+			valueText: caseData.statusPlanningObligation,
+			condition: (caseData) => !!caseData.statusPlanningObligation
+		},
+		{
+			keyText: 'Planning obligation',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
+			condition: () => !!caseData.applicationMadeAndFeePaid,
+			isEscaped: true
+		},
+		{
+			keyText: 'Costs application',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION),
+			condition: (caseData) => !!caseData.appellantCostsAppliedFor,
+			isEscaped: true
+		},
+		{
+			keyText: 'New supporting documents',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS),
+			condition: () => true,
 			isEscaped: true
 		}
 	];

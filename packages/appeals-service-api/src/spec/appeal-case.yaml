@@ -75,7 +75,7 @@ components:
           example: 'Q9999'
         appealTypeCode:
           type: string
-          enum: ['HAS', 'S78', 'S20', 'ADVERTS', 'CAS_ADVERTS', 'CAS_PLANNING', 'LDC']
+          enum: ['HAS', 'S78', 'S20', 'ADVERTS', 'CAS_ADVERTS', 'CAS_PLANNING', 'LDC', 'ENFORCEMENT', 'ENFORCEMENT_LISTED']
         caseStatus:
           type: string
           enum:
@@ -104,18 +104,22 @@ components:
 
         applicationReference:
           type: string
+          nullable: true
           description: The unique identifier of the LPA application
         applicationDecision:
           type: string
           enum: ['granted', 'refused', 'not_received']
+          nullable: true
           description: The outcome of the original LPA decision
         applicationDate:
           type: string
           format: date-time
+          nullable: true
           description: The date of the original LPA application
         applicationDecisionDate:
           type: string
           format: date-time
+          nullable: true
           description: The date of the original LPA decision
         caseSubmissionDueDate:
           type: string
@@ -529,6 +533,48 @@ components:
           type: boolean
           nullable: true
 
+				# Enforcement fields
+        ownerOccupancyStatus:
+          type: string
+          description: Appellant's interest in the appeal site
+        occupancyConditionsMet:
+          type: boolean
+          description: Whether the appellant has permission to use the land, if required
+        applicationMadeAndFeePaid:
+          type: boolean
+          description: Did the appellant make an application
+        previousPlanningPermissionGranted:
+          type: boolean
+          description: was previous planning permission granted
+        issueDateOfEnforcementNotice:
+          type: string
+          format: date-time
+        effectiveDateOfEnforcementNotice:
+          type: string
+          format: date-time
+        didAppellantAppealLpaDecision:
+          type: boolean
+          description: If the LPA issued a decision in relation to an application, did the appellant appeal it
+        dateLpaDecisionDue:
+          type: string
+          format: date-time
+        dateLpaDecisionReceived:
+          type: string
+          format: date-time
+        enforcementReference:
+          type: string
+          description: the reference number on the enforcement notice
+        descriptionOfAllegedBreach:
+          type: string
+          description: a description of the alleged breach set out in the enforcement notice
+        applicationPartOrWholeDevelopment:
+          type: string
+          description: whether any application covered all or part of the development
+        contactPlanningInspectorateDate:
+          type: string
+          format: date-time
+          description: if applicable, the date on which the appellant contacted the planning inspectorate before the enforcement effective date
+
         # relations
         ListedBuildings:
           type: array
@@ -559,6 +605,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AdvertDetail'
+
+        EnforcementAppealGroundDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnforcementAppealGroundDetails'
 
         LPAFinalCommentSubmission:
           $ref: '#/components/schemas/LPAFinalCommentSubmission'
