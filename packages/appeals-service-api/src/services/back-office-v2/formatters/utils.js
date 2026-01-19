@@ -678,7 +678,7 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 					: selectedNamedIndividual.interestInAppealLand,
 			writtenOrVerbalPermission:
 				selectedNamedIndividual.interestInAppealLand === 'other'
-					? exports.boolToYesNo(appellantSubmission.hasPermissionToUseLand)
+					? exports.boolToYesNo(selectedNamedIndividual.hasPermissionToUseLand)
 					: null
 		};
 	};
