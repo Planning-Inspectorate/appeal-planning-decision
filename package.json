@@ -117,7 +117,7 @@
 		"applicationinsights": "^3.12.1",
 		"archiver": "^7.0.1",
 		"axios": "^1.13.2",
-		"body-parser": "^2.2.1",
+		"body-parser": "^2.2.2",
 		"clamscan": "^2.4.0",
 		"compression": "^1.8.1",
 		"connect-mongodb-session": "^5.0.0",
