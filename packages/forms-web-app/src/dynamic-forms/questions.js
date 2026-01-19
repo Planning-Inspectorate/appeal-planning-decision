@@ -3083,7 +3083,7 @@ exports.getQuestionProps = (response) => ({
 		title: 'What is the name of the individual appealing against the enforcement notice?',
 		question: 'What is the name of the individual appealing against the enforcement notice?',
 		// html: 'resources/your-details/applicant-name.html',
-		fieldName: 'individualName',
+		fieldName: 'enforcementIndividualName',
 		url: 'individual-name',
 		formatType: 'contactDetails',
 		inputFields: [
@@ -3151,7 +3151,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'single-line-input',
 		title: 'What is the name of the organisation?',
 		question: 'What is the name of the organisation?',
-		fieldName: 'organisationName',
+		fieldName: 'enforcementOrganisationName',
 		url: 'organisation-name',
 		hint: 'Enter the name of the organisation on the enforcement notice.',
 		validators: [
