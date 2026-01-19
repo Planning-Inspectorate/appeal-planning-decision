@@ -1,0 +1,135 @@
+{
+	"application": {
+		"type": {
+			"value": "pp.full.householder",
+			"description": "planning_permission"
+		},
+		"reference": "24-00129-HAPP",
+		"fullReference": "CMD-24-00129-HAPP",
+		"targetDate": "2024-06-06",
+		"expiryDate": "2024-06-27",
+		"receivedAt": "2024-05-02T16:14:39.305+01:00",
+		"validAt": "2024-05-02T00:00:00.000+01:00",
+		"publishedAt": "2024-05-02T00:00:00.000+01:00",
+		"determinedAt": null,
+		"decision": null,
+		"status": "in_assessment",
+		"sessionId": "57ca117c-7823-4c05-8297-b495ebaca74b",
+		"consultation": {
+			"startDate": "2024-05-07",
+			"endDate": "2024-05-07",
+			"publicUrl": "https://camden.bops-applicants-staging.services/planning_applications/24-00129-HAPP",
+			"publishedComments": [
+				{
+					"comment": "Eton Conservation Area Advisory Committee Advice from Eton Conservation Area Advisory Committee: 06.07.2023 Re: 9 Steele’s Road: 2023/2198/P Replacement of existing lower ground floor rear extension; installation of timber French doors at rear; alterations to lower ground floor side fenestration; installation of dormer on rear roof slope; replacement of all windows with timber sash windows to match existing; and associated exterior works. It is the side elevation in this proposal that presents concerns. The new large - very large - side window exposing the stairs is an uncomfortably destabilising presence at the base of this elevation. There is an ill-fitting awkwardness about it, especially as it just manages to squeeze, by a sliver, beneath a newly raised ‘existing' window. It is one of two large presences in this elevation, the other being the proposed extension. Clad in Corten Steel, this extension introduces a markedly forceful presence, which is in some danger of overpowering the main house. It reads, in the drawing, as a defiantly different, almost separate, entity - rather than being in the nature of an addition. However, it is not possible for anyone to give a fully informed and fair judgement when all there is to go on is this drawing (and that of the rear elevation) at this scale. Does Camden agree with this? We would welcome a response to this concern as we have noticed a certain increase in the incidence of drawings submitted with applications that do not provide adequate accounts of a design. We think that a more detailed presentation of the extension, including perhaps CGI’s, is needed, and should be supplied. The new large side window can surely be made more accommodating to its elevation - at present it disregards the scale and patterning of the side wall’s fenestration - and be reduced in size. And the extension requires a further, fuller presentation. Yours sincerely, Eton CAAC",
+					"receivedAt": "2024-05-03T10:53:27.704+01:00",
+					"summaryTag": "objection"
+				},
+				{
+					"comment": "[redacted]\r\n\r\ndon't redact this comment\r\n\r\n",
+					"receivedAt": "2024-05-10T13:22:17.969+01:00",
+					"summaryTag": "objection"
+				},
+				{
+					"comment": "light\r\n\r\naccess\r\n\r\n",
+					"receivedAt": "2024-05-10T13:22:58.884+01:00",
+					"summaryTag": "neutral"
+				}
+			],
+			"consulteeComments": [
+				{
+					"comment": "Eton Conservation Area Advisory Committee Advice from Eton Conservation Area Advisory Committee: 06.07.2023 Re: 9 Steele’s Road: 2023/2198/P Replacement of existing lower ground floor rear extension; installation of timber French doors at rear; alterations to lower ground floor side fenestration; installation of dormer on rear roof slope; replacement of all windows with timber sash windows to match existing; and associated exterior works. It is the side elevation in this proposal that presents concerns. The new large - very large - side window exposing the stairs is an uncomfortably destabilising presence at the base of this elevation. There is an ill-fitting awkwardness about it, especially as it just manages to squeeze, by a sliver, beneath a newly raised ‘existing' window. It is one of two large presences in this elevation, the other being the proposed extension. Clad in Corten Steel, this extension introduces a markedly forceful presence, which is in some danger of overpowering the main house. It reads, in the drawing, as a defiantly different, almost separate, entity - rather than being in the nature of an addition. However, it is not possible for anyone to give a fully informed and fair judgement when all there is to go on is this drawing (and that of the rear elevation) at this scale. Does Camden agree with this? We would welcome a response to this concern as we have noticed a certain increase in the incidence of drawings submitted with applications that do not provide adequate accounts of a design. We think that a more detailed presentation of the extension, including perhaps CGI’s, is needed, and should be supplied. The new large side window can surely be made more accommodating to its elevation - at present it disregards the scale and patterning of the side wall’s fenestration - and be reduced in size. And the extension requires a further, fuller presentation. Yours sincerely, Eton CAAC",
+					"receivedAt": "2024-05-03T00:00:00.000+01:00"
+				}
+			]
+		},
+		"pressNotice": {
+			"required": false,
+			"reason": "",
+			"publishedAt": null
+		}
+	},
+	"property": {
+		"address": {
+			"latitude": "51.5453389",
+			"longitude": "-0.1594861",
+			"title": "9, STEELE'S ROAD",
+			"singleLine": "9, STEELE'S ROAD, LONDON, NW3 4SE",
+			"uprn": "000005049507",
+			"town": "LONDON",
+			"postcode": "NW3 4SE"
+		},
+		"boundary": {
+			"site": {
+				"type": "Feature",
+				"geometry": {
+					"type": "MultiPolygon",
+					"coordinates": [
+						[
+							[
+								[-0.159706, 51.545376],
+								[-0.159223, 51.545115],
+								[-0.15913, 51.54518],
+								[-0.159612, 51.545443],
+								[-0.159706, 51.545376]
+							]
+						]
+					]
+				},
+				"properties": {
+					"name": "",
+					"entity": 12000509759,
+					"prefix": "title-boundary",
+					"dataset": "title-boundary",
+					"end-date": "",
+					"typology": "geography",
+					"reference": "49074380",
+					"entry-date": "2023-12-12",
+					"start-date": "2010-12-08",
+					"planx_user_action": "Accepted the title boundary",
+					"organisation-entity": "13"
+				}
+			}
+		}
+	},
+	"proposal": {
+		"description": "Replacement of existing lower ground floor rear extension; installation of timber French doors at rear; alterations to lower ground floor side fenestration; installation of dormer on rear roof slope.",
+		"reportingType": null,
+		"ownerIsPlanningAuthority": false
+	},
+	"applicant": {
+		"type": "individual",
+		"address": {
+			"sameAsSiteAddress": true
+		},
+		"ownership": {
+			"owners": [],
+			"certificate": "a",
+			"noticeGiven": false
+		},
+		"agent": {
+			"address": {
+				"town": "London",
+				"line1": "5 Pancras Square",
+				"line2": "",
+				"county": "",
+				"country": "",
+				"postcode": "N1C 4AG"
+			}
+		}
+	},
+	"officer": {
+		"name": "Camden Officer"
+	},
+	"applicationFee": {
+		"id": 1054,
+		"planning_application_id": 2613,
+		"total_fee": null,
+		"payable_fee": null,
+		"requested_fee": "258.0",
+		"exemptions": [],
+		"reductions": [],
+		"created_at": "2024-05-02T16:14:39.340+01:00",
+		"updated_at": "2024-05-02T16:14:39.340+01:00"
+	}
+}
