@@ -7501,11 +7501,11 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="organisationName"> What is the name of the organisation?</label></h1>
-                    <div id="organisationName-hint" class="govuk-hint">Enter the name of the organisation on the enforcement notice.</div>
+                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="enforcementOrganisationName"> What is the name of the organisation?</label></h1>
+                    <div id="enforcementOrganisationName-hint" class="govuk-hint">Enter the name of the organisation on the enforcement notice.</div>
                     <input
-                    class="govuk-input govuk-input--width-10" id="organisationName" name="organisationName"
-                    type="text" value="" aria-describedby="organisationName-hint">
+                    class="govuk-input govuk-input--width-10" id="enforcementOrganisationName"
+                    name="enforcementOrganisationName" type="text" value="" aria-describedby="enforcementOrganisationName-hint">
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
@@ -10589,11 +10589,11 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="organisationName"> What is the name of the organisation?</label></h1>
-                    <div id="organisationName-hint" class="govuk-hint">Enter the name of the organisation on the enforcement notice.</div>
+                    <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="enforcementOrganisationName"> What is the name of the organisation?</label></h1>
+                    <div id="enforcementOrganisationName-hint" class="govuk-hint">Enter the name of the organisation on the enforcement notice.</div>
                     <input
-                    class="govuk-input govuk-input--width-10" id="organisationName" name="organisationName"
-                    type="text" value="" aria-describedby="organisationName-hint">
+                    class="govuk-input govuk-input--width-10" id="enforcementOrganisationName"
+                    name="enforcementOrganisationName" type="text" value="" aria-describedby="enforcementOrganisationName-hint">
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
