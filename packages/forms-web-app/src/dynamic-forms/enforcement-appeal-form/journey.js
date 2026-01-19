@@ -164,11 +164,11 @@ const makeSections = (response) => {
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterAllegedBreachDescription)
 			.addQuestion(chooseGroundsOfAppealQuestion)
-			.startMultiQuestionCondition(
-				'groundAPreviousApplication',
-				shouldDisplayPreviousApplicationQuestions
-			)
 			.addQuestion(questions.submittedPlanningApplication)
+			.withCondition(() => responseHasAppealGround(response, 'a'))
+			.startMultiQuestionCondition('groundAPreviousApplication', () =>
+				shouldDisplayPreviousApplicationQuestions(response, questions)
+			)
 			.addQuestion(questions.allOrPartOfDevelopment)
 			.addQuestion(questions.planningApplicationReference)
 			.addQuestion(questions.planningApplicationDate)

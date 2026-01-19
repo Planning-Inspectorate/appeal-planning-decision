@@ -74,21 +74,18 @@ condition: () => questionHasAnswer(response, questions.appealSiteIsContactAddres
 - radio `/health-safety-issues/` Health and safety issues
 - text-entry `/description-alleged-breach/` Enter the description of the alleged breach
 - checkbox `/choose-grounds/` Choose your grounds of appeal
+- boolean `/submit-planning-application/` Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?
+
+```js
+condition: () => responseHasAppealGround(response, 'a');
+```
 
 - Multiquestion condition started: groundAPreviousApplication
 
 ```js
-condition: (response) => {
-	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
-	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
-		? baseSubmittedAppealGrounds
-		: [baseSubmittedAppealGrounds];
-	if (!submittedAppealGrounds.length) return false;
-	return submittedAppealGrounds.some((ground) => ground.groundName === 'a');
-};
+condition: () => shouldDisplayPreviousApplicationQuestions(response, questions);
 ```
 
-- boolean `/submit-planning-application/` Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?
 - radio `/all-or-part/` Was the application for all or part of the development?
 - single-line-input `/planning-application-number/` What is the application reference number?
 - date `/application-date/` What date did you submit your application?

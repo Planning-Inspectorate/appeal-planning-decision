@@ -173,18 +173,14 @@ exports.shouldDisplayEnforcementCompleteOnBehalfOf = (response, questions) => {
 
 /**
  * @param {JourneyResponse} response
+ * @param {Record<string, Question>} questions
  * @returns {boolean}
  */
-exports.shouldDisplayPreviousApplicationQuestions = (response) => {
-	const baseSubmittedAppealGrounds = response.answers['SubmissionAppealGround'] || [];
-
-	const submittedAppealGrounds = Array.isArray(baseSubmittedAppealGrounds)
-		? baseSubmittedAppealGrounds
-		: [baseSubmittedAppealGrounds];
-
-	if (!submittedAppealGrounds.length) return false;
-
-	return submittedAppealGrounds.some((ground) => ground.groundName === 'a');
+exports.shouldDisplayPreviousApplicationQuestions = (response, questions) => {
+	return (
+		exports.responseHasAppealGround(response, 'a') &&
+		questionHasAnswer(response, questions.submittedPlanningApplication, 'yes')
+	);
 };
 
 /**
