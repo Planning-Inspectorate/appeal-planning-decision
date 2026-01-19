@@ -277,7 +277,7 @@ const enforcementDetailsRows = (caseData, userType) => {
 
 	const documents = caseData.Documents || [];
 
-	const grounds = caseData.EnforcementAppealGroundDetails || [];
+	const grounds = caseData.EnforcementAppealGroundsDetails || [];
 
 	const relatedAppeals = formatSubmissionRelatedAppeals(
 		caseData,

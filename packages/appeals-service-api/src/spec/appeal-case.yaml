@@ -606,10 +606,10 @@ components:
           items:
             $ref: '#/components/schemas/AdvertDetail'
 
-        EnforcementAppealGroundDetails:
+        EnforcementAppealGroundsDetails:
           type: array
           items:
-            $ref: '#/components/schemas/EnforcementAppealGroundDetails'
+            $ref: '#/components/schemas/EnforcementAppealGroundsDetails'
 
         LPAFinalCommentSubmission:
           $ref: '#/components/schemas/LPAFinalCommentSubmission'
