@@ -1,6 +1,6 @@
 components:
   schemas:
-    EnforcementAppealGroundDetails:
+    EnforcementAppealGroundsDetails:
       description: details about an appeal ground
       type: object
       required:
