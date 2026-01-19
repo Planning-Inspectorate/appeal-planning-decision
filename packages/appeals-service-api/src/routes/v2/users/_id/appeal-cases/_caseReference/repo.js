@@ -53,7 +53,8 @@ module.exports = class Repo {
 					NeighbouringAddresses: true,
 					ProcedureType: true,
 					Events: true,
-					AdvertDetails: true
+					AdvertDetails: true,
+					EnforcementAppealGroundsDetails: true
 				}
 			});
 		} catch (e) {
@@ -92,7 +93,8 @@ module.exports = class Repo {
 						NeighbouringAddresses: true,
 						ProcedureType: true,
 						Events: true,
-						AdvertDetails: true
+						AdvertDetails: true,
+						EnforcementAppealGroundsDetails: true
 					}
 				});
 			});
