@@ -22,8 +22,6 @@ const {
 		}
 	}
 } = require('../../lib/views');
-const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
-const { FLAG } = require('@pins/common/src/feature-flags');
 const {
 	TYPE_OF_PLANNING_APPLICATION: {
 		FULL_APPEAL,
@@ -33,7 +31,8 @@ const {
 		PRIOR_APPROVAL,
 		LISTED_BUILDING,
 		MINOR_COMMERCIAL_DEVELOPMENT,
-		ADVERTISEMENT
+		ADVERTISEMENT,
+		LAWFUL_DEVELOPMENT_CERTIFICATE
 	}
 } = require('@pins/business-rules/src/constants');
 const config = require('../../config');
@@ -87,20 +86,20 @@ const canUseServiceFullAppeal = async (req, res) => {
 		decisionDate,
 		enforcementNotice,
 		dateOfDecisionLabel,
-		nextPageUrl
+		nextPageUrl,
+		hideListedBuilding,
+		isListedBuilding,
+		hideGrantedRefused,
+		hideDecisionDate
 	} = await getAppealPropsForCanUseServicePage(appeal);
 
-	const deadlineDate = businessRulesDeadline(
-		appeal.decisionDate,
-		appeal.appealType,
-		appeal.eligibility.applicationDecision
-	);
-
-	const [isV2forCAS, isV2forCASAdverts, isV2forAdverts] = await Promise.all([
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2)
-	]);
+	const deadlineDate = hideDecisionDate
+		? null
+		: businessRulesDeadline(
+				appeal.decisionDate,
+				appeal.appealType,
+				appeal.eligibility.applicationDecision
+			);
 
 	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
@@ -113,11 +112,12 @@ const canUseServiceFullAppeal = async (req, res) => {
 		decisionDate,
 		enforcementNotice,
 		dateOfDecisionLabel,
-		isV2forCAS,
-		isV2forCASAdverts,
-		isV2forAdverts,
 		nextPageUrl,
 		changeLpaUrl,
+		hideListedBuilding,
+		isListedBuilding,
+		hideGrantedRefused,
+		hideDecisionDate,
 		bannerHtmlOverride:
 			config.betaBannerText +
 			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
@@ -290,6 +290,7 @@ exports.getCanUseService = async (req, res) => {
 		case LISTED_BUILDING:
 		case MINOR_COMMERCIAL_DEVELOPMENT:
 		case ADVERTISEMENT:
+		case LAWFUL_DEVELOPMENT_CERTIFICATE:
 			await canUseServiceFullAppeal(req, res);
 			break;
 		case PRIOR_APPROVAL:

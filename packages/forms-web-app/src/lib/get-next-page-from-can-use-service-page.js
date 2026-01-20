@@ -5,18 +5,17 @@ const {
 		MINOR_COMMERCIAL_DEVELOPMENT,
 		ADVERTISEMENT,
 		PRIOR_APPROVAL,
-		REMOVAL_OR_VARIATION_OF_CONDITIONS
+		REMOVAL_OR_VARIATION_OF_CONDITIONS,
+		LAWFUL_DEVELOPMENT_CERTIFICATE
 	},
 	APPLICATION_DECISION: { REFUSED },
 	APPEAL_ID,
 	APPLICATION_ABOUT
 } = require('@pins/business-rules/src/constants');
-const { FLAG } = require('@pins/common/src/feature-flags');
-const { isLpaInFeatureFlag } = require('./is-lpa-in-feature-flag');
 
 const getNextPageFromCanUseServicePage = async (appeal) => {
 	const applicationType = appeal.typeOfPlanningApplication;
-	const nextPage = await getNextPage(appeal.lpaCode);
+	const nextPage = await getNextPage();
 	const {
 		applicationDecision,
 		hasPriorApprovalForExistingHome,
@@ -57,25 +56,22 @@ const getNextPageFromCanUseServicePage = async (appeal) => {
 				return nextPage.casAdvert;
 			}
 			return nextPage.advert;
+		case LAWFUL_DEVELOPMENT_CERTIFICATE:
+			return nextPage.ldc;
 		default:
 			return nextPage.fullAppeal;
 	}
 };
 
-const getNextPage = async (/** @type {string} */ lpaCode) => {
-	const [isV2forCAS, isV2forCASAdverts, isV2forAdverts] = await Promise.all([
-		isLpaInFeatureFlag(lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2)
-	]);
-
+const getNextPage = async () => {
 	return {
 		fullAppeal: `/full-appeal/submit-appeal/email-address`,
 		householderPlanning: `/appeal-householder-decision/email-address`,
 		listedBuilding: `/listed-building/email-address`,
-		casAppeal: `/cas-planning/${isV2forCAS ? 'email-address' : 'planning-application-number'}`,
-		casAdvert: `/adverts/${isV2forCASAdverts ? 'email-address' : 'planning-application-number'}`,
-		advert: `/adverts/${isV2forAdverts ? 'email-address' : 'planning-application-number'}`
+		casAppeal: `/cas-planning/email-address`,
+		casAdvert: `/adverts/email-address`,
+		advert: `/adverts/email-address`,
+		ldc: `/ldc/email-address`
 	};
 };
 

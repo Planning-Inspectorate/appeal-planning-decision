@@ -7,12 +7,12 @@ const {
 		PRIOR_APPROVAL,
 		REMOVAL_OR_VARIATION_OF_CONDITIONS,
 		LISTED_BUILDING,
-		ADVERTISEMENT
+		ADVERTISEMENT,
+		LAWFUL_DEVELOPMENT_CERTIFICATE
 	},
 	APPLICATION_DECISION: { REFUSED, GRANTED, NODECISIONRECEIVED },
 	APPEAL_ID
 } = require('@pins/business-rules/src/constants');
-const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 const { getNextPageFromCanUseServicePage } = require('./get-next-page-from-can-use-service-page');
 
@@ -20,14 +20,11 @@ const householderNextPage = '/appeal-householder-decision/email-address';
 const fullAppealNextPage = '/full-appeal/submit-appeal/email-address';
 const listedBuildingNextPage = '/listed-building/email-address';
 const advertNextPage = '/adverts/email-address';
+const ldcNextPage = '/ldc/email-address';
 
 jest.mock('../../src/lib/is-lpa-in-feature-flag.js');
 
 describe('getNextPageFromCanUseServicePage', () => {
-	beforeEach(() => {
-		isLpaInFeatureFlag.mockReturnValue(true);
-	});
-
 	it('returns correct page (householder) for householder application- refused', async () => {
 		const appeal = {
 			typeOfPlanningApplication: HOUSEHOLDER_PLANNING,
@@ -151,6 +148,15 @@ describe('getNextPageFromCanUseServicePage', () => {
 			eligibility: {}
 		};
 		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(advertNextPage);
+	});
+
+	it('returns correct page (ldc) for ldc application', async () => {
+		const appeal = {
+			typeOfPlanningApplication: LAWFUL_DEVELOPMENT_CERTIFICATE,
+			appealType: APPEAL_ID.LDC,
+			eligibility: {}
+		};
+		expect(await getNextPageFromCanUseServicePage(appeal)).toEqual(ldcNextPage);
 	});
 
 	it.each([[FULL_APPEAL], [OUTLINE_PLANNING, RESERVED_MATTERS]])(

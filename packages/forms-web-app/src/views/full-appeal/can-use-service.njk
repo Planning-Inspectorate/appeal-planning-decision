@@ -2,6 +2,32 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../macros/summary-field.njk" import summaryField %}
 {% from "../macros/array-new-line.njk" import arrayToNewLine %}
+
+{% if not hideListedBuilding %}
+	{% set listedBuildingRow =
+		{
+			key: {
+			text: "Is your appeal about a listed building?"
+		},
+			value: {
+			text: summaryField(isListedBuilding, { 'data-cy': "listed-building" })
+		},
+			actions: {
+			items: [
+				{
+					href: "/before-you-start/listed-building",
+					text: "Change",
+					visuallyHiddenText: "Is your appeal about a listed building?",
+					attributes: { "data-cy":"listedBuilding"}
+				}
+			]
+		}
+		}
+	%}
+{% else %}
+	{% set listedBuildingRow = null %}
+{% endif %}
+
 {% if applicationAbout %}
 	{% set applicationAboutRow = {
 		key: {
@@ -21,10 +47,62 @@
 			]
 		}
 	} %}
-{% endif %}
-{% if not applicationAbout %}
+{% else %}
 	{% set applicationAboutRow = null %}
 {% endif %}
+
+{% if not hideGrantedRefused %}
+	{%  set grantedRefusedRow = {
+		key: {
+			text: "Was your application granted or refused?"
+		},
+		value: {
+			text: summaryField(applicationDecision, { 'data-cy': "application-decision" })
+		},
+		actions: {
+			items: [
+				{
+					href: "/before-you-start/granted-or-refused",
+					text: "Change",
+					visuallyHiddenText: "Was your application granted or refused?",
+					attributes: { "data-cy":"applicationDecision"}
+				}
+			]
+		}
+	} %}
+{% else %}
+	{% set grantedRefusedRow = null %}
+{% endif %}
+
+{% if not hideDecisionDate %}
+	{% set decisionDateRow = {
+		key: {
+			text: dateOfDecisionLabel
+		},
+		value: {
+			text: summaryField(decisionDate, { 'data-cy': "decision-date" })
+		},
+		actions: {
+			items: [
+				{
+					href: "/before-you-start/decision-date",
+					text: "Change",
+					visuallyHiddenText: dateOfDecisionLabel,
+					attributes: { "data-cy":"decisionDate"}
+				}
+			]
+		}
+	} %}
+{% else %}
+	{% set decisionDateRow = null %}
+{% endif %}
+
+{% block deadlineDateInfo %}
+	{% if not hideDecisionDate %}
+		{{ super() }}
+	{% endif %}
+{% endblock %}
+
 {% block canUseServiceSummaryList %}
 	{{ govukSummaryList({
 		classes: "govuk-summary-list govuk-!-margin-bottom-9",
@@ -83,43 +161,10 @@
 				]
 			}
 			},
+			listedBuildingRow,
 			applicationAboutRow,
-			{
-				key: {
-				text: "Was your application granted or refused?"
-			},
-				value: {
-				text: summaryField(applicationDecision, { 'data-cy': "application-decision" })
-			},
-				actions: {
-				items: [
-					{
-						href: "/before-you-start/granted-or-refused",
-						text: "Change",
-						visuallyHiddenText: "Was your application granted or refused?",
-						attributes: { "data-cy":"applicationDecision"}
-					}
-				]
-			}
-			},
-			{
-				key: {
-				text: dateOfDecisionLabel
-			},
-				value: {
-				text: summaryField(decisionDate, { 'data-cy': "decision-date" })
-			},
-				actions: {
-				items: [
-					{
-						href: "/before-you-start/decision-date",
-						text: "Change",
-						visuallyHiddenText: dateOfDecisionLabel,
-						attributes: { "data-cy":"decisionDate"}
-					}
-				]
-			}
-			}
+			grantedRefusedRow,
+			decisionDateRow
 		]
 	}) }}
 {% endblock %}
