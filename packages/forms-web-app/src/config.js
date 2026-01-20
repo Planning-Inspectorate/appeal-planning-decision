@@ -130,6 +130,10 @@ module.exports = {
 				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES,
 				oneGigabyte
 			),
+			maxFileUploadSizeIP: numberWithDefault(
+				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES_IP,
+				oneGigabyte
+			),
 			allowedFileTypes: {
 				MIME_TYPE_DOC: 'application/msword',
 				MIME_BINARY_TYPE_DOC: 'application/x-cfb',
