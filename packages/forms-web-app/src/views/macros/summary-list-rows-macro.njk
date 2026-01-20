@@ -1,0 +1,113 @@
+{% macro applicationTypeRow(applicationType) %}{
+	key: {
+	text: "Type of application"
+	},
+	value: {
+	text: summaryField(applicationType, { 'data-cy': "application-type" })
+	},
+	actions: {
+	items: [
+	{
+	href: "/before-you-start/type-of-planning-application",
+	text: "Change",
+	visuallyHiddenText: "Type of application",
+	attributes: { "data-cy":"applicationType"}
+	}
+	]
+	}
+	}{% endmacro %}
+
+{% macro localPlanningAuthorityRow(appealLPD, changeLpaUrl) %}{
+	key: {
+	text: "Local planning authority"
+	},
+	value: {
+	text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
+	},
+	actions: {
+	items: [
+	{
+	href: changeLpaUrl,
+	text: "Change",
+	visuallyHiddenText: "Local planning authority",
+	attributes: { "data-cy":"localPlanningDepartment"}
+	}
+	]
+	}
+	}{% endmacro %}
+
+{% macro enforcementNoticeRow(enforcementNotice) %}{
+	key: {
+	text: "Have you received an enforcement notice?"
+	},
+	value: {
+	text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+	},
+	actions: {
+	items: [
+	{
+	href: "/before-you-start/enforcement-notice",
+	text: "Change",
+	visuallyHiddenText: "Have you received an enforcement notice?",
+	attributes: { "data-cy":"enforcementNotice"}
+	}
+	]
+	}
+	}{% endmacro %}
+
+{% macro applicationAboutRow(applicationAbout) %}{
+	key: {
+	text: "Application about?"
+	},
+	value: {
+	text: arrayToNewLine(applicationAbout)
+	},
+	actions: {
+	items: [
+	{
+	href: "/before-you-start/planning-application-about",
+	text: "Change",
+	visuallyHiddenText: "Application about?",
+	attributes: { "data-cy":"applicationAbout"}
+	}
+	]
+	}
+	}{% endmacro %}
+
+{% macro applicationDecisionRow(applicationDecision) %}{
+	key: {
+	text: "Was your application granted or refused?"
+	},
+	value: {
+	text: summaryField(applicationDecision, { 'data-cy': "application-decision" })
+	},
+	actions: {
+	items: [
+	{
+	href: "/before-you-start/granted-or-refused",
+	text: "Change",
+	visuallyHiddenText: "Was your application granted or refused?",
+	attributes: { "data-cy":"applicationDecision"}
+	}
+	]
+	}
+	}{% endmacro %}
+
+{% macro decisionDateRow(dateOfDecisionLabel, decisionDate) %}{
+	key: {
+	text: dateOfDecisionLabel
+	},
+	value: {
+	text: summaryField(decisionDate, { 'data-cy': "decision-date" })
+	},
+	actions: {
+	items: [
+	{
+	href: "/before-you-start/decision-date",
+	text: "Change",
+	visuallyHiddenText: dateOfDecisionLabel,
+	attributes: { "data-cy":"decisionDate"}
+	}
+	]
+	}
+	}{% endmacro %}

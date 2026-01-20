@@ -1,0 +1,30 @@
+{% extends "../layouts/no-banner-link/main.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block pageTitle %}
+	You can appeal using this service - Before you start - Appeal a planning decision - GOV.UK
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="post">
+        <input type="hidden" name="_csrf" value="{{ _csrf }}">
+        <h1 class="govuk-heading-l">
+					You can appeal using this service
+        </h1>
+				<p>Based on your answers, you can appeal using this service.</p>
+        <p>Your deadline to appeal is 11.59pm on {{ deadlineDate.day }} {{ deadlineDate.date }} {{ deadlineDate.month }} {{ deadlineDate.year }}.</p>
+        <h2 class="govuk-heading-m">Check your answers</h2>
+        {% block canUseServiceSummaryList %}{% endblock %}
+        {{ govukButton({
+          text: "Continue to my appeal",
+          type: "submit",
+          href: nextPageUrl,
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}
