@@ -3041,9 +3041,9 @@ exports.getQuestionProps = (response) => ({
 			),
 			new StringValidator({
 				maxLength: {
-					maxLength: appealFormV2.textAreaMaxLength,
+					maxLength: appealFormV2.textInputMaxLength,
 					maxLengthMessage: `Your statement must be ${formatNumber(
-						appealFormV2.textAreaMaxLength
+						appealFormV2.textInputMaxLength
 					)} characters or less`
 				}
 			})
