@@ -522,7 +522,19 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 							: null,
 						siteSafetyDetails: data.siteSafetyDetails
 							? JSON.stringify(data.siteSafetyDetails)
-							: null
+							: null,
+						changeOfUseMineralExtraction: null,
+						changeOfUseMineralStorage: null,
+						changeOfUseRefuseOrWaste: null,
+						article4AffectedDevelopmentRights: null,
+						affectedTrunkRoadName: null,
+						noticeRelatesToBuildingEngineeringMiningOther: null,
+						isSiteOnCrownLand: null,
+						hasAllegedBreachArea: null,
+						doesAllegedBreachCreateFloorSpace: null,
+						relatesToBuildingSingleDwellingHouse: null,
+						relatesToBuildingWithAgriculturalPurpose: null,
+						relatesToErectionOfBuildingOrBuildings: null
 					});
 					expectEmail(email, testCaseRef);
 				});

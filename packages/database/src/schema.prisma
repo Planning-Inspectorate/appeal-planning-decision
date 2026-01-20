@@ -414,6 +414,20 @@ model AppealCase {
   applicationPartOrWholeDevelopment String?
   contactPlanningInspectorateDate   DateTime?
 
+  // LPAQ fields
+  noticeRelatesToBuildingEngineeringMiningOther Boolean?
+  hasAllegedBreachArea                          Boolean?
+  doesAllegedBreachCreateFloorSpace             Boolean?
+  changeOfUseRefuseOrWaste                      Boolean?
+  changeOfUseMineralExtraction                  Boolean?
+  changeOfUseMineralStorage                     Boolean?
+  relatesToErectionOfBuildingOrBuildings        Boolean?
+  relatesToBuildingWithAgriculturalPurpose      Boolean?
+  relatesToBuildingSingleDwellingHouse          Boolean?
+  affectedTrunkRoadName                         String?
+  isSiteOnCrownLand                             Boolean?
+  article4AffectedDevelopmentRights             String?
+
   //***************************************************************************
   // LDC fields
   //***************************************************************************
