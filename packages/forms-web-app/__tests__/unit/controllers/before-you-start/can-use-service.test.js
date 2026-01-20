@@ -225,11 +225,12 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
-				isV2forCAS: false,
-				isV2forCASAdverts: false,
-				isV2forAdverts: false,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
+				hideListedBuilding: true,
+				isListedBuilding: null,
+				hideGrantedRefused: false,
+				hideDecisionDate: false,
 				bannerHtmlOverride
 			});
 		});
@@ -248,11 +249,12 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
-				isV2forCAS: false,
-				isV2forCASAdverts: false,
-				isV2forAdverts: false,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
+				hideListedBuilding: true,
+				isListedBuilding: null,
+				hideGrantedRefused: false,
+				hideDecisionDate: false,
 				bannerHtmlOverride
 			});
 		});
@@ -274,11 +276,12 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date decision due',
 				enforcementNotice: 'No',
-				isV2forCAS: false,
-				isV2forCASAdverts: false,
-				isV2forAdverts: false,
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
+				hideListedBuilding: true,
+				isListedBuilding: null,
+				hideGrantedRefused: false,
+				hideDecisionDate: false,
 				bannerHtmlOverride
 			});
 		});
@@ -309,9 +312,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				isV2forCAS: false,
-				isV2forCASAdverts: false,
-				isV2forAdverts: false,
+				hideListedBuilding: true,
+				isListedBuilding: null,
+				hideGrantedRefused: false,
+				hideDecisionDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'))
@@ -344,9 +348,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				isV2forCAS: false,
-				isV2forCASAdverts: false,
-				isV2forAdverts: false,
+				hideListedBuilding: true,
+				isListedBuilding: null,
+				hideGrantedRefused: false,
+				hideDecisionDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'))
@@ -369,9 +374,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date decision due',
 				enforcementNotice: 'No',
-				isV2forCAS: false,
-				isV2forCASAdverts: false,
-				isV2forAdverts: false,
+				hideListedBuilding: true,
+				isListedBuilding: null,
+				hideGrantedRefused: false,
+				hideDecisionDate: false,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				bannerHtmlOverride
@@ -409,9 +415,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/listed-building/email-address',
-				isV2forCAS: false,
-				isV2forCASAdverts: false,
-				isV2forAdverts: false,
+				hideListedBuilding: true,
+				isListedBuilding: null,
+				hideGrantedRefused: false,
+				hideDecisionDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S20'))
@@ -449,9 +456,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				nextPageUrl: '/cas-planning/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				isV2forCAS: true,
-				isV2forCASAdverts: false,
-				isV2forAdverts: false,
+				hideListedBuilding: true,
+				isListedBuilding: null,
+				hideGrantedRefused: false,
+				hideDecisionDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('CAS_PLANNING'))
@@ -489,9 +497,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				nextPageUrl: '/adverts/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				isV2forCAS: false,
-				isV2forCASAdverts: false,
-				isV2forAdverts: true,
+				hideListedBuilding: true,
+				isListedBuilding: null,
+				hideGrantedRefused: false,
+				hideDecisionDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ADVERTS'))
@@ -528,10 +537,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				nextPageUrl: '/adverts/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
-				isV2forCAS: false,
-				isV2forCASAdverts: true,
-				isV2forAdverts: false,
-
+				hideListedBuilding: true,
+				isListedBuilding: null,
+				hideGrantedRefused: false,
+				hideDecisionDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('CAS_ADVERTS'))
@@ -583,6 +592,85 @@ describe('controllers/before-you-start/can-use-service', () => {
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ENFORCEMENT'))
+			});
+		});
+	});
+
+	describe('getCanUseService - ldc', () => {
+		it('renders page - ldc S191 or S192 have no deadline and no granted or refused question', async () => {
+			isLpaInFeatureFlag.mockImplementation((_, flag) => {
+				return flag === FLAG.LDC_APPEAL_FORM_V2;
+			});
+			const ldcAppeal = {
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.LAWFUL_DEVELOPMENT_CERTIFICATE,
+				appealType: APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE,
+				lpaCode: 'E60000068',
+				decisionDate: fullAppeal.decisionDate,
+				eligibility: {
+					isListedBuilding: false
+				}
+			};
+			req = mockReq(ldcAppeal);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				appealLPD: 'Bradford',
+				applicationAbout: null,
+				applicationDecision: '',
+				applicationType: 'Lawful development certificate',
+				deadlineDate: null,
+				decisionDate: null,
+				dateOfDecisionLabel: 'Date of decision',
+				enforcementNotice: 'No',
+				nextPageUrl: '/ldc/email-address',
+				changeLpaUrl: '/before-you-start/local-planning-authority',
+				hideListedBuilding: false,
+				isListedBuilding: 'No',
+				hideGrantedRefused: true,
+				hideDecisionDate: true,
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('LDC'))
+			});
+		});
+
+		it('renders page - ldc S26H has 6 month deadline and asks granted or refused', async () => {
+			isLpaInFeatureFlag.mockImplementation((_, flag) => {
+				return flag === FLAG.LDC_APPEAL_FORM_V2;
+			});
+			const ldcAppeal = {
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.LAWFUL_DEVELOPMENT_CERTIFICATE,
+				appealType: APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE,
+				lpaCode: 'E60000068',
+				decisionDate: fullAppeal.decisionDate,
+				eligibility: {
+					isListedBuilding: true,
+					applicationDecision: 'refused'
+				}
+			};
+			req = mockReq(ldcAppeal);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				appealLPD: 'Bradford',
+				applicationAbout: null,
+				applicationDecision: 'Refused',
+				applicationType: 'Lawful development certificate',
+				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
+				decisionDate: '04 May 2022',
+				dateOfDecisionLabel: 'Date of decision',
+				enforcementNotice: 'No',
+				nextPageUrl: '/ldc/email-address',
+				changeLpaUrl: '/before-you-start/local-planning-authority',
+				hideListedBuilding: false,
+				isListedBuilding: 'Yes',
+				hideGrantedRefused: false,
+				hideDecisionDate: false,
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('LDC'))
 			});
 		});
 	});
