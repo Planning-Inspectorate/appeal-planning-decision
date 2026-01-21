@@ -43,7 +43,12 @@ async function downloadDocument(req, res) {
 	}
 
 	try {
-		const sasUrl = await blobClient.getBlobSASUrl(config.storage.container, document.location);
+		const sasUrl = await blobClient.getBlobSASUrl(
+			config.storage.container,
+			document.location,
+			undefined,
+			document.fileName
+		);
 		res.status(200).send({
 			url: sasUrl
 		});
