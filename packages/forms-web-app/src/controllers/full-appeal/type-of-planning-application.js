@@ -4,6 +4,7 @@ const {
 			HOUSEHOLDER_PLANNING,
 			LISTED_BUILDING,
 			MINOR_COMMERCIAL_DEVELOPMENT,
+			LAWFUL_DEVELOPMENT_CERTIFICATE,
 			ADVERTISEMENT,
 			I_HAVE_NOT_MADE_A_PLANNING_APPLICATION,
 			PRIOR_APPROVAL,
@@ -29,10 +30,11 @@ const {
 const getTypeOfPlanningApplication = async (req, res) => {
 	const { appeal } = req.session;
 
-	const [isV2forCASPlanning, isV2forCASAdverts, isV2forAdverts] = await Promise.all([
+	const [isV2forCASPlanning, isV2forCASAdverts, isV2forAdverts, isV2forLDC] = await Promise.all([
 		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
 		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2)
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2),
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.LDC_APPEAL_FORM_V2)
 	]);
 
 	res.render(TYPE_OF_PLANNING_APPLICATION, {
@@ -41,6 +43,7 @@ const getTypeOfPlanningApplication = async (req, res) => {
 			isV2forCASPlanning,
 			isV2forCASAdverts,
 			isV2forAdverts,
+			isV2forLDC,
 			appeal.typeOfPlanningApplication
 		)
 	});
@@ -53,14 +56,19 @@ const postTypeOfPlanningApplication = async (req, res) => {
 
 	const typeOfPlanningApplication = body['type-of-planning-application'];
 
-	const [isV2forCASPlanning, isV2forCASAdverts, isV2forAdverts] = await Promise.all([
+	const [isV2forCASPlanning, isV2forCASAdverts, isV2forAdverts, isV2forLDC] = await Promise.all([
 		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
 		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2)
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2),
+		isLpaInFeatureFlag(appeal.lpaCode, FLAG.LDC_APPEAL_FORM_V2)
 	]);
 
+	// set isListedBuilding for the application types where we don't ask the listed building question
 	let isListedBuilding = null;
-	if (typeOfPlanningApplication !== REMOVAL_OR_VARIATION_OF_CONDITIONS) {
+	if (
+		typeOfPlanningApplication !== REMOVAL_OR_VARIATION_OF_CONDITIONS &&
+		typeOfPlanningApplication !== LAWFUL_DEVELOPMENT_CERTIFICATE
+	) {
 		isListedBuilding = typeOfPlanningApplication === LISTED_BUILDING;
 	}
 
@@ -71,6 +79,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 				isV2forCASPlanning,
 				isV2forCASAdverts,
 				isV2forAdverts,
+				isV2forLDC,
 				appeal.typeOfPlanningApplication
 			),
 			errors,
@@ -91,6 +100,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 				isV2forCASPlanning,
 				isV2forCASAdverts,
 				isV2forAdverts,
+				isV2forLDC,
 				appeal.typeOfPlanningApplication
 			),
 			errors,
@@ -106,6 +116,10 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		case MINOR_COMMERCIAL_DEVELOPMENT:
 			return isV2forCASPlanning
 				? res.redirect('/before-you-start/planning-application-about')
+				: res.redirect('/before-you-start/use-existing-service-application-type');
+		case LAWFUL_DEVELOPMENT_CERTIFICATE:
+			return isV2forLDC
+				? res.redirect('/before-you-start/listed-building')
 				: res.redirect('/before-you-start/use-existing-service-application-type');
 		case ADVERTISEMENT:
 			return isV2forCASAdverts || isV2forAdverts

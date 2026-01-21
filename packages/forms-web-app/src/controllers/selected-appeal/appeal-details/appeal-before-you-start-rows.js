@@ -92,6 +92,7 @@ const applicationTypeMappings = {
 	'householder-planning': 'Householder planning',
 	'listed-building': 'Listed building consent',
 	advertisement: 'Displaying an advertisement',
+	'lawful-development-certificate': 'Lawful development certificate',
 	'minor-commercial-development': 'Minor commercial development',
 	'minor-commercial-advertisement': 'Minor commercial advertisement',
 	'outline-planning': 'Outline planning',
