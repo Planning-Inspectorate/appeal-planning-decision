@@ -84,13 +84,21 @@ class BlobStorageClient {
 		if (this.isSharedKeyCredential) {
 			logger.info(`creating shared-key sas url`);
 
-			let url = await blob.generateSasUrl({
+			const urlFields = {
 				protocol: SASProtocol.HttpsAndHttp,
 				startsOn: startsOn,
 				expiresOn: expiresOn,
-				permissions: BlobSASPermissions.parse(blobPermissions),
-				contentDisposition: `attachment; filename="${filename}"`
-			});
+				permissions: BlobSASPermissions.parse(blobPermissions)
+			};
+
+			const sharedKeySasUrlOptions = !filename
+				? urlFields
+				: {
+						...urlFields,
+						contentDisposition: `attachment; filename="${filename}"`
+					};
+
+			let url = await blob.generateSasUrl(sharedKeySasUrlOptions);
 
 			// fix for localhost, replace docker dns with localhost entry
 			const path = url.split(':10000/devstoreaccount1/');
@@ -109,19 +117,25 @@ class BlobStorageClient {
 			expiresOn
 		);
 
-		const sasOptions = {
+		const delegationSasFields = {
 			blobName,
 			containerName,
 			permissions: BlobSASPermissions.parse(blobPermissions),
 			protocol: SASProtocol.Https,
 			startsOn: startsOn,
-			expiresOn: expiresOn,
-			contentDisposition: `attachment; filename="${filename}"`
+			expiresOn: expiresOn
 		};
+
+		const delegationSasOptions = !filename
+			? delegationSasFields
+			: {
+					...delegationSasFields,
+					contentDisposition: `attachment; filename="${filename}"`
+				};
 
 		// https://learn.microsoft.com/en-us/azure/storage/common/storage-sas-overview?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json#sas-token
 		const sasToken = generateBlobSASQueryParameters(
-			sasOptions,
+			delegationSasOptions,
 			userDelegationKey,
 			this.accountName
 		).toString();

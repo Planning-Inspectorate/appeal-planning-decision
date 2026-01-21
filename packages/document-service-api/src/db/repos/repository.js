@@ -52,6 +52,7 @@ class DocumentsRepository {
 				location: true,
 				originalFileName: true,
 				appellantSubmissionId: true,
+				fileName: true,
 				LPAQuestionnaireSubmission: {
 					select: {
 						appealCaseReference: true
