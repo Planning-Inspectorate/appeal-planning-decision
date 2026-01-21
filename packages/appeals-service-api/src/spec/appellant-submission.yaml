@@ -297,6 +297,9 @@ components:
           type: string
         applicationDecisionAppealed:
           type: boolean
+        applicationDecisionDueDate:
+          type: string
+          format: date-time
         appealDecisionDate:
           type: string
           format: date-time

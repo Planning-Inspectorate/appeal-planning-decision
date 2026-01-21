@@ -9417,34 +9417,34 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" role="group" aria-describedby="applicationDecisionDate-hint">
+                    <fieldset class="govuk-fieldset" role="group" aria-describedby="applicationDecisionDueDate-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> What date was your decision due?</h1>
                         </legend>
-                        <div id="applicationDecisionDate-hint" class="govuk-hint">For example, 5 6 2025</div>
-                        <div class="govuk-date-input" id="applicationDecisionDate">
+                        <div id="applicationDecisionDueDate-hint" class="govuk-hint">For example, 5 6 2025</div>
+                        <div class="govuk-date-input" id="applicationDecisionDueDate">
                             <div class="govuk-date-input__item">
                                 <div class="govuk-form-group">
-                                    <label class="govuk-label govuk-date-input__label" for="applicationDecisionDate_day">Day</label>
+                                    <label class="govuk-label govuk-date-input__label" for="applicationDecisionDueDate_day">Day</label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                    id="applicationDecisionDate_day" name="applicationDecisionDate_day" type="text"
-                                    value="31" inputmode="numeric">
+                                    id="applicationDecisionDueDate_day" name="applicationDecisionDueDate_day"
+                                    type="text" inputmode="numeric">
                                 </div>
                             </div>
                             <div class="govuk-date-input__item">
                                 <div class="govuk-form-group">
-                                    <label class="govuk-label govuk-date-input__label" for="applicationDecisionDate_month">Month</label>
+                                    <label class="govuk-label govuk-date-input__label" for="applicationDecisionDueDate_month">Month</label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                    id="applicationDecisionDate_month" name="applicationDecisionDate_month"
-                                    type="text" value="7" inputmode="numeric">
+                                    id="applicationDecisionDueDate_month" name="applicationDecisionDueDate_month"
+                                    type="text" inputmode="numeric">
                                 </div>
                             </div>
                             <div class="govuk-date-input__item">
                                 <div class="govuk-form-group">
-                                    <label class="govuk-label govuk-date-input__label" for="applicationDecisionDate_year">Year</label>
+                                    <label class="govuk-label govuk-date-input__label" for="applicationDecisionDueDate_year">Year</label>
                                     <input class="govuk-input govuk-date-input__input govuk-input--width-4"
-                                    id="applicationDecisionDate_year" name="applicationDecisionDate_year" type="text"
-                                    value="2025" inputmode="numeric">
+                                    id="applicationDecisionDueDate_year" name="applicationDecisionDueDate_year"
+                                    type="text" inputmode="numeric">
                                 </div>
                             </div>
                         </div>

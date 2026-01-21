@@ -731,13 +731,19 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 	};
 
 	const getOriginalApplicationDetails = () => {
+		const submittedApplicationDecisionDueDate =
+			appellantSubmission.applicationDecisionDueDate?.toISOString() ?? null;
+		const submittedApplicationDecisionDate =
+			appellantSubmission.applicationDecisionDate?.toISOString() ?? null;
+
 		return {
 			applicationReference: appellantSubmission.applicationReference ?? null,
 			applicationDate: appellantSubmission.onApplicationDate?.toISOString() ?? null,
 			applicationDecision: appellantSubmission.applicationDecision
 				? exports.formatApplicationDecision(appellantSubmission.applicationDecision)
 				: null,
-			applicationDecisionDate: appellantSubmission.applicationDecisionDate?.toISOString() ?? null,
+			applicationDecisionDate:
+				submittedApplicationDecisionDate ?? submittedApplicationDecisionDueDate,
 			applicationDecisionAppealed: appellantSubmission.applicationDecisionAppealed ?? null,
 			appealDecisionDate: appellantSubmission.appealDecisionDate?.toISOString() ?? null
 		};
