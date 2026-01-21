@@ -431,8 +431,11 @@ model AppealCase {
   //***************************************************************************
   // LDC fields
   //***************************************************************************
-  // lawfulDevelopmentCertificateType String?
-  // existingUse String?
+  applicationMadeUnderActSection String? /// appellant - lawful development certificate type
+  siteUseAtTimeOfApplication     String? /// Site use at time of application
+  appealUnderActSection          String? /// lpa - lawful development certificate type
+  lpaConsiderAppealInvalid       Boolean? /// Does LPA consider the appeal invalid
+  lpaAppealInvalidReasons        String?  @db.NVarChar(MAX) /// Reason(s) why LPA consider the appeal invalid
 
   //***************************************************************************
   // Relations
@@ -842,9 +845,9 @@ model AppellantSubmission {
   statusPlanningObligation                       String?
 
   // radio
-  majorMinorDevelopment            String?
-  typeDevelopment                  String?
-  lawfulDevelopmentCertificateType String?
+  majorMinorDevelopment          String?
+  typeDevelopment                String?
+  applicationMadeUnderActSection String?
 
   // plain text
   applicationReference           String?
@@ -853,7 +856,7 @@ model AppellantSubmission {
   contactPhoneNumber             String?
   appellantPreferHearingDetails  String?
   appellantPreferInquiryDetails  String?
-  existingUse                    String?
+  siteUseAtTimeOfApplication     String?
 
   // number entries
   siteAreaSquareMetres            Decimal?

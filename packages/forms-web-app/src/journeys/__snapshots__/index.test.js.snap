@@ -14002,11 +14002,12 @@ exports[`Dynamic forms journey tests appellant Lawful development certificate La
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="existingUse"> What did you use the appeal site for when you made the application?</label></h1>
+                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="siteUseAtTimeOfApplication"> What did you use the appeal site for when you made the application?</label></h1>
                 <div class="govuk-form-group">
-                    <div id="existingUse-hint" class="govuk-hint">Tell us about the existing use of the appeal site.</div>
+                    <div id="siteUseAtTimeOfApplication-hint" class="govuk-hint">Tell us about the existing use of the appeal site.</div>
                     <textarea class="govuk-textarea"
-                    id="existingUse" name="existingUse" rows="5" aria-describedby="existingUse-hint"></textarea>
+                    id="siteUseAtTimeOfApplication" name="siteUseAtTimeOfApplication" rows="5"
+                    aria-describedby="siteUseAtTimeOfApplication-hint"></textarea>
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
@@ -14341,22 +14342,22 @@ exports[`Dynamic forms journey tests appellant Lawful development certificate La
                     <div class="govuk-form-group">
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="lawfulDevelopmentCertificateType"
-                                name="lawfulDevelopmentCertificateType" type="radio" value="existing-development"
+                                <input class="govuk-radios__input" id="applicationMadeUnderActSection"
+                                name="applicationMadeUnderActSection" type="radio" value="existing-development"
                                 data-cy="answer-existing-development">
-                                <label class="govuk-label govuk-radios__label" for="lawfulDevelopmentCertificateType">Existing development</label>
+                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection">Existing development</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="lawfulDevelopmentCertificateType-2"
-                                name="lawfulDevelopmentCertificateType" type="radio" value="proposed-use-development"
-                                data-cy="answer-proposed-use-development">
-                                <label class="govuk-label govuk-radios__label" for="lawfulDevelopmentCertificateType-2">Proposed use of a development</label>
+                                <input class="govuk-radios__input" id="applicationMadeUnderActSection-2"
+                                name="applicationMadeUnderActSection" type="radio" value="proposed-use-of-a-development"
+                                data-cy="answer-proposed-use-of-a-development">
+                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection-2">Proposed use of a development</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="lawfulDevelopmentCertificateType-3"
-                                name="lawfulDevelopmentCertificateType" type="radio" value="proposed-changes-listed-building"
-                                data-cy="answer-proposed-changes-listed-building">
-                                <label class="govuk-label govuk-radios__label" for="lawfulDevelopmentCertificateType-3">Proposed changes to a listed building</label>
+                                <input class="govuk-radios__input" id="applicationMadeUnderActSection-3"
+                                name="applicationMadeUnderActSection" type="radio" value="proposed-changes-to-a-listed-building"
+                                data-cy="answer-proposed-changes-to-a-listed-building">
+                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection-3">Proposed changes to a listed building</label>
                             </div>
                         </div>
                     </div>

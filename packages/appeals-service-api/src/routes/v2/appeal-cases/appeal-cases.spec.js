@@ -534,7 +534,12 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 						doesAllegedBreachCreateFloorSpace: null,
 						relatesToBuildingSingleDwellingHouse: null,
 						relatesToBuildingWithAgriculturalPurpose: null,
-						relatesToErectionOfBuildingOrBuildings: null
+						relatesToErectionOfBuildingOrBuildings: null,
+						applicationMadeUnderActSection: null,
+						siteUseAtTimeOfApplication: null,
+						appealUnderActSection: null,
+						lpaConsiderAppealInvalid: null,
+						lpaAppealInvalidReasons: null
 					});
 					expectEmail(email, testCaseRef);
 				});
