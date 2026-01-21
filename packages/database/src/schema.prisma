@@ -907,6 +907,7 @@ model AppellantSubmission {
   uploadApplicationReceipt                         Boolean?
   applicationPartOrWholeDevelopment                String?
   applicationDecisionAppealed                      Boolean?
+  applicationDecisionDueDate                       DateTime?
   appealDecisionDate                               DateTime?
   uploadPriorCorrespondence                        Boolean?
   uploadEnforcementNotice                          Boolean?

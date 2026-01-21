@@ -3454,7 +3454,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'date',
 		title: 'What date was your decision due?',
 		question: 'What date was your decision due?',
-		fieldName: 'applicationDecisionDate',
+		fieldName: 'applicationDecisionDueDate',
 		url: 'decision-date-due',
 		hint: `For example, ${getExampleDate('past')}`,
 		validators: [
