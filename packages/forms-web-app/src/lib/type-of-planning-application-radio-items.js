@@ -6,6 +6,7 @@ const {
 			LISTED_BUILDING,
 			I_HAVE_NOT_MADE_A_PLANNING_APPLICATION,
 			ADVERTISEMENT,
+			LAWFUL_DEVELOPMENT_CERTIFICATE,
 			MINOR_COMMERCIAL_DEVELOPMENT,
 			OUTLINE_PLANNING,
 			PRIOR_APPROVAL,
@@ -27,6 +28,7 @@ exports.typeOfPlanningApplicationRadioItems = (
 	isCASPlanningFeatureFlag,
 	isCASAdvertsFeatureFlag,
 	isAdvertsFeatureFlag,
+	isLDCFeatureFlag,
 	typeOfPlanningApplication
 ) => {
 	const items = [
@@ -70,6 +72,15 @@ exports.typeOfPlanningApplicationRadioItems = (
 			checked: typeOfPlanningApplication === MINOR_COMMERCIAL_DEVELOPMENT,
 			hint: {
 				text: 'To develop or alter an existing building (or part of a building) for certain commercial purposes.'
+			}
+		},
+		{
+			value: LAWFUL_DEVELOPMENT_CERTIFICATE,
+			text: 'Lawful development certificate',
+			attributes: { 'data-cy': 'answer-lawful-development-certificate' },
+			checked: typeOfPlanningApplication === LAWFUL_DEVELOPMENT_CERTIFICATE,
+			hint: {
+				text: 'To show that the existing use of a building or land is lawful, or that your proposal does not need planning permission.'
 			}
 		},
 		{
@@ -125,12 +136,21 @@ exports.typeOfPlanningApplicationRadioItems = (
 		}
 	];
 
-	// only return the minor commercial development option if feature flag turned on
-	const casPlanningFiltered = isCASPlanningFeatureFlag
-		? items
-		: items.filter((item) => item.value !== MINOR_COMMERCIAL_DEVELOPMENT);
-	// only return the minor commercial advertisment option if feature flag turned on
-	return isAdvertsFeatureFlag || isCASAdvertsFeatureFlag
-		? casPlanningFiltered
-		: casPlanningFiltered.filter((item) => item.value !== ADVERTISEMENT);
+	// filter the list to remove options based on feature flags
+	let filteredItems = items;
+
+	filteredItems = isCASPlanningFeatureFlag
+		? filteredItems
+		: filteredItems.filter((item) => item.value !== MINOR_COMMERCIAL_DEVELOPMENT);
+
+	filteredItems =
+		isAdvertsFeatureFlag || isCASAdvertsFeatureFlag
+			? filteredItems
+			: filteredItems.filter((item) => item.value !== ADVERTISEMENT);
+
+	filteredItems = isLDCFeatureFlag
+		? filteredItems
+		: filteredItems.filter((item) => item.value !== LAWFUL_DEVELOPMENT_CERTIFICATE);
+
+	return filteredItems;
 };

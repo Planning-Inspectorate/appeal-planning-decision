@@ -41,6 +41,7 @@ const TYPE_OF_PLANNING_APPLICATION = {
 	REMOVAL_OR_VARIATION_OF_CONDITIONS: 'removal-or-variation-of-conditions',
 	MINOR_COMMERCIAL_DEVELOPMENT: 'minor-commercial-development',
 	ADVERTISEMENT: 'advertisement',
+	LAWFUL_DEVELOPMENT_CERTIFICATE: 'lawful-development-certificate',
 	SOMETHING_ELSE: 'something-else',
 	I_HAVE_NOT_MADE_A_PLANNING_APPLICATION: 'i-have-not-made-a-planning-application'
 };

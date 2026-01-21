@@ -5,7 +5,10 @@ const {
 		BEFORE_YOU_START: { LISTED_BUILDING }
 	}
 } = require('../../lib/views');
-const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const {
+	APPEAL_ID,
+	TYPE_OF_PLANNING_APPLICATION: { LAWFUL_DEVELOPMENT_CERTIFICATE }
+} = require('@pins/business-rules/src/constants');
 
 const sectionName = 'eligibility';
 
@@ -40,11 +43,13 @@ const postListedBuilding = async (req, res) => {
 		});
 	}
 
-	appeal.appealType = isListedBuilding
-		? APPEAL_ID.PLANNING_LISTED_BUILDING
-		: appeal.eligibility.hasHouseholderPermissionConditions
-			? APPEAL_ID.HOUSEHOLDER
-			: APPEAL_ID.PLANNING_SECTION_78;
+	if (appeal.typeOfPlanningApplication !== LAWFUL_DEVELOPMENT_CERTIFICATE) {
+		appeal.appealType = isListedBuilding
+			? APPEAL_ID.PLANNING_LISTED_BUILDING
+			: appeal.eligibility.hasHouseholderPermissionConditions
+				? APPEAL_ID.HOUSEHOLDER
+				: APPEAL_ID.PLANNING_SECTION_78;
+	}
 
 	try {
 		appeal[sectionName].isListedBuilding = isListedBuilding;
@@ -57,6 +62,12 @@ const postListedBuilding = async (req, res) => {
 			errors,
 			errorSummary: [{ text: err.toString(), href: '#' }]
 		});
+	}
+
+	if (appeal.typeOfPlanningApplication === LAWFUL_DEVELOPMENT_CERTIFICATE) {
+		return isListedBuilding
+			? res.redirect(`/before-you-start/granted-or-refused`)
+			: res.redirect(`/before-you-start/can-use-service`);
 	}
 
 	return appeal.appealType === APPEAL_ID.HOUSEHOLDER
