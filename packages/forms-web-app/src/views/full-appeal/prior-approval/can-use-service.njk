@@ -1,146 +1,118 @@
-{% extends "../../layouts/no-banner-link/main.njk" %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
+{% extends "../../layouts/can-use-service/main.njk" %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-{% from "../../macros/bool-to-sentence-case.njk" import boolToSentenceCaseField %}
-{% from "../../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
 {% from "../../macros/summary-field.njk" import summaryField %}
-{% block pageTitle %}
-  You can appeal using this service - Before you start - Appeal a planning decision - GOV.UK
+{% block canUseServiceSummaryList %}
+	{{ govukSummaryList({
+		classes: "govuk-summary-list govuk-!-margin-bottom-9",
+		rows: [
+			{
+				key: {
+				text: "Local planning authority"
+			},
+				value: {
+				text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
+			},
+				actions: {
+				items: [
+					{
+						href: changeLpaUrl,
+						text: "Change",
+						visuallyHiddenText: "Local planning authority",
+						attributes: { "data-cy":"localPlanningDepartment"}
+					}
+				]
+			}
+			},
+			{
+				key: {
+				text: "Have you received an enforcement notice?"
+			},
+				value: {
+				text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+			},
+				actions: {
+				items: [
+					{
+						href: "/before-you-start/enforcement-notice",
+						text: "Change",
+						visuallyHiddenText: "Have you received an enforcement notice?",
+						attributes: { "data-cy":"enforcementNotice"}
+					}
+				]
+			}
+			},
+			{
+				key: {
+				text: "Type of application"
+			},
+				value: {
+				text: summaryField(applicationType, { 'data-cy': "application-type" })
+			},
+				actions: {
+				items: [
+					{
+						href: "/before-you-start/type-of-planning-application",
+						text: "Change",
+						visuallyHiddenText: "Type of application",
+						attributes: { "data-cy":"applicationType"}
+					}
+				]
+			}
+			},
+			{
+				key: {
+				text: "Did you apply for prior approval to extend an existing home?"
+			},
+				value: {
+				text: hasPriorApprovalForExistingHome
+			},
+				actions: {
+				items: [
+					{
+						href: "/before-you-start/prior-approval-existing-home",
+						text: "Change",
+						visuallyHiddenText: "Did you apply for prior approval to extend an existing home?",
+						attributes: { "data-cy":"priorApproval"}
+					}
+				]
+			}
+			},
+			{
+				key: {
+				text: "Was your application granted or refused?"
+			},
+				value: {
+				text: summaryField(applicationDecision, { 'data-cy': "application-decision" })
+			},
+				actions: {
+				items: [
+					{
+						href: "/before-you-start/granted-or-refused",
+						text: "Change",
+						visuallyHiddenText: "Was your application granted or refused?",
+						attributes: { "data-cy":"applicationDecision"}
+					}
+				]
+			}
+			},
+			{
+				key: {
+				text: dateOfDecisionLabel
+			},
+				value: {
+				text: summaryField(decisionDate, { 'data-cy': "decision-date" })
+			},
+				actions: {
+				items: [
+					{
+						href: "/before-you-start/decision-date",
+						text: "Change",
+						visuallyHiddenText: dateOfDecisionLabel,
+						attributes: { "data-cy":"decisionDate"}
+					}
+				]
+			}
+			}
+		]
+	}) }}
 {% endblock %}
-{% block content %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <form action="" method="post">
-        <input type="hidden" name="_csrf" value="{{ _csrf }}">
-          <h1 class="govuk-heading-l">
-            You can appeal using this service
-          </h1>
-          <p>Based on your answers, you can appeal using this service.</p>
-          <p>Your deadline to appeal is 11.59pm on {{ deadlineDate.day }}
-            {{ deadlineDate.date }}
-            {{ deadlineDate.month }}
-            {{ deadlineDate.year }}.</p>
-          <h2 class="govuk-heading-m">Check your answers</h2>
-          {{ govukSummaryList({
-          classes: "govuk-summary-list govuk-!-margin-bottom-9",
-          rows: [
-            {
-              key: {
-                text: "Local planning authority"
-              },
-              value: {
-                text: summaryField(appealLPD, { 'data-cy': "local-planning-department" })
-              },
-              actions: {
-                items: [
-                  {
-                    href: changeLpaUrl,
-                    text: "Change",
-                    visuallyHiddenText: "Local planning authority",
-                    attributes: { "data-cy":"localPlanningDepartment"}
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Have you received an enforcement notice?"
-              },
-              value: {
-                text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/before-you-start/enforcement-notice",
-                    text: "Change",
-                    visuallyHiddenText: "Have you received an enforcement notice?",
-                    attributes: { "data-cy":"enforcementNotice"}
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Type of application"
-              },
-              value: {
-                text: summaryField(applicationType, { 'data-cy': "application-type" })
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/before-you-start/type-of-planning-application",
-                    text: "Change",
-                    visuallyHiddenText: "Type of application",
-                    attributes: { "data-cy":"applicationType"}
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Did you apply for prior approval to extend an existing home?"
-              },
-              value: {
-                text: hasPriorApprovalForExistingHome
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/before-you-start/prior-approval-existing-home",
-                    text: "Change",
-                    visuallyHiddenText: "Did you apply for prior approval to extend an existing home?",
-                    attributes: { "data-cy":"priorApproval"}
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: "Was your application granted or refused?"
-              },
-              value: {
-                text: summaryField(applicationDecision, { 'data-cy': "application-decision" })
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/before-you-start/granted-or-refused",
-                    text: "Change",
-                    visuallyHiddenText: "Was your application granted or refused?",
-                    attributes: { "data-cy":"applicationDecision"}
-                  }
-                ]
-              }
-            },
-            {
-              key: {
-                text: dateOfDecisionLabel
-              },
-              value: {
-                text: summaryField(decisionDate, { 'data-cy': "decision-date" })
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/before-you-start/decision-date",
-                    text: "Change",
-                    visuallyHiddenText: dateOfDecisionLabel,
-                    attributes: { "data-cy":"decisionDate"}
-                  }
-                ]
-              }
-            }
-          ]
-        }) }}
-          {{ govukButton({
-                    text: "Continue to my appeal",
-                    type: "submit",
-                    href: nextPageUrl,
-                    attributes: { "data-cy":"button-save-and-continue"}
-                }) }}
-        </form>
-      </div>
-    </div>
-  {% endblock %}
