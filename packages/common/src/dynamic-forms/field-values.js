@@ -32,7 +32,7 @@ exports.fieldValues = Object.freeze({
 	},
 	lawfulDevelopmentCertificateType: {
 		EXISTING_DEVELOPMENT: 'existing-development',
-		PROPOSED_USE_DEVELOPMENT: 'proposed-use-development',
-		PROPOSED_CHANGES_LISTED_BUILDING: 'proposed-changes-listed-building'
+		PROPOSED_USE_DEVELOPMENT: 'proposed-use-of-a-development',
+		PROPOSED_CHANGES_LISTED_BUILDING: 'proposed-changes-to-a-listed-building'
 	}
 });

@@ -604,6 +604,28 @@ components:
           nullable: true
           description: What permitted develpoment rights are affected by the Article 4 Direction
 
+        # LDC
+        applicationMadeUnderActSection:
+          type: string
+          nullable: true
+          description: appellant - lawful development certificate type
+        siteUseAtTimeOfApplication:
+          type: string
+          nullable: true
+          description: Site use at time of application        
+        appealUnderActSection:
+          type: string
+          nullable: true
+          description: lpa lawful - development certificate type
+        lpaConsiderAppealInvalid:
+          type: boolean
+          nullable: true
+          description: Does LPA consider the appeal invalid
+        lpaAppealInvalidReasons:
+          type: string
+          nullable: true
+          description: Reason(s) why LPA consider the appeal invalid
+
         # relations
         ListedBuildings:
           type: array

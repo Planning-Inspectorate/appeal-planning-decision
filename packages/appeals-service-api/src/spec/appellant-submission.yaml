@@ -133,7 +133,7 @@ components:
           type: string
         appellantPreferInquiryDetails:
           type: string
-        existingUse:
+        siteUseAtTimeOfApplication:
           type: string
           nullable: true
 

@@ -3786,7 +3786,7 @@ exports.getQuestionProps = (response) => ({
 		title: 'What did you use the appeal site for when you made the application?',
 		question: 'What did you use the appeal site for when you made the application?',
 		hint: 'Tell us about the existing use of the appeal site.',
-		fieldName: 'existingUse',
+		fieldName: 'siteUseAtTimeOfApplication',
 		url: 'existing-use',
 		validators: [
 			new RequiredValidator('Enter a description'),
@@ -3802,7 +3802,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'radio',
 		title: 'What type of lawful development certificate is the appeal about?',
 		question: 'What type of lawful development certificate is the appeal about?',
-		fieldName: 'lawfulDevelopmentCertificateType',
+		fieldName: 'applicationMadeUnderActSection',
 		url: 'lawful-development-certificate-type',
 		validators: [
 			new RequiredValidator(
