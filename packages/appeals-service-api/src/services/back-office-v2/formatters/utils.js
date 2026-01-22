@@ -366,8 +366,7 @@ const dataModelApplicationDecisions = {
  * @returns {DataModelApplicationDecision}
  */
 exports.formatApplicationDecision = (applicationDecision) =>
-	dataModelApplicationDecisions[applicationDecision] ??
-	dataModelApplicationDecisions[APPLICATION_DECISION.NODECISIONRECEIVED];
+	dataModelApplicationDecisions[applicationDecision] ?? null;
 
 /**
  * @typedef {{yes: "Yes", no:"No", some: "Some"}} yesNoSome
@@ -451,17 +450,6 @@ exports.siteAddressAndGridReferenceAreMissing = (address, easting, northing) => 
  * @returns {AppellantCommonSubmissionProperties}
  */
 exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
-	if (!appellantSubmission.applicationDecisionDate) {
-		throw new Error('appellantSubmission.applicationDecisionDate should never be null');
-	}
-
-	if (!appellantSubmission.onApplicationDate) {
-		throw new Error('appellantSubmission.onApplicationDate should never be null');
-	}
-
-	if (!appellantSubmission.applicationDecision) {
-		throw new Error('appellantSubmission.applicationDecision should never be null');
-	}
 	const address = appellantSubmission.SubmissionAddress?.find(
 		(address) => address.fieldName === 'siteAddress'
 	);
@@ -479,8 +467,9 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
 	}
 
 	const getOriginalApplicationDetails = () => {
+		// S191 and S192 have applications, but we only ask/store applicationReference and applicationDate
 		return {
-			applicationReference: appellantSubmission.applicationReference ?? '',
+			applicationReference: appellantSubmission.applicationReference ?? null,
 			applicationDate: appellantSubmission.onApplicationDate?.toISOString() ?? null,
 			applicationDecision: exports.formatApplicationDecision(
 				appellantSubmission.applicationDecision
@@ -517,9 +506,7 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
 			ownersInformed: appellantSubmission.informedOwners ?? null,
 			// not in adverts or ldc
 			siteAreaSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null,
-			floorSpaceSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null, // should this be on model?
-			// unused
-			neighbouringSiteAddresses: null // should this be on model?
+			floorSpaceSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) || null // should this be on model?
 		};
 	};
 
@@ -532,11 +519,13 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
 
 		typeOfPlanningApplication: appellantSubmission.typeOfPlanningApplication ?? null,
 		caseSubmittedDate: new Date().toISOString(),
-		caseSubmissionDueDate: deadlineDate(
-			appellantSubmission.applicationDecisionDate,
-			CASE_TYPES[appellantSubmission.appealTypeCode].id.toString(),
-			appellantSubmission.applicationDecision
-		).toISOString(),
+		caseSubmissionDueDate: !appellantSubmission.applicationDecisionDate
+			? null // S191 + S192 have no deadline
+			: deadlineDate(
+					appellantSubmission.applicationDecisionDate,
+					CASE_TYPES[appellantSubmission.appealTypeCode].id.toString(),
+					appellantSubmission.applicationDecision
+				).toISOString(),
 
 		originalDevelopmentDescription: appellantSubmission.developmentDescriptionOriginal ?? null,
 		changedDevelopmentDescription: appellantSubmission.updateDevelopmentDescription ?? null,

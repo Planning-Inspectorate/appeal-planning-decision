@@ -29,6 +29,9 @@ const {
 const {
 	exampleEnforcementDataModel
 } = require('../../../../__tests__/developer/fixtures/appeals-enforcement-data-model');
+const {
+	exampleLDCDataModel
+} = require('../../../../__tests__/developer/fixtures/appeals-ldc-data-model');
 
 const { appendLinkedCasesForMultipleAppeals } = require('./service');
 
@@ -309,6 +312,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 			const casAdvertsExample = { ...exampleCasAdvertsDataModel };
 			const advertsExample = { ...exampleAdvertsDataModel };
 			const enforcementExample = { ...exampleEnforcementDataModel };
+			const ldcExample = { ...exampleLDCDataModel };
 
 			const appealExamples = [
 				{ name: CASE_TYPES.HAS.processCode, data: hasExample },
@@ -317,7 +321,8 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				{ name: CASE_TYPES.CAS_PLANNING.processCode, data: casPlanningExample },
 				{ name: CASE_TYPES.CAS_ADVERTS.processCode, data: casAdvertsExample },
 				{ name: CASE_TYPES.ADVERTS.processCode, data: advertsExample },
-				{ name: CASE_TYPES.ENFORCEMENT.processCode, data: enforcementExample }
+				{ name: CASE_TYPES.ENFORCEMENT.processCode, data: enforcementExample },
+				{ name: CASE_TYPES.LDC.processCode, data: ldcExample }
 			];
 
 			for (const appealExample of appealExamples) {
@@ -523,23 +528,26 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 						siteSafetyDetails: data.siteSafetyDetails
 							? JSON.stringify(data.siteSafetyDetails)
 							: null,
-						changeOfUseMineralExtraction: null,
-						changeOfUseMineralStorage: null,
-						changeOfUseRefuseOrWaste: null,
-						article4AffectedDevelopmentRights: null,
-						affectedTrunkRoadName: null,
-						noticeRelatesToBuildingEngineeringMiningOther: null,
-						isSiteOnCrownLand: null,
-						hasAllegedBreachArea: null,
-						doesAllegedBreachCreateFloorSpace: null,
-						relatesToBuildingSingleDwellingHouse: null,
-						relatesToBuildingWithAgriculturalPurpose: null,
-						relatesToErectionOfBuildingOrBuildings: null,
-						applicationMadeUnderActSection: null,
-						siteUseAtTimeOfApplication: null,
-						appealUnderActSection: null,
-						lpaConsiderAppealInvalid: null,
-						lpaAppealInvalidReasons: null
+						changeOfUseMineralExtraction: data.changeOfUseMineralExtraction ?? null,
+						changeOfUseMineralStorage: data.changeOfUseMineralStorage ?? null,
+						changeOfUseRefuseOrWaste: data.changeOfUseRefuseOrWaste ?? null,
+						article4AffectedDevelopmentRights: data.article4AffectedDevelopmentRights ?? null,
+						affectedTrunkRoadName: data.affectedTrunkRoadName ?? null,
+						noticeRelatesToBuildingEngineeringMiningOther:
+							data.noticeRelatesToBuildingEngineeringMiningOther ?? null,
+						isSiteOnCrownLand: data.isSiteOnCrownLand ?? null,
+						hasAllegedBreachArea: data.hasAllegedBreachArea ?? null,
+						doesAllegedBreachCreateFloorSpace: data.doesAllegedBreachCreateFloorSpace ?? null,
+						relatesToBuildingSingleDwellingHouse: data.relatesToBuildingSingleDwellingHouse ?? null,
+						relatesToBuildingWithAgriculturalPurpose:
+							data.relatesToBuildingWithAgriculturalPurpose ?? null,
+						relatesToErectionOfBuildingOrBuildings:
+							data.relatesToErectionOfBuildingOrBuildings ?? null,
+						applicationMadeUnderActSection: data.applicationMadeUnderActSection ?? null,
+						siteUseAtTimeOfApplication: data.siteUseAtTimeOfApplication ?? null,
+						appealUnderActSection: data.appealUnderActSection ?? null,
+						lpaConsiderAppealInvalid: data.lpaConsiderAppealInvalid ?? null,
+						lpaAppealInvalidReasons: data.lpaAppealInvalidReasons ?? null
 					});
 					expectEmail(email, testCaseRef);
 				});

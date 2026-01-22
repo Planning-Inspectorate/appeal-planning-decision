@@ -155,7 +155,10 @@ describe('utils.js', () => {
 			expect(formatApplicationDecision(APPLICATION_DECISION.REFUSED)).toBe(
 				APPEAL_APPLICATION_DECISION.REFUSED
 			);
-			expect(formatApplicationDecision('unknown')).toBe(APPEAL_APPLICATION_DECISION.NOT_RECEIVED);
+			expect(formatApplicationDecision(APPLICATION_DECISION.NODECISIONRECEIVED)).toBe(
+				APPEAL_APPLICATION_DECISION.NOT_RECEIVED
+			);
+			expect(formatApplicationDecision('unknown')).toBe(null);
 		});
 	});
 
