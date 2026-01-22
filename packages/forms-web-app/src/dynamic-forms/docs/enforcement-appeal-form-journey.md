@@ -316,15 +316,10 @@ condition: () => shouldDisplayPriorCorrespondenceUpload(response);
 - Multiquestion condition started: ground a supplementary documents
 
 ```js
-condition: () => responseHasAppealGround(response, 'a');
+condition: () => shouldDisplayPreviousApplicationQuestions(response, questions);
 ```
 
 - multi-file-upload `/upload-application-form/` Upload your application form
-
-```js
-condition: () => questionHasAnswer(response, questions.submittedPlanningApplication, 'yes');
-```
-
 - multi-file-upload `/upload-description-evidence/` Upload evidence of your agreement to change the description of development
 
 ```js
