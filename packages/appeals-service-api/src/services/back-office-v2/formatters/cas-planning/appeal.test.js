@@ -83,7 +83,7 @@ describe('CAS planning formatter', () => {
 				lpaCode: 123,
 				caseSubmittedDate: expect.any(String),
 				enforcementNotice: false,
-				applicationReference: '',
+				applicationReference: null,
 				applicationDate: expect.any(String),
 				applicationDecision: APPEAL_APPLICATION_DECISION.GRANTED,
 				applicationDecisionDate: expect.any(String),
@@ -107,7 +107,6 @@ describe('CAS planning formatter', () => {
 				originalDevelopmentDescription: 'Original description',
 				changedDevelopmentDescription: true,
 				nearbyCaseReferences: ['case123'],
-				neighbouringSiteAddresses: null,
 				appellantCostsAppliedFor: true,
 				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
 			},
@@ -146,7 +145,7 @@ describe('CAS planning formatter', () => {
 				lpaCode: 123,
 				caseSubmittedDate: expect.any(String),
 				enforcementNotice: false,
-				applicationReference: '',
+				applicationReference: null,
 				applicationDate: expect.any(String),
 				applicationDecision: APPEAL_APPLICATION_DECISION.GRANTED,
 				applicationDecisionDate: expect.any(String),
@@ -170,7 +169,6 @@ describe('CAS planning formatter', () => {
 				originalDevelopmentDescription: 'Original description',
 				changedDevelopmentDescription: true,
 				nearbyCaseReferences: ['case123'],
-				neighbouringSiteAddresses: null,
 				appellantCostsAppliedFor: true,
 				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
 			},

@@ -363,6 +363,41 @@ const getEnforcementAppealFormFields = (dataModel) => {
 };
 
 /**
+ * @param {AppealS78Case} dataModel
+ * @returns {{siteUseAtTimeOfApplication: string|null|undefined, applicationMadeUnderActSection: string|null|undefined}}
+ */
+const getLDCAppealFormFields = (dataModel) => {
+	return {
+		siteUseAtTimeOfApplication: dataModel.siteUseAtTimeOfApplication,
+		applicationMadeUnderActSection: dataModel.applicationMadeUnderActSection
+	};
+};
+
+/**
+ * @param {AppealS78Case} dataModel
+ * @returns {{appealUnderActSection: string|null|undefined, lpaAppealInvalidReasons: string|null|undefined, lpaConsiderAppealInvalid: boolean|null|undefined}}
+ */
+const getLDCQuestionnaireFields = (dataModel) => {
+	return {
+		appealUnderActSection: dataModel.appealUnderActSection,
+		lpaAppealInvalidReasons: dataModel.lpaAppealInvalidReasons,
+		lpaConsiderAppealInvalid: dataModel.lpaConsiderAppealInvalid
+	};
+};
+
+/**
+ * @param {String} caseProcessCode
+ * @param {AppealS78Case} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const mapLDCDataModelToAppealCase = (caseProcessCode, dataModel) => ({
+	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
+	...mapS78DataModelToAppealCase(caseProcessCode, dataModel),
+	...getLDCAppealFormFields(dataModel),
+	...getLDCQuestionnaireFields(dataModel)
+});
+
+/**
  * @param {String} caseProcessCode
  * @param {AppealS78Case} dataModel
  * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
@@ -540,6 +575,12 @@ const getMappedData = (data) => {
 			const s78Validator = getValidator('appeal-s78');
 			if (!s78Validator(data)) throw ApiError.badRequest('Payload was invalid');
 			return mapEnforcementDataModelToAppealCase(CASE_TYPES.ENFORCEMENT.processCode, data);
+		}
+		case CASE_TYPES.LDC.key: {
+			// uses s78 data model
+			const s78Validator = getValidator('appeal-s78');
+			if (!s78Validator(data)) throw ApiError.badRequest('Payload was invalid');
+			return mapLDCDataModelToAppealCase(CASE_TYPES.LDC.processCode, data);
 		}
 		default:
 			throw Error(`putCase: unhandled casetype: ${data.caseType}`);

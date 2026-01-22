@@ -1,5 +1,7 @@
 const crypto = require('crypto');
 const config = require('../../../../../configuration/config');
+const { APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION } = require('@planning-inspectorate/data-model');
+
 const lpaEmail = 'lpa@example.com';
 
 /**
@@ -117,6 +119,11 @@ module.exports = ({
 			advertInPosition: true,
 			highwayLand: true,
 			landownerPermission: true
+		},
+		ldc: {
+			applicationMadeUnderActSection:
+				APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.PROPOSED_USE_OF_A_DEVELOPMENT,
+			siteUseAtTimeOfApplication: 'lorum ipsum'
 		}
 	};
 
@@ -131,7 +138,6 @@ module.exports = ({
 			isGreenBelt: true,
 			changedDevelopmentDescription: true,
 			nearbyCaseReferences: ['case123'],
-			neighbouringSiteAddresses: null,
 			originalDevelopmentDescription: 'Original description',
 			caseProcedure: 'written',
 			enforcementNotice: false
@@ -248,6 +254,11 @@ module.exports = ({
 					isSiteOnHighwayLand: true
 				}
 			]
+		},
+		ldc: {
+			applicationMadeUnderActSection:
+				APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.PROPOSED_USE_OF_A_DEVELOPMENT,
+			siteUseAtTimeOfApplication: 'lorum ipsum'
 		}
 	};
 
@@ -449,6 +460,39 @@ module.exports = ({
 				documents: expectedData.documents,
 				users: expectedData.appellantUsers,
 				emailString: 'advertisement'
+			}
+		},
+		{
+			testName: 'LDC',
+			appeal: {
+				id: crypto.randomUUID()
+			},
+			submission: {
+				...submissionData.application,
+				...submissionData.gridReference,
+				...submissionData.site,
+				...submissionData.common,
+				...submissionData.withAppellant,
+				...submissionData.procedurePreference,
+				...submissionData.ldc,
+				id: crypto.randomUUID(),
+				appealTypeCode: 'LDC',
+				typeOfPlanningApplication: 'lawful-development-certificate'
+			},
+			expectedData: {
+				casedata: {
+					...expectedData.application,
+					...expectedData.gridReference,
+					...expectedData.site,
+					...expectedData.common,
+					...expectedData.procedurePreference,
+					...expectedData.ldc,
+					caseType: 'X',
+					typeOfPlanningApplication: 'lawful-development-certificate'
+				},
+				documents: expectedData.documents,
+				users: expectedData.appellantUsers,
+				emailString: 'lawful development certificate'
 			}
 		}
 	];
