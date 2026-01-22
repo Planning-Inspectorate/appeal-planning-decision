@@ -243,12 +243,9 @@ const makeSections = (response) => {
 			.addQuestion(questions.uploadEnforcementNotice)
 			.addQuestion(questions.uploadEnforcementNoticePlan)
 			.startMultiQuestionCondition('ground a supplementary documents', () =>
-				responseHasAppealGround(response, 'a')
+				shouldDisplayPreviousApplicationQuestions(response, questions)
 			)
 			.addQuestion(questions.uploadOriginalApplicationForm)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.submittedPlanningApplication, 'yes')
-			)
 			.addQuestion(questions.uploadChangeOfDescriptionEvidence)
 			.withCondition(() =>
 				questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
