@@ -496,6 +496,20 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	contactPlanningInspectorateDate?: string;
+	noticeRelatesToBuildingEngineeringMiningOther?: boolean;
+	hasAllegedBreachArea?: boolean;
+	doesAllegedBreachCreateFloorSpace?: boolean;
+	changeOfUseRefuseOrWaste?: boolean;
+	changeOfUseMineralExtraction?: boolean;
+	changeOfUseMineralStorage?: boolean;
+	relatesToErectionOfBuildingOrBuildings?: boolean;
+	relatesToBuildingWithAgriculturalPurpose?: boolean;
+	relatesToBuildingSingleDwellingHouse?: boolean;
+	/** Name of trunk road within 67M of site */
+	affectedTrunkRoadName?: string | null;
+	isSiteOnCrownLand?: boolean;
+	/** What permitted develpoment rights are affected by the Article 4 Direction */
+	article4AffectedDevelopmentRights?: string | null;
 	ListedBuildings?: object[];
 	Documents?: object[];
 	NeighbouringAddresses?: object[];

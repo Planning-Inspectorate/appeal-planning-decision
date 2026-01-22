@@ -574,6 +574,35 @@ components:
           type: string
           format: date-time
           description: if applicable, the date on which the appellant contacted the planning inspectorate before the enforcement effective date
+        noticeRelatesToBuildingEngineeringMiningOther:
+          type: boolean
+        # Enforcement LPAQ fields
+        hasAllegedBreachArea:
+          type: boolean
+        doesAllegedBreachCreateFloorSpace:
+          type: boolean
+        changeOfUseRefuseOrWaste:
+          type: boolean
+        changeOfUseMineralExtraction:
+          type: boolean
+        changeOfUseMineralStorage:
+          type: boolean
+        relatesToErectionOfBuildingOrBuildings:
+          type: boolean
+        relatesToBuildingWithAgriculturalPurpose:
+          type: boolean
+        relatesToBuildingSingleDwellingHouse:
+          type: boolean
+        affectedTrunkRoadName:
+          type: string
+          nullable: true
+          description: Name of trunk road within 67M of site
+        isSiteOnCrownLand:
+          type: boolean
+        article4AffectedDevelopmentRights:
+          type: string
+          nullable: true
+          description: What permitted develpoment rights are affected by the Article 4 Direction
 
         # relations
         ListedBuildings:
