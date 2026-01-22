@@ -95,7 +95,14 @@ const individualInterestInLandIsOther = (answers, individualId) => {
  * @param {JourneyResponse['answers'] | SubmissionIndividual} input
  * @returns {boolean}
  */
-const interestInLandIsOther = (input) => input.interestInAppealLand === INTERESTS_IN_LAND.OTHER;
+const interestInLandIsOther = (input) => {
+	const interestAnswerField = input['interestInAppealLand'];
+	// options questions sometimes stored as array on local response when prior to next page
+	if (Array.isArray(interestAnswerField)) {
+		return interestAnswerField.includes(INTERESTS_IN_LAND.OTHER);
+	}
+	return interestAnswerField === INTERESTS_IN_LAND.OTHER;
+};
 
 /**
  * @param {JourneyResponse} response
@@ -131,7 +138,7 @@ const individualInterestInLandQuestions = (response) => {
 		},
 		{
 			question: questionObjects.permissionToUseLand,
-			condition: () => interestInLandIsOther(response.answers)
+			condition: (response) => interestInLandIsOther(response.answers)
 		}
 	];
 };
@@ -160,7 +167,7 @@ const organisationInterestInLandQuestions = (response) => {
 		},
 		{
 			question: questionObjects.permissionToUseLand,
-			condition: () => interestInLandIsOther(response.answers)
+			condition: (response) => interestInLandIsOther(response.answers)
 		}
 	];
 };
@@ -203,7 +210,7 @@ const groupInterestInLandQuestions = (response) => {
 			},
 			{
 				question: questionObjects.permissionToUseLand,
-				condition: () => individualInterestInLandIsOther(response.answers, individual.id)
+				condition: (response) => individualInterestInLandIsOther(response.answers, individual.id)
 			}
 		];
 	});
