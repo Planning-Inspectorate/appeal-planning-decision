@@ -90,6 +90,37 @@ const makeConstraintsSectionData = (appealTypeCode) => {
 				...groupBShared,
 				Documents: [...groupBShared.Documents]
 			};
+		case CASE_TYPES.ENFORCEMENT.processCode:
+			return {
+				ListedBuildings: [
+					{ type: LISTED_RELATION_TYPES.affected, listedBuildingReference: 'LB1' },
+					{ type: LISTED_RELATION_TYPES.changed, listedBuildingReference: 'LB2' }
+				],
+				scheduledMonument: true,
+				protectedSpecies: true,
+				areaOutstandingBeauty: true,
+				designatedSitesNames: ['Site A', 'Site B'],
+				gypsyTraveller: true,
+				noticeRelatesToBuildingEngineeringMiningOther: true,
+				siteAreaSquareMetres: '23',
+				hasAllegedBreachArea: true,
+				doesAllegedBreachCreateFloorSpace: true,
+				changeOfUseRefuseOrWaste: true,
+				changeOfUseMineralExtraction: true,
+				changeOfUseMineralStorage: true,
+				relatesToErectionOfBuildingOrBuildings: true,
+				relatesToBuildingWithAgriculturalPurpose: true,
+				relatesToBuildingSingleDwellingHouse: true,
+				affectedTrunkRoadName: 'TRUNK ROAD',
+				isSiteOnCrownLand: true,
+				article4AffectedDevelopmentRights: 'article 4 direction',
+				Documents: [
+					...groupBShared.Documents,
+					makeDocument(APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT),
+					makeDocument(APPEAL_DOCUMENT_TYPE.STOP_NOTICE),
+					makeDocument(APPEAL_DOCUMENT_TYPE.ARTICLE_4_DIRECTION)
+				]
+			};
 	}
 };
 

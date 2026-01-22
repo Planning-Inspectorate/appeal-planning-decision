@@ -33,6 +33,7 @@ exports.constraintsRows = (caseData) => {
 	const isAdvertAppeal =
 		caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
 		caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode;
+	const isEnforcementAppeal = CASE_TYPES.ENFORCEMENT.processCode;
 
 	const affectedListedBuildings = caseData.ListedBuildings?.filter(
 		(x) => x.type === LISTED_RELATION_TYPES.affected
@@ -100,7 +101,8 @@ exports.constraintsRows = (caseData) => {
 			keyText: 'Affects a scheduled monument',
 			valueText: formatYesOrNo(caseData, 'scheduledMonument'),
 			condition: () =>
-				(isS20orS78 || isAdvertAppeal) && isNotUndefinedOrNull(caseData.scheduledMonument)
+				(isS20orS78 || isAdvertAppeal || isEnforcementAppeal) &&
+				isNotUndefinedOrNull(caseData.scheduledMonument)
 		},
 		{
 			keyText: 'Conservation area',
@@ -136,20 +138,21 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Designated sites',
 			valueText: formatDesignations(caseData),
-			condition: () => isS20orS78 || isAdvertAppeal
+			condition: () => isS20orS78 || isAdvertAppeal || isEnforcementAppeal
 		},
 		{
 			keyText: 'Tree Preservation Order',
 			valueText: boolToYesNo(
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN)
 			),
-			condition: () => isS20orS78
+			condition: () => isS20orS78 || isEnforcementAppeal
 		},
 		{
 			keyText: 'Uploaded Tree Preservation Order extent',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			condition: () =>
-				isS20orS78 && documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
+				(isS20orS78 || isEnforcementAppeal) &&
+				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			isEscaped: true
 		},
 		{
@@ -167,6 +170,83 @@ exports.constraintsRows = (caseData) => {
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT),
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT),
 			isEscaped: true
+		},
+		{
+			keyText: 'Notice relates to Building engineering, mining or other',
+			valueText: formatYesOrNo(caseData, 'noticeRelatesToBuildingEngineeringMiningOther'),
+			condition: () => isNotUndefinedOrNull(caseData.noticeRelatesToBuildingEngineeringMiningOther)
+		},
+		{
+			keyText: 'Total site area',
+			valueText: `${caseData.siteAreaSquareMetres} m\u00B2`,
+			condition: () => isNotUndefinedOrNull(caseData.siteAreaSquareMetres)
+		},
+		{
+			keyText: 'Has alleged breach area',
+			valueText: formatYesOrNo(caseData, 'hasAllegedBreachArea'),
+			condition: () => isNotUndefinedOrNull(caseData.hasAllegedBreachArea)
+		},
+		{
+			keyText: 'Does alleged breach creates floor space',
+			valueText: formatYesOrNo(caseData, 'doesAllegedBreachCreateFloorSpace'),
+			condition: () => isNotUndefinedOrNull(caseData.doesAllegedBreachCreateFloorSpace)
+		},
+		{
+			keyText: 'Changes use of land to dispose, refuse or waste materials',
+			valueText: formatYesOrNo(caseData, 'changeOfUseRefuseOrWaste'),
+			condition: () => isNotUndefinedOrNull(caseData.changeOfUseRefuseOrWaste)
+		},
+		{
+			keyText: 'Changes use of land to dispose of remaining materials',
+			valueText: formatYesOrNo(caseData, 'changeOfUseMineralExtraction'),
+			condition: () => isNotUndefinedOrNull(caseData.changeOfUseMineralExtraction)
+		},
+		{
+			keyText: 'Changes of use of land to store minerals',
+			valueText: formatYesOrNo(caseData, 'changeOfUseMineralStorage'),
+			condition: () => isNotUndefinedOrNull(caseData.changeOfUseMineralStorage)
+		},
+		{
+			keyText: 'Relates to Erection of building or buildings',
+			valueText: formatYesOrNo(caseData, 'relatesToErectionOfBuildingOrBuildings'),
+			condition: () => isNotUndefinedOrNull(caseData.relatesToErectionOfBuildingOrBuildings)
+		},
+		{
+			keyText: 'Relates to building with agricultural purpose',
+			valueText: formatYesOrNo(caseData, 'relatesToBuildingWithAgriculturalPurpose'),
+			condition: () => isNotUndefinedOrNull(caseData.relatesToBuildingWithAgriculturalPurpose)
+		},
+		{
+			keyText: 'Relates to building single dwelling house',
+			valueText: formatYesOrNo(caseData, 'relatesToBuildingSingleDwellingHouse'),
+			condition: () => isNotUndefinedOrNull(caseData.relatesToBuildingSingleDwellingHouse)
+		},
+		{
+			keyText: 'Affected trunk road name',
+			valueText: `${caseData.affectedTrunkRoadName}`,
+			condition: () => isNotUndefinedOrNull(caseData.affectedTrunkRoadName)
+		},
+		{
+			keyText: 'Is site on crown land',
+			valueText: formatYesOrNo(caseData, 'isSiteOnCrownLand'),
+			condition: () => isNotUndefinedOrNull(caseData.isSiteOnCrownLand)
+		},
+		{
+			keyText: 'Uploaded enforcement stop notice',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.STOP_NOTICE),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.STOP_NOTICE),
+			isEscaped: true
+		},
+		{
+			keyText: 'Uploaded article 4 direction',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.ARTICLE_4_DIRECTION),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.ARTICLE_4_DIRECTION),
+			isEscaped: true
+		},
+		{
+			keyText: 'Article 4 affected development rights',
+			valueText: `${caseData.article4AffectedDevelopmentRights}`,
+			condition: () => isNotUndefinedOrNull(caseData.article4AffectedDevelopmentRights)
 		}
 	];
 
