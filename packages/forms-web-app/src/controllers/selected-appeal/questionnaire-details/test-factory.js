@@ -177,7 +177,8 @@ const makeNotifiedPartiesSectionData = () => {
 			makeDocument(APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_SITE_NOTICE),
 			makeDocument(APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_LETTER_TO_NEIGHBOURS),
 			makeDocument(APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_PRESS_ADVERT),
-			makeDocument(APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION)
+			makeDocument(APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION),
+			makeDocument(APPEAL_DOCUMENT_TYPE.ENFORCEMENT_LIST)
 		]
 	};
 };
@@ -332,7 +333,8 @@ const makeCaseTypeRows = (appealTypeCode, section, scheduleType) => {
 		case 'eia':
 			if (
 				appealTypeCode === CASE_TYPES.S78.processCode ||
-				appealTypeCode === CASE_TYPES.S20.processCode
+				appealTypeCode === CASE_TYPES.S20.processCode ||
+				appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode
 			) {
 				return makeEiaSectionData(scheduleType);
 			} else break;

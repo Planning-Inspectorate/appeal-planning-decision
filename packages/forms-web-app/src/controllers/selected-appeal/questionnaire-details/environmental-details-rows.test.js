@@ -77,7 +77,7 @@ describe('environmentalRows', () => {
 		['schedule-1', eiaSchedule1Data, expectedSchedule1Rows],
 		['schedule-2', eiaSchedule2Data, expectedSchedule2Rows],
 		['null', eiaNullData, expectedNullRows]
-	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
+	])(`should create correct rows for %s data`, (_, caseData, expectedRows) => {
 		const visibleRows = environmentalRows(caseData)
 			.filter((row) => row.condition(caseData))
 			.map((visibleRow) => {
@@ -126,5 +126,22 @@ describe('environmentalRows', () => {
 		expect(rows[7].valueText).toEqual(
 			'<a href="/published-document/2" class="govuk-link">scoping_opinion.txt</a>'
 		);
+	});
+
+	it.each([
+		[CASE_TYPES.HAS.processCode],
+		[CASE_TYPES.ADVERTS.processCode],
+		[CASE_TYPES.CAS_ADVERTS.processCode],
+		[CASE_TYPES.ENFORCEMENT_LISTED.processCode],
+		[CASE_TYPES.LDC.processCode],
+		[CASE_TYPES.CAS_PLANNING.processCode]
+	])(`should create empty array for appeal type %s`, (appealType) => {
+		const caseData = caseTypeLPAQFactory(appealType, 'eia', 'schedule-1');
+		const visibleRows = environmentalRows(caseData)
+			.filter((row) => row.condition(caseData))
+			.map((visibleRow) => {
+				return { title: visibleRow.keyText, value: visibleRow.valueText };
+			});
+		expect(visibleRows).toEqual([]);
 	});
 });

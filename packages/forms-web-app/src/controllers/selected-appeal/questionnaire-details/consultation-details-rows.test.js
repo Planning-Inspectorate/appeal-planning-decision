@@ -71,6 +71,19 @@ describe('consultationRows', () => {
 		expect(visibleRows).toEqual(expectedRows);
 	});
 
+	it.each([[CASE_TYPES.ENFORCEMENT.processCode]])(
+		'should return empty array for appeal type %s',
+		(appealType) => {
+			const caseData = caseTypeLPAQFactory(appealType, 'consultation');
+			const visibleRows = consultationRows(caseData)
+				.filter((row) => row.condition(caseData))
+				.map((visibleRow) => {
+					return { title: visibleRow.keyText, value: visibleRow.valueText };
+				});
+			expect(visibleRows).toEqual([]);
+		}
+	);
+
 	it('should show a document', () => {
 		const rows = consultationRows({
 			Documents: [
