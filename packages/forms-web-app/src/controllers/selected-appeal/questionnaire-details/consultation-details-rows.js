@@ -7,6 +7,8 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
  * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
  */
 exports.consultationRows = (caseData) => {
+	if (caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode) return [];
+
 	const documents = caseData.Documents || [];
 	const hasOtherPartyRepresentations = documentExists(
 		documents,

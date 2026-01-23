@@ -18,6 +18,10 @@ describe('notifiedDetailsRows', () => {
 			{
 				title: 'Appeal notification letter',
 				value: 'name.pdf - awaiting review'
+			},
+			{
+				title: 'List of people sent enforcement notice',
+				value: 'name.pdf - awaiting review'
 			}
 		];
 
@@ -36,7 +40,8 @@ describe('notifiedDetailsRows', () => {
 			{ title: 'Site notice', value: 'No' },
 			{ title: 'Letter sent to neighbours', value: 'No' },
 			{ title: 'Press advert', value: 'No' },
-			{ title: 'Appeal notification letter', value: 'No' }
+			{ title: 'Appeal notification letter', value: 'No' },
+			{ title: 'List of people sent enforcement notice', value: 'No' }
 		];
 
 		const visibleRows = notifiedRows({

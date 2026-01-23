@@ -329,6 +329,19 @@ describe('makeNotifiedPartiesSectionData', () => {
 				size: 100000,
 				sourceSystem: '',
 				stage: ''
+			},
+			{
+				caseReference: '0000001',
+				dateCreated: '2023-01-01',
+				documentType: 'enforcementList',
+				documentURI: '',
+				filename: 'name.pdf',
+				id: '',
+				origin: '',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				sourceSystem: '',
+				stage: ''
 			}
 		]
 	};

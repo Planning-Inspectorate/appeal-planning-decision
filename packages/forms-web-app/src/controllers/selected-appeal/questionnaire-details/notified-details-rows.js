@@ -51,6 +51,12 @@ exports.notifiedRows = (caseData) => {
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION),
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION),
 			isEscaped: true
+		},
+		{
+			keyText: 'List of people sent enforcement notice',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.ENFORCEMENT_LIST),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.ENFORCEMENT_LIST),
+			isEscaped: true
 		}
 	];
 };
