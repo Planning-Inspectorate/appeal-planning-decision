@@ -57,18 +57,27 @@ const getDeadlineV2 = (
 	applicationDecisionDate = '',
 	hasContactedPlanningInspectorate = false
 ) => {
-	const deadline =
-		appealType === CASE_TYPES.ENFORCEMENT.processCode ||
-		appealType === CASE_TYPES.ENFORCEMENT_LISTED.processCode
-			? enforcementNoticeDeadline(enforcementEffectiveDate, hasContactedPlanningInspectorate)
-			: businessRulesDeadline(
-					applicationDecisionDate,
-					mapTypeCodeToAppealId(appealType),
-					null,
-					true
-				);
-
-	return deadline;
+	switch (appealType) {
+		case CASE_TYPES.LDC.processCode:
+			return applicationDecisionDate
+				? businessRulesDeadline(
+						applicationDecisionDate,
+						mapTypeCodeToAppealId(appealType),
+						null,
+						true
+					)
+				: null;
+		case CASE_TYPES.ENFORCEMENT.processCode:
+		case CASE_TYPES.ENFORCEMENT_LISTED.processCode:
+			return enforcementNoticeDeadline(enforcementEffectiveDate, hasContactedPlanningInspectorate);
+		default:
+			return businessRulesDeadline(
+				applicationDecisionDate,
+				mapTypeCodeToAppealId(appealType),
+				null,
+				true
+			);
+	}
 };
 
 module.exports = {

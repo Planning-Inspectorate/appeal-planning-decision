@@ -88,7 +88,9 @@ const postTypeOfPlanningApplication = async (req, res) => {
 	}
 
 	try {
-		appeal.eligibility.isListedBuilding = isListedBuilding;
+		appeal.eligibility.isListedBuilding = isListedBuilding
+			? isListedBuilding
+			: appeal.eligibility.isListedBuilding;
 		appeal.appealType = mapPlanningApplication(typeOfPlanningApplication);
 		appeal.typeOfPlanningApplication = typeOfPlanningApplication;
 		req.session.appeal = await createOrUpdateAppeal(appeal);

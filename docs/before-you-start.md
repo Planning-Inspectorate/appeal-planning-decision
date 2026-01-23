@@ -27,6 +27,7 @@ flowchart TD
     decideS20{appeal type = S20}:::decisionStyle
     decideCAS{appeal type = CAS Planning}:::decisionStyle
     decideAdvert{appeal type = Adverts}:::decisionStyle
+    decideLDC{appeal type = LDC}:::decisionStyle
 
     %% Appeal Forms
     HAS@{ shape: doc, label: "HAS Appeal" }
@@ -35,6 +36,7 @@ flowchart TD
     CAS@{ shape: doc, label: "CAS Planning Appeal" }
     Advert@{ shape: doc, label: "Advert/CAS Advert Appeal" }
     Enforcement@{ shape: doc, label: "Enforcement Notice Appeal" }
+    LDC@{ shape: doc, label: "Lawful Development Certificate Appeal"}
 
     %% questions
     lpa[LPA?]
@@ -79,6 +81,7 @@ flowchart TD
     applicationType -- listed building consent --> decideS20
     applicationType -- display advert --> decideAdvert
     applicationType -- minor commercial --> applicationAboutCAS
+    applicationType -- lawful development certificate --> decideLDC
     applicationType -- prior --> existingHome
     applicationType -- conditions --> conditionsHouseholder
     applicationType -- none/something else --> acp1
@@ -90,18 +93,21 @@ flowchart TD
     applicationAboutCAS -- any other --> decideS78A
 
     existingHome -- yes --> grantedRefusedUndecided
-	existingHome -- no --> decideS78A
+	  existingHome -- no --> decideS78A
 
     conditionsHouseholder -- yes --> listedBuilding
     conditionsHouseholder -- no --> listedBuilding
 
-    listedBuilding -- yes --> decideS20
-    listedBuilding -- no --> decideS78A
+    listedBuilding -- yes (not LDC) --> decideS20
+    listedBuilding -- no (not LDC) --> decideS78A
+    listedBuilding -- yes (LDC) --> grantedRefused
+    listedBuilding -- no (LDC) --> LDC
 
     decideS78A --> grantedRefused
     decideS20 --> grantedRefused
     decideAdvert --> grantedRefused
     decideCAS --> grantedRefused
+    decideLDC --> listedBuilding
 
     grantedRefused --> decisionDate
 
@@ -117,11 +123,12 @@ flowchart TD
     decisionDate -- Advert --> Advert
     decisionDate -- CAS --> CAS
     decisionDate -- S20 --> S20
+    decisionDate -- LDC --> LDC
 
     %% styles
     classDef decisionStyle fill:#ffe8c6,stroke:#c26d00,color:#111,stroke-width:2px;
     classDef appealForm fill:#e5f8ec,stroke:#1b7f3c,color:#111,stroke-width:2px;
     classDef exitStyle fill:#ffe6e6,stroke:#d4351c,color:#111,stroke-width:2px;
 
-    class HAS,S78,S20,Advert,CAS,legAppealForm,Enforcement,example appealForm;
+    class HAS,S78,S20,Advert,CAS,legAppealForm,Enforcement,LDC,example appealForm;
 ```

@@ -37,6 +37,9 @@ const getEmailConfirmed = async (req, res) => {
 		case APPEAL_ID.ENFORCEMENT_LISTED_BUILDING:
 			listOfDocumentsUrl = '/appeals/enforcement-listed-building/appeal-form/before-you-start';
 			break;
+		case APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE:
+			listOfDocumentsUrl = '/appeals/ldc/appeal-form/before-you-start';
+			break;
 		default:
 			throw new Error(`Unknown appeal type: ${appeal.appealType}`);
 	}

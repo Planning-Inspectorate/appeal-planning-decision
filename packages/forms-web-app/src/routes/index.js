@@ -22,6 +22,7 @@ const listedBuilding = require('./listed-building');
 const casPlanning = require('./cas-planning');
 const adverts = require('./adverts');
 const enforcement = require('./enforcement');
+const ldc = require('./ldc');
 const debug = require('./debug');
 const {
 	getDocument,
@@ -83,6 +84,9 @@ router.use('/adverts', adverts);
 
 /// enforcement notice ///
 router.use('/enforcement', enforcement);
+
+/// lawful development certificate ///
+router.use('/ldc', ldc);
 
 /// appeal ///
 router.use('/appeal', appeal);

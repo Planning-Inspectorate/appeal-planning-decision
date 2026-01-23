@@ -53,7 +53,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 	let appeal;
 
 	beforeEach(() => {
-		appeal = require('@pins/business-rules/test/data/full-appeal');
+		appeal = v8.deserialize(v8.serialize(require('@pins/business-rules/test/data/full-appeal'))); // ensure no overlap between the tests
 		req = v8.deserialize(v8.serialize(mockReq(appeal)));
 		res = mockRes();
 
@@ -228,7 +228,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/prior-approval-existing-home');
 		});
 
-		it('should redirect to the removal or variation of conditions page', async () => {
+		it('should redirect to the removal or variation of conditions page - value of isListedBuilding should not change', async () => {
 			const planningApplication = REMOVAL_OR_VARIATION_OF_CONDITIONS;
 
 			const mockRequest = {
@@ -236,12 +236,14 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				body: { 'type-of-planning-application': planningApplication }
 			};
 
+			mockRequest.session.appeal.eligibility.isListedBuilding = true;
+
 			await postTypeOfPlanningApplication(mockRequest, res);
 
 			const updatedAppeal = appeal;
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
-			updatedAppeal.eligibility.isListedBuilding = null;
+			updatedAppeal.eligibility.isListedBuilding = true;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal
@@ -278,7 +280,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/planning-application-about');
 		});
 
-		it('should redirect to the listed building page - ldc', async () => {
+		it('should redirect to the listed building page and not change the listedBuilding response - ldc', async () => {
 			isLpaInFeatureFlag.mockImplementation((_, flag) => {
 				return flag === FLAG.LDC_APPEAL_FORM_V2;
 			});
@@ -290,12 +292,14 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				body: { 'type-of-planning-application': planningApplication }
 			};
 
+			mockRequest.session.appeal.eligibility.isListedBuilding = true;
+
 			await postTypeOfPlanningApplication(mockRequest, res);
 
 			const updatedAppeal = appeal;
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
-			updatedAppeal.eligibility.isListedBuilding = null;
+			updatedAppeal.eligibility.isListedBuilding = true;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal

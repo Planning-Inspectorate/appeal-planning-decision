@@ -658,9 +658,22 @@ describe('dynamic-form/controller', () => {
 				applicationDecision: 'some-decision'
 			}
 		};
+
+		const enforcementAppeal = {
+			...appeal,
+			appealType: APPEAL_ID.ENFORCEMENT_NOTICE,
+			enforcementReferenceNumber: 1,
+			eligibility: {
+				enforcementIssueDate: '2023-01-01',
+				enforcementEffectiveDate: '2023-03-01',
+				hasContactedPlanningInspectorate: true,
+				contactPlanningInspectorateDate: '2023-02-01'
+			}
+		};
+
 		const lpa = { lpaCode: 'some-lpa-code', id: 'some-id' };
 
-		it('should generate appellant submission and redirect', async () => {
+		it('should generate appellant submission and redirect - HAS', async () => {
 			getDepartmentFromId.mockResolvedValue(lpa);
 			req.appealsApiClient.createAppellantSubmission.mockResolvedValue({
 				id: 'some-submission-id'
@@ -687,6 +700,144 @@ describe('dynamic-form/controller', () => {
 			});
 			expect(res.redirect).toHaveBeenCalledWith(
 				'/appeals/householder/appeal-form/your-appeal?id=some-submission-id'
+			);
+		});
+
+		it('should generate appellant submission and redirect- enforcement', async () => {
+			getDepartmentFromId.mockResolvedValue(lpa);
+			req.appealsApiClient.createAppellantSubmission.mockResolvedValue({
+				id: 'some-submission-id'
+			});
+
+			req.session.appeal = enforcementAppeal;
+
+			await appellantStartAppeal(req, res);
+
+			expect(getDepartmentFromId).toHaveBeenCalledWith(enforcementAppeal.lpaCode);
+			expect(req.appealsApiClient.createAppellantSubmission).toHaveBeenCalledWith({
+				appealId: enforcementAppeal.appealSqlId,
+				LPACode: lpa.lpaCode,
+				appealTypeCode: CASE_TYPES.ENFORCEMENT.processCode,
+				enforcementIssueDate: enforcementAppeal.eligibility.enforcementIssueDate,
+				enforcementEffectiveDate: enforcementAppeal.eligibility.enforcementEffectiveDate,
+				hasContactedPlanningInspectorate:
+					enforcementAppeal.eligibility.hasContactedPlanningInspectorate,
+				contactPlanningInspectorateDate:
+					enforcementAppeal.eligibility.contactPlanningInspectorateDate,
+				enforcementReferenceNumber: enforcementAppeal.enforcementReferenceNumber
+			});
+			expect(deleteAppeal).toHaveBeenCalledWith(enforcementAppeal.id);
+			expect(req.session.appeal).toBeNull();
+			expect(req.appealsApiClient.patchAppealById).toHaveBeenCalledWith(
+				enforcementAppeal.appealSqlId,
+				{
+					legacyAppealSubmissionId: null,
+					legacyAppealSubmissionDecisionDate: null,
+					legacyAppealSubmissionState: null
+				}
+			);
+			expect(res.redirect).toHaveBeenCalledWith(
+				'/appeals/enforcement/appeal-form/your-appeal?id=some-submission-id'
+			);
+		});
+
+		it('should generate appellant submission and redirect- enforcement listed building', async () => {
+			getDepartmentFromId.mockResolvedValue(lpa);
+			req.appealsApiClient.createAppellantSubmission.mockResolvedValue({
+				id: 'some-submission-id'
+			});
+
+			req.session.appeal = enforcementAppeal;
+			req.session.appeal.appealType = APPEAL_ID.ENFORCEMENT_LISTED_BUILDING;
+
+			await appellantStartAppeal(req, res);
+
+			expect(getDepartmentFromId).toHaveBeenCalledWith(enforcementAppeal.lpaCode);
+			expect(req.appealsApiClient.createAppellantSubmission).toHaveBeenCalledWith({
+				appealId: enforcementAppeal.appealSqlId,
+				LPACode: lpa.lpaCode,
+				appealTypeCode: CASE_TYPES.ENFORCEMENT_LISTED.processCode,
+				enforcementIssueDate: enforcementAppeal.eligibility.enforcementIssueDate,
+				enforcementEffectiveDate: enforcementAppeal.eligibility.enforcementEffectiveDate,
+				hasContactedPlanningInspectorate:
+					enforcementAppeal.eligibility.hasContactedPlanningInspectorate,
+				contactPlanningInspectorateDate:
+					enforcementAppeal.eligibility.contactPlanningInspectorateDate,
+				enforcementReferenceNumber: enforcementAppeal.enforcementReferenceNumber
+			});
+			expect(deleteAppeal).toHaveBeenCalledWith(enforcementAppeal.id);
+			expect(req.session.appeal).toBeNull();
+			expect(req.appealsApiClient.patchAppealById).toHaveBeenCalledWith(
+				enforcementAppeal.appealSqlId,
+				{
+					legacyAppealSubmissionId: null,
+					legacyAppealSubmissionDecisionDate: null,
+					legacyAppealSubmissionState: null
+				}
+			);
+			expect(res.redirect).toHaveBeenCalledWith(
+				'/appeals/enforcement-listed-building/appeal-form/your-appeal?id=some-submission-id'
+			);
+		});
+
+		it('should generate appellant submission and redirect- LDC with no decision date', async () => {
+			getDepartmentFromId.mockResolvedValue(lpa);
+			req.appealsApiClient.createAppellantSubmission.mockResolvedValue({
+				id: 'some-submission-id'
+			});
+			req.session.appeal = appeal;
+			req.session.appeal.appealType = APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE;
+			req.session.appeal.eligibility.isListedBuilding = false; // therefore has no decision date
+
+			await appellantStartAppeal(req, res);
+
+			expect(getDepartmentFromId).toHaveBeenCalledWith(appeal.lpaCode);
+			expect(req.appealsApiClient.createAppellantSubmission).toHaveBeenCalledWith({
+				appealId: appeal.appealSqlId,
+				LPACode: lpa.lpaCode,
+				appealTypeCode: CASE_TYPES.LDC.processCode
+			});
+			expect(deleteAppeal).toHaveBeenCalledWith(appeal.id);
+			expect(req.session.appeal).toBeNull();
+			expect(req.appealsApiClient.patchAppealById).toHaveBeenCalledWith(appeal.appealSqlId, {
+				legacyAppealSubmissionId: null,
+				legacyAppealSubmissionDecisionDate: null,
+				legacyAppealSubmissionState: null
+			});
+			expect(res.redirect).toHaveBeenCalledWith(
+				'/appeals/ldc/appeal-form/your-appeal?id=some-submission-id'
+			);
+		});
+
+		it('should generate appellant submission and redirect- ldc with decision date', async () => {
+			getDepartmentFromId.mockResolvedValue(lpa);
+			req.appealsApiClient.createAppellantSubmission.mockResolvedValue({
+				id: 'some-submission-id'
+			});
+			req.session.appeal = appeal;
+			req.session.appeal.appealType = APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE;
+			req.session.appeal.eligibility.isListedBuilding = true; // therefore has decision date
+
+			await appellantStartAppeal(req, res);
+
+			expect(getDepartmentFromId).toHaveBeenCalledWith(appeal.lpaCode);
+			expect(req.appealsApiClient.createAppellantSubmission).toHaveBeenCalledWith({
+				appealId: appeal.appealSqlId,
+				LPACode: lpa.lpaCode,
+				appealTypeCode: CASE_TYPES.LDC.processCode,
+				applicationDecisionDate: appeal.decisionDate,
+				applicationReference: appeal.planningApplicationNumber,
+				applicationDecision: appeal.eligibility.applicationDecision
+			});
+			expect(deleteAppeal).toHaveBeenCalledWith(appeal.id);
+			expect(req.session.appeal).toBeNull();
+			expect(req.appealsApiClient.patchAppealById).toHaveBeenCalledWith(appeal.appealSqlId, {
+				legacyAppealSubmissionId: null,
+				legacyAppealSubmissionDecisionDate: null,
+				legacyAppealSubmissionState: null
+			});
+			expect(res.redirect).toHaveBeenCalledWith(
+				'/appeals/ldc/appeal-form/your-appeal?id=some-submission-id'
 			);
 		});
 	});

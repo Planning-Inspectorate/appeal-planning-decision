@@ -55,7 +55,7 @@ const appellantSubmissionTaskList = async (req, res) => {
 	);
 
 	// @ts-ignore //
-	const formattedDeadline = format(deadline, 'dd MMM yyyy');
+	const formattedDeadline = deadline ? format(deadline, 'dd MMM yyyy') : null;
 
 	const caseType = caseTypeLookup(appealType, 'processCode');
 	if (!caseType) throw new Error(`Appeal type ${appealType} does not exist`);

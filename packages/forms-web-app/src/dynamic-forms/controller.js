@@ -188,6 +188,16 @@ function buildCreateAppellantSubmissionData(lpaCode, appealTypeCode, appeal) {
 			contactPlanningInspectorateDate: appeal.eligibility.contactPlanningInspectorateDate,
 			enforcementReferenceNumber: appeal.enforcementReferenceNumber
 		};
+	} else if (
+		appealTypeCode === CASE_TYPES.LDC.processCode &&
+		!appeal.eligibility.isListedBuilding // no decision date or decision
+	) {
+		return {
+			appealId: appeal.appealSqlId,
+			LPACode: lpaCode,
+			appealTypeCode,
+			typeOfPlanningApplication: appeal.typeOfPlanningApplication
+		};
 	} else {
 		return {
 			appealId: appeal.appealSqlId,
