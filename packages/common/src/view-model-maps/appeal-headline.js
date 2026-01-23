@@ -2,7 +2,7 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('../constants');
 const { formatApplicant } = require('../lib/format-applicant');
 const { formatAddress } = require('../lib/format-address');
 const { formatLinkedCases } = require('../lib/format-linked-cases');
-const { PROCEDURE_TYPES } = require('../database/data-static');
+const { PROCEDURE_TYPES, CASE_TYPES } = require('../database/data-static');
 const { caseTypeNameWithDefault } = require('../lib/format-case-type');
 const { formatGridReference } = require('../lib/format-grid-reference');
 
@@ -23,14 +23,29 @@ const formatHeadlineData = ({
 	lpaName = '',
 	role = APPEAL_USER_ROLES.INTERESTED_PARTY
 }) => {
-	const { caseReference, appealTypeCode, caseProcedure, users, applicationReference, linkedCases } =
-		caseData;
+	const {
+		caseReference,
+		appealTypeCode,
+		caseProcedure,
+		users,
+		applicationReference,
+		linkedCases,
+		enforcementReference
+	} = caseData;
 
 	const address = caseData.siteAddressLine1
 		? formatAddress(caseData)
 		: formatGridReference(caseData.siteGridReferenceEasting, caseData.siteGridReferenceNorthing);
 
 	const applicant = formatApplicant(users, role);
+
+	const isEnforcement =
+		appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode ||
+		appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+
+	const referenceKey = isEnforcement ? 'Enforcement notice reference' : 'Application number';
+
+	const referenceValue = isEnforcement ? enforcementReference : applicationReference;
 
 	const headlines = [
 		{
@@ -61,8 +76,8 @@ const formatHeadlineData = ({
 				}
 			: {},
 		{
-			key: { text: 'Application number' },
-			value: { text: applicationReference }
+			key: { text: referenceKey },
+			value: { text: referenceValue }
 		}
 	];
 
