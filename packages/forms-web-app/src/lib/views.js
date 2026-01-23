@@ -186,6 +186,14 @@ const VIEW = {
 		NEED_NEW_CODE: 'enforcement/need-new-code', // redirect only
 		EMAIL_CONFIRMED: 'enforcement/email-address-confirmed' // redirect only
 	},
+	LAWFUL_DEVELOPMENT_CERTIFICATE: {
+		EMAIL_ADDRESS: 'ldc/email-address', // redirect only
+		ENTER_CODE: 'ldc/enter-code', // redirect only
+		REQUEST_NEW_CODE: 'ldc/request-new-code', // redirect only
+		CODE_EXPIRED: 'ldc/code-expired', // redirect only
+		NEED_NEW_CODE: 'ldc/need-new-code', // redirect only
+		EMAIL_CONFIRMED: 'ldc/email-address-confirmed' // redirect only
+	},
 	COMMON: {
 		ENTER_CODE: 'common/enter-code',
 		REQUEST_NEW_CODE: 'common/request-new-code',

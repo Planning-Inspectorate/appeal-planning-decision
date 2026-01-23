@@ -104,7 +104,7 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 		it('calls correct template: enforcement notice', async () => {
 			req.session.appeal.appealType = APPEAL_ID.ENFORCEMENT_NOTICE;
 			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.ADVERTS_APPEAL_FORM_V2;
+				return flag === FLAG.ENFORCEMENT_APPEAL_FORM_V2;
 			});
 
 			await getEmailConfirmed(req, res);
@@ -113,6 +113,21 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ENFORCEMENT'))
+			});
+		});
+
+		it('calls correct template: ldc', async () => {
+			req.session.appeal.appealType = APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE;
+			isLpaInFeatureFlag.mockImplementation((_, flag) => {
+				return flag === FLAG.LDC_APPEAL_FORM_V2;
+			});
+
+			await getEmailConfirmed(req, res);
+			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
+				listOfDocumentsUrl: '/appeals/ldc/appeal-form/before-you-start',
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('LDC'))
 			});
 		});
 	});
