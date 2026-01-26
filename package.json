@@ -135,7 +135,7 @@
 		"express-session": "^1.18.2",
 		"express-validator": "7.3.1",
 		"form-data": "^4.0.5",
-		"govuk-frontend": "^5.13.0",
+		"govuk-frontend": "^5.14.0",
 		"helmet": "^8.1.0",
 		"joi": "^18.0.2",
 		"jose": "^6.1.3",
