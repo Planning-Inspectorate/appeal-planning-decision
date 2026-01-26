@@ -31,80 +31,6 @@ export const appealsApiClient = {
 	// 				'Content-Type': 'application/json'
 	// 			},
 	// 			body: JSON.stringify({
-	// 				casedata: {
-	// 					...casedata,
-	// 					...requestBody
-	// 				},
-	// 				users,
-	// 				documents
-	// 			})
-	// 		});
-
-	// 		if (!response.ok) {
-	// 			const errorBody = await response.text();
-	// 			throw new Error(`HTTP error calling: ${url} with status: ${response.status}`, errorBody);
-	// 		}
-
-	// 		const data = await response.json();
-	// 		return {
-	// 			reference: data.reference,
-	// 			id: data.id
-	// 		};
-	// 	} catch (error) {
-	// 		console.error('Error making API call:', error);
-	// 		throw error;
-	// 	}
-	// },
-	// async lpqaSubmission(reference) {
-	// 	try {
-	// 		const requestBody = createApiSubmission(appealsApiRequests.lpaqSubmission, 'lpaq');
-	// 		requestBody.casedata.caseReference = reference;
-
-	// 		const url = baseUrl + apiPaths.lpqaSubmission;
-	// 		const response = await fetch(url, {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json'
-	// 			},
-	// 			body: JSON.stringify(requestBody)
-	// 		});
-
-	// 		if (!response.ok) {
-	// 			const errorBody = await response.text();
-	// 			throw new Error(`HTTP error calling: ${url} with status: ${response.status}`, errorBody);
-	// 		}
-
-	// 		const data = await response.json();
-	// 		return data.reference;
-	// 	} catch (error) {
-	// 		console.error('Error making API call:', error);
-	// 		throw error;
-	// 	}
-	// },
-	// async addRepresentation(reference, type, serviceUserId, representation) {
-	// 	const submission = createApiSubmission(appealsApiRequests[type], type);
-	// 	submission.caseReference = reference;
-	// 	if (serviceUserId !== null) {
-	// 		submission.serviceUserId = serviceUserId;
-	// 	}
-	// 	if (representation !== null) {
-	// 		submission.representation = representation;
-	// 	}
-	// 	try {
-	// 		const url = baseUrl + apiPaths.repSubmission;
-	// 		const response = await fetch(url, {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-	// 			},
-	// 			body: JSON.stringify(submission)
-	// 		});
-
-	// 		return await response.json();
-	// 	} catch {
-	// 		return false;
-	// 	}
 	// },
 	async simulateSiteVisitElapsed(reference) {
 		try {
@@ -611,64 +537,20 @@ export const appealsApiClient = {
 	// 	});
 	// }
 
-	async reviewLpaq(appealReference) {
-		// Add detailed logging around the review-lpaq call to help debug 500s and other failures
-		const url = `${baseUrl}appeals/${appealReference}/review-lpaq`;
-		const headers = {
-			'Content-Type': 'application/json',
-			azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-		};
-
-		console.log('[reviewLpaq] POST', url);
-		console.log('[reviewLpaq] headers', headers);
-
-		let response;
-		try {
-			response = await fetch(url, { method: 'POST', headers });
-		} catch (networkErr) {
-			console.error('[reviewLpaq] network error:', networkErr);
-			throw new Error(`reviewLpaq network error: ${networkErr?.message || networkErr}`);
-		}
-
-		const status = response.status;
-		console.log('[reviewLpaq] status', status);
-
-		let bodyText = '';
-		let bodyJson = null;
-		const contentType = response.headers?.get?.('content-type') || '';
-		try {
-			if (contentType.includes('application/json')) {
-				bodyJson = await response.json();
-				console.log('[reviewLpaq] body (json)', bodyJson);
-			} else {
-				bodyText = await response.text();
-				console.log('[reviewLpaq] body (text)', bodyText);
-			}
-		} catch (parseErr) {
-			console.warn('[reviewLpaq] failed to parse response body', parseErr);
-		}
-
-		if (status !== 200) {
-			// throw with rich context so Cypress shows it in the test output
-			const details = bodyJson || bodyText || '(no body)';
-			throw new Error(`reviewLpaq failed: HTTP ${status} ${typeof details === 'string' ? details : JSON.stringify(details)}`);
-		}
-
-		// Validate expected contract and log if missing
-		const validationName = bodyJson?.validationOutcome?.name;
-		if (!validationName) {
-			console.warn('[reviewLpaq] missing validationOutcome.name in response');
-		}
-		try {
-			expect(validationName).eq('Complete');
-		} catch (assertErr) {
-			console.error('[reviewLpaq] assertion failed: expected validationOutcome.name === "Complete"', {
-				validationName
-			});
-			throw assertErr;
-		}
-
-		return bodyJson;
+	reviewLpaq(appealReference) {
+		return cy.request({
+			method: 'POST',
+			url: `${baseUrl}appeals/${appealReference}/review-lpaq`,
+			headers: {
+				'Content-Type': 'application/json',
+				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+			},
+			failOnStatusCode: false
+		}).then(({ status, body }) => {
+			expect(status).to.eq(200);
+			expect(body?.validationOutcome?.name).to.eq('Complete');
+			return body;
+		});
 	}
 
 	// async reviewLpaq(appealReference) {

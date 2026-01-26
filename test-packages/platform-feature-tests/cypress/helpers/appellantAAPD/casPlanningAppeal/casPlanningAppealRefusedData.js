@@ -26,7 +26,7 @@ export const casPlanningAppealRefusedTestCases = [
         endToEndIntegration: true,
         applicationForm: {
             isAppellant: true,
-            //areaUnits:'hectare',
+            areaUnits:'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
@@ -40,7 +40,7 @@ export const casPlanningAppealRefusedTestCases = [
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'written',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false
+            isAppellantLinkedCaseAdd: true
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -79,7 +79,7 @@ export const casPlanningAppealRefusedTestCases = [
             isAppellantSiteSafety: false,
             iaUpdateDevelopmentDescription: false,
             anyOtherAppeals: false,
-            isAppellantLinkedCaseAdd: true
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             isApplyAwardCost: false,
@@ -95,7 +95,7 @@ export const casPlanningAppealRefusedTestCases = [
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
         }
-    },
+   },
     //full plan refused with select all false
     {
         statusOfOriginalApplication: 'refused',
@@ -142,5 +142,5 @@ export const casPlanningAppealRefusedTestCases = [
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
         }
-    },
+    }
 ];

@@ -56,12 +56,21 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? 
 		initialiseHouseHolderPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData,  lpaManageAppealsData,questionnaireTestCases, statementTestCases) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);	
 	} else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
+		// if(context?.selectAllPlanningApplicationAbout) {
+		// 	//s78 route
+		// 	initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+		// } else {
+		// 	//cas planning route			
+		// 	initialiseCasPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText,context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+		// }
 		if(context?.selectAllPlanningApplicationAbout) {
 			//s78 route
 			initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 		} else {
 			//cas planning route
-			initialiseCasPlanning(planning, grantedOrRefusedId,  prepareAppealSelector?._selectors?.casPlanningText,context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases)
+			statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? 
+			initialiseCasPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText,context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) :
+			initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 		}
 	} else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialAdvertisement) {
 		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? 

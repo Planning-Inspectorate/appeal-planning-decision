@@ -64,7 +64,7 @@ describe('Submit CAS Planning Appeal No Decision Test Cases', { tags: '@CAS-Plan
 				context,
 				prepareAppealData,
 				lpaManageAppealsData,
-				questionnaireTestCases: selectAllPlanningApplicationAbout ? fullAppealQuestionnaireTestCases : casPlanningQuestionnaireTestCases,
+				questionnaireTestCases: fullAppealQuestionnaireTestCases,
 				statementTestCases
 			});
 		});
@@ -89,7 +89,7 @@ describe('Submit CAS Planning Appeal No Decision Test Cases', { tags: '@CAS-Plan
 			context,
 			prepareAppealData,
 			lpaManageAppealsData,
-			questionnaireTestCases: selectAllPlanningApplicationAbout ? fullAppealQuestionnaireTestCases : casPlanningQuestionnaireTestCases,
+			questionnaireTestCases: fullAppealQuestionnaireTestCases,
 			statementTestCases
 		});
 	});

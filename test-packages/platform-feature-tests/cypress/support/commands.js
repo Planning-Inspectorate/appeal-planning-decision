@@ -290,21 +290,18 @@ Cypress.Commands.add('startAppeal', (caseObj) => {
 });
 
 Cypress.Commands.add('reviewLpaqSubmission', (caseObj) => {
-	return cy.wrap(null).then(async () => {
-		cy.log(`[reviewLpaqSubmission] Starting review for case ${caseObj}`);
-		try {
-			const body = await appealsApiClient.reviewLpaq(caseObj);
-			cy.log(`[reviewLpaqSubmission] Success. validationOutcome: ${body?.validationOutcome?.name || 'unknown'}`);
-		} catch (err) {
-			// Surface maximum context in Cypress runner
-			const message = err?.message || String(err);
-			cy.log(`[reviewLpaqSubmission] ERROR: ${message}`);
-			// Optionally fail the test explicitly so we see logs above
-			throw err;
-		}
-		cy.log('Reviewed lpaq submission for case ref ' + caseObj);
-		cy.reload();
-	});
+	cy.log(`[reviewLpaqSubmission] Starting review for case ${caseObj}`);
+	return appealsApiClient
+		.reviewLpaq(caseObj)
+		.then((body) => {
+			cy.log(
+				`[reviewLpaqSubmission] Success. validationOutcome: ${body?.validationOutcome?.name || 'unknown'}`
+			);
+			cy.log('Reviewed lpaq submission for case ref ' + caseObj);
+		})
+		.then(() => {
+			return cy.reload();
+		});
 });
 
 Cypress.Commands.add('reviewStatementViaApi', (caseObj) => {
