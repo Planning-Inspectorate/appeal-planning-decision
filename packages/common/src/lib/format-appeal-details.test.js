@@ -5,7 +5,8 @@ const {
 	formatSubmissionRelatedAppeals,
 	formatFactsForGround,
 	hasAppealGround,
-	formatInterestInLand
+	formatInterestInLand,
+	formatGroundsOfAppeal
 } = require('./format-appeal-details');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 const escape = require('escape-html');
@@ -204,6 +205,28 @@ describe('format-appeal-details', () => {
 			const result = formatInterestInLand(caseData);
 			expect(result.interestInLand).toBe('Other');
 			expect(result.hasPermission).toBe(true);
+		});
+	});
+
+	describe('formatGroundsOfAppeal', () => {
+		it('should return string of formatted appeal ground letters, in alphabetical order', () => {
+			const testGrounds = [
+				{
+					appealGroundLetter: 'd',
+					groundFacts: 'test facts d'
+				},
+				{
+					appealGroundLetter: 'a',
+					groundFacts: 'test facts a'
+				},
+				{
+					appealGroundLetter: 'b',
+					groundFacts: 'test facts b'
+				}
+			];
+
+			const result = formatGroundsOfAppeal(testGrounds);
+			expect(result).toBe(`Ground (a)\nGround (b)\nGround (d)`);
 		});
 	});
 });

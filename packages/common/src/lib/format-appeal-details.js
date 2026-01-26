@@ -217,10 +217,13 @@ exports.hasAppealGround = (caseData, ground) => {
 };
 
 /**
- * @param {import("../client/appeals-api-client").AppealCaseDetailed['EnforcementAppealGroundDetails']} grounds
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed['EnforcementAppealGroundsDetails']} grounds
  */
 exports.formatGroundsOfAppeal = (grounds) => {
-	return grounds.map((groundDetails) => groundDetails.appealGroundLetter).join('\n');
+	return grounds
+		.sort((a, b) => a.appealGroundLetter.localeCompare(b.appealGroundLetter))
+		.map((groundDetails) => `Ground (${groundDetails.appealGroundLetter})`)
+		.join('\n');
 };
 
 /**
