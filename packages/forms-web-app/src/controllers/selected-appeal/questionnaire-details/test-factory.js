@@ -258,6 +258,23 @@ const makePlanningOfficerReportSectionData = (appealTypeCode) => {
 				didAppellantSubmitCompletePhotosAndPlans: true,
 				Documents: [...sharedDocs]
 			};
+		case CASE_TYPES.ENFORCEMENT.processCode:
+			return {
+				infrastructureLevy: true,
+				infrastructureLevyAdopted: true,
+				infrastructureLevyAdoptedDate: '2023-01-01',
+				Documents: [
+					...sharedDocs,
+					makeDocument(APPEAL_DOCUMENT_TYPE.COMMUNITY_INFRASTRUCTURE_LEVY),
+					makeDocument(APPEAL_DOCUMENT_TYPE.EMERGING_PLAN),
+					makeDocument(APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_POLICIES),
+					makeDocument(APPEAL_DOCUMENT_TYPE.LOCAL_DEVELOPMENT_ORDER),
+					makeDocument(APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION),
+					makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
+					makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN),
+					makeDocument(APPEAL_DOCUMENT_TYPE.PLANNING_CONTRAVENTION_NOTICE)
+				]
+			};
 		default:
 			return {};
 	}
@@ -306,6 +323,7 @@ const makeAppealProcessSectionData = (appealTypeCode) => {
 		case CASE_TYPES.S78.processCode:
 		case CASE_TYPES.S20.processCode:
 		case CASE_TYPES.ADVERTS.processCode:
+		case CASE_TYPES.ENFORCEMENT.processCode:
 			return {
 				lpaProcedurePreference: 'inquiry',
 				submissionLinkedCases: [

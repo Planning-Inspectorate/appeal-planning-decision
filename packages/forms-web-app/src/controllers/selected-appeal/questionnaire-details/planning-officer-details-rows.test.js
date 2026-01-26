@@ -23,6 +23,10 @@ describe('planningOfficerReportRows', () => {
 		'planningOfficersReport'
 	);
 	const ldcLPAQData = caseTypeLPAQFactory(CASE_TYPES.LDC.processCode, 'planningOfficersReport');
+	const enforcementLPAQData = caseTypeLPAQFactory(
+		CASE_TYPES.ENFORCEMENT.processCode,
+		'planningOfficersReport'
+	);
 
 	const expectedRowsHas = [
 		{
@@ -115,6 +119,29 @@ describe('planningOfficerReportRows', () => {
 			value: 'Yes'
 		}
 	];
+	const expectedRowsEnforcement = [
+		...expectedRowsS78,
+		{
+			title: 'Uploaded local development order',
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Uploaded previous planning permission',
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Uploaded enforcement notice',
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Uploaded enforcement notice plan',
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Uploaded planning contravention notice',
+			value: 'name.pdf - awaiting review'
+		}
+	];
 
 	it.each([
 		['HAS', hasLPAQData, expectedRowsHas],
@@ -123,7 +150,8 @@ describe('planningOfficerReportRows', () => {
 		['S20', s20LPAQData, expectedRowsS78],
 		['Adverts', advertsLPAQData, expectedRowsAdverts],
 		['CAS Adverts', casAdvertsLPAQData, expectedRowsAdverts],
-		['LDC', ldcLPAQData, []]
+		['LDC', ldcLPAQData, []],
+		['Enforcement', enforcementLPAQData, expectedRowsEnforcement]
 	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
 		const visibleRows = planningOfficerReportRows(caseData)
 			.filter((row) => row.condition(caseData))
@@ -148,6 +176,11 @@ describe('planningOfficerReportRows', () => {
 	const COMMUNITY_INFRASTRUCTURE_LEVY_FORMALLY_ADOPTED_ROW = 12;
 	const DATE_COMMUNITY_INFRASTRUCTURE_LEVY_ADOPTED_ROW = 13;
 	const DATE_COMMUNITY_INFRASTRUCTURE_LEVY_EXPECTED_TO_BE_ADOPTED_ROW = 14;
+	const UPLOADED_LOCAL_DEVELOPMENT_DOCUMENTS_ORDER_ROW = 15;
+	const UPLOADED_PLANNING_PERMISSION_DOCUMENTS_ROW = 16;
+	const UPLOADED_LPA_ENFORCEMENT_NOTICE_DOCUMENTS_ROW = 17;
+	const UPLOADED_LPA_ENFORCEMENT_NOTICE_PLAN_DOCUMENTS_ROW = 18;
+	const UPLOADED_PLANNING_CONTRAVENTION_NOTICE_DOCUMENTS_ROW = 19;
 
 	it('should create row with correct data if relevant case fields exist and files uploaded/field values otherwise populated', () => {
 		const caseData = {
@@ -200,12 +233,42 @@ describe('planningOfficerReportRows', () => {
 					id: '12351',
 					filename: 'community-infrastructure-levy.pdf',
 					redacted: true
+				},
+				{
+					documentType: APPEAL_DOCUMENT_TYPE.LOCAL_DEVELOPMENT_ORDER,
+					id: '12352',
+					filename: 'local-development-order.pdf',
+					redacted: true
+				},
+				{
+					documentType: APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION,
+					id: '12353',
+					filename: 'planning-permission.pdf',
+					redacted: true
+				},
+				{
+					documentType: APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE,
+					id: '12354',
+					filename: 'lpa-enforcement-notice.pdf',
+					redacted: true
+				},
+				{
+					documentType: APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN,
+					id: '12355',
+					filename: 'lpa-enforcement-notice-plan.pdf',
+					redacted: true
+				},
+				{
+					documentType: APPEAL_DOCUMENT_TYPE.PLANNING_CONTRAVENTION_NOTICE,
+					id: '12356',
+					filename: 'planning-contravention-notice.pdf',
+					redacted: true
 				}
 			]
 		};
 
 		const rows = planningOfficerReportRows(caseData);
-		expect(rows.length).toEqual(15);
+		expect(rows.length).toEqual(20);
 
 		expect(rows[PLANNING_OFFICER_REPORT_ROW].condition()).toEqual(true);
 		expect(rows[PLANNING_OFFICER_REPORT_ROW].isEscaped).toEqual(true);
@@ -315,6 +378,51 @@ describe('planningOfficerReportRows', () => {
 		expect(rows[DATE_COMMUNITY_INFRASTRUCTURE_LEVY_EXPECTED_TO_BE_ADOPTED_ROW].valueText).toEqual(
 			formattedDate
 		);
+
+		expect(rows[UPLOADED_LOCAL_DEVELOPMENT_DOCUMENTS_ORDER_ROW].condition()).toEqual(true);
+		expect(rows[UPLOADED_LOCAL_DEVELOPMENT_DOCUMENTS_ORDER_ROW].isEscaped).toEqual(true);
+		expect(rows[UPLOADED_LOCAL_DEVELOPMENT_DOCUMENTS_ORDER_ROW].keyText).toEqual(
+			'Uploaded local development order'
+		);
+		expect(rows[UPLOADED_LOCAL_DEVELOPMENT_DOCUMENTS_ORDER_ROW].valueText).toEqual(
+			'<a href="/published-document/12352" class="govuk-link">local-development-order.pdf</a>'
+		);
+
+		expect(rows[UPLOADED_PLANNING_PERMISSION_DOCUMENTS_ROW].condition()).toEqual(true);
+		expect(rows[UPLOADED_PLANNING_PERMISSION_DOCUMENTS_ROW].isEscaped).toEqual(true);
+		expect(rows[UPLOADED_PLANNING_PERMISSION_DOCUMENTS_ROW].keyText).toEqual(
+			'Uploaded previous planning permission'
+		);
+		expect(rows[UPLOADED_PLANNING_PERMISSION_DOCUMENTS_ROW].valueText).toEqual(
+			'<a href="/published-document/12353" class="govuk-link">planning-permission.pdf</a>'
+		);
+
+		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_DOCUMENTS_ROW].condition()).toEqual(true);
+		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_DOCUMENTS_ROW].isEscaped).toEqual(true);
+		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_DOCUMENTS_ROW].keyText).toEqual(
+			'Uploaded enforcement notice'
+		);
+		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_DOCUMENTS_ROW].valueText).toEqual(
+			'<a href="/published-document/12354" class="govuk-link">lpa-enforcement-notice.pdf</a>'
+		);
+
+		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_PLAN_DOCUMENTS_ROW].condition()).toEqual(true);
+		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_PLAN_DOCUMENTS_ROW].isEscaped).toEqual(true);
+		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_PLAN_DOCUMENTS_ROW].keyText).toEqual(
+			'Uploaded enforcement notice plan'
+		);
+		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_PLAN_DOCUMENTS_ROW].valueText).toEqual(
+			'<a href="/published-document/12355" class="govuk-link">lpa-enforcement-notice-plan.pdf</a>'
+		);
+
+		expect(rows[UPLOADED_PLANNING_CONTRAVENTION_NOTICE_DOCUMENTS_ROW].condition()).toEqual(true);
+		expect(rows[UPLOADED_PLANNING_CONTRAVENTION_NOTICE_DOCUMENTS_ROW].isEscaped).toEqual(true);
+		expect(rows[UPLOADED_PLANNING_CONTRAVENTION_NOTICE_DOCUMENTS_ROW].keyText).toEqual(
+			'Uploaded planning contravention notice'
+		);
+		expect(rows[UPLOADED_PLANNING_CONTRAVENTION_NOTICE_DOCUMENTS_ROW].valueText).toEqual(
+			'<a href="/published-document/12356" class="govuk-link">planning-contravention-notice.pdf</a>'
+		);
 	});
 
 	it('should handle false values correctly', () => {
@@ -367,7 +475,7 @@ describe('planningOfficerReportRows', () => {
 	it('should return correct conditions if no fields/files exist', () => {
 		const rows = planningOfficerReportRows({ Documents: [] });
 
-		expect(rows.length).toEqual(15);
+		expect(rows.length).toEqual(20);
 		expect(rows[PLANNING_OFFICER_REPORT_ROW].condition()).toEqual(false);
 		expect(rows[HIGHWAY_TRAFFIC_SAFETY_ROW].condition()).toEqual(false);
 		expect(rows[COMPLETE_PHOTOS_PLANS_ROW].condition()).toEqual(false);
@@ -385,6 +493,11 @@ describe('planningOfficerReportRows', () => {
 		expect(rows[DATE_COMMUNITY_INFRASTRUCTURE_LEVY_EXPECTED_TO_BE_ADOPTED_ROW].condition()).toEqual(
 			false
 		);
+		expect(rows[UPLOADED_LOCAL_DEVELOPMENT_DOCUMENTS_ORDER_ROW].condition()).toEqual(false);
+		expect(rows[UPLOADED_PLANNING_PERMISSION_DOCUMENTS_ROW].condition()).toEqual(false);
+		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_DOCUMENTS_ROW].condition()).toEqual(false);
+		expect(rows[UPLOADED_LPA_ENFORCEMENT_NOTICE_PLAN_DOCUMENTS_ROW].condition()).toEqual(false);
+		expect(rows[UPLOADED_PLANNING_CONTRAVENTION_NOTICE_DOCUMENTS_ROW].condition()).toEqual(false);
 	});
 
 	it('should set plans, drawings and list of plans condition as false if not HAS appeal type', () => {

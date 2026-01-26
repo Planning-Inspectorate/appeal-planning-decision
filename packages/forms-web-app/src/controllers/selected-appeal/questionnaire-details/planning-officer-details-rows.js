@@ -108,6 +108,40 @@ exports.planningOfficerReportRows = (caseData) => {
 			keyText: 'Date community infrastructure levy expected to be adopted',
 			valueText: formatDateForDisplay(caseData.infrastructureLevyExpectedDate),
 			condition: () => !!caseData.infrastructureLevyExpectedDate
+		},
+		{
+			keyText: 'Uploaded local development order',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.LOCAL_DEVELOPMENT_ORDER),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.LOCAL_DEVELOPMENT_ORDER),
+			isEscaped: true
+		},
+		{
+			keyText: 'Uploaded previous planning permission',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION),
+			isEscaped: true
+		},
+		{
+			keyText: 'Uploaded enforcement notice',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
+			isEscaped: true
+		},
+		{
+			keyText: 'Uploaded enforcement notice plan',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN),
+			isEscaped: true
+		},
+		{
+			keyText: 'Uploaded planning contravention notice',
+			valueText: formatDocumentDetails(
+				documents,
+				APPEAL_DOCUMENT_TYPE.PLANNING_CONTRAVENTION_NOTICE
+			),
+			condition: () =>
+				documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANNING_CONTRAVENTION_NOTICE),
+			isEscaped: true
 		}
 	];
 };
