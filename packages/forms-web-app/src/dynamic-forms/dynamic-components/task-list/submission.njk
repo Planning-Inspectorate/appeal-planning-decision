@@ -20,7 +20,7 @@
     </div>
 
     <div class="govuk-grid-column-full">
-      <p class="govuk-body">Your deadline to submit this appeal is {{ formattedDeadline }}.</p>
+      {% if formattedDeadline %}<p class="govuk-body">Your deadline to submit this appeal is {{ formattedDeadline }}.</p>{% endif %}
       <p class="govuk-body"><a href="/appeals/your-appeals" class="govuk-link--no-visited-state">Save and come back later</a>.</p>
       <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
     </div>
