@@ -12,6 +12,10 @@ const s20LPAQData = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'appealProce
 const advertLPAQData = caseTypeLPAQFactory(CASE_TYPES.ADVERTS.processCode, 'appealProcess');
 const casAdvertLPAQData = caseTypeLPAQFactory(CASE_TYPES.CAS_ADVERTS.processCode, 'appealProcess');
 const ldcLPAQData = caseTypeLPAQFactory(CASE_TYPES.LDC.processCode, 'appealProcess');
+const enforcementLPAQData = caseTypeLPAQFactory(
+	CASE_TYPES.ENFORCEMENT.processCode,
+	'appealProcess'
+);
 
 const expectedRowsHas = [
 	{ title: 'Appeals near the site', value: 'Yes' },
@@ -35,7 +39,8 @@ describe('appealProcessRows', () => {
 		['S20', s20LPAQData, expectedRowsS78],
 		['ADVERTS', advertLPAQData, expectedRowsS78],
 		['CAS_ADVERTS', casAdvertLPAQData, expectedRowsHas],
-		['LDC', ldcLPAQData, expectedRowsLDC]
+		['LDC', ldcLPAQData, expectedRowsLDC],
+		['ENFORCEMENT', enforcementLPAQData, expectedRowsS78]
 	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
 		const visibleRows = appealProcessRows(caseData)
 			.filter((row) => row.condition(caseData))
