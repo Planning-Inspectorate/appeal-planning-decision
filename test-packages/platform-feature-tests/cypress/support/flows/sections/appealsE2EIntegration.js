@@ -32,6 +32,8 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
             cy.reload();
             cy.startAppeal(caseRef);
 
+            //cy.pause(); // test
+
             // Submit the LPA questionnaire in LPA dash board
             viewValidatedAppealDetailsLPA(caseRef);            
 
