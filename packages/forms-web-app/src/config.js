@@ -40,6 +40,8 @@ const getAppealTypeFeedbackUrl = (appealTypeCode) => {
 			return feedbackUrlCasAdverts;
 		case 'ADVERTS':
 			return feedbackUrlAdverts;
+		case 'LDC':
+			return feedbackUrlLDC;
 		default:
 			return feedbackUrl;
 	}
@@ -76,6 +78,9 @@ const feedbackUrlCasAdverts =
 const feedbackUrlAdverts =
 	process.env.FEEDBACK_URL_ADVERTS ||
 	'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UREdSMUZXUFhUMUdBUERBUFFGVkRQVEFBTS4u';
+const feedbackUrlLDC =
+	process.env.FEEDBACK_URL_LDC ||
+	'https://forms.cloud.microsoft/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UNldFVDNBWVQ4UTFGMzNFNEQ2UjNITlMyOC4u';
 
 module.exports = {
 	gitSha: process.env.GIT_SHA ?? 'NO GIT SHA FOUND',
