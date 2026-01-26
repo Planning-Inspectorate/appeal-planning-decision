@@ -14,7 +14,7 @@ const documents = {
     uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf'
 };
 export const casPlanningAppealGrantedTestCases = [
-    //this case is for CAS planning
+    //this case is for full planning from cas planning route
     {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'written',
@@ -24,7 +24,7 @@ export const casPlanningAppealGrantedTestCases = [
         endToEndIntegration: true,
         applicationForm: {
             isAppellant: true,
-            // areaUnits: 'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,

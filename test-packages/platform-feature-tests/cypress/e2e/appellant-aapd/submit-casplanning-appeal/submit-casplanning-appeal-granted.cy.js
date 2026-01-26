@@ -62,7 +62,7 @@ describe('Submit Cas Planning Appeal Granted Test Cases', { tags: '@CAS-Planning
 				context,
 				prepareAppealData,
 				lpaManageAppealsData,
-				questionnaireTestCases: selectAllPlanningApplicationAbout ? fullAppealQuestionnaireTestCases : casPlanningQuestionnaireTestCases,
+				questionnaireTestCases: fullAppealQuestionnaireTestCases,
 				statementTestCases
 			});
 		});
