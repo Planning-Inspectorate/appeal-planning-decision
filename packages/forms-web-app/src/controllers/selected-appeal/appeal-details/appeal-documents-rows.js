@@ -30,6 +30,7 @@ exports.documentsRows = (caseData) => {
 	const isAdvertAppeal =
 		caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
 		caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode;
+	const isLDC = caseData.appealTypeCode === CASE_TYPES.LDC.processCode;
 
 	return [
 		{
@@ -72,31 +73,31 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'New plans or drawings',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.NEW_PLANS_DRAWINGS),
-			condition: () => isS20orS78,
+			condition: () => isS20orS78 || isLDC,
 			isEscaped: true
 		},
 		{
 			keyText: 'Planning obligation status',
 			valueText: caseData.statusPlanningObligation,
-			condition: (caseData) => isS20orS78 && caseData.statusPlanningObligation
+			condition: (caseData) => (isS20orS78 || isLDC) && caseData.statusPlanningObligation
 		},
 		{
 			keyText: 'Planning obligation',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
-			condition: () => isS20orS78,
+			condition: () => isS20orS78 || isLDC,
 			isEscaped: true
 		},
 		{
 			keyText: 'New supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS),
-			condition: () => isS20orS78,
+			condition: () => isS20orS78 || isLDC,
 			isEscaped: true
 		},
 		{
 			keyText: 'Draft statement of common ground',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND),
 			condition: () =>
-				isS20orS78 &&
+				(isS20orS78 || isLDC) &&
 				caseData.appellantProcedurePreference !== APPEAL_APPELLANT_PROCEDURE_PREFERENCE.WRITTEN,
 			isEscaped: true
 		},

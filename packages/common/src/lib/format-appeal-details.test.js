@@ -6,7 +6,8 @@ const {
 	formatFactsForGround,
 	hasAppealGround,
 	formatInterestInLand,
-	formatGroundsOfAppeal
+	formatGroundsOfAppeal,
+	formatActSection
 } = require('./format-appeal-details');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 const escape = require('escape-html');
@@ -228,5 +229,58 @@ describe('format-appeal-details', () => {
 			const result = formatGroundsOfAppeal(testGrounds);
 			expect(result).toBe(`Ground (a)\nGround (b)\nGround (d)`);
 		});
+	});
+
+	describe('formatActSection', () => {
+		const options = [
+			{
+				input: { applicationMadeUnderActSection: 'existing-development' },
+				field: 'applicationMadeUnderActSection',
+				expected: 'Existing development'
+			},
+			{
+				input: { applicationMadeUnderActSection: 'proposed-changes-to-a-listed-building' },
+				field: 'applicationMadeUnderActSection',
+				expected: 'Proposed changes to a listed building'
+			},
+			{
+				input: { applicationMadeUnderActSection: 'proposed-use-of-a-development' },
+				field: 'applicationMadeUnderActSection',
+				expected: 'Proposed use of a development'
+			},
+			{
+				input: { applicationMadeUnderActSection: 'unknown' },
+				field: 'applicationMadeUnderActSection',
+				expected: 'unknown'
+			},
+			{
+				input: { appealUnderActSection: 'existing-development' },
+				field: 'appealUnderActSection',
+				expected: 'Existing development'
+			},
+			{
+				input: { appealUnderActSection: 'proposed-changes-to-a-listed-building' },
+				field: 'appealUnderActSection',
+				expected: 'Proposed changes to a listed building'
+			},
+			{
+				input: { appealUnderActSection: 'proposed-use-of-a-development' },
+				field: 'appealUnderActSection',
+				expected: 'Proposed use of a development'
+			},
+			{
+				input: { appealUnderActSection: 'unknown' },
+				field: 'appealUnderActSection',
+				expected: 'unknown'
+			}
+		];
+
+		it.each(options)(
+			'should return expected values for known enums',
+			({ input, field, expected }) => {
+				const result = formatActSection(input, field);
+				expect(result).toBe(expected);
+			}
+		);
 	});
 });

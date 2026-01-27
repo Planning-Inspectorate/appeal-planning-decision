@@ -1,6 +1,9 @@
 const escape = require('escape-html');
 const { APPEAL_USER_ROLES } = require('../constants');
-const { APPEAL_DEVELOPMENT_TYPE } = require('@planning-inspectorate/data-model');
+const {
+	APPEAL_DEVELOPMENT_TYPE,
+	APPEAL_APPEAL_UNDER_ACT_SECTION
+} = require('@planning-inspectorate/data-model');
 const { formatDateForDisplay } = require('./format-date');
 
 // NOTE - consider requirement to escape string values from caseData
@@ -258,6 +261,28 @@ exports.formatInterestInLand = (caseData) => {
 		interestInLand,
 		hasPermission
 	};
+};
+
+/**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ * @param {'applicationMadeUnderActSection'|'appealUnderActSection'} field
+ * @returns {string}
+ */
+exports.formatActSection = (caseData, field) => {
+	const answer = caseData[field];
+
+	if (!answer) return '';
+
+	switch (answer) {
+		case APPEAL_APPEAL_UNDER_ACT_SECTION.EXISTING_DEVELOPMENT:
+			return 'Existing development';
+		case APPEAL_APPEAL_UNDER_ACT_SECTION.PROPOSED_CHANGES_TO_A_LISTED_BUILDING:
+			return 'Proposed changes to a listed building';
+		case APPEAL_APPEAL_UNDER_ACT_SECTION.PROPOSED_USE_OF_A_DEVELOPMENT:
+			return 'Proposed use of a development';
+		default:
+			return answer;
+	}
 };
 
 /**
