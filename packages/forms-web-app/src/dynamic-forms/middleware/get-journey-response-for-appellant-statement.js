@@ -8,7 +8,7 @@ const {
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const {
 	VIEW: {
-		APPELLANT_STATEMENT: { APPEAL_OVERVIEW }
+		SELECTED_APPEAL: { APPEAL_OVERVIEW }
 	}
 } = require('../../lib/views');
 

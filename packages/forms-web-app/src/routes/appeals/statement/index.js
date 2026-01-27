@@ -23,7 +23,7 @@ const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 const {
 	VIEW: {
-		APPELLANT_STATEMENT: { APPEAL_OVERVIEW }
+		SELECTED_APPEAL: { APPEAL_OVERVIEW }
 	}
 } = require('#lib/views');
 
@@ -40,7 +40,6 @@ const statementTaskList = async (req, res) => {
 
 	appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
 	const appellant = appeal.users.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
-	console.log('appellant: ', appellant);
 	if (appellant) {
 		appeal.appellantFirstName = appellant.firstName;
 		appeal.appellantLastName = appellant.lastName;

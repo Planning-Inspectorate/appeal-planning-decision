@@ -7,7 +7,7 @@ const {
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const {
 	VIEW: {
-		APPELLANT_STATEMENT: { DASHBOARD }
+		SELECTED_APPEAL: { APPELLANT_STATEMENT }
 	}
 } = require('#lib/views');
 
@@ -42,7 +42,7 @@ const makeBaseUrl = (response) => `${baseUrl}/${encodeURIComponent(response.refe
 
 /** @type {JourneyParameters} */
 const params = {
-	initialBackLink: `/${DASHBOARD}`,
+	initialBackLink: `/${APPELLANT_STATEMENT}`,
 	journeyId: JOURNEY_TYPES.APPELLANT_STATEMENT.id,
 	journeyTemplate: 'statement-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/statement',
