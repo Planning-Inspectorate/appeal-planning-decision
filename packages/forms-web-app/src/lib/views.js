@@ -217,7 +217,8 @@ const VIEW = {
 		APPEAL_QUESTIONNAIRE: 'selected-appeal/questionnaire-details',
 		APPEAL_IP_COMMENTS: 'selected-appeal/ip-comment-details',
 		APPEAL_PLANNING_OBLIGATION: 'selected-appeal/planning-obligation',
-		APPEAL_REPRESENTATIONS: 'selected-appeal/representations'
+		APPEAL_REPRESENTATIONS: 'selected-appeal/representations',
+		APPELLANT_STATEMENT: 'appeals/statement'
 	},
 
 	SUBMIT_APPEAL: {
@@ -239,22 +240,6 @@ const VIEW = {
 		DECIDED_APPEALS: 'manage-appeals/decided-appeals',
 		WITHDRAWN_APPEALS: 'manage-appeals/withdrawn-appeals',
 		APPEAL_OVERVIEW: '/manage-appeals'
-	},
-
-	APPELLANT_STATEMENT: {
-		ENTER_CODE: 'appeals/enter-code',
-		CODE_EXPIRED: 'appeals/code-expired',
-		NEED_NEW_CODE: 'appeals/need-new-code',
-		REQUEST_NEW_CODE: 'appeals/request-new-code',
-		DASHBOARD: 'appeals/statement',
-		ADD_REMOVE_USERS: 'appeals/add-remove-users',
-		EMAIL_ADDRESS: 'appeals/email-address',
-		CONFIRM_ADD_USER: 'appeals/confirm-add-user',
-		CONFIRM_REMOVE_USER: 'appeals/confirm-remove-user',
-		YOUR_EMAIL_ADDRESS: 'appeals/your-email-address',
-		DECIDED_APPEALS: 'appeals/decided-appeals',
-		WITHDRAWN_APPEALS: 'appeals/withdrawn-appeals',
-		APPEAL_OVERVIEW: '/appeals'
 	},
 
 	INTERESTED_PARTY_COMMENTS: {
