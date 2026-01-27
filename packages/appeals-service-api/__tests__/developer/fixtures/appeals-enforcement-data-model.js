@@ -19,10 +19,10 @@ const exampleEnforcementDataModel = {
 	didAppellantAppealLpaDecision: false,
 	dateLpaDecisionDue: null,
 	dateLpaDecisionReceived: null,
-	enforcementReference: '1234567',
+	enforcementNoticeReference: '1234567',
 	descriptionOfAllegedBreach: 'an alleged breach',
 	applicationPartOrWholeDevelopment: null,
-	contactPlanningInspectorateDate: '2023-07-27T20:30:00.000Z',
+	dateAppellantContactedPins: '2023-07-27T20:30:00.000Z',
 	enforcementAppealGroundsDetails: [
 		{
 			appealGroundLetter: 'a',

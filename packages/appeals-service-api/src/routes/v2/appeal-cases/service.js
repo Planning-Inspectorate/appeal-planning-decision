@@ -355,10 +355,10 @@ const getEnforcementAppealFormFields = (dataModel) => {
 		didAppellantAppealLpaDecision: dataModel.didAppellantAppealLpaDecision,
 		dateLpaDecisionDue: dataModel.dateLpaDecisionDue,
 		dateLpaDecisionReceived: dataModel.dateLpaDecisionReceived,
-		enforcementReference: dataModel.enforcementReference,
+		enforcementReference: dataModel.enforcementNoticeReference,
 		descriptionOfAllegedBreach: dataModel.descriptionOfAllegedBreach,
 		applicationPartOrWholeDevelopment: dataModel.applicationPartOrWholeDevelopment,
-		contactPlanningInspectorateDate: dataModel.contactPlanningInspectorateDate
+		contactPlanningInspectorateDate: dataModel.dateAppellantContactedPins
 	};
 };
 
