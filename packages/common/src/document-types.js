@@ -647,6 +647,17 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
+	uploadAppellantStatementDocuments: {
+		name: 'uploadAppellantStatementDocuments',
+		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
 	uploadRule6StatementDocuments: {
 		name: 'uploadRule6StatementDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.RULE_6_STATEMENT,

@@ -445,6 +445,24 @@ exports.submitLpaStatement = async (req, res) => {
 	);
 };
 
+// Submit Appellant Statement
+/**
+ * @type {import('express').Handler}
+ */
+exports.submitAppellantStatement = async (req, res) => {
+	const { journey } = res.locals;
+	const referenceId = res.locals.journeyResponse.referenceId;
+
+	if (!journey.isComplete()) {
+		res.sendStatus(400);
+		return;
+	}
+
+	await req.appealsApiClient.submitAppellantStatement(referenceId);
+
+	return res.redirect(`/appeals/statement/${referenceId}/submitted-appeal-statement/`);
+};
+
 // LPA submission information (for PDF generation)
 /**
  * @type {import('express').Handler}

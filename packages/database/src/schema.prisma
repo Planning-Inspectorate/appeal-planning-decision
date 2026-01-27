@@ -260,8 +260,7 @@ model AppealCase {
   newConditionDetails           String?  @db.NVarChar(Max) /// New conditions details provided by the LPA
 
   // todo: remove this column is an rep
-  lpaStatement String? /// A statement provided by the LPA
-
+  lpaStatement                   String? /// A statement provided by the LPA
   lpaProcedurePreference         String? /// The procedure preference indicated by the LPA
   lpaProcedurePreferenceDetails  String? /// The procedure details preference indicated by the LPA
   lpaProcedurePreferenceDuration Int? /// The duration of enquiry indicated by the LPA
@@ -448,6 +447,7 @@ model AppealCase {
 
   AppellantFinalCommentSubmission    AppellantFinalCommentSubmission?
   AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission?
+  AppellantStatementSubmission       AppellantStatementSubmission?
 
   ListedBuildings                 AppealCaseListedBuilding[]
   Documents                       Document[]
@@ -1103,6 +1103,31 @@ model LPAStatementSubmission {
   @@index([appealCaseReference])
 }
 
+model AppellantStatementSubmission {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // link the submission to the appeal
+  appealCaseReference String     @unique
+  AppealCase          AppealCase @relation(fields: [appealCaseReference], references: [caseReference])
+
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // state
+  submitted Boolean @default(false) /// whether the lpa statement has been submitted to BO
+
+  appellantStatement  String?  @db.NVarChar(Max)
+  additionalDocuments Boolean?
+
+  // Uploaded documents and details linked to this statement
+  uploadAppellantStatementDocuments Boolean?
+  SubmissionDocumentUpload          SubmissionDocumentUpload[]
+
+  // indexes
+  @@index([appealCaseReference])
+}
+
 model Rule6StatementSubmission {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
@@ -1277,6 +1302,9 @@ model SubmissionDocumentUpload {
   lpaStatementId         String?                 @db.UniqueIdentifier
   LPAStatementSubmission LPAStatementSubmission? @relation(fields: [lpaStatementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
+  appellantStatementId         String?                       @db.UniqueIdentifier
+  AppellantStatementSubmission AppellantStatementSubmission? @relation(fields: [appellantStatementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
   appellantFinalCommentId         String?                          @db.UniqueIdentifier
   AppellantFinalCommentSubmission AppellantFinalCommentSubmission? @relation(fields: [appellantFinalCommentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
@@ -1309,6 +1337,7 @@ model SubmissionDocumentUpload {
   @@index([questionnaireId])
   @@index([appellantSubmissionId])
   @@index([lpaStatementId])
+  @@index([appellantStatementId])
   @@index([appellantFinalCommentId])
   @@index([lpaFinalCommentId])
   @@index([appellantProofOfEvidenceId])

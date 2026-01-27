@@ -1,0 +1,47 @@
+components:
+  schemas:
+    AppellantStatementSubmission:
+      description: A statement submitted by an Appellant
+      type: object
+      required:
+        - id
+        - AppealCase
+        - appealCaseReference
+      properties:
+        id:
+          type: string
+          format: uuid
+        AppealCase: # partial AppealCase data
+          type: object
+          properties:
+            LPACode:
+              type: string
+            appealTypeCode:
+              type: string
+            caseReference:
+              type: string
+            finalCommentsDueDate:
+              type: string
+              format: date-time
+            siteAddressLine1:
+              type: string
+            siteAddressLine2:
+              type: string
+            siteAddressTown:
+              type: string
+            siteAddressCounty:
+              type: string
+            siteAddressPostcode:
+              type: string
+            applicationReference:
+              type: string
+        submitted:
+          type: boolean
+          description: whether the statement has been submitted to BO
+        appellantStatement:
+          type: string
+        addtionalDocuments:
+          type: boolean
+        uploadAppellantStatementDocuments:
+          type: boolean
+          nullable: true

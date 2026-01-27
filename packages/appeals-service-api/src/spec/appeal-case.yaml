@@ -385,6 +385,10 @@ components:
           type: string
           format: date-time
           description: the date the LPA's statement was received
+        AppellantStatementSubmittedDate:
+          type: string
+          format: date-time
+          description: the date the appellant's statement was received
 
         # comments
         finalCommentsDueDate:

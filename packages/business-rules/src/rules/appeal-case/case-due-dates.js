@@ -62,6 +62,20 @@ exports.isLPAStatementOpen = (appealCaseData) =>
 	!appealCaseData.LPAStatementSubmittedDate;
 
 /**
+ * statement is open for Appellant
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {boolean}
+ */
+exports.isAppellantStatementOpen = (appealCaseData) =>
+	statementsAreOpen(appealCaseData) &&
+	!appealCaseData.AppellantStatementSubmittedDate &&
+	!representationExists(appealCaseData.Representations, {
+		type: APPEAL_REPRESENTATION_TYPE.STATEMENT,
+		owned: true,
+		submitter: APPEAL_USER_ROLES.APPELLANT
+	});
+
+/**
  * Checks if statements are open for all rule 6 parties
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {boolean}

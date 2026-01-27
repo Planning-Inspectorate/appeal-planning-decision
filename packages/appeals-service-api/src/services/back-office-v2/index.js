@@ -11,6 +11,11 @@ const {
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-statement-submission/service');
 
 const {
+	getAppellantStatementByAppealId,
+	markAppellantStatementAsSubmitted
+} = require('../../routes/v2/appeal-cases/_caseReference/appellant-statement-submission/service');
+
+const {
 	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionReceivedEmailToLpaV2,
 	sendCommentSubmissionConfirmationEmailToIp,
@@ -21,7 +26,8 @@ const {
 	sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2,
 	sendRule6StatementSubmissionEmailToRule6PartyV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2,
-	sendLPAHASQuestionnaireSubmittedEmailV2
+	sendLPAHASQuestionnaireSubmittedEmailV2,
+	sendAppellantStatementSubmissionReceivedEmailToLpaV2
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
@@ -300,6 +306,67 @@ class BackOfficeV2Service {
 		} catch (err) {
 			logger.error({ err }, 'failed to sendLpaStatementSubmissionReceivedEmailToLpaV2');
 			throw new Error('failed to send lpa statement submission email');
+		}
+		return result;
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} userId
+	 * @param {function(RepresentationFormatterParams): *} formatter
+	 * @returns {Promise<Array<*> | void>}
+	 */
+	async submitAppellantStatementSubmission(caseReference, userId, formatter) {
+		const appellantStatement = await getAppellantStatementByAppealId(caseReference);
+
+		if (!appellantStatement) throw new Error('No appellant statement found');
+
+		const { appealTypeCode } = appellantStatement.AppealCase;
+
+		if (!isValidAppealTypeCode(appealTypeCode))
+			throw new Error('Appellant statement associated AppealCase has an invalid appealTypeCode');
+
+		const { email } = await getUserById(userId);
+
+		const serviceUser = await getForEmailCaseAndType(email, caseReference, [
+			SERVICE_USER_TYPE.APPELLANT,
+			SERVICE_USER_TYPE.AGENT
+		]);
+
+		if (!serviceUser) throw new Error('cannot find appellant service user');
+
+		logger.info(`mapping appellant statement ${caseReference} to ${appealTypeCode} schema`);
+		const mappedData = await formatter({
+			caseReference,
+			serviceUserId: serviceUser.id,
+			repType: APPEAL_REPRESENTATION_TYPE.STATEMENT,
+			party: APPEAL_USER_ROLES.APPELLANT,
+			representationSubmission: appellantStatement
+		});
+		logger.debug({ mappedData }, 'mapped representation');
+
+		logger.info(`validating representation ${caseReference} schema`);
+
+		/** @type {Validate<AppealRepresentationSubmission>} */
+		const validator = getValidator('appeal-representation-submission');
+		if (!validator(mappedData)) {
+			throw new Error(
+				`Payload was invalid when checked against appeal representation submission schema`
+			);
+		}
+
+		logger.info(`forwarding appellant statement submission for ${caseReference} to service bus`);
+
+		const result = await forwarders.representation([mappedData]);
+
+		// Date to be set in back office mapper once data model confirmed
+		await markAppellantStatementAsSubmitted(caseReference, new Date().toISOString());
+
+		try {
+			await sendAppellantStatementSubmissionReceivedEmailToLpaV2(appellantStatement, email);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendappellantStatementSubmissionReceivedEmailToAppellantV2');
+			throw new Error('failed to send appellant statement submission email');
 		}
 		return result;
 	}
