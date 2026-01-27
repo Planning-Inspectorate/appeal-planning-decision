@@ -4,7 +4,7 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
 
 /**
  * @typedef {import('@planning-inspectorate/data-model/src/enums').APPEAL_REPRESENTATION_TYPE} RepresentationTypes
- * @typedef {'appellantFinalCommentDetails' | 'lpaFinalCommentDetails' | 'lpaStatement' | 'rule6Statement' | 'comments'} AllowedRepresentationField
+ * @typedef {'appellantFinalCommentDetails' | 'lpaFinalCommentDetails' | 'lpaStatement' | 'rule6Statement' | 'comments' | 'appellantStatement'} AllowedRepresentationField
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealRepresentationSubmission} AppealRepresentationSubmission
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/appellant-final-comment-submission').AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/lpa-final-comment-submission').LPAFinalCommentSubmission} LPAFinalCommentSubmission
@@ -48,7 +48,9 @@ const REPRESENTATION_FIELDS = {
 	},
 	[APPEAL_REPRESENTATION_TYPE.STATEMENT]: {
 		[LPA_USER_ROLE]: 'lpaStatement',
-		[APPEAL_USER_ROLES.RULE_6_PARTY]: 'rule6Statement'
+		[APPEAL_USER_ROLES.RULE_6_PARTY]: 'rule6Statement',
+		[APPEAL_USER_ROLES.APPELLANT]: 'appellantStatement',
+		[APPEAL_USER_ROLES.AGENT]: 'appellantStatement'
 	},
 	[APPEAL_REPRESENTATION_TYPE.COMMENT]: {
 		[APPEAL_USER_ROLES.INTERESTED_PARTY]: 'comments'

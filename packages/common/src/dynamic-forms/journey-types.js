@@ -143,6 +143,12 @@ exports.JOURNEY_TYPES = Object.freeze({
 		userType: LPA_USER_ROLE,
 		caseType: undefined
 	},
+	APPELLANT_STATEMENT: {
+		id: 's78-appellant-statement',
+		type: exports.JOURNEY_TYPE.statement,
+		userType: APPEAL_USER_ROLES.APPELLANT,
+		caseType: undefined
+	},
 	RULE_6_STATEMENT: {
 		id: 's78-rule-6-statement',
 		type: exports.JOURNEY_TYPE.statement,

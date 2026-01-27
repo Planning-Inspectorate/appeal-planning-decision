@@ -22,7 +22,8 @@ exports.getSaveFunction = (journeyType, api) => {
 		[`${finalComments}_${LPA_USER_ROLE}`]: api.patchLPAFinalCommentSubmission?.bind(api),
 		[`${proofEvidence}_${APPELLANT}`]: api.patchAppellantProofOfEvidenceSubmission?.bind(api),
 		[`${proofEvidence}_${LPA_USER_ROLE}`]: api.patchLpaProofOfEvidenceSubmission?.bind(api),
-		[`${proofEvidence}_${RULE_6_PARTY}`]: api.patchRule6ProofOfEvidenceSubmission?.bind(api)
+		[`${proofEvidence}_${RULE_6_PARTY}`]: api.patchRule6ProofOfEvidenceSubmission?.bind(api),
+		[`${statement}_${APPELLANT}`]: api.patchAppellantStatement?.bind(api)
 	};
 
 	const save = saveMethodMap[key];
@@ -47,7 +48,8 @@ exports.getUploadDoumentFunction = (journeyType, api) => {
 		[`${finalComments}_${LPA_USER_ROLE}`]: api.postLPAFinalCommentDocumentUpload?.bind(api),
 		[`${proofEvidence}_${APPELLANT}`]: api.postAppellantProofOfEvidenceDocumentUpload?.bind(api),
 		[`${proofEvidence}_${LPA_USER_ROLE}`]: api.postLpaProofOfEvidenceDocumentUpload?.bind(api),
-		[`${proofEvidence}_${RULE_6_PARTY}`]: api.postRule6ProofOfEvidenceDocumentUpload?.bind(api)
+		[`${proofEvidence}_${RULE_6_PARTY}`]: api.postRule6ProofOfEvidenceDocumentUpload?.bind(api),
+		[`${statement}_${APPELLANT}`]: api.postAppellantStatementDocumentUpload?.bind(api)
 	};
 
 	const upload = saveMethodMap[key];
@@ -72,7 +74,8 @@ exports.getRemoveDocumentFunction = (journeyType, api) => {
 		[`${finalComments}_${LPA_USER_ROLE}`]: api.deleteLPAFinalCommentDocumentUpload?.bind(api),
 		[`${proofEvidence}_${APPELLANT}`]: api.deleteAppellantProofOfEvidenceDocumentUpload?.bind(api),
 		[`${proofEvidence}_${LPA_USER_ROLE}`]: api.deleteLpaProofOfEvidenceDocumentUpload?.bind(api),
-		[`${proofEvidence}_${RULE_6_PARTY}`]: api.deleteRule6ProofOfEvidenceDocumentUpload?.bind(api)
+		[`${proofEvidence}_${RULE_6_PARTY}`]: api.deleteRule6ProofOfEvidenceDocumentUpload?.bind(api),
+		[`${statement}_${APPELLANT}`]: api.deleteAppellantStatementDocumentUpload?.bind(api)
 	};
 
 	const deleteFile = saveMethodMap[key];

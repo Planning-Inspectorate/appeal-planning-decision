@@ -9,6 +9,7 @@ const selectedAppealRouter = require('./selected-appeal/selected-appeal');
 const finalCommentsRouter = require('./final-comments/index');
 const dynamicSubmission = require('../appellant-submission/submission-form');
 const proofEvidenceRouter = require('./proof-evidence/index');
+const appealStatementRouter = require('./statement/index');
 
 router.get('/', (_, res) => res.redirect('/appeals/your-appeals'));
 router.use('/your-appeals', yourAppealsRouter);
@@ -44,6 +45,7 @@ router.use(`/${CASE_TYPES.LDC.friendlyUrl}`, dynamicSubmission);
 // reps
 router.use('/final-comments', finalCommentsRouter);
 router.use('/proof-evidence', proofEvidenceRouter);
+router.use('/statement', appealStatementRouter);
 
 // todo: leave at end or fix the urls defined in these routes, currently catches anything else as :appealNumber
 router.use('/', selectedAppealRouter);

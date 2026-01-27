@@ -28,6 +28,7 @@ const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
  * @typedef {import('../routes/v2/appellant-submissions/_id/service').FullAppellantSubmission} FullAppellantSubmission
  * @typedef {import('@pins/database/src/client/client').InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
+ * @typedef {import('appeals-service-api').Api.AppellantStatementSubmission} AppellantStatementSubmission
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
@@ -697,6 +698,64 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 		});
 	} catch (err) {
 		logger.error({ err }, 'Unable to send proof of evidence submission email to appellant');
+	}
+};
+
+/**
+ * @param { AppellantStatementSubmission } appellantStatementSubmission
+ * @param {string} emailAddress
+ */
+const sendAppellantStatementSubmissionReceivedEmailToLpaV2 = async (
+	appellantStatementSubmission,
+	emailAddress
+) => {
+	try {
+		const {
+			applicationReference,
+			siteAddressLine1,
+			siteAddressLine2,
+			siteAddressTown,
+			siteAddressCounty,
+			siteAddressPostcode
+		} = appellantStatementSubmission.AppealCase;
+
+		const caseReference = appellantStatementSubmission.AppealCase.caseReference;
+
+		const formattedAddress = formatSubmissionAddress({
+			addressLine1: siteAddressLine1,
+			addressLine2: siteAddressLine2,
+			townCity: siteAddressTown,
+			county: siteAddressCounty,
+			postcode: siteAddressPostcode
+		});
+
+		const reference = appellantStatementSubmission.id;
+
+		let variables = {
+			...config.services.notify.templateVariables,
+			appealReferenceNumber: caseReference,
+			appealSiteAddress: formattedAddress,
+			applicationReference: applicationReference
+		};
+
+		logger.debug({ variables }, 'Sending appellant statement email to appellant');
+		const notifyService = getNotifyService();
+		//TODO: To be changed in another ticket when template is given
+		const content = notifyService.populateTemplate(
+			NotifyService.templates.representations.v2AppellantStatement,
+			variables
+		);
+		await notifyService.sendEmail({
+			personalisation: {
+				subject: `We have received your appellant statement: ${variables.appealReferenceNumber}`,
+				content
+			},
+			destinationEmail: emailAddress,
+			templateId: templates.generic || '',
+			reference
+		});
+	} catch (err) {
+		logger.error({ err }, 'Unable to send appellant statement submission email to appellant');
 	}
 };
 
@@ -1415,6 +1474,7 @@ module.exports = {
 
 	sendSubmissionReceivedEmailToLpaV2,
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
+	sendAppellantStatementSubmissionReceivedEmailToLpaV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2,
 	sendLPAProofEvidenceSubmissionEmailToLPAV2,
 	sendLPAHASQuestionnaireSubmittedEmailV2,

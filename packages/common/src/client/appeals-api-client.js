@@ -27,6 +27,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.ListedBuilding} ListedBuilding
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
+ *  * @typedef {import('appeals-service-api').Api.AppellantStatementSubmission} AppellantStatementSubmission
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
@@ -459,6 +460,26 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
+	 * @returns {Promise<(AppellantStatementSubmission)>}
+	 */
+	async getAppellantStatement(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-statement-submission`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(AppellantStatementSubmission)>}
+	 */
+	async postAppellantStatement(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-statement-submission`;
+		const response = await this.#makePostRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
 	 * @returns {Promise<(LPAStatementSubmission)>}
 	 */
 	async postLPAStatement(caseReference) {
@@ -473,6 +494,48 @@ class AppealsApiClient {
 	async submitLPAStatement(caseReference) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission/submit`;
 		await this.#makePostRequest(endpoint);
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<void>}
+	 */
+	async submitAppellantStatement(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-statement-submission/submit`;
+		await this.#makePostRequest(endpoint);
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {Array<Object>} data
+	 * @returns {Promise<(AppellantStatementSubmission)>}
+	 */
+	async postAppellantStatementDocumentUpload(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-statement-submission/document-upload`;
+		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string[]} documentIds
+	 * @returns {Promise<(LPAStatementSubmission)>}
+	 */
+	async deleteAppellantStatementDocumentUpload(caseReference, documentIds) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-statement-submission/document-upload`;
+		const response = await this.#makeDeleteRequest(endpoint, documentIds);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(AppellantStatementSubmission)>}
+	 */
+	async patchAppellantStatement(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-statement-submission`;
+		const response = await this.#makePatchRequest(endpoint, data);
+		return response.json();
 	}
 
 	/**

@@ -2380,6 +2380,15 @@ exports.getQuestionProps = (response) => ({
 		url: 'upload-appeal-statement',
 		fieldName: 'statementContinue'
 	},
+	appellantStatementContinue: {
+		type: 'content',
+		title: 'Submit your statement',
+		description: 'You can upload any supporting documents after you add your appeal statement.',
+		label: 'You can upload any supporting documents after you add your appeal statement.',
+		question: 'Submit an appeal statement',
+		url: 'statement',
+		fieldName: 'statementContinue'
+	},
 	lpaStatement: {
 		type: 'text-entry',
 		title: 'Appeal statement',
@@ -2422,6 +2431,39 @@ exports.getQuestionProps = (response) => ({
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		documentType: documentTypes.uploadLpaStatementDocuments,
+		actionHiddenText: 'your new supporting documents'
+	},
+	appellantStatement: {
+		type: 'text-entry',
+		title: 'Appeal statement',
+		question: 'Appeal statement',
+		label: 'Enter your statement',
+		url: 'appeal-statement',
+		fieldName: 'appellantStatement',
+		html: 'resources/rule-6/rule-6-statement-guidance.html',
+		validators: [
+			new RequiredValidator('Enter your statement'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textAreaMaxLength,
+					maxLengthMessage: `Your statement must be ${formatNumber(
+						appealFormV2.textAreaMaxLength
+					)} characters or less`
+				}
+			})
+		]
+	},
+	uploadAppellantStatementDocuments: {
+		type: 'multi-file-upload',
+		title: 'Supporting documents',
+		question: 'Upload your new supporting documents',
+		fieldName: 'uploadAppellantStatementDocuments',
+		url: 'upload-supporting-documents',
+		validators: [
+			new RequiredFileUploadValidator('Select your new supporting documents'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.uploadAppellantStatementDocuments,
 		actionHiddenText: 'your new supporting documents'
 	},
 	rule6Statement: {

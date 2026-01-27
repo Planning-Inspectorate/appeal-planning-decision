@@ -9,6 +9,7 @@ const s78AppellantFinalCommentsParams = require('../dynamic-forms/s78-appellant-
 const s78AppellantProofEvidenceParams = require('../dynamic-forms/s78-appellant-proof-evidence/journey');
 const s78LpaFinalCommentsParams = require('../dynamic-forms/s78-lpa-final-comments/journey');
 const s78LpaStatementParams = require('../dynamic-forms/s78-lpa-statement/journey');
+const s78AppellantStatementParams = require('../dynamic-forms/s78-apellant-statement/journey');
 const s78LpaProofEvidenceParams = require('../dynamic-forms/s78-lpa-proof-evidence/journey');
 const s78Rule6ProofEvidenceParams = require('../dynamic-forms/s78-rule-6-proof-evidence/journey');
 const s78Rule6StatementParams = require('../dynamic-forms/s78-rule-6-statement/journey');
@@ -60,5 +61,6 @@ journeys.registerJourney({ ...commonParams, ...enforcementListedAppealParams });
 journeys.registerJourney({ ...commonParams, ...enforcementListedQuestionnaireParams });
 journeys.registerJourney({ ...commonParams, ...ldcAppealParams });
 journeys.registerJourney({ ...commonParams, ...ldcQuestionnaireParams });
+journeys.registerJourney({ ...commonParams, ...s78AppellantStatementParams });
 
 module.exports = { journeys };

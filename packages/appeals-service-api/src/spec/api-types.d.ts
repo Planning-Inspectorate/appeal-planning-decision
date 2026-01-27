@@ -368,6 +368,11 @@ export interface AppealCase {
 	 */
 	LPAStatementSubmittedDate?: string;
 	/**
+	 * the date the appellant's statement was received
+	 * @format date-time
+	 */
+	AppellantStatementSubmittedDate?: string;
+	/**
 	 * the date comments are due
 	 * @format date-time
 	 */
@@ -692,6 +697,30 @@ export interface AppellantProofOfEvidenceSubmission {
 	appellantWitnesses?: boolean;
 	uploadAppellantWitnessesEvidence?: boolean | null;
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
+}
+
+/** A statement submitted by an Appellant */
+export interface AppellantStatementSubmission {
+	/** @format uuid */
+	id: string;
+	AppealCase: {
+		LPACode?: string;
+		appealTypeCode?: string;
+		caseReference?: string;
+		/** @format date-time */
+		finalCommentsDueDate?: string;
+		siteAddressLine1?: string;
+		siteAddressLine2?: string;
+		siteAddressTown?: string;
+		siteAddressCounty?: string;
+		siteAddressPostcode?: string;
+		applicationReference?: string;
+	};
+	/** whether the statement has been submitted to BO */
+	submitted?: boolean;
+	appellantStatement?: string;
+	addtionalDocuments?: boolean;
+	uploadAppellantStatementDocuments?: boolean | null;
 }
 
 /** An appellant submission */
