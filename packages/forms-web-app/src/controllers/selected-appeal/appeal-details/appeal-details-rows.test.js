@@ -622,8 +622,62 @@ describe('appeal-details-rows', () => {
 		});
 	});
 
+	describe('siteUseAtTimeOfApplication', () => {
+		const applicationReferenceIndex = 24;
+
+		it('should display the siteUseAtTimeOfApplication if set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.siteUseAtTimeOfApplication = 'testing';
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[applicationReferenceIndex].condition(testCase)).toBeTruthy();
+			expect(rows[applicationReferenceIndex].keyText).toEqual(
+				'What did you use the appeal site for when you made the application?'
+			);
+			expect(rows[applicationReferenceIndex].valueText).toEqual('testing');
+		});
+
+		it('should not display the siteUseAtTimeOfApplication if not set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[applicationReferenceIndex].condition(testCase)).toBeFalsy();
+		});
+	});
+
+	describe('applicationMadeUnderActSection', () => {
+		const applicationReferenceIndex = 25;
+
+		it('should display the applicationMadeUnderActSection if set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.applicationMadeUnderActSection = 'existing-development';
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[applicationReferenceIndex].condition(testCase)).toBeTruthy();
+			expect(rows[applicationReferenceIndex].keyText).toEqual(
+				'Was your application for the existing or proposed use of a development?'
+			);
+			expect(rows[applicationReferenceIndex].valueText).toEqual('Existing development');
+		});
+
+		it('should not display the applicationMadeUnderActSection if not set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[applicationReferenceIndex].condition(testCase)).toBeFalsy();
+		});
+
+		it('should return database value if unknown value', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.applicationMadeUnderActSection = 'something-new';
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[applicationReferenceIndex].condition(testCase)).toBeTruthy();
+			expect(rows[applicationReferenceIndex].keyText).toEqual(
+				'Was your application for the existing or proposed use of a development?'
+			);
+			expect(rows[applicationReferenceIndex].valueText).toEqual('something-new');
+		});
+	});
+
 	describe('Was your application for a major or minor development?', () => {
-		const majorMinorIndex = 24;
+		const majorMinorIndex = 26;
 
 		const testCases = [
 			{ developmentType: APPEAL_DEVELOPMENT_TYPE.HOUSEHOLDER, expected: '' },
@@ -669,7 +723,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Was your application about any of the following?', () => {
-		const developmentTypeIndex = 25;
+		const developmentTypeIndex = 27;
 
 		it('should display the development type if appeal type code is not HAS', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -694,7 +748,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Enter the description of development', () => {
-		const descriptionIndex = 26;
+		const descriptionIndex = 28;
 
 		it('should display the development description if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -733,7 +787,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Did the local planning authority change the description of development?', () => {
-		const lpaChangedDescriptionIndex = 27;
+		const lpaChangedDescriptionIndex = 29;
 
 		it('should show change the description if not null', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -781,7 +835,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Preferred procedure', () => {
-		const lpaChangedDescriptionIndex = 28;
+		const lpaChangedDescriptionIndex = 30;
 
 		it('should display the appellant preferred procedure if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -803,7 +857,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Cost application', () => {
-		const costsApplicationIndex = 32;
+		const costsApplicationIndex = 34;
 
 		it('should display Yes if applicant applied for costs', () => {
 			const testCase = structuredClone(caseWithAppellant);

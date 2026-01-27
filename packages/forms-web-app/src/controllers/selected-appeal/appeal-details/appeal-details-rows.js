@@ -15,7 +15,8 @@ const {
 	formatGroundsOfAppeal,
 	formatAllOrPart,
 	hasAppealGround,
-	formatInterestInLand
+	formatInterestInLand,
+	formatActSection
 } = require('@pins/common');
 const { CASE_TYPES, caseTypeLookup } = require('@pins/common/src/database/data-static');
 const { formatDocumentDetails } = require('@pins/common');
@@ -199,6 +200,16 @@ exports.detailsRows = (caseData, userType) => {
 			keyText: 'Application reference',
 			valueText: caseData.applicationReference ?? '',
 			condition: (caseData) => !!caseData.applicationReference
+		},
+		{
+			keyText: 'What did you use the appeal site for when you made the application?',
+			valueText: caseData.siteUseAtTimeOfApplication ?? '',
+			condition: (caseData) => !!caseData.siteUseAtTimeOfApplication
+		},
+		{
+			keyText: 'Was your application for the existing or proposed use of a development?',
+			valueText: formatActSection(caseData, 'applicationMadeUnderActSection'),
+			condition: (caseData) => !!caseData.applicationMadeUnderActSection
 		},
 		{
 			keyText: 'Was your application for a major or minor development?',

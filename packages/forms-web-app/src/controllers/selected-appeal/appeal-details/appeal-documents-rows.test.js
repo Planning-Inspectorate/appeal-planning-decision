@@ -82,9 +82,21 @@ describe('appeal-documents-rows', () => {
 			3,
 			[CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode, CASE_TYPES.CAS_PLANNING.processCode]
 		],
-		['New plans or drawings', 6, [CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode]],
-		['Planning obligation', 8, [CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode]],
-		['New supporting documents', 9, [CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode]]
+		[
+			'New plans or drawings',
+			6,
+			[CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode, CASE_TYPES.LDC.processCode]
+		],
+		[
+			'Planning obligation',
+			8,
+			[CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode, CASE_TYPES.LDC.processCode]
+		],
+		[
+			'New supporting documents',
+			9,
+			[CASE_TYPES.S78.processCode, CASE_TYPES.S20.processCode, CASE_TYPES.LDC.processCode]
+		]
 	])('%s', (rowName, rowNumber, expectedAppealTypes) => {
 		allNonEnforcementAppealTypes
 			.filter((x) => !expectedAppealTypes.includes(x))
@@ -112,7 +124,8 @@ describe('appeal-documents-rows', () => {
 		const draftRow = 10;
 		test.each([
 			['S78', CASE_TYPES.S78.processCode],
-			['S20', CASE_TYPES.S20.processCode]
+			['S20', CASE_TYPES.S20.processCode],
+			['LDC', CASE_TYPES.LDC.processCode]
 		])('should display field if %s and not written', (_, processCode) => {
 			const rows = documentsRows({ appealTypeCode: processCode });
 			expect(rows[draftRow].keyText).toEqual('Draft statement of common ground');
