@@ -38,11 +38,20 @@ const formatApplicant = (users, userType = APPEAL_USER_ROLES.INTERESTED_PARTY) =
 		}
 	}
 
-	if (appellant)
+	if (appellant) {
+		const { firstName, lastName, organisation } = appellant;
+
+		if (!firstName && !lastName && organisation)
+			return {
+				key: { text: 'Applicant' },
+				value: { text: escape(`${organisation}`) }
+			};
+
 		return {
 			key: { text: 'Applicant' },
-			value: { text: escape(`${appellant.firstName} ${appellant.lastName}`) }
+			value: { text: escape(`${firstName} ${lastName}`) }
 		};
+	}
 
 	return { key: { text: 'Applicant' }, value: { text: '' } };
 };

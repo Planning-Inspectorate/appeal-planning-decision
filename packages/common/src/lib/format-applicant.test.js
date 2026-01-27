@@ -26,6 +26,30 @@ describe('format-applicant', () => {
 			});
 		});
 
+		it('returns Applicant key and organisation name if present with no firstName or lastName on ServiceUser attached to appeal', () => {
+			const users = [
+				{
+					firstName: null,
+					lastName: null,
+					emailAddress: 'test@example.com',
+					telephoneNumber: '123456',
+					organisation: 'testOrganisation',
+					serviceUserType: APPEAL_USER_ROLES.APPELLANT
+				},
+				{
+					firstName: 'Firstname2',
+					lastName: 'Lastname2',
+					emailAddress: 'test@example.com',
+					telephoneNumber: '123456',
+					serviceUserType: APPEAL_USER_ROLES.AGENT
+				}
+			];
+			expect(formatApplicant(users)).toEqual({
+				key: { text: 'Applicant' },
+				value: { text: 'testOrganisation' }
+			});
+		});
+
 		it('returns Applicant key and empty value if no valid ServiceUser attached to appeal', () => {
 			const users = [
 				{

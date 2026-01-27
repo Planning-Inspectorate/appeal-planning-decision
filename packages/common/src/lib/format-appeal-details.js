@@ -35,9 +35,13 @@ exports.formatContactDetails = (caseData) => {
 function formatUserDetails(contact) {
 	if (!contact) return '';
 
-	const contactName = escape(`${contact.firstName} ${contact.lastName}`);
+	const { firstName, lastName, organisation } = contact;
 
-	return contactName + (contact.organisation ? `\n${contact.organisation}` : '');
+	if (!firstName && !lastName && organisation) return escape(`${organisation}`);
+
+	const contactName = escape(`${firstName} ${lastName}`);
+
+	return contactName + (organisation ? `\n${organisation}` : '');
 }
 exports.formatUserDetails = formatUserDetails;
 
