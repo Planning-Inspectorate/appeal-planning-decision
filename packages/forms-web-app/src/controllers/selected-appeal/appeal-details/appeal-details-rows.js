@@ -302,7 +302,7 @@ const enforcementDetailsRows = (caseData, userType) => {
 	const hasAppealGroundA = hasAppealGround(caseData, 'a');
 
 	const costApplicationKeyText = isAppellantOrAgent
-		? 'Do you need to apply for an award of appeal costs?'
+		? 'Do you want to apply for an award of appeal costs?'
 		: 'Did the appellant apply for an award of appeal costs?';
 
 	const siteAddressValue = caseData.siteAddressLine1
@@ -313,13 +313,13 @@ const enforcementDetailsRows = (caseData, userType) => {
 		{
 			keyText:
 				isAppellantOrAgent && contactIsAppellant // only show first option to appellant themselves
-					? 'Was the application made in your name?'
-					: "Was the application made in the appellant's name",
+					? 'Was the appeal made in your name?'
+					: "Was the appeal made in the appellant's name",
 			valueText: boolToYesNo(contactIsAppellant),
 			condition: () => true
 		},
 		{
-			keyText: "Applicant's name",
+			keyText: "Appellant's name",
 			valueText: formatUserDetails(appellant),
 			condition: () => !contactIsAppellant
 		},
@@ -364,7 +364,11 @@ const enforcementDetailsRows = (caseData, userType) => {
 			valueText: formatHealthAndSafety(caseData),
 			condition: () => true
 		},
-
+		{
+			keyText: 'Enter the description of the alleged breach',
+			valueText: caseData.descriptionOfAllegedBreach ?? '',
+			condition: () => true
+		},
 		{
 			keyText: 'Grounds of appeal',
 			valueText: formatGroundsOfAppeal(grounds),
@@ -372,7 +376,7 @@ const enforcementDetailsRows = (caseData, userType) => {
 		},
 		{
 			keyText:
-				'Was an application made in respect of development on the enforcement notice and correct fee paid?',
+				'Was an application made in respect of the development on the enforcement notice and the correct fee paid?',
 			valueText: formatYesOrNo(caseData, 'applicationMadeAndFeePaid'),
 			condition: (caseData) => hasAppealGroundA && !!caseData.applicationMadeAndFeePaid
 		},
@@ -391,7 +395,6 @@ const enforcementDetailsRows = (caseData, userType) => {
 			valueText: formatDateForDisplay(caseData.applicationDate),
 			condition: (caseData) => hasAppealGroundA && !!caseData.applicationDate
 		},
-
 		{
 			keyText: 'Enter the description of development',
 			valueText: caseData.originalDevelopmentDescription ?? '',
@@ -403,7 +406,7 @@ const enforcementDetailsRows = (caseData, userType) => {
 			condition: (caseData) => hasAppealGroundA && !!caseData.changedDevelopmentDescription
 		},
 		{
-			keyText: 'Was your application granted or refused?',
+			keyText: 'Was the application granted or refused?',
 			valueText: mapApplicationDecision(caseData.applicationDecision),
 			condition: (caseData) => hasAppealGroundA && !!caseData.applicationDecision
 		},
