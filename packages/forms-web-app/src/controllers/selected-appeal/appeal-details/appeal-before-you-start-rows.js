@@ -38,12 +38,12 @@ exports.bysRows = (caseData, lpaName) => {
 		{
 			keyText: 'What date did you submit your application?',
 			valueText: formatDateForDisplay(caseData.applicationDate),
-			condition: (caseData) => caseData.applicationDate != null && !isEnforcement
+			condition: (caseData) => caseData.applicationDate != null
 		},
 		{
 			keyText: 'Was your application granted or refused?',
 			valueText: mapApplicationDecision(caseData.applicationDecision),
-			condition: () => !isEnforcement
+			condition: () => caseData.applicationDecision != null
 		},
 		{
 			keyText:
@@ -51,7 +51,8 @@ exports.bysRows = (caseData, lpaName) => {
 					? 'What date was your decision due from the local planning authority?'
 					: 'What is the date on the decision letter from the local planning authority?',
 			valueText: formatDateForDisplay(caseData.applicationDecisionDate),
-			condition: () => !isEnforcement
+			condition: () =>
+				caseData.applicationDecision != null && caseData.applicationDecisionDate !== null
 		},
 		{
 			keyText: 'Is your enforcement notice about a listed building?',
