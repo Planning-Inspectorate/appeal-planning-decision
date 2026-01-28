@@ -38,20 +38,6 @@ class ServiceUserRepository {
 	}
 
 	/**
-	 * Get service user by ID
-	 *
-	 * @param {string} serviceUserId
-	 * @returns {Promise<ServiceUser|null>}
-	 */
-	getById(serviceUserId) {
-		return this.dbClient.serviceUser.findFirst({
-			where: {
-				id: serviceUserId
-			}
-		});
-	}
-
-	/**
 	 * Get service user emails by array of ids
 	 *
 	 * @param {string[]} serviceUserIds

@@ -33,11 +33,3 @@ exports.getServiceUsersWithEmailsByIdAndCaseReference = (serviceUserIds, caseRef
 		caseReference
 	);
 };
-
-/**
- * @param {string} serviceUserId
- * @returns {Promise<import("#repositories/sql/service-user-repository").ServiceUser|null>}
- */
-exports.getServiceUserById = (serviceUserId) => {
-	return serviceUserRepository.getById(serviceUserId);
-};
