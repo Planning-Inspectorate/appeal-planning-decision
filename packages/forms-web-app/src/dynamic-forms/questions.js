@@ -3105,10 +3105,10 @@ exports.getQuestionProps = (response) => ({
 				value: fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
 			},
 			{
-				text: 'A group of individuals',
+				text: 'Additional appellants',
 				value: fieldValues.enforcementWhoIsAppealing.GROUP,
 				hint: {
-					text: 'If at least 2 people are named on the enforcement notice.'
+					text: 'You are submitting an appeal by more than one person, against the same enforcement notice.'
 				}
 			},
 			{

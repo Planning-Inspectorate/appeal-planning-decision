@@ -56,7 +56,7 @@ exports.formatEnforcementSelectNamesOptions = (response) => {
 	});
 
 	dynamicOptions.push({
-		text: 'I am appealing on behalf of the group of individuals',
+		text: 'I am appealing on behalf of the additional appellants',
 		value: 'None'
 	});
 
