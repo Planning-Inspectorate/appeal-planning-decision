@@ -9,6 +9,9 @@ const {
 	mapAppealTypeToDisplayText,
 	mapAppealTypeToDisplayTextWithAnOrA
 } = require('@pins/common/src/appeal-type-to-display-text');
+const {
+	questionHasAnswer
+} = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -28,6 +31,17 @@ const makeSections = (response) => {
 				[QUESTION_VARIABLES.APPEAL_TYPE_WITH_AN_OR_A]: mapAppealTypeToDisplayTextWithAnOrA(LDC),
 				[QUESTION_VARIABLES.APPEAL_TYPE]: mapAppealTypeToDisplayText(LDC)
 			})
+			.addQuestion(questions.lawfulDevelopmentCertificateTypeLPAQ)
+			// Does the appeal relate to a planning condition
+			// Upload the planning permission
+			.addQuestion(questions.enforcementNoticeDateApplication)
+			.addQuestion(questions.enforcementNoticeDateApplicationUpload)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes')
+			)
+		// Are there any related applications?
+		// Upload related applications
+		// Do you think the appeal is invalid?
 	];
 };
 

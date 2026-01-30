@@ -115,6 +115,29 @@ const defaultAddressValidatorParams = {
 	postcodeMinLength
 };
 
+const lawfulDevelopmentCertificateTypeBase = {
+	type: 'radio',
+	title: 'What type of lawful development certificate is the appeal about?',
+	question: 'What type of lawful development certificate is the appeal about?',
+	validators: [
+		new RequiredValidator('Select what type of lawful development certificate the appeal is about')
+	],
+	options: [
+		{
+			text: 'Existing development',
+			value: fieldValues.lawfulDevelopmentCertificateType.EXISTING_DEVELOPMENT
+		},
+		{
+			text: 'Proposed use of a development',
+			value: fieldValues.lawfulDevelopmentCertificateType.PROPOSED_USE_DEVELOPMENT
+		},
+		{
+			text: 'Proposed changes to a listed building',
+			value: fieldValues.lawfulDevelopmentCertificateType.PROPOSED_CHANGES_LISTED_BUILDING
+		}
+	]
+};
+
 // Define all questions
 /**
  * @param {JourneyResponse} response
@@ -3841,30 +3864,14 @@ exports.getQuestionProps = (response) => ({
 		]
 	},
 	lawfulDevelopmentCertificateType: {
-		type: 'radio',
-		title: 'What type of lawful development certificate is the appeal about?',
-		question: 'What type of lawful development certificate is the appeal about?',
+		...lawfulDevelopmentCertificateTypeBase,
 		fieldName: 'applicationMadeUnderActSection',
-		url: 'lawful-development-certificate-type',
-		validators: [
-			new RequiredValidator(
-				'Select what type of lawful development certificate the appeal is about'
-			)
-		],
-		options: [
-			{
-				text: 'Existing development',
-				value: fieldValues.lawfulDevelopmentCertificateType.EXISTING_DEVELOPMENT
-			},
-			{
-				text: 'Proposed use of a development',
-				value: fieldValues.lawfulDevelopmentCertificateType.PROPOSED_USE_DEVELOPMENT
-			},
-			{
-				text: 'Proposed changes to a listed building',
-				value: fieldValues.lawfulDevelopmentCertificateType.PROPOSED_CHANGES_LISTED_BUILDING
-			}
-		]
+		url: 'lawful-development-certificate-type'
+	},
+	lawfulDevelopmentCertificateTypeLPAQ: {
+		...lawfulDevelopmentCertificateTypeBase,
+		fieldName: 'appealUnderActSection',
+		url: 'certificate-type'
 	}
 });
 
