@@ -1035,6 +1035,9 @@ model LPAQuestionnaireSubmission {
   isSiteInAreaOfSpecialControlAdverts             Boolean?
   wasApplicationRefusedDueToHighwayOrTraffic      Boolean?
   didAppellantSubmitCompletePhotosAndPlans        Boolean?
+  appealUnderActSection                           String?
+  lpaConsiderAppealInvalid                        Boolean?
+  lpaAppealInvalidReasons                         String?   @db.NVarChar(MAX)
 
   // New enforcement fieldnames
   listOfPeopleSentEnforcementNotice        Boolean?
