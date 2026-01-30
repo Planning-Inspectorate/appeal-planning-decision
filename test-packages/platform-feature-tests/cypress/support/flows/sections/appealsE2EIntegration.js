@@ -87,20 +87,20 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
                 cy.simulateFinalCommentsDeadlineElapsed(caseRef);
 
                 // Share final comments in Back Office
-                // API not available yet         
+                cy.shareCommentsAndStatementsViaApi(caseRef);  
+            }   
 
-                // Setup site visit in back office
-                // cy.setupSiteVisitViaAPI(caseRef);
+            // Setup site visit in back office
+            cy.setupSiteVisitViaAPI(caseRef);                
 
-                // Validate site visit text in LPA dash board
+            // Validate site visit text in LPA dash board
+            // validate site visit text in appellant dash board
 
-                // validate site visit text in appellant dash board
-
-                // Elapse site visit date through api call
-                // cy.simulateSiteVisit(caseRef);
-            }
+            // Elapse site visit date through api call
+            cy.simulateSiteVisit(caseRef);
 
             // Issue decision in back office
+            cy.issueDecisionViaApi(caseRef);         
 
             // validate issued decision in back office
 

@@ -370,3 +370,11 @@ Cypress.Commands.add('simulateSiteVisit', (caseObj) => {
 		return;
 	});
 });
+
+Cypress.Commands.add('issueDecisionViaApi', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.issueDecision(caseObj);
+		cy.log('Issue allowed decision for case ref ' + caseObj);
+		cy.reload();
+	});
+});
