@@ -204,7 +204,7 @@ exports.formatSubmissionDate = (submission, date) => {
  * @param {string} ground
  */
 exports.formatFactsForGround = (caseData, ground) => {
-	const relevantGroundDetails = caseData.EnforcementAppealGroundDetails?.find(
+	const relevantGroundDetails = caseData.EnforcementAppealGroundsDetails?.find(
 		(groundDetails) => groundDetails.appealGroundLetter === ground
 	);
 
@@ -218,7 +218,7 @@ exports.formatFactsForGround = (caseData, ground) => {
  * @param {string} ground
  */
 exports.hasAppealGround = (caseData, ground) => {
-	return caseData.EnforcementAppealGroundDetails?.some(
+	return caseData.EnforcementAppealGroundsDetails?.some(
 		(groundDetails) => groundDetails.appealGroundLetter === ground
 	);
 };

@@ -141,14 +141,14 @@ describe('format-appeal-details', () => {
 
 	describe('formatFactsForGround', () => {
 		it('should return an empty string if there is no matching ground', () => {
-			const caseData = { EnforcementAppealGroundDetails: [] };
+			const caseData = { EnforcementAppealGroundsDetails: [] };
 			const result = formatFactsForGround(caseData, 'a');
 			expect(result).toBe('');
 		});
 
 		it('should return an empty string if there is a matching ground with no facts', () => {
 			const caseData = {
-				EnforcementAppealGroundDetails: [
+				EnforcementAppealGroundsDetails: [
 					{
 						appealGroundLetter: 'a',
 						groundFacts: null
@@ -161,7 +161,7 @@ describe('format-appeal-details', () => {
 
 		it('should return the facts if there is a matching ground with facts', () => {
 			const caseData = {
-				EnforcementAppealGroundDetails: [
+				EnforcementAppealGroundsDetails: [
 					{
 						appealGroundLetter: 'a',
 						groundFacts: 'test facts'
@@ -175,14 +175,14 @@ describe('format-appeal-details', () => {
 
 	describe('hasAppealGround', () => {
 		it('should return false if there is no matching ground', () => {
-			const caseData = { EnforcementAppealGroundDetails: [] };
+			const caseData = { EnforcementAppealGroundsDetails: [] };
 			const result = hasAppealGround(caseData, 'a');
 			expect(result).toBe(false);
 		});
 
 		it('should return true if there is a matching ground', () => {
 			const caseData = {
-				EnforcementAppealGroundDetails: [
+				EnforcementAppealGroundsDetails: [
 					{
 						appealGroundLetter: 'a'
 					}
