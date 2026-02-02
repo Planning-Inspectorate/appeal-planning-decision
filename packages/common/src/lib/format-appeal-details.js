@@ -41,7 +41,7 @@ function formatUserDetails(contact) {
 
 	const contactName = escape(`${firstName} ${lastName}`);
 
-	return contactName + (organisation ? `\n${organisation}` : '');
+	return contactName + (organisation ? `\n${escape(organisation)}` : '');
 }
 exports.formatUserDetails = formatUserDetails;
 
