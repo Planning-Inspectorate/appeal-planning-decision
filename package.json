@@ -152,7 +152,7 @@
 		"nunjucks-date-filter": "^0.1.1",
 		"oidc-provider": "^9.6.0",
 		"openid-client": "^6.8.1",
-		"pino": "^10.2.0",
+		"pino": "^10.3.0",
 		"pino-http": "^10.5.0",
 		"puppeteer-core": "^24.35.0",
 		"stream-json": "^1.8.0",
