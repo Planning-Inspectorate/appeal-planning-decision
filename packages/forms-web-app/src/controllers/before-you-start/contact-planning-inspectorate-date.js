@@ -81,6 +81,7 @@ exports.postContactPlanningInspectorateDate = async (req, res) => {
 		targetTimezone
 	);
 	const extendedDeadline = addDays(zonedEffectiveDate, 6);
+
 	const zonedContactPlanningInspectorateDate = utcToZonedTime(
 		contactPlanningInspectorateDate,
 		targetTimezone
@@ -90,6 +91,12 @@ exports.postContactPlanningInspectorateDate = async (req, res) => {
 		isBefore(zonedContactPlanningInspectorateDate, zonedEffectiveDate) &&
 		isBefore(new Date(), extendedDeadline)
 	) {
+		if (req.session.appeal.eligibility.enforcementNoticeListedBuilding === true) {
+			res.redirect(
+				'/before-you-start/enforcement/upload-documents/upload-planning-inspectorate-communication'
+			);
+			return;
+		}
 		res.redirect('/before-you-start/can-use-service');
 		return;
 	}

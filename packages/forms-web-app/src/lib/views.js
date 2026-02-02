@@ -22,7 +22,9 @@ const VIEW = {
 		APPLICATION_LOOKUP: 'before-you-start/application-lookup',
 		CONTACT_PLANNING_INSPECTORATE: 'before-you-start/contact-planning-inspectorate',
 		CONTACT_PLANNING_INSPECTORATE_DATE: 'before-you-start/contact-planning-inspectorate-date',
-		CANNOT_APPEAL_ENFORCEMENT: 'before-you-start/cannot-appeal-enforcement'
+		CANNOT_APPEAL_ENFORCEMENT: 'before-you-start/cannot-appeal-enforcement',
+		UPLOAD_COMMUNICATION_WITH_PLANNING_INSPECTORATE:
+			'before-you-start/upload-communication-with-planning-inspectorate'
 	},
 
 	APPELLANT_SUBMISSION: {
