@@ -1,6 +1,8 @@
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { bysRows } = require('./appeal-before-you-start-rows');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
+const { makeDocument } = require('../questionnaire-details/test-factory');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 describe('bys-rows', () => {
 	const caseData = {
@@ -140,6 +142,23 @@ describe('bys-rows - enforcement and enforcement listed', () => {
 	it('should display enforcement reference row', () => {
 		expect(rows[11].keyText).toEqual('What is the reference number on the enforcement notice?');
 		expect(rows[11].valueText).toEqual('enf-ref');
+	});
+
+	it('should not display piror pins communication row for enforcement appeal type', () => {
+		expect(rows[12].condition(enforcementCaseData)).toEqual(false);
+	});
+
+	it('should display piror pins communication row for enforcement-listed appeal type', () => {
+		const data = structuredClone(enforcementCaseData);
+		data.appealTypeCode = CASE_TYPES.ENFORCEMENT_LISTED.processCode;
+		// @ts-ignore
+		data.Documents = [makeDocument(APPEAL_DOCUMENT_TYPE.PRIOR_CORRESPONDENCE_WITH_PINS)];
+		const rowData = bysRows(data, 'Test LPA');
+
+		expect(rowData[12].keyText).toEqual(
+			'Upload your communications with the Planning Inspectorate'
+		);
+		expect(rowData[12].valueText).toEqual('name.pdf - awaiting review');
 	});
 });
 

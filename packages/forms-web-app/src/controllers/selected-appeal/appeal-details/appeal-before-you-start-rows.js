@@ -1,5 +1,7 @@
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { documentExists, formatDocumentDetails } = require('@pins/common');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
@@ -16,6 +18,7 @@ exports.bysRows = (caseData, lpaName) => {
 
 	const isEnforcement =
 		isEnforcementListed || caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+	const documents = caseData.Documents || [];
 
 	return [
 		{
@@ -84,6 +87,16 @@ exports.bysRows = (caseData, lpaName) => {
 			keyText: 'What is the reference number on the enforcement notice?',
 			valueText: caseData.enforcementReference ?? '',
 			condition: () => isEnforcement
+		},
+		{
+			keyText: 'Upload your communications with the Planning Inspectorate',
+			valueText: formatDocumentDetails(
+				documents,
+				APPEAL_DOCUMENT_TYPE.PRIOR_CORRESPONDENCE_WITH_PINS
+			),
+			condition: () =>
+				isEnforcementListed &&
+				documentExists(documents, APPEAL_DOCUMENT_TYPE.PRIOR_CORRESPONDENCE_WITH_PINS)
 		}
 	];
 };
