@@ -122,7 +122,7 @@
 		"compression": "^1.8.1",
 		"connect-mongodb-session": "^5.0.0",
 		"cookie-parser": "^1.4.6",
-		"cors": "^2.8.5",
+		"cors": "^2.8.6",
 		"date-fns": "^2.30.0",
 		"date-fns-tz": "^2.0.0",
 		"dotenv": "^17.2.3",
