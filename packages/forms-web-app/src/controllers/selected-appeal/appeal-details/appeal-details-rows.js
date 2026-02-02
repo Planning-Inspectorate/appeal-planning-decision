@@ -89,12 +89,14 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: "Applicant's name",
 			valueText: formatUserDetails(appellant),
-			condition: () => !contactIsAppellant
+			condition: () => !contactIsAppellant,
+			isEscaped: true
 		},
 		{
 			keyText: 'Contact details',
 			valueText: formatUserDetails(contact),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'Phone number',
@@ -321,12 +323,14 @@ const enforcementDetailsRows = (caseData, userType) => {
 		{
 			keyText: "Appellant's name",
 			valueText: formatUserDetails(appellant),
-			condition: () => !contactIsAppellant
+			condition: () => !contactIsAppellant,
+			isEscaped: true
 		},
 		{
 			keyText: 'Contact details',
 			valueText: formatUserDetails(contact),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'Phone number',
@@ -436,7 +440,8 @@ const enforcementDetailsRows = (caseData, userType) => {
 		{
 			keyText: 'Ground (a) supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_A_SUPPORTING),
-			condition: (caseData) => hasAppealGround(caseData, 'a')
+			condition: (caseData) => hasAppealGround(caseData, 'a'),
+			isEscaped: true
 		},
 		{
 			keyText: 'Facts for ground (b)',
@@ -446,7 +451,8 @@ const enforcementDetailsRows = (caseData, userType) => {
 		{
 			keyText: 'Ground (b) supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_B_SUPPORTING),
-			condition: (caseData) => hasAppealGround(caseData, 'b')
+			condition: (caseData) => hasAppealGround(caseData, 'b'),
+			isEscaped: true
 		},
 		{
 			keyText: 'Facts for ground (c)',
@@ -456,7 +462,8 @@ const enforcementDetailsRows = (caseData, userType) => {
 		{
 			keyText: 'Ground (c) supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_C_SUPPORTING),
-			condition: (caseData) => hasAppealGround(caseData, 'c')
+			condition: (caseData) => hasAppealGround(caseData, 'c'),
+			isEscaped: true
 		},
 		{
 			keyText: 'Facts for ground (d)',
@@ -466,7 +473,8 @@ const enforcementDetailsRows = (caseData, userType) => {
 		{
 			keyText: 'Ground (d) supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_D_SUPPORTING),
-			condition: (caseData) => hasAppealGround(caseData, 'd')
+			condition: (caseData) => hasAppealGround(caseData, 'd'),
+			isEscaped: true
 		},
 		{
 			keyText: 'Facts for ground (e)',
@@ -476,7 +484,8 @@ const enforcementDetailsRows = (caseData, userType) => {
 		{
 			keyText: 'Ground (e) supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_E_SUPPORTING),
-			condition: (caseData) => hasAppealGround(caseData, 'e')
+			condition: (caseData) => hasAppealGround(caseData, 'e'),
+			isEscaped: true
 		},
 		{
 			keyText: 'Facts for ground (f)',
@@ -486,7 +495,8 @@ const enforcementDetailsRows = (caseData, userType) => {
 		{
 			keyText: 'Ground (f) supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_F_SUPPORTING),
-			condition: (caseData) => hasAppealGround(caseData, 'f')
+			condition: (caseData) => hasAppealGround(caseData, 'f'),
+			isEscaped: true
 		},
 		{
 			keyText: 'Facts for ground (g)',
@@ -496,7 +506,8 @@ const enforcementDetailsRows = (caseData, userType) => {
 		{
 			keyText: 'Ground (g) supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_G_SUPPORTING),
-			condition: (caseData) => hasAppealGround(caseData, 'g')
+			condition: (caseData) => hasAppealGround(caseData, 'g'),
+			isEscaped: true
 		},
 
 		// for enforcement listed building - document types not in data model yet
@@ -509,7 +520,8 @@ const enforcementDetailsRows = (caseData, userType) => {
 		// 		{
 		// 	keyText: 'Ground (h) supporting documents',
 		// 	valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_H_SUPPORTING),
-		// 	condition: (caseData) => hasAppealGround(caseData, 'h')
+		// 	condition: (caseData) => hasAppealGround(caseData, 'h'),
+		//	isEscaped: true
 		// },
 		// {
 		// 	keyText: 'Facts for ground (i)',
@@ -519,7 +531,8 @@ const enforcementDetailsRows = (caseData, userType) => {
 		// 		{
 		// 	keyText: 'Ground (i) supporting documents',
 		// 	valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_I_SUPPORTING),
-		// 	condition: (caseData) => hasAppealGround(caseData, 'i')
+		// 	condition: (caseData) => hasAppealGround(caseData, 'i'),
+		//	isEscaped: true
 		// },
 		// {
 		// 	keyText: 'Facts for ground (j)',
@@ -529,7 +542,8 @@ const enforcementDetailsRows = (caseData, userType) => {
 		// 		{
 		// 	keyText: 'Ground (j) supporting documents',
 		// 	valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_J_SUPPORTING),
-		// 	condition: (caseData) => hasAppealGround(caseData, 'j')
+		// 	condition: (caseData) => hasAppealGround(caseData, 'j'),
+		//	isEscaped: true
 		// },
 		// {
 		// 	keyText: 'Facts for ground (k)',
@@ -539,7 +553,8 @@ const enforcementDetailsRows = (caseData, userType) => {
 		// 		{
 		// 	keyText: 'Ground (k) supporting documents',
 		// 	valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_K_SUPPORTING),
-		// 	condition: (caseData) => hasAppealGround(caseData, 'k')
+		// 	condition: (caseData) => hasAppealGround(caseData, 'k'),
+		//	isEscaped: true
 		// },
 
 		{

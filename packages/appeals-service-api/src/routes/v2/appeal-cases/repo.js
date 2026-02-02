@@ -42,6 +42,7 @@ const dashboardSelect = {
 	applicationDecision: true,
 	applicationDate: true,
 	applicationDecisionDate: true,
+	enforcementReference: true,
 
 	// site address
 	siteAddressLine1: true,
