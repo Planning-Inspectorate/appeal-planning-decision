@@ -210,7 +210,7 @@ const storePdfQuestionnaireSubmission = async ({
 	log.info('Attempting to store PDF document');
 
 	try {
-		const htmlContent = await getHtml(submissionJourney, url, cookieString);
+		const htmlContent = await getHtml(lpaQuestionnaireId, url, cookieString);
 		const htmlContentWithCSS = await addCSStoHtml(htmlContent);
 
 		log.debug('Generating PDF of questionnaire');

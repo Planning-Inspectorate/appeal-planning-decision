@@ -94,7 +94,6 @@ class UnitOptionEntryValidator extends BaseValidator {
 	validateMax(schema, option, max, questionObj) {
 		if (max !== undefined) {
 			const maxMessage = `${this.unit} must be ${max.toString()} or less`;
-			console.log('my value: ', option.value);
 			schema.push(
 				body(option.conditional.fieldName)
 					.if(this.isValueIncluded(questionObj, option.value))
