@@ -135,7 +135,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			bannerHtmlOverride
 		};
 
-		logger.info({ viewContext }, 'viewContext');
+		logger.debug({ viewContext }, 'viewContext');
 
 		res.render(VIEW.SELECTED_APPEAL.APPEAL, viewContext);
 	};

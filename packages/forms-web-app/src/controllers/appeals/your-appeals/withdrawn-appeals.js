@@ -11,7 +11,7 @@ exports.get = async (req, res) => {
 	try {
 		const appeals = await req.appealsApiClient.getUserAppeals(APPEAL_USER_ROLES.APPELLANT);
 
-		console.log('Total appeals from API:', appeals?.length);
+		logger.debug('Total appeals from API:', appeals?.length);
 
 		if (appeals?.length > 0) {
 			const withdrawnAppeals = appeals
