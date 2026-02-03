@@ -259,7 +259,7 @@ exports.formatInterestInLand = (caseData) => {
 
 	const interests = ['Owner', 'Tenant', 'MortgageLender'];
 
-	const hasPermission = interests.includes(interestInLand) ? null : !!occupancyConditionsMet;
+	const hasPermission = interests.includes(interestInLand) ? null : occupancyConditionsMet;
 
 	return {
 		interestInLand,

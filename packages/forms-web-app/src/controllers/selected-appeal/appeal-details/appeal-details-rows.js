@@ -23,6 +23,7 @@ const { formatDocumentDetails } = require('@pins/common');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
+const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
@@ -299,7 +300,7 @@ const enforcementDetailsRows = (caseData, userType) => {
 	const showRelatedAppeals = !!relatedAppeals;
 
 	const interestInLand = formatInterestInLand(caseData);
-	const showPermission = !!interestInLand?.hasPermission;
+	const showPermission = isNotUndefinedOrNull(interestInLand?.hasPermission);
 
 	const hasAppealGroundA = hasAppealGround(caseData, 'a');
 
@@ -355,7 +356,7 @@ const enforcementDetailsRows = (caseData, userType) => {
 				isAppellantOrAgent && contactIsAppellant // only show first option to appellant themselves
 					? 'Do you have verbal or written permission to use the land?'
 					: 'Does the appellant have verbal or written permission to use the land?',
-			valueText: interestInLand.hasPermission,
+			valueText: boolToYesNo(interestInLand.hasPermission),
 			condition: () => showPermission
 		},
 		{
@@ -382,37 +383,43 @@ const enforcementDetailsRows = (caseData, userType) => {
 			keyText:
 				'Was an application made in respect of the development on the enforcement notice and the correct fee paid?',
 			valueText: formatYesOrNo(caseData, 'applicationMadeAndFeePaid'),
-			condition: (caseData) => hasAppealGroundA && !!caseData.applicationMadeAndFeePaid
+			condition: (caseData) =>
+				hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationMadeAndFeePaid)
 		},
 		{
 			keyText: 'Was the application for all or part of the Development',
 			valueText: formatAllOrPart(caseData),
-			condition: (caseData) => hasAppealGroundA && !!caseData.applicationPartOrWholeDevelopment
+			condition: (caseData) =>
+				hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationPartOrWholeDevelopment)
 		},
 		{
 			keyText: 'Application reference',
 			valueText: caseData.applicationReference ?? '',
-			condition: (caseData) => hasAppealGroundA && !!caseData.applicationReference
+			condition: (caseData) =>
+				hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationReference)
 		},
 		{
 			keyText: 'What date did you submit your application?',
 			valueText: formatDateForDisplay(caseData.applicationDate),
-			condition: (caseData) => hasAppealGroundA && !!caseData.applicationDate
+			condition: (caseData) => hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationDate)
 		},
 		{
 			keyText: 'Enter the description of development',
 			valueText: caseData.originalDevelopmentDescription ?? '',
-			condition: (caseData) => hasAppealGroundA && !!caseData.originalDevelopmentDescription
+			condition: (caseData) =>
+				hasAppealGroundA && isNotUndefinedOrNull(caseData.originalDevelopmentDescription)
 		},
 		{
 			keyText: 'Did the local planning authority change the description of development?',
 			valueText: formatYesOrNo(caseData, 'changedDevelopmentDescription'),
-			condition: (caseData) => hasAppealGroundA && !!caseData.changedDevelopmentDescription
+			condition: (caseData) =>
+				hasAppealGroundA && isNotUndefinedOrNull(caseData.changedDevelopmentDescription)
 		},
 		{
 			keyText: 'Was the application granted or refused?',
 			valueText: mapApplicationDecision(caseData.applicationDecision),
-			condition: (caseData) => hasAppealGroundA && !!caseData.applicationDecision
+			condition: (caseData) =>
+				hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationDecision)
 		},
 		{
 			keyText:
@@ -420,17 +427,20 @@ const enforcementDetailsRows = (caseData, userType) => {
 					? 'What date was your decision due from the local planning authority?'
 					: 'What is the date on the decision letter from the local planning authority?',
 			valueText: formatDateForDisplay(caseData.applicationDecisionDate),
-			condition: (caseData) => hasAppealGroundA && !!caseData.applicationDecisionDate
+			condition: (caseData) =>
+				hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationDecisionDate)
 		},
 		{
 			keyText: 'Did anyone appeal the decision?',
 			valueText: formatYesOrNo(caseData, 'didAppellantAppealLpaDecision'),
-			condition: (caseData) => hasAppealGroundA && !!caseData.didAppellantAppealLpaDecision
+			condition: (caseData) =>
+				hasAppealGroundA && isNotUndefinedOrNull(caseData.didAppellantAppealLpaDecision)
 		},
 		{
 			keyText: 'When was the appeal decision?',
 			valueText: formatDateForDisplay(caseData.dateLpaDecisionReceived),
-			condition: (caseData) => hasAppealGroundA && !!caseData.dateLpaDecisionReceived
+			condition: (caseData) =>
+				hasAppealGroundA && isNotUndefinedOrNull(caseData.dateLpaDecisionReceived)
 		},
 		{
 			keyText: 'Facts for ground (a)',
@@ -560,21 +570,22 @@ const enforcementDetailsRows = (caseData, userType) => {
 		{
 			keyText: 'Preferred procedure',
 			valueText: formatProcedure(caseData),
-			condition: (caseData) => caseData.appellantProcedurePreference
+			condition: (caseData) => isNotUndefinedOrNull(caseData.appellantProcedurePreference)
 		},
 		{
 			keyText: 'Expected procedure duration',
 			valueText: caseData.appellantProcedurePreferenceDuration
 				? caseData.appellantProcedurePreferenceDuration.toString()
 				: '',
-			condition: (caseData) => caseData.appellantProcedurePreferenceDuration != null
+			condition: (caseData) => isNotUndefinedOrNull(caseData.appellantProcedurePreferenceDuration)
 		},
 		{
 			keyText: 'Expected witness count',
 			valueText: caseData.appellantProcedurePreferenceWitnessCount
 				? caseData.appellantProcedurePreferenceWitnessCount.toString()
 				: '',
-			condition: (caseData) => caseData.appellantProcedurePreferenceWitnessCount != null
+			condition: (caseData) =>
+				isNotUndefinedOrNull(caseData.appellantProcedurePreferenceWitnessCount)
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',
