@@ -52,11 +52,15 @@ class NumberEntryQuestion extends Question {
 
 		const answer = journey.response.answers[this.fieldName];
 		const persistedAnswer = getPersistedNumberAnswer(answer);
-
+		const questionValue = payload ? payload[this.fieldName] : persistedAnswer;
 		return {
 			...viewModel,
-			answer: persistedAnswer,
-			question: { ...viewModel.question, label: this.label, suffix: this.suffix }
+			question: {
+				...viewModel.question,
+				value: questionValue,
+				label: this.label,
+				suffix: this.suffix
+			}
 		};
 	}
 
