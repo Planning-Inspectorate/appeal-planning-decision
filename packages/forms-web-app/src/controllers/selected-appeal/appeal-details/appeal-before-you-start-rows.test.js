@@ -101,6 +101,15 @@ describe('bys-rows - enforcement and enforcement listed', () => {
 		expect(rows[1].valueText).toEqual('Yes');
 	});
 
+	test.each([
+		['Application type', 2],
+		['Submission date', 3],
+		['Application decision', 4],
+		['Decision date', 5]
+	])('should not display field for %s', (_, rowNumber) => {
+		expect(rows[rowNumber].condition()).toBeFalsy();
+	});
+
 	it('should display the enforcement listed building row - enforcement notice', () => {
 		expect(rows[6].keyText).toEqual('Is your enforcement notice about a listed building?');
 		expect(rows[6].valueText).toEqual('No');

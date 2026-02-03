@@ -206,6 +206,11 @@ describe('format-appeal-details', () => {
 			const result = formatInterestInLand(caseData);
 			expect(result.interestInLand).toBe('Other');
 			expect(result.hasPermission).toBe(true);
+
+			const caseData2 = { ownerOccupancyStatus: 'Other', occupancyConditionsMet: false };
+			const result2 = formatInterestInLand(caseData2);
+			expect(result2.interestInLand).toBe('Other');
+			expect(result2.hasPermission).toBe(false);
 		});
 	});
 

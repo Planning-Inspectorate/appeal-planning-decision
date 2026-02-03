@@ -1,4 +1,7 @@
-const { APPEAL_DEVELOPMENT_TYPE } = require('@planning-inspectorate/data-model');
+const {
+	APPEAL_DEVELOPMENT_TYPE,
+	APPEAL_DOCUMENT_TYPE
+} = require('@planning-inspectorate/data-model');
 const { detailsRows } = require('./appeal-details-rows');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
@@ -865,6 +868,516 @@ describe('appeal-details-rows', () => {
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[costsApplicationIndex].keyText).toEqual(
 				'Do you need to apply for an award of appeal costs?'
+			);
+			expect(rows[costsApplicationIndex].valueText).toEqual('Yes');
+
+			const rows2 = detailsRows(testCase, LPA_USER_ROLE);
+			expect(rows2[costsApplicationIndex].keyText).toEqual(
+				'Did the appellant apply for an award of appeal costs?'
+			);
+			expect(rows2[costsApplicationIndex].valueText).toEqual('Yes');
+		});
+
+		it('should display no if Applicant did not apply for costs', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[costsApplicationIndex].valueText).toEqual('No');
+
+			testCase.appellantCostsAppliedFor = false;
+			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[costsApplicationIndex].valueText).toEqual('No');
+		});
+	});
+});
+
+describe('appeal-details-rows - enforcement and enforcement listed', () => {
+	const appellant = {
+		serviceUserType: APPEAL_USER_ROLES.APPELLANT,
+		firstName: 'Appellant',
+		lastName: 'Test',
+		telephoneNumber: '12345'
+	};
+	const agent = {
+		serviceUserType: APPEAL_USER_ROLES.AGENT,
+		firstName: 'Agent',
+		lastName: 'Test',
+		telephoneNumber: '98765'
+	};
+	const caseWithAgent = {
+		appealTypeCode: CASE_TYPES.ENFORCEMENT.processCode,
+		users: [agent, appellant]
+	};
+	const caseWithAppellant = {
+		appealTypeCode: CASE_TYPES.ENFORCEMENT.processCode,
+		users: [appellant]
+	};
+
+	describe('in your name?', () => {
+		const inYourNameIndex = 0;
+
+		it('should display appeal in your name, if appellant/agent', () => {
+			const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
+			const rows2 = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.AGENT);
+			expect(rows[inYourNameIndex].keyText).toEqual('Was the appeal made in your name?');
+			expect(rows[inYourNameIndex].valueText).toEqual('Yes');
+			expect(rows2[inYourNameIndex].keyText).toEqual('Was the appeal made in your name?');
+			expect(rows2[inYourNameIndex].valueText).toEqual('Yes');
+		});
+
+		it("should display appeal in appellant's name, if lpa", () => {
+			const rows = detailsRows(caseWithAppellant, LPA_USER_ROLE);
+			expect(rows[inYourNameIndex].keyText).toEqual("Was the appeal made in the appellant's name");
+			expect(rows[inYourNameIndex].valueText).toEqual('Yes');
+		});
+
+		it('should display display No if agent', () => {
+			const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
+			const rows2 = detailsRows(caseWithAgent, LPA_USER_ROLE);
+			expect(rows[inYourNameIndex].valueText).toEqual('No');
+			expect(rows2[inYourNameIndex].valueText).toEqual('No');
+		});
+	});
+
+	describe("Appellant's name", () => {
+		const nameIndex = 1;
+		const contactIndex = 2;
+
+		it("should display Appellant's and Agent name if agent on case", () => {
+			const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[nameIndex].condition()).toEqual(true);
+			expect(rows[nameIndex].valueText).toEqual('Appellant Test');
+			expect(rows[contactIndex].valueText).toEqual('Agent Test');
+		});
+
+		it("should display only Appellant's name if no agent on case", () => {
+			const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[nameIndex].condition()).toEqual(false);
+			expect(rows[contactIndex].valueText).toEqual('Appellant Test');
+		});
+	});
+
+	describe('Phone number', () => {
+		const phoneIndex = 3;
+
+		it("should display appellant's phone number if no agent on case", () => {
+			const rows = detailsRows(caseWithAppellant, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[phoneIndex].keyText).toEqual('Phone number');
+			expect(rows[phoneIndex].valueText).toEqual('12345');
+		});
+
+		it("should display agent's phone number if agent on case", () => {
+			const rows = detailsRows(caseWithAgent, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[phoneIndex].keyText).toEqual('Phone number');
+			expect(rows[phoneIndex].valueText).toEqual('98765');
+		});
+	});
+
+	describe('Site address', () => {
+		it('should display address', () => {
+			const siteAddressIndex = 4;
+			let testCase = structuredClone(caseWithAppellant);
+			testCase.siteAddressLine1 = 'Test address';
+			testCase.siteAddressTown = 'Testville';
+			testCase.siteAddressPostcode = 'TS1 1TT';
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+			expect(rows[siteAddressIndex].condition(testCase)).toBeTruthy();
+			expect(rows[siteAddressIndex].valueText).toEqual('Test address\nTestville\nTS1 1TT');
+			expect(rows[siteAddressIndex].keyText).toEqual('Site address');
+		});
+
+		it('should display grid reference if no address', () => {
+			const siteAddressIndex = 4;
+			let testCase = structuredClone(caseWithAppellant);
+			testCase.siteGridReferenceEasting = '123456';
+			testCase.siteGridReferenceNorthing = '654321';
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+			expect(rows[siteAddressIndex].condition(testCase)).toBeTruthy();
+			expect(rows[siteAddressIndex].valueText).toEqual('Eastings: 123456\nNorthings: 654321');
+			expect(rows[siteAddressIndex].keyText).toEqual('Site address');
+		});
+		it('should display site address if grid reference and site address', () => {
+			const siteAddressIndex = 4;
+			let testCase = structuredClone(caseWithAppellant);
+			testCase.siteAddressLine1 = 'Test address';
+			testCase.siteAddressTown = 'Testville';
+			testCase.siteAddressPostcode = 'TS1 1TT';
+			testCase.siteGridReferenceEasting = '123456';
+			testCase.siteGridReferenceNorthing = '654321';
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+			expect(rows[siteAddressIndex].condition(testCase)).toBeTruthy();
+			expect(rows[siteAddressIndex].valueText).toEqual('Test address\nTestville\nTS1 1TT');
+			expect(rows[siteAddressIndex].keyText).toEqual('Site address');
+		});
+	});
+
+	describe('Interest in the land', () => {
+		const interestInLandIndex = 5;
+
+		it('should show interest in the land', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			testCase.ownerOccupancyStatus = 'Owner';
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[interestInLandIndex].condition(testCase)).toEqual(true);
+			expect(rows[interestInLandIndex].keyText).toEqual('What is your interest in the land?');
+			expect(rows[interestInLandIndex].valueText).toEqual('Owner');
+
+			const rows2 = detailsRows(testCase, LPA_USER_ROLE);
+			expect(rows2[interestInLandIndex].condition(testCase)).toEqual(true);
+			expect(rows2[interestInLandIndex].keyText).toEqual(
+				"What is the appellant's interest in the land?"
+			);
+			expect(rows2[interestInLandIndex].valueText).toEqual('Owner');
+		});
+	});
+
+	describe('written or verbal permission', () => {
+		const permissionIndex = 6;
+
+		it('should show permission if interest is other', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			testCase.ownerOccupancyStatus = 'Other';
+			testCase.occupancyConditionsMet = true;
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[permissionIndex].condition(testCase)).toEqual(true);
+			expect(rows[permissionIndex].keyText).toEqual(
+				'Do you have verbal or written permission to use the land?'
+			);
+			expect(rows[permissionIndex].valueText).toEqual('Yes');
+
+			testCase.occupancyConditionsMet = false;
+			const rows2 = detailsRows(testCase, LPA_USER_ROLE);
+			expect(rows2[permissionIndex].condition(testCase)).toEqual(true);
+			expect(rows2[permissionIndex].keyText).toEqual(
+				'Does the appellant have verbal or written permission to use the land?'
+			);
+			expect(rows2[permissionIndex].valueText).toEqual('No');
+		});
+
+		it('should not show has permission question if interest is not other', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.ownerOccupancyStatus = 'Owner';
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+			expect(rows[permissionIndex].condition(testCase)).toEqual(false);
+			expect(rows[permissionIndex].valueText).toEqual('');
+		});
+	});
+
+	describe('Will an inspector need to access the land or property?', () => {
+		const inspectorAccessIndex = 7;
+
+		it('should display Inspector access details if provided by applicant', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.siteAccessDetails = ['Some details'];
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[inspectorAccessIndex].keyText).toEqual(
+				'Will an inspector need to access the land or property?'
+			);
+			expect(rows[inspectorAccessIndex].valueText).toEqual('Yes \n Some details');
+		});
+
+		it('should display no if no access details provided by Applicant', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[inspectorAccessIndex].valueText).toEqual('No');
+
+			testCase.siteAccessDetails = [null, 'LPA details'];
+			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[inspectorAccessIndex].valueText).toEqual('No');
+		});
+	});
+
+	describe('Alleged breach description', () => {
+		const breachDescriptionIndex = 9;
+
+		it('should display the alleged breach description', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[breachDescriptionIndex].keyText).toEqual(
+				'Enter the description of the alleged breach'
+			);
+			expect(rows[breachDescriptionIndex].valueText).toEqual('');
+
+			testCase.descriptionOfAllegedBreach = 'test description';
+			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[breachDescriptionIndex].keyText).toEqual(
+				'Enter the description of the alleged breach'
+			);
+			expect(rows2[breachDescriptionIndex].valueText).toEqual('test description');
+		});
+	});
+
+	describe('Alleged breach description', () => {
+		const breachDescriptionIndex = 9;
+
+		it('should display the alleged breach description', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[breachDescriptionIndex].keyText).toEqual(
+				'Enter the description of the alleged breach'
+			);
+			expect(rows[breachDescriptionIndex].valueText).toEqual('');
+
+			testCase.descriptionOfAllegedBreach = 'test description';
+			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[breachDescriptionIndex].keyText).toEqual(
+				'Enter the description of the alleged breach'
+			);
+			expect(rows2[breachDescriptionIndex].valueText).toEqual('test description');
+		});
+	});
+
+	describe('Grounds of appeal', () => {
+		const groundsIndex = 10;
+
+		it('should display the grounds of appeal', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.EnforcementAppealGroundsDetails = [
+				{ appealGroundLetter: 'b' },
+				{ appealGroundLetter: 'a' }
+			];
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[groundsIndex].keyText).toEqual('Grounds of appeal');
+			expect(rows[groundsIndex].valueText).toEqual(`Ground (a)\nGround (b)`);
+		});
+	});
+
+	describe('Ground A follow on questions', () => {
+		const applicationMadeIndex = 11;
+		const applicationAllOrPartIndex = 12;
+		const applicationReferenceIndex = 13;
+		const applicationSubmissionDateIndex = 14;
+		const descriptionOfDevelopmentIndex = 15;
+		const changedDescriptionIndex = 16;
+		const grantedOrReceivedIndex = 17;
+		const applicationDecisionDateIndex = 18;
+		const lpaDecisionAppealedIndex = 19;
+		const appealDecisionDateIndex = 20;
+
+		it('should display the ground a follow on questions if ground a', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.EnforcementAppealGroundsDetails = [{ appealGroundLetter: 'a' }];
+			testCase.applicationMadeAndFeePaid = true;
+			testCase.applicationPartOrWholeDevelopment = 'part-of-the-development';
+			testCase.applicationReference = '12345';
+			testCase.applicationDate = '2025-02-01T08:00:00.000Z';
+			testCase.originalDevelopmentDescription = 'test original description';
+			testCase.changedDevelopmentDescription = true;
+			testCase.applicationDecision = 'granted';
+			testCase.applicationDecisionDate = '2025-02-01T08:00:00.000Z';
+			testCase.didAppellantAppealLpaDecision = true;
+			testCase.dateLpaDecisionReceived = '2025-02-01T08:00:00.000Z';
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[applicationMadeIndex].condition(testCase)).toBeTruthy();
+			expect(rows[applicationMadeIndex].keyText).toEqual(
+				'Was an application made in respect of the development on the enforcement notice and the correct fee paid?'
+			);
+			expect(rows[applicationMadeIndex].valueText).toEqual('Yes');
+
+			expect(rows[applicationAllOrPartIndex].condition(testCase)).toBeTruthy();
+			expect(rows[applicationAllOrPartIndex].keyText).toEqual(
+				'Was the application for all or part of the Development'
+			);
+			expect(rows[applicationAllOrPartIndex].valueText).toEqual('Part of the development');
+
+			expect(rows[applicationReferenceIndex].condition(testCase)).toBeTruthy();
+			expect(rows[applicationReferenceIndex].keyText).toEqual('Application reference');
+			expect(rows[applicationReferenceIndex].valueText).toEqual('12345');
+
+			expect(rows[applicationSubmissionDateIndex].condition(testCase)).toBeTruthy();
+			expect(rows[applicationSubmissionDateIndex].keyText).toEqual(
+				'What date did you submit your application?'
+			);
+			expect(rows[applicationSubmissionDateIndex].valueText).toEqual('1 Feb 2025');
+
+			expect(rows[descriptionOfDevelopmentIndex].condition(testCase)).toBeTruthy();
+			expect(rows[descriptionOfDevelopmentIndex].keyText).toEqual(
+				'Enter the description of development'
+			);
+			expect(rows[descriptionOfDevelopmentIndex].valueText).toEqual('test original description');
+
+			expect(rows[changedDescriptionIndex].condition(testCase)).toBeTruthy();
+			expect(rows[changedDescriptionIndex].keyText).toEqual(
+				'Did the local planning authority change the description of development?'
+			);
+			expect(rows[changedDescriptionIndex].valueText).toEqual('Yes');
+
+			expect(rows[grantedOrReceivedIndex].condition(testCase)).toBeTruthy();
+			expect(rows[grantedOrReceivedIndex].keyText).toEqual(
+				'Was the application granted or refused?'
+			);
+			expect(rows[grantedOrReceivedIndex].valueText).toEqual('Granted');
+
+			expect(rows[applicationDecisionDateIndex].condition(testCase)).toBeTruthy();
+			expect(rows[applicationDecisionDateIndex].keyText).toEqual(
+				'What is the date on the decision letter from the local planning authority?'
+			);
+			expect(rows[applicationDecisionDateIndex].valueText).toEqual('1 Feb 2025');
+
+			expect(rows[lpaDecisionAppealedIndex].condition(testCase)).toBeTruthy();
+			expect(rows[lpaDecisionAppealedIndex].keyText).toEqual('Did anyone appeal the decision?');
+			expect(rows[lpaDecisionAppealedIndex].valueText).toEqual('Yes');
+
+			expect(rows[appealDecisionDateIndex].condition(testCase)).toBeTruthy();
+			expect(rows[appealDecisionDateIndex].keyText).toEqual('When was the appeal decision?');
+			expect(rows[appealDecisionDateIndex].valueText).toEqual('1 Feb 2025');
+		});
+
+		it('should not display the ground a follow on questions if not ground a', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[applicationMadeIndex].condition(testCase)).toBeFalsy();
+			expect(rows[applicationAllOrPartIndex].condition(testCase)).toBeFalsy();
+			expect(rows[applicationReferenceIndex].condition(testCase)).toBeFalsy();
+			expect(rows[applicationSubmissionDateIndex].condition(testCase)).toBeFalsy();
+			expect(rows[descriptionOfDevelopmentIndex].condition(testCase)).toBeFalsy();
+			expect(rows[changedDescriptionIndex].condition(testCase)).toBeFalsy();
+			expect(rows[grantedOrReceivedIndex].condition(testCase)).toBeFalsy();
+			expect(rows[applicationDecisionDateIndex].condition(testCase)).toBeFalsy();
+			expect(rows[lpaDecisionAppealedIndex].condition(testCase)).toBeFalsy();
+			expect(rows[appealDecisionDateIndex].condition(testCase)).toBeFalsy();
+		});
+	});
+
+	describe('Grounds of appeal details', () => {
+		const groundAFactsIndex = 21;
+		const groundADocsIndex = 22;
+		const groundBFactsIndex = 23;
+		const groundBDocsIndex = 24;
+		const groundCFactsIndex = 25;
+		const groundCDocsIndex = 26;
+		const groundDFactsIndex = 27;
+		const groundDDocsIndex = 28;
+		const groundEFactsIndex = 29;
+		const groundEDocsIndex = 30;
+		const groundFFactsIndex = 31;
+		const groundFDocsIndex = 32;
+		const groundGFactsIndex = 33;
+		const groundGDocsIndex = 34;
+
+		test.each([
+			['a', groundAFactsIndex, groundADocsIndex],
+			['b', groundBFactsIndex, groundBDocsIndex],
+			['c', groundCFactsIndex, groundCDocsIndex],
+			['d', groundDFactsIndex, groundDDocsIndex],
+			['e', groundEFactsIndex, groundEDocsIndex],
+			['f', groundFFactsIndex, groundFDocsIndex],
+			['g', groundGFactsIndex, groundGDocsIndex]
+		])('should not display field for ground %s if not plead', (_, factsRowNumber, docRowNumber) => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.EnforcementAppealGroundsDetails = [];
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[factsRowNumber].condition(testCase)).toBeFalsy();
+			expect(rows[docRowNumber].condition(testCase)).toBeFalsy();
+		});
+
+		test.each([
+			['a', groundAFactsIndex, groundADocsIndex],
+			['b', groundBFactsIndex, groundBDocsIndex],
+			['c', groundCFactsIndex, groundCDocsIndex],
+			['d', groundDFactsIndex, groundDDocsIndex],
+			['e', groundEFactsIndex, groundEDocsIndex],
+			['f', groundFFactsIndex, groundFDocsIndex],
+			['g', groundGFactsIndex, groundGDocsIndex]
+		])(
+			'should display facts for ground %s if plead, with No if no document',
+			(appealGroundLetter, factsRowNumber, docRowNumber) => {
+				const testCase = structuredClone(caseWithAppellant);
+				testCase.EnforcementAppealGroundsDetails = [
+					{ appealGroundLetter, groundFacts: `test ${appealGroundLetter} facts` }
+				];
+				const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+				expect(rows[factsRowNumber].keyText).toEqual(`Facts for ground (${appealGroundLetter})`);
+				expect(rows[factsRowNumber].valueText).toEqual(`test ${appealGroundLetter} facts`);
+				expect(rows[factsRowNumber].condition(testCase)).toBeTruthy();
+				expect(rows[docRowNumber].keyText).toEqual(
+					`Ground (${appealGroundLetter}) supporting documents`
+				);
+				expect(rows[docRowNumber].valueText).toEqual('No');
+				expect(rows[docRowNumber].condition(testCase)).toBeTruthy();
+			}
+		);
+
+		test.each([
+			['a', groundADocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_A_SUPPORTING],
+			['b', groundBDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_B_SUPPORTING],
+			['c', groundCDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_C_SUPPORTING],
+			['d', groundDDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_D_SUPPORTING],
+			['e', groundEDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_E_SUPPORTING],
+			['f', groundFDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_F_SUPPORTING],
+			['g', groundGDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_G_SUPPORTING]
+		])(
+			'should display document link if ground %s supporting docs',
+			(appealGroundLetter, docRowNumber, docType) => {
+				const testCase = structuredClone(caseWithAppellant);
+				testCase.EnforcementAppealGroundsDetails = [
+					{ appealGroundLetter, groundFacts: `test ${appealGroundLetter} facts` }
+				];
+				testCase.Documents = [
+					{
+						id: 1,
+						documentType: docType,
+						filename: 'test.txt',
+						redacted: true
+					}
+				];
+				const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+				expect(rows[docRowNumber].keyText).toEqual(
+					`Ground (${appealGroundLetter}) supporting documents`
+				);
+				expect(rows[docRowNumber].valueText).toEqual(
+					'<a href="/published-document/1" class="govuk-link">test.txt</a>'
+				);
+				expect(rows[docRowNumber].condition(testCase)).toBeTruthy();
+			}
+		);
+	});
+
+	describe('Preferred procedure', () => {
+		const preferredProcedureIndex = 35;
+
+		it('should display the appellant preferred procedure if set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.appellantProcedurePreference = 'Inquiry';
+			testCase.appellantProcedurePreferenceDetails = 'For reasons';
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[preferredProcedureIndex].condition(testCase)).toBeTruthy();
+			expect(rows[preferredProcedureIndex].keyText).toEqual('Preferred procedure');
+			expect(rows[preferredProcedureIndex].valueText).toEqual('Inquiry\nFor reasons');
+		});
+
+		it('should not display the procedure preference if not set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[preferredProcedureIndex].condition(testCase)).toBeFalsy();
+		});
+	});
+
+	describe('Cost application', () => {
+		const costsApplicationIndex = 39;
+
+		it('should display Yes if applicant applied for costs', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.appellantCostsAppliedFor = true;
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[costsApplicationIndex].keyText).toEqual(
+				'Do you want to apply for an award of appeal costs?'
 			);
 			expect(rows[costsApplicationIndex].valueText).toEqual('Yes');
 
