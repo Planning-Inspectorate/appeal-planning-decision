@@ -3,7 +3,8 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const {
 	APPEAL_DOCUMENT_TYPE,
-	APPEAL_APPELLANT_PROCEDURE_PREFERENCE
+	APPEAL_APPELLANT_PROCEDURE_PREFERENCE,
+	APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION
 } = require('@planning-inspectorate/data-model');
 
 describe('appeal-documents-rows', () => {
@@ -189,6 +190,32 @@ describe('appeal-documents-rows', () => {
 			expect(rows[evidenceRow].valueText).toEqual('No');
 			expect(rows[evidenceRow].condition(caseData)).toEqual(true);
 			expect(rows[evidenceRow].isEscaped).toEqual(true);
+		});
+
+		test.each([
+			[
+				'EXISTING_DEVELOPMENT',
+				APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.EXISTING_DEVELOPMENT,
+				false
+			],
+			[
+				'PROPOSED_CHANGES_TO_A_LISTED_BUILDING',
+				APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.PROPOSED_CHANGES_TO_A_LISTED_BUILDING,
+				true
+			],
+			[
+				'PROPOSED_USE_OF_A_DEVELOPMENT',
+				APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.PROPOSED_USE_OF_A_DEVELOPMENT,
+				true
+			]
+		])('should display field if %s', (_, lawfulType, expected) => {
+			const caseData = {
+				appealTypeCode: CASE_TYPES.LDC.processCode,
+				changedDevelopmentDescription: true,
+				applicationMadeUnderActSection: lawfulType
+			};
+			const rows = documentsRows(caseData);
+			expect(rows[evidenceRow].condition(caseData)).toEqual(expected);
 		});
 	});
 });
