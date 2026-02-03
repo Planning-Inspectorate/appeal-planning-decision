@@ -364,6 +364,28 @@ const getEnforcementAppealFormFields = (dataModel) => {
 
 /**
  * @param {AppealS78Case} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const getEnforcementLPAQFields = (dataModel) => {
+	return {
+		noticeRelatesToBuildingEngineeringMiningOther:
+			dataModel.noticeRelatesToBuildingEngineeringMiningOther,
+		// hasAllegedBreachArea: dataModel.hasAllegedBreachArea waiting for data-model update,
+		doesAllegedBreachCreateFloorSpace: dataModel.doesAllegedBreachCreateFloorSpace,
+		changeOfUseRefuseOrWaste: dataModel.changeOfUseRefuseOrWaste,
+		changeOfUseMineralExtraction: dataModel.changeOfUseMineralExtraction,
+		changeOfUseMineralStorage: dataModel.changeOfUseMineralStorage,
+		relatesToErectionOfBuildingOrBuildings: dataModel.relatesToErectionOfBuildingOrBuildings,
+		relatesToBuildingWithAgriculturalPurpose: dataModel.relatesToBuildingWithAgriculturalPurpose,
+		relatesToBuildingSingleDwellingHouse: dataModel.relatesToBuildingSingleDwellingHouse,
+		affectedTrunkRoadName: dataModel.affectedTrunkRoadName,
+		isSiteOnCrownLand: dataModel.isSiteOnCrownLand,
+		article4AffectedDevelopmentRights: dataModel.article4AffectedDevelopmentRights
+	};
+};
+
+/**
+ * @param {AppealS78Case} dataModel
  * @returns {{siteUseAtTimeOfApplication: string|null|undefined, applicationMadeUnderActSection: string|null|undefined}}
  */
 const getLDCAppealFormFields = (dataModel) => {
@@ -405,6 +427,7 @@ const mapLDCDataModelToAppealCase = (caseProcessCode, dataModel) => ({
 const mapEnforcementDataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
 	...getEnforcementAppealFormFields(dataModel),
+	...getEnforcementLPAQFields(dataModel),
 	...mapS78DataModelToAppealCase(caseProcessCode, dataModel)
 });
 
