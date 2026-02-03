@@ -348,6 +348,16 @@ const determineJourneyToDisplayAppellantDashboard = (caseOrSubmission) => {
 		};
 	} else if (isV2Submission(caseOrSubmission)) {
 		const deadline = calculateAppealDueDeadline(caseOrSubmission);
+
+		// Draft appeal with no deadline should appear last e.g. LDC with no decision date
+		if (!deadline) {
+			return {
+				deadline: null,
+				dueInDays: 100000,
+				journeyDue: SUBMISSIONS.CONTINUE
+			};
+		}
+
 		return {
 			deadline,
 			dueInDays: calculateDueInDays(deadline),

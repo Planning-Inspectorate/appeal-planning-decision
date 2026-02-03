@@ -71,7 +71,11 @@
                               {# if appeal is invalid this column left blank #}
                               {% if item.displayInvalid %}
                               {% else %}
-                                {{item.nextJourneyDue.deadline | date('D MMMM YYYY') }}
+                                {% if item.nextJourneyDue.deadline %}
+                                  {{ item.nextJourneyDue.deadline | date('D MMMM YYYY') }}
+                                {% else %}
+                                  No deadline
+                                {% endif %}
                               {% endif %}
                             </td>
                             <td class="govuk-table__cell">

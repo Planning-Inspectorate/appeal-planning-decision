@@ -491,6 +491,26 @@ describe('lib/dashboard-functions', () => {
 			});
 		});
 
+		it(`V2 appeal drafts without deadline on dashboard for LDC`, () => {
+			expect(
+				mapToAppellantDashboardDisplayData({
+					AppellantSubmission: {
+						submitted: false,
+						appealTypeCode: CASE_TYPES.LDC.processCode,
+						SubmissionAddress: [{}]
+					}
+				})
+			).toEqual(
+				expect.objectContaining({
+					nextJourneyDue: {
+						deadline: null,
+						dueInDays: 100000,
+						journeyDue: 'Continue'
+					}
+				})
+			);
+		});
+
 		it(`V1 appeal drafts displays on dashboard`, () => {
 			expect(
 				mapToAppellantDashboardDisplayData({
