@@ -3,7 +3,8 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const {
 	APPEAL_DOCUMENT_TYPE,
-	APPEAL_APPELLANT_PROCEDURE_PREFERENCE
+	APPEAL_APPELLANT_PROCEDURE_PREFERENCE,
+	APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION
 } = require('@planning-inspectorate/data-model');
 
 /**
@@ -106,7 +107,18 @@ exports.documentsRows = (caseData) => {
 				? 'Upload the evidence of your agreement to change the description of the advertisement'
 				: 'Evidence of agreement to change description of development',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION),
-			condition: (caseData) => !!caseData.changedDevelopmentDescription,
+			condition: (caseData) => {
+				// CHANGED_DESCRIPTION is depenedent on not being an EXISTING_DEVELOPMENT for LDC appeals
+				if (
+					isLDC &&
+					caseData.applicationMadeUnderActSection ===
+						APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.EXISTING_DEVELOPMENT
+				) {
+					return false;
+				}
+
+				return !!caseData.changedDevelopmentDescription;
+			},
 			isEscaped: true
 		},
 		{
