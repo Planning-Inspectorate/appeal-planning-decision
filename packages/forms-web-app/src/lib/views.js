@@ -187,6 +187,15 @@ const VIEW = {
 		NEED_NEW_CODE: 'enforcement/need-new-code', // redirect only
 		EMAIL_CONFIRMED: 'enforcement/email-address-confirmed' // redirect only
 	},
+	ENFORCEMENT_LISTED_BUILIDNG: {
+		ENFORCEMENT_REFERENCE_NUMBER: 'enforcement/enforcement-reference-number',
+		EMAIL_ADDRESS: 'enforcement-listed-building/email-address', // redirect only
+		ENTER_CODE: 'enforcement-listed-building/enter-code', // redirect only
+		REQUEST_NEW_CODE: 'enforcement-listed-building/request-new-code', // redirect only
+		CODE_EXPIRED: 'enforcement-listed-building/code-expired', // redirect only
+		NEED_NEW_CODE: 'enforcement-listed-building/need-new-code', // redirect only
+		EMAIL_CONFIRMED: 'enforcement-listed-building/email-address-confirmed' // redirect only
+	},
 	LAWFUL_DEVELOPMENT_CERTIFICATE: {
 		EMAIL_ADDRESS: 'ldc/email-address', // redirect only
 		ENTER_CODE: 'ldc/enter-code', // redirect only

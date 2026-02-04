@@ -257,6 +257,10 @@ const canUseServiceEnforcement = async (req, res) => {
 		deadlineDate
 	} = await getEnforcementNoticeProps(appeal);
 
+	const appealType = appeal.eligibility.enforcementNoticeListedBuilding
+		? 'ENFORCEMENT_LISTED_BUILDING'
+		: 'ENFORCEMENT';
+
 	res.render(canUseServiceEnforcementView, {
 		deadlineDate,
 		appealLPD,
@@ -270,7 +274,7 @@ const canUseServiceEnforcement = async (req, res) => {
 		nextPageUrl,
 		bannerHtmlOverride:
 			config.betaBannerText +
-			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ENFORCEMENT'))
+			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
 	});
 };
 
