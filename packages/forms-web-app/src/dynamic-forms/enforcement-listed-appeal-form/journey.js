@@ -11,6 +11,7 @@ const {
 	CASE_TYPES: { ENFORCEMENT_LISTED }
 } = require('@pins/common/src/database/data-static');
 const config = require('../../config');
+const { shouldDisplayPriorCorrespondenceUpload } = require('../display-questions');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 
@@ -211,6 +212,7 @@ const makeSections = (response) => {
 			.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
 		new Section('Upload documents', 'upload-documents')
 			.addQuestion(questions.uploadPriorCorrespondence)
+			.withCondition(() => shouldDisplayPriorCorrespondenceUpload(response))
 			.addQuestion(questions.uploadEnforcementNotice)
 			.addQuestion(questions.uploadEnforcementNoticePlan)
 			.addQuestion(questions.costApplication)

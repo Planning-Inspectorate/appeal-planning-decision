@@ -101,3 +101,47 @@ describe('Enforcement Listed Building Journey - Procedure Section', () => {
 		expect(linkedAppealRef?.shouldDisplay(journey.response)).toBe(true);
 	});
 });
+
+describe('Enforcement Listed Building Journey - Upload Documents Section', () => {
+	/** @type {Journey} */
+	let journey;
+
+	beforeEach(() => {
+		journey = new Journey({ ...params, response: JSON.parse(JSON.stringify(mockResponse)) });
+	});
+
+	it('should NOT include application form or decision letter questions', () => {
+		const section = journey.getSection('upload-documents');
+		// @ts-ignore
+		const appForm = section.questions.find((q) => q.fieldName === 'uploadOriginalApplicationForm');
+		// @ts-ignore
+		const decisionLetter = section.questions.find(
+			(q) => q.fieldName === 'uploadApplicationDecisionLetter'
+		);
+
+		expect(appForm).toBeUndefined();
+		expect(decisionLetter).toBeUndefined();
+	});
+
+	it('should NOT include planning obligation questions', () => {
+		const section = journey.getSection('upload-documents');
+		// @ts-ignore
+		const planningObligation = section.questions.find(
+			(q) => q.fieldName === 'submitPlanningObligation'
+		);
+
+		expect(planningObligation).toBeUndefined();
+	});
+
+	it('should show cost application upload only when cost application is "yes"', () => {
+		const section = journey.getSection('upload-documents');
+		// @ts-ignore
+		const costUpload = section.questions.find((q) => q.fieldName === 'uploadCostApplication');
+
+		journey.response.answers.costApplication = 'no';
+		expect(costUpload?.shouldDisplay(journey.response)).toBe(false);
+
+		journey.response.answers.costApplication = 'yes';
+		expect(costUpload?.shouldDisplay(journey.response)).toBe(true);
+	});
+});
