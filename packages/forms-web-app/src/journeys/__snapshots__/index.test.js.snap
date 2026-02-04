@@ -8654,12 +8654,6 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Upload documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Communication with the Planning Inspectorate</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/upload-documents/upload-planning-inspectorate-communication?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your communication with the Planning Inspectorate</span></a>
-                                </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enforcement notice</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/upload-documents/upload-enforcement-notice?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your enforcement notice</span></a>

@@ -338,6 +338,11 @@ condition: () => questionHasAnswer(response, questions.anyOtherAppeals, 'yes');
 ## Upload documents
 
 - multi-file-upload `/upload-planning-inspectorate-communication/` Upload your communication with the Planning Inspectorate
+
+```js
+condition: () => shouldDisplayPriorCorrespondenceUpload(response);
+```
+
 - multi-file-upload `/upload-enforcement-notice/` Upload your enforcement notice
 - multi-file-upload `/upload-enforcement-plan/` Upload your enforcement notice plan
 - boolean `/apply-appeal-costs/` Do you want to apply for an award of appeal costs?
