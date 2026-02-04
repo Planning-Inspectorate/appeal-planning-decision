@@ -3905,6 +3905,28 @@ exports.getQuestionProps = (response) => ({
 				value: 'no'
 			}
 		]
+	},
+	planningCondition: {
+		type: 'boolean',
+		title: 'Does the appeal relate to a planning condition?',
+		question: 'Does the appeal relate to a planning condition?',
+		fieldName: 'planningCondition',
+		url: 'planning-condition',
+		validators: [new RequiredValidator('Select yes if the appeal relates to a planning condition')]
+	},
+	planningPermissionUpload: {
+		type: 'multi-file-upload',
+		title: 'Upload a copy of the relevant planning permission',
+		question: 'Upload a copy of the relevant planning permission',
+		fieldName: 'previousPlanningPermissionUpload',
+		url: 'upload-relevant-planning-permission',
+
+		validators: [
+			new RequiredFileUploadValidator('Select a copy of the relevant planning permission'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.previousPlanningPermissionUpload,
+		actionHiddenText: 'planning permission'
 	}
 });
 

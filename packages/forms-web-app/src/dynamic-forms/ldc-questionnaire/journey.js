@@ -32,8 +32,9 @@ const makeSections = (response) => {
 				[QUESTION_VARIABLES.APPEAL_TYPE]: mapAppealTypeToDisplayText(LDC)
 			})
 			.addQuestion(questions.lawfulDevelopmentCertificateTypeLPAQ)
-			// Does the appeal relate to a planning condition
-			// Upload the planning permission
+			.addQuestion(questions.planningCondition)
+			.addQuestion(questions.planningPermissionUpload)
+			.withCondition(() => questionHasAnswer(response, questions.planningCondition, 'yes'))
 			.addQuestion(questions.enforcementNoticeDateApplication)
 			.addQuestion(questions.enforcementNoticeDateApplicationUpload)
 			.withCondition(() =>
