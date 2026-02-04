@@ -39,9 +39,9 @@ const makeSections = (response) => {
 			.withCondition(() =>
 				questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes')
 			)
-		// Are there any related applications?
-		// Upload related applications
-		// Do you think the appeal is invalid?
+			// Are there any related applications?
+			// Upload related applications
+			.addQuestion(questions.appealInvalid)
 	];
 };
 

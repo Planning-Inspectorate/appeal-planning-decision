@@ -3872,6 +3872,39 @@ exports.getQuestionProps = (response) => ({
 		...lawfulDevelopmentCertificateTypeBase,
 		fieldName: 'appealUnderActSection',
 		url: 'certificate-type'
+	},
+	appealInvalid: {
+		type: 'radio',
+		title: 'Do you think the appeal is invalid?',
+		question: 'Do you think the appeal is invalid?',
+		fieldName: 'lpaConsiderAppealInvalid',
+		url: 'appeal-invalid',
+		validators: [
+			new RequiredValidator('Select yes if you think the appeal is invalid'),
+			new ConditionalRequiredValidator('Enter a reason'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Reason must be ${appealFormV2.textInputMaxLength} characters or less`
+				},
+				fieldName: getConditionalFieldName('lpaConsiderAppealInvalid', 'lpaAppealInvalidReasons')
+			})
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Enter a reason',
+					fieldName: 'lpaAppealInvalidReasons',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		]
 	}
 });
 

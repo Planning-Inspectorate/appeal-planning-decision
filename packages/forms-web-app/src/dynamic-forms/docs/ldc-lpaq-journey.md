@@ -10,3 +10,5 @@
 ```js
 condition: () => questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes');
 ```
+
+- radio `/appeal-invalid/` Do you think the appeal is invalid?
