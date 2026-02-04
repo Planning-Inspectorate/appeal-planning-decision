@@ -596,6 +596,60 @@ describe('controllers/before-you-start/can-use-service', () => {
 		});
 	});
 
+	describe('getCanUseService - enforcement notice listed building', () => {
+		it('renders page - enforcement listed building - effective date not passed', async () => {
+			enforcementNotice.eligibility.enforcementNoticeListedBuilding = true;
+			req = mockReq(enforcementNotice);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceEnforcementView, {
+				deadlineDate: { date: 3, day: 'Tuesday', month: 'May', year: 2022 },
+				appealLPD: 'Bradford',
+				enforcementNotice: 'Yes',
+				enforcementNoticeListedBuilding: 'Yes',
+				enforcementIssueDate: '4 May 2022',
+				enforcementEffectiveDate: '4 May 2022',
+				contactedPlanningInspectorate: false,
+				hasContactedPlanningInspectorate: null,
+				contactedPlanningInspectorateDate: null,
+				nextPageUrl: '/enforcement-listed-building/enforcement-reference-number',
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl('ENFORCEMENT_LISTED_BUILDING')
+					)
+			});
+		});
+
+		it('renders page - enforcement listed building - effective date passed and contacted PINS', async () => {
+			enforcementNotice.eligibility.enforcementNoticeListedBuilding = true;
+			enforcementNotice.eligibility.hasContactedPlanningInspectorate = true;
+			enforcementNotice.eligibility.contactPlanningInspectorateDate = '2022-05-04T10:55:46.164Z';
+			req = mockReq(enforcementNotice);
+
+			await getCanUseService(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(canUseServiceEnforcementView, {
+				deadlineDate: { date: 10, day: 'Tuesday', month: 'May', year: 2022 },
+				appealLPD: 'Bradford',
+				enforcementNotice: 'Yes',
+				enforcementNoticeListedBuilding: 'Yes',
+				enforcementIssueDate: '4 May 2022',
+				enforcementEffectiveDate: '4 May 2022',
+				contactedPlanningInspectorate: true,
+				hasContactedPlanningInspectorate: 'Yes',
+				contactedPlanningInspectorateDate: '4 May 2022',
+				nextPageUrl: '/enforcement-listed-building/enforcement-reference-number',
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl('ENFORCEMENT_LISTED_BUILDING')
+					)
+			});
+		});
+	});
+
 	describe('getCanUseService - ldc', () => {
 		it('renders page - ldc S191 or S192 have no deadline and no granted or refused question', async () => {
 			isLpaInFeatureFlag.mockImplementation((_, flag) => {

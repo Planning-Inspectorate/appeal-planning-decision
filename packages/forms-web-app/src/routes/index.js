@@ -22,6 +22,7 @@ const listedBuilding = require('./listed-building');
 const casPlanning = require('./cas-planning');
 const adverts = require('./adverts');
 const enforcement = require('./enforcement');
+const enforcementListedBuilding = require('./enforcement-listed-building');
 const ldc = require('./ldc');
 const debug = require('./debug');
 const {
@@ -84,6 +85,9 @@ router.use('/adverts', adverts);
 
 /// enforcement notice ///
 router.use('/enforcement', enforcement);
+
+/// enforcement listed building ///
+router.use('/enforcement-listed-building', enforcementListedBuilding);
 
 /// lawful development certificate ///
 router.use('/ldc', ldc);

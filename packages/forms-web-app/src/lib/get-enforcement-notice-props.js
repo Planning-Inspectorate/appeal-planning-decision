@@ -3,8 +3,6 @@ const { getDepartmentFromId } = require('../services/department.service');
 const { boolToYesNo } = require('@pins/common');
 const formatDate = require('./format-date-check-your-answers');
 
-const nextPageUrl = '/enforcement/enforcement-reference-number';
-
 const getEnforcementNoticeProps = async (appeal) => {
 	let appealLPD = '';
 
@@ -44,6 +42,9 @@ const getEnforcementNoticeProps = async (appeal) => {
 		? format(parseISO(appeal.eligibility.contactPlanningInspectorateDate), 'd MMMM yyyy')
 		: null;
 
+	const isEnforcementListedBuilding = appeal.eligibility.enforcementNoticeListedBuilding;
+	const prefix = isEnforcementListedBuilding ? 'enforcement-listed-building' : 'enforcement';
+
 	return {
 		appealLPD,
 		enforcementNotice,
@@ -53,7 +54,7 @@ const getEnforcementNoticeProps = async (appeal) => {
 		contactedPlanningInspectorate,
 		hasContactedPlanningInspectorate,
 		contactedPlanningInspectorateDate,
-		nextPageUrl,
+		nextPageUrl: `/${prefix}/enforcement-reference-number`,
 		deadlineDate
 	};
 };
