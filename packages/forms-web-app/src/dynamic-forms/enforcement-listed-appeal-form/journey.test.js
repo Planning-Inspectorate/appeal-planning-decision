@@ -1,5 +1,6 @@
 const { Journey } = require('@pins/dynamic-forms/src/journey');
-const { baseEnforcementListedSubmissionUrl, ...params } = require('./journey');
+const { baseEnforcementListedSubmissionUrl, params } = require('./journey');
+const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 
 const mockResponse = {
 	journeyId: 'enforcement-listed-appeal-form',
@@ -11,6 +12,7 @@ const mockResponse = {
 describe('Enforcement Listed Building Appeal Form Journey', () => {
 	it('should error if no response', () => {
 		expect(() => {
+			// @ts-ignore
 			new Journey(params);
 		}).toThrow("Cannot read properties of undefined (reading 'referenceId')");
 	});
@@ -34,5 +36,68 @@ describe('Enforcement Listed Building Appeal Form Journey', () => {
 	it('should set journeyTitle', () => {
 		const journey = new Journey({ ...params, response: mockResponse });
 		expect(journey.journeyTitle).toBe('Appeal a planning decision');
+	});
+});
+
+describe('Enforcement Listed Building Journey - Procedure Section', () => {
+	/** @type {Journey} */
+	let journey;
+
+	beforeEach(() => {
+		journey = new Journey({ ...params, response: JSON.parse(JSON.stringify(mockResponse)) });
+		journey.response.answers = {};
+	});
+
+	it('should include the procedure preference question', () => {
+		const section = journey.getSection('prepare-appeal');
+		// @ts-ignore
+		const question = section.questions.find((q) => q.fieldName === 'appellantProcedurePreference');
+		expect(question).toBeDefined();
+	});
+
+	it('should show hearing details only when Hearing is selected', () => {
+		const section = journey.getSection('prepare-appeal');
+		// @ts-ignore
+		const hearingDetails = section.questions.find(
+			(q) => q.fieldName === 'appellantPreferHearingDetails'
+		);
+
+		expect(hearingDetails?.shouldDisplay(journey.response)).toBe(false);
+
+		journey.response.answers.appellantProcedurePreference = APPEAL_CASE_PROCEDURE.HEARING;
+		expect(hearingDetails?.shouldDisplay(journey.response)).toBe(true);
+
+		journey.response.answers.appellantProcedurePreference = APPEAL_CASE_PROCEDURE.INQUIRY;
+		expect(hearingDetails?.shouldDisplay(journey.response)).toBe(false);
+	});
+
+	it('should show inquiry duration and witnesses only when Inquiry is selected', () => {
+		const section = journey.getSection('prepare-appeal');
+		// @ts-ignore
+		const inquiryDays = section.questions.find(
+			(q) => q.fieldName === 'appellantPreferInquiryDuration'
+		);
+		// @ts-ignore
+		const inquiryWitnesses = section.questions.find(
+			(q) => q.fieldName === 'appellantPreferInquiryWitnesses'
+		);
+
+		journey.response.answers.appellantProcedurePreference = APPEAL_CASE_PROCEDURE.INQUIRY;
+		journey.response.answers.appellantPreferInquiryDetails = 'Because I want one';
+		journey.response.answers.appellantPreferInquiryDuration = 5;
+
+		expect(inquiryDays?.shouldDisplay(journey.response)).toBe(true);
+		expect(inquiryWitnesses?.shouldDisplay(journey.response)).toBe(true);
+	});
+
+	it('should show linked appeals reference question only when Linked Appeals is "yes"', () => {
+		const section = journey.getSection('prepare-appeal');
+		// @ts-ignore
+		const linkedAppealRef = section.questions.find((q) => q.fieldName === 'appellantLinkedCaseAdd');
+
+		expect(linkedAppealRef?.shouldDisplay(journey.response)).toBe(false);
+
+		journey.response.answers.appellantLinkedCase = 'yes';
+		expect(linkedAppealRef?.shouldDisplay(journey.response)).toBe(true);
 	});
 });
