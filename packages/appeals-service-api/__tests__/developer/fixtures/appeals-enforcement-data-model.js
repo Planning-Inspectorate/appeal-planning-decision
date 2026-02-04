@@ -34,7 +34,18 @@ const exampleEnforcementDataModel = {
 			groundForAppealStartDate: '2023-07-27T20:30:00.000Z',
 			groundFacts: 'facts for ground b'
 		}
-	]
+	],
+	noticeRelatesToBuildingEngineeringMiningOther: true,
+	doesAllegedBreachCreateFloorSpace: true,
+	changeOfUseRefuseOrWaste: true,
+	changeOfUseMineralExtraction: true,
+	changeOfUseMineralStorage: true,
+	relatesToErectionOfBuildingOrBuildings: true,
+	relatesToBuildingWithAgriculturalPurpose: true,
+	relatesToBuildingSingleDwellingHouse: true,
+	affectedTrunkRoadName: 'trunk road name',
+	isSiteOnCrownLand: true,
+	article4AffectedDevelopmentRights: 'development rights removed'
 };
 
 module.exports = { exampleEnforcementDataModel };
