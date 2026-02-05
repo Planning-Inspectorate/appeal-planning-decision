@@ -23,6 +23,47 @@ registerCypressGrep();
 
 require('cy-verify-downloads').addCustomCommand();
 
+// Define-time limiter: only register the first N tests per spec
+// Enable with: --env limitTestsPerSpec=<N> (e.g., 2)
+(() => {
+  const raw = Cypress.env('limitTestsPerSpec');
+  const limit = Number(raw);
+  if (Number.isFinite(limit) && limit > 0) {
+    let defined = 0;
+    const origIt = typeof it !== 'undefined' ? it : undefined;
+    const origSpecify = typeof specify !== 'undefined' ? specify : origIt;
+    if (origIt) {
+      const limited = function(title, fn) {
+        if (defined < limit) {
+          defined += 1;
+          return origIt(title, fn);
+        }
+        // Do not register beyond the limit → not pending in reports
+        return undefined;
+      };
+      if (origIt.only) limited.only = origIt.only.bind(origIt);
+      if (origIt.skip) limited.skip = origIt.skip.bind(origIt);
+      // Apply to both aliases used by Cypress/Mocha
+      // eslint-disable-next-line no-undef
+      globalThis.it = limited;
+      // eslint-disable-next-line no-undef
+      globalThis.specify = limited || origSpecify;
+    }
+  }
+})();
+
+// Optionally run only the first test in each spec file
+// Enable by passing: --env onlyFirstTestPerSpec=true
+if (Cypress.env('onlyFirstTestPerSpec')) {
+  let __firstTestHasRun = false;
+  beforeEach(function () {
+    if (__firstTestHasRun) {
+      this.skip();
+    }
+    __firstTestHasRun = true;
+  });
+}
+
 // Ignore transient AAD CDN script load errors that should not fail user flows
 Cypress.on('uncaught:exception', (err) => {
   const msg = err && err.message ? err.message : '';
