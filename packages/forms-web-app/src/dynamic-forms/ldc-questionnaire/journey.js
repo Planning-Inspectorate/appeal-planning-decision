@@ -10,7 +10,8 @@ const {
 	mapAppealTypeToDisplayTextWithAnOrA
 } = require('@pins/common/src/appeal-type-to-display-text');
 const {
-	questionHasAnswer
+	questionHasAnswer,
+	questionsHaveAnswers
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
 const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 
@@ -45,6 +46,36 @@ const makeSections = (response) => {
 			.addQuestion(questions.relatedApplicationsUpload)
 			.withCondition(() => questionHasAnswer(response, questions.relatedApplications, 'yes'))
 			.addQuestion(questions.appealInvalid),
+		new Section("Planning officer's report and supporting documents", 'planning-officer-report')
+			.addQuestion(questions.planningOfficersReport)
+			.addQuestion(questions.planningOfficersReportUpload)
+			.withCondition(() => questionHasAnswer(response, questions.planningOfficersReport, 'yes'))
+			.addQuestion(questions.communityInfrastructureLevy)
+			.addQuestion(questions.communityInfrastructureLevyUpload)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes')
+			)
+			.addQuestion(questions.communityInfrastructureLevyAdopted)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes')
+			)
+			.addQuestion(questions.communityInfrastructureLevyAdoptedDate)
+			.withCondition(() =>
+				questionsHaveAnswers(response, [
+					[questions.communityInfrastructureLevy, 'yes'],
+					[questions.communityInfrastructureLevyAdopted, 'yes']
+				])
+			)
+			.addQuestion(questions.communityInfrastructureLevyAdoptDate)
+			.withCondition(() =>
+				questionsHaveAnswers(response, [
+					[questions.communityInfrastructureLevy, 'yes'],
+					[questions.communityInfrastructureLevyAdopted, 'no']
+				])
+			)
+			.addQuestion(questions.otherRelevantMatters)
+			.addQuestion(questions.otherRelevantMattersUpload)
+			.withCondition(() => questionHasAnswer(response, questions.otherRelevantMatters, 'yes')),
 		new Section('Site access', 'site-access')
 			.addQuestion(questions.accessForInspection)
 			.addQuestion(questions.neighbouringSite)

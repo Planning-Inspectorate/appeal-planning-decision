@@ -37377,6 +37377,100 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful d
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the community-infrastructure-levy question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer&#39;s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="infrastructureLevy-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Do you have a community infrastructure levy?</h1>
+                        </legend>
+                        <div id="infrastructureLevy-hint" class="govuk-hint">
+                            <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-0">Tell us about any levy that is formally adopted or due to be adopted</p>
+                        </div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="infrastructureLevy" name="infrastructureLevy"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="infrastructureLevy">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="infrastructureLevy-2" name="infrastructureLevy"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="infrastructureLevy-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the community-infrastructure-levy-adopted question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer&#39;s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="infrastructureLevyAdopted-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Is the community infrastructure levy formally adopted?</h1>
+                        </legend>
+                        <div id="infrastructureLevyAdopted-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="infrastructureLevyAdopted" name="infrastructureLevyAdopted"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="infrastructureLevyAdopted">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="infrastructureLevyAdopted-2" name="infrastructureLevyAdopted"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="infrastructureLevyAdopted-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the correct-appeal-type question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -37451,6 +37545,126 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful d
                                 <input class="govuk-radios__input" id="noticeDateApplication-2" name="noticeDateApplication"
                                 type="radio" value="no" data-cy="answer-no">
                                 <label class="govuk-label govuk-radios__label" for="noticeDateApplication-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the infrastructureLevyAdoptedDate question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer&#39;s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" role="group" aria-describedby="infrastructureLevyAdoptedDate-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> When was the community infrastructure levy formally adopted?</h1>
+                        </legend>
+                        <div id="infrastructureLevyAdoptedDate-hint" class="govuk-hint">For example, 5 6 2025</div>
+                        <div class="govuk-date-input" id="infrastructureLevyAdoptedDate">
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="infrastructureLevyAdoptedDate_day">Day</label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                    id="infrastructureLevyAdoptedDate_day" name="infrastructureLevyAdoptedDate_day"
+                                    type="text" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="infrastructureLevyAdoptedDate_month">Month</label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                    id="infrastructureLevyAdoptedDate_month" name="infrastructureLevyAdoptedDate_month"
+                                    type="text" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="infrastructureLevyAdoptedDate_year">Year</label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-4"
+                                    id="infrastructureLevyAdoptedDate_year" name="infrastructureLevyAdoptedDate_year"
+                                    type="text" inputmode="numeric">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the infrastructureLevyExpectedDate question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer&#39;s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" role="group" aria-describedby="infrastructureLevyExpectedDate-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> When do you expect to formally adopt the community infrastructure levy?</h1>
+                        </legend>
+                        <div id="infrastructureLevyExpectedDate-hint" class="govuk-hint">For example, 5 6 2025</div>
+                        <div class="govuk-date-input" id="infrastructureLevyExpectedDate">
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="infrastructureLevyExpectedDate_day">Day</label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                    id="infrastructureLevyExpectedDate_day" name="infrastructureLevyExpectedDate_day"
+                                    type="text" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="infrastructureLevyExpectedDate_month">Month</label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                    id="infrastructureLevyExpectedDate_month" name="infrastructureLevyExpectedDate_month"
+                                    type="text" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="infrastructureLevyExpectedDate_year">Year</label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-4"
+                                    id="infrastructureLevyExpectedDate_year" name="infrastructureLevyExpectedDate_year"
+                                    type="text" inputmode="numeric">
+                                </div>
                             </div>
                         </div>
                     </fieldset>
@@ -37747,6 +37961,52 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful d
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the other-relevant-matters question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer&#39;s report and supporting documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="otherRelevantMatters-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Are there any other relevant matters?</h1>
+                        </legend>
+                        <div id="otherRelevantMatters-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="otherRelevantMatters" name="otherRelevantMatters"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="otherRelevantMatters">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="otherRelevantMatters-2" name="otherRelevantMatters"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="otherRelevantMatters-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the planning-condition question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -37793,34 +38053,34 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful d
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the related-applications question 1`] = `
+exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the planning-officer-report question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer&#39;s report and supporting documents</span>
         </div>
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate=null>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="relatedApplications-hint">
+                    <fieldset class="govuk-fieldset" aria-describedby="planningOfficerReport-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Are there any related applications?</h1>
+                            <h1 class="govuk-fieldset__heading"> Do you have a planning officer’s report?</h1>
                         </legend>
-                        <div id="relatedApplications-hint" class="govuk-hint"></div>
+                        <div id="planningOfficerReport-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="relatedApplications" name="relatedApplications"
+                                <input class="govuk-radios__input" id="planningOfficerReport" name="planningOfficerReport"
                                 type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="relatedApplications">Yes</label>
+                                <label class="govuk-label govuk-radios__label" for="planningOfficerReport">Yes</label>
                             </div>
                             <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="relatedApplications-2" name="relatedApplications"
+                                <input class="govuk-radios__input" id="planningOfficerReport-2" name="planningOfficerReport"
                                 type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="relatedApplications-2">No</label>
+                                <label class="govuk-label govuk-radios__label" for="planningOfficerReport-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -37968,6 +38228,97 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful d
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the related-applications question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="relatedApplications-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Are there any related applications?</h1>
+                        </legend>
+                        <div id="relatedApplications-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="relatedApplications" name="relatedApplications"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="relatedApplications">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="relatedApplications-2" name="relatedApplications"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="relatedApplications-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the upload-community-infrastructure-levy question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer&#39;s report and supporting documents</span>
+            <h1
+            class="govuk-heading-l">Upload your community infrastructure levy</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadInfrastructureLevy">Upload files</label>
+                                <div id="uploadInfrastructureLevy-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadInfrastructureLevy" name="uploadInfrastructureLevy" type="file"
+                                aria-describedby="uploadInfrastructureLevy-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the upload-enforcement-notice question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -38002,6 +38353,109 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful d
                         data-cy="button-save-and-continue">Continue</button>
                     </div>
                 </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the upload-other-relevant-matters question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer&#39;s report and supporting documents</span>
+            <h1
+            class="govuk-heading-l">Upload other relevant matters</h1>
+                <form action="" method="post" novalidate=null
+                enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="otherRelevantMattersUpload">Upload files</label>
+                                <div id="otherRelevantMattersUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="otherRelevantMattersUpload" name="otherRelevantMattersUpload" type="file"
+                                aria-describedby="otherRelevantMattersUpload-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful development certificate should render the upload-planning-officers-report-decision-notice question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer&#39;s report and supporting documents</span>
+            <h1
+            class="govuk-heading-l">Upload the planning officer’s report or what your decision notice would
+                have said</h1>
+                <p class="govuk-body">Upload the planning officer’s report to committee or delegated report
+                    on the application. You can also upload any other relevant documents or
+                    minutes.</p>
+                <p class="govuk-body">If you did not make a decision for the application, upload a copy of what
+                    your decision notice would have said.</p>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadPlanningOfficerReport">Upload files</label>
+                                <div id="uploadPlanningOfficerReport-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadPlanningOfficerReport" name="uploadPlanningOfficerReport" type="file"
+                                aria-describedby="uploadPlanningOfficerReport-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/community-infrastructure-levy"
+                class="govuk-link">Skip</a>
+            </p>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -38144,7 +38598,7 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate renders 
         <div class="govuk-grid-column-three-quarters-from-desktop">
             <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
             <h2 class="govuk-heading-s">Complete the questionnaire</h2>
-            <p class="govuk-!-margin-bottom-7">You have completed 0 of 4 sections.</p>
+            <p class="govuk-!-margin-bottom-7">You have completed 0 of 5 sections.</p>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -38213,7 +38667,32 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate renders 
                 </li>
                 <li class="govuk-!-margin-bottom-9">
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Site access<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Planning officer&#39;s report and supporting documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you have a planning officer’s report?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/planning-officer-report">Answer<span class="govuk-visually-hidden"> Do you have a planning officer’s report?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Community infrastructure levy</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/community-infrastructure-levy">Answer<span class="govuk-visually-hidden"> Do you have a community infrastructure levy?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any other relevant matters?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/other-relevant-matters">Answer<span class="govuk-visually-hidden"> Are there any other relevant matters?</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Site access<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Access for inspection</dt>
@@ -38236,7 +38715,7 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate renders 
                 </li>
                 <li class="govuk-!-margin-bottom-9">
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Appeal process<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">4. </span> Appeal process<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Procedure type</dt>
@@ -38253,7 +38732,7 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate renders 
                 </li>
                 <li>
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">4. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">5. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
                         <p>You cannot submit the questionnaire until all of the other sections are
                             complete.</p>
                     </div>

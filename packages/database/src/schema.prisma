@@ -1041,6 +1041,8 @@ model LPAQuestionnaireSubmission {
   planningCondition                                Boolean?
   relatedApplications                              Boolean?
   relatedApplicationsUpload                        Boolean?
+  otherRelevantMatters                             Boolean?
+  otherRelevantMattersUpload                       Boolean?
 
   // New enforcement fieldnames
   listOfPeopleSentEnforcementNotice        Boolean?
