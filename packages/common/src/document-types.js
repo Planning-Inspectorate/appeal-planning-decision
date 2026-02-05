@@ -1108,6 +1108,17 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '',
 		horizonDocumentGroupType: ''
+	},
+	relatedApplicationsUpload: {
+		name: 'relatedApplicationsUpload',
+		dataModelName: APPEAL_DOCUMENT_TYPE.RELATED_APPLICATIONS,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
 	}
 };
 
