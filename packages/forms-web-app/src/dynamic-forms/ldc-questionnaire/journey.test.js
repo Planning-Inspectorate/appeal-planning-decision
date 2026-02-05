@@ -1,6 +1,7 @@
 const { Journey } = require('@pins/dynamic-forms/src/journey');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { baseLdcSubmissionUrl, ...params } = require('./journey');
+const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 
 const mockResponse = {
 	journeyId: JOURNEY_TYPES.LDC_QUESTIONNAIRE.id,
@@ -53,5 +54,80 @@ describe('Lawful development certificate LPAQ Journey', () => {
 		expect(journey.sections.length > 0).toBe(true);
 		expect(Array.isArray(journey.sections[0].questions)).toBe(true);
 		expect(journey.sections[0].questions.length > 0).toBe(true);
+	});
+
+	describe('LDC Journey - Site access Section', () => {
+		/** @type {Journey} */
+		let journey;
+
+		beforeEach(() => {
+			journey = new Journey({ ...params, response: JSON.parse(JSON.stringify(mockResponse)) });
+			journey.response.answers = {};
+		});
+
+		it('should show addNeighbourSite only when addNeighbourSiteAccess is "yes"', () => {
+			const section = journey.getSection('site-access');
+			const addNeighbourSite = section?.questions.find(
+				(q) => q.fieldName === 'addNeighbourSiteAccess'
+			);
+
+			expect(addNeighbourSite?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.neighbourSiteAccess = 'yes';
+			expect(addNeighbourSite?.shouldDisplay(journey.response)).toBe(true);
+
+			journey.response.answers.neighbourSiteAccess = 'no';
+			expect(addNeighbourSite?.shouldDisplay(journey.response)).toBe(false);
+		});
+	});
+
+	describe('LDC Journey - Procedure Section', () => {
+		/** @type {Journey} */
+		let journey;
+
+		beforeEach(() => {
+			journey = new Journey({ ...params, response: JSON.parse(JSON.stringify(mockResponse)) });
+			journey.response.answers = {};
+		});
+
+		it('should show hearing details only when Hearing is selected', () => {
+			const section = journey.getSection('appeal-process');
+			const hearingDetails = section?.questions.find(
+				(q) => q.fieldName === 'lpaPreferHearingDetails'
+			);
+
+			expect(hearingDetails?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.lpaProcedurePreference = APPEAL_CASE_PROCEDURE.HEARING;
+			expect(hearingDetails?.shouldDisplay(journey.response)).toBe(true);
+
+			journey.response.answers.lpaProcedurePreference = APPEAL_CASE_PROCEDURE.INQUIRY;
+			expect(hearingDetails?.shouldDisplay(journey.response)).toBe(false);
+		});
+
+		it('should show inquiry details only when Inquiry is selected', () => {
+			const section = journey.getSection('appeal-process');
+			const inquiryDetails = section?.questions.find(
+				(q) => q.fieldName === 'lpaPreferInquiryDetails'
+			);
+
+			expect(inquiryDetails?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.lpaProcedurePreference = APPEAL_CASE_PROCEDURE.HEARING;
+			expect(inquiryDetails?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.lpaProcedurePreference = APPEAL_CASE_PROCEDURE.INQUIRY;
+			expect(inquiryDetails?.shouldDisplay(journey.response)).toBe(true);
+		});
+
+		it('should show linked appeals reference question only when Linked Appeals is "yes"', () => {
+			const section = journey.getSection('appeal-process');
+			const linkedAppealRef = section?.questions.find((q) => q.fieldName === 'addNearbyAppeal');
+
+			expect(linkedAppealRef?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.nearbyAppeals = 'yes';
+			expect(linkedAppealRef?.shouldDisplay(journey.response)).toBe(true);
+		});
 	});
 });
