@@ -3949,6 +3949,28 @@ exports.getQuestionProps = (response) => ({
 		],
 		documentType: documentTypes.relatedApplicationsUpload,
 		actionHiddenText: 'related applications'
+	},
+	otherRelevantMatters: {
+		type: 'boolean',
+		title: 'Are there any other relevant matters?',
+		question: 'Are there any other relevant matters?',
+		fieldName: 'otherRelevantMatters',
+		url: 'other-relevant-matters',
+		validators: [new RequiredValidator('Select yes if there are any other relevant matters')]
+	},
+	otherRelevantMattersUpload: {
+		type: 'multi-file-upload',
+		title: 'Upload other relevant matters',
+		question: 'Upload other relevant matters',
+		fieldName: 'otherRelevantMattersUpload',
+		url: 'upload-other-relevant-matters',
+
+		validators: [
+			new RequiredFileUploadValidator('Select other relevant matters'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.otherRelevantMattersUpload,
+		actionHiddenText: 'other relevant matters'
 	}
 });
 

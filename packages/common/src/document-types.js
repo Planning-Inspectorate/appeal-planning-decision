@@ -1119,6 +1119,17 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '',
 		horizonDocumentGroupType: ''
+	},
+	otherRelevantMattersUpload: {
+		name: 'otherRelevantMattersUpload',
+		dataModelName: APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_MATTERS,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
 	}
 };
 

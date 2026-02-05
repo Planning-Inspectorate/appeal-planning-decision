@@ -56,6 +56,168 @@ describe('Lawful development certificate LPAQ Journey', () => {
 		expect(journey.sections[0].questions.length > 0).toBe(true);
 	});
 
+	describe('LDC Journey - Constraints, designations and other issues section', () => {
+		/** @type {Journey} */
+		let journey;
+
+		beforeEach(() => {
+			journey = new Journey({ ...params, response: JSON.parse(JSON.stringify(mockResponse)) });
+			journey.response.answers = {};
+		});
+
+		it('should show previousPlanningPermissionUpload only when planningCondition is "yes"', () => {
+			const section = journey.getSection('constraints');
+			const previousPlanningPermissionUpload = section?.questions.find(
+				(q) => q.fieldName === 'previousPlanningPermissionUpload'
+			);
+
+			expect(previousPlanningPermissionUpload?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.planningCondition = 'yes';
+			expect(previousPlanningPermissionUpload?.shouldDisplay(journey.response)).toBe(true);
+
+			journey.response.answers.planningCondition = 'no';
+			expect(previousPlanningPermissionUpload?.shouldDisplay(journey.response)).toBe(false);
+		});
+
+		it('should show noticeDateApplicationUpload only when noticeDateApplication is "yes"', () => {
+			const section = journey.getSection('constraints');
+			const noticeDateApplicationUpload = section?.questions.find(
+				(q) => q.fieldName === 'noticeDateApplicationUpload'
+			);
+
+			expect(noticeDateApplicationUpload?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.noticeDateApplication = 'yes';
+			expect(noticeDateApplicationUpload?.shouldDisplay(journey.response)).toBe(true);
+
+			journey.response.answers.noticeDateApplication = 'no';
+			expect(noticeDateApplicationUpload?.shouldDisplay(journey.response)).toBe(false);
+		});
+
+		it('should show relatedApplicationsUpload only when relatedApplications is "yes"', () => {
+			const section = journey.getSection('constraints');
+			const relatedApplicationsUpload = section?.questions.find(
+				(q) => q.fieldName === 'relatedApplicationsUpload'
+			);
+
+			expect(relatedApplicationsUpload?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.relatedApplications = 'yes';
+			expect(relatedApplicationsUpload?.shouldDisplay(journey.response)).toBe(true);
+
+			journey.response.answers.relatedApplications = 'no';
+			expect(relatedApplicationsUpload?.shouldDisplay(journey.response)).toBe(false);
+		});
+	});
+
+	describe("LDC Journey - Planning officer's report and supporting documents section", () => {
+		/** @type {Journey} */
+		let journey;
+
+		beforeEach(() => {
+			journey = new Journey({ ...params, response: JSON.parse(JSON.stringify(mockResponse)) });
+			journey.response.answers = {};
+		});
+
+		it('should show uploadPlanningOfficerReport only when planningOfficerReport is "yes"', () => {
+			const section = journey.getSection('planning-officer-report');
+			const uploadPlanningOfficerReport = section?.questions.find(
+				(q) => q.fieldName === 'uploadPlanningOfficerReport'
+			);
+
+			expect(uploadPlanningOfficerReport?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.planningOfficerReport = 'yes';
+			expect(uploadPlanningOfficerReport?.shouldDisplay(journey.response)).toBe(true);
+
+			journey.response.answers.planningOfficerReport = 'no';
+			expect(uploadPlanningOfficerReport?.shouldDisplay(journey.response)).toBe(false);
+		});
+
+		it('should show uploadInfrastructureLevy and infrastructureLevyAdopted only when infrastructureLevy is "yes"', () => {
+			const section = journey.getSection('planning-officer-report');
+			const uploadInfrastructureLevy = section?.questions.find(
+				(q) => q.fieldName === 'uploadInfrastructureLevy'
+			);
+			const infrastructureLevyAdopted = section?.questions.find(
+				(q) => q.fieldName === 'infrastructureLevyAdopted'
+			);
+
+			expect(uploadInfrastructureLevy?.shouldDisplay(journey.response)).toBe(false);
+			expect(infrastructureLevyAdopted?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.infrastructureLevy = 'yes';
+			expect(uploadInfrastructureLevy?.shouldDisplay(journey.response)).toBe(true);
+			expect(infrastructureLevyAdopted?.shouldDisplay(journey.response)).toBe(true);
+
+			journey.response.answers.infrastructureLevy = 'no';
+			expect(uploadInfrastructureLevy?.shouldDisplay(journey.response)).toBe(false);
+			expect(infrastructureLevyAdopted?.shouldDisplay(journey.response)).toBe(false);
+		});
+
+		it('should show infrastructureLevyAdoptedDate only when infrastructureLevy is "yes" and infrastructureLevyAdopted is "yes"', () => {
+			const section = journey.getSection('planning-officer-report');
+			const infrastructureLevyAdoptedDate = section?.questions.find(
+				(q) => q.fieldName === 'infrastructureLevyAdoptedDate'
+			);
+
+			expect(infrastructureLevyAdoptedDate?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.infrastructureLevy = 'yes';
+			journey.response.answers.infrastructureLevyAdopted = 'yes';
+			expect(infrastructureLevyAdoptedDate?.shouldDisplay(journey.response)).toBe(true);
+
+			journey.response.answers.infrastructureLevyAdopted = 'no';
+			expect(infrastructureLevyAdoptedDate?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.infrastructureLevy = 'no';
+			journey.response.answers.infrastructureLevyAdopted = 'yes';
+			expect(infrastructureLevyAdoptedDate?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.infrastructureLevyAdopted = 'no';
+			expect(infrastructureLevyAdoptedDate?.shouldDisplay(journey.response)).toBe(false);
+		});
+
+		it('should show infrastructureLevyExpectedDate only when infrastructureLevy is "yes" and infrastructureLevyAdopted is "no"', () => {
+			const section = journey.getSection('planning-officer-report');
+			const infrastructureLevyExpectedDate = section?.questions.find(
+				(q) => q.fieldName === 'infrastructureLevyExpectedDate'
+			);
+
+			expect(infrastructureLevyExpectedDate?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.infrastructureLevy = 'yes';
+			journey.response.answers.infrastructureLevyAdopted = 'yes';
+			expect(infrastructureLevyExpectedDate?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.infrastructureLevyAdopted = 'no';
+			expect(infrastructureLevyExpectedDate?.shouldDisplay(journey.response)).toBe(true);
+
+			journey.response.answers.infrastructureLevy = 'no';
+			journey.response.answers.infrastructureLevyAdopted = 'yes';
+			expect(infrastructureLevyExpectedDate?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.infrastructureLevyAdopted = 'no';
+			expect(infrastructureLevyExpectedDate?.shouldDisplay(journey.response)).toBe(false);
+		});
+
+		it('should show otherRelevantMattersUpload only when otherRelevantMatters is "yes"', () => {
+			const section = journey.getSection('planning-officer-report');
+			const otherRelevantMattersUpload = section?.questions.find(
+				(q) => q.fieldName === 'otherRelevantMattersUpload'
+			);
+
+			expect(otherRelevantMattersUpload?.shouldDisplay(journey.response)).toBe(false);
+
+			journey.response.answers.otherRelevantMatters = 'yes';
+			expect(otherRelevantMattersUpload?.shouldDisplay(journey.response)).toBe(true);
+
+			journey.response.answers.otherRelevantMatters = 'no';
+			expect(otherRelevantMattersUpload?.shouldDisplay(journey.response)).toBe(false);
+		});
+	});
+
 	describe('LDC Journey - Site access Section', () => {
 		/** @type {Journey} */
 		let journey;

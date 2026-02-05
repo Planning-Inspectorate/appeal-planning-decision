@@ -27,6 +27,55 @@ condition: () => questionHasAnswer(response, questions.relatedApplications, 'yes
 
 - radio `/appeal-invalid/` Do you think the appeal is invalid?
 
+## Planning officer's report and supporting documents
+
+- boolean `/planning-officer-report/` Do you have a planning officer’s report?
+- multi-file-upload `/upload-planning-officers-report-decision-notice/` Upload the planning officer’s report or what your decision notice would have said
+
+```js
+condition: () => questionHasAnswer(response, questions.planningOfficersReport, 'yes');
+```
+
+- boolean `/community-infrastructure-levy/` Do you have a community infrastructure levy?
+- multi-file-upload `/upload-community-infrastructure-levy/` Upload your community infrastructure levy
+
+```js
+condition: () => questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes');
+```
+
+- boolean `/community-infrastructure-levy-adopted/` Is the community infrastructure levy formally adopted?
+
+```js
+condition: () => questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes');
+```
+
+- date `/infrastructureLevyAdoptedDate/` When was the community infrastructure levy formally adopted?
+
+```js
+condition: () =>
+	questionsHaveAnswers(response, [
+		[questions.communityInfrastructureLevy, 'yes'],
+		[questions.communityInfrastructureLevyAdopted, 'yes']
+	]);
+```
+
+- date `/infrastructureLevyExpectedDate/` When do you expect to formally adopt the community infrastructure levy?
+
+```js
+condition: () =>
+	questionsHaveAnswers(response, [
+		[questions.communityInfrastructureLevy, 'yes'],
+		[questions.communityInfrastructureLevyAdopted, 'no']
+	]);
+```
+
+- boolean `/other-relevant-matters/` Are there any other relevant matters?
+- multi-file-upload `/upload-other-relevant-matters/` Upload other relevant matters
+
+```js
+condition: () => questionHasAnswer(response, questions.otherRelevantMatters, 'yes');
+```
+
 ## Site access
 
 - radio `/inspector-access-appeal-site/` Will the inspector need access to the appellant’s land or property?
