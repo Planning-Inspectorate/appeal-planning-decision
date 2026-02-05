@@ -73,6 +73,13 @@ jobs:
         fetchDepth: 1
         fetchTags: false
 
+      - script: |
+          set -euo pipefail
+          rm -rf test-packages/platform-feature-tests/cypress/reports/reports/.jsons || true
+          mkdir -p test-packages/platform-feature-tests/cypress/reports/reports
+        displayName: 'Clean Cypress reports (.jsons)'
+        condition: always()
+
       - task: NodeTool@0
         inputs:
           versionSpec: '22.x'
