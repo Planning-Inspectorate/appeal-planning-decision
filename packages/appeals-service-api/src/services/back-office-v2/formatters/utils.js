@@ -1052,7 +1052,7 @@ exports.getEnforcementSpecificLPAQSubmissionFields = (answers) => {
 		relatesToErectionOfBuildingOrBuildings: answers.createBuilding,
 		relatesToBuildingWithAgriculturalPurpose: answers.agriculturalPurposes,
 		relatesToBuildingSingleDwellingHouse: answers.singleHouse,
-		affectedTrunkRoadName: answers.trunkRoad_enforcementTrunkRoadDetails || null,
+		affectedTrunkRoadName: answers.trunkRoad_trunkRoadDetails || null,
 		isSiteOnCrownLand: answers.crownLand,
 		article4AffectedDevelopmentRights: answers.developmentRightsRemoved || null
 	};
