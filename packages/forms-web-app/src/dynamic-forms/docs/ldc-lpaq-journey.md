@@ -18,4 +18,11 @@ condition: () => questionHasAnswer(response, questions.planningCondition, 'yes')
 condition: () => questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes');
 ```
 
+- boolean `/related-applications/` Are there any related applications?
+- multi-file-upload `/upload-related-applications/` Upload related applications
+
+```js
+condition: () => questionHasAnswer(response, questions.relatedApplications, 'yes');
+```
+
 - radio `/appeal-invalid/` Do you think the appeal is invalid?

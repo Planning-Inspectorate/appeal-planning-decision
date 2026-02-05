@@ -1039,6 +1039,8 @@ model LPAQuestionnaireSubmission {
   lpaConsiderAppealInvalid                         String? // boolean text
   lpaConsiderAppealInvalid_lpaAppealInvalidReasons String?   @db.NVarChar(MAX)
   planningCondition                                Boolean?
+  relatedApplications                              Boolean?
+  relatedApplicationsUpload                        Boolean?
 
   // New enforcement fieldnames
   listOfPeopleSentEnforcementNotice        Boolean?

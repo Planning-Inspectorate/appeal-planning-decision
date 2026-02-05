@@ -3927,6 +3927,28 @@ exports.getQuestionProps = (response) => ({
 		],
 		documentType: documentTypes.previousPlanningPermissionUpload,
 		actionHiddenText: 'planning permission'
+	},
+	relatedApplications: {
+		type: 'boolean',
+		title: 'Are there any related applications?',
+		question: 'Are there any related applications?',
+		fieldName: 'relatedApplications',
+		url: 'related-applications',
+		validators: [new RequiredValidator('Select yes if there are any related applications')]
+	},
+	relatedApplicationsUpload: {
+		type: 'multi-file-upload',
+		title: 'Upload related applications',
+		question: 'Upload related applications',
+		fieldName: 'relatedApplicationsUpload',
+		url: 'upload-related-applications',
+
+		validators: [
+			new RequiredFileUploadValidator('Select the related applications'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.relatedApplicationsUpload,
+		actionHiddenText: 'related applications'
 	}
 });
 

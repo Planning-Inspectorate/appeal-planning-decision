@@ -40,8 +40,9 @@ const makeSections = (response) => {
 			.withCondition(() =>
 				questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes')
 			)
-			// Are there any related applications?
-			// Upload related applications
+			.addQuestion(questions.relatedApplications)
+			.addQuestion(questions.relatedApplicationsUpload)
+			.withCondition(() => questionHasAnswer(response, questions.relatedApplications, 'yes'))
 			.addQuestion(questions.appealInvalid)
 	];
 };
