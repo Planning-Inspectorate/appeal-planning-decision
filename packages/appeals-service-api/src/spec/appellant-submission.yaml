@@ -290,7 +290,16 @@ components:
           type: string
         applicationMadeAndFeePaid:
           type: boolean
+          description: a legacy field
         uploadApplicationReceipt:
+          type: boolean
+          nullable: true
+          description: a legacy field
+        retrospectiveApplication:
+          type: boolean
+        groundAFeePaid:
+          type: boolean
+        uploadGroundAFeeReceipt:
           type: boolean
           nullable: true
         applicationPartOrWholeDevelopment:

@@ -349,6 +349,8 @@ const getEnforcementAppealFormFields = (dataModel) => {
 		ownerOccupancyStatus: dataModel.ownerOccupancyStatus,
 		occupancyConditionsMet: dataModel.occupancyConditionsMet,
 		applicationMadeAndFeePaid: dataModel.applicationMadeAndFeePaid,
+		retrospectiveApplication: dataModel.retrospectiveApplication,
+		groundAFeePaid: dataModel.groundAFeePaid,
 		previousPlanningPermissionGranted: dataModel.previousPlanningPermissionGranted,
 		issueDateOfEnforcementNotice: dataModel.issueDateOfEnforcementNotice,
 		effectiveDateOfEnforcementNotice: dataModel.effectiveDateOfEnforcementNotice,

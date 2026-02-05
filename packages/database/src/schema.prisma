@@ -401,7 +401,9 @@ model AppealCase {
   //***************************************************************************
   ownerOccupancyStatus              String?
   occupancyConditionsMet            Boolean?
-  applicationMadeAndFeePaid         Boolean?
+  applicationMadeAndFeePaid         Boolean? /// legacy field, replaced by retrospectiveApplication and groundAFeePaid
+  retrospectiveApplication          Boolean?
+  groundAFeePaid                    Boolean?
   previousPlanningPermissionGranted Boolean?
   issueDateOfEnforcementNotice      DateTime?
   effectiveDateOfEnforcementNotice  DateTime?
@@ -920,8 +922,13 @@ model AppellantSubmission {
   hasPermissionToUseLand                           Boolean?
   allegedBreachDescription                         String?
   appealGrounds                                    String?
+  /// applicationMadeAndFeePaid is a legacy field
   applicationMadeAndFeePaid                        Boolean?
+  /// uploadApplicationReceipt is a legacy field
   uploadApplicationReceipt                         Boolean?
+  retrospectiveApplication                         Boolean?
+  groundAFeePaid                                   Boolean?
+  uploadGroundAFeeReceipt                          Boolean?
   applicationPartOrWholeDevelopment                String?
   applicationDecisionAppealed                      Boolean?
   applicationDecisionDueDate                       DateTime?
