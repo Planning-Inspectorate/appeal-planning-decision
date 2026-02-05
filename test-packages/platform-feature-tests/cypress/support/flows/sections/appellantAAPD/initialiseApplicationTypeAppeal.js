@@ -7,10 +7,11 @@ const initialiseFullPlanning = require("./initialiseFullPlanning");
 const initialiseListedBuilding = require("./initialiseListedBuilding");
 const initialiseCasPlanning = require("./initialiseCasPlanning");
 const initialiseAdvertPlanning = require("./initialiseAdvertPlanning");
+const initialiseLDCPlanning = require("./initialiseLDCPlanning");
 module.exports = (statusOfOriginalApplication, planning, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const basePage = new BasePage();
-	// Visit the "Before You Start" page
+	// Visit the "Before You Start" page 
 	cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 	cy.advanceToNextPage();
 	// Select the local planning authority
@@ -25,20 +26,33 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 	cy.advanceToNextPage();
 
 	if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
-	 //planning-application-about if any one or all 4  check boxes selects then it should go to s78 route other wise cas planning
-		if(context?.selectAllPlanningApplicationAbout) {
+		//planning-application-about if any one or all 4  check boxes selects then it should go to s78 route other wise cas planning
+		if (context?.selectAllPlanningApplicationAbout) {
 			cy.get('#planningApplicationAbout').click();
 			cy.get('#planningApplicationAbout-2').click();
 			cy.get('#planningApplicationAbout-3').click();
-			cy.get('#planningApplicationAbout-4').click();	
+			cy.get('#planningApplicationAbout-4').click();
 			//any one of the above selected then s78 route
 		} else {
 			cy.get('#planningApplicationAbout-6').click();
 		}
-			//casplanning route
+		//casplanning route
 		cy.advanceToNextPage();
-	}	
-		
+	}
+
+	if (planning === prepareAppealSelector?._selectors?.answerLawfulDevelopmentCertificate) {
+		//planning-application-about if any one or all 4  check boxes selects then it should go to s78 route other wise cas planning
+		if (context?.isListedBuilding) {
+			//cy.getByData(basePage?._selectors.answerYes).click();
+			basePage.clickRadioBtn('[data-cy="answer-full-planning"]');
+			cy.advanceToNextPage();
+		} else {
+			basePage.clickRadioBtn('[data-cy="answer-listed-building"]');
+			//	cy.getByData(basePage?._selectors.answerNo).click();
+			cy.advanceToNextPage();
+		}
+	}
+
 	// Select the application decision granted or refused or no decision
 	let grantedOrRefusedId = '';
 	if (statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused) {
@@ -46,27 +60,29 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 	} else if (statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationNoDecision) {
 		grantedOrRefusedId = basePage._selectors?.answerNodecisionreceived;
 	} else {
-		grantedOrRefusedId =  basePage._selectors?.answerGranted;
-	}	
-	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal) {		
+		grantedOrRefusedId = basePage._selectors?.answerGranted;
+	}
+	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal) {
 		initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.fullAppealText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
-	} else if (planning === prepareAppealSelector?._selectors?.answerListedBuilding) {		
+	} else if (planning === prepareAppealSelector?._selectors?.answerListedBuilding) {
 		initialiseListedBuilding(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.listedBuildingText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
-	} else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {	
-		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? 
-		initialiseHouseHolderPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData,  lpaManageAppealsData,questionnaireTestCases, statementTestCases) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);	
+	} else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {
+		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ?
+			initialiseHouseHolderPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
-		if(context?.selectAllPlanningApplicationAbout) {
+		if (context?.selectAllPlanningApplicationAbout) {
 			//s78 route
 			initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 		} else {
 			//cas planning route
-			statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? 
-			initialiseCasPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText,context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) :
-			initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+			statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ?
+				initialiseCasPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) :
+				initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 		}
 	} else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialAdvertisement) {
-		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? 
-		initialiseAdvertPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.advertText,context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) : initialiseAdvertPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.advertText,context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ?
+			initialiseAdvertPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.advertText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) : initialiseAdvertPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.advertText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+	} else if (planning === prepareAppealSelector?._selectors?.answerLawfulDevelopmentCertificate) {
+		initialiseLDCPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.ldcText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 	}
 };

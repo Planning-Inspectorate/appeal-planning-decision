@@ -6,7 +6,7 @@ function submitAppealFlow(appealOptions) {
 	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, planning, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases } =
 		appealOptions;
 
-	if (['granted', 'refused', 'no decision'].includes(statusOfOriginalApplication) === false) {
+	if (['granted', 'refused', 'no decision', 'no listed building'].includes(statusOfOriginalApplication) === false) {
 		throw new Error(
 			`The status of original application "${statusOfOriginalApplication}" is not supported!`
 		);
@@ -22,7 +22,7 @@ function submitAppealFlow(appealOptions) {
 		throw new Error(
 			`The status of planning obligation "${statusOfPlanningObligation}" is not supported!`
 		);
-	}	
+	}
 	initialiseApplicationTypeAppeal(statusOfOriginalApplication, planning, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
 }
 module.exports = {

@@ -10,6 +10,7 @@ export class PrepareAppealSelector {
         onApplicationDateMonth: '#onApplicationDate_month',
         onApplicationDateYear: '#onApplicationDate_year',
         developmentDescriptionOriginal: '#developmentDescriptionOriginal',
+        siteUseAtTimeOfApplication: '#siteUseAtTimeOfApplication',
         govukFieldsetHeading: ".govuk-fieldset__heading",
         govukLabelGovUkLabel1: "label.govuk-label.govuk-label--l",
         fullPlanningApplicaitonType: "full-planning",
@@ -17,6 +18,7 @@ export class PrepareAppealSelector {
         casPlanningApplicationType: "cas-planning",
         advertApplicationType: "adverts",
         listedBuildingApplicaitonType: "listed-building",
+        ldcApplicationType: "ldc",
         appellantOther: "other",
         uploadApplicationForm: "upload-application-form",
         statusOfOriginalApplicationWritten: "written",
@@ -26,12 +28,13 @@ export class PrepareAppealSelector {
         answerHouseholderPlanning: "answer-householder-planning",
         answerListedBuilding: "answer-listed-building",
         answerMinorCommercialDevelopment: "answer-minor-commercial-development",
+        answerLawfulDevelopmentCertificate: "answer-lawful-development-certificate",
         answerMinorCommercialAdvertisement: "answer-minor-commercial-advertisment",
         fullAppealText: "Full appeal",
         householderPlanningText: "Householder planning",
         casPlanningText: "Minor commercial development",
         advertText: "Advertisement",
-
+        ldcText: "Lawful development certificate",
         advertisementAppealCaption: "Advertisement appeal",
         commercialAdvertisementAppealCaption: "Commercial advertisement appeal",
         listedBuildingText: "Listed building consent",
@@ -57,7 +60,6 @@ export class PrepareAppealSelector {
         decisionDateMonth: '#decision-date-month',
         decisionDateYear: '#decision-date-year',
     }
-
     _advertSelectors = {
         decisionDateDay: '#decision-date-day',
         decisionDateMonth: '#decision-date-month',
@@ -65,6 +67,12 @@ export class PrepareAppealSelector {
         onApplicationDateDay: '#onApplicationDate_day',
         onApplicationDateMonth: '#onApplicationDate_month',
         onApplicationDateYear: '#onApplicationDate_year',
+    }
+
+    _ldcAppealSelectors = {
+        decisionDateDay: '#decision-date-day',
+        decisionDateMonth: '#decision-date-month',
+        decisionDateYear: '#decision-date-year',
     }
     _houseHolderURLs = {
         beforeYouStart: '/before-you-start',     
@@ -100,5 +108,12 @@ export class PrepareAppealSelector {
         appealslistedBuildingAppealForm: '/appeals/listed-building/appeal-form',
         appealslistedBuildingPrepareAppeal: '/appeals/listed-building/prepare-appeal',
         appealslistedBuildingUploadDocuments: '/appeals/listed-building/upload-documents'
+    }
+      _ldcAppealURLs = {
+        beforeYouStart: '/before-you-start',
+        ldcAppealSubmit: '/ldc',
+        appealsLdcAppealForm: '/appeals/ldc/appeal-form',
+        appealsLdcAppealPrepareAppeal: '/appeals/ldc/prepare-appeal',
+        appealsLdcAppealUploadDocuments: '/appeals/ldc/upload-documents'
     }
 }

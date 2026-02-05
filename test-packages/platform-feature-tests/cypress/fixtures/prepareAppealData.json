@@ -6,7 +6,7 @@
     "finalCommentsLink": "final-comments",
     "commentOpen": "Open",
     "commentOnThisAppealButton": "Comment on this appeal", 
-    "button": "Continue to my appeal",
+    "button": "Start appeal",
     "todoInvalid": "Invalid",
     "email": {
         "emailAddress": "appellant2@planninginspectorate.gov.uk",
@@ -38,7 +38,9 @@
     "accessAppellantSiteAccessDetails": "the appeal site is at the rear of a terraced property123456789aAbcdEF!\"£$%QA",
     "appellantSiteSafetyDetails": "appellantSiteSafety_appellantSiteSafetyDetails1234567890!\"£$%^&*(10)",
     "develpmentDescriptionOriginal": "developmentDescriptionOriginal-hint123456789!£$%&*j",
+    "siteUseAtTimeOfApplication": "siteUseAtTimeOfApplication-existing-use-hint123456789!£$%&*j",
     "acceptAndSubmitButton": "Accept and submit",
+    "startAppealButton": "Start appeal",
     "appealSubmitted": "Appeal submitted",
     "submitFinalComments": "Submit final comments",
     "finalCommentsSubmitted": "Final comments submitted",
