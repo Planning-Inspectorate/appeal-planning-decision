@@ -24,6 +24,7 @@ const {
 	responseHasAppealGround,
 	responseAppealGroundHasDocuments
 } = require('./display-questions');
+const { APPEAL_CASE_TYPE } = require('@planning-inspectorate/data-model');
 
 const {
 	validation: {
@@ -58,9 +59,92 @@ const supportingDocTypesLookup = {
 	k: documentTypes.groundKSupportingDocuments
 };
 
+const commonOptions = [
+	{
+		text: 'Ground (a)',
+		value: 'a',
+		hint: {
+			text: 'The local planning authority (LPA) should grant planning permission for all (or part) of the development described in the alleged breach.'
+		}
+	},
+	{
+		text: 'Ground (b)',
+		value: 'b',
+		hint: {
+			text: 'The alleged breach did not happen.'
+		}
+	},
+	{
+		text: 'Ground (c)',
+		value: 'c',
+		hint: {
+			text: 'You do not need planning permission (for example, it is a permitted development or you already have planning permission).'
+		}
+	},
+	{
+		text: 'Ground (d)',
+		value: 'd',
+		hint: {
+			text: 'It is too late for the LPA to take enforcement action.'
+		}
+	},
+	{
+		text: 'Ground (e)',
+		value: 'e',
+		hint: {
+			text: 'The LPA did not serve the notice properly to everyone with an interest in the land.'
+		}
+	},
+	{
+		text: 'Ground (f)',
+		value: 'f',
+		hint: {
+			text: 'A simpler step (or steps) would achieve the same result.'
+		}
+	},
+	{
+		text: 'Ground (g)',
+		value: 'g',
+		hint: {
+			text: 'The time to comply with the notice is too short.'
+		}
+	}
+];
+
+const enforcementListedBuildingOptions = [
+	{
+		text: 'Ground (h)',
+		value: 'h',
+		hint: {
+			text: 'The time to comply with the notice is too short.'
+		}
+	},
+	{
+		text: 'Ground (i)',
+		value: 'i',
+		hint: {
+			text: 'The required steps will not restore the building’s character.'
+		}
+	},
+	{
+		text: 'Ground (j)',
+		value: 'j',
+		hint: {
+			text: 'A simpler step (or steps) would reduce the harm caused.'
+		}
+	},
+	{
+		text: 'Ground (k)',
+		value: 'k',
+		hint: {
+			text: 'A simpler step (or steps) would meet listed building consent conditions.'
+		}
+	}
+];
+
 /**
  * @param {JourneyResponse} response
- * @param {'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'} appealGround
+ * @param {'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k'} appealGround
  * @returns {Array<{question: QuestionProps, condition?: () => boolean}>}
  */
 // eslint-disable-next-line no-unused-vars
@@ -161,66 +245,23 @@ exports.getAppealGroundsQuestions = (response, appealGrounds) => {
 	}));
 };
 
-// future refactor when creating enforcement listed building question
-exports.chooseGroundsOfAppealQuestion = new CheckboxQuestion(
-	{
-		title: 'Choose your grounds of appeal',
-		question: 'Choose your grounds of appeal',
-		description: 'Select all that apply',
-		fieldName: 'appealGrounds',
-		url: 'choose-grounds',
-		validators: [new RequiredValidator('Select your grounds of appeal')],
-		options: [
-			{
-				text: 'Ground (a)',
-				value: 'a',
-				hint: {
-					text: 'The local planning authority (LPA) should grant planning permission for all (or part) of the development described in the alleged breach.'
-				}
-			},
-			{
-				text: 'Ground (b)',
-				value: 'b',
-				hint: {
-					text: 'The alleged breach did not happen.'
-				}
-			},
-			{
-				text: 'Ground (c)',
-				value: 'c',
-				hint: {
-					text: 'You do not need planning permission (for example, it is a permitted development or you already have planning permission).'
-				}
-			},
-			{
-				text: 'Ground (d)',
-				value: 'd',
-				hint: {
-					text: 'It is too late for the LPA to take enforcement action.'
-				}
-			},
-			{
-				text: 'Ground (e)',
-				value: 'e',
-				hint: {
-					text: 'The LPA did not serve the notice properly to everyone with an interest in the land.'
-				}
-			},
-			{
-				text: 'Ground (f)',
-				value: 'f',
-				hint: {
-					text: 'A simpler step (or steps) would achieve the same result.'
-				}
-			},
-			{
-				text: 'Ground (g)',
-				value: 'g',
-				hint: {
-					text: 'The time to comply with the notice is too short.'
-				}
-			}
-		]
-	},
-	questionMethodOverrides['checkbox']
-);
+/**
+ * @param {string} appealCaseType
+ */
+exports.chooseGroundsOfAppealQuestion = (appealCaseType) =>
+	new CheckboxQuestion(
+		{
+			title: 'Choose your grounds of appeal',
+			question: 'Choose your grounds of appeal',
+			description: 'Select all that apply',
+			fieldName: 'appealGrounds',
+			url: 'choose-grounds',
+			validators: [new RequiredValidator('Select your grounds of appeal')],
+			// @ts-ignore
+			options:
+				appealCaseType === APPEAL_CASE_TYPE.F
+					? [...commonOptions, ...enforcementListedBuildingOptions]
+					: [...commonOptions]
+		},
+		questionMethodOverrides['checkbox']
+	);
