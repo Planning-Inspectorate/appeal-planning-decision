@@ -12,6 +12,7 @@ const {
 const {
 	questionHasAnswer
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
+const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -43,7 +44,26 @@ const makeSections = (response) => {
 			.addQuestion(questions.relatedApplications)
 			.addQuestion(questions.relatedApplicationsUpload)
 			.withCondition(() => questionHasAnswer(response, questions.relatedApplications, 'yes'))
-			.addQuestion(questions.appealInvalid)
+			.addQuestion(questions.appealInvalid),
+		new Section('Site access', 'site-access')
+			.addQuestion(questions.accessForInspection)
+			.addQuestion(questions.neighbouringSite)
+			.addQuestion(questions.neighbouringSitesToBeVisited)
+			.withCondition(() => questionHasAnswer(response, questions.neighbouringSite, 'yes'))
+			.addQuestion(questions.potentialSafetyRisks),
+		new Section('Appeal process', 'appeal-process')
+			.addQuestion(questions.procedureType)
+			.addQuestion(questions.whyInquiry)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.procedureType, APPEAL_CASE_PROCEDURE.INQUIRY)
+			)
+			.addQuestion(questions.whyHearing)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.procedureType, APPEAL_CASE_PROCEDURE.HEARING)
+			)
+			.addQuestion(questions.appealsNearSite)
+			.addQuestion(questions.nearbyAppeals)
+			.withCondition(() => questionHasAnswer(response, questions.appealsNearSite, 'yes'))
 	];
 };
 
