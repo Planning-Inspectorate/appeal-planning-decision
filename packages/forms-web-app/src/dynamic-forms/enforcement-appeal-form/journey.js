@@ -6,7 +6,7 @@ const {
 	questionHasNonEmptyStringAnswer,
 	questionHasNonEmptyNumberAnswer
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
-const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
+const { APPEAL_CASE_PROCEDURE, APPEAL_CASE_TYPE } = require('@planning-inspectorate/data-model');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const {
 	CASE_TYPES: { ENFORCEMENT }
@@ -163,7 +163,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.enforcementInspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterAllegedBreachDescription)
-			.addQuestion(chooseGroundsOfAppealQuestion)
+			.addQuestion(chooseGroundsOfAppealQuestion(APPEAL_CASE_TYPE.C))
 			.addQuestion(questions.submittedPlanningApplication)
 			.withCondition(() => responseHasAppealGround(response, 'a'))
 			.startMultiQuestionCondition('groundAPreviousApplication', () =>

@@ -5974,6 +5974,34 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-7">Ground (g)</label>
                                 <div id="appealGrounds-7-item-hint" class="govuk-hint govuk-checkboxes__hint">The time to comply with the notice is too short.</div>
                             </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="appealGrounds-8" name="appealGrounds"
+                                type="checkbox" value="h" aria-describedby="appealGrounds-8-item-hint"
+                                data-cy="answer-h">
+                                <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-8">Ground (h)</label>
+                                <div id="appealGrounds-8-item-hint" class="govuk-hint govuk-checkboxes__hint">The time to comply with the notice is too short.</div>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="appealGrounds-9" name="appealGrounds"
+                                type="checkbox" value="i" aria-describedby="appealGrounds-9-item-hint"
+                                data-cy="answer-i">
+                                <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-9">Ground (i)</label>
+                                <div id="appealGrounds-9-item-hint" class="govuk-hint govuk-checkboxes__hint">The required steps will not restore the building’s character.</div>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="appealGrounds-10" name="appealGrounds"
+                                type="checkbox" value="j" aria-describedby="appealGrounds-10-item-hint"
+                                data-cy="answer-j">
+                                <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-10">Ground (j)</label>
+                                <div id="appealGrounds-10-item-hint" class="govuk-hint govuk-checkboxes__hint">A simpler step (or steps) would reduce the harm caused.</div>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input" id="appealGrounds-11" name="appealGrounds"
+                                type="checkbox" value="k" aria-describedby="appealGrounds-11-item-hint"
+                                data-cy="answer-k">
+                                <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-11">Ground (k)</label>
+                                <div id="appealGrounds-11-item-hint" class="govuk-hint govuk-checkboxes__hint">A simpler step (or steps) would meet listed building consent conditions.</div>
+                            </div>
                         </div>
                     </fieldset>
                 </div>
