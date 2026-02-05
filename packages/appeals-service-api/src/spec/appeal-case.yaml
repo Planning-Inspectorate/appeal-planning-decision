@@ -547,6 +547,12 @@ components:
         applicationMadeAndFeePaid:
           type: boolean
           description: Did the appellant make an application
+        retrospectiveApplication:
+          type: boolean
+          description: Did the appellant make a retrospective planning application
+        groundAFeePaid:
+          type: boolean
+          description: Did the appellant pay a ground (a) fee
         previousPlanningPermissionGranted:
           type: boolean
           description: was previous planning permission granted
@@ -616,7 +622,7 @@ components:
         siteUseAtTimeOfApplication:
           type: string
           nullable: true
-          description: Site use at time of application        
+          description: Site use at time of application
         appealUnderActSection:
           type: string
           nullable: true

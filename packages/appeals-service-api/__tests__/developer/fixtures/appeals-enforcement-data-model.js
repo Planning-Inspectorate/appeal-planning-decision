@@ -12,7 +12,10 @@ const exampleEnforcementDataModel = {
 	appellantProcedurePreferenceWitnessCount: 10,
 	ownerOccupancyStatus: 'Owner',
 	occupancyConditionsMet: true,
-	applicationMadeAndFeePaid: true,
+	applicationMadeAndFeePaid: null,
+	retrospectiveApplication: true,
+	groundAFeePaid: true,
+
 	previousPlanningPermissionGranted: false,
 	issueDateOfEnforcementNotice: '2023-07-27T20:30:00.000Z',
 	effectiveDateOfEnforcementNotice: '2023-07-27T20:30:00.000Z',

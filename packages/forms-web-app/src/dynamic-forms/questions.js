@@ -3400,11 +3400,9 @@ exports.getQuestionProps = (response) => ({
 	},
 	submittedPlanningApplication: {
 		type: 'boolean',
-		title:
-			'Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?',
-		question:
-			'Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?',
-		fieldName: 'applicationMadeAndFeePaid',
+		title: 'Did anyone submit a retrospective planning application?',
+		question: 'Did anyone submit a retrospective planning application?',
+		fieldName: 'retrospectiveApplication',
 		url: 'submit-planning-application',
 		validators: [
 			new RequiredValidator(
@@ -3412,14 +3410,22 @@ exports.getQuestionProps = (response) => ({
 			)
 		]
 	},
-	uploadApplicationReceipt: {
+	groundAFeePaid: {
+		type: 'boolean',
+		title: 'Did you pay the ground (a) fee?',
+		question: 'Did you pay the ground (a) fee?',
+		fieldName: 'groundAFeePaid',
+		url: 'pay-ground-a',
+		validators: [new RequiredValidator('Select yes if you paid the ground (a) fee')]
+	},
+	uploadGroundAFeeReceipt: {
 		type: 'multi-file-upload',
-		title: 'Upload your application receipt',
-		question: 'Upload your application receipt',
-		fieldName: 'uploadApplicationReceipt',
-		url: 'upload-application-receipt',
+		title: 'Upload your ground (a) fee receipt',
+		question: 'Upload your ground (a) fee receipt',
+		fieldName: 'uploadGroundAFeeReceipt',
+		url: 'upload-ground-a-receipt',
 		validators: [
-			new RequiredFileUploadValidator('Select your application receipt'),
+			new RequiredFileUploadValidator('Select your ground (a) fee receipt'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		documentType: documentTypes.uploadGroundAFeeReceipt

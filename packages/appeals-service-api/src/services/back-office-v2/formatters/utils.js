@@ -680,7 +680,8 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 			contactPlanningInspectorateDate:
 				appellantSubmission.contactPlanningInspectorateDate?.toISOString() ?? null,
 			descriptionOfAllegedBreach: appellantSubmission.allegedBreachDescription ?? null,
-			applicationMadeAndFeePaid: appellantSubmission.applicationMadeAndFeePaid ?? null,
+			retrospectiveApplication: appellantSubmission.retrospectiveApplication ?? null,
+			groundAFeePaid: appellantSubmission.groundAFeePaid ?? null,
 			applicationDevelopmentAllOrPart: appellantSubmission.applicationPartOrWholeDevelopment ?? null
 		};
 	};

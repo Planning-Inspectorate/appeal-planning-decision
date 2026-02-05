@@ -447,6 +447,8 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 						ownerOccupancyStatus: data.ownerOccupancyStatus ?? null,
 						occupancyConditionsMet: data.occupancyConditionsMet ?? null,
 						applicationMadeAndFeePaid: data.applicationMadeAndFeePaid ?? null,
+						retrospectiveApplication: data.retrospectiveApplication ?? null,
+						groundAFeePaid: data.groundAFeePaid ?? null,
 						previousPlanningPermissionGranted: data.previousPlanningPermissionGranted ?? null,
 						issueDateOfEnforcementNotice: data.issueDateOfEnforcementNotice ?? null,
 						effectiveDateOfEnforcementNotice: data.effectiveDateOfEnforcementNotice ?? null,

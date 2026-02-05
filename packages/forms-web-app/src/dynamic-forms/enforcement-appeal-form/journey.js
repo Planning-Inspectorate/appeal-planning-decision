@@ -196,6 +196,8 @@ const makeSections = (response) => {
 				questionHasAnswer(response, questions.grantedOrRefused, 'nodecisionreceived')
 			)
 			.endMultiQuestionCondition('groundAPreviousApplication')
+			.addQuestion(questions.groundAFeePaid)
+			.withCondition(() => responseHasAppealGround(response, 'a'))
 			.addQuestions(appealGroundsQuestions)
 			.addQuestion(questions.appellantProcedurePreference)
 			.addQuestion(questions.appellantPreferHearing)

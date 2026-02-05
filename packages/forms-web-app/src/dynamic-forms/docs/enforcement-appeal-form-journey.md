@@ -74,7 +74,7 @@ condition: () => questionHasAnswer(response, questions.appealSiteIsContactAddres
 - radio `/health-safety-issues/` Health and safety issues
 - text-entry `/description-alleged-breach/` Enter the description of the alleged breach
 - checkbox `/choose-grounds/` Choose your grounds of appeal
-- boolean `/submit-planning-application/` Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?
+- boolean `/submit-planning-application/` Did anyone submit a retrospective planning application?
 
 ```js
 condition: () => responseHasAppealGround(response, 'a');
@@ -121,6 +121,12 @@ condition: () => questionHasAnswer(response, questions.grantedOrRefused, 'nodeci
 ```
 
 - Multiquestion condition ended: groundAPreviousApplication
+
+- boolean `/pay-ground-a/` Did you pay the ground (a) fee?
+
+```js
+condition: () => responseHasAppealGround(response, 'a');
+```
 
 - text-entry `/facts-ground-a/` Facts for ground (a)
 
