@@ -21,6 +21,12 @@ const tags = [
   '@S20-granted',
   '@S20-nodecision',
   '@S20-refused',
+  '@Advert-granted',
+  '@Advert-nodecision',
+  '@CAS-Advert-refused',
+  '@CAS-Planning-granted',
+  '@CAS-Planning-nodecision',
+  '@CAS-Planning-refused',
   '@appealant-decided-appeals'
   // '@HAS-LPAQ-Validation-1',
   // '@HAS-LPAQ-Validation-2',
@@ -69,7 +75,7 @@ function runTag(tag) {
 
     const args = [
   'cypress','run',
-  '--env', `grepTags=${tag},grepFilterSpecs=true`,
+  '--env', `grepTags=${tag},grepFilterSpecs=true,limitTestsPerSpec=2`,
   '--reporter','cypress-mochawesome-reporter',
   '--reporter-options',
     `reportDir=${outBase}/reports,charts=true,overwrite=false,html=true,json=true,embeddedScreenshots=true,inlineAssets=true`,
