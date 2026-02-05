@@ -34,3 +34,32 @@ describe('Enforcement Appeal Form Journey', () => {
 		expect(journey.journeyTitle).toBe('Appeal a planning decision');
 	});
 });
+
+describe('Enforcement Appeal Form Journey - Section Headings', () => {
+	it('should have the correct sections defined', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+		const sectionNames = journey.sections.map((s) => s.name);
+
+		expect(sectionNames).toHaveLength(5);
+		expect(sectionNames).toEqual([
+			'Contact Details',
+			'Land Details',
+			'Grounds of appeal and supporting facts',
+			'Procedure',
+			'Upload documents'
+		]);
+	});
+
+	it('should have correct identifiers for each section', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+		const sectionSegments = journey.sections.map((s) => s.segment);
+
+		expect(sectionSegments).toEqual([
+			'contact-details',
+			'land-details',
+			'grounds-of-appeal-and-supporting-facts',
+			'procedure',
+			'upload-documents'
+		]);
+	});
+});

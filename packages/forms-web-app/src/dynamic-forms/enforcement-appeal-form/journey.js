@@ -109,7 +109,7 @@ const makeSections = (response) => {
 	const interestInLandQuestions = generateInterestInLandQuestionsAndConditions(response);
 
 	return [
-		new Section('Prepare appeal', 'prepare-appeal')
+		new Section('Contact Details', 'contact-details')
 			.addQuestion(questions.enforcementWhoIsAppealing)
 			.startMultiQuestionCondition('individual appellant', () =>
 				questionHasAnswer(
@@ -153,15 +153,19 @@ const makeSections = (response) => {
 			.withCondition(() => shouldDisplayEnforcementCompleteOnBehalfOf(response, questions))
 			.withVariables({
 				[QUESTION_VARIABLES.DYNAMIC_NAMED_PARTIES]: formatDynamicNames(response)
-			})
-			// consider whether to make dynamic to generate hint...
+			}),
+		// consider whether to make dynamic to generate hint...
+
+		new Section('Land Details', 'land-details')
 			.addQuestion(questions.appealSiteAddress)
 			.addQuestion(questions.appealSiteIsContactAddress)
 			.addQuestion(questions.contactAddress)
 			.withCondition(() => questionHasAnswer(response, questions.appealSiteIsContactAddress, 'no'))
 			.addQuestions(interestInLandQuestions)
 			.addQuestion(questions.enforcementInspectorAccess)
-			.addQuestion(questions.healthAndSafety)
+			.addQuestion(questions.healthAndSafety),
+
+		new Section('Grounds of appeal and supporting facts', 'grounds-of-appeal-and-supporting-facts')
 			.addQuestion(questions.enterAllegedBreachDescription)
 			.addQuestion(chooseGroundsOfAppealQuestion(APPEAL_CASE_TYPE.C))
 			.addQuestion(questions.submittedPlanningApplication)
@@ -196,7 +200,9 @@ const makeSections = (response) => {
 				questionHasAnswer(response, questions.grantedOrRefused, 'nodecisionreceived')
 			)
 			.endMultiQuestionCondition('groundAPreviousApplication')
-			.addQuestions(appealGroundsQuestions)
+			.addQuestions(appealGroundsQuestions),
+
+		new Section('Procedure', 'procedure')
 			.addQuestion(questions.appellantProcedurePreference)
 			.addQuestion(questions.appellantPreferHearing)
 			.withCondition(() =>
@@ -237,6 +243,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.anyOtherAppeals)
 			.addQuestion(questions.linkAppeals)
 			.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
+
 		new Section('Upload documents', 'upload-documents')
 			.addQuestion(questions.uploadPriorCorrespondence)
 			.withCondition(() => shouldDisplayPriorCorrespondenceUpload(response))

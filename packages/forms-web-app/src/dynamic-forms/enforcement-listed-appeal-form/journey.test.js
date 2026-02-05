@@ -49,14 +49,14 @@ describe('Enforcement Listed Building Journey - Procedure Section', () => {
 	});
 
 	it('should include the procedure preference question', () => {
-		const section = journey.getSection('prepare-appeal');
+		const section = journey.getSection('procedure');
 		// @ts-ignore
 		const question = section.questions.find((q) => q.fieldName === 'appellantProcedurePreference');
 		expect(question).toBeDefined();
 	});
 
 	it('should show hearing details only when Hearing is selected', () => {
-		const section = journey.getSection('prepare-appeal');
+		const section = journey.getSection('procedure');
 		// @ts-ignore
 		const hearingDetails = section.questions.find(
 			(q) => q.fieldName === 'appellantPreferHearingDetails'
@@ -72,7 +72,7 @@ describe('Enforcement Listed Building Journey - Procedure Section', () => {
 	});
 
 	it('should show inquiry duration and witnesses only when Inquiry is selected', () => {
-		const section = journey.getSection('prepare-appeal');
+		const section = journey.getSection('procedure');
 		// @ts-ignore
 		const inquiryDays = section.questions.find(
 			(q) => q.fieldName === 'appellantPreferInquiryDuration'
@@ -91,7 +91,7 @@ describe('Enforcement Listed Building Journey - Procedure Section', () => {
 	});
 
 	it('should show linked appeals reference question only when Linked Appeals is "yes"', () => {
-		const section = journey.getSection('prepare-appeal');
+		const section = journey.getSection('procedure');
 		// @ts-ignore
 		const linkedAppealRef = section.questions.find((q) => q.fieldName === 'appellantLinkedCaseAdd');
 
@@ -143,5 +143,34 @@ describe('Enforcement Listed Building Journey - Upload Documents Section', () =>
 
 		journey.response.answers.costApplication = 'yes';
 		expect(costUpload?.shouldDisplay(journey.response)).toBe(true);
+	});
+});
+
+describe('Enforcement Listed Building Journey - Section Headings', () => {
+	it('should have the correct sections defined', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+		const sectionNames = journey.sections.map((s) => s.name);
+
+		expect(sectionNames).toHaveLength(5);
+		expect(sectionNames).toEqual([
+			'Contact Details',
+			'Land Details',
+			'Grounds of appeal and supporting facts',
+			'Procedure',
+			'Upload documents'
+		]);
+	});
+
+	it('should have correct identifiers for each section', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+		const sectionSegments = journey.sections.map((s) => s.segment);
+
+		expect(sectionSegments).toEqual([
+			'contact-details',
+			'land-details',
+			'grounds-of-appeal-and-supporting-facts',
+			'procedure',
+			'upload-documents'
+		]);
 	});
 });

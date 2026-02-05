@@ -1,6 +1,6 @@
 # enforcement-appeal-form
 
-## Prepare appeal
+## Contact Details
 
 - radio `/who-is-appealing/` Who is appealing against the enforcement notice?
 
@@ -62,6 +62,8 @@ condition: () => shouldDisplayEnforcementContactDetails(response, questions);
 condition: () => shouldDisplayEnforcementCompleteOnBehalfOf(response, questions);
 ```
 
+## Land Details
+
 - address-entry `/appeal-site-address/` What is the address of the appeal site?
 - boolean `/is-contact-address/` Is the appeal site address your contact address?
 - address-entry `/contact-address/` What is your contact address?
@@ -72,6 +74,9 @@ condition: () => questionHasAnswer(response, questions.appealSiteIsContactAddres
 
 - radio `/inspector-need-access/` Will an inspector need to access the land or property?
 - radio `/health-safety-issues/` Health and safety issues
+
+## Grounds of appeal and supporting facts
+
 - text-entry `/description-alleged-breach/` Enter the description of the alleged breach
 - checkbox `/choose-grounds/` Choose your grounds of appeal
 - boolean `/submit-planning-application/` Did anyone submit a planning application for the development on the enforcement notice and pay the correct fee?
@@ -247,6 +252,8 @@ condition: () => responseHasAppealGround(response, `${appealGround}`);
 ```js
 condition: () => responseAppealGroundHasDocuments(response, `${appealGround}`);
 ```
+
+## Procedure
 
 - radio `/decide-appeal/` How would you prefer us to decide your appeal?
 - text-entry `/why-prefer-hearing/` Why would you prefer a hearing?

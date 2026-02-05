@@ -5712,7 +5712,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Contact Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -5756,7 +5756,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Land Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -5909,7 +5909,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Grounds of appeal and supporting facts</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -6026,7 +6026,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Contact Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -6061,7 +6061,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Land Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -6118,7 +6118,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Contact Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -6262,7 +6262,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Procedure</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -7298,7 +7298,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Procedure</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -7333,7 +7333,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Procedure</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -7368,7 +7368,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Contact Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -7522,7 +7522,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Contact Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -7651,7 +7651,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Contact Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -7858,35 +7858,37 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
 exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-facts-ground-a-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (a) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (a) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundASupporting">Upload files</label>
+                                <div id="uploadGroundASupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundASupporting" name="uploadGroundASupporting" type="file"
+                                aria-describedby="uploadGroundASupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundASupporting">Upload files</label>
-                            <div id="uploadGroundASupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundASupporting" name="uploadGroundASupporting" type="file"
-                            aria-describedby="uploadGroundASupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -7902,35 +7904,37 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
 exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-facts-ground-b-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (b) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (b) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundBSupporting">Upload files</label>
+                                <div id="uploadGroundBSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundBSupporting" name="uploadGroundBSupporting" type="file"
+                                aria-describedby="uploadGroundBSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundBSupporting">Upload files</label>
-                            <div id="uploadGroundBSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundBSupporting" name="uploadGroundBSupporting" type="file"
-                            aria-describedby="uploadGroundBSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -7946,35 +7950,37 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
 exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-facts-ground-c-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (c) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (c) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundCSupporting">Upload files</label>
+                                <div id="uploadGroundCSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundCSupporting" name="uploadGroundCSupporting" type="file"
+                                aria-describedby="uploadGroundCSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundCSupporting">Upload files</label>
-                            <div id="uploadGroundCSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundCSupporting" name="uploadGroundCSupporting" type="file"
-                            aria-describedby="uploadGroundCSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -7990,35 +7996,37 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
 exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-facts-ground-d-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (d) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (d) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundDSupporting">Upload files</label>
+                                <div id="uploadGroundDSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundDSupporting" name="uploadGroundDSupporting" type="file"
+                                aria-describedby="uploadGroundDSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundDSupporting">Upload files</label>
-                            <div id="uploadGroundDSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundDSupporting" name="uploadGroundDSupporting" type="file"
-                            aria-describedby="uploadGroundDSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -8034,35 +8042,37 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
 exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-facts-ground-e-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (e) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (e) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundESupporting">Upload files</label>
+                                <div id="uploadGroundESupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundESupporting" name="uploadGroundESupporting" type="file"
+                                aria-describedby="uploadGroundESupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundESupporting">Upload files</label>
-                            <div id="uploadGroundESupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundESupporting" name="uploadGroundESupporting" type="file"
-                            aria-describedby="uploadGroundESupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -8078,35 +8088,37 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
 exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-facts-ground-f-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (f) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (f) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundFSupporting">Upload files</label>
+                                <div id="uploadGroundFSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundFSupporting" name="uploadGroundFSupporting" type="file"
+                                aria-describedby="uploadGroundFSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundFSupporting">Upload files</label>
-                            <div id="uploadGroundFSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundFSupporting" name="uploadGroundFSupporting" type="file"
-                            aria-describedby="uploadGroundFSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -8122,35 +8134,37 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
 exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-facts-ground-g-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (g) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (g) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundGSupporting">Upload files</label>
+                                <div id="uploadGroundGSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundGSupporting" name="uploadGroundGSupporting" type="file"
+                                aria-describedby="uploadGroundGSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundGSupporting">Upload files</label>
-                            <div id="uploadGroundGSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundGSupporting" name="uploadGroundGSupporting" type="file"
-                            aria-describedby="uploadGroundGSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -8166,35 +8180,37 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
 exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-facts-ground-h-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (h) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (h) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundHSupporting">Upload files</label>
+                                <div id="uploadGroundHSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundHSupporting" name="uploadGroundHSupporting" type="file"
+                                aria-describedby="uploadGroundHSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundHSupporting">Upload files</label>
-                            <div id="uploadGroundHSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundHSupporting" name="uploadGroundHSupporting" type="file"
-                            aria-describedby="uploadGroundHSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -8210,35 +8226,37 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
 exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-facts-ground-i-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (i) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (i) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundISupporting">Upload files</label>
+                                <div id="uploadGroundISupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundISupporting" name="uploadGroundISupporting" type="file"
+                                aria-describedby="uploadGroundISupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundISupporting">Upload files</label>
-                            <div id="uploadGroundISupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundISupporting" name="uploadGroundISupporting" type="file"
-                            aria-describedby="uploadGroundISupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -8254,35 +8272,37 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
 exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-facts-ground-j-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (j) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (j) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundJSupporting">Upload files</label>
+                                <div id="uploadGroundJSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundJSupporting" name="uploadGroundJSupporting" type="file"
+                                aria-describedby="uploadGroundJSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundJSupporting">Upload files</label>
-                            <div id="uploadGroundJSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundJSupporting" name="uploadGroundJSupporting" type="file"
-                            aria-describedby="uploadGroundJSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -8298,35 +8318,37 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
 exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-facts-ground-k-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (k) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (k) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundKSupporting">Upload files</label>
+                                <div id="uploadGroundKSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundKSupporting" name="uploadGroundKSupporting" type="file"
+                                aria-describedby="uploadGroundKSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundKSupporting">Upload files</label>
-                            <div id="uploadGroundKSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundKSupporting" name="uploadGroundKSupporting" type="file"
-                            aria-describedby="uploadGroundKSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -8581,7 +8603,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-three-quarters-from-desktop">
             <p class="govuk-body govuk-!-font-weight-bold">Appeal incomplete</p>
-            <p class="govuk-!-margin-bottom-7">You have completed 0 of 3 sections.</p>
+            <p class="govuk-!-margin-bottom-7">You have completed 0 of 6 sections.</p>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -8607,79 +8629,100 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
             <ol class="app-task-list">
                 <li class="govuk-!-margin-bottom-9">
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">1. </span> Prepare appeal<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">1. </span> Contact Details<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who is appealing against the enforcement notice?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/prepare-appeal/who-is-appealing?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Who is appealing against the enforcement notice?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/contact-details/who-is-appealing?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Who is appealing against the enforcement notice?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Contact details</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/prepare-appeal/contact-details?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Contact details</span></a>
+                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/contact-details/contact-details?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Contact details</span></a>
                             </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is your phone number?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/prepare-appeal/phone-number?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is your phone number?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is the address of the appeal site?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/prepare-appeal/appeal-site-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the address of the appeal site?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site address your contact address?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/prepare-appeal/is-contact-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Is the appeal site address your contact address?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Will an inspector need to access the land or property?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/prepare-appeal/inspector-need-access?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Will an inspector need to access the land or property?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any health and safety issues on the appeal site?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/prepare-appeal/health-safety-issues?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Health and safety issues</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the description of the alleged breach</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/prepare-appeal/description-alleged-breach?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Enter the description of the alleged breach</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Choose your grounds of appeal</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/prepare-appeal/choose-grounds?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Choose your grounds of appeal</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> How would you prefer us to decide your appeal?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/prepare-appeal/decide-appeal?id=appeal-ref">Answer<span class="govuk-visually-hidden"> How would you prefer us to decide your appeal?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there other appeals linked to your development?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/prepare-appeal/other-appeals?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Are there other appeals linked to your development?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/contact-details/phone-number?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is your phone number?</span></a>
                                 </dd>
                         </div>
                     </dl>
                 </li>
                 <li class="govuk-!-margin-bottom-9">
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Upload documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Land Details<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is the address of the appeal site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/land-details/appeal-site-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the address of the appeal site?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site address your contact address?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/land-details/is-contact-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Is the appeal site address your contact address?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Will an inspector need to access the land or property?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/land-details/inspector-need-access?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Will an inspector need to access the land or property?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any health and safety issues on the appeal site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/land-details/health-safety-issues?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Health and safety issues</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Grounds of appeal and supporting facts<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the description of the alleged breach</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/grounds-of-appeal-and-supporting-facts/description-alleged-breach?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Enter the description of the alleged breach</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Choose your grounds of appeal</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/grounds-of-appeal-and-supporting-facts/choose-grounds?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Choose your grounds of appeal</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">4. </span> Procedure<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> How would you prefer us to decide your appeal?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/procedure/decide-appeal?id=appeal-ref">Answer<span class="govuk-visually-hidden"> How would you prefer us to decide your appeal?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there other appeals linked to your development?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/procedure/other-appeals?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Are there other appeals linked to your development?</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">5. </span> Upload documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enforcement notice</dt>
@@ -8708,7 +8751,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
                 </li>
                 <li>
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">6. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
                         <dl class="govuk-summary-list">
                             <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Accept declaration and submit</dt>
                                 <dd
@@ -8729,7 +8772,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Contact Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -8819,7 +8862,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Grounds of appeal and supporting facts</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -8878,7 +8921,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Land Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -8936,7 +8979,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Grounds of appeal and supporting facts</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -9086,7 +9129,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Grounds of appeal and supporting facts</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -9174,7 +9217,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Contact Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -9208,7 +9251,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Land Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -9264,7 +9307,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Contact Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -9372,7 +9415,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Grounds of appeal and supporting facts</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -9432,7 +9475,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Grounds of appeal and supporting facts</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -9618,7 +9661,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Procedure</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -10385,7 +10428,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Procedure</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -10419,7 +10462,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Procedure</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -10453,7 +10496,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Contact Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -10604,7 +10647,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Contact Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -10730,7 +10773,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Contact Details</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -10766,7 +10809,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds"></div>
     </div>
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Grounds of appeal and supporting facts</span>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -11252,35 +11295,37 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the upload-facts-ground-a-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (a) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (a) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundASupporting">Upload files</label>
+                                <div id="uploadGroundASupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundASupporting" name="uploadGroundASupporting" type="file"
+                                aria-describedby="uploadGroundASupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundASupporting">Upload files</label>
-                            <div id="uploadGroundASupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundASupporting" name="uploadGroundASupporting" type="file"
-                            aria-describedby="uploadGroundASupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -11295,35 +11340,37 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the upload-facts-ground-b-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (b) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (b) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundBSupporting">Upload files</label>
+                                <div id="uploadGroundBSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundBSupporting" name="uploadGroundBSupporting" type="file"
+                                aria-describedby="uploadGroundBSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundBSupporting">Upload files</label>
-                            <div id="uploadGroundBSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundBSupporting" name="uploadGroundBSupporting" type="file"
-                            aria-describedby="uploadGroundBSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -11338,35 +11385,37 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the upload-facts-ground-c-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (c) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (c) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundCSupporting">Upload files</label>
+                                <div id="uploadGroundCSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundCSupporting" name="uploadGroundCSupporting" type="file"
+                                aria-describedby="uploadGroundCSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundCSupporting">Upload files</label>
-                            <div id="uploadGroundCSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundCSupporting" name="uploadGroundCSupporting" type="file"
-                            aria-describedby="uploadGroundCSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -11381,35 +11430,37 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the upload-facts-ground-d-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (d) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (d) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundDSupporting">Upload files</label>
+                                <div id="uploadGroundDSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundDSupporting" name="uploadGroundDSupporting" type="file"
+                                aria-describedby="uploadGroundDSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundDSupporting">Upload files</label>
-                            <div id="uploadGroundDSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundDSupporting" name="uploadGroundDSupporting" type="file"
-                            aria-describedby="uploadGroundDSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -11424,35 +11475,37 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the upload-facts-ground-e-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (e) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (e) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundESupporting">Upload files</label>
+                                <div id="uploadGroundESupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundESupporting" name="uploadGroundESupporting" type="file"
+                                aria-describedby="uploadGroundESupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundESupporting">Upload files</label>
-                            <div id="uploadGroundESupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundESupporting" name="uploadGroundESupporting" type="file"
-                            aria-describedby="uploadGroundESupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -11467,35 +11520,37 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the upload-facts-ground-f-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (f) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (f) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundFSupporting">Upload files</label>
+                                <div id="uploadGroundFSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundFSupporting" name="uploadGroundFSupporting" type="file"
+                                aria-describedby="uploadGroundFSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundFSupporting">Upload files</label>
-                            <div id="uploadGroundFSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundFSupporting" name="uploadGroundFSupporting" type="file"
-                            aria-describedby="uploadGroundFSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -11510,35 +11565,37 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
 exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement notice should render the upload-facts-ground-g-supporting-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Prepare appeal</span>
-            <h1 class="govuk-heading-l">Upload your ground (g) supporting documents</h1>
-            <form action="" method="post" novalidate=null enctype="multipart/form-data">
-                <div class="moj-multi-file-upload">
-                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Grounds of appeal and supporting facts</span>
+            <h1
+            class="govuk-heading-l">Upload your ground (g) supporting documents</h1>
+                <form action="" method="post"
+                novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadGroundGSupporting">Upload files</label>
+                                <div id="uploadGroundGSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadGroundGSupporting" name="uploadGroundGSupporting" type="file"
+                                aria-describedby="uploadGroundGSupporting-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
                         </div>
                     </div>
-                    <div class="moj-multi-file-upload__upload">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-label--m" for="uploadGroundGSupporting">Upload files</label>
-                            <div id="uploadGroundGSupporting-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                than 1GB</div>
-                            <input class="govuk-file-upload moj-multi-file-upload__input"
-                            id="uploadGroundGSupporting" name="uploadGroundGSupporting" type="file"
-                            aria-describedby="uploadGroundGSupporting-hint" multiple="">
-                        </div>
-                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
                     </div>
-                </div>
-                <div class="govuk-button-group">
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-                </div>
-            </form>
+                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -11830,7 +11887,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-three-quarters-from-desktop">
             <p class="govuk-body govuk-!-font-weight-bold">Appeal incomplete</p>
-            <p class="govuk-!-margin-bottom-7">You have completed 0 of 3 sections.</p>
+            <p class="govuk-!-margin-bottom-7">You have completed 0 of 6 sections.</p>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -11856,74 +11913,95 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
             <ol class="app-task-list">
                 <li class="govuk-!-margin-bottom-9">
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">1. </span> Prepare appeal<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">1. </span> Contact Details<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who is appealing against the enforcement notice?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/who-is-appealing?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Who is appealing against the enforcement notice?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/contact-details/who-is-appealing?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Who is appealing against the enforcement notice?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is your phone number?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/phone-number?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is your phone number?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is the address of the appeal site?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/appeal-site-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the address of the appeal site?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site address your contact address?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/is-contact-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Is the appeal site address your contact address?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Will an inspector need to access the land or property?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/inspector-need-access?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Will an inspector need to access the land or property?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any health and safety issues on the appeal site?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/health-safety-issues?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Health and safety issues</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the description of the alleged breach</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/description-alleged-breach?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Enter the description of the alleged breach</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Choose your grounds of appeal</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/choose-grounds?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Choose your grounds of appeal</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> How would you prefer us to decide your appeal?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/decide-appeal?id=appeal-ref">Answer<span class="govuk-visually-hidden"> How would you prefer us to decide your appeal?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there other appeals linked to your development?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/prepare-appeal/other-appeals?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Are there other appeals linked to your development?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/contact-details/phone-number?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is your phone number?</span></a>
                                 </dd>
                         </div>
                     </dl>
                 </li>
                 <li class="govuk-!-margin-bottom-9">
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Upload documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Land Details<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is the address of the appeal site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/land-details/appeal-site-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the address of the appeal site?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site address your contact address?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/land-details/is-contact-address?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Is the appeal site address your contact address?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Will an inspector need to access the land or property?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/land-details/inspector-need-access?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Will an inspector need to access the land or property?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any health and safety issues on the appeal site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/land-details/health-safety-issues?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Health and safety issues</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Grounds of appeal and supporting facts<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the description of the alleged breach</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/grounds-of-appeal-and-supporting-facts/description-alleged-breach?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Enter the description of the alleged breach</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Choose your grounds of appeal</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/grounds-of-appeal-and-supporting-facts/choose-grounds?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Choose your grounds of appeal</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">4. </span> Procedure<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
+                    </div>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> How would you prefer us to decide your appeal?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/procedure/decide-appeal?id=appeal-ref">Answer<span class="govuk-visually-hidden"> How would you prefer us to decide your appeal?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there other appeals linked to your development?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement/procedure/other-appeals?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Are there other appeals linked to your development?</span></a>
+                                </dd>
+                        </div>
+                    </dl>
+                </li>
+                <li class="govuk-!-margin-bottom-9">
+                    <div class="app-task-list__section">
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">5. </span> Upload documents<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enforcement notice</dt>
@@ -11952,7 +12030,7 @@ exports[`Dynamic forms journey tests appellant Enforcement notice renders listin
                 </li>
                 <li>
                     <div class="app-task-list__section">
-                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
+                        <h2 class="govuk-heading-m"><span class="app-task-list__section-number">6. </span> Submit<strong class="govuk-tag govuk-tag--grey"> Cannot start yet</strong></h2>
                         <dl class="govuk-summary-list">
                             <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Accept declaration and submit</dt>
                                 <dd
