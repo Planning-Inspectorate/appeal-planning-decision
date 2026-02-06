@@ -103,7 +103,7 @@ describe('controllers/before-you-start/planning-application-lookup', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 		});
 
-		it('re-renders with API error when BopsApiClient fails', async () => {
+		it('redirects to application-not-found when BopsApiClient fails', async () => {
 			req.body = {
 				'application-number': 'APP-999'
 			};
@@ -112,13 +112,12 @@ describe('controllers/before-you-start/planning-application-lookup', () => {
 
 			await postApplicationLookup(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(APPLICATION_LOOKUP, {
-				planningApplicationNumber: 'APP-999',
-				errors: {},
-				errorSummary: [{ text: 'Could not find application APP-999', href: '#' }]
-			});
-			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
-			expect(res.redirect).not.toHaveBeenCalled();
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith(
+				expect.objectContaining({
+					planningApplicationNumber: 'APP-999'
+				})
+			);
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-not-found');
 		});
 
 		it('maps lookup data and updates appeal when valid', async () => {
@@ -215,7 +214,7 @@ describe('controllers/before-you-start/planning-application-lookup', () => {
 			expect(res.render).toHaveBeenCalledWith(APPLICATION_LOOKUP, {
 				planningApplicationNumber: 'APP-999',
 				errors: {},
-				errorSummary: [{ text: error.toString(), href: '#' }]
+				errorSummary: [{ text: 'There was a problem', href: '#' }]
 			});
 			expect(res.redirect).not.toHaveBeenCalled();
 		});
