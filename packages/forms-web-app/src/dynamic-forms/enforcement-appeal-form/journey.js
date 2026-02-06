@@ -198,6 +198,12 @@ const makeSections = (response) => {
 			.endMultiQuestionCondition('groundAPreviousApplication')
 			.addQuestion(questions.groundAFeePaid)
 			.withCondition(() => responseHasAppealGround(response, 'a'))
+			.addQuestion(questions.uploadGroundAFeeReceipt)
+			.withCondition(
+				() =>
+					responseHasAppealGround(response, 'a') &&
+					questionHasAnswer(response, questions.groundAFeePaid, 'yes')
+			)
 			.addQuestions(appealGroundsQuestions)
 			.addQuestion(questions.appellantProcedurePreference)
 			.addQuestion(questions.appellantPreferHearing)

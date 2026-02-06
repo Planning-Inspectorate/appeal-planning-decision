@@ -128,6 +128,14 @@ condition: () => questionHasAnswer(response, questions.grantedOrRefused, 'nodeci
 condition: () => responseHasAppealGround(response, 'a');
 ```
 
+- multi-file-upload `/upload-ground-a-receipt/` Upload your ground (a) fee receipt
+
+```js
+condition: () =>
+	responseHasAppealGround(response, 'a') &&
+	questionHasAnswer(response, questions.groundAFeePaid, 'yes');
+```
+
 - text-entry `/facts-ground-a/` Facts for ground (a)
 
 ```js
