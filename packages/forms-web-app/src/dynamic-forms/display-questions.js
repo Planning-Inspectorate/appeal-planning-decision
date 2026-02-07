@@ -192,7 +192,7 @@ exports.shouldDisplayPriorCorrespondenceUpload = (response) =>
 
 /**
  * @param {JourneyResponse} response
- * @param {'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'} appealGround
+ * @param {'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k'} appealGround
  * @returns {boolean}
  */
 exports.responseHasAppealGround = (response, appealGround) => {
@@ -209,7 +209,7 @@ exports.responseHasAppealGround = (response, appealGround) => {
 
 /**
  * @param {JourneyResponse} response
- * @param {'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g'} appealGround
+ * @param {'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k'} appealGround
  * @returns {boolean}
  */
 exports.responseAppealGroundHasDocuments = (response, appealGround) => {
