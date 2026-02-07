@@ -38,6 +38,7 @@ const {
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('@pins/dynamic-forms/src/question-props').QuestionProps} QuestionProps
+ * @typedef {import('@pins/dynamic-forms/src/question-props').Option} Option
  */
 
 const defaultFileUploadValidatorParams = {
@@ -59,7 +60,7 @@ const supportingDocTypesLookup = {
 	k: documentTypes.groundKSupportingDocuments
 };
 
-const commonOptions = [
+const enforcementGroundsOptions = [
 	{
 		text: 'Ground (a)',
 		value: 'a',
@@ -111,7 +112,63 @@ const commonOptions = [
 	}
 ];
 
-const enforcementListedBuildingOptions = [
+const enforcementListedBuildingGroundsOptions = [
+	{
+		text: 'Ground (a)',
+		value: 'a',
+		hint: {
+			text: 'The building is not of special architectural or historic interest.'
+		}
+	},
+	{
+		text: 'Ground (b)',
+		value: 'b',
+		hint: {
+			text: 'The alleged breach did not happen.'
+		}
+	},
+	{
+		text: 'Ground (c)',
+		value: 'c',
+		hint: {
+			text: "You do not need listed building consent (for example, the works do not affect the building's character or they are for a part of the building that is not listed)."
+		}
+	},
+	{
+		text: 'Ground (d)',
+		value: 'd',
+		hint: {
+			html: `The work was urgently necessary. To appeal this ground, you must have:<br><br>
+<div class="govuk-!-margin-left-4">
+<ul class="govuk-list govuk-list--bullet govuk-hint">
+<li>completed the work straight away for safety, health or to preserve the building</li>
+<li>not been able to preserve or make the building safe with repair or temporary support</li>
+<li>only completed the minimum work to deal with the immediate risk</li>
+</ul>
+</div>`
+		}
+	},
+	{
+		text: 'Ground (e)',
+		value: 'e',
+		hint: {
+			text: 'Listed building consent should be granted (or conditions changed) for the work.'
+		}
+	},
+	{
+		text: 'Ground (f)',
+		value: 'f',
+		hint: {
+			text: 'The local planning authority did not serve the notice properly to everyone with an interest in the land.'
+		}
+	},
+	{
+		text: 'Ground (g)',
+		value: 'g',
+		hint: {
+			text: 'A simpler step (or steps) would achieve the same result.'
+		}
+	},
 	{
 		text: 'Ground (h)',
 		value: 'h',
@@ -141,6 +198,19 @@ const enforcementListedBuildingOptions = [
 		}
 	}
 ];
+/**
+ * @param {'F' | 'C'} appealCaseType
+ * @returns {Array<Option>}
+ */
+const getGroundOptions = (appealCaseType) => {
+	if (appealCaseType === APPEAL_CASE_TYPE.F) {
+		return [...enforcementListedBuildingGroundsOptions];
+	} else if (appealCaseType === APPEAL_CASE_TYPE.C) {
+		return [...enforcementGroundsOptions];
+	} else {
+		return [];
+	}
+};
 
 /**
  * @param {JourneyResponse} response
@@ -258,10 +328,7 @@ exports.chooseGroundsOfAppealQuestion = (appealCaseType) =>
 			url: 'choose-grounds',
 			validators: [new RequiredValidator('Select your grounds of appeal')],
 			// @ts-ignore
-			options:
-				appealCaseType === APPEAL_CASE_TYPE.F
-					? [...commonOptions, ...enforcementListedBuildingOptions]
-					: [...commonOptions]
+			options: getGroundOptions(appealCaseType)
 		},
 		questionMethodOverrides['checkbox']
 	);

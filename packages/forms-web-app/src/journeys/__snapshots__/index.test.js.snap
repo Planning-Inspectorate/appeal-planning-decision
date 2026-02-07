@@ -5927,8 +5927,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
                                 <input class="govuk-checkboxes__input" id="appealGrounds" name="appealGrounds"
                                 type="checkbox" value="a" aria-describedby="appealGrounds-item-hint" data-cy="answer-a">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds">Ground (a)</label>
-                                <div id="appealGrounds-item-hint" class="govuk-hint govuk-checkboxes__hint">The local planning authority (LPA) should grant planning permission for
-                                    all (or part) of the development described in the alleged breach.</div>
+                                <div id="appealGrounds-item-hint" class="govuk-hint govuk-checkboxes__hint">The building is not of special architectural or historic interest.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-2" name="appealGrounds"
@@ -5942,37 +5941,51 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
                                 type="checkbox" value="c" aria-describedby="appealGrounds-3-item-hint"
                                 data-cy="answer-c">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-3">Ground (c)</label>
-                                <div id="appealGrounds-3-item-hint" class="govuk-hint govuk-checkboxes__hint">You do not need planning permission (for example, it is a permitted development
-                                    or you already have planning permission).</div>
+                                <div id="appealGrounds-3-item-hint" class="govuk-hint govuk-checkboxes__hint">You do not need listed building consent (for example, the works do not
+                                    affect the building&#39;s character or they are for a part of the building
+                                    that is not listed).</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-4" name="appealGrounds"
                                 type="checkbox" value="d" aria-describedby="appealGrounds-4-item-hint"
                                 data-cy="answer-d">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-4">Ground (d)</label>
-                                <div id="appealGrounds-4-item-hint" class="govuk-hint govuk-checkboxes__hint">It is too late for the LPA to take enforcement action.</div>
+                                <div id="appealGrounds-4-item-hint" class="govuk-hint govuk-checkboxes__hint">The work was urgently necessary. To appeal this ground, you must have:
+                                    <br>
+                                    <br>
+                                    <div class="govuk-!-margin-left-4">
+                                        <ul class="govuk-list govuk-list--bullet govuk-hint">
+                                            <li>completed the work straight away for safety, health or to preserve the
+                                                building</li>
+                                            <li>not been able to preserve or make the building safe with repair or temporary
+                                                support</li>
+                                            <li>only completed the minimum work to deal with the immediate risk</li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-5" name="appealGrounds"
                                 type="checkbox" value="e" aria-describedby="appealGrounds-5-item-hint"
                                 data-cy="answer-e">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-5">Ground (e)</label>
-                                <div id="appealGrounds-5-item-hint" class="govuk-hint govuk-checkboxes__hint">The LPA did not serve the notice properly to everyone with an interest
-                                    in the land.</div>
+                                <div id="appealGrounds-5-item-hint" class="govuk-hint govuk-checkboxes__hint">Listed building consent should be granted (or conditions changed) for
+                                    the work.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-6" name="appealGrounds"
                                 type="checkbox" value="f" aria-describedby="appealGrounds-6-item-hint"
                                 data-cy="answer-f">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-6">Ground (f)</label>
-                                <div id="appealGrounds-6-item-hint" class="govuk-hint govuk-checkboxes__hint">A simpler step (or steps) would achieve the same result.</div>
+                                <div id="appealGrounds-6-item-hint" class="govuk-hint govuk-checkboxes__hint">The local planning authority did not serve the notice properly to everyone
+                                    with an interest in the land.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-7" name="appealGrounds"
                                 type="checkbox" value="g" aria-describedby="appealGrounds-7-item-hint"
                                 data-cy="answer-g">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-7">Ground (g)</label>
-                                <div id="appealGrounds-7-item-hint" class="govuk-hint govuk-checkboxes__hint">The time to comply with the notice is too short.</div>
+                                <div id="appealGrounds-7-item-hint" class="govuk-hint govuk-checkboxes__hint">A simpler step (or steps) would achieve the same result.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-8" name="appealGrounds"
