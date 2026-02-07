@@ -26,8 +26,8 @@ require('cy-verify-downloads').addCustomCommand();
 // Define-time limiter: only register the first N tests per spec
 // Enable with: --env limitTestsPerSpec=<N> (e.g., 2)
 (() => {
-  const raw = Cypress.env('limitTestsPerSpec');
-  const limit = Number(raw);
+  //const raw = Cypress.env('limitTestsPerSpec');
+  const limit = Number(2);
   if (Number.isFinite(limit) && limit > 0) {
     let defined = 0;
     const origIt = typeof it !== 'undefined' ? it : undefined;

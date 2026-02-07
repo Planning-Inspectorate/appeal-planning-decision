@@ -4,8 +4,8 @@ import { BasePage } from "../../../../../page-objects/base-page";
 export class SubmitPlanningObligationPage {
     _selectors = {
         answerFinalised: '[data-cy="answer-finalised"]',
-        answerDraft: '[data-cy="answer-draft]',
-        answerNotStartedYet: '[data-cy="answer-not started yet"]'
+        answerDraft: '[data-cy="answer-draft"]',
+        answerNotStartedYet: '[data-cy="answer-not-started-yet"]'
     }
     addSubmitPlanningObligationData(context) {
         const basePage = new BasePage();

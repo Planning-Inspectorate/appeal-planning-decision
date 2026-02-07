@@ -6,11 +6,14 @@ import { BasePage } from "../../../page-objects/base-page";
 export const appealIdWaitingForReview = () => {
     const basePage = new BasePage();
     cy.get('#tab_waiting-for-review').click();
-    cy.wait(10000);
-    cy.reload();
-    cy.get(basePage?._selectors.trgovukTableRow).should('exist');    
-    // Grab both the first (eq(0)) and third (eq(2)) TD values from the last table row
-    return cy.get('table tr').last().find('td').then(($tds) => {
+        // Wait for the table to render rows reliably without forcing a reload
+        cy.get('table', { timeout: 20000 }).should('exist');
+        cy.get('table tr, tr.govuk-table__row', { timeout: 20000 })
+            .should(($rows) => {
+                expect($rows.length, 'at least one table row').to.be.greaterThan(0);
+            });
+        // Grab both the first (eq(0)) and third (eq(2)) TD values from the last table row
+        return cy.get('table tr').last().find('td').then(($tds) => {
         const firstTdText = $tds.eq(0).text().trim();
         const thirdTdText = $tds.eq(2).text().trim();
 
