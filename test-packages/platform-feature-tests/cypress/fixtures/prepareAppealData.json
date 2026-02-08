@@ -5,11 +5,7 @@
     "proofsOfEvidenceLink": "proof-evidence",
     "finalCommentsLink": "final-comments",
     "commentOpen": "Open",
-<<<<<<< HEAD
     "commentOnThisAppealButton": "Comment on this appeal",
-=======
-    "commentOnThisAppealButton": "Comment on this appeal", 
->>>>>>> bad1e5c61 (test: continue to appeal changed to start appeal)
     "button": "Start appeal",
     "todoInvalid": "Invalid",
     "email": {
