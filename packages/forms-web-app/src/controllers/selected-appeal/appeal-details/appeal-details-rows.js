@@ -379,12 +379,19 @@ const enforcementDetailsRows = (caseData, userType) => {
 			valueText: formatGroundsOfAppeal(grounds),
 			condition: () => true
 		},
+		// The following is a legacy question, was removed and replaced but historic cases may have answered it
 		{
 			keyText:
 				'Was an application made in respect of the development on the enforcement notice and the correct fee paid?',
 			valueText: formatYesOrNo(caseData, 'applicationMadeAndFeePaid'),
 			condition: (caseData) =>
 				hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationMadeAndFeePaid)
+		},
+		{
+			keyText: 'Did anyone submit a retrospective planning application?',
+			valueText: formatYesOrNo(caseData, 'retrospectiveApplication'),
+			condition: (caseData) =>
+				hasAppealGroundA && isNotUndefinedOrNull(caseData.retrospectiveApplication)
 		},
 		{
 			keyText: 'Was the application for all or part of the Development',
@@ -441,6 +448,17 @@ const enforcementDetailsRows = (caseData, userType) => {
 			valueText: formatDateForDisplay(caseData.dateLpaDecisionReceived),
 			condition: (caseData) =>
 				hasAppealGroundA && isNotUndefinedOrNull(caseData.dateLpaDecisionReceived)
+		},
+		{
+			keyText: 'Did you pay the ground (a) fee?',
+			valueText: formatYesOrNo(caseData, 'groundAFeePaid'),
+			condition: (caseData) => hasAppealGroundA && isNotUndefinedOrNull(caseData.groundAFeePaid)
+		},
+		{
+			keyText: 'Ground (a) fee receipt',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_A_FEE_RECEIPT),
+			condition: (caseData) => hasAppealGroundA && isNotUndefinedOrNull(caseData.groundAFeePaid),
+			isEscaped: true
 		},
 		{
 			keyText: 'Facts for ground (a)',
@@ -566,7 +584,6 @@ const enforcementDetailsRows = (caseData, userType) => {
 		// 	condition: (caseData) => hasAppealGround(caseData, 'k'),
 		//	isEscaped: true
 		// },
-
 		{
 			keyText: 'Preferred procedure',
 			valueText: formatProcedure(caseData),
