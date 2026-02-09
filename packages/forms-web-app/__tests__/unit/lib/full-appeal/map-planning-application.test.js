@@ -1,7 +1,6 @@
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
-	mapPlanningApplication,
-	getAppealTypeName
+	mapPlanningApplication
 } = require('../../../../src/lib/full-appeal/map-planning-application');
 
 describe('/lib/full-appeal/map-planning-application', () => {
@@ -24,14 +23,5 @@ describe('/lib/full-appeal/map-planning-application', () => {
 		const appealType = mapPlanningApplication(planningApplication);
 
 		expect(appealType).toEqual(APPEAL_ID.PLANNING_LISTED_BUILDING);
-	});
-
-	[
-		{ id: APPEAL_ID.HOUSEHOLDER, name: 'Householder appeal' },
-		{ id: APPEAL_ID.PLANNING_SECTION_78, name: 'Full appeal' }
-	].forEach(({ id, name }) => {
-		it(`should map appeal type id: ${id} to appeal name: ${name}`, () => {
-			expect(getAppealTypeName(id)).toEqual(name);
-		});
 	});
 });

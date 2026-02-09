@@ -41,20 +41,8 @@ const postPriorApprovalExistingHome = async (req, res) => {
 	try {
 		appeal[sectionName].hasPriorApprovalForExistingHome = hasPriorApprovalForExistingHome;
 		appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
-		appeal.appealSiteSection.siteOwnership = {
-			ownsSomeOfTheLand: null,
-			ownsAllTheLand: null,
-			knowsTheOwners: null,
-			hasIdentifiedTheOwners: null,
-			tellingTheLandowners: null,
-			advertisingYourAppeal: null
-		};
 		if (hasPriorApprovalForExistingHome) {
 			appeal.appealType = APPEAL_ID.HOUSEHOLDER;
-			appeal.appealSiteSection.siteOwnership = {
-				ownsWholeSite: null,
-				haveOtherOwnersBeenTold: null
-			};
 		}
 
 		req.session.appeal = await createOrUpdateAppeal(appeal);

@@ -13,9 +13,6 @@ const householder = require('./appeal-householder-decision');
 const fullAppeal = require('./full-appeal');
 const appeal = require('./appeal/');
 const appeals = require('./appeals/');
-const save = require('./save');
-const submit = require('./submit-appeal');
-const submission = require('./appellant-submission');
 const lpaDashboard = require('./lpa-dashboard');
 const rule6Appeals = require('./rule-6');
 const listedBuilding = require('./listed-building');
@@ -107,16 +104,6 @@ router.use('/published-document/:documentId', getPublishedDocumentV2Url);
 router.use('/document/:appealOrQuestionnaireId/:documentId', checkLoggedIn, getDocument);
 //v2 submission (appeals/questionnaires) documents routes
 router.use('/document/:documentId', checkLoggedIn, getSubmissionDocumentV2Url);
-
-router.use('/save-and-return', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, save);
-router.use('/submit-appeal', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, submit);
-router.use(
-	'/appellant-submission',
-	checkLoggedIn,
-	checkAppealExists,
-	checkDecisionDateDeadline,
-	submission
-);
 
 /// Local/Test only pages ///
 router.use('/debug', checkDebugAllowed, debug);

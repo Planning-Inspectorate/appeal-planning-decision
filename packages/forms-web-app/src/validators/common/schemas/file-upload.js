@@ -4,7 +4,6 @@ const {
 	}
 } = require('../../../config');
 const validateFileSize = require('../../custom/file-size');
-const getClamAVClient = require('#lib/clam-av-client-get');
 
 const hasAlreadyUploadedFile = (task) => {
 	const { uploadedFile = {}, uploadedFiles = [] } = task;
@@ -42,11 +41,6 @@ const schema = (noFilesError) => ({
 				uploadedFiles.forEach(({ size, name }) => {
 					validateFileSize(size, maxFileUploadSize, name);
 				});
-
-				//check file for virus
-				const { name } = req.files[path];
-				const clamAVClient = getClamAVClient();
-				await clamAVClient.scan(req.files['file-upload'], name);
 
 				return true;
 			}

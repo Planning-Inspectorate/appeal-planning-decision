@@ -18,1118 +18,478 @@ const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
  * @typedef {Object} DocType
  * @property {string} name internal name for the doc type
  * @property {string} [dataModelName] the value used in the \@planning-inspectorate/data-model
- * @property {boolean} multiple if this is a multi-file or single-file upload
- * @property {string} [displayName] a user friendly name for the doc type, has been defined on all docs
- * @property {'LPA'|'Appellant'|''} involvement currently unsure what this is used for?
  * @property {function(string): 'LPAUser'|'Appellant'|'PINs'|'Rule6Party'|'InterestedParty'} owner who owns/uploads this document type
  * @property {boolean} publiclyAccessible if, when published, this document can be accessed without a user needing to log in
- * @property {string} horizonDocumentType name used in horizon
- * @property {string} horizonDocumentGroupType group type used in horizon
  */
 
 /**
  * @type {Object<string, DocType>}
  */
 const documentTypes = {
-	originalApplication: {
-		name: 'originalApplication',
-		multiple: false,
-		displayName: 'Planning application form',
-		involvement: 'LPA',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Application Form',
-		horizonDocumentGroupType: 'Evidence'
-	},
-	decisionLetter: {
-		name: 'decisionLetter',
-		multiple: false,
-		displayName: 'Decision notice',
-		involvement: 'Appellant',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Decision Notice',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	appealStatement: {
-		name: 'appealStatement',
-		multiple: false,
-		displayName: 'Appeal Statement',
-		involvement: 'LPA',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Evidence'
-	},
-	otherDocuments: {
-		name: 'otherDocuments',
-		multiple: true,
-		displayName: 'Supporting Documents',
-		involvement: 'Appellant',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	designAccessStatement: {
-		name: 'designAccessStatement',
-		multiple: false,
-		displayName: 'Design and access statement',
-		involvement: 'Appellant',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	draftStatementOfCommonGround: {
-		name: 'draftStatementOfCommonGround',
-		multiple: false,
-		displayName: 'Draft statement of common ground',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Statement of Common Ground',
-		horizonDocumentGroupType: 'Important Information'
-	},
-	plansDrawingsSupportingDocuments: {
-		name: 'plansDrawingsSupportingDocuments',
-		multiple: true,
-		displayName: 'Plans, drawings and supporting documents',
-		involvement: 'Appellant',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Application Plans',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	appealPdf: {
-		name: 'appealPdf',
-		multiple: false,
-		displayName: '',
-		involvement: 'Appellant',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	decisionPlans: {
-		name: 'decisionPlans',
-		multiple: true,
-		displayName: 'Plans used to reach decision',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Plans Post LPA Decision',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	officersReport: {
-		name: 'officersReport',
-		multiple: true,
-		displayName: 'Planning Officers report',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	interestedParties: {
-		name: 'interestedParties',
-		multiple: true,
-		displayName: 'Application publicity',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	representations: {
-		name: 'representations',
-		multiple: true,
-		displayName: 'Representations',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	notifyingParties: {
-		name: 'notifyingParties',
-		multiple: true,
-		displayName: 'Application notification',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	siteNotices: {
-		name: 'siteNotices',
-		multiple: true,
-		displayName: '',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	planningHistory: {
-		name: 'planningHistory',
-		multiple: true,
-		displayName: 'Details of planning history',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	otherPolicies: {
-		name: 'otherPolicies',
-		multiple: true,
-		displayName: 'Other relevant polices',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	statutoryDevelopment: {
-		name: 'statutoryDevelopment',
-		multiple: true,
-		displayName: 'Statutory development plan policy',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	supplementaryDocuments: {
-		name: 'supplementaryDocuments',
-		multiple: true,
-		displayName: 'Supplementary Planning Documents',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	questionnairePdf: {
-		name: 'questionnairePdf',
-		multiple: false,
-		displayName: '',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	originalDecisionNotice: {
-		name: 'originalDecisionNotice',
-		multiple: false,
-		displayName: 'Original Decision Notice',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Decision Notice',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	ownershipCertificate: {
-		name: 'ownershipCertificate',
-		multiple: false,
-		displayName: 'Ownership certificate and agricultural land declaration',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Statement and Appendices',
-		horizonDocumentGroupType: 'Evidence'
-	},
 	planningObligations: {
 		name: 'planningObligations',
 		dataModelName: APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION,
-		multiple: true,
-		displayName: 'Planning obligation',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Planning Obligation',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	letterConfirmingApplication: {
-		name: 'letterConfirmingApplication',
-		multiple: false,
-		displayName: 'Letter Confirming Application',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	draftPlanningObligations: {
-		name: 'draftPlanningObligations',
-		multiple: true,
-		displayName: 'Draft planning obligation',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Planning Obligation',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
-	uploadDocuments: {
-		name: 'uploadDocuments',
-		multiple: true,
-		displayName: 'Upload documents',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Final Comments',
-		horizonDocumentGroupType: 'Evidence'
-	},
-	finalComment: {
-		name: 'finalComment',
-		multiple: false,
-		displayName: 'final Comment',
-		involvement: '',
-		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appellant Final Comments',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	conservationMap: {
 		name: 'conservationMap',
 		dataModelName: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: "Local Authority's Questionnaire",
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	whoWasNotified: {
 		name: 'whoWasNotified',
 		dataModelName: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: "Local Authority's Questionnaire",
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	pressAdvertUpload: {
 		name: 'pressAdvertUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_PRESS_ADVERT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Questionnaire Documents',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	consultationResponsesUpload: {
 		name: 'consultationResponsesUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.CONSULTATION_RESPONSES,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Consultation Responses',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	uploadSiteNotice: {
 		name: 'uploadSiteNotice',
 		dataModelName: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_SITE_NOTICE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Questionnaire Documents',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	representationUpload: {
 		name: 'representationUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Consultation Responses',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	planningOfficersReportUpload: {
 		name: 'planningOfficersReportUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.PLANNING_OFFICER_REPORT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Questionnaire Documents',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	emergingPlanUpload: {
 		name: 'emergingPlanUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.EMERGING_PLAN,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Emerging Plans',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	uploadDevelopmentPlanPolicies: {
 		name: 'uploadDevelopmentPlanPolicies',
 		dataModelName: APPEAL_DOCUMENT_TYPE.DEVELOPMENT_PLAN_POLICIES,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Questionnaire Documents',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	uploadOtherRelevantPolicies: {
 		name: 'uploadOtherRelevantPolicies',
 		dataModelName: APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_POLICIES,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Questionnaire Documents',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	communityInfrastructureLevyUpload: {
 		name: 'communityInfrastructureLevyUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.COMMUNITY_INFRASTRUCTURE_LEVY,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadNeighbourLetterAddresses: {
 		name: 'uploadNeighbourLetterAddresses',
 		dataModelName: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_LETTER_TO_NEIGHBOURS,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Appeal Notification Letter',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	treePreservationPlanUpload: {
 		name: 'treePreservationPlanUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Questionnaire Documents',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	uploadDefinitiveMap: {
 		name: 'uploadDefinitiveMap',
 		dataModelName: APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Questionnaire Documents',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	supplementaryPlanningUpload: {
 		name: 'supplementaryPlanningUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.SUPPLEMENTARY_PLANNING,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'Supplementary Guidance',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	uploadEnvironmentalStatement: {
 		name: 'uploadEnvironmentalStatement',
 		dataModelName: APPEAL_DOCUMENT_TYPE.EIA_ENVIRONMENTAL_STATEMENT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Questionnaire Documents',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	screeningOpinionUpload: {
 		name: 'screeningOpinionUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.EIA_SCREENING_OPINION,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Questionnaire Documents',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	scopingOpinionUpload: {
 		name: 'scopingOpinionUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.EIA_SCOPING_OPINION,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Questionnaire Documents',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	uploadScreeningDirection: {
 		name: 'uploadScreeningDirection',
 		dataModelName: APPEAL_DOCUMENT_TYPE.EIA_SCREENING_DIRECTION,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadOriginalApplicationForm: {
 		name: 'uploadOriginalApplicationForm',
 		dataModelName: APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadApplicationDecisionLetter: {
 		name: 'uploadApplicationDecisionLetter',
 		dataModelName: APPEAL_DOCUMENT_TYPE.APPLICATION_DECISION_LETTER,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadChangeOfDescriptionEvidence: {
 		name: 'uploadChangeOfDescriptionEvidence',
 		dataModelName: APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadAppellantStatement: {
 		name: 'uploadAppellantStatement',
 		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadCostApplication: {
 		name: 'uploadCostApplication',
 		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadPlanningObligation: {
 		name: 'uploadPlanningObligation',
 		dataModelName: APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadDesignAccessStatement: {
 		name: 'uploadDesignAccessStatement',
 		dataModelName: APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadPlansDrawings: {
 		name: 'uploadPlansDrawings',
 		dataModelName: APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (appealTypeCode) => {
 			if (appealTypeCode === CASE_TYPES.HAS.processCode) return lpaOwner;
 			return appellantOwner;
 		},
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadNewPlansDrawings: {
 		name: 'uploadNewPlansDrawings',
 		dataModelName: APPEAL_DOCUMENT_TYPE.NEW_PLANS_DRAWINGS,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadOtherNewDocuments: {
 		name: 'uploadOtherNewDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadStatementCommonGround: {
 		name: 'uploadStatementCommonGround',
 		dataModelName: APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadOwnershipCertificate: {
 		name: 'uploadOwnershipCertificate',
 		dataModelName: APPEAL_DOCUMENT_TYPE.OWNERSHIP_CERTIFICATE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadLpaStatementDocuments: {
 		name: 'uploadLpaStatementDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_STATEMENT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadAppellantStatementDocuments: {
 		name: 'uploadAppellantStatementDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadRule6StatementDocuments: {
 		name: 'uploadRule6StatementDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.RULE_6_STATEMENT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => rule6Owner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadAppellantFinalCommentDocuments: {
 		name: 'uploadAppellantFinalCommentDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_FINAL_COMMENT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadLPAFinalCommentDocuments: {
 		name: 'uploadLPAFinalCommentDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_FINAL_COMMENT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadGroundAFeeReceipt: {
 		name: 'uploadGroundAFeeReceipt',
 		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_A_FEE_RECEIPT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadPriorCorrespondence: {
 		name: 'uploadPriorCorrespondence',
 		dataModelName: APPEAL_DOCUMENT_TYPE.PRIOR_CORRESPONDENCE_WITH_PINS,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadEnforcementNotice: {
 		name: 'uploadEnforcementNotice',
 		dataModelName: APPEAL_DOCUMENT_TYPE.ENFORCEMENT_NOTICE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadEnforcementNoticePlan: {
 		name: 'uploadEnforcementNoticePlan',
 		dataModelName: APPEAL_DOCUMENT_TYPE.ENFORCEMENT_NOTICE_PLAN,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	groundASupportingDocuments: {
 		name: 'groundASupportingDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_A_SUPPORTING,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	groundBSupportingDocuments: {
 		name: 'groundBSupportingDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_B_SUPPORTING,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	groundCSupportingDocuments: {
 		name: 'groundCSupportingDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_C_SUPPORTING,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	groundDSupportingDocuments: {
 		name: 'groundDSupportingDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_D_SUPPORTING,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	groundESupportingDocuments: {
 		name: 'groundESupportingDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_E_SUPPORTING,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	groundFSupportingDocuments: {
 		name: 'groundFSupportingDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_F_SUPPORTING,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	groundGSupportingDocuments: {
 		name: 'groundGSupportingDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.GROUND_G_SUPPORTING,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	groundHSupportingDocuments: {
 		name: 'groundHSupportingDocuments',
 		dataModelName: 'groundHSupporting', // to be updated once data model confirmed
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	groundISupportingDocuments: {
 		name: 'groundISupportingDocuments',
 		dataModelName: 'groundISupporting', // to be updated once data model confirmed
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	groundJSupportingDocuments: {
 		name: 'groundJSupportingDocuments',
 		dataModelName: 'groundJSupporting', // to be updated once data model confirmed
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	groundKSupportingDocuments: {
 		name: 'groundKSupportingDocuments',
 		dataModelName: 'groundKSupporting', // to be updated once data model confirmed
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	caseDecisionLetter: {
 		name: 'caseDecisionLetter',
 		dataModelName: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => pinsOwner,
-		publiclyAccessible: true,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: true
 	},
 	uploadAppellantProofOfEvidenceDocuments: {
 		name: 'uploadAppellantProofOfEvidenceDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_PROOF_OF_EVIDENCE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadAppellantWitnessesEvidence: {
 		name: 'uploadAppellantWitnessesEvidence',
 		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_WITNESSES_EVIDENCE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => appellantOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadLpaProofOfEvidenceDocuments: {
 		name: 'uploadLpaProofOfEvidenceDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_PROOF_OF_EVIDENCE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadRule6ProofOfEvidenceDocuments: {
 		name: 'uploadRule6ProofOfEvidenceDocuments',
 		dataModelName: APPEAL_DOCUMENT_TYPE.RULE_6_PROOF_OF_EVIDENCE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => rule6Owner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadLpaWitnessesEvidence: {
 		name: 'uploadLpaWitnessesEvidence',
 		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_WITNESSES_EVIDENCE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	uploadRule6WitnessesEvidence: {
 		name: 'uploadRule6WitnessesEvidence',
 		dataModelName: APPEAL_DOCUMENT_TYPE.RULE_6_WITNESSES_EVIDENCE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => rule6Owner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	lpaQuestionnaireSubmission: {
 		name: 'lpaQuestionnaireSubmission',
 		dataModelName: 'lpaQuestionnaireSubmission', // To be amended as needed once data model confirmed
-		multiple: false,
-		displayName: '',
-		involvement: 'LPA',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	appealNotification: {
 		name: 'appealNotification',
 		dataModelName: APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: 'LPA Questionnaire Documents',
-		horizonDocumentGroupType: 'Evidence'
+		publiclyAccessible: false
 	},
 	uploadHistoricEnglandConsultation: {
 		name: 'uploadHistoricEnglandConsultation',
 		dataModelName: APPEAL_DOCUMENT_TYPE.HISTORIC_ENGLAND_CONSULTATION,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	interestedPartyComment: {
 		name: 'interestedPartyComment',
 		dataModelName: APPEAL_DOCUMENT_TYPE.INTERESTED_PARTY_COMMENT,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => interestedParty,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	appellantCostsDecisionLetter: {
 		name: 'appellantCostsDecisionLetter',
 		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER,
-		multiple: false,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => pinsOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	lpaCostsDecisionLetter: {
 		name: 'lpaCostsDecisionLetter',
 		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER,
-		multiple: false,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => pinsOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	appellantCaseCorrespondence: {
 		name: 'appellantCaseCorrespondence',
 		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_CASE_CORRESPONDENCE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => pinsOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	lpaCaseCorrespondence: {
 		name: 'lpaCaseCorrespondence',
 		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_CASE_CORRESPONDENCE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => pinsOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '', // Does not exist in horizon
-		horizonDocumentGroupType: '' // Does not exist in horizon
+		publiclyAccessible: false
 	},
 	enforcementStopNoticeUpload: {
 		name: 'enforcementStopNoticeUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.STOP_NOTICE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '',
-		horizonDocumentGroupType: ''
+		publiclyAccessible: false
 	},
 	enforcementDevelopmentRightsUpload: {
 		name: 'enforcementDevelopmentRightsUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.ARTICLE_4_DIRECTION,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '',
-		horizonDocumentGroupType: ''
+		publiclyAccessible: false
 	},
 	listOfPeopleSentEnforcementNotice: {
 		name: 'listOfPeopleSentEnforcementNotice',
 		dataModelName: APPEAL_DOCUMENT_TYPE.ENFORCEMENT_LIST,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '',
-		horizonDocumentGroupType: ''
+		publiclyAccessible: false
 	},
 	localDevelopmentOrderUpload: {
 		name: 'localDevelopmentOrderUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.LOCAL_DEVELOPMENT_ORDER,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '',
-		horizonDocumentGroupType: ''
+		publiclyAccessible: false
 	},
 	previousPlanningPermissionUpload: {
 		name: 'previousPlanningPermissionUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '',
-		horizonDocumentGroupType: ''
+		publiclyAccessible: false
 	},
 	enforcementNoticeDateApplicationUpload: {
 		name: 'enforcementNoticeDateApplicationUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '',
-		horizonDocumentGroupType: ''
+		publiclyAccessible: false
 	},
 	enforcementNoticePlanUpload: {
 		name: 'enforcementNoticePlanUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '',
-		horizonDocumentGroupType: ''
+		publiclyAccessible: false
 	},
 	planningContraventionNoticeUpload: {
 		name: 'planningContraventionNoticeUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.PLANNING_CONTRAVENTION_NOTICE,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '',
-		horizonDocumentGroupType: ''
+		publiclyAccessible: false
 	},
 	relatedApplicationsUpload: {
 		name: 'relatedApplicationsUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.RELATED_APPLICATIONS,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '',
-		horizonDocumentGroupType: ''
+		publiclyAccessible: false
 	},
 	otherRelevantMattersUpload: {
 		name: 'otherRelevantMattersUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_MATTERS,
-		multiple: true,
-		displayName: '',
-		involvement: '',
 		owner: (_appealTypeCode) => lpaOwner,
-		publiclyAccessible: false,
-		horizonDocumentType: '',
-		horizonDocumentGroupType: ''
+		publiclyAccessible: false
 	}
 };
 

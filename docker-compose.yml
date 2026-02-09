@@ -251,15 +251,6 @@ services:
     command: npm start
 
   # Mocked services
-  mock-horizon:
-    profiles: ['all', 'api', 'appeals']
-    # @todo generate from Swagger Docs
-    build:
-      context: .
-      dockerfile: ./dev/mock-horizon/Dockerfile
-    ports:
-      - 5000:3000
-
   mock-notify:
     profiles: ['all', 'api', 'appeals', 'comment']
     build:
@@ -267,19 +258,6 @@ services:
       dockerfile: ./dev/mock-notify/Dockerfile
     ports:
       - 5001:3000
-
-  docs-horizon:
-    profiles: ['all', 'appeals']
-    image: swaggerapi/swagger-ui
-    platform: 'linux/amd64' # force platform, ARM machines to use emulation
-    environment:
-      SWAGGER_JSON: /app/swagger.yaml
-    depends_on:
-      - mock-horizon
-    volumes:
-      - ./docs/swagger/horizon/create_case_openapi.yaml:/app/swagger.yaml
-    ports:
-      - 7000:8080
 
   # Third-party services
   blob-storage:

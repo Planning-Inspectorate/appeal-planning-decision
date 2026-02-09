@@ -6,10 +6,6 @@
  * values are required.
  */
 
-const {
-	constants: { APPEAL_ID }
-} = require('@pins/business-rules');
-
 // NOTE: it is not a mistake that this variable is decalred via `let` since we need to update the state
 //       in tests, so declaring as `const`, makes this very tricky.
 // TODO: find some way to enable profile-specific configs to remove the `let` here.
@@ -49,10 +45,6 @@ let config = {
 		redact: ['config.db', 'config.services.notify.apiKey', 'config.storage.connectionString'],
 		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true'
 	},
-	migration: {
-		defaultBatchSize: parseInt(process.env.MIGRATION_BATCHSIZE, 10) || 100,
-		defaultDelayBetweenBatchesMS: parseInt(process.env.MIGRATION_BATCHDELAY, 10) || 500
-	},
 	server: {
 		port: Number(process.env.SERVER_PORT || 3000),
 		showErrors: process.env.SERVER_SHOW_ERRORS === 'true',
@@ -61,106 +53,13 @@ let config = {
 		)
 	},
 	services: {
-		horizon: {
-			timeout: parseInt(process.env.SRV_HORIZON_TIMEOUT, 10) || 10 * 60 * 1000, // 10 mins in ms
-			url: process.env.SRV_HORIZON_URL,
-			logRequestTime: process.env.SRV_HORIZON_LOG_REQUEST_TIME === 'true'
-		},
 		notify: {
 			baseUrl: process.env.SRV_NOTIFY_BASE_URL,
 			serviceId: process.env.SRV_NOTIFY_SERVICE_ID,
 			apiKey: process.env.SRV_NOTIFY_API_KEY,
 			templates: {
-				APPEAL_SUBMISSION: {
-					V1_HORIZON: {
-						appellantAppealSubmissionInitialConfirmation:
-							process.env
-								.SRV_NOTIFY_V1_APPEAL_SUBMISSION_INITIAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
-						appellantAppealSubmissionFollowUpConfirmation:
-							process.env
-								.SRV_NOTIFY_V1_APPEAL_SUBMISSION_FOLLOW_UP_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID
-					},
-					V2_BACK_OFFICE: {
-						appellantAppealSubmissionInitialConfirmation:
-							process.env
-								.SRV_NOTIFY_V2_APPEAL_SUBMISSION_INITIAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
-						appellantAppealSubmissionFollowUpConfirmation:
-							process.env
-								.SRV_NOTIFY_V2_APPEAL_SUBMISSION_FOLLOW_UP_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID
-					}
-				},
-				[APPEAL_ID.HOUSEHOLDER]: {
-					appealSubmissionConfirmationEmailToAppellant:
-						process.env
-							.SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID_V1_1,
-					appealSubmissionConfirmationEmailToAppellantV2:
-						process.env
-							.SRV_NOTIFY_HAS_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
-					appealSubmissionReceivedEmailToAppellant:
-						process.env.SRV_NOTIFY_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
-					appealNotificationEmailToLpa:
-						process.env.SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
-					appealNotificationEmailToLpaV2:
-						process.env.SRV_NOTIFY_APPEAL_SUBMISSION_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
-					startEmailToLpa: process.env.SRV_NOTIFY_START_EMAIL_TO_LPA_TEMPLATE_ID
-				},
-				[APPEAL_ID.PLANNING_SECTION_78]: {
-					appealSubmissionConfirmationEmailToAppellant:
-						process.env
-							.SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID_V1_1,
-					appealSubmissionConfirmationEmailToAppellantV2:
-						process.env
-							.SRV_NOTIFY_FULL_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
-					appealSubmissionReceivedEmailToAppellant:
-						process.env.SRV_NOTIFY_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
-					appealNotificationEmailToLpaV2:
-						process.env.SRV_NOTIFY_APPEAL_SUBMISSION_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
-					appealNotificationEmailToLpa:
-						process.env.SRV_NOTIFY_FULL_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
-					lpaStatementSubmissionConfirmationEmailToLpaV2:
-						process.env.SRV_NOTIFY_LPA_STATEMENT_SUBMISSION_EMAIL_TO_LPA_TEMPLATE_ID,
-					lpaFinalCommentsSubmissionConfirmationEmailToLpaV2:
-						process.env.SRV_NOTIFY_LPA_FINAL_COMMENT_SUBMISSION_EMAIL_TO_LPA_TEMPLATE_ID,
-					lpaProofEvidenceSubmissionConfirmationEmailToLpaV2:
-						process.env.SRV_NOTIFY_LPA_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_LPA_TEMPLATE_ID,
-					appellantFinalCommentsSubmissionConfirmationEmailToAppellantV2:
-						process.env
-							.SRV_NOTIFY_APPELLANT_FINAL_COMMENT_SUBMISSION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
-					appellantProofEvidenceSubmissionConfirmationEmailToAppellantV2:
-						process.env
-							.SRV_NOTIFY_APPELLANT_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
-					rule6ProofEvidenceSubmissionConfirmationEmailToRule6PartyV2:
-						process.env
-							.SRV_NOTIFY_RULE_6_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_RULE_6_PARTY_TEMPLATE_ID,
-					rule6StatementSubmissionConfirmationEmailToRule6PartyV2:
-						process.env.SRV_NOTIFY_RULE_6_STATEMENT_SUBMISSION_EMAIL_TO_RULE_6_PARTY_TEMPLATE_ID
-				},
-				V2_COMMON: {
-					appealSubmissionReceivedEmailToAppellant:
-						process.env
-							.SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID_V1_1
-				},
-				SAVE_AND_RETURN: {
-					continueWithAppealEmailToAppellant:
-						process.env.SRV_NOTIFY_SAVE_AND_RETURN_CONTINUE_WITH_APPEAL_TEMPLATE_ID
-				},
 				ERROR_MONITORING: {
 					failureToUploadToHorizon: process.env.SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID
-				},
-				FINAL_COMMENT: {
-					finalCommentSubmissionConfirmationEmail:
-						process.env.SRV_NOTIFY_FINAL_COMMENT_SUBMISSION_CONFIRMATION_EMAIL_TEMPLATE_ID
-				},
-				LPA_DASHBOARD: {
-					enterCodeIntoServiceEmailToLPA:
-						process.env.SRV_NOTIFY_LPA_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID,
-					lpaDashboardInviteEmail: process.env.SRV_NOTIFY_LPA_DASHBOARD_INVITE_TEMPLATE_ID,
-					lpaHASQuestionnaireSubmissionConfirmationEmail:
-						process.env.SRV_NOTIFY_LPA_HAS_QUESTIONNAIRE_SUBMISSION_EMAIL_TEMPLATE_ID
-				},
-				INTERESTED_PARTIES: {
-					ipCommentSubmissionConfirmationEmail:
-						process.env.SRV_NOTIFY_IP_COMMENT_SUBMISSION_CONFIRMATION_EMAIL_TO_IP_TEMPLATE_ID
 				},
 				generic: process.env.SRV_NOTIFY_FRONT_OFFICE_GENERIC_TEMPLATE_ID
 			},
@@ -185,12 +84,6 @@ let config = {
 	apps: {
 		appeals: {
 			baseUrl: process.env.APP_APPEALS_BASE_URL
-		}
-	},
-	tasks: {
-		appealsApi: {
-			submitToHorizonCronString: process.env.TASK_SUBMIT_TO_HORIZON_CRON_STRING,
-			runSubmitToHorizonTrigger: process.env.TASK_SUBMIT_TO_HORIZON_TRIGGER_ACTIVE
 		}
 	},
 	featureFlagging: {

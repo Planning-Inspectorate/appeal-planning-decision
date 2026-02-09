@@ -1,11 +1,7 @@
-const { format } = require('date-fns');
 const {
 	APPEAL_ID,
-	APPLICATION_DECISION,
 	PROCEDURE_TYPE: { WRITTEN_REPRESENTATION, HEARING, INQUIRY }
 } = require('./constants');
-
-const formatAddress = require('./utils/format-address');
 
 const config = {
 	appeal: {
@@ -45,51 +41,6 @@ const config = {
 				questionnaireDue: {
 					time: 1,
 					duration: 'weeks'
-				},
-				email: {
-					appellant: (appeal, lpa) => ({
-						recipientEmail: appeal.email,
-						variables: {
-							name: appeal.aboutYouSection.yourDetails.name,
-							'appeal site address': formatAddress(appeal.appealSiteSection.siteAddress),
-							'local planning authority': lpa.name,
-							'pdf copy URL': `${process.env.APP_APPEALS_BASE_URL}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
-						},
-						reference: appeal.id
-					}),
-					lpa: (appeal, lpa) => ({
-						recipientEmail: lpa.email,
-						variables: {
-							LPA: lpa.name,
-							date: format(appeal.submissionDate, 'dd MMMM yyyy'),
-							'planning application number': appeal.planningApplicationNumber,
-							'site address': formatAddress(appeal.appealSiteSection.siteAddress)
-						},
-						reference: appeal.id
-					}),
-					saveAndReturnContinueAppeal: (appeal, baseUrl, deadlineDate) => ({
-						recipientEmail: appeal.email,
-						variables: {
-							applicationNumber: appeal.planningApplicationNumber,
-							date: format(deadlineDate, 'dd MMMM yyyy'),
-							link: `${baseUrl}/appeal-householder-decision/enter-code/${appeal.id}`
-						},
-						reference: appeal.id
-					}),
-					// TODO: check if this is called anywhere else. If not, delete
-					saveAndReturnEnterCodeIntoService: (appeal, token) => ({
-						recipientEmail: appeal.email,
-						variables: {
-							'application number': appeal.planningApplicationNumber,
-							'unique code': token
-						},
-						reference: appeal.id
-					}),
-					confirmEmail: (appeal, baseUrl) => ({
-						recipientEmail: appeal.email,
-						variables: { link: `${baseUrl}/appeal-householder-decision/email-address-confirmed` },
-						reference: appeal.id
-					})
 				}
 			},
 			[APPEAL_ID.ENFORCEMENT_LISTED_BUILDING]: {
@@ -142,64 +93,6 @@ const config = {
 				questionnaireDue: {
 					time: 1,
 					duration: 'weeks'
-				},
-				email: {
-					appellant: (appeal, lpa) => ({
-						recipientEmail: appeal.email,
-						variables: {
-							name: appeal.contactDetailsSection.contact.name,
-							'appeal site address': formatAddress(appeal.appealSiteSection.siteAddress),
-							'local planning authority': lpa.name,
-							'link to pdf': `${process.env.APP_APPEALS_BASE_URL}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
-						},
-						reference: appeal.id
-					}),
-					lpa: (appeal, lpa) => ({
-						recipientEmail: lpa.email,
-						variables: {
-							'loca planning department': lpa.name,
-							'submission date': format(appeal.submissionDate, 'dd MMMM yyyy'),
-							'planning application number': appeal.planningApplicationNumber,
-							'site address': formatAddress(appeal.appealSiteSection.siteAddress),
-							refused:
-								appeal.eligibility.applicationDecision === APPLICATION_DECISION.REFUSED
-									? 'yes'
-									: 'no',
-							granted:
-								appeal.eligibility.applicationDecision === APPLICATION_DECISION.GRANTED
-									? 'yes'
-									: 'no',
-							'non-determination':
-								appeal.eligibility.applicationDecision === APPLICATION_DECISION.NODECISIONRECEIVED
-									? 'yes'
-									: 'no'
-						},
-						reference: appeal.id
-					}),
-					saveAndReturnContinueAppeal: (appeal, baseUrl, deadlineDate) => ({
-						recipientEmail: appeal.email,
-						variables: {
-							applicationNumber: appeal.planningApplicationNumber,
-							date: format(deadlineDate, 'dd MMMM yyyy'),
-							link: `${baseUrl}/full-appeal/submit-appeal/enter-code/${appeal.id}`
-						},
-						reference: appeal.id
-					}),
-					saveAndReturnEnterCodeIntoService: (appeal, token) => ({
-						recipientEmail: appeal.email,
-						variables: {
-							'application number': appeal.planningApplicationNumber,
-							'unique code': token
-						},
-						reference: appeal.id
-					}),
-					confirmEmail: (appeal, baseUrl) => ({
-						recipientEmail: appeal.email,
-						variables: {
-							link: `${baseUrl}/full-appeal/submit-appeal/email-address-confirmed`
-						},
-						reference: appeal.id
-					})
 				}
 			},
 			[APPEAL_ID.PLANNING_LISTED_BUILDING]: {
