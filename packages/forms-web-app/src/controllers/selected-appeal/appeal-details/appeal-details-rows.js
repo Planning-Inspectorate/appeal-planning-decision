@@ -22,7 +22,10 @@ const { CASE_TYPES, caseTypeLookup } = require('@pins/common/src/database/data-s
 const { formatDocumentDetails } = require('@pins/common');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
-const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
+const {
+	APPEAL_DOCUMENT_TYPE,
+	APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION
+} = require('@planning-inspectorate/data-model');
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 
 /**
@@ -59,6 +62,7 @@ exports.detailsRows = (caseData, userType) => {
 	const isAdvertAppeal =
 		caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
 		caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode;
+	const isLDC = caseData.appealTypeCode === CASE_TYPES.LDC.processCode;
 
 	const relatedAppeals = formatSubmissionRelatedAppeals(
 		caseData,
@@ -237,7 +241,19 @@ exports.detailsRows = (caseData, userType) => {
 				? 'Did the local planning authority change the description of the advertisement?'
 				: 'Did the local planning authority change the description of development?',
 			valueText: formatYesOrNo(caseData, 'changedDevelopmentDescription'),
-			condition: (caseData) => caseData.changedDevelopmentDescription != null
+			condition: (caseData) => {
+				// CHANGED_DESCRIPTION is depenedent on not being an EXISTING_DEVELOPMENT for LDC appeals
+				if (
+					isLDC &&
+					caseData.applicationMadeUnderActSection ===
+						APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.EXISTING_DEVELOPMENT
+				) {
+					return false;
+				}
+
+				return isNotUndefinedOrNull(caseData.changedDevelopmentDescription);
+			},
+			isEscaped: true
 		},
 		{
 			keyText: 'Preferred procedure',

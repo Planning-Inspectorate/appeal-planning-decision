@@ -1,4 +1,5 @@
 const {
+	APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION,
 	APPEAL_DEVELOPMENT_TYPE,
 	APPEAL_DOCUMENT_TYPE
 } = require('@planning-inspectorate/data-model');
@@ -808,6 +809,26 @@ describe('appeal-details-rows', () => {
 			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows2[lpaChangedDescriptionIndex].condition(testCase)).toEqual(true);
 			expect(rows2[lpaChangedDescriptionIndex].valueText).toEqual('No');
+		});
+
+		it('should not show change the description if not null and is existing development ldc', () => {
+			const testCase = structuredClone(caseWithAppellant);
+
+			testCase.appealTypeCode = CASE_TYPES.LDC.processCode;
+			testCase.applicationMadeUnderActSection =
+				APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.EXISTING_DEVELOPMENT;
+			testCase.changedDevelopmentDescription = true;
+
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[lpaChangedDescriptionIndex].condition(testCase)).toEqual(false);
+			expect(rows[lpaChangedDescriptionIndex].keyText).toEqual(
+				'Did the local planning authority change the description of development?'
+			);
+			expect(rows[lpaChangedDescriptionIndex].valueText).toEqual('Yes');
+
+			testCase.changedDevelopmentDescription = false;
+			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows2[lpaChangedDescriptionIndex].condition(testCase)).toEqual(false);
 		});
 
 		it('should show advert text if advert appeal type', () => {
