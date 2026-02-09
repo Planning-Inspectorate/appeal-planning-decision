@@ -3,12 +3,12 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
 {% macro appealDetails(appeal) %}
-    {% set siteAddress = 
-        { 
+    {% set siteAddress =
+        {
             addressLine1: appeal.siteAddressLine1,
             addressLine2: appeal.siteAddressLine2,
             town: appeal.siteAddressTown,
-            county: appeal.siteAddressCounty, 
+            county: appeal.siteAddressCounty,
             postcode: appeal.siteAddressPostcode
         }
     %}
@@ -41,7 +41,7 @@
                     text: "Applicant"
                 },
                 value: {
-                    text: appeal.appellantFirstName + " " + appeal.appellantLastName
+                    text: appeal.detailsName
                 }
             },
             {
