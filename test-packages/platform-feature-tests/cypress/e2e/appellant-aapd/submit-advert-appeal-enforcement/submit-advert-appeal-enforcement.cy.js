@@ -9,7 +9,7 @@ import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementD
 import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require("../../../support/flows/sections/appellantAAPD/appeal");
 
-describe('Submit Advert Appeal Enforcement Test Cases', { tags: '@CAS-Advert-enforcement' }, () => {
+describe('Submit Enforcement LPAQ Test Cases', { tags: '@CAS-Advert-enforcement' }, () => {
     let prepareAppealData;
     let lpaManageAppealsData;
     before(() => {

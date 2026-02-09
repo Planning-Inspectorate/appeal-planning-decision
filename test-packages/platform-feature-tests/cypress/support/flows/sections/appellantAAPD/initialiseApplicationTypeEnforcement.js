@@ -19,7 +19,7 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 	cy.get(basePage?._selectors?.localPlanningDepartmentOptionZero).click();
 	cy.advanceToNextPage();
 
-	//cy.pause(); //test 
+	cy.pause(); //test 
 
 	// Select the enforcement notice as 'No'
 	cy.getByData(basePage?._selectors.answerYes).click();
