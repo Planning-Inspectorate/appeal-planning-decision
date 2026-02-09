@@ -1,4 +1,7 @@
-const { APPEAL_REPRESENTATION_STATUS } = require('@planning-inspectorate/data-model');
+const {
+	APPEAL_DOCUMENT_TYPE,
+	APPEAL_REPRESENTATION_STATUS
+} = require('@planning-inspectorate/data-model');
 const {
 	LPA_USER_ROLE,
 	APPEAL_USER_ROLES,
@@ -326,9 +329,9 @@ const isProofsDocument = (document) => {
 	const { documentType } = document;
 
 	return (
-		documentType === 'lpaProofs' ||
-		documentType === 'appellantProofs' ||
-		documentType === 'rule6Proofs'
+		documentType === APPEAL_DOCUMENT_TYPE.LPA_PROOF_OF_EVIDENCE ||
+		documentType === APPEAL_DOCUMENT_TYPE.APPELLANT_PROOF_OF_EVIDENCE ||
+		documentType === APPEAL_DOCUMENT_TYPE.RULE_6_PROOF_OF_EVIDENCE
 	);
 };
 
