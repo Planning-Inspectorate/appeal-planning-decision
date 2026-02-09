@@ -26,6 +26,9 @@ const {
 	formatter: enforcementFormatter
 } = require('../../../../../services/back-office-v2/formatters/enforcement/appeal');
 const {
+	formatter: enforcementListedFormatter
+} = require('../../../../../services/back-office-v2/formatters/enforcement-listed/appeal');
+const {
 	formatter: ldcFormatter
 } = require('../../../../../services/back-office-v2/formatters/ldc/appeal');
 
@@ -61,6 +64,8 @@ const getFormatter = (appealTypeCode) => {
 			return casPlanningFormatter;
 		case CASE_TYPES.ENFORCEMENT.processCode:
 			return enforcementFormatter;
+		case CASE_TYPES.ENFORCEMENT_LISTED.processCode:
+			return enforcementListedFormatter;
 		case CASE_TYPES.LDC.processCode:
 			return ldcFormatter;
 		default:
