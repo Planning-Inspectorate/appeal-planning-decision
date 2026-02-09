@@ -17,7 +17,9 @@ const { journeys } = require('../../journeys');
 const setDefaultSection = require('../../dynamic-forms/middleware/set-default-section');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
-const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
+const {
+	appendTaskListHeadlineDetails
+} = require('@pins/common/src/lib/append-task-list-headline-details');
 
 const {
 	VIEW: {
@@ -35,7 +37,7 @@ const statementTaskList = async (req, res) => {
 	const referenceId = res.locals.journeyResponse.referenceId;
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
 
-	appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
+	appendTaskListHeadlineDetails(appeal);
 
 	const pageCaption = `Appeal ${appeal.caseReference}`;
 

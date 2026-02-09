@@ -23135,7 +23135,7 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                         </dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Applicant</dt>
-                    <dd class="govuk-summary-list__value">undefined undefined</dd>
+                    <dd class="govuk-summary-list__value"></dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Application number</dt>
                     <dd class="govuk-summary-list__value"></dd>
@@ -25525,7 +25525,7 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement renders listin
                         </dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Applicant</dt>
-                    <dd class="govuk-summary-list__value">undefined undefined</dd>
+                    <dd class="govuk-summary-list__value"></dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Application number</dt>
                     <dd class="govuk-summary-list__value"></dd>
@@ -27194,7 +27194,7 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) renders listi
                         </dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Applicant</dt>
-                    <dd class="govuk-summary-list__value">undefined undefined</dd>
+                    <dd class="govuk-summary-list__value"></dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Application number</dt>
                     <dd class="govuk-summary-list__value"></dd>
@@ -31155,7 +31155,7 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                         </dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Applicant</dt>
-                    <dd class="govuk-summary-list__value">undefined undefined</dd>
+                    <dd class="govuk-summary-list__value"></dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Application number</dt>
                     <dd class="govuk-summary-list__value"></dd>
@@ -35281,7 +35281,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                         </dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Applicant</dt>
-                    <dd class="govuk-summary-list__value">undefined undefined</dd>
+                    <dd class="govuk-summary-list__value"></dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Application number</dt>
                     <dd class="govuk-summary-list__value"></dd>
@@ -37104,7 +37104,7 @@ exports[`Dynamic forms journey tests lpa Householder renders listing page 1`] = 
                         </dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Applicant</dt>
-                    <dd class="govuk-summary-list__value">undefined undefined</dd>
+                    <dd class="govuk-summary-list__value"></dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Application number</dt>
                     <dd class="govuk-summary-list__value"></dd>
@@ -38642,7 +38642,7 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate renders 
                         </dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Applicant</dt>
-                    <dd class="govuk-summary-list__value">undefined undefined</dd>
+                    <dd class="govuk-summary-list__value"></dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Application number</dt>
                     <dd class="govuk-summary-list__value"></dd>
@@ -45305,7 +45305,7 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         </dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Applicant</dt>
-                    <dd class="govuk-summary-list__value">undefined undefined</dd>
+                    <dd class="govuk-summary-list__value"></dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Application number</dt>
                     <dd class="govuk-summary-list__value"></dd>
@@ -45620,7 +45620,7 @@ exports[`Dynamic forms journey tests lpa Planning renders listing page 1`] = `
                         </dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Applicant</dt>
-                    <dd class="govuk-summary-list__value">undefined undefined</dd>
+                    <dd class="govuk-summary-list__value"></dd>
                 </div>
                 <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Application number</dt>
                     <dd class="govuk-summary-list__value"></dd>

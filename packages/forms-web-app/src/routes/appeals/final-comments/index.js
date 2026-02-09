@@ -17,9 +17,9 @@ const { journeys } = require('../../../journeys');
 const setDefaultSection = require('../../../dynamic-forms/middleware/set-default-section');
 const dynamicReqFilesToReqBodyFiles = require('../../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../../dynamic-forms/middleware/check-not-submitted');
-const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
-
-const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
+const {
+	appendTaskListHeadlineDetails
+} = require('@pins/common/src/lib/append-task-list-headline-details');
 
 const {
 	VIEW: {
@@ -34,13 +34,7 @@ const router = express.Router();
 const finalCommentsTaskList = async (req, res) => {
 	const referenceId = res.locals.journeyResponse.referenceId;
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
-
-	appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
-	const appellant = appeal.users.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
-	if (appellant) {
-		appeal.appellantFirstName = appellant.firstName;
-		appeal.appellantLastName = appellant.lastName;
-	}
+	appendTaskListHeadlineDetails(appeal);
 
 	const pageCaption = `Appeal ${appeal.caseReference}`;
 

@@ -16,13 +16,14 @@ const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-r
 const setDefaultSection = require('../../dynamic-forms/middleware/set-default-section');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
-const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
+const {
+	appendTaskListHeadlineDetails
+} = require('@pins/common/src/lib/append-task-list-headline-details');
 const { getJourney } = require('../../dynamic-forms/middleware/get-journey');
 const { journeys } = require('../../journeys');
 
 const { getUserFromSession } = require('../../services/user.service');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 const {
 	VIEW: {
@@ -47,12 +48,7 @@ const statementTaskList = async (req, res) => {
 		role: LPA_USER_ROLE
 	});
 
-	appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
-	const appellant = appeal.users.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
-	if (appellant) {
-		appeal.appellantFirstName = appellant.firstName;
-		appeal.appellantLastName = appellant.lastName;
-	}
+	appendTaskListHeadlineDetails(appeal);
 
 	const pageCaption = `Appeal ${appeal.caseReference}`;
 
