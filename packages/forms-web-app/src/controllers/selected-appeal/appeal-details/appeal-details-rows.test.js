@@ -1154,20 +1154,24 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 
 	describe('Ground A follow on questions', () => {
 		const applicationMadeIndex = 11;
-		const applicationAllOrPartIndex = 12;
-		const applicationReferenceIndex = 13;
-		const applicationSubmissionDateIndex = 14;
-		const descriptionOfDevelopmentIndex = 15;
-		const changedDescriptionIndex = 16;
-		const grantedOrReceivedIndex = 17;
-		const applicationDecisionDateIndex = 18;
-		const lpaDecisionAppealedIndex = 19;
-		const appealDecisionDateIndex = 20;
+		const retrospectiveApplicationIndex = 12;
+		const applicationAllOrPartIndex = 13;
+		const applicationReferenceIndex = 14;
+		const applicationSubmissionDateIndex = 15;
+		const descriptionOfDevelopmentIndex = 16;
+		const changedDescriptionIndex = 17;
+		const grantedOrReceivedIndex = 18;
+		const applicationDecisionDateIndex = 19;
+		const lpaDecisionAppealedIndex = 20;
+		const appealDecisionDateIndex = 21;
+		const groundAFeePaidIndex = 22;
+		const groundAFeeReceiptIndex = 23;
 
 		it('should display the ground a follow on questions if ground a', () => {
 			const testCase = structuredClone(caseWithAppellant);
 			testCase.EnforcementAppealGroundsDetails = [{ appealGroundLetter: 'a' }];
 			testCase.applicationMadeAndFeePaid = true;
+			testCase.retrospectiveApplication = true;
 			testCase.applicationPartOrWholeDevelopment = 'part-of-the-development';
 			testCase.applicationReference = '12345';
 			testCase.applicationDate = '2025-02-01T08:00:00.000Z';
@@ -1177,6 +1181,15 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 			testCase.applicationDecisionDate = '2025-02-01T08:00:00.000Z';
 			testCase.didAppellantAppealLpaDecision = true;
 			testCase.dateLpaDecisionReceived = '2025-02-01T08:00:00.000Z';
+			testCase.groundAFeePaid = true;
+			testCase.Documents = [
+				{
+					id: 1,
+					documentType: APPEAL_DOCUMENT_TYPE.GROUND_A_FEE_RECEIPT,
+					filename: 'test.txt',
+					redacted: true
+				}
+			];
 
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[applicationMadeIndex].condition(testCase)).toBeTruthy();
@@ -1184,6 +1197,12 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 				'Was an application made in respect of the development on the enforcement notice and the correct fee paid?'
 			);
 			expect(rows[applicationMadeIndex].valueText).toEqual('Yes');
+
+			expect(rows[retrospectiveApplicationIndex].condition(testCase)).toBeTruthy();
+			expect(rows[retrospectiveApplicationIndex].keyText).toEqual(
+				'Did anyone submit a retrospective planning application?'
+			);
+			expect(rows[retrospectiveApplicationIndex].valueText).toEqual('Yes');
 
 			expect(rows[applicationAllOrPartIndex].condition(testCase)).toBeTruthy();
 			expect(rows[applicationAllOrPartIndex].keyText).toEqual(
@@ -1232,6 +1251,16 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 			expect(rows[appealDecisionDateIndex].condition(testCase)).toBeTruthy();
 			expect(rows[appealDecisionDateIndex].keyText).toEqual('When was the appeal decision?');
 			expect(rows[appealDecisionDateIndex].valueText).toEqual('1 Feb 2025');
+
+			expect(rows[groundAFeePaidIndex].condition(testCase)).toBeTruthy();
+			expect(rows[groundAFeePaidIndex].keyText).toEqual('Did you pay the ground (a) fee?');
+			expect(rows[groundAFeePaidIndex].valueText).toEqual('Yes');
+
+			expect(rows[groundAFeeReceiptIndex].keyText).toEqual('Ground (a) fee receipt');
+			expect(rows[groundAFeeReceiptIndex].valueText).toEqual(
+				'<a href="/published-document/1" class="govuk-link">test.txt</a>'
+			);
+			expect(rows[groundAFeeReceiptIndex].condition(testCase)).toBeTruthy();
 		});
 
 		it('should not display the ground a follow on questions if not ground a', () => {
@@ -1240,6 +1269,7 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
 			expect(rows[applicationMadeIndex].condition(testCase)).toBeFalsy();
 			expect(rows[applicationAllOrPartIndex].condition(testCase)).toBeFalsy();
+			expect(rows[retrospectiveApplicationIndex].condition(testCase)).toBeFalsy();
 			expect(rows[applicationReferenceIndex].condition(testCase)).toBeFalsy();
 			expect(rows[applicationSubmissionDateIndex].condition(testCase)).toBeFalsy();
 			expect(rows[descriptionOfDevelopmentIndex].condition(testCase)).toBeFalsy();
@@ -1248,24 +1278,26 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 			expect(rows[applicationDecisionDateIndex].condition(testCase)).toBeFalsy();
 			expect(rows[lpaDecisionAppealedIndex].condition(testCase)).toBeFalsy();
 			expect(rows[appealDecisionDateIndex].condition(testCase)).toBeFalsy();
+			expect(rows[groundAFeePaidIndex].condition(testCase)).toBeFalsy();
+			expect(rows[groundAFeeReceiptIndex].condition(testCase)).toBeFalsy();
 		});
 	});
 
 	describe('Grounds of appeal details', () => {
-		const groundAFactsIndex = 21;
-		const groundADocsIndex = 22;
-		const groundBFactsIndex = 23;
-		const groundBDocsIndex = 24;
-		const groundCFactsIndex = 25;
-		const groundCDocsIndex = 26;
-		const groundDFactsIndex = 27;
-		const groundDDocsIndex = 28;
-		const groundEFactsIndex = 29;
-		const groundEDocsIndex = 30;
-		const groundFFactsIndex = 31;
-		const groundFDocsIndex = 32;
-		const groundGFactsIndex = 33;
-		const groundGDocsIndex = 34;
+		const groundAFactsIndex = 24;
+		const groundADocsIndex = 25;
+		const groundBFactsIndex = 26;
+		const groundBDocsIndex = 27;
+		const groundCFactsIndex = 28;
+		const groundCDocsIndex = 29;
+		const groundDFactsIndex = 30;
+		const groundDDocsIndex = 31;
+		const groundEFactsIndex = 32;
+		const groundEDocsIndex = 33;
+		const groundFFactsIndex = 34;
+		const groundFDocsIndex = 35;
+		const groundGFactsIndex = 36;
+		const groundGDocsIndex = 37;
 
 		test.each([
 			['a', groundAFactsIndex, groundADocsIndex],
@@ -1348,7 +1380,7 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 	});
 
 	describe('Preferred procedure', () => {
-		const preferredProcedureIndex = 35;
+		const preferredProcedureIndex = 38;
 
 		it('should display the appellant preferred procedure if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -1370,7 +1402,7 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 	});
 
 	describe('Cost application', () => {
-		const costsApplicationIndex = 39;
+		const costsApplicationIndex = 42;
 
 		it('should display Yes if applicant applied for costs', () => {
 			const testCase = structuredClone(caseWithAppellant);
