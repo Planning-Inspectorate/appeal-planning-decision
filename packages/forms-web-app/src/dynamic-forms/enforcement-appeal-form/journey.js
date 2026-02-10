@@ -260,6 +260,10 @@ const makeSections = (response) => {
 			)
 			.addQuestion(questions.uploadApplicationDecisionLetter)
 			.withCondition(shouldDisplayUploadDecisionLetter)
+			.endMultiQuestionCondition('ground a supplementary documents')
+			.startMultiQuestionCondition('planning obligation', () =>
+				responseHasAppealGround(response, 'a')
+			)
 			.addQuestion(questions.submitPlanningObligation)
 			.addQuestion(questions.planningObligationStatus)
 			.withCondition(() => questionHasAnswer(response, questions.submitPlanningObligation, 'yes'))
@@ -274,7 +278,7 @@ const makeSections = (response) => {
 					{ logicalCombinator: 'and' }
 				)
 			)
-			.endMultiQuestionCondition('ground a supplementary documents')
+			.endMultiQuestionCondition('planning obligation')
 			.addQuestion(questions.costApplication)
 			.addQuestion(questions.uploadCostApplication)
 			.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))
