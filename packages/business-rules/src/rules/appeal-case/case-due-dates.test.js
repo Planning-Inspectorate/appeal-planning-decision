@@ -13,6 +13,7 @@ const {
 const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
 const { deadlineHasPassed } = require('@pins/common/src/lib/deadline-has-passed');
 const { representationExists } = require('@pins/common/src/lib/representations');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 jest.mock('@pins/common/src/lib/deadline-has-passed');
 jest.mock('@pins/common/src/lib/representations');
@@ -52,8 +53,32 @@ describe('case-due-dates', () => {
 		});
 
 		describe('isLPAQuestionnaireOpen', () => {
-			it('should return true if lpaQuestionnaireDueDate is set and lpaq has not been submitted', () => {
+			it('should return true if lpaQuestionnaireDueDate is set, lpaq has not been submitted and is neither a child appeal nor enforcement', () => {
 				appealCaseData.lpaQuestionnaireDueDate = '2025-03-01';
+				expect(isLPAQuestionnaireOpen(appealCaseData)).toBe(true);
+			});
+
+			it('should return true if lpaQuestionnaireDueDate is set, lpaq has not been submitted and is a child appeal but not enforcement', () => {
+				appealCaseData.lpaQuestionnaireDueDate = '2025-03-01';
+				appealCaseData.appealTypeCode = CASE_TYPES.HAS.processCode;
+				appealCaseData.linkedCases = [
+					{
+						childCaseReference: appealCaseData.caseReference,
+						leadCaseReference: 'testLeadReference'
+					}
+				];
+				expect(isLPAQuestionnaireOpen(appealCaseData)).toBe(true);
+			});
+
+			it('should return true if lpaQuestionnaireDueDate is set, lpaq has not been submitted and is an enforcement appeal but not a child', () => {
+				appealCaseData.lpaQuestionnaireDueDate = '2025-03-01';
+				appealCaseData.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
+				appealCaseData.linkedCases = [
+					{
+						childCaseReference: 'testChildReference',
+						leadCaseReference: appealCaseData.caseReference
+					}
+				];
 				expect(isLPAQuestionnaireOpen(appealCaseData)).toBe(true);
 			});
 
@@ -61,9 +86,21 @@ describe('case-due-dates', () => {
 				expect(isLPAQuestionnaireOpen(appealCaseData)).toBe(false);
 			});
 
-			it('should return false if and lpaq has been submitted', () => {
+			it('should return false if an lpaq has been submitted', () => {
 				appealCaseData.lpaQuestionnaireDueDate = '2025-03-01';
 				appealCaseData.lpaQuestionnaireSubmittedDate = '2025-03-02';
+				expect(isLPAQuestionnaireOpen(appealCaseData)).toBe(false);
+			});
+
+			it('should return false if is an enforcement appeal and a child appeal', () => {
+				appealCaseData.lpaQuestionnaireDueDate = '2025-03-01';
+				appealCaseData.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
+				appealCaseData.linkedCases = [
+					{
+						childCaseReference: appealCaseData.caseReference,
+						leadCaseReference: 'testLeadReference'
+					}
+				];
 				expect(isLPAQuestionnaireOpen(appealCaseData)).toBe(false);
 			});
 		});
