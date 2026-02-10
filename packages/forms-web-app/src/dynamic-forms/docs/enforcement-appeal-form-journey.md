@@ -348,6 +348,12 @@ condition: (response) => {
 };
 ```
 
+- Multiquestion condition started: planning obligation
+
+```js
+condition: () => responseHasAppealGround(response, 'a');
+```
+
 - boolean `/submit-planning-obligation/` Do you plan to submit a planning obligation to support your appeal?
 - radio `/status-planning-obligation/` What is the status of your planning obligation?
 
@@ -369,7 +375,7 @@ condition: () =>
 	);
 ```
 
-- Multiquestion condition ended: ground a supplementary documents
+- Multiquestion condition ended: planning obligation
 
 - boolean `/apply-appeal-costs/` Do you want to apply for an award of appeal costs?
 - multi-file-upload `/upload-appeal-costs-application/` Upload your application for an award of appeal costs
