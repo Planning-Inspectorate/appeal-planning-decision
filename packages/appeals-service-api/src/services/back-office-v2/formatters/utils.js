@@ -1178,9 +1178,10 @@ exports.getDesignatedSiteNames = (answers) => {
 
 /**
  * @param {LPAQAnswers} answers
+ * @param {boolean} isEnforcement
  * @returns {Object}
  */
-exports.getEIAFields = (answers) => ({
+exports.getEIAFields = (answers, isEnforcement = false) => ({
 	eiaEnvironmentalImpactSchedule: getSchedule(answers),
 	eiaDevelopmentDescription: answers.developmentDescription || null,
 	eiaSensitiveAreaDetails: answers.sensitiveArea_sensitiveAreaDetails || null,
@@ -1188,7 +1189,9 @@ exports.getEIAFields = (answers) => ({
 	eiaScreeningOpinion: answers.screeningOpinion,
 	eiaRequiresEnvironmentalStatement: answers.environmentalStatement,
 	eiaCompletedEnvironmentalStatement: exports.toBool(
-		answers.applicantSubmittedEnvironmentalStatement
+		isEnforcement
+			? answers.appellantSubmittedEnvironmentalStatement
+			: answers.applicantSubmittedEnvironmentalStatement
 	)
 });
 

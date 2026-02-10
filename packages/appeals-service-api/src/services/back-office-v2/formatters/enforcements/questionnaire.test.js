@@ -68,7 +68,6 @@ describe('formatter', () => {
 		columnTwoThreshold: true,
 		screeningOpinion: true,
 		environmentalStatement: true,
-		applicantSubmittedEnvironmentalStatement: 'yes',
 		infrastructureLevy: true,
 		infrastructureLevyAdopted: true,
 		infrastructureLevyAdoptedDate: new Date(),
