@@ -29,7 +29,7 @@ exports.formatter = async (caseReference, { ...answers }) => {
 			caseType: ENFORCEMENT,
 			...getCommonLPAQSubmissionFields(caseReference, answers),
 			...getHASLPAQSubmissionFields(answers),
-			...getEIAFields(answers),
+			...getEIAFields(answers, true),
 			...getLPAProcedurePreference(answers),
 			...getCommonSiteDesignationAndProtectionFields(answers),
 			...getInfrastructureLevy(answers),
