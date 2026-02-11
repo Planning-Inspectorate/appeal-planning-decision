@@ -3,9 +3,17 @@
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
  */
 
-const { getDocuments, getCommonLPAQSubmissionFields } = require('../utils');
+const {
+	getDocuments,
+	getCommonLPAQSubmissionFields,
+	getHASLPAQSubmissionFields,
+	getLPAProcedurePreference,
+	getInfrastructureLevy,
+	getLdcSpecificLPAQSubmissionFields
+} = require('../utils');
 const { documentTypes } = require('@pins/common/src/document-types');
-const { CASE_TYPES: LDC } = require('@pins/common/src/database/data-static');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const LDC = CASE_TYPES.LDC.key;
 
 /**
  * @param {string} caseReference
@@ -16,9 +24,16 @@ exports.formatter = async (caseReference, { ...answers }) => {
 	return {
 		casedata: {
 			// Root
-			caseType: LDC.key,
+			caseType: LDC,
 			// Common
-			...getCommonLPAQSubmissionFields(caseReference, answers)
+			...getCommonLPAQSubmissionFields(caseReference, answers),
+			// HAS
+			...getHASLPAQSubmissionFields(answers),
+			// Other
+			...getLPAProcedurePreference(answers),
+			...getInfrastructureLevy(answers),
+			// LDC specific
+			...getLdcSpecificLPAQSubmissionFields(answers)
 		},
 		documents: await getDocuments(answers, documentTypes.planningOfficersReportUpload.dataModelName)
 	};
