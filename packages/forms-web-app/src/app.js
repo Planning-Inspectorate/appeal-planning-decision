@@ -11,7 +11,6 @@ const { pinoHttp } = require('pino-http');
 const uuid = require('uuid');
 const fileUpload = require('express-fileupload');
 const sessionConfig = require('./lib/session');
-const appealSiteAddressToArray = require('./lib/appeal-site-address-to-array');
 const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
 const filterByKey = require('./lib/filter-by-key');
 const addKeyValuePair = require('./lib/add-key-value-pair');
@@ -97,7 +96,6 @@ const viewPaths = [
 ];
 
 const env = nunjucks.configure(viewPaths, nunjucksConfig);
-env.addFilter('appealSiteAddressToArray', appealSiteAddressToArray);
 env.addFilter('mapToErrorSummary', mapToErrorSummary);
 
 dateFilter.setDefaultFormat(config.application.defaultDisplayDateFormat);

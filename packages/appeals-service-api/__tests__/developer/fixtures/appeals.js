@@ -1,5 +1,3 @@
-const uuid = require('uuid');
-
 module.exports = class AppealFixtures {
 	/**
 	 *
@@ -17,13 +15,10 @@ module.exports = class AppealFixtures {
 	static newHouseholderAppeal({
 		id = '',
 		decision = 'granted',
-		planningApplicationType = 'householder-planning',
-		ownsSite = false,
-		agentAppeal = false
+		planningApplicationType = 'householder-planning'
 	} = {}) {
 		let appeal = {
 			id: id,
-			horizonId: 'HORIZON123',
 			lpaCode: 'E69999999',
 			decisionDate: new Date(),
 			createdAt: new Date(),
@@ -42,83 +37,8 @@ module.exports = class AppealFixtures {
 				isListedBuilding: false,
 				hasPriorApprovalForExistingHome: true,
 				hasHouseholderPermissionConditions: true
-			},
-			aboutYouSection: {
-				yourDetails: {
-					isOriginalApplicant: true,
-					name: 'Appellant Name'
-				}
-			},
-			requiredDocumentsSection: {
-				originalApplication: {
-					uploadedFile: AppealFixtures.#getFileJson()
-				},
-				decisionLetter: {
-					uploadedFile: AppealFixtures.#getFileJson()
-				}
-			},
-			yourAppealSection: {
-				appealStatement: {
-					uploadedFile: AppealFixtures.#getFileJson(),
-					hasSensitiveInformation: false
-				},
-				otherDocuments: {
-					uploadedFiles: [AppealFixtures.#getFileJson(), AppealFixtures.#getFileJson()]
-				}
-			},
-			appealSiteSection: {
-				siteAddress: {
-					addressLine1: 'Site Address 1',
-					addressLine2: 'Site Address 2',
-					town: 'Site Town',
-					county: 'Site County',
-					postcode: 'SW1 1AA'
-				},
-				siteOwnership: {
-					ownsWholeSite: ownsSite,
-					haveOtherOwnersBeenTold: ownsSite ? null : true
-				},
-				siteAccess: {
-					canInspectorSeeWholeSiteFromPublicRoad: false,
-					howIsSiteAccessRestricted: 'A very restricted site'
-				},
-				healthAndSafety: {
-					hasIssues: true,
-					healthAndSafetyIssues: 'A very dangerous site',
-					details: 'nails'
-				}
-			},
-			appealSubmission: {
-				appealPDFStatement: {
-					uploadedFile: AppealFixtures.#getFileJson()
-				}
-			},
-			sectionStates: {
-				aboutYouSection: {
-					yourDetails: 'COMPLETED'
-				},
-				requiredDocumentsSection: {
-					originalApplication: 'COMPLETED',
-					decisionLetter: 'COMPLETED'
-				},
-				yourAppealSection: {
-					appealStatement: 'COMPLETED',
-					otherDocuments: 'COMPLETED'
-				},
-				appealSiteSection: {
-					siteAddress: 'COMPLETED',
-					siteAccess: 'COMPLETED',
-					siteOwnership: 'COMPLETED',
-					healthAndSafety: 'COMPLETED'
-				}
 			}
 		};
-
-		if (agentAppeal) {
-			appeal.aboutYouSection.yourDetails.isOriginalApplicant = false;
-			appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = 'Appellant Name';
-			appeal.aboutYouSection.yourDetails.name = 'Agent Name';
-		}
 
 		return appeal;
 	}
@@ -138,15 +58,10 @@ module.exports = class AppealFixtures {
 	static newFullAppeal({
 		id = '',
 		decision = 'granted',
-		planningApplicationType = 'householder-planning', //todo: is this correct?
-		ownsAllLand = false,
-		agentAppeal = false,
-		appellantCompanyName = null,
-		agentCompanyName = null
+		planningApplicationType = 'householder-planning' //todo: is this correct?
 	} = {}) {
 		let appeal = {
 			id: id,
-			horizonId: '',
 			lpaCode: 'E69999999',
 			planningApplicationNumber: '12345',
 			email: 'test@example.com',
@@ -162,192 +77,9 @@ module.exports = class AppealFixtures {
 				hasPriorApprovalForExistingHome: true,
 				enforcementNotice: false,
 				applicationDecision: decision
-			},
-			contactDetailsSection: {
-				contact: {
-					name: 'Appellant Name'
-				},
-				isOriginalApplicant: true
-			},
-			appealSiteSection: {
-				healthAndSafety: {
-					details: 'nails',
-					hasIssues: true
-				},
-				visibleFromRoad: {
-					isVisible: false,
-					details: 'a MASSIVE wall'
-				},
-				agriculturalHolding: {},
-				siteOwnership: {
-					ownsAllTheLand: ownsAllLand
-				},
-				siteAddress: {
-					addressLine1: 'Site Address 1',
-					addressLine2: 'Site Address 2',
-					town: 'Site Town',
-					county: 'Site County',
-					postcode: 'SW1 1AA'
-				}
-			},
-			appealDecisionSection: {
-				draftStatementOfCommonGround: {
-					uploadedFile: AppealFixtures.#getFileJson()
-				},
-				inquiry: {},
-				hearing: {
-					reason: 'I can not write with these weathered hands'
-				},
-				procedureType: 'Hearing'
-			},
-			planningApplicationDocumentsSection: {
-				originalDecisionNotice: {
-					uploadedFile: AppealFixtures.#getFileJson()
-				},
-				letterConfirmingApplication: {
-					uploadedFile: AppealFixtures.#getFileJson()
-				},
-				designAccessStatement: {
-					uploadedFile: AppealFixtures.#getFileJson()
-				},
-				decisionLetter: {
-					uploadedFile: AppealFixtures.#getFileJson()
-				},
-				originalApplication: {
-					uploadedFile: AppealFixtures.#getFileJson()
-				},
-				plansDrawingsSupportingDocuments: {
-					uploadedFiles: [AppealFixtures.#getFileJson(), AppealFixtures.#getFileJson()]
-				},
-				descriptionDevelopmentCorrect: {},
-				ownershipCertificate: {
-					uploadedFile: AppealFixtures.#getFileJson(),
-					submittedSeparateCertificate: null
-				}
-			},
-			appealDocumentsSection: {
-				supportingDocuments: {
-					uploadedFiles: [AppealFixtures.#getFileJson(), AppealFixtures.#getFileJson()],
-					hasSupportingDocuments: null
-				},
-				planningObligationDeadline: {
-					plansPlanningObligation: null
-				},
-				draftPlanningObligations: {
-					plansPlanningObligation: null
-				},
-				planningObligations: {
-					plansPlanningObligation: null
-				},
-				plansDrawings: {
-					uploadedFiles: [AppealFixtures.#getFileJson(), AppealFixtures.#getFileJson()],
-					hasPlansDrawings: null
-				},
-				appealStatement: {
-					hasSensitiveInformation: null,
-					uploadedFile: AppealFixtures.#getFileJson()
-				}
-			},
-			appealSubmission: {
-				appealPDFStatement: {
-					uploadedFile: AppealFixtures.#getFileJson()
-				}
-			},
-			sectionStates: {
-				appealDocumentsSection: {
-					newSupportingDocuments: 'NOT STARTED',
-					supportingDocuments: 'NOT STARTED',
-					draftPlanningObligations: 'NOT STARTED',
-					planningObligationDeadline: 'NOT STARTED',
-					planningObligationDocuments: 'NOT STARTED',
-					planningObligationStatus: 'NOT STARTED',
-					plansPlanningObligation: 'NOT STARTED',
-					newPlansDrawings: 'NOT STARTED',
-					plansDrawings: 'NOT STARTED',
-					appealStatement: 'NOT STARTED'
-				},
-				planningApplicationDocumentsSection: {
-					letterConfirmingApplication: 'NOT STARTED',
-					originalDecisionNotice: 'NOT STARTED',
-					designAccessStatementSubmitted: 'NOT STARTED',
-					designAccessStatement: 'NOT STARTED',
-					decisionLetter: 'NOT STARTED',
-					originalApplication: 'NOT STARTED',
-					plansDrawingsSupportingDocuments: 'NOT STARTED',
-					descriptionDevelopmentCorrect: 'NOT STARTED',
-					ownershipCertificate: 'NOT STARTED'
-				},
-				appealDecisionSection: {
-					draftStatementOfCommonGround: 'NOT STARTED',
-					inquiryExpectedDays: 'NOT STARTED',
-					inquiry: 'NOT STARTED',
-					hearing: 'NOT STARTED',
-					procedureType: 'NOT STARTED'
-				},
-				appealSiteSection: {
-					tellingTheLandowners: 'NOT STARTED',
-					advertisingYourAppeal: 'NOT STARTED',
-					identifyingTheLandOwners: 'NOT STARTED',
-					knowTheOwners: 'NOT STARTED',
-					someOfTheLand: 'NOT STARTED',
-					healthAndSafety: 'COMPLETED',
-					visibleFromRoad: 'NOT STARTED',
-					otherTenants: 'NOT STARTED',
-					tellingTheTenants: 'NOT STARTED',
-					areYouATenant: 'NOT STARTED',
-					agriculturalHolding: 'NOT STARTED',
-					ownsAllTheLand: 'NOT STARTED',
-					siteAddress: 'COMPLETED'
-				},
-				contactDetailsSection: {
-					appealingOnBehalfOf: 'NOT STARTED',
-					contact: 'NOT STARTED',
-					isOriginalApplicant: 'NOT STARTED'
-				}
 			}
 		};
 
-		if (agentAppeal) {
-			appeal.contactDetailsSection.isOriginalApplicant = false;
-			appeal.contactDetailsSection.contact.name = 'Agent Name';
-			appeal.contactDetailsSection.appealingOnBehalfOf = {
-				name: 'Appellant Name'
-			};
-		}
-
-		if (agentAppeal == false && appellantCompanyName) {
-			appeal.contactDetailsSection.contact.companyName = appellantCompanyName;
-		}
-
-		if (agentAppeal && agentCompanyName) {
-			appeal.contactDetailsSection.contact.companyName = agentCompanyName;
-		}
-
-		if (agentAppeal && appellantCompanyName) {
-			appeal.contactDetailsSection.appealingOnBehalfOf.companyName = appellantCompanyName;
-		}
-
 		return appeal;
-	}
-
-	/**
-	 *
-	 * @returns All documents have the same name because, in all testing circumstances, we don't care about the ordering of
-	 * files, just that the correct number of them have been used in different contexts. Due to the way in which MockServer
-	 * records and returns verifications, and how files may be retrieved in tests, getting the file order to match up in
-	 * tests themselves is a real pain, and this is always due to the file names being in the wrong order. So, if the file
-	 * names are all the same, we don't get this issue.
-	 *
-	 * NOTE THE STRANGE NAMES TOO. This is to test if characters that Horizon doesn't like are filtered out on document submission.
-	 */
-	static #getFileJson() {
-		return {
-			id: uuid.v4(),
-			name: `'<>test&"pdf.pdf`,
-			originalFileName: `'<>test&"pdf.pdf`,
-			fileName: `'<>test&"pdf.pdf`,
-			location: '',
-			size: 8334
-		};
 	}
 };

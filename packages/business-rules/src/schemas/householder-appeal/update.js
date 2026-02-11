@@ -4,8 +4,7 @@ const {
 	APPLICATION_DECISION,
 	APPEAL_ID,
 	APPEAL_STATE,
-	TYPE_OF_PLANNING_APPLICATION,
-	SECTION_STATE
+	TYPE_OF_PLANNING_APPLICATION
 } = require('../../constants');
 
 const update = pinsYup
@@ -13,7 +12,6 @@ const update = pinsYup
 	.noUnknown(true)
 	.shape({
 		id: pinsYup.string().uuid().required(),
-		horizonId: pinsYup.string().trim().max(20).nullable(),
 		lpaCode: pinsYup.string().trim().max(20).required(),
 		planningApplicationNumber: pinsYup.string().max(30).required(),
 		appealType: pinsYup.lazy((appealType) => {
@@ -75,182 +73,7 @@ const update = pinsYup
 				hasPriorApprovalForExistingHome: pinsYup.bool().nullable(),
 				hasHouseholderPermissionConditions: pinsYup.bool().nullable()
 			})
-			.noUnknown(true),
-		aboutYouSection: pinsYup
-			.object()
-			.shape({
-				yourDetails: pinsYup.object().shape({
-					isOriginalApplicant: pinsYup.bool().required(),
-					name: pinsYup
-						.string()
-						.min(2)
-						.max(80)
-						.matches(/^[a-z\-' ]+$/i)
-						.required(),
-					appealingOnBehalfOf: pinsYup
-						.string()
-						.max(80)
-						.matches(/^[a-z\-' ]*$/i)
-						.nullable()
-				})
-			})
-			.noUnknown(true),
-		requiredDocumentsSection: pinsYup
-			.object()
-			.shape({
-				originalApplication: pinsYup
-					.object()
-					.shape({
-						uploadedFile: pinsYup
-							.object()
-							.shape({
-								id: pinsYup.string().trim().uuid().required(),
-								name: pinsYup.string().trim().max(255).required(),
-								fileName: pinsYup.string().trim().max(255).required(),
-								originalFileName: pinsYup.string().trim().max(255).required(),
-								location: pinsYup.string().trim().required(),
-								size: pinsYup.number().required()
-							})
-							.noUnknown(true)
-					})
-					.noUnknown(true),
-				decisionLetter: pinsYup
-					.object()
-					.shape({
-						uploadedFile: pinsYup
-							.object()
-							.shape({
-								id: pinsYup.string().trim().uuid().required(),
-								name: pinsYup.string().trim().max(255).required(),
-								fileName: pinsYup.string().trim().max(255).required(),
-								originalFileName: pinsYup.string().trim().max(255).required(),
-								location: pinsYup.string().trim().required(),
-								size: pinsYup.number().required()
-							})
-							.noUnknown(true)
-					})
-					.noUnknown(true)
-			})
-			.noUnknown(true),
-		yourAppealSection: pinsYup.object().shape({
-			appealStatement: pinsYup
-				.object()
-				.shape({
-					uploadedFile: pinsYup
-						.object()
-						.shape({
-							id: pinsYup.string().trim().uuid().required(),
-							name: pinsYup.string().trim().max(255).required(),
-							fileName: pinsYup.string().trim().max(255).required(),
-							originalFileName: pinsYup.string().trim().max(255).required(),
-							location: pinsYup.string().trim().required(),
-							size: pinsYup.number().required()
-						})
-						.noUnknown(true),
-					hasSensitiveInformation: pinsYup.bool().required()
-				})
-				.noUnknown(true),
-			otherDocuments: pinsYup
-				.object()
-				.shape({
-					uploadedFiles: pinsYup.array().of(
-						pinsYup
-							.object()
-							.shape({
-								id: pinsYup.string().trim().uuid().nullable(),
-								name: pinsYup.string().trim().max(255).nullable(),
-								fileName: pinsYup.string().trim().max(255).nullable(),
-								originalFileName: pinsYup.string().trim().max(255).nullable(),
-								location: pinsYup.string().trim().nullable(),
-								size: pinsYup.number().nullable()
-							})
-							.noUnknown(true)
-					)
-				})
-				.noUnknown(true)
-		}),
-		appealSubmission: pinsYup.object().shape({
-			appealPDFStatement: pinsYup
-				.object()
-				.shape({
-					uploadedFile: pinsYup
-						.object()
-						.shape({
-							id: pinsYup.string().trim().uuid().required(),
-							name: pinsYup.string().trim().max(255).required(),
-							fileName: pinsYup.string().trim().max(255).required(),
-							originalFileName: pinsYup.string().trim().max(255).required(),
-							location: pinsYup.string().trim().required(),
-							size: pinsYup.number().required()
-						})
-						.noUnknown(true)
-				})
-				.noUnknown(true)
-		}),
-		appealSiteSection: pinsYup.object().shape({
-			siteAddress: pinsYup
-				.object()
-				.shape({
-					addressLine1: pinsYup.string().max(60).required(),
-					addressLine2: pinsYup.string().max(60).nullable(),
-					town: pinsYup.string().max(60).nullable(),
-					county: pinsYup.string().max(60).nullable(),
-					postcode: pinsYup.string().max(8).required()
-				})
-				.noUnknown(true),
-			siteOwnership: pinsYup
-				.object()
-				.shape({
-					ownsWholeSite: pinsYup.bool().required(),
-					haveOtherOwnersBeenTold: pinsYup.bool().nullable()
-				})
-				.noUnknown(true),
-			siteAccess: pinsYup
-				.object()
-				.shape({
-					canInspectorSeeWholeSiteFromPublicRoad: pinsYup.bool().required(),
-					howIsSiteAccessRestricted: pinsYup.string().max(1000).nullable()
-				})
-				.noUnknown(true),
-			healthAndSafety: pinsYup
-				.object()
-				.shape({
-					hasIssues: pinsYup.bool().required(),
-					healthAndSafetyIssues: pinsYup.string().max(1000).nullable()
-				})
-				.noUnknown(true)
-		}),
-		sectionStates: pinsYup.object().shape({
-			aboutYouSection: pinsYup
-				.object()
-				.shape({
-					yourDetails: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required()
-				})
-				.noUnknown(true),
-			requiredDocumentsSection: pinsYup
-				.object()
-				.shape({
-					originalApplication: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
-					decisionLetter: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required()
-				})
-				.noUnknown(true),
-			yourAppealSection: pinsYup
-				.object()
-				.shape({
-					appealStatement: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
-					otherDocuments: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required()
-				})
-				.noUnknown(true),
-			appealSiteSection: pinsYup
-				.object()
-				.shape({
-					siteAddress: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
-					siteAccess: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
-					siteOwnership: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required(),
-					healthAndSafety: pinsYup.string().oneOf(Object.values(SECTION_STATE)).required()
-				})
-				.noUnknown(true)
-		})
+			.noUnknown(true)
 	});
 
 module.exports = update;

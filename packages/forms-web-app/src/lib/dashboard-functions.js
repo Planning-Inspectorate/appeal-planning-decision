@@ -18,11 +18,7 @@ const {
 	isLPAFinalCommentOpen
 } = require('@pins/business-rules/src/rules/appeal-case/case-due-dates');
 const { SUBMISSIONS } = require('@pins/common/src/constants');
-const {
-	formatAddress,
-	isAppealSubmission,
-	isV2Submission
-} = require('@pins/common/src/lib/format-address');
+const { formatAddress, isV2Submission } = require('@pins/common/src/lib/format-address');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
 const logger = require('#lib/logger');
@@ -74,8 +70,7 @@ const escape = require('escape-html');
 
 const { calculateDueInDays } = require('@pins/common/src/lib/calculate-due-in-days');
 
-const { getAppealTypeName } = require('./full-appeal/map-planning-application');
-const { businessRulesDeadline, getDeadlineV2 } = require('./calculate-deadline');
+const { getDeadlineV2 } = require('./calculate-deadline');
 const {
 	APPEAL_CASE_STATUS,
 	APPEAL_LINKED_CASE_STATUS
@@ -133,10 +128,9 @@ const mapToLPADashboardDisplayData = (appealCaseData) => {
  * @returns {DashboardDisplayData|null}
  */
 const mapToAppellantDashboardDisplayData = (appealData) => {
-	const id = isAppealSubmission(appealData) ? appealData._id : appealData.id;
+	const id = appealData.id;
 
-	const hasAddress =
-		appealData.siteAddressLine1 || appealData.AppellantSubmission?.siteAddress === true;
+	const hasAddress = appealData.AppellantSubmission?.siteAddress === true;
 
 	const address = hasAddress
 		? formatAddress(appealData)
@@ -150,36 +144,18 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
 	try {
 		return {
 			appealId: id,
-			appealNumber:
-				isAppealSubmission(appealData) || isV2Submission(appealData)
-					? ''
-					: appealData.caseReference,
+			appealNumber: isV2Submission(appealData) ? '' : appealData.caseReference,
 			address: escapedAddress.replace(/\n/g, '<br>'),
 			appealType: getAppealType(appealData),
 			nextJourneyDue: determineJourneyToDisplayAppellantDashboard(appealData),
-			isDraft: isAppealSubmission(appealData) || isV2Submission(appealData),
+			isDraft: isV2Submission(appealData),
 			displayInvalid: displayInvalidAppeal(appealData),
-			appealDecision: isAppealSubmission(appealData)
-				? null
-				: mapDecisionLabel(appealData.caseDecisionOutcome),
-			appealDecisionColor:
-				isAppealSubmission(appealData) || isV2Submission(appealData)
-					? null
-					: mapDecisionColour(appealData.caseDecisionOutcome),
-			caseDecisionOutcomeDate:
-				isAppealSubmission(appealData) || isV2Submission(appealData)
-					? null
-					: appealData.caseDecisionOutcomeDate,
-			caseWithdrawnDate:
-				isAppealSubmission(appealData) || isV2Submission(appealData)
-					? null
-					: appealData.caseWithdrawnDate,
-			linkedCaseDetails: isAppealSubmission(appealData)
-				? null
-				: formatDashboardLinkedCaseDetails(appealData),
-			displayNextJourneyLink: isAppealSubmission(appealData)
-				? true
-				: displayNextJourneyLink(appealData, APPEAL_USER_ROLES.APPELLANT)
+			appealDecision: mapDecisionLabel(appealData.caseDecisionOutcome),
+			appealDecisionColor: mapDecisionColour(appealData.caseDecisionOutcome),
+			caseDecisionOutcomeDate: appealData.caseDecisionOutcomeDate,
+			caseWithdrawnDate: appealData.caseWithdrawnDate,
+			linkedCaseDetails: formatDashboardLinkedCaseDetails(appealData),
+			displayNextJourneyLink: displayNextJourneyLink(appealData, APPEAL_USER_ROLES.APPELLANT)
 		};
 	} catch (err) {
 		logger.error({ err }, `failed to mapToAppellantDashboardDisplayData ${id}`);
@@ -268,20 +244,11 @@ const isToDoRule6Dashboard = (dashboardData) => {
  * @returns {Date|object|undefined} returns appeal deadline - note: should return Date as rawDate param set as true
  */
 const calculateAppealDueDeadline = (appealSubmission) => {
-	if (isAppealSubmission(appealSubmission)) {
-		return businessRulesDeadline(
-			appealSubmission.appeal?.decisionDate,
-			appealSubmission.appeal?.appealType,
-			null,
-			true
-		);
-	} else if (isV2Submission(appealSubmission)) {
-		return getDeadlineV2(
-			appealSubmission.AppellantSubmission.appealTypeCode,
-			appealSubmission.AppellantSubmission.enforcementEffectiveDate,
-			appealSubmission.AppellantSubmission.applicationDecisionDate
-		);
-	}
+	return getDeadlineV2(
+		appealSubmission.AppellantSubmission.appealTypeCode,
+		appealSubmission.AppellantSubmission.enforcementEffectiveDate,
+		appealSubmission.AppellantSubmission.applicationDecisionDate
+	);
 };
 
 /**
@@ -339,14 +306,7 @@ const determineJourneyToDisplayLPADashboard = (appealCaseData) => {
  * @returns {DueJourneyType} object containing details of next due journey
  */
 const determineJourneyToDisplayAppellantDashboard = (caseOrSubmission) => {
-	if (isAppealSubmission(caseOrSubmission)) {
-		const deadline = calculateAppealDueDeadline(caseOrSubmission);
-		return {
-			deadline,
-			dueInDays: calculateDueInDays(deadline),
-			journeyDue: SUBMISSIONS.CONTINUE
-		};
-	} else if (isV2Submission(caseOrSubmission)) {
+	if (isV2Submission(caseOrSubmission)) {
 		const deadline = calculateAppealDueDeadline(caseOrSubmission);
 
 		// Draft appeal with no deadline should appear last e.g. LDC with no decision date
@@ -499,9 +459,6 @@ const displayNextJourneyLink = (appealCaseData, userRole) => {
  * @returns {string}
  */
 const getAppealType = (appealCaseData) => {
-	if (isAppealSubmission(appealCaseData)) {
-		return getAppealTypeName(appealCaseData.appeal?.appealType);
-	}
 	if (isV2Submission(appealCaseData)) {
 		return caseTypeNameWithDefault(appealCaseData?.AppellantSubmission?.appealTypeCode);
 	}

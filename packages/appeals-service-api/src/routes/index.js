@@ -8,9 +8,6 @@ const express = require('express');
 const router = express.Router();
 
 const appealsRouter = require('./appeals');
-const backOfficeRouter = require('./back-office');
-const forManualInterventionRouter = require('./for-manual-intervention');
-const saveRouter = require('./save');
 const localPlanningAuthoritiesRouter = require('./local-planning-authorities');
 const { routes: v2Routes } = require('./v2');
 const config = require('../configuration/config');
@@ -31,10 +28,7 @@ router.get('/health', (req, res) => {
 });
 
 router.use('/api/v1/appeals', appealsRouter);
-router.use('/api/v1/back-office', backOfficeRouter);
-router.use('/api/v1/for-manual-intervention', forManualInterventionRouter);
 router.use('/api/v1/local-planning-authorities', localPlanningAuthoritiesRouter);
-router.use('/api/v1/save', saveRouter);
 
 // v2 routes loaded from the file structure
 for (const [url, handler] of Object.entries(v2Routes)) {

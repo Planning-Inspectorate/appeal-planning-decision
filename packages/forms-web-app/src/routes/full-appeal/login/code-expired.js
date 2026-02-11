@@ -7,8 +7,7 @@ const {
 
 const {
 	VIEW: {
-		FULL_APPEAL: { ENTER_CODE },
-		COMMON: { CODE_EXPIRED }
+		COMMON: { CODE_EXPIRED, ENTER_CODE }
 	}
 } = require('#lib/views');
 

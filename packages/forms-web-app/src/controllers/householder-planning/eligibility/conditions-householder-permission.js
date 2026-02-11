@@ -51,20 +51,8 @@ const postConditionsHouseholderPermission = async (req, res) => {
 		appeal[sectionName].hasHouseholderPermissionConditions = hasHouseholderPermissionConditions;
 		if (hasHouseholderPermissionConditions) {
 			appeal.appealType = APPEAL_ID.HOUSEHOLDER;
-			appeal.appealSiteSection.siteOwnership = {
-				ownsWholeSite: null,
-				haveOtherOwnersBeenTold: null
-			};
 		} else {
 			appeal.appealType = APPEAL_ID.PLANNING_SECTION_78;
-			appeal.appealSiteSection.siteOwnership = {
-				ownsSomeOfTheLand: null,
-				ownsAllTheLand: null,
-				knowsTheOwners: null,
-				hasIdentifiedTheOwners: null,
-				tellingTheLandowners: null,
-				advertisingYourAppeal: null
-			};
 		}
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 	} catch (err) {

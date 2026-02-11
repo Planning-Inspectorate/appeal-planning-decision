@@ -6,7 +6,7 @@ const {
 	getMetadataForSingleFile
 } = require('../lib/blobStorage');
 const deleteLocalFile = require('../lib/deleteLocalFile');
-const { documentTypes, initContainerClient } = require('@pins/common');
+const { initContainerClient } = require('@pins/common');
 const logger = require('../lib/logger');
 const config = require('../configuration/config');
 
@@ -126,12 +126,9 @@ const uploadDocument = async (req, res) => {
 			location: `${applicationId}/${id}/${originalname}`,
 			size: String(size),
 			id,
-			document_type: documentType,
-			involvement: documentTypes[documentType].involvement
+			document_type: documentType
 		};
 
-		let horizonMetadata = _getHorizonMetadata(documentType);
-		document = { ...document, ...horizonMetadata };
 		logger.info(document, 'Document');
 
 		req.log.info(
@@ -144,11 +141,6 @@ const uploadDocument = async (req, res) => {
 
 		const metadata = await uploadFile(containerClient, document);
 		await deleteLocalFile(file);
-
-		if (metadata) {
-			delete metadata['horizon_document_type'];
-			delete metadata['horizon_document_group_type'];
-		}
 
 		// TODO: this should only be sending back the document's `id`; all other data is superfluous.
 		// It's also very confusing and threw us for a week on AS-5031: since this returns all the metadata
@@ -200,15 +192,6 @@ const deleteDocument = async (req, res) => {
 			message: err.message
 		});
 	}
-};
-
-const _getHorizonMetadata = (documentType) => {
-	let horizonMetadata = {
-		horizon_document_type: documentTypes[documentType].horizonDocumentType,
-		horizon_document_group_type: documentTypes[documentType].horizonDocumentGroupType
-	};
-
-	return horizonMetadata;
 };
 
 module.exports = {

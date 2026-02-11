@@ -1,11 +1,9 @@
-const { getExistingAppeal } = require('#lib/appeals-api-wrapper');
 const { handleCustomRedirect } = require('../../lib/handle-custom-redirect');
 const {
 	getLPAUser,
 	createLPAUserSession,
 	getLPAUserStatus,
-	setLPAUserStatus,
-	logoutUser
+	setLPAUserStatus
 } = require('../../services/user.service');
 const { createAppealUserSession } = require('../../services/user.service');
 const { isTokenValid } = require('#lib/is-token-valid');
@@ -13,7 +11,7 @@ const { enterCodeConfig } = require('@pins/common');
 const logger = require('#lib/logger');
 const { STATUS_CONSTANTS, AUTH } = require('@pins/common/src/constants');
 
-const { getSessionEmail, setSessionEmail, getSessionAppealSqlId } = require('#lib/session-helper');
+const { getSessionEmail, getSessionAppealSqlId } = require('#lib/session-helper');
 const { getAuthClientConfig, createOTPGrant } = require('@pins/common/src/client/auth-client');
 const config = require('../../config');
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
@@ -34,19 +32,14 @@ const { caseTypeLookup } = require('@pins/common/src/database/data-static');
  */
 const getEnterCode = (views, { isGeneralLogin = true }) => {
 	return async (req, res) => {
-		const {
-			body: { errors = {} }
-		} = req;
-
 		/** @type {string|undefined} */
 		const enterCodeId = req.params.enterCodeId;
 		if (enterCodeId) {
 			req.session.enterCodeId = enterCodeId;
 		}
 
-		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
-		const isReturningFromEmail = action === enterCodeConfig.actions.saveAndReturn;
-		const isAppealConfirmation = !isGeneralLogin && !isReturningFromEmail;
+		const action = req.session?.enterCode?.action;
+		const isAppealConfirmation = !isGeneralLogin;
 		const appealType = caseTypeLookup(req.session?.appeal?.appealType, 'id')?.processCode;
 		const bannerHtmlOverride =
 			config.betaBannerText +
@@ -58,10 +51,7 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 			delete req.session?.enterCode?.newCode;
 		}
 
-		logger.info(
-			{ isGeneralLogin, isAppealConfirmation, isReturningFromEmail, action },
-			`getEnterCode`
-		);
+		logger.info({ isGeneralLogin, isAppealConfirmation, action }, `getEnterCode`);
 
 		if (isGeneralLogin) {
 			const email = getSessionEmail(req.session, false);
@@ -96,37 +86,6 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 			return renderEnterCodePage(`/${views.EMAIL_ADDRESS}`);
 		}
 
-		if (isReturningFromEmail) {
-			logoutUser(req);
-			req.session.enterCode = req.session.enterCode || {};
-			req.session.enterCode.action = enterCodeConfig.actions.saveAndReturn;
-
-			// lookup user email from appeal id, user hasn't proved they own this appeal/email yet
-			const savedAppeal = await getExistingAppeal(enterCodeId);
-			setSessionEmail(req.session, savedAppeal.email, false);
-
-			//if middleware UUID validation fails, render the page
-			//but do not attempt to send code email to user
-			if (Object.keys(errors).length > 0) {
-				logger.error(errors, 'failed to send token to returning user');
-				return renderEnterCodePage();
-			}
-
-			// attempt to send code email to user, render page on failure
-			try {
-				await getAuthClientConfig(
-					config.oauth.baseUrl,
-					config.oauth.clientID,
-					config.oauth.clientSecret
-				);
-				await createOTPGrant(savedAppeal.email, action);
-			} catch (e) {
-				logger.error(e, 'failed to send token to returning user');
-			}
-
-			return renderEnterCodePage();
-		}
-
 		throw new Error('unhandled journey for GET: enter-code');
 
 		/**
@@ -159,8 +118,7 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 const postEnterCode = (views, { isGeneralLogin = true }) => {
 	return async (req, res) => {
 		const {
-			body: { errors = {}, errorSummary = [] },
-			params: { enterCodeId }
+			body: { errors = {}, errorSummary = [] }
 		} = req;
 		const token = req.body['email-code']?.trim();
 
@@ -169,9 +127,8 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 			return renderError(errorSummary, errors);
 		}
 
-		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
-		const isReturningFromEmail = action === enterCodeConfig.actions.saveAndReturn;
-		const isAppealConfirmation = !isGeneralLogin && !isReturningFromEmail;
+		const action = req.session?.enterCode?.action;
+		const isAppealConfirmation = !isGeneralLogin;
 		const isLoginRedirect = Boolean(req.session?.loginRedirect);
 
 		const sessionEmail = getSessionEmail(req.session, isAppealConfirmation);
@@ -195,7 +152,6 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 				isLoginRedirect,
 				isGeneralLogin,
 				isAppealConfirmation,
-				isReturningFromEmail,
 				action
 			},
 			`postEnterCode`
@@ -204,18 +160,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		/** @type {string|undefined} */
 		let redirect;
 
-		if (isReturningFromEmail) {
-			try {
-				req.session.appeal = await getExistingAppeal(enterCodeId);
-			} catch (err) {
-				return renderError('We did not find your appeal. Enter the correct code');
-			}
-
-			redirect =
-				req.session.appeal?.state === 'SUBMITTED'
-					? `/${views.APPEAL_ALREADY_SUBMITTED}`
-					: `/${views.TASK_LIST}`;
-		} else if (isAppealConfirmation) {
+		if (isAppealConfirmation) {
 			await req.appealsApiClient.linkUserToV2Appeal(
 				sessionEmail,
 				getSessionAppealSqlId(req.session)

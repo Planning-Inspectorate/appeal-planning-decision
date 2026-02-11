@@ -31,22 +31,6 @@ const mapPlanningApplication = (application) => {
 	}
 };
 
-/** DASHBOARD (v1)
- * @param {string} appealId
- * @returns {string}
- */
-const getAppealTypeName = (appealId) => {
-	switch (appealId) {
-		case APPEAL_ID.PLANNING_SECTION_78:
-			return 'Full appeal';
-		case APPEAL_ID.HOUSEHOLDER:
-			return 'Householder appeal';
-		default:
-			return '';
-	}
-};
-
 module.exports = {
-	getAppealTypeName,
 	mapPlanningApplication
 };

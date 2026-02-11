@@ -1,23 +1,14 @@
-const {
-	config: {
-		appeal: { type: appealTypeConfig }
-	},
-	rules
-} = require('@pins/business-rules');
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const NotifyService = require('@pins/common/src/lib/notify/notify-service');
 const config = require('../configuration/config');
 const logger = require('./logger');
 const LpaService = require('../services/lpa.service');
-const { parseISO } = require('date-fns');
 const { formatInTimeZone } = require('date-fns-tz');
 const ukTimeZone = 'Europe/London';
-const constants = require('@pins/business-rules/src/constants');
 const { formatSubmissionAddress, formatAddress } = require('@pins/common/src/lib/format-address');
 const lpaService = new LpaService();
-const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { templates } = config.services.notify;
-const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
 
 /**
@@ -54,92 +45,6 @@ const getNotifyService = () => {
 	});
 
 	return notifyServiceInstance;
-};
-
-//v1 appellant submission initial
-const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
-	try {
-		const recipientEmail = appeal.email;
-		const variables = {
-			...config.services.notify.templateVariables,
-			name:
-				appeal.appealType == '1001'
-					? appeal.aboutYouSection.yourDetails.name
-					: appeal.contactDetailsSection.contact.name
-		};
-
-		const reference = appeal.id;
-
-		logger.debug(
-			{ recipientEmail, variables, reference },
-			'Sending submission confirmation email to appellant'
-		);
-
-		const notifyService = getNotifyService();
-		const content = notifyService.populateTemplate(
-			NotifyService.templates.appealSubmission.v1Initial,
-			variables
-		);
-		await notifyService.sendEmail({
-			personalisation: {
-				subject: `We have received your appeal`,
-				content
-			},
-			destinationEmail: recipientEmail,
-			templateId: templates.generic,
-			reference
-		});
-	} catch (err) {
-		logger.error(
-			{ err, appealId: appeal.id },
-			'Unable to send submission confirmation email to appellant'
-		);
-	}
-};
-
-// v1 appellant submission follow up
-const sendSubmissionFollowUpEmailToAppellant = async (appeal) => {
-	try {
-		const lpa = await lpaService.getLpaById(appeal.lpaCode);
-		const appealRef = appeal.horizonIdFull ?? 'ID not provided';
-
-		const recipientEmail = appeal.email;
-		const variables = {
-			...config.services.notify.templateVariables,
-			appealReferenceNumber: appealRef,
-			appealSiteAddress: _formatAddress(appeal.appealSiteSection.siteAddress),
-			lpaReference: appeal.planningApplicationNumber,
-			lpaName: lpa.getName(),
-			pdfLink: `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
-		};
-
-		const reference = appeal.id;
-
-		logger.debug(
-			{ recipientEmail, variables, reference },
-			'Sending submission received email to appellant'
-		);
-
-		const notifyService = getNotifyService();
-		const content = notifyService.populateTemplate(
-			NotifyService.templates.appealSubmission.v1FollowUp,
-			variables
-		);
-		await notifyService.sendEmail({
-			personalisation: {
-				subject: `We have processed your appeal: ${variables.appealReferenceNumber}`,
-				content
-			},
-			destinationEmail: recipientEmail,
-			templateId: templates.generic,
-			reference
-		});
-	} catch (err) {
-		logger.error(
-			{ err, appealId: appeal.id },
-			'Unable to send submission received email to appellant'
-		);
-	}
 };
 
 /**
@@ -884,174 +789,6 @@ const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
 	}
 };
 
-const sendFinalCommentSubmissionConfirmationEmail = async (finalComment) => {
-	try {
-		const lpa = await lpaService.getLpaById(finalComment.lpaCode);
-
-		const recipientEmail = finalComment.email;
-		let variables = {
-			'local planning authority': lpa.getName(),
-			name: finalComment.name
-		};
-
-		const reference = finalComment.horizonId;
-
-		logger.debug(
-			{ recipientEmail, variables, reference },
-			'Sending final comments submission confirmation email'
-		);
-
-		await NotifyBuilder.reset()
-			.setTemplateId(templates.FINAL_COMMENT.finalCommentSubmissionConfirmationEmail)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
-	} catch (err) {
-		logger.error(
-			{ err, appealId: finalComment.id },
-			'Unable to send final comments submission confirmation email'
-		);
-	}
-};
-
-const sendSubmissionReceivedEmailToLpa = async (appeal) => {
-	try {
-		const lpa = await lpaService.getLpaById(appeal.lpaCode);
-		const lpaEmail = lpa.getEmail();
-		const appealType = caseTypeLookup(appeal.appealType, 'id');
-
-		const getApplicationDecision = () => {
-			if (
-				appealType?.id.toString() === APPEAL_ID.HOUSEHOLDER ||
-				appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED
-			)
-				return 'the refusal of';
-			if (appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.GRANTED)
-				return 'conditions for the granted';
-			if (
-				appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.NODECISIONRECEIVED
-			)
-				return 'the non-determination of';
-			logger.error(
-				`unknown ApplicationDecision in v1 LPA notification email: ${appeal.eligibility.applicationDecision}`
-			);
-			return '';
-		};
-
-		const variables = {
-			...config.services.notify.templateVariables,
-			lpaName: lpa.getName(),
-			appealType: appealType?.type.toLowerCase(),
-			applicationDecision: getApplicationDecision(),
-			lpaReference: appeal.planningApplicationNumber,
-			appealReferenceNumber: appeal.horizonId ?? 'ID not provided',
-			appealSiteAddress: _formatAddress(appeal.appealSiteSection.siteAddress),
-			submissionDate: formatInTimeZone(appeal.submissionDate, ukTimeZone, 'dd MMMM yyyy')
-		};
-
-		const reference = appeal.id;
-
-		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
-
-		const notifyService = getNotifyService();
-		const content = notifyService.populateTemplate(
-			NotifyService.templates.appealSubmission.v1LPANotification,
-			variables
-		);
-		await notifyService.sendEmail({
-			personalisation: {
-				subject: `We've received a ${variables.appealType} appeal`,
-				content
-			},
-			destinationEmail: lpaEmail,
-			templateId: templates.generic,
-			reference
-		});
-	} catch (err) {
-		logger.error(
-			{ err, lpaCode: appeal.lpaCode },
-			'Unable to send submission received email to LPA'
-		);
-	}
-};
-
-const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
-	try {
-		const { baseUrl } = config.apps.appeals;
-		const deadlineDate = rules.appeal.deadlineDate(
-			parseISO(appeal.decisionDate),
-			appeal.appealType,
-			appeal.eligibility.applicationDecision
-		);
-
-		const {
-			recipientEmail,
-			variables: configVars,
-			reference
-		} = appealTypeConfig[appeal.appealType].email.saveAndReturnContinueAppeal(
-			appeal,
-			baseUrl,
-			deadlineDate
-		);
-
-		const variables = {
-			...configVars,
-			...config.services.notify.templateVariables
-		};
-
-		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
-
-		const notifyService = getNotifyService();
-		const content = notifyService.populateTemplate(
-			NotifyService.templates.appealSubmission.v1SaveAndReturnContinueAppeal,
-			variables
-		);
-		await notifyService.sendEmail({
-			personalisation: {
-				subject: `Continue with your appeal for ${variables.applicationNumber}`,
-				content
-			},
-			destinationEmail: recipientEmail,
-			templateId: templates.generic || '',
-			reference
-		});
-	} catch (err) {
-		logger.error(
-			{ err, appealId: appeal.id },
-			'Unable to send submission confirmation email to appellant'
-		);
-	}
-};
-
-const sendFailureToUploadToHorizonEmail = async (appealId) => {
-	try {
-		let variables = {
-			id: appealId
-		};
-		const reference = `${appealId}-${new Date().toISOString}`;
-		await NotifyBuilder.reset()
-			.setTemplateId(templates.ERROR_MONITORING.failureToUploadToHorizon)
-			.setDestinationEmailAddress(config.services.notify.emails.adminMonitoringEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
-	} catch (err) {
-		logger.error(
-			{ err, appealId: appealId },
-			'Unable to send "failure to upload to horizon email" to team'
-		);
-	}
-};
-
 /**
  * @param { AppealUserCreateInput } user
  */
@@ -1134,20 +871,7 @@ const sendCommentSubmissionConfirmationEmailToIp = async (interestedPartySubmiss
 	}
 };
 
-const _formatAddress = (addressJson) => {
-	let address = addressJson.addressLine1;
-	address += addressJson.addressLine2 && `\n${addressJson.addressLine2}`;
-	address += addressJson.town && `\n${addressJson.town}`;
-	address += addressJson.county && `\n${addressJson.county}`;
-	address += `\n${addressJson.postcode}`;
-	return address;
-};
-
 module.exports = {
-	sendSubmissionReceivedEmailToLpa,
-	sendSubmissionFollowUpEmailToAppellant,
-	sendSubmissionConfirmationEmailToAppellant,
-
 	sendSubmissionReceivedEmailToLpaV2,
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
 	sendAppellantStatementSubmissionReceivedEmailToLpaV2,
@@ -1162,9 +886,6 @@ module.exports = {
 	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionConfirmationEmailToAppellantV2,
 
-	sendFinalCommentSubmissionConfirmationEmail,
-	sendSaveAndReturnContinueWithAppealEmail,
-	sendFailureToUploadToHorizonEmail,
 	sendLPADashboardInviteEmail,
 	sendCommentSubmissionConfirmationEmailToIp
 };

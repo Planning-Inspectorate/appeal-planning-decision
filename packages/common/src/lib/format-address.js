@@ -17,7 +17,7 @@ const formatAddress = (appealCaseData, joinString = ', ') => {
 		throw new Error('unsafe joinString');
 	}
 
-	if (isAppealSubmission(appealCaseData) || isV2Submission(appealCaseData)) {
+	if (isV2Submission(appealCaseData)) {
 		return formatAppealSubmissionAddress(appealCaseData);
 	}
 
@@ -36,10 +36,6 @@ const formatAddress = (appealCaseData, joinString = ', ') => {
  * @returns {string}
  */
 const formatAddressWithBreaks = (appealCaseData) => {
-	if (isAppealSubmission(appealCaseData)) {
-		return formatAppealSubmissionAddress(appealCaseData);
-	}
-
 	const addressComponents = [
 		appealCaseData.siteAddressLine1,
 		appealCaseData.siteAddressLine2,
@@ -55,39 +51,20 @@ const formatAddressWithBreaks = (appealCaseData) => {
  * @returns {string}
  */
 const formatAppealSubmissionAddress = (appealSubmission) => {
-	if (isAppealSubmission(appealSubmission)) {
-		if (!appealSubmission.appeal?.appealSiteSection?.siteAddress) {
-			return '';
-		}
-		const address = appealSubmission.appeal?.appealSiteSection?.siteAddress;
-
-		const addressComponents = [
-			address.addressLine1,
-			address.addressLine2,
-			address.town,
-			address.county,
-			address.postcode
-		];
-
-		return addressComponents.filter(Boolean).join(', ');
-	} else if (isV2Submission(appealSubmission)) {
-		// appellant submission should only contain one address
-		const v2Address = appealSubmission?.AppellantSubmission?.SubmissionAddress[0];
-		if (!v2Address) {
-			return '';
-		}
-
-		const addressComponents = [
-			v2Address.addressLine1,
-			v2Address.addressLine2,
-			v2Address.townCity,
-			v2Address.county,
-			v2Address.postcode
-		];
-		return addressComponents.filter(Boolean).join(', ');
-	} else {
+	// appellant submission should only contain one address
+	const v2Address = appealSubmission?.AppellantSubmission?.SubmissionAddress[0];
+	if (!v2Address) {
 		return '';
 	}
+
+	const addressComponents = [
+		v2Address.addressLine1,
+		v2Address.addressLine2,
+		v2Address.townCity,
+		v2Address.county,
+		v2Address.postcode
+	];
+	return addressComponents.filter(Boolean).join(', ');
 };
 
 /**
@@ -139,14 +116,6 @@ const formatEventAddress = (event, joinString = ', ') => {
 
 /**
  * @param {AppealSubmission | AppealCaseDetailed} caseOrSubmission
- * @returns {caseOrSubmission is AppealSubmission}
- */
-function isAppealSubmission(caseOrSubmission) {
-	return Object.hasOwn(caseOrSubmission, 'appeal');
-}
-
-/**
- * @param {AppealSubmission | AppealCaseDetailed} caseOrSubmission
  * @returns {boolean}
  */
 function isV2Submission(caseOrSubmission) {
@@ -162,6 +131,5 @@ module.exports = {
 	formatNeighbouringAddressWithBreaks,
 	formatSubmissionAddress,
 	formatEventAddress,
-	isAppealSubmission,
 	isV2Submission
 };

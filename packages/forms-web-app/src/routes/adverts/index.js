@@ -7,8 +7,6 @@ const checkLoggedIn = require('#middleware/check-logged-in');
 
 router.use(require('./login'));
 
-router.use(checkAppealExists, checkDecisionDateDeadline, require('./planning-application-number'));
-
 router.use(
 	checkLoggedIn,
 	checkAppealExists,
