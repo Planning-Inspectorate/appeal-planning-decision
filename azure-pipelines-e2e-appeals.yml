@@ -29,7 +29,7 @@ trigger: none
 #       - test-packages/platform-feature-tests
 
 # schedules:
-#     - cron: '0 2 * * 1-5'
+#     - cron: '30 3 * * 1-5'
 #       displayName: Weekday test run
 #       branches:
 #           include:
@@ -42,6 +42,7 @@ jobs:
     pool: pins-odt-agent-pool-tests
 
     strategy:
+      maxParallel: 1  # run matrix groups sequentially
       matrix:
         group1:
           GROUP_NAME: 'E2E-S78'
