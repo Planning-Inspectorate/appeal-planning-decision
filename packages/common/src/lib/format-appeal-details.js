@@ -210,7 +210,7 @@ exports.formatFactsForGround = (caseData, ground) => {
 
 	if (!relevantGroundDetails?.groundFacts) return '';
 
-	return escape(relevantGroundDetails.groundFacts);
+	return relevantGroundDetails.groundFacts;
 };
 
 /**

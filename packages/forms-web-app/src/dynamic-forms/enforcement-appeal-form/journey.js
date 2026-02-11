@@ -28,7 +28,6 @@ const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-
  * @typedef {Omit<ConstructorParameters<typeof import('@pins/dynamic-forms/src/journey').Journey>[0], 'response'>} JourneyParameters
  */
 
-const escape = require('escape-html');
 const {
 	getAppealGroundsQuestions,
 	chooseGroundsOfAppealQuestion
@@ -45,7 +44,7 @@ const formatEnforcementIndividualName = (response) => {
 	const firstName = response.answers['appellantFirstName'] || 'Named';
 	const lastName = response.answers['appellantLastName'] || 'Individual';
 
-	return escape(`${firstName} ${lastName}`);
+	return `${firstName} ${lastName}`;
 };
 
 /**
@@ -71,7 +70,7 @@ const formatGroupOfIndividuals = (response) => {
 	const formatIndividual = (individual) => {
 		const firstName = individual.firstName || 'Named';
 		const lastName = individual.lastName || 'Individual';
-		return escape(`${firstName} ${lastName}`);
+		return `${firstName} ${lastName}`;
 	};
 
 	const formattedStringPartOne = allButFinalIndividuals.map(formatIndividual).join(', ');
