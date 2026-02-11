@@ -1,5 +1,4 @@
 const { add, sub, format: formatDate } = require('date-fns');
-const escape = require('escape-html');
 const { DIVIDER } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-utils');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
@@ -29,8 +28,8 @@ const formatIndividualOption = (individual) => {
 	const lastName = individual.lastName || 'Individual';
 	const id = individual.id || 'Id';
 	return {
-		text: escape(`${firstName} ${lastName}`),
-		value: escape(`${id}`)
+		text: `${firstName} ${lastName}`,
+		value: `${id}`
 	};
 };
 

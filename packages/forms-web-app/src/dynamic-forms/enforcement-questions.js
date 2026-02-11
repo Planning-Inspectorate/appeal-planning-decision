@@ -21,8 +21,6 @@ const { createQuestions } = require('@pins/dynamic-forms/src/create-questions');
 const interestInLandRadioOverrides = require('../journeys/question-overrides/interest-in-land/interest-in-land-radio');
 const interestInLandBooleanOverrides = require('../journeys/question-overrides/interest-in-land/interest-in-land-boolean');
 
-const escape = require('escape-html');
-
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('appeals-service-api').Api.SubmissionIndividual} SubmissionIndividual
@@ -66,7 +64,7 @@ const formatEnforcementIndividualName = (response) => {
 	const firstName = response.answers['appellantFirstName'] || 'Named';
 	const lastName = response.answers['appellantLastName'] || 'Individual';
 
-	return escape(`${firstName} ${lastName}`);
+	return `${firstName} ${lastName}`;
 };
 
 /**
@@ -76,7 +74,7 @@ const formatEnforcementIndividualName = (response) => {
 const formatIndividual = (individual) => {
 	const firstName = individual.firstName || 'Named';
 	const lastName = individual.lastName || 'Individual';
-	return escape(`${firstName} ${lastName}`);
+	return `${firstName} ${lastName}`;
 };
 
 /**
