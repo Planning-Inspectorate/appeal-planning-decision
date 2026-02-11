@@ -538,8 +538,10 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 						noticeRelatesToBuildingEngineeringMiningOther:
 							data.noticeRelatesToBuildingEngineeringMiningOther ?? null,
 						isSiteOnCrownLand: data.isSiteOnCrownLand ?? null,
-						hasAllegedBreachArea: data.hasAllegedBreachArea ?? null,
-						doesAllegedBreachCreateFloorSpace: data.doesAllegedBreachCreateFloorSpace ?? null,
+						areaOfAllegedBreachInSquareMetres:
+							data.areaOfAllegedBreachInSquareMetres?.toString() ?? null,
+						floorSpaceCreatedByBreachInSquareMetres:
+							data.floorSpaceCreatedByBreachInSquareMetres?.toString() ?? null,
 						relatesToBuildingSingleDwellingHouse: data.relatesToBuildingSingleDwellingHouse ?? null,
 						relatesToBuildingWithAgriculturalPurpose:
 							data.relatesToBuildingWithAgriculturalPurpose ?? null,

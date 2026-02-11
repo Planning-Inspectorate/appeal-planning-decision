@@ -2914,10 +2914,37 @@ exports.getQuestionProps = (response) => ({
 		question: 'Is the area of the alleged breach the same as the site area?',
 		fieldName: 'allegedBreachArea',
 		url: 'alleged-breach-area',
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes'
+			},
+			{
+				text: 'No',
+				value: 'no',
+				conditional: {
+					question: 'Area of alleged breach, in square metres',
+					fieldName: 'allegedBreachAreaSquareMetres',
+					type: 'text',
+					label: 'Area of alleged breach'
+				}
+			}
+		],
 		validators: [
 			new RequiredValidator(
 				'Select yes if the area of the alleged breach is the same as the site area'
-			)
+			),
+			new ConditionalRequiredValidator('Enter the area of the alleged breach'),
+			new NumericValidator({
+				regex: /^[0-9]*$/,
+				regexMessage: 'Enter the area of the alleged breach using numbers 0 to 9',
+				min: minValue,
+				minMessage: `Area of the alleged breach must be at least ${minValue}`,
+				max: maxValue,
+				maxMessage: `Area of the alleged breach area be ${maxValue} or less`,
+				fieldName: getConditionalFieldName('allegedBreachArea', 'allegedBreachAreaSquareMetres'),
+				optional: true
+			})
 		]
 	},
 	enforcementCreateFloorSpace: {
@@ -2926,7 +2953,36 @@ exports.getQuestionProps = (response) => ({
 		question: 'Does the alleged breach create any floor space?',
 		fieldName: 'createFloorSpace',
 		url: 'create-floor-space',
-		validators: [new RequiredValidator('Select yes if the alleged breach creates any floor space')]
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Floor space, in square metres',
+					fieldName: 'createFloorSpaceSquareMetres',
+					type: 'text',
+					label: 'Floor space'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		],
+		validators: [
+			new RequiredValidator('Select yes if the alleged breach creates any floor space'),
+			new ConditionalRequiredValidator('Enter the area of floor space'),
+			new NumericValidator({
+				regex: /^[0-9]*$/,
+				regexMessage: 'Enter the area of floor space using numbers 0 to 9',
+				min: minValue,
+				minMessage: `Floor space area must be at least ${minValue}`,
+				max: maxValue,
+				maxMessage: `Floor space area must be ${maxValue} or less`,
+				fieldName: getConditionalFieldName('createFloorSpace', 'createFloorSpaceSquareMetres'),
+				optional: true
+			})
+		]
 	},
 	enforcementRefuseWasteMaterials: {
 		type: 'boolean',

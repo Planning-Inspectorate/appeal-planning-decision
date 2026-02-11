@@ -587,10 +587,12 @@ components:
         noticeRelatesToBuildingEngineeringMiningOther:
           type: boolean
         # Enforcement LPAQ fields
-        hasAllegedBreachArea:
-          type: boolean
-        doesAllegedBreachCreateFloorSpace:
-          type: boolean
+        areaOfAllegedBreachInSquareMetres:
+          type: number
+          format: double
+        floorSpaceCreatedByBreachInSquareMetres:
+          type: number
+          format: double
         changeOfUseRefuseOrWaste:
           type: boolean
         changeOfUseMineralExtraction:

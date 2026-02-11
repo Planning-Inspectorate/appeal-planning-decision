@@ -260,8 +260,14 @@ components:
         allegedBreachArea:
           type: boolean
           nullable: true
+        allegedBreachAreaSquareMetres:
+          type: number
+          nullable: true
         createFloorSpace:
           type: boolean
+          nullable: true
+        createFloorSpaceSquareMetres:
+          type: number
           nullable: true
         refuseWasteMaterials:
           type: boolean

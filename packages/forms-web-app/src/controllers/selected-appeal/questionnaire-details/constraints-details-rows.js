@@ -183,13 +183,13 @@ exports.constraintsRows = (caseData) => {
 		},
 		{
 			keyText: 'Has alleged breach area',
-			valueText: formatYesOrNo(caseData, 'hasAllegedBreachArea'),
-			condition: () => isNotUndefinedOrNull(caseData.hasAllegedBreachArea)
+			valueText: `${caseData.areaOfAllegedBreachInSquareMetres} m\u00B2`,
+			condition: () => isNotUndefinedOrNull(caseData.areaOfAllegedBreachInSquareMetres)
 		},
 		{
 			keyText: 'Does alleged breach creates floor space',
-			valueText: formatYesOrNo(caseData, 'doesAllegedBreachCreateFloorSpace'),
-			condition: () => isNotUndefinedOrNull(caseData.doesAllegedBreachCreateFloorSpace)
+			valueText: `${caseData.floorSpaceCreatedByBreachInSquareMetres} m\u00B2`,
+			condition: () => isNotUndefinedOrNull(caseData.floorSpaceCreatedByBreachInSquareMetres)
 		},
 		{
 			keyText: 'Changes use of land to dispose, refuse or waste materials',
