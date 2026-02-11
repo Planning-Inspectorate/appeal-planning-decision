@@ -296,11 +296,11 @@ describe('appeal-documents-rows - enforcement and enforcement listed', () => {
 			(processCode) => {
 				const caseData = {
 					appealTypeCode: processCode,
-					statusPlanningObligation: 'test status'
+					statusPlanningObligation: 'finalised'
 				};
 				const rows = documentsRows(caseData);
 				expect(rows[6].keyText).toEqual('Planning obligation status');
-				expect(rows[6].valueText).toEqual(caseData.statusPlanningObligation);
+				expect(rows[6].valueText).toEqual('Finalised');
 				expect(rows[6].condition(caseData)).toEqual(true);
 			}
 		);

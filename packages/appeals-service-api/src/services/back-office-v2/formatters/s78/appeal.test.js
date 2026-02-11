@@ -79,7 +79,7 @@ describe('S78 formatter', () => {
 			informedTenantsAgriculturalHolding: true,
 
 			planningObligation: true,
-			statusPlanningObligation: 'test',
+			statusPlanningObligation: 'finalised',
 
 			appellantProcedurePreference: 'inquiry',
 			appellantPreferInquiryDetails: 'details',
@@ -137,7 +137,7 @@ describe('S78 formatter', () => {
 				appellantProcedurePreferenceDuration: 13,
 				appellantProcedurePreferenceWitnessCount: 3,
 				planningObligation: true,
-				statusPlanningObligation: 'test',
+				statusPlanningObligation: 'finalised',
 				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
 			},
 			documents: testDocuments,
@@ -213,7 +213,7 @@ describe('S78 formatter', () => {
 				appellantProcedurePreferenceDuration: null,
 				appellantProcedurePreferenceWitnessCount: null,
 				planningObligation: true,
-				statusPlanningObligation: 'test',
+				statusPlanningObligation: 'finalised',
 				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
 			},
 			documents: testDocuments,

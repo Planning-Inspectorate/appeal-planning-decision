@@ -67,7 +67,7 @@ module.exports = ({
 		},
 		planningObligation: {
 			planningObligation: true,
-			statusPlanningObligation: 'test'
+			statusPlanningObligation: 'finalised'
 		},
 		agricultural: {
 			agriculturalHolding: true,
@@ -191,7 +191,7 @@ module.exports = ({
 		},
 		planningObligation: {
 			planningObligation: true,
-			statusPlanningObligation: 'test'
+			statusPlanningObligation: 'finalised'
 		},
 		procedurePreference: {
 			appellantProcedurePreference: 'inquiry',

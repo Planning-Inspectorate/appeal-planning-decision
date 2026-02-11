@@ -52,6 +52,23 @@ exports.formatNotificationMethod = (caseData) => {
 };
 
 /**
+ * @param {string|null|undefined} planningObligationStatus
+ * @returns {string}
+ */
+exports.formatPlanningObligationStatus = (planningObligationStatus) => {
+	switch (planningObligationStatus) {
+		// historic data may be 'not started yet'
+		case 'not_started':
+		case 'not started yet':
+			return 'Not yet started';
+		case 'finalised':
+			return 'Finalised';
+		default:
+			return 'Not answered';
+	}
+};
+
+/**
  * @param {import('appeals-service-api').Api.Document} document
  * @returns {string}
  */
