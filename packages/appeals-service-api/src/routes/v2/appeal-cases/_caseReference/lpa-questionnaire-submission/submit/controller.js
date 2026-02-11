@@ -26,6 +26,10 @@ const {
 	formatter: enforcementFormatter
 } = require('../../../../../../services/back-office-v2/formatters/enforcements/questionnaire');
 
+const {
+	formatter: ldcFormatter
+} = require('../../../../../../services/back-office-v2/formatters/ldc/questionnaire');
+
 const { getLPAQuestionnaireByAppealId } = require('../service');
 
 const backOfficeV2Service = new BackOfficeV2Service();
@@ -54,6 +58,8 @@ const getFormatter = (appealTypeCode) => {
 			return advertsFormatter;
 		case CASE_TYPES.ENFORCEMENT.processCode:
 			return enforcementFormatter;
+		case CASE_TYPES.LDC.processCode:
+			return ldcFormatter;
 
 		default:
 			throw new Error('unknown formatter');

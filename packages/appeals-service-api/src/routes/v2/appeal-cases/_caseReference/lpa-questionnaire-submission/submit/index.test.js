@@ -121,6 +121,24 @@ jest.mock('../../../service', () => ({
 					siteGridReferenceEasting: '359608',
 					siteGridReferenceNorthing: '172607'
 				};
+			case '007':
+				return {
+					id: 'appeal-007',
+					appealTypeCode: 'LDC',
+					LPACode: 'LPA_001',
+					caseReference: '007',
+					applicationReference: 'APP/007',
+					caseStartedDate: new Date(),
+					users: [
+						{
+							serviceUserType: 'Appellant',
+							emailAddress: 'ldc@example.com'
+						}
+					],
+					siteAddressLine1: '456 Another Rd',
+					siteAddressTown: 'Townsville',
+					siteAddressPostcode: 'S78 1AB'
+				};
 			default:
 				return null;
 		}
@@ -371,6 +389,25 @@ jest.mock('../service', () => ({
 						}
 					]
 				};
+			case '007':
+				return {
+					...hasCase,
+					AppealCase: {
+						LPACode: 'LPA_001',
+						appealTypeCode: 'LDC'
+					},
+					lpaPreferHearingDetails: 'Hearing details',
+					lpaPreferInquiryDetails: 'Inquiry details',
+					lpaProcedurePreference_lpaPreferInquiryDuration: '12',
+					lpaProcedurePreference: 'hearing',
+					infrastructureLevy: false,
+					infrastructureLevyAdopted: false,
+					infrastructureLevyAdoptedDate: null,
+					infrastructureLevyExpectedDate: null,
+					appealUnderActSection: 'proposed-changes-to-a-listed-building',
+					lpaConsiderAppealInvalid: 'yes',
+					lpaConsiderAppealInvalid_lpaAppealInvalidReasons: 'reason 1, reason 2'
+				};
 			default:
 				return null;
 		}
@@ -597,6 +634,27 @@ const formattedAdverts = [
 		documents: [...expectedHAS.documents]
 	})
 ];
+const formattedLDC = [
+	expect.objectContaining({
+		casedata: {
+			...expectedHAS.casedata,
+			caseType: CASE_TYPES.LDC.key,
+			caseReference: '007',
+			lpaProcedurePreference: APPEAL_CASE_PROCEDURE.HEARING,
+			lpaProcedurePreferenceDetails: 'Hearing details',
+			lpaProcedurePreferenceDuration: null,
+			hasInfrastructureLevy: false,
+			isInfrastructureLevyFormallyAdopted: null,
+			infrastructureLevyAdoptedDate: null,
+			infrastructureLevyExpectedDate: null,
+			lpaQuestionnaireSubmittedDate: expect.any(String),
+			appealUnderActSection: 'proposed-changes-to-a-listed-building',
+			lpaConsiderAppealInvalid: true,
+			lpaAppealInvalidReasons: 'reason 1, reason 2'
+		},
+		documents: [...expectedHAS.documents]
+	})
+];
 
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 	const expectEmail = (email, appealReferenceNumber) => {
@@ -621,7 +679,8 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 		['S20', '003', formattedS20],
 		['CAS_PLANNING', '004', formattedCASPlanning],
 		['CAS_ADVERTS', '005', formattedCASAdverts],
-		['ADVERTS', '006', formattedAdverts]
+		['ADVERTS', '006', formattedAdverts],
+		['LDC', '007', formattedLDC]
 	])('Formats %s questionnaires then sends it to back office', async (_, id, expectation) => {
 		mockNotifyClient.sendEmail.mockClear();
 

@@ -1200,6 +1200,14 @@ exports.getEnforcementSpecificLPAQSubmissionFields = (answers) => {
 	};
 };
 
+exports.getLdcSpecificLPAQSubmissionFields = (answers) => {
+	return {
+		appealUnderActSection: answers.appealUnderActSection || null,
+		lpaConsiderAppealInvalid: exports.toBool(answers.lpaConsiderAppealInvalid),
+		lpaAppealInvalidReasons: answers.lpaConsiderAppealInvalid_lpaAppealInvalidReasons || null
+	};
+};
+
 /**
  * @param {LPAQAnswers} answers
  * @param {string} fieldName
