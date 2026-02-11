@@ -3,7 +3,8 @@ const {
 	hasNotificationMethods,
 	formatNotificationMethod,
 	sortDocumentsByDate,
-	formatDocumentDetails
+	formatDocumentDetails,
+	formatPlanningObligationStatus
 } = require('./format-appeal-documents');
 const { LPA_NOTIFICATION_METHODS } = require('../database/data-static');
 
@@ -108,5 +109,35 @@ describe('format-case-type:', () => {
 			const sortedDocs = sortDocumentsByDate(documents);
 			expect(sortedDocs).toEqual([{ title: 'Doc 1', datePublished: '2023-09-11' }]);
 		});
+	});
+});
+
+describe('formatPlanningObligationStatus', () => {
+	it('returns "Not yet started" for not_started status', () => {
+		expect(formatPlanningObligationStatus('not_started')).toBe('Not yet started');
+	});
+
+	it('returns "Not yet started" for not started yet status', () => {
+		expect(formatPlanningObligationStatus('not started yet')).toBe('Not yet started');
+	});
+
+	it('returns "Finalised" for finalised status', () => {
+		expect(formatPlanningObligationStatus('finalised')).toBe('Finalised');
+	});
+
+	it('returns "Not answered" for null', () => {
+		expect(formatPlanningObligationStatus(null)).toBe('Not answered');
+	});
+
+	it('returns "Not answered" for undefined', () => {
+		expect(formatPlanningObligationStatus(undefined)).toBe('Not answered');
+	});
+
+	it('returns "Not answered" for unknown status', () => {
+		expect(formatPlanningObligationStatus('unknown_status')).toBe('Not answered');
+	});
+
+	it('returns "Not answered" for empty string', () => {
+		expect(formatPlanningObligationStatus('')).toBe('Not answered');
 	});
 });

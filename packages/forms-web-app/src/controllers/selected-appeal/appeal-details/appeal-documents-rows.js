@@ -1,4 +1,4 @@
-const { formatDocumentDetails } = require('@pins/common');
+const { formatDocumentDetails, formatPlanningObligationStatus } = require('@pins/common');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const {
@@ -6,7 +6,7 @@ const {
 	APPEAL_APPELLANT_PROCEDURE_PREFERENCE,
 	APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION
 } = require('@planning-inspectorate/data-model');
-
+const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import("@pins/common/src/view-model-maps/rows/def").Rows} Rows
@@ -79,8 +79,9 @@ exports.documentsRows = (caseData) => {
 		},
 		{
 			keyText: 'Planning obligation status',
-			valueText: caseData.statusPlanningObligation,
-			condition: (caseData) => (isS20orS78 || isLDC) && caseData.statusPlanningObligation
+			valueText: formatPlanningObligationStatus(caseData.statusPlanningObligation),
+			condition: (caseData) =>
+				(isS20orS78 || isLDC) && isNotUndefinedOrNull(caseData.statusPlanningObligation)
 		},
 		{
 			keyText: 'Planning obligation',
@@ -162,7 +163,8 @@ const enforcementDocumentsRows = (caseData) => {
 		{
 			keyText: 'Application form',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM),
-			condition: (caseData) => !!caseData.applicationMadeAndFeePaid,
+			condition: (caseData) =>
+				!!caseData.applicationMadeAndFeePaid || !!caseData.retrospectiveApplication,
 			isEscaped: true
 		},
 		{
@@ -174,18 +176,19 @@ const enforcementDocumentsRows = (caseData) => {
 		{
 			keyText: 'Decision letter',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPLICATION_DECISION_LETTER),
-			condition: (caseData) => !!caseData.applicationMadeAndFeePaid,
+			condition: (caseData) =>
+				!!caseData.applicationMadeAndFeePaid || !!caseData.retrospectiveApplication,
 			isEscaped: true
 		},
 		{
 			keyText: 'Planning obligation status',
-			valueText: caseData.statusPlanningObligation,
-			condition: (caseData) => !!caseData.statusPlanningObligation
+			valueText: formatPlanningObligationStatus(caseData.statusPlanningObligation),
+			condition: (caseData) => isNotUndefinedOrNull(caseData.statusPlanningObligation)
 		},
 		{
 			keyText: 'Planning obligation',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
-			condition: () => !!caseData.applicationMadeAndFeePaid,
+			condition: () => !!caseData.applicationMadeAndFeePaid || !!caseData.retrospectiveApplication,
 			isEscaped: true
 		},
 		{

@@ -5,6 +5,7 @@ const {
 	howYouNotifiedPeople,
 	formatApplicationSubmissionUsers,
 	formatApplicationDecision,
+	formatPlanningObligationStatus,
 	formatYesNoSomeAnswer,
 	createInterestedPartyNewUser,
 	getDevelopmentType,
@@ -13,7 +14,10 @@ const {
 	getAdvertsAppellantSubmissionFields
 } = require('./utils');
 const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
-const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
+const {
+	APPLICATION_DECISION,
+	PLANNING_OBLIGATION_STATUS_OPTION
+} = require('@pins/business-rules/src/constants');
 const {
 	APPEAL_APPLICATION_DECISION,
 	SERVICE_USER_TYPE,
@@ -159,6 +163,22 @@ describe('utils.js', () => {
 				APPEAL_APPLICATION_DECISION.NOT_RECEIVED
 			);
 			expect(formatApplicationDecision('unknown')).toBe(null);
+		});
+	});
+
+	describe('formatPlanningObligationStatus', () => {
+		it('should format planning obligation status correctly', () => {
+			expect(formatPlanningObligationStatus('finalised')).toBe(
+				PLANNING_OBLIGATION_STATUS_OPTION.FINALISED
+			);
+			expect(formatPlanningObligationStatus('not started yet')).toBe(
+				PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED
+			);
+			expect(formatPlanningObligationStatus('not_started')).toBe(
+				PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED
+			);
+			expect(formatApplicationDecision('unknown')).toBe(null);
+			expect(formatApplicationDecision(null)).toBe(null);
 		});
 	});
 

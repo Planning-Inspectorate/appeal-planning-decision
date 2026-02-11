@@ -2070,6 +2070,7 @@ exports.getQuestionProps = (response) => ({
 			},
 			{
 				text: 'Not started yet',
+				/// note - consider updating value to 'not_started' as per BO (A2-6769) - currently mapped on boradcast
 				value: 'not started yet',
 				conditionalText: {
 					html: 'The deadline to submit your finalised planning obligation is around 6 weeks after you submit your appeal. We’ll tell you the exact date when we confirm your appeal.'

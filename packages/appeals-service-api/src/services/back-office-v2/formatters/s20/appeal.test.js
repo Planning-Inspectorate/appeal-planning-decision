@@ -74,7 +74,7 @@ describe('S20 formatter', () => {
 			typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
 
 			planningObligation: true,
-			statusPlanningObligation: 'test',
+			statusPlanningObligation: 'finalised',
 
 			appellantProcedurePreference: 'inquiry',
 			appellantPreferInquiryDetails: 'details',
@@ -128,7 +128,7 @@ describe('S20 formatter', () => {
 				appellantProcedurePreferenceDuration: 13,
 				appellantProcedurePreferenceWitnessCount: 3,
 				planningObligation: true,
-				statusPlanningObligation: 'test',
+				statusPlanningObligation: 'finalised',
 				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
 			},
 			documents: testDocuments,
@@ -199,7 +199,7 @@ describe('S20 formatter', () => {
 				appellantProcedurePreferenceDuration: null,
 				appellantProcedurePreferenceWitnessCount: null,
 				planningObligation: true,
-				statusPlanningObligation: 'test',
+				statusPlanningObligation: 'finalised',
 				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
 			},
 			documents: testDocuments,

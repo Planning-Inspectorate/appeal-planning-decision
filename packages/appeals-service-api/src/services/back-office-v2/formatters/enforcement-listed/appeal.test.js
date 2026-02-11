@@ -104,7 +104,7 @@ describe('enforcement notice formatter', () => {
 			costApplication: true,
 			isAppellant: true,
 			planningObligation: true,
-			statusPlanningObligation: 'test',
+			statusPlanningObligation: 'finalised',
 
 			appellantProcedurePreference: 'inquiry',
 			appellantPreferInquiryDetails: 'details',

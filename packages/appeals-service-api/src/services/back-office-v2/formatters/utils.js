@@ -4,7 +4,10 @@ const { blobMetaGetter } = require('../../../services/object-store');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
-const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
+const {
+	APPLICATION_DECISION,
+	PLANNING_OBLIGATION_STATUS_OPTION
+} = require('@pins/business-rules/src/constants');
 const {
 	APPEAL_APPLICATION_DECISION,
 	APPEAL_APPELLANT_PROCEDURE_PREFERENCE,
@@ -445,6 +448,24 @@ exports.siteAddressAndGridReferenceAreMissing = (address, easting, northing) => 
 };
 
 /**
+ * @type {Object.<string, string>}
+ */
+const planningObligationStatusMap = {
+	['not started yet']: PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED,
+	['not_started']: PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED,
+	['finalised']: PLANNING_OBLIGATION_STATUS_OPTION.FINALISED
+};
+
+/**
+ * @param {string | null} status
+ * @returns {string | null}
+ */
+exports.formatPlanningObligationStatus = (status) => {
+	if (!status) return null;
+	return planningObligationStatusMap[status] || null;
+};
+
+/**
  * @param {FullAppellantSubmission} appellantSubmission
  * @param {LPA} lpa
  * @returns {AppellantCommonSubmissionProperties}
@@ -541,6 +562,9 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
  */
 exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
 	const preference = exports.getAppellantProcedurePreference(appellantSubmission);
+	const planningObligationStatus = exports.formatPlanningObligationStatus(
+		appellantSubmission.statusPlanningObligation
+	);
 
 	return {
 		agriculturalHolding: appellantSubmission.agriculturalHolding ?? null,
@@ -556,7 +580,7 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
 			: null,
 
 		planningObligation: appellantSubmission.planningObligation ?? null,
-		statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
+		statusPlanningObligation: planningObligationStatus ?? null,
 		developmentType: exports.getDevelopmentType(appellantSubmission),
 		...preference
 	};
@@ -568,6 +592,9 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
  */
 exports.getS20AppellantSubmissionFields = (appellantSubmission) => {
 	const preference = exports.getAppellantProcedurePreference(appellantSubmission);
+	const planningObligationStatus = exports.formatPlanningObligationStatus(
+		appellantSubmission.statusPlanningObligation
+	);
 
 	return {
 		agriculturalHolding: null,
@@ -575,7 +602,7 @@ exports.getS20AppellantSubmissionFields = (appellantSubmission) => {
 		otherTenantsAgriculturalHolding: null,
 		informedTenantsAgriculturalHolding: null,
 		planningObligation: appellantSubmission.planningObligation ?? null,
-		statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
+		statusPlanningObligation: planningObligationStatus ?? null,
 		developmentType: exports.getDevelopmentType(appellantSubmission),
 		...preference
 	};
@@ -768,6 +795,10 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 		contactAddressPostcode: contactAddress?.postcode ?? undefined
 	});
 
+	const planningObligationStatus = exports.formatPlanningObligationStatus(
+		appellantSubmission.statusPlanningObligation
+	);
+
 	return {
 		submissionId: appellantSubmission.appealId,
 		caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
@@ -777,7 +808,7 @@ exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => 
 		enforcementNotice: true,
 		appellantCostsAppliedFor: appellantSubmission.costApplication ?? null,
 		planningObligation: appellantSubmission.planningObligation ?? null,
-		statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
+		statusPlanningObligation: planningObligationStatus ?? null,
 		originalDevelopmentDescription: appellantSubmission.developmentDescriptionOriginal ?? null,
 		changedDevelopmentDescription: appellantSubmission.updateDevelopmentDescription ?? null,
 		namedIndividuals: getNamedIndividuals(),

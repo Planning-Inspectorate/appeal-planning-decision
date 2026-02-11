@@ -105,7 +105,7 @@ describe('enforcement notice formatter', () => {
 			costApplication: true,
 			isAppellant: true,
 			planningObligation: true,
-			statusPlanningObligation: 'test',
+			statusPlanningObligation: 'finalised',
 
 			appellantProcedurePreference: 'inquiry',
 			appellantPreferInquiryDetails: 'details',
@@ -163,7 +163,7 @@ describe('enforcement notice formatter', () => {
 				appellantProcedurePreferenceDuration: 13,
 				appellantProcedurePreferenceWitnessCount: 3,
 				planningObligation: true,
-				statusPlanningObligation: 'test',
+				statusPlanningObligation: 'finalised',
 				namedIndividuals: [],
 				appealGrounds: [
 					{
@@ -251,7 +251,7 @@ describe('enforcement notice formatter', () => {
 				appellantProcedurePreferenceDuration: 13,
 				appellantProcedurePreferenceWitnessCount: 3,
 				planningObligation: true,
-				statusPlanningObligation: 'test',
+				statusPlanningObligation: 'finalised',
 				namedIndividuals: [],
 				appealGrounds: [
 					{
@@ -361,7 +361,7 @@ describe('enforcement notice formatter', () => {
 				appellantProcedurePreferenceDuration: 13,
 				appellantProcedurePreferenceWitnessCount: 3,
 				planningObligation: true,
-				statusPlanningObligation: 'test',
+				statusPlanningObligation: 'finalised',
 				namedIndividuals: [
 					{
 						firstName: groupSubmission.SubmissionIndividual[1].firstName,
