@@ -170,8 +170,8 @@ describe('constraintsRows', () => {
 		},
 		{ title: 'Notice relates to Building engineering, mining or other', value: 'Yes' },
 		{ title: 'Total site area', value: '23 m\u00B2' },
-		{ title: 'Has alleged breach area', value: 'Yes' },
-		{ title: 'Does alleged breach creates floor space', value: 'Yes' },
+		{ title: 'Has alleged breach area', value: '120 m\u00B2' },
+		{ title: 'Does alleged breach creates floor space', value: '45 m\u00B2' },
 		{ title: 'Changes use of land to dispose, refuse or waste materials', value: 'Yes' },
 		{ title: 'Changes use of land to dispose of remaining materials', value: 'Yes' },
 		{ title: 'Changes of use of land to store minerals', value: 'Yes' },
@@ -257,8 +257,8 @@ describe('constraintsRows', () => {
 			publicRightOfWay: false,
 			noticeRelatesToBuildingEngineeringMiningOther: false,
 			siteAreaSquareMetres: 23,
-			hasAllegedBreachArea: false,
-			doesAllegedBreachCreateFloorSpace: false,
+			areaOfAllegedBreachInSquareMetres: 100,
+			floorSpaceCreatedByBreachInSquareMetres: 50,
 			changeOfUseRefuseOrWaste: false,
 			changeOfUseMineralExtraction: false,
 			changeOfUseMineralStorage: false,
@@ -389,13 +389,13 @@ describe('constraintsRows', () => {
 
 		expect(rows[HAS_ALLEGED_BREACH_AREA_ROW].condition()).toEqual(true);
 		expect(rows[HAS_ALLEGED_BREACH_AREA_ROW].keyText).toEqual('Has alleged breach area');
-		expect(rows[HAS_ALLEGED_BREACH_AREA_ROW].valueText).toEqual('No');
+		expect(rows[HAS_ALLEGED_BREACH_AREA_ROW].valueText).toEqual('100 m\u00B2');
 
 		expect(rows[ALLEGED_BREACH_CREATES_FLOOR_SPACE_ROW].condition()).toEqual(true);
 		expect(rows[ALLEGED_BREACH_CREATES_FLOOR_SPACE_ROW].keyText).toEqual(
 			'Does alleged breach creates floor space'
 		);
-		expect(rows[ALLEGED_BREACH_CREATES_FLOOR_SPACE_ROW].valueText).toEqual('No');
+		expect(rows[ALLEGED_BREACH_CREATES_FLOOR_SPACE_ROW].valueText).toEqual('50 m\u00B2');
 
 		expect(rows[CHANGES_USE_DISPOSE_WASTE_MATERIALS_ROW].condition()).toEqual(true);
 		expect(rows[CHANGES_USE_DISPOSE_WASTE_MATERIALS_ROW].keyText).toEqual(

@@ -372,8 +372,8 @@ const getEnforcementLPAQFields = (dataModel) => {
 	return {
 		noticeRelatesToBuildingEngineeringMiningOther:
 			dataModel.noticeRelatesToBuildingEngineeringMiningOther,
-		// hasAllegedBreachArea: dataModel.hasAllegedBreachArea waiting for data-model update,
-		doesAllegedBreachCreateFloorSpace: dataModel.doesAllegedBreachCreateFloorSpace,
+		areaOfAllegedBreachInSquareMetres: dataModel.areaOfAllegedBreachInSquareMetres,
+		floorSpaceCreatedByBreachInSquareMetres: dataModel.floorSpaceCreatedByBreachInSquareMetres,
 		changeOfUseRefuseOrWaste: dataModel.changeOfUseRefuseOrWaste,
 		changeOfUseMineralExtraction: dataModel.changeOfUseMineralExtraction,
 		changeOfUseMineralStorage: dataModel.changeOfUseMineralStorage,

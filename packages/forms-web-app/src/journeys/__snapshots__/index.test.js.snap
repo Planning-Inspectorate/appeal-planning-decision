@@ -27533,8 +27533,18 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="allegedBreachArea-2" name="allegedBreachArea"
-                                type="radio" value="no" data-cy="answer-no">
+                                type="radio" value="no" data-aria-controls="conditional-allegedBreachArea-2"
+                                data-cy="answer-no">
                                 <label class="govuk-label govuk-radios__label" for="allegedBreachArea-2">No</label>
+                            </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-allegedBreachArea-2">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="allegedBreachArea_allegedBreachAreaSquareMetres">Area of alleged breach, in square metres</label>
+                                    <input class="govuk-input"
+                                    id="allegedBreachArea_allegedBreachAreaSquareMetres" name="allegedBreachArea_allegedBreachAreaSquareMetres"
+                                    type="text" value="">
+                                </div>
                             </div>
                         </div>
                     </fieldset>
@@ -28057,8 +28067,17 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="createFloorSpace" name="createFloorSpace"
-                                type="radio" value="yes" data-cy="answer-yes">
+                                type="radio" value="yes" data-aria-controls="conditional-createFloorSpace"
+                                data-cy="answer-yes">
                                 <label class="govuk-label govuk-radios__label" for="createFloorSpace">Yes</label>
+                            </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-createFloorSpace">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="createFloorSpace_createFloorSpaceSquareMetres">Floor space, in square metres</label>
+                                    <input class="govuk-input" id="createFloorSpace_createFloorSpaceSquareMetres"
+                                    name="createFloorSpace_createFloorSpaceSquareMetres" type="text" value="">
+                                </div>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="createFloorSpace-2" name="createFloorSpace"
@@ -31659,8 +31678,18 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="allegedBreachArea-2" name="allegedBreachArea"
-                                type="radio" value="no" data-cy="answer-no">
+                                type="radio" value="no" data-aria-controls="conditional-allegedBreachArea-2"
+                                data-cy="answer-no">
                                 <label class="govuk-label govuk-radios__label" for="allegedBreachArea-2">No</label>
+                            </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-allegedBreachArea-2">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="allegedBreachArea_allegedBreachAreaSquareMetres">Area of alleged breach, in square metres</label>
+                                    <input class="govuk-input"
+                                    id="allegedBreachArea_allegedBreachAreaSquareMetres" name="allegedBreachArea_allegedBreachAreaSquareMetres"
+                                    type="text" value="">
+                                </div>
                             </div>
                         </div>
                     </fieldset>
@@ -32183,8 +32212,17 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="createFloorSpace" name="createFloorSpace"
-                                type="radio" value="yes" data-cy="answer-yes">
+                                type="radio" value="yes" data-aria-controls="conditional-createFloorSpace"
+                                data-cy="answer-yes">
                                 <label class="govuk-label govuk-radios__label" for="createFloorSpace">Yes</label>
+                            </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
+                            id="conditional-createFloorSpace">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="createFloorSpace_createFloorSpaceSquareMetres">Floor space, in square metres</label>
+                                    <input class="govuk-input" id="createFloorSpace_createFloorSpaceSquareMetres"
+                                    name="createFloorSpace_createFloorSpaceSquareMetres" type="text" value="">
+                                </div>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="createFloorSpace-2" name="createFloorSpace"

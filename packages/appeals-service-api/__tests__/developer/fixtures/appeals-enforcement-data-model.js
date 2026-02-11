@@ -39,7 +39,8 @@ const exampleEnforcementDataModel = {
 		}
 	],
 	noticeRelatesToBuildingEngineeringMiningOther: true,
-	doesAllegedBreachCreateFloorSpace: true,
+	areaOfAllegedBreachInSquareMetres: 150.5,
+	floorSpaceCreatedByBreachInSquareMetres: 45,
 	changeOfUseRefuseOrWaste: true,
 	changeOfUseMineralExtraction: true,
 	changeOfUseMineralStorage: true,

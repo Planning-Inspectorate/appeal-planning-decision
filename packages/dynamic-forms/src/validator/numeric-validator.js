@@ -23,8 +23,18 @@ class NumericValidator extends BaseValidator {
 	 * @param {RegExp} [params.regex]
 	 * @param {string} [params.regexMessage]
 	 * @param {string} [params.fieldName]
+	 * @param {boolean} [params.optional]
 	 */
-	constructor({ min, minMessage, max, maxMessage, regex, regexMessage, fieldName } = {}) {
+	constructor({
+		min,
+		minMessage,
+		max,
+		maxMessage,
+		regex,
+		regexMessage,
+		fieldName,
+		optional = false
+	} = {}) {
 		super();
 		this.min = min;
 		this.minMessage = minMessage || `The value must be at least ${min}`;
@@ -33,10 +43,15 @@ class NumericValidator extends BaseValidator {
 		this.regex = regex;
 		this.regexMessage = regexMessage || 'Invalid input format';
 		this.fieldName = fieldName;
+		this.optional = optional;
 	}
 
 	validate(questionObj) {
 		let chain = body(this.fieldName ? this.fieldName : questionObj.fieldName);
+
+		if (this.optional) {
+			chain = chain.optional({ checkFalsy: true });
+		}
 
 		if (this.regex) {
 			chain = chain.matches(new RegExp(this.regex)).withMessage(this.regexMessage);

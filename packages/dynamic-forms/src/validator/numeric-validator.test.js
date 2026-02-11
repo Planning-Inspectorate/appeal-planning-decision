@@ -79,4 +79,49 @@ describe('src/dynamic-forms/validator/numeric-validator.js', () => {
 		const validationResult = await new NumericValidator(options).validate(question).run(req);
 		expect(validationResult.errors.length).toEqual(0);
 	});
+
+	it('should invalidate an empty value by default (mandatory)', async () => {
+		const options = {
+			min: 1,
+			fieldName: 'value'
+			// optional is false by default
+		};
+		const req = { body: { value: '' } };
+		const question = { fieldName: 'value' };
+
+		const validationResult = await new NumericValidator(options).validate(question).run(req);
+		expect(validationResult.errors.length).toBeGreaterThan(0);
+	});
+
+	it('should validate an empty value when optional is true', async () => {
+		const options = {
+			min: 1,
+			fieldName: 'value',
+			optional: true
+		};
+		const req = { body: { value: '' } };
+		const question = { fieldName: 'value' };
+
+		const validationResult = await new NumericValidator(options).validate(question).run(req);
+		expect(validationResult.errors.length).toEqual(0);
+	});
+
+	it('should still invalidate an incorrect value even when optional is true', async () => {
+		const options = {
+			min: 1,
+			fieldName: 'value',
+			optional: true,
+			regex: /^\d+$/,
+			regexMessage: 'Numbers only'
+		};
+		const req = { body: { value: 'not-a-number' } };
+		const question = { fieldName: 'value' };
+
+		const validationResult = await new NumericValidator(options).validate(question).run(req);
+
+		expect(validationResult.errors.length).toBeGreaterThanOrEqual(1);
+
+		const hasMyMessage = validationResult.errors.some((err) => err.msg === 'Numbers only');
+		expect(hasMyMessage).toBe(true);
+	});
 });

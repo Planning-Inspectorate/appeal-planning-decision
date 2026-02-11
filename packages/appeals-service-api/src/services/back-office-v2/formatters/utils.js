@@ -1186,8 +1186,14 @@ exports.getEnforcementSpecificLPAQSubmissionFields = (answers) => {
 	return {
 		noticeRelatesToBuildingEngineeringMiningOther: answers.otherOperations,
 		siteAreaSquareMetres: Number(answers.siteAreaSquareMetres),
-		hasAllegedBreachArea: answers.allegedBreachArea,
-		doesAllegedBreachCreateFloorSpace: answers.createFloorSpace,
+		areaOfAllegedBreachInSquareMetres:
+			answers.allegedBreachArea === false
+				? Number(answers.allegedBreachArea_allegedBreachAreaSquareMetres)
+				: null,
+		floorSpaceCreatedByBreachInSquareMetres:
+			answers.createFloorSpace === true
+				? Number(answers.createFloorSpace_createFloorSpaceSquareMetres)
+				: null,
 		changeOfUseRefuseOrWaste: answers.refuseWasteMaterials,
 		changeOfUseMineralExtraction: answers.mineralExtractionMaterials,
 		changeOfUseMineralStorage: answers.storeMinerals,
