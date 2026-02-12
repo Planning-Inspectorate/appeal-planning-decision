@@ -956,11 +956,10 @@ describe('dynamic-form/controller', () => {
 					'application form',
 					'plans, drawings and supporting documents for your application',
 					'decision letter from the local planning authority',
-					'any other relevant correspondence with the local authority'
+					'any other relevant correspondence with the local planning authority'
 				],
 				requiredDocumentsSubheading: 'You’ll need your:',
-				optionalDocumentsSubheading:
-					'If you have any of the following documents, you’ll also need to upload your:'
+				optionalDocumentsSubheading: null
 			});
 		});
 		it('renders correct page for Adverts', () => {
@@ -977,11 +976,10 @@ describe('dynamic-form/controller', () => {
 					'application form',
 					'plans, drawings and supporting documents for your application',
 					'decision letter from the local planning authority',
-					'any other relevant correspondence with the local authority'
+					'any other relevant correspondence with the local planning authority'
 				],
 				requiredDocumentsSubheading: 'You’ll need your:',
-				optionalDocumentsSubheading:
-					'If you have any of the following documents, you’ll also need to upload your:'
+				optionalDocumentsSubheading: null
 			});
 		});
 		it('renders correct page for enforcement', () => {
@@ -1014,22 +1012,15 @@ describe('dynamic-form/controller', () => {
 					config.generateBetaBannerFeedbackLink(
 						config.getAppealTypeFeedbackUrl(CASE_TYPES.LDC.processCode)
 					),
-				optionalDocuments: [
-					'dated photographs of the site',
-					'letters from neighbours',
-					'receipts or invoices for work',
-					'plans and drawings'
-				],
+				optionalDocuments: undefined,
 				requiredDocuments: [
 					'application form',
 					'plans, drawings and supporting documents for your application',
-					'decision letter from the local authority',
-					'any other relevant correspondence with the local authority',
-					'map of the appeal site'
+					'decision letter from the local planning authority',
+					'any other relevant correspondence with the local planning authority'
 				],
 				requiredDocumentsSubheading: 'You’ll need your:',
-				optionalDocumentsSubheading:
-					'If you think your land or building is lawful because the time limit has passed, you’ll also need to upload your:'
+				optionalDocumentsSubheading: null
 			});
 		});
 		it('renders error page if appeal type not found', () => {
