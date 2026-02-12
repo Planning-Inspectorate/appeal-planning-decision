@@ -562,6 +562,238 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				});
 			}
 
+			it('creates an initial appeal case for a child enforcement appeal', async () => {
+				const data = structuredClone(enforcementExample);
+				data.lpaCode = 'Q1111';
+				const initialTestCaseRef = 'initialEnforcementRef';
+				const childTestCaseRef = 'childEnforcementRef';
+				const submission = await sqlClient.appellantSubmission.create({
+					data: {
+						appealTypeCode: CASE_TYPES.ENFORCEMENT.processCode,
+						LPACode: 'Q1111',
+						Appeal: { create: {} }
+					},
+					select: {
+						id: true,
+						Appeal: {
+							select: {
+								id: true
+							}
+						}
+					}
+				});
+				const email = 'test@example.com';
+
+				const user = await sqlClient.appealUser.upsert({
+					where: { email },
+					create: { email },
+					update: {}
+				});
+
+				await sqlClient.appealToUser.create({
+					data: {
+						userId: user.id,
+						appealId: submission.Appeal.id,
+						role: 'Appellant'
+					}
+				});
+				data.submissionId = submission.Appeal.id;
+				data.caseReference = initialTestCaseRef;
+				await appealsApi.put(`/api/v2/appeal-cases/` + initialTestCaseRef).send(data);
+				const newData = structuredClone(enforcementExample);
+				newData.lpaCode = 'Q1111';
+				newData.submissionId = submission.Appeal.id;
+				newData.caseReference = childTestCaseRef;
+				const response = await appealsApi
+					.put(`/api/v2/appeal-cases/` + childTestCaseRef)
+					.send(newData);
+				expect(response.status).toBe(200);
+				expect(response.body).toEqual({
+					id: expect.any(String),
+					appealId: expect.any(String),
+					appealTypeCode: CASE_TYPES.ENFORCEMENT.processCode,
+					caseId: data.caseId ?? null,
+					caseReference: newData.caseReference ?? null,
+					caseOfficerId: data.caseOfficerId ?? null,
+					inspectorId: data.inspectorId ?? null,
+					allocationLevel: data.allocationLevel ?? null,
+					allocationBand: data.allocationBand ?? null,
+					caseSubmittedDate: data.caseSubmittedDate ?? null,
+					caseCreatedDate: data.caseCreatedDate ?? null,
+					caseUpdatedDate: data.caseUpdatedDate ?? null,
+					caseValidDate: data.caseValidDate ?? null,
+					caseValidationDate: data.caseValidationDate ?? null,
+					caseExtensionDate: data.caseExtensionDate ?? null,
+					caseStartedDate: data.caseStartedDate ?? null,
+					casePublishedDate: data.casePublishedDate ?? null,
+					lpaQuestionnaireDueDate: data.lpaQuestionnaireDueDate ?? null,
+					lpaQuestionnaireSubmittedDate: data.lpaQuestionnaireSubmittedDate ?? null,
+					lpaQuestionnaireCreatedDate: data.lpaQuestionnaireCreatedDate ?? null,
+					lpaQuestionnairePublishedDate: data.lpaQuestionnairePublishedDate ?? null,
+					lpaQuestionnaireValidationOutcomeDate: data.lpaQuestionnaireValidationOutcomeDate ?? null,
+					lpaStatement: data.lpaStatement ?? null,
+					caseWithdrawnDate: data.caseWithdrawnDate ?? null,
+					caseTransferredDate: data.caseTransferredDate ?? null,
+					transferredCaseClosedDate: data.transferredCaseClosedDate ?? null,
+					caseDecisionOutcomeDate: data.caseDecisionOutcomeDate ?? null,
+					caseDecisionPublishedDate: data.caseDecisionPublishedDate ?? null,
+					caseCompletedDate: data.caseCompletedDate ?? null,
+					enforcementNotice: data.enforcementNotice ?? null,
+					applicationReference: data.applicationReference ?? null,
+					applicationDate: data.applicationDate ?? null,
+					applicationDecision: data.applicationDecision ?? null,
+					applicationDecisionDate: data.applicationDecisionDate ?? null,
+					caseSubmissionDueDate: data.caseSubmissionDueDate ?? null,
+					siteAddressLine1: data.siteAddressLine1 ?? null,
+					siteAddressLine2: data.siteAddressLine2 ?? null,
+					siteAddressTown: data.siteAddressTown ?? null,
+					siteAddressCounty: data.siteAddressCounty ?? null,
+					siteGridReferenceEasting: data.siteGridReferenceEasting ?? null,
+					siteGridReferenceNorthing: data.siteGridReferenceNorthing ?? null,
+					siteAreaSquareMetres: data.siteAreaSquareMetres?.toString() ?? null,
+					floorSpaceSquareMetres: data.floorSpaceSquareMetres?.toString() ?? null,
+					isCorrectAppealType: data.isCorrectAppealType ?? null,
+					isGreenBelt: data.isGreenBelt ?? null,
+					inConservationArea: data.inConservationArea ?? null,
+					ownsAllLand: data.ownsAllLand ?? null,
+					ownsSomeLand: data.ownsSomeLand ?? null,
+					knowsOtherOwners: data.knowsOtherOwners ?? null,
+					knowsAllOwners: data.knowsAllOwners ?? null,
+					advertisedAppeal: data.advertisedAppeal ?? null,
+					ownersInformed: data.ownersInformed ?? null,
+					originalDevelopmentDescription: data.originalDevelopmentDescription ?? null,
+					changedDevelopmentDescription: data.changedDevelopmentDescription ?? null,
+					newConditionDetails: data.newConditionDetails ?? null,
+					appellantCostsAppliedFor: data.appellantCostsAppliedFor ?? null,
+					lpaCostsAppliedFor: data.lpaCostsAppliedFor ?? null,
+					typeOfPlanningApplication: data.typeOfPlanningApplication ?? null,
+					reasonForNeighbourVisits: data.reasonForNeighbourVisits ?? null,
+					statutoryConsultees: data.hasStatutoryConsultees ?? null,
+					consultedBodiesDetails: data.consultedBodiesDetails ?? null,
+					hasLandownersPermission: data.hasLandownersPermission ?? null,
+					siteAddressPostcode: data.siteAddressPostcode ?? null,
+					siteAddressPostcodeSanitized: data.siteAddressPostcode?.toUpperCase().replace(' ', ''),
+					scheduledMonument: data.affectsScheduledMonument ?? null,
+					protectedSpecies: data.hasProtectedSpecies ?? null,
+					areaOutstandingBeauty: data.isAonbNationalLandscape ?? null,
+					designatedSitesNames: data.designatedSitesNames
+						? JSON.stringify(data.designatedSitesNames)
+						: null,
+					lpaProcedurePreference: data.lpaProcedurePreference ?? null,
+					lpaProcedurePreferenceDetails: data.lpaProcedurePreferenceDetails ?? null,
+					lpaProcedurePreferenceDuration: data.lpaProcedurePreferenceDuration ?? null,
+					wasApplicationRefusedDueToHighwayOrTraffic:
+						data.wasApplicationRefusedDueToHighwayOrTraffic ?? null,
+					isSiteInAreaOfSpecialControlAdverts: data.isSiteInAreaOfSpecialControlAdverts ?? null,
+					didAppellantSubmitCompletePhotosAndPlans:
+						data.didAppellantSubmitCompletePhotosAndPlans ?? null,
+					ownerOccupancyStatus: data.ownerOccupancyStatus ?? null,
+					occupancyConditionsMet: data.occupancyConditionsMet ?? null,
+					applicationMadeAndFeePaid: data.applicationMadeAndFeePaid ?? null,
+					retrospectiveApplication: data.retrospectiveApplication ?? null,
+					groundAFeePaid: data.groundAFeePaid ?? null,
+					previousPlanningPermissionGranted: data.previousPlanningPermissionGranted ?? null,
+					issueDateOfEnforcementNotice: data.issueDateOfEnforcementNotice ?? null,
+					effectiveDateOfEnforcementNotice: data.effectiveDateOfEnforcementNotice ?? null,
+					didAppellantAppealLpaDecision: data.didAppellantAppealLpaDecision ?? null,
+					dateLpaDecisionDue: data.dateLpaDecisionDue ?? null,
+					dateLpaDecisionReceived: data.dateLpaDecisionReceived ?? null,
+					enforcementReference: data.enforcementNoticeReference ?? null,
+					descriptionOfAllegedBreach: data.descriptionOfAllegedBreach ?? null,
+					applicationPartOrWholeDevelopment: data.applicationPartOrWholeDevelopment ?? null,
+					contactPlanningInspectorateDate: data.dateAppellantContactedPins ?? null,
+					agriculturalHolding: data.agriculturalHolding ?? null,
+					tenantAgriculturalHolding: data.tenantAgriculturalHolding ?? null,
+					otherTenantsAgriculturalHolding: data.otherTenantsAgriculturalHolding ?? null,
+					informedTenantsAgriculturalHolding: data.informedTenantsAgriculturalHolding ?? null,
+					appellantProcedurePreference: data.appellantProcedurePreference ?? null,
+					appellantProcedurePreferenceDetails: data.appellantProcedurePreferenceDetails ?? null,
+					appellantProcedurePreferenceDuration: data.appellantProcedurePreferenceDuration ?? null,
+					appellantProcedurePreferenceWitnessCount:
+						data.appellantProcedurePreferenceWitnessCount ?? null,
+					statusPlanningObligation: data.statusPlanningObligation ?? null,
+					gypsyTraveller: data.isGypsyOrTravellerSite ?? null,
+					publicRightOfWay: data.isPublicRightOfWay ?? null,
+					environmentalImpactSchedule: data.eiaEnvironmentalImpactSchedule ?? null,
+					developmentDescription: data.eiaDevelopmentDescription ?? null,
+					sensitiveAreaDetails: data.eiaSensitiveAreaDetails ?? null,
+					columnTwoThreshold: data.eiaColumnTwoThreshold ?? null,
+					screeningOpinion: data.eiaScreeningOpinion ?? null,
+					requiresEnvironmentalStatement: data.eiaRequiresEnvironmentalStatement ?? null,
+					completedEnvironmentalStatement: data.eiaCompletedEnvironmentalStatement ?? null,
+					infrastructureLevy: data.hasInfrastructureLevy ?? null,
+					infrastructureLevyAdopted: data.isInfrastructureLevyFormallyAdopted ?? null,
+					infrastructureLevyAdoptedDate: data.infrastructureLevyAdoptedDate ?? null,
+					infrastructureLevyExpectedDate: data.infrastructureLevyExpectedDate ?? null,
+					caseworkReason: data.caseworkReason ?? null,
+					developmentType: data.developmentType ?? null,
+					importantInformation: data.importantInformation ?? null,
+					jurisdiction: data.jurisdiction ?? null,
+					redeterminedIndicator: data.redeterminedIndicator ?? null,
+					dateCostsReportDespatched: data.dateCostsReportDespatched ?? null,
+					dateNotRecoveredOrDerecovered: data.dateNotRecoveredOrDerecovered ?? null,
+					dateRecovered: data.dateRecovered ?? null,
+					originalCaseDecisionDate: data.originalCaseDecisionDate ?? null,
+					targetDate: data.targetDate ?? null,
+					appellantCommentsSubmittedDate: data.appellantCommentsSubmittedDate ?? null,
+					appellantStatementSubmittedDate: data.appellantStatementSubmittedDate ?? null,
+					appellantProofsSubmittedDate: data.appellantProofsSubmittedDate ?? null,
+					finalCommentsDueDate: data.finalCommentsDueDate ?? null,
+					interestedPartyRepsDueDate: data.interestedPartyRepsDueDate ?? null,
+					LPACommentsSubmittedDate: data.lpaCommentsSubmittedDate ?? null,
+					LPAProofsSubmittedDate: data.lpaProofsSubmittedDate ?? null,
+					LPAStatementSubmittedDate: data.lpaStatementSubmittedDate ?? null,
+					proofsOfEvidenceDueDate: data.proofsOfEvidenceDueDate ?? null,
+					siteNoticesSentDate: data.siteNoticesSentDate ?? null,
+					statementDueDate: data.statementDueDate ?? null,
+					numberOfResidencesNetChange: data.numberOfResidencesNetChange ?? null,
+					siteViewableFromRoad: data.siteViewableFromRoad ?? null,
+					siteWithinSSSI: data.siteWithinSSSI ?? null,
+					preserveGrantLoan: data.preserveGrantLoan ?? null,
+					consultHistoricEngland: data.consultHistoricEngland ?? null,
+					caseStatus: data.caseStatus,
+					caseDecisionOutcome: data.caseDecisionOutcome,
+					caseValidationOutcome: data.caseValidationOutcome,
+					lpaQuestionnaireValidationOutcome: data.lpaQuestionnaireValidationOutcome,
+					caseProcedure: data.caseProcedure,
+					LPACode: data.lpaCode,
+					caseSpecialisms: data.caseSpecialisms ? JSON.stringify(data.caseSpecialisms) : null,
+					caseValidationInvalidDetails: data.caseValidationInvalidDetails
+						? JSON.stringify(data.caseValidationInvalidDetails)
+						: null,
+					caseValidationIncompleteDetails: data.caseValidationIncompleteDetails
+						? JSON.stringify(data.caseValidationIncompleteDetails)
+						: null,
+					lpaQuestionnaireValidationDetails: data.lpaQuestionnaireValidationDetails
+						? JSON.stringify(data.lpaQuestionnaireValidationDetails)
+						: null,
+					siteAccessDetails: data.siteAccessDetails ? JSON.stringify(data.siteAccessDetails) : null,
+					siteSafetyDetails: data.siteSafetyDetails ? JSON.stringify(data.siteSafetyDetails) : null,
+					changeOfUseMineralExtraction: data.changeOfUseMineralExtraction ?? null,
+					changeOfUseMineralStorage: data.changeOfUseMineralStorage ?? null,
+					changeOfUseRefuseOrWaste: data.changeOfUseRefuseOrWaste ?? null,
+					article4AffectedDevelopmentRights: data.article4AffectedDevelopmentRights ?? null,
+					affectedTrunkRoadName: data.affectedTrunkRoadName ?? null,
+					noticeRelatesToBuildingEngineeringMiningOther:
+						data.noticeRelatesToBuildingEngineeringMiningOther ?? null,
+					isSiteOnCrownLand: data.isSiteOnCrownLand ?? null,
+					areaOfAllegedBreachInSquareMetres:
+						data.areaOfAllegedBreachInSquareMetres?.toString() ?? null,
+					floorSpaceCreatedByBreachInSquareMetres:
+						data.floorSpaceCreatedByBreachInSquareMetres?.toString() ?? null,
+					relatesToBuildingSingleDwellingHouse: data.relatesToBuildingSingleDwellingHouse ?? null,
+					relatesToBuildingWithAgriculturalPurpose:
+						data.relatesToBuildingWithAgriculturalPurpose ?? null,
+					relatesToErectionOfBuildingOrBuildings:
+						data.relatesToErectionOfBuildingOrBuildings ?? null,
+					applicationMadeUnderActSection: data.applicationMadeUnderActSection ?? null,
+					siteUseAtTimeOfApplication: data.siteUseAtTimeOfApplication ?? null,
+					appealUnderActSection: data.appealUnderActSection ?? null,
+					lpaConsiderAppealInvalid: data.lpaConsiderAppealInvalid ?? null,
+					lpaAppealInvalidReasons: data.lpaAppealInvalidReasons ?? null
+				});
+			});
+
 			for (const testCase of testCases) {
 				it(`upserts case for ${testCase.caseReference}`, async () => {
 					hasExample.caseReference = testCase.caseReference;

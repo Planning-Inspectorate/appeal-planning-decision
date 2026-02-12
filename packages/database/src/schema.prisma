@@ -115,6 +115,10 @@ model Appeal {
   /// the state of the appeal submission in the Cosmos DB `appeals` collection
   legacyAppealSubmissionState        String? /// DRAFT || SUBMITTED
 
+  /// the submissionId of the lead linked appeal where child appeal was created in BO
+  /// as a clone of the lead - eg in Enforcement Notice cases with multiple named individuals
+  leadAppellantSubmissionId String?
+
   /// link to case (from Back Office)
   AppealCase AppealCase?
 
