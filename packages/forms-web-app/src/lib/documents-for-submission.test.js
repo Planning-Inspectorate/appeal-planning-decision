@@ -35,7 +35,7 @@ describe('required documents-for-submission', () => {
 				'application form',
 				'plans, drawings and supporting documents for your application',
 				'decision letter from the local planning authority',
-				'any other relevant correspondence with the local authority'
+				'any other relevant correspondence with the local planning authority'
 			]
 		],
 		[
@@ -44,7 +44,7 @@ describe('required documents-for-submission', () => {
 				'application form',
 				'plans, drawings and supporting documents for your application',
 				'decision letter from the local planning authority',
-				'any other relevant correspondence with the local authority'
+				'any other relevant correspondence with the local planning authority'
 			]
 		],
 		[APPEAL_ID.ENFORCEMENT_NOTICE, ['enforcement notice', 'enforcement notice plan']],
@@ -54,9 +54,8 @@ describe('required documents-for-submission', () => {
 			[
 				'application form',
 				'plans, drawings and supporting documents for your application',
-				'decision letter from the local authority',
-				'any other relevant correspondence with the local authority',
-				'map of the appeal site'
+				'decision letter from the local planning authority',
+				'any other relevant correspondence with the local planning authority'
 			]
 		]
 	];
@@ -130,15 +129,7 @@ describe('optional documents-for-submission', () => {
 				'appeal costs application'
 			]
 		],
-		[
-			APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE,
-			[
-				'dated photographs of the site',
-				'letters from neighbours',
-				'receipts or invoices for work',
-				'plans and drawings'
-			]
-		]
+		[APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE, undefined]
 	];
 
 	it.each(testCases)(

@@ -523,6 +523,7 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 	const bannerHtmlOverride =
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
+	const optionalDocuments = generateOptionalDocuments(appeal.appealType);
 
 	if (
 		![
@@ -547,10 +548,10 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 				: 'You’ll need your:',
 		requiredDocuments: generateRequiredDocuments(appeal.appealType),
 		optionalDocumentsSubheading:
-			appeal.appealType === APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE
-				? 'If you think your land or building is lawful because the time limit has passed, you’ll also need to upload your:'
+			optionalDocuments === undefined
+				? null
 				: 'If you have any of the following documents, you’ll also need to upload your:',
-		optionalDocuments: generateOptionalDocuments(appeal.appealType)
+		optionalDocuments: optionalDocuments
 	});
 };
 
