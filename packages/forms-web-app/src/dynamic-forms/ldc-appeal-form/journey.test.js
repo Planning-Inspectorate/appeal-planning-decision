@@ -1,5 +1,6 @@
 const { Journey } = require('@pins/dynamic-forms/src/journey');
 const { baseLdcSubmissionUrl, ...params } = require('./journey');
+const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 
 const mockResponse = {
 	journeyId: 'ldc-appeal-form',
@@ -32,5 +33,22 @@ describe('Lawful development certificate Appeal Form Journey', () => {
 	it('should set journeyTitle', () => {
 		const journey = new Journey({ ...params, response: mockResponse });
 		expect(journey.journeyTitle).toBe('Appeal a planning decision');
+	});
+
+	it('should show uploadChangeOfDescriptionEvidence only when updateDevelopmentDescription is "yes" and not existing development', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+		const section = journey.getSection('upload-documents');
+		const uploadChangeOfDescriptionEvidence = section?.questions.find(
+			(q) => q.fieldName === 'uploadChangeOfDescriptionEvidence'
+		);
+
+		expect(uploadChangeOfDescriptionEvidence?.shouldDisplay(journey.response)).toBe(false);
+
+		journey.response.answers.updateDevelopmentDescription = 'yes';
+		expect(uploadChangeOfDescriptionEvidence?.shouldDisplay(journey.response)).toBe(true);
+
+		journey.response.answers.applicationMadeUnderActSection =
+			fieldValues.lawfulDevelopmentCertificateType.EXISTING_DEVELOPMENT;
+		expect(uploadChangeOfDescriptionEvidence?.shouldDisplay(journey.response)).toBe(false);
 	});
 });
