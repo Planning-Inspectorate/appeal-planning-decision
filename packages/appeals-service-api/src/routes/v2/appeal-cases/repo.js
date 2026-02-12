@@ -278,10 +278,19 @@ class AppealCaseRepository {
 			});
 		}
 
+		let ignoreAppealLinkingForEnforcement = false;
+		// if (mappedData.CaseType === whateverRElevatnEnf value is && submissionId) {
+		// 	lookup via appellantSubmission whether related Appeal is already linked to an AppealCase and that AppealCase.caseReference !== caseReference
+		// }
+
+		// /// handle leadSubmissionId
+
+		const linkToAppeal = submissionId && !ignoreAppealLinkingForEnforcement;
+
 		const appealCase = await this.dbClient.appealCase.upsert({
 			create: {
 				...mappedData,
-				Appeal: submissionId ? { connect: { id: submissionId } } : { create: {} }
+				Appeal: linkToAppeal ? { connect: { id: submissionId } } : { create: {} }
 			},
 			update: mappedData,
 			where: {
