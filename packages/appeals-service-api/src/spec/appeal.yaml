@@ -20,3 +20,13 @@ components:
         legacyAppealSubmissionState:
           type: string
           nullable: true
+        leadAppellantSubmissionId:
+          type: string
+          nullable: true
+
+        # relations
+        AppealCase:
+          $ref: '#/components/schemas/AppealCase'
+
+        AppellantSubmission:
+          $ref: '#/components/schemas/AppellantSubmission'

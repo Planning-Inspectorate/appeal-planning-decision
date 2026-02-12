@@ -4,6 +4,7 @@ const {
 	LISTED_RELATION_TYPES
 } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { subYears } = require('date-fns');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
@@ -269,26 +270,80 @@ class AppealCaseRepository {
 			}
 		}));
 
-		/** @type {AppellantSubmission|null} */
+		let appealCase;
+
+		/** @type {{id: string, Appeal: {AppealCase: {caseReference: string}|null}}|null} */
 		let appellantSubmission = null;
-		if (!exists && submissionId) {
-			appellantSubmission = await this.dbClient.appellantSubmission.findFirst({
+
+		if (exists) {
+			appealCase = await this.dbClient.appealCase.update({
 				where: {
-					appealId: submissionId
+					caseReference
+				},
+				data: mappedData
+			});
+		} else {
+			if (!exists && submissionId) {
+				appellantSubmission = await this.dbClient.appellantSubmission.findFirst({
+					where: {
+						appealId: submissionId
+					},
+					// query whether to make separate call for this information if in isEnforcement loop
+					select: {
+						id: true,
+						Appeal: {
+							include: {
+								AppealCase: {
+									select: {
+										caseReference: true
+									}
+								}
+							}
+						}
+					}
+				});
+			}
+
+			// in certain cases there may be multiple appeals created in BO from a single submission
+			// for example, when there are multiple additional appellants on an enforcement notice
+			// in these cases the new appealCase will create an Appeal but should not be linked to an appellantSubmission
+			let appealLinking = true;
+
+			const isEnforcement =
+				mappedData.CaseType?.connect?.processCode === CASE_TYPES.ENFORCEMENT.processCode;
+
+			if (isEnforcement && submissionId) {
+				const existingCaseReference = appellantSubmission?.Appeal?.AppealCase?.caseReference;
+
+				if (!!existingCaseReference && caseReference !== existingCaseReference)
+					appealLinking = false;
+			}
+
+			const linkAppealCaseToExistingAppeal = submissionId && appealLinking;
+
+			let appealClause;
+
+			if (linkAppealCaseToExistingAppeal) {
+				appealClause = { connect: { id: submissionId } };
+			} else if (isEnforcement && submissionId) {
+				appealClause = {
+					create: {
+						leadAppellantSubmissionId: submissionId
+					}
+				};
+				// set appellant submission to null to ensure submission email isn't sent for enforcement child appeal
+				appellantSubmission = null;
+			} else {
+				appealClause = { create: {} };
+			}
+
+			appealCase = await this.dbClient.appealCase.create({
+				data: {
+					...mappedData,
+					Appeal: appealClause
 				}
 			});
 		}
-
-		const appealCase = await this.dbClient.appealCase.upsert({
-			create: {
-				...mappedData,
-				Appeal: submissionId ? { connect: { id: submissionId } } : { create: {} }
-			},
-			update: mappedData,
-			where: {
-				caseReference
-			}
-		});
 
 		return {
 			appealCase,
