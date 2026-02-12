@@ -116,7 +116,12 @@ condition: () => questionHasAnswer(response, questions.anyOtherAppeals, 'yes');
 - multi-file-upload `/upload-description-evidence/` Upload evidence of your agreement to change the description of development
 
 ```js
-condition: () => questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes');
+condition: () =>
+	!questionHasAnswer(
+		response,
+		questions.lawfulDevelopmentCertificateType,
+		fieldValues.lawfulDevelopmentCertificateType.EXISTING_DEVELOPMENT
+	) && questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes');
 ```
 
 - multi-file-upload `/upload-decision-letter/` Upload the decision letter from the local planning authority

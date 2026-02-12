@@ -109,8 +109,13 @@ const makeSections = (response) => {
 		new Section('Upload documents', 'upload-documents')
 			.addQuestion(questions.uploadOriginalApplicationForm)
 			.addQuestion(questions.uploadChangeOfDescriptionEvidence)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
+			.withCondition(
+				() =>
+					!questionHasAnswer(
+						response,
+						questions.lawfulDevelopmentCertificateType,
+						fieldValues.lawfulDevelopmentCertificateType.EXISTING_DEVELOPMENT
+					) && questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
 			)
 			.addQuestion(questions.uploadApplicationDecisionLetter)
 			.withCondition(() => shouldDisplayUploadDecisionLetter(response))
