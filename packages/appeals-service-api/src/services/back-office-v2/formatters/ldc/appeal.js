@@ -21,6 +21,8 @@ exports.formatter = async (appellantSubmission, lpa) => {
 			caseType: LDC.key,
 			...getCommonAppellantSubmissionFields(appellantSubmission, lpa),
 			...getAppellantProcedurePreference(appellantSubmission),
+			planningObligation: appellantSubmission.planningObligation ?? null,
+			statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null,
 			// LDC specific
 			siteUseAtTimeOfApplication: appellantSubmission.siteUseAtTimeOfApplication ?? null,
 			applicationMadeUnderActSection: appellantSubmission.applicationMadeUnderActSection ?? null
