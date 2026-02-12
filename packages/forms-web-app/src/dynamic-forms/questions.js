@@ -3405,9 +3405,7 @@ exports.getQuestionProps = (response) => ({
 		fieldName: 'retrospectiveApplication',
 		url: 'submit-planning-application',
 		validators: [
-			new RequiredValidator(
-				'Select yes if anyone submitted a planning application and paid the correct fee'
-			)
+			new RequiredValidator('Select yes if anyone submitted a retrospective planning application')
 		]
 	},
 	groundAFeePaid: {
