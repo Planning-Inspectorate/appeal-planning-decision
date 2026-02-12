@@ -1,8 +1,10 @@
 const {
-	getDocuments,
 	formatApplicationSubmissionUsers,
+	formatPlanningObligationStatus,
+	getAppellantProcedurePreference,
 	getCommonAppellantSubmissionFields,
-	getAppellantProcedurePreference
+	getDocuments,
+	getLdcSpecificAppealSubmissionFields
 } = require('../utils');
 const {
 	CASE_TYPES: { LDC }
@@ -21,9 +23,11 @@ exports.formatter = async (appellantSubmission, lpa) => {
 			caseType: LDC.key,
 			...getCommonAppellantSubmissionFields(appellantSubmission, lpa),
 			...getAppellantProcedurePreference(appellantSubmission),
-			// LDC specific
-			siteUseAtTimeOfApplication: appellantSubmission.siteUseAtTimeOfApplication ?? null,
-			applicationMadeUnderActSection: appellantSubmission.applicationMadeUnderActSection ?? null
+			...getLdcSpecificAppealSubmissionFields(appellantSubmission),
+			planningObligation: appellantSubmission.planningObligation ?? null,
+			statusPlanningObligation: formatPlanningObligationStatus(
+				appellantSubmission.statusPlanningObligation
+			)
 		},
 		documents: await getDocuments(appellantSubmission),
 		users: formatApplicationSubmissionUsers(appellantSubmission)

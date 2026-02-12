@@ -37,6 +37,7 @@ const targetTimezone = 'Europe/London';
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantS78SubmissionProperties} AppellantS78SubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AdvertSpecificProperties} AppellantAdvertSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.LDCSpecificProperties} LDCSpecificProperties
  *
  * // todo update these once model updated
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQCommonSubmissionProperties} LPAQCommonSubmissionProperties
@@ -960,6 +961,18 @@ exports.getEnforcementListedAppellantSubmissionFields = (appellantSubmission, lp
 		...getSiteDetails(),
 		...getContactAddressDetails(),
 		...preference
+	};
+};
+
+/**
+ * @param {FullAppellantSubmission} appellantSubmission
+ * @returns {LDCSpecificProperties}
+ */
+exports.getLdcSpecificAppealSubmissionFields = (appellantSubmission) => {
+	return {
+		siteUseAtTimeOfApplication: appellantSubmission.siteUseAtTimeOfApplication ?? null,
+		// @ts-ignore
+		applicationMadeUnderActSection: appellantSubmission.applicationMadeUnderActSection ?? null
 	};
 };
 

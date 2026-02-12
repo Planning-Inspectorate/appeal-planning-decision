@@ -68,6 +68,8 @@ describe('LDC formatter', () => {
 			appellantPreferInquiryDetails: 'details',
 			appellantPreferInquiryDuration: 13,
 			appellantPreferInquiryWitnesses: 3,
+			statusPlanningObligation: 'finalised',
+			planningObligation: true,
 			siteUseAtTimeOfApplication: 'lorum ipsum',
 			applicationMadeUnderActSection:
 				APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.PROPOSED_CHANGES_TO_A_LISTED_BUILDING
@@ -115,6 +117,8 @@ describe('LDC formatter', () => {
 				appellantProcedurePreferenceDetails: 'details',
 				appellantProcedurePreferenceDuration: 13,
 				appellantProcedurePreferenceWitnessCount: 3,
+				statusPlanningObligation: 'finalised',
+				planningObligation: true,
 				applicationMadeUnderActSection:
 					APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.PROPOSED_CHANGES_TO_A_LISTED_BUILDING,
 				siteUseAtTimeOfApplication: 'lorum ipsum'
