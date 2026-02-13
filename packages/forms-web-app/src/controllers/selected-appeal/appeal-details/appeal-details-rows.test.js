@@ -1319,6 +1319,14 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 		const groundFDocsIndex = 35;
 		const groundGFactsIndex = 36;
 		const groundGDocsIndex = 37;
+		const groundHFactsIndex = 38;
+		const groundHDocsIndex = 39;
+		const groundIFactsIndex = 40;
+		const groundIDocsIndex = 41;
+		const groundJFactsIndex = 42;
+		const groundJDocsIndex = 43;
+		const groundKFactsIndex = 44;
+		const groundKDocsIndex = 45;
 
 		test.each([
 			['a', groundAFactsIndex, groundADocsIndex],
@@ -1327,7 +1335,11 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 			['d', groundDFactsIndex, groundDDocsIndex],
 			['e', groundEFactsIndex, groundEDocsIndex],
 			['f', groundFFactsIndex, groundFDocsIndex],
-			['g', groundGFactsIndex, groundGDocsIndex]
+			['g', groundGFactsIndex, groundGDocsIndex],
+			['h', groundHFactsIndex, groundHDocsIndex],
+			['i', groundIFactsIndex, groundIDocsIndex],
+			['j', groundJFactsIndex, groundJDocsIndex],
+			['k', groundKFactsIndex, groundKDocsIndex]
 		])('should not display field for ground %s if not plead', (_, factsRowNumber, docRowNumber) => {
 			const testCase = structuredClone(caseWithAppellant);
 			testCase.EnforcementAppealGroundsDetails = [];
@@ -1343,7 +1355,11 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 			['d', groundDFactsIndex, groundDDocsIndex],
 			['e', groundEFactsIndex, groundEDocsIndex],
 			['f', groundFFactsIndex, groundFDocsIndex],
-			['g', groundGFactsIndex, groundGDocsIndex]
+			['g', groundGFactsIndex, groundGDocsIndex],
+			['h', groundHFactsIndex, groundHDocsIndex],
+			['i', groundIFactsIndex, groundIDocsIndex],
+			['j', groundJFactsIndex, groundJDocsIndex],
+			['k', groundKFactsIndex, groundKDocsIndex]
 		])(
 			'should display facts for ground %s if plead, with No if no document',
 			(appealGroundLetter, factsRowNumber, docRowNumber) => {
@@ -1371,7 +1387,11 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 			['d', groundDDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_D_SUPPORTING],
 			['e', groundEDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_E_SUPPORTING],
 			['f', groundFDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_F_SUPPORTING],
-			['g', groundGDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_G_SUPPORTING]
+			['g', groundGDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_G_SUPPORTING],
+			['h', groundHDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_H_SUPPORTING],
+			['i', groundIDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_I_SUPPORTING],
+			['j', groundJDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_J_SUPPORTING],
+			['k', groundKDocsIndex, APPEAL_DOCUMENT_TYPE.GROUND_K_SUPPORTING]
 		])(
 			'should display document link if ground %s supporting docs',
 			(appealGroundLetter, docRowNumber, docType) => {
@@ -1401,7 +1421,7 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 	});
 
 	describe('Preferred procedure', () => {
-		const preferredProcedureIndex = 38;
+		const preferredProcedureIndex = 46;
 
 		it('should display the appellant preferred procedure if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -1423,7 +1443,7 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 	});
 
 	describe('Cost application', () => {
-		const costsApplicationIndex = 42;
+		const costsApplicationIndex = 50;
 
 		it('should display Yes if applicant applied for costs', () => {
 			const testCase = structuredClone(caseWithAppellant);

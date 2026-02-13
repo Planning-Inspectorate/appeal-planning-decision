@@ -318,8 +318,6 @@ const enforcementDetailsRows = (caseData, userType) => {
 	const interestInLand = formatInterestInLand(caseData);
 	const showPermission = isNotUndefinedOrNull(interestInLand?.hasPermission);
 
-	const hasAppealGroundA = hasAppealGround(caseData, 'a');
-
 	const costApplicationKeyText = isAppellantOrAgent
 		? 'Do you want to apply for an award of appeal costs?'
 		: 'Did the appellant apply for an award of appeal costs?';
@@ -400,49 +398,42 @@ const enforcementDetailsRows = (caseData, userType) => {
 			keyText:
 				'Was an application made in respect of the development on the enforcement notice and the correct fee paid?',
 			valueText: formatYesOrNo(caseData, 'applicationMadeAndFeePaid'),
-			condition: (caseData) =>
-				hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationMadeAndFeePaid)
+			condition: (caseData) => isNotUndefinedOrNull(caseData.applicationMadeAndFeePaid)
 		},
 		{
 			keyText: 'Did anyone submit a retrospective planning application?',
 			valueText: formatYesOrNo(caseData, 'retrospectiveApplication'),
-			condition: (caseData) =>
-				hasAppealGroundA && isNotUndefinedOrNull(caseData.retrospectiveApplication)
+			condition: (caseData) => isNotUndefinedOrNull(caseData.retrospectiveApplication)
 		},
 		{
 			keyText: 'Was the application for all or part of the Development',
 			valueText: formatAllOrPart(caseData),
-			condition: (caseData) =>
-				hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationPartOrWholeDevelopment)
+			condition: (caseData) => isNotUndefinedOrNull(caseData.applicationPartOrWholeDevelopment)
 		},
 		{
 			keyText: 'Application reference',
 			valueText: caseData.applicationReference ?? '',
-			condition: (caseData) =>
-				hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationReference)
+			condition: (caseData) => isNotUndefinedOrNull(caseData.applicationReference)
 		},
 		{
 			keyText: 'What date did you submit your application?',
 			valueText: formatDateForDisplay(caseData.applicationDate),
-			condition: (caseData) => hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationDate)
+			condition: (caseData) => isNotUndefinedOrNull(caseData.applicationDate)
 		},
 		{
 			keyText: 'Enter the description of development',
 			valueText: caseData.originalDevelopmentDescription ?? '',
-			condition: (caseData) =>
-				hasAppealGroundA && isNotUndefinedOrNull(caseData.originalDevelopmentDescription)
+			condition: (caseData) => isNotUndefinedOrNull(caseData.originalDevelopmentDescription)
 		},
 		{
 			keyText: 'Did the local planning authority change the description of development?',
 			valueText: formatYesOrNo(caseData, 'changedDevelopmentDescription'),
-			condition: (caseData) =>
-				hasAppealGroundA && isNotUndefinedOrNull(caseData.changedDevelopmentDescription)
+			condition: (caseData) => isNotUndefinedOrNull(caseData.changedDevelopmentDescription)
 		},
 		{
 			keyText: 'Was the application granted or refused?',
 			valueText: mapApplicationDecision(caseData.applicationDecision),
-			condition: (caseData) =>
-				hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationDecision)
+			condition: (caseData) => isNotUndefinedOrNull(caseData.applicationDecision)
 		},
 		{
 			keyText:
@@ -450,30 +441,27 @@ const enforcementDetailsRows = (caseData, userType) => {
 					? 'What date was your decision due from the local planning authority?'
 					: 'What is the date on the decision letter from the local planning authority?',
 			valueText: formatDateForDisplay(caseData.applicationDecisionDate),
-			condition: (caseData) =>
-				hasAppealGroundA && isNotUndefinedOrNull(caseData.applicationDecisionDate)
+			condition: (caseData) => isNotUndefinedOrNull(caseData.applicationDecisionDate)
 		},
 		{
 			keyText: 'Did anyone appeal the decision?',
 			valueText: formatYesOrNo(caseData, 'didAppellantAppealLpaDecision'),
-			condition: (caseData) =>
-				hasAppealGroundA && isNotUndefinedOrNull(caseData.didAppellantAppealLpaDecision)
+			condition: (caseData) => isNotUndefinedOrNull(caseData.didAppellantAppealLpaDecision)
 		},
 		{
 			keyText: 'When was the appeal decision?',
 			valueText: formatDateForDisplay(caseData.dateLpaDecisionReceived),
-			condition: (caseData) =>
-				hasAppealGroundA && isNotUndefinedOrNull(caseData.dateLpaDecisionReceived)
+			condition: (caseData) => isNotUndefinedOrNull(caseData.dateLpaDecisionReceived)
 		},
 		{
 			keyText: 'Did you pay the ground (a) fee?',
 			valueText: formatYesOrNo(caseData, 'groundAFeePaid'),
-			condition: (caseData) => hasAppealGroundA && isNotUndefinedOrNull(caseData.groundAFeePaid)
+			condition: (caseData) => isNotUndefinedOrNull(caseData.groundAFeePaid)
 		},
 		{
 			keyText: 'Ground (a) fee receipt',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_A_FEE_RECEIPT),
-			condition: (caseData) => hasAppealGroundA && isNotUndefinedOrNull(caseData.groundAFeePaid),
+			condition: (caseData) => isNotUndefinedOrNull(caseData.groundAFeePaid),
 			isEscaped: true
 		},
 		{
@@ -553,53 +541,50 @@ const enforcementDetailsRows = (caseData, userType) => {
 			condition: (caseData) => hasAppealGround(caseData, 'g'),
 			isEscaped: true
 		},
-
-		// for enforcement listed building - document types not in data model yet
-
-		// {
-		// 	keyText: 'Facts for ground (h)',
-		// 	valueText: formatFactsForGround(caseData, 'h'),
-		// 	condition: (caseData) => hasAppealGround(caseData, 'h')
-		// },
-		// 		{
-		// 	keyText: 'Ground (h) supporting documents',
-		// 	valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_H_SUPPORTING),
-		// 	condition: (caseData) => hasAppealGround(caseData, 'h'),
-		//	isEscaped: true
-		// },
-		// {
-		// 	keyText: 'Facts for ground (i)',
-		// 	valueText: formatFactsForGround(caseData, 'i'),
-		// 	condition: (caseData) => hasAppealGround(caseData, 'i')
-		// },
-		// 		{
-		// 	keyText: 'Ground (i) supporting documents',
-		// 	valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_I_SUPPORTING),
-		// 	condition: (caseData) => hasAppealGround(caseData, 'i'),
-		//	isEscaped: true
-		// },
-		// {
-		// 	keyText: 'Facts for ground (j)',
-		// 	valueText: formatFactsForGround(caseData, 'j'),
-		// 	condition: (caseData) => hasAppealGround(caseData, 'j')
-		// },
-		// 		{
-		// 	keyText: 'Ground (j) supporting documents',
-		// 	valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_J_SUPPORTING),
-		// 	condition: (caseData) => hasAppealGround(caseData, 'j'),
-		//	isEscaped: true
-		// },
-		// {
-		// 	keyText: 'Facts for ground (k)',
-		// 	valueText: formatFactsForGround(caseData, 'k'),
-		// 	condition: (caseData) => hasAppealGround(caseData, 'k')
-		// },
-		// 		{
-		// 	keyText: 'Ground (k) supporting documents',
-		// 	valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_K_SUPPORTING),
-		// 	condition: (caseData) => hasAppealGround(caseData, 'k'),
-		//	isEscaped: true
-		// },
+		{
+			keyText: 'Facts for ground (h)',
+			valueText: formatFactsForGround(caseData, 'h'),
+			condition: (caseData) => hasAppealGround(caseData, 'h')
+		},
+		{
+			keyText: 'Ground (h) supporting documents',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_H_SUPPORTING),
+			condition: (caseData) => hasAppealGround(caseData, 'h'),
+			isEscaped: true
+		},
+		{
+			keyText: 'Facts for ground (i)',
+			valueText: formatFactsForGround(caseData, 'i'),
+			condition: (caseData) => hasAppealGround(caseData, 'i')
+		},
+		{
+			keyText: 'Ground (i) supporting documents',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_I_SUPPORTING),
+			condition: (caseData) => hasAppealGround(caseData, 'i'),
+			isEscaped: true
+		},
+		{
+			keyText: 'Facts for ground (j)',
+			valueText: formatFactsForGround(caseData, 'j'),
+			condition: (caseData) => hasAppealGround(caseData, 'j')
+		},
+		{
+			keyText: 'Ground (j) supporting documents',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_J_SUPPORTING),
+			condition: (caseData) => hasAppealGround(caseData, 'j'),
+			isEscaped: true
+		},
+		{
+			keyText: 'Facts for ground (k)',
+			valueText: formatFactsForGround(caseData, 'k'),
+			condition: (caseData) => hasAppealGround(caseData, 'k')
+		},
+		{
+			keyText: 'Ground (k) supporting documents',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.GROUND_K_SUPPORTING),
+			condition: (caseData) => hasAppealGround(caseData, 'k'),
+			isEscaped: true
+		},
 		{
 			keyText: 'Preferred procedure',
 			valueText: formatProcedure(caseData),
