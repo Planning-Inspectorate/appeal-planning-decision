@@ -71,7 +71,6 @@ model AppealUser {
   Rule6StatementSubmission       Rule6StatementSubmission[]
 
   // indexes
-  @@index([email])
   @@index([lpaCode])
 }
 
@@ -95,9 +94,6 @@ model SecurityToken {
   attempts         Int      @default(0)
   /// the action the code was generated for, e.g. confirmEmail
   action           String?
-
-  // indexes
-  @@index([appealUserId])
 }
 
 /// Appeal is the base appeal model, used to link references to other entities, which includes, for example:
@@ -706,8 +702,11 @@ model Document {
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 
   // indexes
+  // additional filtered index added manually, as include not supported by Prisma https://www.prisma.io/docs/orm/prisma-schema/data-model/indexes
+  // NONCLUSTERED INDEX (caseReference) INCLUDE (id, publishedDocumentURI, filename, documentType, datePublished, redacted, virusCheckStatus, published) WHERE published = 1
   @@index([caseReference])
-  @@index([publishedDocumentURI])
+  @@index([documentURI]) // for documentsApi lookups
+  @@index([caseReference, stage, documentType]) // for documentsApi zip generation
 }
 
 // This table stores unedited IP submissions at the point of submission to BO
@@ -1090,9 +1089,6 @@ model LPAQuestionnaireSubmission {
   SubmissionAddress        SubmissionAddress[]
   SubmissionLinkedCase     SubmissionLinkedCase[]
   SubmissionListedBuilding SubmissionListedBuilding[]
-
-  // indexes
-  @@index([appealCaseReference])
 }
 
 model LPAStatementSubmission {
