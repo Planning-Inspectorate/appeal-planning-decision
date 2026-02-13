@@ -3,8 +3,13 @@ const { boStorage } = require('#config/config');
 const getAzureBlobPathFromUri = require('@pins/common/src/lib/getAzureBlobPathFromUri');
 
 /**
+ * @typedef {import('@pins/database/src/client/client').Document} Document
+ * @typedef {Pick<Document, 'filename' | 'documentURI' | 'documentType'>} DocumentSelect
+ */
+
+/**
  * Maps a document object to blob info.
- * @param {import('@pins/database/src/client/client').Document} document
+ * @param {DocumentSelect} document
  * @returns {{fullName: string, blobStorageContainer: string | undefined, blobStoragePath: string, documentURI: string}|null}
  */
 exports.mapDocumentToBlobInfo = (document) => {

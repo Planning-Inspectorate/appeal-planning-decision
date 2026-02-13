@@ -56,7 +56,7 @@ async function getBlobCollection(
 				id_token: id_token
 			})
 		)
-		.map(mapDocumentToBlobInfo)
+		.map((document) => mapDocumentToBlobInfo(document))
 		.filter(Boolean);
 }
 

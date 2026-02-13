@@ -92,8 +92,9 @@ const dashboardSelect = {
 
 /** @type {import('@pins/database/src/client/client').Prisma.AppealCase$DocumentsArgs} */
 const DocumentsArgsPublishedOnly = {
+	// Important, changes made here should be reflected in the Document_caseRef_published_filter index
 	where: {
-		publishedDocumentURI: { not: null }
+		published: true
 	},
 	select: {
 		id: true,
