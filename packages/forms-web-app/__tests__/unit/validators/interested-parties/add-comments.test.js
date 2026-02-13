@@ -7,9 +7,9 @@ describe('validators/interested-parties/add-comments', () => {
 			expect(rule.fields).toEqual(['comments']);
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
-			expect(rule.stack).toHaveLength(3);
+			expect(rule.stack).toHaveLength(4);
 			expect(rule.stack[0].message).toEqual('Enter your comments');
-			expect(rule.stack[2].validator.name).toEqual('isLength');
+			expect(rule.stack[3].validator.name).toEqual('isLength');
 		});
 
 		it(`has a rule for the interested parties comment confirmation`, () => {
