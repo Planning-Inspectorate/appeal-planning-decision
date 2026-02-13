@@ -113,22 +113,8 @@ class DocumentsRepository {
 	}
 
 	/**
-	 *
-	 * @param {object} params
-	 * @param {string} params.documentType
-	 * @param {string} params.caseReference
-	 * @returns {Promise<import('@pins/database/src/client/client').Document[]>}
+	 * @typedef {Pick<import('@pins/database/src/client/client').Document, 'id'|'filename'|'documentURI'|'documentType'|'virusCheckStatus'|'published'|'redacted'>} DocumentSelect
 	 */
-	async getDocuments({ documentType, caseReference }) {
-		if (!caseReference) throw new Error('caseReference required');
-
-		return await this.dbClient.document.findMany({
-			where: {
-				documentType: documentType,
-				caseReference: caseReference
-			}
-		});
-	}
 
 	/**
 	 * Get documents by multiple types for a single caseReference
@@ -136,7 +122,7 @@ class DocumentsRepository {
 	 * @param {string[]} params.documentTypes
 	 * @param {string} params.caseReference
 	 * @param {string} params.stage
-	 * @returns {Promise<import('@pins/database/src/client/client').Document[]>}
+	 * @returns {Promise<DocumentSelect[]>}
 	 */
 	async getDocumentsByTypes({ documentTypes, caseReference, stage }) {
 		if (!caseReference) throw new Error('caseReference required');
@@ -148,6 +134,15 @@ class DocumentsRepository {
 				documentType: { in: documentTypes },
 				caseReference: caseReference,
 				stage: stage
+			},
+			select: {
+				id: true,
+				filename: true,
+				documentURI: true,
+				documentType: true,
+				virusCheckStatus: true,
+				published: true,
+				redacted: true
 			}
 		});
 	}

@@ -70,8 +70,13 @@ function ascertainSubmittingParty(representation, serviceUsersWithEmails) {
 }
 
 /**
+ * @typedef {import('@pins/database/src/client/client').Document} Document
+ * @typedef {Pick<Document, 'id'>} DocumentOnlyId
+ */
+
+/**
  * Determines if a document is available for the user based on representation ownership and status.
- * @param {import('@pins/database/src/client/client').Document} document
+ * @param {DocumentOnlyId} document
  * @param {Map<string, FlatRepDocOwnership>} representationMap
  * @returns {boolean}
  */
