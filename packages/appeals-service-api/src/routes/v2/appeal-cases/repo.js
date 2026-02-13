@@ -306,6 +306,7 @@ class AppealCaseRepository {
 	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['notificationMethod']} [notificationMethod]
 	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['advertDetails']} [advertDetails]
 	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['enforcementAppealGroundsDetails']} [enforcementAppealGroundsDetails]
+	 * @property {import('@planning-inspectorate/data-model/src/schemas').AppealS78Case['applicationElbAppealGroundsDetails']} [applicationElbAppealGroundsDetails]
 	 */
 	/**
 	 * Upsert an appeal's relations by case reference (aka appeal number)
@@ -323,7 +324,8 @@ class AppealCaseRepository {
 			changedListedBuildingNumbers,
 			notificationMethod,
 			advertDetails,
-			enforcementAppealGroundsDetails
+			enforcementAppealGroundsDetails,
+			applicationElbAppealGroundsDetails
 		}
 	) {
 		// case relations
@@ -517,17 +519,36 @@ class AppealCaseRepository {
 			}
 		});
 
-		// appeal grounds details
-		await this.dbClient.$transaction(async (tx) => {
-			// delete all existing
-			await tx.enforcementAppealGroundsDetails.deleteMany({
-				where: {
-					caseReference
-				}
-			});
+		// appeal grounds details logic: overwrite enforcementAppealGroundsDetails only if applicationElbAppealGroundsDetails exist
+		if (applicationElbAppealGroundsDetails?.length) {
+			await this.dbClient.$transaction(async (tx) => {
+				// delete all existing
+				await tx.enforcementAppealGroundsDetails.deleteMany({
+					where: {
+						caseReference
+					}
+				});
 
-			if (enforcementAppealGroundsDetails?.length) {
-				// add all advert details
+				// add all ground details from applicationElbAppealGroundsDetails
+				await tx.enforcementAppealGroundsDetails.createMany({
+					data: applicationElbAppealGroundsDetails.map((detail) => ({
+						caseReference,
+						appealGroundLetter: detail.appealGroundLetter,
+						groundForAppealStartDate: detail.groundForAppealStartDate,
+						groundFacts: detail.groundFacts
+					}))
+				});
+			});
+		} else if (enforcementAppealGroundsDetails?.length) {
+			await this.dbClient.$transaction(async (tx) => {
+				// delete all existing
+				await tx.enforcementAppealGroundsDetails.deleteMany({
+					where: {
+						caseReference
+					}
+				});
+
+				// add all ground details from enforcementAppealGroundsDetails
 				await tx.enforcementAppealGroundsDetails.createMany({
 					data: enforcementAppealGroundsDetails.map((detail) => ({
 						caseReference,
@@ -536,8 +557,8 @@ class AppealCaseRepository {
 						groundFacts: detail.groundFacts
 					}))
 				});
-			}
-		});
+			});
+		}
 	}
 
 	/**

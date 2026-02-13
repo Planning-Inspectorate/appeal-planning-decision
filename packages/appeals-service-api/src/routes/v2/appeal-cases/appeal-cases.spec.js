@@ -32,6 +32,9 @@ const {
 const {
 	exampleLDCDataModel
 } = require('../../../../__tests__/developer/fixtures/appeals-ldc-data-model');
+const {
+	exampleEnforcementListedDataModel
+} = require('../../../../__tests__/developer/fixtures/appeals-enforcement-listed-data-model');
 
 const { appendLinkedCasesForMultipleAppeals } = require('./service');
 
@@ -313,6 +316,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 			const advertsExample = { ...exampleAdvertsDataModel };
 			const enforcementExample = { ...exampleEnforcementDataModel };
 			const ldcExample = { ...exampleLDCDataModel };
+			const enforcementListedExample = { ...exampleEnforcementListedDataModel };
 
 			const appealExamples = [
 				{ name: CASE_TYPES.HAS.processCode, data: hasExample },
@@ -322,7 +326,8 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				{ name: CASE_TYPES.CAS_ADVERTS.processCode, data: casAdvertsExample },
 				{ name: CASE_TYPES.ADVERTS.processCode, data: advertsExample },
 				{ name: CASE_TYPES.ENFORCEMENT.processCode, data: enforcementExample },
-				{ name: CASE_TYPES.LDC.processCode, data: ldcExample }
+				{ name: CASE_TYPES.LDC.processCode, data: ldcExample },
+				{ name: CASE_TYPES.ENFORCEMENT_LISTED.processCode, data: enforcementListedExample }
 			];
 
 			for (const appealExample of appealExamples) {
@@ -629,6 +634,15 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					expect(response.status).toBe(200);
 					expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
 				});
+
+				it(`upserts enforcement case for ${testCase.caseReference}`, async () => {
+					enforcementListedExample.caseReference = testCase.caseReference;
+					const response = await appealsApi
+						.put(`/api/v2/appeal-cases/` + testCase.caseReference)
+						.send(enforcementListedExample);
+					expect(response.status).toBe(200);
+					expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
+				});
 			}
 
 			const testCase1 = testCases[0];
@@ -807,6 +821,53 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2); // the number of notification methods in example json
 				expect(appealCase?.NeighbouringAddresses.length).toBe(4); // the number of neighbouring addresses in example json
 				expect(appealCase?.CaseType?.processCode).toBe('ENFORCEMENT');
+				expect(appealCase?.ProcedureType?.name).toBe('Written');
+
+				const appealRelations = await sqlClient.appealCaseRelationship.findMany({
+					where: {
+						OR: [
+							{
+								caseReference: testCase1.caseReference
+							},
+							{
+								caseReference2: testCase1.caseReference
+							}
+						]
+					}
+				});
+				expect(appealRelations.length).toBe(5); // nearbyCaseReferences (linked bi-directional) + leadCaseReference (one-directional)
+			});
+
+			it('upserts all relational data for enforcement listed building', async () => {
+				enforcementListedExample.caseReference = testCase1.caseReference;
+				await appealsApi
+					.put(`/api/v2/appeal-cases/` + testCase1.caseReference)
+					.send(enforcementListedExample);
+
+				await appealsApi
+					.put(`/api/v2/appeal-cases/` + testCase1.caseReference)
+					.send(enforcementListedExample);
+
+				const appealCase = await sqlClient.appealCase.findFirst({
+					where: { caseReference: testCase1.caseReference },
+					include: {
+						ListedBuildings: true,
+						AppealCaseLpaNotificationMethod: true,
+						NeighbouringAddresses: true,
+						CaseType: true,
+						ProcedureType: true,
+						EnforcementAppealGroundsDetails: true
+					}
+				});
+
+				expect(appealCase?.EnforcementAppealGroundsDetails.length).toBe(2); // the number of appeal ground details in example json
+				expect(
+					appealCase?.ListedBuildings.filter((x) => x.type === LISTED_RELATION_TYPES.affected)
+						.length
+				).toBe(3); // the number of listed buildings in example json
+				expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2); // the number of notification methods in example json
+				expect(appealCase?.NeighbouringAddresses.length).toBe(4); // the number of neighbouring addresses in example json
+				expect(appealCase?.CaseType?.processCode).toBe('ENFORCEMENT_LISTED');
 				expect(appealCase?.ProcedureType?.name).toBe('Written');
 
 				const appealRelations = await sqlClient.appealCaseRelationship.findMany({

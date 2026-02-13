@@ -387,6 +387,18 @@ const getEnforcementLPAQFields = (dataModel) => {
 };
 
 /**
+ * @param {String} caseProcessCode
+ * @param {AppealS78Case} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const mapEnforcementDataModelToAppealCase = (caseProcessCode, dataModel) => ({
+	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
+	...getEnforcementAppealFormFields(dataModel),
+	...getEnforcementLPAQFields(dataModel),
+	...mapS78DataModelToAppealCase(caseProcessCode, dataModel)
+});
+
+/**
  * @param {AppealS78Case} dataModel
  * @returns {{siteUseAtTimeOfApplication: string|null|undefined, applicationMadeUnderActSection: string|null|undefined}}
  */
@@ -422,14 +434,57 @@ const mapLDCDataModelToAppealCase = (caseProcessCode, dataModel) => ({
 });
 
 /**
+ * @param {AppealS78Case} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const getEnforcementListedAppealFormFields = (dataModel) => {
+	return {
+		ownerOccupancyStatus: dataModel.ownerOccupancyStatus,
+		occupancyConditionsMet: dataModel.occupancyConditionsMet,
+		applicationMadeAndFeePaid: dataModel.applicationMadeAndFeePaid,
+		previousPlanningPermissionGranted: dataModel.previousPlanningPermissionGranted,
+		issueDateOfEnforcementNotice: dataModel.issueDateOfEnforcementNotice,
+		effectiveDateOfEnforcementNotice: dataModel.effectiveDateOfEnforcementNotice,
+		didAppellantAppealLpaDecision: dataModel.didAppellantAppealLpaDecision,
+		dateLpaDecisionDue: dataModel.dateLpaDecisionDue,
+		dateLpaDecisionReceived: dataModel.dateLpaDecisionReceived,
+		enforcementReference: dataModel.enforcementNoticeReference,
+		descriptionOfAllegedBreach: dataModel.descriptionOfAllegedBreach,
+		applicationPartOrWholeDevelopment: dataModel.applicationPartOrWholeDevelopment,
+		contactPlanningInspectorateDate: dataModel.dateAppellantContactedPins
+	};
+};
+
+/**
+ * @param {AppealS78Case} dataModel
+ * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ */
+const getEnforcementListedLPAQFields = (dataModel) => {
+	return {
+		noticeRelatesToBuildingEngineeringMiningOther:
+			dataModel.noticeRelatesToBuildingEngineeringMiningOther,
+		doesAllegedBreachCreateFloorSpace: dataModel.doesAllegedBreachCreateFloorSpace,
+		changeOfUseRefuseOrWaste: dataModel.changeOfUseRefuseOrWaste,
+		changeOfUseMineralExtraction: dataModel.changeOfUseMineralExtraction,
+		changeOfUseMineralStorage: dataModel.changeOfUseMineralStorage,
+		relatesToErectionOfBuildingOrBuildings: dataModel.relatesToErectionOfBuildingOrBuildings,
+		relatesToBuildingWithAgriculturalPurpose: dataModel.relatesToBuildingWithAgriculturalPurpose,
+		relatesToBuildingSingleDwellingHouse: dataModel.relatesToBuildingSingleDwellingHouse,
+		affectedTrunkRoadName: dataModel.affectedTrunkRoadName,
+		isSiteOnCrownLand: dataModel.isSiteOnCrownLand,
+		article4AffectedDevelopmentRights: dataModel.article4AffectedDevelopmentRights
+	};
+};
+
+/**
  * @param {String} caseProcessCode
  * @param {AppealS78Case} dataModel
  * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
  */
-const mapEnforcementDataModelToAppealCase = (caseProcessCode, dataModel) => ({
+const mapEnforcementListedDataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	...mapCommonDataModelToAppealCase(caseProcessCode, dataModel),
-	...getEnforcementAppealFormFields(dataModel),
-	...getEnforcementLPAQFields(dataModel),
+	...getEnforcementListedAppealFormFields(dataModel),
+	...getEnforcementListedLPAQFields(dataModel),
 	...mapS78DataModelToAppealCase(caseProcessCode, dataModel)
 });
 
@@ -521,16 +576,13 @@ async function putCase(caseReference, data) {
 		await repo.putRelationsByCaseReference(caseReference, {
 			leadCaseReference: data.leadCaseReference,
 			nearbyCaseReferences: data.nearbyCaseReferences,
-
 			affectedListedBuildingNumbers: data.affectedListedBuildingNumbers,
 			changedListedBuildingNumbers: data.changedListedBuildingNumbers,
-
 			notificationMethod: data.notificationMethod,
-
 			neighbouringSiteAddresses: data.neighbouringSiteAddresses,
 			advertDetails: data.advertDetails,
-
-			enforcementAppealGroundsDetails: data.enforcementAppealGroundsDetails
+			enforcementAppealGroundsDetails: data.enforcementAppealGroundsDetails,
+			applicationElbAppealGroundDetails: data.applicationElbAppealGroundDetails
 		});
 
 		// send email confirming appeal to user if this creates a new appeal
@@ -606,6 +658,15 @@ const getMappedData = (data) => {
 			const s78Validator = getValidator('appeal-s78');
 			if (!s78Validator(data)) throw ApiError.badRequest('Payload was invalid');
 			return mapLDCDataModelToAppealCase(CASE_TYPES.LDC.processCode, data);
+		}
+		case CASE_TYPES.ENFORCEMENT_LISTED.key: {
+			// uses s78 data model
+			const s78Validator = getValidator('appeal-s78');
+			if (!s78Validator(data)) throw ApiError.badRequest('Payload was invalid');
+			return mapEnforcementListedDataModelToAppealCase(
+				CASE_TYPES.ENFORCEMENT_LISTED.processCode,
+				data
+			);
 		}
 		default:
 			throw Error(`putCase: unhandled casetype: ${data.caseType}`);
