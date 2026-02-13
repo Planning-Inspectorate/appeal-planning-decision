@@ -1,4 +1,7 @@
 const Question = require('../../question');
+const {
+	appendTaskListHeadlineDetails
+} = require('@pins/common/src/lib/append-task-list-headline-details');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
@@ -50,6 +53,10 @@ class ContentQuestion extends Question {
 	 * @returns {ContinueViewModel}
 	 */
 	prepQuestionForRendering({ section, journey, customViewData, payload, sessionBackLink }) {
+		if (customViewData?.appeal) {
+			appendTaskListHeadlineDetails(customViewData.appeal);
+		}
+
 		let viewModel = super.prepQuestionForRendering({
 			section,
 			journey,
