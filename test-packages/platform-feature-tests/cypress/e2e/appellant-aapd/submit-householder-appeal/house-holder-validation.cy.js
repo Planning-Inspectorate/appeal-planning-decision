@@ -271,7 +271,7 @@ describe('House Holder Validations',{ tags:'@HAS-validation-3' }, () => {
             applicationFormPage(prepareAppealSelector?._selectors?.houseHolderApplicaitonType, prepareAppealSelector?._selectors?.appellantOther, dynamicId);
             applicationNamePage.addApplicationNameData(context.applicationForm?.isAppellant, prepareAppealData);
             contactDetailsPage.addContactDetailsData(context, prepareAppealSelector?._selectors?.houseHolderApplicaitonType, prepareAppealData);
-            appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
+            appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData, context);
             siteAreaPage.addSiteAreaData(context?.typeOfPlanningApplication, context?.applicationForm?.areaUnits, context, prepareAppealData);
             greenBeltPage.addGreenBeltData(context?.applicationForm?.appellantInGreenBelt);
             ownAllLandPage.addOwnAllLandData(context?.applicationForm?.isOwnsAllLand);

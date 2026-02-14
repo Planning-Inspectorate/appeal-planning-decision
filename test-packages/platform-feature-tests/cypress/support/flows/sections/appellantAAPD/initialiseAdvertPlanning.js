@@ -101,7 +101,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
         contactDetailsPage.addContactDetailsData(context, prepareAppealSelector?._selectors?.advertApplicationType, prepareAppealData);
 
         cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/appeal-site-address`);
-        appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
+        appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData, context);
 
         cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/highway-land`);
         highwayLandPage.selectHighwayLand(context?.applicationForm?.isHighwayLand, context);
