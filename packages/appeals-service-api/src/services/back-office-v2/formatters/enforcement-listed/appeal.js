@@ -1,6 +1,7 @@
 const {
 	getDocuments,
 	formatEnforcementApplicationSubmissionUsers,
+	getCommonEnforcementAppellantSubmissionFields,
 	getEnforcementListedAppellantSubmissionFields
 } = require('../utils');
 const {
@@ -15,7 +16,8 @@ exports.formatter = async (appellantSubmission, lpa) => {
 		casedata: {
 			// @ts-ignore
 			caseType: ENFORCEMENT_LISTED.key,
-			...getEnforcementListedAppellantSubmissionFields(appellantSubmission, lpa)
+			...getCommonEnforcementAppellantSubmissionFields(appellantSubmission, lpa),
+			...getEnforcementListedAppellantSubmissionFields(appellantSubmission)
 		},
 		documents: await getDocuments(appellantSubmission),
 		// @ts-ignore

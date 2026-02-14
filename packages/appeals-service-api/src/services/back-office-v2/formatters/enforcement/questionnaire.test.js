@@ -1,4 +1,4 @@
-const { formatter } = require(`./questionnaire`);
+const { formatter } = require(`../enforcement/questionnaire`);
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const ENFORCEMENT = CASE_TYPES.ENFORCEMENT.key;
 const { APPEAL_LPA_PROCEDURE_PREFERENCE } = require('@planning-inspectorate/data-model');
