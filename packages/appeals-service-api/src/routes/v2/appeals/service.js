@@ -3,6 +3,10 @@ const { UserAppealsRepository } = require('./repo');
 const { AppealsRepository } = require('#repositories/appeals-repository');
 const { filterNotNull } = require('#lib/filter');
 const { appendLinkedCasesForMultipleAppeals } = require('../appeal-cases/service');
+const {
+	addOwnershipAndSubmissionDetailsToRepresentations
+} = require('@pins/common/src/access/representation-ownership');
+const { getServiceUsersWithEmailsByIdAndCaseReference } = require('../service-users/service');
 
 const repo = new UserAppealsRepository();
 const cosmosAppeals = new AppealsRepository();
@@ -48,6 +52,26 @@ async function getAppealsForUser(userId, role) {
 
 	// check for linked cases
 	const enhancedCases = await appendLinkedCasesForMultipleAppeals(cases);
+
+	await Promise.all(
+		enhancedCases.map(async (appealCase) => {
+			if (appealCase.Representations && appealCase.Representations.length > 0) {
+				const serviceUserIds = [
+					...new Set(appealCase.Representations.map((r) => r.serviceUserId).filter(Boolean))
+				];
+				const usersWithEmails = await getServiceUsersWithEmailsByIdAndCaseReference(
+					serviceUserIds,
+					appealCase.caseReference
+				);
+				appealCase.Representations = addOwnershipAndSubmissionDetailsToRepresentations(
+					appealCase.Representations,
+					user.email,
+					false,
+					usersWithEmails
+				);
+			}
+		})
+	);
 
 	// fetch drafts from Cosmos
 	const draftSubmissions = await Promise.all(

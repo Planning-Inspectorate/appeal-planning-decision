@@ -40,10 +40,14 @@ class UserAppealsRepository {
 				},
 				select: {
 					id: true,
+					email: true,
 					Appeals: {
 						where: roleWhere,
 						select: {
+							id: true,
 							appealId: true,
+							role: true,
+							userId: true,
 							Appeal: {
 								select: {
 									id: true,
@@ -71,7 +75,17 @@ class UserAppealsRepository {
 											siteAddressTown: true,
 											siteAddressPostcode: true,
 											siteGridReferenceEasting: true,
-											siteGridReferenceNorthing: true
+											siteGridReferenceNorthing: true,
+											Representations: {
+												select: {
+													id: true,
+													representationType: true,
+													serviceUserId: true,
+													source: true,
+													representationStatus: true,
+													dateReceived: true
+												}
+											}
 										}
 									},
 									AppellantSubmission: {
