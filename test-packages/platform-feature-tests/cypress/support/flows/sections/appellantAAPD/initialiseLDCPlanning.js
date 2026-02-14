@@ -112,7 +112,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 
 		//Site Details
 		cy.validateURL(`${prepareAppealSelector?._ldcAppealURLs?.appealsLdcAppealPrepareAppeal}/appeal-site-address`);
-		appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
+		appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData, context);
 
 		//Is the appeal site in a green belt?(Ans:Yes)
 		cy.validateURL(`${prepareAppealSelector?._ldcAppealURLs?.appealsLdcAppealPrepareAppeal}/green-belt`);
