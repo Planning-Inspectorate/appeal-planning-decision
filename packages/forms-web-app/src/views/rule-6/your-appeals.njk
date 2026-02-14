@@ -35,9 +35,10 @@
                       <thead class="govuk-table__head">
                         <tr class="govuk-table__row">
                           <th scope="col" class="govuk-table__header">Appeal number</th>
-                          <th scope="col" class="govuk-table__header">Site address</th>
+                          <th scope="col" class="govuk-table__header">Address</th>
                           <th scope="col" class="govuk-table__header">Appeal type</th>
                           <th scope="col" class="govuk-table__header">Deadline</th>
+                          <th scope="col" class="govuk-table__header">Due in</th>
                           <th scope="col" class="govuk-table__header">To do</th>
                         </tr>
                       </thead>
@@ -59,6 +60,10 @@
                               {# Deadline #}
                               <td class="govuk-table__cell">
                                 {{item.nextJourneyDue.deadline | date('D MMMM YYYY') }}
+                              </td>
+                              {# Due in #}
+                              <td class="govuk-table__cell">
+                                {{item.nextJourneyDue.dueInDays}}
                               </td>
                               {# To do #}
                               <td class="govuk-table__cell">
@@ -139,7 +144,7 @@
         }) }}
         <p class="govuk-body">
           <a href="{{withdrawnAppealsLink}}" class="govuk-link">
-            {{ withdrawnAppealsCount }} withdrawn 
+            {{ withdrawnAppealsCount }} withdrawn
             {% if withdrawnAppealsCount == 1 %}
                 appeal
             {% else %}
@@ -149,7 +154,7 @@
         </p>
         <p class="govuk-body">
           <a href="{{decidedAppealsLink}}" class="govuk-link">
-            {{ decidedAppealsCount }} decided 
+            {{ decidedAppealsCount }} decided
             {% if decidedAppealsCount == 1 %}
                 appeal
             {% else %}
