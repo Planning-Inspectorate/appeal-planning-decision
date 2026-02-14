@@ -14,6 +14,7 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
     if (context?.endToEndIntegration) {
         // Get the Case Reference and validate submitted appeal details
         cy.get(`a[href="/appeals/your-appeals"]`).click();
+        cy.reload();
         // Fetch both the case reference (td[0]) and appeal type (td[2]) from the last row
         appealIdWaitingForReview().then(({ caseRef, appealType }) => {
             cy.log(`Case Reference: ${caseRef}`); // Log the actual string value, not JSON.stringify             
