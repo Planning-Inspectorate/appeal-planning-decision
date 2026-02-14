@@ -396,6 +396,140 @@ describe('enforcement notice formatter', () => {
 		});
 	});
 
+	it('should not send ground a supllementary fields or named individuals if not appropriate', async () => {
+		const noGroundAOrGroupSubmission = {
+			...appellantSubmission,
+			enforcementWhoIsAppealing: fieldValues.enforcementWhoIsAppealing.ORGANISATION,
+			addNamedIndividual: null,
+			selectedNamedIndividualId: null,
+			enforcementOrganisationName: 'Test Organisation LLP',
+			contactFirstName: 'Organisation',
+			contactLastName: 'Agent',
+			contactCompanyName: 'Test Agents R Us',
+
+			appealGrounds: 'b',
+			SubmissionAppealGround: [
+				{
+					groundName: 'b',
+					facts: 'Ground b facts'
+				}
+			],
+			// following are ground a follow on fields, should not be mapped if no ground a
+			retrospectiveApplication: true,
+			groundAFeePaid: true,
+			uploadGroundAFeeReceipt: true,
+			applicationPartOrWholeDevelopment: 'all-of-the-development',
+			applicationDecisionAppealed: true,
+			appealDecisionDate: new Date(),
+			onApplicationDate: new Date(),
+			applicationReference: 'abc',
+			applicationDecision: APPEAL_APPLICATION_DECISION.GRANTED,
+			applicationDecisionDate: new Date(),
+			developmentDescriptionOriginal: 'Original description',
+			updateDevelopmentDescription: false,
+			planningObligation: true,
+			statusPlanningObligation: 'finalised',
+
+			// individuals should not be mapped if not group
+			SubmissionIndividual: [
+				{
+					id: '1',
+					firstName: 'First',
+					lastName: 'Individual',
+					interestInAppealLand: 'owner',
+					hasPermissionToUseLand: null
+				},
+				{
+					id: '2',
+					firstName: 'Second',
+					lastName: 'Individual',
+					interestInAppealLand: 'owner',
+					hasPermissionToUseLand: null
+				}
+			]
+		};
+
+		const result = await formatter(noGroundAOrGroupSubmission, lpa);
+
+		expect(result).toMatchObject({
+			casedata: {
+				submissionId: 'appeal123',
+				caseType: APPEAL_CASE_TYPE.C,
+				caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
+				lpaCode: 123,
+				caseSubmittedDate: expect.any(String),
+				enforcementNotice: true,
+				enforcementReference: appellantSubmission.enforcementReferenceNumber,
+				enforcementIssueDate: expect.any(String),
+				enforcementEffectiveDate: expect.any(String),
+				contactPlanningInspectorateDate: expect.any(String),
+				interestInLand: appellantSubmission.interestInAppealLand,
+				writtenOrVerbalPermission: null,
+				descriptionOfAllegedBreach: appellantSubmission.allegedBreachDescription,
+				retrospectiveApplication: null,
+				groundAFeePaid: null,
+				applicationDevelopmentAllOrPart: null,
+				applicationReference: null,
+				applicationDate: null,
+				applicationDecision: null,
+				applicationDecisionDate: null,
+				applicationDecisionAppealed: null,
+				appealDecisionDate: null,
+				caseSubmissionDueDate: expect.any(String),
+				siteAddressLine1: 'Line 1',
+				siteAddressLine2: 'Line 2',
+				siteAddressTown: 'Town',
+				siteAddressCounty: 'County',
+				siteAddressPostcode: 'Postcode',
+				contactAddressLine1: undefined,
+				contactAddressLine2: undefined,
+				contactAddressTown: undefined,
+				contactAddressCounty: undefined,
+				contactAddressPostcode: undefined,
+				siteAccessDetails: ['Access details'],
+				siteSafetyDetails: ['Safety details'],
+				originalDevelopmentDescription: null,
+				changedDevelopmentDescription: null,
+				nearbyCaseReferences: ['case123'],
+				appellantCostsAppliedFor: true,
+				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.INQUIRY,
+				appellantProcedurePreferenceDetails: 'details',
+				appellantProcedurePreferenceDuration: 13,
+				appellantProcedurePreferenceWitnessCount: 3,
+				planningObligation: null,
+				statusPlanningObligation: null,
+				namedIndividuals: [],
+				appealGrounds: [
+					{
+						groundRef: 'b',
+						factsForGround: 'Ground b facts'
+					}
+				]
+			},
+			documents: testDocuments,
+			users: [
+				{
+					salutation: null,
+					firstName: null,
+					lastName: null,
+					emailAddress: null,
+					serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+					telephoneNumber: appellantSubmission.contactPhoneNumber,
+					organisation: noGroundAOrGroupSubmission.enforcementOrganisationName
+				},
+				{
+					salutation: null,
+					firstName: noGroundAOrGroupSubmission.contactFirstName,
+					lastName: noGroundAOrGroupSubmission.contactLastName,
+					emailAddress: appellantSubmission.Appeal.Users[0].AppealUser.email,
+					serviceUserType: SERVICE_USER_TYPE.AGENT,
+					telephoneNumber: appellantSubmission.contactPhoneNumber,
+					organisation: noGroundAOrGroupSubmission.contactCompanyName
+				}
+			]
+		});
+	});
+
 	it('should throw an error if appellantSubmission is not provided', async () => {
 		await expect(formatter(null)).rejects.toThrow();
 	});

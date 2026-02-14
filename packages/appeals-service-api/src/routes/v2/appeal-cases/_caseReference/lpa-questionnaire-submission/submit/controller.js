@@ -24,7 +24,7 @@ const {
 
 const {
 	formatter: enforcementFormatter
-} = require('../../../../../../services/back-office-v2/formatters/enforcements/questionnaire');
+} = require('../../../../../../services/back-office-v2/formatters/enforcement/questionnaire');
 
 const {
 	formatter: ldcFormatter
