@@ -34,5 +34,19 @@ Cypress.on('uncaught:exception', (err) => {
   return true; // allow others to fail tests
 });
 
+// Generate a unique correlation ID for each test and expose via Cypress.env
+beforeEach(function () {
+  try {
+    const runIdRaw = Cypress.env('RUN_ID') || String(Date.now());
+    const rid = String(runIdRaw).slice(-6); // short run identifier
+    const rand = Math.random().toString(36).slice(2, 8); // 6 chars
+    const correlationId = `CID-${rid}-${rand}`; // ~16-18 chars total
+    Cypress.env('correlationId', correlationId);
+    Cypress.log({ name: 'correlationId', message: correlationId });
+  } catch (e) {
+    // Non-fatal: leave correlationId unset if anything goes wrong
+  }
+});
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
