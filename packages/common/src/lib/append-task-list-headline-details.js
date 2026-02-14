@@ -7,10 +7,12 @@ const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
  */
 
 /**
- * @param {AppealCaseDetailedWithTaskListDetails} appeal
+ * @param {AppealCaseDetailedWithTaskListDetails | null | undefined } appeal
  * @returns {void}
  */
 const appendTaskListHeadlineDetails = (appeal) => {
+	if (!appeal) return;
+
 	appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
 	const appellant = appeal.users?.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
 	if (appellant) {
