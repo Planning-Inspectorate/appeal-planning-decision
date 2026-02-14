@@ -36,6 +36,7 @@ const targetTimezone = 'Europe/London';
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantHASSubmissionProperties} AppellantHASSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantS78SubmissionProperties} AppellantS78SubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AdvertSpecificProperties} AppellantAdvertSubmissionProperties
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantEnforcementSubmissionProperties} AppellantEnforcementSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
  *
  * // todo update these once model updated
@@ -629,7 +630,7 @@ exports.getAdvertsAppellantSubmissionFields = (appellantSubmission) => {
 /**
  * @param {FullAppellantSubmission} appellantSubmission
  * @param {LPA} lpa
- * @returns {AppellantS78SubmissionProperties}
+ * @returns {AppellantEnforcementSubmissionProperties}
  */
 exports.getEnforcementAppellantSubmissionFields = (appellantSubmission, lpa) => {
 	const preference = exports.getAppellantProcedurePreference(appellantSubmission);
@@ -866,28 +867,6 @@ exports.getEnforcementListedAppellantSubmissionFields = (appellantSubmission, lp
 		};
 	};
 
-	// NamedIndividuals
-	const getNamedIndividuals = () => {
-		const isGroup = appellantSubmission.SubmissionIndividual.length > 0;
-		if (!isGroup) return [];
-
-		const selectedNamedIndividual =
-			appellantSubmission.SubmissionIndividual.find(
-				(individual) => individual.id === appellantSubmission.selectedNamedIndividualId
-			) || appellantSubmission.SubmissionIndividual.slice(0, 1).pop();
-
-		return appellantSubmission.SubmissionIndividual?.filter(
-			(individual) => individual.id !== selectedNamedIndividual.id
-		).map((individual) => ({
-			firstName: individual.firstName,
-			lastName: individual.lastName,
-			interestInLand:
-				individual.interestInAppealLand === 'other'
-					? individual.interestInAppealLand_interestInAppealLandDetails
-					: individual.interestInAppealLand
-		}));
-	};
-
 	// AppealGrounds
 	const getAppealGrounds = () => {
 		return appellantSubmission.SubmissionAppealGround?.map((appealGround) => ({
@@ -922,8 +901,184 @@ exports.getEnforcementListedAppellantSubmissionFields = (appellantSubmission, lp
 		contactAddressCounty: contactAddress?.county ?? undefined,
 		contactAddressPostcode: contactAddress?.postcode ?? undefined
 	});
+
+	return {
+		submissionId: appellantSubmission.appealId,
+		caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
+		lpaCode: lpa.getLpaCode(),
+		caseSubmittedDate: new Date().toISOString(),
+		caseSubmissionDueDate: enforcementNoticeDeadline(),
+		enforcementNotice: true,
+		appellantCostsAppliedFor: appellantSubmission.costApplication ?? null,
+		appealGrounds: getAppealGrounds(),
+		...getEnforcementNoticeDetails(),
+		...getSiteDetails(),
+		...getContactAddressDetails(),
+		...preference
+	};
+};
+
+/**
+ * @param {FullAppellantSubmission} appellantSubmission
+ * @returns {AppellantEnforcementSubmissionProperties}
+ */
+exports.getEnforcementNoticeAppellantSubmissionFields = (appellantSubmission) => {
+	const isGroup =
+		appellantSubmission.enforcementWhoIsAppealing === fieldValues.enforcementWhoIsAppealing.GROUP;
+
 	const getInterestInLand = () => {
-		const isGroup = appellantSubmission.SubmissionIndividual.length > 0;
+		if (!isGroup) {
+			return {
+				interestInLand:
+					appellantSubmission.interestInAppealLand === 'other'
+						? appellantSubmission.interestInAppealLand_interestInAppealLandDetails
+						: appellantSubmission.interestInAppealLand,
+				writtenOrVerbalPermission:
+					appellantSubmission.interestInAppealLand === 'other'
+						? exports.boolToYesNo(appellantSubmission.hasPermissionToUseLand)
+						: null
+			};
+		}
+
+		const selectedNamedIndividual =
+			appellantSubmission.SubmissionIndividual.find(
+				(individual) => individual.id === appellantSubmission.selectedNamedIndividualId
+			) || appellantSubmission.SubmissionIndividual.slice(0, 1).pop();
+
+		return {
+			interestInLand:
+				selectedNamedIndividual.interestInAppealLand === 'other'
+					? selectedNamedIndividual.interestInAppealLand_interestInAppealLandDetails
+					: selectedNamedIndividual.interestInAppealLand,
+			writtenOrVerbalPermission:
+				selectedNamedIndividual.interestInAppealLand === 'other'
+					? exports.boolToYesNo(selectedNamedIndividual.hasPermissionToUseLand)
+					: null
+		};
+	};
+
+	// NamedIndividuals
+	const getNamedIndividuals = () => {
+		if (!isGroup) return [];
+
+		const selectedNamedIndividual =
+			appellantSubmission.SubmissionIndividual.find(
+				(individual) => individual.id === appellantSubmission.selectedNamedIndividualId
+			) || appellantSubmission.SubmissionIndividual.slice(0, 1).pop();
+
+		return appellantSubmission.SubmissionIndividual?.filter(
+			(individual) => individual.id !== selectedNamedIndividual.id
+		).map((individual) => ({
+			firstName: individual.firstName,
+			lastName: individual.lastName,
+			interestInLand:
+				individual.interestInAppealLand === 'other'
+					? individual.interestInAppealLand_interestInAppealLandDetails
+					: individual.interestInAppealLand,
+			writtenOrVerbalPermission:
+				individual.interestInAppealLand === 'other'
+					? exports.boolToYesNo(individual.hasPermissionToUseLand)
+					: null
+		}));
+	};
+
+	const hasAppealGroundA = appellantSubmission.SubmissionAppealGround?.some(
+		(appealGround) => appealGround.groundName === 'a'
+	);
+
+	const getGroundAFollowOnDetails = () => {
+		if (!hasAppealGroundA)
+			return {
+				retrospectiveApplication: null,
+				groundAFeePaid: null,
+				planningObligation: null,
+				statusPlanningObligation: null
+			};
+
+		return {
+			retrospectiveApplication: appellantSubmission.retrospectiveApplication ?? null,
+			groundAFeePaid: appellantSubmission.groundAFeePaid ?? null,
+			planningObligation: appellantSubmission.planningObligation ?? null,
+			statusPlanningObligation: appellantSubmission.statusPlanningObligation ?? null
+		};
+	};
+
+	const getOriginalApplicationDetails = () => {
+		if (!hasAppealGroundA || appellantSubmission.retrospectiveApplication !== true)
+			return {
+				applicationDevelopmentAllOrPart: null,
+				applicationReference: null,
+				applicationDate: null,
+				applicationDecision: null,
+				applicationDecisionDate: null,
+				applicationDecisionAppealed: null,
+				appealDecisionDate: null,
+				originalDevelopmentDescription: null,
+				changedDevelopmentDescription: null
+			};
+
+		const submittedApplicationDecisionDate =
+			appellantSubmission.applicationDecisionDate?.toISOString() ?? null;
+		const submittedApplicationDecisionDueDate =
+			appellantSubmission.applicationDecisionDueDate?.toISOString() ?? null;
+
+		return {
+			applicationDevelopmentAllOrPart:
+				appellantSubmission.applicationPartOrWholeDevelopment ?? null,
+			applicationReference: appellantSubmission.applicationReference ?? null,
+			applicationDate: appellantSubmission.onApplicationDate?.toISOString() ?? null,
+			applicationDecision: appellantSubmission.applicationDecision
+				? exports.formatApplicationDecision(appellantSubmission.applicationDecision)
+				: null,
+			applicationDecisionDate:
+				submittedApplicationDecisionDate ?? submittedApplicationDecisionDueDate,
+			applicationDecisionAppealed: appellantSubmission.applicationDecisionAppealed ?? null,
+			appealDecisionDate: appellantSubmission.appealDecisionDate?.toISOString() ?? null,
+			originalDevelopmentDescription: appellantSubmission.developmentDescriptionOriginal ?? null,
+			changedDevelopmentDescription: appellantSubmission.updateDevelopmentDescription ?? null
+		};
+	};
+
+	return {
+		namedIndividuals: getNamedIndividuals(),
+		...getInterestInLand(),
+		...getGroundAFollowOnDetails(),
+		...getOriginalApplicationDetails()
+	};
+};
+
+/**
+ * @param {FullAppellantSubmission} appellantSubmission
+ * @returns {AppellantEnforcementSubmissionProperties}
+ */
+exports.getEnforcementListedAppellantSubmissionFields = (appellantSubmission) => {
+	const isGroup =
+		appellantSubmission.enforcementWhoIsAppealing === fieldValues.enforcementWhoIsAppealing.GROUP;
+
+	// NamedIndividuals
+	const getNamedIndividuals = () => {
+		const isGroup =
+			appellantSubmission.enforcementWhoIsAppealing === fieldValues.enforcementWhoIsAppealing.GROUP;
+		if (!isGroup) return [];
+
+		const selectedNamedIndividual =
+			appellantSubmission.SubmissionIndividual.find(
+				(individual) => individual.id === appellantSubmission.selectedNamedIndividualId
+			) || appellantSubmission.SubmissionIndividual.slice(0, 1).pop();
+
+		return appellantSubmission.SubmissionIndividual?.filter(
+			(individual) => individual.id !== selectedNamedIndividual.id
+		).map((individual) => ({
+			firstName: individual.firstName,
+			lastName: individual.lastName,
+			interestInLand:
+				individual.interestInAppealLand === 'other'
+					? individual.interestInAppealLand_interestInAppealLandDetails
+					: individual.interestInAppealLand
+		}));
+	};
+
+	const getInterestInLand = () => {
 		if (!isGroup) {
 			return {
 				interestInLand:
@@ -945,21 +1100,10 @@ exports.getEnforcementListedAppellantSubmissionFields = (appellantSubmission, lp
 					: selectedNamedIndividual.interestInAppealLand
 		};
 	};
+
 	return {
-		submissionId: appellantSubmission.appealId,
-		caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
-		lpaCode: lpa.getLpaCode(),
-		caseSubmittedDate: new Date().toISOString(),
-		caseSubmissionDueDate: enforcementNoticeDeadline(),
-		enforcementNotice: true,
-		appellantCostsAppliedFor: appellantSubmission.costApplication ?? null,
 		namedIndividuals: getNamedIndividuals(),
-		appealGrounds: getAppealGrounds(),
-		...getInterestInLand(),
-		...getEnforcementNoticeDetails(),
-		...getSiteDetails(),
-		...getContactAddressDetails(),
-		...preference
+		...getInterestInLand()
 	};
 };
 
