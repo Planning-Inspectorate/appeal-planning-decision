@@ -26,7 +26,7 @@ const { getValidator } = new SchemaValidator();
  * @typedef {import('@pins/database/src/client/client').ServiceUser} ServiceUser
  * @typedef {import('@pins/database/src/client/client').AppealCaseRelationship} AppealRelations
  * @typedef {import('@pins/database/src/client/client').SubmissionLinkedCase} SubmissionLinkedCase
- * @typedef {AppealCase & {users?: Array.<ServiceUser>} & {relations?: Array.<AppealRelations>}} AppealCaseDetailed
+ * @typedef {AppealCase & {users?: Array.<ServiceUser>} & {relations?: Array.<AppealRelations>} & {Representations?: Array.<import('src/spec/api-types').Representation>}} AppealCaseDetailed
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealHASCase} AppealHASCase
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealS78Case} AppealS78Case
  * @typedef {import('./repo').LinkedCase} LinkedCase
