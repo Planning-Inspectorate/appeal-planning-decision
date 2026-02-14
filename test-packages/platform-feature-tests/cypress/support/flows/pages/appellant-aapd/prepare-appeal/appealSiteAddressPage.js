@@ -12,10 +12,11 @@ export class AppealSiteAddressPage {
         addressPostcode: '#address-postcode'
     }
 
-    addAppealSiteAddressData(prepareAppealData) {
+    addAppealSiteAddressData(prepareAppealData, context) {
         const basePage = new BasePage();
-
-        basePage.addTextField(this._selectors?.addressLineOne, prepareAppealData?.appealSiteAddress?.addressLine1);
+        const correlationId = (context && context.correlationId) ? context.correlationId : Cypress.env('correlationId');
+       
+        basePage.addTextField(this._selectors?.addressLineOne, correlationId);
         basePage.addTextField(this._selectors?.addressLineTwo, prepareAppealData?.appealSiteAddress?.addressLine2);
         basePage.addTextField(this._selectors?.addressTown, prepareAppealData?.appealSiteAddress?.testTown);
         basePage.addTextField(this._selectors?.addressCounty, prepareAppealData?.appealSiteAddress?.testCounty);
