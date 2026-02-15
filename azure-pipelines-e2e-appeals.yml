@@ -28,13 +28,13 @@ trigger: none
 #     include:
 #       - test-packages/platform-feature-tests
 
-# schedules:
-#     - cron: '30 3 * * 1-5'
-#       displayName: Weekday test run
-#       branches:
-#           include:
-#               - main
-#       always: true
+schedules:
+    - cron: '30 3 * * 2-6'
+      displayName: Weekday test run
+      branches:
+          include:
+              - main
+      always: true
 
 jobs:
   - job: Run_Cypress_Tests_For_Appeals
