@@ -38,6 +38,7 @@ const r6Statement1 = {
 	userOwnsRepresentation: true,
 	submittingPartyType: APPEAL_USER_ROLES.RULE_6_PARTY,
 	serviceUserId: testR6ServiceUserId1,
+	organisation: 'Rule 6 Org 1',
 	originalRepresentation: 'this is a statement',
 	redacted: false,
 	representationType: REPRESENTATION_TYPES.STATEMENT,
@@ -54,6 +55,7 @@ const r6Statement2 = {
 	userOwnsRepresentation: false,
 	submittingPartyType: APPEAL_USER_ROLES.RULE_6_PARTY,
 	serviceUserId: testR6ServiceUserId2,
+	organisation: 'Rule 6 Org 2',
 	originalRepresentation: 'this is a different r6 statement',
 	redacted: false,
 	representationType: REPRESENTATION_TYPES.STATEMENT,
@@ -613,6 +615,7 @@ describe('lib/representation-functions', () => {
 						text: `Representation 1`
 					},
 					rowLabel: 'Representation',
+					heading: 'Representation 1',
 					value: {
 						text: truncateLimit,
 						truncatedText: truncateLimit,
@@ -625,6 +628,7 @@ describe('lib/representation-functions', () => {
 						text: `Representation 2`
 					},
 					rowLabel: 'Representation',
+					heading: 'Representation 2',
 					value: {
 						text: truncateLimit + '<br>Test',
 						truncatedText: truncateLimit + '<br>...',
@@ -642,27 +646,29 @@ describe('lib/representation-functions', () => {
 			const expectedResult = [
 				{
 					key: {
-						text: `Statement 1`
+						text: `Rule 6 Org 1`
 					},
 					rowLabel: 'Statement',
 					value: {
+						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }],
 						text: 'this is a statement',
 						truncatedText: 'this is a statement',
-						truncated: false,
-						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }]
-					}
+						truncated: false
+					},
+					heading: 'Rule 6 Org 1'
 				},
 				{
 					key: {
-						text: `Statement 2`
+						text: `Rule 6 Org 2`
 					},
 					rowLabel: 'Statement',
 					value: {
+						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }],
 						text: 'this is a different r6 statement',
 						truncatedText: 'this is a different r6 statement',
-						truncated: false,
-						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }]
-					}
+						truncated: false
+					},
+					heading: 'Rule 6 Org 2'
 				},
 				{
 					key: {
@@ -670,11 +676,12 @@ describe('lib/representation-functions', () => {
 					},
 					rowLabel: 'Statement',
 					value: {
+						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }],
 						text: 'this is a bleep statement',
 						truncatedText: 'this is a bleep statement',
-						truncated: false,
-						documents: [{ documentsLabel: 'Supporting documents', documentsLinks: 'No documents' }]
-					}
+						truncated: false
+					},
+					heading: 'Statement 3'
 				}
 			];
 
@@ -689,6 +696,7 @@ describe('lib/representation-functions', () => {
 						text: `Final comments 1`
 					},
 					rowLabel: 'Final comments',
+					heading: 'Final comments 1',
 					value: {
 						text: 'this is a comment',
 						truncatedText: 'this is a comment',
@@ -701,6 +709,7 @@ describe('lib/representation-functions', () => {
 						text: `Final comments 2`
 					},
 					rowLabel: 'Final comments',
+					heading: 'Final comments 2',
 					value: {
 						text: 'this is a bleep comment',
 						truncatedText: 'this is a bleep comment',
@@ -719,6 +728,7 @@ describe('lib/representation-functions', () => {
 				{
 					key: { text: 'Representation 1' },
 					rowLabel: 'Representation',
+					heading: 'Representation 1',
 					value: {
 						text: undefined,
 						truncatedText: undefined,
@@ -732,6 +742,7 @@ describe('lib/representation-functions', () => {
 				{
 					key: { text: 'Representation 2' },
 					rowLabel: 'Representation',
+					heading: 'Representation 2',
 					value: {
 						text: undefined,
 						truncatedText: undefined,
@@ -745,6 +756,7 @@ describe('lib/representation-functions', () => {
 				{
 					key: { text: 'Representation 3' },
 					rowLabel: 'Representation',
+					heading: 'Representation 3',
 					value: {
 						text: undefined,
 						truncatedText: undefined,
@@ -770,6 +782,7 @@ describe('lib/representation-functions', () => {
 						text: `Interested party 1`
 					},
 					rowLabel: 'Interested party',
+					heading: 'Interested party 1',
 					value: {
 						text: 'this is an earlier interested party comment',
 						truncatedText: 'this is an earlier interested party comment',
@@ -782,6 +795,7 @@ describe('lib/representation-functions', () => {
 						text: `Interested party 2`
 					},
 					rowLabel: 'Interested party',
+					heading: 'Interested party 2',
 					value: {
 						text: 'this is an interested party comment',
 						truncatedText: 'this is an interested party comment',
@@ -809,12 +823,13 @@ describe('lib/representation-functions', () => {
 			const expectedResult = [
 				{
 					key: {
-						text: `Statement 1`
+						text: `Rule 6 Org 2`
 					},
 					rowLabel: 'Statement',
+					heading: 'Rule 6 Org 2',
 					value: {
-						text: r6Statement2.originalRepresentation,
-						truncatedText: r6Statement2.originalRepresentation,
+						text: 'this is a different r6 statement',
+						truncatedText: 'this is a different r6 statement',
 						truncated: false,
 						documents: [
 							{
@@ -829,6 +844,7 @@ describe('lib/representation-functions', () => {
 						text: `Statement 2`
 					},
 					rowLabel: 'Statement',
+					heading: 'Statement 2',
 					value: {
 						text: lpaStatement.redactedRepresentation,
 						truncatedText: lpaStatement.redactedRepresentation,

@@ -154,7 +154,8 @@ const appealIds = {
 	appeal13: '1f72d00c-03fa-48be-8ded-a9580e65f7a5',
 	appeal14: '437c4af5-7440-486d-98e9-b37a748be96c',
 	appeal15: '5b769d3f-466c-427a-9d58-d9823239ee9b',
-	appeal16: 'e2e772d4-e688-465f-802c-59a69e43a9ea'
+	appeal16: 'e2e772d4-e688-465f-802c-59a69e43a9ea',
+	appealR6Test: '756d6bfb-dde8-4532-a041-86c226a23c17'
 };
 
 const caseReferences = {
@@ -171,7 +172,8 @@ const caseReferences = {
 	caseReference13: '2201010',
 	caseReference14: '2211010',
 	caseReference15: '2221010',
-	caseReference16: '2231010'
+	caseReference16: '2231010',
+	caseReferenceR6Test: '4000017'
 };
 
 const appellantSubmissionIds = {
@@ -233,6 +235,7 @@ const appeals = [
 	{ id: appealIds.appeal14 },
 	{ id: appealIds.appeal15 },
 	{ id: appealIds.appeal16 },
+	{ id: appealIds.appealR6Test },
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
@@ -674,6 +677,24 @@ const appealCases = [
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2))
 	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appealR6Test }
+		},
+		...commonAppealProperties,
+		caseReference: caseReferences.caseReferenceR6Test,
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/4000017/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		lpaQuestionnaireSubmittedDate: new Date(),
+		caseValidDate: new Date(),
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
+		}
+	},
 	...lpaAppealCaseData
 ];
 
@@ -832,6 +853,21 @@ const appealToUsers = [
 		userId: rule6Parties.r6One.id,
 		role: APPEAL_USER_ROLES.RULE_6_PARTY
 	},
+	{
+		appealId: appealIds.appealR6Test,
+		userId: rule6Parties.r6One.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appealR6Test,
+		userId: rule6Parties.r6Two.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appealR6Test,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
 	...linkedLpaR6Appeals
 ];
 
@@ -976,6 +1012,31 @@ const serviceUsers = [
 		firstName: 'Rule6Party',
 		lastName: 'Three',
 		emailAddress: 'r6-3@planninginspectorate.gov.uk'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfd01',
+		id: '123998',
+		serviceUserType: 'Rule6Party',
+		caseReference: '4000017',
+		organisation: 'Rule 6 Org One',
+		emailAddress: 'r6-1@planninginspectorate.gov.uk'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfd02',
+		id: '123999',
+		serviceUserType: 'Rule6Party',
+		caseReference: '4000017',
+		organisation: 'Rule 6 Org Two',
+		emailAddress: 'r6-2@planninginspectorate.gov.uk'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfd03',
+		id: '123451',
+		serviceUserType: 'Appellant',
+		caseReference: '4000017',
+		firstName: 'Appellant',
+		lastName: 'One',
+		emailAddress: 'appellant1@planninginspectorate.gov.uk'
 	}
 ];
 

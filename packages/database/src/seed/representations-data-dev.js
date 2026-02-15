@@ -13,7 +13,12 @@ const representationIds = {
 	representationTen: 'd24247a2-ad41-42b7-be86-7a222ae57427',
 	representationEleven: 'd24247a2-ad41-42b7-be86-7a222ae57428',
 	representationTwelve: 'd24247a2-ad41-42b7-be86-7a222ae57431',
-	representationThirteen: 'd24247a2-ad41-42b7-be86-7a222ae57432'
+	representationThirteen: 'd24247a2-ad41-42b7-be86-7a222ae57432',
+	representationR6Test1: 'd24247a2-ad41-42b7-be86-7a222ae57d01',
+	representationR6Test2: 'd24247a2-ad41-42b7-be86-7a222ae57d02',
+	representationLPATest: 'd24247a2-ad41-42b7-be86-7a222ae57d03',
+	representationAppellantTest: 'd24247a2-ad41-42b7-be86-7a222ae57d04',
+	representationR6Test3: 'd24247a2-ad41-42b7-be86-7a222ae57d05'
 };
 
 const caseReferences = {
@@ -332,6 +337,80 @@ const representations = [
 			'R6 Party 3 Statement Lorem ipsum dolor sit amet. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
 		source: 'citizen',
 		serviceUserId: '123997',
+		representationType: 'statement',
+		dateReceived: pickRandom(datesNMonthsAgo(0.5))
+	},
+	{
+		id: representationIds.representationR6Test1,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471d01',
+		AppealCase: {
+			connect: {
+				caseReference: '4000017'
+			}
+		},
+		representationStatus: 'published',
+		originalRepresentation: 'Rule 6 Org One Statement',
+		source: 'citizen',
+		serviceUserId: '123998',
+		representationType: 'statement',
+		dateReceived: pickRandom(datesNMonthsAgo(0.5))
+	},
+	{
+		id: representationIds.representationR6Test2,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471d02',
+		AppealCase: {
+			connect: {
+				caseReference: '4000017'
+			}
+		},
+		representationStatus: 'published',
+		originalRepresentation: 'Rule 6 Org Two Proof of Evidence',
+		source: 'citizen',
+		serviceUserId: '123999',
+		representationType: 'proofs_evidence',
+		dateReceived: pickRandom(datesNMonthsAgo(0.5))
+	},
+	{
+		id: representationIds.representationLPATest,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471d03',
+		AppealCase: {
+			connect: {
+				caseReference: '4000017'
+			}
+		},
+		representationStatus: 'published',
+		originalRepresentation: 'LPA Statement for Rule 6 Test',
+		source: 'lpa',
+		representationType: 'statement',
+		dateReceived: pickRandom(datesNMonthsAgo(0.5))
+	},
+	{
+		id: representationIds.representationAppellantTest,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471d04',
+		AppealCase: {
+			connect: {
+				caseReference: '4000017'
+			}
+		},
+		representationStatus: 'published',
+		originalRepresentation: 'Appellant Statement for Rule 6 Test',
+		source: 'citizen',
+		serviceUserId: '123451',
+		representationType: 'statement',
+		dateReceived: pickRandom(datesNMonthsAgo(0.5))
+	},
+	{
+		id: representationIds.representationR6Test3,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471d05',
+		AppealCase: {
+			connect: {
+				caseReference: '4000017'
+			}
+		},
+		representationStatus: 'published',
+		originalRepresentation: 'Rule 6 Org Two Statement',
+		source: 'citizen',
+		serviceUserId: '123999',
 		representationType: 'statement',
 		dateReceived: pickRandom(datesNMonthsAgo(0.5))
 	}
