@@ -6,7 +6,7 @@ const { AppealUserRepository } = require('#repositories/sql/appeal-user-reposito
 /**
  * @typedef {import('@pins/database/src/client/client').ServiceUser} ServiceUser
  * @typedef {import('@pins/database/src/client/client').AppealToUser} AppealToUser
- * @typedef {Pick<ServiceUser, 'id' | 'emailAddress' | 'serviceUserType'>} BasicServiceUser
+ * @typedef {Pick<ServiceUser, 'id' | 'emailAddress' | 'serviceUserType' | 'organisation'>} BasicServiceUser
  * @typedef {Pick<ServiceUser, 'firstName' | 'lastName' | 'serviceUserType'>} ServiceUserName
  */
 
@@ -57,7 +57,8 @@ class ServiceUserRepository {
 			select: {
 				id: true,
 				emailAddress: true,
-				serviceUserType: true
+				serviceUserType: true,
+				organisation: true
 			}
 		});
 	}

@@ -11,7 +11,7 @@ const {
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  * @typedef { 'LPAUser' } LpaUserRole
  * @typedef {import('@pins/database/src/client/client').ServiceUser} ServiceUser
- * @typedef {Pick<ServiceUser, 'id' | 'emailAddress' | 'serviceUserType'>} BasicServiceUser
+ * @typedef {Pick<ServiceUser, 'id' | 'emailAddress' | 'serviceUserType' | 'organisation'>} BasicServiceUser
  * @typedef { {
  *   representationStatus: string|null,
  *   documentId: string,
@@ -49,7 +49,8 @@ exports.addOwnershipAndSubmissionDetailsToRepresentations = (
 			(rep.source !== APPEAL_SOURCE.LPA &&
 				!!rep.serviceUserId &&
 				loggedInUserIds.has(rep.serviceUserId)),
-		submittingPartyType: ascertainSubmittingParty(rep, serviceUsersWithEmails)
+		submittingPartyType: ascertainSubmittingParty(rep, serviceUsersWithEmails),
+		organisation: serviceUsersWithEmails.find((user) => user.id === rep.serviceUserId)?.organisation
 	}));
 };
 

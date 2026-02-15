@@ -226,8 +226,15 @@ const formatRepresentations = (caseData, representations) => {
 				? formatProofsOfEvidenceDocuments(representationDocuments)
 				: formatRepresentationDocumentsLinks(representationDocuments, 'Supporting documents');
 
+		const heading =
+			representation.submittingPartyType === APPEAL_USER_ROLES.RULE_6_PARTY &&
+			representation.organisation
+				? representation.organisation
+				: `${rowLabel} ${index + 1}`;
+
 		return {
-			key: { text: `${rowLabel} ${index + 1}` },
+			key: { text: heading },
+			heading,
 			rowLabel,
 			value: {
 				text: fullText ? nl2br(escape(fullText)) : undefined,

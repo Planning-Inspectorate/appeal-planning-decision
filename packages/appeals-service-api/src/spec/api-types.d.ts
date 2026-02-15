@@ -1462,6 +1462,7 @@ export interface Representation {
 	/** added during get request [LPA_USER_ROLE, APPEAL_USER_ROLES] */
 	submittingPartyType?: string;
 	RepresentationDocuments?: RepresentationDocument[];
+	organisation?: string;
 }
 
 /** Proof of evidence submitted by a rule 6 party */
