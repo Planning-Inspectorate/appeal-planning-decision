@@ -20,7 +20,8 @@ const {
  * @typedef {CaseTypeCreateInput & {
  * 	processCode: "HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING" | "ENFORCEMENT" | "ENFORCEMENT_LISTED" | "LDC",
  *  friendlyUrl: string,
- *  expedited: boolean
+ *  expedited: boolean,
+ *  usesEnforcementContact: boolean
  * }} CASE_TYPE
  */
 
@@ -56,7 +57,8 @@ const CASE_TYPES = Object.freeze({
 		type: 'Householder',
 		processCode: 'HAS',
 		friendlyUrl: 'householder',
-		expedited: true
+		expedited: true,
+		usesEnforcementContact: false
 	},
 	S78: {
 		id: 1005,
@@ -64,7 +66,8 @@ const CASE_TYPES = Object.freeze({
 		type: 'Planning',
 		processCode: 'S78',
 		friendlyUrl: 'full-planning',
-		expedited: false
+		expedited: false,
+		usesEnforcementContact: false
 	},
 	S20: {
 		id: 1006,
@@ -72,7 +75,8 @@ const CASE_TYPES = Object.freeze({
 		type: 'Planning listed building and conservation area',
 		processCode: 'S20',
 		friendlyUrl: 'listed-building',
-		expedited: false
+		expedited: false,
+		usesEnforcementContact: false
 	},
 	ADVERTS: {
 		id: 1003,
@@ -80,7 +84,8 @@ const CASE_TYPES = Object.freeze({
 		type: 'Advertisement',
 		processCode: 'ADVERTS',
 		friendlyUrl: 'adverts', // shares appeal form with CAS_ADVERTS
-		expedited: false
+		expedited: false,
+		usesEnforcementContact: false
 	},
 	CAS_ADVERTS: {
 		id: 1007,
@@ -88,7 +93,8 @@ const CASE_TYPES = Object.freeze({
 		type: 'Commercial advertisement',
 		processCode: 'CAS_ADVERTS',
 		friendlyUrl: 'adverts', // shares appeal form with ADVERTS
-		expedited: true
+		expedited: true,
+		usesEnforcementContact: false
 	},
 	CAS_PLANNING: {
 		id: 1008,
@@ -96,7 +102,8 @@ const CASE_TYPES = Object.freeze({
 		type: 'Commercial planning (CAS)',
 		processCode: 'CAS_PLANNING',
 		friendlyUrl: 'cas-planning',
-		expedited: true
+		expedited: true,
+		usesEnforcementContact: false
 	},
 	ENFORCEMENT: {
 		id: 1000,
@@ -104,7 +111,8 @@ const CASE_TYPES = Object.freeze({
 		type: 'Enforcement notice',
 		processCode: 'ENFORCEMENT',
 		friendlyUrl: 'enforcement',
-		expedited: false
+		expedited: false,
+		usesEnforcementContact: true
 	},
 	ENFORCEMENT_LISTED: {
 		id: 1002,
@@ -112,7 +120,8 @@ const CASE_TYPES = Object.freeze({
 		type: 'Enforcement listed building and conservation area',
 		processCode: 'ENFORCEMENT_LISTED',
 		friendlyUrl: 'enforcement-listed-building',
-		expedited: false
+		expedited: false,
+		usesEnforcementContact: true
 	},
 	LDC: {
 		id: 1012,
@@ -120,7 +129,8 @@ const CASE_TYPES = Object.freeze({
 		type: 'Lawful development certificate',
 		processCode: 'LDC',
 		friendlyUrl: 'ldc',
-		expedited: false
+		expedited: false,
+		usesEnforcementContact: true
 	}
 	// { key: 'G', type: 'Discontinuance notice appeal' },
 	// { key: 'L', type: 'Community infrastructure levy' },

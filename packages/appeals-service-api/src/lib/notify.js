@@ -61,7 +61,7 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
 		const recipientEmail = appeal.email;
 		const variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables(),
 			name:
 				appeal.appealType == '1001'
 					? appeal.aboutYouSection.yourDetails.name
@@ -105,7 +105,7 @@ const sendSubmissionFollowUpEmailToAppellant = async (appeal) => {
 
 		const recipientEmail = appeal.email;
 		const variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables(),
 			appealReferenceNumber: appealRef,
 			appealSiteAddress: _formatAddress(appeal.appealSiteSection.siteAddress),
 			lpaReference: appeal.planningApplicationNumber,
@@ -159,7 +159,10 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 		const formattedGridref = `${appellantSubmission.siteGridReferenceEasting}, ${appellantSubmission.siteGridReferenceNorthing}`;
 
 		const variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables({
+				varyContactByEnforcement: true,
+				appealTypeCode: appellantSubmission.appealTypeCode
+			}),
 			appealSiteAddress: formattedAddress ? formattedAddress : formattedGridref,
 			lpaReference: appellantSubmission.applicationReference
 		};
@@ -215,7 +218,10 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
 		});
 
 		const variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables({
+				varyContactByEnforcement: true,
+				appealTypeCode: appealCase.appealTypeCode
+			}),
 			appealReferenceNumber: appealCase.caseReference,
 			appealSiteAddress: formattedAddress,
 			lpaReference: appealCase.applicationReference,
@@ -269,7 +275,10 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
 		const appealType = mapAppealTypeToDisplayText(CASE_TYPES[appellantSubmission.appealTypeCode]);
 
 		const variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables({
+				varyContactByEnforcement: true,
+				appealTypeCode: appellantSubmission.appealTypeCode
+			}),
 			loginUrl: `${config.apps.appeals.baseUrl}/manage-appeals/your-appeals`,
 			lpaReference: appellantSubmission.applicationReference
 		};
@@ -303,6 +312,7 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
  */
 const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmission) => {
 	const {
+		appealTypeCode,
 		LPACode: lpaCode,
 		caseReference,
 		finalCommentsDueDate,
@@ -334,7 +344,10 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		const reference = lpaStatementSubmission.id;
 		// TODO: put inside an appeal model
 		let variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables({
+				varyContactByEnforcement: true,
+				appealTypeCode: appealTypeCode
+			}),
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
 			deadlineDate: finalCommentsDueDate
@@ -369,6 +382,7 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
  */
 const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmission) => {
 	const {
+		appealTypeCode,
 		LPACode: lpaCode,
 		finalCommentsDueDate,
 		siteAddressLine1,
@@ -403,7 +417,10 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 		const reference = lpaFinalCommentSubmission.id;
 
 		let variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables({
+				varyContactByEnforcement: true,
+				appealTypeCode: appealTypeCode
+			}),
 			LPA: lpaName,
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
@@ -439,6 +456,7 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
  */
 const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmission) => {
 	const {
+		appealTypeCode,
 		LPACode: lpaCode,
 		applicationReference,
 		proofsOfEvidenceDueDate,
@@ -471,7 +489,10 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 		const reference = lpaProofEvidenceSubmission.id;
 
 		let variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables({
+				varyContactByEnforcement: true,
+				appealTypeCode: appealTypeCode
+			}),
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
 			deadlineDate: proofsOfEvidenceDueDate
@@ -512,7 +533,13 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 	appealCase,
 	appellantOrAgentEmailAddress
 ) => {
-	const { LPACode: lpaCode, caseReference, applicationReference, caseStartedDate } = appealCase;
+	const {
+		appealTypeCode,
+		LPACode: lpaCode,
+		caseReference,
+		applicationReference,
+		caseStartedDate
+	} = appealCase;
 
 	let lpa;
 	try {
@@ -539,7 +566,10 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 	const url = `${config.apps.appeals.baseUrl}/lpa-questionnaire-document/${caseReference}`;
 
 	const variables = {
-		...config.services.notify.templateVariables,
+		...getSharedNotifyVariables({
+			varyContactByEnforcement: true,
+			appealTypeCode: appealTypeCode
+		}),
 		appealReferenceNumber: caseReference,
 		lpaName: lpaName,
 		lpaReference: applicationReference,
@@ -587,6 +617,7 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 	try {
 		const recipientEmail = emailAddress;
 		const {
+			appealTypeCode,
 			siteAddressLine1,
 			siteAddressLine2,
 			siteAddressTown,
@@ -609,7 +640,10 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 		const reference = appellantFinalCommentSubmission.id;
 
 		let variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables({
+				varyContactByEnforcement: true,
+				appealTypeCode: appealTypeCode
+			}),
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
 			deadlineDate: finalCommentsDueDate
@@ -649,6 +683,7 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 ) => {
 	try {
 		const {
+			appealTypeCode,
 			applicationReference,
 			siteAddressLine1,
 			siteAddressLine2,
@@ -671,7 +706,10 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 		const reference = appellantProofEvidenceSubmission.id;
 
 		let variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables({
+				varyContactByEnforcement: true,
+				appealTypeCode: appealTypeCode
+			}),
 			appealReferenceNumber: caseReference,
 			siteAddress: formattedAddress,
 			lpaReference: applicationReference || '',
@@ -710,6 +748,7 @@ const sendAppellantStatementSubmissionReceivedEmailToLpaV2 = async (
 ) => {
 	try {
 		const {
+			appealTypeCode,
 			applicationReference,
 			siteAddressLine1,
 			siteAddressLine2,
@@ -731,7 +770,10 @@ const sendAppellantStatementSubmissionReceivedEmailToLpaV2 = async (
 		const reference = appellantStatementSubmission.id;
 
 		let variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables({
+				varyContactByEnforcement: true,
+				appealTypeCode: appealTypeCode
+			}),
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
 			applicationReference: applicationReference
@@ -770,6 +812,7 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 ) => {
 	try {
 		const {
+			appealTypeCode,
 			siteAddressLine1,
 			siteAddressLine2,
 			siteAddressTown,
@@ -792,7 +835,10 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 		const reference = rule6ProofEvidenceSubmission.id;
 
 		let variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables({
+				varyContactByEnforcement: true,
+				appealTypeCode: appealTypeCode
+			}),
 			appealReferenceNumber: caseReference,
 			siteAddress: formattedAddress,
 			lpaReference: applicationReference || '',
@@ -835,6 +881,7 @@ const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
 ) => {
 	try {
 		const {
+			appealTypeCode,
 			applicationReference,
 			siteAddressLine1,
 			siteAddressLine2,
@@ -856,7 +903,10 @@ const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
 		const reference = rule6StatementSubmission.id;
 
 		let variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables({
+				varyContactByEnforcement: true,
+				appealTypeCode: appealTypeCode
+			}),
 			appealReferenceNumber: caseReference,
 			siteAddress: formattedAddress,
 			lpaReference: applicationReference,
@@ -884,41 +934,7 @@ const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
 	}
 };
 
-const sendFinalCommentSubmissionConfirmationEmail = async (finalComment) => {
-	try {
-		const lpa = await lpaService.getLpaById(finalComment.lpaCode);
-
-		const recipientEmail = finalComment.email;
-		let variables = {
-			'local planning authority': lpa.getName(),
-			name: finalComment.name
-		};
-
-		const reference = finalComment.horizonId;
-
-		logger.debug(
-			{ recipientEmail, variables, reference },
-			'Sending final comments submission confirmation email'
-		);
-
-		await NotifyBuilder.reset()
-			.setTemplateId(templates.FINAL_COMMENT.finalCommentSubmissionConfirmationEmail)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
-	} catch (err) {
-		logger.error(
-			{ err, appealId: finalComment.id },
-			'Unable to send final comments submission confirmation email'
-		);
-	}
-};
-
+// v1
 const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 	try {
 		const lpa = await lpaService.getLpaById(appeal.lpaCode);
@@ -944,7 +960,7 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		};
 
 		const variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables(),
 			lpaName: lpa.getName(),
 			appealType: appealType?.type.toLowerCase(),
 			applicationDecision: getApplicationDecision(),
@@ -980,6 +996,7 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 	}
 };
 
+// v1
 const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 	try {
 		const { baseUrl } = config.apps.appeals;
@@ -1001,7 +1018,7 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 
 		const variables = {
 			...configVars,
-			...config.services.notify.templateVariables
+			...getSharedNotifyVariables()
 		};
 
 		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
@@ -1028,6 +1045,7 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 	}
 };
 
+// v1
 const sendFailureToUploadToHorizonEmail = async (appealId) => {
 	try {
 		let variables = {
@@ -1060,7 +1078,7 @@ const sendLPADashboardInviteEmail = async (user) => {
 		const recipientEmail = user.email;
 
 		let variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables(),
 			loginUrl: `${config.apps.appeals.baseUrl}/manage-appeals/your-appeals`
 		};
 
@@ -1093,11 +1111,12 @@ const sendLPADashboardInviteEmail = async (user) => {
 };
 
 /**
- * @param { InterestedPartySubmission } interestedPartySubmission
+ * @param { InterestedPartySubmission & { AppealCase: AppealCase} } interestedPartySubmission
  */
 const sendCommentSubmissionConfirmationEmailToIp = async (interestedPartySubmission) => {
 	try {
 		const { emailAddress, caseReference, firstName, lastName } = interestedPartySubmission;
+		const { appealTypeCode } = interestedPartySubmission.AppealCase;
 		const reference = interestedPartySubmission.id;
 
 		if (!emailAddress) {
@@ -1109,7 +1128,10 @@ const sendCommentSubmissionConfirmationEmailToIp = async (interestedPartySubmiss
 		}
 
 		let variables = {
-			...config.services.notify.templateVariables,
+			...getSharedNotifyVariables({
+				varyContactByEnforcement: true,
+				appealTypeCode: appealTypeCode
+			}),
 			name: `${firstName} ${lastName}`,
 			appealReferenceNumber: caseReference
 		};
@@ -1143,6 +1165,29 @@ const _formatAddress = (addressJson) => {
 	return address;
 };
 
+/**
+ * @typedef {import('@pins/common/src/database/data-static').CASE_TYPE} CaseType
+ * @param {object} options
+ * @param {boolean} [options.varyContactByEnforcement]
+ * @param {CaseType['processCode']} [options.appealTypeCode]
+ * @returns {{ contactEmail: string, contactEmailEnforcement: string, contactForm: string, feedbackUrl: string}}
+ */
+const getSharedNotifyVariables = ({
+	varyContactByEnforcement = false,
+	appealTypeCode = undefined
+} = {}) => {
+	const usesEnforcementContact =
+		varyContactByEnforcement &&
+		appealTypeCode &&
+		caseTypeLookup(appealTypeCode, 'processCode')?.usesEnforcementContact;
+	return {
+		...config.services.notify.templateVariables,
+		contactEmail: usesEnforcementContact
+			? config.services.notify.templateVariables.contactEmailEnforcement
+			: config.services.notify.templateVariables.contactEmail
+	};
+};
+
 module.exports = {
 	sendSubmissionReceivedEmailToLpa,
 	sendSubmissionFollowUpEmailToAppellant,
@@ -1162,9 +1207,10 @@ module.exports = {
 	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionConfirmationEmailToAppellantV2,
 
-	sendFinalCommentSubmissionConfirmationEmail,
 	sendSaveAndReturnContinueWithAppealEmail,
 	sendFailureToUploadToHorizonEmail,
 	sendLPADashboardInviteEmail,
-	sendCommentSubmissionConfirmationEmailToIp
+	sendCommentSubmissionConfirmationEmailToIp,
+
+	getSharedNotifyVariables
 };
