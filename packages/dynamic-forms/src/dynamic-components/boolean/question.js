@@ -1,4 +1,5 @@
 const RadioQuestion = require('../radio/question');
+const { numericFields } = require('../../dynamic-components/utils/numeric-fields');
 
 class BooleanQuestion extends RadioQuestion {
 	/**
@@ -73,8 +74,22 @@ class BooleanQuestion extends RadioQuestion {
 
 		for (const propName in req.body) {
 			if (propName.startsWith(this.fieldName + '_')) {
-				responseToSave.answers[propName] = req.body[propName]?.trim();
-				journeyResponse.answers[propName] = req.body[propName]?.trim();
+				const rawValue = req.body[propName]?.trim();
+
+				if (numericFields.has(propName)) {
+					if (rawValue === '') {
+						responseToSave.answers[propName] = null;
+						journeyResponse.answers[propName] = null;
+					} else {
+						const numericValue = Number(rawValue);
+						const valueToSave = !isNaN(numericValue) ? numericValue : rawValue;
+						responseToSave.answers[propName] = valueToSave;
+						journeyResponse.answers[propName] = valueToSave;
+					}
+				} else {
+					responseToSave.answers[propName] = rawValue;
+					journeyResponse.answers[propName] = rawValue;
+				}
 			}
 		}
 

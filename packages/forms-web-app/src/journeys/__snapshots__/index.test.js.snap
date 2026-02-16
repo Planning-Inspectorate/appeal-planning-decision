@@ -27541,9 +27541,9 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                             id="conditional-allegedBreachArea-2">
                                 <div class="govuk-form-group">
                                     <label class="govuk-label" for="allegedBreachArea_allegedBreachAreaSquareMetres">Area of alleged breach, in square metres</label>
-                                    <input class="govuk-input"
+                                    <input class="govuk-input govuk-input--width-10"
                                     id="allegedBreachArea_allegedBreachAreaSquareMetres" name="allegedBreachArea_allegedBreachAreaSquareMetres"
-                                    type="text" value="">
+                                    type="text" spellcheck="false" value="" inputmode="numeric">
                                 </div>
                             </div>
                         </div>
@@ -28075,8 +28075,9 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                             id="conditional-createFloorSpace">
                                 <div class="govuk-form-group">
                                     <label class="govuk-label" for="createFloorSpace_createFloorSpaceSquareMetres">Floor space, in square metres</label>
-                                    <input class="govuk-input" id="createFloorSpace_createFloorSpaceSquareMetres"
-                                    name="createFloorSpace_createFloorSpaceSquareMetres" type="text" value="">
+                                    <input class="govuk-input govuk-input--width-10"
+                                    id="createFloorSpace_createFloorSpaceSquareMetres" name="createFloorSpace_createFloorSpaceSquareMetres"
+                                    type="text" spellcheck="false" value="" inputmode="numeric">
                                 </div>
                             </div>
                             <div class="govuk-radios__item">
@@ -31686,9 +31687,9 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                             id="conditional-allegedBreachArea-2">
                                 <div class="govuk-form-group">
                                     <label class="govuk-label" for="allegedBreachArea_allegedBreachAreaSquareMetres">Area of alleged breach, in square metres</label>
-                                    <input class="govuk-input"
+                                    <input class="govuk-input govuk-input--width-10"
                                     id="allegedBreachArea_allegedBreachAreaSquareMetres" name="allegedBreachArea_allegedBreachAreaSquareMetres"
-                                    type="text" value="">
+                                    type="text" spellcheck="false" value="" inputmode="numeric">
                                 </div>
                             </div>
                         </div>
@@ -32220,8 +32221,9 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                             id="conditional-createFloorSpace">
                                 <div class="govuk-form-group">
                                     <label class="govuk-label" for="createFloorSpace_createFloorSpaceSquareMetres">Floor space, in square metres</label>
-                                    <input class="govuk-input" id="createFloorSpace_createFloorSpaceSquareMetres"
-                                    name="createFloorSpace_createFloorSpaceSquareMetres" type="text" value="">
+                                    <input class="govuk-input govuk-input--width-10"
+                                    id="createFloorSpace_createFloorSpaceSquareMetres" name="createFloorSpace_createFloorSpaceSquareMetres"
+                                    type="text" spellcheck="false" value="" inputmode="numeric">
                                 </div>
                             </div>
                             <div class="govuk-radios__item">

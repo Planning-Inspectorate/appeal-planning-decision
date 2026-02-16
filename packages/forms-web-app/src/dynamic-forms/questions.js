@@ -2926,7 +2926,7 @@ exports.getQuestionProps = (response) => ({
 				conditional: {
 					question: 'Area of alleged breach, in square metres',
 					fieldName: 'allegedBreachAreaSquareMetres',
-					type: 'text',
+					type: 'number',
 					label: 'Area of alleged breach'
 				}
 			}
@@ -2961,7 +2961,7 @@ exports.getQuestionProps = (response) => ({
 				conditional: {
 					question: 'Floor space, in square metres',
 					fieldName: 'createFloorSpaceSquareMetres',
-					type: 'text',
+					type: 'number',
 					label: 'Floor space'
 				}
 			},

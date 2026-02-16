@@ -1,4 +1,5 @@
 const BooleanQuestion = require('./question');
+const { numericFields } = require('../../dynamic-components/utils/numeric-fields');
 
 describe('./src/dynamic-forms/dynamic-components/boolean/question.js', () => {
 	it('should create', () => {
@@ -23,12 +24,32 @@ describe('./src/dynamic-forms/dynamic-components/boolean/question.js', () => {
 		expect(booleanQuestion.options[0].value).toEqual('yes');
 		expect(booleanQuestion.options[1].text).toEqual('No');
 		expect(booleanQuestion.options[1].value).toEqual('no');
+
+		const option0 = booleanQuestion.options[0];
+		const option1 = booleanQuestion.options[1];
+
+		if (option0 && 'text' in option0 && 'value' in option0) {
+			expect(option0.text).toEqual('Yes');
+			expect(option0.value).toEqual('yes');
+		} else {
+			throw new Error('First option is missing expected properties');
+		}
+
+		if (option1 && 'text' in option1 && 'value' in option1) {
+			expect(option1.text).toEqual('No');
+			expect(option1.value).toEqual('no');
+		} else {
+			throw new Error('Second option is missing expected properties');
+		}
+
 		expect(booleanQuestion.viewFolder).toEqual('boolean');
 	});
 
 	describe('getDataToSave', () => {
 		const FIELDNAME = 'likeTinaTurner';
+		/** @type {BooleanQuestion} */
 		let booleanQuestion;
+		/** @type {Object} */
 		let journeyResponse;
 
 		beforeEach(() => {
@@ -89,6 +110,73 @@ describe('./src/dynamic-forms/dynamic-components/boolean/question.js', () => {
 			expect(result.answers[`${FIELDNAME}_another`]).toBe('anotherValue');
 			expect(journeyResponse.answers[`${FIELDNAME}_extra`]).toBe('extraValue');
 			expect(journeyResponse.answers[`${FIELDNAME}_another`]).toBe('anotherValue');
+		});
+		it('should nullify empty strings for numeric sub-fields', async () => {
+			const numericField = `${FIELDNAME}_areaSquareMetres`;
+			numericFields.add(numericField);
+
+			const req = {
+				body: {
+					[FIELDNAME]: 'yes',
+					[numericField]: ''
+				}
+			};
+			const result = await booleanQuestion.getDataToSave(req, journeyResponse);
+
+			expect(result.answers[numericField]).toBeNull();
+			expect(journeyResponse.answers[numericField]).toBeNull();
+
+			numericFields.delete(numericField);
+		});
+
+		it('should convert valid numeric strings to numbers for numeric sub-fields', async () => {
+			const numericField = `${FIELDNAME}_areaSquareMetres`;
+			numericFields.add(numericField);
+
+			const req = {
+				body: {
+					[FIELDNAME]: 'no',
+					[numericField]: '150.5'
+				}
+			};
+			const result = await booleanQuestion.getDataToSave(req, journeyResponse);
+
+			expect(result.answers[numericField]).toBe(150.5);
+			expect(typeof result.answers[numericField]).toBe('number');
+
+			numericFields.delete(numericField);
+		});
+
+		it('should continue to trim values for non-numeric sub-fields', async () => {
+			const textField = `${FIELDNAME}_details`;
+
+			const req = {
+				body: {
+					[FIELDNAME]: 'yes',
+					[textField]: '  some text details  '
+				}
+			};
+			const result = await booleanQuestion.getDataToSave(req, journeyResponse);
+
+			expect(result.answers[textField]).toBe('some text details');
+			expect(typeof result.answers[textField]).toBe('string');
+		});
+		it('should nullify strings containing only whitespace for numeric sub-fields', async () => {
+			const numericField = `${FIELDNAME}_areaSquareMetres`;
+			numericFields.add(numericField);
+
+			const req = {
+				body: {
+					[FIELDNAME]: 'yes',
+					[numericField]: '   '
+				}
+			};
+			const result = await booleanQuestion.getDataToSave(req, journeyResponse);
+
+			expect(result.answers[numericField]).toBeNull();
+			expect(journeyResponse.answers[numericField]).toBeNull();
+
+			numericFields.delete(numericField);
 		});
 	});
 });
