@@ -37,7 +37,8 @@ const lpaAppealIds = {
 	appeal75: '7b8312e0-c724-4969-b7d4-441c60c6741b',
 	appealTP1: '7c8412e0-c734-4969-b7d4-441c60c6840b',
 	appealTP2: '7c8412e0-c734-4969-b7d4-441c60c6841b',
-	appealKN1: '7c8412e0-c676-4969-b7d4-231c60c6845b'
+	appealKN1: '7c8412e0-c676-4969-b7d4-231c60c6845b',
+	appealTestPOE: '7c8412e0-c676-4969-b7d4-231c60c6845c'
 };
 
 /**
@@ -75,7 +76,8 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appeal75 },
 	{ id: lpaAppealIds.appealTP1 },
 	{ id: lpaAppealIds.appealTP2 },
-	{ id: lpaAppealIds.appealKN1 }
+	{ id: lpaAppealIds.appealKN1 },
+	{ id: lpaAppealIds.appealTestPOE }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -1283,6 +1285,34 @@ const lpaAppealCaseData = [
 			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
 		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTestPOE }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '1000018',
+		siteAddressLine1: 'POE Test Appeal',
+		siteAddressLine2: 'Verification',
+		siteAddressTown: 'Test Town',
+		siteAddressCounty: 'Test County',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		caseValidDate: new Date(),
+		caseCreatedDate: new Date(),
+		lpaQuestionnairePublishedDate: new Date(),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAProofsSubmittedDate: new Date(),
+		appellantProofsSubmittedDate: new Date(),
+		CaseType: { connect: { processCode: 'S78' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
+		}
 	}
 ];
 

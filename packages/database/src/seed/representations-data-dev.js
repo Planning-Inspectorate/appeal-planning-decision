@@ -18,7 +18,10 @@ const representationIds = {
 	representationR6Test2: 'd24247a2-ad41-42b7-be86-7a222ae57d02',
 	representationLPATest: 'd24247a2-ad41-42b7-be86-7a222ae57d03',
 	representationAppellantTest: 'd24247a2-ad41-42b7-be86-7a222ae57d04',
-	representationR6Test3: 'd24247a2-ad41-42b7-be86-7a222ae57d05'
+	representationR6Test3: 'd24247a2-ad41-42b7-be86-7a222ae57d05',
+	representationTestPOE: 'd24247a2-ad41-42b7-be86-7a222ae57433',
+	representationLpaPOE: 'd24247a2-ad41-42b7-be86-7a222ae57434',
+	representationR6POE: 'd24247a2-ad41-42b7-be86-7a222ae57435'
 };
 
 const caseReferences = {
@@ -245,7 +248,33 @@ const representations = [
 		representationType: 'proofs_evidence',
 		dateReceived: pickRandom(datesNMonthsAgo(0.5))
 	},
-	// rule 6 poe
+	{
+		id: representationIds.representationLpaPOE,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471368',
+		AppealCase: {
+			connect: {
+				caseReference: '1000018'
+			}
+		},
+		representationStatus: 'published',
+		source: 'lpa',
+		representationType: 'proofs_evidence',
+		dateReceived: new Date()
+	},
+	{
+		id: representationIds.representationR6POE,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471369',
+		AppealCase: {
+			connect: {
+				caseReference: '1000018'
+			}
+		},
+		representationStatus: 'published',
+		source: 'citizen',
+		serviceUserId: '123998',
+		representationType: 'proofs_evidence',
+		dateReceived: new Date()
+	},
 	{
 		id: representationIds.representationEight,
 		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471324',
@@ -413,6 +442,47 @@ const representations = [
 		serviceUserId: '123999',
 		representationType: 'statement',
 		dateReceived: pickRandom(datesNMonthsAgo(0.5))
+	},
+	{
+		id: representationIds.representationTestPOE,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471367',
+		AppealCase: {
+			connect: {
+				caseReference: '1000018'
+			}
+		},
+		representationStatus: 'published',
+		source: 'citizen',
+		serviceUserId: '123451',
+		representationType: 'proofs_evidence',
+		dateReceived: new Date()
+	},
+	{
+		id: representationIds.representationLpaPOE,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471368',
+		AppealCase: {
+			connect: {
+				caseReference: '1000018'
+			}
+		},
+		representationStatus: 'published',
+		source: 'lpa',
+		representationType: 'proofs_evidence',
+		dateReceived: new Date()
+	},
+	{
+		id: representationIds.representationR6POE,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471369',
+		AppealCase: {
+			connect: {
+				caseReference: '1000018'
+			}
+		},
+		representationStatus: 'published',
+		source: 'citizen',
+		serviceUserId: '123998',
+		representationType: 'proofs_evidence',
+		dateReceived: new Date()
 	}
 ];
 
