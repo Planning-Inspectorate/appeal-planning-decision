@@ -474,13 +474,17 @@ describe('LPA and Appellant Sections', () => {
 						submittingPartyType: APPEAL_USER_ROLES.APPELLANT,
 						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
 						userOwnsRepresentation: true,
-						representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
+						representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+						dateReceived: '2023-10-10T00:00:00.000Z'
 					}
 				];
 				const section = findSectionByHeading(appellantSections, 'Proof of evidence and witnesses');
 				const link = findLinkByUrl(section, '/proof-evidence');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View your proof of evidence and witnesses');
+				expect(link?.submissionDate.text(appealCase)).toBe(
+					'Proofs of evidence submitted on 10 Oct 2023'
+				);
 			});
 
 			it('should not show "View your proof of evidence and witnesses" when no owned PROOFS_OF_EVIDENCE is present', () => {
@@ -739,13 +743,17 @@ describe('LPA and Appellant Sections', () => {
 					{
 						submittingPartyType: APPEAL_USER_ROLES.RULE_6_PARTY,
 						userOwnsRepresentation: true,
-						representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE
+						representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+						dateReceived: '2023-10-10T00:00:00.000Z'
 					}
 				];
 				const section = findSectionByHeading(rule6Sections, 'Proof of evidence and witnesses');
 				const link = findLinkByUrl(section, '/proof-evidence');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View your proof of evidence and witnesses');
+				expect(link?.submissionDate.text(appealCase)).toBe(
+					'Proofs of evidence submitted on 10 Oct 2023'
+				);
 			});
 
 			it('should not show "View your proof of evidence and witnesses" when own proofs are not submitted', () => {

@@ -796,6 +796,11 @@ const appealToUsers = [
 		userId: appellants.appellantOne.id,
 		role: APPEAL_USER_ROLES.APPELLANT
 	},
+	{
+		appealId: '7c8412e0-c676-4969-b7d4-231c60c6845c', // appealTestPOE
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
 	...linkedLpaAppeals,
 	// rule 6 party links
 	{
@@ -1037,6 +1042,24 @@ const serviceUsers = [
 		firstName: 'Appellant',
 		lastName: 'One',
 		emailAddress: 'appellant1@planninginspectorate.gov.uk'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc88',
+		id: '123451',
+		serviceUserType: 'Appellant',
+		caseReference: '1000018',
+		firstName: 'Appellant',
+		lastName: 'One',
+		emailAddress: 'appellant1@planninginspectorate.gov.uk'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc89',
+		id: '123998',
+		serviceUserType: 'Rule6Party',
+		caseReference: '1000018',
+		firstName: 'Rule6Party',
+		lastName: 'One',
+		emailAddress: 'r6-1@planninginspectorate.gov.uk'
 	}
 ];
 

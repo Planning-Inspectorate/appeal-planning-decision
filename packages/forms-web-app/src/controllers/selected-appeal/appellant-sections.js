@@ -1,12 +1,15 @@
 const {
 	representationPublished,
-	representationExists
+	representationExists,
+	getRepresentationSubmissionDate
 } = require('@pins/common/src/lib/representations');
 const {
 	LPA_USER_ROLE,
 	APPEAL_USER_ROLES,
-	REPRESENTATION_TYPES
+	REPRESENTATION_TYPES,
+	SUBMISSIONS
 } = require('@pins/common/src/constants');
+const { formatSubmissionDate } = require('@pins/common/src/lib/format-appeal-details');
 
 /**
  * @type {import("@pins/common/src/view-model-maps/sections/def").Sections}
@@ -111,6 +114,17 @@ exports.sections = [
 			{
 				url: '/proof-evidence',
 				text: 'View your proof of evidence and witnesses',
+				submissionDate: {
+					text: (appealCase) =>
+						formatSubmissionDate(
+							SUBMISSIONS.PROOFS_EVIDENCE,
+							getRepresentationSubmissionDate(appealCase.Representations, {
+								type: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+								owned: true,
+								submitter: APPEAL_USER_ROLES.APPELLANT
+							})
+						)
+				},
 				condition: (appealCase) =>
 					representationExists(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
