@@ -31,7 +31,7 @@ describe('createApiClient', () => {
 		// next instance is not cached
 		createClientCredentialsGrant.mockResolvedValue({
 			access_token: 'mockAccessToken',
-			expires_in: 599
+			expires_in: 575
 		});
 
 		const apiClient = await createApiClient();
@@ -56,7 +56,7 @@ describe('createApiClient', () => {
 		// next instance is cached
 		createClientCredentialsGrant.mockResolvedValue({
 			access_token: 'mockAccessToken',
-			expires_in: 601
+			expires_in: 625
 		});
 		const apiClient2 = await createApiClient();
 		expect(getAuthClientConfig).toHaveBeenCalledTimes(2);
