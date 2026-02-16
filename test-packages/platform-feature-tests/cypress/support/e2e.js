@@ -18,6 +18,7 @@ import './commands';
 import 'cypress-mochawesome-reporter/register';
 import 'cypress-wait-until';
 import registerCypressGrep from '@cypress/grep/src/support';
+import  { randomUUID } from 'crypto';
 //import '@cypress/grep';
 registerCypressGrep();
 
@@ -80,8 +81,17 @@ beforeEach(function () {
   try {
     const runIdRaw = Cypress.env('RUN_ID') || String(Date.now());
     const rid = String(runIdRaw).slice(-6); // short run identifier
-    const rand = Math.random().toString(36).slice(2, 8); // 6 chars
-    const correlationId = `CID-${rid}-${rand}`; // ~16-18 chars total
+    const uuidPart = (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function')
+      ? crypto.randomUUID().split('-')[0] // first 8 chars keeps it compact
+      : (() => {
+          try {           
+            if (typeof randomUUID === 'function') {
+              return randomUUID().split('-')[0];
+            }
+          } catch (_) {}
+          return Math.random().toString(36).slice(2, 10);
+        })();
+    const correlationId = `CID-${rid}-${uuidPart}`; // compact, UUID-based
     Cypress.env('correlationId', correlationId);
     Cypress.log({ name: 'correlationId', message: correlationId });
   } catch (e) {
