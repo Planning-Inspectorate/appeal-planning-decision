@@ -85,7 +85,11 @@ class ServiceUserRepository {
 				organisation: true,
 				telephoneNumber: true,
 				serviceUserType: true,
-				id: true
+				id: true,
+				addressLine1: true,
+				addressLine2: true,
+				addressTown: true,
+				postcode: true
 			}
 		});
 	}
