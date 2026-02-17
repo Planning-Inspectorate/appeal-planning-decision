@@ -33,7 +33,7 @@
       {% set labelText = "Replace the file" %}
     {% endif %}
 
-    <form action="" method="post" novalidate enctype="multipart/form-data">
+    <form action="{{ currentRoute }}" method="post" novalidate enctype="multipart/form-data">
 <input type="hidden" name="_csrf" value="{{_csrf}}">
       {{ govukFileUpload({
         id: "file-upload",

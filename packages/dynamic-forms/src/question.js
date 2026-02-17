@@ -395,6 +395,7 @@ class Question {
 		if (next === null) {
 			next = journey.taskListUrl;
 		}
+
 		return res.redirect(next);
 	}
 
