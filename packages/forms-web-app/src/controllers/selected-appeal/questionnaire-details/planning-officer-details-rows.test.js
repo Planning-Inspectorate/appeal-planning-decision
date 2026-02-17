@@ -119,8 +119,11 @@ describe('planningOfficerReportRows', () => {
 			value: 'Yes'
 		}
 	];
+	const expectedRowsEnforcementBase = expectedRowsS78.filter(
+		(row) => row.title !== 'Emerging plan'
+	);
 	const expectedRowsEnforcement = [
-		...expectedRowsS78,
+		...expectedRowsEnforcementBase,
 		{
 			title: 'Uploaded local development order',
 			value: 'name.pdf - awaiting review'

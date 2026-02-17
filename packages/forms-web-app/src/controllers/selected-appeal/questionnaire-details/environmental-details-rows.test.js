@@ -6,6 +6,13 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 describe('environmentalRows', () => {
 	const eiaSchedule1Data = caseTypeLPAQFactory(CASE_TYPES.S78.processCode, 'eia', 'schedule-1');
 	const eiaSchedule2Data = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'eia', 'schedule-2');
+
+	const eiaEnforcementData = caseTypeLPAQFactory(
+		CASE_TYPES.ENFORCEMENT.processCode,
+		'eia',
+		'schedule-2'
+	);
+
 	const eiaNullData = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'eia', null);
 
 	const expectedSchedule1Rows = [
@@ -50,6 +57,39 @@ describe('environmentalRows', () => {
 			value: 'name.pdf - awaiting review'
 		}
 	];
+	const expectedEnforcementRows = [
+		{ title: 'Schedule type', value: 'Schedule 2' },
+		{
+			title: 'Development description',
+			value: 'Agriculture and aquaculture'
+		},
+		{
+			title: 'In, partly in, or likely to affect sensitive area',
+			value: 'Yes\nSensitive area details here'
+		},
+		{
+			title: 'Meets or exceeds threshold or criteria in column 2',
+			value: 'Yes'
+		},
+		{ title: 'Issued screening opinion', value: 'Yes' },
+		{
+			title: 'Uploaded screening opinion',
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Uploaded scoping opinion',
+			value: 'name.pdf - awaiting review'
+		},
+		{
+			title: 'Screening opinion indicated environmental statement needed',
+			value: 'Yes'
+		},
+		{ title: 'Did Environmental statement', value: 'Yes' },
+		{
+			title: 'Uploaded environmental statement',
+			value: 'name.pdf - awaiting review'
+		}
+	];
 	const expectedNullRows = [
 		{ title: 'Schedule type', value: 'Other' },
 		{ title: 'Issued screening opinion', value: 'Yes' },
@@ -76,6 +116,7 @@ describe('environmentalRows', () => {
 	it.each([
 		['schedule-1', eiaSchedule1Data, expectedSchedule1Rows],
 		['schedule-2', eiaSchedule2Data, expectedSchedule2Rows],
+		['enforcement', eiaEnforcementData, expectedEnforcementRows],
 		['null', eiaNullData, expectedNullRows]
 	])(`should create correct rows for %s data`, (_, caseData, expectedRows) => {
 		const visibleRows = environmentalRows(caseData)
