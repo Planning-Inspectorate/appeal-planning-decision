@@ -113,7 +113,11 @@ describe('ServiceUserRepository', () => {
 					organisation: 'Org1',
 					telephoneNumber: '1234567890',
 					serviceUserType: SERVICE_USER_TYPE.APPELLANT,
-					id: '123'
+					id: '123',
+					addressLine1: 'Test Line 1',
+					addressLine2: null,
+					addressTown: 'Test Town',
+					postcode: 'TST 0N3'
 				},
 				{
 					firstName: 'Jane',
@@ -122,7 +126,11 @@ describe('ServiceUserRepository', () => {
 					organisation: 'Org2',
 					telephoneNumber: '0987654321',
 					serviceUserType: SERVICE_USER_TYPE.AGENT,
-					id: '234'
+					id: '234',
+					addressLine1: null,
+					addressLine2: null,
+					addressTown: null,
+					postcode: null
 				}
 			];
 
@@ -145,7 +153,11 @@ describe('ServiceUserRepository', () => {
 					organisation: true,
 					telephoneNumber: true,
 					serviceUserType: true,
-					id: true
+					id: true,
+					addressLine1: true,
+					addressLine2: true,
+					addressTown: true,
+					postcode: true
 				}
 			});
 		});
@@ -173,7 +185,11 @@ describe('ServiceUserRepository', () => {
 					organisation: true,
 					telephoneNumber: true,
 					serviceUserType: true,
-					id: true
+					id: true,
+					addressLine1: true,
+					addressLine2: true,
+					addressTown: true,
+					postcode: true
 				}
 			});
 		});
