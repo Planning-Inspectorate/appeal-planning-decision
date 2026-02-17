@@ -174,7 +174,17 @@ const fileBasedRouterPaths = [
 	{ path: '/comment-planning-appeal', isEnabled: config.featureFlag.commentsEnabled }
 ];
 
+app.use((req, res, next) => {
+	if (req.originalUrl.includes('#main-content')) {
+		res.locals.currentRoute = req.originalUrl.replace('#main-content', '');
+	} else {
+		res.locals.currentRoute = req.originalUrl;
+	}
+	next();
+});
+
 app.use('/', routes);
+
 spoolRoutes(app, path.join(__dirname, './routes/file-based-router'), {
 	backwardsCompatibilityModeEnabled: true,
 	logger,

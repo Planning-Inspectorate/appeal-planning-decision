@@ -29,7 +29,7 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l">Confirm you want to add this user</h1>
         <p class="govuk-body-l">{{addUserEmailAddress}}</p>
-        <form action="" method="post" novalidate>
+        <form action="{{ currentRoute }}" method="post" novalidate>
 <input type="hidden" name="_csrf" value="{{_csrf}}">
           {{ govukButton({
             text: "Add user",
