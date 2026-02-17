@@ -4,6 +4,7 @@
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('appeals-service-api').Api.NeighbouringAddress} NeighbouringAddress
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
+ * @typedef {import('appeals-service-api').Api.ServiceUser} ServiceUser
  * @typedef {import('appeals-service-api').Api.Event} Event
  */
 
@@ -91,6 +92,16 @@ const formatAppealSubmissionAddress = (appealSubmission) => {
 };
 
 /**
+ * @param {ServiceUser} user
+ * @returns {string}
+ */
+const formatUserContactAddressWithBreaks = (user) => {
+	const addressComponents = [user.addressLine1, user.addressLine2, user.addressTown, user.postcode];
+
+	return addressComponents.filter(Boolean).join('\n');
+};
+
+/**
  * @param {NeighbouringAddress} neighbourAddress
  * @returns {string}
  */
@@ -160,6 +171,7 @@ module.exports = {
 	formatAddress,
 	formatAddressWithBreaks,
 	formatNeighbouringAddressWithBreaks,
+	formatUserContactAddressWithBreaks,
 	formatSubmissionAddress,
 	formatEventAddress,
 	isAppealSubmission,

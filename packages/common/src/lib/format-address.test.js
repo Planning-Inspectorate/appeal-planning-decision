@@ -1,4 +1,4 @@
-const { formatAddress } = require('./format-address');
+const { formatAddress, formatUserContactAddressWithBreaks } = require('./format-address');
 
 describe('Address Formatting:', () => {
 	describe('formatAddress', () => {
@@ -58,6 +58,25 @@ describe('Address Formatting:', () => {
 			const expectedResult = 'Test Line 1, Test Line 2, Test Town, TS1 1TS';
 
 			expect(formatAddress(testSubmissionAddressData)).toEqual(expectedResult);
+		});
+	});
+
+	describe('formatUserContactAddressWithBreaks', () => {
+		it('formats a user contact address fields into a string with line breaks', () => {
+			const testUserData = {
+				serviceUserType: 'Agent',
+				firstName: 'Agent',
+				lastName: 'Test',
+				telephoneNumber: '98765',
+				addressLine1: 'Test Line 1',
+				addressLine2: null,
+				addressTown: 'Test Town',
+				postcode: 'TST ON3'
+			};
+
+			const expectedResult = 'Test Line 1\nTest Town\nTST ON3';
+
+			expect(formatUserContactAddressWithBreaks(testUserData)).toEqual(expectedResult);
 		});
 	});
 });
