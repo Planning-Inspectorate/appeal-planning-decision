@@ -917,7 +917,10 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 		serviceUserType: APPEAL_USER_ROLES.APPELLANT,
 		firstName: 'Appellant',
 		lastName: 'Test',
-		telephoneNumber: '12345'
+		telephoneNumber: '12345',
+		addressLine1: 'Test Line 1',
+		addressTown: 'Test Town',
+		postcode: 'TST ON3'
 	};
 	const agent = {
 		serviceUserType: APPEAL_USER_ROLES.AGENT,
@@ -1035,8 +1038,52 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 		});
 	});
 
+	describe('Is the site address your contact address?', () => {
+		it('should display yes if the contact has no address details', () => {
+			const isSiteAddressIndex = 5;
+			let testCase = structuredClone(caseWithAgent);
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+			expect(rows[isSiteAddressIndex].condition(testCase)).toBeTruthy();
+			expect(rows[isSiteAddressIndex].valueText).toEqual('Yes');
+			expect(rows[isSiteAddressIndex].keyText).toEqual('Is the site address your contact address?');
+		});
+
+		it('should display no if the contact has address details', () => {
+			const isSiteAddressIndex = 5;
+			let testCase = structuredClone(caseWithAppellant);
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+			expect(rows[isSiteAddressIndex].condition(testCase)).toBeTruthy();
+			expect(rows[isSiteAddressIndex].valueText).toEqual('No');
+			expect(rows[isSiteAddressIndex].keyText).toEqual('Is the site address your contact address?');
+		});
+	});
+
+	describe('Contact address', () => {
+		it('should not display if the contact has no address details', () => {
+			const contactAddressIndex = 6;
+			let testCase = structuredClone(caseWithAgent);
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+			expect(rows[contactAddressIndex].condition(testCase)).toBeFalsy();
+			expect(rows[contactAddressIndex].valueText).toEqual('');
+			expect(rows[contactAddressIndex].keyText).toEqual('Contact address');
+		});
+
+		it('should display contact address if contact has address', () => {
+			const contactAddressIndex = 6;
+			let testCase = structuredClone(caseWithAppellant);
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+
+			expect(rows[contactAddressIndex].condition(testCase)).toBeTruthy();
+			expect(rows[contactAddressIndex].valueText).toEqual('Test Line 1\nTest Town\nTST ON3');
+			expect(rows[contactAddressIndex].keyText).toEqual('Contact address');
+		});
+	});
+
 	describe('Interest in the land', () => {
-		const interestInLandIndex = 5;
+		const interestInLandIndex = 7;
 
 		it('should show interest in the land', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -1058,7 +1105,7 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 	});
 
 	describe('written or verbal permission', () => {
-		const permissionIndex = 6;
+		const permissionIndex = 8;
 
 		it('should show permission if interest is other', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -1094,7 +1141,7 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 	});
 
 	describe('Will an inspector need to access the land or property?', () => {
-		const inspectorAccessIndex = 7;
+		const inspectorAccessIndex = 9;
 
 		it('should display Inspector access details if provided by applicant', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -1119,27 +1166,7 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 	});
 
 	describe('Alleged breach description', () => {
-		const breachDescriptionIndex = 9;
-
-		it('should display the alleged breach description', () => {
-			const testCase = structuredClone(caseWithAppellant);
-			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows[breachDescriptionIndex].keyText).toEqual(
-				'Enter the description of the alleged breach'
-			);
-			expect(rows[breachDescriptionIndex].valueText).toEqual('');
-
-			testCase.descriptionOfAllegedBreach = 'test description';
-			const rows2 = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
-			expect(rows2[breachDescriptionIndex].keyText).toEqual(
-				'Enter the description of the alleged breach'
-			);
-			expect(rows2[breachDescriptionIndex].valueText).toEqual('test description');
-		});
-	});
-
-	describe('Alleged breach description', () => {
-		const breachDescriptionIndex = 9;
+		const breachDescriptionIndex = 11;
 
 		it('should display the alleged breach description', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -1159,7 +1186,7 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 	});
 
 	describe('Grounds of appeal', () => {
-		const groundsIndex = 10;
+		const groundsIndex = 12;
 
 		it('should display the grounds of appeal', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -1174,19 +1201,19 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 	});
 
 	describe('Ground A follow on questions', () => {
-		const applicationMadeIndex = 11;
-		const retrospectiveApplicationIndex = 12;
-		const applicationAllOrPartIndex = 13;
-		const applicationReferenceIndex = 14;
-		const applicationSubmissionDateIndex = 15;
-		const descriptionOfDevelopmentIndex = 16;
-		const changedDescriptionIndex = 17;
-		const grantedOrReceivedIndex = 18;
-		const applicationDecisionDateIndex = 19;
-		const lpaDecisionAppealedIndex = 20;
-		const appealDecisionDateIndex = 21;
-		const groundAFeePaidIndex = 22;
-		const groundAFeeReceiptIndex = 23;
+		const applicationMadeIndex = 13;
+		const retrospectiveApplicationIndex = 14;
+		const applicationAllOrPartIndex = 15;
+		const applicationReferenceIndex = 16;
+		const applicationSubmissionDateIndex = 17;
+		const descriptionOfDevelopmentIndex = 18;
+		const changedDescriptionIndex = 19;
+		const grantedOrReceivedIndex = 20;
+		const applicationDecisionDateIndex = 21;
+		const lpaDecisionAppealedIndex = 22;
+		const appealDecisionDateIndex = 23;
+		const groundAFeePaidIndex = 24;
+		const groundAFeeReceiptIndex = 25;
 
 		it('should display the ground a follow on questions if ground a', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -1305,28 +1332,28 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 	});
 
 	describe('Grounds of appeal details', () => {
-		const groundAFactsIndex = 24;
-		const groundADocsIndex = 25;
-		const groundBFactsIndex = 26;
-		const groundBDocsIndex = 27;
-		const groundCFactsIndex = 28;
-		const groundCDocsIndex = 29;
-		const groundDFactsIndex = 30;
-		const groundDDocsIndex = 31;
-		const groundEFactsIndex = 32;
-		const groundEDocsIndex = 33;
-		const groundFFactsIndex = 34;
-		const groundFDocsIndex = 35;
-		const groundGFactsIndex = 36;
-		const groundGDocsIndex = 37;
-		const groundHFactsIndex = 38;
-		const groundHDocsIndex = 39;
-		const groundIFactsIndex = 40;
-		const groundIDocsIndex = 41;
-		const groundJFactsIndex = 42;
-		const groundJDocsIndex = 43;
-		const groundKFactsIndex = 44;
-		const groundKDocsIndex = 45;
+		const groundAFactsIndex = 26;
+		const groundADocsIndex = 27;
+		const groundBFactsIndex = 28;
+		const groundBDocsIndex = 29;
+		const groundCFactsIndex = 30;
+		const groundCDocsIndex = 31;
+		const groundDFactsIndex = 32;
+		const groundDDocsIndex = 33;
+		const groundEFactsIndex = 34;
+		const groundEDocsIndex = 35;
+		const groundFFactsIndex = 36;
+		const groundFDocsIndex = 37;
+		const groundGFactsIndex = 38;
+		const groundGDocsIndex = 39;
+		const groundHFactsIndex = 40;
+		const groundHDocsIndex = 41;
+		const groundIFactsIndex = 42;
+		const groundIDocsIndex = 43;
+		const groundJFactsIndex = 44;
+		const groundJDocsIndex = 45;
+		const groundKFactsIndex = 46;
+		const groundKDocsIndex = 47;
 
 		test.each([
 			['a', groundAFactsIndex, groundADocsIndex],
@@ -1421,7 +1448,7 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 	});
 
 	describe('Preferred procedure', () => {
-		const preferredProcedureIndex = 46;
+		const preferredProcedureIndex = 48;
 
 		it('should display the appellant preferred procedure if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -1443,7 +1470,7 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 	});
 
 	describe('Cost application', () => {
-		const costsApplicationIndex = 50;
+		const costsApplicationIndex = 52;
 
 		it('should display Yes if applicant applied for costs', () => {
 			const testCase = structuredClone(caseWithAppellant);

@@ -1,4 +1,7 @@
-const { formatAddress } = require('@pins/common/src/lib/format-address');
+const {
+	formatAddress,
+	formatUserContactAddressWithBreaks
+} = require('@pins/common/src/lib/format-address');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 const { formatGridReference } = require('@pins/common/src/lib/format-grid-reference');
 const {
@@ -304,6 +307,7 @@ const enforcementDetailsRows = (caseData, userType) => {
 	const appellant = caseData.users?.find((x) => x.serviceUserType === APPEAL_USER_ROLES.APPELLANT);
 	const contactIsAppellant = !agent; // if no agent then appellant made their own appeal
 	const contact = contactIsAppellant ? appellant : agent;
+	const hasContactAddress = isNotUndefinedOrNull(contact?.addressLine1);
 
 	const documents = caseData.Documents || [];
 
@@ -356,6 +360,16 @@ const enforcementDetailsRows = (caseData, userType) => {
 			keyText: 'Site address',
 			valueText: siteAddressValue,
 			condition: (caseData) => caseData.siteAddressLine1 || caseData.siteGridReferenceEasting
+		},
+		{
+			keyText: 'Is the site address your contact address?',
+			valueText: boolToYesNo(!hasContactAddress),
+			condition: () => true
+		},
+		{
+			keyText: 'Contact address',
+			valueText: formatUserContactAddressWithBreaks(contact),
+			condition: () => hasContactAddress
 		},
 		{
 			keyText:
