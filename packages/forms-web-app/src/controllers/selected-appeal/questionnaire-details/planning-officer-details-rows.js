@@ -18,6 +18,8 @@ const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 exports.planningOfficerReportRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
+	const isEnforcement = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+
 	return [
 		{
 			keyText: "Planning officer's report",
@@ -52,7 +54,7 @@ exports.planningOfficerReportRows = (caseData) => {
 		{
 			keyText: 'Emerging plan',
 			valueText: boolToYesNo(documentExists(documents, APPEAL_DOCUMENT_TYPE.EMERGING_PLAN)),
-			condition: () => true
+			condition: () => !isEnforcement
 		},
 		{
 			keyText: 'Uploaded emerging plan and supporting information',

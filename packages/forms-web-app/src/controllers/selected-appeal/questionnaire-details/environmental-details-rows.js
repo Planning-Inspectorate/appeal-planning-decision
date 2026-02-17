@@ -27,6 +27,8 @@ exports.environmentalRows = (caseData) => {
 
 	if (!isS78OrS20OrEnforcementAppeal) return [];
 
+	const isEnforcement = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+
 	const isSchedule1 =
 		caseData.environmentalImpactSchedule === APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE.SCHEDULE_1;
 	const isSchedule2 =
@@ -67,7 +69,7 @@ exports.environmentalRows = (caseData) => {
 		{
 			keyText: 'Received scoping opinion',
 			valueText: boolToYesNo(documentExists(documents, APPEAL_DOCUMENT_TYPE.EIA_SCOPING_OPINION)),
-			condition: () => !isSchedule1
+			condition: () => !isSchedule1 && !isEnforcement
 		},
 		{
 			keyText: 'Uploaded scoping opinion',
