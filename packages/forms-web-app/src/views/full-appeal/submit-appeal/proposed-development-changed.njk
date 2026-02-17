@@ -33,7 +33,7 @@
           attributes: {"data-cy": "error-wrapper"}
         }) }}
       {% endif %}
-      <form action="" method="post" novalidate>
+      <form action="{{ currentRoute }}" method="post" novalidate>
 <input type="hidden" name="_csrf" value="{{_csrf}}">
         <span class="govuk-caption-l">Upload documents from your planning application</span>
         {{ govukRadios({

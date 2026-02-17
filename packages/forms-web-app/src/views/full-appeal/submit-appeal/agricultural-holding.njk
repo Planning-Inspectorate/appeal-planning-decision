@@ -18,7 +18,7 @@
           attributes: {"data-cy": "error-wrapper"}
         }) }}
       {% endif %}
-      <form action="" method="post" novalidate>
+      <form action="{{ currentRoute }}" method="post" novalidate>
 <input type="hidden" name="_csrf" value="{{_csrf}}">
         <span class="govuk-caption-l">Tell us about the appeal site</span>
         {{ govukRadios({

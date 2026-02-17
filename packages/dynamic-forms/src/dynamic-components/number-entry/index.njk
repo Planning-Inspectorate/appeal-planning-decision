@@ -28,7 +28,7 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">{{question.question}}</h1>
       <p class="govuk-body">{{question.description}}</p>
-      <form action="" method="post" novalidate>
+      <form action="{{ currentRoute }}" method="post" novalidate>
 <input type="hidden" name="_csrf" value="{{_csrf}}">
         {{ govukInput({
             hint: {
