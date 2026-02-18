@@ -4,6 +4,7 @@ const {
 	LISTED_RELATION_TYPES
 } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { subYears } = require('date-fns');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
@@ -271,27 +272,61 @@ class AppealCaseRepository {
 
 		/** @type {AppellantSubmission|null} */
 		let appellantSubmission = null;
+
 		if (!exists && submissionId) {
 			appellantSubmission = await this.dbClient.appellantSubmission.findFirst({
 				where: {
 					appealId: submissionId
+				},
+				include: {
+					Appeal: {
+						include: {
+							AppealCase: {
+								select: {
+									caseReference: true
+								}
+							}
+						}
+					}
 				}
 			});
 		}
 
+		// in certain cases there may be multiple appeals created in BO from a single submission
+		// for example, when there are multiple additional appellants on an enforcement notice
+		// in these cases the new appealCase will create an Appeal but should not be linked to an appellantSubmission
 		let ignoreAppealLinkingForEnforcement = false;
-		// if (mappedData.CaseType === whateverRElevatnEnf value is && submissionId) {
-		// 	lookup via appellantSubmission whether related Appeal is already linked to an AppealCase and that AppealCase.caseReference !== caseReference
-		// }
 
-		// /// handle leadSubmissionId
+		const isEnforcement =
+			mappedData.CaseType?.connect?.processCode === CASE_TYPES.ENFORCEMENT.processCode;
+
+		if (isEnforcement && submissionId) {
+			const existingCaseReference = appellantSubmission?.Appeal?.AppealCase?.caseReference;
+			if (caseReference !== existingCaseReference) ignoreAppealLinkingForEnforcement = true;
+		}
+
+		/// handle leadSubmissionId
 
 		const linkToAppeal = submissionId && !ignoreAppealLinkingForEnforcement;
+
+		let appealClause;
+
+		if (linkToAppeal) {
+			appealClause = { connect: { id: submissionId } };
+		} else if (isEnforcement && submissionId) {
+			appealClause = {
+				create: {
+					leadAppellantSubmissionId: submissionId
+				}
+			};
+		} else {
+			appealClause = { create: {} };
+		}
 
 		const appealCase = await this.dbClient.appealCase.upsert({
 			create: {
 				...mappedData,
-				Appeal: linkToAppeal ? { connect: { id: submissionId } } : { create: {} }
+				Appeal: appealClause
 			},
 			update: mappedData,
 			where: {
