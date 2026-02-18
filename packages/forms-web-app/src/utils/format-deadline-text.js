@@ -13,6 +13,10 @@ exports.formatCommentDeadlineText = (appeal, status) => {
 		format: 'd MMMM yyyy'
 	});
 
+	if (appeal.caseStatus === 'withdrawn') {
+		return '';
+	}
+
 	switch (status) {
 		case 'open':
 			return `You can comment on this appeal until 11:59pm on ${formattedDeadline}.`;
