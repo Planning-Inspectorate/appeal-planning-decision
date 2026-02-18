@@ -302,10 +302,9 @@ class AppealCaseRepository {
 
 		if (isEnforcement && submissionId) {
 			const existingCaseReference = appellantSubmission?.Appeal?.AppealCase?.caseReference;
-			if (caseReference !== existingCaseReference) ignoreAppealLinkingForEnforcement = true;
+			if (!!existingCaseReference && caseReference !== existingCaseReference)
+				ignoreAppealLinkingForEnforcement = true;
 		}
-
-		/// handle leadSubmissionId
 
 		const linkToAppeal = submissionId && !ignoreAppealLinkingForEnforcement;
 
