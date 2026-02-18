@@ -1,4 +1,4 @@
-{%- macro statusTagColor(status, classes = '') -%}
+{%- macro statusTagColor(status, procedure, classes = '') -%}
 	{%- set statusTagColor = 'grey' -%}
 	{%- set statusText = status -%}
 	{#
@@ -20,24 +20,26 @@
     {%- case 'evidence' -%}
       {%- set statusTagColor = 'yellow' -%}
      	{%- set statusText = 'Awaiting inquiry' -%}
-    {%- case 'site_visit_ready_to_set_up' -%}
-      {%- set statusTagColor = 'yellow' -%}
-      {%- set statusText = 'Awaiting site visit' -%}
-    {%- case 'awaiting_site_visit' -%}
-      {%- set statusTagColor = 'yellow' -%}
-      {%- set statusText = 'Awaiting site visit' -%}
-    {%- case 'hearing_ready_to_set_up' -%}
-      {%- set statusTagColor = 'yellow' -%}
-      {%- set statusText = 'Awaiting hearing' -%}
-    {%- case 'awaiting_hearing' -%}
-      {%- set statusTagColor = 'yellow' -%}
-      {%- set statusText = 'Awaiting hearing' -%}
-    {%- case 'inquiry_ready_to_set_up' -%}
-      {%- set statusTagColor = 'yellow' -%}
-      {%- set statusText = 'Awaiting inquiry' -%}
-    {%- case 'awaiting_inquiry' -%}
-      {%- set statusTagColor = 'yellow' -%}
-      {%- set statusText = 'Awaiting inquiry' -%}
+    {%- case 'awaiting_event' -%}
+    	{%- set statusTagColor = 'yellow' -%}
+    	{%- switch (procedure) -%}
+				{%- case 'inquiry' -%}
+					{%- set statusText = 'Awaiting inquiry' -%}
+				{%- case 'hearing' -%}
+					{%- set statusText = 'Awaiting hearing' -%}
+				{%- default -%}
+					{%- set statusText = 'Awaiting site visit' -%}
+			{%- endswitch -%}
+    {%- case 'event' -%}
+    	{%- set statusTagColor = 'yellow' -%}
+      {%- switch (procedure) -%}
+				{%- case 'inquiry' -%}
+					{%- set statusText = 'Awaiting inquiry' -%}
+				{%- case 'hearing' -%}
+					{%- set statusText = 'Awaiting hearing' -%}
+				{%- default -%}
+					{%- set statusText = 'Awaiting site visit' -%}
+     	{%- endswitch -%}
     {%- case 'issue_determination' -%}
       {%- set statusTagColor = 'yellow' -%}
       {%- set statusText = 'Awaiting decision'-%}

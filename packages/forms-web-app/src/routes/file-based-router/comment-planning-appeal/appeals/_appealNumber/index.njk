@@ -25,7 +25,7 @@
 		<h1 class="govuk-heading-l">
 			{{appeal.headlineText}}
 			<br>
-			{{ statusTagColor(appeal.caseStatus) }}
+			{{ statusTagColor(appeal.caseStatus, appeal.caseProcedure) }}
 		</h1>
 
 	  {% if appeal.status === 'decided' %}
