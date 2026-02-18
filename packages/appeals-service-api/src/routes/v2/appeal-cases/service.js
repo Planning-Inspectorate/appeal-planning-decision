@@ -30,6 +30,7 @@ const { getValidator } = new SchemaValidator();
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealHASCase} AppealHASCase
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.AppealS78Case} AppealS78Case
  * @typedef {import('./repo').LinkedCase} LinkedCase
+ * @typedef {{ownerOccupancyStatus: string|null|undefined, issueDateOfEnforcementNotice: string|null|undefined, effectiveDateOfEnforcementNotice: string|null|undefined, enforcementReference: string|null|undefined, descriptionOfAllegedBreach: string|null|undefined, contactPlanningInspectorateDate: string|null|undefined}} EnforcementListedAppealFormFields
  */
 
 /**
@@ -435,22 +436,15 @@ const mapLDCDataModelToAppealCase = (caseProcessCode, dataModel) => ({
 
 /**
  * @param {AppealS78Case} dataModel
- * @returns {Omit<AppealCaseCreateInput, 'Appeal'>}
+ * @returns {EnforcementListedAppealFormFields}
  */
 const getEnforcementListedAppealFormFields = (dataModel) => {
 	return {
 		ownerOccupancyStatus: dataModel.ownerOccupancyStatus,
-		occupancyConditionsMet: dataModel.occupancyConditionsMet,
-		applicationMadeAndFeePaid: dataModel.applicationMadeAndFeePaid,
-		previousPlanningPermissionGranted: dataModel.previousPlanningPermissionGranted,
 		issueDateOfEnforcementNotice: dataModel.issueDateOfEnforcementNotice,
 		effectiveDateOfEnforcementNotice: dataModel.effectiveDateOfEnforcementNotice,
-		didAppellantAppealLpaDecision: dataModel.didAppellantAppealLpaDecision,
-		dateLpaDecisionDue: dataModel.dateLpaDecisionDue,
-		dateLpaDecisionReceived: dataModel.dateLpaDecisionReceived,
 		enforcementReference: dataModel.enforcementNoticeReference,
 		descriptionOfAllegedBreach: dataModel.descriptionOfAllegedBreach,
-		applicationPartOrWholeDevelopment: dataModel.applicationPartOrWholeDevelopment,
 		contactPlanningInspectorateDate: dataModel.dateAppellantContactedPins
 	};
 };
