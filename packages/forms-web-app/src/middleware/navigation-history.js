@@ -2,12 +2,13 @@ const config = require('../config');
 
 const defaultOptions = {
 	fallbackPath: config.appeals.startingPoint,
-	stackSize: 50
+	stackSize: 50,
+	allowedQueryParams: ['id']
 };
 
 /**
  *
- * @param {{fallbackPath: string; stackSize: number }} options
+ * @param {{fallbackPath: string; stackSize: number; allowedQueryParams: string[] }} options
  * @returns {import('express').Handler}
  */
 module.exports =
@@ -30,7 +31,7 @@ module.exports =
 			req.session.navigationHistory = [activeOptions.fallbackPath];
 		}
 
-		const currentPage = req.baseUrl + req.path;
+		const currentPage = addAllowedQueryParamsToUrl(req.baseUrl + req.path);
 
 		// prevent document links being added to nav history
 		if (currentPage.includes('published-document') || currentPage.includes('/download/')) {
@@ -65,4 +66,21 @@ module.exports =
 		];
 
 		next();
+
+		/**
+		 * @param {string} currentPage
+		 */
+		function addAllowedQueryParamsToUrl(currentPage) {
+			const params = new URLSearchParams();
+
+			activeOptions.allowedQueryParams.forEach((key) => {
+				if (req.query && req.query[key]) params.append(key, req.query[key].toString());
+			});
+
+			if (params.size > 0) {
+				return `${currentPage}?${params.toString()}`;
+			}
+
+			return currentPage;
+		}
 	};
