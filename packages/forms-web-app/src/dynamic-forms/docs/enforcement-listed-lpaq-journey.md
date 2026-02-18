@@ -17,6 +17,14 @@ condition: () => questionHasAnswer(response, questions.changesListedBuilding, 'y
 condition: () => questionHasAnswer(response, questions.listedBuildingCheck, 'yes');
 ```
 
+- boolean `/preserve-grant-loan/` Was a grant or loan made to preserve the listed building at the appeal site?
+- boolean `/consult-historic-england/` Did you consult Historic England?
+- multi-file-upload `/historic-england-consultation/` Upload your consultation with Historic England
+
+```js
+condition: () => questionHasAnswer(response, questions.consultHistoricEngland, 'yes');
+```
+
 - boolean `/scheduled-monument/` Would the development affect a scheduled monument?
 - boolean `/conservation-area/` Is the site in, or next to a conservation area?
 - multi-file-upload `/upload-conservation-area-map-guidance/` Upload conservation map and guidance
@@ -45,36 +53,12 @@ condition: () => questionHasAnswer(response, questions.enforcementRightOfWayChec
 ```
 
 - boolean `/other-operations/` Does the enforcement notice relate to building, engineering, mining or other operations?
+- boolean `/create-floor-space/` Does the alleged breach create any floor space?
 - number-entry `/site-area/` What is the area of the appeal site?
 - boolean `/alleged-breach-area/` Is the area of the alleged breach the same as the site area?
-- boolean `/create-floor-space/` Does the alleged breach create any floor space?
-- boolean `/refuse-waste-materials/` Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?
-- boolean `/mineral-extraction-materials/` Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?
-- boolean `/store-minerals/` Does the enforcement notice include a change of use of land to store minerals in the open?
 - boolean `/create-building/` Does the enforcement notice include the erection of a building or buildings?
 - boolean `/agricultural-purposes/` Is the building on agricultural land and will it be used for agricultural purposes?
 - boolean `/single-house/` Is the enforcement notice for a single private dwelling house?
-- radio `/trunk-road/` Is the appeal site within 67 metres of a trunk road?
-- boolean `/crown-land/` Is the appeal site on Crown land?
-- boolean `/stop-notice/` Did you serve a stop notice?
-- multi-file-upload `/upload-stop-notice/` Upload the stop notice
-
-```js
-condition: () => questionHasAnswer(response, questions.enforcementStopNotice, 'yes');
-```
-
-- boolean `/remove-permitted-development-rights/` Did you remove any permitted development rights for the appeal site?
-- multi-file-upload `/upload-article-4-direction/` Upload the article 4 direction
-
-```js
-condition: () => questionHasAnswer(response, questions.enforcementDevelopmentRights, 'yes');
-```
-
-- text-entry `/rights-removed-direction/` What permitted development rights did you remove with the direction?
-
-```js
-condition: () => questionHasAnswer(response, questions.enforcementDevelopmentRights, 'yes');
-```
 
 ## Environmental impact assessment
 
