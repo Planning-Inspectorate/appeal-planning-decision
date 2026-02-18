@@ -27,7 +27,7 @@
             <td class="govuk-table__cell">{{ appeal.appellantFirstName }} {{ appeal.appellantLastName }}</td>
             <td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
 						<td class="govuk-table__cell">
-							{{ statusTagColor(appeal.caseStatus) }}
+							{{ statusTagColor(appeal.caseStatus, appeal.caseProcedure) }}
 						</td>
           </tr>
         {% endfor %}
@@ -41,7 +41,7 @@
             <td class="govuk-table__cell">{{ appeal.appellantFirstName }} {{ appeal.appellantLastName }}</td>
             <td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
             <td class="govuk-table__cell">
-            	{{ statusTagColor(appeal.caseStatus) }}
+            	{{ statusTagColor(appeal.caseStatus, appeal.caseProcedure) }}
             </td>
           </tr>
         {% endfor %}
