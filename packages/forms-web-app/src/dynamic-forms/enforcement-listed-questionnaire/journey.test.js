@@ -401,16 +401,6 @@ describe('Enforcement Journey', () => {
 				fieldName: 'noticePlanUpload',
 				question: 'Upload the enforcement notice plan',
 				urlSegment: 'upload-enforcement-notice-plan'
-			},
-			{
-				fieldName: 'planningContraventionNotice',
-				question: 'Did you serve a planning contravention notice?',
-				urlSegment: 'planning-contravention-notice'
-			},
-			{
-				fieldName: 'planningContraventionNoticeUpload',
-				question: 'Upload the planning contravention notice',
-				urlSegment: 'upload-planning-contravention-notice'
 			}
 		];
 

@@ -172,11 +172,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.enforcementNoticePlanUpload)
 			.withCondition(() =>
 				questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes')
-			)
-			.addQuestion(questions.planningContraventionNotice)
-			.addQuestion(questions.planningContraventionNoticeUpload)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.planningContraventionNotice, 'yes')
 			),
 
 		new Section('Site access', 'site-access')

@@ -29660,53 +29660,6 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the planning-contravention-notice question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Planning officer’s report and supporting documents</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/planning-contravention-notice"
-            method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="planningContraventionNotice-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Did you serve a planning contravention notice?</h1>
-                        </legend>
-                        <div id="planningContraventionNotice-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="planningContraventionNotice" name="planningContraventionNotice"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="planningContraventionNotice">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="planningContraventionNotice-2"
-                                name="planningContraventionNotice" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="planningContraventionNotice-2">No</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the planning-officer-report question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -31291,51 +31244,6 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-planning-contravention-notice question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Planning officer’s report and supporting documents</span>
-            <h1
-            class="govuk-heading-l">Upload the planning contravention notice</h1>
-                <form action="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/upload-planning-contravention-notice"
-                method="post" novalidate=null enctype="multipart/form-data">
-                    <div class="moj-multi-file-upload">
-                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
-                            </div>
-                        </div>
-                        <div class="moj-multi-file-upload__upload">
-                            <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="planningContraventionNoticeUpload">Upload files</label>
-                                <div id="planningContraventionNoticeUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                    than 1GB</div>
-                                <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="planningContraventionNoticeUpload" name="planningContraventionNoticeUpload"
-                                type="file" aria-describedby="planningContraventionNoticeUpload-hint" multiple="">
-                            </div>
-                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
-                        </div>
-                    </div>
-                    <div class="govuk-button-group">
-                        <button type="submit" class="govuk-button" data-module="govuk-button"
-                        data-cy="button-save-and-continue">Continue</button>
-                    </div>
-                </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-planning-officers-report-decision-notice question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -31931,12 +31839,6 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/enforcement-notice-date-application">Answer<span class="govuk-visually-hidden"> Was there an enforcement notice in force at the date of the application?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you serve a planning contravention notice?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/planning-contravention-notice">Answer<span class="govuk-visually-hidden"> Did you serve a planning contravention notice?</span></a>
                                 </dd>
                         </div>
                     </dl>
