@@ -40,6 +40,13 @@ const makeSections = (response) => {
 			.addQuestion(questions.listedBuildingCheck)
 			.addQuestion(questions.affectedListedBuildings)
 			.withCondition(() => questionHasAnswer(response, questions.listedBuildingCheck, 'yes'))
+
+			// ELB Specific (pre-existing from s20)
+			.addQuestion(questions.grantOrLoan)
+			.addQuestion(questions.consultHistoricEngland)
+			.addQuestion(questions.uploadHistoricEnglandConsultation)
+			.withCondition(() => questionHasAnswer(response, questions.consultHistoricEngland, 'yes'))
+
 			.addQuestion(questions.scheduledMonument)
 			.addQuestion(questions.conservationArea)
 			.addQuestion(questions.conservationAreaUpload)
@@ -57,32 +64,13 @@ const makeSections = (response) => {
 			.withCondition(() => questionHasAnswer(response, questions.enforcementRightOfWayCheck, 'yes'))
 			// Enforcement specific questions
 			.addQuestion(questions.enforcementOtherOperations)
+			// Change in order for ELB
+			.addQuestion(questions.enforcementCreateFloorSpace)
 			.addQuestion(questions.siteArea)
 			.addQuestion(questions.enforcementAllegedBreachArea)
-			.addQuestion(questions.enforcementCreateFloorSpace)
-			.addQuestion(questions.enforcementRefuseWasteMaterials)
-			// Missed questions here - will be for another release
-			.addQuestion(questions.enforcementMineralExtractionMaterials)
-			.addQuestion(questions.enforcementStoreMinerals)
 			.addQuestion(questions.enforcementCreateBuilding)
 			.addQuestion(questions.enforcementAgriculturalPurposes)
-			.addQuestion(questions.enforcementSingleHouse)
-			.addQuestion(questions.enforcementTrunkRoad)
-			.addQuestion(questions.enforcementCrownLand)
-			.addQuestion(questions.enforcementStopNotice)
-			.addQuestion(questions.enforcementStopNoticeUpload)
-			.withCondition(() => questionHasAnswer(response, questions.enforcementStopNotice, 'yes'))
-			.addQuestion(questions.enforcementDevelopmentRights)
-			.addQuestion(questions.enforcementDevelopmentRightsUpload)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.enforcementDevelopmentRights, 'yes')
-			)
-			.addQuestion(questions.enforcementDevelopmentRightsRemoved)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.enforcementDevelopmentRights, 'yes')
-			),
-
-		// enforcement specific questions to follow here
+			.addQuestion(questions.enforcementSingleHouse),
 
 		new Section('Environmental impact assessment', 'environmental-impact')
 			.addQuestion(questions.environmentalImpactSchedule)

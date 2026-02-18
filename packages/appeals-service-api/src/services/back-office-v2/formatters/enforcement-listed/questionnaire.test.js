@@ -107,9 +107,6 @@ describe('formatter', () => {
 		allegedBreachArea_allegedBreachAreaSquareMetres: 500,
 		createFloorSpace: true,
 		createFloorSpace_createFloorSpaceSquareMetres: 250,
-		refuseWasteMaterials: true,
-		mineralExtractionMaterials: true,
-		storeMinerals: true,
 		createBuilding: true,
 		agriculturalPurposes: true,
 		singleHouse: true,
@@ -183,9 +180,6 @@ describe('formatter', () => {
 				lpaCostsAppliedFor: null,
 				lpaStatement: '',
 				newConditionDetails: 'New condition details',
-				changeOfUseMineralExtraction: enforcementListedAnswers.mineralExtractionMaterials,
-				changeOfUseMineralStorage: enforcementListedAnswers.storeMinerals,
-				changeOfUseRefuseOrWaste: enforcementListedAnswers.refuseWasteMaterials,
 				floorSpaceCreatedByBreachInSquareMetres:
 					enforcementListedAnswers.createFloorSpace_createFloorSpaceSquareMetres,
 				areaOfAllegedBreachInSquareMetres:
