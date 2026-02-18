@@ -226,13 +226,6 @@ condition: () => questionHasAnswer(response, questions.enforcementNoticeDateAppl
 condition: () => questionHasAnswer(response, questions.enforcementNoticeDateApplication, 'yes');
 ```
 
-- boolean `/planning-contravention-notice/` Did you serve a planning contravention notice?
-- multi-file-upload `/upload-planning-contravention-notice/` Upload the planning contravention notice
-
-```js
-condition: () => questionHasAnswer(response, questions.planningContraventionNotice, 'yes');
-```
-
 ## Site access
 
 - radio `/inspector-access-appeal-site/` Will the inspector need access to the appellant’s land or property?
