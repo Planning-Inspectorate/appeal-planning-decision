@@ -229,6 +229,29 @@ describe('middleware/navigation-history', () => {
 				expect(next).toHaveBeenCalled();
 				expect(req.session.navigationHistory).toEqual(['/previous-page']);
 			}
+		},
+		{
+			description: 'should add id query string to url if present in the request',
+			given: () => ({
+				config: undefined,
+				req: {
+					...mockReq(),
+					session: {
+						...mockReq().session,
+						navigationHistory: ['/previous-page']
+					},
+					baseUrl: '',
+					path: '/testing',
+					query: {
+						id: '123',
+						other: '456'
+					}
+				}
+			}),
+			expected: (req, res, next) => {
+				expect(next).toHaveBeenCalled();
+				expect(req.session.navigationHistory).toEqual(['/testing?id=123', '/previous-page']);
+			}
 		}
 	].forEach(({ description, given, expected }) => {
 		it(description, () => {
