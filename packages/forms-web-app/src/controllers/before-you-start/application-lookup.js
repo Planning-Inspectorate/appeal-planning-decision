@@ -29,7 +29,10 @@ const getApplicationLookup = async (req, res) => {
 		FLAG.APPLICATION_API_LOOKUP
 	);
 
-	if (!isApplicationLookupEnabled) return res.redirect(typeOfApplicationPage);
+	if (!isApplicationLookupEnabled) {
+		req.session.navigationHistory.shift();
+		return res.redirect(typeOfApplicationPage);
+	}
 
 	res.render(APPLICATION_LOOKUP, {
 		planningApplicationNumber: appeal.planningApplicationNumber

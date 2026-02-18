@@ -58,10 +58,12 @@ describe('controllers/before-you-start/planning-application-lookup', () => {
 		it('redirects to next page when feature flag is off', async () => {
 			isLpaInFeatureFlag.mockResolvedValue(false);
 
+			req.session.navigationHistory = ['/before-you-start/application-lookup'];
 			await getApplicationLookup(req, res);
 
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/type-of-planning-application');
 			expect(res.render).not.toHaveBeenCalled();
+			expect(req.session.navigationHistory.length).toBe(0);
 		});
 
 		it('renders the view with existing planning application number when feature flag is on', async () => {
