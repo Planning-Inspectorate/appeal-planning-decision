@@ -30,7 +30,7 @@ const selectedAppeal = async (req, res) => {
 	const decidedData = formatCommentDecidedData(appeal);
 
 	const inquiries = appeal.Events ? formatCommentInquiryText(appeal.Events) : [];
-	const hearings = appeal.Events ? formatCommentHearingText(appeal.Events) : [];
+	const hearings = appeal.Events ? formatCommentHearingText(appeal.Events, appeal.caseStatus) : [];
 
 	res.render(`comment-planning-appeal/appeals/_appealNumber/index`, {
 		appeal: {

@@ -55,7 +55,9 @@
 		<p>
 		  {{ appeal.deadlineText }}
 		</p>
-		{% if appeal.status == 'open' %}
+			{% if appeal.caseStatus == 'withdrawn' %}
+				<p> Appeal closed for comment. </p>
+			{% elif appeal.status == 'open' %}
 		  {{ govukButton({
 			text: "Comment on this appeal",
 			href: "../your-name",
