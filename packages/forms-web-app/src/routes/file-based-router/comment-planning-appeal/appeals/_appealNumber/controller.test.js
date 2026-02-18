@@ -70,7 +70,7 @@ describe('selectedAppeal Controller Tests', () => {
 		expect(formatCommentDeadlineText).toHaveBeenCalledWith(appeal, status);
 		expect(formatCommentDecidedData).toHaveBeenCalledWith(appeal);
 		expect(formatCommentInquiryText).toHaveBeenCalledWith(appeal.Events);
-		expect(formatCommentHearingText).toHaveBeenCalledWith(appeal.Events);
+		expect(formatCommentHearingText).toHaveBeenCalledWith(appeal.Events, appeal.caseStatus);
 		expect(formatHeadlineData).toHaveBeenCalledWith({ caseData: appeal, lpaName: lpa.name });
 		expect(res.render).toHaveBeenCalledWith('comment-planning-appeal/appeals/_appealNumber/index', {
 			appeal: {

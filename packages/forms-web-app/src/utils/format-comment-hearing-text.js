@@ -8,10 +8,14 @@ const { utcToZonedTime } = require('date-fns-tz');
 
 /**
  * @param {Array<Event>} events
+ * @param {string} caseStatus
  * @returns {Array<string>}
  */
-exports.formatCommentHearingText = (events) => {
+exports.formatCommentHearingText = (events, caseStatus) => {
 	const hearings = events.filter((event) => event.type === EVENT_TYPES.HEARING);
+	if (caseStatus === 'withdrawn') {
+		return [];
+	}
 	return hearings.length
 		? hearings.map((hearing) => {
 				const date = hearing.startDate;
