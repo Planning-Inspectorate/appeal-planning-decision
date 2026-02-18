@@ -28378,6 +28378,53 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the consult-historic-england question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="/manage-appeals/questionnaire/appeal-ref/constraints/consult-historic-england"
+            method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="consultHistoricEngland-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Did you consult Historic England?</h1>
+                        </legend>
+                        <div id="consultHistoricEngland-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="consultHistoricEngland" name="consultHistoricEngland"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="consultHistoricEngland">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="consultHistoricEngland-2" name="consultHistoricEngland"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="consultHistoricEngland-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the correct-appeal-type question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -28511,53 +28558,6 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                                 <input class="govuk-radios__input" id="createFloorSpace-2" name="createFloorSpace"
                                 type="radio" value="no" data-cy="answer-no">
                                 <label class="govuk-label govuk-radios__label" for="createFloorSpace-2">No</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the crown-land question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/manage-appeals/questionnaire/appeal-ref/constraints/crown-land"
-            method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="crownLand-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the appeal site on Crown land?</h1>
-                        </legend>
-                        <div id="crownLand-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="crownLand" name="crownLand" type="radio"
-                                value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="crownLand">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="crownLand-2" name="crownLand" type="radio"
-                                value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="crownLand-2">No</label>
                             </div>
                         </div>
                     </fieldset>
@@ -28948,6 +28948,51 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the historic-england-consultation question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Constraints, designations and other issues</span>
+            <h1
+            class="govuk-heading-l">Upload your consultation with Historic England</h1>
+                <form action="/manage-appeals/questionnaire/appeal-ref/constraints/historic-england-consultation"
+                method="post" novalidate=null enctype="multipart/form-data">
+                    <div class="moj-multi-file-upload">
+                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                            </div>
+                        </div>
+                        <div class="moj-multi-file-upload__upload">
+                            <div class="govuk-form-group">
+                                <label class="govuk-label govuk-label--m" for="uploadHistoricEnglandConsultation">Upload files</label>
+                                <div id="uploadHistoricEnglandConsultation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                    than 1GB</div>
+                                <input class="govuk-file-upload moj-multi-file-upload__input"
+                                id="uploadHistoricEnglandConsultation" name="uploadHistoricEnglandConsultation"
+                                type="file" aria-describedby="uploadHistoricEnglandConsultation-hint" multiple="">
+                            </div>
+                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                        </div>
+                    </div>
+                    <div class="govuk-button-group">
+                        <button type="submit" class="govuk-button" data-module="govuk-button"
+                        data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the infrastructureLevyAdoptedDate question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -29282,53 +29327,6 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                     <div id="lpaPreferInquiryDetails-hint" class="govuk-hint"></div>
                     <textarea class="govuk-textarea" id="lpaPreferInquiryDetails" name="lpaPreferInquiryDetails"
                     rows="5" aria-describedby="lpaPreferInquiryDetails-hint"></textarea>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the mineral-extraction-materials question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/manage-appeals/questionnaire/appeal-ref/constraints/mineral-extraction-materials"
-            method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="mineralExtractionMaterials-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?</h1>
-                        </legend>
-                        <div id="mineralExtractionMaterials-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="mineralExtractionMaterials" name="mineralExtractionMaterials"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="mineralExtractionMaterials">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="mineralExtractionMaterials-2" name="mineralExtractionMaterials"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="mineralExtractionMaterials-2">No</label>
-                            </div>
-                        </div>
-                    </fieldset>
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
@@ -29777,6 +29775,55 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
 </main>"
 `;
 
+exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the preserve-grant-loan question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="/manage-appeals/questionnaire/appeal-ref/constraints/preserve-grant-loan"
+            method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="section3aGrant-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Was a grant or loan made to preserve the listed building at the appeal site?</h1>
+                        </legend>
+                        <div id="section3aGrant-hint" class="govuk-hint">We only need to know about grants and loans made under section 3A or 4
+                            of the Historic Buildings and Ancient Monuments Act 1953.</div>
+                        <div class="govuk-radios govuk-radios"
+                        data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="section3aGrant" name="section3aGrant"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="section3aGrant">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="section3aGrant-2" name="section3aGrant"
+                                type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="section3aGrant-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the previous-planning-permission question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -29964,133 +30011,6 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                             </div>
                         </div>
                     </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the refuse-waste-materials question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/manage-appeals/questionnaire/appeal-ref/constraints/refuse-waste-materials"
-            method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="refuseWasteMaterials-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?</h1>
-                        </legend>
-                        <div id="refuseWasteMaterials-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="refuseWasteMaterials" name="refuseWasteMaterials"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="refuseWasteMaterials">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="refuseWasteMaterials-2" name="refuseWasteMaterials"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="refuseWasteMaterials-2">No</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the remove-permitted-development-rights question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/manage-appeals/questionnaire/appeal-ref/constraints/remove-permitted-development-rights"
-            method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="developmentRights-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Did you remove any permitted development rights for the appeal site?</h1>
-                        </legend>
-                        <div id="developmentRights-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="developmentRights" name="developmentRights"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="developmentRights">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="developmentRights-2" name="developmentRights"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="developmentRights-2">No</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the rights-removed-direction question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/manage-appeals/questionnaire/appeal-ref/constraints/rights-removed-direction"
-            method="post" novalidate=null>
-                <h1 class="govuk-label-wrapper"><label class="govuk-label govuk-label--l" for="developmentRightsRemoved"> What permitted development rights did you remove with the direction?</label></h1>
-                <div class="govuk-form-group">
-                    <div id="developmentRightsRemoved-hint" class="govuk-hint"></div>
-                    <textarea class="govuk-textarea" id="developmentRightsRemoved" name="developmentRightsRemoved"
-                    rows="5" aria-describedby="developmentRightsRemoved-hint"></textarea>
                 </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
@@ -30442,100 +30362,6 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the stop-notice question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/manage-appeals/questionnaire/appeal-ref/constraints/stop-notice"
-            method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="stopNotice-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Did you serve a stop notice?</h1>
-                        </legend>
-                        <div id="stopNotice-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="stopNotice" name="stopNotice" type="radio"
-                                value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="stopNotice">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="stopNotice-2" name="stopNotice"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="stopNotice-2">No</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the store-minerals question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/manage-appeals/questionnaire/appeal-ref/constraints/store-minerals"
-            method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="storeMinerals-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Does the enforcement notice include a change of use of land to store minerals in the open?</h1>
-                        </legend>
-                        <div id="storeMinerals-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="storeMinerals" name="storeMinerals"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="storeMinerals">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="storeMinerals-2" name="storeMinerals"
-                                type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="storeMinerals-2">No</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the supplementary-planning-documents question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -30629,106 +30455,6 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
             </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the trunk-road question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Constraints, designations and other issues</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/manage-appeals/questionnaire/appeal-ref/constraints/trunk-road"
-            method="post" novalidate=null>
-                <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <h1 class="govuk-fieldset__heading"> Is the appeal site within 67 metres of a trunk road?</h1>
-                    </legend>
-                    <div class="govuk-form-group">
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="trunkRoad" name="trunkRoad" type="radio"
-                                value="yes" data-aria-controls="conditional-trunkRoad" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="trunkRoad">Yes</label>
-                            </div>
-                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden"
-                            id="conditional-trunkRoad">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label" for="trunkRoad_trunkRoadDetails">Enter the road name</label>
-                                    <div id="trunkRoad_trunkRoadDetails-hint" class="govuk-hint"></div>
-                                    <textarea class="govuk-textarea" id="trunkRoad_trunkRoadDetails"
-                                    name="trunkRoad_trunkRoadDetails" rows="5" aria-describedby="trunkRoad_trunkRoadDetails-hint"></textarea>
-                                </div>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="trunkRoad-2" name="trunkRoad" type="radio"
-                                value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="trunkRoad-2">No</label>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-article-4-direction question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Constraints, designations and other issues</span>
-            <h1
-            class="govuk-heading-l">Upload the article 4 direction</h1>
-                <form action="/manage-appeals/questionnaire/appeal-ref/constraints/upload-article-4-direction"
-                method="post" novalidate=null enctype="multipart/form-data">
-                    <div class="moj-multi-file-upload">
-                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
-                            </div>
-                        </div>
-                        <div class="moj-multi-file-upload__upload">
-                            <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="developmentRightsUpload">Upload files</label>
-                                <div id="developmentRightsUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                    than 1GB</div>
-                                <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="developmentRightsUpload" name="developmentRightsUpload" type="file"
-                                aria-describedby="developmentRightsUpload-hint" multiple="">
-                            </div>
-                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
-                        </div>
-                    </div>
-                    <div class="govuk-button-group">
-                        <button type="submit" class="govuk-button" data-module="govuk-button"
-                        data-cy="button-save-and-continue">Continue</button>
-                    </div>
-                </form>
         </div>
     </div>
     <div class="govuk-grid-row">
@@ -31484,51 +31210,6 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
 </main>"
 `;
 
-exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-stop-notice question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Constraints, designations and other issues</span>
-            <h1
-            class="govuk-heading-l">Upload the stop notice</h1>
-                <form action="/manage-appeals/questionnaire/appeal-ref/constraints/upload-stop-notice"
-                method="post" novalidate=null enctype="multipart/form-data">
-                    <div class="moj-multi-file-upload">
-                        <div class="moj-multi-file__uploaded-files" aria-live="polite">
-                            <div class="moj-multi-file__uploaded-files-container moj-hidden">
-                                <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
-                                <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
-                            </div>
-                        </div>
-                        <div class="moj-multi-file-upload__upload">
-                            <div class="govuk-form-group">
-                                <label class="govuk-label govuk-label--m" for="stopNoticeUpload">Upload files</label>
-                                <div id="stopNoticeUpload-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
-                                    than 1GB</div>
-                                <input class="govuk-file-upload moj-multi-file-upload__input"
-                                id="stopNoticeUpload" name="stopNoticeUpload" type="file" aria-describedby="stopNoticeUpload-hint"
-                                multiple="">
-                            </div>
-                            <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
-                            class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
-                            data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
-                        </div>
-                    </div>
-                    <div class="govuk-button-group">
-                        <button type="submit" class="govuk-button" data-module="govuk-button"
-                        data-cy="button-save-and-continue">Continue</button>
-                    </div>
-                </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/manage-appeals/questionnaire/appeal-ref" class="govuk-link">Return to questionnaire homepage</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests lpa Enforcement listed building and conservation area renders listing page 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -31617,6 +31298,18 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/affect-listed-building">Answer<span class="govuk-visually-hidden"> Does the proposed development affect the setting of listed buildings?</span></a>
                                 </dd>
                         </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Was a grant or loan made to preserve the listed building at the appeal site?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/preserve-grant-loan">Answer<span class="govuk-visually-hidden"> Was a grant or loan made to preserve the listed building at the appeal site?</span></a>
+                                </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you consult Historic England?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/consult-historic-england">Answer<span class="govuk-visually-hidden"> Did you consult Historic England?</span></a>
+                                </dd>
+                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Affects a scheduled monument</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
@@ -31670,6 +31363,12 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/other-operations">Answer<span class="govuk-visually-hidden"> Does the enforcement notice relate to building, engineering, mining or other operations?</span></a>
                                 </dd>
                         </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the alleged breach create any floor space?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/create-floor-space">Answer<span class="govuk-visually-hidden"> Does the alleged breach create any floor space?</span></a>
+                                </dd>
+                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What is the area of the appeal site?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
@@ -31680,30 +31379,6 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/alleged-breach-area">Answer<span class="govuk-visually-hidden"> Is the area of the alleged breach the same as the site area?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the alleged breach create any floor space?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/create-floor-space">Answer<span class="govuk-visually-hidden"> Does the alleged breach create any floor space?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/refuse-waste-materials">Answer<span class="govuk-visually-hidden"> Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/mineral-extraction-materials">Answer<span class="govuk-visually-hidden"> Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice include a change of use of land to store minerals in the open?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/store-minerals">Answer<span class="govuk-visually-hidden"> Does the enforcement notice include a change of use of land to store minerals in the open?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice include the erection of a building or buildings?</dt>
@@ -31722,30 +31397,6 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/single-house">Answer<span class="govuk-visually-hidden"> Is the enforcement notice for a single private dwelling house?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site within 67 metres of a trunk road?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/trunk-road">Answer<span class="govuk-visually-hidden"> Is the appeal site within 67 metres of a trunk road?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the appeal site on Crown land?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/crown-land">Answer<span class="govuk-visually-hidden"> Is the appeal site on Crown land?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you serve a stop notice?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/stop-notice">Answer<span class="govuk-visually-hidden"> Did you serve a stop notice?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you remove any permitted development rights for the appeal site?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/remove-permitted-development-rights">Answer<span class="govuk-visually-hidden"> Did you remove any permitted development rights for the appeal site?</span></a>
                                 </dd>
                         </div>
                     </dl>

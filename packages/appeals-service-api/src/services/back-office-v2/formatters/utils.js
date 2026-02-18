@@ -1193,9 +1193,6 @@ exports.getEnforcementCommonLPAQSubmissionFields = (answers) => {
 			answers.createFloorSpace === true
 				? Number(answers.createFloorSpace_createFloorSpaceSquareMetres)
 				: null,
-		changeOfUseRefuseOrWaste: answers.refuseWasteMaterials,
-		changeOfUseMineralExtraction: answers.mineralExtractionMaterials,
-		changeOfUseMineralStorage: answers.storeMinerals,
 		relatesToErectionOfBuildingOrBuildings: answers.createBuilding,
 		relatesToBuildingWithAgriculturalPurpose: answers.agriculturalPurposes,
 		relatesToBuildingSingleDwellingHouse: answers.singleHouse
@@ -1208,6 +1205,9 @@ exports.getEnforcementCommonLPAQSubmissionFields = (answers) => {
  */
 exports.getEnforcementSpecificLPAQSubmissionFields = (answers) => {
 	return {
+		changeOfUseRefuseOrWaste: answers.refuseWasteMaterials,
+		changeOfUseMineralExtraction: answers.mineralExtractionMaterials,
+		changeOfUseMineralStorage: answers.storeMinerals,
 		affectedTrunkRoadName: answers.trunkRoad_trunkRoadDetails || null,
 		isSiteOnCrownLand: answers.crownLand,
 		article4AffectedDevelopmentRights: answers.developmentRightsRemoved || null

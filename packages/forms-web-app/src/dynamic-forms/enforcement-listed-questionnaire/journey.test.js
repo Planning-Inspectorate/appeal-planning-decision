@@ -61,9 +61,10 @@ describe('Enforcement Journey', () => {
 		const constraintsSection = journey.sections.find((s) => s.name === sectionTitle);
 
 		const expectedQuestions = [
+			// s78 similar questions
 			{
 				fieldName: 'correctAppealType',
-				question: `Is enforcement the correct type of appeal?`,
+				question: 'Is enforcement the correct type of appeal?',
 				urlSegment: 'correct-appeal-type'
 			},
 			{
@@ -76,7 +77,6 @@ describe('Enforcement Journey', () => {
 				question: 'Add another building or site?',
 				urlSegment: 'changed-listed-buildings'
 			},
-
 			{
 				fieldName: 'affectsListedBuilding',
 				question: 'Does the proposed development affect the setting of listed buildings?',
@@ -88,6 +88,24 @@ describe('Enforcement Journey', () => {
 				urlSegment: 'affected-listed-buildings'
 			},
 
+			// ELB Specific (pre-existing from s20)
+			{
+				fieldName: 'section3aGrant',
+				question: 'Was a grant or loan made to preserve the listed building at the appeal site?',
+				urlSegment: 'preserve-grant-loan'
+			},
+			{
+				fieldName: 'consultHistoricEngland',
+				question: 'Did you consult Historic England?',
+				urlSegment: 'consult-historic-england'
+			},
+			{
+				fieldName: 'uploadHistoricEnglandConsultation',
+				question: 'Upload your consultation with Historic England',
+				urlSegment: 'historic-england-consultation'
+			},
+
+			// General constraints
 			{
 				fieldName: 'affectsScheduledMonument',
 				question: 'Would the development affect a scheduled monument?',
@@ -100,10 +118,9 @@ describe('Enforcement Journey', () => {
 			},
 			{
 				fieldName: 'uploadConservation',
-				urlSegment: 'upload-conservation-area-map-guidance',
-				question: 'Upload conservation map and guidance'
+				question: 'Upload conservation map and guidance',
+				urlSegment: 'upload-conservation-area-map-guidance'
 			},
-
 			{
 				fieldName: 'protectedSpecies',
 				question: 'Would the development affect a protected species?',
@@ -116,8 +133,8 @@ describe('Enforcement Journey', () => {
 			},
 			{
 				fieldName: 'areaOutstandingBeauty',
-				urlSegment: 'area-of-outstanding-natural-beauty',
-				question: 'Is the site in a national landscape?'
+				question: 'Is the site in a national landscape?',
+				urlSegment: 'area-of-outstanding-natural-beauty'
 			},
 			{
 				fieldName: 'designatedSites',
@@ -134,7 +151,6 @@ describe('Enforcement Journey', () => {
 				question: 'Upload a plan showing the extent of the order',
 				urlSegment: 'upload-plan-showing-order'
 			},
-
 			{
 				fieldName: 'gypsyTraveller',
 				question: 'Does the development relate to anyone claiming to be a Gypsy or Traveller?',
@@ -159,6 +175,11 @@ describe('Enforcement Journey', () => {
 				urlSegment: 'other-operations'
 			},
 			{
+				fieldName: 'createFloorSpace',
+				question: 'Does the alleged breach create any floor space?',
+				urlSegment: 'create-floor-space'
+			},
+			{
 				fieldName: 'siteAreaSquareMetres',
 				question: 'What is the area of the appeal site?',
 				urlSegment: 'site-area'
@@ -167,29 +188,6 @@ describe('Enforcement Journey', () => {
 				fieldName: 'allegedBreachArea',
 				question: 'Is the area of the alleged breach the same as the site area?',
 				urlSegment: 'alleged-breach-area'
-			},
-			{
-				fieldName: 'createFloorSpace',
-				question: 'Does the alleged breach create any floor space?',
-				urlSegment: 'create-floor-space'
-			},
-			{
-				fieldName: 'refuseWasteMaterials',
-				question:
-					'Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?',
-				urlSegment: 'refuse-waste-materials'
-			},
-			{
-				fieldName: 'mineralExtractionMaterials',
-				question:
-					'Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?',
-				urlSegment: 'mineral-extraction-materials'
-			},
-			{
-				fieldName: 'storeMinerals',
-				question:
-					'Does the enforcement notice include a change of use of land to store minerals in the open?',
-				urlSegment: 'store-minerals'
 			},
 			{
 				fieldName: 'createBuilding',
@@ -206,41 +204,6 @@ describe('Enforcement Journey', () => {
 				fieldName: 'singleHouse',
 				question: 'Is the enforcement notice for a single private dwelling house?',
 				urlSegment: 'single-house'
-			},
-			{
-				fieldName: 'trunkRoad',
-				question: 'Is the appeal site within 67 metres of a trunk road?',
-				urlSegment: 'trunk-road'
-			},
-			{
-				fieldName: 'crownLand',
-				question: 'Is the appeal site on Crown land?',
-				urlSegment: 'crown-land'
-			},
-			{
-				fieldName: 'stopNotice',
-				question: 'Did you serve a stop notice?',
-				urlSegment: 'stop-notice'
-			},
-			{
-				fieldName: 'stopNoticeUpload',
-				question: 'Upload the stop notice',
-				urlSegment: 'upload-stop-notice'
-			},
-			{
-				fieldName: 'developmentRights',
-				question: 'Did you remove any permitted development rights for the appeal site?',
-				urlSegment: 'remove-permitted-development-rights'
-			},
-			{
-				fieldName: 'developmentRightsUpload',
-				question: 'Upload the article 4 direction',
-				urlSegment: 'upload-article-4-direction'
-			},
-			{
-				fieldName: 'developmentRightsRemoved',
-				question: 'What permitted development rights did you remove with the direction?',
-				urlSegment: 'rights-removed-direction'
 			}
 		];
 
@@ -251,6 +214,7 @@ describe('Enforcement Journey', () => {
 
 			expect(constraintsSection.name).toBe(sectionTitle);
 			expect(constraintsSection.segment).toBe(sectionName);
+			expect(questions.length).toBe(expectedQuestions.length);
 
 			expectedQuestions.forEach((expected, index) => {
 				const actual = questions[index];
