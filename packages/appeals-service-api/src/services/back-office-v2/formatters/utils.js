@@ -48,6 +48,7 @@ const targetTimezone = 'Europe/London';
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQS78SubmissionProperties} LPAQS78SubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQCasAdvertSubmissionProperties} LPAQCasAdvertSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQEnforcementSubmissionProperties1} LPAQEnforcementSubmissionProperties1
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQEnforcementSubmissionProperties} LPAQEnforcementSubmissionProperties
 
  * @typedef {function(FullAppellantSubmission, LPA): Promise<AppellantSubmissionCommand>} AppellantSubmissionMapper
@@ -1180,7 +1181,7 @@ exports.getS20LPAQSubmissionFields = (answers) => {
  * @param {LPAQAnswers} answers
  * @returns {LPAQEnforcementSubmissionProperties}
  */
-exports.getEnforcementSpecificLPAQSubmissionFields = (answers) => {
+exports.getEnforcementCommonLPAQSubmissionFields = (answers) => {
 	return {
 		noticeRelatesToBuildingEngineeringMiningOther: answers.otherOperations,
 		siteAreaSquareMetres: Number(answers.siteAreaSquareMetres),
@@ -1197,7 +1198,16 @@ exports.getEnforcementSpecificLPAQSubmissionFields = (answers) => {
 		changeOfUseMineralStorage: answers.storeMinerals,
 		relatesToErectionOfBuildingOrBuildings: answers.createBuilding,
 		relatesToBuildingWithAgriculturalPurpose: answers.agriculturalPurposes,
-		relatesToBuildingSingleDwellingHouse: answers.singleHouse,
+		relatesToBuildingSingleDwellingHouse: answers.singleHouse
+	};
+};
+
+/**
+ * @param {LPAQAnswers} answers
+ * @returns {LPAQEnforcementSubmissionProperties1}
+ */
+exports.getEnforcementSpecificLPAQSubmissionFields = (answers) => {
+	return {
 		affectedTrunkRoadName: answers.trunkRoad_trunkRoadDetails || null,
 		isSiteOnCrownLand: answers.crownLand,
 		article4AffectedDevelopmentRights: answers.developmentRightsRemoved || null

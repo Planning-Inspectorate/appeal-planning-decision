@@ -12,12 +12,11 @@ const {
 	getCommonSiteDesignationAndProtectionFields,
 	getInfrastructureLevy,
 	getChangedListedBuildingNumbersFields,
-	getEnforcementCommonLPAQSubmissionFields,
-	getEnforcementSpecificLPAQSubmissionFields
+	getEnforcementCommonLPAQSubmissionFields
 } = require('../utils');
 const { documentTypes } = require('@pins/common/src/document-types');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
-const ENFORCEMENT = CASE_TYPES.ENFORCEMENT.key;
+const ENFORCEMENT_LISTED = CASE_TYPES.ENFORCEMENT_LISTED.key;
 
 /**
  * @param {string} caseReference
@@ -27,7 +26,7 @@ const ENFORCEMENT = CASE_TYPES.ENFORCEMENT.key;
 exports.formatter = async (caseReference, { ...answers }) => {
 	return {
 		casedata: {
-			caseType: ENFORCEMENT,
+			caseType: ENFORCEMENT_LISTED,
 			...getCommonLPAQSubmissionFields(caseReference, answers),
 			...getHASLPAQSubmissionFields(answers),
 			...getEIAFields(answers, true),
@@ -36,7 +35,10 @@ exports.formatter = async (caseReference, { ...answers }) => {
 			...getInfrastructureLevy(answers),
 			...getChangedListedBuildingNumbersFields(answers),
 			...getEnforcementCommonLPAQSubmissionFields(answers),
-			...getEnforcementSpecificLPAQSubmissionFields(answers)
+
+			// ELB specific fields
+			preserveGrantLoan: answers.section3aGrant ?? null,
+			consultHistoricEngland: answers.consultHistoricEngland ?? null
 		},
 		documents: await getDocuments(answers, documentTypes.planningOfficersReportUpload.dataModelName)
 	};
