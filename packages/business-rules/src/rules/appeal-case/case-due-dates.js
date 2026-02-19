@@ -58,6 +58,7 @@ exports.isLPAQuestionnaireDue = (appealCaseData) =>
 const statementsAreOpen = (appealCaseData) =>
 	!!appealCaseData.statementDueDate &&
 	!deadlineHasPassed(appealCaseData.statementDueDate) &&
+	appealCaseData.caseStatus !== APPEAL_CASE_STATUS.INVALID &&
 	(appealCaseData.caseStatus === APPEAL_CASE_STATUS.STATEMENTS ||
 		deadlineHasPassed(appealCaseData.lpaQuestionnaireDueDate) ||
 		!!appealCaseData.lpaQuestionnaireValidationOutcomeDate);
