@@ -3,6 +3,7 @@ const {
 	isLPAQuestionnaireOpen,
 	isLPAQuestionnaireDue,
 	isLPAStatementOpen,
+	isAppellantStatementOpen,
 	isRule6StatementOpen,
 	isAppellantProofsOfEvidenceOpen,
 	isLPAProofsOfEvidenceOpen,
@@ -164,6 +165,16 @@ describe('case-due-dates', () => {
 				expect(isLPAStatementOpen(appealCaseData)).toBe(false);
 			});
 
+			it('should return false if the case status is INVALID', () => {
+				// as seen in test above the first three attributes would lead to return of true
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValueOnce(false);
+				appealCaseData.lpaQuestionnaireValidationOutcomeDate = '2025-03-01';
+				// case status set to invalid
+				appealCaseData.caseStatus = APPEAL_CASE_STATUS.INVALID;
+				expect(isLPAStatementOpen(appealCaseData)).toBe(false);
+			});
+
 			it('should return false if LPAStatementSubmittedDate is set', () => {
 				appealCaseData.statementDueDate = '2025-03-01';
 				deadlineHasPassed.mockReturnValue(false);
@@ -186,6 +197,59 @@ describe('case-due-dates', () => {
 			});
 		});
 
+		describe('isAppellantStatementOpen', () => {
+			it('should return true if lpaq has been submitted and not statement submitted already', () => {
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValueOnce(false);
+				appealCaseData.lpaQuestionnaireValidationOutcomeDate = '2025-03-01';
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(true);
+			});
+
+			it('should return true if lpaQuestionnaireDueDate has passed and statement not submitted already', () => {
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValueOnce(false);
+				deadlineHasPassed.mockReturnValueOnce(true);
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(true);
+			});
+
+			it('should return true if in STATEMENTS stage and statement not submitted already', () => {
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValue(false);
+				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(true);
+			});
+
+			it('should return false if statements are not open', () => {
+				expect(isLPAStatementOpen(appealCaseData)).toBe(false);
+			});
+
+			it('should return false if the case status is INVALID', () => {
+				// as seen in test above the first three attributes would lead to return of true
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValueOnce(false);
+				appealCaseData.lpaQuestionnaireValidationOutcomeDate = '2025-03-01';
+				// case status set to invalid
+				appealCaseData.caseStatus = APPEAL_CASE_STATUS.INVALID;
+				expect(isLPAStatementOpen(appealCaseData)).toBe(false);
+			});
+
+			it('should return false if AppellantStatementSubmittedDate is set', () => {
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValue(false);
+				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
+				appealCaseData.LPAStatementSubmittedDate = '2025-03-02';
+				expect(isLPAStatementOpen(appealCaseData)).toBe(false);
+			});
+
+			it('should return false if representation exists for appellant statement', () => {
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValue(false);
+				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
+				representationExists.mockReturnValue(true);
+				expect(isRule6StatementOpen(appealCaseData)).toBe(false);
+			});
+		});
+
 		describe('isRule6StatementOpen', () => {
 			it('should return true if statements are open and no representation exists for rule 6 parties', () => {
 				appealCaseData.statementDueDate = '2025-03-01';
@@ -193,6 +257,14 @@ describe('case-due-dates', () => {
 				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
 				representationExists.mockReturnValue(false);
 				expect(isRule6StatementOpen(appealCaseData)).toBe(true);
+			});
+
+			it('should return false if status is invalid', () => {
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValue(false);
+				appealCaseData.caseStatus = APPEAL_CASE_STATUS.INVALID;
+				representationExists.mockReturnValue(false);
+				expect(isRule6StatementOpen(appealCaseData)).toBe(false);
 			});
 
 			it('should return false if statements are not open', () => {
