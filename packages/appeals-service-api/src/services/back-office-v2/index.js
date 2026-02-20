@@ -388,29 +388,32 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (caseTypeLookup(appealTypeCode, 'processCode')?.expedited === false) {
-			logger.info(`mapping lpa final comment ${caseReference} to ${appealTypeCode} schema`);
-			mappedData = await formatter({
-				caseReference,
-				repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
-				party: LPA_USER_ROLE,
-				representationSubmission: lpaFinalCommentSubmission
-			});
-			logger.debug({ mappedData }, 'mapped representation');
 
-			logger.info(`validating representation ${caseReference} schema`);
+		if (lpaFinalCommentSubmission?.lpaFinalComment) {
+			if (caseTypeLookup(appealTypeCode, 'processCode')?.expedited === false) {
+				logger.info(`mapping lpa final comment ${caseReference} to ${appealTypeCode} schema`);
+				mappedData = await formatter({
+					caseReference,
+					repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+					party: LPA_USER_ROLE,
+					representationSubmission: lpaFinalCommentSubmission
+				});
+				logger.debug({ mappedData }, 'mapped representation');
 
-			/** @type {Validate<AppealRepresentationSubmission>} */
-			const validator = getValidator('appeal-representation-submission');
-			if (!validator(mappedData)) {
-				throw new Error(
-					`Payload was invalid when checked against appeal representation submission schema`
-				);
+				logger.info(`validating representation ${caseReference} schema`);
+
+				/** @type {Validate<AppealRepresentationSubmission>} */
+				const validator = getValidator('appeal-representation-submission');
+				if (!validator(mappedData)) {
+					throw new Error(
+						`Payload was invalid when checked against appeal representation submission schema`
+					);
+				}
+
+				logger.info(`forwarding lpa final comment submission for ${caseReference} to service bus`);
+
+				result = await forwarders.representation([mappedData]);
 			}
-
-			logger.info(`forwarding lpa final comment submission for ${caseReference} to service bus`);
-
-			result = await forwarders.representation([mappedData]);
 		}
 
 		// Date to be set in back office mapper once data model confirmed
@@ -422,6 +425,7 @@ class BackOfficeV2Service {
 			logger.error({ err }, 'failed to sendLPAFinalCommentSubmissionEmailToLPAV2');
 			throw new Error('failed to send lpa final comment submission email');
 		}
+
 		return result;
 	}
 
@@ -509,32 +513,35 @@ class BackOfficeV2Service {
 
 		let result;
 		let mappedData;
-		if (caseTypeLookup(appealTypeCode, 'processCode')?.expedited === false) {
-			logger.info(`mapping appellant final comment ${caseReference} to ${appealTypeCode} schema`);
-			mappedData = await formatter({
-				caseReference,
-				serviceUserId: serviceUser.id,
-				repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
-				party: APPEAL_USER_ROLES.APPELLANT,
-				representationSubmission: appellantFinalCommentSubmission
-			});
-			logger.debug({ mappedData }, 'mapped representation');
 
-			logger.info(`validating representation ${caseReference} schema`);
+		if (appellantFinalCommentSubmission?.appellantFinalComment) {
+			if (caseTypeLookup(appealTypeCode, 'processCode')?.expedited === false) {
+				logger.info(`mapping appellant final comment ${caseReference} to ${appealTypeCode} schema`);
+				mappedData = await formatter({
+					caseReference,
+					serviceUserId: serviceUser.id,
+					repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+					party: APPEAL_USER_ROLES.APPELLANT,
+					representationSubmission: appellantFinalCommentSubmission
+				});
+				logger.debug({ mappedData }, 'mapped representation');
 
-			/** @type {Validate<AppealRepresentationSubmission>} */
-			const validator = getValidator('appeal-representation-submission');
-			if (!validator(mappedData)) {
-				throw new Error(
-					`Payload was invalid when checked against appeal representation submission schema`
+				logger.info(`validating representation ${caseReference} schema`);
+
+				/** @type {Validate<AppealRepresentationSubmission>} */
+				const validator = getValidator('appeal-representation-submission');
+				if (!validator(mappedData)) {
+					throw new Error(
+						`Payload was invalid when checked against appeal representation submission schema`
+					);
+				}
+
+				logger.info(
+					`forwarding appellant final comment representation ${caseReference} to service bus`
 				);
+
+				result = await forwarders.representation([mappedData]);
 			}
-
-			logger.info(
-				`forwarding appellant final comment representation ${caseReference} to service bus`
-			);
-
-			result = await forwarders.representation([mappedData]);
 		}
 
 		// Date to be set in back office mapper once data model confirmed
