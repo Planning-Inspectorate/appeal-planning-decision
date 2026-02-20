@@ -185,7 +185,10 @@ export const validateAppealDetailsForAppellant = (appealId) => {
 
 
     cy.get('#tab_waiting-for-review').click();
-    cy.get(basePage?._selectors.trgovukTableRow).should('exist');
+    cy.get('table', { timeout: 20000 }).should('exist');
+    cy.get('table tr, tr.govuk-table__row', { timeout: 20000 }).should(($rows) => {
+        expect($rows.length, 'at least one table row').to.be.greaterThan(0);
+    });
     return cy.get('table tr').last().find('td').eq(0).invoke('text').then((text) => {
         const appealId = text.trim();
         Cypress.log({ name: 'Appeal ID', message: appealId });

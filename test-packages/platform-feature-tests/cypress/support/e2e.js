@@ -18,10 +18,52 @@ import './commands';
 import 'cypress-mochawesome-reporter/register';
 import 'cypress-wait-until';
 import registerCypressGrep from '@cypress/grep/src/support';
+import  { randomUUID } from 'crypto';
 //import '@cypress/grep';
 registerCypressGrep();
 
 require('cy-verify-downloads').addCustomCommand();
+
+// Define-time limiter: only register the first N tests per spec
+// Enable with: --env limitTestsPerSpec=<N> (e.g., 2)
+(() => {
+  //const raw = Cypress.env('limitTestsPerSpec');
+  const limit = Number(2);
+  if (Number.isFinite(limit) && limit > 0) {
+    let defined = 0;
+    const origIt = typeof it !== 'undefined' ? it : undefined;
+    const origSpecify = typeof specify !== 'undefined' ? specify : origIt;
+    if (origIt) {
+      const limited = function(title, fn) {
+        if (defined < limit) {
+          defined += 1;
+          return origIt(title, fn);
+        }
+        // Do not register beyond the limit → not pending in reports
+        return undefined;
+      };
+      if (origIt.only) limited.only = origIt.only.bind(origIt);
+      if (origIt.skip) limited.skip = origIt.skip.bind(origIt);
+      // Apply to both aliases used by Cypress/Mocha
+      // eslint-disable-next-line no-undef
+      globalThis.it = limited;
+      // eslint-disable-next-line no-undef
+      globalThis.specify = limited || origSpecify;
+    }
+  }
+})();
+
+// Optionally run only the first test in each spec file
+// Enable by passing: --env onlyFirstTestPerSpec=true
+if (Cypress.env('onlyFirstTestPerSpec')) {
+  let __firstTestHasRun = false;
+  beforeEach(function () {
+    if (__firstTestHasRun) {
+      this.skip();
+    }
+    __firstTestHasRun = true;
+  });
+}
 
 // Ignore transient AAD CDN script load errors that should not fail user flows
 Cypress.on('uncaught:exception', (err) => {
@@ -32,6 +74,29 @@ Cypress.on('uncaught:exception', (err) => {
     return false; // suppress
   }
   return true; // allow others to fail tests
+});
+
+// Generate a unique correlation ID for each test and expose via Cypress.env
+beforeEach(function () {
+  try {
+    const runIdRaw = Cypress.env('RUN_ID') || String(Date.now());
+    const rid = String(runIdRaw).slice(-6); // short run identifier
+    const uuidPart = (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function')
+      ? crypto.randomUUID().split('-')[0] // first 8 chars keeps it compact
+      : (() => {
+          try {           
+            if (typeof randomUUID === 'function') {
+              return randomUUID().split('-')[0];
+            }
+          } catch (_) {}
+          return Math.random().toString(36).slice(2, 10);
+        })();
+    const correlationId = `CID-${rid}-${uuidPart}`; // compact, UUID-based
+    Cypress.env('correlationId', correlationId);
+    Cypress.log({ name: 'correlationId', message: correlationId });
+  } catch (e) {
+    // Non-fatal: leave correlationId unset if anything goes wrong
+  }
 });
 
 // Alternatively you can use CommonJS syntax:

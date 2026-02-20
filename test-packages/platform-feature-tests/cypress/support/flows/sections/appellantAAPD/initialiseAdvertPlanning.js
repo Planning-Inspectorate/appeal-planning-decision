@@ -22,7 +22,7 @@ const { GreenBeltPage } = require("../../pages/appellant-aapd/prepare-appeal/gre
 const { OwnAllLandPage } = require("../../pages/appellant-aapd/prepare-appeal/ownAllLandPage");
 const { OwnSomeLandPage } = require("../../pages/appellant-aapd/prepare-appeal/ownSomeLandPage");
 const { LandownerPermissionPage } = require("../../pages/appellant-aapd/prepare-appeal/landownerPermissionPage");
-const { InspectorNeedAccessPage } = require("../../pages/appellant-aapd/prepare-appeal/inspectorNeedaccessPage");
+const { InspectorNeedAccessPage } = require("../../pages/appellant-aapd/prepare-appeal/inspectorNeedAccessPage");
 const { DecideAppealsPage } = require("../../pages/appellant-aapd/prepare-appeal/decideAppealsPage");
 const { OtherAppealsPage } = require("../../pages/appellant-aapd/prepare-appeal/otherAppealsPage");
 const { UploadApplicationFormPage } = require("../../pages/appellant-aapd/upload-documents/uploadApplicationFormPage");
@@ -101,7 +101,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
         contactDetailsPage.addContactDetailsData(context, prepareAppealSelector?._selectors?.advertApplicationType, prepareAppealData);
 
         cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/appeal-site-address`);
-        appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
+        appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData, context);
 
         cy.validateURL(`${prepareAppealSelector?._advertURLs?.appealsAdvertPrepareAppeal}/highway-land`);
         highwayLandPage.selectHighwayLand(context?.applicationForm?.isHighwayLand, context);

@@ -109,7 +109,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 
 		//Site Details
 		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/appeal-site-address`);
-		appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
+		appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData, context);
 		//What is the area of the appeal site?
 		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/site-area`);
 		siteAreaPage.addSiteAreaData(planning, context?.applicationForm?.areaUnits, context, prepareAppealData);

@@ -17,7 +17,7 @@ const { SiteAreaPage } = require("../../pages/appellant-aapd/prepare-appeal/site
 const { GreenBeltPage } = require("../../pages/appellant-aapd/prepare-appeal/greenBeltPage");
 const { OwnAllLandPage } = require("../../pages/appellant-aapd/prepare-appeal/ownAllLandPage");
 const { OwnSomeLandPage } = require("../../pages/appellant-aapd/prepare-appeal/ownSomeLandPage");
-const { InspectorNeedAccessPage } = require("../../pages/appellant-aapd/prepare-appeal/inspectorNeedaccessPage");
+const { InspectorNeedAccessPage } = require("../../pages/appellant-aapd/prepare-appeal/inspectorNeedAccessPage");
 const { OtherAppealsPage } = require("../../pages/appellant-aapd/prepare-appeal/otherAppealsPage");
 const { UploadApplicationFormPage } = require("../../pages/appellant-aapd/upload-documents/uploadApplicationFormPage");
 const { ApplyAppealCostsPage } = require("../../pages/appellant-aapd/upload-documents/applyAppealCostsPage");
@@ -95,7 +95,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 
 		//Site Details		
 		cy.validateURL(`${prepareAppealSelector?._casPlanningURLs?.appealsCasplanningPrepareAppeal}/appeal-site-address`);
-		appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
+		appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData, context);
 
 		//What is the area of the appeal site?
 
