@@ -28,7 +28,9 @@ module.exports = (planning, context, prepareAppealData) => {
     const applyAppealCostsPage = new ApplyAppealCostsPage();
     const otherNewDocumentsPage = new OtherNewDocumentsPage();
 
-    // Visit the "Before You Start" page
+    cy.pause();
+
+    //  "Before You Start" page
     cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
     cy.advanceToNextPage();
 
@@ -37,29 +39,48 @@ module.exports = (planning, context, prepareAppealData) => {
     cy.get(basePage?._selectors?.localPlanningDepartmentOptionZero).click();
     cy.advanceToNextPage();
 
-    // Have you received an enforcement notice? -> Yes
+    // Have you received an enforcement notice? -> Yes (Enforcement appeal)
     cy.getByData(basePage?._selectors.answerYes).click();
     cy.advanceToNextPage();
 
     // Is your enforcement notice about a listed building?
     if (context?.isListedBuilding) {
         cy.getByData(basePage?._selectors.answerYes).click();
+
+        // What is the issue date on your enforcement notice?
+        // cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/contact-planning-inspectorate`);
+        cy.get('#enforcement-notice-issue-date-day').type(context?.enforcementNotice?.issueDate?.day);
+        cy.get('#enforcement-notice-issue-date-month').type(context?.enforcementNotice?.issueDate?.month);
+        cy.get('#enforcement-notice-issue-date-year').type(context?.enforcementNotice?.issueDate?.year);
+        cy.advanceToNextPage();
+
+        // What is the effective date on your enforcement notice? - future date -
+        cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/enforcement-effective-date`);
+        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementNoticeEffectiveDateDay).type(date.futureDay());
+        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementNoticeEffectiveDateMonth).type(date.futureMonth());
+        cy.get(prepareAppealSelector?._enforcementAppealSelectors?.enforcementNoticeEffectiveDateYear).type(date.futureYear());
+        cy.advanceToNextPage();
+
+        // // Did you contact the Planning Inspectorate to tell them you will appeal the enforcement notice?
+        // cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/contact-planning-inspectorate`);
+        // if (context?.enforcementNotice?.contactedPlanningInspectorate) {
+        // 	cy.getByData(basePage?._selectors.answerYes).click();
+        // 	cy.advanceToNextPage();
+
+        // 	// When did you contact the Planning Inspectorate?
+        // 	cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/before-you-start/contact-planning-inspectorate-date`);
+        // 	cy.get(prepareAppealSelector?._enforcementAppealSelectors?.contactPlanningInspectorateDateDay).type(date.futureDay());
+        // 	cy.get(prepareAppealSelector?._enforcementAppealSelectors?.contactPlanningInspectorateDateMonth).type(date.futureMonth());
+        // 	cy.get(prepareAppealSelector?._enforcementAppealSelectors?.contactPlanningInspectorateDateYear).type(date.futureYear());
+        // 	cy.advanceToNextPage();
+        // } else {
+        // 	cy.getByData(basePage?._selectors.answerNo).click();
+        // 	cy.advanceToNextPage();
+        // }
+
     } else {
         cy.getByData(basePage?._selectors.answerNo).click();
     }
-    cy.advanceToNextPage();
-
-    // What is the issue date on your enforcement notice?
-    cy.get('#enforcement-notice-issue-date-day').type(context?.enforcementNotice?.issueDate?.day);
-    cy.get('#enforcement-notice-issue-date-month').type(context?.enforcementNotice?.issueDate?.month);
-    cy.get('#enforcement-notice-issue-date-year').type(context?.enforcementNotice?.issueDate?.year);
-    cy.advanceToNextPage();
-
-    // What is the effective date on your enforcement notice?
-    cy.get('#enforcement-notice-effective-date-day').type(context?.enforcementNotice?.effectiveDate?.day);
-    cy.get('#enforcement-notice-effective-date-month').type(context?.enforcementNotice?.effectiveDate?.month);
-    cy.get('#enforcement-notice-effective-date-year').type(context?.enforcementNotice?.effectiveDate?.year);
-    cy.advanceToNextPage();
 
     // You can appeal using this service -> Start Appeal
     cy.advanceToNextPage(prepareAppealData?.button);
@@ -69,14 +90,16 @@ module.exports = (planning, context, prepareAppealData) => {
     cy.advanceToNextPage();
 
     // What is your email address?
+        cy.validateURL(`${prepareAppealSelector?._advertURLs?.advert}/email-address`);
     cy.getByData(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
     cy.advanceToNextPage();
 
     // Enter the code we sent to your email address
+        cy.validateURL(`${prepareAppealSelector?._advertURLs?.advert}/enter-code`);
     cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
     cy.advanceToNextPage();
 
-    // Email address confirmed
+    cy.validateURL(`${prepareAppealSelector?._advertURLs?.advert}/email-address-confirmed`);
     cy.advanceToNextPage();
 
     // Before you start (appeal form)
@@ -190,29 +213,29 @@ module.exports = (planning, context, prepareAppealData) => {
         });
         cy.advanceToNextPage();
 
-       // Facts for individual grounds (only shown if that ground was selected)
-		const allGrounds = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'];
-		const selectedGrounds = context?.applicationForm?.groundsOfAppeal ?? [];
+        // Facts for individual grounds (only shown if that ground was selected)
+        const allGrounds = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k'];
+        const selectedGrounds = context?.applicationForm?.groundsOfAppeal ?? [];
 
-		allGrounds.forEach((ground) => {
-			if (selectedGrounds.includes(ground)) {
-				// Facts textarea for this ground
-				cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/facts-ground-${ground}`);
-				cy.get(`#facts-${ground}`).type(prepareAppealData?.groundsFacts?.[ground] ?? `Facts for ground ${ground} test text`);
-				cy.advanceToNextPage();
+        allGrounds.forEach((ground) => {
+            if (selectedGrounds.includes(ground)) {
+                // Facts textarea for this ground
+                cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/facts-ground-${ground}`);
+                cy.get(`#facts-${ground}`).type(prepareAppealData?.groundsFacts?.[ground] ?? `Facts for ground ${ground} test text`);
+                cy.advanceToNextPage();
 
-				// Do you have any documents to support your ground ([x]) facts?
-				cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/facts-ground-${ground}-supporting-documents`);
-				if (context?.applicationForm?.groundsSupportingDocuments?.[ground]) {
-					cy.getByData('answer-yes').click();
-					cy.advanceToNextPage();
-					cy.uploadFileFromFixtureDirectory(context?.documents?.["uploadGroundSupportingDoc_" + ground] ?? context?.documents?.uploadOtherNewSupportDoc);
-				} else {
-					cy.getByData('answer-no').click();
-				}
-				cy.advanceToNextPage();
-			}
-		});
+                // Do you have any documents to support your ground ([x]) facts?
+                cy.validateURL(`${prepareAppealSelector?._enforcementAppealURLs?.appealsEnforcementPrepareAppeal}/facts-ground-${ground}-supporting-documents`);
+                if (context?.applicationForm?.groundsSupportingDocuments?.[ground]) {
+                    cy.getByData('answer-yes').click();
+                    cy.advanceToNextPage();
+                    cy.uploadFileFromFixtureDirectory(context?.documents?.["uploadGroundSupportingDoc_" + ground] ?? context?.documents?.uploadOtherNewSupportDoc);
+                } else {
+                    cy.getByData('answer-no').click();
+                }
+                cy.advanceToNextPage();
+            }
+        });
         // How would you prefer us to decide your appeal?
         decideAppealsPage.addDecideAppealsData(context?.applicationForm?.appellantProcedurePreference);
 
