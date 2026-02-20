@@ -19,7 +19,9 @@ export const enforcementAppealTestCases = [
         enforcementNotice: {
             issueDate: { day: '2', month: '2', year: '2026' },
             effectiveDate: { day: '3', month: '3', year: '2026' },
-            referenceNumber: '1234567'
+            referenceNumber: '1234567',
+            contactedPlanningInspectorate: true,
+            contactedPlanningInspectorateDate: { day: '24', month: '1', year: '2026' }
         },
         applicationForm: {
             isAppellant: true,
@@ -54,7 +56,8 @@ export const enforcementAppealTestCases = [
         enforcementNotice: {
             issueDate: { day: '2', month: '2', year: '2026' },
             effectiveDate: { day: '3', month: '3', year: '2026' },
-            referenceNumber: '1234567'
+            referenceNumber: '1234567',
+            contactedPlanningInspectorate: false
         },
         applicationForm: {
             isAppellant: false,
@@ -89,7 +92,9 @@ export const enforcementAppealTestCases = [
         enforcementNotice: {
             issueDate: { day: '2', month: '2', year: '2026' },
             effectiveDate: { day: '3', month: '3', year: '2026' },
-            referenceNumber: '1234567'
+            referenceNumber: '1234567',
+            contactedPlanningInspectorate: true,
+            contactedPlanningInspectorateDate: { day: '10', month: '2', year: '2026' }
         },
         applicationForm: {
             isAppellant: false,

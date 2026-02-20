@@ -1,50 +1,68 @@
-export class DateService{
-    
-    constructor(){        
+// @ts-nocheck
+export class DateService {
+
+    constructor() {
         this.date = new Date();
     }
 
-    today(){
+    today() {
         return this.date.getDate();
     }
 
-    previousDay(){
+    previousDay() {
         const previousDay = new Date(this.date);
-        previousDay.setDate(this.date.getDate()-1);
+        previousDay.setDate(this.date.getDate() - 1);
         return previousDay.getDate();
     }
 
-    nextDay(){
+    nextDay() {
         const nextDay = new Date(this.date);
-        nextDay.setDate(this.date.getDate()+1);
+        nextDay.setDate(this.date.getDate() + 1);
         return nextDay.getDate();
     }
 
-    nextMonth(){
-        const nextMonth = new Date(this.date.getFullYear(),this.date.getMonth()+1,this.date.getDate());
-        return nextMonth.getMonth()+1;
+    nextMonth() {
+        const nextMonth = new Date(this.date.getFullYear(), this.date.getMonth() + 1, this.date.getDate());
+        return nextMonth.getMonth() + 1;
     }
 
-    previousMonth(){
-        const previousMonth = new Date(this.date.getFullYear(),this.date.getMonth()-1,this.date.getDate());
-        return previousMonth.getMonth()+1;
+    previousMonth() {
+        const previousMonth = new Date(this.date.getFullYear(), this.date.getMonth() - 1, this.date.getDate());
+        return previousMonth.getMonth() + 1;
     }
 
-    currentMonth(){
-        return this.date.getMonth()+1;
+    currentMonth() {
+        return this.date.getMonth() + 1;
     }
 
-    currentYear(){
+    currentYear() {
         return this.date.getFullYear();
     }
 
-    previousYear(){
-        const previousYear = new Date(this.date.getFullYear()-1,this.date.getMonth(),this.date.getDate());
+    previousYear() {
+        const previousYear = new Date(this.date.getFullYear() - 1, this.date.getMonth(), this.date.getDate());
         return previousYear.getFullYear();
     }
 
-    nextYear(){
-        const nextYear = new Date(this.date.getFullYear()+1,this.date.getMonth(),this.date.getDate());
+    nextYear() {
+        const nextYear = new Date(this.date.getFullYear() + 1, this.date.getMonth(), this.date.getDate());
         return nextYear.getFullYear();
+    }
+
+    // --- Future date helpers ---
+
+    futureDay(monthsAhead = 1) {
+        const future = new Date(this.date.getFullYear(), this.date.getMonth() + monthsAhead, this.date.getDate());
+        return future.getDate();
+    }
+
+    futureMonth(monthsAhead = 1) {
+        const future = new Date(this.date.getFullYear(), this.date.getMonth() + monthsAhead, this.date.getDate());
+        return future.getMonth() + 1;
+    }
+
+    futureYear(monthsAhead = 1) {
+        const future = new Date(this.date.getFullYear(), this.date.getMonth() + monthsAhead, this.date.getDate());
+        return future.getFullYear();
     }
 }
