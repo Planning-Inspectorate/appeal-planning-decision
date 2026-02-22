@@ -48,8 +48,8 @@ const targetTimezone = 'Europe/London';
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQS78SubmissionProperties} LPAQS78SubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQCasAdvertSubmissionProperties} LPAQCasAdvertSubmissionProperties
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
- * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQEnforcementSubmissionProperties1} LPAQEnforcementSubmissionProperties1
  * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQEnforcementSubmissionProperties} LPAQEnforcementSubmissionProperties
+ * @typedef {import ('@planning-inspectorate/data-model').Schemas.LPAQEnforcementCommonSubmissionProperties} LPAQEnforcementCommonSubmissionProperties
 
  * @typedef {function(FullAppellantSubmission, LPA): Promise<AppellantSubmissionCommand>} AppellantSubmissionMapper
  *
@@ -1179,7 +1179,7 @@ exports.getS20LPAQSubmissionFields = (answers) => {
 
 /**
  * @param {LPAQAnswers} answers
- * @returns {LPAQEnforcementSubmissionProperties}
+ * @returns {LPAQEnforcementCommonSubmissionProperties}
  */
 exports.getEnforcementCommonLPAQSubmissionFields = (answers) => {
 	return {
@@ -1201,7 +1201,7 @@ exports.getEnforcementCommonLPAQSubmissionFields = (answers) => {
 
 /**
  * @param {LPAQAnswers} answers
- * @returns {LPAQEnforcementSubmissionProperties1}
+ * @returns {LPAQEnforcementSubmissionProperties}
  */
 exports.getEnforcementSpecificLPAQSubmissionFields = (answers) => {
 	return {
