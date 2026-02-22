@@ -48,7 +48,7 @@ describe('Submit Full Appeal Granted Test cases',{ tags:'@S20-granted' }, () => 
 			* Any Other appeals: "${applicationForm?.anyOtherAppeals}"
 			* Is Appellant Linked Case Add: "${applicationForm?.isAppellantLinkedCaseAdd}"
 			* 		
-		 `, () => {
+         `, { tags: context.tags || [] }, () => {
             submitAppealFlow({
                 statusOfOriginalApplication,
                 typeOfDecisionRequested,

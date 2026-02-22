@@ -16,6 +16,7 @@ const documents = {
 export const casPlanningAppealGrantedTestCases = [
     //this case is for full planning from cas planning route
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',

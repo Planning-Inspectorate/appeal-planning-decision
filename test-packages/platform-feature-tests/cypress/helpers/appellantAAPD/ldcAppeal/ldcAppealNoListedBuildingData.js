@@ -16,6 +16,7 @@ const documents = {
 };
 export const ldcAppealNoListedBuildingTestCases = [
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'no listed building',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',

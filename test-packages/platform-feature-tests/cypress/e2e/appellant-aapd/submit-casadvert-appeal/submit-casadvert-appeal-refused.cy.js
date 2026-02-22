@@ -23,7 +23,7 @@ describe('Submit CAS Advert Appeal Refused Test Cases', { tags: '@CAS-Advert-ref
     });
     casAdvertAppealRefusedTestCases.forEach((context) => {
         const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, typeOfPlanningApplication } = context;
-        it(`CAS Advert Refused Appeal: status=${statusOfOriginalApplication} decision=${typeOfDecisionRequested} obligation=${statusOfPlanningObligation}`, () => {
+        it(`CAS Advert Refused Appeal: status=${statusOfOriginalApplication} decision=${typeOfDecisionRequested} obligation=${statusOfPlanningObligation}`, { tags: context.tags || [] }, () => {
             submitAppealFlow({
                 statusOfOriginalApplication,
                 typeOfDecisionRequested,

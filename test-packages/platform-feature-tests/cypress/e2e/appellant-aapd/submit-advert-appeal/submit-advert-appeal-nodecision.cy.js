@@ -23,7 +23,7 @@ describe('Submit Advert Appeal No Decision Test Cases', { tags: '@Advert-nodecis
     });
     advertAppealNoDecisionTestCases.forEach((context) => {
         const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, typeOfPlanningApplication } = context;
-        it(`Advert No Decision Appeal: status=${statusOfOriginalApplication} decision=${typeOfDecisionRequested} obligation=${statusOfPlanningObligation}`, () => {
+        it(`Advert No Decision Appeal: status=${statusOfOriginalApplication} decision=${typeOfDecisionRequested} obligation=${statusOfPlanningObligation}`, { tags: context.tags || [] }, () => {
             submitAppealFlow({
                 statusOfOriginalApplication,
                 typeOfDecisionRequested,

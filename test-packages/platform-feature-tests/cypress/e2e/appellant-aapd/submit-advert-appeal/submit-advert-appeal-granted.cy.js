@@ -23,7 +23,7 @@ describe('Submit Advert Appeal Granted Test Cases', { tags: '@Advert-granted' },
     });
     advertAppealGrantedTestCases.forEach((context) => {
         const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, typeOfPlanningApplication } = context;
-        it(`Advert Granted Appeal: status=${statusOfOriginalApplication} decision=${typeOfDecisionRequested} obligation=${statusOfPlanningObligation}`, () => {
+        it(`Advert Granted Appeal: status=${statusOfOriginalApplication} decision=${typeOfDecisionRequested} obligation=${statusOfPlanningObligation}`, { tags: context.tags || [] }, () => {
             submitAppealFlow({
                 statusOfOriginalApplication,
                 typeOfDecisionRequested,

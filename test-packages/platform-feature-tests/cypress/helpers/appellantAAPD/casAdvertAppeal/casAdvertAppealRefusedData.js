@@ -10,6 +10,7 @@ const documents = {
 // Commercial Advert appeal test cases 
 export const casAdvertAppealRefusedTestCases = [
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
