@@ -11,6 +11,7 @@ const documents = {
 // Granted Advert appeal test cases 
 export const advertAppealGrantedTestCases = [
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'not started',

@@ -16,6 +16,7 @@ const documents = {
 };
 export const ldcAppealRefusedTestCases = [
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',

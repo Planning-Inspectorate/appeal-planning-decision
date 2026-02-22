@@ -53,7 +53,7 @@ describe('Submit Cas Planning Appeal Granted Test Cases', { tags: '@CAS-Planning
 			* Any Other appeals: "${applicationForm?.anyOtherAppeals}"
 			* Is Appellant Linked Case Add: "${applicationForm?.isAppellantLinkedCaseAdd}"
 			* 		
-		 `, () => {
+		 `, { tags: context.tags || [] }, () => {
 			submitAppealFlow({
 				statusOfOriginalApplication,
 				typeOfDecisionRequested,

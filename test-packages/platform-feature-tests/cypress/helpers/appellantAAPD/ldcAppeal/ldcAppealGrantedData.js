@@ -17,6 +17,7 @@ const documents = {
 export const ldcAppealGrantedTestCases = [
     // Test case 1: Original application granted, written procedure, existing-development S191
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',

@@ -18,6 +18,7 @@ const documents = {
 export const casPlanningAppealRefusedTestCases = [
     //cas planning refused scenarios
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',

@@ -50,7 +50,7 @@ describe('Submit Full Appeal Granted Test cases',{ tags:'@S78-granted' }, () => 
 			* Any Other appeals: "${applicationForm?.anyOtherAppeals}"
 			* Is Appellant Linked Case Add: "${applicationForm?.isAppellantLinkedCaseAdd}"
 			* 		
-		 `, () => {
+		 `, { tags: context.tags || [] }, () => {
 			// Call the submitAppealFlow function with the context and prepareAppealData
 			submitAppealFlow({
 				statusOfOriginalApplication,

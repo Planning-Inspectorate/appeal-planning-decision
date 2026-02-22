@@ -51,7 +51,7 @@ describe('Submit LDC Appeal No Listed Building Test cases', { tags: '@LDC-noList
 			* Any Other appeals: "${applicationForm?.anyOtherAppeals}"
 			* Is Appellant Linked Case Add: "${applicationForm?.isAppellantLinkedCaseAdd}"
 			* 		
-		 `, () => {
+		 `, { tags: context.tags || [] }, () => {
 			// Call the submitAppealFlow function with the context and prepareAppealData
 			submitAppealFlow({
 				statusOfOriginalApplication,

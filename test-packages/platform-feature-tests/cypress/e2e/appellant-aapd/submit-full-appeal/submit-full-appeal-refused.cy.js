@@ -52,7 +52,7 @@ describe('Submit Full Appeal Refused Test cases',{ tags:'@S78-refused' }, () => 
 			* Any Other appeals: "${applicationForm?.anyOtherAppeals}"
 			* Is Appellant Linked Case Add: "${applicationForm?.isAppellantLinkedCaseAdd}"
 			* 		
-		 `, () => {
+		 `, { tags: context.tags || [] }, () => {
 			// Call the submitAppealFlow function with the context and prepareAppealData
 			submitAppealFlow({
 				statusOfOriginalApplication,

@@ -16,6 +16,7 @@ const documents = {
 };
 export const listedBuildingRefusedTestCases = [
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',

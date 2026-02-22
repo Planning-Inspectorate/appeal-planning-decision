@@ -17,6 +17,7 @@ const documents = {
 };
 export const houseHolderAppealRefusedTestCases = [
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
