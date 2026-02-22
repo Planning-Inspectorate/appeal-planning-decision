@@ -8,6 +8,7 @@ const documents = {
 
 export const advertAppealNoDecisionTestCases = [
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'not started',

@@ -52,7 +52,7 @@ describe('Submit House Holder Appeal Refused Test Cases',{ tags:'@HAS-refused' }
 			* Any Other appeals: "${applicationForm?.anyOtherAppeals}"
 			* Is Appellant Linked Case Add: "${applicationForm?.isAppellantLinkedCaseAdd}"
 			* 		
-		 `, () => {			
+		 `, { tags: context.tags || [] }, () => {
 			submitAppealFlow({
 				statusOfOriginalApplication,
 				typeOfDecisionRequested,

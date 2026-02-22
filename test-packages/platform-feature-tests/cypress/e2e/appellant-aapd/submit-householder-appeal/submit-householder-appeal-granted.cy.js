@@ -51,7 +51,7 @@ describe('Submit House Holder Appeal Granted Test Cases',{ tags:'@HAS-granted' }
 			* Any Other appeals: "${applicationForm?.anyOtherAppeals}"
 			* Is Appellant Linked Case Add: "${applicationForm?.isAppellantLinkedCaseAdd}"
 			* 		
-		 `, () => {
+		 `, { tags: context.tags || [] }, () => {
 			submitAppealFlow({
 				statusOfOriginalApplication,
 				typeOfDecisionRequested,

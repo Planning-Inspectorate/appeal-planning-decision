@@ -1,7 +1,7 @@
 parameters:
   - name: Environment
     type: string
-    default: 'test'
+    default: 'staging'
     values:
       - 'dev'
       - 'test'
@@ -77,12 +77,12 @@ jobs:
         fetchDepth: 1
         fetchTags: false
 
-      - script: |
-          set -euo pipefail
-          rm -rf test-packages/platform-feature-tests/cypress/reports/reports/.jsons || true
-          mkdir -p test-packages/platform-feature-tests/cypress/reports/reports
-        displayName: 'Clean Cypress reports (.jsons)'
-        condition: always()
+      # - script: |
+      #     set -euo pipefail
+      #     rm -rf test-packages/platform-feature-tests/cypress/reports/reports/.jsons || true
+      #     mkdir -p test-packages/platform-feature-tests/cypress/reports/reports
+      #   displayName: 'Clean Cypress reports (.jsons)'
+      #   condition: always()
 
       - task: NodeTool@0
         inputs:
@@ -105,7 +105,13 @@ jobs:
           set -euo pipefail
           cd test-packages/platform-feature-tests
           echo "Running specs for group $(GROUP_NAME): $(SPEC)"
-          npx cypress run --spec "$(SPEC)"
+          if [ "$(SMOKE_ONLY)" = "true" ]; then
+            echo "SmokeOnly enabled: running @smoke tagged tests only"
+            TAG_ARGS="--env grepTags=smoke,grepFilterSpecs=true,grepOmitFiltered=true"
+          else
+            TAG_ARGS=""
+          fi
+          npx cypress run --spec "$(SPEC)" $TAG_ARGS
         env:
           CYPRESS_APPEALS_BETA_BASE_URL: $(CYPRESS_APPEALS_BETA_BASE_URL)
           CYPRESS_BACK_OFFICE_BASE_URL: $(CYPRESS_BACK_OFFICE_BASE_URL)
@@ -114,6 +120,7 @@ jobs:
           CASE_ADMIN_EMAIL: $(CASE_ADMIN_EMAIL)
           GROUP_NAME: $(GROUP_NAME)
           SPEC: $(SPEC)
+          SMOKE_ONLY: ${{ parameters.SmokeOnly }}
         displayName: 'Run Cypress Tests'
 
       - task: PublishBuildArtifacts@1

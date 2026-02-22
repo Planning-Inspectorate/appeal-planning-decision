@@ -15,6 +15,7 @@ const documents = {
 };
 export const houseHolderAppealNoDecisionTestCases = [
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',

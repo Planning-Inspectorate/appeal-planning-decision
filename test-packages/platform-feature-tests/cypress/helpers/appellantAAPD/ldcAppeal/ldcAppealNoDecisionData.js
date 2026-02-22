@@ -16,6 +16,7 @@ const documents = {
 };
 export const ldcAppealNoDecisionTestCases = [
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',

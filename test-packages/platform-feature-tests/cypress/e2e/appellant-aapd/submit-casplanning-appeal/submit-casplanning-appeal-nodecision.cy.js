@@ -55,7 +55,7 @@ describe('Submit CAS Planning Appeal No Decision Test Cases', { tags: '@CAS-Plan
 			* Any Other appeals: "${applicationForm?.anyOtherAppeals}"
 			* Is Appellant Linked Case Add: "${applicationForm?.isAppellantLinkedCaseAdd}"
 			* 		
-		 `, () => {
+		 `, { tags: context.tags || [] }, () => {
 			submitAppealFlow({
 				statusOfOriginalApplication,
 				typeOfDecisionRequested,

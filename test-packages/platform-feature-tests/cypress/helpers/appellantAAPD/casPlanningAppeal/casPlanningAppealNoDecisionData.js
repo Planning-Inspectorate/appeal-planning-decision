@@ -15,6 +15,7 @@ const documents = {
 };
 export const casPlanningAppealNoDecisionTestCases = [
     {
+        tags: ['smoke'],
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',

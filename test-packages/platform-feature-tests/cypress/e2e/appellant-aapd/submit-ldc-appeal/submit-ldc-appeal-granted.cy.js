@@ -51,7 +51,7 @@ describe('Submit LDC Appeal Granted Test cases', { tags: '@LDC-granted' }, () =>
 			* Any Other appeals: "${applicationForm?.anyOtherAppeals}"
 			* Is Appellant Linked Case Add: "${applicationForm?.isAppellantLinkedCaseAdd}"
 			* 		
-		 `, () => {
+		 `, { tags: context.tags || [] }, () => {
 			// Call the submitAppealFlow function with the context and prepareAppealData
 			submitAppealFlow({
 				statusOfOriginalApplication,

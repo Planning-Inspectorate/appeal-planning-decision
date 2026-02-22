@@ -49,7 +49,7 @@ describe('Submit Full Appeal No Decision Test cases',{ tags:'@S20-nodecision' },
 			* Any Other appeals: "${applicationForm?.anyOtherAppeals}"
 			* Is Appellant Linked Case Add: "${applicationForm?.isAppellantLinkedCaseAdd}"
 			* 		
-		 `, () => {
+		 `, { tags: context.tags || [] }, () => {
 			submitAppealFlow({
 				statusOfOriginalApplication,
 				typeOfDecisionRequested,
