@@ -105,7 +105,8 @@ jobs:
           set -euo pipefail
           cd test-packages/platform-feature-tests
           echo "Running specs for group $(GROUP_NAME): $(SPEC)"
-          if [ "$SMOKE_ONLY" = "true" ]; then
+          SMOKE_ONLY_NORMALIZED=$(echo "${SMOKE_ONLY:-}" | tr '[:upper:]' '[:lower:]')
+          if [ "$SMOKE_ONLY_NORMALIZED" = "true" ]; then
             echo "SmokeOnly enabled: running @smoke tagged tests only"
             TAG_ARGS="--env grepTags=smoke,grepFilterSpecs=true,grepOmitFiltered=true"
           else
