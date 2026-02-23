@@ -9,13 +9,13 @@ import { tag } from '#support/tag.js';
 
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
-describe('Submit House Holder Appeal No Decision Test Cases',{ tags:'@HAS-nodecision' }, () => {
+describe('Submit House Holder Appeal No Decision Test Cases', { tags: '@HAS-nodecision' }, () => {
 	let prepareAppealData;
 	let lpaManageAppealsData;
 	before(() => {
 		cy.login(users.appeals.authUser);
 	});
-	beforeEach(() => {		
+	beforeEach(() => {
 		cy.fixture('prepareAppealData').then(data => {
 			prepareAppealData = data;
 		})
@@ -67,26 +67,4 @@ describe('Submit House Holder Appeal No Decision Test Cases',{ tags:'@HAS-nodeci
 			});
 		});
 	});
-	// example smoke test case
-	// it('HAS Smoke Test', { tags: tag.smoke }, () => {
-	// 	const context = houseHolderAppealNoDecisionTestCases[0];
-	// 	const {
-	// 		statusOfOriginalApplication,
-	// 		typeOfDecisionRequested,
-	// 		statusOfPlanningObligation,
-	// 		typeOfPlanningApplication,
-	// 	} = context;
-
-	// 	submitAppealFlow({
-	// 		statusOfOriginalApplication,
-	// 		typeOfDecisionRequested,
-	// 		statusOfPlanningObligation,
-	// 		planning: typeOfPlanningApplication,
-	// 		context,
-	// 		prepareAppealData,
-	// 		lpaManageAppealsData,
-	// 		questionnaireTestCases,
-	// 		statementTestCases
-	// 	});
-	// });
 });

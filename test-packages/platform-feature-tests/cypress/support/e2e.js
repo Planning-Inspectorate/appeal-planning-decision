@@ -18,41 +18,29 @@ import './commands';
 import 'cypress-mochawesome-reporter/register';
 import 'cypress-wait-until';
 import registerCypressGrep from '@cypress/grep/src/support';
-import  { randomUUID } from 'crypto';
+import { randomUUID } from 'crypto';
 registerCypressGrep();
 
 require('cy-verify-downloads').addCustomCommand();
 
-
-// Ignore transient AAD CDN script load errors that should not fail user flows
-// Cypress.on('uncaught:exception', (err) => {
-//   const msg = err && err.message ? err.message : '';
-//   const aadCdnPattern = /Failed to load external resource.*aadcdn\.(msauth|msftauth)\.net/i;
-//   if (aadCdnPattern.test(msg)) {
-//     Cypress.log({ name: 'AAD CDN Suppressed', message: msg.slice(0,180) });
-//     return false; // suppress
-//   }
-//   return true; // allow others to fail tests
-// });
-
 // Generate a unique correlation ID for each test and expose via Cypress.env
 beforeEach(function () {
-  try {    
-     const uuidPart = (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function')
+  try {
+    const uuidPart = (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function')
       ? crypto.randomUUID().split('-')[0] // first 8 chars keeps it compact
       : (() => {
-          try {
-            if (typeof randomUUID === 'function') {
-              return randomUUID().split('-')[0];
-            }
-            if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
-              const bytes = new Uint8Array(4); // 8 hex chars
-              crypto.getRandomValues(bytes);
-              return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
-            }
-          } catch (_) {}
-          return '00000000';
-        })();
+        try {
+          if (typeof randomUUID === 'function') {
+            return randomUUID().split('-')[0];
+          }
+          if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+            const bytes = new Uint8Array(4); // 8 hex chars
+            crypto.getRandomValues(bytes);
+            return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+          }
+        } catch (_) { }
+        return '00000000';
+      })();
     const correlationId = `CID-${uuidPart}`; // compact, UUID-based
     Cypress.env('correlationId', correlationId);
   } catch (e) {
