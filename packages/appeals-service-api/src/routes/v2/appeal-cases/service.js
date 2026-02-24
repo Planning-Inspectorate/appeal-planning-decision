@@ -458,9 +458,6 @@ const getEnforcementListedLPAQFields = (dataModel) => {
 		noticeRelatesToBuildingEngineeringMiningOther:
 			dataModel.noticeRelatesToBuildingEngineeringMiningOther,
 		doesAllegedBreachCreateFloorSpace: dataModel.doesAllegedBreachCreateFloorSpace,
-		changeOfUseRefuseOrWaste: dataModel.changeOfUseRefuseOrWaste,
-		changeOfUseMineralExtraction: dataModel.changeOfUseMineralExtraction,
-		changeOfUseMineralStorage: dataModel.changeOfUseMineralStorage,
 		relatesToErectionOfBuildingOrBuildings: dataModel.relatesToErectionOfBuildingOrBuildings,
 		relatesToBuildingWithAgriculturalPurpose: dataModel.relatesToBuildingWithAgriculturalPurpose,
 		relatesToBuildingSingleDwellingHouse: dataModel.relatesToBuildingSingleDwellingHouse,
@@ -576,7 +573,7 @@ async function putCase(caseReference, data) {
 			neighbouringSiteAddresses: data.neighbouringSiteAddresses,
 			advertDetails: data.advertDetails,
 			enforcementAppealGroundsDetails: data.enforcementAppealGroundsDetails,
-			applicationElbAppealGroundDetails: data.applicationElbAppealGroundDetails
+			applicationElbAppealGroundsDetails: data.applicationElbAppealGroundsDetails
 		});
 
 		// send email confirming appeal to user if this creates a new appeal
