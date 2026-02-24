@@ -3,7 +3,8 @@ const {
 	formatDesignations,
 	formatDocumentDetails,
 	documentExists,
-	boolToYesNo
+	boolToYesNo,
+	formatActSection
 } = require('@pins/common');
 const {
 	CASE_TYPES,
@@ -20,7 +21,6 @@ const {
  * @param {import('appeals-service-api').Api.AppealCaseDetailed} caseData
  * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
  */
-
 exports.constraintsRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
@@ -33,7 +33,8 @@ exports.constraintsRows = (caseData) => {
 	const isAdvertAppeal =
 		caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
 		caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode;
-	const isEnforcementAppeal = CASE_TYPES.ENFORCEMENT.processCode;
+	const isEnforcementAppeal = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+	const isLDCAppeal = caseData.appealTypeCode === CASE_TYPES.LDC.processCode;
 
 	const affectedListedBuildings = caseData.ListedBuildings?.filter(
 		(x) => x.type === LISTED_RELATION_TYPES.affected
@@ -60,7 +61,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Changes a listed building',
 			valueText: changedListedBuildingText,
-			condition: () => !isExpeditedAppealType
+			condition: () => !isExpeditedAppealType && !isLDCAppeal
 		},
 		{
 			keyText: 'Listed building details',
@@ -70,7 +71,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Affects a listed building',
 			valueText: affectedListedBuildingText,
-			condition: () => true
+			condition: () => !isLDCAppeal
 		},
 		{
 			keyText: 'Listed building details',
@@ -107,7 +108,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Conservation area',
 			valueText: conservationAreaText,
-			condition: () => true
+			condition: () => !isLDCAppeal
 		},
 		{
 			keyText: 'Uploaded conservation area map and guidance',
@@ -247,6 +248,44 @@ exports.constraintsRows = (caseData) => {
 			keyText: 'Article 4 affected development rights',
 			valueText: `${caseData.article4AffectedDevelopmentRights}`,
 			condition: () => isNotUndefinedOrNull(caseData.article4AffectedDevelopmentRights)
+		},
+		{
+			keyText: 'What type of lawful development certificate is the appeal about?',
+			valueText: formatActSection(caseData, 'appealUnderActSection'),
+			condition: () => isLDCAppeal && !!caseData.appealUnderActSection
+		},
+		{
+			keyText: 'Uploaded relevant planning permission',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION),
+			condition: () =>
+				isLDCAppeal && documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION), // non ldc shown in planning officer report section
+			isEscaped: true
+		},
+		{
+			keyText: 'Uploaded enforcement notice',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
+			condition: () =>
+				isLDCAppeal && documentExists(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE), // non ldc shown in planning officer report section
+			isEscaped: true
+		},
+		{
+			keyText: 'Uploaded related applications',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.RELATED_APPLICATIONS),
+			condition: () =>
+				isLDCAppeal && documentExists(documents, APPEAL_DOCUMENT_TYPE.RELATED_APPLICATIONS),
+			isEscaped: true
+		},
+		{
+			keyText: 'Do you think the appeal is invalid?',
+			valueText: formatYesOrNo(caseData, 'lpaConsiderAppealInvalid'),
+			condition: () => isNotUndefinedOrNull(caseData.lpaConsiderAppealInvalid)
+		},
+		{
+			keyText: 'Reason you think the appeal is invalid',
+			valueText: caseData.lpaAppealInvalidReasons || '',
+			condition: () =>
+				isNotUndefinedOrNull(caseData.lpaConsiderAppealInvalid) &&
+				isNotUndefinedOrNull(caseData.lpaAppealInvalidReasons)
 		}
 	];
 

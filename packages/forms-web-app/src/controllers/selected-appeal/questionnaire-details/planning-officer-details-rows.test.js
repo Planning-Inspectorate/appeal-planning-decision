@@ -119,6 +119,14 @@ describe('planningOfficerReportRows', () => {
 			value: 'Yes'
 		}
 	];
+	const expectedRowsLDC = [
+		{ title: "Planning officer's report", value: 'name.pdf - awaiting review' },
+		{ title: 'Community infrastructure levy', value: 'Yes' },
+		{ title: 'Uploaded community infrastructure levy', value: 'name.pdf - awaiting review' },
+		{ title: 'Community infrastructure levy formally adopted', value: 'Yes' },
+		{ title: 'Date community infrastructure levy adopted', value: '1 Jan 2023' },
+		{ title: 'Uploaded other relevant matters', value: 'name.pdf - awaiting review' }
+	];
 	const expectedRowsEnforcementBase = expectedRowsS78.filter(
 		(row) => row.title !== 'Emerging plan'
 	);
@@ -153,7 +161,7 @@ describe('planningOfficerReportRows', () => {
 		['S20', s20LPAQData, expectedRowsS78],
 		['Adverts', advertsLPAQData, expectedRowsAdverts],
 		['CAS Adverts', casAdvertsLPAQData, expectedRowsAdverts],
-		['LDC', ldcLPAQData, []],
+		['LDC', ldcLPAQData, expectedRowsLDC],
 		['Enforcement', enforcementLPAQData, expectedRowsEnforcement]
 	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
 		const visibleRows = planningOfficerReportRows(caseData)
@@ -271,7 +279,7 @@ describe('planningOfficerReportRows', () => {
 		};
 
 		const rows = planningOfficerReportRows(caseData);
-		expect(rows.length).toEqual(20);
+		expect(rows.length).toEqual(21);
 
 		expect(rows[PLANNING_OFFICER_REPORT_ROW].condition()).toEqual(true);
 		expect(rows[PLANNING_OFFICER_REPORT_ROW].isEscaped).toEqual(true);
@@ -478,7 +486,7 @@ describe('planningOfficerReportRows', () => {
 	it('should return correct conditions if no fields/files exist', () => {
 		const rows = planningOfficerReportRows({ Documents: [] });
 
-		expect(rows.length).toEqual(20);
+		expect(rows.length).toEqual(21);
 		expect(rows[PLANNING_OFFICER_REPORT_ROW].condition()).toEqual(false);
 		expect(rows[HIGHWAY_TRAFFIC_SAFETY_ROW].condition()).toEqual(false);
 		expect(rows[COMPLETE_PHOTOS_PLANS_ROW].condition()).toEqual(false);

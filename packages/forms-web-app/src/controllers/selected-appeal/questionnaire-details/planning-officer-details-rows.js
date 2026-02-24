@@ -19,6 +19,7 @@ exports.planningOfficerReportRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
 	const isEnforcement = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+	const isLDCAppeal = caseData.appealTypeCode === CASE_TYPES.LDC.processCode;
 
 	return [
 		{
@@ -54,7 +55,7 @@ exports.planningOfficerReportRows = (caseData) => {
 		{
 			keyText: 'Emerging plan',
 			valueText: boolToYesNo(documentExists(documents, APPEAL_DOCUMENT_TYPE.EMERGING_PLAN)),
-			condition: () => !isEnforcement
+			condition: () => !isEnforcement && !isLDCAppeal
 		},
 		{
 			keyText: 'Uploaded emerging plan and supporting information',
@@ -73,7 +74,7 @@ exports.planningOfficerReportRows = (caseData) => {
 			valueText: boolToYesNo(
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.SUPPLEMENTARY_PLANNING)
 			),
-			condition: () => true
+			condition: () => !isLDCAppeal
 		},
 		{
 			keyText: 'Uploaded supplementary planning documents',
@@ -120,13 +121,15 @@ exports.planningOfficerReportRows = (caseData) => {
 		{
 			keyText: 'Uploaded previous planning permission',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION),
-			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION),
+			condition: () =>
+				!isLDCAppeal && documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION), // ldc shown in contrainsts section
 			isEscaped: true
 		},
 		{
 			keyText: 'Uploaded enforcement notice',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
-			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
+			condition: () =>
+				!isLDCAppeal && documentExists(documents, APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE), // ldc shown in contrainsts section
 			isEscaped: true
 		},
 		{
@@ -143,6 +146,12 @@ exports.planningOfficerReportRows = (caseData) => {
 			),
 			condition: () =>
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANNING_CONTRAVENTION_NOTICE),
+			isEscaped: true
+		},
+		{
+			keyText: 'Uploaded other relevant matters',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_MATTERS),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_MATTERS),
 			isEscaped: true
 		}
 	];

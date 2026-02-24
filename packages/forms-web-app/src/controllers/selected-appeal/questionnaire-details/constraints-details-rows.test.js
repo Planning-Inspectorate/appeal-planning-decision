@@ -126,20 +126,16 @@ describe('constraintsRows', () => {
 			title: 'Is a lawful development certificate appeal the correct type of appeal?',
 			value: 'Yes'
 		},
-		{ title: 'Changes a listed building', value: 'Yes' },
-		{ title: 'Listed building details', value: 'LB2' },
-		{ title: 'Affects a listed building', value: 'Yes' },
-		{ title: 'Listed building details', value: 'LB1' },
-		{ title: 'Conservation area', value: 'Yes' },
-		{
-			title: 'Uploaded conservation area map and guidance',
-			value: 'name.pdf - awaiting review'
-		},
-		{ title: 'Protected species', value: 'Yes' },
 		{ title: 'Green belt', value: 'Yes' },
-		{ title: 'Is the site in a national landscape?', value: 'Yes' },
-		{ title: 'Gypsy or Traveller', value: 'Yes' },
-		{ title: 'Public right of way', value: 'Yes' }
+		{
+			title: 'What type of lawful development certificate is the appeal about?',
+			value: 'Existing development'
+		},
+		{ title: 'Uploaded relevant planning permission', value: 'name.pdf - awaiting review' },
+		{ title: 'Uploaded enforcement notice', value: 'name.pdf - awaiting review' },
+		{ title: 'Uploaded related applications', value: 'name.pdf - awaiting review' },
+		{ title: 'Do you think the appeal is invalid?', value: 'Yes' },
+		{ title: 'Reason you think the appeal is invalid', value: 'test' }
 	];
 
 	const expectedRowsEnforcement = [
@@ -203,7 +199,7 @@ describe('constraintsRows', () => {
 		expect(visibleRows).toEqual(expect.arrayContaining(expectedRows));
 	});
 
-	const ROW_COUNT = 36;
+	const ROW_COUNT = 42;
 	const CORRECT_APPEAL_TYPE_ROW = 0;
 	const CHANGES_LISTED_BUILDING_ROW = 1;
 	const CHANGED_LISTED_BUILDING_DETAILS_ROW = 2;
@@ -240,6 +236,12 @@ describe('constraintsRows', () => {
 	const ENFORCEMENT_STOP_NOTICE_DOC_ROW = 33;
 	const ARTICLE_4_DIRECTION_DOC_ROW = 34;
 	const ARTICLE_4_AFFECTED_RIGHTS_ROW = 35;
+	const LAWFUL_DEVELOPMENT_CERTIFICATE_ROW = 36;
+	const RELEVANT_PLANNING_PERMISSION_ROW = 37;
+	const ENFORCEMENT_NOTICE_ROW = 38;
+	const RELATED_APPLICATIONS_ROW = 39;
+	const APPEAL_INVALID_ROW = 40;
+	const APPEAL_INVALID_REASON_ROW = 41;
 
 	it('should create rows with correct data if relevant case data fields and field values false/no files uploaded/otherwise not populated', () => {
 		const caseData = {
@@ -268,6 +270,7 @@ describe('constraintsRows', () => {
 			affectedTrunkRoadName: 'TRUNK ROAD',
 			isSiteOnCrownLand: false,
 			article4AffectedDevelopmentRights: 'article 4 direction',
+
 			Documents: []
 		};
 		const rows = constraintsRows(caseData);
@@ -458,6 +461,36 @@ describe('constraintsRows', () => {
 			'Article 4 affected development rights'
 		);
 		expect(rows[ARTICLE_4_AFFECTED_RIGHTS_ROW].valueText).toEqual('article 4 direction');
+
+		expect(rows[LAWFUL_DEVELOPMENT_CERTIFICATE_ROW].condition()).toEqual(false);
+		expect(rows[LAWFUL_DEVELOPMENT_CERTIFICATE_ROW].keyText).toEqual(
+			'What type of lawful development certificate is the appeal about?'
+		);
+		expect(rows[LAWFUL_DEVELOPMENT_CERTIFICATE_ROW].valueText).toEqual('');
+
+		expect(rows[RELEVANT_PLANNING_PERMISSION_ROW].condition()).toEqual(false);
+		expect(rows[RELEVANT_PLANNING_PERMISSION_ROW].keyText).toEqual(
+			'Uploaded relevant planning permission'
+		);
+		expect(rows[RELEVANT_PLANNING_PERMISSION_ROW].valueText).toEqual('No');
+
+		expect(rows[ENFORCEMENT_NOTICE_ROW].condition()).toEqual(false);
+		expect(rows[ENFORCEMENT_NOTICE_ROW].keyText).toEqual('Uploaded enforcement notice');
+		expect(rows[ENFORCEMENT_NOTICE_ROW].valueText).toEqual('No');
+
+		expect(rows[RELATED_APPLICATIONS_ROW].condition()).toEqual(false);
+		expect(rows[RELATED_APPLICATIONS_ROW].keyText).toEqual('Uploaded related applications');
+		expect(rows[RELATED_APPLICATIONS_ROW].valueText).toEqual('No');
+
+		expect(rows[APPEAL_INVALID_ROW].condition()).toEqual(false);
+		expect(rows[APPEAL_INVALID_ROW].keyText).toEqual('Do you think the appeal is invalid?');
+		expect(rows[APPEAL_INVALID_ROW].valueText).toEqual('');
+
+		expect(rows[APPEAL_INVALID_REASON_ROW].condition()).toEqual(false);
+		expect(rows[APPEAL_INVALID_REASON_ROW].keyText).toEqual(
+			'Reason you think the appeal is invalid'
+		);
+		expect(rows[APPEAL_INVALID_REASON_ROW].valueText).toEqual('');
 	});
 
 	it('should create rows with correct conditions if fields do not exist', () => {
