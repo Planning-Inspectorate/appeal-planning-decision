@@ -129,6 +129,35 @@ const makeConstraintsSectionData = (appealTypeCode) => {
 					makeDocument(APPEAL_DOCUMENT_TYPE.ARTICLE_4_DIRECTION)
 				]
 			};
+		case CASE_TYPES.ENFORCEMENT_LISTED.processCode:
+			return {
+				ListedBuildings: [
+					{ type: LISTED_RELATION_TYPES.affected, listedBuildingReference: 'LB1' },
+					{ type: LISTED_RELATION_TYPES.changed, listedBuildingReference: 'LB2' }
+				],
+				preserveGrantLoan: true,
+				consultHistoricEngland: true,
+				scheduledMonument: true,
+				protectedSpecies: true,
+				areaOutstandingBeauty: true,
+				designatedSitesNames: ['Site A', 'Site B'],
+				gypsyTraveller: true,
+				publicRightOfWay: true,
+				noticeRelatesToBuildingEngineeringMiningOther: true,
+				siteAreaSquareMetres: '23',
+				areaOfAllegedBreachInSquareMetres: 120,
+				floorSpaceCreatedByBreachInSquareMetres: 45,
+				relatesToErectionOfBuildingOrBuildings: true,
+				relatesToBuildingWithAgriculturalPurpose: true,
+				relatesToBuildingSingleDwellingHouse: true,
+				Documents: [
+					...groupBShared.Documents,
+					makeDocument(APPEAL_DOCUMENT_TYPE.HISTORIC_ENGLAND_CONSULTATION),
+					makeDocument(APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT)
+				]
+			};
+		default:
+			return {};
 	}
 };
 
@@ -173,7 +202,21 @@ const makeEiaSectionData = (scheduleType) => {
 	}
 };
 
-const makeNotifiedPartiesSectionData = () => {
+/**
+ * @param {import('@pins/common/src/database/data-static').CASE_TYPE['processCode']} appealTypeCode
+ */
+const makeNotifiedPartiesSectionData = (appealTypeCode) => {
+	if (
+		appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
+		appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode
+	) {
+		return {
+			Documents: [
+				makeDocument(APPEAL_DOCUMENT_TYPE.ENFORCEMENT_LIST),
+				makeDocument(APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION)
+			]
+		};
+	}
 	return {
 		AppealCaseLpaNotificationMethod: [
 			{ id: 1, key: 'advert', name: 'A press advert' },
@@ -283,6 +326,21 @@ const makePlanningOfficerReportSectionData = (appealTypeCode) => {
 					makeDocument(APPEAL_DOCUMENT_TYPE.PLANNING_CONTRAVENTION_NOTICE)
 				]
 			};
+		case CASE_TYPES.ENFORCEMENT_LISTED.processCode:
+			return {
+				infrastructureLevy: true,
+				infrastructureLevyAdopted: true,
+				infrastructureLevyAdoptedDate: '2023-01-01',
+				Documents: [
+					...sharedDocs,
+					makeDocument(APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_POLICIES),
+					makeDocument(APPEAL_DOCUMENT_TYPE.COMMUNITY_INFRASTRUCTURE_LEVY),
+					makeDocument(APPEAL_DOCUMENT_TYPE.LOCAL_DEVELOPMENT_ORDER),
+					makeDocument(APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION),
+					makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
+					makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN)
+				]
+			};
 		case CASE_TYPES.LDC.processCode:
 			return {
 				infrastructureLevy: true,
@@ -356,6 +414,19 @@ const makeAppealProcessSectionData = (appealTypeCode) => {
 				],
 				newConditionDetails: 'example new conditions'
 			};
+
+		case CASE_TYPES.ENFORCEMENT_LISTED.processCode:
+			return {
+				lpaProcedurePreference: 'inquiry',
+				submissionLinkedCases: [
+					{
+						id: '1',
+						fieldName: 'nearbyAppealReference',
+						caseReference: '00000001'
+					}
+				],
+				newConditionDetails: 'example new conditions'
+			};
 	}
 };
 
@@ -373,7 +444,8 @@ const makeCaseTypeRows = (appealTypeCode, section, scheduleType) => {
 			if (
 				appealTypeCode === CASE_TYPES.S78.processCode ||
 				appealTypeCode === CASE_TYPES.S20.processCode ||
-				appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode
+				appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
+				appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode
 			) {
 				return makeEiaSectionData(scheduleType);
 			} else break;
@@ -390,7 +462,9 @@ const makeCaseTypeRows = (appealTypeCode, section, scheduleType) => {
 		default: {
 			if (
 				appealTypeCode === CASE_TYPES.S78.processCode ||
-				appealTypeCode === CASE_TYPES.S20.processCode
+				appealTypeCode === CASE_TYPES.S20.processCode ||
+				appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
+				appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode
 			) {
 				return [
 					makeConstraintsSectionData(appealTypeCode),

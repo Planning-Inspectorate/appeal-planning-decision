@@ -18,7 +18,9 @@ const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 exports.planningOfficerReportRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
-	const isEnforcement = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+	const isEnforcement =
+		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode;
 	const isLDCAppeal = caseData.appealTypeCode === CASE_TYPES.LDC.processCode;
 
 	return [

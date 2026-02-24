@@ -9,6 +9,7 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 exports.consultationRows = (caseData) => {
 	if (
 		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode ||
 		caseData.appealTypeCode === CASE_TYPES.LDC.processCode
 	)
 		return [];

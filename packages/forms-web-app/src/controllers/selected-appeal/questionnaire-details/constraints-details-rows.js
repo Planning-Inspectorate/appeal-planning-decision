@@ -34,6 +34,8 @@ exports.constraintsRows = (caseData) => {
 		caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
 		caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode;
 	const isEnforcementAppeal = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+	const isEnforcementListedAppeal =
+		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode;
 	const isLDCAppeal = caseData.appealTypeCode === CASE_TYPES.LDC.processCode;
 
 	const affectedListedBuildings = caseData.ListedBuildings?.filter(
@@ -102,7 +104,7 @@ exports.constraintsRows = (caseData) => {
 			keyText: 'Affects a scheduled monument',
 			valueText: formatYesOrNo(caseData, 'scheduledMonument'),
 			condition: () =>
-				(isS20orS78 || isAdvertAppeal || isEnforcementAppeal) &&
+				(isS20orS78 || isAdvertAppeal || isEnforcementAppeal || isEnforcementListedAppeal) &&
 				isNotUndefinedOrNull(caseData.scheduledMonument)
 		},
 		{
@@ -139,20 +141,21 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Designated sites',
 			valueText: formatDesignations(caseData),
-			condition: () => isS20orS78 || isAdvertAppeal || isEnforcementAppeal
+			condition: () =>
+				isS20orS78 || isAdvertAppeal || isEnforcementAppeal || isEnforcementListedAppeal
 		},
 		{
 			keyText: 'Tree Preservation Order',
 			valueText: boolToYesNo(
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN)
 			),
-			condition: () => isS20orS78 || isEnforcementAppeal
+			condition: () => isS20orS78 || isEnforcementAppeal || isEnforcementListedAppeal
 		},
 		{
 			keyText: 'Uploaded Tree Preservation Order extent',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			condition: () =>
-				(isS20orS78 || isEnforcementAppeal) &&
+				(isS20orS78 || isEnforcementAppeal || isEnforcementListedAppeal) &&
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			isEscaped: true
 		},
