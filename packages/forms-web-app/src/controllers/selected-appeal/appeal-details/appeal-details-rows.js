@@ -447,7 +447,9 @@ const enforcementDetailsRows = (caseData, userType) => {
 		{
 			keyText: 'Was the application granted or refused?',
 			valueText: mapApplicationDecision(caseData.applicationDecision),
-			condition: (caseData) => isNotUndefinedOrNull(caseData.applicationDecision)
+			condition: (caseData) =>
+				isNotUndefinedOrNull(caseData.applicationDecision) &&
+				caseData.appealTypeCode !== CASE_TYPES.ENFORCEMENT_LISTED.processCode
 		},
 		{
 			keyText:

@@ -867,7 +867,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
 				});
 
-				it(`upserts enforcement case for ${testCase.caseReference}`, async () => {
+				it(`upserts enforcement listed case for ${testCase.caseReference}`, async () => {
 					enforcementListedExample.caseReference = testCase.caseReference;
 					const response = await appealsApi
 						.put(`/api/v2/appeal-cases/` + testCase.caseReference)
@@ -1092,7 +1092,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					}
 				});
 
-				expect(appealCase?.EnforcementAppealGroundsDetails.length).toBe(2); // the number of appeal ground details in example json
+				expect(appealCase?.EnforcementAppealGroundsDetails.length).toBe(3); // the number of appeal ground details in example json
 				expect(
 					appealCase?.ListedBuildings.filter((x) => x.type === LISTED_RELATION_TYPES.affected)
 						.length

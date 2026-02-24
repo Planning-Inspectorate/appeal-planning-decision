@@ -575,46 +575,27 @@ class AppealCaseRepository {
 			}
 		});
 
-		// appeal grounds details logic: overwrite enforcementAppealGroundsDetails only if applicationElbAppealGroundsDetails exist
-		if (applicationElbAppealGroundsDetails?.length) {
-			await this.dbClient.$transaction(async (tx) => {
-				// delete all existing
-				await tx.enforcementAppealGroundsDetails.deleteMany({
-					where: {
-						caseReference
-					}
-				});
+		const appealGroundsDetails = applicationElbAppealGroundsDetails?.length
+			? applicationElbAppealGroundsDetails
+			: enforcementAppealGroundsDetails;
 
-				// add all ground details from applicationElbAppealGroundsDetails
+		await this.dbClient.$transaction(async (tx) => {
+			// Always clear existing records for this caseReference
+			await tx.enforcementAppealGroundsDetails.deleteMany({
+				where: { caseReference }
+			});
+
+			if (appealGroundsDetails?.length) {
 				await tx.enforcementAppealGroundsDetails.createMany({
-					data: applicationElbAppealGroundsDetails.map((detail) => ({
+					data: appealGroundsDetails.map((detail) => ({
 						caseReference,
 						appealGroundLetter: detail.appealGroundLetter,
 						groundForAppealStartDate: detail.groundForAppealStartDate,
 						groundFacts: detail.groundFacts
 					}))
 				});
-			});
-		} else if (enforcementAppealGroundsDetails?.length) {
-			await this.dbClient.$transaction(async (tx) => {
-				// delete all existing
-				await tx.enforcementAppealGroundsDetails.deleteMany({
-					where: {
-						caseReference
-					}
-				});
-
-				// add all ground details from enforcementAppealGroundsDetails
-				await tx.enforcementAppealGroundsDetails.createMany({
-					data: enforcementAppealGroundsDetails.map((detail) => ({
-						caseReference,
-						appealGroundLetter: detail.appealGroundLetter,
-						groundForAppealStartDate: detail.groundForAppealStartDate,
-						groundFacts: detail.groundFacts
-					}))
-				});
-			});
-		}
+			}
+		});
 	}
 
 	/**

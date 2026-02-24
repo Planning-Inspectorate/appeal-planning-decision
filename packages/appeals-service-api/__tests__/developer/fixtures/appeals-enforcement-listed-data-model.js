@@ -26,12 +26,14 @@ const exampleEnforcementListedDataModel = {
 			appealGroundLetter: 'k',
 			groundForAppealStartDate: '2023-07-27T20:30:00.000Z',
 			groundFacts: 'facts for ground k'
+		},
+		{
+			appealGroundLetter: 'a',
+			groundForAppealStartDate: '2023-07-27T20:30:00.000Z',
+			groundFacts: 'facts for ground 1'
 		}
 	],
 	noticeRelatesToBuildingEngineeringMiningOther: true,
-	changeOfUseRefuseOrWaste: true,
-	changeOfUseMineralExtraction: true,
-	changeOfUseMineralStorage: true,
 	relatesToErectionOfBuildingOrBuildings: true,
 	relatesToBuildingWithAgriculturalPurpose: true,
 	relatesToBuildingSingleDwellingHouse: true,
