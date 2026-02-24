@@ -23,11 +23,14 @@ exports.environmentalRows = (caseData) => {
 	const isS78OrS20OrEnforcementAppeal =
 		caseData.appealTypeCode === CASE_TYPES.S20.processCode ||
 		caseData.appealTypeCode === CASE_TYPES.S78.processCode ||
-		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode;
 
 	if (!isS78OrS20OrEnforcementAppeal) return [];
 
-	const isEnforcement = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+	const isEnforcement =
+		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
+		caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode;
 
 	const isSchedule1 =
 		caseData.environmentalImpactSchedule === APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE.SCHEDULE_1;

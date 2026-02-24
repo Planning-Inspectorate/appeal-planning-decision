@@ -17,6 +17,10 @@ describe('constraintsRows', () => {
 		CASE_TYPES.ENFORCEMENT.processCode,
 		'constraints'
 	);
+	const enforcementListedLPAQData = caseTypeLPAQFactory(
+		CASE_TYPES.ENFORCEMENT_LISTED.processCode,
+		'constraints'
+	);
 
 	const sharedHasCasRows = [
 		{ title: 'Affects a listed building', value: 'Yes' },
@@ -181,6 +185,55 @@ describe('constraintsRows', () => {
 		{ title: 'Article 4 affected development rights', value: 'article 4 direction' }
 	];
 
+	const expectedRowsEnforcementListed = [
+		{
+			title:
+				'Is an enforcement listed building and conservation area appeal the correct type of appeal?',
+			value: 'Yes'
+		},
+		{ title: 'Changes a listed building', value: 'Yes' },
+		{ title: 'Listed building details', value: 'LB2' },
+		{ title: 'Affects a listed building', value: 'Yes' },
+		{ title: 'Listed building details', value: 'LB1' },
+		{
+			title: 'Was a grant or loan made to preserve the listed building at the appeal site?',
+			value: 'Yes'
+		},
+		{ title: 'Was Historic England consulted?', value: 'Yes' },
+		{
+			title: 'Uploaded consultation with Historic England',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Affects a scheduled monument', value: 'Yes' },
+		{ title: 'Conservation area', value: 'Yes' },
+		{
+			title: 'Uploaded conservation area map and guidance',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Protected species', value: 'Yes' },
+		{ title: 'Green belt', value: 'Yes' },
+		{ title: 'Is the site in a national landscape?', value: 'Yes' },
+		{ title: 'Designated sites', value: 'Site A\nSite B' },
+		{ title: 'Tree Preservation Order', value: 'Yes' },
+		{
+			title: 'Uploaded Tree Preservation Order extent',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Gypsy or Traveller', value: 'Yes' },
+		{ title: 'Public right of way', value: 'Yes' },
+		{
+			title: 'Uploaded definitive map and statement extract',
+			value: 'name.pdf - awaiting review'
+		},
+		{ title: 'Notice relates to Building engineering, mining or other', value: 'Yes' },
+		{ title: 'Total site area', value: '23 m\u00B2' },
+		{ title: 'Has alleged breach area', value: '120 m\u00B2' },
+		{ title: 'Does alleged breach creates floor space', value: '45 m\u00B2' },
+		{ title: 'Relates to Erection of building or buildings', value: 'Yes' },
+		{ title: 'Relates to building with agricultural purpose', value: 'Yes' },
+		{ title: 'Relates to building single dwelling house', value: 'Yes' }
+	];
+
 	it.each([
 		['HAS', hasLPAQData, expectedRowsHas],
 		['CAS Planning', casPlanningLPAQData, expectedRowsCasPlanning],
@@ -189,7 +242,8 @@ describe('constraintsRows', () => {
 		['Adverts', advertsLPAQData, expectedRowsAdverts],
 		['CAS Adverts', casAdvertsLPAQData, expectedRowsCasAdverts],
 		['LDC', ldcLPAQData, expectedRowsLDC],
-		['Enforcement', enforcementLPAQData, expectedRowsEnforcement]
+		['Enforcement', enforcementLPAQData, expectedRowsEnforcement],
+		['Enforcement Listed', enforcementListedLPAQData, expectedRowsEnforcementListed]
 	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
 		const visibleRows = constraintsRows(caseData)
 			.filter((row) => row.condition(caseData))

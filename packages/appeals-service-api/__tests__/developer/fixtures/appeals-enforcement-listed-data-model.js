@@ -36,10 +36,7 @@ const exampleEnforcementListedDataModel = {
 	noticeRelatesToBuildingEngineeringMiningOther: true,
 	relatesToErectionOfBuildingOrBuildings: true,
 	relatesToBuildingWithAgriculturalPurpose: true,
-	relatesToBuildingSingleDwellingHouse: true,
-	affectedTrunkRoadName: 'trunk road name',
-	isSiteOnCrownLand: true,
-	article4AffectedDevelopmentRights: 'development rights removed'
+	relatesToBuildingSingleDwellingHouse: true
 };
 
 module.exports = { exampleEnforcementListedDataModel };

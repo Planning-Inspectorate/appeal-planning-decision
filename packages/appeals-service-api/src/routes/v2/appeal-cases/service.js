@@ -457,13 +457,11 @@ const getEnforcementListedLPAQFields = (dataModel) => {
 	return {
 		noticeRelatesToBuildingEngineeringMiningOther:
 			dataModel.noticeRelatesToBuildingEngineeringMiningOther,
-		doesAllegedBreachCreateFloorSpace: dataModel.doesAllegedBreachCreateFloorSpace,
+		areaOfAllegedBreachInSquareMetres: dataModel.areaOfAllegedBreachInSquareMetres,
+		floorSpaceCreatedByBreachInSquareMetres: dataModel.floorSpaceCreatedByBreachInSquareMetres,
 		relatesToErectionOfBuildingOrBuildings: dataModel.relatesToErectionOfBuildingOrBuildings,
 		relatesToBuildingWithAgriculturalPurpose: dataModel.relatesToBuildingWithAgriculturalPurpose,
-		relatesToBuildingSingleDwellingHouse: dataModel.relatesToBuildingSingleDwellingHouse,
-		affectedTrunkRoadName: dataModel.affectedTrunkRoadName,
-		isSiteOnCrownLand: dataModel.isSiteOnCrownLand,
-		article4AffectedDevelopmentRights: dataModel.article4AffectedDevelopmentRights
+		relatesToBuildingSingleDwellingHouse: dataModel.relatesToBuildingSingleDwellingHouse
 	};
 };
 

@@ -27,6 +27,10 @@ describe('planningOfficerReportRows', () => {
 		CASE_TYPES.ENFORCEMENT.processCode,
 		'planningOfficersReport'
 	);
+	const enforcementListedLPAQData = caseTypeLPAQFactory(
+		CASE_TYPES.ENFORCEMENT_LISTED.processCode,
+		'planningOfficersReport'
+	);
 
 	const expectedRowsHas = [
 		{
@@ -128,7 +132,9 @@ describe('planningOfficerReportRows', () => {
 		{ title: 'Uploaded other relevant matters', value: 'name.pdf - awaiting review' }
 	];
 	const expectedRowsEnforcementBase = expectedRowsS78.filter(
-		(row) => row.title !== 'Emerging plan'
+		(row) =>
+			row.title !== 'Emerging plan' &&
+			row.title !== 'Uploaded emerging plan and supporting information'
 	);
 	const expectedRowsEnforcement = [
 		...expectedRowsEnforcementBase,
@@ -154,6 +160,10 @@ describe('planningOfficerReportRows', () => {
 		}
 	];
 
+	const expectedRowsEnforcementListed = expectedRowsEnforcement.filter(
+		(row) => row.title !== 'Uploaded planning contravention notice'
+	);
+
 	it.each([
 		['HAS', hasLPAQData, expectedRowsHas],
 		['CAS Planning', casPlanningLPAQData, expectedCasPlanningRows],
@@ -162,7 +172,8 @@ describe('planningOfficerReportRows', () => {
 		['Adverts', advertsLPAQData, expectedRowsAdverts],
 		['CAS Adverts', casAdvertsLPAQData, expectedRowsAdverts],
 		['LDC', ldcLPAQData, expectedRowsLDC],
-		['Enforcement', enforcementLPAQData, expectedRowsEnforcement]
+		['Enforcement', enforcementLPAQData, expectedRowsEnforcement],
+		['Enforcement Listed', enforcementListedLPAQData, expectedRowsEnforcementListed]
 	])(`should create correct rows for appeal type %s`, (_, caseData, expectedRows) => {
 		const visibleRows = planningOfficerReportRows(caseData)
 			.filter((row) => row.condition(caseData))

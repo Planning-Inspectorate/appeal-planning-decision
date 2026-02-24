@@ -72,6 +72,82 @@ describe('makeConstraintsSectionData', () => {
 		]
 	};
 
+	const expectedEnforcementListedConstraints = {
+		ListedBuildings: [
+			{ type: LISTED_RELATION_TYPES.affected, listedBuildingReference: 'LB1' },
+			{ type: LISTED_RELATION_TYPES.changed, listedBuildingReference: 'LB2' }
+		],
+		preserveGrantLoan: true,
+		consultHistoricEngland: true,
+		scheduledMonument: true,
+		protectedSpecies: true,
+		areaOutstandingBeauty: true,
+		designatedSitesNames: ['Site A', 'Site B'],
+		gypsyTraveller: true,
+		publicRightOfWay: true,
+		noticeRelatesToBuildingEngineeringMiningOther: true,
+		siteAreaSquareMetres: '23',
+		areaOfAllegedBreachInSquareMetres: 120,
+		floorSpaceCreatedByBreachInSquareMetres: 45,
+		relatesToErectionOfBuildingOrBuildings: true,
+		relatesToBuildingWithAgriculturalPurpose: true,
+		relatesToBuildingSingleDwellingHouse: true,
+		Documents: [
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'conservationMap'
+			},
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'treePreservationPlan'
+			},
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'historicEnglandConsultation'
+			},
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'definitiveMapStatement'
+			}
+		]
+	};
+
 	test.each([
 		['HAS', CASE_TYPES.HAS.processCode, expectedHasConstraints],
 		['CAS_PLANNING', CASE_TYPES.CAS_PLANNING.processCode, expectedHasConstraints],
@@ -122,6 +198,11 @@ describe('makeConstraintsSectionData', () => {
 					}
 				]
 			}
+		],
+		[
+			'ENFORCEMENT_LISTED',
+			CASE_TYPES.ENFORCEMENT_LISTED.processCode,
+			expectedEnforcementListedConstraints
 		]
 	])('returns expected constraints for %s', (_label, input, expected) => {
 		expect(makeConstraintsSectionData(input)).toEqual(expected);
@@ -346,8 +427,43 @@ describe('makeNotifiedPartiesSectionData', () => {
 		]
 	};
 
-	test('returns expected output for %s', () => {
-		expect(makeNotifiedPartiesSectionData()).toEqual(expectedData);
+	const expectedEnforcementData = {
+		Documents: [
+			{
+				caseReference: '0000001',
+				dateCreated: '2023-01-01',
+				documentType: 'enforcementList',
+				documentURI: '',
+				filename: 'name.pdf',
+				id: '',
+				origin: '',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				sourceSystem: '',
+				stage: ''
+			},
+			{
+				caseReference: '0000001',
+				dateCreated: '2023-01-01',
+				documentType: 'appealNotification',
+				documentURI: '',
+				filename: 'name.pdf',
+				id: '',
+				origin: '',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				sourceSystem: '',
+				stage: ''
+			}
+		]
+	};
+
+	test.each([
+		['S78', CASE_TYPES.S78.processCode, expectedData],
+		['ENFORCEMENT_LISTED', CASE_TYPES.ENFORCEMENT_LISTED.processCode, expectedEnforcementData],
+		['ENFORCEMENT', CASE_TYPES.ENFORCEMENT.processCode, expectedEnforcementData]
+	])('returns expected output for %s', (_label, input, expected) => {
+		expect(makeNotifiedPartiesSectionData(input)).toEqual(expected);
 	});
 });
 
@@ -406,7 +522,8 @@ describe('makeConsultationResponsesSectionData', () => {
 		['S78', CASE_TYPES.S78.processCode, expectedS78],
 		['HAS', CASE_TYPES.HAS.processCode, expectedHas],
 		['S20', CASE_TYPES.S20.processCode, expectedS78],
-		['CAS_PLANNING', CASE_TYPES.CAS_PLANNING.processCode, expectedHas]
+		['CAS_PLANNING', CASE_TYPES.CAS_PLANNING.processCode, expectedHas],
+		['ENFORCEMENT_LISTED', CASE_TYPES.ENFORCEMENT_LISTED.processCode, []]
 	])('returns expected output for %s', (_label, input, expected) => {
 		expect(makeConsultationResponsesSectionData(input)).toEqual(expected);
 	});
@@ -495,6 +612,131 @@ describe('makePlanningOfficerReportSectionData', () => {
 				stage: '',
 				dateCreated: '2023-01-01',
 				documentType: 'otherRelevantPolicies'
+			}
+		]
+	};
+
+	const expectedEnforcementListed = {
+		infrastructureLevy: true,
+		infrastructureLevyAdopted: true,
+		infrastructureLevyAdoptedDate: '2023-01-01',
+		Documents: [
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'planningOfficerReport'
+			},
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'developmentPlanPolicies'
+			},
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'supplementaryPlanning'
+			},
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'otherRelevantPolicies'
+			},
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'communityInfrastructureLevy'
+			},
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'localDevelopmentOrder'
+			},
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'planningPermission'
+			},
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'lpaEnforcementNotice'
+			},
+			{
+				id: '',
+				filename: 'name.pdf',
+				originalFilename: 'nameOg.pdf',
+				size: 100000,
+				documentURI: '',
+				sourceSystem: '',
+				caseReference: '0000001',
+				origin: '',
+				stage: '',
+				dateCreated: '2023-01-01',
+				documentType: 'lpaEnforcementNoticePlan'
 			}
 		]
 	};
@@ -630,7 +872,8 @@ describe('makePlanningOfficerReportSectionData', () => {
 		['S78', CASE_TYPES.S78.processCode, expectedS78],
 		['HAS', CASE_TYPES.HAS.processCode, expectedHas],
 		['S20', CASE_TYPES.S20.processCode, expectedS78],
-		['CAS_PLANNING', CASE_TYPES.CAS_PLANNING.processCode, expectedCasPlanning]
+		['CAS_PLANNING', CASE_TYPES.CAS_PLANNING.processCode, expectedCasPlanning],
+		['ENFORCEMENT_LISTED', CASE_TYPES.ENFORCEMENT_LISTED.processCode, expectedEnforcementListed]
 	])('returns expected output for %s', (_label, input, expected) => {
 		expect(makePlanningOfficerReportSectionData(input)).toEqual(expected);
 	});
@@ -690,7 +933,8 @@ describe('makeAppealProcessSectionData', () => {
 		['HAS', CASE_TYPES.HAS.processCode, expectedHasAndCasPlanning],
 		['CAS_PLANNING', CASE_TYPES.CAS_PLANNING.processCode, expectedHasAndCasPlanning],
 		['S78', CASE_TYPES.S78.processCode, expectedS78AndS20],
-		['S20', CASE_TYPES.S20.processCode, expectedS78AndS20]
+		['S20', CASE_TYPES.S20.processCode, expectedS78AndS20],
+		['ENFORCEMENT_LISTED', CASE_TYPES.ENFORCEMENT_LISTED.processCode, expectedS78AndS20]
 	])('returns expected output for %s', (_label, input, expected) => {
 		expect(makeAppealProcessSectionData(input)).toEqual(expected);
 	});
