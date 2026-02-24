@@ -470,6 +470,28 @@ describe('BackOfficeV2Service', () => {
 			expect(markLPAFinalCommentAsSubmitted).toHaveBeenCalledWith(testCaseRef, expect.any(String));
 			expect(sendLPAFinalCommentSubmissionEmailToLPAV2).toHaveBeenCalledWith(finalComment);
 		});
+
+		it('should NOT submit LPA final comment if lpaFinalCommentSubmission.lpaFinalComment is false', async () => {
+			const finalComment = {
+				AppealCase: {
+					id: 'a1',
+					appealTypeCode: 'S78'
+				},
+				lpaFinalComment: false
+			};
+
+			getLPAFinalCommentByAppealId.mockResolvedValue(finalComment);
+
+			await backOfficeV2Service.submitLPAFinalCommentSubmission(
+				testCaseRef,
+				mockAppealFinalCommentFormatter
+			);
+
+			// Should not call forwarders.representation
+			expect(forwarders.representation).not.toHaveBeenCalled();
+			// Should still mark as submitted
+			expect(markLPAFinalCommentAsSubmitted).toHaveBeenCalledWith(testCaseRef, expect.any(String));
+		});
 	});
 
 	describe('submitLpaProofEvidenceSubmission', () => {
@@ -582,6 +604,32 @@ describe('BackOfficeV2Service', () => {
 				).rejects.toThrow(`cannot find appellant service user`);
 			}
 		);
+
+		it('should NOT submit appellant final comment if appellantFinalCommentSubmission.appellantFinalComment is false', async () => {
+			const finalComment = {
+				AppealCase: {
+					id: 'a1',
+					appealTypeCode: 'S78'
+				},
+				appellantFinalComment: false
+			};
+
+			getAppellantFinalCommentByAppealId.mockResolvedValue(finalComment);
+
+			await backOfficeV2Service.submitAppellantFinalCommentSubmission(
+				testCaseRef,
+				testUserID,
+				mockAppealFinalCommentFormatter
+			);
+
+			// Should not call forwarders.representation
+			expect(forwarders.representation).not.toHaveBeenCalled();
+			// Should still mark as submitted
+			expect(markAppellantFinalCommentAsSubmitted).toHaveBeenCalledWith(
+				testCaseRef,
+				expect.any(String)
+			);
+		});
 	});
 
 	describe('submitAppellantProofEvidenceSubmission', () => {
