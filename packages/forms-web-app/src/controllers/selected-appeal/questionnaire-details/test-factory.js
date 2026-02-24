@@ -1,7 +1,8 @@
 const { CASE_TYPES, LISTED_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const {
 	APPEAL_DOCUMENT_TYPE,
-	APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE
+	APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE,
+	APPEAL_APPEAL_UNDER_ACT_SECTION
 } = require('@planning-inspectorate/data-model');
 
 /** @param {string} type */
@@ -87,8 +88,15 @@ const makeConstraintsSectionData = (appealTypeCode) => {
 			};
 		case CASE_TYPES.LDC.processCode:
 			return {
-				...groupBShared,
-				Documents: [...groupBShared.Documents]
+				isCorrectAppealType: true,
+				appealUnderActSection: APPEAL_APPEAL_UNDER_ACT_SECTION.EXISTING_DEVELOPMENT,
+				lpaConsiderAppealInvalid: true,
+				lpaAppealInvalidReasons: 'test',
+				Documents: [
+					makeDocument(APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION),
+					makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
+					makeDocument(APPEAL_DOCUMENT_TYPE.RELATED_APPLICATIONS)
+				]
 			};
 		case CASE_TYPES.ENFORCEMENT.processCode:
 			return {
@@ -273,6 +281,19 @@ const makePlanningOfficerReportSectionData = (appealTypeCode) => {
 					makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
 					makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE_PLAN),
 					makeDocument(APPEAL_DOCUMENT_TYPE.PLANNING_CONTRAVENTION_NOTICE)
+				]
+			};
+		case CASE_TYPES.LDC.processCode:
+			return {
+				infrastructureLevy: true,
+				infrastructureLevyAdopted: true,
+				infrastructureLevyAdoptedDate: '2023-01-01',
+				Documents: [
+					makeDocument(APPEAL_DOCUMENT_TYPE.PLANNING_OFFICER_REPORT),
+					makeDocument(APPEAL_DOCUMENT_TYPE.COMMUNITY_INFRASTRUCTURE_LEVY),
+					makeDocument(APPEAL_DOCUMENT_TYPE.PLANNING_PERMISSION),
+					makeDocument(APPEAL_DOCUMENT_TYPE.LPA_ENFORCEMENT_NOTICE),
+					makeDocument(APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_MATTERS)
 				]
 			};
 		default:

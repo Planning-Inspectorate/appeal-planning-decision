@@ -52,7 +52,7 @@ describe('consultationRows', () => {
 		}
 	];
 
-	const expectedRowsLDC = [{ title: 'Representations from other parties', value: 'No' }];
+	const expectedRowsLDC = [];
 
 	it.each([
 		['HAS', hasLPAQData, expectedRowsHas],
