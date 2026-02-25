@@ -1,8 +1,9 @@
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const crypto = require('crypto');
+const crypto = require('node:crypto');
 const {
 	createTestAppealCase
 } = require('../../../../../../../__tests__/developer/fixtures/appeals-case-data');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 let validUser = '';
 const validLpa = 'Q9999';
@@ -65,115 +66,9 @@ module.exports = ({
 		return appeal.AppealCase?.caseReference;
 	};
 
-	const testCasesNoDocs = [
-		{
-			id: '003',
-			type: 'S78',
-			formattedComment: {
-				caseReference: '003',
-				representation: 'This is a test comment',
-				representationSubmittedDate: expect.any(String),
-				representationType: 'final_comment',
-				lpaCode: 'Q9999',
-				documents: []
-			}
-		},
-		{
-			id: '015',
-			type: 'S20',
-			formattedComment: {
-				caseReference: '015',
-				representation: 'This is a test comment',
-				representationSubmittedDate: expect.any(String),
-				representationType: 'final_comment',
-				lpaCode: 'Q9999',
-				documents: []
-			}
-		},
-		{
-			id: '017',
-			type: 'ADVERTS',
-			formattedComment: {
-				caseReference: '017',
-				representation: 'This is a test comment',
-				representationSubmittedDate: expect.any(String),
-				representationType: 'final_comment',
-				lpaCode: 'Q9999',
-				documents: []
-			}
-		}
-	];
-	const testCasesWithDocs = [
-		{
-			id: '004',
-			type: 'S78',
-			formattedComment: {
-				caseReference: '004',
-				representation: 'Another final comment text for lpa case 004',
-				representationSubmittedDate: expect.any(String),
-				representationType: 'final_comment',
-				lpaCode: 'Q9999',
-				documents: [
-					{
-						dateCreated: expect.any(String),
-						documentId: expect.any(String),
-						documentType: 'lpaFinalComment',
-						documentURI: 'https://example.com',
-						filename: 'doc.pdf',
-						mime: 'doc',
-						originalFilename: 'mydoc.pdf',
-						size: 10293
-					}
-				]
-			}
-		},
-		{
-			id: '016',
-			type: 'S20',
-			formattedComment: {
-				caseReference: '016',
-				representation: 'Another final comment text for lpa case 016',
-				representationSubmittedDate: expect.any(String),
-				representationType: 'final_comment',
-				lpaCode: 'Q9999',
-				documents: [
-					{
-						dateCreated: expect.any(String),
-						documentId: expect.any(String),
-						documentType: 'lpaFinalComment',
-						documentURI: 'https://example.com',
-						filename: 'doc.pdf',
-						mime: 'doc',
-						originalFilename: 'mydoc.pdf',
-						size: 10293
-					}
-				]
-			}
-		},
-		{
-			id: '018',
-			type: 'ADVERTS',
-			formattedComment: {
-				caseReference: '018',
-				representation: 'Another final comment text for lpa case 018',
-				representationSubmittedDate: expect.any(String),
-				representationType: 'final_comment',
-				lpaCode: 'Q9999',
-				documents: [
-					{
-						dateCreated: expect.any(String),
-						documentId: expect.any(String),
-						documentType: 'lpaFinalComment',
-						documentURI: 'https://example.com',
-						filename: 'doc.pdf',
-						mime: 'doc',
-						originalFilename: 'mydoc.pdf',
-						size: 10293
-					}
-				]
-			}
-		}
-	];
+	const appealTypes = Object.values(CASE_TYPES)
+		.filter((caseType) => !caseType.expedited)
+		.map((caseType) => caseType.processCode);
 
 	describe('/api/v2/appeal-cases/:caseReference/lpa-final-comment-submission/submit', () => {
 		const expectEmail = (email, appealReferenceNumber) => {
@@ -194,29 +89,65 @@ module.exports = ({
 			);
 			mockNotifyClient.sendEmail.mockClear();
 		};
-		it.each(testCasesNoDocs)('Formats lpa final comment submission without docs', async (test) => {
-			await createAppeal(test.id, test.type);
-			setCurrentLpa(validLpa);
-			setCurrentSub(validUser);
-			const lpaFinalCommentData = {
-				lpaFinalComment: true,
-				lpaFinalCommentDetails: 'This is a test comment',
-				lpaFinalCommentDocuments: false
+
+		it.each(appealTypes)(
+			'Formats lpa final comment submission without docs %s',
+			async (caseType) => {
+				const id = crypto.randomUUID();
+				const finalComment = {
+					caseReference: id,
+					representation: 'This is a test comment',
+					representationSubmittedDate: expect.any(String),
+					representationType: 'final_comment',
+					lpaCode: 'Q9999',
+					documents: []
+				};
+
+				await createAppeal(id, caseType);
+				setCurrentLpa(validLpa);
+				setCurrentSub(validUser);
+				const lpaFinalCommentData = {
+					lpaFinalComment: true,
+					lpaFinalCommentDetails: 'This is a test comment',
+					lpaFinalCommentDocuments: false
+				};
+				await appealsApi
+					.post(`/api/v2/appeal-cases/${id}/lpa-final-comment-submission`)
+					.send(lpaFinalCommentData);
+				await appealsApi
+					.post(`/api/v2/appeal-cases/${id}/lpa-final-comment-submission/submit`)
+					.expect(200);
+				expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
+					'appeal-fo-representation-submission',
+					[finalComment],
+					'Create'
+				);
+				expectEmail('lpa@example.com', id);
+			}
+		);
+
+		it.each(appealTypes)('Formats lpa final comment submission with docs %s', async (caseType) => {
+			const id = crypto.randomUUID();
+			const finalComment = {
+				caseReference: id,
+				representation: 'This is a test comment',
+				representationSubmittedDate: expect.any(String),
+				representationType: 'final_comment',
+				lpaCode: 'Q9999',
+				documents: [
+					{
+						dateCreated: expect.any(String),
+						documentId: expect.any(String),
+						documentType: 'lpaFinalComment',
+						documentURI: 'https://example.com',
+						filename: 'doc.pdf',
+						mime: 'doc',
+						originalFilename: 'mydoc.pdf',
+						size: 10293
+					}
+				]
 			};
-			await appealsApi
-				.post(`/api/v2/appeal-cases/${test.id}/lpa-final-comment-submission`)
-				.send(lpaFinalCommentData);
-			await appealsApi
-				.post(`/api/v2/appeal-cases/${test.id}/lpa-final-comment-submission/submit`)
-				.expect(200);
-			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
-				'appeal-fo-representation-submission',
-				[test.formattedComment],
-				'Create'
-			);
-			expectEmail('lpa@example.com', test.id);
-		});
-		it.each(testCasesWithDocs)('Formats lpa final comment submission with docs', async (test) => {
+
 			mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
 				return async () => ({
 					lastModified: '2024-03-01T14:48:35.847Z',
@@ -230,17 +161,17 @@ module.exports = ({
 				});
 			});
 
-			await createAppeal(test.id, test.type);
+			await createAppeal(id, caseType);
 			setCurrentLpa(validLpa);
 			setCurrentSub(validUser);
 			const lpaFinalCommentData = {
 				lpaFinalComment: true,
-				lpaFinalCommentDetails: `Another final comment text for lpa case ${test.id}`,
+				lpaFinalCommentDetails: `This is a test comment`,
 				lpaFinalCommentDocuments: true,
 				uploadLPAFinalCommentDocuments: true
 			};
 			const result = await appealsApi
-				.post(`/api/v2/appeal-cases/${test.id}/lpa-final-comment-submission`)
+				.post(`/api/v2/appeal-cases/${id}/lpa-final-comment-submission`)
 				.send(lpaFinalCommentData);
 			await sqlClient.submissionDocumentUpload.create({
 				data: {
@@ -255,14 +186,14 @@ module.exports = ({
 				}
 			});
 			await appealsApi
-				.post(`/api/v2/appeal-cases/${test.id}/lpa-final-comment-submission/submit`)
+				.post(`/api/v2/appeal-cases/${id}/lpa-final-comment-submission/submit`)
 				.expect(200);
 			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
 				'appeal-fo-representation-submission',
-				[test.formattedComment],
+				[finalComment],
 				'Create'
 			);
-			expectEmail('lpa@example.com', test.id);
+			expectEmail('lpa@example.com', id);
 		});
 
 		it('404s if the final comment submission cannot be found', async () => {

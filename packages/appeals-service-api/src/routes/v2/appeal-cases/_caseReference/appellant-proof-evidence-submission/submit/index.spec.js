@@ -5,6 +5,7 @@ const config = require('../../../../../../configuration/config');
 const {
 	createTestAppealCase
 } = require('../../../../../../../__tests__/developer/fixtures/appeals-case-data');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /**
  * @type {string}
@@ -85,7 +86,9 @@ module.exports = ({
 		});
 	};
 
-	const appealTypes = ['S78', 'S20'];
+	const appealTypes = Object.values(CASE_TYPES)
+		.filter((caseType) => !caseType.expedited)
+		.map((caseType) => caseType.processCode);
 
 	describe('/api/v2/appeal-cases/:caseReference/appellant-proof-evidence-submission/submit', () => {
 		const expectEmails = (/** @type {string} */ caseRef) => {

@@ -1,5 +1,6 @@
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const crypto = require('crypto');
 const {
@@ -75,7 +76,9 @@ module.exports = ({
 		});
 	};
 
-	const appealTypes = ['S78', 'S20', 'ADVERTS'];
+	const appealTypes = Object.values(CASE_TYPES)
+		.filter((caseType) => !caseType.expedited)
+		.map((caseType) => caseType.processCode);
 
 	describe('/api/v2/appeal-cases/:caseReference/appellant-final-comment-submissions/submit', () => {
 		const expectEmail = (email, appealReferenceNumber) => {
