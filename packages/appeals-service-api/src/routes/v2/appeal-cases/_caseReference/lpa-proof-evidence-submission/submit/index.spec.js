@@ -4,6 +4,7 @@ const {
 	createTestAppealCase
 } = require('../../../../../../../__tests__/developer/fixtures/appeals-case-data');
 const config = require('../../../../../../configuration/config');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 let validUser = '';
 const validLpa = 'Q9999';
@@ -64,122 +65,9 @@ module.exports = ({
 		return appeal.AppealCase?.caseReference;
 	};
 
-	const testCasesWith1DocType = [
-		{
-			id: '007',
-			type: 'S78',
-			formattedStatement: {
-				caseReference: '007',
-				representation: null,
-				representationSubmittedDate: expect.any(String),
-				representationType: 'proofs_evidence',
-				lpaCode: 'Q9999',
-				documents: [
-					{
-						dateCreated: expect.any(String),
-						documentId: expect.any(String),
-						documentType: 'lpaProofOfEvidence',
-						documentURI: 'https://example.com',
-						filename: 'doc.pdf',
-						mime: 'doc',
-						originalFilename: 'mydoc.pdf',
-						size: 10293
-					}
-				]
-			}
-		},
-		{
-			id: '013',
-			type: 'S20',
-			formattedStatement: {
-				caseReference: '013',
-				representation: null,
-				representationSubmittedDate: expect.any(String),
-				representationType: 'proofs_evidence',
-				lpaCode: 'Q9999',
-				documents: [
-					{
-						dateCreated: expect.any(String),
-						documentId: expect.any(String),
-						documentType: 'lpaProofOfEvidence',
-						documentURI: 'https://example.com',
-						filename: 'doc.pdf',
-						mime: 'doc',
-						originalFilename: 'mydoc.pdf',
-						size: 10293
-					}
-				]
-			}
-		}
-	];
-	const testCasesWith2DocTypes = [
-		{
-			id: '008',
-			type: 'S78',
-			formattedStatement: {
-				caseReference: '008',
-				representation: null,
-				representationSubmittedDate: expect.any(String),
-				representationType: 'proofs_evidence',
-				lpaCode: 'Q9999',
-				documents: expect.arrayContaining([
-					{
-						dateCreated: expect.any(String),
-						documentId: expect.any(String),
-						documentType: 'lpaProofOfEvidence',
-						documentURI: 'https://example.com',
-						filename: 'doc.pdf',
-						mime: 'doc',
-						originalFilename: 'mydoc.pdf',
-						size: 10293
-					},
-					{
-						dateCreated: expect.any(String),
-						documentId: expect.any(String),
-						documentType: 'lpaWitnessesEvidence',
-						documentURI: 'https://example.com',
-						filename: 'doc.pdf',
-						mime: 'doc',
-						originalFilename: 'mydoc.pdf',
-						size: 10293
-					}
-				])
-			}
-		},
-		{
-			id: '014',
-			type: 'S20',
-			formattedStatement: {
-				caseReference: '014',
-				representation: null,
-				representationSubmittedDate: expect.any(String),
-				representationType: 'proofs_evidence',
-				lpaCode: 'Q9999',
-				documents: expect.arrayContaining([
-					{
-						dateCreated: expect.any(String),
-						documentId: expect.any(String),
-						documentType: 'lpaProofOfEvidence',
-						documentURI: 'https://example.com',
-						filename: 'doc.pdf',
-						mime: 'doc',
-						originalFilename: 'mydoc.pdf',
-						size: 10293
-					},
-					{
-						dateCreated: expect.any(String),
-						documentId: expect.any(String),
-						documentType: 'lpaWitnessesEvidence',
-						documentURI: 'https://example.com',
-						filename: 'doc.pdf',
-						mime: 'doc',
-						originalFilename: 'mydoc.pdf',
-						size: 10293
-					}
-				])
-			}
-		}
-	];
+	const appealTypes = Object.values(CASE_TYPES)
+		.filter((caseType) => !caseType.expedited)
+		.map((caseType) => caseType.processCode);
 
 	describe('/api/v2/appeal-cases/:caseReference/lpa-proof-evidence-submission/submit', () => {
 		const expectEmail = (email, appealReferenceNumber) => {
@@ -198,9 +86,31 @@ module.exports = ({
 			);
 			mockNotifyClient.sendEmail.mockClear();
 		};
-		it.each(testCasesWith1DocType)(
-			'Formats lpa proof of evidence submission with 1 doc type',
-			async (test) => {
+
+		it.each(appealTypes)(
+			'Formats lpa proof of evidence submission with 1 doc type %s',
+			async (caseType) => {
+				const id = crypto.randomUUID();
+				const proofs = {
+					caseReference: id,
+					representation: null,
+					representationSubmittedDate: expect.any(String),
+					representationType: 'proofs_evidence',
+					lpaCode: 'Q9999',
+					documents: [
+						{
+							dateCreated: expect.any(String),
+							documentId: expect.any(String),
+							documentType: 'lpaProofOfEvidence',
+							documentURI: 'https://example.com',
+							filename: 'doc.pdf',
+							mime: 'doc',
+							originalFilename: 'mydoc.pdf',
+							size: 10293
+						}
+					]
+				};
+
 				mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
 					return async () => ({
 						lastModified: '2024-03-01T14:48:35.847Z',
@@ -213,7 +123,8 @@ module.exports = ({
 						_response: { request: { url: 'https://example.com' } }
 					});
 				});
-				await createAppeal(test.id, test.type);
+
+				await createAppeal(id, caseType);
 				setCurrentLpa(validLpa);
 				setCurrentSub(validUser);
 				const lpaProofOfEvidenceData = {
@@ -221,7 +132,7 @@ module.exports = ({
 					lpaWitnesses: false
 				};
 				const result = await appealsApi
-					.post(`/api/v2/appeal-cases/${test.id}/lpa-proof-evidence-submission`)
+					.post(`/api/v2/appeal-cases/${id}/lpa-proof-evidence-submission`)
 					.send(lpaProofOfEvidenceData);
 
 				await sqlClient.submissionDocumentUpload.create({
@@ -237,19 +148,51 @@ module.exports = ({
 					}
 				});
 				await appealsApi
-					.post(`/api/v2/appeal-cases/${test.id}/lpa-proof-evidence-submission/submit`)
+					.post(`/api/v2/appeal-cases/${id}/lpa-proof-evidence-submission/submit`)
 					.expect(200);
 				expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
 					'appeal-fo-representation-submission',
-					[test.formattedStatement],
+					[proofs],
 					'Create'
 				);
-				expectEmail('lpa@example.com', test.id);
+				expectEmail('lpa@example.com', id);
 			}
 		);
-		it.each(testCasesWith2DocTypes)(
-			'Formats S78 lpa proof of evidence submission with both doc types for case 008',
-			async (test) => {
+
+		it.each(appealTypes)(
+			'Formats lpa proof of evidence submission with both doc types %s',
+			async (caseType) => {
+				const id = crypto.randomUUID();
+				const proofs = {
+					caseReference: id,
+					representation: null,
+					representationSubmittedDate: expect.any(String),
+					representationType: 'proofs_evidence',
+					lpaCode: 'Q9999',
+					documents: expect.arrayContaining([
+						{
+							dateCreated: expect.any(String),
+							documentId: expect.any(String),
+							documentType: 'lpaProofOfEvidence',
+							documentURI: 'https://example.com',
+							filename: 'doc.pdf',
+							mime: 'doc',
+							originalFilename: 'mydoc.pdf',
+							size: 10293
+						},
+						{
+							dateCreated: expect.any(String),
+							documentId: expect.any(String),
+							documentType: 'lpaWitnessesEvidence',
+							documentURI: 'https://example.com',
+							filename: 'doc.pdf',
+							mime: 'doc',
+							originalFilename: 'mydoc.pdf',
+							size: 10293
+						}
+					])
+				};
+
 				mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
 					return async (location) => ({
 						lastModified: '2024-03-01T14:48:35.847Z',
@@ -266,7 +209,7 @@ module.exports = ({
 					});
 				});
 
-				await createAppeal(test.id, test.type);
+				await createAppeal(id, caseType);
 				setCurrentLpa(validLpa);
 				setCurrentSub(validUser);
 				const lpaProofOfEvidenceData = {
@@ -275,7 +218,7 @@ module.exports = ({
 					uploadLpaWitnessesEvidence: true
 				};
 				const result = await appealsApi
-					.post(`/api/v2/appeal-cases/${test.id}/lpa-proof-evidence-submission`)
+					.post(`/api/v2/appeal-cases/${id}/lpa-proof-evidence-submission`)
 					.send(lpaProofOfEvidenceData);
 				await sqlClient.submissionDocumentUpload.createMany({
 					data: [
@@ -302,14 +245,14 @@ module.exports = ({
 					]
 				});
 				await appealsApi
-					.post(`/api/v2/appeal-cases/${test.id}/lpa-proof-evidence-submission/submit`)
+					.post(`/api/v2/appeal-cases/${id}/lpa-proof-evidence-submission/submit`)
 					.expect(200);
 				expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
 					'appeal-fo-representation-submission',
-					[test.formattedStatement],
+					[proofs],
 					'Create'
 				);
-				expectEmail('lpa@example.com', test.id);
+				expectEmail('lpa@example.com', id);
 			}
 		);
 

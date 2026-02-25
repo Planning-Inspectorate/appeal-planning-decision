@@ -4,6 +4,7 @@ const {
 	createTestAppealCase
 } = require('../../../../../../../__tests__/developer/fixtures/appeals-case-data');
 const config = require('../../../../../../configuration/config');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 let validUser = '';
 const validLpa = 'Q9999';
@@ -64,115 +65,9 @@ module.exports = ({
 		return appeal.AppealCase?.caseReference;
 	};
 
-	const testCasesNoDocs = [
-		{
-			id: '005',
-			caseType: 'S78',
-			formattedStatement: {
-				caseReference: '005',
-				representation: 'This is a test comment',
-				representationSubmittedDate: expect.any(String),
-				representationType: 'statement',
-				lpaCode: 'Q9999',
-				documents: []
-			}
-		},
-		{
-			id: '011',
-			caseType: 'S20',
-			formattedStatement: {
-				caseReference: '011',
-				representation: 'This is a test comment',
-				representationSubmittedDate: expect.any(String),
-				representationType: 'statement',
-				lpaCode: 'Q9999',
-				documents: []
-			}
-		},
-		{
-			id: '019',
-			caseType: 'ADVERTS',
-			formattedStatement: {
-				caseReference: '019',
-				representation: 'This is a test comment',
-				representationSubmittedDate: expect.any(String),
-				representationType: 'statement',
-				lpaCode: 'Q9999',
-				documents: []
-			}
-		}
-	];
-	const testCasesWithDocs = [
-		{
-			id: '006',
-			caseType: 'S78',
-			formattedStatement: {
-				caseReference: '006',
-				representation: 'Another statement text for lpa case 006',
-				representationSubmittedDate: expect.any(String),
-				representationType: 'statement',
-				lpaCode: 'Q9999',
-				documents: [
-					{
-						dateCreated: expect.any(String),
-						documentId: expect.any(String),
-						documentType: 'lpaStatement',
-						documentURI: 'https://example.com',
-						filename: 'doc.pdf',
-						mime: 'doc',
-						originalFilename: 'mydoc.pdf',
-						size: 10293
-					}
-				]
-			}
-		},
-		{
-			id: '012',
-			caseType: 'S20',
-			formattedStatement: {
-				caseReference: '012',
-				representation: 'Another statement text for lpa case 012',
-				representationSubmittedDate: expect.any(String),
-				representationType: 'statement',
-				lpaCode: 'Q9999',
-				documents: [
-					{
-						dateCreated: expect.any(String),
-						documentId: expect.any(String),
-						documentType: 'lpaStatement',
-						documentURI: 'https://example.com',
-						filename: 'doc.pdf',
-						mime: 'doc',
-						originalFilename: 'mydoc.pdf',
-						size: 10293
-					}
-				]
-			}
-		},
-		{
-			id: '020',
-			caseType: 'ADVERTS',
-			formattedStatement: {
-				caseReference: '020',
-				representation: 'Another statement text for lpa case 020',
-				representationSubmittedDate: expect.any(String),
-				representationType: 'statement',
-				lpaCode: 'Q9999',
-				documents: [
-					{
-						dateCreated: expect.any(String),
-						documentId: expect.any(String),
-						documentType: 'lpaStatement',
-						documentURI: 'https://example.com',
-						filename: 'doc.pdf',
-						mime: 'doc',
-						originalFilename: 'mydoc.pdf',
-						size: 10293
-					}
-				]
-			}
-		}
-	];
+	const appealTypes = Object.values(CASE_TYPES)
+		.filter((caseType) => !caseType.expedited)
+		.map((caseType) => caseType.processCode);
 
 	describe('/api/v2/appeal-cases/:caseReference/lpa-statement-submission/submit', () => {
 		const expectEmail = (email, appealReferenceNumber) => {
@@ -191,8 +86,19 @@ module.exports = ({
 			);
 			mockNotifyClient.sendEmail.mockClear();
 		};
-		it.each(testCasesNoDocs)('Formats lpa statement submission without docs', async (test) => {
-			await createAppeal(test.id, test.caseType);
+
+		it.each(appealTypes)('Formats lpa statement submission without docs %s', async (caseType) => {
+			const id = crypto.randomUUID();
+			const statement = {
+				caseReference: id,
+				representation: 'This is a test comment',
+				representationSubmittedDate: expect.any(String),
+				representationType: 'statement',
+				lpaCode: 'Q9999',
+				documents: []
+			};
+
+			await createAppeal(id, caseType);
 			setCurrentLpa(validLpa);
 			setCurrentSub(validUser);
 			const lpaStatementData = {
@@ -200,19 +106,42 @@ module.exports = ({
 				additionalDocuments: false
 			};
 			await appealsApi
-				.post(`/api/v2/appeal-cases/${test.id}/lpa-statement-submission`)
+				.post(`/api/v2/appeal-cases/${id}/lpa-statement-submission`)
 				.send(lpaStatementData);
 			await appealsApi
-				.post(`/api/v2/appeal-cases/${test.id}/lpa-statement-submission/submit`)
+				.post(`/api/v2/appeal-cases/${id}/lpa-statement-submission/submit`)
 				.expect(200);
 			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
 				'appeal-fo-representation-submission',
-				[test.formattedStatement],
+				[statement],
 				'Create'
 			);
-			expectEmail('lpa@example.com', test.id);
+			expectEmail('lpa@example.com', id);
 		});
-		it.each(testCasesWithDocs)('Formats lpa statement submission with docs', async (test) => {
+
+		it.each(appealTypes)('Formats lpa statement submission with docs %s', async (caseType) => {
+			const id = crypto.randomUUID();
+
+			const statement = {
+				caseReference: id,
+				representation: `Another statement text for lpa case ${id}`,
+				representationSubmittedDate: expect.any(String),
+				representationType: 'statement',
+				lpaCode: 'Q9999',
+				documents: [
+					{
+						dateCreated: expect.any(String),
+						documentId: expect.any(String),
+						documentType: 'lpaStatement',
+						documentURI: 'https://example.com',
+						filename: 'doc.pdf',
+						mime: 'doc',
+						originalFilename: 'mydoc.pdf',
+						size: 10293
+					}
+				]
+			};
+
 			mockBlobMetaGetter.blobMetaGetter.mockImplementation(() => {
 				return async () => ({
 					lastModified: '2024-03-01T14:48:35.847Z',
@@ -225,16 +154,16 @@ module.exports = ({
 					_response: { request: { url: 'https://example.com' } }
 				});
 			});
-			await createAppeal(test.id, test.caseType);
+			await createAppeal(id, caseType);
 			setCurrentLpa(validLpa);
 			setCurrentSub(validUser);
 			const lpaFinalCommentData = {
-				lpaStatement: `Another statement text for lpa case ${test.id}`,
+				lpaStatement: `Another statement text for lpa case ${id}`,
 				additionalDocuments: true,
 				uploadLpaStatementDocuments: true
 			};
 			const result = await appealsApi
-				.post(`/api/v2/appeal-cases/${test.id}/lpa-statement-submission`)
+				.post(`/api/v2/appeal-cases/${id}/lpa-statement-submission`)
 				.send(lpaFinalCommentData);
 			await sqlClient.submissionDocumentUpload.create({
 				data: {
@@ -249,14 +178,14 @@ module.exports = ({
 				}
 			});
 			await appealsApi
-				.post(`/api/v2/appeal-cases/${test.id}/lpa-statement-submission/submit`)
+				.post(`/api/v2/appeal-cases/${id}/lpa-statement-submission/submit`)
 				.expect(200);
 			expect(mockEventClient.sendEvents).toHaveBeenCalledWith(
 				'appeal-fo-representation-submission',
-				[test.formattedStatement],
+				[statement],
 				'Create'
 			);
-			expectEmail('lpa@example.com', test.id);
+			expectEmail('lpa@example.com', id);
 		});
 
 		it('404s if the statement submission cannot be found', async () => {
