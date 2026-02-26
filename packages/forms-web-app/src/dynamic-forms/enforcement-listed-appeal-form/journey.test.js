@@ -1,6 +1,8 @@
 const { Journey } = require('@pins/dynamic-forms/src/journey');
 const { baseEnforcementListedSubmissionUrl, params } = require('./journey');
 const { APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
 
 const mockResponse = {
 	journeyId: 'enforcement-listed-appeal-form',
@@ -36,6 +38,64 @@ describe('Enforcement Listed Building Appeal Form Journey', () => {
 	it('should set journeyTitle', () => {
 		const journey = new Journey({ ...params, response: mockResponse });
 		expect(journey.journeyTitle).toBe('Appeal a planning decision');
+	});
+});
+
+describe('Enforcement Listed Building Journey - Appellant Options', () => {
+	/** @type {any} */
+	let elbResponse;
+
+	beforeEach(() => {
+		elbResponse = JSON.parse(JSON.stringify(mockResponse));
+	});
+
+	it('should remove "Additional appellants" option for ENFORCEMENT_LISTED appeal type', () => {
+		elbResponse.answers.appealTypeCode = CASE_TYPES.ENFORCEMENT_LISTED.processCode;
+
+		const journey = new Journey({ ...params, response: elbResponse });
+		const section = journey.getSection('prepare-appeal');
+		const question = section?.questions.find((q) => q.fieldName === 'enforcementWhoIsAppealing');
+
+		expect(question).toBeDefined();
+		// @ts-ignore
+		const groupOption = question?.options?.find(
+			(/** @type {{ value?: string }} */ o) =>
+				o && 'value' in o && o.value === fieldValues.enforcementWhoIsAppealing.GROUP
+		);
+
+		expect(groupOption).toBeUndefined();
+		// @ts-ignore
+		expect(question?.options?.length).toBe(2);
+	});
+
+	it('should include "Additional appellants" option for standard ENFORCEMENT appeal type', () => {
+		elbResponse.answers.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
+
+		const journey = new Journey({ ...params, response: elbResponse });
+		const section = journey.getSection('prepare-appeal');
+		const question = section?.questions.find((q) => q.fieldName === 'enforcementWhoIsAppealing');
+
+		// @ts-ignore
+		const groupOption = question?.options?.find(
+			(/** @type {{ value?: string }} */ o) =>
+				o && 'value' in o && o.value === fieldValues.enforcementWhoIsAppealing.GROUP
+		);
+
+		expect(groupOption).toBeDefined();
+		// @ts-ignore
+		expect(question?.options?.length).toBe(3);
+	});
+
+	it('should NOT include the "Add another individual" question in ELB journey', () => {
+		elbResponse.answers.appealTypeCode = CASE_TYPES.ENFORCEMENT_LISTED.processCode;
+
+		const journey = new Journey({ ...params, response: elbResponse });
+		const section = journey.getSection('prepare-appeal');
+		const addMoreQuestion = section?.questions.find((q) => q.fieldName === 'addNamedIndividual');
+
+		if (addMoreQuestion) {
+			expect(addMoreQuestion.shouldDisplay(journey.response)).toBe(false);
+		}
 	});
 });
 
