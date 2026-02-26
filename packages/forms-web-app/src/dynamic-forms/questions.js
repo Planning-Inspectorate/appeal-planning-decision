@@ -38,6 +38,7 @@ const {
 	APPEAL_EIA_DEVELOPMENT_DESCRIPTION,
 	APPEAL_EIA_ENVIRONMENTAL_IMPACT_SCHEDULE
 } = require('@planning-inspectorate/data-model');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const {
 	getConditionalFieldName,
 	DIVIDER
@@ -3184,13 +3185,17 @@ exports.getQuestionProps = (response) => ({
 				text: 'An individual',
 				value: fieldValues.enforcementWhoIsAppealing.INDIVIDUAL
 			},
-			{
-				text: 'Additional appellants',
-				value: fieldValues.enforcementWhoIsAppealing.GROUP,
-				hint: {
-					text: 'You are submitting an appeal by more than one person, against the same enforcement notice.'
-				}
-			},
+			...(response.answers?.appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode
+				? []
+				: [
+						{
+							text: 'Additional appellants',
+							value: fieldValues.enforcementWhoIsAppealing.GROUP,
+							hint: {
+								text: 'You are submitting an appeal by more than one person, against the same enforcement notice.'
+							}
+						}
+					]),
 			{
 				text: 'An organisation',
 				value: fieldValues.enforcementWhoIsAppealing.ORGANISATION,
