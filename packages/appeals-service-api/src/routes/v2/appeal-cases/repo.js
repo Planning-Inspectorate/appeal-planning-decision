@@ -326,11 +326,22 @@ class AppealCaseRepository {
 			if (linkAppealCaseToExistingAppeal) {
 				appealClause = { connect: { id: submissionId } };
 			} else if (isEnforcement && submissionId) {
-				appealClause = {
-					create: {
-						leadAppellantSubmissionId: submissionId
+				// an appeal has been created at submission with no linked AppealCase
+				const unconnectedAppeal = await this.dbClient.appeal.findFirst({
+					where: {
+						leadAppellantSubmissionId: submissionId,
+						AppealCase: null
+					},
+					select: {
+						id: true
 					}
-				};
+				});
+
+				// it is always expected that there will be an unconnectedAppeal, but this handles case in event there is not
+				appealClause = unconnectedAppeal
+					? { connect: { id: unconnectedAppeal.id } }
+					: { create: { leadAppellantSubmissionId: submissionId } };
+
 				// set appellant submission to null to ensure submission email isn't sent for enforcement child appeal
 				appellantSubmission = null;
 			} else {
