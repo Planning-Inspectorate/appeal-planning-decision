@@ -272,7 +272,7 @@ class AppealCaseRepository {
 
 		let appealCase;
 
-		/** @type {{id: string, Appeal: {AppealCase: {caseReference: string}|null}}|null} */
+		/** @type {{id: string}|null} */
 		let appellantSubmission = null;
 
 		if (exists) {
@@ -288,35 +288,30 @@ class AppealCaseRepository {
 					where: {
 						appealId: submissionId
 					},
-					// query whether to make separate call for this information if in isEnforcement loop
 					select: {
-						id: true,
-						Appeal: {
-							include: {
-								AppealCase: {
-									select: {
-										caseReference: true
-									}
-								}
-							}
-						}
+						id: true
 					}
 				});
 			}
 
 			// in certain cases there may be multiple appeals created in BO from a single submission
 			// for example, when there are multiple additional appellants on an enforcement notice
-			// in these cases the new appealCase will create an Appeal but should not be linked to an appellantSubmission
+			// in these cases the new appealCase will link to an Appeal which is not linked to an appellantSubmission
+			// but which has a leadAppellantSubmissionId
 			let appealLinking = true;
 
 			const isEnforcement =
 				mappedData.CaseType?.connect?.processCode === CASE_TYPES.ENFORCEMENT.processCode;
 
 			if (isEnforcement && submissionId) {
-				const existingCaseReference = appellantSubmission?.Appeal?.AppealCase?.caseReference;
+				const leadEnforcementAppealCaseNotYetCreated = await this.dbClient.appeal.findFirst({
+					where: {
+						id: submissionId,
+						AppealCase: null
+					}
+				});
 
-				if (!!existingCaseReference && caseReference !== existingCaseReference)
-					appealLinking = false;
+				if (!leadEnforcementAppealCaseNotYetCreated) appealLinking = false;
 			}
 
 			const linkAppealCaseToExistingAppeal = submissionId && appealLinking;
@@ -326,11 +321,22 @@ class AppealCaseRepository {
 			if (linkAppealCaseToExistingAppeal) {
 				appealClause = { connect: { id: submissionId } };
 			} else if (isEnforcement && submissionId) {
-				appealClause = {
-					create: {
-						leadAppellantSubmissionId: submissionId
+				// an appeal has been created at submission with no linked AppealCase
+				const unconnectedAppeal = await this.dbClient.appeal.findFirst({
+					where: {
+						leadAppellantSubmissionId: submissionId,
+						AppealCase: null
+					},
+					select: {
+						id: true
 					}
-				};
+				});
+
+				// it is always expected that there will be an unconnectedAppeal, but this handles case in event there is not
+				appealClause = unconnectedAppeal
+					? { connect: { id: unconnectedAppeal.id } }
+					: { create: { leadAppellantSubmissionId: submissionId } };
+
 				// set appellant submission to null to ensure submission email isn't sent for enforcement child appeal
 				appellantSubmission = null;
 			} else {

@@ -127,6 +127,7 @@ model Appeal {
 
   // indexes
   @@index([legacyAppealSubmissionId])
+  @@index([leadAppellantSubmissionId])
 }
 
 /// AppealToUser represents the relationships between AppealUser and Appeal

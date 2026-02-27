@@ -582,6 +582,12 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 						}
 					}
 				});
+
+				const unconnectedAppeal = await sqlClient.appeal.create({
+					data: {
+						leadAppellantSubmissionId: submission.id
+					}
+				});
 				const email = 'test@example.com';
 
 				const user = await sqlClient.appealUser.upsert({
@@ -597,6 +603,15 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 						role: 'Appellant'
 					}
 				});
+
+				await sqlClient.appealToUser.create({
+					data: {
+						userId: user.id,
+						appealId: unconnectedAppeal.id,
+						role: 'Agent'
+					}
+				});
+
 				data.submissionId = submission.Appeal.id;
 				data.caseReference = initialTestCaseRef;
 				await appealsApi.put(`/api/v2/appeal-cases/` + initialTestCaseRef).send(data);
