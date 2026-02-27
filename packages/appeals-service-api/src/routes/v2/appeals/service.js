@@ -16,6 +16,8 @@ const cosmosAppeals = new AppealsRepository();
  * // TODO: define type for submission (ideally generated from spec)
  * @typedef {AppealCase | any} AppealCaseOrSubmission
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppealCreateInput} AppealCreateInput
+ * @typedef {import('@pins/database/src/client/client').Appeal} Appeal
  */
 
 /**
@@ -87,6 +89,17 @@ async function getAppealsForUser(userId, role) {
 	];
 }
 
+/**
+ * create an appeal
+ *
+ * @param {AppealCreateInput} data
+ * @return {Promise<Appeal>}
+ */
+async function createAppeal(data) {
+	return await repo.create({ data });
+}
+
 module.exports = {
-	getAppealsForUser
+	getAppealsForUser,
+	createAppeal
 };
