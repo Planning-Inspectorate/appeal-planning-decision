@@ -255,7 +255,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'What type of lawful development certificate is the appeal about?',
 			valueText: formatActSection(caseData, 'appealUnderActSection'),
-			condition: () => isLDCAppeal && !!caseData.appealUnderActSection
+			condition: () => isLDCAppeal && isNotUndefinedOrNull(caseData.appealUnderActSection)
 		},
 		{
 			keyText: 'Uploaded relevant planning permission',

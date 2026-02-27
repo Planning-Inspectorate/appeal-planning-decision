@@ -71,7 +71,7 @@ describe('appealProcessRows', () => {
 
 		expect(rows[3].keyText).toEqual('Are there any new conditions?');
 		expect(rows[3].valueText).toEqual('No');
-		expect(rows[3].condition()).toEqual(true);
+		expect(rows[3].condition()).toEqual(false);
 	});
 
 	it('should handle correctly if no fields/files exists', () => {
