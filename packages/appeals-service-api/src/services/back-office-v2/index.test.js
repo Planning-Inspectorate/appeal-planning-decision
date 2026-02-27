@@ -118,7 +118,11 @@ describe('BackOfficeV2Service', () => {
 			['advert', { id: 'a6', appealTypeCode: 'ADVERTS' }]
 		];
 
-		const mockFormattedAppeal = {};
+		const mockFormattedAppeal = {
+			casedata: {
+				caseType: 'testCaseType'
+			}
+		};
 
 		const mockResult = { test: 1 };
 

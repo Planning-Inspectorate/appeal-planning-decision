@@ -6,6 +6,7 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
  * @typedef {import('@pins/database/src/client/client').Prisma.AppealUserGetPayload<{include: {Appeals: {include: {Appeal: { include: {AppealCase: true }}}}}}>} UserWithAppeals
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  * @typedef {import('@pins/database/src/client/client').Appeal} Appeal
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppealCreateInput} AppealCreateInput
  */
 
 class UserAppealsRepository {
@@ -139,6 +140,18 @@ class UserAppealsRepository {
 			}
 			throw e;
 		}
+	}
+
+	/**
+	 * create an appeal
+	 *
+	 * @param {{ data: AppealCreateInput }} params
+	 * @returns {Promise<Appeal>}
+	 */
+	async create({ data }) {
+		return await this.dbClient.appeal.create({
+			data
+		});
 	}
 }
 
