@@ -64,6 +64,7 @@ const {
 } = require('@planning-inspectorate/data-model');
 const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { createEnforcementNamedIndividualAppeals } = require('./utils');
 
 /**
  * @template Payload
@@ -100,10 +101,10 @@ class BackOfficeV2Service {
 	constructor() {}
 
 	/**
-	 * @param {{ appellantSubmission: FullAppellantSubmission, email: string, lpa: LPA, formatter: AppellantSubmissionMapper}} params
+	 * @param {{ appellantSubmission: FullAppellantSubmission, email: string, userId: string, lpa: LPA, formatter: AppellantSubmissionMapper}} params
 	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitAppellantSubmission({ appellantSubmission, email, lpa, formatter }) {
+	async submitAppellantSubmission({ appellantSubmission, email, userId, lpa, formatter }) {
 		if (!isValidAppealTypeCode(appellantSubmission.appealTypeCode))
 			throw new Error(`Appeal submission ${appellantSubmission.id} has an invalid appealTypeCode`);
 
@@ -121,6 +122,10 @@ class BackOfficeV2Service {
 			throw new Error(
 				`Payload was invalid when checked against appellant submission command schema`
 			);
+		}
+
+		if (mappedData.casedata.caseType === CASE_TYPES.ENFORCEMENT.key) {
+			await createEnforcementNamedIndividualAppeals(mappedData, userId);
 		}
 
 		logger.info(`forwarding appeal ${appellantSubmission.appealId} to service bus`);
