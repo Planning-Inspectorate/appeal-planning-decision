@@ -5,6 +5,7 @@ const {
 	formatSubmissionRelatedAppeals
 } = require('@pins/common');
 const { fieldNames } = require('@pins/common/src/dynamic-forms/field-names');
+const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
@@ -21,7 +22,7 @@ exports.appealProcessRows = (caseData) => {
 		{
 			keyText: 'Appeal procedure',
 			valueText: formatProcedurePreference(caseData),
-			condition: () => !!caseData.lpaProcedurePreference
+			condition: () => isNotUndefinedOrNull(caseData.lpaProcedurePreference)
 		},
 		{
 			keyText: 'Appeals near the site',
@@ -37,7 +38,7 @@ exports.appealProcessRows = (caseData) => {
 		{
 			keyText: 'Are there any new conditions?',
 			valueText: formatConditions(caseData),
-			condition: () => caseData.newConditionDetails !== undefined
+			condition: () => isNotUndefinedOrNull(caseData.newConditionDetails)
 		}
 	];
 };
