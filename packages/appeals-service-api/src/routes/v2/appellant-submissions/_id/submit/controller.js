@@ -90,6 +90,7 @@ exports.post = async (req, res) => {
 		await backOfficeV2Service.submitAppellantSubmission({
 			appellantSubmission,
 			email,
+			userId,
 			lpa,
 			formatter
 		});
