@@ -3,7 +3,11 @@ We have received your appeal.
 # Appeal details
 
 ^ Address: {{appealSiteAddress}}
+{%- if isEnforcement %}
+Enforcement notice reference: {{enforcementReference}}
+{%- else %}
 Planning application reference: {{lpaReference}}
+{%- endif %}
 
 # What happens next
 
