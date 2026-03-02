@@ -123,7 +123,7 @@ class NotifyService {
 	/**
 	 * replaces personalisation in local template using nunjucks rendering engine
 	 * @param {string} templateName
-	 * @param {Object<string, string>} personalisation
+	 * @param {Object<string, string | boolean>} personalisation
 	 * @returns {string} populated template
 	 */
 	populateTemplate(templateName, personalisation) {
