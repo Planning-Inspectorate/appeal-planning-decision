@@ -22279,7 +22279,7 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -24708,7 +24708,7 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -26755,7 +26755,7 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -29429,7 +29429,7 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -33194,7 +33194,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -36366,7 +36366,7 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -40369,7 +40369,7 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the new
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -43683,7 +43683,7 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">

@@ -622,14 +622,14 @@ exports.getQuestionProps = (response) => ({
 	},
 	addNewConditions: {
 		type: 'radio',
-		pageTitle: 'Are there any new conditions?',
-		title: 'Extra conditions', // this is summary list title
+		pageTitle: 'Are there any proposed conditions?',
+		title: 'Extra conditions',
 		question: 'Check if there are any new conditions',
 		description: 'Tell us about any new conditions. Do not include the standard conditions.',
 		fieldName: 'newConditions',
 		url: 'new-conditions',
 		html: 'resources/new-planning-conditions/content.html',
-		legend: 'Are there any new conditions?',
+		legend: 'Are there any proposed conditions?',
 		validators: [
 			new RequiredValidator('Select yes if there are any new conditions'),
 			new ConditionalRequiredValidator('Enter the new conditions'),

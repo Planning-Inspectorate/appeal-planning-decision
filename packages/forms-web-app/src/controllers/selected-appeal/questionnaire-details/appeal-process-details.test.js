@@ -20,13 +20,13 @@ const enforcementLPAQData = caseTypeLPAQFactory(
 const expectedRowsHas = [
 	{ title: 'Appeals near the site', value: 'Yes' },
 	{ title: 'Appeal references', value: '00000001' },
-	{ title: 'Are there any new conditions?', value: 'Yes\nexample new conditions' }
+	{ title: 'Are there any proposed conditions?', value: 'Yes\nexample new conditions' }
 ];
 const expectedRowsS78 = [
 	{ title: 'Appeal procedure', value: 'Inquiry\ninquiry preference\nExpected duration: 6 days' },
 	{ title: 'Appeals near the site', value: 'Yes' },
 	{ title: 'Appeal references', value: '00000001' },
-	{ title: 'Are there any new conditions?', value: 'Yes\nexample new conditions' }
+	{ title: 'Are there any proposed conditions?', value: 'Yes\nexample new conditions' }
 ];
 
 const expectedRowsLDC = [{ title: 'Appeals near the site', value: 'No' }];
@@ -69,7 +69,7 @@ describe('appealProcessRows', () => {
 		expect(rows[2].keyText).toEqual('Appeal references');
 		expect(rows[2].condition()).toEqual(false);
 
-		expect(rows[3].keyText).toEqual('Are there any new conditions?');
+		expect(rows[3].keyText).toEqual('Are there any proposed conditions?');
 		expect(rows[3].valueText).toEqual('No');
 		expect(rows[3].condition()).toEqual(false);
 	});
