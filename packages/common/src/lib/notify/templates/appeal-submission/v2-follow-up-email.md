@@ -4,7 +4,11 @@ We have processed your appeal.
 
 ^ Appeal reference number: {{appealReferenceNumber}}
 Address: {{appealSiteAddress}}
+{%- if isEnforcement %}
+Enforcement notice reference: {{enforcementReference}}
+{%- else %}
 Planning application reference: {{lpaReference}}
+{%- endif %}
 
 # What happens next
 
