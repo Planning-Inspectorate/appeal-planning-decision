@@ -155,16 +155,21 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 
 		const formattedAddress = address ? formatSubmissionAddress(address) : '';
 
+		const { appealTypeCode, applicationReference, enforcementReferenceNumber } =
+			appellantSubmission;
+
 		// temp - waiting for tickets to define format for grid ref emails properly
 		const formattedGridref = `${appellantSubmission.siteGridReferenceEasting}, ${appellantSubmission.siteGridReferenceNorthing}`;
 
 		const variables = {
 			...getSharedNotifyVariables({
 				varyContactByEnforcement: true,
-				appealTypeCode: appellantSubmission.appealTypeCode
+				appealTypeCode
 			}),
 			appealSiteAddress: formattedAddress ? formattedAddress : formattedGridref,
-			lpaReference: appellantSubmission.applicationReference
+			lpaReference: applicationReference || '',
+			enforcementReference: enforcementReferenceNumber || '',
+			isEnforcement: isEnforcement(appealTypeCode)
 		};
 
 		const reference = appellantSubmission.id;
@@ -217,18 +222,22 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
 			postcode: appealCase.siteAddressPostcode
 		});
 
+		const { appealTypeCode, caseReference, applicationReference, enforcementReference, id } =
+			appealCase;
 		const variables = {
 			...getSharedNotifyVariables({
 				varyContactByEnforcement: true,
-				appealTypeCode: appealCase.appealTypeCode
+				appealTypeCode
 			}),
-			appealReferenceNumber: appealCase.caseReference,
+			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
-			lpaReference: appealCase.applicationReference,
+			lpaReference: applicationReference || '',
+			enforcementReference: enforcementReference || '',
+			isEnforcement: isEnforcement(appealTypeCode),
 			pdfLink: `${config.apps.appeals.baseUrl}/appeal-document/${appellantSubmission.id}`
 		};
 
-		const reference = appealCase.id;
+		const reference = id;
 
 		logger.debug(
 			{ recipientEmail, variables, reference },
@@ -1187,6 +1196,14 @@ const getSharedNotifyVariables = ({
 			: config.services.notify.templateVariables.contactEmail
 	};
 };
+
+/**
+ * @param {CaseType['processCode']} appealTypeCode
+ * @returns {boolean}
+ */
+const isEnforcement = (appealTypeCode) =>
+	appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
+	appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode;
 
 module.exports = {
 	sendSubmissionReceivedEmailToLpa,
