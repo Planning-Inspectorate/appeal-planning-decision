@@ -39,6 +39,27 @@ exports.sections = [
 		heading: 'Statements',
 		links: [
 			{
+				url: '/statement',
+				text: 'View your statement',
+				submissionDate: {
+					text: (appealCase) =>
+						formatSubmissionDate(
+							SUBMISSIONS.STATEMENT,
+							getRepresentationSubmissionDate(appealCase.Representations, {
+								type: REPRESENTATION_TYPES.STATEMENT,
+								owned: true,
+								submitter: APPEAL_USER_ROLES.APPELLANT
+							})
+						)
+				},
+				condition: (appealCase) =>
+					representationExists(appealCase.Representations, {
+						type: REPRESENTATION_TYPES.STATEMENT,
+						owned: true,
+						submitter: APPEAL_USER_ROLES.APPELLANT
+					})
+			},
+			{
 				url: '/lpa-statement',
 				text: 'View local planning authority statement',
 				condition: (appealCase) =>

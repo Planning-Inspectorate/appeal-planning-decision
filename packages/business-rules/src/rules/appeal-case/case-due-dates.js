@@ -5,7 +5,10 @@ const {
 const { deadlineHasPassed } = require('@pins/common/src/lib/deadline-has-passed');
 const { isChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
 const { representationExists } = require('@pins/common/src/lib/representations');
-const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const {
+	APPEAL_USER_ROLES,
+	APPELLANT_STATEMENT_APPEAL_TYPES
+} = require('@pins/common/src/constants');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /**
@@ -79,6 +82,7 @@ exports.isLPAStatementOpen = (appealCaseData) =>
  * @returns {boolean}
  */
 exports.isAppellantStatementOpen = (appealCaseData) =>
+	APPELLANT_STATEMENT_APPEAL_TYPES.includes(appealCaseData.appealTypeCode) &&
 	statementsAreOpen(appealCaseData) &&
 	!appealCaseData.AppellantStatementSubmittedDate &&
 	!representationExists(appealCaseData.Representations, {

@@ -198,21 +198,24 @@ describe('case-due-dates', () => {
 		});
 
 		describe('isAppellantStatementOpen', () => {
-			it('should return true if lpaq has been submitted and not statement submitted already', () => {
+			it('should return true if appeal is allowed type, lpaq has been submitted and not statement submitted already', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
 				appealCaseData.statementDueDate = '2025-03-01';
 				deadlineHasPassed.mockReturnValueOnce(false);
 				appealCaseData.lpaQuestionnaireValidationOutcomeDate = '2025-03-01';
 				expect(isAppellantStatementOpen(appealCaseData)).toBe(true);
 			});
 
-			it('should return true if lpaQuestionnaireDueDate has passed and statement not submitted already', () => {
+			it('should return true if appeal is allowed type, lpaQuestionnaireDueDate has passed and statement not submitted already', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
 				appealCaseData.statementDueDate = '2025-03-01';
 				deadlineHasPassed.mockReturnValueOnce(false);
 				deadlineHasPassed.mockReturnValueOnce(true);
 				expect(isAppellantStatementOpen(appealCaseData)).toBe(true);
 			});
 
-			it('should return true if in STATEMENTS stage and statement not submitted already', () => {
+			it('should return true if appeal is allowed type, in STATEMENTS stage and statement not submitted already', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
 				appealCaseData.statementDueDate = '2025-03-01';
 				deadlineHasPassed.mockReturnValue(false);
 				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
@@ -242,11 +245,20 @@ describe('case-due-dates', () => {
 			});
 
 			it('should return false if representation exists for appellant statement', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
 				appealCaseData.statementDueDate = '2025-03-01';
 				deadlineHasPassed.mockReturnValue(false);
 				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
 				representationExists.mockReturnValue(true);
-				expect(isRule6StatementOpen(appealCaseData)).toBe(false);
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(false);
+			});
+
+			it('should return false if appeal type is not allowed (e.g. S78)', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.S78.processCode;
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValue(false);
+				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(false);
 			});
 		});
 
