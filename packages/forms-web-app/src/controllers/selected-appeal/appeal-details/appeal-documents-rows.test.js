@@ -48,7 +48,7 @@ describe('appeal-documents-rows', () => {
 	describe.each([
 		['Application form', 0],
 		['Decision letter', 4],
-		['Appeal statement', 5]
+		['Appeal statement summary', 5]
 	])('%s', (rowName, rowNumber) => {
 		test.each(allNonEnforcementAppealTypes)('should display field for %s', (processCode) => {
 			const rows = documentsRows({ appealTypeCode: processCode });

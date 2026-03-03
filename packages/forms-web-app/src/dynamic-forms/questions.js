@@ -2417,8 +2417,9 @@ exports.getQuestionProps = (response) => ({
 	lpaStatement: {
 		type: 'text-entry',
 		title: 'Appeal statement',
-		question: 'Appeal statement',
-		label: 'Enter your statement',
+		question: 'Appeal statement summary',
+		hint: 'You can upload your appeal statement later',
+		label: 'Enter a summary of your statement',
 		url: 'appeal-statement',
 		fieldName: 'lpaStatement',
 		validators: [
@@ -2436,7 +2437,7 @@ exports.getQuestionProps = (response) => ({
 	additionalDocuments: {
 		type: 'boolean',
 		title: 'Add supporting documents',
-		question: 'Do you have additional documents to support your appeal statement?',
+		question: 'Do you want to upload your appeal statement?',
 		fieldName: 'additionalDocuments',
 		url: 'additional-documents',
 		validators: [
@@ -2448,7 +2449,7 @@ exports.getQuestionProps = (response) => ({
 	uploadLpaStatementDocuments: {
 		type: 'multi-file-upload',
 		title: 'Supporting documents',
-		question: 'Upload your new supporting documents',
+		question: 'Upload your appeal statement',
 		fieldName: 'uploadLpaStatementDocuments',
 		url: 'upload-supporting-documents',
 		validators: [
