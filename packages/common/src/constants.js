@@ -89,5 +89,6 @@ module.exports = {
 			ROPC: 'ropc', // resource owner password grant
 			CLIENT_CREDENTIALS: 'client_credentials' // client credentials grant
 		}
-	}
+	},
+	APPELLANT_STATEMENT_APPEAL_TYPES: ['ADVERTS', 'LDC', 'ENFORCEMENT', 'ENFORCEMENT_LISTED']
 };

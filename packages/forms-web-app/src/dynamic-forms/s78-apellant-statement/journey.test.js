@@ -28,7 +28,7 @@ describe('S78 Rule6 Statement Journey class', () => {
 
 		it('should set template', () => {
 			const journey = new Journey({ ...params, response: mockResponse });
-			expect(journey.journeyTemplate).toBe('statement-template.njk');
+			expect(journey.journeyTemplate).toBe('appellant-statement-template.njk');
 		});
 
 		it('should set listingPageViewPath', () => {

@@ -7,7 +7,7 @@ const {
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const {
 	VIEW: {
-		SELECTED_APPEAL: { APPELLANT_STATEMENT }
+		APPEALS: { YOUR_APPEALS }
 	}
 } = require('#lib/views');
 
@@ -42,9 +42,9 @@ const makeBaseUrl = (response) => `${baseUrl}/${encodeURIComponent(response.refe
 
 /** @type {JourneyParameters} */
 const params = {
-	initialBackLink: `/${APPELLANT_STATEMENT}`,
+	initialBackLink: `/${YOUR_APPEALS}`,
 	journeyId: JOURNEY_TYPES.APPELLANT_STATEMENT.id,
-	journeyTemplate: 'statement-template.njk',
+	journeyTemplate: 'appellant-statement-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/statement',
 	journeyTitle: 'Appeal a planning decision',
 	makeSections,

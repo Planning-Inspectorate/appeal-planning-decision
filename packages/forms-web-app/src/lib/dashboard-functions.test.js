@@ -596,4 +596,37 @@ describe('lib/dashboard-functions', () => {
 			})
 		);
 	});
+	describe('mapToAppellantDashboardDisplayData - Appellant Statement', () => {
+		it.each([
+			['LDC', CASE_TYPES.LDC.processCode],
+			['ADVERTS', CASE_TYPES.ADVERTS.processCode],
+			['ENFORCEMENT', CASE_TYPES.ENFORCEMENT.processCode],
+			['ENFORCEMENT_LISTED', CASE_TYPES.ENFORCEMENT_LISTED.processCode]
+		])(
+			'returns the appellant statement details if the statement is open for %s',
+			(type, processCode) => {
+				const appealDetails = {
+					...testLeadDashboardData,
+					statementDueDate: '2023-01-01T13:53:31.600Z',
+					caseReference: testCaseRef,
+					appealTypeCode: processCode,
+					caseStatus: APPEAL_CASE_STATUS.STATEMENTS,
+					AppellantStatementSubmittedDate: null
+				};
+
+				calculateDueInDays.mockReturnValue(5);
+
+				expect(mapToAppellantDashboardDisplayData(appealDetails)).toEqual(
+					expect.objectContaining({
+						nextJourneyDue: {
+							deadline: '2023-01-01T13:53:31.600Z',
+							dueInDays: 5,
+							journeyDue: SUBMISSIONS.STATEMENT,
+							baseUrl: `/appeals/statement/${testCaseRef}/entry`
+						}
+					})
+				);
+			}
+		);
+	});
 });
