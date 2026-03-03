@@ -4,6 +4,7 @@ const {
 	isLPAQuestionnaireDue,
 	isLPAStatementOpen,
 	isRule6StatementOpen,
+	isAppellantStatementOpen,
 	isAppellantProofsOfEvidenceOpen,
 	isLPAProofsOfEvidenceOpen,
 	isRule6ProofsOfEvidenceOpen,
@@ -107,6 +108,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				isAppellant && isAppellantProofsOfEvidenceOpen(caseData),
 			shouldDisplayFinalCommentsDueBannerAppellant:
 				isAppellant && isAppellantFinalCommentOpen(caseData),
+			shouldDisplayStatementsDueBannerAppellant: isAppellant && isAppellantStatementOpen(caseData),
 
 			shouldDisplayStatementsDueBannerRule6: isRule6 && isRule6StatementOpen(caseData),
 			shouldDisplayProofEvidenceDueBannerRule6: isRule6 && isRule6ProofsOfEvidenceOpen(caseData),
