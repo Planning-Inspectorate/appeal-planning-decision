@@ -90,5 +90,5 @@ module.exports = {
 			CLIENT_CREDENTIALS: 'client_credentials' // client credentials grant
 		}
 	},
-	APPELLANT_STATEMENT_APPEAL_TYPES: ['ADVERTS', 'LDC', 'ENFORCEMENT', 'ENFORCEMENT_LISTED']
+	APPELLANT_STATEMENT_APPEAL_TYPES: ['LDC', 'ENFORCEMENT_LISTED']
 };
