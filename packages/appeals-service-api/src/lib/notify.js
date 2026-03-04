@@ -547,6 +547,7 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 		LPACode: lpaCode,
 		caseReference,
 		applicationReference,
+		enforcementReference,
 		caseStartedDate
 	} = appealCase;
 
@@ -581,7 +582,9 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 		}),
 		appealReferenceNumber: caseReference,
 		lpaName: lpaName,
-		lpaReference: applicationReference,
+		lpaReference: applicationReference || '',
+		enforcementReference: enforcementReference || '',
+		isEnforcement: isEnforcement(appealTypeCode),
 		siteAddress: formattedAddress ? formattedAddress : formattedGridref,
 		appealStartDate: formattedDate,
 		questionnaireLink: url,

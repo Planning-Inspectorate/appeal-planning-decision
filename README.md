@@ -145,6 +145,7 @@ __tl;dr__
 - [Azure](./docs/azure.md)
 - [Debugging](./docs/debugger.md)
 - [E2E tests](./test-packages/platform-feature-tests/README.md)
+- [Notifications and triggers](./docs/notifications-and-triggers.md)
 - [Confluence](https://pins-ds.atlassian.net/wiki/spaces/AAPDS/pages/1307279362/Homepage)
 - [Access + Permissions](https://pins-ds.atlassian.net/wiki/spaces/AAPDS/pages/1858371586/Access+Permissions)
 - [Releases](https://pins-ds.atlassian.net/wiki/spaces/AAPDS/pages/1332379865/Releases)
