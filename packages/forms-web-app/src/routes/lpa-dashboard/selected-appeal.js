@@ -40,6 +40,12 @@ const lpaStatementParams = {
 	submittingParty: LPA_USER_ROLE
 };
 
+const appellantStatementParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.STATEMENT,
+	submittingParty: APPEAL_USER_ROLES.APPELLANT
+};
+
 const rule6StatementParams = {
 	userType,
 	representationType: REPRESENTATION_TYPES.STATEMENT,
@@ -85,6 +91,11 @@ router.get(
 router.get(
 	'/:appealNumber/other-party-statements',
 	representationsController.get(rule6StatementParams, 'layouts/lpa-dashboard/main.njk')
+);
+
+router.get(
+	'/:appealNumber/appellant-statement',
+	representationsController.get(appellantStatementParams, 'layouts/lpa-dashboard/main.njk')
 );
 
 router.get(
