@@ -29,6 +29,12 @@ const rule6StatementParams = {
 	submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
 };
 
+const appellantStatementParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.STATEMENT,
+	submittingParty: APPEAL_USER_ROLES.APPELLANT
+};
+
 const lpaFinalCommentParams = {
 	userType,
 	representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
@@ -74,6 +80,8 @@ router.get(
 	'/:appealNumber/other-party-statements',
 	representationsController.get(rule6StatementParams)
 );
+
+router.get('/:appealNumber/statement', representationsController.get(appellantStatementParams));
 
 router.get(
 	'/:appealNumber/final-comments',
