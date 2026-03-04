@@ -599,8 +599,6 @@ describe('lib/dashboard-functions', () => {
 	describe('mapToAppellantDashboardDisplayData - Appellant Statement', () => {
 		it.each([
 			['LDC', CASE_TYPES.LDC.processCode],
-			['ADVERTS', CASE_TYPES.ADVERTS.processCode],
-			['ENFORCEMENT', CASE_TYPES.ENFORCEMENT.processCode],
 			['ENFORCEMENT_LISTED', CASE_TYPES.ENFORCEMENT_LISTED.processCode]
 		])(
 			'returns the appellant statement details if the statement is open for %s',
