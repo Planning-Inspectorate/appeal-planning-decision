@@ -60,6 +60,16 @@ exports.sections = [
 					})
 			},
 			{
+				url: '/appellant-statement',
+				text: 'View appellant statement',
+				condition: (appealCase) =>
+					representationPublished(appealCase.Representations, {
+						type: REPRESENTATION_TYPES.STATEMENT,
+						owned: false,
+						submitter: APPEAL_USER_ROLES.APPELLANT
+					})
+			},
+			{
 				url: '/other-party-statements',
 				text: 'View other party statements',
 				condition: (appealCase) =>

@@ -128,16 +128,27 @@ const formatRepresentationHeading = (representationParams) => {
 const formatStatementHeading = (userType, submittingParty, rule6OwnRepresentations) => {
 	switch (userType) {
 		case LPA_USER_ROLE:
-			return submittingParty == LPA_USER_ROLE ? 'Your statement' : 'Statements from other parties';
+			return submittingParty == LPA_USER_ROLE
+				? 'Your statement'
+				: submittingParty == APPEAL_USER_ROLES.APPELLANT
+					? 'Appellant statement'
+					: 'Statements from other parties';
 		case APPEAL_USER_ROLES.AGENT:
 		case APPEAL_USER_ROLES.APPELLANT:
+			return submittingParty == APPEAL_USER_ROLES.APPELLANT
+				? 'Your statement'
+				: submittingParty == LPA_USER_ROLE
+					? 'Local planning authority statement'
+					: 'Statements from other parties';
 		case APPEAL_USER_ROLES.RULE_6_PARTY:
 			if (rule6OwnRepresentations) {
 				return 'Your statement';
 			} else {
 				return submittingParty == LPA_USER_ROLE
 					? 'Local planning authority statement'
-					: 'Statements from other parties';
+					: submittingParty == APPEAL_USER_ROLES.APPELLANT
+						? 'Appellant statement'
+						: 'Statements from other parties';
 			}
 		default:
 			return 'Appeal statement';
