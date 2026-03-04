@@ -1,0 +1,102 @@
+# Notifications and triggers
+
+The following notifications are sent from the front-office using these [Notify Templates](../packages/common/src/lib/notify/templates):
+
+## Appeal submission
+
+### Appeal submitted
+
+- **Appeal type:** all
+- **Notify Template:** [v2-submission-email](../packages/common/src/lib/notify/templates/appeal-submission/v2-submission-email.md)
+- **Trigger:** Sent on submission of an appeal by an Appellant.
+
+### Appeal submission - confirmation follow up (with Case Reference from BO and pdf download link)
+
+- **Appeal type:** all
+- **Notify Template:** [v2-submission-email](../packages/common/src/lib/notify/templates/appeal-submission/v2-follow-up-email.md)
+- **Trigger:** Sent following submission of an appeal by an Appellant - this email is trigger on receipt of the appeal case broadcast from Back Office.
+
+### LPA Notification
+
+- **Appeal type:** all
+- **Notify Template:** [v2-submission-email](../packages/common/src/lib/notify/templates/appeal-submission/v2-lpa-notification.md)
+- **Trigger:** Sent to the relevant LPA on submission of an appeal by an Appellant.
+
+### Registration confirmation
+
+- **Appeal type:** all
+- **Notify Template:** [v2-submission-email](../packages/common/src/lib/notify/templates/appeal-submission/v2-registration-confirmation.md)
+- **Trigger:** Register to use the Appeal A Planning Decision service as an Appellant.
+
+## LPA Questionnaire
+
+### LPA Questionnaire submitted
+
+- **Appeal type:** all
+- **Notify Template:** [appeal-withdrawn-appellant](../packages/common/src/lib/notify/templates/lpaq/v2-lpaq-submitted.md)
+- **Trigger:** Sent on submission of an LPA Questionnaire.
+
+### LPA Dashboard invitation
+
+- **Appeal type:** all
+- **Notify Template:** [appeal-withdrawn-lpa](../packages/common/src/lib/notify/templates/lpaq/v2-lpa-dashboard-invite-email.md)
+- **Trigger:** Sent to invite an LPA User to create an account.
+
+## Representations
+
+- **Short appeal types:** HAS, CAS and Expedited Appeals
+- **Long appeal types:** Any non-short appeal types
+
+### Appellant statement
+
+- **Appeal type:** Long appeal types
+- **Notify Template:** [appeal-incomplete](../packages/common/src/lib/notify/templates/representations/v2-appellant-statement.md)
+- **Trigger:** Sent on submission of a statement by an Appellant.
+
+### LPA statement
+
+- **Appeal type:** Long appeal types
+- **Notify Template:** [appeal-incomplete](../packages/common/src/lib/notify/templates/representations/v2-lpa-statement.md)
+- **Trigger:** Sent on submission of a statement by an LPA.
+
+### Rule 6 statement
+
+- **Appeal type:** Long appeal types if Rule 6 party added
+- **Notify Template:** [appeal-incomplete](../packages/common/src/lib/notify/templates/representations/v2-rule6-statement-submission.md)
+- **Trigger:** Sent on submission of a statement by a Rule 6 Party.
+
+### Interested Party comment
+
+- **Appeal type:** Long appeal types
+- **Notify Template:** [appeal-incomplete](../packages/common/src/lib/notify/templates/representations/v2-ip-comment-submitted.md)
+- **Trigger:** Sent on submission via the comment-planning-appeal service of an Interested Party Comment.
+
+### Appellant final comments
+
+- **Appeal type:** All Enforcement notice, Enforcement Listed and Lawful Development Certificate appeals; other Long appeal types proceeding via written representations
+- **Notify Template:** [appeal-incomplete](../packages/common/src/lib/notify/templates/representations/v2-appellant-final-comments.md)
+- **Trigger:** Sent on submission of final comments by an Appellant.
+
+### LPA final comments
+
+- **Appeal type:** All Enforcement notice, Enforcement Listed and Lawful Development Certificate appeals; other Long appeal types proceeding via written representations
+- **Notify Template:** [appeal-incomplete](../packages/common/src/lib/notify/templates/representations/v2-lpa-final-comments.md)
+- **Trigger:** Sent on submission of final comments by an LPA.
+
+### Appellant proofs of evidence
+
+- **Appeal type:** All Long appeal types proceeding via Hearings or Enquiries
+- **Notify Template:** [appeal-incomplete](../packages/common/src/lib/notify/templates/representations/v2-proof-of-evidence-submitted.md)
+- **Trigger:** Sent on submission of proofs of evidence by an Appellant.
+
+### LPA proofs of evidence
+
+- **Appeal type:** All Long appeal types proceeding via Hearings or Enquiries
+- **Notify Template:** [appeal-incomplete](../packages/common/src/lib/notify/templates/representations/v2-lpa-proofs-evidence.md)
+- **Trigger:** Sent on submission of proofs of evidence by an LPA.
+
+### Rule 6 proofs of evidence
+
+- **Appeal type:** All Long appeal types proceeding via Hearings or Enquiries if Rule 6 party added
+- **Notify Template:** [appeal-incomplete](../packages/common/src/lib/notify/templates/representations/v2-r6-proofs-evidence.md)
+- **Trigger:** Sent on submission of proofs of evidence by a Rule 6 Party.
