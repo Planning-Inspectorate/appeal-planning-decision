@@ -1,4 +1,8 @@
+{%- if isEnforcement %}
+^ Enforcement notice reference: {{enforcementReference}}
+{%- else %}
 ^ LPA reference: {{lpaReference}}
+{%- endif %}
 
 We have received an appeal against this decision.
 

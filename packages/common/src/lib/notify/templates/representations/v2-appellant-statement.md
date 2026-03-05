@@ -4,7 +4,11 @@ We’ve received your statement.
 
 ^ Appeal reference number: {{appealReferenceNumber}}
 Address: {{appealSiteAddress}}
-Planning application reference: {{applicationReference}}
+{%- if isEnforcement %}
+Enforcement notice reference: {{enforcementReference}}
+{%- else %}
+Planning application reference: {{lpaReference}}
+{%- endif %}
 
 The Planning Inspectorate
 {{contactEmail}}
