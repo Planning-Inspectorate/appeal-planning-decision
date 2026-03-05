@@ -35,6 +35,10 @@ components:
               type: string
             siteAddressPostcode:
               type: string
+            applicationReference:
+              type: string
+            enforcementReference:
+              type: string
         createdAt:
           type: string
           format: date-time

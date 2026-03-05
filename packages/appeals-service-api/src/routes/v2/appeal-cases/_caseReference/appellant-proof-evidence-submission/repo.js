@@ -42,7 +42,8 @@ class AppellantProofOfEvidenceSubmissionRepository {
 							siteAddressLine2: true,
 							siteAddressTown: true,
 							siteAddressCounty: true,
-							siteAddressPostcode: true
+							siteAddressPostcode: true,
+							enforcementReference: true
 						}
 					},
 					SubmissionDocumentUpload: true

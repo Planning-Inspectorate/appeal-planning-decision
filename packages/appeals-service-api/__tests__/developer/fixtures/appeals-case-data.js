@@ -22,6 +22,7 @@ function createTestAppealCase(
 	return {
 		caseReference: caseRef,
 		applicationReference: caseRef + 'APP',
+		enforcementReference: caseRef + 'EnfRef',
 		applicationDecisionDate: now,
 		CaseType: { connect: { processCode: caseType } },
 		applicationDecision: 'refused',
