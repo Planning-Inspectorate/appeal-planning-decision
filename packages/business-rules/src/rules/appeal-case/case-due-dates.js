@@ -82,6 +82,7 @@ exports.isLPAStatementOpen = (appealCaseData) =>
  * @returns {boolean}
  */
 exports.isAppellantStatementOpen = (appealCaseData) =>
+	process.env.APPELLANT_STATEMENT_ENABLED === 'true' &&
 	APPELLANT_STATEMENT_APPEAL_TYPES.includes(appealCaseData.appealTypeCode) &&
 	statementsAreOpen(appealCaseData) &&
 	!appealCaseData.AppellantStatementSubmittedDate &&

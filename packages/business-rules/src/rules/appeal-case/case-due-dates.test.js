@@ -198,6 +198,14 @@ describe('case-due-dates', () => {
 		});
 
 		describe('isAppellantStatementOpen', () => {
+			beforeEach(() => {
+				process.env.APPELLANT_STATEMENT_ENABLED = 'true';
+			});
+
+			afterEach(() => {
+				delete process.env.APPELLANT_STATEMENT_ENABLED;
+			});
+
 			it('should return true if appeal is allowed type, lpaq has been submitted and not statement submitted already', () => {
 				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
 				appealCaseData.statementDueDate = '2025-03-01';
