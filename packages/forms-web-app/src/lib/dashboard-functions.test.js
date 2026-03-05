@@ -597,6 +597,14 @@ describe('lib/dashboard-functions', () => {
 		);
 	});
 	describe('mapToAppellantDashboardDisplayData - Appellant Statement', () => {
+		beforeEach(() => {
+			process.env.APPELLANT_STATEMENT_ENABLED = 'true';
+		});
+
+		afterEach(() => {
+			delete process.env.APPELLANT_STATEMENT_ENABLED;
+		});
+
 		it.each([
 			['LDC', CASE_TYPES.LDC.processCode],
 			['ENFORCEMENT_LISTED', CASE_TYPES.ENFORCEMENT_LISTED.processCode]

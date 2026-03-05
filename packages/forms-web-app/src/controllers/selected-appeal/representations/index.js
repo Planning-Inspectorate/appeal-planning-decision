@@ -17,6 +17,7 @@ const { APPEAL_CASE_STAGE } = require('@planning-inspectorate/data-model');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
 const { documentTypes } = require('@pins/common');
+const config = require('../../../config');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
@@ -54,6 +55,14 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 
 		if (userType === null) {
 			throw new Error('Unknown role');
+		}
+
+		if (
+			representationType === REPRESENTATION_TYPES.STATEMENT &&
+			submittingParty === APPEAL_USER_ROLES.APPELLANT &&
+			!config.featureFlag.appellantStatementEnabled
+		) {
+			return res.status(404).render('error/not-found');
 		}
 
 		// Retrieves an AppealCase with an array of Representations of the specified type
