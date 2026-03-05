@@ -10,6 +10,7 @@ const {
 	SUBMISSIONS
 } = require('@pins/common/src/constants');
 const { formatSubmissionDate } = require('@pins/common/src/lib/format-appeal-details');
+const config = require('../../config');
 
 /**
  * @type {import("@pins/common/src/view-model-maps/sections/def").Sections}
@@ -63,6 +64,7 @@ exports.sections = [
 				url: '/appellant-statement',
 				text: 'View appellant statement',
 				condition: (appealCase) =>
+					config.featureFlag.appellantStatementEnabled &&
 					representationPublished(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.STATEMENT,
 						owned: false,

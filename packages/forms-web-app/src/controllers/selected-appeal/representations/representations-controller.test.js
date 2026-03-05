@@ -29,6 +29,16 @@ jest.mock('#lib/add-css-to-html');
 jest.mock('#lib/pdf-api-wrapper');
 
 jest.mock('@pins/common');
+jest.mock('../../../config', () => {
+	const actualConfig = jest.requireActual('../../../config');
+	return {
+		...actualConfig,
+		featureFlag: {
+			...actualConfig.featureFlag,
+			appellantStatementEnabled: true
+		}
+	};
+});
 
 describe('controllers/selected-appeal/representations', () => {
 	const appealNumber = 'ABC123';
@@ -82,6 +92,7 @@ describe('controllers/selected-appeal/representations', () => {
 
 	beforeEach(() => {
 		jest.resetAllMocks();
+		res.status.mockReturnThis();
 		req.params.appealNumber = appealNumber;
 		req.appealsApiClient = {
 			getAppealCaseWithRepresentationsByType: jest.fn()
