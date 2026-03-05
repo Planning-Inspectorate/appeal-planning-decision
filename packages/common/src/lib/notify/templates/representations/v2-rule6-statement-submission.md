@@ -6,7 +6,11 @@ We have received your statement.
 
 ^ Appeal reference number: {{appealReferenceNumber}}
 Address: {{siteAddress}}
+{%- if isEnforcement %}
+Enforcement notice reference: {{enforcementReference}}
+{%- else %}
 Planning application reference: {{lpaReference}}
+{%- endif %}
 
 # What happens next
 
