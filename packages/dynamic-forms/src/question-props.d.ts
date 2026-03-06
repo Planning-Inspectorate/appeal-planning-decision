@@ -7,6 +7,7 @@ type QuestionTypes =
 	| 'multi-file-upload'
 	| 'boolean'
 	| 'radio'
+	| 'boolean-radio'
 	| 'date'
 	| 'text-entry'
 	| 'single-line-input'
@@ -205,6 +206,13 @@ export type ContentQuestionProps = CommonQuestionProps & {
 	backLinkText?: string;
 };
 
+type BooleanRadioQuestionProps = CommonQuestionProps & {
+	type: 'boolean-radio';
+	options?: Option[];
+	interfaceType?: 'checkbox' | 'radio';
+	legend?: string;
+};
+
 export type QuestionProps =
 	| CheckboxQuestionProps
 	| MultiFileUploadQuestionProps
@@ -218,4 +226,5 @@ export type QuestionProps =
 	| SiteAddressQuestionProps
 	| UnitOptionEntryQuestionProps
 	| ListAddMoreQuestionProps
-	| ContentQuestionProps;
+	| ContentQuestionProps
+	| BooleanRadioQuestionProps;
