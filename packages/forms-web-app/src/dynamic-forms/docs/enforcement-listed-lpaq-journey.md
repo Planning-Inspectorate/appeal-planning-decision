@@ -55,7 +55,7 @@ condition: () => questionHasAnswer(response, questions.enforcementRightOfWayChec
 - boolean `/other-operations/` Does the enforcement notice relate to building, engineering, mining or other operations?
 - boolean `/create-floor-space/` Does the alleged breach create any floor space?
 - number-entry `/site-area/` What is the area of the appeal site?
-- boolean `/alleged-breach-area/` Is the area of the alleged breach the same as the site area?
+- boolean `/alleged-breach-area/` Does the breach described in the enforcement notice fill the whole of the site area?
 - boolean `/create-building/` Does the enforcement notice include the erection of a building or buildings?
 - boolean `/agricultural-purposes/` Is the building on agricultural land and will it be used for agricultural purposes?
 - boolean `/single-house/` Is the enforcement notice for a single private dwelling house?
@@ -117,7 +117,7 @@ condition: () => questionHasAnswer(response, questions.screeningOpinion, 'yes');
 
 ## Notifying relevant parties
 
-- multi-file-upload `/upload-enforcement-list/` Upload the list of people that you served the enforcement notice to
+- multi-file-upload `/upload-enforcement-list/` Upload the list of people and the addresses where you served the notices.
 - multi-file-upload `/appeal-notification-letter/` Upload the appeal notification letter and the list of people that you notified
 
 ## Planning officer’s report and supporting documents
@@ -197,7 +197,7 @@ condition: () => questionHasAnswer(response, questions.localDevelopmentOrder, 'y
 condition: () => questionHasAnswer(response, questions.previousPlanningPermission, 'yes');
 ```
 
-- boolean `/enforcement-notice-date-application/` Was there an enforcement notice in force at the date of the application?
+- radio `/enforcement-notice-date-application/` Existing enforcement notice
 - multi-file-upload `/upload-enforcement-notice/` Upload the enforcement notice
 
 ```js

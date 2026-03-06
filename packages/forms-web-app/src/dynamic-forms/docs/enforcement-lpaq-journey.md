@@ -46,7 +46,7 @@ condition: () => questionHasAnswer(response, questions.enforcementRightOfWayChec
 
 - boolean `/other-operations/` Does the enforcement notice relate to building, engineering, mining or other operations?
 - number-entry `/site-area/` What is the area of the appeal site?
-- boolean `/alleged-breach-area/` Is the area of the alleged breach the same as the site area?
+- boolean `/alleged-breach-area/` Does the breach described in the enforcement notice fill the whole of the site area?
 - boolean `/create-floor-space/` Does the alleged breach create any floor space?
 - boolean `/refuse-waste-materials/` Does the enforcement notice include a change of use of land to dispose, refuse or waste materials?
 - boolean `/mineral-extraction-materials/` Does the enforcement notice include the change of use of land to dispose of remaining materials after mineral extraction?
@@ -63,7 +63,7 @@ condition: () => questionHasAnswer(response, questions.enforcementRightOfWayChec
 condition: () => questionHasAnswer(response, questions.enforcementStopNotice, 'yes');
 ```
 
-- boolean `/remove-permitted-development-rights/` Did you remove any permitted development rights for the appeal site?
+- boolean `/remove-permitted-development-rights/` Did you restrict any permitted development rights using a planning condition?
 - multi-file-upload `/upload-article-4-direction/` Upload the article 4 direction
 
 ```js
@@ -133,7 +133,7 @@ condition: () => questionHasAnswer(response, questions.screeningOpinion, 'yes');
 
 ## Notifying relevant parties
 
-- multi-file-upload `/upload-enforcement-list/` Upload the list of people that you served the enforcement notice to
+- multi-file-upload `/upload-enforcement-list/` Upload the list of people and the addresses where you served the notices.
 - multi-file-upload `/appeal-notification-letter/` Upload the appeal notification letter and the list of people that you notified
 
 ## Planning officer’s report and supporting documents
@@ -213,7 +213,7 @@ condition: () => questionHasAnswer(response, questions.localDevelopmentOrder, 'y
 condition: () => questionHasAnswer(response, questions.previousPlanningPermission, 'yes');
 ```
 
-- boolean `/enforcement-notice-date-application/` Was there an enforcement notice in force at the date of the application?
+- radio `/enforcement-notice-date-application/` Existing enforcement notice
 - multi-file-upload `/upload-enforcement-notice/` Upload the enforcement notice
 
 ```js
