@@ -232,6 +232,7 @@ describe('Dynamic forms journey tests', () => {
 						 */
 						const questionTypeDetails = (q) => {
 							switch (q.constructor.name) {
+								case 'BooleanRadio':
 								case 'BooleanQuestion':
 									return {
 										answer: { [q.fieldName]: 'yes' },
@@ -493,6 +494,7 @@ describe('Dynamic forms journey tests', () => {
 						 */
 						const questionTypeDetails = (q) => {
 							switch (q.constructor.name) {
+								case 'BooleanRadio':
 								case 'BooleanQuestion':
 									return {
 										answer: { [q.fieldName]: 'yes' },
