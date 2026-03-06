@@ -186,7 +186,8 @@ describe('Enforcement Journey', () => {
 			},
 			{
 				fieldName: 'allegedBreachArea',
-				question: 'Is the area of the alleged breach the same as the site area?',
+				question:
+					'Does the breach described in the enforcement notice fill the whole of the site area?',
 				urlSegment: 'alleged-breach-area'
 			},
 			{
@@ -242,7 +243,7 @@ describe('Enforcement Journey', () => {
 
 			const question1 = questions[0];
 			expect(question1.title).toBe(
-				'Upload the list of people that you served the enforcement notice to'
+				'Upload the list of people you served the enforcement notice to'
 			);
 			expect(question1.fieldName).toBe('listOfPeopleSentEnforcementNotice');
 			expect(question1.url).toContain('upload-enforcement-list');
@@ -353,7 +354,7 @@ describe('Enforcement Journey', () => {
 			},
 			{
 				fieldName: 'noticeDateApplication',
-				question: 'Was there an enforcement notice in force at the date of the application?',
+				question: 'Existing enforcement notice',
 				urlSegment: 'enforcement-notice-date-application'
 			},
 			{

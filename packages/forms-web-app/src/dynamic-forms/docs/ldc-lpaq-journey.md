@@ -11,7 +11,7 @@
 condition: () => questionHasAnswer(response, questions.planningCondition, 'yes');
 ```
 
-- boolean `/enforcement-notice-date-application/` Was there an enforcement notice in force at the date of the application?
+- radio `/enforcement-notice-date-application/` Existing enforcement notice
 - multi-file-upload `/upload-enforcement-notice/` Upload the enforcement notice
 
 ```js
