@@ -36,6 +36,8 @@ components:
               type: string
             applicationReference:
               type: string
+            enforcementReference:
+              type: string
         userId:
           type: string
         createdAt:

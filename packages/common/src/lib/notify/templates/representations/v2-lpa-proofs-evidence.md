@@ -4,7 +4,11 @@ We’ve received your proof of evidence and witnesses.
 
 ^ Appeal reference number: {{appealReferenceNumber}}
 Address: {{appealSiteAddress}}
+{%- if isEnforcement %}
+Enforcement notice reference: {{enforcementReference}}
+{%- else %}
 Planning application reference: {{lpaReference}}
+{%- endif %}
 
 # What happens next
 

@@ -270,26 +270,31 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
  * @param { FullAppellantSubmission } appellantSubmission
  */
 const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
+	const { appealTypeCode, applicationReference, enforcementReferenceNumber, LPACode } =
+		appellantSubmission;
+
 	try {
 		let lpa;
 		try {
-			lpa = await lpaService.getLpaByCode(appellantSubmission.LPACode);
+			lpa = await lpaService.getLpaByCode(LPACode);
 		} catch (err) {
-			lpa = await lpaService.getLpaById(appellantSubmission.LPACode);
+			lpa = await lpaService.getLpaById(LPACode);
 		}
 		const lpaEmail = lpa.getEmail();
 
 		const reference = appellantSubmission.id;
 
-		const appealType = mapAppealTypeToDisplayText(CASE_TYPES[appellantSubmission.appealTypeCode]);
+		const appealType = mapAppealTypeToDisplayText(CASE_TYPES[appealTypeCode]);
 
 		const variables = {
 			...getSharedNotifyVariables({
 				varyContactByEnforcement: true,
-				appealTypeCode: appellantSubmission.appealTypeCode
+				appealTypeCode
 			}),
 			loginUrl: `${config.apps.appeals.baseUrl}/manage-appeals/your-appeals`,
-			lpaReference: appellantSubmission.applicationReference
+			lpaReference: applicationReference || '',
+			enforcementReference: enforcementReferenceNumber || '',
+			isEnforcement: isEnforcement(appealTypeCode)
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
@@ -309,10 +314,7 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
 			reference
 		});
 	} catch (err) {
-		logger.error(
-			{ err, lpaCode: appellantSubmission.LPACode },
-			'Unable to send submission received email to LPA'
-		);
+		logger.error({ err, lpaCode: LPACode }, 'Unable to send submission received email to LPA');
 	}
 };
 
@@ -330,7 +332,8 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		siteAddressTown,
 		siteAddressCounty,
 		siteAddressPostcode,
-		applicationReference
+		applicationReference,
+		enforcementReference
 	} = lpaStatementSubmission.AppealCase;
 
 	const formattedAddress = formatSubmissionAddress({
@@ -362,7 +365,9 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 			deadlineDate: finalCommentsDueDate
 				? formatInTimeZone(finalCommentsDueDate, ukTimeZone, 'dd MMMM yyyy')
 				: '',
-			lpaReference: applicationReference
+			lpaReference: applicationReference || '',
+			enforcementReference: enforcementReference || '',
+			isEnforcement: isEnforcement(appealTypeCode)
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
@@ -399,7 +404,8 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 		siteAddressTown,
 		siteAddressCounty,
 		siteAddressPostcode,
-		applicationReference
+		applicationReference,
+		enforcementReference
 	} = lpaFinalCommentSubmission.AppealCase;
 
 	const caseReference = lpaFinalCommentSubmission.caseReference;
@@ -436,7 +442,9 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 			deadlineDate: finalCommentsDueDate
 				? formatInTimeZone(finalCommentsDueDate, ukTimeZone, 'dd MMMM yyyy')
 				: '',
-			lpaReference: applicationReference
+			lpaReference: applicationReference || '',
+			enforcementReference: enforcementReference || '',
+			isEnforcement: isEnforcement(appealTypeCode)
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
@@ -468,6 +476,7 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 		appealTypeCode,
 		LPACode: lpaCode,
 		applicationReference,
+		enforcementReference,
 		proofsOfEvidenceDueDate,
 		siteAddressLine1,
 		siteAddressLine2,
@@ -507,7 +516,9 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 			deadlineDate: proofsOfEvidenceDueDate
 				? formatInTimeZone(proofsOfEvidenceDueDate, ukTimeZone, 'dd MMMM yyyy')
 				: '',
-			lpaReference: applicationReference
+			lpaReference: applicationReference || '',
+			enforcementReference: enforcementReference || '',
+			isEnforcement: isEnforcement(appealTypeCode)
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending proof of evidence email to LPA');
@@ -636,7 +647,8 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 			siteAddressCounty,
 			siteAddressPostcode,
 			finalCommentsDueDate,
-			applicationReference
+			applicationReference,
+			enforcementReference
 		} = appellantFinalCommentSubmission.AppealCase;
 
 		const caseReference = appellantFinalCommentSubmission.caseReference;
@@ -661,7 +673,9 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 			deadlineDate: finalCommentsDueDate
 				? formatInTimeZone(finalCommentsDueDate, ukTimeZone, 'dd MMMM yyyy')
 				: '',
-			lpaReference: applicationReference
+			lpaReference: applicationReference || '',
+			enforcementReference: enforcementReference || '',
+			isEnforcement: isEnforcement(appealTypeCode)
 		};
 
 		logger.debug({ variables }, 'Sending final comment email to appellant');
@@ -697,6 +711,7 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 		const {
 			appealTypeCode,
 			applicationReference,
+			enforcementReference,
 			siteAddressLine1,
 			siteAddressLine2,
 			siteAddressTown,
@@ -725,6 +740,8 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 			appealReferenceNumber: caseReference,
 			siteAddress: formattedAddress,
 			lpaReference: applicationReference || '',
+			enforcementReference: enforcementReference || '',
+			isEnforcement: isEnforcement(appealTypeCode),
 			deadlineDate: proofsOfEvidenceDueDate
 				? formatInTimeZone(proofsOfEvidenceDueDate, ukTimeZone, 'dd MMMM yyyy')
 				: 'Not provided'
@@ -766,7 +783,8 @@ const sendAppellantStatementSubmissionReceivedEmailToLpaV2 = async (
 			siteAddressLine2,
 			siteAddressTown,
 			siteAddressCounty,
-			siteAddressPostcode
+			siteAddressPostcode,
+			enforcementReference
 		} = appellantStatementSubmission.AppealCase;
 
 		const caseReference = appellantStatementSubmission.AppealCase.caseReference;
@@ -788,7 +806,9 @@ const sendAppellantStatementSubmissionReceivedEmailToLpaV2 = async (
 			}),
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
-			applicationReference: applicationReference
+			lpaReference: applicationReference || '',
+			enforcementReference: enforcementReference || '',
+			isEnforcement: isEnforcement(appealTypeCode)
 		};
 
 		logger.debug({ variables }, 'Sending appellant statement email to appellant');
@@ -831,7 +851,8 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 			siteAddressCounty,
 			siteAddressPostcode,
 			proofsOfEvidenceDueDate,
-			applicationReference
+			applicationReference,
+			enforcementReference
 		} = rule6ProofEvidenceSubmission.AppealCase;
 
 		const caseReference = rule6ProofEvidenceSubmission.caseReference;
@@ -854,6 +875,8 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 			appealReferenceNumber: caseReference,
 			siteAddress: formattedAddress,
 			lpaReference: applicationReference || '',
+			enforcementReference: enforcementReference || '',
+			isEnforcement: isEnforcement(appealTypeCode),
 			deadlineDate: proofsOfEvidenceDueDate
 				? formatInTimeZone(proofsOfEvidenceDueDate, ukTimeZone, 'dd MMMM yyyy')
 				: '',
@@ -895,6 +918,7 @@ const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
 		const {
 			appealTypeCode,
 			applicationReference,
+			enforcementReference,
 			siteAddressLine1,
 			siteAddressLine2,
 			siteAddressTown,
@@ -921,7 +945,9 @@ const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
 			}),
 			appealReferenceNumber: caseReference,
 			siteAddress: formattedAddress,
-			lpaReference: applicationReference,
+			lpaReference: applicationReference || '',
+			enforcementReference: enforcementReference || '',
+			isEnforcement: isEnforcement(appealTypeCode),
 			rule6RecipientLine: serviceUser?.organisation ? `To ${serviceUser.organisation},` : ''
 		};
 
