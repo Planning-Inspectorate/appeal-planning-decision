@@ -32,7 +32,7 @@ const generateRequiredDocuments = (appealType) => {
 	}
 };
 
-const generateOptionalDocuments = (appealType) => {
+const generateOptionalDocuments = (appealType, isExpeditedAppeal) => {
 	switch (appealType) {
 		case APPEAL_ID.HOUSEHOLDER:
 			return [
@@ -40,6 +40,16 @@ const generateOptionalDocuments = (appealType) => {
 				'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
 			];
 		case APPEAL_ID.PLANNING_SECTION_78:
+			if (isExpeditedAppeal) {
+				return [
+					'decision letter from the local planning authority',
+					'your reasons for appealing, or an appeal statement',
+					'planning obligation',
+					'information relating to the ownership of the land',
+					'an environment statement'
+				];
+			}
+
 			return [
 				'decision letter from the local planning authority',
 				'planning obligation',
