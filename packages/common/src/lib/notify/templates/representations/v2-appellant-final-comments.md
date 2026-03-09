@@ -14,5 +14,5 @@ Planning application reference: {{lpaReference}}
 
 We will contact you if the local planning authority submits final comments. The deadline for the local planning authority’s final comments is {{deadlineDate}}.
 
-The Planning Inspectorate
+Planning Inspectorate
 {{contactEmail}}

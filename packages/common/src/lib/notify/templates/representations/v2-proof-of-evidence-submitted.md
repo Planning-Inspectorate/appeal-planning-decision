@@ -14,5 +14,5 @@ Planning application reference: {{lpaReference}}
 
 We will contact you when the local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is {{deadlineDate}}.
 
-The Planning Inspectorate
+Planning Inspectorate
 {{contactEmail}}

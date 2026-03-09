@@ -326,7 +326,6 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		appealTypeCode,
 		LPACode: lpaCode,
 		caseReference,
-		finalCommentsDueDate,
 		siteAddressLine1,
 		siteAddressLine2,
 		siteAddressTown,
@@ -354,7 +353,7 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		const lpaEmail = lpa.getEmail();
 
 		const reference = lpaStatementSubmission.id;
-		// TODO: put inside an appeal model
+
 		let variables = {
 			...getSharedNotifyVariables({
 				varyContactByEnforcement: true,
@@ -362,12 +361,11 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 			}),
 			appealReferenceNumber: caseReference,
 			appealSiteAddress: formattedAddress,
-			deadlineDate: finalCommentsDueDate
-				? formatInTimeZone(finalCommentsDueDate, ukTimeZone, 'dd MMMM yyyy')
-				: '',
 			lpaReference: applicationReference || '',
 			enforcementReference: enforcementReference || '',
-			isEnforcement: isEnforcement(appealTypeCode)
+			isEnforcement: isEnforcement(appealTypeCode),
+			hasAppellantStatementJourney:
+				caseTypeLookup(appealTypeCode, 'processCode')?.hasAppellantStatementJourney ?? false
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
@@ -379,7 +377,7 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 		);
 		await notifyService.sendEmail({
 			personalisation: {
-				subject: `We've received your statement: ${caseReference}`,
+				subject: `We have received your statement: ${caseReference}`,
 				content
 			},
 			destinationEmail: lpaEmail,
@@ -771,7 +769,7 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
  * @param { AppellantStatementSubmission } appellantStatementSubmission
  * @param {string} emailAddress
  */
-const sendAppellantStatementSubmissionReceivedEmailToLpaV2 = async (
+const sendAppellantStatementSubmissionReceivedEmailToAppellantV2 = async (
 	appellantStatementSubmission,
 	emailAddress
 ) => {
@@ -820,7 +818,7 @@ const sendAppellantStatementSubmissionReceivedEmailToLpaV2 = async (
 		);
 		await notifyService.sendEmail({
 			personalisation: {
-				subject: `We have received your appellant statement: ${variables.appealReferenceNumber}`,
+				subject: `We have received your statement: ${variables.appealReferenceNumber}`,
 				content
 			},
 			destinationEmail: emailAddress,
@@ -1241,7 +1239,7 @@ module.exports = {
 
 	sendSubmissionReceivedEmailToLpaV2,
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
-	sendAppellantStatementSubmissionReceivedEmailToLpaV2,
+	sendAppellantStatementSubmissionReceivedEmailToAppellantV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2,
 	sendLPAProofEvidenceSubmissionEmailToLPAV2,
 	sendLPAHASQuestionnaireSubmittedEmailV2,

@@ -19,5 +19,5 @@ We will contact you when:
 - the local planning authority and any other parties have submitted their statements
 - we have received comments from interested parties
 
-The Planning Inspectorate
+Planning Inspectorate
 {{contactEmail}}

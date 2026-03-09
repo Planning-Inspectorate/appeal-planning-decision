@@ -27,7 +27,7 @@ const {
 	sendRule6StatementSubmissionEmailToRule6PartyV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2,
 	sendLPAHASQuestionnaireSubmittedEmailV2,
-	sendAppellantStatementSubmissionReceivedEmailToLpaV2
+	sendAppellantStatementSubmissionReceivedEmailToAppellantV2
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
@@ -368,9 +368,9 @@ class BackOfficeV2Service {
 		await markAppellantStatementAsSubmitted(caseReference, new Date().toISOString());
 
 		try {
-			await sendAppellantStatementSubmissionReceivedEmailToLpaV2(appellantStatement, email);
+			await sendAppellantStatementSubmissionReceivedEmailToAppellantV2(appellantStatement, email);
 		} catch (err) {
-			logger.error({ err }, 'failed to sendappellantStatementSubmissionReceivedEmailToAppellantV2');
+			logger.error({ err }, 'failed to sendAppellantStatementSubmissionReceivedEmailToAppellantV2');
 			throw new Error('failed to send appellant statement submission email');
 		}
 		return result;

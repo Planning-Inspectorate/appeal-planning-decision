@@ -1,4 +1,4 @@
-We’ve received your statement.
+We have received your statement.
 
 # Appeal details
 
@@ -12,7 +12,12 @@ Planning application reference: {{lpaReference}}
 
 # What happens next
 
-We will contact you when the appellant has submitted their final comments. The deadline is {{deadlineDate}}.
+We will contact you if:
 
-The Planning Inspectorate
+{%- if hasAppellantStatementJourney %}
+- the appellant have submitted their statements
+{%- endif %}
+- we have received comments from interested parties
+
+Planning Inspectorate
 {{contactEmail}}

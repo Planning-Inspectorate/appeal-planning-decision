@@ -14,5 +14,5 @@ Planning application reference: {{lpaReference}}
 
 We will contact you when the appellant submits their final comments. The deadline for the appellant’s final comments is {{deadlineDate}}.
 
-The Planning Inspectorate
+Planning Inspectorate
 {{contactEmail}}

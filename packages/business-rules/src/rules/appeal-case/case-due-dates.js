@@ -5,11 +5,8 @@ const {
 const { deadlineHasPassed } = require('@pins/common/src/lib/deadline-has-passed');
 const { isChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
 const { representationExists } = require('@pins/common/src/lib/representations');
-const {
-	APPEAL_USER_ROLES,
-	APPELLANT_STATEMENT_APPEAL_TYPES
-} = require('@pins/common/src/constants');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { CASE_TYPES, caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} UserRole
@@ -83,7 +80,7 @@ exports.isLPAStatementOpen = (appealCaseData) =>
  */
 exports.isAppellantStatementOpen = (appealCaseData) =>
 	process.env.APPELLANT_STATEMENT_ENABLED === 'true' &&
-	APPELLANT_STATEMENT_APPEAL_TYPES.includes(appealCaseData.appealTypeCode) &&
+	!!caseTypeLookup(appealCaseData.appealTypeCode, 'processCode')?.hasAppellantStatementJourney &&
 	statementsAreOpen(appealCaseData) &&
 	!appealCaseData.AppellantStatementSubmittedDate &&
 	!representationExists(appealCaseData.Representations, {
