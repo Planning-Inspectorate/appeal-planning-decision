@@ -144,7 +144,7 @@ describe('NotifyService', () => {
 			* your appeal reference number
 			* a copy of your appeal form
 
-			The Planning Inspectorate
+			Planning Inspectorate
 			${escape(personalisation.contactEmail)}`
 			);
 		});
@@ -164,7 +164,7 @@ describe('NotifyService', () => {
 
 				Sign in to view your appeals and continue: ${personalisation.link}
 
-				The Planning Inspectorate
+				Planning Inspectorate
 				${personalisation.contactEmail}`
 			);
 		});
@@ -183,7 +183,7 @@ describe('NotifyService', () => {
 			* your appeal reference number
 			* a copy of your appeal form
 
-			The Planning Inspectorate
+			Planning Inspectorate
 			${personalisation.contactEmail}`
 			);
 		});
@@ -221,7 +221,7 @@ describe('NotifyService', () => {
 				# Give feedback
 				[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes)
 
-				The Planning Inspectorate
+				Planning Inspectorate
 				${personalisation.contactEmail}`
 			);
 		});
@@ -255,7 +255,7 @@ describe('NotifyService', () => {
 
 				We will contact you again when we start the appeal.
 
-				The Planning Inspectorate
+				Planning Inspectorate
 				${personalisation.contactEmail}`
 			);
 		});
@@ -287,7 +287,7 @@ describe('NotifyService', () => {
 					# Give feedback
 					[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes)
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -318,7 +318,7 @@ describe('NotifyService', () => {
 					# Give feedback
 					[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes)
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -360,7 +360,7 @@ describe('NotifyService', () => {
 					# Give feedback
 					[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes)
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					[Contact us](${personalisation.contactForm})`
 				);
 			});
@@ -400,7 +400,7 @@ describe('NotifyService', () => {
 					# Give feedback
 					[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes)
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					[Contact us](${personalisation.contactForm})`
 				);
 			});
@@ -489,7 +489,7 @@ describe('NotifyService', () => {
 					2. Email a copy of the questionnaire and any documents to the appellant: ${personalisation.appellantEmailAddress}
 					3. We will review your questionnaire and contact you if we need any further information.
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -526,7 +526,7 @@ describe('NotifyService', () => {
 					2. Email a copy of the questionnaire and any documents to the appellant: ${personalisation.appellantEmailAddress}
 					3. We will review your questionnaire and contact you if we need any further information.
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -542,13 +542,14 @@ describe('NotifyService', () => {
 					contactEmail: 'example@test.com',
 					lpaReference: 'abc',
 					enforcementReference: '',
-					isEnforcement: false
+					isEnforcement: false,
+					hasAppellantStatementJourney: false
 				};
 
 				const result = notifyService.populateTemplate(template, personalisation);
 				expectMessage(
 					result,
-					`We’ve received your statement.
+					`We have received your statement.
 
 					# Appeal details
 
@@ -557,9 +558,10 @@ describe('NotifyService', () => {
 					Planning application reference: ${personalisation.lpaReference}
 
 					# What happens next
-					We will contact you when the appellant has submitted their final comments. The deadline is ${personalisation.deadlineDate}.
+					We will contact you if:
+					- we have received comments from interested parties
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -573,13 +575,14 @@ describe('NotifyService', () => {
 					contactEmail: 'example@test.com',
 					lpaReference: 'abc',
 					enforcementReference: 'enf-ref',
-					isEnforcement: true
+					isEnforcement: true,
+					hasAppellantStatementJourney: true
 				};
 
 				const result = notifyService.populateTemplate(template, personalisation);
 				expectMessage(
 					result,
-					`We’ve received your statement.
+					`We have received your statement.
 
 					# Appeal details
 
@@ -588,9 +591,11 @@ describe('NotifyService', () => {
 					Enforcement notice reference: ${personalisation.enforcementReference}
 
 					# What happens next
-					We will contact you when the appellant has submitted their final comments. The deadline is ${personalisation.deadlineDate}.
+					We will contact you if:
+					- the appellant have submitted their statements
+					- we have received comments from interested parties
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -623,7 +628,7 @@ describe('NotifyService', () => {
 					# What happens next
 					We will contact you if the local planning authority submits final comments. The deadline for the local planning authority’s final comments is ${personalisation.deadlineDate}.
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -654,7 +659,7 @@ describe('NotifyService', () => {
 					# What happens next
 					We will contact you if the local planning authority submits final comments. The deadline for the local planning authority’s final comments is ${personalisation.deadlineDate}.
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -688,7 +693,7 @@ describe('NotifyService', () => {
 					# What happens next
 					We will contact you when the appellant submits their final comments. The deadline for the appellant’s final comments is ${personalisation.deadlineDate}.
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -720,7 +725,7 @@ describe('NotifyService', () => {
 					# What happens next
 					We will contact you when the appellant submits their final comments. The deadline for the appellant’s final comments is ${personalisation.deadlineDate}.
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -754,7 +759,7 @@ describe('NotifyService', () => {
 
 					We will contact you when the local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -786,7 +791,7 @@ describe('NotifyService', () => {
 
 					We will contact you when the local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -819,7 +824,7 @@ describe('NotifyService', () => {
 					# What happens next
 					We will contact you when the appellant and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -850,7 +855,7 @@ describe('NotifyService', () => {
 					# What happens next
 					We will contact you when the appellant and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -875,7 +880,7 @@ describe('NotifyService', () => {
 
 				The inspector will review all of the evidence. We will contact you by email when we make a decision.
 
-				The Planning Inspectorate
+				Planning Inspectorate
 				${personalisation.contactEmail}`
 			);
 		});
@@ -895,7 +900,7 @@ describe('NotifyService', () => {
 
 				We will send a code to your email address, so that you can sign in to the service.
 
-				The Planning Inspectorate
+				Planning Inspectorate
 				${personalisation.contactEmail}`
 			);
 		});
@@ -929,7 +934,7 @@ describe('NotifyService', () => {
 					# What happens next
 					We will contact you when the appellant, local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -962,7 +967,7 @@ describe('NotifyService', () => {
 					# What happens next
 					We will contact you when the appellant, local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -1000,7 +1005,7 @@ describe('NotifyService', () => {
 					- the local planning authority and any other parties have submitted their statements
 					- we have received comments from interested parties
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -1036,7 +1041,7 @@ describe('NotifyService', () => {
 					- the local planning authority and any other parties have submitted their statements
 					- we have received comments from interested parties
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});

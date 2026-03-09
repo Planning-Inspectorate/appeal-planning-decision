@@ -5,5 +5,5 @@ You can use the service to:
 - complete and submit appeal questionnaires
 - add statements, documents and representations
 
-The Planning Inspectorate
+Planning Inspectorate
 {{contactEmail}} 

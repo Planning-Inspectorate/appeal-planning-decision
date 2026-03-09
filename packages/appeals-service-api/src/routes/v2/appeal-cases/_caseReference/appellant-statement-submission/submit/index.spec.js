@@ -95,8 +95,8 @@ module.exports = ({
 				validEmail,
 				{
 					personalisation: {
-						content: expect.stringContaining('We’ve received your statement.'), // content in v2AppellantStatement (v2-appellant-statement.md)
-						subject: `We have received your appellant statement: ${appealReferenceNumber}`
+						content: expect.stringContaining('We have received your statement.'), // content in v2AppellantStatement (v2-appellant-statement.md)
+						subject: `We have received your statement: ${appealReferenceNumber}`
 					},
 					reference: expect.any(String),
 					emailReplyToId: undefined
