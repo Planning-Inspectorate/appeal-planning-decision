@@ -524,7 +524,13 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 	const bannerHtmlOverride =
 		config.betaBannerText +
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
-	const optionalDocuments = generateOptionalDocuments(appeal.appealType);
+
+	const isExpeditedAppeal =
+		appeal.appealType === APPEAL_ID.PLANNING_SECTION_78 &&
+		['granted', 'refused'].includes(appeal.eligibility?.applicationDecision) &&
+		new Date(appeal.decisionDate) > new Date(2026, 3, 1);
+
+	const optionalDocuments = generateOptionalDocuments(appeal.appealType, isExpeditedAppeal);
 
 	if (
 		![
@@ -541,13 +547,20 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 	)
 		return res.render('./error/not-found.njk');
 
+	let requiredDocumentsSubheading;
+	if (appeal.appealType === APPEAL_ID.HOUSEHOLDER) {
+		requiredDocumentsSubheading =
+			'You’ll need your planning application form. Do not submit your plans or drawings, the local planning authority will provide them.';
+	} else if (isExpeditedAppeal) {
+		requiredDocumentsSubheading = 'You’ll need your planning application form.';
+	} else {
+		requiredDocumentsSubheading = 'You’ll need your:';
+	}
+
 	return res.render(LIST_OF_DOCUMENTS_V2, {
 		bannerHtmlOverride,
-		requiredDocumentsSubheading:
-			appeal.appealType === APPEAL_ID.HOUSEHOLDER
-				? 'You’ll need your planning application form. Do not submit your plans or drawings, the local planning authority will provide them.'
-				: 'You’ll need your:',
-		requiredDocuments: generateRequiredDocuments(appeal.appealType),
+		requiredDocumentsSubheading,
+		requiredDocuments: isExpeditedAppeal ? [] : generateRequiredDocuments(appeal.appealType),
 		optionalDocumentsSubheading:
 			optionalDocuments === undefined
 				? null
