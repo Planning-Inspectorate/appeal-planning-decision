@@ -59,6 +59,7 @@ exports.isLPAQuestionnaireDue = (appealCaseData) =>
  * @returns {boolean}
  */
 const statementsAreOpen = (appealCaseData) =>
+	!isChildLinkedAppeal(appealCaseData) &&
 	!!appealCaseData.statementDueDate &&
 	!deadlineHasPassed(appealCaseData.statementDueDate) &&
 	appealCaseData.caseStatus !== APPEAL_CASE_STATUS.INVALID &&
@@ -72,9 +73,7 @@ const statementsAreOpen = (appealCaseData) =>
  * @returns {boolean}
  */
 exports.isLPAStatementOpen = (appealCaseData) =>
-	!isChildLinkedAppeal(appealCaseData) &&
-	statementsAreOpen(appealCaseData) &&
-	!appealCaseData.LPAStatementSubmittedDate;
+	statementsAreOpen(appealCaseData) && !appealCaseData.LPAStatementSubmittedDate;
 
 /**
  * statement is open for Appellant
