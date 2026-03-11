@@ -745,6 +745,13 @@ exports.appealStatementSubmitted = async (req, res) => {
 		return res.render('./error/not-found.njk');
 	}
 
+	if (journey.journeyId === JOURNEY_TYPES.APPELLANT_STATEMENT.id) {
+		return res.render('./dynamic-components/submission-screen/appellant-appeal-statement', {
+			bannerHtmlOverride: journey.makeBannerHtmlOverride(journey.response),
+			feedbackLinkUrl: config.getAppealTypeFeedbackUrl(journey.response.answers.appealTypeCode)
+		});
+	}
+
 	return res.render('./dynamic-components/submission-screen/appeal-statement', {});
 };
 

@@ -10,6 +10,7 @@ const {
 	SUBMISSIONS
 } = require('@pins/common/src/constants');
 const { formatSubmissionDate } = require('@pins/common/src/lib/format-appeal-details');
+const config = require('../../config');
 
 /**
  * @type {import("@pins/common/src/view-model-maps/sections/def").Sections}
@@ -38,6 +39,28 @@ exports.sections = [
 	{
 		heading: 'Statements',
 		links: [
+			{
+				url: '/statement',
+				text: 'View your statement',
+				submissionDate: {
+					text: (appealCase) =>
+						formatSubmissionDate(
+							SUBMISSIONS.STATEMENT,
+							getRepresentationSubmissionDate(appealCase.Representations, {
+								type: REPRESENTATION_TYPES.STATEMENT,
+								owned: true,
+								submitter: APPEAL_USER_ROLES.APPELLANT
+							})
+						)
+				},
+				condition: (appealCase) =>
+					config.featureFlag.appellantStatementEnabled &&
+					representationExists(appealCase.Representations, {
+						type: REPRESENTATION_TYPES.STATEMENT,
+						owned: true,
+						submitter: APPEAL_USER_ROLES.APPELLANT
+					})
+			},
 			{
 				url: '/lpa-statement',
 				text: 'View local planning authority statement',

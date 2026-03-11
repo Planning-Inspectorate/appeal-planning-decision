@@ -23,5 +23,5 @@ You must send a copy of your appeal form and documents to the local planning aut
 
 [Give feedback on the appeals service]({{feedbackUrl}}) (takes 2 minutes)
 
-The Planning Inspectorate
+Planning Inspectorate
 [Contact us]({{contactForm}})

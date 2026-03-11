@@ -22279,7 +22279,7 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -24708,7 +24708,7 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -26755,7 +26755,7 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -27937,7 +27937,7 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="allegedBreachArea-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the area of the alleged breach the same as the site area?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the breach described in the enforcement notice fill the whole of the site area?</h1>
                         </legend>
                         <div id="allegedBreachArea-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -28772,13 +28772,14 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/enforcement-notice-date-application"
             method="post" novalidate=null>
+                <h1 class="govuk-heading-l">Existing enforcement notice</h1>
+                <p class="govuk-body">Applicants may apply for planning permission retrospectively, after the
+                    LPA has issued an enforcement notice, or on Ground (a).</p>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="noticeDateApplication-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Was there an enforcement notice in force at the date of the application?</h1>
-                        </legend>
-                        <div id="noticeDateApplication-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Was there an enforcement notice in place at the date of the application?</legend>
+                        <div
+                        class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="noticeDateApplication" name="noticeDateApplication"
                                 type="radio" value="yes" data-cy="answer-yes">
@@ -28789,13 +28790,13 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                                 type="radio" value="no" data-cy="answer-no">
                                 <label class="govuk-label govuk-radios__label" for="noticeDateApplication-2">No</label>
                             </div>
-                        </div>
-                    </fieldset>
                 </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
+                </fieldset>
         </div>
+        <button type="submit" class="govuk-button" data-module="govuk-button"
+        data-cy="button-save-and-continue">Continue</button>
+        </form>
+    </div>
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -29429,7 +29430,7 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -29842,7 +29843,8 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Did you previously grant any planning permission for this development?</h1>
                         </legend>
-                        <div id="previousPlanningPermission-hint" class="govuk-hint"></div>
+                        <div id="previousPlanningPermission-hint" class="govuk-hint">This could have been for a different application, or an application submitted
+                            in the past.</div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="previousPlanningPermission" name="previousPlanningPermission"
@@ -30659,7 +30661,7 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Notifying relevant parties</span>
-            <h1 class="govuk-heading-l">Upload the list of people that you served the enforcement notice to</h1>
+            <h1 class="govuk-heading-l">Upload the list of people and the addresses where you served the notices.</h1>
             <form action="/manage-appeals/questionnaire/appeal-ref/notified/upload-enforcement-list"
             method="post" novalidate=null enctype="multipart/form-data">
                 <div class="moj-multi-file-upload">
@@ -31378,7 +31380,7 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the area of the alleged breach the same as the site area?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/alleged-breach-area">Answer<span class="govuk-visually-hidden"> Is the area of the alleged breach the same as the site area?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/alleged-breach-area">Answer<span class="govuk-visually-hidden"> Does the breach described in the enforcement notice fill the whole of the site area?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the enforcement notice include the erection of a building or buildings?</dt>
@@ -31425,7 +31427,7 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the list of people that you served the enforcement notice to</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the list of people you served the enforcement notice to</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-enforcement-list">Upload<span class="govuk-visually-hidden"> the list of people that you served the enforcement notice to</span></a>
@@ -31486,10 +31488,10 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/previous-planning-permission">Answer<span class="govuk-visually-hidden"> Did you previously grant any planning permission for this development?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Was there an enforcement notice in force at the date of the application?</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Was there any enforcement notice in place at the date of the application?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/enforcement-notice-date-application">Answer<span class="govuk-visually-hidden"> Was there an enforcement notice in force at the date of the application?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/enforcement-notice-date-application">Answer<span class="govuk-visually-hidden"> Existing enforcement notice</span></a>
                                 </dd>
                         </div>
                     </dl>
@@ -31700,7 +31702,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="allegedBreachArea-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the area of the alleged breach the same as the site area?</h1>
+                            <h1 class="govuk-fieldset__heading"> Does the breach described in the enforcement notice fill the whole of the site area?</h1>
                         </legend>
                         <div id="allegedBreachArea-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -32535,13 +32537,14 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/enforcement-notice-date-application"
             method="post" novalidate=null>
+                <h1 class="govuk-heading-l">Existing enforcement notice</h1>
+                <p class="govuk-body">Applicants may apply for planning permission retrospectively, after the
+                    LPA has issued an enforcement notice, or on Ground (a).</p>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="noticeDateApplication-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Was there an enforcement notice in force at the date of the application?</h1>
-                        </legend>
-                        <div id="noticeDateApplication-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Was there an enforcement notice in place at the date of the application?</legend>
+                        <div
+                        class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="noticeDateApplication" name="noticeDateApplication"
                                 type="radio" value="yes" data-cy="answer-yes">
@@ -32552,13 +32555,13 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                                 type="radio" value="no" data-cy="answer-no">
                                 <label class="govuk-label govuk-radios__label" for="noticeDateApplication-2">No</label>
                             </div>
-                        </div>
-                    </fieldset>
                 </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
+                </fieldset>
         </div>
+        <button type="submit" class="govuk-button" data-module="govuk-button"
+        data-cy="button-save-and-continue">Continue</button>
+        </form>
+    </div>
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -33194,7 +33197,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -33605,7 +33608,8 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Did you previously grant any planning permission for this development?</h1>
                         </legend>
-                        <div id="previousPlanningPermission-hint" class="govuk-hint"></div>
+                        <div id="previousPlanningPermission-hint" class="govuk-hint">This could have been for a different application, or an application submitted
+                            in the past.</div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="previousPlanningPermission" name="previousPlanningPermission"
@@ -33852,7 +33856,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="developmentRights-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Did you remove any permitted development rights for the appeal site?</h1>
+                            <h1 class="govuk-fieldset__heading"> Did you restrict any permitted development rights using a planning condition?</h1>
                         </legend>
                         <div id="developmentRights-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -34743,7 +34747,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Notifying relevant parties</span>
-            <h1 class="govuk-heading-l">Upload the list of people that you served the enforcement notice to</h1>
+            <h1 class="govuk-heading-l">Upload the list of people and the addresses where you served the notices.</h1>
             <form action="/manage-appeals/questionnaire/appeal-ref/notified/upload-enforcement-list"
             method="post" novalidate=null enctype="multipart/form-data">
                 <div class="moj-multi-file-upload">
@@ -35534,7 +35538,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Is the area of the alleged breach the same as the site area?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/alleged-breach-area">Answer<span class="govuk-visually-hidden"> Is the area of the alleged breach the same as the site area?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/alleged-breach-area">Answer<span class="govuk-visually-hidden"> Does the breach described in the enforcement notice fill the whole of the site area?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Does the alleged breach create any floor space?</dt>
@@ -35597,10 +35601,10 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/stop-notice">Answer<span class="govuk-visually-hidden"> Did you serve a stop notice?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you remove any permitted development rights for the appeal site?</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you restrict any development rights using a planning condition?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/remove-permitted-development-rights">Answer<span class="govuk-visually-hidden"> Did you remove any permitted development rights for the appeal site?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/remove-permitted-development-rights">Answer<span class="govuk-visually-hidden"> Did you restrict any permitted development rights using a planning condition?</span></a>
                                 </dd>
                         </div>
                     </dl>
@@ -35629,7 +35633,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the list of people that you served the enforcement notice to</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the list of people you served the enforcement notice to</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-enforcement-list">Upload<span class="govuk-visually-hidden"> the list of people that you served the enforcement notice to</span></a>
@@ -35690,10 +35694,10 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/previous-planning-permission">Answer<span class="govuk-visually-hidden"> Did you previously grant any planning permission for this development?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Was there an enforcement notice in force at the date of the application?</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Was there any enforcement notice in place at the date of the application?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/enforcement-notice-date-application">Answer<span class="govuk-visually-hidden"> Was there an enforcement notice in force at the date of the application?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/planning-officer-report/enforcement-notice-date-application">Answer<span class="govuk-visually-hidden"> Existing enforcement notice</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Did you serve a planning contravention notice?</dt>
@@ -36366,7 +36370,7 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -37749,13 +37753,14 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful d
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/constraints/enforcement-notice-date-application"
             method="post" novalidate=null>
+                <h1 class="govuk-heading-l">Existing enforcement notice</h1>
+                <p class="govuk-body">Applicants may apply for planning permission retrospectively, after the
+                    LPA has issued an enforcement notice, or on Ground (a).</p>
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="noticeDateApplication-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Was there an enforcement notice in force at the date of the application?</h1>
-                        </legend>
-                        <div id="noticeDateApplication-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                    <fieldset class="govuk-fieldset">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Was there an enforcement notice in place at the date of the application?</legend>
+                        <div
+                        class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="noticeDateApplication" name="noticeDateApplication"
                                 type="radio" value="yes" data-cy="answer-yes">
@@ -37766,13 +37771,13 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful d
                                 type="radio" value="no" data-cy="answer-no">
                                 <label class="govuk-label govuk-radios__label" for="noticeDateApplication-2">No</label>
                             </div>
-                        </div>
-                    </fieldset>
                 </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
+                </fieldset>
         </div>
+        <button type="submit" class="govuk-button" data-module="govuk-button"
+        data-cy="button-save-and-continue">Continue</button>
+        </form>
+    </div>
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
@@ -38879,10 +38884,10 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate renders 
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/planning-condition">Answer<span class="govuk-visually-hidden"> Does the appeal relate to a planning condition?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Was there an enforcement notice in force at the date of the application?</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Was there any enforcement notice in place at the date of the application?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/enforcement-notice-date-application">Answer<span class="govuk-visually-hidden"> Was there an enforcement notice in force at the date of the application?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/constraints/enforcement-notice-date-application">Answer<span class="govuk-visually-hidden"> Existing enforcement notice</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there any related applications?</dt>
@@ -40369,7 +40374,7 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the new
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">
@@ -43683,7 +43688,7 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                     </details>
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any new conditions?</legend>
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">Are there any proposed conditions?</legend>
                             <div class="govuk-radios govuk-radios"
                             data-module="govuk-radios">
                                 <div class="govuk-radios__item">

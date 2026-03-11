@@ -77,8 +77,8 @@ module.exports = ({
 				email,
 				{
 					personalisation: {
-						subject: `We've received your statement: ${appealReferenceNumber}`,
-						content: expect.stringContaining('We’ve received your statement.') // content in v2LpaStatement (v2-lpa-statement.md)
+						subject: `We have received your statement: ${appealReferenceNumber}`,
+						content: expect.stringContaining('We have received your statement.') // content in v2LpaStatement (v2-lpa-statement.md)
 					},
 					reference: expect.any(String),
 					emailReplyToId: undefined

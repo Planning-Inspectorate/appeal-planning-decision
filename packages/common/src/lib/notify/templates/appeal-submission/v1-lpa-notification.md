@@ -14,5 +14,5 @@ The appellant will send you a copy of their appeal. If you do not receive this, 
 
 We will contact you again when we start the appeal.
 
-The Planning Inspectorate
+Planning Inspectorate
 {{contactEmail}}

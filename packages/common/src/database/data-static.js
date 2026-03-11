@@ -21,7 +21,8 @@ const {
  * 	processCode: "HAS" | "S78" | "S20" | "ADVERTS" | "CAS_ADVERTS" | "CAS_PLANNING" | "ENFORCEMENT" | "ENFORCEMENT_LISTED" | "LDC",
  *  friendlyUrl: string,
  *  expedited: boolean,
- *  usesEnforcementContact: boolean
+ *  usesEnforcementContact: boolean,
+ *  hasAppellantStatementJourney: boolean,
  * }} CASE_TYPE
  */
 
@@ -58,7 +59,8 @@ const CASE_TYPES = Object.freeze({
 		processCode: 'HAS',
 		friendlyUrl: 'householder',
 		expedited: true,
-		usesEnforcementContact: false
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
 	},
 	S78: {
 		id: 1005,
@@ -67,7 +69,8 @@ const CASE_TYPES = Object.freeze({
 		processCode: 'S78',
 		friendlyUrl: 'full-planning',
 		expedited: false,
-		usesEnforcementContact: false
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
 	},
 	S20: {
 		id: 1006,
@@ -76,7 +79,8 @@ const CASE_TYPES = Object.freeze({
 		processCode: 'S20',
 		friendlyUrl: 'listed-building',
 		expedited: false,
-		usesEnforcementContact: false
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
 	},
 	ADVERTS: {
 		id: 1003,
@@ -85,7 +89,8 @@ const CASE_TYPES = Object.freeze({
 		processCode: 'ADVERTS',
 		friendlyUrl: 'adverts', // shares appeal form with CAS_ADVERTS
 		expedited: false,
-		usesEnforcementContact: false
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
 	},
 	CAS_ADVERTS: {
 		id: 1007,
@@ -94,7 +99,8 @@ const CASE_TYPES = Object.freeze({
 		processCode: 'CAS_ADVERTS',
 		friendlyUrl: 'adverts', // shares appeal form with ADVERTS
 		expedited: true,
-		usesEnforcementContact: false
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
 	},
 	CAS_PLANNING: {
 		id: 1008,
@@ -103,7 +109,8 @@ const CASE_TYPES = Object.freeze({
 		processCode: 'CAS_PLANNING',
 		friendlyUrl: 'cas-planning',
 		expedited: true,
-		usesEnforcementContact: false
+		usesEnforcementContact: false,
+		hasAppellantStatementJourney: false
 	},
 	ENFORCEMENT: {
 		id: 1000,
@@ -112,7 +119,8 @@ const CASE_TYPES = Object.freeze({
 		processCode: 'ENFORCEMENT',
 		friendlyUrl: 'enforcement',
 		expedited: false,
-		usesEnforcementContact: true
+		usesEnforcementContact: true,
+		hasAppellantStatementJourney: false
 	},
 	ENFORCEMENT_LISTED: {
 		id: 1002,
@@ -121,7 +129,8 @@ const CASE_TYPES = Object.freeze({
 		processCode: 'ENFORCEMENT_LISTED',
 		friendlyUrl: 'enforcement-listed-building',
 		expedited: false,
-		usesEnforcementContact: true
+		usesEnforcementContact: true,
+		hasAppellantStatementJourney: true
 	},
 	LDC: {
 		id: 1012,
@@ -130,7 +139,8 @@ const CASE_TYPES = Object.freeze({
 		processCode: 'LDC',
 		friendlyUrl: 'ldc',
 		expedited: false,
-		usesEnforcementContact: true
+		usesEnforcementContact: true,
+		hasAppellantStatementJourney: true
 	}
 	// { key: 'G', type: 'Discontinuance notice appeal' },
 	// { key: 'L', type: 'Community infrastructure levy' },

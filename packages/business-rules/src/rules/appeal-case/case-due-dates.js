@@ -3,10 +3,13 @@ const {
 	APPEAL_REPRESENTATION_TYPE
 } = require('@planning-inspectorate/data-model');
 const { deadlineHasPassed } = require('@pins/common/src/lib/deadline-has-passed');
-const { isChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
+const {
+	isChildLinkedAppeal,
+	isEnforcementChildLinkedAppeal
+} = require('@pins/common/src/lib/linked-appeals');
 const { representationExists } = require('@pins/common/src/lib/representations');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} UserRole
@@ -19,14 +22,6 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
  * @returns {boolean}
  */
 exports.isNewAppealForLPA = (appealCaseData) => !appealCaseData.lpaQuestionnaireDueDate;
-
-/**
- * @param {AppealCaseDetailed} appealCaseData
- * @returns {boolean}
- */
-const isEnforcementChildLinkedAppeal = (appealCaseData) =>
-	appealCaseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode &&
-	isChildLinkedAppeal(appealCaseData);
 
 /**
  * questionnaire is open for LPA
@@ -56,6 +51,7 @@ exports.isLPAQuestionnaireDue = (appealCaseData) =>
  * @returns {boolean}
  */
 const statementsAreOpen = (appealCaseData) =>
+	!isChildLinkedAppeal(appealCaseData) &&
 	!!appealCaseData.statementDueDate &&
 	!deadlineHasPassed(appealCaseData.statementDueDate) &&
 	appealCaseData.caseStatus !== APPEAL_CASE_STATUS.INVALID &&
@@ -69,9 +65,7 @@ const statementsAreOpen = (appealCaseData) =>
  * @returns {boolean}
  */
 exports.isLPAStatementOpen = (appealCaseData) =>
-	!isChildLinkedAppeal(appealCaseData) &&
-	statementsAreOpen(appealCaseData) &&
-	!appealCaseData.LPAStatementSubmittedDate;
+	statementsAreOpen(appealCaseData) && !appealCaseData.LPAStatementSubmittedDate;
 
 /**
  * statement is open for Appellant
@@ -79,6 +73,8 @@ exports.isLPAStatementOpen = (appealCaseData) =>
  * @returns {boolean}
  */
 exports.isAppellantStatementOpen = (appealCaseData) =>
+	process.env.APPELLANT_STATEMENT_ENABLED === 'true' &&
+	!!caseTypeLookup(appealCaseData.appealTypeCode, 'processCode')?.hasAppellantStatementJourney &&
 	statementsAreOpen(appealCaseData) &&
 	!appealCaseData.AppellantStatementSubmittedDate &&
 	!representationExists(appealCaseData.Representations, {

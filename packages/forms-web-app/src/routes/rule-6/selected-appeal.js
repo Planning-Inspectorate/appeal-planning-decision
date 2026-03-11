@@ -35,6 +35,12 @@ const otherPartyStatementsParams = {
 	rule6OwnRepresentations: false
 };
 
+const appellantStatementParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.STATEMENT,
+	submittingParty: APPEAL_USER_ROLES.APPELLANT
+};
+
 const lpaFinalCommentParams = {
 	userType,
 	representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
@@ -88,6 +94,11 @@ router.get('/:appealNumber/statement', representationsController.get(ownStatemen
 router.get(
 	'/:appealNumber/other-party-statements',
 	representationsController.get(otherPartyStatementsParams)
+);
+
+router.get(
+	'/:appealNumber/appellant-statement',
+	representationsController.get(appellantStatementParams)
 );
 
 router.get(

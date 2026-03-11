@@ -198,24 +198,49 @@ describe('case-due-dates', () => {
 		});
 
 		describe('isAppellantStatementOpen', () => {
-			it('should return true if lpaq has been submitted and not statement submitted already', () => {
+			beforeEach(() => {
+				process.env.APPELLANT_STATEMENT_ENABLED = 'true';
+			});
+
+			afterEach(() => {
+				delete process.env.APPELLANT_STATEMENT_ENABLED;
+			});
+
+			it('should return true if appeal is allowed type, lpaq has been submitted and not statement submitted already', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
 				appealCaseData.statementDueDate = '2025-03-01';
 				deadlineHasPassed.mockReturnValueOnce(false);
 				appealCaseData.lpaQuestionnaireValidationOutcomeDate = '2025-03-01';
 				expect(isAppellantStatementOpen(appealCaseData)).toBe(true);
 			});
 
-			it('should return true if lpaQuestionnaireDueDate has passed and statement not submitted already', () => {
+			it('should return true if appeal is allowed type, lpaQuestionnaireDueDate has passed and statement not submitted already', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
 				appealCaseData.statementDueDate = '2025-03-01';
 				deadlineHasPassed.mockReturnValueOnce(false);
 				deadlineHasPassed.mockReturnValueOnce(true);
 				expect(isAppellantStatementOpen(appealCaseData)).toBe(true);
 			});
 
-			it('should return true if in STATEMENTS stage and statement not submitted already', () => {
+			it('should return true if appeal is allowed type, in STATEMENTS stage and statement not submitted already', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
 				appealCaseData.statementDueDate = '2025-03-01';
 				deadlineHasPassed.mockReturnValue(false);
 				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(true);
+			});
+
+			it('should return true if case is a lead linked case and other conditions are satisfied', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValueOnce(false);
+				appealCaseData.lpaQuestionnaireValidationOutcomeDate = '2025-03-01';
+				appealCaseData.linkedCases = [
+					{
+						childCaseReference: 'aDifferentCase',
+						leadCaseReference: appealCaseData.caseReference
+					}
+				];
 				expect(isAppellantStatementOpen(appealCaseData)).toBe(true);
 			});
 
@@ -242,11 +267,34 @@ describe('case-due-dates', () => {
 			});
 
 			it('should return false if representation exists for appellant statement', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
 				appealCaseData.statementDueDate = '2025-03-01';
 				deadlineHasPassed.mockReturnValue(false);
 				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
 				representationExists.mockReturnValue(true);
-				expect(isRule6StatementOpen(appealCaseData)).toBe(false);
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(false);
+			});
+
+			it('should return false if appeal type is not allowed (e.g. S78)', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.S78.processCode;
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValue(false);
+				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(false);
+			});
+
+			it('should return false if case is a child linked case', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValueOnce(false);
+				appealCaseData.lpaQuestionnaireValidationOutcomeDate = '2025-03-01';
+				appealCaseData.linkedCases = [
+					{
+						childCaseReference: appealCaseData.caseReference,
+						leadCaseReference: 'testLeadReference'
+					}
+				];
+				expect(isLPAStatementOpen(appealCaseData)).toBe(false);
 			});
 		});
 
@@ -256,6 +304,20 @@ describe('case-due-dates', () => {
 				deadlineHasPassed.mockReturnValue(false);
 				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
 				representationExists.mockReturnValue(false);
+				expect(isRule6StatementOpen(appealCaseData)).toBe(true);
+			});
+
+			it('should return true if case is a lead linked case and other conditions are satisfied', () => {
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValue(false);
+				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
+				representationExists.mockReturnValue(false);
+				appealCaseData.linkedCases = [
+					{
+						childCaseReference: 'aDifferentCase',
+						leadCaseReference: appealCaseData.caseReference
+					}
+				];
 				expect(isRule6StatementOpen(appealCaseData)).toBe(true);
 			});
 
@@ -276,6 +338,20 @@ describe('case-due-dates', () => {
 				deadlineHasPassed.mockReturnValue(false);
 				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
 				representationExists.mockReturnValue(true);
+				expect(isRule6StatementOpen(appealCaseData)).toBe(false);
+			});
+
+			it('should return false if case is a child linked case', () => {
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValue(false);
+				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
+				representationExists.mockReturnValue(false);
+				appealCaseData.linkedCases = [
+					{
+						childCaseReference: appealCaseData.caseReference,
+						leadCaseReference: 'testLeadReference'
+					}
+				];
 				expect(isRule6StatementOpen(appealCaseData)).toBe(false);
 			});
 		});

@@ -10,6 +10,7 @@ const {
 	isNewAppealForLPA,
 	isLPAQuestionnaireDue,
 	isLPAStatementOpen,
+	isAppellantStatementOpen,
 	isRule6StatementOpen,
 	isAppellantProofsOfEvidenceOpen,
 	isLPAProofsOfEvidenceOpen,
@@ -91,6 +92,7 @@ const proofsBaseUrl = '/manage-appeals/proof-evidence';
 
 const appellantFinalCommentBaseUrl = '/appeals/final-comments';
 const appellantProofsBaseUrl = '/appeals/proof-evidence';
+const appellantStatementBaseUrl = '/appeals/statement';
 
 const rule6StatementBaseUrl = '/rule-6/appeal-statement';
 const rule6ProofsBaseUrl = '/rule-6/proof-evidence';
@@ -369,6 +371,13 @@ const determineJourneyToDisplayAppellantDashboard = (caseOrSubmission) => {
 			/// ensures invalid appeals appear at the top of the of the display
 			dueInDays: -100000,
 			journeyDue: SUBMISSIONS.INVALID
+		};
+	} else if (isAppellantStatementOpen(caseOrSubmission)) {
+		return {
+			deadline: caseOrSubmission.statementDueDate,
+			dueInDays: calculateDueInDays(caseOrSubmission.statementDueDate),
+			journeyDue: SUBMISSIONS.STATEMENT,
+			baseUrl: `${appellantStatementBaseUrl}/${caseOrSubmission.caseReference}/entry`
 		};
 	} else if (isAppellantFinalCommentOpen(caseOrSubmission)) {
 		return {

@@ -144,7 +144,7 @@ describe('NotifyService', () => {
 			* your appeal reference number
 			* a copy of your appeal form
 
-			The Planning Inspectorate
+			Planning Inspectorate
 			${escape(personalisation.contactEmail)}`
 			);
 		});
@@ -164,7 +164,7 @@ describe('NotifyService', () => {
 
 				Sign in to view your appeals and continue: ${personalisation.link}
 
-				The Planning Inspectorate
+				Planning Inspectorate
 				${personalisation.contactEmail}`
 			);
 		});
@@ -183,7 +183,7 @@ describe('NotifyService', () => {
 			* your appeal reference number
 			* a copy of your appeal form
 
-			The Planning Inspectorate
+			Planning Inspectorate
 			${personalisation.contactEmail}`
 			);
 		});
@@ -221,7 +221,7 @@ describe('NotifyService', () => {
 				# Give feedback
 				[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes)
 
-				The Planning Inspectorate
+				Planning Inspectorate
 				${personalisation.contactEmail}`
 			);
 		});
@@ -255,7 +255,7 @@ describe('NotifyService', () => {
 
 				We will contact you again when we start the appeal.
 
-				The Planning Inspectorate
+				Planning Inspectorate
 				${personalisation.contactEmail}`
 			);
 		});
@@ -287,7 +287,7 @@ describe('NotifyService', () => {
 					# Give feedback
 					[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes)
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -318,7 +318,7 @@ describe('NotifyService', () => {
 					# Give feedback
 					[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes)
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					${personalisation.contactEmail}`
 				);
 			});
@@ -360,7 +360,7 @@ describe('NotifyService', () => {
 					# Give feedback
 					[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes)
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					[Contact us](${personalisation.contactForm})`
 				);
 			});
@@ -400,214 +400,465 @@ describe('NotifyService', () => {
 					# Give feedback
 					[Give feedback on the appeals service](${personalisation.feedbackUrl}) (takes 2 minutes)
 
-					The Planning Inspectorate
+					Planning Inspectorate
 					[Contact us](${personalisation.contactForm})`
 				);
 			});
 		});
 
-		it('should populate appealSubmission.v2LPANotification', () => {
-			const template = NotifyService.templates.appealSubmission.v2LPANotification;
-			const personalisation = {
-				lpaReference: 'abc',
-				loginUrl: 'https://example.com/login',
-				contactEmail: 'test email address'
-			};
+		describe('should populate appealSubmission.v2LPANotification', () => {
+			it('populates for non-enforcement appeals', () => {
+				const template = NotifyService.templates.appealSubmission.v2LPANotification;
+				const personalisation = {
+					lpaReference: 'abc',
+					enforcementReference: '',
+					isEnforcement: false,
+					loginUrl: 'https://example.com/login',
+					contactEmail: 'test email address'
+				};
 
-			const result = notifyService.populateTemplate(template, personalisation);
-			expectMessage(
-				result,
-				`^ LPA reference: ${personalisation.lpaReference}
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`^ LPA reference: ${personalisation.lpaReference}
 
-				We have received an appeal against this decision.
+					We have received an appeal against this decision.
 
-				When we start the appeal, you can [view the appeal in the manage your appeals service](${personalisation.loginUrl}). We will contact you when we start the appeal.
+					When we start the appeal, you can [view the appeal in the manage your appeals service](${personalisation.loginUrl}). We will contact you when we start the appeal.
 
-				Planning Inspectorate
-				${personalisation.contactEmail}`
-			);
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
+
+			it('populates for enforcement appeals', () => {
+				const template = NotifyService.templates.appealSubmission.v2LPANotification;
+				const personalisation = {
+					lpaReference: 'abc',
+					enforcementReference: 'enf-ref',
+					isEnforcement: true,
+					loginUrl: 'https://example.com/login',
+					contactEmail: 'test email address'
+				};
+
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`^ Enforcement notice reference: ${personalisation.enforcementReference}
+
+					We have received an appeal against this decision.
+
+					When we start the appeal, you can [view the appeal in the manage your appeals service](${personalisation.loginUrl}). We will contact you when we start the appeal.
+
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
 		});
 
-		it('should populate lpaq.v2LPAQSubmitted', () => {
-			const template = NotifyService.templates.lpaq.v2LPAQSubmitted;
-			const personalisation = {
-				appealReferenceNumber: 'ABC123',
-				lpaName: 'This LPA',
-				lpaReference: 'abc',
-				siteAddress: 'd\ne\nf',
-				appealStartDate: '22 April 2025',
-				questionnaireLink: 'download/questionnaire/here',
-				appellantEmailAddress: 'appellant@exmaple.com',
-				contactEmail: 'example@test.com'
-			};
+		describe('should populate lpaq.v2LPAQSubmitted', () => {
+			it('should populate for non-enforcement appeals', () => {
+				const template = NotifyService.templates.lpaq.v2LPAQSubmitted;
+				const personalisation = {
+					appealReferenceNumber: 'ABC123',
+					lpaName: 'This LPA',
+					lpaReference: 'abc',
+					enforcementReference: 'enf-ref',
+					isEnforcement: false,
+					siteAddress: 'd\ne\nf',
+					appealStartDate: '22 April 2025',
+					questionnaireLink: 'download/questionnaire/here',
+					appellantEmailAddress: 'appellant@exmaple.com',
+					contactEmail: 'example@test.com'
+				};
 
-			const result = notifyService.populateTemplate(template, personalisation);
-			expectMessage(
-				result,
-				`We have received your questionnaire.
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We have received your questionnaire.
 
-				# Appeal details
+					# Appeal details
 
-				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Address: ${personalisation.siteAddress}
-				Planning application reference: ${personalisation.lpaReference}
-				Start date: ${personalisation.appealStartDate}
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.siteAddress}
+					Planning application reference: ${personalisation.lpaReference}
+					Start date: ${personalisation.appealStartDate}
 
-				# What happens next
-				1. Download a copy of your questionnaire at ${personalisation.questionnaireLink}
-				2. Email a copy of the questionnaire and any documents to the appellant: ${personalisation.appellantEmailAddress}
-				3. We will review your questionnaire and contact you if we need any further information.
+					# What happens next
+					1. Download a copy of your questionnaire at ${personalisation.questionnaireLink}
+					2. Email a copy of the questionnaire and any documents to the appellant: ${personalisation.appellantEmailAddress}
+					3. We will review your questionnaire and contact you if we need any further information.
 
-				The Planning Inspectorate
-				${personalisation.contactEmail}`
-			);
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
+
+			it('should populate for enforcement appeals', () => {
+				const template = NotifyService.templates.lpaq.v2LPAQSubmitted;
+				const personalisation = {
+					appealReferenceNumber: 'ABC123',
+					lpaName: 'This LPA',
+					lpaReference: 'abc',
+					enforcementReference: 'enf-ref',
+					isEnforcement: true,
+					siteAddress: 'd\ne\nf',
+					appealStartDate: '22 April 2025',
+					questionnaireLink: 'download/questionnaire/here',
+					appellantEmailAddress: 'appellant@exmaple.com',
+					contactEmail: 'example@test.com'
+				};
+
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We have received your questionnaire.
+
+					# Appeal details
+
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.siteAddress}
+					Enforcement notice reference: ${personalisation.enforcementReference}
+					Start date: ${personalisation.appealStartDate}
+
+					# What happens next
+					1. Download a copy of your questionnaire at ${personalisation.questionnaireLink}
+					2. Email a copy of the questionnaire and any documents to the appellant: ${personalisation.appellantEmailAddress}
+					3. We will review your questionnaire and contact you if we need any further information.
+
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
 		});
 
-		it('should populate representation.v2LpaStatement', () => {
-			const template = NotifyService.templates.representations.v2LpaStatement;
-			const personalisation = {
-				appealReferenceNumber: 'ABC123',
-				appealSiteAddress: 'd\ne\nf',
-				deadlineDate: '28 April 2025',
-				contactEmail: 'example@test.com',
-				lpaReference: 'abc'
-			};
+		describe('should populate representation.v2LpaStatement', () => {
+			it('populates for non-enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2LpaStatement;
+				const personalisation = {
+					appealReferenceNumber: 'ABC123',
+					appealSiteAddress: 'd\ne\nf',
+					deadlineDate: '28 April 2025',
+					contactEmail: 'example@test.com',
+					lpaReference: 'abc',
+					enforcementReference: '',
+					isEnforcement: false,
+					hasAppellantStatementJourney: false
+				};
 
-			const result = notifyService.populateTemplate(template, personalisation);
-			expectMessage(
-				result,
-				`We’ve received your statement.
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We have received your statement.
 
-				# Appeal details
+					# Appeal details
 
-				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Address: ${personalisation.appealSiteAddress}
-				Planning application reference: ${personalisation.lpaReference}
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.appealSiteAddress}
+					Planning application reference: ${personalisation.lpaReference}
 
-				# What happens next
-				We will contact you when the appellant has submitted their final comments. The deadline is ${personalisation.deadlineDate}.
+					# What happens next
+					We will contact you if:
+					- we have received comments from interested parties
 
-				The Planning Inspectorate
-				${personalisation.contactEmail}`
-			);
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
+
+			it('populates for enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2LpaStatement;
+				const personalisation = {
+					appealReferenceNumber: 'ABC123',
+					appealSiteAddress: 'd\ne\nf',
+					deadlineDate: '28 April 2025',
+					contactEmail: 'example@test.com',
+					lpaReference: 'abc',
+					enforcementReference: 'enf-ref',
+					isEnforcement: true,
+					hasAppellantStatementJourney: true
+				};
+
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We have received your statement.
+
+					# Appeal details
+
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.appealSiteAddress}
+					Enforcement notice reference: ${personalisation.enforcementReference}
+
+					# What happens next
+					We will contact you if:
+					- the appellant have submitted their statements
+					- we have received comments from interested parties
+
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
 		});
 
-		it('should populate representation.v2AppellantFinalComments ', () => {
-			const template = NotifyService.templates.representations.v2AppellantFinalComment;
-			const personalisation = {
-				appealReferenceNumber: 'ABC123',
-				appealSiteAddress: 'd\ne\nf',
-				deadlineDate: '22 April 2025',
-				lpaReference: 'ghi',
-				contactEmail: 'test@exmaple.com'
-			};
+		describe('should populate representation.v2AppellantFinalComments', () => {
+			it('populate for non-enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2AppellantFinalComment;
+				const personalisation = {
+					appealReferenceNumber: 'ABC123',
+					appealSiteAddress: 'd\ne\nf',
+					deadlineDate: '22 April 2025',
+					lpaReference: 'ghi',
+					enforcementReference: '',
+					isEnforcement: false,
+					contactEmail: 'test@exmaple.com'
+				};
 
-			const result = notifyService.populateTemplate(template, personalisation);
-			expectMessage(
-				result,
-				`We have received your final comments.
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We have received your final comments.
 
-				# Appeal details
+					# Appeal details
 
-				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Address: ${personalisation.appealSiteAddress}
-				Planning application reference: ${personalisation.lpaReference}
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.appealSiteAddress}
+					Planning application reference: ${personalisation.lpaReference}
 
-				# What happens next
-				We will contact you if the local planning authority submits final comments. The deadline for the local planning authority’s final comments is ${personalisation.deadlineDate}.
+					# What happens next
+					We will contact you if the local planning authority submits final comments. The deadline for the local planning authority’s final comments is ${personalisation.deadlineDate}.
 
-				The Planning Inspectorate
-				${personalisation.contactEmail}`
-			);
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
+
+			it('populate for enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2AppellantFinalComment;
+				const personalisation = {
+					appealReferenceNumber: 'ABC123',
+					appealSiteAddress: 'd\ne\nf',
+					deadlineDate: '22 April 2025',
+					lpaReference: 'ghi',
+					enforcementReference: 'enf-ref',
+					isEnforcement: true,
+					contactEmail: 'test@exmaple.com'
+				};
+
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We have received your final comments.
+
+					# Appeal details
+
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.appealSiteAddress}
+					Enforcement notice reference: ${personalisation.enforcementReference}
+
+					# What happens next
+					We will contact you if the local planning authority submits final comments. The deadline for the local planning authority’s final comments is ${personalisation.deadlineDate}.
+
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
 		});
 
-		it('should populate representation.v2LpaFinalComments ', () => {
-			const template = NotifyService.templates.representations.v2LpaFinalComment;
-			const personalisation = {
-				LPA: 'Test LPA',
-				appealReferenceNumber: 'ABC123',
-				appealSiteAddress: 'd\ne\nf',
-				deadlineDate: '22 April 2025',
-				lpaReference: 'ghi',
-				contactEmail: 'test@exmaple.com'
-			};
+		describe('should populate representation.v2LpaFinalComments', () => {
+			it('populate for non-enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2LpaFinalComment;
+				const personalisation = {
+					LPA: 'Test LPA',
+					appealReferenceNumber: 'ABC123',
+					appealSiteAddress: 'd\ne\nf',
+					deadlineDate: '22 April 2025',
+					lpaReference: 'ghi',
+					enforcementReference: '',
+					isEnforcement: false,
+					contactEmail: 'test@exmaple.com'
+				};
 
-			const result = notifyService.populateTemplate(template, personalisation);
-			expectMessage(
-				result,
-				`We have received your final comments.
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We have received your final comments.
 
-				# Appeal details
+					# Appeal details
 
-				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Address: ${personalisation.appealSiteAddress}
-				Planning application reference: ${personalisation.lpaReference}
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.appealSiteAddress}
+					Planning application reference: ${personalisation.lpaReference}
 
-				# What happens next
-				We will contact you when the appellant submits their final comments. The deadline for the appellant’s final comments is ${personalisation.deadlineDate}.
+					# What happens next
+					We will contact you when the appellant submits their final comments. The deadline for the appellant’s final comments is ${personalisation.deadlineDate}.
 
-				The Planning Inspectorate
-				${personalisation.contactEmail}`
-			);
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
+
+			it('populate for enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2LpaFinalComment;
+				const personalisation = {
+					LPA: 'Test LPA',
+					appealReferenceNumber: 'ABC123',
+					appealSiteAddress: 'd\ne\nf',
+					deadlineDate: '22 April 2025',
+					lpaReference: 'ghi',
+					enforcementReference: 'enf-ref',
+					isEnforcement: true,
+					contactEmail: 'test@exmaple.com'
+				};
+
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We have received your final comments.
+
+					# Appeal details
+
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.appealSiteAddress}
+					Enforcement notice reference: ${personalisation.enforcementReference}
+
+					# What happens next
+					We will contact you when the appellant submits their final comments. The deadline for the appellant’s final comments is ${personalisation.deadlineDate}.
+
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
 		});
 
-		it('should populate representation.v2ProofOfEvidenceSubmitted ', () => {
-			const template = NotifyService.templates.representations.v2ProofOfEvidenceSubmitted;
-			const personalisation = {
-				appealReferenceNumber: 'ABC123',
-				deadlineDate: '22 April 2025',
-				siteAddress: 'a\nb\nc',
-				lpaReference: 'ghi',
-				contactEmail: 'test@exmaple.com'
-			};
+		describe('should populate representation.v2ProofOfEvidenceSubmitted', () => {
+			it('populate for non-enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2ProofOfEvidenceSubmitted;
+				const personalisation = {
+					appealReferenceNumber: 'ABC123',
+					deadlineDate: '22 April 2025',
+					siteAddress: 'a\nb\nc',
+					lpaReference: 'ghi',
+					enforcementReference: '',
+					isEnforcement: false,
+					contactEmail: 'test@exmaple.com'
+				};
 
-			const result = notifyService.populateTemplate(template, personalisation);
-			expectMessage(
-				result,
-				`We have received your proof of evidence and witnesses.
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We have received your proof of evidence and witnesses.
 
-				# Appeal details
+					# Appeal details
 
-				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Address: ${personalisation.siteAddress}
-				Planning application reference: ${personalisation.lpaReference}
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.siteAddress}
+					Planning application reference: ${personalisation.lpaReference}
 
-				# What happens next
+					# What happens next
 
-				We will contact you when the local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
+					We will contact you when the local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
 
-				The Planning Inspectorate
-				${personalisation.contactEmail}`
-			);
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
+
+			it('populate for enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2ProofOfEvidenceSubmitted;
+				const personalisation = {
+					appealReferenceNumber: 'ABC123',
+					deadlineDate: '22 April 2025',
+					siteAddress: 'a\nb\nc',
+					lpaReference: 'ghi',
+					enforcementReference: 'enf-ref',
+					isEnforcement: true,
+					contactEmail: 'test@exmaple.com'
+				};
+
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We have received your proof of evidence and witnesses.
+
+					# Appeal details
+
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.siteAddress}
+					Enforcement notice reference: ${personalisation.enforcementReference}
+
+					# What happens next
+
+					We will contact you when the local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
+
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
 		});
 
-		it('should populate representation.v2LpaProofsEvidence', () => {
-			const template = NotifyService.templates.representations.v2LpaProofsEvidence;
-			const personalisation = {
-				appealReferenceNumber: 'ABC123',
-				lpaReference: 'abc',
-				appealSiteAddress: 'd\ne\nf',
-				deadlineDate: '28 April 2025',
-				contactEmail: 'example@test.com'
-			};
+		describe('should populate representation.v2LpaProofsEvidence', () => {
+			it('populate for non-enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2LpaProofsEvidence;
+				const personalisation = {
+					appealReferenceNumber: 'ABC123',
+					lpaReference: 'abc',
+					enforcementReference: '',
+					isEnforcement: false,
+					appealSiteAddress: 'd\ne\nf',
+					deadlineDate: '28 April 2025',
+					contactEmail: 'example@test.com'
+				};
 
-			const result = notifyService.populateTemplate(template, personalisation);
-			expectMessage(
-				result,
-				`We’ve received your proof of evidence and witnesses.
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We’ve received your proof of evidence and witnesses.
 
-				# Appeal details
+					# Appeal details
 
-				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Address: ${personalisation.appealSiteAddress}
-				Planning application reference: ${personalisation.lpaReference}
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.appealSiteAddress}
+					Planning application reference: ${personalisation.lpaReference}
 
-				# What happens next
-				We will contact you when the appellant and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
+					# What happens next
+					We will contact you when the appellant and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
 
-				The Planning Inspectorate
-				${personalisation.contactEmail}`
-			);
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
+
+			it('populate for enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2LpaProofsEvidence;
+				const personalisation = {
+					appealReferenceNumber: 'ABC123',
+					lpaReference: 'abc',
+					enforcementReference: 'enf-ref',
+					isEnforcement: true,
+					appealSiteAddress: 'd\ne\nf',
+					deadlineDate: '28 April 2025',
+					contactEmail: 'example@test.com'
+				};
+
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We’ve received your proof of evidence and witnesses.
+
+					# Appeal details
+
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.appealSiteAddress}
+					Enforcement notice reference: ${personalisation.enforcementReference}
+
+					# What happens next
+					We will contact you when the appellant and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
+
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
 		});
 
 		it('should populate representation.v2IpCommentSubmitted ', () => {
@@ -629,7 +880,7 @@ describe('NotifyService', () => {
 
 				The inspector will review all of the evidence. We will contact you by email when we make a decision.
 
-				The Planning Inspectorate
+				Planning Inspectorate
 				${personalisation.contactEmail}`
 			);
 		});
@@ -649,73 +900,151 @@ describe('NotifyService', () => {
 
 				We will send a code to your email address, so that you can sign in to the service.
 
-				The Planning Inspectorate
+				Planning Inspectorate
 				${personalisation.contactEmail}`
 			);
 		});
 
-		it('should populate representations.v2R6ProofsEvidence', () => {
-			const template = NotifyService.templates.representations.v2R6ProofsEvidence;
-			const personalisation = {
-				appealReferenceNumber: '1010101',
-				siteAddress: 'a\nb\nc',
-				deadlineDate: '30 April 2025',
-				contactEmail: 'test@exmaple.com',
-				rule6RecipientLine: 'To Rule 6 party',
-				lpaReference: 'qwerty'
-			};
+		describe('should populate representations.v2R6ProofsEvidence', () => {
+			it('populate non-enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2R6ProofsEvidence;
+				const personalisation = {
+					appealReferenceNumber: '1010101',
+					siteAddress: 'a\nb\nc',
+					deadlineDate: '30 April 2025',
+					contactEmail: 'test@exmaple.com',
+					rule6RecipientLine: 'To Rule 6 party',
+					lpaReference: 'qwerty',
+					enforcementReference: '',
+					isEnforcement: false
+				};
 
-			const result = notifyService.populateTemplate(template, personalisation);
-			expectMessage(
-				result,
-				`${personalisation.rule6RecipientLine}
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`${personalisation.rule6RecipientLine}
 
-				We have received your proof of evidence and witnesses.
+					We have received your proof of evidence and witnesses.
 
-				# Appeal details
-				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Address: ${personalisation.siteAddress}
-				Planning application reference: ${personalisation.lpaReference}
+					# Appeal details
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.siteAddress}
+					Planning application reference: ${personalisation.lpaReference}
 
-				# What happens next
-				We will contact you when the appellant, local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
-					The Planning Inspectorate
-				${personalisation.contactEmail}`
-			);
+					# What happens next
+					We will contact you when the appellant, local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
+
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
+
+			it('populate enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2R6ProofsEvidence;
+				const personalisation = {
+					appealReferenceNumber: '1010101',
+					siteAddress: 'a\nb\nc',
+					deadlineDate: '30 April 2025',
+					contactEmail: 'test@exmaple.com',
+					rule6RecipientLine: 'To Rule 6 party',
+					lpaReference: 'qwerty',
+					enforcementReference: 'enf-ref',
+					isEnforcement: true
+				};
+
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`${personalisation.rule6RecipientLine}
+
+					We have received your proof of evidence and witnesses.
+
+					# Appeal details
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.siteAddress}
+					Enforcement notice reference: ${personalisation.enforcementReference}
+
+					# What happens next
+					We will contact you when the appellant, local planning authority and any other parties submit their proof of evidence and witnesses. The deadline is ${personalisation.deadlineDate}.
+
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
 		});
 
-		it('should populate representation.v2Rule6StatementSubmission', () => {
-			const template = NotifyService.templates.representations.v2Rule6StatementSubmission;
-			const personalisation = {
-				appealReferenceNumber: 'ABC123',
-				lpaReference: 'abc',
-				siteAddress: 'd\ne\nf',
-				contactEmail: 'example@test.com',
-				rule6RecipientLine: 'To Rule 6 party'
-			};
-			const result = notifyService.populateTemplate(template, personalisation);
-			expectMessage(
-				result,
-				`${personalisation.rule6RecipientLine}
+		describe('should populate representation.v2Rule6StatementSubmission', () => {
+			it('populate non-enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2Rule6StatementSubmission;
+				const personalisation = {
+					appealReferenceNumber: 'ABC123',
+					lpaReference: 'abc',
+					enforcementReference: '',
+					isEnforcement: false,
+					siteAddress: 'd\ne\nf',
+					contactEmail: 'example@test.com',
+					rule6RecipientLine: 'To Rule 6 party'
+				};
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`${personalisation.rule6RecipientLine}
 
-				We have received your statement.
+					We have received your statement.
 
-				# Appeal details
+					# Appeal details
 
-				^ Appeal reference number: ${personalisation.appealReferenceNumber}
-				Address: ${personalisation.siteAddress}
-				Planning application reference: ${personalisation.lpaReference}
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.siteAddress}
+					Planning application reference: ${personalisation.lpaReference}
 
-				# What happens next
+					# What happens next
 
-				We will contact you when:
+					We will contact you when:
 
-				- the local planning authority and any other parties have submitted their statements
-				- we have received comments from interested parties
+					- the local planning authority and any other parties have submitted their statements
+					- we have received comments from interested parties
 
-				The Planning Inspectorate
-				${personalisation.contactEmail}`
-			);
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
+
+			it('populate enforcement appeals', () => {
+				const template = NotifyService.templates.representations.v2Rule6StatementSubmission;
+				const personalisation = {
+					appealReferenceNumber: 'ABC123',
+					lpaReference: 'abc',
+					enforcementReference: 'enf-ref',
+					isEnforcement: true,
+					siteAddress: 'd\ne\nf',
+					contactEmail: 'example@test.com',
+					rule6RecipientLine: 'To Rule 6 party'
+				};
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`${personalisation.rule6RecipientLine}
+
+					We have received your statement.
+
+					# Appeal details
+
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.siteAddress}
+					Enforcement notice reference: ${personalisation.enforcementReference}
+
+					# What happens next
+
+					We will contact you when:
+
+					- the local planning authority and any other parties have submitted their statements
+					- we have received comments from interested parties
+
+					Planning Inspectorate
+					${personalisation.contactEmail}`
+				);
+			});
 		});
 	});
 });

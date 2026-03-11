@@ -4,7 +4,12 @@ We have received your questionnaire.
 
 ^ Appeal reference number: {{appealReferenceNumber}}
 Address: {{siteAddress}}
+{%- if isEnforcement %}
+Enforcement notice reference: {{enforcementReference}}
+{%- else %}
 Planning application reference: {{lpaReference}}
+{%- endif %}
+
 Start date: {{appealStartDate}}
 
 # What happens next
@@ -13,5 +18,5 @@ Start date: {{appealStartDate}}
 2. Email a copy of the questionnaire and any documents to the appellant: {{appellantEmailAddress}}
 3. We will review your questionnaire and contact you if we need any further information.
 
-The Planning Inspectorate
+Planning Inspectorate
 {{contactEmail}}

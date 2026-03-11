@@ -42,7 +42,8 @@ class LPAStatementSubmissionRepository {
 							siteAddressTown: true,
 							siteAddressCounty: true,
 							siteAddressPostcode: true,
-							applicationReference: true
+							applicationReference: true,
+							enforcementReference: true
 						}
 					},
 					SubmissionDocumentUpload: true

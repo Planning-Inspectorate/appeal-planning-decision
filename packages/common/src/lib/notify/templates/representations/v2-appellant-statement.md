@@ -1,10 +1,21 @@
-We’ve received your statement.
+We have received your statement.
 
 # Appeal details
 
 ^ Appeal reference number: {{appealReferenceNumber}}
 Address: {{appealSiteAddress}}
-Planning application reference: {{applicationReference}}
+{%- if isEnforcement %}
+Enforcement notice reference: {{enforcementReference}}
+{%- else %}
+Planning application reference: {{lpaReference}}
+{%- endif %}
 
-The Planning Inspectorate
+# What happens next
+
+We will contact you if:
+
+- the local planning authority have submitted their statements
+- we have received comments from interested parties
+
+Planning Inspectorate
 {{contactEmail}}

@@ -20,6 +20,17 @@ const UnitOptionEntryQuestion = require('@pins/dynamic-forms/src/dynamic-compone
 const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
 const ContentQuestion = require('@pins/dynamic-forms/src/dynamic-components/content/question');
 
+class BooleanRadio extends BooleanQuestion {
+	/**
+	 * @param {any} params
+	 * @param {Record<string, Function>} [methodOverrides]
+	 */
+	constructor(params, methodOverrides) {
+		super(params, methodOverrides);
+		this.viewFolder = 'radio';
+	}
+}
+
 // validators
 const RequiredValidator = require('@pins/dynamic-forms/src/validator/required-validator');
 const RequiredFileUploadValidator = require('@pins/dynamic-forms/src/validator/required-file-upload-validator');
@@ -622,14 +633,14 @@ exports.getQuestionProps = (response) => ({
 	},
 	addNewConditions: {
 		type: 'radio',
-		pageTitle: 'Are there any new conditions?',
-		title: 'Extra conditions', // this is summary list title
+		pageTitle: 'Are there any proposed conditions?',
+		title: 'Extra conditions',
 		question: 'Check if there are any new conditions',
 		description: 'Tell us about any new conditions. Do not include the standard conditions.',
 		fieldName: 'newConditions',
 		url: 'new-conditions',
 		html: 'resources/new-planning-conditions/content.html',
-		legend: 'Are there any new conditions?',
+		legend: 'Are there any proposed conditions?',
 		validators: [
 			new RequiredValidator('Select yes if there are any new conditions'),
 			new ConditionalRequiredValidator('Enter the new conditions'),
@@ -2417,8 +2428,9 @@ exports.getQuestionProps = (response) => ({
 	lpaStatement: {
 		type: 'text-entry',
 		title: 'Appeal statement',
-		question: 'Appeal statement',
-		label: 'Enter your statement',
+		question: 'Appeal statement summary',
+		hint: 'You can upload your appeal statement later',
+		label: 'Enter a summary of your statement',
 		url: 'appeal-statement',
 		fieldName: 'lpaStatement',
 		validators: [
@@ -2436,7 +2448,7 @@ exports.getQuestionProps = (response) => ({
 	additionalDocuments: {
 		type: 'boolean',
 		title: 'Add supporting documents',
-		question: 'Do you have additional documents to support your appeal statement?',
+		question: 'Do you want to upload your appeal statement?',
 		fieldName: 'additionalDocuments',
 		url: 'additional-documents',
 		validators: [
@@ -2448,7 +2460,7 @@ exports.getQuestionProps = (response) => ({
 	uploadLpaStatementDocuments: {
 		type: 'multi-file-upload',
 		title: 'Supporting documents',
-		question: 'Upload your new supporting documents',
+		question: 'Upload your appeal statement',
 		fieldName: 'uploadLpaStatementDocuments',
 		url: 'upload-supporting-documents',
 		validators: [
@@ -2913,7 +2925,8 @@ exports.getQuestionProps = (response) => ({
 	enforcementAllegedBreachArea: {
 		type: 'boolean',
 		title: 'Is the area of the alleged breach the same as the site area?',
-		question: 'Is the area of the alleged breach the same as the site area?',
+		question:
+			'Does the breach described in the enforcement notice fill the whole of the site area?',
 		fieldName: 'allegedBreachArea',
 		url: 'alleged-breach-area',
 		options: [
@@ -3129,8 +3142,8 @@ exports.getQuestionProps = (response) => ({
 	},
 	enforcementDevelopmentRights: {
 		type: 'boolean',
-		title: 'Did you remove any permitted development rights for the appeal site?',
-		question: 'Did you remove any permitted development rights for the appeal site?',
+		title: 'Did you restrict any development rights using a planning condition?',
+		question: 'Did you restrict any permitted development rights using a planning condition?',
 		fieldName: 'developmentRights',
 		url: 'remove-permitted-development-rights',
 		validators: [
@@ -3657,8 +3670,8 @@ exports.getQuestionProps = (response) => ({
 	// Notifying relevant parties enforcement question
 	listOfPeopleSentEnforcementNotice: {
 		type: 'multi-file-upload',
-		title: 'Upload the list of people that you served the enforcement notice to',
-		question: 'Upload the list of people that you served the enforcement notice to',
+		title: 'Upload the list of people you served the enforcement notice to',
+		question: 'Upload the list of people and the addresses where you served the notices.',
 		fieldName: 'listOfPeopleSentEnforcementNotice',
 		url: 'upload-enforcement-list',
 		validators: [
@@ -3706,6 +3719,7 @@ exports.getQuestionProps = (response) => ({
 		type: 'boolean',
 		title: 'Did you previously grant any planning permission for this development?',
 		question: 'Did you previously grant any planning permission for this development?',
+		hint: 'This could have been for a different application, or an application submitted in the past.',
 		fieldName: 'previousPlanningPermission',
 		url: 'previous-planning-permission',
 		validators: [
@@ -3731,14 +3745,17 @@ exports.getQuestionProps = (response) => ({
 		actionHiddenText: 'planning permission and any other relevant documents'
 	},
 	enforcementNoticeDateApplication: {
-		type: 'boolean',
-		title: 'Was there an enforcement notice in force at the date of the application?',
-		question: 'Was there an enforcement notice in force at the date of the application?',
+		type: 'boolean-radio',
+		title: 'Was there any enforcement notice in place at the date of the application?',
+		question: 'Existing enforcement notice',
+		description:
+			'Applicants may apply for planning permission retrospectively, after the LPA has issued an enforcement notice, or on Ground (a).',
+		legend: 'Was there an enforcement notice in place at the date of the application?',
 		fieldName: 'noticeDateApplication',
 		url: 'enforcement-notice-date-application',
 		validators: [
 			new RequiredValidator(
-				'Select yes if there was an enforcement notice in force at the date of the application'
+				'Select yes if there was an enforcement notice in place at the date of the application'
 			)
 		]
 	},
@@ -4046,6 +4063,7 @@ const questionClasses = {
 	'multi-file-upload': MultiFileUploadQuestion,
 	boolean: BooleanQuestion,
 	radio: RadioQuestion,
+	'boolean-radio': BooleanRadio,
 	date: DateQuestion,
 	'text-entry': TextEntryQuestion,
 	'single-line-input': SingleLineInputQuestion,

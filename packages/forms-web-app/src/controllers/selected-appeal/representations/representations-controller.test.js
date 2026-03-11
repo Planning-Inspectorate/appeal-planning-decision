@@ -29,6 +29,16 @@ jest.mock('#lib/add-css-to-html');
 jest.mock('#lib/pdf-api-wrapper');
 
 jest.mock('@pins/common');
+jest.mock('../../../config', () => {
+	const actualConfig = jest.requireActual('../../../config');
+	return {
+		...actualConfig,
+		featureFlag: {
+			...actualConfig.featureFlag,
+			appellantStatementEnabled: true
+		}
+	};
+});
 
 describe('controllers/selected-appeal/representations', () => {
 	const appealNumber = 'ABC123';
@@ -81,6 +91,8 @@ describe('controllers/selected-appeal/representations', () => {
 	const testHtmlWithCSS = '<head><style>' + testCSS + '</style></head><h1>Test Html</h1>';
 
 	beforeEach(() => {
+		jest.resetAllMocks();
+		res.status.mockReturnThis();
 		req.params.appealNumber = appealNumber;
 		req.appealsApiClient = {
 			getAppealCaseWithRepresentationsByType: jest.fn()
@@ -95,9 +107,11 @@ describe('controllers/selected-appeal/representations', () => {
 		filterRepresentationsForDisplay.mockImplementation(() => []);
 		formatRepresentationHeading.mockImplementation(() => 'test representation heading');
 		formatRepresentations.mockImplementation(() => ['test reps']);
+		getParentPathLink.mockReturnValue('/appeals/ABC123');
 		res.render.mockImplementation(async (view, locals, callback) => {
-			/* eslint-disable-next-line no-undef */
-			callback((err = null), (html = testHtml));
+			if (callback) {
+				callback(null, testHtml);
+			}
 		});
 	});
 
@@ -116,8 +130,6 @@ describe('controllers/selected-appeal/representations', () => {
 
 		await representationFunction(req, res);
 
-		getParentPathLink.mockReturnValue('/appeals/ABC123');
-
 		expect(req.appealsApiClient.getAppealCaseWithRepresentationsByType).toHaveBeenCalledWith(
 			'ABC123',
 			testParams.representationType
@@ -127,7 +139,105 @@ describe('controllers/selected-appeal/representations', () => {
 		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
 		expect(res.render).toHaveBeenCalledWith(
 			VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS,
-			{ ...expectedViewContext, backToAppealOverviewLink: undefined },
+			expectedViewContext,
+			expect.any(Function)
+		);
+	});
+
+	it("renders the representation page with the correct data for appellant's own statement", async () => {
+		const controller = representationsController;
+
+		const testParams = {
+			userType: APPEAL_USER_ROLES.APPELLANT,
+			representationType: REPRESENTATION_TYPES.STATEMENT,
+			submittingParty: APPEAL_USER_ROLES.APPELLANT
+		};
+
+		const testLayoutTemplate = 'layouts/test/test.njk';
+
+		const representationFunction = controller.get(testParams, testLayoutTemplate);
+
+		await representationFunction(req, res);
+
+		expect(req.appealsApiClient.getAppealCaseWithRepresentationsByType).toHaveBeenCalledWith(
+			'ABC123',
+			testParams.representationType
+		);
+		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
+		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
+		expect(res.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS,
+			expectedViewContext,
+			expect.any(Function)
+		);
+	});
+
+	it('renders the representation page for LPA viewing appellant statement', async () => {
+		const controller = representationsController;
+
+		const testParams = {
+			userType: LPA_USER_ROLE,
+			representationType: REPRESENTATION_TYPES.STATEMENT,
+			submittingParty: APPEAL_USER_ROLES.APPELLANT
+		};
+
+		const testLayoutTemplate = 'layouts/lpa-dashboard/main.njk';
+
+		const representationFunction = controller.get(testParams, testLayoutTemplate);
+
+		getParentPathLink.mockReturnValue('/manage-appeals/ABC123');
+
+		await representationFunction(req, res);
+
+		expect(req.appealsApiClient.getAppealCaseWithRepresentationsByType).toHaveBeenCalledWith(
+			'ABC123',
+			testParams.representationType
+		);
+		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
+		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
+		expect(res.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS,
+			{
+				...expectedViewContext,
+				layoutTemplate: testLayoutTemplate,
+				backToAppealOverviewLink: '/manage-appeals/ABC123'
+			},
+			expect.any(Function)
+		);
+	});
+
+	it('renders the representation page for Rule 6 party viewing appellant statement', async () => {
+		const controller = representationsController;
+
+		const testParams = {
+			userType: APPEAL_USER_ROLES.RULE_6_PARTY,
+			representationType: REPRESENTATION_TYPES.STATEMENT,
+			submittingParty: APPEAL_USER_ROLES.APPELLANT
+		};
+
+		const testLayoutTemplate = 'layouts/no-banner-link/main.njk';
+
+		const representationFunction = controller.get(testParams, testLayoutTemplate);
+
+		getParentPathLink.mockReturnValue('/rule-6/ABC123');
+
+		await representationFunction(req, res);
+
+		expect(req.appealsApiClient.getAppealCaseWithRepresentationsByType).toHaveBeenCalledWith(
+			'ABC123',
+			testParams.representationType
+		);
+		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
+		expect(formatRepresentationHeading).toHaveBeenCalledWith(testParams);
+		expect(res.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS,
+			{
+				...expectedViewContext,
+				layoutTemplate: testLayoutTemplate,
+				backToAppealOverviewLink: '/rule-6/ABC123',
+				pdfDownloadUrl: undefined,
+				zipDownloadUrl: undefined
+			},
 			expect.any(Function)
 		);
 	});
@@ -145,9 +255,9 @@ describe('controllers/selected-appeal/representations', () => {
 
 		const representationFunction = controller.get(testParams, testLayoutTemplate);
 
-		await representationFunction(req, res);
-
 		getParentPathLink.mockReturnValue('/appeals/ABC123');
+
+		await representationFunction(req, res);
 
 		expect(req.appealsApiClient.getAppealCaseWithRepresentationsByType).toHaveBeenCalledWith(
 			'ABC123',

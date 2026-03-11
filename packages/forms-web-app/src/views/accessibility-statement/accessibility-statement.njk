@@ -1,4 +1,4 @@
-{% extends "layouts/full-appeal-banner/main.njk" %}
+{% extends layoutTemplate | default("layouts/full-appeal-banner/main.njk") %}
 
 {% set title="This accessibility statement applies to Appeal a planning decision -  GOV.UK" %}
 
@@ -19,7 +19,7 @@
     <div class="govuk-grid-column-two-thirds">
 
       <p class="govuk-body">
-        This service is part of the wider GOV.UK website. There’s a separate <a href="https://www.gov.uk/help/accessibility-statement" class="govuk-link">accessibility statement for the main GOV.UK website</a>.
+        This service is part of the wider <a href="https://www.gov.uk/" class="govuk-link">GOV.UK</a> website. There’s a separate <a href="https://www.gov.uk/help/accessibility-statement" class="govuk-link">accessibility statement for the main GOV.UK website</a>.
       </p>
 
       <p class="govuk-body">
@@ -151,9 +151,6 @@
           When navigating using Dragon Naturally Speaking, users cannot upload files using voice commands. This does not comply with WCAG Level A 2.1: 4.1.2 (Name, Role, Value). This requires a fix in Dragon Naturally Speaking. As an alternative, users can use MouseGrid, a feature in the Windows Speech Recognition app.
         </li>
         <li>
-          When navigating using Dragon Naturally Speaking, the accordion cannot be expanded using voice commands. This means the content within the accordion cannot be accessed. This does not comply with WCAG Level A 2.1: 4.1.2 (Name, Role, Value). This requires a fix in Dragon Naturally Speaking. As an alternative, users can use MouseGrid, a feature in the Windows Speech Recognition app.
-        </li>
-        <li>
           When navigating with assistive technology on certain versions of iOS devices, users are taken to the top of the page. This does not comply with WCAG Level A 2.1: 4.1.2 (Name, Role, Value).
         </li>
         <li>
@@ -166,7 +163,7 @@
       </h2>
 
       <p class="govuk-body">
-        An accessibility report of the service took place in May 2022. This statement was prepared and last reviewed on 27 July 2022.
+        An accessibility report of the service took place in October 2025. This statement was prepared and last reviewed on 21 January 2026.
       </p>
 
     </div>

@@ -17,5 +17,5 @@ We will process your appeal and send a confirmation email. This will include you
 
 [Give feedback on the appeals service]({{feedbackUrl}}) (takes 2 minutes)
 
-The Planning Inspectorate
+Planning Inspectorate
 {{contactEmail}}

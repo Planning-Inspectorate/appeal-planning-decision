@@ -1,4 +1,5 @@
 const { APPEAL_LINKED_CASE_STATUS } = require('@planning-inspectorate/data-model');
+const { CASE_TYPES } = require('../database/data-static');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
@@ -54,8 +55,18 @@ const mapLinkedCaseStatusLabel = (status) => {
 const isChildLinkedAppeal = (appealCaseData) =>
 	appealCaseData.linkedCases?.[0].childCaseReference === appealCaseData.caseReference;
 
+/**
+ * check whether case is an enforcement child linked case
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {boolean}
+ */
+const isEnforcementChildLinkedAppeal = (appealCaseData) =>
+	appealCaseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode &&
+	isChildLinkedAppeal(appealCaseData);
+
 module.exports = {
 	formatDashboardLinkedCaseDetails,
 	mapLinkedCaseStatusLabel,
-	isChildLinkedAppeal
+	isChildLinkedAppeal,
+	isEnforcementChildLinkedAppeal
 };

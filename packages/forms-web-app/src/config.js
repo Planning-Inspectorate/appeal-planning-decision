@@ -200,7 +200,8 @@ module.exports = {
 		googleTagManager: process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true',
 		gridReferenceEnabled: process.env.GRID_REF_ENABLED === 'true',
 		rule6Enabled: process.env.RULE_6_ENABLED === 'true',
-		scopingOpinionEnabled: process.env.SCOPING_OPINION_ENABLED === 'true'
+		scopingOpinionEnabled: process.env.SCOPING_OPINION_ENABLED === 'true',
+		appellantStatementEnabled: process.env.APPELLANT_STATEMENT_ENABLED === 'true'
 	},
 	validation: {
 		characterLimits: {
