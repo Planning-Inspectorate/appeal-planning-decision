@@ -3,10 +3,13 @@ const {
 	APPEAL_REPRESENTATION_TYPE
 } = require('@planning-inspectorate/data-model');
 const { deadlineHasPassed } = require('@pins/common/src/lib/deadline-has-passed');
-const { isChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
+const {
+	isChildLinkedAppeal,
+	isEnforcementChildLinkedAppeal
+} = require('@pins/common/src/lib/linked-appeals');
 const { representationExists } = require('@pins/common/src/lib/representations');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { CASE_TYPES, caseTypeLookup } = require('@pins/common/src/database/data-static');
+const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} UserRole
@@ -19,14 +22,6 @@ const { CASE_TYPES, caseTypeLookup } = require('@pins/common/src/database/data-s
  * @returns {boolean}
  */
 exports.isNewAppealForLPA = (appealCaseData) => !appealCaseData.lpaQuestionnaireDueDate;
-
-/**
- * @param {AppealCaseDetailed} appealCaseData
- * @returns {boolean}
- */
-const isEnforcementChildLinkedAppeal = (appealCaseData) =>
-	appealCaseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode &&
-	isChildLinkedAppeal(appealCaseData);
 
 /**
  * questionnaire is open for LPA
