@@ -1,3 +1,5 @@
+const { isEnforcementChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
+
 /**
  * @typedef {import("./appeals-view").AppealViewModel} AppealViewModel
  * @param {AppealViewModel} appeal
@@ -8,7 +10,8 @@ exports.getAppealStatus = (appeal) => {
 		return 'decided';
 	} else if (
 		appeal.interestedPartyRepsDueDate &&
-		new Date(appeal.interestedPartyRepsDueDate) > new Date()
+		new Date(appeal.interestedPartyRepsDueDate) > new Date() &&
+		!isEnforcementChildLinkedAppeal(appeal)
 	) {
 		return 'open';
 	}
