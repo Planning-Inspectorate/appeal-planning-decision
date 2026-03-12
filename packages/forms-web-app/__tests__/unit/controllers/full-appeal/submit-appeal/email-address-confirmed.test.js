@@ -116,6 +116,23 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			});
 		});
 
+		it('calls correct template: enforcement listed building', async () => {
+			req.session.appeal.appealType = APPEAL_ID.ENFORCEMENT_LISTED_BUILDING;
+			isLpaInFeatureFlag.mockImplementation((_, flag) => {
+				return flag === FLAG.ENFORCEMENT_APPEAL_FORM_V2;
+			});
+
+			await getEmailConfirmed(req, res);
+			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
+				listOfDocumentsUrl: '/appeals/enforcement-listed-building/appeal-form/before-you-start',
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl('ENFORCEMENT_LISTED')
+					)
+			});
+		});
+
 		it('calls correct template: ldc', async () => {
 			req.session.appeal.appealType = APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE;
 			isLpaInFeatureFlag.mockImplementation((_, flag) => {
