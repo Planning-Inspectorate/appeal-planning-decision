@@ -227,7 +227,9 @@ module.exports = {
 			appealFormV2: {
 				textInputMaxLength: 1000,
 				textAreaMediumLength: 8000,
-				textAreaMaxLength: 32500
+				textAreaMaxLength: 32500,
+				textAreaMaxWords: 250,
+				textAreaMinWords: 10
 			}
 		},
 		stringValidation: {
