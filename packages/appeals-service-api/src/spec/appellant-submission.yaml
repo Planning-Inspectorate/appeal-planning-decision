@@ -133,6 +133,10 @@ components:
           type: string
         appellantPreferInquiryDetails:
           type: string
+        anySignificantChanges:
+          type: string
+        anySignificantChanges_otherSignificantChanges:
+          type: string
         siteUseAtTimeOfApplication:
           type: string
           nullable: true

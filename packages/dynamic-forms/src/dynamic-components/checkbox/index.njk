@@ -28,6 +28,9 @@
     <div class="govuk-grid-column-two-thirds">      
       <form action="{{ currentRoute }}" method="post" novalidate>
 <input type="hidden" name="_csrf" value="{{_csrf}}">
+        {% if question.html %}
+          {% include question.html ignore missing %}
+        {% endif %}
         {{ govukCheckboxes({
           classes: "govuk-checkboxes",
           idPrefix: question.fieldName,

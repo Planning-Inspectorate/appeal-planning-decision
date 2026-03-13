@@ -2239,6 +2239,57 @@ exports.getQuestionProps = (response) => ({
 		documentType: documentTypes.uploadOtherNewDocuments,
 		actionHiddenText: 'your other new supporting documents'
 	},
+	anySignificantChanges: {
+		type: 'checkbox',
+		title: 'Have there been any significant changes that would affect the application?',
+		question: 'Have there been any significant changes that would affect the application?',
+		fieldName: 'anySignificantChanges',
+		url: 'any-significant-changes',
+		html: 'resources/appeal-process/any-significant-changes/content.html',
+		description: 'Select all that apply',
+		validators: [
+			new RequiredValidator('Select an option'),
+			new ConditionalRequiredValidator('Enter the other significant changes'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textAreaMediumLength,
+					maxLengthMessage: `The other significant changes must be ${appealFormV2.textAreaMediumLength} characters or less`
+				},
+				fieldName: getConditionalFieldName('anySignificantChanges', 'otherSignificantChanges')
+			})
+		],
+		options: [
+			{
+				text: 'Adopted a new local plan',
+				value: fieldValues.significantChanges.LOCAL_PLAN
+			},
+			{
+				text: 'National policy changes',
+				value: fieldValues.significantChanges.NATIONAL_POLICY
+			},
+			{
+				text: 'Court judgment',
+				value: fieldValues.significantChanges.COURT_JUDGMENT
+			},
+			{
+				text: 'Other',
+				value: fieldValues.significantChanges.OTHER,
+				conditional: {
+					question: 'Enter the other significant changes',
+					fieldName: 'otherSignificantChanges',
+					type: 'textarea'
+				}
+			},
+			{
+				[DIVIDER]: 'or'
+			},
+			{
+				text: 'There have been no significant changes',
+				value: fieldValues.significantChanges.NONE,
+				behaviour: 'exclusive'
+			}
+		]
+	},
 	appellantProcedurePreference: {
 		type: 'radio',
 		title: 'How would you prefer us to decide your appeal?',

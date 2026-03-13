@@ -92,6 +92,8 @@ const makeSections = (response) => {
 			.withCondition(() =>
 				questionHasAnswer(response, questions.updateAdvertisementDescription, 'yes')
 			)
+			.addQuestion(questions.anySignificantChanges)
+			.withCondition(() => !shouldDisplayAdvertsQuestions(response))
 			.addQuestion(questions.appellantProcedurePreference)
 			.withCondition(() => shouldDisplayAdvertsQuestions(response))
 			.addQuestion(questions.appellantPreferHearing)

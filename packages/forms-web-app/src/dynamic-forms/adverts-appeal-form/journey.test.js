@@ -218,4 +218,40 @@ describe('ADVERTS Appeal Form Journey', () => {
 				})
 		).toBe(true);
 	});
+
+	it('should display significant changes for CAS adverts appeals', () => {
+		const journey = new Journey({
+			...params,
+			response: {
+				...mockResponse,
+				answers: { applicationDecision: APPLICATION_DECISION.REFUSED }
+			}
+		});
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.fieldName === 'anySignificantChanges')
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { applicationDecision: APPLICATION_DECISION.REFUSED }
+				})
+		).toBe(true);
+	});
+
+	it('should not display significant changes for non-CAS adverts appeals', () => {
+		const journey = new Journey({
+			...params,
+			response: {
+				...mockResponse,
+				answers: { applicationDecision: APPLICATION_DECISION.GRANTED }
+			}
+		});
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.fieldName === 'anySignificantChanges')
+				?.shouldDisplay({
+					...mockResponse,
+					answers: { applicationDecision: APPLICATION_DECISION.GRANTED }
+				})
+		).toBe(false);
+	});
 });
