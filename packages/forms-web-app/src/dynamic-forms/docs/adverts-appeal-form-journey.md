@@ -99,12 +99,6 @@ condition: () => shouldDisplayTellingLandowners(response, questions);
 condition: () => questionHasAnswer(response, questions.updateAdvertisementDescription, 'yes');
 ```
 
-- checkbox `/any-significant-changes/` Have there been any significant changes that would affect the application?
-
-```js
-condition: () => !shouldDisplayAdvertsQuestions(response);
-```
-
 - radio `/decide-appeal/` How would you prefer us to decide your appeal?
 
 ```js
