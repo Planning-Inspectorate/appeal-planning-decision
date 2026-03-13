@@ -54,6 +54,10 @@ components:
           type: string
         lpaFinalCommentDocuments:
           type: boolean
+          nullable: true
+        lpaHowSubmitFinalComment:
+          type: string
+          nullable: true
         uploadLPAFinalCommentDocuments:
           type: boolean
           nullable: true

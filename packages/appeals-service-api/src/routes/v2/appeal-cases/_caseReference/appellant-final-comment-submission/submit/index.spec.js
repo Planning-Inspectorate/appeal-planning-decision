@@ -111,7 +111,7 @@ module.exports = ({
 				const appellantFinalCommentData = {
 					appellantFinalComment: true,
 					appellantFinalCommentDetails: 'This is a test comment',
-					appellantFinalCommentDocuments: false
+					appellantHowSubmitFinalComment: 'text'
 				};
 
 				await appealsApi
@@ -165,7 +165,7 @@ module.exports = ({
 				const appellantFinalCommentData = {
 					appellantFinalComment: true,
 					appellantFinalCommentDetails: 'Another final comment text for appellant case 002',
-					appellantFinalCommentDocuments: true,
+					appellantHowSubmitFinalComment: 'document',
 					uploadAppellantFinalCommentDocuments: true
 				};
 
@@ -195,7 +195,7 @@ module.exports = ({
 					[
 						{
 							caseReference: caseRef,
-							representation: 'Another final comment text for appellant case 002',
+							representation: 'Added as a document',
 							representationSubmittedDate: expect.any(String),
 							representationType: 'final_comment',
 							serviceUserId: expect.any(String),

@@ -70,9 +70,18 @@ exports.formatter = async (representationFormatterParams) => {
 
 	let representationText = null;
 	if (repType !== APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE) {
-		const representationField = REPRESENTATION_FIELDS[repType]?.[party] || null;
-		if (representationField && Object.hasOwn(representationSubmission, representationField)) {
-			representationText = representationSubmission[representationField];
+		const isFinalCommentDocument =
+			repType === APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT &&
+			(representationSubmission.appellantHowSubmitFinalComment === 'document' ||
+				representationSubmission.lpaHowSubmitFinalComment === 'document');
+
+		if (isFinalCommentDocument) {
+			representationText = 'Added as a document';
+		} else {
+			const representationField = REPRESENTATION_FIELDS[repType]?.[party] || null;
+			if (representationField && Object.hasOwn(representationSubmission, representationField)) {
+				representationText = representationSubmission[representationField];
+			}
 		}
 	}
 

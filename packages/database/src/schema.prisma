@@ -1275,6 +1275,7 @@ model LPAFinalCommentSubmission {
   lpaFinalComment                Boolean?
   lpaFinalCommentDetails         String?  @db.NVarChar(MAX)
   lpaFinalCommentDocuments       Boolean?
+  lpaHowSubmitFinalComment       String?  @db.NVarChar(20)
   uploadLPAFinalCommentDocuments Boolean?
 
   // Uploaded documents and details linked to this final comment
@@ -1301,6 +1302,7 @@ model AppellantFinalCommentSubmission {
   appellantFinalComment                Boolean?
   appellantFinalCommentDetails         String?  @db.NVarChar(MAX)
   appellantFinalCommentDocuments       Boolean?
+  appellantHowSubmitFinalComment       String?  @db.NVarChar(20)
   uploadAppellantFinalCommentDocuments Boolean?
 
   // Uploaded documents and details linked to this final comment

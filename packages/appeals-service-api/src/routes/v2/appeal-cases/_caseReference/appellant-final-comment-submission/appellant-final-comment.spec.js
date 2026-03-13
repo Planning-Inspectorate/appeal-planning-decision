@@ -59,7 +59,7 @@ module.exports = ({ getSqlClient, setCurrentSub, setCurrentLpa, appealsApi }) =>
 			const appellantFinalCommentData = {
 				appellantFinalComment: true,
 				appellantFinalCommentDetails: 'This is a test comment',
-				appellantFinalCommentDocuments: false
+				appellantHowSubmitFinalComment: 'text'
 			};
 
 			const createResponse = await appealsApi
@@ -80,7 +80,7 @@ module.exports = ({ getSqlClient, setCurrentSub, setCurrentLpa, appealsApi }) =>
 			const appellantFinalCommentData = {
 				appellantFinalComment: true,
 				appellantFinalCommentDetails: 'This is another test comment',
-				appellantFinalCommentDocuments: false
+				appellantHowSubmitFinalComment: 'text'
 			};
 
 			await appealsApi
@@ -117,7 +117,7 @@ module.exports = ({ getSqlClient, setCurrentSub, setCurrentLpa, appealsApi }) =>
 			const updatedComment = {
 				appellantFinalComment: true,
 				appellantFinalCommentDetails: 'This is what I meant to say',
-				appellantFinalCommentDocuments: true
+				appellantHowSubmitFinalComment: 'document'
 			};
 
 			const updatedResponse = await appealsApi
