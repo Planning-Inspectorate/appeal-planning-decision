@@ -1,12 +1,13 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
-<p class="govuk-!-margin-bottom-2">Tell us why you disagree with the local planning authority’s decision. Do not include any new evidence.</p>
+<p class="govuk-!-margin-bottom-2">
+	Tell us why you disagree with the local planning authority’s decision. Do not include any new
+	evidence.
+</p>
 
-{{ govukInsetText({
-	text: "Do not include any sensitive information in your response. It will delay your appeal."
-}) }}
+{{ govukInsetText({ text: "Do not include any sensitive information in your response. It will delay
+your appeal." }) }}
 
 <div class="govuk-grid-column-full">{% include "includes/sensitive-information.njk" %}</div>
 
 <h2 class="govuk-heading-m">Reasons for your appeal</h2>
-
