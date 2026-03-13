@@ -170,10 +170,6 @@ describe('src/dynamic-forms/validator/word-validator.js', () => {
 			}
 		};
 		const options = {
-			regex: {
-				regex: '^[a].*$',
-				regexMessage: 'Short message should be comprised of the letter a only'
-			},
 			minLength: {
 				minLength: 1,
 				minLengthMessage: 'Short statement should be a minimum of 1 characters in length'
