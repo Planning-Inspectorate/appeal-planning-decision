@@ -638,6 +638,12 @@ components:
           nullable: true
           description: Reason(s) why LPA consider the appeal invalid
 
+        # Expedited part 1 fields
+        whyAreYouAppealing:
+          type: string
+          nullable: true
+          description: Why appellant is appealing
+
         # relations
         ListedBuildings:
           type: array
