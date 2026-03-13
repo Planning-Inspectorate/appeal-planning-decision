@@ -35,6 +35,7 @@ const {
 		LAWFUL_DEVELOPMENT_CERTIFICATE
 	}
 } = require('@pins/business-rules/src/constants');
+const { validation } = require('@pins/business-rules');
 const config = require('../../config');
 const changeLpaUrl = '/before-you-start/local-planning-authority';
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
@@ -44,6 +45,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 
 	const {
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationDecision,
 		decisionDate,
@@ -63,6 +65,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 	res.render(canUseServiceHouseholder, {
 		deadlineDate,
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationDecision,
 		decisionDate,
@@ -80,6 +83,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 	const { appeal } = req.session;
 	const {
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationAbout,
 		applicationDecision,
@@ -106,6 +110,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 	res.render(canUseServiceFullAppealView, {
 		deadlineDate,
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationAbout,
 		applicationDecision,
@@ -128,6 +133,7 @@ const canUseServicePriorApproval = async (req, res) => {
 	const { appeal } = req.session;
 	const {
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationDecision,
 		decisionDate,
@@ -150,6 +156,7 @@ const canUseServicePriorApproval = async (req, res) => {
 		res.render(canUseServicePriorApprovalHouseholder, {
 			deadlineDate,
 			appealLPD,
+			planningApplicationNumber,
 			applicationType,
 			applicationDecision,
 			decisionDate,
@@ -169,6 +176,7 @@ const canUseServicePriorApproval = async (req, res) => {
 		res.render(canUseServicePriorApprovalFull, {
 			deadlineDate,
 			appealLPD,
+			planningApplicationNumber,
 			applicationType,
 			applicationDecision,
 			decisionDate,
@@ -185,6 +193,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 	const { appeal } = req.session;
 	const {
 		appealLPD,
+		planningApplicationNumber,
 		applicationType,
 		applicationDecision,
 		decisionDate,
@@ -209,6 +218,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 		res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
 			deadlineDate,
 			appealLPD,
+			planningApplicationNumber,
 			applicationType,
 			isListedBuilding,
 			applicationDecision,
@@ -229,6 +239,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 		res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
 			deadlineDate,
 			appealLPD,
+			planningApplicationNumber,
 			applicationType,
 			applicationDecision,
 			decisionDate,
@@ -286,6 +297,18 @@ exports.getCanUseService = async (req, res) => {
 	}
 
 	const applicationType = appeal.typeOfPlanningApplication;
+
+	// check deadline if a decisionDate exists
+	if (
+		appeal.decisionDate &&
+		!validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
+			new Date(appeal.decisionDate),
+			appeal.appealType,
+			appeal.eligibility?.applicationDecision
+		)
+	) {
+		return res.redirect('/before-you-start/you-cannot-appeal');
+	}
 
 	switch (applicationType) {
 		case FULL_APPEAL:

@@ -1,7 +1,7 @@
 const logger = require('../../lib/logger');
 const {
 	VIEW: {
-		BEFORE_YOU_START: { APPLICATION_LOOKUP }
+		BEFORE_YOU_START: { APPLICATION_LOOKUP, APPLICATION_LOOKUP_FAILED }
 	}
 } = require('../../lib/views');
 const planningApplicationNumberInputName = 'application-number';
@@ -20,6 +20,7 @@ const {
 } = require('@pins/business-rules');
 
 const typeOfApplicationPage = '/before-you-start/type-of-planning-application';
+const canUseServicePage = '/before-you-start/can-use-service';
 
 const getApplicationLookup = async (req, res) => {
 	const { appeal } = req.session;
@@ -56,37 +57,40 @@ const postApplicationLookup = async (req, res) => {
 
 	appeal.planningApplicationNumber = planningApplicationNumber;
 
+	let allDataRetrieved = false;
+	let lookupResult;
 	try {
 		const bopsClient = new BopsApiClient(bopsAPIBaseUrl, allowTestingOverrides);
-		const lookupResult = await bopsClient.getPublicApplication(planningApplicationNumber);
-		// todo: ad-45 add loading screen while we wait for api response
-		// todo: map address and add to buildCreateAppellantSubmissionData
-		const mappedLookupData = mapBopsBeforeYouStart(lookupResult);
-		if (mappedLookupData) {
-			appeal.eligibility.applicationDecision = mappedLookupData.eligibility.applicationDecision;
-			appeal.typeOfPlanningApplication = mappedLookupData.typeOfPlanningApplication;
-			appeal.decisionDate = mappedLookupData.decisionDate;
-		}
-
-		// todo: ad-36 handle deadline
-	} catch (err) {
-		// todo: ad-42 redirect to not found page on failed call
-		return res.render(APPLICATION_LOOKUP, {
-			planningApplicationNumber,
-			errors,
-			errorSummary: [{ text: `Could not find application ${planningApplicationNumber}`, href: '#' }]
-		});
+		lookupResult = await bopsClient.getPublicApplication(planningApplicationNumber);
+	} catch {
+		logger.debug('failed application lookup asking user to confirm');
+		// save application number to appeal and ask them to confirm if request fails for any reason
+		req.session.appeal = await createOrUpdateAppeal(appeal);
+		return res.redirect(`/${APPLICATION_LOOKUP_FAILED}`);
 	}
 
 	try {
+		// todo: map address and add to buildCreateAppellantSubmissionData
+		const mappedLookupData = mapBopsBeforeYouStart(lookupResult);
+		if (mappedLookupData) {
+			appeal.appealType = mappedLookupData.appealType;
+			appeal.eligibility.applicationDecision = mappedLookupData.eligibility.applicationDecision;
+			appeal.typeOfPlanningApplication = mappedLookupData.typeOfPlanningApplication;
+			appeal.decisionDate = mappedLookupData.decisionDate;
+			allDataRetrieved = mappedLookupData.allData;
+		}
+
 		req.session.appeal = await createOrUpdateAppeal(appeal);
-		// todo: ad-37 if all data present jump to check your answers page
+
+		if (allDataRetrieved) {
+			return res.redirect(canUseServicePage);
+		}
 	} catch (err) {
 		logger.error(err, 'Could not create or update appeal after application lookup');
 		return res.render(APPLICATION_LOOKUP, {
 			planningApplicationNumber,
 			errors,
-			errorSummary: [{ text: err.toString(), href: '#' }]
+			errorSummary: [{ text: 'There was a problem', href: '#' }]
 		});
 	}
 
