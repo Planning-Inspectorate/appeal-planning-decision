@@ -44,6 +44,8 @@ const getAppealTypeFeedbackUrl = (appealTypeCode) => {
 			return feedbackUrlLDC;
 		case 'ENFORCEMENT':
 			return feedbackUrlEnforcement;
+		case 'ENFORCEMENT_LISTED':
+			return feedbackUrlEnforcementListed;
 		default:
 			return feedbackUrl;
 	}
@@ -86,6 +88,9 @@ const feedbackUrlLDC =
 const feedbackUrlEnforcement =
 	process.env.FEEDBACK_URL_ENFORCEMENT ||
 	'https://forms.cloud.microsoft/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UQVRSQlBKOUJVR05TOE1URElSSUVZUjVDMS4u&route=shorturl';
+const feedbackUrlEnforcementListed =
+	process.env.FEEDBACK_URL_ENFORCEMENT_LISTED ||
+	'https://forms.cloud.microsoft/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UNDJFTjBCRTlFV1pYVjVWRkhKQVBYTVRKUC4u&route=shorturl';
 
 module.exports = {
 	gitSha: process.env.GIT_SHA ?? 'NO GIT SHA FOUND',

@@ -1003,6 +1003,29 @@ describe('dynamic-form/controller', () => {
 					'If you have any of the following documents, you’ll also need to upload your:'
 			});
 		});
+
+		it('renders correct page for enforcement listed building', () => {
+			req.session.appeal = { appealType: APPEAL_ID.ENFORCEMENT_LISTED_BUILDING };
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl(CASE_TYPES.ENFORCEMENT_LISTED.processCode)
+					),
+				optionalDocuments: [
+					'documents that support your grounds and facts',
+					'planning obligation',
+					'draft statement of common ground',
+					'appeal costs application'
+				],
+				requiredDocuments: ['enforcement notice', 'enforcement notice plan'],
+				requiredDocumentsSubheading: 'You’ll need your:',
+				optionalDocumentsSubheading:
+					'If you have any of the following documents, you’ll also need to upload your:'
+			});
+		});
+
 		it('renders correct page for lawful development certificate', () => {
 			req.session.appeal = { appealType: APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE };
 			appellantBYSListOfDocuments(req, res);
