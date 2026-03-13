@@ -26,13 +26,21 @@ const makeSections = (response) => {
 		new Section('', config.dynamicForms.DEFAULT_SECTION)
 			.addQuestion(questions.appellantContinue)
 			.addQuestion(questions.appellantFinalComment)
+			.addQuestion(questions.appellantHowSubmitFinalComment)
+			.withCondition(
+				() =>
+					questionHasAnswer(response, questions.appellantFinalComment, 'yes') ||
+					response.answers.appellantFinalComment === true
+			)
+
 			.addQuestion(questions.appellantFinalCommentDetails)
-			.withCondition(() => questionHasAnswer(response, questions.appellantFinalComment, 'yes'))
-			.addQuestion(questions.appellantFinalCommentDocuments)
-			.withCondition(() => questionHasAnswer(response, questions.appellantFinalComment, 'yes'))
+			.withCondition(() =>
+				questionHasAnswer(response, questions.appellantHowSubmitFinalComment, 'text')
+			)
+
 			.addQuestion(questions.uploadAppellantFinalCommentDocuments)
 			.withCondition(() =>
-				questionHasAnswer(response, questions.appellantFinalCommentDocuments, 'yes')
+				questionHasAnswer(response, questions.appellantHowSubmitFinalComment, 'document')
 			)
 	];
 };

@@ -71,6 +71,44 @@ describe('Representation Formatter', () => {
 		expect(result.documents).toEqual([1]);
 	});
 
+	it('should override representation text to "Document added" for LPA if document option is selected', async () => {
+		const result = await formatter({
+			caseReference,
+			repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+			party: LPA_USER_ROLE,
+			representationSubmission: {
+				...submission,
+				lpaFinalCommentDetails: 'Ghost text that should be ignored',
+				lpaHowSubmitFinalComment: 'document'
+			}
+		});
+
+		expect(result.caseReference).toBe(caseReference);
+		expect(result.representation).toBe('Added as a document');
+		expect(result.representationType).toBe('final_comment');
+		expect(result.documents).toEqual([1]);
+	});
+
+	it('should override representation text to "Document added" for Appellant if document option is selected', async () => {
+		const serviceUserId = 'user123';
+		const result = await formatter({
+			caseReference,
+			serviceUserId,
+			repType: APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT,
+			party: APPEAL_USER_ROLES.APPELLANT,
+			representationSubmission: {
+				...submission,
+				appellantFinalCommentDetails: 'Ghost text that should be ignored',
+				appellantHowSubmitFinalComment: 'document'
+			}
+		});
+
+		expect(result.caseReference).toBe(caseReference);
+		expect(result.representation).toBe('Added as a document');
+		expect(result.representationType).toBe('final_comment');
+		expect(result.documents).toEqual([1]);
+	});
+
 	it('should format a STATEMENT submission from Rule6 (serviceUserId provided)', async () => {
 		const serviceUserId = 'user124';
 		const result = await formatter({

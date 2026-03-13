@@ -2450,7 +2450,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	lpaContinue: {
 		type: 'content',
-		title: 'Submit your final comments',
+		title: 'Do you want to submit any final comments?',
 		label: 'You can upload any supporting documents after you add your final comments.',
 		description: 'You can upload any supporting documents after you add your final comments.',
 		backLinkText: 'Back to manage your appeals',
@@ -2608,9 +2608,21 @@ exports.getQuestionProps = (response) => ({
 		url: 'submit-final-comments',
 		validators: [new RequiredValidator('Select yes if you want to submit any final comments')]
 	},
+	appellantHowSubmitFinalComment: {
+		type: 'radio',
+		title: 'How do you want to submit your final comments?',
+		question: 'How do you want to submit your final comments?',
+		fieldName: 'appellantHowSubmitFinalComment',
+		url: 'how-submit-final-comments',
+		validators: [new RequiredValidator('Select how you want to submit your final comments')],
+		options: [
+			{ text: 'Enter your final comments', value: 'text' },
+			{ text: 'Upload your final comments as a document', value: 'document' }
+		]
+	},
 	appellantFinalCommentDetails: {
 		type: 'text-entry',
-		title: 'Add your final comments',
+		title: 'Final comments',
 		question: 'Add your final comments',
 		url: 'final-comments',
 		html: 'resources/appellant-final-comments/content.html',
@@ -2637,22 +2649,9 @@ exports.getQuestionProps = (response) => ({
 			})
 		]
 	},
-	appellantFinalCommentDocuments: {
-		type: 'boolean',
-		title: 'Do you have additional documents to support your final comments?',
-		question: 'Do you have additional documents to support your final comments?',
-		html: 'resources/appellant-final-comments/additional-documents.html',
-		fieldName: 'appellantFinalCommentDocuments',
-		url: 'additional-documents',
-		validators: [
-			new RequiredValidator(
-				'Select yes if you have additional documents to support your final comments'
-			)
-		]
-	},
 	uploadAppellantFinalCommentDocuments: {
 		type: 'multi-file-upload',
-		title: 'New supporting documents',
+		title: 'Final comments',
 		question: 'Upload your new supporting documents',
 		fieldName: 'uploadAppellantFinalCommentDocuments',
 		url: 'upload-supporting-documents',
@@ -2671,9 +2670,21 @@ exports.getQuestionProps = (response) => ({
 		url: 'submit-final-comments',
 		validators: [new RequiredValidator('Select yes if you want to submit any final comments')]
 	},
+	lpaHowSubmitFinalComment: {
+		type: 'radio',
+		title: 'How do you want to submit your final comments?',
+		question: 'How do you want to submit your final comments?',
+		fieldName: 'lpaHowSubmitFinalComment',
+		url: 'how-submit-final-comments',
+		validators: [new RequiredValidator('Select how you want to submit your final comments')],
+		options: [
+			{ text: 'Enter your final comments', value: 'text' },
+			{ text: 'Upload your final comments as a document', value: 'document' }
+		]
+	},
 	lpaFinalCommentDetails: {
 		type: 'text-entry',
-		title: 'Add your final comments',
+		title: 'Final comments',
 		question: 'Add your final comments',
 		url: 'final-comments',
 		html: 'resources/lpa-final-comments/comment-details.html',
@@ -2700,22 +2711,9 @@ exports.getQuestionProps = (response) => ({
 			})
 		]
 	},
-	lpaFinalCommentDocuments: {
-		type: 'boolean',
-		title: 'Do you have additional documents to support your final comments?',
-		question: 'Do you have additional documents to support your final comments?',
-		hint: 'You must not add new evidence to your appeal',
-		fieldName: 'lpaFinalCommentDocuments',
-		url: 'additional-documents',
-		validators: [
-			new RequiredValidator(
-				'Select yes if you have additional documents to support your final comments'
-			)
-		]
-	},
 	uploadLPAFinalCommentDocuments: {
 		type: 'multi-file-upload',
-		title: 'New supporting documents',
+		title: 'Final comments',
 		question: 'Upload your new supporting documents',
 		fieldName: 'uploadLPAFinalCommentDocuments',
 		url: 'upload-supporting-documents',

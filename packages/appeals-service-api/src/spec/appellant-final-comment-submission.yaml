@@ -54,6 +54,10 @@ components:
           type: string
         appellantFinalCommentDocuments:
           type: boolean
+          nullable: true
+        appellantHowSubmitFinalComment:
+          type: string
+          nullable: true
         uploadAppellantFinalCommentDocuments:
           type: boolean
           nullable: true

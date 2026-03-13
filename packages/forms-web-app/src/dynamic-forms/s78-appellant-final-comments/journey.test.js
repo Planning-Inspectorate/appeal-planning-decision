@@ -4,16 +4,17 @@ const { baseAppellantFinalCommentUrl, ...params } = require('./journey');
 const mockResponse = {
 	journeyId: 'S78',
 	referenceId: '123',
-	answers: []
+	answers: [],
+	LPACode: 'TEST_LPA_CODE'
 };
 
 jest.mock('../questions', () => ({
 	getQuestions: jest.fn(() => ({
-		appellantContinue: {},
-		appellantFinalComment: {},
-		appellantFinalCommentDetails: {},
-		appellantFinalCommentDocuments: {},
-		uploadAppellantFinalCommentDocuments: {}
+		appellantContinue: { fieldName: 'statementContinue' },
+		appellantFinalComment: { fieldName: 'appellantFinalComment' },
+		appellantHowSubmitFinalComment: { fieldName: 'appellantHowSubmitFinalComment' },
+		appellantFinalCommentDetails: { fieldName: 'appellantFinalCommentDetails' },
+		uploadAppellantFinalCommentDocuments: { fieldName: 'uploadAppellantFinalCommentDocuments' }
 	}))
 }));
 
@@ -101,6 +102,46 @@ describe('S78 Final Comments Journey', () => {
 
 			expect(config.getAppealTypeFeedbackUrl).toHaveBeenCalledWith(undefined);
 			expect(html).toBe('BETA:LINK:URL_FOR:DEFAULT');
+		});
+	});
+
+	describe('Routing conditions (appellantHowSubmitFinalComment)', () => {
+		it('should show the text entry question when "text" is selected', () => {
+			const responseWithText = {
+				...mockResponse,
+				answers: { appellantFinalComment: 'yes', appellantHowSubmitFinalComment: 'text' }
+			};
+			const journey = new Journey({ ...params, response: responseWithText });
+			const section = journey.sections[0];
+
+			const textQuestion = section.questions.find(
+				(q) => q.fieldName === 'appellantFinalCommentDetails'
+			);
+			expect(textQuestion?.shouldDisplay(responseWithText)).toBe(true);
+
+			const uploadQuestion = section.questions.find(
+				(q) => q.fieldName === 'uploadAppellantFinalCommentDocuments'
+			);
+			expect(uploadQuestion?.shouldDisplay(responseWithText)).toBe(false);
+		});
+
+		it('should show the document upload question when "document" is selected', () => {
+			const responseWithDocument = {
+				...mockResponse,
+				answers: { appellantFinalComment: 'yes', appellantHowSubmitFinalComment: 'document' }
+			};
+			const journey = new Journey({ ...params, response: responseWithDocument });
+			const section = journey.sections[0];
+
+			const uploadQuestion = section.questions.find(
+				(q) => q.fieldName === 'uploadAppellantFinalCommentDocuments'
+			);
+			expect(uploadQuestion?.shouldDisplay(responseWithDocument)).toBe(true);
+
+			const textQuestion = section.questions.find(
+				(q) => q.fieldName === 'appellantFinalCommentDetails'
+			);
+			expect(textQuestion?.shouldDisplay(responseWithDocument)).toBe(false);
 		});
 	});
 });

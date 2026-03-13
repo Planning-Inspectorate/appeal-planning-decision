@@ -27,12 +27,20 @@ const makeSections = (response) => {
 		new Section('', config.dynamicForms.DEFAULT_SECTION)
 			.addQuestion(questions.lpaContinue)
 			.addQuestion(questions.lpaFinalComment)
+			.addQuestion(questions.lpaHowSubmitFinalComment)
+			.withCondition(
+				() =>
+					questionHasAnswer(response, questions.lpaFinalComment, 'yes') ||
+					response.answers.lpaFinalComment === true
+			)
+
 			.addQuestion(questions.lpaFinalCommentDetails)
-			.withCondition(() => questionHasAnswer(response, questions.lpaFinalComment, 'yes'))
-			.addQuestion(questions.lpaFinalCommentDocuments)
-			.withCondition(() => questionHasAnswer(response, questions.lpaFinalComment, 'yes'))
+			.withCondition(() => questionHasAnswer(response, questions.lpaHowSubmitFinalComment, 'text'))
+
 			.addQuestion(questions.uploadLPAFinalCommentDocuments)
-			.withCondition(() => questionHasAnswer(response, questions.lpaFinalCommentDocuments, 'yes'))
+			.withCondition(() =>
+				questionHasAnswer(response, questions.lpaHowSubmitFinalComment, 'document')
+			)
 	];
 };
 

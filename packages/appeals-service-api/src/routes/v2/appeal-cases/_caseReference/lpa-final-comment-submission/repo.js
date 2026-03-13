@@ -9,6 +9,7 @@ const { Prisma } = require('@pins/database/src/client/client');
  * @typedef {Object} FinalCommentData
  * @property {boolean} [lpaFinalComment]
  * @property {string} [lpaFinalCommentDetails]
+ * @property {string} [lpaHowSubmitFinalComment]
  * @property {boolean} [appellantFinalCommentDocuments]
  */
 
