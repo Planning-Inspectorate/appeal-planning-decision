@@ -865,6 +865,7 @@ model AppellantSubmission {
   anySignificantChanges                         String?
   anySignificantChanges_otherSignificantChanges String? @db.NVarChar(MAX)
   siteUseAtTimeOfApplication                    String?
+  whyAreYouAppealing                            String?
 
   // number entries
   siteAreaSquareMetres            Decimal?

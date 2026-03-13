@@ -108,6 +108,7 @@ const {
 	getAppealSiteHtmlByAppealType
 } = require('./questions-utils');
 const { capitalize } = require('../lib/string-functions');
+const WordValidator = require('@pins/dynamic-forms/src/validator/word-validator');
 
 const defaultFileUploadValidatorParams = {
 	allowedFileTypes: Object.values(allowedFileTypes),
@@ -4105,6 +4106,28 @@ exports.getQuestionProps = (response) => ({
 		],
 		documentType: documentTypes.otherRelevantMattersUpload,
 		actionHiddenText: 'other relevant matters'
+	},
+	whyAreYouAppealing: {
+		type: 'text-entry',
+		title: 'Why are you appealing?',
+		question: 'Why are you appealing?',
+		hint: 'You must list each individual ground separately. Enter between 10 and 250 words.',
+		fieldName: 'whyAreYouAppealing',
+		url: 'why-are-you-appealing',
+		html: 'resources/why-are-you-appealing/content.html',
+		validators: [
+			new RequiredValidator('Enter the reasons for your appeal.'),
+			new WordValidator({
+				minLength: {
+					minLength: appealFormV2.textAreaMinWords,
+					minLengthMessage: `Reasons for your appeal must be between ${appealFormV2.textAreaMinWords} to ${appealFormV2.textAreaMaxWords} words`
+				},
+				maxLength: {
+					maxLength: appealFormV2.textAreaMaxWords,
+					maxLengthMessage: `Reasons for your appeal must be between ${appealFormV2.textAreaMinWords} to ${appealFormV2.textAreaMaxWords} words`
+				}
+			})
+		]
 	}
 });
 

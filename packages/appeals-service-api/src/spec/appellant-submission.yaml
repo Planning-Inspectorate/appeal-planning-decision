@@ -140,6 +140,9 @@ components:
         siteUseAtTimeOfApplication:
           type: string
           nullable: true
+        whyAreYouAppealing:
+          type: string
+          nullable: true
 
         siteAreaSquareMetres:
           type: number
