@@ -75,6 +75,7 @@ condition: () => shouldDisplayTellingLandowners(response, questions);
 - date `/application-date/` What date did you submit your application?
 - text-entry `/enter-description-of-development/` Enter the description of development that you submitted in your application
 - boolean `/description-development-correct/` Did the local planning authority change the description of development?
+- checkbox `/any-significant-changes/` Have there been any significant changes that would affect the application?
 - boolean `/other-appeals/` Are there other appeals linked to your development?
 - list-add-more `/enter-appeal-reference/` Add another appeal?
 

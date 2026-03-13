@@ -33,4 +33,19 @@ describe('CAS Appeal Form Journey', () => {
 		const journey = new Journey({ ...params, response: mockResponse });
 		expect(journey.journeyTitle).toBe('Appeal a planning decision');
 	});
+
+	it('should include significant changes question before other appeals', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+		const section = journey.getSection('prepare-appeal');
+		const significantChangesIndex = section.questions.findIndex(
+			(question) => question.fieldName === 'anySignificantChanges'
+		);
+		const otherAppealsIndex = section.questions.findIndex(
+			(question) => question.fieldName === 'appellantLinkedCaseAdd'
+		);
+
+		expect(significantChangesIndex).toBeGreaterThan(-1);
+		expect(otherAppealsIndex).toBeGreaterThan(-1);
+		expect(significantChangesIndex).toBeLessThan(otherAppealsIndex);
+	});
 });

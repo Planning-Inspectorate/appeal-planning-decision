@@ -25,6 +25,13 @@ exports.fieldValues = Object.freeze({
 	designatedSites: {
 		other: 'other'
 	},
+	significantChanges: {
+		LOCAL_PLAN: 'local-plan',
+		NATIONAL_POLICY: 'national-policy',
+		COURT_JUDGMENT: 'court-judgment',
+		OTHER: 'other',
+		NONE: 'none'
+	},
 	enforcementWhoIsAppealing: {
 		INDIVIDUAL: 'individual',
 		GROUP: 'group',
