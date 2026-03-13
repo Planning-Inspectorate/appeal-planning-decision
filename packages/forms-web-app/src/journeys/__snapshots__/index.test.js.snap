@@ -98,84 +98,6 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the any-significant-changes question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/appeals/adverts/prepare-appeal/any-significant-changes?id=appeal-ref"
-            method="post" novalidate=null>
-                <p class="govuk-body">Only tell us about changes that are relevant or material to the application.</p>
-                <h2
-                class="govuk-heading-m">Significant changes</h2>
-                    <div class="govuk-form-group">
-                        <fieldset class="govuk-fieldset" aria-describedby="anySignificantChanges-hint">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                                <h1 class="govuk-fieldset__heading"> Have there been any significant changes that would affect the application?</h1>
-                            </legend>
-                            <div id="anySignificantChanges-hint" class="govuk-hint">Select all that apply</div>
-                            <div class="govuk-checkboxes govuk-checkboxes"
-                            data-module="govuk-checkboxes">
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges" name="anySignificantChanges"
-                                    type="checkbox" value="local-plan" data-cy="answer-local-plan">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges">Adopted a new local plan</label>
-                                </div>
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-2" name="anySignificantChanges"
-                                    type="checkbox" value="national-policy" data-cy="answer-national-policy">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-2">National policy changes</label>
-                                </div>
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-3" name="anySignificantChanges"
-                                    type="checkbox" value="court-judgment" data-cy="answer-court-judgment">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-3">Court judgment</label>
-                                </div>
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-4" name="anySignificantChanges"
-                                    type="checkbox" value="other" data-aria-controls="conditional-anySignificantChanges-4"
-                                    data-cy="answer-other">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-4">Other</label>
-                                </div>
-                                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
-                                id="conditional-anySignificantChanges-4">
-                                    <div class="govuk-form-group">
-                                        <label class="govuk-label" for="anySignificantChanges_otherSignificantChanges">Enter the other significant changes</label>
-                                        <div id="anySignificantChanges_otherSignificantChanges-hint"
-                                        class="govuk-hint"></div>
-                                        <textarea class="govuk-textarea" id="anySignificantChanges_otherSignificantChanges"
-                                        name="anySignificantChanges_otherSignificantChanges" rows="5" aria-describedby="anySignificantChanges_otherSignificantChanges-hint"></textarea>
-                                    </div>
-                                </div>
-                                <div class="govuk-checkboxes__divider">or</div>
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-6" name="anySignificantChanges"
-                                    type="checkbox" value="none" data-behaviour="exclusive" data-cy="answer-none">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-6">There have been no significant changes</label>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the appeal-site-address question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -2185,84 +2107,6 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement Commerci
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial advertisement Commercial advertisement should render the any-significant-changes question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/appeals/adverts/prepare-appeal/any-significant-changes?id=appeal-ref"
-            method="post" novalidate=null>
-                <p class="govuk-body">Only tell us about changes that are relevant or material to the application.</p>
-                <h2
-                class="govuk-heading-m">Significant changes</h2>
-                    <div class="govuk-form-group">
-                        <fieldset class="govuk-fieldset" aria-describedby="anySignificantChanges-hint">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                                <h1 class="govuk-fieldset__heading"> Have there been any significant changes that would affect the application?</h1>
-                            </legend>
-                            <div id="anySignificantChanges-hint" class="govuk-hint">Select all that apply</div>
-                            <div class="govuk-checkboxes govuk-checkboxes"
-                            data-module="govuk-checkboxes">
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges" name="anySignificantChanges"
-                                    type="checkbox" value="local-plan" data-cy="answer-local-plan">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges">Adopted a new local plan</label>
-                                </div>
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-2" name="anySignificantChanges"
-                                    type="checkbox" value="national-policy" data-cy="answer-national-policy">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-2">National policy changes</label>
-                                </div>
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-3" name="anySignificantChanges"
-                                    type="checkbox" value="court-judgment" data-cy="answer-court-judgment">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-3">Court judgment</label>
-                                </div>
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-4" name="anySignificantChanges"
-                                    type="checkbox" value="other" data-aria-controls="conditional-anySignificantChanges-4"
-                                    data-cy="answer-other">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-4">Other</label>
-                                </div>
-                                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
-                                id="conditional-anySignificantChanges-4">
-                                    <div class="govuk-form-group">
-                                        <label class="govuk-label" for="anySignificantChanges_otherSignificantChanges">Enter the other significant changes</label>
-                                        <div id="anySignificantChanges_otherSignificantChanges-hint"
-                                        class="govuk-hint"></div>
-                                        <textarea class="govuk-textarea" id="anySignificantChanges_otherSignificantChanges"
-                                        name="anySignificantChanges_otherSignificantChanges" rows="5" aria-describedby="anySignificantChanges_otherSignificantChanges-hint"></textarea>
-                                    </div>
-                                </div>
-                                <div class="govuk-checkboxes__divider">or</div>
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-6" name="anySignificantChanges"
-                                    type="checkbox" value="none" data-behaviour="exclusive" data-cy="answer-none">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-6">There have been no significant changes</label>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests appellant Commercial advertisement Commercial advertisement should render the appeal-site-address question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -4226,85 +4070,6 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commerc
 </main>"
 `;
 
-exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commercial planning (CAS) should render the any-significant-changes question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/appeals/cas-planning/prepare-appeal/any-significant-changes?id=appeal-ref"
-            method="post" novalidate=null>
-                <p class="govuk-body">Only tell us about changes that are relevant or material to the application.</p>
-                <h2
-                class="govuk-heading-m">Significant changes</h2>
-                    <div class="govuk-form-group">
-                        <fieldset class="govuk-fieldset" aria-describedby="anySignificantChanges-hint">
-                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                                <h1 class="govuk-fieldset__heading"> Have there been any significant changes that would affect the application?</h1>
-                            </legend>
-                            <div id="anySignificantChanges-hint" class="govuk-hint">Select all that apply</div>
-                            <div class="govuk-checkboxes govuk-checkboxes"
-                            data-module="govuk-checkboxes">
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges" name="anySignificantChanges"
-                                    type="checkbox" value="local-plan" data-cy="answer-local-plan">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges">Adopted a new local plan</label>
-                                </div>
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-2" name="anySignificantChanges"
-                                    type="checkbox" value="national-policy" data-cy="answer-national-policy">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-2">National policy changes</label>
-                                </div>
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-3" name="anySignificantChanges"
-                                    type="checkbox" value="court-judgment" data-cy="answer-court-judgment">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-3">Court judgment</label>
-                                </div>
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-4" name="anySignificantChanges"
-                                    type="checkbox" value="other" data-aria-controls="conditional-anySignificantChanges-4"
-                                    data-cy="answer-other">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-4">Other</label>
-                                </div>
-                                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
-                                id="conditional-anySignificantChanges-4">
-                                    <div class="govuk-form-group">
-                                        <label class="govuk-label" for="anySignificantChanges_otherSignificantChanges">Enter the other significant changes</label>
-                                        <div id="anySignificantChanges_otherSignificantChanges-hint"
-                                        class="govuk-hint"></div>
-                                        <textarea class="govuk-textarea" id="anySignificantChanges_otherSignificantChanges"
-                                        name="anySignificantChanges_otherSignificantChanges" rows="5" aria-describedby="anySignificantChanges_otherSignificantChanges-hint"></textarea>
-                                    </div>
-                                </div>
-                                <div class="govuk-checkboxes__divider">or</div>
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" id="anySignificantChanges-6" name="anySignificantChanges"
-                                    type="checkbox" value="none" data-behaviour="exclusive" data-cy="answer-none">
-                                    <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-6">There have been no significant changes</label>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <button type="submit" class="govuk-button" data-module="govuk-button"
-                    data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/cas-planning/appeal-form/your-appeal?id=appeal-ref"
-                class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
 exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commercial planning (CAS) should render the appeal-site-address question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -5972,12 +5737,6 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) renders
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/cas-planning/prepare-appeal/description-development-correct?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Did the local planning authority change the description of development?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Have there been any significant changes that would affect the application?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/cas-planning/prepare-appeal/any-significant-changes?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Have there been any significant changes that would affect the application?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there other appeals linked to your development?</dt>

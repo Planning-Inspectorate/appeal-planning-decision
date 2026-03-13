@@ -77,7 +77,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.planningApplicationDate)
 			.addQuestion(questions.enterDevelopmentDescription)
 			.addQuestion(questions.updateDevelopmentDescription)
-			.addQuestion(questions.anySignificantChanges)
 			.addQuestion(questions.anyOtherAppeals)
 			.addQuestion(questions.linkAppeals)
 			.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
