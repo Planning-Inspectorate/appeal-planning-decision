@@ -865,14 +865,7 @@ model AppellantSubmission {
   anySignificantChanges                         String?
   anySignificantChanges_otherSignificantChanges String? @db.NVarChar(MAX)
   siteUseAtTimeOfApplication                    String?
-  applicationReference           String?
-  developmentDescriptionOriginal String?
-  appellantLinkedCaseReference   String?
-  contactPhoneNumber             String?
-  appellantPreferHearingDetails  String?
-  appellantPreferInquiryDetails  String?
-  siteUseAtTimeOfApplication     String?
-  whyAreYouAppealing             String?
+  whyAreYouAppealing                            String?
 
   // number entries
   siteAreaSquareMetres            Decimal?

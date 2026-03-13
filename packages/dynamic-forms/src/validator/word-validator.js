@@ -58,7 +58,7 @@ class WordValidator extends BaseValidator {
 					const wordCount = value.trim().split(/\s+/).length;
 					return wordCount <= this.maxLength.maxLength;
 				})
-				.withMessage(this.minLength.minLengthMessage);
+				.withMessage(this.maxLength.maxLengthMessage);
 
 		let chain = body(this.fieldName ? this.fieldName : questionObj.fieldName);
 		if (this.minLength.minLength) {
