@@ -13,22 +13,28 @@ describe('mapBopsToBeforeYouStart', () => {
 		expect(mapBopsToBeforeYouStart({ application: { type: null } })).toBeNull();
 	});
 
-	it('returns null for unknown application type', () => {
+	it('returns the application date for unknown application type', () => {
+		const receivedAt = '2026-04-03T10:00:00Z';
 		const bopsData = {
 			application: {
-				type: { value: 'unknown_type' }
+				type: { value: 'unknown_type' },
+				receivedAt
 			}
 		};
-		expect(mapBopsToBeforeYouStart(bopsData)).toBeNull();
+		expect(mapBopsToBeforeYouStart(bopsData)).toEqual({
+			applicationDate: new Date(receivedAt)
+		});
 	});
 
 	it('maps HOUSEHOLDER_PLANNING with granted decision', () => {
 		const determinedAt = '2025-12-01T00:00:00Z';
+		const receivedAt = '2025-11-01T00:00:00Z';
 		const bopsData = {
 			application: {
 				type: { value: applicationTypes.pp_full_householder },
 				decision: decisions.granted,
-				determinedAt
+				determinedAt,
+				receivedAt
 			}
 		};
 		const result = mapBopsToBeforeYouStart(bopsData);
@@ -37,17 +43,20 @@ describe('mapBopsToBeforeYouStart', () => {
 			appealType: APPEAL_ID.PLANNING_SECTION_78,
 			typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
 			eligibility: { applicationDecision: APPLICATION_DECISION.GRANTED },
-			decisionDate: new Date(determinedAt)
+			decisionDate: new Date(determinedAt),
+			applicationDate: new Date(receivedAt)
 		});
 	});
 
 	it('maps HOUSEHOLDER_PLANNING with refused decision', () => {
 		const determinedAt = '2025-12-02T00:00:00Z';
+		const receivedAt = '2025-11-02T00:00:00Z';
 		const bopsData = {
 			application: {
 				type: { value: applicationTypes.pp_full_householder },
 				decision: decisions.refused,
-				determinedAt
+				determinedAt,
+				receivedAt
 			}
 		};
 		const result = mapBopsToBeforeYouStart(bopsData);
@@ -56,18 +65,21 @@ describe('mapBopsToBeforeYouStart', () => {
 			appealType: APPEAL_ID.HOUSEHOLDER,
 			typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
 			eligibility: { applicationDecision: APPLICATION_DECISION.REFUSED },
-			decisionDate: new Date(determinedAt)
+			decisionDate: new Date(determinedAt),
+			applicationDate: new Date(receivedAt)
 		});
 	});
 
 	it('maps HOUSEHOLDER_PLANNING with no decision and expiryDate', () => {
 		const expiryDate = '2025-12-31T00:00:00Z';
+		const receivedAt = '2025-10-30T00:00:00Z';
 		const bopsData = {
 			application: {
 				type: { value: applicationTypes.pp_full_householder },
 				decision: null,
 				determinedAt: null,
-				expiryDate
+				expiryDate,
+				receivedAt
 			}
 		};
 		const result = mapBopsToBeforeYouStart(bopsData);
@@ -76,16 +88,19 @@ describe('mapBopsToBeforeYouStart', () => {
 			appealType: APPEAL_ID.PLANNING_SECTION_78,
 			typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
 			eligibility: { applicationDecision: APPLICATION_DECISION.NODECISIONRECEIVED },
-			decisionDate: new Date(expiryDate)
+			decisionDate: new Date(expiryDate),
+			applicationDate: new Date(receivedAt)
 		});
 	});
 
 	it('maps HOUSEHOLDER_PLANNING with no decision and no expiryDate', () => {
+		const receivedAt = '2025-10-31T00:00:00Z';
 		const bopsData = {
 			application: {
 				type: { value: applicationTypes.pp_full_householder },
 				decision: null,
-				determinedAt: null
+				determinedAt: null,
+				receivedAt
 			}
 		};
 		const result = mapBopsToBeforeYouStart(bopsData);
@@ -94,7 +109,8 @@ describe('mapBopsToBeforeYouStart', () => {
 			appealType: APPEAL_ID.PLANNING_SECTION_78,
 			typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
 			eligibility: { applicationDecision: APPLICATION_DECISION.NODECISIONRECEIVED },
-			decisionDate: null
+			decisionDate: null,
+			applicationDate: new Date(receivedAt)
 		});
 	});
 });

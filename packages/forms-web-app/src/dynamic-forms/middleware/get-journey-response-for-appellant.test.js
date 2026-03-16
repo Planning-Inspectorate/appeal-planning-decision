@@ -4,6 +4,7 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 jest.mock('./utils');
 jest.mock('../../featureFlag', () => ({
@@ -78,7 +79,55 @@ describe('getJourneyResponseForAppellant', () => {
 		const expectedType = JOURNEY_TYPES.HAS_APPEAL_FORM.id;
 
 		expect(res.locals.journeyResponse).toEqual(
-			new JourneyResponse(expectedType, submissionId, convertedResponse, lpaCode)
+			expect.objectContaining(
+				new JourneyResponse(expectedType, submissionId, convertedResponse, lpaCode)
+			)
+		);
+		expect(res.locals.journeyResponse.expeditedAppealsEnabled).toBe(true);
+		expect(require('../../featureFlag').isFeatureActive).toHaveBeenCalledWith(
+			FLAG.EXPEDITED_APPEALS_FO_V1,
+			lpaCode
+		);
+		expect(next).toHaveBeenCalled();
+	});
+
+	it('should set expeditedAppealsEnabled true for S78 when expedited flag is active', async () => {
+		req.appealsApiClient.getAppellantSubmission.mockResolvedValue({
+			...mockSubmission,
+			appealTypeCode: CASE_TYPES.S78.processCode
+		});
+		require('../../featureFlag').isFeatureActive.mockImplementation(async (flagName) => {
+			if (flagName === FLAG.EXPEDITED_APPEALS_FO_V1) {
+				return true;
+			}
+			return true;
+		});
+
+		await getJourneyResponseForAppellant(req, res, next);
+
+		expect(res.locals.journeyResponse.expeditedAppealsEnabled).toBe(true);
+		expect(require('../../featureFlag').isFeatureActive).toHaveBeenCalledWith(
+			FLAG.EXPEDITED_APPEALS_FO_V1,
+			lpaCode
+		);
+		expect(next).toHaveBeenCalled();
+	});
+
+	it('should set expeditedAppealsEnabled false when expedited flag is inactive', async () => {
+		req.appealsApiClient.getAppellantSubmission.mockResolvedValue(mockSubmission);
+		require('../../featureFlag').isFeatureActive.mockImplementation(async (flagName) => {
+			if (flagName === FLAG.EXPEDITED_APPEALS_FO_V1) {
+				return false;
+			}
+			return true;
+		});
+
+		await getJourneyResponseForAppellant(req, res, next);
+
+		expect(res.locals.journeyResponse.expeditedAppealsEnabled).toBe(false);
+		expect(require('../../featureFlag').isFeatureActive).toHaveBeenCalledWith(
+			FLAG.EXPEDITED_APPEALS_FO_V1,
+			lpaCode
 		);
 		expect(next).toHaveBeenCalled();
 	});

@@ -1,5 +1,8 @@
 const { Journey } = require('@pins/dynamic-forms/src/journey');
 const { baseS78SubmissionUrl, ...params } = require('./journey');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const { APPLICATION_DECISION, TYPE_OF_PLANNING_APPLICATION } =
+	require('@pins/business-rules').constants;
 
 const mockResponse = {
 	journeyId: 'S78',
@@ -32,5 +35,45 @@ describe('S78 Appeal Form Journey', () => {
 	it('should set journeyTitle', () => {
 		const journey = new Journey({ ...params, response: mockResponse });
 		expect(journey.journeyTitle).toBe('Appeal a planning decision');
+	});
+
+	it('should display significant changes question when expedited criteria are met', () => {
+		const eligibleResponse = {
+			...mockResponse,
+			journeyId: JOURNEY_TYPES.S78_APPEAL_FORM.id,
+			expeditedAppealsEnabled: true,
+			answers: {
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL,
+				onApplicationDate: '2026-04-01T10:00:00.000Z',
+				applicationDecision: APPLICATION_DECISION.GRANTED
+			}
+		};
+		const journey = new Journey({ ...params, response: eligibleResponse });
+		const anySignificantChangesQuestion = journey.sections
+			.flatMap((section) => section.questions)
+			.find((question) => question.fieldName === 'anySignificantChanges');
+
+		expect(anySignificantChangesQuestion).toBeDefined();
+		expect(anySignificantChangesQuestion.shouldDisplay(eligibleResponse)).toBe(true);
+	});
+
+	it('should hide significant changes question when expedited criteria are not met', () => {
+		const ineligibleResponse = {
+			...mockResponse,
+			journeyId: JOURNEY_TYPES.S78_APPEAL_FORM.id,
+			expeditedAppealsEnabled: false,
+			answers: {
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL,
+				onApplicationDate: '2026-04-01T10:00:00.000Z',
+				applicationDecision: APPLICATION_DECISION.GRANTED
+			}
+		};
+		const journey = new Journey({ ...params, response: ineligibleResponse });
+		const anySignificantChangesQuestion = journey.sections
+			.flatMap((section) => section.questions)
+			.find((question) => question.fieldName === 'anySignificantChanges');
+
+		expect(anySignificantChangesQuestion).toBeDefined();
+		expect(anySignificantChangesQuestion.shouldDisplay(ineligibleResponse)).toBe(false);
 	});
 });

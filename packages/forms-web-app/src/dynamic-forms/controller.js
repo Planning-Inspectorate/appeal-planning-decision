@@ -204,6 +204,7 @@ function buildCreateAppellantSubmissionData(lpaCode, appealTypeCode, appeal) {
 			LPACode: lpaCode,
 			appealTypeCode,
 			applicationDecisionDate: appeal.decisionDate,
+			onApplicationDate: appeal.applicationDate,
 			applicationReference: appeal.planningApplicationNumber,
 			applicationDecision: appeal.eligibility.applicationDecision,
 			typeOfPlanningApplication: appeal.typeOfPlanningApplication,
