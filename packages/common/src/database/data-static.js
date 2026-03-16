@@ -120,7 +120,7 @@ const CASE_TYPES = Object.freeze({
 		friendlyUrl: 'enforcement',
 		expedited: false,
 		usesEnforcementContact: true,
-		hasAppellantStatementJourney: false
+		hasAppellantStatementJourney: true
 	},
 	ENFORCEMENT_LISTED: {
 		id: 1002,
