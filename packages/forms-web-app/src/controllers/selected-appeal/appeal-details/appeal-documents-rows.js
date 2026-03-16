@@ -188,7 +188,10 @@ const enforcementDocumentsRows = (caseData) => {
 		{
 			keyText: 'Planning obligation',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
-			condition: () => !!caseData.applicationMadeAndFeePaid || !!caseData.retrospectiveApplication,
+			condition: () =>
+				!!caseData.applicationMadeAndFeePaid ||
+				!!caseData.retrospectiveApplication ||
+				caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode,
 			isEscaped: true
 		},
 		{

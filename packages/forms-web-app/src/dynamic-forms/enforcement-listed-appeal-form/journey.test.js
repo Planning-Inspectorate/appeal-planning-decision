@@ -183,14 +183,11 @@ describe('Enforcement Listed Building Journey - Upload Documents Section', () =>
 		expect(decisionLetter).toBeUndefined();
 	});
 
-	it('should NOT include planning obligation questions', () => {
+	it('should include planning obligation questions', () => {
 		const section = journey.getSection('upload-documents');
 		// @ts-ignore
-		const planningObligation = section.questions.find(
-			(q) => q.fieldName === 'submitPlanningObligation'
-		);
-
-		expect(planningObligation).toBeUndefined();
+		const planningObligation = section.questions.find((q) => q.fieldName === 'planningObligation');
+		expect(planningObligation).toBeDefined();
 	});
 
 	it('should show cost application upload only when cost application is "yes"', () => {
