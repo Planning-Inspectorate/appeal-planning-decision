@@ -23,6 +23,18 @@ const mapBopsDecision = (bopsDecision) => {
  * @param {any} bopsApplication
  * @returns {Date|null}
  */
+const mapBopsApplicationDate = (bopsApplication) => {
+	if (bopsApplication.receivedAt) {
+		return new Date(bopsApplication.receivedAt);
+	}
+
+	return null;
+};
+
+/**
+ * @param {any} bopsApplication
+ * @returns {Date|null}
+ */
 const mapBopsDecisionDate = (bopsApplication) => {
 	if (bopsApplication.determinedAt) {
 		return new Date(bopsApplication.determinedAt);
@@ -38,7 +50,7 @@ const mapBopsDecisionDate = (bopsApplication) => {
 
 /**
  * @param {any} bopsData
- * @returns {null|{allData: boolean, appealType: string|undefined, typeOfPlanningApplication: string, decisionDate: Date|null, eligibility: {applicationDecision: string}}}
+ * @returns {null|{applicationDate: Date|null, allData?: boolean, appealType?: string|undefined, typeOfPlanningApplication?: string, decisionDate?: Date|null, eligibility?: {applicationDecision: string}}}
  */
 exports.mapBopsToBeforeYouStart = (bopsData) => {
 	if (!bopsData?.application?.type) {
@@ -47,6 +59,7 @@ exports.mapBopsToBeforeYouStart = (bopsData) => {
 
 	const applicationDecision = mapBopsDecision(bopsData.application.decision);
 	const decisionDate = mapBopsDecisionDate(bopsData.application);
+	const applicationDate = mapBopsApplicationDate(bopsData.application);
 
 	switch (bopsData.application.type.value) {
 		case applicationTypes.pp_full_householder:
@@ -58,9 +71,12 @@ exports.mapBopsToBeforeYouStart = (bopsData) => {
 				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
 				eligibility: { applicationDecision },
 				decisionDate,
+				applicationDate,
 				allData: !!applicationDecision && !!decisionDate
 			};
 		default:
-			return null;
+			return {
+				applicationDate
+			};
 	}
 };

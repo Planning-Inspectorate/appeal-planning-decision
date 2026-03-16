@@ -658,6 +658,19 @@ describe('dynamic-form/controller', () => {
 				applicationDecision: 'some-decision'
 			}
 		};
+		const planningAppeal = {
+			id: 'planning-123',
+			appealType: APPEAL_ID.PLANNING_SECTION_78,
+			lpaCode: 'some-lpa-code',
+			appealSqlId: 'planning-appeal-sql-id',
+			decisionDate: '2026-04-10',
+			applicationDate: '2026-04-01T10:00:00.000Z',
+			planningApplicationNumber: 'planning-application-number',
+			typeOfPlanningApplication: 'full-appeal',
+			eligibility: {
+				applicationDecision: 'granted'
+			}
+		};
 
 		const enforcementAppeal = {
 			...appeal,
@@ -688,8 +701,10 @@ describe('dynamic-form/controller', () => {
 				LPACode: lpa.lpaCode,
 				appealTypeCode: CASE_TYPES.HAS.processCode,
 				applicationDecisionDate: appeal.decisionDate,
+				onApplicationDate: appeal.applicationDate,
 				applicationReference: appeal.planningApplicationNumber,
-				applicationDecision: appeal.eligibility.applicationDecision
+				applicationDecision: appeal.eligibility.applicationDecision,
+				typeOfPlanningApplication: appeal.typeOfPlanningApplication
 			});
 			expect(deleteAppeal).toHaveBeenCalledWith(appeal.id);
 			expect(req.session.appeal).toBeNull();
@@ -700,6 +715,30 @@ describe('dynamic-form/controller', () => {
 			});
 			expect(res.redirect).toHaveBeenCalledWith(
 				'/appeals/householder/appeal-form/your-appeal?id=some-submission-id'
+			);
+		});
+
+		it('should generate S78 appellant submission with onApplicationDate and redirect', async () => {
+			getDepartmentFromId.mockResolvedValue(lpa);
+			req.appealsApiClient.createAppellantSubmission.mockResolvedValue({
+				id: 'some-submission-id'
+			});
+			req.session.appeal = planningAppeal;
+
+			await appellantStartAppeal(req, res);
+
+			expect(req.appealsApiClient.createAppellantSubmission).toHaveBeenCalledWith({
+				appealId: planningAppeal.appealSqlId,
+				LPACode: lpa.lpaCode,
+				appealTypeCode: CASE_TYPES.S78.processCode,
+				applicationDecisionDate: planningAppeal.decisionDate,
+				onApplicationDate: planningAppeal.applicationDate,
+				applicationReference: planningAppeal.planningApplicationNumber,
+				applicationDecision: planningAppeal.eligibility.applicationDecision,
+				typeOfPlanningApplication: planningAppeal.typeOfPlanningApplication
+			});
+			expect(res.redirect).toHaveBeenCalledWith(
+				'/appeals/full-planning/appeal-form/your-appeal?id=some-submission-id'
 			);
 		});
 
@@ -826,8 +865,10 @@ describe('dynamic-form/controller', () => {
 				LPACode: lpa.lpaCode,
 				appealTypeCode: CASE_TYPES.LDC.processCode,
 				applicationDecisionDate: appeal.decisionDate,
+				onApplicationDate: appeal.applicationDate,
 				applicationReference: appeal.planningApplicationNumber,
-				applicationDecision: appeal.eligibility.applicationDecision
+				applicationDecision: appeal.eligibility.applicationDecision,
+				typeOfPlanningApplication: appeal.typeOfPlanningApplication
 			});
 			expect(deleteAppeal).toHaveBeenCalledWith(appeal.id);
 			expect(req.session.appeal).toBeNull();

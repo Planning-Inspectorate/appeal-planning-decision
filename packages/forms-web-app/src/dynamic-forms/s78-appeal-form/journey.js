@@ -19,6 +19,9 @@ const {
 	shouldDisplayTellingTenants,
 	shouldDisplayUploadDecisionLetter
 } = require('../display-questions');
+const {
+	shouldDisplayExpeditedPart1Questions
+} = require('../../lib/should-display-expedited-part1-questions');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -108,6 +111,8 @@ const makeSections = (response) => {
 			.addQuestion(questions.developmentType)
 			.addQuestion(questions.enterDevelopmentDescription)
 			.addQuestion(questions.updateDevelopmentDescription)
+			.addQuestion(questions.anySignificantChanges)
+			.withCondition(() => shouldDisplayExpeditedPart1Questions(response))
 			.addQuestion(questions.appellantProcedurePreference)
 			.addQuestion(questions.appellantPreferHearing)
 			.withCondition(() =>

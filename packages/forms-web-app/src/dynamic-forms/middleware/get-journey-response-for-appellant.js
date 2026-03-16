@@ -55,6 +55,7 @@ module.exports = async (request, response, next) => {
 		convertedResponse,
 		submission.LPACode
 	);
+	journeyResponse.expeditedAppealsEnabled = await isExpeditedAppealsFlagEnabled(submission.LPACode);
 
 	response.locals.journeyResponse = journeyResponse;
 
@@ -89,4 +90,12 @@ const appealTypeFlagActive = async (appealTypeCode, LPACode) => {
 		default:
 			return false;
 	}
+};
+
+/**
+ * @param { string | undefined } LPACode
+ * @returns {Promise<boolean>}
+ */
+const isExpeditedAppealsFlagEnabled = async (LPACode) => {
+	return await isFeatureActive(FLAG.EXPEDITED_APPEALS_FO_V1, LPACode);
 };
