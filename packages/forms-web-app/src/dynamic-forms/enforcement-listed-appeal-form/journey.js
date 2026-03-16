@@ -3,7 +3,8 @@ const { Section } = require('@pins/dynamic-forms/src/section');
 const {
 	questionHasAnswer,
 	questionHasNonEmptyStringAnswer,
-	questionHasNonEmptyNumberAnswer
+	questionHasNonEmptyNumberAnswer,
+	questionsHaveAnswers
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
 const { APPEAL_CASE_PROCEDURE, APPEAL_CASE_TYPE } = require('@planning-inspectorate/data-model');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
@@ -214,6 +215,20 @@ const makeSections = (response) => {
 			.withCondition(() => shouldDisplayPriorCorrespondenceUpload(response))
 			.addQuestion(questions.uploadEnforcementNotice)
 			.addQuestion(questions.uploadEnforcementNoticePlan)
+			.addQuestion(questions.submitPlanningObligation)
+			.addQuestion(questions.planningObligationStatus)
+			.withCondition(() => questionHasAnswer(response, questions.submitPlanningObligation, 'yes'))
+			.addQuestion(questions.uploadPlanningObligation)
+			.withCondition(() =>
+				questionsHaveAnswers(
+					response,
+					[
+						[questions.submitPlanningObligation, 'yes'],
+						[questions.planningObligationStatus, 'finalised']
+					],
+					{ logicalCombinator: 'and' }
+				)
+			)
 			.addQuestion(questions.costApplication)
 			.addQuestion(questions.uploadCostApplication)
 			.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))

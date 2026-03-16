@@ -345,6 +345,27 @@ condition: () => shouldDisplayPriorCorrespondenceUpload(response);
 
 - multi-file-upload `/upload-enforcement-notice/` Upload your enforcement notice
 - multi-file-upload `/upload-enforcement-plan/` Upload your enforcement notice plan
+- boolean `/submit-planning-obligation/` Do you plan to submit a planning obligation to support your appeal?
+- radio `/status-planning-obligation/` What is the status of your planning obligation?
+
+```js
+condition: () => questionHasAnswer(response, questions.submitPlanningObligation, 'yes');
+```
+
+- multi-file-upload `/upload-planning-obligation/` Upload your planning obligation
+
+```js
+condition: () =>
+	questionsHaveAnswers(
+		response,
+		[
+			[questions.submitPlanningObligation, 'yes'],
+			[questions.planningObligationStatus, 'finalised']
+		],
+		{ logicalCombinator: 'and' }
+	);
+```
+
 - boolean `/apply-appeal-costs/` Do you want to apply for an award of appeal costs?
 - multi-file-upload `/upload-appeal-costs-application/` Upload your application for an award of appeal costs
 

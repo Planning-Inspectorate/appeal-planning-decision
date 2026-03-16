@@ -913,8 +913,14 @@ exports.getEnforcementListedAppellantSubmissionFields = (appellantSubmission) =>
 		};
 	};
 
+	const planningObligationStatus = exports.formatPlanningObligationStatus(
+		appellantSubmission.statusPlanningObligation
+	);
+
 	return {
 		namedIndividuals: getNamedIndividuals(),
+		planningObligation: appellantSubmission.planningObligation ?? null,
+		statusPlanningObligation: planningObligationStatus ?? null,
 		...getInterestInLand()
 	};
 };

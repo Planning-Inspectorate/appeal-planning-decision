@@ -8568,6 +8568,51 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the upload-planning-obligation question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Upload documents</span>
+            <h1 class="govuk-heading-l">Upload your planning obligation</h1>
+            <form action="/appeals/enforcement-listed-building/upload-documents/upload-planning-obligation?id=appeal-ref"
+            method="post" novalidate=null enctype="multipart/form-data">
+                <div class="moj-multi-file-upload">
+                    <div class="moj-multi-file__uploaded-files" aria-live="polite">
+                        <div class="moj-multi-file__uploaded-files-container moj-hidden">
+                            <h2 class="govuk-heading-m" id="-uploaded-files-heading">Files added</h2>
+                            <ul class="govuk-summary-list moj-multi-file-upload__list"></ul>
+                        </div>
+                    </div>
+                    <div class="moj-multi-file-upload__upload">
+                        <div class="govuk-form-group">
+                            <label class="govuk-label govuk-label--m" for="uploadPlanningObligation">Upload files</label>
+                            <div id="uploadPlanningObligation-hint" class="govuk-hint">The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller
+                                than 1GB</div>
+                            <input class="govuk-file-upload moj-multi-file-upload__input"
+                            id="uploadPlanningObligation" name="uploadPlanningObligation" type="file"
+                            aria-describedby="uploadPlanningObligation-hint" multiple="">
+                        </div>
+                        <button value="upload-and-remain-on-page" type="submit" name="upload-and-remain-on-page"
+                        class="govuk-button govuk-button--secondary moj-multi-file-upload__button"
+                        data-module="govuk-button" data-cy="button-upload-file">Upload file</button>
+                    </div>
+                </div>
+                <div class="govuk-button-group">
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/enforcement-listed-building/appeal-form/your-appeal?id=appeal-ref"
+                class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Enforcement listed building and conservation area Enforcement listed building and conservation area should render the who-is-appealing question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -8829,6 +8874,12 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
                             <dd class="govuk-summary-list__value">Not started</dd>
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/upload-documents/upload-enforcement-plan?id=appeal-ref">Upload<span class="govuk-visually-hidden"> Upload your enforcement notice plan</span></a>
                             </dd>
+                        </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you plan to submit a planning obligation to support your appeal?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/enforcement-listed-building/upload-documents/submit-planning-obligation?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Do you plan to submit a planning obligation to support your appeal?</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Do you want to apply for an award of appeal costs?</dt>
                             <dd
