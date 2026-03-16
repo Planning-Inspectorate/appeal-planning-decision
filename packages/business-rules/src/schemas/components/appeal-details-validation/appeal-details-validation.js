@@ -15,6 +15,7 @@ const appealDetailsValidation = () => {
 		horizonId: horizonIdValidation(),
 		lpaCode: lpaCodeValidation(),
 		planningApplicationNumber: planningApplicationNumberValidation(),
+		applicationDate: dateValidation(),
 		decisionDate: dateValidation(),
 		createdAt: dateValidation(true),
 		updatedAt: dateValidation(true),
