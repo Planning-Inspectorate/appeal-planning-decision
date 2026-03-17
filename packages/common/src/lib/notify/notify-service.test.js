@@ -559,7 +559,7 @@ describe('NotifyService', () => {
 
 					# What happens next
 					We will contact you if:
-					- we have received comments from interested parties
+					- we receive any comments from interested parties
 
 					Planning Inspectorate
 					${personalisation.contactEmail}`
@@ -592,8 +592,8 @@ describe('NotifyService', () => {
 
 					# What happens next
 					We will contact you if:
-					- the appellant have submitted their statements
-					- we have received comments from interested parties
+					- the appellant submits a statement
+					- we receive any comments from interested parties
 
 					Planning Inspectorate
 					${personalisation.contactEmail}`
