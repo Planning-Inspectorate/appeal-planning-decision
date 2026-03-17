@@ -2655,7 +2655,7 @@ exports.getQuestionProps = (response) => ({
 		title: 'Final comments',
 		question: 'Upload your final comments',
 		fieldName: 'uploadAppellantFinalCommentDocuments',
-		url: 'upload-final-comments',
+		url: 'upload-supporting-documents',
 		validators: [
 			new RequiredFileUploadValidator('Select your final comments'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
@@ -2717,7 +2717,7 @@ exports.getQuestionProps = (response) => ({
 		title: 'Final comments',
 		question: 'Upload your final comments',
 		fieldName: 'uploadLPAFinalCommentDocuments',
-		url: 'upload-final-comments',
+		url: 'upload-supporting-documents',
 		validators: [
 			new RequiredFileUploadValidator('Select your final comments'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
