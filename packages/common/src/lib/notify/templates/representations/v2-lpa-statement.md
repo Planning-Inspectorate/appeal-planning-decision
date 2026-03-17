@@ -15,9 +15,9 @@ Planning application reference: {{lpaReference}}
 We will contact you if:
 
 {%- if hasAppellantStatementJourney %}
-- the appellant have submitted their statements
+- the appellant submits a statement
 {%- endif %}
-- we have received comments from interested parties
+- we receive any comments from interested parties
 
 Planning Inspectorate
 {{contactEmail}}
