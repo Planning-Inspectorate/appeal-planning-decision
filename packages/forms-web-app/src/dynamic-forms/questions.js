@@ -2653,15 +2653,15 @@ exports.getQuestionProps = (response) => ({
 	uploadAppellantFinalCommentDocuments: {
 		type: 'multi-file-upload',
 		title: 'Final comments',
-		question: 'Upload your new supporting documents',
+		question: 'Upload your final comments',
 		fieldName: 'uploadAppellantFinalCommentDocuments',
-		url: 'upload-supporting-documents',
+		url: 'upload-final-comments',
 		validators: [
-			new RequiredFileUploadValidator('Select your new supporting documents'),
+			new RequiredFileUploadValidator('Select your final comments'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		documentType: documentTypes.uploadAppellantFinalCommentDocuments,
-		actionHiddenText: 'your new supporting documents'
+		actionHiddenText: 'your final comments'
 	},
 	lpaFinalComment: {
 		type: 'boolean',
@@ -2715,15 +2715,15 @@ exports.getQuestionProps = (response) => ({
 	uploadLPAFinalCommentDocuments: {
 		type: 'multi-file-upload',
 		title: 'Final comments',
-		question: 'Upload your new supporting documents',
+		question: 'Upload your final comments',
 		fieldName: 'uploadLPAFinalCommentDocuments',
-		url: 'upload-supporting-documents',
+		url: 'upload-final-comments',
 		validators: [
-			new RequiredFileUploadValidator('Select your new supporting documents'),
+			new RequiredFileUploadValidator('Select your final comments'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
 		documentType: documentTypes.uploadLPAFinalCommentDocuments,
-		actionHiddenText: 'your new supporting documents'
+		actionHiddenText: 'your final comments'
 	},
 	uploadAppellantProofOfEvidenceDocuments: {
 		type: 'multi-file-upload',
