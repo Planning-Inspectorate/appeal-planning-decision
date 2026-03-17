@@ -1,9 +1,8 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
-
 import { BasePage } from "../../../../page-objects/base-page";
-export class AppealProcess {
 
+export class AppealProcess {
     _selectors = {
         nearbyAppealReference: '#nearbyAppealReference',
         newConditionsNewConditionDetails: '#newConditions_newConditionDetails',
@@ -13,6 +12,27 @@ export class AppealProcess {
         lpaPreferHearingDetails: 'lpaPreferHearingDetails',
         lpaProcedurePreferenceLpaPreferInquiryDuration: 'lpaProcedurePreference_lpaPreferInquiryDuration',
         lpaPreferInquiryDetails: 'lpaPreferInquiryDetails'
+    }
+    // LDC-specific: Procedure type
+    selectLdcProcedureType(context, lpaManageAppealsData) {
+        const basePage = new BasePage();
+        if (context?.appealProcess?.ldcProcedureType) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    }
+
+    // LDC-specific: Appeals near the site
+    selectLdcWhyInquiry(context, lpaManageAppealsData) {
+        const basePage = new BasePage();
+        if (context?.appealProcess?.ldcWhyInquiry) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
     }
     selectProcedureType(context, lpaManageAppealsData) {
         if (context?.appealProcess?.isProcedureType === lpaManageAppealsData?.written) {

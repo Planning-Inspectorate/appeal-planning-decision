@@ -2,8 +2,8 @@
 /// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
 import { DateService } from "../../../../utils/dateService";
-export class PoReportAndSupportDocs {
 
+export class PoReportAndSupportDocs {
     _selectors = {
         infrastructureLevyAdoptedDateDay: '#infrastructureLevyAdoptedDate_day',
         infrastructureLevyAdoptedDateMonth: '#infrastructureLevyAdoptedDate_month',
@@ -11,6 +11,47 @@ export class PoReportAndSupportDocs {
         infrastructureLevyExpectedDateDay: '#infrastructureLevyExpectedDate_day',
         infrastructureLevyExpectedDateMonth: '#infrastructureLevyExpectedDate_month',
         infrastructureLevyExpectedDateYear: '#infrastructureLevyExpectedDate_year'
+    }
+    // LDC-specific: Do you have a planning officer’s report?
+    selectLdcPlanningOfficersReport(context, lpaManageAppealsData) {
+        const basePage = new BasePage();
+        if (context?.poReportAndSupportDocs?.ldcPlanningOfficersReport) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    }
+
+    // LDC-specific: Community infrastructure levy
+    selectLdcCommunityInfrastructureLevy(context, lpaManageAppealsData) {
+        const basePage = new BasePage();
+        if (context?.poReportAndSupportDocs?.ldcCommunityInfrastructureLevy) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadCommunityInfrastructureLevy);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    }
+
+    // LDC-specific: Are there any other relevant matters?
+    selectLdcOtherRelevantMatters(context, lpaManageAppealsData) {
+        const basePage = new BasePage();
+        if (context?.poReportAndSupportDocs?.ldcOtherRelevantMatters) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadOtherPolicies);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
     }
     selectPOReportAndSupportDocsHas(context, lpaManageAppealsData, lpaAppealType) {
         const basePage = new BasePage();
@@ -31,7 +72,7 @@ export class PoReportAndSupportDocs {
     };
 
     selectPOReportAndSupportDocsAdv(context, lpaManageAppealsData, lpaAppealType) {
-       const basePage = new BasePage();
+        const basePage = new BasePage();
         //Upload the planning officer’s report or what your decision notice would have said
         cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
         cy.advanceToNextPage();

@@ -22,7 +22,7 @@ export const ldcAppealRefusedTestCases = [
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-lawful-development-certificate',
         isListedBuilding: true,
-        endToEndIntegration: false,
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: false,
             appellantInGreenBelt: false,

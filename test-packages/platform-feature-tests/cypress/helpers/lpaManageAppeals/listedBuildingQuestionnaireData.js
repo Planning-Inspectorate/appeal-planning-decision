@@ -20,7 +20,11 @@ const documents = {
     uploadEmergingPlan: 'emerging-plan.pdf',
     uploadOtherPolicies: 'other-policies.pdf',
     uploadSupplementaryPlanningDocs: 'supplementary-planning-docs.pdf',
-    uploadCommunityInfrastructureLevy: 'community-infrastructure-levy.pdf'
+    uploadCommunityInfrastructureLevy: 'community-infrastructure-levy.pdf',
+    uploadPlanningCondition: 'planning-condition.pdf',
+    uploadEnforcementNotice: 'enforcement-notice.pdf',
+    uploadRelatedApplication: 'related-application.pdf',
+    uploadAppealInvalid: 'appeal-invalid.pdf'
 };
 
 export const listedBuildingQuestionnaireTestCases = [
@@ -128,7 +132,7 @@ export const listedBuildingQuestionnaireTestCases = [
             isRubberIndustry: false,
             isTextileIndustries: false,
             isTourismLeisure: false,
-            isSensitiveArea:true,
+            isSensitiveArea: true,
             isColumn2Threshold: true,
             isScreeningOpinion: true,
             isScreenOpenionEnvStmt: true,
@@ -198,7 +202,7 @@ export const listedBuildingQuestionnaireTestCases = [
             isRubberIndustry: false,
             isTextileIndustries: false,
             isTourismLeisure: false,
-            isSensitiveArea:true,
+            isSensitiveArea: true,
             isColumn2Threshold: true,
             isScreeningOpinion: true,
             isScreenOpenionEnvStmt: true,

@@ -70,9 +70,10 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 	const siteAccess = new SiteAccess();
 	const notifyParties = new NotifyParties();
 	const poReportAndSupportDocs = new PoReportAndSupportDocs();
-	selectAppealIdFromTable(context, lpaManageAppealsData, lpaAppealType, caseRef).then(($link) => {	
+	selectAppealIdFromTable(context, lpaManageAppealsData, lpaAppealType, caseRef).then(($link) => {
 		if (caseRef) {
 			appealId = caseRef;
+			cy.wait(10000); // Adjust the wait time as needed
 			cy.contains('a.govuk-link', 'Submit questionnaire').click();
 		}
 
@@ -87,7 +88,10 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 						expectedText = lpaManageAppealsData?.appealTypeCommercialAdvert;
 					} else if (lpaAppealType === lpaManageAppealsData?.advertAppealType) {
 						expectedText = lpaManageAppealsData?.appealTypeAdvert;
-					} else {
+					} else if (lpaAppealType === lpaManageAppealsData?.ldcAppealType) {
+						expectedText = lpaManageAppealsData?.appealTypeLdc;
+					}
+					else {
 						expectedText = lpaManageAppealsData?.appealTypeFullPlanning;
 					}
 					cy.wrap($row)
@@ -108,8 +112,9 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 				? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealCommercialAdvertisement
 				: lpaAppealType === lpaManageAppealsData?.advertAppealType
 					? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealAdvertisement
-					: lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealFullPlanning;
-
+					: lpaAppealType === lpaManageAppealsData?.ldcAppealType
+						? lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealLDC
+						: lpaManageAppealsData?.constraintsAndDesignations?.correctTypeOfAppealFullPlanning;
 		cy.contains(correctTypeText)
 			.closest(basePage?._selectors.govukSummaryListRow)
 			.find(basePage?._selectors.agovukLink)
@@ -121,46 +126,57 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 				}
 			});
 		constraintsAndDesignations.selectCorrectTypeOfAppeal(context);
-		if (lpaAppealType !== lpaManageAppealsData?.commercialadvAppealType) {
-			constraintsAndDesignations.selectChangesListedBuilding(context, lpaManageAppealsData);
-		}
-		constraintsAndDesignations.selectAffectListedBuildings(context, lpaManageAppealsData);
-		if (lpaAppealType === lpaManageAppealsData?.s20AppealType) {
-			constraintsAndDesignations.selectPreserverGrantLoan(context);
-			constraintsAndDesignations.selectConsultHistoricEngland(context);
-		}
-		constraintsAndDesignations.selectAffectScheduledMonument(context);
-		constraintsAndDesignations.selectConservationArea(context);
-		constraintsAndDesignations.selectProtectedSpecies(context);
-		if (lpaAppealType === lpaManageAppealsData?.commercialadvAppealType || lpaAppealType === lpaManageAppealsData?.advertAppealType) {
-			constraintsAndDesignations.selectSpecialControlAdvertisement(context);
-		}
-		constraintsAndDesignations.selectGreenBelt(context);
-		constraintsAndDesignations.selectAreaOfOutstandingNaturalBeauty(context, lpaManageAppealsData);
-		if (lpaAppealType === lpaManageAppealsData?.s20AppealType || lpaAppealType === lpaManageAppealsData?.s78AppealType) {
-			constraintsAndDesignations.selectTreePreservationOrder(context);
-			constraintsAndDesignations.selectGypsyTraveller(context);
-			constraintsAndDesignations.selectPublicRightOfWay(context);
-			envImpactAssess.selectScheduleType(context, lpaManageAppealsData);
-		}
-		notifyParties.selectAndNotifyParties(context, lpaManageAppealsData);
-		consultResponseAndRepresent.selectStatutoryConsultees(context, lpaManageAppealsData);
-		if (lpaAppealType === lpaManageAppealsData?.s20AppealType || lpaAppealType === lpaManageAppealsData?.s78AppealType) {
-			consultResponseAndRepresent.selectConsultationResponses(context);
-		}
-		consultResponseAndRepresent.selectOtherPartyRepresentations(context);		
-		//Planning officer's report and supplementary documents
-		poReportAndSupportDocs.selectPOReportAndSupportDocsS78(context);
-		if (lpaAppealType === lpaManageAppealsData?.commercialadvAppealType || lpaAppealType === lpaManageAppealsData?.advertAppealType) {
-			poReportAndSupportDocs.selectHighwaytraficPlans(context);
-			poReportAndSupportDocs.selectPhotographsPlans(context);
-		}
-		poReportAndSupportDocs.selectStatuorydevelopmentplan(context);
-		poReportAndSupportDocs.selectEmergingPlansS78(context);
-		poReportAndSupportDocs.selectOtherRelevantPolicies(context);
-		poReportAndSupportDocs.selectSupplementaryPlanningDocs(context);
-		if (lpaAppealType === lpaManageAppealsData?.s20AppealType || lpaAppealType === lpaManageAppealsData?.s78AppealType) {
+		if (lpaAppealType === lpaManageAppealsData?.ldcAppealType) {
+			constraintsAndDesignations.selectLdcTypeOfCertificate(context, lpaManageAppealsData);
+			constraintsAndDesignations.selectLdcPlanningCondition(context, lpaManageAppealsData);
+			constraintsAndDesignations.selectLdcEnforcementNotice(context, lpaManageAppealsData);
+			constraintsAndDesignations.selectLdcRelatedApplications(context, lpaManageAppealsData);
+			constraintsAndDesignations.selectLdcAppealInvalid(context, lpaManageAppealsData);
+			poReportAndSupportDocs.selectLdcPlanningOfficersReport(context, lpaManageAppealsData);
 			poReportAndSupportDocs.selectCommunityInfraLevy(context);
+			poReportAndSupportDocs.selectLdcOtherRelevantMatters(context, lpaManageAppealsData);
+		} else {
+			if (lpaAppealType !== lpaManageAppealsData?.commercialadvAppealType) {
+				constraintsAndDesignations.selectChangesListedBuilding(context, lpaManageAppealsData);
+			}
+			constraintsAndDesignations.selectAffectListedBuildings(context, lpaManageAppealsData);
+			if (lpaAppealType === lpaManageAppealsData?.s20AppealType) {
+				constraintsAndDesignations.selectPreserverGrantLoan(context);
+				constraintsAndDesignations.selectConsultHistoricEngland(context);
+			}
+			constraintsAndDesignations.selectAffectScheduledMonument(context);
+			constraintsAndDesignations.selectConservationArea(context);
+			constraintsAndDesignations.selectProtectedSpecies(context);
+			if (lpaAppealType === lpaManageAppealsData?.commercialadvAppealType || lpaAppealType === lpaManageAppealsData?.advertAppealType) {
+				constraintsAndDesignations.selectSpecialControlAdvertisement(context);
+			}
+			constraintsAndDesignations.selectGreenBelt(context);
+			constraintsAndDesignations.selectAreaOfOutstandingNaturalBeauty(context, lpaManageAppealsData);
+			if (lpaAppealType === lpaManageAppealsData?.s20AppealType || lpaAppealType === lpaManageAppealsData?.s78AppealType) {
+				constraintsAndDesignations.selectTreePreservationOrder(context);
+				constraintsAndDesignations.selectGypsyTraveller(context);
+				constraintsAndDesignations.selectPublicRightOfWay(context);
+				envImpactAssess.selectScheduleType(context, lpaManageAppealsData);
+			}
+			notifyParties.selectAndNotifyParties(context, lpaManageAppealsData);
+			consultResponseAndRepresent.selectStatutoryConsultees(context, lpaManageAppealsData);
+			if (lpaAppealType === lpaManageAppealsData?.s20AppealType || lpaAppealType === lpaManageAppealsData?.s78AppealType) {
+				consultResponseAndRepresent.selectConsultationResponses(context);
+			}
+			consultResponseAndRepresent.selectOtherPartyRepresentations(context);
+			//Planning officer's report and supplementary documents
+			poReportAndSupportDocs.selectPOReportAndSupportDocsS78(context);
+			if (lpaAppealType === lpaManageAppealsData?.commercialadvAppealType || lpaAppealType === lpaManageAppealsData?.advertAppealType) {
+				poReportAndSupportDocs.selectHighwaytraficPlans(context);
+				poReportAndSupportDocs.selectPhotographsPlans(context);
+			}
+			poReportAndSupportDocs.selectStatuorydevelopmentplan(context);
+			poReportAndSupportDocs.selectEmergingPlansS78(context);
+			poReportAndSupportDocs.selectOtherRelevantPolicies(context);
+			poReportAndSupportDocs.selectSupplementaryPlanningDocs(context);
+			if (lpaAppealType === lpaManageAppealsData?.s20AppealType || lpaAppealType === lpaManageAppealsData?.s78AppealType) {
+				poReportAndSupportDocs.selectCommunityInfraLevy(context);
+			}
 		}
 
 		//Site access
@@ -170,8 +186,9 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 		// Appeals Access
 		appealProcess.selectProcedureType(context, lpaManageAppealsData);
 		appealProcess.selectOngoingAppealsNextToSite(context, lpaManageAppealsData, lpaManageAppealsData?.s78AppealType);
-		appealProcess.selectNewConditions(context, lpaManageAppealsData);
-		// commented for test during coding
+		if (lpaAppealType != lpaManageAppealsData?.ldcAppealType) {
+			appealProcess.selectNewConditions(context, lpaManageAppealsData);
+		}
 		cy.getByData(lpaManageAppealsData?.submitQuestionnaire).click();
 		cy.get(basePage?._selectors.govukPanelTitle).contains(lpaManageAppealsData?.questionnaireSubmitted);
 		cy.get('a[data-cy="Feedback-Page-Body"]').first().click();

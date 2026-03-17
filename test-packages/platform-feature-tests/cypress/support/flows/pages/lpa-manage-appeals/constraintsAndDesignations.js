@@ -1,7 +1,8 @@
+
 // @ts-nocheck
 /// <reference types="cypress"/>
-
 import { BasePage } from "../../../../page-objects/base-page";
+
 export class ConstraintsAndDesignations {
     _selectors = {
         affectedListedBuildingNumber: '#affectedListedBuildingNumber',
@@ -13,10 +14,85 @@ export class ConstraintsAndDesignations {
         designatedSites5SPA: '#designatedSites-5',
         designatedSites6other: '#designatedSites-6',
         conditionalDesignatedSites6other: '#designatedSites_otherDesignations',
-        designatedSites8no: '#designatedSites-8'
+        designatedSites8no: '#designatedSites-8',
+        existingDevelopment: 'answer-existing-development',
+        proposedUseOfADevelopment: 'answer-proposed-use-of-a-development',
+        proposedChangesToAListedBuilding: 'answer-proposed-changes-to-a-listed-building',
+        lpaConsiderAppealInvalidLpaAppealInvalidReasons: '#lpaConsiderAppealInvalid_lpaAppealInvalidReasons'
     }
-    selectCorrectTypeOfAppeal(context) {
+    // LDC-specific: What type of lawful development certificate is the appeal about?
+    selectLdcTypeOfCertificate(context, lpaManageAppealsData) {
+        cy.log('What type of lawful development certificate is the appeal about?', context?.constraintsAndDesignations?.ldcTypeOfCertificate);
+        if (context?.constraintsAndDesignations?.ldcTypeOfCertificate === 'existingDevelopment') {
+            cy.getByData(this?._selectors.existingDevelopment).click();
+        } else if (context?.constraintsAndDesignations?.ldcTypeOfCertificate === 'proposedUseOfADevelopment') {
+            cy.getByData(this?._selectors.proposedUseOfADevelopment).click();
+        } else if (context?.constraintsAndDesignations?.ldcTypeOfCertificate === 'proposedChangesToAListedBuilding') {
+            cy.getByData(this?._selectors.proposedChangesToAListedBuilding).click();
+        }
+        cy.advanceToNextPage();
+    }
+
+    // LDC-specific: Does the appeal relate to a planning condition?
+    selectLdcPlanningCondition(context, lpaManageAppealsData) {
         const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.ldcPlanningCondition) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            // Upload a copy of the relevant planning permission (conditional follow-up page)
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPlanningCondition);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    }
+
+    // LDC-specific: Was there an enforcement notice in force at the date of the application?
+    selectLdcEnforcementNotice(context, lpaManageAppealsData) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.ldcEnforcementNotice) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            // Upload the enforcement notice (conditional follow-up page)
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadEnforcementNotice);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    }
+
+    // LDC-specific: Are there any related applications?
+    selectLdcRelatedApplications(context, lpaManageAppealsData) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.ldcRelatedApplications) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.advanceToNextPage();
+            // Upload related applications (conditional follow-up page)
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadRelatedApplication);
+            cy.advanceToNextPage();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+            cy.advanceToNextPage();
+        }
+    }
+
+    // LDC-specific: Do you think the appeal is invalid?
+    selectLdcAppealInvalid(context, lpaManageAppealsData) {
+        const basePage = new BasePage();
+        if (context?.constraintsAndDesignations?.ldcAppealInvalid) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+            cy.get(this._selectors?.lpaConsiderAppealInvalidLpaAppealInvalidReasons).clear();
+            cy.get(this._selectors?.lpaConsiderAppealInvalidLpaAppealInvalidReasons).type(lpaManageAppealsData?.constraintsAndDesignations?.lpaConsiderAppealInvalidLpaAppealInvalidReasons);
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    }
+
+    selectCorrectTypeOfAppeal(context) {
+        const basePage = new BasePage();        
         if (context?.constraintsAndDesignations?.isCorrectTypeOfAppeal) {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();

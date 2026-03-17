@@ -10,7 +10,7 @@ import { questionnaire } from "./lpaManageAppeals/questionnaire";
 import { statementForCaseRef } from "./lpaManageAppeals/statement";
 import { viewValidatedAppealDetailsLPA } from "./lpaManageAppeals/viewValidatedAppealDetailsLPA";
 
-export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, questionnaireTestCases, statementTestCases) => {  
+export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, questionnaireTestCases, statementTestCases) => {
     if (context?.endToEndIntegration) {
         // Get the Case Reference and validate submitted appeal details
         cy.get(`a[href="/appeals/your-appeals"]`).click();
@@ -34,19 +34,19 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
             cy.startAppeal(caseRef);
 
             // Submit the LPA questionnaire in LPA dash board
-            viewValidatedAppealDetailsLPA(caseRef);            
+            viewValidatedAppealDetailsLPA(caseRef);
 
-            if ( appealType === lpaManageAppealsData?.s78AppealType || appealType === lpaManageAppealsData?.s20AppealType || appealType === lpaManageAppealsData?.commercialadvAppealType || appealType === lpaManageAppealsData?.advertAppealType ) {                
+            if (appealType === lpaManageAppealsData?.s78AppealType || appealType === lpaManageAppealsData?.s20AppealType || appealType === lpaManageAppealsData?.commercialadvAppealType || appealType === lpaManageAppealsData?.advertAppealType || appealType === lpaManageAppealsData?.ldcAppealType) {
                 questionnaire(questionnaireTestCases[0], lpaManageAppealsData, appealType, caseRef);
-            } else {               
+            } else {
                 householderQuestionnaire(questionnaireTestCases[0], lpaManageAppealsData, appealType, caseRef);
             }
             // Review LPA questionnaire via API
             cy.reviewLpaqSubmission(caseRef);
-            
+
             // Submit the LPA statement in LPA dash board
 
-            if ( appealType === lpaManageAppealsData?.s78AppealType || appealType === lpaManageAppealsData?.s20AppealType || appealType === lpaManageAppealsData?.advertAppealType) {
+            if (appealType === lpaManageAppealsData?.s78AppealType || appealType === lpaManageAppealsData?.s20AppealType || appealType === lpaManageAppealsData?.advertAppealType || appealType === lpaManageAppealsData?.ldcAppealType) {
 
                 viewValidatedAppealDetailsLPA(caseRef);
                 statementForCaseRef(statementTestCases[1], caseRef);
@@ -88,11 +88,11 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
                 cy.simulateFinalCommentsDeadlineElapsed(caseRef);
 
                 // Share final comments in Back Office
-                cy.shareCommentsAndStatementsViaApi(caseRef);  
-            }   
+                cy.shareCommentsAndStatementsViaApi(caseRef);
+            }
 
             // Setup site visit in back office
-            cy.setupSiteVisitViaAPI(caseRef);                
+            cy.setupSiteVisitViaAPI(caseRef);
 
             // Validate site visit text in LPA dash board
             // validate site visit text in appellant dash board
@@ -101,7 +101,7 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
             cy.simulateSiteVisit(caseRef);
 
             // Issue decision in back office
-            cy.issueDecisionViaApi(caseRef);         
+            cy.issueDecisionViaApi(caseRef);
 
             // validate issued decision in back office
 
