@@ -18,7 +18,9 @@ const lpaService = new LpaService();
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { templates } = config.services.notify;
 const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-static');
-const { mapAppealTypeToDisplayText } = require('@pins/common/src/appeal-type-to-display-text');
+const {
+	mapAppealTypeToDisplayTextWithAnOrA
+} = require('@pins/common/src/appeal-type-to-display-text');
 
 /**
  * @typedef {import('@pins/database/src/client/client').AppealCase } AppealCase
@@ -204,7 +206,7 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 /**
  * v2 appellant submission follow up
  * @param { AppealCase } appealCase
- * @param { AppellantSubmission } appellantSubmission
+ * @param { { id: string} } appellantSubmission
  * @param { string } email
  */
 const sendSubmissionConfirmationEmailToAppellantV2 = async (
@@ -267,11 +269,44 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
 };
 
 /**
- * @param { FullAppellantSubmission } appellantSubmission
+ * @param { AppealCase } appealCase
+ * @param { { id: string} } appellantSubmission
  */
-const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
-	const { appealTypeCode, applicationReference, enforcementReferenceNumber, LPACode } =
-		appellantSubmission;
+const sendSubmissionReceivedEmailToLpaV2 = async (appealCase, appellantSubmission) => {
+	const {
+		appealTypeCode,
+		applicationDecision,
+		applicationReference,
+		caseReference,
+		caseSubmittedDate,
+		enforcementReference,
+		LPACode
+	} = appealCase;
+
+	const formattedAddress = formatSubmissionAddress({
+		addressLine1: appealCase.siteAddressLine1,
+		addressLine2: appealCase.siteAddressLine2,
+		townCity: appealCase.siteAddressTown,
+		county: appealCase.siteAddressCounty,
+		postcode: appealCase.siteAddressPostcode
+	});
+
+	/**
+	 * @param {string|null} applicationDecision
+	 * @returns {string}
+	 */
+	const getApplicationDecision = (applicationDecision) => {
+		switch (applicationDecision) {
+			case constants.APPLICATION_DECISION.REFUSED:
+				return 'the refusal of';
+			case constants.APPLICATION_DECISION.GRANTED:
+				return 'conditions for the granted';
+			case constants.APPLICATION_DECISION.NODECISIONRECEIVED:
+				return 'the non-determination of';
+			default:
+				return '';
+		}
+	};
 
 	try {
 		let lpa;
@@ -284,17 +319,32 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
 
 		const reference = appellantSubmission.id;
 
-		const appealType = mapAppealTypeToDisplayText(CASE_TYPES[appealTypeCode]);
+		const appealType = mapAppealTypeToDisplayTextWithAnOrA(CASE_TYPES[appealTypeCode]);
+		const isEnforcementAppeal = isEnforcement(appealTypeCode);
+
+		let referenceType;
+		if (isEnforcementAppeal) {
+			referenceType = 'enforcement reference';
+		} else if (appealTypeCode === CASE_TYPES.LDC.processCode) {
+			referenceType = 'application reference';
+		} else {
+			referenceType = 'planning application reference';
+		}
 
 		const variables = {
 			...getSharedNotifyVariables({
 				varyContactByEnforcement: true,
 				appealTypeCode
 			}),
+			appealReferenceNumber: caseReference,
+			appealSiteAddress: formattedAddress,
+			appealType: appealType,
+			applicationDecision: getApplicationDecision(applicationDecision),
+			isEnforcement: isEnforcementAppeal,
 			loginUrl: `${config.apps.appeals.baseUrl}/manage-appeals/your-appeals`,
-			lpaReference: applicationReference || '',
-			enforcementReference: enforcementReferenceNumber || '',
-			isEnforcement: isEnforcement(appealTypeCode)
+			lpaReference: (isEnforcementAppeal ? enforcementReference : applicationReference) || '',
+			referenceType: referenceType,
+			submissionDate: formatInTimeZone(caseSubmittedDate, ukTimeZone, 'dd MMMM yyyy')
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
@@ -306,7 +356,7 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission) => {
 		);
 		await notifyService.sendEmail({
 			personalisation: {
-				subject: `We have received a ${appealType} appeal`,
+				subject: `We have received ${appealType} appeal`,
 				content
 			},
 			destinationEmail: lpaEmail,

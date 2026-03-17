@@ -44,7 +44,6 @@ const {
 
 const {
 	sendSubmissionReceivedEmailToAppellantV2,
-	sendSubmissionReceivedEmailToLpaV2,
 	sendCommentSubmissionConfirmationEmailToIp,
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
@@ -148,7 +147,6 @@ describe('BackOfficeV2Service', () => {
 			expect(mockValidator).toHaveBeenCalledWith(mockFormattedAppeal);
 			expect(forwarders.appeal).toHaveBeenCalledWith([mockFormattedAppeal]);
 			expect(markAppealAsSubmitted).toHaveBeenCalledWith(submission.id);
-			expect(sendSubmissionReceivedEmailToLpaV2).toHaveBeenCalledWith(submission);
 			expect(sendSubmissionReceivedEmailToAppellantV2).toHaveBeenCalledWith(
 				submission,
 				mockUser.email

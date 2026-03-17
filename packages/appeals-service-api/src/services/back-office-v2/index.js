@@ -17,7 +17,6 @@ const {
 
 const {
 	sendSubmissionReceivedEmailToAppellantV2,
-	sendSubmissionReceivedEmailToLpaV2,
 	sendCommentSubmissionConfirmationEmailToIp,
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
@@ -134,13 +133,6 @@ class BackOfficeV2Service {
 		await markAppealAsSubmitted(appellantSubmission.id);
 
 		logger.info(`sending appeal submitted email for ${appellantSubmission.appealId}`);
-
-		try {
-			await sendSubmissionReceivedEmailToLpaV2(appellantSubmission);
-		} catch (err) {
-			logger.error({ err }, 'failed to sendSubmissionReceivedEmailToLpaV2');
-			throw new Error('failed to send submission email to LPA');
-		}
 
 		try {
 			await sendSubmissionReceivedEmailToAppellantV2(appellantSubmission, email);

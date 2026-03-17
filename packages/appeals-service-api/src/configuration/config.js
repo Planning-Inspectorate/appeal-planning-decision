@@ -169,6 +169,7 @@ let config = {
 			},
 			templateVariables: {
 				contactEmail: process.env.CONTACT_EMAIL || 'caseofficers@planninginspectorate.gov.uk',
+				contactEmailLPA: process.env.CONTACT_EMAIL_LPA || 'enquiries@planninginspectorate.gov.uk',
 				contactEmailEnforcement:
 					process.env.CONTACT_EMAIL_ENFORCEMENT || 'ECAT@planninginspectorate.gov.uk',
 				contactForm:

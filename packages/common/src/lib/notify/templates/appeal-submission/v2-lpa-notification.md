@@ -1,12 +1,18 @@
-{%- if isEnforcement %}
-^ Enforcement notice reference: {{enforcementReference}}
+{%- if applicationDecision %}
+We have received {{appealType}} appeal against {{applicationDecision}} {{referenceType}} {{lpaReference}}.
+{%- elseif isEnforcement %}
+We have received {{appealType}} appeal against {{referenceType}} {{lpaReference}}.
 {%- else %}
-^ LPA reference: {{lpaReference}}
+We have received {{appealType}} appeal against {{referenceType}} {{lpaReference}}.
 {%- endif %}
 
-We have received an appeal against this decision.
+# Appeal details
+^ Appeal reference number: {{appealReferenceNumber}}
+Address: {{appealSiteAddress}} 
+{{referenceType | capitalize }}: {{lpaReference}}
+Submitted date: {{submissionDate}}
 
 When we start the appeal, you can [view the appeal in the manage your appeals service]({{loginUrl}}). We will contact you when we start the appeal.
 
 Planning Inspectorate
-{{contactEmail}}
+{{contactEmailLPA}}

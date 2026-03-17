@@ -2,8 +2,6 @@ const crypto = require('crypto');
 const config = require('../../../../../configuration/config');
 const { APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION } = require('@planning-inspectorate/data-model');
 
-const lpaEmail = 'lpa@example.com';
-
 /**
  * @typedef {import('../appellant-submission').AppellantSubmission} AppellantSubmission
  */
@@ -557,11 +555,8 @@ module.exports = ({
 	});
 
 	describe('/api/v2/appeal-cases/:caseReference/submit', () => {
-		/**
-		 * @param {string} appealType
-		 */
-		const expectEmails = (appealType) => {
-			expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(2);
+		const expectEmails = () => {
+			expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
 			expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
 				config.services.notify.templates.generic,
 				validEmail,
@@ -571,18 +566,6 @@ module.exports = ({
 						content: expect.stringContaining(
 							'We will process your appeal and send a confirmation email. This will include your appeal reference number.' // content in v2Initial (v2-submission-email.md)
 						)
-					},
-					reference: expect.any(String),
-					emailReplyToId: undefined
-				}
-			);
-			expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
-				config.services.notify.templates.generic,
-				lpaEmail,
-				{
-					personalisation: {
-						subject: `We have received a ${appealType} appeal`,
-						content: expect.stringContaining('We have received an appeal against this decision.') // content in v2LPANotification (v2-lpa-notification.md)
 					},
 					reference: expect.any(String),
 					emailReplyToId: undefined
@@ -623,7 +606,7 @@ module.exports = ({
 					'Create'
 				);
 				mockEventClient.sendEvents.mockClear();
-				expectEmails(expectedData.emailString);
+				expectEmails();
 			}
 		);
 
