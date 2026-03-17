@@ -96,4 +96,35 @@ describe('S78 LPA Final Comments Journey class', () => {
 			expect(textQuestion?.shouldDisplay(responseWithDocument)).toBe(false);
 		});
 	});
+
+	describe('Final Comments Upload Questions Content', () => {
+		it('should have the correct url, question text, and validation messages for LPA and Appellant', () => {
+			const { getQuestionProps } = jest.requireActual('../questions');
+			const RequiredFileUploadValidator = jest.requireActual(
+				'@pins/dynamic-forms/src/validator/required-file-upload-validator'
+			);
+
+			const questions = getQuestionProps({});
+
+			const lpaUploadQ = questions.uploadLPAFinalCommentDocuments;
+			expect(lpaUploadQ.url).toBe('upload-final-comments');
+			expect(lpaUploadQ.question).toBe('Upload your final comments');
+
+			const lpaValidator = lpaUploadQ.validators.find(
+				(/** @type {any} */ v) => v instanceof RequiredFileUploadValidator
+			);
+			expect(lpaValidator).toBeDefined();
+			expect(lpaValidator.errorMessage).toBe('Select your final comments');
+
+			const appellantUploadQ = questions.uploadAppellantFinalCommentDocuments;
+			expect(appellantUploadQ.url).toBe('upload-final-comments');
+			expect(appellantUploadQ.question).toBe('Upload your final comments');
+
+			const appellantValidator = appellantUploadQ.validators.find(
+				(/** @type {any} */ v) => v instanceof RequiredFileUploadValidator
+			);
+			expect(appellantValidator).toBeDefined();
+			expect(appellantValidator.errorMessage).toBe('Select your final comments');
+		});
+	});
 });
