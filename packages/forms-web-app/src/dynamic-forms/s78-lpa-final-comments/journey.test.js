@@ -107,7 +107,7 @@ describe('S78 LPA Final Comments Journey class', () => {
 			const questions = getQuestionProps({});
 
 			const lpaUploadQ = questions.uploadLPAFinalCommentDocuments;
-			expect(lpaUploadQ.url).toBe('upload-final-comments');
+			expect(lpaUploadQ.url).toBe('upload-supporting-documents');
 			expect(lpaUploadQ.question).toBe('Upload your final comments');
 
 			const lpaValidator = lpaUploadQ.validators.find(
@@ -117,7 +117,7 @@ describe('S78 LPA Final Comments Journey class', () => {
 			expect(lpaValidator.errorMessage).toBe('Select your final comments');
 
 			const appellantUploadQ = questions.uploadAppellantFinalCommentDocuments;
-			expect(appellantUploadQ.url).toBe('upload-final-comments');
+			expect(appellantUploadQ.url).toBe('upload-supporting-documents');
 			expect(appellantUploadQ.question).toBe('Upload your final comments');
 
 			const appellantValidator = appellantUploadQ.validators.find(
