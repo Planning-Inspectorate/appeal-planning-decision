@@ -287,9 +287,23 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 		});
 
 		describe('put', () => {
-			const expectEmail = (email, appealReferenceNumber) => {
-				expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(1);
-				expect(mockNotifyClient.sendEmail).toHaveBeenCalledWith(
+			const expectEmails = (email, appealReferenceNumber) => {
+				expect(mockNotifyClient.sendEmail).toHaveBeenCalledTimes(2);
+				expect(mockNotifyClient.sendEmail).toHaveBeenNthCalledWith(
+					1,
+					config.services.notify.templates.generic,
+					'lpa@example.com',
+					{
+						personalisation: {
+							subject: expect.stringContaining('We have received'),
+							content: expect.stringContaining('We will contact you when we start the appeal.') // v2 lpa alert email content
+						},
+						reference: expect.any(String),
+						emailReplyToId: undefined
+					}
+				);
+				expect(mockNotifyClient.sendEmail).toHaveBeenNthCalledWith(
+					2,
 					config.services.notify.templates.generic,
 					email,
 					{
@@ -558,7 +572,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 						lpaConsiderAppealInvalid: data.lpaConsiderAppealInvalid ?? null,
 						lpaAppealInvalidReasons: data.lpaAppealInvalidReasons ?? null
 					});
-					expectEmail(email, testCaseRef);
+					expectEmails(email, testCaseRef);
 				});
 			}
 

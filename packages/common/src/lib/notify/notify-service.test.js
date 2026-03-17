@@ -410,48 +410,99 @@ describe('NotifyService', () => {
 			it('populates for non-enforcement appeals', () => {
 				const template = NotifyService.templates.appealSubmission.v2LPANotification;
 				const personalisation = {
-					lpaReference: 'abc',
-					enforcementReference: '',
+					appealReferenceNumber: '6000000',
+					appealSiteAddress: 'Address\nLine 2\nLine 3',
+					appealType: 'an advertisement',
+					applicationDecision: 'the refusal of',
 					isEnforcement: false,
 					loginUrl: 'https://example.com/login',
-					contactEmail: 'test email address'
+					lpaReference: 'abc',
+					referenceType: 'planning application reference',
+					submissionDate: '17 March 2026',
+					contactEmailLPA: 'test email address'
 				};
 
 				const result = notifyService.populateTemplate(template, personalisation);
 				expectMessage(
 					result,
-					`^ LPA reference: ${personalisation.lpaReference}
+					`We have received an advertisement appeal against the refusal of planning application reference ${personalisation.lpaReference}.
 
-					We have received an appeal against this decision.
+					# Appeal details
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.appealSiteAddress} 
+					Planning application reference: ${personalisation.lpaReference}
+					Submitted date: ${personalisation.submissionDate}
 
 					When we start the appeal, you can [view the appeal in the manage your appeals service](${personalisation.loginUrl}). We will contact you when we start the appeal.
 
 					Planning Inspectorate
-					${personalisation.contactEmail}`
+					${personalisation.contactEmailLPA}`
 				);
 			});
 
 			it('populates for enforcement appeals', () => {
 				const template = NotifyService.templates.appealSubmission.v2LPANotification;
 				const personalisation = {
-					lpaReference: 'abc',
-					enforcementReference: 'enf-ref',
+					appealReferenceNumber: '6000000',
+					appealSiteAddress: 'Address\nLine 2\nLine 3',
+					appealType: 'an enforcement listed building and conservation area',
+					applicationDecision: '',
 					isEnforcement: true,
 					loginUrl: 'https://example.com/login',
-					contactEmail: 'test email address'
+					lpaReference: 'abc',
+					referenceType: 'enforcement reference',
+					submissionDate: '17 March 2026',
+					contactEmailLPA: 'test email address'
 				};
 
 				const result = notifyService.populateTemplate(template, personalisation);
 				expectMessage(
 					result,
-					`^ Enforcement notice reference: ${personalisation.enforcementReference}
+					`We have received an enforcement listed building and conservation area appeal against enforcement reference ${personalisation.lpaReference}.
 
-					We have received an appeal against this decision.
+					# Appeal details
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.appealSiteAddress} 
+					Enforcement reference: ${personalisation.lpaReference}
+					Submitted date: ${personalisation.submissionDate}
 
 					When we start the appeal, you can [view the appeal in the manage your appeals service](${personalisation.loginUrl}). We will contact you when we start the appeal.
 
 					Planning Inspectorate
-					${personalisation.contactEmail}`
+					${personalisation.contactEmailLPA}`
+				);
+			});
+
+			it('populates for LDC appeals', () => {
+				const template = NotifyService.templates.appealSubmission.v2LPANotification;
+				const personalisation = {
+					appealReferenceNumber: '6000000',
+					appealSiteAddress: 'Address\nLine 2\nLine 3',
+					appealType: 'a lawful development certificate',
+					applicationDecision: '',
+					isEnforcement: false,
+					loginUrl: 'https://example.com/login',
+					lpaReference: 'abc',
+					referenceType: 'application reference',
+					submissionDate: '17 March 2026',
+					contactEmailLPA: 'test email address'
+				};
+
+				const result = notifyService.populateTemplate(template, personalisation);
+				expectMessage(
+					result,
+					`We have received a lawful development certificate appeal against application reference ${personalisation.lpaReference}.
+
+					# Appeal details
+					^ Appeal reference number: ${personalisation.appealReferenceNumber}
+					Address: ${personalisation.appealSiteAddress} 
+					Application reference: ${personalisation.lpaReference}
+					Submitted date: ${personalisation.submissionDate}
+
+					When we start the appeal, you can [view the appeal in the manage your appeals service](${personalisation.loginUrl}). We will contact you when we start the appeal.
+
+					Planning Inspectorate
+					${personalisation.contactEmailLPA}`
 				);
 			});
 		});

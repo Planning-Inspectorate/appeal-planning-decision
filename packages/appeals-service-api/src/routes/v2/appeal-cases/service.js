@@ -6,7 +6,10 @@ const { AppealCaseRepository } = require('./repo');
 const { Prisma } = require('@pins/database/src/client/client');
 const ApiError = require('#errors/apiError');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
-const { sendSubmissionConfirmationEmailToAppellantV2 } = require('#lib/notify');
+const {
+	sendSubmissionConfirmationEmailToAppellantV2,
+	sendSubmissionReceivedEmailToLpaV2
+} = require('#lib/notify');
 const sanitizePostcode = require('#lib/sanitize-postcode');
 const config = require('../../../configuration/config');
 
@@ -14,6 +17,7 @@ const repo = new AppealCaseRepository();
 const serviceUserRepo = new ServiceUserRepository();
 const { SchemaValidator } = require('../../../services/back-office-v2/validate');
 const { getValidator } = new SchemaValidator();
+const logger = require('#lib/logger');
 
 /**
  * @template Payload
@@ -574,9 +578,15 @@ async function putCase(caseReference, data) {
 			applicationElbAppealGroundsDetails: data.applicationElbAppealGroundsDetails
 		});
 
-		// send email confirming appeal to user if this creates a new appeal
+		// send emails confirming appeal to user and lpa if this creates a new appeal
 		if (!result.exists && result.appellantSubmission) {
 			const email = await repo.getAppealUserEmailAddress(caseReference);
+
+			try {
+				await sendSubmissionReceivedEmailToLpaV2(result.appealCase, result.appellantSubmission);
+			} catch (err) {
+				logger.error({ err }, 'failed to sendSubmissionReceivedEmailToLpaV2');
+			}
 
 			if (!email) {
 				throw Error(`no user email associated with: ${caseReference}`);
