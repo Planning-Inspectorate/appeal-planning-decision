@@ -85,7 +85,7 @@ describe('getJourneyResponseForAppellant', () => {
 		);
 		expect(res.locals.journeyResponse.expeditedAppealsEnabled).toBe(true);
 		expect(require('../../featureFlag').isFeatureActive).toHaveBeenCalledWith(
-			FLAG.EXPEDITED_APPEALS_FO_V1,
+			FLAG.EXPEDITED_APPEALS_FO_V2,
 			lpaCode
 		);
 		expect(next).toHaveBeenCalled();
@@ -97,7 +97,7 @@ describe('getJourneyResponseForAppellant', () => {
 			appealTypeCode: CASE_TYPES.S78.processCode
 		});
 		require('../../featureFlag').isFeatureActive.mockImplementation(async (flagName) => {
-			if (flagName === FLAG.EXPEDITED_APPEALS_FO_V1) {
+			if (flagName === FLAG.EXPEDITED_APPEALS_FO_V2) {
 				return true;
 			}
 			return true;
@@ -107,7 +107,7 @@ describe('getJourneyResponseForAppellant', () => {
 
 		expect(res.locals.journeyResponse.expeditedAppealsEnabled).toBe(true);
 		expect(require('../../featureFlag').isFeatureActive).toHaveBeenCalledWith(
-			FLAG.EXPEDITED_APPEALS_FO_V1,
+			FLAG.EXPEDITED_APPEALS_FO_V2,
 			lpaCode
 		);
 		expect(next).toHaveBeenCalled();
@@ -116,7 +116,7 @@ describe('getJourneyResponseForAppellant', () => {
 	it('should set expeditedAppealsEnabled false when expedited flag is inactive', async () => {
 		req.appealsApiClient.getAppellantSubmission.mockResolvedValue(mockSubmission);
 		require('../../featureFlag').isFeatureActive.mockImplementation(async (flagName) => {
-			if (flagName === FLAG.EXPEDITED_APPEALS_FO_V1) {
+			if (flagName === FLAG.EXPEDITED_APPEALS_FO_V2) {
 				return false;
 			}
 			return true;
@@ -126,7 +126,7 @@ describe('getJourneyResponseForAppellant', () => {
 
 		expect(res.locals.journeyResponse.expeditedAppealsEnabled).toBe(false);
 		expect(require('../../featureFlag').isFeatureActive).toHaveBeenCalledWith(
-			FLAG.EXPEDITED_APPEALS_FO_V1,
+			FLAG.EXPEDITED_APPEALS_FO_V2,
 			lpaCode
 		);
 		expect(next).toHaveBeenCalled();
