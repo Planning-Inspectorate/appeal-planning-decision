@@ -97,5 +97,5 @@ const appealTypeFlagActive = async (appealTypeCode, LPACode) => {
  * @returns {Promise<boolean>}
  */
 const isExpeditedAppealsFlagEnabled = async (LPACode) => {
-	return await isFeatureActive(FLAG.EXPEDITED_APPEALS_FO_V1, LPACode);
+	return await isFeatureActive(FLAG.EXPEDITED_APPEALS_FO_V2, LPACode);
 };
