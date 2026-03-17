@@ -30,7 +30,7 @@ const mockAnswer = 'Not started';
 
 const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
 const questionUtils = require('@pins/dynamic-forms/src/dynamic-components/utils/question-utils');
-const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { APPEAL_ID, APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 const config = require('../../src/config');
 
 const makeSections = () => [
@@ -891,13 +891,13 @@ describe('dynamic-form/controller', () => {
 					'If you have any of the following documents, you’ll also need to upload your:'
 			});
 		});
-		it.each(['refused', 'granted'])(
+		it.each([APPLICATION_DECISION.REFUSED, APPLICATION_DECISION.GRANTED])(
 			'renders correct page for expedited appeal for %s application decision after 2026-04-01',
 			(applicationDecision) => {
 				req.session.appeal = {
 					appealType: APPEAL_ID.PLANNING_SECTION_78,
 					eligibility: { applicationDecision },
-					decisionDate: '2026-04-01T09:00:00.000Z'
+					applicationDate: '2026-04-01T09:00:00.000Z'
 				};
 				appellantBYSListOfDocuments(req, res);
 				expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
@@ -920,13 +920,13 @@ describe('dynamic-form/controller', () => {
 				});
 			}
 		);
-		it.each(['refused', 'granted'])(
+		it.each([APPLICATION_DECISION.REFUSED, APPLICATION_DECISION.GRANTED])(
 			'renders correct page for S78 - full appeal for %s before 2026-04-01',
 			(applicationDecision) => {
 				req.session.appeal = {
 					appealType: APPEAL_ID.PLANNING_SECTION_78,
 					eligibility: { applicationDecision },
-					decisionDate: '2026-03-31T09:00:00.000Z'
+					applicationDate: '2026-03-31T09:00:00.000Z'
 				};
 				appellantBYSListOfDocuments(req, res);
 				expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {

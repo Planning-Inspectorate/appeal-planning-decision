@@ -9,7 +9,7 @@ const {
 	formatBeforeYouStartSection,
 	formatQuestionnaireAppealInformationSection
 } = require('./dynamic-components/utils/submission-information-utils');
-const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { APPEAL_ID, APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { caseTypeLookup, CASE_TYPES } = require('@pins/common/src/database/data-static');
 const {
@@ -527,8 +527,10 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 
 	const isExpeditedAppeal =
 		appeal.appealType === APPEAL_ID.PLANNING_SECTION_78 &&
-		['granted', 'refused'].includes(appeal.eligibility?.applicationDecision) &&
-		new Date(appeal.decisionDate) > new Date(2026, 3, 1);
+		[APPLICATION_DECISION.GRANTED, APPLICATION_DECISION.REFUSED].includes(
+			appeal.eligibility?.applicationDecision
+		) &&
+		new Date(appeal.applicationDate) >= new Date(2026, 3, 1);
 
 	const optionalDocuments = generateOptionalDocuments(appeal.appealType, isExpeditedAppeal);
 
