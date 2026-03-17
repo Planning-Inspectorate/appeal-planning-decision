@@ -9,7 +9,10 @@ const {
 			I_HAVE_NOT_MADE_A_PLANNING_APPLICATION,
 			PRIOR_APPROVAL,
 			REMOVAL_OR_VARIATION_OF_CONDITIONS,
-			SOMETHING_ELSE
+			SOMETHING_ELSE,
+			FULL_APPEAL,
+			OUTLINE_PLANNING,
+			RESERVED_MATTERS
 		}
 	}
 } = require('@pins/business-rules');
@@ -134,6 +137,10 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		case SOMETHING_ELSE:
 		case I_HAVE_NOT_MADE_A_PLANNING_APPLICATION:
 			return res.redirect('/before-you-start/use-existing-service-application-type');
+		case FULL_APPEAL:
+		case OUTLINE_PLANNING:
+		case RESERVED_MATTERS:
+			return res.redirect('/before-you-start/application-date');
 		default:
 			return res.redirect('/before-you-start/granted-or-refused');
 	}

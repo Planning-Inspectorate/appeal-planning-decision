@@ -143,7 +143,8 @@ const VIEW = {
 		VISIBLE_FROM_ROAD: 'full-appeal/submit-appeal/visible-from-road',
 		WHY_HEARING: 'full-appeal/submit-appeal/why-hearing',
 		WHY_INQUIRY: 'full-appeal/submit-appeal/why-inquiry',
-		YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal'
+		YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal',
+		APPLICATION_DATE: 'full-appeal/application-date'
 	},
 	APPEAL: {
 		NEW_OR_SAVED_APPEAL: 'appeal/new-or-saved-appeal',
