@@ -22,7 +22,7 @@ export const ldcAppealNoListedBuildingTestCases = [
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-lawful-development-certificate',
         isListedBuilding: false,
-        endToEndIntegration: false,
+        endToEndIntegration: true,
         applicationForm: {
             isAppellant: true,
             appellantInGreenBelt: true,

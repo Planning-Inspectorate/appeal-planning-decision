@@ -1,6 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
+
 export class SiteAccess {
     _selectors = {
         lpaSiteAccessLpaSiteAccessDetails: '#lpaSiteAccess_lpaSiteAccessDetails',
@@ -11,6 +12,38 @@ export class SiteAccess {
         addressCountyDetails: '#address-county',
         addressPostCodeDetails: '#address-postcode',
         lpaSiteSafetyRisksLpaSiteSafetyRiskDetails: '#lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails'
+    }
+    // LDC-specific: Access for inspection
+    selectLdcSiteAccess(context, lpaManageAppealsData) {
+        const basePage = new BasePage();
+        if (context?.siteAccess?.ldcSiteAccess) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    }
+
+    // LDC-specific: Will the inspector need to enter a neighbour’s land or property?
+    selectLdcNeighbourSiteAccess(context, lpaManageAppealsData) {
+        const basePage = new BasePage();
+        if (context?.siteAccess?.ldcNeighbourSiteAccess) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
+    }
+
+    // LDC-specific: Potential safety risks
+    selectLdcPotentialSafetyRisks(context, lpaManageAppealsData) {
+        const basePage = new BasePage();
+        if (context?.siteAccess?.ldcPotentialSafetyRisks) {
+            cy.getByData(basePage?._selectors.answerYes).click();
+        } else {
+            cy.getByData(basePage?._selectors.answerNo).click();
+        }
+        cy.advanceToNextPage();
     }
 
     selectLpaSiteAccess(context, lpaManageAppealsData) {

@@ -8,6 +8,7 @@
     "casPlanningAppealType": "Commercial planning (CAS)",
     "commercialadvAppealType": "Commercial advertisement",
     "advertAppealType": "Advertisement",
+    "ldcAppealType": "Lawful development certificate",
     "todoInvalid": "Invalid",
     "decisionAllowed": "Allowed",
     "decisionAllowedInPart": "Allowed in part",
@@ -30,6 +31,7 @@
     "appealTypeListedBuilding": "Planning listed building and conservation area",
     "appealTypeCommercialAdvert": "Commercial advertisement",
     "appealTypeAdvert": "Advertisement",
+    "appealTypeLdc": "Lawful development certificate",
     "questionnaireChange": "Change",
     "questionnaireAnswer": "Answer",
     "submitQuestionnaire": "submit-questionnaire",
@@ -46,6 +48,7 @@
         "correctTypeOfAppealCASPlanning": "Is a commercial planning (CAS) appeal the correct type of appeal?",
         "correctTypeOfAppealCommercialAdvertisement": "Is a commercial advertisement appeal the correct type of appeal?",
         "correctTypeOfAppealAdvertisement": "Is an advertisement appeal the correct type of appeal?",
+        "correctTypeOfAppealLDC": "Is a lawful development certificate appeal the correct type of appeal?",
         "addChangedListedBuilding": "Add another building or site?",
         "changedListedBuildingNumber": "1118437",
         "chagesListedBuilding": "Does the proposed development change a listed building?",
@@ -65,7 +68,8 @@
         "designatedSitesOtherDesignations": "Other designations",
         "treePreservationOrder": "Does a Tree Preservation Order (TPO) apply to any part of the appeal site?",
         "gypsyTraveller": "Does the development relate to anyone claiming to be a Gypsy or Traveller?",
-        "publicRightOfWay": "Would a public right of way need to be removed or diverted?"
+        "publicRightOfWay": "Would a public right of way need to be removed or diverted?",
+        "lpaConsiderAppealInvalidLpaAppealInvalidReasons": "LPA Consider Appeal Invalid Lpa Appeal Invalid Reasons"
     },
     "environmentlImpact": {
         "scheduleOneOrTwoOrNo": "Is the development a schedule 1 or schedule 2 development?",

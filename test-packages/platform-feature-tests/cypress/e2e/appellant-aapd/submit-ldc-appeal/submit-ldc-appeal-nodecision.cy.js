@@ -1,7 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { ldcAppealNoDecisionTestCases } from "../../../helpers/appellantAAPD/ldcAppeal/ldcAppealNoDecisionData";
-import { fullAppealQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/fullAppealQuestionnaireData";
+import { ldcQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/ldcQuestionnaireData";
 import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from '../../../fixtures/users.js';
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');

@@ -1,7 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { ldcAppealNoListedBuildingTestCases } from "../../../helpers/appellantAAPD/ldcAppeal/ldcAppealNoListedBuildingData";
-import { fullAppealQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/fullAppealQuestionnaireData";
+import { ldcQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/ldcQuestionnaireData";
 import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
 import { users } from '../../../fixtures/users.js';
 
