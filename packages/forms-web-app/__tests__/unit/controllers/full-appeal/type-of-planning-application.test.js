@@ -148,7 +148,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			);
 		});
 
-		const defaultTypes = [OUTLINE_PLANNING, FULL_APPEAL, RESERVED_MATTERS, LISTED_BUILDING];
+		const defaultTypes = [LISTED_BUILDING];
 
 		it.each(defaultTypes)('should redirect to the granted-or-refused page if %s', async (type) => {
 			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
@@ -171,6 +171,30 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			});
 
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
+		});
+
+		const s78Types = [OUTLINE_PLANNING, FULL_APPEAL, RESERVED_MATTERS];
+
+		it.each(s78Types)('should redirect to the application-date page if %s', async (type) => {
+			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
+			const planningApplication = type;
+
+			const mockRequest = {
+				...req,
+				body: { 'type-of-planning-application': planningApplication }
+			};
+
+			await postTypeOfPlanningApplication(mockRequest, res);
+
+			const updatedAppeal = appeal;
+			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+			updatedAppeal.typeOfPlanningApplication = planningApplication;
+
+			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+				...updatedAppeal
+			});
+
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
 		});
 
 		const defaultFeatureFlaggedTypes = [
