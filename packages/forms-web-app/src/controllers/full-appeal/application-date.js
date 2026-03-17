@@ -11,13 +11,12 @@ const getApplicationDate = async (req, res) => {
 	const { appeal } = req.session;
 
 	const appealApplicationDate = parseISO(appeal.applicationDate);
-	logger.debug('getApplicationDate ' + appealApplicationDate);
 	const applicationDate = isValid(appealApplicationDate) ? appealApplicationDate : null;
 
 	res.render(currentPage, {
 		applicationDate: applicationDate && {
-			day: `0${applicationDate?.getDate()}`.slice(-2),
-			month: `0${applicationDate?.getMonth() + 1}`.slice(-2),
+			day: applicationDate.getDate().toString().padStart(2, '0'),
+			month: (applicationDate?.getMonth() + 1).toString().padStart(2, '0'),
 			year: String(applicationDate?.getFullYear())
 		}
 	});
