@@ -5,11 +5,13 @@ const decisionDateRouter = require('./decision-date');
 const dateDecisionDueRouter = require('./date-decision-due');
 const priorApprovalExistingHomeRouter = require('./prior-approval-existing-home');
 const listedBuildingRouter = require('./listed-building');
+const applicationDateRouter = require('./application-date');
 
 const router = express.Router();
 
 router.use(grantedOrRefusedRouter);
 router.use(outOfTimeRouter);
+router.use(applicationDateRouter);
 router.use(decisionDateRouter);
 router.use(dateDecisionDueRouter);
 router.use(priorApprovalExistingHomeRouter);

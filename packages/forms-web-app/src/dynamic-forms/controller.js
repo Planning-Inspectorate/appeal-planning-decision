@@ -206,7 +206,8 @@ function buildCreateAppellantSubmissionData(lpaCode, appealTypeCode, appeal) {
 			applicationDecisionDate: appeal.decisionDate,
 			applicationReference: appeal.planningApplicationNumber,
 			applicationDecision: appeal.eligibility.applicationDecision,
-			typeOfPlanningApplication: appeal.typeOfPlanningApplication
+			typeOfPlanningApplication: appeal.typeOfPlanningApplication,
+			onApplicationDate: appeal.applicationDate
 		};
 	}
 }

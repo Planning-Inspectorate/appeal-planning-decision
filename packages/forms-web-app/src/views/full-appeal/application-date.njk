@@ -1,0 +1,86 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %},
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+
+{% set title="What date did you submit your application? - Appeal a planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary and [
+        {
+          text: errorSummary[0].text,
+          href: "#application-date" if errorSummary[0].href === "#application-date" else errorSummary[0].href
+        }
+      ]
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="{{ currentRoute }}" method="POST" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <div class="govuk-form-group {{ 'govuk-form-group--error' if errors }}">
+          <span class="govuk-caption-l">Before you start</span>
+
+          {{ govukDateInput({
+            id: "application-date",
+            namePrefix: "application-date",
+            fieldset: {
+              legend: {
+                text: "What date did you submit your application?​",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+
+            errorMessage: errorSummary and {
+              text: errors['application-date-day'].msg or errors['application-date-month'].msg or errors['application-date-year'].msg or errors['application-date'].msg
+            },
+						hint: {
+							text: "For example, 26 5 2025"
+						},
+            items: [
+              {
+                classes: "govuk-input--width-2 govuk-input--error" if errors['application-date'] or errors['application-date-day'] else "govuk-input--width-2",
+                name: "day",
+                id: "application-date-day",
+                value: applicationDate.day
+              },
+              {
+                classes: "govuk-input--width-2 govuk-input--error" if errors['application-date'] or errors['application-date-month'] else "govuk-input--width-2",
+                name: "month",
+                id: "application-date-month",
+                value: applicationDate.month
+              },
+              {
+                classes: "govuk-input--width-4 govuk-input--error" if errors['application-date'] or errors['application-date-year'] else "govuk-input--width-4",
+                name: "year",
+                id: "application-date-year",
+                value: applicationDate.year
+              }
+            ]
+          }) }}
+        </div>
+
+        {{ govukButton({
+          text: "Continue",
+          type: "Submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
