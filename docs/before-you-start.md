@@ -49,6 +49,7 @@ flowchart TD
     listedBuilding[is listed building?]
     grantedRefused[granted/refused?]
     grantedRefusedUndecided[granted/refused - undecided?]
+    applicationDate[date of application]
     decisionDate[date of decision?]
     enforcementListedBuilding[enforcement listed building?]
     enforcementIssueDate[enforcement issue date?]
@@ -103,12 +104,13 @@ flowchart TD
     listedBuilding -- yes (LDC) --> grantedRefused
     listedBuilding -- no (LDC) --> LDC
 
-    decideS78A --> grantedRefused
+    decideS78A --> applicationDate
     decideS20 --> grantedRefused
     decideAdvert --> grantedRefused
     decideCAS --> grantedRefused
     decideLDC --> listedBuilding
 
+    applicationDate --> grantedRefused
     grantedRefused --> decisionDate
 
     grantedRefusedUndecided -- granted/no decision --> decideS78B
