@@ -46,8 +46,6 @@ const postApplicationDate = async (req, res) => {
 			body['application-date-day']
 		);
 
-		logger.debug('enteredDate ' + enteredDate);
-
 		req.session.appeal = await createOrUpdateAppeal({
 			...appeal,
 			applicationDate: enteredDate.toISOString()
