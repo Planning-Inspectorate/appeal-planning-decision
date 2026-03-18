@@ -21,7 +21,7 @@ export class ConstraintsAndDesignations {
         lpaConsiderAppealInvalidLpaAppealInvalidReasons: '#lpaConsiderAppealInvalid_lpaAppealInvalidReasons'
     }
     // LDC-specific: What type of lawful development certificate is the appeal about?
-    selectLdcTypeOfCertificate(context, lpaManageAppealsData) {
+    selectLdcTypeOfCertificate(context) {
         cy.log('What type of lawful development certificate is the appeal about?', context?.constraintsAndDesignations?.ldcTypeOfCertificate);
         if (context?.constraintsAndDesignations?.ldcTypeOfCertificate === 'existingDevelopment') {
             cy.getByData(this?._selectors.existingDevelopment).click();
@@ -34,7 +34,7 @@ export class ConstraintsAndDesignations {
     }
 
     // LDC-specific: Does the appeal relate to a planning condition?
-    selectLdcPlanningCondition(context, lpaManageAppealsData) {
+    selectLdcPlanningCondition(context) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.ldcPlanningCondition) {
             cy.getByData(basePage?._selectors.answerYes).click();
@@ -49,7 +49,7 @@ export class ConstraintsAndDesignations {
     }
 
     // LDC-specific: Was there an enforcement notice in force at the date of the application?
-    selectLdcEnforcementNotice(context, lpaManageAppealsData) {
+    selectLdcEnforcementNotice(context) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.ldcEnforcementNotice) {
             cy.getByData(basePage?._selectors.answerYes).click();
@@ -64,7 +64,7 @@ export class ConstraintsAndDesignations {
     }
 
     // LDC-specific: Are there any related applications?
-    selectLdcRelatedApplications(context, lpaManageAppealsData) {
+    selectLdcRelatedApplications(context) {
         const basePage = new BasePage();
         if (context?.constraintsAndDesignations?.ldcRelatedApplications) {
             cy.getByData(basePage?._selectors.answerYes).click();

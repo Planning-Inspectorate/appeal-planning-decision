@@ -13,7 +13,7 @@ export class PoReportAndSupportDocs {
         infrastructureLevyExpectedDateYear: '#infrastructureLevyExpectedDate_year'
     }
     // LDC-specific: Do you have a planning officer’s report?
-    selectLdcPlanningOfficersReport(context, lpaManageAppealsData) {
+    selectLdcPlanningOfficersReport(context) {
         const basePage = new BasePage();
         if (context?.poReportAndSupportDocs?.ldcPlanningOfficersReport) {
             cy.getByData(basePage?._selectors.answerYes).click();
@@ -41,7 +41,7 @@ export class PoReportAndSupportDocs {
     }
 
     // LDC-specific: Are there any other relevant matters?
-    selectLdcOtherRelevantMatters(context, lpaManageAppealsData) {
+    selectLdcOtherRelevantMatters(context) {
         const basePage = new BasePage();
         if (context?.poReportAndSupportDocs?.ldcOtherRelevantMatters) {
             cy.getByData(basePage?._selectors.answerYes).click();
