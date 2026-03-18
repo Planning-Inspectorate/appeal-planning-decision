@@ -84,6 +84,7 @@ const {
 const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invalidated');
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { formatGridReference } = require('@pins/common/src/lib/format-grid-reference');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
@@ -113,6 +114,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => {
 				appealCaseData.siteGridReferenceNorthing
 			);
 
+	const isEnforcement = appealCaseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
 	const escapedAddress = escape(address);
 	return {
 		appealNumber: appealCaseData.caseReference,
@@ -121,7 +123,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => {
 		nextJourneyDue: determineJourneyToDisplayLPADashboard(appealCaseData),
 		isNewAppeal: isNewAppealForLPA(appealCaseData),
 		displayInvalid: displayInvalidAppeal(appealCaseData),
-		appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
+		appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome, isEnforcement, true),
 		appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
 		caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
 		caseWithdrawnDate: appealCaseData.caseWithdrawnDate,
@@ -147,6 +149,8 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
 				appealData.siteGridReferenceNorthing
 			);
 
+	const isEnforcement = appealData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+
 	const escapedAddress = escape(address);
 
 	try {
@@ -163,7 +167,7 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
 			displayInvalid: displayInvalidAppeal(appealData),
 			appealDecision: isAppealSubmission(appealData)
 				? null
-				: mapDecisionLabel(appealData.caseDecisionOutcome),
+				: mapDecisionLabel(appealData.caseDecisionOutcome, isEnforcement, false),
 			appealDecisionColor:
 				isAppealSubmission(appealData) || isV2Submission(appealData)
 					? null
@@ -202,6 +206,8 @@ const mapToRule6DashboardDisplayData = (appealCaseData) => {
 				appealCaseData.siteGridReferenceNorthing
 			);
 
+	const isEnforcement = appealCaseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+
 	const escapedAddress = escape(address);
 
 	return {
@@ -209,7 +215,7 @@ const mapToRule6DashboardDisplayData = (appealCaseData) => {
 		address: escapedAddress.replace(/\n/g, '<br>'),
 		appealType: getAppealType(appealCaseData),
 		nextJourneyDue: determineJourneyToDisplayRule6Dashboard(appealCaseData),
-		appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
+		appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome, isEnforcement, false),
 		appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
 		caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate),
 		caseWithdrawnDate: appealCaseData.caseWithdrawnDate,

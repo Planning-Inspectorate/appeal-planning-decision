@@ -10,7 +10,11 @@ function mapDecisionColour(decision) {
 	const decisionColourMap = new Map([
 		[APPEAL_CASE_DECISION_OUTCOME.ALLOWED, 'green'],
 		[APPEAL_CASE_DECISION_OUTCOME.DISMISSED, 'yellow'],
-		[APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION, 'orange']
+		[APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION, 'orange'],
+		[APPEAL_CASE_DECISION_OUTCOME.NOTICE_UPHELD, 'yellow'],
+		[APPEAL_CASE_DECISION_OUTCOME.NOTICE_VARIED_AND_UPHELD, 'yellow'],
+		[APPEAL_CASE_DECISION_OUTCOME.PLANNING_PERMISSION_GRANTED, 'green'],
+		[APPEAL_CASE_DECISION_OUTCOME.QUASHED_ON_LEGAL_GROUNDS, 'green']
 	]);
 
 	return (decision && decisionColourMap.get(decision)) || 'grey';
@@ -20,17 +24,27 @@ function mapDecisionColour(decision) {
  * Map an appeal decision outcome to it's corresponding tag text
  *
  * @param {string|undefined} decision
+ * @param {boolean} isEnforcement
+ * @param {boolean} isLpa
  * @returns {string | null}
  */
-const mapDecisionLabel = (decision) => {
+const mapDecisionLabel = (decision, isEnforcement = false, isLpa = false) => {
 	if (!decision) return null;
 
 	const labels = {
 		[APPEAL_CASE_DECISION_OUTCOME.ALLOWED]: 'Allowed',
 		[APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION]: 'Allowed in part',
 		[APPEAL_CASE_DECISION_OUTCOME.DISMISSED]: 'Dismissed',
-		[APPEAL_CASE_DECISION_OUTCOME.INVALID]: 'Invalid'
+		[APPEAL_CASE_DECISION_OUTCOME.INVALID]: 'Invalid',
+		[APPEAL_CASE_DECISION_OUTCOME.NOTICE_UPHELD]: 'Notice upheld',
+		[APPEAL_CASE_DECISION_OUTCOME.NOTICE_VARIED_AND_UPHELD]: 'Notice varied',
+		[APPEAL_CASE_DECISION_OUTCOME.PLANNING_PERMISSION_GRANTED]: 'Granted',
+		[APPEAL_CASE_DECISION_OUTCOME.QUASHED_ON_LEGAL_GROUNDS]: 'Quashed'
 	};
+
+	if (isEnforcement && decision === APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION) {
+		return isLpa ? 'Split decision' : 'Upheld in part';
+	}
 
 	return labels[decision];
 };
@@ -39,14 +53,16 @@ const mapDecisionLabel = (decision) => {
  * Map an appeal decision outcome to it's corresponding tag text
  *
  * @param {string|undefined} decision
+ * @param {boolean} isEnforcement
+ * @param {boolean} isLpa
  * @returns {{ color: string, label: string | null } | null}
  */
-const mapDecisionTag = (decision) => {
+const mapDecisionTag = (decision, isEnforcement = false, isLpa = false) => {
 	if (!decision) return null;
 
 	return {
 		color: mapDecisionColour(decision),
-		label: mapDecisionLabel(decision)
+		label: mapDecisionLabel(decision, isEnforcement, isLpa)
 	};
 };
 

@@ -4,6 +4,7 @@ const {
 } = require('@pins/business-rules/src/utils/decision-outcome');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /**
  * @typedef {import("./appeals-view").AppealViewModel} AppealViewModel
@@ -13,12 +14,16 @@ const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 exports.formatCommentDecidedData = (appeal) => {
 	if (!appeal.caseDecisionOutcomeDate) return {};
 
+	const isEnforcement = appeal.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+
 	return {
 		formattedCaseDecisionDate: formatDateForDisplay(appeal.caseDecisionOutcomeDate, {
 			format: 'd MMMM yyyy'
 		}),
 		formattedDecisionColour: mapDecisionColour(appeal.caseDecisionOutcome),
-		caseDecisionOutcome: mapDecisionLabel(appeal.caseDecisionOutcome) ?? appeal.caseDecisionOutcome,
+		caseDecisionOutcome:
+			mapDecisionLabel(appeal.caseDecisionOutcome, isEnforcement, false) ??
+			appeal.caseDecisionOutcome,
 		decisionDocuments: filterDecisionDocuments(appeal.Documents)
 	};
 };
