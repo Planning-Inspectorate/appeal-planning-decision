@@ -11,24 +11,17 @@ export class FinalComment {
         if (context?.submitFinalComments?.selectAnswer) {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
-            // Add your Final Comments
-            cy.get('#lpaFinalCommentDetails').clear();
-            cy.get('#lpaFinalCommentDetails').type("Final comment test");
-            cy.get('#sensitiveInformationCheckbox').check({ force: true });
+            const howSubmitType = context?.howSubmitFinalComments?.type || 'text';
+            basePage.selectRadioBtn(howSubmitType);
             cy.advanceToNextPage();
-            //Upload your witnesses and their evidence
-            if (context?.additionalDocument?.selectAnswer) {
-                cy.getByData(basePage?._selectors?.answerYes).click();
+
+            if (howSubmitType === 'text') {
+                cy.get('#lpaFinalCommentDetails').clear();
+                cy.get('#lpaFinalCommentDetails').type("Final comment test");
+                cy.get('#sensitiveInformationCheckbox').check({ force: true });
                 cy.advanceToNextPage();
-                cy.get('body').then($body => {
-                    if ($body.find('button[name="delete"]:contains("Remove")').length > 0) {
-                        cy.contains('button[name="delete"]', 'Remove').click();
-                    }
-                });
-                cy.uploadFileFromFixtureDirectories(context?.documents?.uploadAdditionalDocsSupportFinalComments);
-                cy.advanceToNextPage();
-            } else {
-                cy.getByData(basePage?._selectors?.answerNo).click();
+            } else if (howSubmitType === 'document') {
+                cy.uploadFileFromFixtureDirectories(context?.documents?.uploadSupportDocsFinalComments);
                 cy.advanceToNextPage();
             }
 
