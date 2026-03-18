@@ -78,6 +78,7 @@ exports.sections = [
 					representationPublished(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.STATEMENT,
 						owned: false,
+						ignoreOwnRepresentation: true,
 						submitter: APPEAL_USER_ROLES.RULE_6_PARTY
 					})
 			}
