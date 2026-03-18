@@ -30,7 +30,7 @@ const mockAnswer = 'Not started';
 
 const ListAddMoreQuestion = require('@pins/dynamic-forms/src/dynamic-components/list-add-more/question');
 const questionUtils = require('@pins/dynamic-forms/src/dynamic-components/utils/question-utils');
-const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { APPEAL_ID, APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 const config = require('../../src/config');
 
 const makeSections = () => [
@@ -891,6 +891,70 @@ describe('dynamic-form/controller', () => {
 					'If you have any of the following documents, you’ll also need to upload your:'
 			});
 		});
+		it.each([APPLICATION_DECISION.REFUSED, APPLICATION_DECISION.GRANTED])(
+			'renders correct page for expedited appeal for %s application decision after 2026-04-01',
+			(applicationDecision) => {
+				req.session.appeal = {
+					appealType: APPEAL_ID.PLANNING_SECTION_78,
+					eligibility: { applicationDecision },
+					applicationDate: '2026-04-01T09:00:00.000Z'
+				};
+				appellantBYSListOfDocuments(req, res);
+				expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
+					bannerHtmlOverride:
+						config.betaBannerText +
+						config.generateBetaBannerFeedbackLink(
+							config.getAppealTypeFeedbackUrl(CASE_TYPES.S78.processCode)
+						),
+					optionalDocuments: [
+						'decision letter from the local planning authority',
+						'your reasons for appealing, or an appeal statement',
+						'planning obligation',
+						'information relating to the ownership of the land',
+						'an environment statement'
+					],
+					requiredDocuments: [],
+					requiredDocumentsSubheading: 'You’ll need your planning application form.',
+					optionalDocumentsSubheading:
+						'If you have any of the following documents, you’ll also need to upload your:'
+				});
+			}
+		);
+		it.each([APPLICATION_DECISION.REFUSED, APPLICATION_DECISION.GRANTED])(
+			'renders correct page for S78 - full appeal for %s before 2026-04-01',
+			(applicationDecision) => {
+				req.session.appeal = {
+					appealType: APPEAL_ID.PLANNING_SECTION_78,
+					eligibility: { applicationDecision },
+					applicationDate: '2026-03-31T09:00:00.000Z'
+				};
+				appellantBYSListOfDocuments(req, res);
+				expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
+					bannerHtmlOverride:
+						config.betaBannerText +
+						config.generateBetaBannerFeedbackLink(
+							config.getAppealTypeFeedbackUrl(CASE_TYPES.S78.processCode)
+						),
+					optionalDocuments: [
+						'decision letter from the local planning authority',
+						'planning obligation',
+						'separate ownership certificate and agricultural land declaration',
+						'draft statement of common ground',
+						'design and access statement',
+						'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
+					],
+					requiredDocuments: [
+						'planning application form',
+						'plans, drawings and supporting documents for your application',
+						'new plans or drawings to support your appeal',
+						'other documents to support your appeal'
+					],
+					requiredDocumentsSubheading: 'You’ll need your:',
+					optionalDocumentsSubheading:
+						'If you have any of the following documents, you’ll also need to upload your:'
+				});
+			}
+		);
 		it('renders correct page for S20 - listed building', () => {
 			req.session.appeal = { appealType: APPEAL_ID.PLANNING_LISTED_BUILDING };
 			appellantBYSListOfDocuments(req, res);

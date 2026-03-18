@@ -135,8 +135,19 @@ describe('optional documents-for-submission', () => {
 	it.each(testCases)(
 		'should return correct required documents for appeal type %s',
 		(appealType, expected) => {
-			const result = generateOptionalDocuments(appealType);
+			const result = generateOptionalDocuments(appealType, false);
 			expect(result).toEqual(expected);
 		}
 	);
+
+	it('should return correct required documents for expedited S78 appeal', () => {
+		const result = generateOptionalDocuments(APPEAL_ID.PLANNING_SECTION_78, true);
+		expect(result).toEqual([
+			'decision letter from the local planning authority',
+			'your reasons for appealing, or an appeal statement',
+			'planning obligation',
+			'information relating to the ownership of the land',
+			'an environment statement'
+		]);
+	});
 });
