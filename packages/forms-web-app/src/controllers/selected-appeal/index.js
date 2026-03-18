@@ -36,6 +36,7 @@ const logger = require('#lib/logger');
 const config = require('../../config');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 const { formatDashboardLinkedCaseDetails } = require('@pins/common/src/lib/linked-appeals');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /** @type {Partial<import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict>} */
 const userSectionsDict = {
@@ -80,6 +81,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = displayHeadlinesByUser(caseData, lpa.name, userType);
 
+		const isEnforcement = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+
 		const linkedCaseDetails = formatDashboardLinkedCaseDetails(caseData);
 
 		const sections = userSectionsDict[userType];
@@ -121,7 +124,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				hearings: formatHearings(events, userType),
 				sections: formatSections({ caseData, sections }),
 				baseUrl: userRouteUrl,
-				decision: mapDecisionTag(caseData.caseDecisionOutcome),
+				decision: mapDecisionTag(caseData.caseDecisionOutcome, isEnforcement, isLPA),
 				decisionDate: formatDateForDisplay(caseData.caseDecisionOutcomeDate, {
 					format: 'd MMMM yyyy'
 				}),

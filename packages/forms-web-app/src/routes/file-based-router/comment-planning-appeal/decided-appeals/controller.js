@@ -6,6 +6,7 @@ const {
 } = require('@pins/business-rules/src/utils/decision-outcome');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /** @type {import('express').RequestHandler} */
 const decidedAppeals = async (req, res) => {
@@ -32,7 +33,11 @@ const decidedAppeals = async (req, res) => {
 			appeal.formattedDecisionColour = mapDecisionColour(appeal.caseDecisionOutcome);
 			appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
 			appeal.caseDecisionOutcome =
-				mapDecisionLabel(appeal.caseDecisionOutcome) ?? appeal.caseDecisionOutcome;
+				mapDecisionLabel(
+					appeal.caseDecisionOutcome,
+					appeal.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode,
+					false
+				) ?? appeal.caseDecisionOutcome;
 		});
 		decidedAppeals.sort(sortByCaseDecisionDate);
 	}
