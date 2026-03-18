@@ -10,6 +10,7 @@
 {% set saveAndReturn = saveAndReturn | default(true) %}
 
 {% set fieldName = question.fieldName | default("file-upload") %}
+{% set hintText = question.hint | default('The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller than ' + fileSizeLimits.maxFileUploadSize | formatBytes) %}
 
 {% set errorMessageHtml %}
   {% if errorSummary %}
@@ -29,7 +30,7 @@
       classes: 'govuk-label--m'
     },
     hint: {
-      text: 'The files must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX and be smaller than ' + fileSizeLimits.maxFileUploadSize | formatBytes
+      text: hintText
     },
     attributes: { multiple: '' },
     errorMessage: errorSummary and {

@@ -43,7 +43,8 @@ class MultifileUploadValidator extends BaseValidator {
 			multifileUploadSchema({
 				path,
 				allowedFileTypes: this.allowedFileTypes,
-				maxUploadSize: this.maxUploadSize
+				maxUploadSize: this.maxUploadSize,
+				errorMessage: this.errorMessage
 			})
 		)[0];
 	}

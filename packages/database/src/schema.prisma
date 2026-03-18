@@ -843,6 +843,7 @@ model AppellantSubmission {
   highwayLand                        Boolean?
   advertInPosition                   Boolean?
   landownerPermission                Boolean?
+  submitEnvironmentStatement         Boolean?
 
   // boolean text
   appellantSiteSafety                            String?
@@ -904,6 +905,7 @@ model AppellantSubmission {
   uploadGroundISupporting           Boolean?
   uploadGroundJSupporting           Boolean?
   uploadGroundKSupporting           Boolean?
+  uploadEnvironmentStatement        Boolean?
   SubmissionDocumentUpload          SubmissionDocumentUpload[]
 
   // addresses

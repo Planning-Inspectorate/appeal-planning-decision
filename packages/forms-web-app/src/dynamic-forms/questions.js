@@ -83,7 +83,7 @@ const {
 		}
 	},
 	fileUpload: {
-		pins: { allowedFileTypes, maxFileUploadSize }
+		pins: { allowedFileTypes, maxFileUploadSize, maxFileUploadSizeEnvironmentStatement }
 	}
 } = require('../config');
 const { createQuestions } = require('@pins/dynamic-forms/src/create-questions');
@@ -114,6 +114,14 @@ const WordValidator = require('@pins/dynamic-forms/src/validator/word-validator'
 const defaultFileUploadValidatorParams = {
 	allowedFileTypes: Object.values(allowedFileTypes),
 	maxUploadSize: maxFileUploadSize
+};
+
+const environmentStatementFileUploadValidatorParams = {
+	allowedFileTypes: Object.values(allowedFileTypes).filter(
+		(type) => type !== allowedFileTypes.MIME_TYPE_XLSX
+	),
+	maxUploadSize: maxFileUploadSizeEnvironmentStatement,
+	errorMessage: 'The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
 };
 
 const defaultAddressValidatorParams = {
@@ -4236,6 +4244,34 @@ exports.getQuestionProps = (response) => ({
 		],
 		documentType: documentTypes.otherRelevantMattersUpload,
 		actionHiddenText: 'plans and drawings'
+	},
+	submitEnvironmentStatement: {
+		type: 'boolean-radio',
+		title: 'Did you submit an environmental statement with the application?',
+		question: 'Did you submit an environmental statement with the application?',
+		fieldName: 'submitEnvironmentStatement',
+		url: 'submit-environmental-statement',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you submitted an environmental statement with the application'
+			)
+		]
+	},
+	uploadEnvironmentStatement: {
+		type: 'multi-file-upload',
+		title: 'Upload your environmental statement',
+		question: 'Upload your environmental statement',
+		fieldName: 'uploadEnvironmentStatement',
+		hint: 'The file must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than 25MB',
+		url: 'upload-environmental-statement',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the environmental statement and supporting information'
+			),
+			new MultifileUploadValidator(environmentStatementFileUploadValidatorParams)
+		],
+		documentType: documentTypes.uploadEnvironmentalStatement,
+		actionHiddenText: 'environmental statement'
 	},
 	planningObligation: {
 		type: 'boolean',
