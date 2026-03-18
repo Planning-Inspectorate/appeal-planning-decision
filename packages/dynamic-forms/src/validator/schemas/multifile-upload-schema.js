@@ -8,15 +8,18 @@ const validateFileSize = require('../file-size');
  * 	@param {string} params.path - The path that the files are located on, on the request body.
  * 	@param {Array<string>} params.allowedFileTypes - An array of allowed file mime types
  * 	@param {number} params.maxUploadSize - The max size allowed for file uploads in bytes
+ * 	@param {string} params.errorMessage - The error message returned if the file extension doesn't match the valid file types
  */
-const schema = ({ path, allowedFileTypes, maxUploadSize }) => ({
+const schema = ({ path, allowedFileTypes, maxUploadSize, errorMessage }) => ({
 	[path]: {
 		custom: {
 			options: async (value) => {
 				const { name, mimetype, size } = value;
 				// check file extension type
 				if (!allowedFileTypes.includes(mimetype)) {
-					throw new Error(`${name} must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX`);
+					throw new Error(
+						errorMessage ? errorMessage : `${name} must be a DOC, DOCX, PDF, TIF, JPG, PNG or XLSX`
+					);
 				}
 
 				// check file size
