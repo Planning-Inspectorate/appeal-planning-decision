@@ -62,8 +62,7 @@ export const ldcQuestionnaireTestCases = [
             // LDC-specific fields for section 2
             ldcPlanningOfficersReport: true,
             isCommunityInfrastructureLevy: true,
-            isCommunityInfrastructureLevyAdopted: true,
-            //ldcCommunityInfrastructureLevy: true,
+            isCommunityInfrastructureLevyAdopted: true,  
             ldcOtherRelevantMatters: true
         },
         siteAccess: {

@@ -127,14 +127,14 @@ export const questionnaire = (context, lpaManageAppealsData, lpaAppealType, case
 			});
 		constraintsAndDesignations.selectCorrectTypeOfAppeal(context);
 		if (lpaAppealType === lpaManageAppealsData?.ldcAppealType) {
-			constraintsAndDesignations.selectLdcTypeOfCertificate(context, lpaManageAppealsData);
-			constraintsAndDesignations.selectLdcPlanningCondition(context, lpaManageAppealsData);
-			constraintsAndDesignations.selectLdcEnforcementNotice(context, lpaManageAppealsData);
-			constraintsAndDesignations.selectLdcRelatedApplications(context, lpaManageAppealsData);
+			constraintsAndDesignations.selectLdcTypeOfCertificate(context);
+			constraintsAndDesignations.selectLdcPlanningCondition(context);
+			constraintsAndDesignations.selectLdcEnforcementNotice(context);
+			constraintsAndDesignations.selectLdcRelatedApplications(context);
 			constraintsAndDesignations.selectLdcAppealInvalid(context, lpaManageAppealsData);
-			poReportAndSupportDocs.selectLdcPlanningOfficersReport(context, lpaManageAppealsData);
+			poReportAndSupportDocs.selectLdcPlanningOfficersReport(context);
 			poReportAndSupportDocs.selectCommunityInfraLevy(context);
-			poReportAndSupportDocs.selectLdcOtherRelevantMatters(context, lpaManageAppealsData);
+			poReportAndSupportDocs.selectLdcOtherRelevantMatters(context);
 		} else {
 			if (lpaAppealType !== lpaManageAppealsData?.commercialadvAppealType) {
 				constraintsAndDesignations.selectChangesListedBuilding(context, lpaManageAppealsData);
