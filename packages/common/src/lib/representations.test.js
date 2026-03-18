@@ -101,6 +101,24 @@ describe('representationPublished', () => {
 		expect(representationPublished(representations, { type: 'type1' })).toBe(true);
 	});
 
+	it('should ignore owned representations when ignoreOwnRepresentation is true', () => {
+		const representations = [
+			{
+				representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+				userOwnsRepresentation: true,
+				representationType: 'type1',
+				submittingPartyType: SERVICE_USER_TYPE.APPELLANT
+			}
+		];
+		expect(
+			representationPublished(representations, {
+				type: 'type1',
+				submitter: SERVICE_USER_TYPE.APPELLANT,
+				ignoreOwnRepresentation: true
+			})
+		).toBe(false);
+	});
+
 	it('should return false if representations array is undefined', () => {
 		expect(
 			representationPublished(undefined, { type: 'type1', submitter: SERVICE_USER_TYPE.APPELLANT })

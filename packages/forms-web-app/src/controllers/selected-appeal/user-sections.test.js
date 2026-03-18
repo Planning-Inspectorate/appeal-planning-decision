@@ -643,6 +643,20 @@ describe('LPA and Appellant Sections', () => {
 				const link = findLinkByUrl(section, '/other-party-statements');
 				expect(link?.condition(appealCase)).toBe(false);
 			});
+
+			it('should not show "View other party statements" when the logged in rule 6 party is the only rule 6 party with a published statement', () => {
+				appealCase.Representations = [
+					{
+						submittingPartyType: APPEAL_USER_ROLES.RULE_6_PARTY,
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: true,
+						representationType: REPRESENTATION_TYPES.STATEMENT
+					}
+				];
+				const section = findSectionByHeading(rule6Sections, 'Statements');
+				const link = findLinkByUrl(section, '/other-party-statements');
+				expect(link?.condition(appealCase)).toBe(false);
+			});
 		});
 
 		describe('Interested party comments', () => {

@@ -9,6 +9,7 @@ const {
  * @typedef {object} options
  * @property {import('@planning-inspectorate/data-model').Schemas.AppealRepresentation['representationType']} options.type
  * @property {boolean} [options.owned]
+ * @property {boolean} [options.ignoreOwnRepresentation]
  * @property {Submitter} [options.submitter]
  */
 
@@ -36,7 +37,8 @@ const isSubmitter = (rep, submitter) => {
  * @param {options} options
  * @returns {boolean|undefined}
  */
-const filterRepresentations = (rep, { type, owned, submitter }) =>
+const filterRepresentations = (rep, { type, owned, submitter, ignoreOwnRepresentation = false }) =>
+	(!ignoreOwnRepresentation || !rep.userOwnsRepresentation) &&
 	(!owned || rep.userOwnsRepresentation) &&
 	rep.representationType === type &&
 	isSubmitter(rep, submitter);
