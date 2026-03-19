@@ -44,6 +44,9 @@ export class PrepareAppealSelector {
         decisionDateDay: '#decision-date-day',
         decisionDateMonth: '#decision-date-month',
         decisionDateYear: '#decision-date-year',
+        applicationDateDay: '#application-date-day',
+        applicationDateMonth: '#application-date-month',
+        applicationDateYear: '#application-date-year'
     }
     _houseHolderSelectors = {
         decisionDateHouseholderDay: '#decision-date-householder-day',

@@ -2,12 +2,14 @@
 /// <reference types="cypress"/>
 import { PrepareAppealSelector } from "../../../../page-objects/prepare-appeal/prepare-appeal-selector";
 import { BasePage } from "../../../../page-objects/base-page";
+import { DateService } from "../../../../utils/dateService";
 const initialiseHouseHolderPlanning = require("./initialiseHouseHolderPlanning");
 const initialiseFullPlanning = require("./initialiseFullPlanning");
 const initialiseListedBuilding = require("./initialiseListedBuilding");
 const initialiseCasPlanning = require("./initialiseCasPlanning");
 const initialiseAdvertPlanning = require("./initialiseAdvertPlanning");
 const initialiseLDCPlanning = require("./initialiseLDCPlanning");
+const date = new DateService();
 module.exports = (statusOfOriginalApplication, planning, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const basePage = new BasePage();
@@ -24,6 +26,16 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 	// Select the application type
 	cy.get(`[data-cy="${planning}"]`).click();
 	cy.advanceToNextPage();
+
+	if(planning === prepareAppealSelector?._selectors?.answerFullAppeal) {
+		cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).clear()
+		cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).type(date.today());
+		cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).clear();
+		cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).type(date.currentMonth());
+		cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).clear();
+		cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).type(date.currentYear());
+		cy.advanceToNextPage();
+	}		
 
 	if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
 		//planning-application-about if any one or all 4  check boxes selects then it should go to s78 route other wise cas planning
