@@ -142,8 +142,11 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 		cy.advanceToNextPage();
 		//What date did you submit your application?
 		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/application-date`);
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).clear()
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(date.today());
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).clear();
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth());
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).clear();
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(date.currentYear());
 		cy.advanceToNextPage();
 		//Was your application for a major or minor development?
