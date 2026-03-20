@@ -83,7 +83,7 @@ const {
 		}
 	},
 	fileUpload: {
-		pins: { allowedFileTypes, maxFileUploadSize, maxFileUploadSizeEnvironmentStatement }
+		pins: { allowedFileTypes, maxFileUploadSize }
 	}
 } = require('../config');
 const { createQuestions } = require('@pins/dynamic-forms/src/create-questions');
@@ -120,7 +120,7 @@ const environmentStatementFileUploadValidatorParams = {
 	allowedFileTypes: Object.values(allowedFileTypes).filter(
 		(type) => type !== allowedFileTypes.MIME_TYPE_XLSX
 	),
-	maxUploadSize: maxFileUploadSizeEnvironmentStatement,
+	maxUploadSize: maxFileUploadSize,
 	errorMessage: 'The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG'
 };
 
