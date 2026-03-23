@@ -112,7 +112,10 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			userType == APPEAL_USER_ROLES.RULE_6_PARTY &&
 			submittingParty == APPEAL_USER_ROLES.RULE_6_PARTY
 				? !rule6OwnRepresentations
-				: formattedRepresentations.length > 1;
+				: representationType === REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE &&
+					  submittingParty === APPEAL_USER_ROLES.RULE_6_PARTY
+					? formattedRepresentations.length > 0
+					: formattedRepresentations.length > 1;
 
 		const viewContext = {
 			layoutTemplate,
