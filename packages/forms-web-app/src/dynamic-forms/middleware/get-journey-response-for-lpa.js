@@ -13,6 +13,7 @@ const {
 		LPA_DASHBOARD: { DASHBOARD }
 	}
 } = require('../../lib/views');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 /**
  * @param {boolean} checkSubmitted
@@ -39,9 +40,16 @@ module.exports =
 		}
 
 		// lookup type by submission type code
-		const appealType = Object.values(JOURNEY_TYPES).find(
+		let appealType = Object.values(JOURNEY_TYPES).find(
 			(x) => x.type === JOURNEY_TYPE.questionnaire && x.caseType === appeal.appealTypeCode
 		)?.id;
+
+		if (
+			appeal.appealTypeCode === CASE_TYPES.S78.processCode &&
+			appeal.caseProcedure === 'writtenPart1'
+		) {
+			appealType = JOURNEY_TYPES.S78_QUESTIONNAIRE_PART_1.id;
+		}
 
 		if (typeof appealType === 'undefined') {
 			throw new Error('appealType is undefined');
@@ -78,7 +86,7 @@ module.exports =
 
 /**
  * returns a default response for a journey
- * @param {JourneyType} journeyId - the type of journey
+ * @param {import('../controller').JourneyType} journeyId - the type of journey
  * @param {string} referenceId - unique ref used in journey url
  * @param {string} lpaCode - the lpa code the journey response belongs to
  * @returns {JourneyResponse}

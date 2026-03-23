@@ -174,7 +174,8 @@ const caseTypeLookup = (value, lookupProp) => {
 const PROCEDURE_TYPES = Object.freeze({
 	hearing: { key: APPEAL_CASE_PROCEDURE.HEARING, name: 'Hearing' },
 	inquiry: { key: APPEAL_CASE_PROCEDURE.INQUIRY, name: 'Inquiry' },
-	written: { key: APPEAL_CASE_PROCEDURE.WRITTEN, name: 'Written' }
+	written: { key: APPEAL_CASE_PROCEDURE.WRITTEN, name: 'Written' },
+	writtenPart1: { key: APPEAL_CASE_PROCEDURE.WRITTEN_PART_1, name: 'Written Part 1' }
 });
 
 /**

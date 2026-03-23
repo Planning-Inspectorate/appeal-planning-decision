@@ -155,6 +155,7 @@ const appealIds = {
 	appeal14: '437c4af5-7440-486d-98e9-b37a748be96c',
 	appeal15: '5b769d3f-466c-427a-9d58-d9823239ee9b',
 	appeal16: 'e2e772d4-e688-465f-802c-59a69e43a9ea',
+	appealPart1: '756d6bfb-dde8-4532-a041-86c226a23a17',
 	appealR6Test: '756d6bfb-dde8-4532-a041-86c226a23c17'
 };
 
@@ -173,6 +174,7 @@ const caseReferences = {
 	caseReference14: '2211010',
 	caseReference15: '2221010',
 	caseReference16: '2231010',
+	caseReferencePart1: '1010117',
 	caseReferenceR6Test: '4000017'
 };
 
@@ -235,6 +237,7 @@ const appeals = [
 	{ id: appealIds.appeal14 },
 	{ id: appealIds.appeal15 },
 	{ id: appealIds.appeal16 },
+	{ id: appealIds.appealPart1 },
 	{ id: appealIds.appealR6Test },
 	{
 		id: appealSubmissionDraft.id,
@@ -694,6 +697,27 @@ const appealCases = [
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
 		}
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appealPart1 }
+		},
+		...commonAppealProperties,
+		LPACode: TEST_LPA_CODES.Q1111,
+		caseReference: caseReferences.caseReferencePart1,
+		CaseType: {
+			connect: { processCode: 'S78' }
+		},
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+		},
+		ProcedureType: {
+			connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN_PART_1 }
+		},
+		applicationDecision: 'refused',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: 'S78/PART1/SEED',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAhead(1))
 	},
 	...lpaAppealCaseData
 ];
@@ -1703,6 +1727,7 @@ async function createCasesInState(dbClient) {
 	];
 	const variations = [
 		{ type: CASE_TYPES.HAS, process: APPEAL_CASE_PROCEDURE.WRITTEN },
+		{ type: CASE_TYPES.S78, process: APPEAL_CASE_PROCEDURE.WRITTEN_PART_1 },
 		{ type: CASE_TYPES.S78, process: APPEAL_CASE_PROCEDURE.WRITTEN },
 		{ type: CASE_TYPES.S78, process: APPEAL_CASE_PROCEDURE.HEARING },
 		{ type: CASE_TYPES.S78, process: APPEAL_CASE_PROCEDURE.INQUIRY },

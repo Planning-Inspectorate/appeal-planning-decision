@@ -131,7 +131,7 @@ export interface AppealCase {
 		| 'awaiting_transfer'
 		| 'transferred';
 	/** The type of procedure for the appeal */
-	caseProcedure?: 'written' | 'hearing' | 'inquiry';
+	caseProcedure?: 'written' | 'hearing' | 'inquiry' | 'writtenPart1';
 	/** The unique identifier of the LPA application */
 	applicationReference: string | null;
 	/** The outcome of the original LPA decision */

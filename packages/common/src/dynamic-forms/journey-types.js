@@ -52,6 +52,12 @@ exports.JOURNEY_TYPES = Object.freeze({
 		userType: LPA_USER_ROLE,
 		caseType: CASE_TYPES.S78.processCode
 	},
+	S78_QUESTIONNAIRE_PART_1: {
+		id: 's78-questionnaire-part-1',
+		type: exports.JOURNEY_TYPE.questionnaire,
+		userType: LPA_USER_ROLE,
+		caseType: CASE_TYPES.S78.processCode
+	},
 	S20_APPEAL_FORM: {
 		id: 's20-appeal-form',
 		type: exports.JOURNEY_TYPE.appealForm,
