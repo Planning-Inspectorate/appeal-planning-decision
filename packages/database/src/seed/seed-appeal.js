@@ -19,12 +19,12 @@ const commonAppealProps = {
 	caseCreatedDate: pickRandom(datesNMonthsAgo(1)),
 	caseValidDate: pickRandom(datesNMonthsAgo(1)),
 	casePublishedDate: pickRandom(datesNMonthsAgo(1)),
-
+	caseStartedDate: pickRandom(datesNMonthsAgo(1)),
 	siteAddressLine2: null,
 	siteAddressTown: 'Town',
 	siteAddressCounty: 'Countyshire',
 	siteAddressPostcode: 'BS1 6PN',
-
+	siteAddressPostcodeSanitized: 'BS16PN',
 	appellantCostsAppliedFor: false,
 	applicationDecision: 'refused'
 };
@@ -100,12 +100,20 @@ module.exports.getAppealInState = ({
 			appeal.lpaQuestionnaireDueDate = pickRandom(datesNMonthsAhead(1));
 			appeal.caseStartedDate = new Date();
 			break;
+		// Ready to start
+		case APPEAL_CASE_STATUS.READY_TO_START:
+			appeal.caseStartedDate = null;
+			appeal.interestedPartyRepsDueDate = pickRandom(datesNMonthsAhead(1));
+			appeal.lpaQuestionnaireDueDate = pickRandom(datesNMonthsAgo(1));
+			appeal.statementDueDate = pickRandom(datesNMonthsAhead(1));
+			appeal.LPAStatementSubmittedDate = null;
+			appeal.appellantStatementSubmittedDate = null;
+			break;
 		// Statements
 		case APPEAL_CASE_STATUS.STATEMENTS:
 			appeal.lpaQuestionnaireDueDate = pickRandom(datesNMonthsAgo(1));
 			appeal.statementDueDate = pickRandom(datesNMonthsAhead(1));
 			appeal.caseStartedDate = new Date();
-			appeal.lpaQuestionnaireDueDate = new Date();
 			appeal.LPAStatementSubmittedDate = null;
 			appeal.appellantStatementSubmittedDate = null;
 			canHaveRule6 = true;

@@ -669,12 +669,15 @@ class AppealCaseRepository {
 	 * @param {boolean} options.decidedOnly - if true, only decided cases; else ONLY cases not decided
 	 * @returns {Promise<AppealCase[]>}
 	 */
-	async listByPostCode({ sanitizedPostcode, decidedOnly }) {
+	async listByPostCode({ sanitizedPostcode, decidedOnly, isStarted }) {
 		/** @type {AppealCaseWhereInput[]}	*/
 		const AND = [
 			{ siteAddressPostcodeSanitized: { startsWith: sanitizedPostcode } },
 			{ casePublishedDate: { not: null } }
 		];
+		if (isStarted) {
+			AND.push({ caseStartedDate: { not: null } });
+		}
 		addDecidedClauseToQuery(AND, decidedOnly);
 		/** @type {AppealCaseFindManyArgs}	*/
 		const query = {

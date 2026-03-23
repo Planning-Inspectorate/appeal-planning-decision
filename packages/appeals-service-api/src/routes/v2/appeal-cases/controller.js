@@ -116,7 +116,8 @@ async function listByPostcode(req, res) {
 	const {
 		postcode: postcode,
 		'decided-only': decidedOnly,
-		'with-appellant': withAppellant
+		'with-appellant': withAppellant,
+		isStarted: isStarted
 	} = req.query;
 
 	if (!postcode || typeof postcode !== 'string') {
@@ -128,13 +129,18 @@ async function listByPostcode(req, res) {
 	if (!isValidBooleanString(withAppellant)) {
 		throw ApiError.withMessage(400, 'with-appellant must be true or false');
 	}
+	if (!isValidBooleanString(isStarted)) {
+		throw ApiError.withMessage(400, 'isStarted');
+	}
 	const isDecidedOnly = decidedOnly === 'true';
 	const isWithAppellant = withAppellant === 'true';
+	const isCaseStarted = isStarted === 'true';
 	try {
 		const appealCases = await listByPostcodeWithAppellant({
 			sanitizedPostcode: sanitizePostcode(postcode),
 			decidedOnly: isDecidedOnly,
-			withAppellant: isWithAppellant
+			withAppellant: isWithAppellant,
+			isStarted: isCaseStarted
 		});
 		res.status(200).send(appealCases);
 	} catch (err) {

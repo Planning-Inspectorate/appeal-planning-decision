@@ -56,7 +56,8 @@ describe('appeals Controller Tests', () => {
 
 		expect(req.appealsApiClient.getPostcodeSearchResults).toHaveBeenCalledWith({
 			postcode: 'AB12 3CD',
-			'with-appellant': true
+			'with-appellant': true,
+			isStarted: true
 		});
 		expect(res.redirect).toHaveBeenCalledWith(
 			'appeal-search-no-results?search=AB12 3CD&type=postcode'
@@ -89,7 +90,8 @@ describe('appeals Controller Tests', () => {
 
 		expect(req.appealsApiClient.getPostcodeSearchResults).toHaveBeenCalledWith({
 			postcode: 'AB12 3CD',
-			'with-appellant': true
+			'with-appellant': true,
+			isStarted: true
 		});
 		expect(formatAddress).toHaveBeenCalledWith(postcodeSearchResults[0]);
 		expect(getOpenAppeals).toHaveBeenCalledWith(postcodeSearchResults);
