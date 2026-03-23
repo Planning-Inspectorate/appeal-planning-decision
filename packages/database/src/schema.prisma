@@ -1091,6 +1091,8 @@ model LPAQuestionnaireSubmission {
   planningContraventionNotice                     Boolean?
   planningContraventionNoticeUpload               Boolean?
   appellantSubmittedEnvironmentalStatement        String?
+  designAccessStatement                           Boolean?
+  uploadDesignAccessStatement                     Boolean?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]

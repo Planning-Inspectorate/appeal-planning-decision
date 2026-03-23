@@ -2117,6 +2117,18 @@ exports.getQuestionProps = (response) => ({
 			)
 		]
 	},
+	designAccessStatementPart1: {
+		type: 'boolean',
+		title: 'Did you submit a design and access statement with your application?',
+		question: 'Did the applicant submit a design and access statement with the application?',
+		fieldName: 'designAccessStatement',
+		url: 'design-and-access-statement',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you submitted a design and access statement with your application'
+			)
+		]
+	},
 	uploadDesignAccessStatement: {
 		type: 'multi-file-upload',
 		title: 'Design and access statement',
@@ -2130,6 +2142,20 @@ exports.getQuestionProps = (response) => ({
 		],
 		documentType: documentTypes.uploadDesignAccessStatement,
 		actionHiddenText: 'your design and access statement'
+	},
+	uploadDesignAccessStatementPart1: {
+		type: 'multi-file-upload',
+		title: 'Design and access statement',
+		question: 'Upload the design and access statement submitted with the application',
+		fieldName: 'uploadDesignAccessStatement',
+		url: 'design-access-statement-upload',
+		html: 'resources/plans-drawings/upload-design-access-part-1.html',
+		validators: [
+			new RequiredFileUploadValidator('Select the design and access statement'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.uploadDesignAccessStatement,
+		actionHiddenText: 'the design and access statement submitted with the application'
 	},
 	uploadPlansDrawingsHAS: {
 		type: 'multi-file-upload',
