@@ -20,7 +20,8 @@ const appeals = async (req, res) => {
 	/** @type {import('#utils/appeals-view').AppealViewModel[]} */
 	const postcodeSearchResults = await req.appealsApiClient.getPostcodeSearchResults({
 		postcode,
-		'with-appellant': true
+		'with-appellant': true,
+		isStarted: true
 	});
 
 	if (!postcodeSearchResults.length) {

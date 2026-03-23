@@ -261,6 +261,7 @@ const commonAppealProperties = {
 	siteAddressPostcodeSanitized: 'BS16PN',
 	appellantCostsAppliedFor: false,
 	casePublishedDate: new Date(),
+	caseStartedDate: new Date(),
 	caseCreatedDate: new Date(),
 	caseSubmittedDate: new Date(),
 	CaseType: {
@@ -1723,7 +1724,8 @@ async function createCasesInState(dbClient) {
 		APPEAL_CASE_STATUS.STATEMENTS,
 		APPEAL_CASE_STATUS.EVIDENCE,
 		APPEAL_CASE_STATUS.FINAL_COMMENTS,
-		APPEAL_CASE_STATUS.COMPLETE
+		APPEAL_CASE_STATUS.COMPLETE,
+		APPEAL_CASE_STATUS.READY_TO_START
 	];
 	const variations = [
 		{ type: CASE_TYPES.HAS, process: APPEAL_CASE_PROCEDURE.WRITTEN },
@@ -1754,7 +1756,11 @@ async function createCasesInState(dbClient) {
 		for (const variation of variations) {
 			if (
 				variation.type.expedited &&
-				![APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE, APPEAL_CASE_STATUS.COMPLETE].includes(state)
+				![
+					APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE,
+					APPEAL_CASE_STATUS.READY_TO_START,
+					APPEAL_CASE_STATUS.COMPLETE
+				].includes(state)
 			) {
 				// skip invalid states for expedited cases
 				continue;
