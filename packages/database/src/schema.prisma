@@ -1095,6 +1095,8 @@ model LPAQuestionnaireSubmission {
   uploadDesignAccessStatement                     Boolean?
   plansAndDrawings                                Boolean?
   plansAndDrawingsUpload                          Boolean?
+  additionalDocuments                             Boolean?
+  uploadAdditionalDocuments                       Boolean?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]

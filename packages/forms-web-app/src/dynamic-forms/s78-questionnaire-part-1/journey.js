@@ -54,14 +54,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.rightOfWayCheck)
 			.addQuestion(questions.uploadDefinitiveMap)
 			.withCondition(() => questionHasAnswer(response, questions.rightOfWayCheck, 'yes')),
-		new Section('Original Evidence', 'original-evidence')
-			.addQuestion(questions.designAccessStatementPart1)
-			.addQuestion(questions.uploadDesignAccessStatementPart1)
-			.withCondition(() => questionHasAnswer(response, questions.designAccessStatementPart1, 'yes'))
-			.addQuestion(questions.plansAndDrawings)
-			.addQuestion(questions.plansAndDrawingsUpload)
-			.withCondition(() => questionHasAnswer(response, questions.plansAndDrawings, 'yes'))
-			.addQuestion(questions.uploadPlansDrawingsHAS),
 		new Section('Environmental impact assessment', 'environmental-impact')
 			.addQuestion(questions.environmentalImpactSchedule)
 			.addQuestion(questions.developmentDescription)
@@ -233,7 +225,17 @@ const makeSections = (response) => {
 			.addQuestion(questions.appealsNearSite)
 			.addQuestion(questions.nearbyAppeals)
 			.withCondition(() => questionHasAnswer(response, questions.appealsNearSite, 'yes'))
-			.addQuestion(questions.addNewConditions)
+			.addQuestion(questions.addNewConditions),
+		new Section('Original Evidence', 'original-evidence')
+			.addQuestion(questions.designAccessStatementPart1)
+			.addQuestion(questions.uploadDesignAccessStatementPart1)
+			.withCondition(() => questionHasAnswer(response, questions.designAccessStatementPart1, 'yes'))
+			.addQuestion(questions.plansAndDrawings)
+			.addQuestion(questions.plansAndDrawingsUpload)
+			.withCondition(() => questionHasAnswer(response, questions.plansAndDrawings, 'yes'))
+			.addQuestion(questions.additionalDocumentsPart1)
+			.addQuestion(questions.uploadAdditionalDocumentsPart1)
+			.withCondition(() => questionHasAnswer(response, questions.additionalDocumentsPart1, 'yes'))
 	];
 };
 

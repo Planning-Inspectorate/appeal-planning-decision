@@ -99,7 +99,7 @@ components:
           description: The processing status for the appeal
         caseProcedure:
           type: string
-          enum: ['written', 'hearing', 'inquiry']
+          enum: ['written', 'hearing', 'inquiry','writtenPart1']
           description: The type of procedure for the appeal
 
         applicationReference:

@@ -344,6 +344,24 @@ components:
         appellantSubmittedEnvironmentalStatement:
           type: boolean
           nullable: true
+        designAccessStatement:
+          type: boolean
+          nullable: true
+        uploadDesignAccessStatement:
+          type: boolean
+          nullable: true
+        plansAndDrawings:
+          type: boolean
+          nullable: true
+        plansAndDrawingsUpload:
+          type: boolean
+          nullable: true
+        additionalDocuments:
+          type: boolean
+          nullable: true
+        uploadAdditionalDocuments:
+          type: boolean
+          nullable: true
 
 
 
