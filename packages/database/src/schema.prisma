@@ -1093,6 +1093,8 @@ model LPAQuestionnaireSubmission {
   appellantSubmittedEnvironmentalStatement        String?
   designAccessStatement                           Boolean?
   uploadDesignAccessStatement                     Boolean?
+  plansAndDrawings                                Boolean?
+  plansAndDrawingsUpload                          Boolean?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]

@@ -58,6 +58,9 @@ const makeSections = (response) => {
 			.addQuestion(questions.designAccessStatementPart1)
 			.addQuestion(questions.uploadDesignAccessStatementPart1)
 			.withCondition(() => questionHasAnswer(response, questions.designAccessStatementPart1, 'yes'))
+			.addQuestion(questions.plansAndDrawings)
+			.addQuestion(questions.plansAndDrawingsUpload)
+			.withCondition(() => questionHasAnswer(response, questions.plansAndDrawings, 'yes'))
 			.addQuestion(questions.uploadPlansDrawingsHAS),
 		new Section('Environmental impact assessment', 'environmental-impact')
 			.addQuestion(questions.environmentalImpactSchedule)
