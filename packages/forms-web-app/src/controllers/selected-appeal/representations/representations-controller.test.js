@@ -206,6 +206,77 @@ describe('controllers/selected-appeal/representations', () => {
 		);
 	});
 
+	it('shows the party label for appellant viewing a single rule 6 proof of evidence', async () => {
+		const controller = representationsController;
+		const testParams = {
+			userType: APPEAL_USER_ROLES.APPELLANT,
+			representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+			submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+		};
+		const testLayoutTemplate = 'layouts/test/test.njk';
+
+		formatRepresentations.mockImplementation(() => [
+			{
+				heading: 'Rule 6 Org 1'
+			}
+		]);
+
+		const representationFunction = controller.get(testParams, testLayoutTemplate);
+
+		await representationFunction(req, res);
+
+		expect(res.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS,
+			{
+				...expectedViewContext,
+				appeal: {
+					...expectedViewContext.appeal,
+					representations: [{ heading: 'Rule 6 Org 1' }]
+				},
+				heading: 'test representation heading',
+				showLabel: true
+			},
+			expect.any(Function)
+		);
+	});
+
+	it('shows the party label for LPA viewing a single rule 6 proof of evidence', async () => {
+		const controller = representationsController;
+		const testParams = {
+			userType: LPA_USER_ROLE,
+			representationType: REPRESENTATION_TYPES.PROOFS_OF_EVIDENCE,
+			submittingParty: APPEAL_USER_ROLES.RULE_6_PARTY
+		};
+		const testLayoutTemplate = 'layouts/lpa-dashboard/main.njk';
+
+		formatRepresentations.mockImplementation(() => [
+			{
+				heading: 'Rule 6 Org 1'
+			}
+		]);
+		getParentPathLink.mockReturnValue('/manage-appeals/ABC123');
+
+		const representationFunction = controller.get(testParams, testLayoutTemplate);
+
+		await representationFunction(req, res);
+
+		expect(res.render).toHaveBeenCalledWith(
+			VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS,
+			{
+				...expectedViewContext,
+				appeal: {
+					...expectedViewContext.appeal,
+					representations: [{ heading: 'Rule 6 Org 1' }]
+				},
+				layoutTemplate: testLayoutTemplate,
+				backToAppealOverviewLink: '/manage-appeals/ABC123',
+				heading: 'test representation heading',
+				showLabel: true
+			},
+			expect.any(Function)
+		);
+	});
+
 	it('renders the representation page for Rule 6 party viewing appellant statement', async () => {
 		const controller = representationsController;
 
