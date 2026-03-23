@@ -2157,6 +2157,27 @@ exports.getQuestionProps = (response) => ({
 		documentType: documentTypes.uploadDesignAccessStatement,
 		actionHiddenText: 'the design and access statement submitted with the application'
 	},
+	additionalDocumentsPart1: {
+		type: 'boolean',
+		title: 'Did the applicant submit any other documents with the application?',
+		question: 'Did the applicant submit any other documents with the application?',
+		fieldName: 'additionalDocuments',
+		url: 'other-documentss',
+		validators: [new RequiredValidator('Select yes if there are any other documents')]
+	},
+	uploadAdditionalDocumentsPart1: {
+		type: 'multi-file-upload',
+		title: 'Upload any other documents submitted with the application',
+		question: 'Upload any other documents submitted with the application',
+		fieldName: 'uploadAdditionalDocuments',
+		url: 'upload-other-documents',
+		validators: [
+			new RequiredFileUploadValidator('Select any other documents'),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.uploadOtherNewDocuments,
+		actionHiddenText: 'any other documents submitted with the application'
+	},
 	uploadPlansDrawingsHAS: {
 		type: 'multi-file-upload',
 		title: 'Upload the plans, drawings and list of plans',
