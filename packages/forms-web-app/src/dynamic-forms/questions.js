@@ -4152,6 +4152,30 @@ exports.getQuestionProps = (response) => ({
 				}
 			})
 		]
+	},
+	plansAndDrawings: {
+		type: 'boolean',
+		title: 'Did the applicant submit plans and drawings with the application?',
+		question: 'Did the applicant submit plans and drawings with the application?',
+		fieldName: 'plansAndDrawings',
+		url: 'plans-and-drawings',
+		validators: [new RequiredValidator('Select yes if the applicant submitted plans and drawings')]
+	},
+	plansAndDrawingsUpload: {
+		type: 'multi-file-upload',
+		title: 'Upload the plans and drawings submitted with the application',
+		question: 'Upload the plans and drawings submitted with the application',
+		fieldName: 'plansAndDrawingsUpload',
+		url: 'upload-other-relevant-matters',
+
+		validators: [
+			new RequiredFileUploadValidator(
+				'Upload the plans and drawing submitted with the application'
+			),
+			new MultifileUploadValidator(defaultFileUploadValidatorParams)
+		],
+		documentType: documentTypes.otherRelevantMattersUpload,
+		actionHiddenText: 'plans and drawings'
 	}
 });
 
