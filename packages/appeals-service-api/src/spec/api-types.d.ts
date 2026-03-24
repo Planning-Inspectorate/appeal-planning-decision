@@ -808,6 +808,9 @@ export interface AppellantSubmission {
 	appellantPreferInquiryDetails?: string;
 	anySignificantChanges?: string;
 	anySignificantChanges_otherSignificantChanges?: string;
+	anySignificantChanges_localPlanSignificantChanges?: string;
+	anySignificantChanges_nationalPolicySignificantChanges?: string;
+	anySignificantChanges_courtJudgementSignificantChanges?: string;
 	siteUseAtTimeOfApplication?: string | null;
 	whyAreYouAppealing?: string | null;
 	siteAreaSquareMetres?: number;

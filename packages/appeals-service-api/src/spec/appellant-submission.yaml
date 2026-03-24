@@ -137,6 +137,16 @@ components:
           type: string
         anySignificantChanges_otherSignificantChanges:
           type: string
+          nullable: true
+        anySignificantChanges_localPlanSignificantChanges:
+          type: string
+          nullable: true
+        anySignificantChanges_nationalPolicySignificantChanges:
+          type: string
+          nullable: true
+        anySignificantChanges_courtJudgementSignificantChanges:
+          type: string
+          nullable: true
         siteUseAtTimeOfApplication:
           type: string
           nullable: true

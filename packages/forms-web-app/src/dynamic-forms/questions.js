@@ -2343,27 +2343,69 @@ exports.getQuestionProps = (response) => ({
 		description: 'Select all that apply',
 		validators: [
 			new RequiredValidator('Select an option'),
-			new ConditionalRequiredValidator('Enter the other significant changes'),
+			new ConditionalRequiredValidator(),
 			new StringValidator({
 				maxLength: {
 					maxLength: appealFormV2.textAreaMediumLength,
 					maxLengthMessage: `The other significant changes must be ${appealFormV2.textAreaMediumLength} characters or less`
 				},
 				fieldName: getConditionalFieldName('anySignificantChanges', 'otherSignificantChanges')
+			}),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textAreaMediumLength,
+					maxLengthMessage: `The local plan changes must be ${appealFormV2.textAreaMediumLength} characters or less`
+				},
+				fieldName: getConditionalFieldName('anySignificantChanges', 'localPlanSignificantChanges')
+			}),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textAreaMediumLength,
+					maxLengthMessage: `The national policy changes must be ${appealFormV2.textAreaMediumLength} characters or less`
+				},
+				fieldName: getConditionalFieldName(
+					'anySignificantChanges',
+					'nationalPolicySignificantChanges'
+				)
+			}),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textAreaMediumLength,
+					maxLengthMessage: `The court judgement must be ${appealFormV2.textAreaMediumLength} characters or less`
+				},
+				fieldName: getConditionalFieldName(
+					'anySignificantChanges',
+					'courtJudgementSignificantChanges'
+				)
 			})
 		],
 		options: [
 			{
 				text: 'Adopted a new local plan',
-				value: fieldValues.significantChanges.LOCAL_PLAN
+				value: fieldValues.significantChanges.LOCAL_PLAN,
+				conditional: {
+					question: 'Enter the local plan changes',
+					fieldName: 'localPlanSignificantChanges',
+					type: 'textarea'
+				}
 			},
 			{
 				text: 'National policy changes',
-				value: fieldValues.significantChanges.NATIONAL_POLICY
+				value: fieldValues.significantChanges.NATIONAL_POLICY,
+				conditional: {
+					question: 'Enter the national policy changes',
+					fieldName: 'nationalPolicySignificantChanges',
+					type: 'textarea'
+				}
 			},
 			{
 				text: 'Court judgment',
-				value: fieldValues.significantChanges.COURT_JUDGMENT
+				value: fieldValues.significantChanges.COURT_JUDGMENT,
+				conditional: {
+					question: 'Enter the court judgment',
+					fieldName: 'courtJudgementSignificantChanges',
+					type: 'textarea'
+				}
 			},
 			{
 				text: 'Other',
