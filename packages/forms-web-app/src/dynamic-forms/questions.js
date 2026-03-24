@@ -1509,6 +1509,43 @@ exports.getQuestionProps = (response) => ({
 			}
 		]
 	},
+	healthAndSafetyExpedited: {
+		type: 'radio',
+		title: 'Are there any health and safety issues on the appeal site?',
+		question: 'Health and safety issues',
+		html: 'resources/health-and-safety-expedited/content.html',
+		legend: 'Are there any health and safety issues on the appeal site?',
+		fieldName: 'appellantSiteSafety',
+		url: 'health-safety-issues',
+		validators: [
+			new RequiredValidator(
+				'Select yes if there are any health and safety issues on the appeal site'
+			),
+			new ConditionalRequiredValidator('Enter the health and safety issues'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Health and safety issues must be ${appealFormV2.textInputMaxLength} characters or less`
+				},
+				fieldName: getConditionalFieldName('appellantSiteSafety', 'appellantSiteSafetyDetails')
+			})
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Tell us about the health and safety issues',
+					fieldName: 'appellantSiteSafetyDetails',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		]
+	},
 	uploadOriginalApplicationForm: {
 		type: 'multi-file-upload',
 		title: 'Application form',
