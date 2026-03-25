@@ -1,5 +1,6 @@
 const { getQuestions } = require('../questions');
 const { Section } = require('@pins/dynamic-forms/src/section');
+const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 const {
 	questionHasAnswer,
 	questionsHaveAnswers,
@@ -87,6 +88,9 @@ const makeSections = (response) => {
 			.addQuestion(questions.enterApplicationReference)
 			.addQuestion(questions.planningApplicationDate)
 			.addQuestion(questions.majorMinorDevelopment)
+			.withVariables({
+				[QUESTION_VARIABLES.MAJOR_MINOR_CONTENT]: 'resources/major-minor-development/content.html'
+			})
 			.addQuestion(questions.developmentType)
 			.addQuestion(questions.enterDevelopmentDescription)
 			.addQuestion(questions.updateDevelopmentDescription)

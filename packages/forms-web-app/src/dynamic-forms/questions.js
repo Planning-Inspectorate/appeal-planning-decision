@@ -2945,10 +2945,11 @@ exports.getQuestionProps = (response) => ({
 		legend: 'Development class',
 		fieldName: 'majorMinorDevelopment',
 		url: 'major-minor-development',
-		html: 'resources/major-minor-development/content.html',
+		html: QUESTION_VARIABLES.MAJOR_MINOR_CONTENT,
 		validators: [
 			new RequiredValidator('Select if your application was for a major or minor development')
 		],
+		variables: [QUESTION_VARIABLES.MAJOR_MINOR_CONTENT],
 		options: [
 			{
 				text: 'Major development',

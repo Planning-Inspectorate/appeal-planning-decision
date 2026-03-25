@@ -156,7 +156,9 @@ const appealIds = {
 	appeal15: '5b769d3f-466c-427a-9d58-d9823239ee9b',
 	appeal16: 'e2e772d4-e688-465f-802c-59a69e43a9ea',
 	appealPart1: '756d6bfb-dde8-4532-a041-86c226a23a17',
-	appealR6Test: '756d6bfb-dde8-4532-a041-86c226a23c17'
+	appealR6Test: '756d6bfb-dde8-4532-a041-86c226a23c17',
+	appealExpeditedTrue: '756d6bfb-dde8-4532-a041-86c226a23a18',
+	appealExpeditedFalse: '756d6bfb-dde8-4532-a041-86c226a23a19'
 };
 
 const caseReferences = {
@@ -175,14 +177,18 @@ const caseReferences = {
 	caseReference15: '2221010',
 	caseReference16: '2231010',
 	caseReferencePart1: '1010117',
-	caseReferenceR6Test: '4000017'
+	caseReferenceR6Test: '4000017',
+	caseReferenceExpeditedTrue: '1010118',
+	caseReferenceExpeditedFalse: '1010119'
 };
 
 const appellantSubmissionIds = {
 	// v2 draft submissions ids
 	appellantSubmissionOne: 'a99c8871-2a4a-4e9c-85b3-498e39d5fafb',
 	appellantSubmissionTwo: '13da68dd-6c0c-591f-a183-3fadbbb30c37',
-	appellantSubmissionThree: '99e2c1bc-5e45-479b-8c9c-c4b41f6bcdb5'
+	appellantSubmissionThree: '99e2c1bc-5e45-479b-8c9c-c4b41f6bcdb5',
+	appellantSubmissionExpeditedTrue: 'eb387052-6377-43ef-b387-052637738f61',
+	appellantSubmissionExpeditedFalse: 'eb387052-6377-43ef-b387-052637738f62'
 };
 
 const appealSubmissionDraft = {
@@ -249,6 +255,8 @@ const appeals = [
 		legacyAppealSubmissionId: appealSubmissionDraft.idTwo,
 		legacyAppealSubmissionState: 'DRAFT'
 	},
+	{ id: appealIds.appealExpeditedTrue },
+	{ id: appealIds.appealExpeditedFalse },
 	...lpaAppeals
 ];
 
@@ -741,6 +749,16 @@ const linkedLpaR6Appeals = lpaAppeals.map((appeal) => ({
 }));
 
 const appealToUsers = [
+	{
+		appealId: appealIds.appealExpeditedTrue,
+		userId: appellants.appellantTwo.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
+	{
+		appealId: appealIds.appealExpeditedFalse,
+		userId: appellants.appellantTwo.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
 	{
 		appealId: appealIds.appealOne,
 		userId: appellants.appellantOne.id,
@@ -1440,6 +1458,30 @@ const appellantSubmissions = [
 		Appeal: {
 			connect: { id: appealIds.appealTen }
 		}
+	},
+	{
+		id: appellantSubmissionIds.appellantSubmissionExpeditedTrue,
+		LPACode: TEST_LPA_CODES.Q9999,
+		appealTypeCode: 'S78',
+		typeOfPlanningApplication: 'full-appeal',
+		applicationDecisionDate: new Date('2026-04-01'),
+		applicationDecision: 'refused',
+		Appeal: {
+			connect: { id: appealIds.appealExpeditedTrue }
+		},
+		submitted: false
+	},
+	{
+		id: appellantSubmissionIds.appellantSubmissionExpeditedFalse,
+		LPACode: TEST_LPA_CODES.Q9999,
+		appealTypeCode: 'S78',
+		typeOfPlanningApplication: 'full-appeal',
+		applicationDecisionDate: new Date('2026-03-31'),
+		applicationDecision: 'refused',
+		Appeal: {
+			connect: { id: appealIds.appealExpeditedFalse }
+		},
+		submitted: false
 	}
 ];
 
@@ -1455,6 +1497,26 @@ const submissionAddresses = [
 		fieldName: 'siteAddress',
 		AppellantSubmission: {
 			connect: { id: appellantSubmissionIds.appellantSubmissionThree }
+		}
+	},
+	{
+		id: 'eb387052-6377-43ef-b387-052637738f63',
+		addressLine1: 'Expedited True Street',
+		townCity: 'Bristol',
+		postcode: 'BS1 6PN',
+		fieldName: 'siteAddress',
+		AppellantSubmission: {
+			connect: { id: appellantSubmissionIds.appellantSubmissionExpeditedTrue }
+		}
+	},
+	{
+		id: 'eb387052-6377-43ef-b387-052637738f64',
+		addressLine1: 'Expedited False Road',
+		townCity: 'Bristol',
+		postcode: 'BS1 6PN',
+		fieldName: 'siteAddress',
+		AppellantSubmission: {
+			connect: { id: appellantSubmissionIds.appellantSubmissionExpeditedFalse }
 		}
 	}
 ];
