@@ -22,6 +22,7 @@ const {
 const {
 	shouldDisplayExpeditedPart1Questions
 } = require('../../lib/should-display-expedited-part1-questions');
+const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-variables');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -108,6 +109,11 @@ const makeSections = (response) => {
 			.addQuestion(questions.enterApplicationReference)
 			.addQuestion(questions.planningApplicationDate)
 			.addQuestion(questions.majorMinorDevelopment)
+			.withVariables({
+				[QUESTION_VARIABLES.MAJOR_MINOR_CONTENT]: shouldDisplayExpeditedPart1Questions(response)
+					? 'resources/major-minor-development/part-1-content.html'
+					: 'resources/major-minor-development/content.html'
+			})
 			.addQuestion(questions.developmentType)
 			.addQuestion(questions.enterDevelopmentDescription)
 			.addQuestion(questions.updateDevelopmentDescription)
