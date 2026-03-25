@@ -1,39 +1,44 @@
 /* eslint-disable cypress/unsafe-to-chain-command */
-// @ts-nocheck
-/// <reference types="cypress"/>
-
 import { BasePage } from "../../../../page-objects/base-page";
 import { Statement } from "../../pages/appellant-aapd/statement";
+
+const rowNumberOfAppealStatement = 0;
+
+export const selectRowAppealStatementCounter = (context, prepareAppealData, appealType) => {
+	const basePage = new BasePage();
+	let rowCounter = 0;
+	let linkFound = false;
+	return cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
+		if (linkFound) return false;
+		if ($row.find("th").length > 0) {
+			return;
+		}
+		return Cypress.Promise.resolve().then(() => {
+			const $tds = $row.find("td");
+			const todoText = $tds.eq(4).text().trim();
+			const appealTypeText = $tds.eq(2).text().trim();			
+			if (appealTypeText === appealType && todoText.includes(prepareAppealData?.todoStatement)) {
+				if (rowCounter === rowNumberOfAppealStatement) {
+					const $link = $tds.eq(4).find("a");
+						$link[0].scrollIntoView();
+						$link[0].click();
+						linkFound = true;
+						return false;
+				}
+				rowCounter++;
+			}
+		});
+	});
+};
 
 export const statement = (context, prepareAppealData, appealType) => {
 	const basePage = new BasePage();
 	const statement = new Statement();
-	let appealId;
-	let counter = 0;
-	cy.get(basePage?._selectors.trgovukTableRow).each(($row) => {
-		const rowtext = $row.text();
-		if (rowtext.includes(appealType) && rowtext.includes(prepareAppealData?.todoStatement)) {
-			if (counter === 3) {
-				cy.wrap($row).within(() => {
-					cy.get(basePage?._selectors.trgovukTableCell).contains(appealType).should('be.visible');
-					cy.get('a').each(($link) => {
-						if ($link.attr('href')?.includes(prepareAppealData?.appealStatementLink)) {
-							const parts = $link.attr('href')?.split('/');
-							appealId = parts[parts.length - 2];
-							cy.wrap($link).scrollIntoView().should('be.visible').click({ force: true });
-							return false;
-						}
-					});
-				});
-			}
-			counter++;
-		}
-	}).then(() => {
-		cy.url().should('include', `/appeals/appeal-statement/${appealId}/appeal-statement`);
+	selectRowAppealStatementCounter(context, prepareAppealData, appealType).then(() => {
+		cy.advanceToNextPage();
 		statement.addStatement(context);
 		statement.haveAdditionalDocumentforStatement(context);
+		cy.get(".govuk-button").contains("Submit appeal statement").click();
+		cy.get(basePage?._selectors.govukPanelTitle).contains("Appeal statement submitted");
 	});
-	// commented for test during coding
-	cy.get('.govuk-button').contains('Submit appeal statement').click();
-	cy.get(basePage?._selectors.govukPanelTitle).contains('Appeal statement submitted');
 };

@@ -5,7 +5,7 @@ import { users } from '../../fixtures/users.js';
 const { statement } = require('../../support/flows/sections/appellantAAPD/statement');
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-describe('Full Planning Statement Test Cases', { tags: '@S78-appellant-statement-Submission' }, () => {
+describe('Appellant Statement Test Cases', { tags: '@appellant-statement-Submission' }, () => {
         const prepareAppealSelector = new PrepareAppealSelector();
         let prepareAppealData;
         before(() => {
@@ -19,7 +19,7 @@ describe('Full Planning Statement Test Cases', { tags: '@S78-appellant-statement
                 cy.url().then((url) => {
                         if (url.includes('/appeal/email-address')) {
                                 cy.getById(prepareAppealSelector?._selectors?.emailAddress).clear();
-                                cy.getById(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress1);
+                                cy.getById(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
                                 cy.advanceToNextPage();
                                 cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
                                 cy.advanceToNextPage();
@@ -28,9 +28,9 @@ describe('Full Planning Statement Test Cases', { tags: '@S78-appellant-statement
         });
         statementTestCases.forEach((context) => {
                 it(`
-            Should validate Full appeal Statement ${context.proofsOfEvidence?.isAddWitness}
+            Should validate appeal Statement ${context.proofsOfEvidence?.isAddWitness}
              `, () => {
-                        statement(context, prepareAppealData, prepareAppealData?.FullAppealType);
+                        statement(context, prepareAppealData, context?.appealType);
                 });
         });
 });

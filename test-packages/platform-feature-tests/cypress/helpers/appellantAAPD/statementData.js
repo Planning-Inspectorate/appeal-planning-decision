@@ -10,12 +10,56 @@ const documents = {
 
 export const statementTestCases = [
     {
+        appealType:"Enforcement notice",
         additionalDocument: {
             selectAnswer: false
         },
         documents,
     },
     {
+        appealType:"Enforcement notice",
+        additionalDocument: {
+            selectAnswer: true
+        },
+        documents,
+    },
+    {
+        appealType:"Lawful development certificate",
+        additionalDocument: {
+            selectAnswer: false
+        },
+        documents,
+    },
+    {
+        appealType:"Lawful development certificate",
+        additionalDocument: {
+            selectAnswer: true
+        },
+        documents,
+    },
+    {
+        appealType:"Advertisement",
+        additionalDocument: {
+            selectAnswer: false
+        },
+        documents,
+    },
+    {
+        appealType:"Advertisement",
+        additionalDocument: {
+            selectAnswer: true
+        },
+        documents,
+    },    
+    {
+        appealType:"Enforcement listed building and conservation area",
+        additionalDocument: {
+            selectAnswer: false
+        },
+        documents,
+    },
+    {
+        appealType:"Enforcement listed building and conservation area",
         additionalDocument: {
             selectAnswer: true
         },
