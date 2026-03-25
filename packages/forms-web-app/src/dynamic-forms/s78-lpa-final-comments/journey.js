@@ -35,11 +35,17 @@ const makeSections = (response) => {
 			)
 
 			.addQuestion(questions.lpaFinalCommentDetails)
-			.withCondition(() => questionHasAnswer(response, questions.lpaHowSubmitFinalComment, 'text'))
+			.withCondition(
+				() =>
+					questionHasAnswer(response, questions.lpaHowSubmitFinalComment, 'text') &&
+					questionHasAnswer(response, questions.lpaFinalComment, 'yes')
+			)
 
 			.addQuestion(questions.uploadLPAFinalCommentDocuments)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.lpaHowSubmitFinalComment, 'document')
+			.withCondition(
+				() =>
+					questionHasAnswer(response, questions.lpaHowSubmitFinalComment, 'document') &&
+					questionHasAnswer(response, questions.lpaFinalComment, 'yes')
 			)
 	];
 };
