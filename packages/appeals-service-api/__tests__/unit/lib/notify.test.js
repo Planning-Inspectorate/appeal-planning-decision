@@ -85,7 +85,8 @@ describe('appeals-service-api/src/lib/notify.js', () => {
 				const expectedVariables = {
 					...config.services.notify.templateVariables,
 					...(caseType.usesEnforcementContact && {
-						contactEmail: config.services.notify.templateVariables.contactEmailEnforcement
+						contactEmail: config.services.notify.templateVariables.contactEmailEnforcement,
+						contactEmailLPA: config.services.notify.templateVariables.contactEmailEnforcement
 					})
 				};
 
