@@ -34,13 +34,17 @@ const makeSections = (response) => {
 			)
 
 			.addQuestion(questions.appellantFinalCommentDetails)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.appellantHowSubmitFinalComment, 'text')
+			.withCondition(
+				() =>
+					questionHasAnswer(response, questions.appellantHowSubmitFinalComment, 'text') &&
+					questionHasAnswer(response, questions.appellantFinalComment, 'yes')
 			)
 
 			.addQuestion(questions.uploadAppellantFinalCommentDocuments)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.appellantHowSubmitFinalComment, 'document')
+			.withCondition(
+				() =>
+					questionHasAnswer(response, questions.appellantHowSubmitFinalComment, 'document') &&
+					questionHasAnswer(response, questions.appellantFinalComment, 'yes')
 			)
 	];
 };
