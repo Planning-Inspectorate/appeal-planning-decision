@@ -185,6 +185,12 @@ condition: (response) => {
 };
 ```
 
+- boolean `/planning-obligation-submitted/` Do you have a planning obligation to support your appeal?
+
+```js
+condition: () => shouldDisplayExpeditedPart1Questions(response);
+```
+
 - boolean `/submit-planning-obligation/` Do you plan to submit a planning obligation to support your appeal?
 - radio `/status-planning-obligation/` What is the status of your planning obligation?
 
@@ -203,7 +209,7 @@ condition: () =>
 			[questions.planningObligationStatus, 'finalised']
 		],
 		{ logicalCombinator: 'and' }
-	);
+	) || questionHasAnswer(response, questions.planningObligation, 'yes');
 ```
 
 - boolean `/separate-ownership-certificate/` Did you submit a separate ownership certificate and agricultural land declaration with your application?
