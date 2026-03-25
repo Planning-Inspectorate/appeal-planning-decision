@@ -4235,6 +4235,18 @@ exports.getQuestionProps = (response) => ({
 		],
 		documentType: documentTypes.otherRelevantMattersUpload,
 		actionHiddenText: 'plans and drawings'
+	},
+	planningObligation: {
+		type: 'boolean',
+		title: 'Do you have a planning obligation to support your appeal?',
+		question: 'Do you have a planning obligation to support your appeal?',
+		fieldName: 'planningObligationSubmitted',
+		url: 'planning-obligation-submitted',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you plan to submit a planning obligation to support your appeal'
+			)
+		]
 	}
 });
 

@@ -837,6 +837,7 @@ model AppellantSubmission {
   otherNewDocuments                  Boolean?
   designAccessStatement              Boolean?
   planningObligation                 Boolean?
+  planningObligationSubmitted        Boolean?
   tenantAgriculturalHolding          Boolean?
   section3aGrant                     Boolean?
   highwayLand                        Boolean?

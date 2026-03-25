@@ -794,6 +794,7 @@ export interface AppellantSubmission {
 	otherNewDocuments?: boolean;
 	designAccessStatement?: boolean;
 	planningObligation?: boolean;
+	planningObligationSubmitted?: boolean;
 	appellantSiteSafety?: string;
 	appellantSiteSafety_appellantSiteSafetyDetails?: string | null;
 	appellantSiteAccess?: string;
