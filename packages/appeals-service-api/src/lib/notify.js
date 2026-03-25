@@ -1256,7 +1256,7 @@ const _formatAddress = (addressJson) => {
  * @param {object} options
  * @param {boolean} [options.varyContactByEnforcement]
  * @param {CaseType['processCode']} [options.appealTypeCode]
- * @returns {{ contactEmail: string, contactEmailEnforcement: string, contactForm: string, feedbackUrl: string}}
+ * @returns {{ contactEmail: string, contactEmailEnforcement: string, contactForm: string, feedbackUrl: string, contactEmailLPA: string,}}
  */
 const getSharedNotifyVariables = ({
 	varyContactByEnforcement = false,
@@ -1270,7 +1270,10 @@ const getSharedNotifyVariables = ({
 		...config.services.notify.templateVariables,
 		contactEmail: usesEnforcementContact
 			? config.services.notify.templateVariables.contactEmailEnforcement
-			: config.services.notify.templateVariables.contactEmail
+			: config.services.notify.templateVariables.contactEmail,
+		contactEmailLPA: usesEnforcementContact
+			? config.services.notify.templateVariables.contactEmailEnforcement
+			: config.services.notify.templateVariables.contactEmailLPA
 	};
 };
 
