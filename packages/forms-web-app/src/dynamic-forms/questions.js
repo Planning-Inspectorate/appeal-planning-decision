@@ -274,9 +274,9 @@ exports.getQuestionProps = (response) => ({
 	},
 	whoWasNotified: {
 		type: 'multi-file-upload',
-		title: 'Who was notified',
+		title: "List of neighbours' addresses that you notified about the application",
 		url: 'upload-who-you-notified',
-		question: 'Who did you notify about this application?',
+		question: "Upload the list of neighbours' addresses that you notified about the application",
 		fieldName: 'uploadWhoNotified',
 		validators: [
 			new RequiredFileUploadValidator('Select your document that lists who you notified'),
