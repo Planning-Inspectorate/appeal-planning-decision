@@ -15,6 +15,14 @@ describe('formatBeforeYouStartSection', () => {
 		applicationDecisionDate: '2023-01-01'
 	};
 
+	const mockEnforcementAppellantSubmission = {
+		LPACode: '123',
+		appealTypeCode: CASE_TYPES.ENFORCEMENT.processCode,
+		enforcementIssueDate: '2023-01-01',
+		enforcementEffectiveDate: '2023-01-08',
+		enforcementReferenceNumber: 'testEnfRef'
+	};
+
 	const mockLPA = { name: 'Test LPA' };
 
 	beforeEach(() => {
@@ -88,9 +96,36 @@ describe('formatBeforeYouStartSection', () => {
 		['Advertisement', 'ADVERTS'],
 		['Commercial advertisement', 'CAS_ADVERTS'],
 		['Commercial planning (CAS)', 'CAS_PLANNING']
-	])('formats section correctly for appealType', async (appealType, appealTypeCode) => {
-		mockAppellantSubmission.appealTypeCode = appealTypeCode;
-		const result = await formatBeforeYouStartSection(mockAppellantSubmission);
+	])(
+		'formats section correctly for a non-enforcement appealType',
+		async (appealType, appealTypeCode) => {
+			mockAppellantSubmission.appealTypeCode = appealTypeCode;
+			const result = await formatBeforeYouStartSection(mockAppellantSubmission);
+
+			expect(result).toEqual({
+				heading: 'Before you start',
+				list: {
+					rows: [
+						{
+							key: { text: 'Local planning authority', classes: 'govuk-!-width-one-half' },
+							value: { html: 'Test LPA' }
+						},
+						{
+							key: { text: 'Appeal type', classes: 'govuk-!-width-one-half' },
+							value: { html: appealType }
+						},
+						{
+							key: { text: 'Decision date', classes: 'govuk-!-width-one-half' },
+							value: { html: '1 January 2023' }
+						}
+					]
+				}
+			});
+		}
+	);
+
+	it('formats section correctly for an enforcement notice appealType', async () => {
+		const result = await formatBeforeYouStartSection(mockEnforcementAppellantSubmission);
 
 		expect(result).toEqual({
 			heading: 'Before you start',
@@ -102,11 +137,151 @@ describe('formatBeforeYouStartSection', () => {
 					},
 					{
 						key: { text: 'Appeal type', classes: 'govuk-!-width-one-half' },
-						value: { html: appealType }
+						value: { html: CASE_TYPES.ENFORCEMENT.type }
 					},
 					{
-						key: { text: 'Decision date', classes: 'govuk-!-width-one-half' },
+						key: {
+							text: 'Is your enforcement notice about a listed building?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: 'No' }
+					},
+					{
+						key: {
+							text: 'What is the issue date on your enforcement notice?',
+							classes: 'govuk-!-width-one-half'
+						},
 						value: { html: '1 January 2023' }
+					},
+					{
+						key: {
+							text: 'What is the effective date on your enforcement notice?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: '8 January 2023' }
+					},
+					{
+						key: {
+							text: 'What is the reference number on the enforcement notice?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: 'testEnfRef' }
+					}
+				]
+			}
+		});
+	});
+
+	it('formats section correctly for an enforcement notice appealType with prior contact of PINS', async () => {
+		const testSubmission = structuredClone(mockEnforcementAppellantSubmission);
+		testSubmission.hasContactedPlanningInspectorate = true;
+		testSubmission.contactPlanningInspectorateDate = '2023-01-01';
+
+		const result = await formatBeforeYouStartSection(testSubmission);
+
+		expect(result).toEqual({
+			heading: 'Before you start',
+			list: {
+				rows: [
+					{
+						key: { text: 'Local planning authority', classes: 'govuk-!-width-one-half' },
+						value: { html: 'Test LPA' }
+					},
+					{
+						key: { text: 'Appeal type', classes: 'govuk-!-width-one-half' },
+						value: { html: CASE_TYPES.ENFORCEMENT.type }
+					},
+					{
+						key: {
+							text: 'Is your enforcement notice about a listed building?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: 'No' }
+					},
+					{
+						key: {
+							text: 'What is the issue date on your enforcement notice?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: '1 January 2023' }
+					},
+					{
+						key: {
+							text: 'What is the effective date on your enforcement notice?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: '8 January 2023' }
+					},
+					{
+						key: {
+							text: 'Did you contact the Planning Inspectorate to tell them you will appeal the enforcement notice?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: 'Yes' }
+					},
+					{
+						key: {
+							text: 'When did you contact the Planning Inspectorate?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: '1 January 2023' }
+					},
+					{
+						key: {
+							text: 'What is the reference number on the enforcement notice?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: 'testEnfRef' }
+					}
+				]
+			}
+		});
+	});
+
+	it('formats section correctly for an ELB appealType', async () => {
+		const testSubmission = structuredClone(mockEnforcementAppellantSubmission);
+		testSubmission.appealTypeCode = CASE_TYPES.ENFORCEMENT_LISTED.processCode;
+		const result = await formatBeforeYouStartSection(testSubmission);
+
+		expect(result).toEqual({
+			heading: 'Before you start',
+			list: {
+				rows: [
+					{
+						key: { text: 'Local planning authority', classes: 'govuk-!-width-one-half' },
+						value: { html: 'Test LPA' }
+					},
+					{
+						key: { text: 'Appeal type', classes: 'govuk-!-width-one-half' },
+						value: { html: CASE_TYPES.ENFORCEMENT_LISTED.type }
+					},
+					{
+						key: {
+							text: 'Is your enforcement notice about a listed building?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: 'Yes' }
+					},
+					{
+						key: {
+							text: 'What is the issue date on your enforcement notice?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: '1 January 2023' }
+					},
+					{
+						key: {
+							text: 'What is the effective date on your enforcement notice?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: '8 January 2023' }
+					},
+					{
+						key: {
+							text: 'What is the reference number on the enforcement notice?',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: { html: 'testEnfRef' }
 					}
 				]
 			}
