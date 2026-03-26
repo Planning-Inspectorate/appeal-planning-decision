@@ -153,7 +153,7 @@ describe.each([
 
 		expect(
 			journey.sections[NOTIFYING_SECTION_INDEX].questions[NOTIFYING_APPLICATION_INDEX].question
-		).toBe('Who did you notify about this application?');
+		).toBe("Upload the list of neighbours' addresses that you notified about the application");
 		expect(journey.sections[NOTIFYING_SECTION_INDEX].questions[HOW_NOTIFIED_INDEX].question).toBe(
 			'How did you notify relevant parties about the planning application?'
 		);

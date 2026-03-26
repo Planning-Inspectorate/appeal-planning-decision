@@ -23537,7 +23537,7 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Notifying relevant parties</span>
-            <h1 class="govuk-heading-l">Who did you notify about this application?</h1>
+            <h1 class="govuk-heading-l">Upload the list of neighbours&#39; addresses that you notified about the application</h1>
             <p class="govuk-body">Provide us with a document that lists:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li>the names and addresses of any neighbours that you contacted</li>
@@ -23716,10 +23716,11 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> List of neighbours&#39; addresses that you notified about the application</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Upload the list of neighbours&#39; addresses that you notified about the application</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Type of notification</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
@@ -25966,7 +25967,7 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Notifying relevant parties</span>
-            <h1 class="govuk-heading-l">Who did you notify about this application?</h1>
+            <h1 class="govuk-heading-l">Upload the list of neighbours&#39; addresses that you notified about the application</h1>
             <p class="govuk-body">Provide us with a document that lists:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li>the names and addresses of any neighbours that you contacted</li>
@@ -26139,10 +26140,11 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement renders listin
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> List of neighbours&#39; addresses that you notified about the application</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Upload the list of neighbours&#39; addresses that you notified about the application</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Type of notification</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
@@ -27660,7 +27662,7 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Notifying relevant parties</span>
-            <h1 class="govuk-heading-l">Who did you notify about this application?</h1>
+            <h1 class="govuk-heading-l">Upload the list of neighbours&#39; addresses that you notified about the application</h1>
             <p class="govuk-body">Provide us with a document that lists:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li>the names and addresses of any neighbours that you contacted</li>
@@ -27805,10 +27807,11 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) renders listi
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> List of neighbours&#39; addresses that you notified about the application</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Upload the list of neighbours&#39; addresses that you notified about the application</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Type of notification</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
@@ -37320,7 +37323,7 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Notifying relevant parties</span>
-            <h1 class="govuk-heading-l">Who did you notify about this application?</h1>
+            <h1 class="govuk-heading-l">Upload the list of neighbours&#39; addresses that you notified about the application</h1>
             <p class="govuk-body">Provide us with a document that lists:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li>the names and addresses of any neighbours that you contacted</li>
@@ -37465,10 +37468,11 @@ exports[`Dynamic forms journey tests lpa Householder renders listing page 1`] = 
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">2. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> List of neighbours&#39; addresses that you notified about the application</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Upload the list of neighbours&#39; addresses that you notified about the application</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Type of notification</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
@@ -42288,7 +42292,7 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the upl
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Notifying relevant parties</span>
-            <h1 class="govuk-heading-l">Who did you notify about this application?</h1>
+            <h1 class="govuk-heading-l">Upload the list of neighbours&#39; addresses that you notified about the application</h1>
             <p class="govuk-body">Provide us with a document that lists:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li>the names and addresses of any neighbours that you contacted</li>
@@ -45651,7 +45655,7 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l">Notifying relevant parties</span>
-            <h1 class="govuk-heading-l">Who did you notify about this application?</h1>
+            <h1 class="govuk-heading-l">Upload the list of neighbours&#39; addresses that you notified about the application</h1>
             <p class="govuk-body">Provide us with a document that lists:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li>the names and addresses of any neighbours that you contacted</li>
@@ -45870,10 +45874,11 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> List of neighbours&#39; addresses that you notified about the application</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Upload the list of neighbours&#39; addresses that you notified about the application</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Type of notification</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>
@@ -46173,10 +46178,11 @@ exports[`Dynamic forms journey tests lpa Planning renders listing page 1`] = `
                         <h2 class="govuk-heading-m"><span class="app-task-list__section-number">3. </span> Notifying relevant parties<strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed"> Not started</strong></h2>
                     </div>
                     <dl class="govuk-summary-list">
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Who was notified</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Who did you notify about this application?</span></a>
-                            </dd>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> List of neighbours&#39; addresses that you notified about the application</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-who-you-notified">Upload<span class="govuk-visually-hidden"> Upload the list of neighbours&#39; addresses that you notified about the application</span></a>
+                                </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Type of notification</dt>
                             <dd class="govuk-summary-list__value">Not started</dd>

@@ -2,9 +2,9 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 
-import { BasePage } from '../../page-objects/base-page';
 import { users } from '../../fixtures/users.js';
 import { fullAppealQuestionnaireTestCases } from '../../helpers/lpaManageAppeals/fullAppealQuestionnaireData';
+import { BasePage } from '../../page-objects/base-page';
 
 const {
 	YourAppealsSelector
@@ -637,13 +637,13 @@ describe('Full appleal questionnaire validation', { tags: '@S78-LPAQ-Validation-
 
 
 	// 3. Notifying relevant parties of the application section validations
-	it(`Validate Full appeal questionnaire Who was notified`, () => {
+	it(`Validate Full appeal questionnaire "List of neighbours' addresses that you notified about the application"`, () => {
 		cy.get(basePage?._selectors.govukSummaryListKey)
-			.contains('Who was notified')
+			.contains("List of neighbours' addresses that you notified about the application")
 			.closest(basePage?._selectors.govukSummaryListRow)
 			.find(basePage?._selectors.agovukLink)
 			.then(($link) => {
-				const linkText = $link.text().split('Who did you notify about this application?')[0].trim();
+				const linkText = $link.text().split("List of neighbours' addresses that you notified about the application")[0].trim();
 
 				if (linkText === 'Upload') {
 					cy.wrap($link).should('be.visible').click({ force: true });
@@ -654,7 +654,7 @@ describe('Full appleal questionnaire validation', { tags: '@S78-LPAQ-Validation-
 						.and('contain.text', 'Select your document that lists who you notified');
 				} else if (linkText === 'Change') {
 					cy.get(basePage?._selectors.govukSummaryListKey)
-						.contains('Who was notified')
+						.contains("List of neighbours' addresses that you notified about the application")
 						.closest(basePage?._selectors.govukSummaryListRow)
 						.find(basePage?._selectors.govukSummaryListValue)
 						.should('not.have.text', 'Not started')

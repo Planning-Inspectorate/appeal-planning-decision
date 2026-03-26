@@ -38,7 +38,7 @@ condition: () => questionHasAnswer(response, questions.conservationArea, 'yes');
 
 ## Notifying relevant parties
 
-- multi-file-upload `/upload-who-you-notified/` Who did you notify about this application?
+- multi-file-upload `/upload-who-you-notified/` Upload the list of neighbours' addresses that you notified about the application
 - checkbox `/notification-type/` How did you notify relevant parties about the planning application?
 - multi-file-upload `/upload-site-notice/` Upload the site notice
 

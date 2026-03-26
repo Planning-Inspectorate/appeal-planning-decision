@@ -7,7 +7,10 @@ describe('notifiedDetailsRows', () => {
 		const caseData = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'notifiedParties');
 
 		const expectedRows = [
-			{ title: 'Who was notified', value: 'name.pdf - awaiting review' },
+			{
+				title: "List of neighbours' addresses that you notified about the application",
+				value: 'name.pdf - awaiting review'
+			},
 			{ title: 'Type of Notification', value: '' },
 			{ title: 'Site notice', value: 'name.pdf - awaiting review' },
 			{
@@ -35,7 +38,10 @@ describe('notifiedDetailsRows', () => {
 
 	it('should not display if no fields/files exist', () => {
 		const expectedRows = [
-			{ title: 'Who was notified', value: 'No' },
+			{
+				title: "List of neighbours' addresses that you notified about the application",
+				value: 'No'
+			},
 			{ title: 'Type of Notification', value: '' },
 			{ title: 'Site notice', value: 'No' },
 			{ title: 'Letter sent to neighbours', value: 'No' },

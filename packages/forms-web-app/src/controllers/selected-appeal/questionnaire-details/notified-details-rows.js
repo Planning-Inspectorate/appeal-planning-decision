@@ -14,7 +14,7 @@ exports.notifiedRows = (caseData) => {
 	const documents = caseData.Documents || [];
 	return [
 		{
-			keyText: 'Who was notified',
+			keyText: "List of neighbours' addresses that you notified about the application",
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED),
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED),
 			isEscaped: true
