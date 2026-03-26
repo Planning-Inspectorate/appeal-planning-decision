@@ -241,17 +241,17 @@ describe('format-appeal-details', () => {
 			{
 				input: { applicationMadeUnderActSection: 'existing-development' },
 				field: 'applicationMadeUnderActSection',
-				expected: 'Existing development'
+				expected: 'Existing development (section 191)'
 			},
 			{
 				input: { applicationMadeUnderActSection: 'proposed-changes-to-a-listed-building' },
 				field: 'applicationMadeUnderActSection',
-				expected: 'Proposed changes to a listed building'
+				expected: 'Proposed changes to a listed building (section 192)'
 			},
 			{
 				input: { applicationMadeUnderActSection: 'proposed-use-of-a-development' },
 				field: 'applicationMadeUnderActSection',
-				expected: 'Proposed use of a development'
+				expected: 'Proposed use of a development (section 26H)'
 			},
 			{
 				input: { applicationMadeUnderActSection: 'unknown' },
@@ -261,17 +261,17 @@ describe('format-appeal-details', () => {
 			{
 				input: { appealUnderActSection: 'existing-development' },
 				field: 'appealUnderActSection',
-				expected: 'Existing development'
+				expected: 'Existing development (section 191)'
 			},
 			{
 				input: { appealUnderActSection: 'proposed-changes-to-a-listed-building' },
 				field: 'appealUnderActSection',
-				expected: 'Proposed changes to a listed building'
+				expected: 'Proposed changes to a listed building (section 192)'
 			},
 			{
 				input: { appealUnderActSection: 'proposed-use-of-a-development' },
 				field: 'appealUnderActSection',
-				expected: 'Proposed use of a development'
+				expected: 'Proposed use of a development (section 26H)'
 			},
 			{
 				input: { appealUnderActSection: 'unknown' },

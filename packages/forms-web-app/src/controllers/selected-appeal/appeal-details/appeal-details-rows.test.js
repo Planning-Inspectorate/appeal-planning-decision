@@ -659,7 +659,9 @@ describe('appeal-details-rows', () => {
 			expect(rows[applicationReferenceIndex].keyText).toEqual(
 				'Was your application for the existing or proposed use of a development?'
 			);
-			expect(rows[applicationReferenceIndex].valueText).toEqual('Existing development');
+			expect(rows[applicationReferenceIndex].valueText).toEqual(
+				'Existing development (section 191)'
+			);
 		});
 
 		it('should not display the applicationMadeUnderActSection if not set', () => {
