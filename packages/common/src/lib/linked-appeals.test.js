@@ -21,7 +21,7 @@ describe('lib/linked-appeals', () => {
 	describe('mapLinkedCaseStatusLabel', () => {
 		test.each([
 			[APPEAL_LINKED_CASE_STATUS.LEAD, 'Lead'],
-			[APPEAL_LINKED_CASE_STATUS.CHILD, 'Child'],
+			[APPEAL_LINKED_CASE_STATUS.CHILD, 'Linked'],
 			[undefined, null],
 			['InvalidLinkedStatus', undefined]
 		])('correctly maps a %s linked case status to a %s display label', (linkedStatus, label) => {
@@ -50,7 +50,7 @@ describe('lib/linked-appeals', () => {
 				{
 					linkedCaseStatus: APPEAL_LINKED_CASE_STATUS.CHILD,
 					leadCaseReference: testLeadRef,
-					linkedCaseStatusLabel: 'Child'
+					linkedCaseStatusLabel: 'Linked'
 				}
 			],
 			[
