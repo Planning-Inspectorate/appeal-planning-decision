@@ -21,6 +21,13 @@ exports.formatBeforeYouStartSection = async (appellantSubmission) => {
 		lpa = await getLPAById(LPACode);
 	}
 
+	if (
+		appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
+		appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode
+	) {
+		return formatEnforcementBeforeYouStartSection(appellantSubmission, lpa);
+	}
+
 	const appealType = appealTypeCode === 'S78' ? 'Full planning' : CASE_TYPES[appealTypeCode].type;
 
 	const decisionDate = formatDateForDisplay(applicationDecisionDate, { format: 'd MMMM yyyy' });
@@ -63,11 +70,129 @@ exports.formatBeforeYouStartSection = async (appellantSubmission) => {
 
 /**
  *
+ * @param {import('appeals-service-api').Api.AppellantSubmission} appellantSubmission
+ * @param {{name: string}} lpa
+ * @returns
+ */
+
+const formatEnforcementBeforeYouStartSection = (appellantSubmission, lpa) => {
+	const {
+		appealTypeCode,
+		enforcementIssueDate,
+		enforcementEffectiveDate,
+		hasContactedPlanningInspectorate,
+		contactPlanningInspectorateDate,
+		enforcementReferenceNumber
+	} = appellantSubmission;
+
+	const appealType = CASE_TYPES[appealTypeCode].type;
+
+	const isEnforcementListed = appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode;
+
+	const issueDate = formatDateForDisplay(enforcementIssueDate, { format: 'd MMMM yyyy' });
+
+	const effectiveDate = formatDateForDisplay(enforcementEffectiveDate, { format: 'd MMMM yyyy' });
+
+	const contactDate = formatDateForDisplay(contactPlanningInspectorateDate, {
+		format: 'd MMMM yyyy'
+	});
+
+	const rows = [
+		{
+			key: {
+				text: 'Local planning authority',
+				classes: 'govuk-!-width-one-half'
+			},
+			value: {
+				html: lpa.name
+			}
+		},
+		{
+			key: {
+				text: 'Appeal type',
+				classes: 'govuk-!-width-one-half'
+			},
+			value: {
+				html: appealType
+			}
+		},
+		{
+			key: {
+				text: 'Is your enforcement notice about a listed building?',
+				classes: 'govuk-!-width-one-half'
+			},
+			value: {
+				html: isEnforcementListed ? 'Yes' : 'No'
+			}
+		},
+		{
+			key: {
+				text: 'What is the issue date on your enforcement notice?',
+				classes: 'govuk-!-width-one-half'
+			},
+			value: {
+				html: issueDate
+			}
+		},
+		{
+			key: {
+				text: 'What is the effective date on your enforcement notice?',
+				classes: 'govuk-!-width-one-half'
+			},
+			value: {
+				html: effectiveDate
+			}
+		}
+	];
+
+	if (hasContactedPlanningInspectorate) {
+		rows.push({
+			key: {
+				text: 'Did you contact the Planning Inspectorate to tell them you will appeal the enforcement notice?',
+				classes: 'govuk-!-width-one-half'
+			},
+			value: {
+				html: 'Yes'
+			}
+		});
+	}
+
+	if (contactPlanningInspectorateDate) {
+		rows.push({
+			key: {
+				text: 'When did you contact the Planning Inspectorate?',
+				classes: 'govuk-!-width-one-half'
+			},
+			value: {
+				html: contactDate
+			}
+		});
+	}
+
+	rows.push({
+		key: {
+			text: 'What is the reference number on the enforcement notice?',
+			classes: 'govuk-!-width-one-half'
+		},
+		value: {
+			html: enforcementReferenceNumber
+		}
+	});
+
+	return {
+		heading: 'Before you start',
+		list: {
+			rows
+		}
+	};
+};
+
+/**
+ *
  * @param {import('appeals-service-api').Api.AppealCaseDetailed} appeal
  * @param {import('@pins/common/src/constants').LpaUserRole|null}role
  * @returns
  */
-
 exports.formatQuestionnaireAppealInformationSection = (appeal, role) => {
 	const { appealTypeCode } = appeal;
 	const appealType = appealTypeCode === 'S78' ? 'Full planning' : CASE_TYPES[appealTypeCode].type;
