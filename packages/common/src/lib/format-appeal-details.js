@@ -279,11 +279,11 @@ exports.formatActSection = (caseData, field) => {
 
 	switch (answer) {
 		case APPEAL_APPEAL_UNDER_ACT_SECTION.EXISTING_DEVELOPMENT:
-			return 'Existing development';
+			return 'Existing development (section 191)';
 		case APPEAL_APPEAL_UNDER_ACT_SECTION.PROPOSED_CHANGES_TO_A_LISTED_BUILDING:
-			return 'Proposed changes to a listed building';
+			return 'Proposed changes to a listed building (section 192)';
 		case APPEAL_APPEAL_UNDER_ACT_SECTION.PROPOSED_USE_OF_A_DEVELOPMENT:
-			return 'Proposed use of a development';
+			return 'Proposed use of a development (section 26H)';
 		default:
 			return answer;
 	}

@@ -133,7 +133,7 @@ describe('constraintsRows', () => {
 		{ title: 'Green belt', value: 'Yes' },
 		{
 			title: 'What type of lawful development certificate is the appeal about?',
-			value: 'Existing development'
+			value: 'Existing development (section 191)'
 		},
 		{ title: 'Uploaded relevant planning permission', value: 'name.pdf - awaiting review' },
 		{ title: 'Uploaded enforcement notice', value: 'name.pdf - awaiting review' },
