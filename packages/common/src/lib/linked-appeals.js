@@ -40,7 +40,7 @@ const mapLinkedCaseStatusLabel = (status) => {
 	if (!status) return null;
 
 	const labels = {
-		[APPEAL_LINKED_CASE_STATUS.CHILD]: 'Child',
+		[APPEAL_LINKED_CASE_STATUS.CHILD]: 'Linked',
 		[APPEAL_LINKED_CASE_STATUS.LEAD]: 'Lead'
 	};
 
