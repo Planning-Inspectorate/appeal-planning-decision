@@ -2,9 +2,6 @@ const { add, sub, format: formatDate } = require('date-fns');
 const { DIVIDER } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-utils');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
-const defaultHtml = 'resources/site-address/site-address.html';
-const enforcementHtml = 'resources/enforcement/site-address.html';
-
 /**
  * @param {'past' | 'future'} tense
  * @param {number} days
@@ -67,9 +64,30 @@ exports.formatEnforcementSelectNamesOptions = (response) => {
  * @return {string}
  */
 exports.getAppealSiteHtmlByAppealType = (response) => {
+	const defaultHtml = 'resources/site-address/site-address.html';
+	const enforcementHtml = 'resources/enforcement/site-address.html';
+
 	if (!response || !response.answers) return '';
 
 	const appealTypeCode = response.answers.appealTypeCode;
 
 	return appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ? enforcementHtml : defaultHtml;
+};
+
+/**
+ * @param {import('@pins/dynamic-forms/src/journey-response').JourneyResponse | undefined} response
+ * @return {string}
+ */
+exports.getNewPlanningConditionsHtmlByAppealType = (response) => {
+	const advertsHtml = 'resources/new-planning-conditions/adverts-content.html';
+	const defaultHtml = 'resources/new-planning-conditions/content.html';
+
+	if (!response || !response.answers || !response.answers.AppealCase) return '';
+
+	const appealTypeCode = response.answers.AppealCase.appealTypeCode;
+
+	const isAdverts = appealTypeCode === CASE_TYPES.ADVERTS.processCode;
+	const isCasAdverts = appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode;
+
+	return isAdverts || isCasAdverts ? advertsHtml : defaultHtml;
 };

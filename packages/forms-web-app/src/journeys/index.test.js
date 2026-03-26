@@ -73,7 +73,10 @@ jest.mock('../dynamic-forms/questions-utils', () => ({
 			value: 'testvalue'
 		}
 	]),
-	getAppealSiteHtmlByAppealType: jest.fn(() => 'resources/site-address/site-address.html')
+	getAppealSiteHtmlByAppealType: jest.fn(() => 'resources/site-address/site-address.html'),
+	getNewPlanningConditionsHtmlByAppealType: jest.fn(
+		() => 'resources/new-planning-conditions/content.html'
+	)
 }));
 
 const request = require('supertest');

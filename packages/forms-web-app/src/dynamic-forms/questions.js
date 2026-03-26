@@ -105,7 +105,8 @@ const formatNumber = require('@pins/dynamic-forms/src/dynamic-components/utils/f
 const {
 	getExampleDate,
 	formatEnforcementSelectNamesOptions,
-	getAppealSiteHtmlByAppealType
+	getAppealSiteHtmlByAppealType,
+	getNewPlanningConditionsHtmlByAppealType
 } = require('./questions-utils');
 const { capitalize } = require('../lib/string-functions');
 const WordValidator = require('@pins/dynamic-forms/src/validator/word-validator');
@@ -640,7 +641,7 @@ exports.getQuestionProps = (response) => ({
 		description: 'Tell us about any new conditions. Do not include the standard conditions.',
 		fieldName: 'newConditions',
 		url: 'new-conditions',
-		html: 'resources/new-planning-conditions/content.html',
+		html: getNewPlanningConditionsHtmlByAppealType(response),
 		legend: 'Are there any proposed conditions?',
 		validators: [
 			new RequiredValidator('Select yes if there are any new conditions'),
