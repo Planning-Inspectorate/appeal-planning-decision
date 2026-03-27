@@ -856,16 +856,19 @@ model AppellantSubmission {
   applicationMadeUnderActSection String?
 
   // plain text
-  applicationReference                          String?
-  developmentDescriptionOriginal                String?
-  appellantLinkedCaseReference                  String?
-  contactPhoneNumber                            String?
-  appellantPreferHearingDetails                 String?
-  appellantPreferInquiryDetails                 String?
-  anySignificantChanges                         String?
-  anySignificantChanges_otherSignificantChanges String? @db.NVarChar(MAX)
-  siteUseAtTimeOfApplication                    String?
-  whyAreYouAppealing                            String?
+  applicationReference                                   String?
+  developmentDescriptionOriginal                         String?
+  appellantLinkedCaseReference                           String?
+  contactPhoneNumber                                     String?
+  appellantPreferHearingDetails                          String?
+  appellantPreferInquiryDetails                          String?
+  anySignificantChanges                                  String?
+  anySignificantChanges_otherSignificantChanges          String? @db.NVarChar(MAX)
+  anySignificantChanges_localPlanSignificantChanges      String? @db.NVarChar(MAX)
+  anySignificantChanges_nationalPolicySignificantChanges String? @db.NVarChar(MAX)
+  anySignificantChanges_courtJudgementSignificantChanges String? @db.NVarChar(MAX)
+  siteUseAtTimeOfApplication                             String?
+  whyAreYouAppealing                                     String?
 
   // number entries
   siteAreaSquareMetres            Decimal?
