@@ -49,9 +49,11 @@ const params = {
 	journeyTitle: 'Appeal a planning decision',
 	makeSections,
 	makeBaseUrl,
-	makeBannerHtmlOverride: () =>
+	makeBannerHtmlOverride: (response) =>
 		config.betaBannerText +
-		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'))
+		config.generateBetaBannerFeedbackLink(
+			config.getAppealTypeFeedbackUrl(response.answers.AppealCase.appealTypeCode)
+		)
 };
 
 module.exports = { baseUrl, ...params };
