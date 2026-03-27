@@ -963,9 +963,8 @@ exports.getAppellantProcedurePreference = (appellantSubmission) => {
 				appellantProcedurePreferenceDetails: appellantSubmission.appellantPreferInquiryDetails,
 				appellantProcedurePreferenceDuration:
 					Number(appellantSubmission.appellantPreferInquiryDuration) || null,
-				appellantProcedurePreferenceWitnessCount: Number(
-					appellantSubmission.appellantPreferInquiryWitnesses
-				)
+				appellantProcedurePreferenceWitnessCount:
+					Number(appellantSubmission.appellantPreferInquiryWitnesses) || null
 			};
 		default:
 			throw new Error('unknown appellantProcedurePreference');
