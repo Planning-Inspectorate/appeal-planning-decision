@@ -23,7 +23,8 @@ const VIEW = {
 		APPLICATION_LOOKUP_FAILED: 'before-you-start/application-not-found',
 		CONTACT_PLANNING_INSPECTORATE: 'before-you-start/contact-planning-inspectorate',
 		CONTACT_PLANNING_INSPECTORATE_DATE: 'before-you-start/contact-planning-inspectorate-date',
-		CANNOT_APPEAL_ENFORCEMENT: 'before-you-start/cannot-appeal-enforcement'
+		CANNOT_APPEAL_ENFORCEMENT: 'before-you-start/cannot-appeal-enforcement',
+		CANNOT_USE_THIS_SERVICE: 'before-you-start/cannot-use-this-service'
 	},
 
 	APPELLANT_SUBMISSION: {
