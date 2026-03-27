@@ -5,8 +5,10 @@ const { ApiClientError } = require('@pins/common/src/client/api-client-error.js'
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { FLAG } = require('@pins/common/src/feature-flags');
+const { isExpeditedPart1Eligible } = require('../../lib/is-expedited-part1-eligible');
 
 jest.mock('./utils');
+jest.mock('../../lib/is-expedited-part1-eligible');
 jest.mock('../../featureFlag', () => ({
 	isFeatureActive: jest.fn()
 }));
@@ -38,6 +40,7 @@ describe('getJourneyResponseForAppellant', () => {
 		next = jest.fn();
 		mapDBResponseToJourneyResponseFormat.mockReturnValue(convertedResponse);
 		require('../../featureFlag').isFeatureActive.mockResolvedValue(true);
+		isExpeditedPart1Eligible.mockReturnValue(false);
 	});
 
 	it('should 404 if submissionId is invalid', async () => {
@@ -110,6 +113,31 @@ describe('getJourneyResponseForAppellant', () => {
 			FLAG.EXPEDITED_APPEALS_FO_V2,
 			lpaCode
 		);
+		expect(next).toHaveBeenCalled();
+	});
+
+	it('should route to S78_PART_1_APPEAL_FORM when eligible for expedited Part 1', async () => {
+		req.appealsApiClient.getAppellantSubmission.mockResolvedValue({
+			...mockSubmission,
+			appealTypeCode: CASE_TYPES.S78.processCode
+		});
+		require('../../featureFlag').isFeatureActive.mockImplementation(async () => {
+			return true;
+		});
+		isExpeditedPart1Eligible.mockReturnValue(true);
+
+		await getJourneyResponseForAppellant(req, res, next);
+
+		const expectedType = JOURNEY_TYPES.S78_PART_1_APPEAL_FORM.id;
+
+		expect(res.locals.journeyResponse.journeyId).toBe(expectedType);
+		expect(isExpeditedPart1Eligible).toHaveBeenCalledWith({
+			typeOfPlanningApplication: convertedResponse?.answers?.typeOfPlanningApplication,
+			applicationDate: convertedResponse?.answers?.onApplicationDate,
+			eligibility: {
+				applicationDecision: convertedResponse?.answers?.applicationDecision
+			}
+		});
 		expect(next).toHaveBeenCalled();
 	});
 

@@ -6,6 +6,7 @@ const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
+const { isExpeditedPart1Eligible } = require('../../lib/is-expedited-part1-eligible');
 
 /**
  *
@@ -40,7 +41,7 @@ module.exports = async (request, response, next) => {
 	}
 
 	// lookup type by submission type code
-	const appealType = Object.values(JOURNEY_TYPES).find(
+	let appealType = Object.values(JOURNEY_TYPES).find(
 		(x) => x.type === JOURNEY_TYPE.appealForm && x.caseType === submission.appealTypeCode
 	)?.id;
 
@@ -49,13 +50,29 @@ module.exports = async (request, response, next) => {
 	}
 
 	const convertedResponse = mapDBResponseToJourneyResponseFormat(submission);
+	const expeditedAppealsEnabled = await isExpeditedAppealsFlagEnabled(submission.LPACode);
+
+	if (
+		appealType === JOURNEY_TYPES.S78_APPEAL_FORM.id &&
+		expeditedAppealsEnabled &&
+		isExpeditedPart1Eligible({
+			typeOfPlanningApplication: convertedResponse?.answers?.typeOfPlanningApplication,
+			applicationDate: convertedResponse?.answers?.onApplicationDate,
+			eligibility: {
+				applicationDecision: convertedResponse?.answers?.applicationDecision
+			}
+		})
+	) {
+		appealType = JOURNEY_TYPES.S78_PART_1_APPEAL_FORM.id;
+	}
+
 	const journeyResponse = new JourneyResponse(
 		appealType,
 		submissionId,
 		convertedResponse,
 		submission.LPACode
 	);
-	journeyResponse.expeditedAppealsEnabled = await isExpeditedAppealsFlagEnabled(submission.LPACode);
+	journeyResponse.expeditedAppealsEnabled = expeditedAppealsEnabled;
 
 	response.locals.journeyResponse = journeyResponse;
 
