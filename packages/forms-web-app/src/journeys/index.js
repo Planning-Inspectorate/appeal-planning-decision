@@ -4,6 +4,7 @@
 const hasAppealParams = require('../dynamic-forms/has-appeal-form/journey');
 const hasQuestionnaireParams = require('../dynamic-forms/has-questionnaire/journey');
 const s78AppealParams = require('../dynamic-forms/s78-appeal-form/journey');
+const s78AppealPart1Params = require('../dynamic-forms/s78-appeal-form-part-1/journey');
 const s78QuestionnaireParams = require('../dynamic-forms/s78-questionnaire/journey');
 const s78QuestionnairePart1Params = require('../dynamic-forms/s78-questionnaire-part-1/journey');
 const s78AppellantFinalCommentsParams = require('../dynamic-forms/s78-appellant-final-comments/journey');
@@ -41,6 +42,7 @@ const commonParams = {
 journeys.registerJourney({ ...commonParams, ...hasAppealParams });
 journeys.registerJourney({ ...commonParams, ...hasQuestionnaireParams });
 journeys.registerJourney({ ...commonParams, ...s78AppealParams });
+journeys.registerJourney({ ...commonParams, ...s78AppealPart1Params });
 journeys.registerJourney({ ...commonParams, ...s78QuestionnaireParams });
 journeys.registerJourney({ ...commonParams, ...s78QuestionnairePart1Params });
 journeys.registerJourney({ ...commonParams, ...s78AppellantFinalCommentsParams });

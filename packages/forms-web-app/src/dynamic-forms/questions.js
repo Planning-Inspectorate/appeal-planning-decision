@@ -1518,7 +1518,7 @@ exports.getQuestionProps = (response) => ({
 			}
 		]
 	},
-	healthAndSafetyExpedited: {
+	healthAndSafetyPart1: {
 		type: 'radio',
 		title: 'Are there any health and safety issues on the appeal site?',
 		question: 'Health and safety issues',
@@ -4241,7 +4241,7 @@ exports.getQuestionProps = (response) => ({
 		documentType: documentTypes.otherRelevantMattersUpload,
 		actionHiddenText: 'other relevant matters'
 	},
-	whyAreYouAppealing: {
+	whyAreYouAppealingPart1: {
 		type: 'text-entry',
 		title: 'Why are you appealing?',
 		question: 'Why are you appealing?',
@@ -4263,7 +4263,7 @@ exports.getQuestionProps = (response) => ({
 			})
 		]
 	},
-	plansAndDrawings: {
+	plansAndDrawingsPart1: {
 		type: 'boolean',
 		title: 'Did the applicant submit plans and drawings with the application?',
 		question: 'Did the applicant submit plans and drawings with the application?',
@@ -4271,7 +4271,7 @@ exports.getQuestionProps = (response) => ({
 		url: 'plans-and-drawings',
 		validators: [new RequiredValidator('Select yes if the applicant submitted plans and drawings')]
 	},
-	plansAndDrawingsUpload: {
+	plansAndDrawingsUploadPart1: {
 		type: 'multi-file-upload',
 		title: 'Upload the plans and drawings submitted with the application',
 		question: 'Upload the plans and drawings submitted with the application',
@@ -4287,7 +4287,7 @@ exports.getQuestionProps = (response) => ({
 		documentType: documentTypes.otherRelevantMattersUpload,
 		actionHiddenText: 'plans and drawings'
 	},
-	submitEnvironmentStatement: {
+	submitEnvironmentStatementPart1: {
 		type: 'boolean-radio',
 		title: 'Did you submit an environmental statement with the application?',
 		question: 'Did you submit an environmental statement with the application?',
@@ -4299,7 +4299,7 @@ exports.getQuestionProps = (response) => ({
 			)
 		]
 	},
-	uploadEnvironmentStatement: {
+	uploadEnvironmentStatementPart1: {
 		type: 'multi-file-upload',
 		title: 'Upload your environmental statement',
 		question: 'Upload your environmental statement',
@@ -4315,7 +4315,7 @@ exports.getQuestionProps = (response) => ({
 		documentType: documentTypes.uploadEnvironmentalStatement,
 		actionHiddenText: 'environmental statement'
 	},
-	planningObligation: {
+	planningObligationPart1: {
 		type: 'boolean',
 		title: 'Do you have a planning obligation to support your appeal?',
 		question: 'Do you have a planning obligation to support your appeal?',

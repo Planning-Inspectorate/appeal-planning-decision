@@ -616,27 +616,11 @@ exports.submitAppellantSubmission = async (req, res) => {
 	const { journey, journeyResponse } = res.locals;
 	const id = res.locals.journeyResponse.referenceId;
 
-	// todo: duplication - need a lookup that goes from journey -> baseurl
-	// should also error for non appeal form journeys
-	/** @param {string} journeyId */
+	// should error for non appeal form journeys
 	const journeyUrl = (journeyId) => {
-		if (journeyId === JOURNEY_TYPES.HAS_APPEAL_FORM.id) {
-			return CASE_TYPES.HAS.friendlyUrl;
-		} else if (journeyId === JOURNEY_TYPES.S78_APPEAL_FORM.id) {
-			return CASE_TYPES.S78.friendlyUrl;
-		} else if (journeyId === JOURNEY_TYPES.S20_APPEAL_FORM.id) {
-			return CASE_TYPES.S20.friendlyUrl;
-		} else if (journeyId === JOURNEY_TYPES.CAS_PLANNING_APPEAL_FORM.id) {
-			return CASE_TYPES.CAS_PLANNING.friendlyUrl;
-		} else if (journeyId === JOURNEY_TYPES.ADVERTS_APPEAL_FORM.id) {
-			return CASE_TYPES.ADVERTS.friendlyUrl;
-		} else if (journeyId === JOURNEY_TYPES.ENFORCEMENT_APPEAL_FORM.id) {
-			return CASE_TYPES.ENFORCEMENT.friendlyUrl;
-		} else if (journeyId === JOURNEY_TYPES.ENFORCEMENT_LISTED_APPEAL_FORM.id) {
-			return CASE_TYPES.ENFORCEMENT_LISTED.friendlyUrl;
-		} else if (journeyId === JOURNEY_TYPES.LDC_APPEAL_FORM.id) {
-			return CASE_TYPES.LDC.friendlyUrl;
-		} else return '';
+		const caseCode = getJourneyTypeById(journeyId)?.caseType;
+		const caseType = caseTypeLookup(caseCode, 'processCode');
+		return caseType?.friendlyUrl || '';
 	};
 
 	if (!journey.isComplete()) {
