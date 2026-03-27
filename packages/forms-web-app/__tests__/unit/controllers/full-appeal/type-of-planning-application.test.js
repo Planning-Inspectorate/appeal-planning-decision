@@ -120,9 +120,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				...updatedAppeal
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(
-				'/before-you-start/use-existing-service-application-type'
-			);
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/cannot-use-this-service');
 		});
 
 		it('should redirect to the shutter page if i-have-not-made-a-planning-application', async () => {
@@ -143,9 +141,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				...updatedAppeal
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(
-				'/before-you-start/use-existing-service-application-type'
-			);
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/cannot-use-this-service');
 		});
 
 		const defaultTypes = [LISTED_BUILDING];
