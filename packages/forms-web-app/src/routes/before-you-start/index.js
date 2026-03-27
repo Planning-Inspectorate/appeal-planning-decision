@@ -20,6 +20,7 @@ const clearAppealSession = require('./clear-appeal-session');
 const contactPlanningInspectorate = require('./contact-planning-inspectorate');
 const contactPlanningInspectorateDate = require('./contact-planning-inspectorate-date');
 const cannotAppealEnforcement = require('./cannot-appeal-enforcement');
+const cannotUseThisService = require('./cannot-use-this-service');
 
 router.use(beforeYouStart);
 router.use(useExistingServiceDevelopmentType);
@@ -39,5 +40,6 @@ router.use(clearAppealSession);
 router.use(contactPlanningInspectorate);
 router.use(contactPlanningInspectorateDate);
 router.use(cannotAppealEnforcement);
+router.use(cannotUseThisService);
 
 module.exports = router;
