@@ -519,7 +519,6 @@ describe('NotifyService', () => {
 					siteAddress: 'd\ne\nf',
 					appealStartDate: '22 April 2025',
 					questionnaireLink: 'download/questionnaire/here',
-					appellantEmailAddress: 'appellant@exmaple.com',
 					contactEmail: 'example@test.com'
 				};
 
@@ -537,8 +536,7 @@ describe('NotifyService', () => {
 
 					# What happens next
 					1. Download a copy of your questionnaire at ${personalisation.questionnaireLink}
-					2. Email a copy of the questionnaire and any documents to the appellant: ${personalisation.appellantEmailAddress}
-					3. We will review your questionnaire and contact you if we need any further information.
+					2. We will review your questionnaire and contact you if we need any further information.
 
 					Planning Inspectorate
 					${personalisation.contactEmail}`
@@ -556,7 +554,6 @@ describe('NotifyService', () => {
 					siteAddress: 'd\ne\nf',
 					appealStartDate: '22 April 2025',
 					questionnaireLink: 'download/questionnaire/here',
-					appellantEmailAddress: 'appellant@exmaple.com',
 					contactEmail: 'example@test.com'
 				};
 
@@ -574,8 +571,7 @@ describe('NotifyService', () => {
 
 					# What happens next
 					1. Download a copy of your questionnaire at ${personalisation.questionnaireLink}
-					2. Email a copy of the questionnaire and any documents to the appellant: ${personalisation.appellantEmailAddress}
-					3. We will review your questionnaire and contact you if we need any further information.
+					2. We will review your questionnaire and contact you if we need any further information.
 
 					Planning Inspectorate
 					${personalisation.contactEmail}`
