@@ -15904,18 +15904,53 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                             data-module="govuk-checkboxes">
                                 <div class="govuk-checkboxes__item">
                                     <input class="govuk-checkboxes__input" id="anySignificantChanges" name="anySignificantChanges"
-                                    type="checkbox" value="local-plan" data-cy="answer-local-plan">
+                                    type="checkbox" value="local-plan" data-aria-controls="conditional-anySignificantChanges"
+                                    data-cy="answer-local-plan">
                                     <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges">Adopted a new local plan</label>
+                                </div>
+                                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                                id="conditional-anySignificantChanges">
+                                    <div class="govuk-form-group">
+                                        <label class="govuk-label" for="anySignificantChanges_localPlanSignificantChanges">Enter the local plan changes</label>
+                                        <div id="anySignificantChanges_localPlanSignificantChanges-hint"
+                                        class="govuk-hint"></div>
+                                        <textarea class="govuk-textarea" id="anySignificantChanges_localPlanSignificantChanges"
+                                        name="anySignificantChanges_localPlanSignificantChanges" rows="5" aria-describedby="anySignificantChanges_localPlanSignificantChanges-hint"></textarea>
+                                    </div>
                                 </div>
                                 <div class="govuk-checkboxes__item">
                                     <input class="govuk-checkboxes__input" id="anySignificantChanges-2" name="anySignificantChanges"
-                                    type="checkbox" value="national-policy" data-cy="answer-national-policy">
+                                    type="checkbox" value="national-policy" data-aria-controls="conditional-anySignificantChanges-2"
+                                    data-cy="answer-national-policy">
                                     <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-2">National policy changes</label>
+                                </div>
+                                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                                id="conditional-anySignificantChanges-2">
+                                    <div class="govuk-form-group">
+                                        <label class="govuk-label" for="anySignificantChanges_nationalPolicySignificantChanges">Enter the national policy changes</label>
+                                        <div id="anySignificantChanges_nationalPolicySignificantChanges-hint"
+                                        class="govuk-hint"></div>
+                                        <textarea class="govuk-textarea" id="anySignificantChanges_nationalPolicySignificantChanges"
+                                        name="anySignificantChanges_nationalPolicySignificantChanges" rows="5"
+                                        aria-describedby="anySignificantChanges_nationalPolicySignificantChanges-hint"></textarea>
+                                    </div>
                                 </div>
                                 <div class="govuk-checkboxes__item">
                                     <input class="govuk-checkboxes__input" id="anySignificantChanges-3" name="anySignificantChanges"
-                                    type="checkbox" value="court-judgment" data-cy="answer-court-judgment">
+                                    type="checkbox" value="court-judgment" data-aria-controls="conditional-anySignificantChanges-3"
+                                    data-cy="answer-court-judgment">
                                     <label class="govuk-label govuk-checkboxes__label" for="anySignificantChanges-3">Court judgment</label>
+                                </div>
+                                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
+                                id="conditional-anySignificantChanges-3">
+                                    <div class="govuk-form-group">
+                                        <label class="govuk-label" for="anySignificantChanges_courtJudgementSignificantChanges">Enter the court judgment</label>
+                                        <div id="anySignificantChanges_courtJudgementSignificantChanges-hint"
+                                        class="govuk-hint"></div>
+                                        <textarea class="govuk-textarea" id="anySignificantChanges_courtJudgementSignificantChanges"
+                                        name="anySignificantChanges_courtJudgementSignificantChanges" rows="5"
+                                        aria-describedby="anySignificantChanges_courtJudgementSignificantChanges-hint"></textarea>
+                                    </div>
                                 </div>
                                 <div class="govuk-checkboxes__item">
                                     <input class="govuk-checkboxes__input" id="anySignificantChanges-4" name="anySignificantChanges"
@@ -15944,54 +15979,6 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
                     </div>
                     <button type="submit" class="govuk-button" data-module="govuk-button"
                     data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/full-planning/appeal-form/your-appeal?id=appeal-ref"
-                class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests appellant Planning Planning should render the planning-obligation-submitted question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Upload documents</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/appeals/full-planning/upload-documents/planning-obligation-submitted?id=appeal-ref"
-            method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="planningObligationSubmitted-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Do you have a planning obligation to support your appeal?</h1>
-                        </legend>
-                        <div id="planningObligationSubmitted-hint" class="govuk-hint"></div>
-                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="planningObligationSubmitted" name="planningObligationSubmitted"
-                                type="radio" value="yes" data-cy="answer-yes">
-                                <label class="govuk-label govuk-radios__label" for="planningObligationSubmitted">Yes</label>
-                            </div>
-                            <div class="govuk-radios__item">
-                                <input class="govuk-radios__input" id="planningObligationSubmitted-2"
-                                name="planningObligationSubmitted" type="radio" value="no" data-cy="answer-no">
-                                <label class="govuk-label govuk-radios__label" for="planningObligationSubmitted-2">No</label>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
             </form>
         </div>
     </div>
@@ -17392,6 +17379,54 @@ exports[`Dynamic forms journey tests appellant Planning Planning should render t
         data-cy="button-save-and-continue">Continue</button>
         </form>
     </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/full-planning/appeal-form/your-appeal?id=appeal-ref"
+                class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Planning Planning should render the planning-obligation-submitted question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Upload documents</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="/appeals/full-planning/upload-documents/planning-obligation-submitted?id=appeal-ref"
+            method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="planningObligationSubmitted-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> Do you have a planning obligation to support your appeal?</h1>
+                        </legend>
+                        <div id="planningObligationSubmitted-hint" class="govuk-hint"></div>
+                        <div class="govuk-radios govuk-radios" data-module="govuk-radios">
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="planningObligationSubmitted" name="planningObligationSubmitted"
+                                type="radio" value="yes" data-cy="answer-yes">
+                                <label class="govuk-label govuk-radios__label" for="planningObligationSubmitted">Yes</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input class="govuk-radios__input" id="planningObligationSubmitted-2"
+                                name="planningObligationSubmitted" type="radio" value="no" data-cy="answer-no">
+                                <label class="govuk-label govuk-radios__label" for="planningObligationSubmitted-2">No</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
