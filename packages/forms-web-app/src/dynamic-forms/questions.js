@@ -4312,14 +4312,14 @@ exports.getQuestionProps = (response) => ({
 			),
 			new MultifileUploadValidator(environmentStatementFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadEnvironmentalStatement,
+		documentType: documentTypes.appellantEnvironmentalStatement,
 		actionHiddenText: 'environmental statement'
 	},
 	planningObligationPart1: {
 		type: 'boolean',
 		title: 'Do you have a planning obligation to support your appeal?',
 		question: 'Do you have a planning obligation to support your appeal?',
-		fieldName: 'planningObligationSubmitted',
+		fieldName: 'planningObligation',
 		url: 'planning-obligation-submitted',
 		validators: [
 			new RequiredValidator(
