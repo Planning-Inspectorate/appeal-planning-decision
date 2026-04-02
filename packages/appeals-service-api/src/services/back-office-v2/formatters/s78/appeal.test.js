@@ -87,7 +87,12 @@ describe('S78 formatter', () => {
 			appellantPreferInquiryWitnesses: 3,
 
 			typeDevelopment: fieldValues.applicationAbout.DWELLINGS,
-			majorMinorDevelopment: fieldValues.majorMinorDevelopment.MAJOR
+			majorMinorDevelopment: fieldValues.majorMinorDevelopment.MAJOR,
+			anySignificantChanges: 'local-plan,national-policy,court-judgment,other',
+			anySignificantChanges_otherSignificantChanges: 'other text obj',
+			anySignificantChanges_localPlanSignificantChanges: 'local plan text obj',
+			anySignificantChanges_nationalPolicySignificantChanges: 'national policy text obj',
+			anySignificantChanges_courtJudgementSignificantChanges: 'court judgment text obj'
 		};
 	});
 
@@ -113,6 +118,8 @@ describe('S78 formatter', () => {
 				siteAddressTown: 'Town',
 				siteAddressCounty: 'County',
 				siteAddressPostcode: 'Postcode',
+				siteGridReferenceEasting: undefined,
+				siteGridReferenceNorthing: undefined,
 				siteAccessDetails: ['Access details'],
 				siteSafetyDetails: ['Safety details'],
 				isGreenBelt: true,
@@ -132,6 +139,15 @@ describe('S78 formatter', () => {
 				tenantAgriculturalHolding: true,
 				otherTenantsAgriculturalHolding: true,
 				informedTenantsAgriculturalHolding: true,
+				significantChangesAffectingApplicationAppellant: [
+					'Local plan: local plan text obj',
+					'National policy: national policy text obj',
+					'Court judgment: court judgment text obj',
+					'Other: other text obj'
+				],
+				screeningOpinionIndicatesEiaRequired: null,
+				ownershipCertificate: null,
+				reasonForAppealAppellant: null,
 				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.INQUIRY,
 				appellantProcedurePreferenceDetails: 'details',
 				appellantProcedurePreferenceDuration: 13,
@@ -189,6 +205,8 @@ describe('S78 formatter', () => {
 				siteAddressTown: 'Town',
 				siteAddressCounty: 'County',
 				siteAddressPostcode: 'Postcode',
+				siteGridReferenceEasting: undefined,
+				siteGridReferenceNorthing: undefined,
 				siteAccessDetails: ['Access details'],
 				siteSafetyDetails: ['Safety details'],
 				isGreenBelt: true,
@@ -208,6 +226,15 @@ describe('S78 formatter', () => {
 				tenantAgriculturalHolding: null,
 				otherTenantsAgriculturalHolding: null,
 				informedTenantsAgriculturalHolding: null,
+				significantChangesAffectingApplicationAppellant: [
+					'Local plan: local plan text obj',
+					'National policy: national policy text obj',
+					'Court judgment: court judgment text obj',
+					'Other: other text obj'
+				],
+				screeningOpinionIndicatesEiaRequired: null,
+				ownershipCertificate: null,
+				reasonForAppealAppellant: null,
 				appellantProcedurePreference: APPEAL_APPELLANT_PROCEDURE_PREFERENCE.HEARING,
 				appellantProcedurePreferenceDetails: 'details 2',
 				appellantProcedurePreferenceDuration: null,

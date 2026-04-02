@@ -11,7 +11,8 @@ const {
 	getDevelopmentType,
 	getDesignatedSiteNames,
 	siteAddressAndGridReferenceAreMissing,
-	getAdvertsAppellantSubmissionFields
+	getAdvertsAppellantSubmissionFields,
+	getS78AppellantSubmissionFields
 } = require('./utils');
 const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 const {
@@ -529,6 +530,82 @@ describe('utils.js', () => {
 						isSiteOnHighwayLand: false
 					}
 				]
+			});
+		});
+	});
+
+	describe('getS78AppellantSubmissionFields', () => {
+		it('should map appellant submission fields correctly', () => {
+			const appellantSubmission = {
+				agriculturalHolding: true,
+				tenantAgriculturalHolding: true,
+				otherTenantsAgriculturalHolding: true,
+				informedTenantsAgriculturalHolding: true,
+				planningObligation: true,
+				statusPlanningObligation: 'finalised',
+				whyAreYouAppealing: 'test reason',
+				anySignificantChanges: 'local-plan,national-policy,court-judgment,other',
+				anySignificantChanges_otherSignificantChanges: 'other text',
+				anySignificantChanges_localPlanSignificantChanges: 'local plan text',
+				anySignificantChanges_nationalPolicySignificantChanges: 'national policy text',
+				anySignificantChanges_courtJudgementSignificantChanges: 'court judgment text',
+				plansAndDrawings: true,
+				submitEnvironmentStatement: true,
+				appellantProcedurePreference: 'written'
+			};
+
+			const result = getS78AppellantSubmissionFields(appellantSubmission);
+
+			expect(result).toEqual({
+				agriculturalHolding: true,
+				tenantAgriculturalHolding: true,
+				otherTenantsAgriculturalHolding: true,
+				informedTenantsAgriculturalHolding: true,
+				planningObligation: true,
+				statusPlanningObligation: PLANNING_OBLIGATION_STATUS_OPTION.FINALISED,
+				developmentType: null,
+				reasonForAppealAppellant: 'test reason',
+				significantChangesAffectingApplicationAppellant: [
+					'Local plan: local plan text',
+					'National policy: national policy text',
+					'Court judgment: court judgment text',
+					'Other: other text'
+				],
+				ownershipCertificate: null,
+				screeningOpinionIndicatesEiaRequired: true,
+				appellantProcedurePreference: 'written',
+				appellantProcedurePreferenceDetails: null,
+				appellantProcedurePreferenceDuration: null,
+				appellantProcedurePreferenceWitnessCount: null
+			});
+		});
+
+		it('should map null values correctly', () => {
+			const appellantSubmission = {
+				agriculturalHolding: false,
+				planningObligation: false,
+				statusPlanningObligation: 'not started yet',
+				appellantProcedurePreference: 'hearing'
+			};
+
+			const result = getS78AppellantSubmissionFields(appellantSubmission);
+
+			expect(result).toEqual({
+				agriculturalHolding: false,
+				tenantAgriculturalHolding: null,
+				otherTenantsAgriculturalHolding: null,
+				informedTenantsAgriculturalHolding: null,
+				planningObligation: false,
+				statusPlanningObligation: PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED,
+				developmentType: null,
+				reasonForAppealAppellant: null,
+				significantChangesAffectingApplicationAppellant: null,
+				ownershipCertificate: null,
+				screeningOpinionIndicatesEiaRequired: null,
+				appellantProcedurePreference: 'hearing',
+				appellantProcedurePreferenceDetails: undefined,
+				appellantProcedurePreferenceDuration: null,
+				appellantProcedurePreferenceWitnessCount: null
 			});
 		});
 	});

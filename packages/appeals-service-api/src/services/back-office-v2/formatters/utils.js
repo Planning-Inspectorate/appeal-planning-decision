@@ -583,12 +583,70 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
 		informedTenantsAgriculturalHolding: appellantSubmission.agriculturalHolding
 			? (appellantSubmission.informedTenantsAgriculturalHolding ?? null)
 			: null,
-
 		planningObligation: appellantSubmission.planningObligation ?? null,
 		statusPlanningObligation: planningObligationStatus ?? null,
 		developmentType: exports.getDevelopmentType(appellantSubmission),
+		reasonForAppealAppellant: appellantSubmission.whyAreYouAppealing || null,
+		significantChangesAffectingApplicationAppellant:
+			exports.formatSignificantChanges(appellantSubmission),
+		screeningOpinionIndicatesEiaRequired: appellantSubmission.submitEnvironmentStatement || null,
+		ownershipCertificate: appellantSubmission.ownershipCertificate ?? null,
 		...preference
 	};
+};
+
+/**
+ * @param {FullAppellantSubmission} appellantSubmission
+ * @returns {string[] | null}
+ */
+exports.formatSignificantChanges = (appellantSubmission) => {
+	if (!appellantSubmission.anySignificantChanges) return null;
+
+	const changes = [];
+	const selectedOptions = appellantSubmission.anySignificantChanges.split(',');
+
+	for (const option of selectedOptions) {
+		switch (option) {
+			case 'local-plan':
+				changes.push(
+					`Local plan: ${
+						appellantSubmission.anySignificantChanges_localPlanSignificantChanges ||
+						'No details provided'
+					}`
+				);
+				break;
+			case 'national-policy':
+				changes.push(
+					`National policy: ${
+						appellantSubmission.anySignificantChanges_nationalPolicySignificantChanges ||
+						'No details provided'
+					}`
+				);
+				break;
+			case 'court-judgment':
+				changes.push(
+					`Court judgment: ${
+						appellantSubmission.anySignificantChanges_courtJudgementSignificantChanges ||
+						'No details provided'
+					}`
+				);
+				break;
+			case 'other':
+				changes.push(
+					`Other: ${
+						appellantSubmission.anySignificantChanges_otherSignificantChanges ||
+						'No details provided'
+					}`
+				);
+				break;
+			case 'none':
+				changes.push('There have been no significant changes');
+				break;
+			default:
+				changes.push(option);
+		}
+	}
+	return changes.length > 0 ? changes : null;
 };
 
 /**

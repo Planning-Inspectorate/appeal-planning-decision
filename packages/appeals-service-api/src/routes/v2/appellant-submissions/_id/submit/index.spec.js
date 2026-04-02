@@ -257,6 +257,12 @@ module.exports = ({
 			applicationMadeUnderActSection:
 				APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.PROPOSED_USE_OF_A_DEVELOPMENT,
 			siteUseAtTimeOfApplication: 'lorum ipsum'
+		},
+		s78: {
+			reasonForAppealAppellant: null,
+			significantChangesAffectingApplicationAppellant: null,
+			screeningOpinionIndicatesEiaRequired: null,
+			ownershipCertificate: null
 		}
 	};
 
@@ -353,6 +359,7 @@ module.exports = ({
 					...expectedData.planningObligation,
 					...expectedData.procedurePreference,
 					...expectedData.developmentType,
+					...expectedData.s78,
 					caseType: 'W',
 					typeOfPlanningApplication: 'reserved-matters'
 				},

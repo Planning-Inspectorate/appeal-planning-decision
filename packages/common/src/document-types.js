@@ -468,6 +468,17 @@ const documentTypes = {
 		horizonDocumentType: 'LPA Questionnaire Documents',
 		horizonDocumentGroupType: 'Evidence'
 	},
+	appellantEnvironmentalStatement: {
+		name: 'appellantEnvironmentalStatement',
+		dataModelName: APPEAL_DOCUMENT_TYPE.ENVIRONMENTAL_ASSESSMENT,
+		multiple: true,
+		displayName: 'Environmental statement',
+		involvement: 'Appellant',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: 'Environmental Statement',
+		horizonDocumentGroupType: 'Initial Documents'
+	},
 	screeningOpinionUpload: {
 		name: 'screeningOpinionUpload',
 		dataModelName: APPEAL_DOCUMENT_TYPE.EIA_SCREENING_OPINION,
