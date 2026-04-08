@@ -121,14 +121,12 @@ class AppealCaseRepository {
 	 * todo: inefficient - cache this and refresh on put?
 	 * @param {object} opts
 	 * @param {string} opts.caseReference
+	 * @param {{ select?: import('@pins/database/src/client/client').Prisma.AppealCaseSelect }} [opts.fields]
 	 * @returns {Promise<AppealCase|null>}
 	 */
-	getByCaseReference({ caseReference }) {
-		return this.dbClient.appealCase.findUnique({
-			where: {
-				caseReference,
-				casePublishedDate: { not: null }
-			},
+	getByCaseReference({ caseReference, fields }) {
+		/** @type {{select?: import('@pins/database/src/client/client').Prisma.AppealCaseSelect }| { include?: import('@pins/database/src/client/client').Prisma.AppealCaseInclude }} */
+		let returnFields = {
 			include: {
 				Documents: DocumentsArgsPublishedOnly,
 				ListedBuildings: true,
@@ -138,6 +136,18 @@ class AppealCaseRepository {
 				AdvertDetails: true,
 				EnforcementAppealGroundsDetails: true
 			}
+		};
+
+		if (fields) {
+			returnFields = fields;
+		}
+
+		return this.dbClient.appealCase.findUnique({
+			where: {
+				caseReference,
+				casePublishedDate: { not: null }
+			},
+			...returnFields
 		});
 	}
 

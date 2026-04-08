@@ -62,22 +62,37 @@ const parseJSONFields = (caseData) => {
 };
 
 /**
+ * @typedef {import('@pins/database/src/client/client').Prisma.AppealCaseSelect & { users?: boolean, relations?: boolean, linkedCases?: boolean }} AppealCaseSelect
  * Get an appeal case and appellant by case reference
  *
  * @param {object} opts
  * @param {string} opts.caseReference
+ * @param {AppealCaseSelect} opts.fields
  * @returns {Promise<AppealCaseDetailed|null>}
  */
 async function getCaseAndAppellant(opts) {
-	let appeal = await repo.getByCaseReference(opts);
+	const { users, relations, linkedCases, ...repoFields } = opts?.fields || {};
+
+	const repoOpts = {
+		...opts,
+		fields: opts.fields ? { select: repoFields } : undefined
+	};
+
+	let appeal = await repo.getByCaseReference(repoOpts);
 
 	if (!appeal) {
 		return null;
 	}
 
-	appeal = await appendAppellantAndAgent(appeal);
-	appeal = await appendAppealRelations(appeal);
-	appeal = await appendLinkedCases(appeal);
+	if (!opts.fields || users === true) {
+		appeal = await appendAppellantAndAgent(appeal);
+	}
+	if (!opts.fields || relations === true) {
+		appeal = await appendAppealRelations(appeal);
+	}
+	if (!opts.fields || linkedCases === true) {
+		appeal = await appendLinkedCases(appeal);
+	}
 
 	return parseJSONFields(appeal);
 }
