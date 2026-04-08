@@ -16,13 +16,15 @@ const repo = new AppealCaseRepository();
  */
 async function getByCaseReference(req, res) {
 	const { caseReference } = req.params;
+	const { fields } = req.query;
 
 	if (!caseReference) {
 		throw ApiError.withMessage(400, 'case reference is required');
 	}
 	try {
+		const caseSelectFields = fields ? JSON.parse(fields) : undefined;
 		// only check published cases
-		const appealCase = await getCaseAndAppellant({ caseReference });
+		const appealCase = await getCaseAndAppellant({ caseReference, fields: caseSelectFields });
 		if (!appealCase) {
 			throw ApiError.withMessage(404, 'not found');
 		}

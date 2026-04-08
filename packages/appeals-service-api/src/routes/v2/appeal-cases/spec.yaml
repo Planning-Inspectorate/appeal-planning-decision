@@ -31,6 +31,7 @@ paths:
       description: Get an appeal case by reference. 'Public' API, for interested parties. For other users, use the users appeal cases endpoint.
       parameters:
         - $ref: '#/components/parameters/caseReference'
+        - $ref: '#/components/parameters/caseFields'
       responses:
         200:
           description: Returns the appeal case
@@ -209,6 +210,13 @@ components:
         type: string
       example: '1010101'
       description: appeal case reference
+    caseFields:
+      name: fields
+      in: query
+      schema:
+        type: string
+      description: url encoded json object with prisma select properties to specify which fields to return
+      example: '{"caseReference":true}'
 
     lpa-code:
       name: lpa-code

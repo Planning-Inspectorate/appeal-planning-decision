@@ -223,6 +223,145 @@ describe('appeals-api-client', () => {
 		});
 	});
 
+	describe('getAppealCaseByCaseRef', () => {
+		it('should get appeal case by case reference without selectFields', async () => {
+			const testCaseRef = '6000000';
+			const mockResponse = {
+				id: '123',
+				caseRef: testCaseRef,
+				status: 'in_progress'
+			};
+			fetch.mockResponseOnce(JSON.stringify(mockResponse));
+			const response = await apiClient.getAppealCaseByCaseRef(testCaseRef);
+
+			expect(fetch).toHaveBeenCalledWith(
+				`${TEST_BASEURL}${v2}/appeal-cases/${testCaseRef}?`,
+				expect.objectContaining({
+					method: 'GET'
+				})
+			);
+			expect(response).toEqual(mockResponse);
+		});
+
+		it('should get appeal case with selectFields parameter', async () => {
+			const testCaseRef = '1010107';
+			const selectFields = {
+				caseReference: true,
+				appealTypeCode: true,
+				LPACode: true,
+				caseProcedure: true,
+				caseStatus: true
+			};
+			const mockResponse = {
+				caseReference: testCaseRef,
+				appealTypeCode: 'S78',
+				LPACode: 'E09000033',
+				caseProcedure: 'Written',
+				caseStatus: 'issue_decision'
+			};
+			fetch.mockResponseOnce(JSON.stringify(mockResponse));
+			const response = await apiClient.getAppealCaseByCaseRef(testCaseRef, selectFields);
+
+			// URLSearchParams handles the encoding automatically
+			const urlParams = new URLSearchParams();
+			urlParams.append('fields', JSON.stringify(selectFields));
+			const expectedUrl = `${TEST_BASEURL}${v2}/appeal-cases/${testCaseRef}?${urlParams.toString()}`;
+
+			expect(fetch).toHaveBeenCalledWith(
+				expectedUrl,
+				expect.objectContaining({
+					method: 'GET'
+				})
+			);
+			expect(response).toEqual(mockResponse);
+		});
+
+		it('should encode special characters in case reference', async () => {
+			const testCaseRef = '6000000/1';
+			const mockResponse = { id: '123', caseRef: testCaseRef };
+			fetch.mockResponseOnce(JSON.stringify(mockResponse));
+			const response = await apiClient.getAppealCaseByCaseRef(testCaseRef);
+
+			expect(fetch).toHaveBeenCalledWith(
+				`${TEST_BASEURL}${v2}/appeal-cases/6000000%2F1?`,
+				expect.objectContaining({
+					method: 'GET'
+				})
+			);
+			expect(response).toEqual(mockResponse);
+		});
+
+		it('should handle complex selectFields with nested Prisma select', async () => {
+			const testCaseRef = '1010107';
+			const selectFields = {
+				caseReference: true,
+				Documents: {
+					select: {
+						id: true,
+						filename: true,
+						documentType: true
+					},
+					where: {
+						documentType: 'caseDecisionLetter'
+					}
+				},
+				Events: {
+					select: {
+						type: true,
+						startDate: true
+					}
+				}
+			};
+			const mockResponse = { caseReference: testCaseRef };
+			fetch.mockResponseOnce(JSON.stringify(mockResponse));
+			const response = await apiClient.getAppealCaseByCaseRef(testCaseRef, selectFields);
+
+			// URLSearchParams handles the encoding
+			const urlParams = new URLSearchParams();
+			urlParams.append('fields', JSON.stringify(selectFields));
+			const expectedUrl = `${TEST_BASEURL}${v2}/appeal-cases/${testCaseRef}?${urlParams.toString()}`;
+
+			expect(fetch).toHaveBeenCalledWith(
+				expectedUrl,
+				expect.objectContaining({
+					method: 'GET'
+				})
+			);
+			expect(response).toEqual(mockResponse);
+		});
+
+		it('should handle empty selectFields object', async () => {
+			const testCaseRef = '6000000';
+			const selectFields = {};
+			const mockResponse = { id: '123', caseRef: testCaseRef };
+			fetch.mockResponseOnce(JSON.stringify(mockResponse));
+			const response = await apiClient.getAppealCaseByCaseRef(testCaseRef, selectFields);
+
+			const urlParams = new URLSearchParams();
+			urlParams.append('fields', JSON.stringify(selectFields));
+			const expectedUrl = `${TEST_BASEURL}${v2}/appeal-cases/${testCaseRef}?${urlParams.toString()}`;
+
+			expect(fetch).toHaveBeenCalledWith(
+				expectedUrl,
+				expect.objectContaining({
+					method: 'GET'
+				})
+			);
+			expect(response).toEqual(mockResponse);
+		});
+
+		it('should throw when not found', async () => {
+			const testCaseRef = 'APP-NOTFOUND';
+			fetchMock.mockResponseOnce(JSON.stringify({ message: 'Not found' }), {
+				status: 404,
+				statusText: 'Not Found',
+				headers: { 'content-type': 'application/json' }
+			});
+
+			await expect(apiClient.getAppealCaseByCaseRef(testCaseRef)).rejects.toThrow();
+		});
+	});
+
 	describe('getAppealCaseWithRepresentations', () => {
 		it('should get document details by id', async () => {
 			const testCaseReference = 'abc';

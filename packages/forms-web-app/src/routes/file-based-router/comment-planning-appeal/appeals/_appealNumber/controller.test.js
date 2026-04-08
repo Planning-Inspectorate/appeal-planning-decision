@@ -27,8 +27,11 @@ describe('selectedAppeal Controller Tests', () => {
 	beforeEach(() => {
 		req = {
 			params: { appealNumber: '12345' },
-			appealsApiClient: {
-				getAppealCaseByCaseRef: jest.fn()
+			appealCase: {
+				caseReference: '12345',
+				LPACode: 'LPA123',
+				siteAddressPostcode: 'AB12 3CD',
+				Events: []
 			}
 		};
 		res = {
@@ -37,11 +40,6 @@ describe('selectedAppeal Controller Tests', () => {
 	});
 
 	it('should render the appeal page with formatted data', async () => {
-		const appeal = {
-			LPACode: 'LPA123',
-			siteAddressPostcode: 'AB12 3CD',
-			Events: []
-		};
 		const lpa = { name: 'Local Planning Authority' };
 		const status = 'In Progress';
 		const headlineText = 'Headline Text';
@@ -50,7 +48,6 @@ describe('selectedAppeal Controller Tests', () => {
 		const inquiries = [];
 		const hearings = [];
 
-		req.appealsApiClient.getAppealCaseByCaseRef.mockResolvedValue(appeal);
 		getDepartmentFromCode.mockResolvedValue(lpa);
 		getAppealStatus.mockReturnValue(status);
 		formatCommentHeadlineText.mockReturnValue(headlineText);
@@ -62,19 +59,24 @@ describe('selectedAppeal Controller Tests', () => {
 
 		await selectedAppeal(req, res);
 
-		expect(req.appealsApiClient.getAppealCaseByCaseRef).toHaveBeenCalledWith('12345');
 		expect(createInterestedPartySession).toHaveBeenCalledWith(req, '12345', 'AB12 3CD');
 		expect(getDepartmentFromCode).toHaveBeenCalledWith('LPA123');
-		expect(getAppealStatus).toHaveBeenCalledWith(appeal);
+		expect(getAppealStatus).toHaveBeenCalledWith(req.appealCase);
 		expect(formatCommentHeadlineText).toHaveBeenCalledWith('12345', status);
-		expect(formatCommentDeadlineText).toHaveBeenCalledWith(appeal, status);
-		expect(formatCommentDecidedData).toHaveBeenCalledWith(appeal);
-		expect(formatCommentInquiryText).toHaveBeenCalledWith(appeal.Events);
-		expect(formatCommentHearingText).toHaveBeenCalledWith(appeal.Events, appeal.caseStatus);
-		expect(formatHeadlineData).toHaveBeenCalledWith({ caseData: appeal, lpaName: lpa.name });
+		expect(formatCommentDeadlineText).toHaveBeenCalledWith(req.appealCase, status);
+		expect(formatCommentDecidedData).toHaveBeenCalledWith(req.appealCase);
+		expect(formatCommentInquiryText).toHaveBeenCalledWith(req.appealCase.Events);
+		expect(formatCommentHearingText).toHaveBeenCalledWith(
+			req.appealCase.Events,
+			req.appealCase.caseStatus
+		);
+		expect(formatHeadlineData).toHaveBeenCalledWith({
+			caseData: req.appealCase,
+			lpaName: lpa.name
+		});
 		expect(res.render).toHaveBeenCalledWith('comment-planning-appeal/appeals/_appealNumber/index', {
 			appeal: {
-				...appeal,
+				...req.appealCase,
 				status,
 				headlineText,
 				deadlineText,

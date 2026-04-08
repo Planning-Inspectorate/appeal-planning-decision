@@ -206,10 +206,15 @@ class AppealsApiClient {
 	 * 'Public' API, only returns published cases.
 	 *
 	 * @param {string} caseReference
+	 * @param {import('../../../appeals-service-api/src/routes/v2/appeal-cases/repo').AppealCaseReturnFields} [selectFields] - Object specifying which fields to select from the appeal case
 	 * @returns {Promise<AppealCaseDetailed>}
 	 */
-	async getAppealCaseByCaseRef(caseReference) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}`;
+	async getAppealCaseByCaseRef(caseReference, selectFields) {
+		const urlParams = new URLSearchParams();
+		if (selectFields) {
+			urlParams.append('fields', JSON.stringify(selectFields));
+		}
+		const endpoint = `${v2}/appeal-cases/${encodeURIComponent(caseReference)}?${urlParams.toString()}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
