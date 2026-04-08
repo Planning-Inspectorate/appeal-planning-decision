@@ -12,18 +12,17 @@ const {
 
 /** @type {import('express').Handler} */
 const selectedAppeal = async (req, res) => {
-	const appealNumber = req.params.appealNumber;
+	/** @type {import('appeals-service-api').Api.AppealCaseDetailed} */
+	const appeal = req.appealCase;
 
-	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(appealNumber);
-
-	createInterestedPartySession(req, appealNumber, appeal.siteAddressPostcode);
+	createInterestedPartySession(req, appeal.caseReference, appeal.siteAddressPostcode);
 
 	const lpa = await getDepartmentFromCode(appeal.LPACode);
 	const headlineData = formatHeadlineData({ caseData: appeal, lpaName: lpa.name });
 
 	const status = getAppealStatus(appeal);
 
-	const headlineText = formatCommentHeadlineText(appealNumber, status);
+	const headlineText = formatCommentHeadlineText(appeal.caseReference, status);
 
 	const deadlineText = formatCommentDeadlineText(appeal, status);
 

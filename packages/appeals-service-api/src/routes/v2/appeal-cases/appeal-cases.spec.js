@@ -37,6 +37,7 @@ const {
 } = require('../../../../__tests__/developer/fixtures/appeals-enforcement-listed-data-model');
 
 const { appendLinkedCasesForMultipleAppeals } = require('./service');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 /**
  * @param {Object} dependencies
@@ -279,6 +280,111 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					expect(response.status).toBe(404);
 				});
 			}
+
+			it(`handles select in query string`, async () => {
+				const response = await appealsApi
+					.get(
+						`/api/v2/appeal-cases/${publishedTestCases[0].caseReference}?fields=${encodeURIComponent(JSON.stringify({ caseReference: true, LPACode: true }))}`
+					)
+					.send();
+				expect(response.status).toBe(200);
+				expect(response.body).toEqual({
+					caseReference: publishedTestCases[0].caseReference,
+					LPACode: publishedTestCases[0].LPACode,
+					caseValidationIncompleteDetails: [],
+					caseValidationInvalidDetails: [],
+					designatedSitesNames: [],
+					lpaQuestionnaireValidationDetails: [],
+					siteAccessDetails: [],
+					siteSafetyDetails: []
+				});
+			});
+
+			it(`handles select comment planning appeal select`, async () => {
+				const testCase = publishedTestCases[0];
+
+				const response = await appealsApi
+					.get(
+						`/api/v2/appeal-cases/${testCase.caseReference}?fields=${encodeURIComponent(
+							JSON.stringify({
+								// case data
+								caseReference: true,
+								appealTypeCode: true,
+								LPACode: true,
+								caseProcedure: true,
+								caseStatus: true,
+								applicationReference: true,
+								enforcementReference: true,
+
+								// address
+								siteAddressLine1: true,
+								siteAddressLine2: true,
+								siteAddressTown: true,
+								siteAddressPostcode: true,
+								siteGridReferenceEasting: true,
+								siteGridReferenceNorthing: true,
+
+								// decision
+								caseDecisionOutcome: true,
+								caseDecisionOutcomeDate: true,
+
+								// due dates
+								interestedPartyRepsDueDate: true,
+
+								// includes:
+								Documents: {
+									select: {
+										id: true,
+										filename: true,
+										documentType: true
+									},
+									where: {
+										documentType: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER
+									}
+								},
+								Events: {
+									select: {
+										type: true,
+										startDate: true
+									}
+								},
+
+								// extras
+								users: true,
+								linkedCases: true
+							})
+						)}`
+					)
+					.send();
+				expect(response.status).toBe(200);
+				expect(response.body).toEqual({
+					Documents: [],
+					Events: [],
+					LPACode: testCase.LPACode,
+					appealTypeCode: testCase.CaseType?.connect?.processCode ?? null,
+					applicationReference: testCase.applicationReference,
+					caseDecisionOutcome: testCase.CaseDecisionOutcome?.connect?.key ?? null,
+					caseDecisionOutcomeDate: testCase.caseDecisionOutcomeDate,
+					caseProcedure: testCase.ProcedureType?.connect?.key ?? null,
+					caseReference: testCase.caseReference,
+					caseStatus: testCase.CaseStatus?.connect?.key ?? null,
+					caseValidationIncompleteDetails: [],
+					caseValidationInvalidDetails: [],
+					designatedSitesNames: [],
+					enforcementReference: testCase.enforcementReference,
+					interestedPartyRepsDueDate: testCase.interestedPartyRepsDueDate ?? null,
+					lpaQuestionnaireValidationDetails: [],
+					siteAccessDetails: [],
+					siteAddressLine1: testCase.siteAddressLine1,
+					siteAddressLine2: testCase.siteAddressLine2 ?? null,
+					siteAddressPostcode: testCase.siteAddressPostcode,
+					siteAddressTown: testCase.siteAddressTown,
+					siteGridReferenceEasting: testCase.siteGridReferenceEasting ?? null,
+					siteGridReferenceNorthing: testCase.siteGridReferenceNorthing ?? null,
+					siteSafetyDetails: [],
+					users: []
+				});
+			});
 
 			it(`returns 404 when not found`, async () => {
 				const response = await appealsApi.get(`/api/v2/appeal-cases/abcdefg`).send();
