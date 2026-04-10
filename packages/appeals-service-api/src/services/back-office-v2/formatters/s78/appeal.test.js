@@ -140,10 +140,10 @@ describe('S78 formatter', () => {
 				otherTenantsAgriculturalHolding: true,
 				informedTenantsAgriculturalHolding: true,
 				significantChangesAffectingApplicationAppellant: [
-					'Local plan: local plan text obj',
-					'National policy: national policy text obj',
-					'Court judgment: court judgment text obj',
-					'Other: other text obj'
+					{ value: 'adopted-a-new-local-plan', comment: 'local plan text obj' },
+					{ value: 'national-policy-change', comment: 'national policy text obj' },
+					{ value: 'court-judgement', comment: 'court judgment text obj' },
+					{ value: 'other', comment: 'other text obj' }
 				],
 				screeningOpinionIndicatesEiaRequired: null,
 				ownershipCertificate: null,
@@ -227,10 +227,10 @@ describe('S78 formatter', () => {
 				otherTenantsAgriculturalHolding: null,
 				informedTenantsAgriculturalHolding: null,
 				significantChangesAffectingApplicationAppellant: [
-					'Local plan: local plan text obj',
-					'National policy: national policy text obj',
-					'Court judgment: court judgment text obj',
-					'Other: other text obj'
+					{ value: 'adopted-a-new-local-plan', comment: 'local plan text obj' },
+					{ value: 'national-policy-change', comment: 'national policy text obj' },
+					{ value: 'court-judgement', comment: 'court judgment text obj' },
+					{ value: 'other', comment: 'other text obj' }
 				],
 				screeningOpinionIndicatesEiaRequired: null,
 				ownershipCertificate: null,
