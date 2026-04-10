@@ -566,10 +566,10 @@ describe('utils.js', () => {
 				developmentType: null,
 				reasonForAppealAppellant: 'test reason',
 				significantChangesAffectingApplicationAppellant: [
-					'Local plan: local plan text',
-					'National policy: national policy text',
-					'Court judgment: court judgment text',
-					'Other: other text'
+					{ value: 'adopted-a-new-local-plan', comment: 'local plan text' },
+					{ value: 'national-policy-change', comment: 'national policy text' },
+					{ value: 'court-judgement', comment: 'court judgment text' },
+					{ value: 'other', comment: 'other text' }
 				],
 				ownershipCertificate: null,
 				screeningOpinionIndicatesEiaRequired: true,
