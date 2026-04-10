@@ -597,7 +597,7 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
 
 /**
  * @param {FullAppellantSubmission} appellantSubmission
- * @returns {string[] | null}
+ * @returns {{value: string, comment?: string | null}[] | null}
  */
 exports.formatSignificantChanges = (appellantSubmission) => {
 	if (!appellantSubmission.anySignificantChanges) return null;
@@ -608,42 +608,35 @@ exports.formatSignificantChanges = (appellantSubmission) => {
 	for (const option of selectedOptions) {
 		switch (option) {
 			case 'local-plan':
-				changes.push(
-					`Local plan: ${
-						appellantSubmission.anySignificantChanges_localPlanSignificantChanges ||
-						'No details provided'
-					}`
-				);
+				changes.push({
+					value: 'adopted-a-new-local-plan',
+					comment: appellantSubmission.anySignificantChanges_localPlanSignificantChanges || null
+				});
 				break;
 			case 'national-policy':
-				changes.push(
-					`National policy: ${
-						appellantSubmission.anySignificantChanges_nationalPolicySignificantChanges ||
-						'No details provided'
-					}`
-				);
+				changes.push({
+					value: 'national-policy-change',
+					comment:
+						appellantSubmission.anySignificantChanges_nationalPolicySignificantChanges || null
+				});
 				break;
 			case 'court-judgment':
-				changes.push(
-					`Court judgment: ${
-						appellantSubmission.anySignificantChanges_courtJudgementSignificantChanges ||
-						'No details provided'
-					}`
-				);
+				changes.push({
+					value: 'court-judgement',
+					comment:
+						appellantSubmission.anySignificantChanges_courtJudgementSignificantChanges || null
+				});
 				break;
 			case 'other':
-				changes.push(
-					`Other: ${
-						appellantSubmission.anySignificantChanges_otherSignificantChanges ||
-						'No details provided'
-					}`
-				);
+				changes.push({
+					value: 'other',
+					comment: appellantSubmission.anySignificantChanges_otherSignificantChanges || null
+				});
 				break;
 			case 'none':
-				changes.push('There have been no significant changes');
 				break;
 			default:
-				changes.push(option);
+				break;
 		}
 	}
 	return changes.length > 0 ? changes : null;
