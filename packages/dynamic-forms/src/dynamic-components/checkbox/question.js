@@ -22,6 +22,7 @@ class CheckboxQuestion extends OptionsQuestion {
 	 * @param {string} [params.url]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
+	 * @param {string} [params.html]
 	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 * @param {object} [params.customData]
@@ -36,7 +37,7 @@ class CheckboxQuestion extends OptionsQuestion {
 			},
 			methodOverrides
 		);
-
+		this.html = params.html;
 		this.optionJoinString = defaultOptionJoinString;
 	}
 
