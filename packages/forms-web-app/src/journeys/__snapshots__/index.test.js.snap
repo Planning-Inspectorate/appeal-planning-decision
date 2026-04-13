@@ -6016,30 +6016,31 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
         <div class="govuk-grid-column-two-thirds">
             <form action="/appeals/enforcement-listed-building/prepare-appeal/choose-grounds?id=appeal-ref"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="appealGrounds-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Choose your grounds of appeal</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset" aria-describedby="appealGrounds-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Choose your grounds of appeal</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="appealGrounds-hint" class="govuk-hint">Select all that apply</div>
                         <div class="govuk-checkboxes govuk-checkboxes"
                         data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds" name="appealGrounds"
-                                type="checkbox" value="a" aria-describedby="appealGrounds-item-hint" data-cy="answer-a">
+                                type="checkbox" value="a" aria-describedby="appealGrounds-hint appealGrounds-item-hint"
+                                data-cy="answer-a">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds">Ground (a)</label>
                                 <div id="appealGrounds-item-hint" class="govuk-hint govuk-checkboxes__hint">The building is not of special architectural or historic interest.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-2" name="appealGrounds"
-                                type="checkbox" value="b" aria-describedby="appealGrounds-2-item-hint"
+                                type="checkbox" value="b" aria-describedby="appealGrounds-hint appealGrounds-2-item-hint"
                                 data-cy="answer-b">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-2">Ground (b)</label>
                                 <div id="appealGrounds-2-item-hint" class="govuk-hint govuk-checkboxes__hint">The alleged breach did not happen.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-3" name="appealGrounds"
-                                type="checkbox" value="c" aria-describedby="appealGrounds-3-item-hint"
+                                type="checkbox" value="c" aria-describedby="appealGrounds-hint appealGrounds-3-item-hint"
                                 data-cy="answer-c">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-3">Ground (c)</label>
                                 <div id="appealGrounds-3-item-hint" class="govuk-hint govuk-checkboxes__hint">You do not need listed building consent (for example, the works do not
@@ -6048,7 +6049,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-4" name="appealGrounds"
-                                type="checkbox" value="d" aria-describedby="appealGrounds-4-item-hint"
+                                type="checkbox" value="d" aria-describedby="appealGrounds-hint appealGrounds-4-item-hint"
                                 data-cy="answer-d">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-4">Ground (d)</label>
                                 <div id="appealGrounds-4-item-hint" class="govuk-hint govuk-checkboxes__hint">The work was urgently necessary. To appeal this ground, you must have:
@@ -6067,7 +6068,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-5" name="appealGrounds"
-                                type="checkbox" value="e" aria-describedby="appealGrounds-5-item-hint"
+                                type="checkbox" value="e" aria-describedby="appealGrounds-hint appealGrounds-5-item-hint"
                                 data-cy="answer-e">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-5">Ground (e)</label>
                                 <div id="appealGrounds-5-item-hint" class="govuk-hint govuk-checkboxes__hint">Listed building consent should be granted (or conditions changed) for
@@ -6075,7 +6076,7 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-6" name="appealGrounds"
-                                type="checkbox" value="f" aria-describedby="appealGrounds-6-item-hint"
+                                type="checkbox" value="f" aria-describedby="appealGrounds-hint appealGrounds-6-item-hint"
                                 data-cy="answer-f">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-6">Ground (f)</label>
                                 <div id="appealGrounds-6-item-hint" class="govuk-hint govuk-checkboxes__hint">The local planning authority did not serve the notice properly to everyone
@@ -6083,44 +6084,44 @@ exports[`Dynamic forms journey tests appellant Enforcement listed building and c
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-7" name="appealGrounds"
-                                type="checkbox" value="g" aria-describedby="appealGrounds-7-item-hint"
+                                type="checkbox" value="g" aria-describedby="appealGrounds-hint appealGrounds-7-item-hint"
                                 data-cy="answer-g">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-7">Ground (g)</label>
                                 <div id="appealGrounds-7-item-hint" class="govuk-hint govuk-checkboxes__hint">A simpler step (or steps) would achieve the same result.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-8" name="appealGrounds"
-                                type="checkbox" value="h" aria-describedby="appealGrounds-8-item-hint"
+                                type="checkbox" value="h" aria-describedby="appealGrounds-hint appealGrounds-8-item-hint"
                                 data-cy="answer-h">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-8">Ground (h)</label>
                                 <div id="appealGrounds-8-item-hint" class="govuk-hint govuk-checkboxes__hint">The time to comply with the notice is too short.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-9" name="appealGrounds"
-                                type="checkbox" value="i" aria-describedby="appealGrounds-9-item-hint"
+                                type="checkbox" value="i" aria-describedby="appealGrounds-hint appealGrounds-9-item-hint"
                                 data-cy="answer-i">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-9">Ground (i)</label>
                                 <div id="appealGrounds-9-item-hint" class="govuk-hint govuk-checkboxes__hint">The required steps will not restore the building’s character.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-10" name="appealGrounds"
-                                type="checkbox" value="j" aria-describedby="appealGrounds-10-item-hint"
+                                type="checkbox" value="j" aria-describedby="appealGrounds-hint appealGrounds-10-item-hint"
                                 data-cy="answer-j">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-10">Ground (j)</label>
                                 <div id="appealGrounds-10-item-hint" class="govuk-hint govuk-checkboxes__hint">A simpler step (or steps) would reduce the harm caused.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-11" name="appealGrounds"
-                                type="checkbox" value="k" aria-describedby="appealGrounds-11-item-hint"
+                                type="checkbox" value="k" aria-describedby="appealGrounds-hint appealGrounds-11-item-hint"
                                 data-cy="answer-k">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-11">Ground (k)</label>
                                 <div id="appealGrounds-11-item-hint" class="govuk-hint govuk-checkboxes__hint">A simpler step (or steps) would meet listed building consent conditions.</div>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -9286,31 +9287,32 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
         <div class="govuk-grid-column-two-thirds">
             <form action="/appeals/enforcement/prepare-appeal/choose-grounds?id=appeal-ref"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="appealGrounds-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Choose your grounds of appeal</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset" aria-describedby="appealGrounds-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Choose your grounds of appeal</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="appealGrounds-hint" class="govuk-hint">Select all that apply</div>
                         <div class="govuk-checkboxes govuk-checkboxes"
                         data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds" name="appealGrounds"
-                                type="checkbox" value="a" aria-describedby="appealGrounds-item-hint" data-cy="answer-a">
+                                type="checkbox" value="a" aria-describedby="appealGrounds-hint appealGrounds-item-hint"
+                                data-cy="answer-a">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds">Ground (a)</label>
                                 <div id="appealGrounds-item-hint" class="govuk-hint govuk-checkboxes__hint">The local planning authority (LPA) should grant planning permission for
                                     all (or part) of the development described in the alleged breach.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-2" name="appealGrounds"
-                                type="checkbox" value="b" aria-describedby="appealGrounds-2-item-hint"
+                                type="checkbox" value="b" aria-describedby="appealGrounds-hint appealGrounds-2-item-hint"
                                 data-cy="answer-b">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-2">Ground (b)</label>
                                 <div id="appealGrounds-2-item-hint" class="govuk-hint govuk-checkboxes__hint">The alleged breach did not happen.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-3" name="appealGrounds"
-                                type="checkbox" value="c" aria-describedby="appealGrounds-3-item-hint"
+                                type="checkbox" value="c" aria-describedby="appealGrounds-hint appealGrounds-3-item-hint"
                                 data-cy="answer-c">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-3">Ground (c)</label>
                                 <div id="appealGrounds-3-item-hint" class="govuk-hint govuk-checkboxes__hint">You do not need planning permission (for example, it is a permitted development
@@ -9318,14 +9320,14 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-4" name="appealGrounds"
-                                type="checkbox" value="d" aria-describedby="appealGrounds-4-item-hint"
+                                type="checkbox" value="d" aria-describedby="appealGrounds-hint appealGrounds-4-item-hint"
                                 data-cy="answer-d">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-4">Ground (d)</label>
                                 <div id="appealGrounds-4-item-hint" class="govuk-hint govuk-checkboxes__hint">It is too late for the LPA to take enforcement action.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-5" name="appealGrounds"
-                                type="checkbox" value="e" aria-describedby="appealGrounds-5-item-hint"
+                                type="checkbox" value="e" aria-describedby="appealGrounds-hint appealGrounds-5-item-hint"
                                 data-cy="answer-e">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-5">Ground (e)</label>
                                 <div id="appealGrounds-5-item-hint" class="govuk-hint govuk-checkboxes__hint">The LPA did not serve the notice properly to everyone with an interest
@@ -9333,23 +9335,23 @@ exports[`Dynamic forms journey tests appellant Enforcement notice Enforcement no
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-6" name="appealGrounds"
-                                type="checkbox" value="f" aria-describedby="appealGrounds-6-item-hint"
+                                type="checkbox" value="f" aria-describedby="appealGrounds-hint appealGrounds-6-item-hint"
                                 data-cy="answer-f">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-6">Ground (f)</label>
                                 <div id="appealGrounds-6-item-hint" class="govuk-hint govuk-checkboxes__hint">A simpler step (or steps) would achieve the same result.</div>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="appealGrounds-7" name="appealGrounds"
-                                type="checkbox" value="g" aria-describedby="appealGrounds-7-item-hint"
+                                type="checkbox" value="g" aria-describedby="appealGrounds-hint appealGrounds-7-item-hint"
                                 data-cy="answer-g">
                                 <label class="govuk-label govuk-checkboxes__label" for="appealGrounds-7">Ground (g)</label>
                                 <div id="appealGrounds-7-item-hint" class="govuk-hint govuk-checkboxes__hint">The time to comply with the notice is too short.</div>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -21848,42 +21850,42 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="designatedSites-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="designatedSites-hint" class="govuk-hint"></div>
                         <div class="govuk-checkboxes govuk-checkboxes" data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites" name="designatedSites"
-                                type="checkbox" value="SSSI" data-cy="answer-SSSI">
+                                type="checkbox" value="SSSI" aria-describedby="designatedSites-hint" data-cy="answer-SSSI">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites">SSSI (site of special scientific interest)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-2" name="designatedSites"
-                                type="checkbox" value="cSAC" data-cy="answer-cSAC">
+                                type="checkbox" value="cSAC" aria-describedby="designatedSites-hint" data-cy="answer-cSAC">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-2">cSAC (candidate special area of conservation)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-3" name="designatedSites"
-                                type="checkbox" value="SAC" data-cy="answer-SAC">
+                                type="checkbox" value="SAC" aria-describedby="designatedSites-hint" data-cy="answer-SAC">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-3">SAC (special area of conservation)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-4" name="designatedSites"
-                                type="checkbox" value="pSPA" data-cy="answer-pSPA">
+                                type="checkbox" value="pSPA" aria-describedby="designatedSites-hint" data-cy="answer-pSPA">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-4">pSPA (potential special protection area)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-5" name="designatedSites"
-                                type="checkbox" value="SPA" data-cy="answer-SPA">
+                                type="checkbox" value="SPA" aria-describedby="designatedSites-hint" data-cy="answer-SPA">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-5">SPA Ramsar (Ramsar special protection area)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-6" name="designatedSites"
                                 type="checkbox" value="other" data-aria-controls="conditional-designatedSites-6"
-                                data-cy="answer-other">
+                                aria-describedby="designatedSites-hint" data-cy="answer-other">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-6">Other</label>
                             </div>
                             <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
@@ -21897,14 +21899,15 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
                             <div class="govuk-checkboxes__divider">or</div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-8" name="designatedSites"
-                                type="checkbox" value="None" data-behaviour="exclusive" data-cy="answer-None">
+                                type="checkbox" value="None" data-behaviour="exclusive" aria-describedby="designatedSites-hint"
+                                data-cy="answer-None">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-8">No, it is not in, near or likely to affect any designated sites</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -22384,34 +22387,37 @@ exports[`Dynamic forms journey tests lpa Advertisement Advertisement should rend
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/notified/notification-type"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="notificationMethod-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> How did you notify relevant parties about the planning application?</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset" aria-describedby="notificationMethod-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> How did you notify relevant parties about the planning application?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="notificationMethod-hint" class="govuk-hint">Select all that apply</div>
                         <div class="govuk-checkboxes govuk-checkboxes"
                         data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod" name="notificationMethod"
-                                type="checkbox" value="site-notice" data-cy="answer-site-notice">
+                                type="checkbox" value="site-notice" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-site-notice">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod">A site notice</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod-2" name="notificationMethod"
-                                type="checkbox" value="letters-or-emails" data-cy="answer-letters-or-emails">
+                                type="checkbox" value="letters-or-emails" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-letters-or-emails">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-2">Letters or emails to interested parties</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod-3" name="notificationMethod"
-                                type="checkbox" value="advert" data-cy="answer-advert">
+                                type="checkbox" value="advert" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-advert">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-3">An advert in the local press</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -24278,42 +24284,42 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="designatedSites-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="designatedSites-hint" class="govuk-hint"></div>
                         <div class="govuk-checkboxes govuk-checkboxes" data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites" name="designatedSites"
-                                type="checkbox" value="SSSI" data-cy="answer-SSSI">
+                                type="checkbox" value="SSSI" aria-describedby="designatedSites-hint" data-cy="answer-SSSI">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites">SSSI (site of special scientific interest)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-2" name="designatedSites"
-                                type="checkbox" value="cSAC" data-cy="answer-cSAC">
+                                type="checkbox" value="cSAC" aria-describedby="designatedSites-hint" data-cy="answer-cSAC">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-2">cSAC (candidate special area of conservation)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-3" name="designatedSites"
-                                type="checkbox" value="SAC" data-cy="answer-SAC">
+                                type="checkbox" value="SAC" aria-describedby="designatedSites-hint" data-cy="answer-SAC">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-3">SAC (special area of conservation)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-4" name="designatedSites"
-                                type="checkbox" value="pSPA" data-cy="answer-pSPA">
+                                type="checkbox" value="pSPA" aria-describedby="designatedSites-hint" data-cy="answer-pSPA">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-4">pSPA (potential special protection area)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-5" name="designatedSites"
-                                type="checkbox" value="SPA" data-cy="answer-SPA">
+                                type="checkbox" value="SPA" aria-describedby="designatedSites-hint" data-cy="answer-SPA">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-5">SPA Ramsar (Ramsar special protection area)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-6" name="designatedSites"
                                 type="checkbox" value="other" data-aria-controls="conditional-designatedSites-6"
-                                data-cy="answer-other">
+                                aria-describedby="designatedSites-hint" data-cy="answer-other">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-6">Other</label>
                             </div>
                             <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
@@ -24327,14 +24333,15 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
                             <div class="govuk-checkboxes__divider">or</div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-8" name="designatedSites"
-                                type="checkbox" value="None" data-behaviour="exclusive" data-cy="answer-None">
+                                type="checkbox" value="None" data-behaviour="exclusive" aria-describedby="designatedSites-hint"
+                                data-cy="answer-None">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-8">No, it is not in, near or likely to affect any designated sites</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -24814,34 +24821,37 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement Commercial adv
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/notified/notification-type"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="notificationMethod-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> How did you notify relevant parties about the planning application?</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset" aria-describedby="notificationMethod-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> How did you notify relevant parties about the planning application?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="notificationMethod-hint" class="govuk-hint">Select all that apply</div>
                         <div class="govuk-checkboxes govuk-checkboxes"
                         data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod" name="notificationMethod"
-                                type="checkbox" value="site-notice" data-cy="answer-site-notice">
+                                type="checkbox" value="site-notice" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-site-notice">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod">A site notice</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod-2" name="notificationMethod"
-                                type="checkbox" value="letters-or-emails" data-cy="answer-letters-or-emails">
+                                type="checkbox" value="letters-or-emails" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-letters-or-emails">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-2">Letters or emails to interested parties</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod-3" name="notificationMethod"
-                                type="checkbox" value="advert" data-cy="answer-advert">
+                                type="checkbox" value="advert" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-advert">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-3">An advert in the local press</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -26862,34 +26872,37 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) Commercial pl
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/notified/notification-type"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="notificationMethod-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> How did you notify relevant parties about the planning application?</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset" aria-describedby="notificationMethod-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> How did you notify relevant parties about the planning application?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="notificationMethod-hint" class="govuk-hint">Select all that apply</div>
                         <div class="govuk-checkboxes govuk-checkboxes"
                         data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod" name="notificationMethod"
-                                type="checkbox" value="site-notice" data-cy="answer-site-notice">
+                                type="checkbox" value="site-notice" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-site-notice">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod">A site notice</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod-2" name="notificationMethod"
-                                type="checkbox" value="letters-or-emails" data-cy="answer-letters-or-emails">
+                                type="checkbox" value="letters-or-emails" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-letters-or-emails">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-2">Letters or emails to interested parties</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod-3" name="notificationMethod"
-                                type="checkbox" value="advert" data-cy="answer-advert">
+                                type="checkbox" value="advert" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-advert">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-3">An advert in the local press</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -28643,42 +28656,42 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="designatedSites-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="designatedSites-hint" class="govuk-hint"></div>
                         <div class="govuk-checkboxes govuk-checkboxes" data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites" name="designatedSites"
-                                type="checkbox" value="SSSI" data-cy="answer-SSSI">
+                                type="checkbox" value="SSSI" aria-describedby="designatedSites-hint" data-cy="answer-SSSI">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites">SSSI (site of special scientific interest)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-2" name="designatedSites"
-                                type="checkbox" value="cSAC" data-cy="answer-cSAC">
+                                type="checkbox" value="cSAC" aria-describedby="designatedSites-hint" data-cy="answer-cSAC">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-2">cSAC (candidate special area of conservation)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-3" name="designatedSites"
-                                type="checkbox" value="SAC" data-cy="answer-SAC">
+                                type="checkbox" value="SAC" aria-describedby="designatedSites-hint" data-cy="answer-SAC">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-3">SAC (special area of conservation)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-4" name="designatedSites"
-                                type="checkbox" value="pSPA" data-cy="answer-pSPA">
+                                type="checkbox" value="pSPA" aria-describedby="designatedSites-hint" data-cy="answer-pSPA">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-4">pSPA (potential special protection area)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-5" name="designatedSites"
-                                type="checkbox" value="SPA" data-cy="answer-SPA">
+                                type="checkbox" value="SPA" aria-describedby="designatedSites-hint" data-cy="answer-SPA">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-5">SPA Ramsar (Ramsar special protection area)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-6" name="designatedSites"
                                 type="checkbox" value="other" data-aria-controls="conditional-designatedSites-6"
-                                data-cy="answer-other">
+                                aria-describedby="designatedSites-hint" data-cy="answer-other">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-6">Other</label>
                             </div>
                             <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
@@ -28692,14 +28705,15 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                             <div class="govuk-checkboxes__divider">or</div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-8" name="designatedSites"
-                                type="checkbox" value="None" data-behaviour="exclusive" data-cy="answer-None">
+                                type="checkbox" value="None" data-behaviour="exclusive" aria-describedby="designatedSites-hint"
+                                data-cy="answer-None">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-8">No, it is not in, near or likely to affect any designated sites</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -32408,42 +32422,42 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="designatedSites-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="designatedSites-hint" class="govuk-hint"></div>
                         <div class="govuk-checkboxes govuk-checkboxes" data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites" name="designatedSites"
-                                type="checkbox" value="SSSI" data-cy="answer-SSSI">
+                                type="checkbox" value="SSSI" aria-describedby="designatedSites-hint" data-cy="answer-SSSI">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites">SSSI (site of special scientific interest)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-2" name="designatedSites"
-                                type="checkbox" value="cSAC" data-cy="answer-cSAC">
+                                type="checkbox" value="cSAC" aria-describedby="designatedSites-hint" data-cy="answer-cSAC">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-2">cSAC (candidate special area of conservation)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-3" name="designatedSites"
-                                type="checkbox" value="SAC" data-cy="answer-SAC">
+                                type="checkbox" value="SAC" aria-describedby="designatedSites-hint" data-cy="answer-SAC">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-3">SAC (special area of conservation)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-4" name="designatedSites"
-                                type="checkbox" value="pSPA" data-cy="answer-pSPA">
+                                type="checkbox" value="pSPA" aria-describedby="designatedSites-hint" data-cy="answer-pSPA">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-4">pSPA (potential special protection area)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-5" name="designatedSites"
-                                type="checkbox" value="SPA" data-cy="answer-SPA">
+                                type="checkbox" value="SPA" aria-describedby="designatedSites-hint" data-cy="answer-SPA">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-5">SPA Ramsar (Ramsar special protection area)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-6" name="designatedSites"
                                 type="checkbox" value="other" data-aria-controls="conditional-designatedSites-6"
-                                data-cy="answer-other">
+                                aria-describedby="designatedSites-hint" data-cy="answer-other">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-6">Other</label>
                             </div>
                             <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
@@ -32457,14 +32471,15 @@ exports[`Dynamic forms journey tests lpa Enforcement notice Enforcement notice s
                             <div class="govuk-checkboxes__divider">or</div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-8" name="designatedSites"
-                                type="checkbox" value="None" data-behaviour="exclusive" data-cy="answer-None">
+                                type="checkbox" value="None" data-behaviour="exclusive" aria-describedby="designatedSites-hint"
+                                data-cy="answer-None">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-8">No, it is not in, near or likely to affect any designated sites</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -36478,34 +36493,37 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/notified/notification-type"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="notificationMethod-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> How did you notify relevant parties about the planning application?</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset" aria-describedby="notificationMethod-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> How did you notify relevant parties about the planning application?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="notificationMethod-hint" class="govuk-hint">Select all that apply</div>
                         <div class="govuk-checkboxes govuk-checkboxes"
                         data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod" name="notificationMethod"
-                                type="checkbox" value="site-notice" data-cy="answer-site-notice">
+                                type="checkbox" value="site-notice" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-site-notice">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod">A site notice</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod-2" name="notificationMethod"
-                                type="checkbox" value="letters-or-emails" data-cy="answer-letters-or-emails">
+                                type="checkbox" value="letters-or-emails" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-letters-or-emails">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-2">Letters or emails to interested parties</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod-3" name="notificationMethod"
-                                type="checkbox" value="advert" data-cy="answer-advert">
+                                type="checkbox" value="advert" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-advert">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-3">An advert in the local press</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -39629,42 +39647,42 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the des
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="designatedSites-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="designatedSites-hint" class="govuk-hint"></div>
                         <div class="govuk-checkboxes govuk-checkboxes" data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites" name="designatedSites"
-                                type="checkbox" value="SSSI" data-cy="answer-SSSI">
+                                type="checkbox" value="SSSI" aria-describedby="designatedSites-hint" data-cy="answer-SSSI">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites">SSSI (site of special scientific interest)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-2" name="designatedSites"
-                                type="checkbox" value="cSAC" data-cy="answer-cSAC">
+                                type="checkbox" value="cSAC" aria-describedby="designatedSites-hint" data-cy="answer-cSAC">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-2">cSAC (candidate special area of conservation)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-3" name="designatedSites"
-                                type="checkbox" value="SAC" data-cy="answer-SAC">
+                                type="checkbox" value="SAC" aria-describedby="designatedSites-hint" data-cy="answer-SAC">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-3">SAC (special area of conservation)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-4" name="designatedSites"
-                                type="checkbox" value="pSPA" data-cy="answer-pSPA">
+                                type="checkbox" value="pSPA" aria-describedby="designatedSites-hint" data-cy="answer-pSPA">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-4">pSPA (potential special protection area)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-5" name="designatedSites"
-                                type="checkbox" value="SPA" data-cy="answer-SPA">
+                                type="checkbox" value="SPA" aria-describedby="designatedSites-hint" data-cy="answer-SPA">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-5">SPA Ramsar (Ramsar special protection area)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-6" name="designatedSites"
                                 type="checkbox" value="other" data-aria-controls="conditional-designatedSites-6"
-                                data-cy="answer-other">
+                                aria-describedby="designatedSites-hint" data-cy="answer-other">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-6">Other</label>
                             </div>
                             <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
@@ -39678,14 +39696,15 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the des
                             <div class="govuk-checkboxes__divider">or</div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-8" name="designatedSites"
-                                type="checkbox" value="None" data-behaviour="exclusive" data-cy="answer-None">
+                                type="checkbox" value="None" data-behaviour="exclusive" aria-describedby="designatedSites-hint"
+                                data-cy="answer-None">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-8">No, it is not in, near or likely to affect any designated sites</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -40483,34 +40502,37 @@ exports[`Dynamic forms journey tests lpa Planning Planning should render the not
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/notified/notification-type"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="notificationMethod-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> How did you notify relevant parties about the planning application?</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset" aria-describedby="notificationMethod-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> How did you notify relevant parties about the planning application?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="notificationMethod-hint" class="govuk-hint">Select all that apply</div>
                         <div class="govuk-checkboxes govuk-checkboxes"
                         data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod" name="notificationMethod"
-                                type="checkbox" value="site-notice" data-cy="answer-site-notice">
+                                type="checkbox" value="site-notice" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-site-notice">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod">A site notice</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod-2" name="notificationMethod"
-                                type="checkbox" value="letters-or-emails" data-cy="answer-letters-or-emails">
+                                type="checkbox" value="letters-or-emails" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-letters-or-emails">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-2">Letters or emails to interested parties</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod-3" name="notificationMethod"
-                                type="checkbox" value="advert" data-cy="answer-advert">
+                                type="checkbox" value="advert" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-advert">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-3">An advert in the local press</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -42898,42 +42920,42 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/constraints/designated-sites"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="designatedSites-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> Is the development in, near or likely to affect any designated sites?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="designatedSites-hint" class="govuk-hint"></div>
                         <div class="govuk-checkboxes govuk-checkboxes" data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites" name="designatedSites"
-                                type="checkbox" value="SSSI" data-cy="answer-SSSI">
+                                type="checkbox" value="SSSI" aria-describedby="designatedSites-hint" data-cy="answer-SSSI">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites">SSSI (site of special scientific interest)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-2" name="designatedSites"
-                                type="checkbox" value="cSAC" data-cy="answer-cSAC">
+                                type="checkbox" value="cSAC" aria-describedby="designatedSites-hint" data-cy="answer-cSAC">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-2">cSAC (candidate special area of conservation)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-3" name="designatedSites"
-                                type="checkbox" value="SAC" data-cy="answer-SAC">
+                                type="checkbox" value="SAC" aria-describedby="designatedSites-hint" data-cy="answer-SAC">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-3">SAC (special area of conservation)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-4" name="designatedSites"
-                                type="checkbox" value="pSPA" data-cy="answer-pSPA">
+                                type="checkbox" value="pSPA" aria-describedby="designatedSites-hint" data-cy="answer-pSPA">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-4">pSPA (potential special protection area)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-5" name="designatedSites"
-                                type="checkbox" value="SPA" data-cy="answer-SPA">
+                                type="checkbox" value="SPA" aria-describedby="designatedSites-hint" data-cy="answer-SPA">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-5">SPA Ramsar (Ramsar special protection area)</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-6" name="designatedSites"
                                 type="checkbox" value="other" data-aria-controls="conditional-designatedSites-6"
-                                data-cy="answer-other">
+                                aria-describedby="designatedSites-hint" data-cy="answer-other">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-6">Other</label>
                             </div>
                             <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden"
@@ -42947,14 +42969,15 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                             <div class="govuk-checkboxes__divider">or</div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="designatedSites-8" name="designatedSites"
-                                type="checkbox" value="None" data-behaviour="exclusive" data-cy="answer-None">
+                                type="checkbox" value="None" data-behaviour="exclusive" aria-describedby="designatedSites-hint"
+                                data-cy="answer-None">
                                 <label class="govuk-label govuk-checkboxes__label" for="designatedSites-8">No, it is not in, near or likely to affect any designated sites</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
@@ -43797,34 +43820,37 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
         <div class="govuk-grid-column-two-thirds">
             <form action="/manage-appeals/questionnaire/appeal-ref/notified/notification-type"
             method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="notificationMethod-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> How did you notify relevant parties about the planning application?</h1>
-                        </legend>
+                <fieldset class="govuk-fieldset" aria-describedby="notificationMethod-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <h1 class="govuk-fieldset__heading"> How did you notify relevant parties about the planning application?</h1>
+                    </legend>
+                    <div class="govuk-form-group">
                         <div id="notificationMethod-hint" class="govuk-hint">Select all that apply</div>
                         <div class="govuk-checkboxes govuk-checkboxes"
                         data-module="govuk-checkboxes">
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod" name="notificationMethod"
-                                type="checkbox" value="site-notice" data-cy="answer-site-notice">
+                                type="checkbox" value="site-notice" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-site-notice">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod">A site notice</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod-2" name="notificationMethod"
-                                type="checkbox" value="letters-or-emails" data-cy="answer-letters-or-emails">
+                                type="checkbox" value="letters-or-emails" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-letters-or-emails">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-2">Letters or emails to interested parties</label>
                             </div>
                             <div class="govuk-checkboxes__item">
                                 <input class="govuk-checkboxes__input" id="notificationMethod-3" name="notificationMethod"
-                                type="checkbox" value="advert" data-cy="answer-advert">
+                                type="checkbox" value="advert" aria-describedby="notificationMethod-hint"
+                                data-cy="answer-advert">
                                 <label class="govuk-label govuk-checkboxes__label" for="notificationMethod-3">An advert in the local press</label>
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
+                    </div>
+                    <button type="submit" class="govuk-button" data-module="govuk-button"
+                    data-cy="button-save-and-continue">Continue</button>
+                </fieldset>
             </form>
         </div>
     </div>
