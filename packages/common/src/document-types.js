@@ -470,7 +470,7 @@ const documentTypes = {
 	},
 	appellantEnvironmentalStatement: {
 		name: 'appellantEnvironmentalStatement',
-		dataModelName: APPEAL_DOCUMENT_TYPE.ENVIRONMENTAL_ASSESSMENT,
+		dataModelName: APPEAL_DOCUMENT_TYPE.EIA_ENVIRONMENTAL_STATEMENT_APPELLANT,
 		multiple: true,
 		displayName: 'Environmental statement',
 		involvement: 'Appellant',
