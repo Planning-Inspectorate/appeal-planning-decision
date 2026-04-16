@@ -306,3 +306,54 @@ describe('appeal-documents-rows - enforcement and enforcement listed', () => {
 		);
 	});
 });
+
+describe('appeal-documents-rows - expedited part 1', () => {
+	const expeditedCaseData = {
+		appealTypeCode: CASE_TYPES.S78.processCode,
+		typeOfPlanningApplication: 'full-appeal',
+		applicationDecision: 'refused',
+		applicationDate: '2026-04-10',
+		changedDevelopmentDescription: true,
+		appellantCostsAppliedFor: true,
+		statusPlanningObligation: 'finalised',
+		Documents: []
+	};
+
+	it('should create rows for an expedited part 1 appeal', () => {
+		const rows = documentsRows(expeditedCaseData);
+		expect(rows.length).toEqual(7);
+	});
+
+	it('should have the correct rows in the correct order', () => {
+		const rows = documentsRows(expeditedCaseData);
+		const expectedRows = [
+			'Application form',
+			'Decision letter',
+			'Separate ownership certificate in application',
+			'Evidence of agreement to change description of development',
+			'Appeal statement',
+			'Environmental statement',
+			'Costs application'
+		];
+
+		rows.forEach((row, index) => {
+			expect(row.keyText).toEqual(expectedRows[index]);
+			expect(row.condition(expeditedCaseData)).toEqual(true);
+		});
+	});
+
+	it('should handle missing optional documents', () => {
+		const minimalCaseData = {
+			...expeditedCaseData,
+			changedDevelopmentDescription: false,
+			appellantCostsAppliedFor: false,
+			statusPlanningObligation: null
+		};
+		const rows = documentsRows(minimalCaseData);
+
+		// Evidence of agreement to change description
+		expect(rows[3].condition(minimalCaseData)).toEqual(false);
+		// Costs application
+		expect(rows[6].condition(minimalCaseData)).toEqual(false);
+	});
+});

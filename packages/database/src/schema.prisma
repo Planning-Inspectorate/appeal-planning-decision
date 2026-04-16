@@ -367,20 +367,27 @@ model AppealCase {
   //***************************************************************************
 
   // todo: in data model but not asked or handled anywhere?
-  siteWithinSSSI                Boolean? // SSSI is an option for designatedSites
-  siteViewableFromRoad          Boolean? // todo: could map from site access details, otherwise not in command
-  caseworkReason                String?
-  importantInformation          String?
-  jurisdiction                  String?
-  redeterminedIndicator         String?
-  numberOfResidencesNetChange   Int?
+  siteWithinSSSI                                         Boolean? // SSSI is an option for designatedSites
+  siteViewableFromRoad                                   Boolean? // todo: could map from site access details, otherwise not in command
+  caseworkReason                                         String?
+  importantInformation                                   String?
+  jurisdiction                                           String?
+  redeterminedIndicator                                  String?
+  numberOfResidencesNetChange                            Int?
   // consistent naming for date fields?
-  dateNotRecoveredOrDerecovered DateTime?
-  dateRecovered                 DateTime?
-  originalCaseDecisionDate      DateTime?
-  targetDate                    DateTime?
-  siteNoticesSentDate           DateTime?
-  dateCostsReportDespatched     DateTime?
+  dateNotRecoveredOrDerecovered                          DateTime?
+  dateRecovered                                          DateTime?
+  originalCaseDecisionDate                               DateTime?
+  targetDate                                             DateTime?
+  siteNoticesSentDate                                    DateTime?
+  dateCostsReportDespatched                              DateTime?
+  reasonForAppealAppellant                               String?   @db.NVarChar(MAX)
+  screeningOpinionIndicatesEiaRequired                   Boolean?
+  anySignificantChanges                                  String?
+  anySignificantChanges_otherSignificantChanges          String?   @db.NVarChar(MAX)
+  anySignificantChanges_localPlanSignificantChanges      String?   @db.NVarChar(MAX)
+  anySignificantChanges_nationalPolicySignificantChanges String?   @db.NVarChar(MAX)
+  anySignificantChanges_courtJudgementSignificantChanges String?   @db.NVarChar(MAX)
 
   //***************************************************************************
   // s20 fields
