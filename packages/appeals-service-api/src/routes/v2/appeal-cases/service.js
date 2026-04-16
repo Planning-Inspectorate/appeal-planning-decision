@@ -561,6 +561,29 @@ const mapS78DataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	siteGridReferenceNorthing: dataModel.siteGridReferenceNorthing,
 	siteViewableFromRoad: dataModel.siteViewableFromRoad,
 	siteWithinSSSI: dataModel.siteWithinSSSI,
+	//s78 expedited fields
+	reasonForAppealAppellant: dataModel.reasonForAppealAppellant,
+	screeningOpinionIndicatesEiaRequired: dataModel.screeningOpinionIndicatesEiaRequired,
+	anySignificantChanges:
+		dataModel.significantChangesAffectingApplicationAppellant
+			?.map((/** @type {any} */ c) => c.value)
+			.join(',') || null,
+	anySignificantChanges_otherSignificantChanges:
+		dataModel.significantChangesAffectingApplicationAppellant?.find(
+			(/** @type {any} */ c) => c.value === 'other'
+		)?.comment || null,
+	anySignificantChanges_localPlanSignificantChanges:
+		dataModel.significantChangesAffectingApplicationAppellant?.find(
+			(/** @type {any} */ c) => c.value === 'adopted-a-new-local-plan'
+		)?.comment || null,
+	anySignificantChanges_nationalPolicySignificantChanges:
+		dataModel.significantChangesAffectingApplicationAppellant?.find(
+			(/** @type {any} */ c) => c.value === 'national-policy-change'
+		)?.comment || null,
+	anySignificantChanges_courtJudgementSignificantChanges:
+		dataModel.significantChangesAffectingApplicationAppellant?.find(
+			(/** @type {any} */ c) => c.value === 'court-judgement'
+		)?.comment || null,
 	// s20 specific fields
 	preserveGrantLoan: dataModel.preserveGrantLoan,
 	consultHistoricEngland: dataModel.consultHistoricEngland

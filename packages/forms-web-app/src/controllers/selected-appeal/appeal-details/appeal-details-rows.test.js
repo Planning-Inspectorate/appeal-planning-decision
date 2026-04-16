@@ -1501,4 +1501,74 @@ describe('appeal-details-rows - enforcement and enforcement listed', () => {
 			expect(rows2[costsApplicationIndex].valueText).toEqual('No');
 		});
 	});
+
+	describe('appeal-details-rows - expedited part 1', () => {
+		const appellant = {
+			serviceUserType: APPEAL_USER_ROLES.APPELLANT,
+			firstName: 'Appellant',
+			lastName: 'Test'
+		};
+		const expeditedCaseData = {
+			appealTypeCode: CASE_TYPES.S78.processCode,
+			typeOfPlanningApplication: 'full-appeal',
+			applicationDecision: 'refused',
+			applicationDate: '2026-04-10',
+			applicationReference: 'APP/Q9999/W/22/1234567',
+			users: [appellant],
+			siteAddressLine1: '123 Test Road',
+			siteAddressTown: 'Test Town',
+			siteAddressPostcode: 'TE1 1ST',
+			siteAreaSquareMetres: 100,
+			isGreenBelt: true,
+			ownsAllLand: true,
+			agriculturalHolding: false,
+			siteAccessDetails: ['Is accessible'],
+			siteHealthAndSafetyDetails: ['Safe'],
+			developmentType: 'major-dwellings',
+			originalDevelopmentDescription: 'Large development',
+			changedDevelopmentDescription: true,
+			reasonForAppealAppellant: 'The reason for appeal',
+			anySignificantChanges: 'adopted-a-new-local-plan, other',
+			anySignificantChanges_localPlanSignificantChanges: 'Local plan details',
+			anySignificantChanges_otherSignificantChanges: 'Other details',
+			appellantProcedurePreference: 'Inquiry',
+			appellantCostsAppliedFor: true
+		};
+
+		it('should create expedited rows in the correct order', () => {
+			const rows = detailsRows(expeditedCaseData, APPEAL_USER_ROLES.APPELLANT);
+
+			// Reordered Application Reference at index 2
+			expect(rows[2].keyText).toEqual('Application reference');
+			expect(rows[2].valueText).toEqual('APP/Q9999/W/22/1234567');
+
+			// Reordered Site Access at index 19
+			expect(rows[19].keyText).toEqual('Will an inspector need to access the land or property?');
+			expect(rows[19].valueText).toEqual('Yes \n Is accessible');
+		});
+
+		it('should display the reason for appeal', () => {
+			const rows = detailsRows(expeditedCaseData, APPEAL_USER_ROLES.APPELLANT);
+			const row = rows.find((r) => r.keyText === 'Why are you appealing?');
+			expect(row.valueText).toEqual('The reason for appeal');
+			expect(row.condition(expeditedCaseData)).toBe(true);
+		});
+
+		it('should display formatted significant changes', () => {
+			const rows = detailsRows(expeditedCaseData, APPEAL_USER_ROLES.APPELLANT);
+			const row = rows.find((r) => r.keyText === 'Significant changes since application');
+			expect(row.valueText).toContain('Adopted a new local plan');
+			expect(row.valueText).toContain('Local plan details');
+			expect(row.valueText).toContain('Other');
+			expect(row.valueText).toContain('Other details');
+			expect(row.condition(expeditedCaseData)).toBe(true);
+		});
+
+		it('should handle empty significant changes', () => {
+			const caseData = { ...expeditedCaseData, anySignificantChanges: null };
+			const rows = detailsRows(caseData, APPEAL_USER_ROLES.APPELLANT);
+			const row = rows.find((r) => r.keyText === 'Significant changes since application');
+			expect(row.condition(caseData)).toBe(false);
+		});
+	});
 });

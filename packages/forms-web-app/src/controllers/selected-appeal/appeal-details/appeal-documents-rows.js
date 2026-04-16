@@ -7,6 +7,7 @@ const {
 	APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION
 } = require('@planning-inspectorate/data-model');
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
+const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import("@pins/common/src/view-model-maps/rows/def").Rows} Rows
@@ -28,6 +29,16 @@ exports.documentsRows = (caseData) => {
 	const isS20orS78 =
 		caseData.appealTypeCode === CASE_TYPES.S20.processCode ||
 		caseData.appealTypeCode === CASE_TYPES.S78.processCode;
+
+	if (
+		isExpeditedPart1Eligible({
+			...caseData,
+			eligibility: { applicationDecision: caseData.applicationDecision }
+		})
+	) {
+		return getExpeditedDocumentsRows(caseData);
+	}
+
 	const isAdvertAppeal =
 		caseData.appealTypeCode === CASE_TYPES.CAS_ADVERTS.processCode ||
 		caseData.appealTypeCode === CASE_TYPES.ADVERTS.processCode;
@@ -204,6 +215,63 @@ const enforcementDocumentsRows = (caseData) => {
 			keyText: 'New supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS),
 			condition: () => true,
+			isEscaped: true
+		}
+	];
+};
+
+/**
+ * @param {AppealCaseDetailed} caseData
+ * @returns {Rows}
+ */
+const getExpeditedDocumentsRows = (caseData) => {
+	const documents = caseData.Documents || [];
+
+	return [
+		{
+			keyText: 'Application form',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM),
+			condition: () => true,
+			isEscaped: true
+		},
+		{
+			keyText: 'Decision letter',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPLICATION_DECISION_LETTER),
+			condition: () => true,
+			isEscaped: true
+		},
+		{
+			keyText: 'Separate ownership certificate in application',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OWNERSHIP_CERTIFICATE),
+			condition: () => true,
+			isEscaped: true
+		},
+
+		{
+			keyText: 'Evidence of agreement to change description of development',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION),
+			condition: () => !!caseData.changedDevelopmentDescription,
+			isEscaped: true
+		},
+		{
+			keyText: 'Appeal statement',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT),
+			condition: () => true,
+			isEscaped: true
+		},
+		{
+			keyText: 'Environmental statement',
+			valueText: formatDocumentDetails(
+				documents,
+				APPEAL_DOCUMENT_TYPE.EIA_ENVIRONMENTAL_STATEMENT_APPELLANT
+			),
+			condition: () => true,
+			isEscaped: true
+		},
+		{
+			keyText: 'Costs application',
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION),
+			condition: (caseData) => caseData.appellantCostsAppliedFor,
 			isEscaped: true
 		}
 	];

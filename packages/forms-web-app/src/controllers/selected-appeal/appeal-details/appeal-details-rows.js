@@ -30,10 +30,27 @@ const {
 	APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION
 } = require('@planning-inspectorate/data-model');
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
+const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
+const { nl2br } = require('@pins/common/src/utils');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import("@pins/common/src/view-model-maps/rows/def").Rows} Rows
+ *
+ * @typedef {Object} DetailsContext
+ * @property {boolean} isAppellantOrAgent
+ * @property {boolean} contactIsAppellant
+ * @property {import('appeals-service-api').Api.ServiceUser | undefined} appellant
+ * @property {import('appeals-service-api').Api.ServiceUser | undefined} contact
+ * @property {string} siteAddressValue
+ * @property {import('appeals-service-api').Api.AdvertDetails | null} advertDetails
+ * @property {boolean} isS20orS78
+ * @property {boolean} isAdvertAppeal
+ * @property {boolean} isLDC
+ * @property {boolean} isExpeditedAppealType
+ * @property {boolean} showRelatedAppeals
+ * @property {string} relatedAppeals
+ * @property {string} costApplicationKeyText
  */
 
 /**
@@ -84,6 +101,56 @@ exports.detailsRows = (caseData, userType) => {
 	// model supports multiple advert details but we only ask for one currently
 	const advertDetails =
 		caseData.AdvertDetails && caseData.AdvertDetails.length > 0 ? caseData.AdvertDetails[0] : null;
+
+	const detailsContext = {
+		isAppellantOrAgent,
+		contactIsAppellant,
+		appellant,
+		contact,
+		siteAddressValue,
+		advertDetails,
+		isS20orS78,
+		isAdvertAppeal,
+		isLDC,
+		isExpeditedAppealType,
+		showRelatedAppeals,
+		relatedAppeals,
+		costApplicationKeyText
+	};
+
+	if (
+		isExpeditedPart1Eligible({
+			...caseData,
+			eligibility: { applicationDecision: caseData.applicationDecision }
+		})
+	) {
+		return getExpeditedDetailsRows(caseData, detailsContext);
+	}
+
+	return getStandardDetailsRows(caseData, detailsContext);
+};
+
+/**
+ * @param {AppealCaseDetailed} caseData
+ * @param {DetailsContext} context
+ * @returns {Rows}
+ */
+const getStandardDetailsRows = (caseData, context) => {
+	const {
+		isAppellantOrAgent,
+		contactIsAppellant,
+		appellant,
+		contact,
+		siteAddressValue,
+		advertDetails,
+		isS20orS78,
+		isAdvertAppeal,
+		isLDC,
+		isExpeditedAppealType,
+		showRelatedAppeals,
+		relatedAppeals,
+		costApplicationKeyText
+	} = context;
 
 	return [
 		{
@@ -633,6 +700,225 @@ const enforcementDetailsRows = (caseData, userType) => {
 			condition: () => true
 		}
 	];
+};
+/**
+ * @param {AppealCaseDetailed} caseData
+ * @param {DetailsContext} context
+ * @returns {Rows}
+ */
+const getExpeditedDetailsRows = (caseData, context) => {
+	const {
+		isAppellantOrAgent,
+		contactIsAppellant,
+		appellant,
+		contact,
+		siteAddressValue,
+		isS20orS78,
+		showRelatedAppeals,
+		relatedAppeals,
+		costApplicationKeyText
+	} = context;
+
+	return [
+		{
+			keyText:
+				isAppellantOrAgent && contactIsAppellant
+					? 'Was the application made in your name?'
+					: "Was the application made in the appellant's name",
+			valueText: boolToYesNo(contactIsAppellant),
+			condition: () => true
+		},
+		{
+			keyText: "Applicant's name",
+			valueText: formatUserDetails(appellant),
+			condition: () => !contactIsAppellant,
+			isEscaped: true
+		},
+		{
+			keyText: 'Application reference',
+			valueText: caseData.applicationReference ?? '',
+			condition: (caseData) => !!caseData.applicationReference
+		},
+		{
+			keyText: 'Contact details',
+			valueText: formatUserDetails(contact),
+			condition: () => true,
+			isEscaped: true
+		},
+		{
+			keyText: 'Phone number',
+			valueText: contact?.telephoneNumber ? contact.telephoneNumber : '',
+			condition: () => contact?.telephoneNumber
+		},
+		{
+			keyText: 'Site address',
+			valueText: siteAddressValue,
+			condition: (caseData) => caseData.siteAddressLine1 || caseData.siteGridReferenceEasting
+		},
+		{
+			keyText: 'What is the area of the appeal site?',
+			valueText: `${caseData.siteAreaSquareMetres} m\u00B2`,
+			condition: (caseData) => !!caseData.siteAreaSquareMetres
+		},
+		{
+			keyText: 'Is the site in a green belt',
+			valueText: formatYesOrNo(caseData, 'isGreenBelt'),
+			condition: (caseData) => caseData.isGreenBelt != null
+		},
+		{
+			keyText: 'Site fully owned',
+			valueText: formatYesOrNo(caseData, 'ownsAllLand'),
+			condition: (caseData) => caseData.ownsAllLand != null
+		},
+		{
+			keyText: 'Site partly owned',
+			valueText: formatYesOrNo(caseData, 'ownsSomeLand'),
+			condition: (caseData) => caseData.ownsSomeLand != null
+		},
+		{
+			keyText: 'All owners known',
+			valueText: caseData.knowsAllOwners ?? '',
+			condition: (caseData) => caseData.knowsAllOwners != null
+		},
+		{
+			keyText: 'Other owners known',
+			valueText: caseData.knowsOtherOwners ?? '',
+			condition: (caseData) => caseData.knowsOtherOwners != null
+		},
+		{
+			keyText: 'Other owners identified',
+			valueText: formatYesOrNo(caseData, 'advertisedAppeal'),
+			condition: (caseData) => caseData.advertisedAppeal != null
+		},
+		{
+			keyText: 'Advertised appeal',
+			valueText: formatYesOrNo(caseData, 'advertisedAppeal'),
+			condition: (caseData) => caseData.advertisedAppeal != null
+		},
+		{
+			keyText: 'Other owners informed',
+			valueText: formatYesOrNo(caseData, 'ownersInformed'),
+			condition: (caseData) => caseData.ownersInformed != null
+		},
+		{
+			keyText: 'Agricultural holding',
+			valueText: formatYesOrNo(caseData, 'agriculturalHolding'),
+			condition: (caseData) => isS20orS78 && caseData.agriculturalHolding != null
+		},
+		{
+			keyText: 'Tenant on agricultural holding',
+			valueText: formatYesOrNo(caseData, 'tenantAgriculturalHolding'),
+			condition: (caseData) => isS20orS78 && caseData.tenantAgriculturalHolding != null
+		},
+		{
+			keyText: 'Other agricultural holding tenants',
+			valueText: formatYesOrNo(caseData, 'otherTenantsAgriculturalHolding'),
+			condition: (caseData) => isS20orS78 && caseData.otherTenantsAgriculturalHolding != null
+		},
+		{
+			keyText: 'Informed other agricultural holding tenants',
+			valueText: formatYesOrNo(caseData, 'informedTenantsAgriculturalHolding'),
+			condition: (caseData) => isS20orS78 && caseData.informedTenantsAgriculturalHolding != null
+		},
+		{
+			keyText: 'Will an inspector need to access the land or property?',
+			valueText: formatAccessDetails(caseData),
+			condition: () => true
+		},
+		{
+			keyText: 'Site health and safety issues',
+			valueText: formatHealthAndSafety(caseData),
+			condition: () => true
+		},
+		{
+			keyText: 'Was your application for a major or minor development?',
+			valueText: formatMajorMinorDevelopmentType(caseData.developmentType),
+			condition: (caseData) =>
+				isS20orS78 && !!formatMajorMinorDevelopmentType(caseData.developmentType)
+		},
+		{
+			keyText: 'Was your application about any of the following?',
+			valueText: formatDevelopmentType(caseData.developmentType),
+			condition: () => isS20orS78 && caseData.developmentType != null
+		},
+		{
+			keyText: 'Enter the description of development',
+			valueText: caseData.originalDevelopmentDescription ?? '',
+			condition: (caseData) => caseData.originalDevelopmentDescription
+		},
+		{
+			keyText: 'Did the local planning authority change the description of development?',
+			valueText: formatYesOrNo(caseData, 'changedDevelopmentDescription'),
+			condition: (caseData) => isNotUndefinedOrNull(caseData.changedDevelopmentDescription),
+			isEscaped: true
+		},
+		{
+			keyText: 'Why are you appealing?',
+			valueText: caseData.reasonForAppealAppellant ?? '',
+			condition: (caseData) => isNotUndefinedOrNull(caseData.reasonForAppealAppellant),
+			isEscaped: true
+		},
+		{
+			keyText: 'Significant changes since application',
+			valueText: formatSignificantChanges(caseData),
+			condition: (caseData) => isNotUndefinedOrNull(caseData.anySignificantChanges),
+			isEscaped: true
+		},
+		{
+			keyText: 'Preferred procedure',
+			valueText: formatProcedure(caseData),
+			condition: (caseData) => caseData.appellantProcedurePreference
+		},
+		{
+			keyText: 'Are there other appeals linked to your development?',
+			valueText: showRelatedAppeals ? `Yes \n ${relatedAppeals}` : 'No',
+			condition: () => true,
+			isEscaped: true
+		},
+		{
+			keyText: costApplicationKeyText,
+			valueText: caseData.appellantCostsAppliedFor ? 'Yes' : 'No',
+			condition: () => true
+		}
+	];
+};
+
+const formatSignificantChanges = (caseData) => {
+	const changes = caseData.anySignificantChanges?.split(',').map((s) => s.trim()) || [];
+	if (changes.length === 0) return '';
+
+	const mapping = [
+		{
+			key: 'adopted-a-new-local-plan',
+			label: 'Adopted a new local plan',
+			details: caseData.anySignificantChanges_localPlanSignificantChanges
+		},
+		{
+			key: 'national-policy-change',
+			label: 'National policy changes',
+			details: caseData.anySignificantChanges_nationalPolicySignificantChanges
+		},
+		{
+			key: 'court-judgement',
+			label: 'Court judgment',
+			details: caseData.anySignificantChanges_courtJudgementSignificantChanges
+		},
+		{
+			key: 'other',
+			label: 'Other',
+			details: caseData.anySignificantChanges_otherSignificantChanges
+		}
+	];
+
+	return nl2br(
+		mapping
+			.filter((m) => changes.includes(m.key))
+			.map((m) => {
+				const details = m.details ? `\n${m.details}` : '';
+				return `${m.label}:${details}`;
+			})
+			.join('\n\n')
+	);
 };
 
 const mapApplicationDecision = (/** @type {string | null | undefined} */ decision) => {
