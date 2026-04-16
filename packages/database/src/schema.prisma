@@ -870,7 +870,7 @@ model AppellantSubmission {
   anySignificantChanges_nationalPolicySignificantChanges String? @db.NVarChar(MAX)
   anySignificantChanges_courtJudgementSignificantChanges String? @db.NVarChar(MAX)
   siteUseAtTimeOfApplication                             String?
-  whyAreYouAppealing                                     String?
+  whyAreYouAppealing                                     String? @db.NVarChar(MAX)
 
   // number entries
   siteAreaSquareMetres            Decimal?
