@@ -2217,6 +2217,7 @@ exports.getQuestionProps = (response) => ({
 		question: 'Upload any other documents submitted with the application',
 		fieldName: 'uploadAdditionalDocuments',
 		url: 'upload-other-documents',
+		html: 'resources/upload-other-documents/content.html',
 		validators: [
 			new RequiredFileUploadValidator('Select any other documents'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
