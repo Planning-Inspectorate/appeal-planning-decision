@@ -177,6 +177,9 @@ const makeSections = (response) => {
 			.withCondition(() => questionHasAnswer(response, questions.separateOwnershipCert, 'yes'))
 			.addQuestion(questions.uploadAppellantStatement)
 			.addQuestion(questions.uploadChangeOfDescriptionEvidence)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
+			)
 			.addQuestion(questions.submitEnvironmentStatementPart1)
 			.addQuestion(questions.uploadEnvironmentStatementPart1)
 			.withCondition(() =>
