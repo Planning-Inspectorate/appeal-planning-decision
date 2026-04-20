@@ -11,6 +11,7 @@ const {
 } = require('@pins/common/src/constants');
 const { formatSubmissionDate } = require('@pins/common/src/lib/format-appeal-details');
 const config = require('../../config');
+const { isEnforcementChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
 
 /**
  * @type {import("@pins/common/src/view-model-maps/sections/def").Sections}
@@ -55,6 +56,7 @@ exports.sections = [
 				},
 				condition: (appealCase) =>
 					config.featureFlag.appellantStatementEnabled &&
+					!isEnforcementChildLinkedAppeal(appealCase) &&
 					representationExists(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.STATEMENT,
 						owned: true,
@@ -65,6 +67,7 @@ exports.sections = [
 				url: '/lpa-statement',
 				text: 'View local planning authority statement',
 				condition: (appealCase) =>
+					!isEnforcementChildLinkedAppeal(appealCase) &&
 					representationPublished(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.STATEMENT,
 						owned: false,
@@ -90,6 +93,7 @@ exports.sections = [
 				url: '/interested-party-comments',
 				text: 'View interested party comments',
 				condition: (appealCase) =>
+					!isEnforcementChildLinkedAppeal(appealCase) &&
 					representationPublished(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
 					})
@@ -103,6 +107,7 @@ exports.sections = [
 				url: '/final-comments',
 				text: 'View your final comments',
 				condition: (appealCase) =>
+					!isEnforcementChildLinkedAppeal(appealCase) &&
 					representationExists(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.FINAL_COMMENT,
 						owned: true,
@@ -113,6 +118,7 @@ exports.sections = [
 				url: '/lpa-final-comments',
 				text: 'View local planning authority final comments',
 				condition: (appealCase) =>
+					!isEnforcementChildLinkedAppeal(appealCase) &&
 					representationPublished(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.FINAL_COMMENT,
 						owned: false,

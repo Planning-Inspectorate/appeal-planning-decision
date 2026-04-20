@@ -11,6 +11,7 @@ const {
 } = require('@pins/common/src/constants');
 const { formatSubmissionDate } = require('@pins/common/src/lib/format-appeal-details');
 const config = require('../../config');
+const { isEnforcementChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
 
 /**
  * @type {import("@pins/common/src/view-model-maps/sections/def").Sections}
@@ -62,6 +63,7 @@ exports.sections = [
 						)
 				},
 				condition: (appealCase) =>
+					!isEnforcementChildLinkedAppeal(appealCase) &&
 					representationExists(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.STATEMENT,
 						owned: true,
@@ -73,6 +75,7 @@ exports.sections = [
 				text: 'View appellant statement',
 				condition: (appealCase) =>
 					config.featureFlag.appellantStatementEnabled &&
+					!isEnforcementChildLinkedAppeal(appealCase) &&
 					representationPublished(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.STATEMENT,
 						owned: false,
@@ -98,6 +101,7 @@ exports.sections = [
 				url: '/interested-party-comments',
 				text: 'View interested party comments',
 				condition: (appealCase) =>
+					!isEnforcementChildLinkedAppeal(appealCase) &&
 					representationPublished(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
 					})
@@ -122,6 +126,7 @@ exports.sections = [
 						)
 				},
 				condition: (appealCase) =>
+					!isEnforcementChildLinkedAppeal(appealCase) &&
 					representationExists(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.FINAL_COMMENT,
 						owned: true,
@@ -132,6 +137,7 @@ exports.sections = [
 				url: '/appellant-final-comments',
 				text: 'View appellant final comments',
 				condition: (appealCase) =>
+					!isEnforcementChildLinkedAppeal(appealCase) &&
 					representationPublished(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.FINAL_COMMENT,
 						owned: false,

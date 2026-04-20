@@ -143,6 +143,7 @@ exports.isRule6ProofsOfEvidenceOpen = (appealCaseData) =>
  * @returns {boolean}
  */
 const finalCommentsAreOpen = (appealCaseData) =>
+	!isChildLinkedAppeal(appealCaseData) &&
 	!deadlineHasPassed(appealCaseData.finalCommentsDueDate) &&
 	appealCaseData.caseStatus === APPEAL_CASE_STATUS.FINAL_COMMENTS;
 
@@ -152,9 +153,7 @@ const finalCommentsAreOpen = (appealCaseData) =>
  * @returns {boolean}
  */
 exports.isAppellantFinalCommentOpen = (appealCaseData) =>
-	!isChildLinkedAppeal(appealCaseData) &&
-	finalCommentsAreOpen(appealCaseData) &&
-	!appealCaseData.appellantCommentsSubmittedDate;
+	finalCommentsAreOpen(appealCaseData) && !appealCaseData.appellantCommentsSubmittedDate;
 
 /**
  * final comment is open for LPA
@@ -162,6 +161,4 @@ exports.isAppellantFinalCommentOpen = (appealCaseData) =>
  * @returns {boolean}
  */
 exports.isLPAFinalCommentOpen = (appealCaseData) =>
-	!isChildLinkedAppeal(appealCaseData) &&
-	finalCommentsAreOpen(appealCaseData) &&
-	!appealCaseData.LPACommentsSubmittedDate;
+	finalCommentsAreOpen(appealCaseData) && !appealCaseData.LPACommentsSubmittedDate;
