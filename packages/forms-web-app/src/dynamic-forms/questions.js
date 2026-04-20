@@ -2165,7 +2165,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	designAccessStatementPart1: {
 		type: 'boolean',
-		title: 'Did you submit a design and access statement with your application?',
+		title: 'Did the applicant submit a design and access statement with the application?',
 		question: 'Did the applicant submit a design and access statement with the application?',
 		fieldName: 'designAccessStatement',
 		url: 'design-and-access-statement',
