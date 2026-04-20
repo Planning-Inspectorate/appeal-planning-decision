@@ -6,6 +6,7 @@ const {
 	REPRESENTATION_TYPES,
 	LPA_USER_ROLE
 } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_REPRESENTATION_STATUS } = require('@planning-inspectorate/data-model');
 
 const { addDays } = require('date-fns');
@@ -17,6 +18,7 @@ describe('LPA and Appellant Sections', () => {
 	beforeEach(() => {
 		appealCase = {
 			caseValidDate: '2023-09-01',
+			caseReference: 'testCaseReference',
 			// statusPlanningObligation: 'finalised',
 
 			// lpaq
@@ -119,6 +121,24 @@ describe('LPA and Appellant Sections', () => {
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 
+			it('should not show "View your statement" when enforcement child linked appeal', () => {
+				const testCase = structuredClone(appealCase);
+
+				testCase.Representations = [
+					{
+						submittingPartyType: LPA_USER_ROLE,
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: true,
+						representationType: REPRESENTATION_TYPES.STATEMENT
+					}
+				];
+				testCase.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
+				testCase.linkedCases = [{ childCaseReference: appealCase.caseReference }];
+				const section = findSectionByHeading(lpaSections, 'Statements');
+				const link = findLinkByUrl(section, '/statement');
+				expect(link?.condition(testCase)).toBe(false);
+			});
+
 			it('should show "View other party statements" when a rule6Statement is published', () => {
 				appealCase.Representations = [
 					{
@@ -160,6 +180,22 @@ describe('LPA and Appellant Sections', () => {
 				const section = findSectionByHeading(lpaSections, 'Interested party comments');
 				const link = findLinkByUrl(section, '/interested-party-comments');
 				expect(link?.condition(appealCase)).toBe(false);
+			});
+
+			it('should not show "View interested party comments" when enforcement child linked appeal', () => {
+				const testCase = structuredClone(appealCase);
+				testCase.Representations = [
+					{
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
+					}
+				];
+				testCase.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
+				testCase.linkedCases = [{ childCaseReference: appealCase.caseReference }];
+
+				const section = findSectionByHeading(lpaSections, 'Interested party comments');
+				const link = findLinkByUrl(section, '/interested-party-comments');
+				expect(link?.condition(testCase)).toBe(false);
 			});
 		});
 
@@ -209,6 +245,24 @@ describe('LPA and Appellant Sections', () => {
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 
+			it('should not show "View your final comments" when enforcement linked child appeal', () => {
+				const testCase = structuredClone(appealCase);
+
+				testCase.Representations = [
+					{
+						submittingPartyType: LPA_USER_ROLE,
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: true,
+						representationType: REPRESENTATION_TYPES.FINAL_COMMENT
+					}
+				];
+				testCase.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
+				testCase.linkedCases = [{ childCaseReference: appealCase.caseReference }];
+				const section = findSectionByHeading(lpaSections, 'Final comments');
+				const link = findLinkByUrl(section, '/final-comments');
+				expect(link?.condition(testCase)).toBe(false);
+			});
+
 			it('should show "View appellant final comments" when appellant comment is published ', () => {
 				appealCase.Representations = [
 					{
@@ -229,6 +283,24 @@ describe('LPA and Appellant Sections', () => {
 				const section = findSectionByHeading(lpaSections, 'Final comments');
 				const link = findLinkByUrl(section, '/appellant-final-comments');
 				expect(link?.condition(appealCase)).toBe(false);
+			});
+
+			it('should not show "View appellant final comments" when enforcement linked child appeal', () => {
+				const testCase = structuredClone(appealCase);
+
+				testCase.Representations = [
+					{
+						submittingPartyType: APPEAL_USER_ROLES.APPELLANT,
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: false,
+						representationType: REPRESENTATION_TYPES.FINAL_COMMENT
+					}
+				];
+				testCase.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
+				testCase.linkedCases = [{ childCaseReference: appealCase.caseReference }];
+				const section = findSectionByHeading(lpaSections, 'Final comments');
+				const link = findLinkByUrl(section, '/final-comments');
+				expect(link?.condition(testCase)).toBe(false);
 			});
 		});
 
@@ -353,6 +425,24 @@ describe('LPA and Appellant Sections', () => {
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 
+			it('should not show "View local planning authority statement" when enforcement linked child appeal', () => {
+				const testCase = structuredClone(appealCase);
+
+				testCase.Representations = [
+					{
+						submittingPartyType: LPA_USER_ROLE,
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: false,
+						representationType: REPRESENTATION_TYPES.STATEMENT
+					}
+				];
+				testCase.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
+				testCase.linkedCases = [{ childCaseReference: appealCase.caseReference }];
+				const section = findSectionByHeading(appellantSections, 'Statements');
+				const link = findLinkByUrl(section, '/lpa-statement');
+				expect(link?.condition(testCase)).toBe(false);
+			});
+
 			it('should show "View other party statements" when any other statement is published', () => {
 				appealCase.Representations = [
 					{
@@ -395,6 +485,22 @@ describe('LPA and Appellant Sections', () => {
 				const section = findSectionByHeading(appellantSections, 'Interested party comments');
 				const link = findLinkByUrl(section, '/interested-party-comments');
 				expect(link?.condition(appealCase)).toBe(false);
+			});
+
+			it('should not show "View interested party comments" when enforcement child linked appeal', () => {
+				const testCase = structuredClone(appealCase);
+				testCase.Representations = [
+					{
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
+					}
+				];
+				testCase.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
+				testCase.linkedCases = [{ childCaseReference: appealCase.caseReference }];
+
+				const section = findSectionByHeading(lpaSections, 'Interested party comments');
+				const link = findLinkByUrl(section, '/interested-party-comments');
+				expect(link?.condition(testCase)).toBe(false);
 			});
 		});
 
@@ -444,6 +550,24 @@ describe('LPA and Appellant Sections', () => {
 				expect(link?.condition(appealCase)).toBe(false);
 			});
 
+			it('should not show "View your final comments" when enforcement child linked appeal', () => {
+				const testCase = structuredClone(appealCase);
+
+				testCase.Representations = [
+					{
+						submittingPartyType: APPEAL_USER_ROLES.APPELLANT,
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: true,
+						representationType: REPRESENTATION_TYPES.FINAL_COMMENT
+					}
+				];
+				testCase.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
+				testCase.linkedCases = [{ childCaseReference: appealCase.caseReference }];
+				const section = findSectionByHeading(appellantSections, 'Final comments');
+				const link = findLinkByUrl(section, '/final-comments');
+				expect(link?.condition(testCase)).toBe(false);
+			});
+
 			it('should show "View local planning authority final comments" when lpaFinalCommentsPublished is true', () => {
 				appealCase.Representations = [
 					{
@@ -464,6 +588,24 @@ describe('LPA and Appellant Sections', () => {
 				const section = findSectionByHeading(appellantSections, 'Final comments');
 				const link = findLinkByUrl(section, '/lpa-final-comments');
 				expect(link?.condition(appealCase)).toBe(false);
+			});
+
+			it('should not show "View local planning authority final comments" when enforcement child linked appeal', () => {
+				const testCase = structuredClone(appealCase);
+
+				testCase.Representations = [
+					{
+						submittingPartyType: LPA_USER_ROLE,
+						representationStatus: APPEAL_REPRESENTATION_STATUS.PUBLISHED,
+						userOwnsRepresentation: false,
+						representationType: REPRESENTATION_TYPES.FINAL_COMMENT
+					}
+				];
+				testCase.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
+				testCase.linkedCases = [{ childCaseReference: appealCase.caseReference }];
+				const section = findSectionByHeading(appellantSections, 'Final comments');
+				const link = findLinkByUrl(section, '/lpa-final-comments');
+				expect(link?.condition(testCase)).toBe(false);
 			});
 		});
 
