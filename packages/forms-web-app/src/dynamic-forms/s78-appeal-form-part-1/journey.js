@@ -164,7 +164,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.separateOwnershipCert)
 			.addQuestion(questions.uploadSeparateOwnershipCert)
 			.withCondition(() => questionHasAnswer(response, questions.separateOwnershipCert, 'yes'))
-			.addQuestion(questions.uploadAppellantStatement)
 			.addQuestion(questions.uploadChangeOfDescriptionEvidence)
 			.withCondition(() =>
 				questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
