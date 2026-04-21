@@ -93,11 +93,11 @@ const appealTypeFlagActive = async (appealTypeCode, LPACode) => {
 		case CASE_TYPES.S20.processCode:
 			return true;
 		case CASE_TYPES.ADVERTS.processCode:
-			return await isFeatureActive(FLAG.ADVERTS_APPEAL_FORM_V2, LPACode);
+			return true;
 		case CASE_TYPES.CAS_ADVERTS.processCode:
-			return await isFeatureActive(FLAG.CAS_ADVERTS_APPEAL_FORM_V2, LPACode);
+			return true;
 		case CASE_TYPES.CAS_PLANNING.processCode:
-			return await isFeatureActive(FLAG.CAS_PLANNING_APPEAL_FORM_V2, LPACode);
+			return true;
 		case CASE_TYPES.ENFORCEMENT.processCode:
 			return await isFeatureActive(FLAG.ENFORCEMENT_APPEAL_FORM_V2, LPACode);
 		case CASE_TYPES.ENFORCEMENT_LISTED.processCode:

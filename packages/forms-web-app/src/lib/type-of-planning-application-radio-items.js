@@ -18,19 +18,11 @@ const {
 } = require('@pins/business-rules');
 
 /**
- * @param {boolean} isCASPlanningFeatureFlag
- * @param {boolean} isCASAdvertsFeatureFlag
- * @param {boolean} isAdvertsFeatureFlag
+ * @param {boolean} isLDCFeatureFlag
  * @param {string} [typeOfPlanningApplication]
  * @returns {Array<object>} an array of objects representing govuk radio items
  */
-exports.typeOfPlanningApplicationRadioItems = (
-	isCASPlanningFeatureFlag,
-	isCASAdvertsFeatureFlag,
-	isAdvertsFeatureFlag,
-	isLDCFeatureFlag,
-	typeOfPlanningApplication
-) => {
+exports.typeOfPlanningApplicationRadioItems = (isLDCFeatureFlag, typeOfPlanningApplication) => {
 	const items = [
 		{
 			value: FULL_APPEAL,
@@ -138,15 +130,6 @@ exports.typeOfPlanningApplicationRadioItems = (
 
 	// filter the list to remove options based on feature flags
 	let filteredItems = items;
-
-	filteredItems = isCASPlanningFeatureFlag
-		? filteredItems
-		: filteredItems.filter((item) => item.value !== MINOR_COMMERCIAL_DEVELOPMENT);
-
-	filteredItems =
-		isAdvertsFeatureFlag || isCASAdvertsFeatureFlag
-			? filteredItems
-			: filteredItems.filter((item) => item.value !== ADVERTISEMENT);
 
 	filteredItems = isLDCFeatureFlag
 		? filteredItems

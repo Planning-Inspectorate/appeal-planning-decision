@@ -7,8 +7,7 @@ const {
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const {
 	VIEW: {
-		FULL_APPEAL: { GRANTED_OR_REFUSED, DECISION_DATE, DATE_DECISION_DUE },
-		BEFORE_YOU_START: { USE_EXISTING_SERVICE_APPLICATION_TYPE }
+		FULL_APPEAL: { GRANTED_OR_REFUSED, DECISION_DATE, DATE_DECISION_DUE }
 	}
 } = require('../../../../src/lib/views');
 const { APPEAL_ID, TYPE_OF_PLANNING_APPLICATION } = require('@pins/business-rules/src/constants');
@@ -171,7 +170,6 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 
 		describe('Type of planning application is Advertisement', () => {
 			it(`'should redirect to '/${DECISION_DATE}' with appeal type MINOR_COMMERCIAL_ADVERTISEMENT if 'applicationDecision' is 'refused'`, async () => {
-				isLpaInFeatureFlag.mockReturnValue(true);
 				const applicationDecision = 'refused';
 				const mockRequest = {
 					...req,
@@ -199,31 +197,6 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 				expect(createOrUpdateAppeal).toHaveBeenCalledWith(advertisementApplicationAppeal);
 
 				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
-			});
-
-			it(`'should redirect to '/${USE_EXISTING_SERVICE_APPLICATION_TYPE}' if 'applicationDecision' is 'refused' and CAS advert feature flag is false`, async () => {
-				isLpaInFeatureFlag.mockReturnValueOnce(false); // CAS advert feature flag
-				isLpaInFeatureFlag.mockReturnValueOnce(true); // advert feature flag
-				const applicationDecision = 'refused';
-				const mockRequest = {
-					...req,
-					body: {
-						'granted-or-refused': applicationDecision
-					},
-					session: {
-						...req.session,
-						appeal: {
-							...req.session.appeal,
-							typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT,
-							appealType: APPEAL_ID.ADVERTISEMENT
-						}
-					}
-				};
-
-				await postGrantedOrRefused(mockRequest, res);
-				expect(res.redirect).toHaveBeenCalledWith(
-					'/before-you-start/use-existing-service-application-type'
-				);
 			});
 
 			it(`'should redirect to '/${DECISION_DATE}' with appeal type ADVERTISEMENT if 'applicationDecision' is 'granted'`, async () => {
@@ -257,31 +230,6 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
 			});
 
-			it(`'should redirect to '/${USE_EXISTING_SERVICE_APPLICATION_TYPE}' if 'applicationDecision' is 'granted' and advert feature flag is false`, async () => {
-				isLpaInFeatureFlag.mockReturnValueOnce(true); // CAS advert feature flag
-				isLpaInFeatureFlag.mockReturnValueOnce(false); // advert feature flag
-				const applicationDecision = 'granted';
-				const mockRequest = {
-					...req,
-					body: {
-						'granted-or-refused': applicationDecision
-					},
-					session: {
-						...req.session,
-						appeal: {
-							...req.session.appeal,
-							typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT,
-							appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT
-						}
-					}
-				};
-
-				await postGrantedOrRefused(mockRequest, res);
-				expect(res.redirect).toHaveBeenCalledWith(
-					'/before-you-start/use-existing-service-application-type'
-				);
-			});
-
 			it(`'should redirect to '/${DATE_DECISION_DUE}' with appeal type ADVERTISEMENT if 'applicationDecision' is 'nodecisionreceived'`, async () => {
 				isLpaInFeatureFlag.mockReturnValue(true);
 				const applicationDecision = 'nodecisionreceived';
@@ -311,31 +259,6 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 				expect(createOrUpdateAppeal).toHaveBeenCalledWith(advertisementApplicationAppeal);
 
 				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/date-decision-due');
-			});
-
-			it(`'should redirect to '/${USE_EXISTING_SERVICE_APPLICATION_TYPE}' if 'applicationDecision' is 'nodecisionreceived' and advert feature flag is false`, async () => {
-				isLpaInFeatureFlag.mockReturnValueOnce(true); // CAS advert feature flag
-				isLpaInFeatureFlag.mockReturnValueOnce(false); // advert feature flag
-				const applicationDecision = 'nodecisionreceived';
-				const mockRequest = {
-					...req,
-					body: {
-						'granted-or-refused': applicationDecision
-					},
-					session: {
-						...req.session,
-						appeal: {
-							...req.session.appeal,
-							typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT,
-							appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT
-						}
-					}
-				};
-
-				await postGrantedOrRefused(mockRequest, res);
-				expect(res.redirect).toHaveBeenCalledWith(
-					'/before-you-start/use-existing-service-application-type'
-				);
 			});
 		});
 

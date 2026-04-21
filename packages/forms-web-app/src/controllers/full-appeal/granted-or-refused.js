@@ -11,8 +11,6 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
 	validApplicationDecisionOptions
 } = require('../../validators/full-appeal/granted-or-refused');
-const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
-const { FLAG } = require('@pins/common/src/feature-flags');
 
 exports.forwardPage = (status) => {
 	const statuses = {
@@ -37,11 +35,6 @@ exports.postGrantedOrRefused = async (req, res) => {
 	const { body } = req;
 	const { appeal } = req.session;
 	const { errors = {}, errorSummary = [] } = body;
-
-	const [isV2forCASAdverts, isV2forAdverts] = await Promise.all([
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2)
-	]);
 
 	const applicationDecision = body['granted-or-refused'];
 	let selectedApplicationStatus = null;
@@ -87,14 +80,6 @@ exports.postGrantedOrRefused = async (req, res) => {
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
-		return;
-	}
-
-	if (
-		(appeal.appealType == APPEAL_ID.ADVERTISEMENT && !isV2forAdverts) ||
-		(appeal.appealType == APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT && !isV2forCASAdverts)
-	) {
-		res.redirect('/before-you-start/use-existing-service-application-type');
 		return;
 	}
 
