@@ -66,13 +66,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 			await getTypeOfPlanningApplication(req, res);
 
-			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(
-				true,
-				true,
-				true,
-				true,
-				'full-appeal'
-			);
+			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, 'full-appeal');
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				typeOfPlanningApplication: 'full-appeal',
 				radioItems: mockRadioItems
@@ -194,17 +188,13 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		});
 
 		const defaultFeatureFlaggedTypes = [
-			['cas advert', ADVERTISEMENT, FLAG.CAS_ADVERTS_APPEAL_FORM_V2],
-			['advert', ADVERTISEMENT, FLAG.ADVERTS_APPEAL_FORM_V2]
+			['cas advert', ADVERTISEMENT],
+			['advert', ADVERTISEMENT]
 		];
 
 		it.each(defaultFeatureFlaggedTypes)(
 			'should redirect to the granted-or-refused page if %s',
-			async (_, type, appealTypeFlag) => {
-				isLpaInFeatureFlag.mockImplementation((_, flag) => {
-					return flag === appealTypeFlag;
-				});
-
+			async (_, type) => {
 				const planningApplication = type;
 
 				const mockRequest = {

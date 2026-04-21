@@ -33,22 +33,13 @@ const {
 const getTypeOfPlanningApplication = async (req, res) => {
 	const { appeal } = req.session;
 
-	const [isV2forCASPlanning, isV2forCASAdverts, isV2forAdverts, isV2forLDC] = await Promise.all([
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2),
+	const [isV2forLDC] = await Promise.all([
 		isLpaInFeatureFlag(appeal.lpaCode, FLAG.LDC_APPEAL_FORM_V2)
 	]);
 
 	res.render(TYPE_OF_PLANNING_APPLICATION, {
 		typeOfPlanningApplication: appeal.typeOfPlanningApplication,
-		radioItems: typeOfPlanningApplicationRadioItems(
-			isV2forCASPlanning,
-			isV2forCASAdverts,
-			isV2forAdverts,
-			isV2forLDC,
-			appeal.typeOfPlanningApplication
-		)
+		radioItems: typeOfPlanningApplicationRadioItems(isV2forLDC, appeal.typeOfPlanningApplication)
 	});
 };
 
@@ -59,10 +50,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 
 	const typeOfPlanningApplication = body['type-of-planning-application'];
 
-	const [isV2forCASPlanning, isV2forCASAdverts, isV2forAdverts, isV2forLDC] = await Promise.all([
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_PLANNING_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.CAS_ADVERTS_APPEAL_FORM_V2),
-		isLpaInFeatureFlag(appeal.lpaCode, FLAG.ADVERTS_APPEAL_FORM_V2),
+	const [isV2forLDC] = await Promise.all([
 		isLpaInFeatureFlag(appeal.lpaCode, FLAG.LDC_APPEAL_FORM_V2)
 	]);
 
@@ -78,13 +66,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 	if (errors['type-of-planning-application']) {
 		return res.render(TYPE_OF_PLANNING_APPLICATION, {
 			typeOfPlanningApplication,
-			radioItems: typeOfPlanningApplicationRadioItems(
-				isV2forCASPlanning,
-				isV2forCASAdverts,
-				isV2forAdverts,
-				isV2forLDC,
-				appeal.typeOfPlanningApplication
-			),
+			radioItems: typeOfPlanningApplicationRadioItems(isV2forLDC, appeal.typeOfPlanningApplication),
 			errors,
 			errorSummary
 		});
@@ -101,13 +83,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		logger.error(err);
 		return res.render(TYPE_OF_PLANNING_APPLICATION, {
 			typeOfPlanningApplication,
-			radioItems: typeOfPlanningApplicationRadioItems(
-				isV2forCASPlanning,
-				isV2forCASAdverts,
-				isV2forAdverts,
-				isV2forLDC,
-				appeal.typeOfPlanningApplication
-			),
+			radioItems: typeOfPlanningApplicationRadioItems(isV2forLDC, appeal.typeOfPlanningApplication),
 			errors,
 			errorSummary: [{ text: err.toString(), href: '#' }]
 		});
@@ -119,17 +95,13 @@ const postTypeOfPlanningApplication = async (req, res) => {
 		case LISTED_BUILDING:
 			return res.redirect('/before-you-start/granted-or-refused');
 		case MINOR_COMMERCIAL_DEVELOPMENT:
-			return isV2forCASPlanning
-				? res.redirect('/before-you-start/planning-application-about')
-				: res.redirect('/before-you-start/use-existing-service-application-type');
+			return res.redirect('/before-you-start/planning-application-about');
 		case LAWFUL_DEVELOPMENT_CERTIFICATE:
 			return isV2forLDC
 				? res.redirect('/before-you-start/listed-building')
 				: res.redirect('/before-you-start/use-existing-service-application-type');
 		case ADVERTISEMENT:
-			return isV2forCASAdverts || isV2forAdverts
-				? res.redirect('/before-you-start/granted-or-refused')
-				: res.redirect('/before-you-start/use-existing-service-application-type');
+			return res.redirect('/before-you-start/granted-or-refused');
 		case PRIOR_APPROVAL:
 			return res.redirect('/before-you-start/prior-approval-existing-home');
 		case REMOVAL_OR_VARIATION_OF_CONDITIONS:

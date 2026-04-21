@@ -72,9 +72,6 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 		it('calls correct template: cas adverts', async () => {
 			req.session.appeal.appealType = APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT;
 			req.session.appeal.typeOfPlanningApplication = TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT;
-			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.CAS_ADVERTS_APPEAL_FORM_V2;
-			});
 
 			await getEmailConfirmed(req, res);
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
@@ -88,9 +85,6 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 		it('calls correct template: adverts', async () => {
 			req.session.appeal.appealType = APPEAL_ID.ADVERTISEMENT;
 			req.session.appeal.typeOfPlanningApplication = TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT;
-			isLpaInFeatureFlag.mockImplementation((_, flag) => {
-				return flag === FLAG.ADVERTS_APPEAL_FORM_V2;
-			});
 
 			await getEmailConfirmed(req, res);
 			expect(res.render).toHaveBeenCalledWith(EMAIL_CONFIRMED, {
