@@ -159,19 +159,8 @@ const makeSections = (response) => {
 			.addQuestion(questions.uploadApplicationDecisionLetter)
 			.withCondition(() => shouldDisplayUploadDecisionLetter(response))
 			.addQuestion(questions.planningObligationPart1)
-			.addQuestion(questions.planningObligationStatus)
-			.withCondition(() => questionHasAnswer(response, questions.planningObligationPart1, 'yes'))
 			.addQuestion(questions.uploadPlanningObligation)
-			.withCondition(() =>
-				questionsHaveAnswers(
-					response,
-					[
-						[questions.planningObligationPart1, 'yes'],
-						[questions.planningObligationStatus, 'finalised']
-					],
-					{ logicalCombinator: 'and' }
-				)
-			)
+			.withCondition(() => questionHasAnswer(response, questions.planningObligationPart1, 'yes'))
 			.addQuestion(questions.separateOwnershipCert)
 			.addQuestion(questions.uploadSeparateOwnershipCert)
 			.withCondition(() => questionHasAnswer(response, questions.separateOwnershipCert, 'yes'))
