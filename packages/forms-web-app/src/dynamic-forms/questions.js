@@ -2340,7 +2340,7 @@ exports.getQuestionProps = (response) => ({
 		question: 'Have there been any significant changes that would affect the application?',
 		fieldName: 'anySignificantChanges',
 		url: 'any-significant-changes',
-		html: 'resources/appeal-process/any-significant-changes/content.html',
+		html: 'resources/appeal-process/any-significant-changes/appellant-content.html',
 		description: 'Select all that apply',
 		validators: [
 			new RequiredValidator('Select an option'),
@@ -2413,6 +2413,101 @@ exports.getQuestionProps = (response) => ({
 				value: fieldValues.significantChanges.OTHER,
 				conditional: {
 					question: 'Enter the other significant changes',
+					fieldName: 'otherSignificantChanges',
+					type: 'textarea'
+				}
+			},
+			{
+				[DIVIDER]: 'or'
+			},
+			{
+				text: 'There have been no significant changes',
+				value: fieldValues.significantChanges.NONE,
+				behaviour: 'exclusive'
+			}
+		]
+	},
+	anySignificantChangesLPA: {
+		type: 'checkbox',
+		title: 'Have there been any significant changes that would affect the application?',
+		question: 'Have there been any significant changes that would affect the application?',
+		fieldName: 'anySignificantChanges',
+		url: 'significant-changes',
+		html: 'resources/appeal-process/any-significant-changes/lpa-content.html',
+		description: 'Select all that apply',
+		validators: [
+			new RequiredValidator(
+				'Select a significant change, or select ‘There have been no significant changes’'
+			),
+			new ConditionalRequiredValidator('Enter the significant changes and why they’re relevant'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textAreaMediumLength,
+					maxLengthMessage: `The other significant changes must be ${appealFormV2.textAreaMediumLength} characters or less`
+				},
+				fieldName: getConditionalFieldName('anySignificantChanges', 'otherSignificantChanges')
+			}),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textAreaMediumLength,
+					maxLengthMessage: `The local plan changes must be ${appealFormV2.textAreaMediumLength} characters or less`
+				},
+				fieldName: getConditionalFieldName('anySignificantChanges', 'localPlanSignificantChanges')
+			}),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textAreaMediumLength,
+					maxLengthMessage: `The national policy changes must be ${appealFormV2.textAreaMediumLength} characters or less`
+				},
+				fieldName: getConditionalFieldName(
+					'anySignificantChanges',
+					'nationalPolicySignificantChanges'
+				)
+			}),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textAreaMediumLength,
+					maxLengthMessage: `The court judgement must be ${appealFormV2.textAreaMediumLength} characters or less`
+				},
+				fieldName: getConditionalFieldName(
+					'anySignificantChanges',
+					'courtJudgementSignificantChanges'
+				)
+			})
+		],
+		options: [
+			{
+				text: 'Adopted a new local plan',
+				value: fieldValues.significantChanges.LOCAL_PLAN,
+				conditional: {
+					question: 'Enter the local plan changes and why they’re relevant',
+					fieldName: 'localPlanSignificantChanges',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'National policy change',
+				value: fieldValues.significantChanges.NATIONAL_POLICY,
+				conditional: {
+					question: 'Enter the national policy changes and why they’re relevant',
+					fieldName: 'nationalPolicySignificantChanges',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'Court judgment',
+				value: fieldValues.significantChanges.COURT_JUDGMENT,
+				conditional: {
+					question: 'Enter the court judgment',
+					fieldName: 'courtJudgementSignificantChanges',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'Other',
+				value: fieldValues.significantChanges.OTHER,
+				conditional: {
+					question: "Enter the other significant changes and why they're relevant",
 					fieldName: 'otherSignificantChanges',
 					type: 'textarea'
 				}

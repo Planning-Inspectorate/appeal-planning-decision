@@ -53,6 +53,10 @@ describe('S78 Part 1 Journey', () => {
 		expect(journey.sections.length).toBe(8);
 		expect(Array.isArray(journey.sections[0].questions)).toBe(true);
 		expect(journey.sections[0].questions.length > 0).toBe(true);
+		expect(journey.sections[6].segment).toBe('appeal-process');
+		expect(journey.sections[6].questions.map((q) => q.fieldName)).toContain(
+			'anySignificantChanges'
+		);
 		expect(journey.sections[7].segment).toBe('original-evidence');
 		expect(journey.sections[7].questions.length).toBe(6);
 	});
