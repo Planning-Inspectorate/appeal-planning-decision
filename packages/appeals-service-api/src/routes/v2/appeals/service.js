@@ -6,7 +6,7 @@ const { appendLinkedCasesForMultipleAppeals } = require('../appeal-cases/service
 const {
 	addOwnershipAndSubmissionDetailsToRepresentations
 } = require('@pins/common/src/access/representation-ownership');
-const { getServiceUsersWithEmailsByIdAndCaseReference } = require('../service-users/service');
+const { getServiceUsersForMultipleCases } = require('../service-users/service');
 
 const repo = new UserAppealsRepository();
 const cosmosAppeals = new AppealsRepository();
@@ -55,25 +55,34 @@ async function getAppealsForUser(userId, role) {
 	// check for linked cases
 	const enhancedCases = await appendLinkedCasesForMultipleAppeals(cases);
 
-	await Promise.all(
-		enhancedCases.map(async (appealCase) => {
-			if (appealCase.Representations && appealCase.Representations.length > 0) {
-				const serviceUserIds = [
-					...new Set(appealCase.Representations.map((r) => r.serviceUserId).filter(Boolean))
-				];
-				const usersWithEmails = await getServiceUsersWithEmailsByIdAndCaseReference(
-					serviceUserIds,
-					appealCase.caseReference
-				);
-				appealCase.Representations = addOwnershipAndSubmissionDetailsToRepresentations(
-					appealCase.Representations,
-					user.email,
-					false,
-					usersWithEmails
-				);
-			}
-		})
+	// cases with representations
+	const lookups = enhancedCases
+		.filter((appealCase) => appealCase.Representations && appealCase.Representations.length > 0)
+		.map((appealCase) => ({
+			serviceUserIds: [
+				...new Set(appealCase.Representations.map((r) => r.serviceUserId).filter(Boolean))
+			],
+			caseReference: appealCase.caseReference
+		}))
+		.filter((lookup) => lookup.serviceUserIds.length > 0);
+
+	const allServiceUsers = await getServiceUsersForMultipleCases(lookups);
+
+	const usersByCase = new Map(
+		allServiceUsers.map((result) => [result.caseReference, result.users])
 	);
+
+	enhancedCases.forEach((appealCase) => {
+		if (appealCase.Representations && appealCase.Representations.length > 0) {
+			const usersWithEmails = usersByCase.get(appealCase.caseReference) || [];
+			appealCase.Representations = addOwnershipAndSubmissionDetailsToRepresentations(
+				appealCase.Representations,
+				user.email,
+				false,
+				usersWithEmails
+			);
+		}
+	});
 
 	// fetch drafts from Cosmos
 	const draftSubmissions = await Promise.all(
