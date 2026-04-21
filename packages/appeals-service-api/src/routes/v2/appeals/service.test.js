@@ -1,6 +1,6 @@
 const { getAppealsForUser } = require('./service');
 const { UserAppealsRepository } = require('./repo');
-const { getServiceUsersWithEmailsByIdAndCaseReference } = require('../service-users/service');
+const { getServiceUsersForMultipleCases } = require('../service-users/service');
 const {
 	addOwnershipAndSubmissionDetailsToRepresentations
 } = require('@pins/common/src/access/representation-ownership');
@@ -42,8 +42,11 @@ describe('appeals service v2', () => {
 
 			UserAppealsRepository.prototype.listAppealsForUser.mockResolvedValue(mockUser);
 			appendLinkedCasesForMultipleAppeals.mockImplementation((cases) => Promise.resolve(cases));
-			getServiceUsersWithEmailsByIdAndCaseReference.mockResolvedValue([
-				{ id: '20000000143', emailAddress: userEmail }
+			getServiceUsersForMultipleCases.mockResolvedValue([
+				{
+					caseReference: '0000001',
+					users: [{ id: '20000000143', emailAddress: userEmail }]
+				}
 			]);
 			addOwnershipAndSubmissionDetailsToRepresentations.mockReturnValue([
 				{ id: 'rep1', serviceUserId: '20000000143', userOwnsRepresentation: true }
@@ -52,10 +55,12 @@ describe('appeals service v2', () => {
 			const result = await getAppealsForUser(userId, role);
 
 			expect(UserAppealsRepository.prototype.listAppealsForUser).toHaveBeenCalledWith(userId, role);
-			expect(getServiceUsersWithEmailsByIdAndCaseReference).toHaveBeenCalledWith(
-				['20000000143'],
-				'0000001'
-			);
+			expect(getServiceUsersForMultipleCases).toHaveBeenCalledWith([
+				{
+					serviceUserIds: ['20000000143'],
+					caseReference: '0000001'
+				}
+			]);
 			expect(addOwnershipAndSubmissionDetailsToRepresentations).toHaveBeenCalledWith(
 				expect.any(Array),
 				userEmail,
@@ -84,10 +89,11 @@ describe('appeals service v2', () => {
 
 			UserAppealsRepository.prototype.listAppealsForUser.mockResolvedValue(mockUser);
 			appendLinkedCasesForMultipleAppeals.mockImplementation((cases) => Promise.resolve(cases));
+			getServiceUsersForMultipleCases.mockResolvedValue([]);
 
 			const result = await getAppealsForUser(userId, role);
 
-			expect(getServiceUsersWithEmailsByIdAndCaseReference).not.toHaveBeenCalled();
+			expect(getServiceUsersForMultipleCases).toHaveBeenCalledWith([]);
 			expect(result[0].Representations).toEqual([]);
 		});
 
@@ -117,8 +123,11 @@ describe('appeals service v2', () => {
 
 			UserAppealsRepository.prototype.listAppealsForUser.mockResolvedValue(mockUser);
 			appendLinkedCasesForMultipleAppeals.mockImplementation((cases) => Promise.resolve(cases));
-			getServiceUsersWithEmailsByIdAndCaseReference.mockResolvedValue([
-				{ id: '20000000143', emailAddress: userEmail }
+			getServiceUsersForMultipleCases.mockResolvedValue([
+				{
+					caseReference: '0000002',
+					users: [{ id: '20000000143', emailAddress: userEmail }]
+				}
 			]);
 			addOwnershipAndSubmissionDetailsToRepresentations.mockReturnValue([
 				{

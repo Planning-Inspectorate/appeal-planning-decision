@@ -1,7 +1,8 @@
 /**
- * @param {any} myArray
+ * @template T
+ * @param {T[]} myArray
  * @param {number} chunk_size
- * @returns {Promise<any>}
+ * @returns {T[][]}
  */
 const chunkArray = (myArray, chunk_size) => {
 	let index = 0;

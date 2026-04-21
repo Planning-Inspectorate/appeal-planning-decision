@@ -33,3 +33,12 @@ exports.getServiceUsersWithEmailsByIdAndCaseReference = (serviceUserIds, caseRef
 		caseReference
 	);
 };
+
+/**
+ * Get service users for multiple case references in a single query
+ * @param {Array<{serviceUserIds: string[], caseReference: string}>} lookups
+ * @returns {Promise<Array<{caseReference: string, users: any[]}>>}
+ */
+exports.getServiceUsersForMultipleCases = (lookups) => {
+	return serviceUserRepository.getServiceUsersForMultipleCases(lookups);
+};
