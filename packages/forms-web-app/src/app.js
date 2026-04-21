@@ -74,7 +74,7 @@ const isDev = app.get('env') === 'development';
 
 const nunjucksConfig = {
 	autoescape: true,
-	noCache: true,
+	noCache: false,
 	watch: isDev,
 	express: app
 };
