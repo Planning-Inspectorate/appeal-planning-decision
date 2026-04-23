@@ -14674,19 +14674,19 @@ exports[`Dynamic forms journey tests appellant Lawful development certificate La
                                 <input class="govuk-radios__input" id="applicationMadeUnderActSection"
                                 name="applicationMadeUnderActSection" type="radio" value="existing-development"
                                 data-cy="answer-existing-development">
-                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection">Existing development</label>
+                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection">Existing development (section 191)</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="applicationMadeUnderActSection-2"
                                 name="applicationMadeUnderActSection" type="radio" value="proposed-use-of-a-development"
                                 data-cy="answer-proposed-use-of-a-development">
-                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection-2">Proposed use of a development</label>
+                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection-2">Proposed use of a development (section 192)</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="applicationMadeUnderActSection-3"
                                 name="applicationMadeUnderActSection" type="radio" value="proposed-changes-to-a-listed-building"
                                 data-cy="answer-proposed-changes-to-a-listed-building">
-                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection-3">Proposed changes to a listed building</label>
+                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection-3">Proposed changes to a listed building (section 26H)</label>
                             </div>
                         </div>
                     </div>
@@ -37641,17 +37641,17 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful d
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="appealUnderActSection" name="appealUnderActSection"
                                 type="radio" value="existing-development" data-cy="answer-existing-development">
-                                <label class="govuk-label govuk-radios__label" for="appealUnderActSection">Existing development</label>
+                                <label class="govuk-label govuk-radios__label" for="appealUnderActSection">Existing development (section 191)</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="appealUnderActSection-2" name="appealUnderActSection"
                                 type="radio" value="proposed-use-of-a-development" data-cy="answer-proposed-use-of-a-development">
-                                <label class="govuk-label govuk-radios__label" for="appealUnderActSection-2">Proposed use of a development</label>
+                                <label class="govuk-label govuk-radios__label" for="appealUnderActSection-2">Proposed use of a development (section 192)</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="appealUnderActSection-3" name="appealUnderActSection"
                                 type="radio" value="proposed-changes-to-a-listed-building" data-cy="answer-proposed-changes-to-a-listed-building">
-                                <label class="govuk-label govuk-radios__label" for="appealUnderActSection-3">Proposed changes to a listed building</label>
+                                <label class="govuk-label govuk-radios__label" for="appealUnderActSection-3">Proposed changes to a listed building (section 26H)</label>
                             </div>
                         </div>
                     </div>
