@@ -2225,6 +2225,23 @@ exports.getQuestionProps = (response) => ({
 		documentType: documentTypes.uploadOtherNewDocuments,
 		actionHiddenText: 'any other documents submitted with the application'
 	},
+	listOfDocumentsBeforeDecision: {
+		type: 'text-entry',
+		title: 'What documents and plans did you use to make your decision?',
+		question: 'What documents and plans did you use to make your decision?',
+		fieldName: 'listOfDocumentsBeforeDecision',
+		url: 'list-of-documents',
+		hint: 'Only include the most up-to-date versions of the documents you received',
+		validators: [
+			new RequiredValidator('List the documents and plans you used to make your decision'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textAreaMediumLength,
+					maxLengthMessage: `List of documents and plans must be ${appealFormV2.textAreaMediumLength} characters or fewer`
+				}
+			})
+		]
+	},
 	uploadPlansDrawingsHAS: {
 		type: 'multi-file-upload',
 		title: 'Upload the plans, drawings and list of plans',

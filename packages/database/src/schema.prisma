@@ -1116,6 +1116,7 @@ model LPAQuestionnaireSubmission {
   anySignificantChanges_localPlanSignificantChanges      String?  @db.NVarChar(MAX)
   anySignificantChanges_nationalPolicySignificantChanges String?  @db.NVarChar(MAX)
   anySignificantChanges_courtJudgementSignificantChanges String?  @db.NVarChar(MAX)
+  listOfDocumentsBeforeDecision                          String?  @db.NVarChar(MAX)
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]

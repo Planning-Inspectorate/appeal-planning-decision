@@ -237,6 +237,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.additionalDocumentsPart1)
 			.addQuestion(questions.uploadAdditionalDocumentsPart1)
 			.withCondition(() => questionHasAnswer(response, questions.additionalDocumentsPart1, 'yes'))
+			.addQuestion(questions.listOfDocumentsBeforeDecision)
 	];
 };
 

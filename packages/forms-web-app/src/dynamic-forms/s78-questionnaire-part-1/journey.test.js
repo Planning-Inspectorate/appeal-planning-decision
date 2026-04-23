@@ -58,6 +58,6 @@ describe('S78 Part 1 Journey', () => {
 			'anySignificantChanges'
 		);
 		expect(journey.sections[7].segment).toBe('original-evidence');
-		expect(journey.sections[7].questions.length).toBe(6);
+		expect(journey.sections[7].questions.length).toBe(7);
 	});
 });
