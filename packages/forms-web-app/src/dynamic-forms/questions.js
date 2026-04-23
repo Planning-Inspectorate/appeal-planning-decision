@@ -146,15 +146,15 @@ const lawfulDevelopmentCertificateTypeBase = {
 	],
 	options: [
 		{
-			text: 'Existing development',
+			text: 'Existing development (section 191)',
 			value: fieldValues.lawfulDevelopmentCertificateType.EXISTING_DEVELOPMENT
 		},
 		{
-			text: 'Proposed use of a development',
+			text: 'Proposed use of a development (section 192)',
 			value: fieldValues.lawfulDevelopmentCertificateType.PROPOSED_USE_DEVELOPMENT
 		},
 		{
-			text: 'Proposed changes to a listed building',
+			text: 'Proposed changes to a listed building (section 26H)',
 			value: fieldValues.lawfulDevelopmentCertificateType.PROPOSED_CHANGES_LISTED_BUILDING
 		}
 	]
