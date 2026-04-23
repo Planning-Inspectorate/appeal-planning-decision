@@ -1201,7 +1201,8 @@ exports.getS78LPAQSubmissionFields = (answers) => {
 
 		// Planning officer’s report and supporting documents
 		hasEmergingPlan: answers.emergingPlan,
-		hasSupplementaryPlanningDocs: answers.supplementaryPlanningDocs
+		hasSupplementaryPlanningDocs: answers.supplementaryPlanningDocs,
+		listOfDocumentsBeforeDecision: answers.listOfDocumentsBeforeDecision
 	};
 };
 
