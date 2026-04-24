@@ -1,7 +1,5 @@
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
-
-const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { isAppealSubmission, isV2Submission } = require('@pins/common/src/lib/format-address');
 
 const appealSubmissionContinueUrls = {
@@ -22,11 +20,7 @@ exports.get = async (req, res) => {
 	if (!appealId)
 		throw new Error(`Continue your appeal cannot be invoked without specifying an appeal id`);
 
-	const userAppeals = await req.appealsApiClient.getUserAppeals(APPEAL_USER_ROLES.APPELLANT);
-
-	const appealSubmission = userAppeals.find(
-		(appeal) => appeal.id === appealId || appeal._id === appealId
-	);
+	const appealSubmission = await req.appealsApiClient.getAppealDraft(appealId);
 
 	if (!appealSubmission) throw new Error(`Appeal ${appealId} does not belong to user`);
 

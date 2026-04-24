@@ -35,10 +35,15 @@ exports.getServiceUsersWithEmailsByIdAndCaseReference = (serviceUserIds, caseRef
 };
 
 /**
- * Get service users for multiple case references in a single query
- * @param {Array<{serviceUserIds: string[], caseReference: string}>} lookups
- * @returns {Promise<Array<{caseReference: string, users: any[]}>>}
+ * @param {string[]} caseReferences
+ * @param {import('@pins/database/src/client/client').Prisma.ServiceUserSelect} select
+ * @param {Array.<string>} [serviceUserTypes]
+ * @returns {Promise<Array<Partial<import('@pins/database/src/client/client').ServiceUser>>>}
  */
-exports.getServiceUsersForMultipleCases = (lookups) => {
-	return serviceUserRepository.getServiceUsersForMultipleCases(lookups);
+exports.getServiceUsersForMultipleCases = (caseReferences, select, serviceUserTypes) => {
+	return serviceUserRepository.getServiceUsersForMultipleCases(
+		caseReferences,
+		select,
+		serviceUserTypes
+	);
 };

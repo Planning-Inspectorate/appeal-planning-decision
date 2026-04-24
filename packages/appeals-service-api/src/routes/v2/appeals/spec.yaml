@@ -46,7 +46,27 @@ paths:
           description: Bad request
         404:
           description: Appeal not found
-
+  /api/v2/appeals/owns/{id}:
+    get:
+      tags:
+        - appeals
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Appeal ID
+      description: Get an appeal draft
+      responses:
+        200:
+          description: Appeal Draft
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppealSubmission'
+        404:
+          description: Appeal not found
 components:
   parameters:
     role:

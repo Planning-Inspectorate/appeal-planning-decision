@@ -1,3 +1,4 @@
+const ApiError = require('#errors/apiError');
 const { APPEAL_STATE } = require('@pins/business-rules/src/constants');
 const { UserAppealsRepository } = require('./repo');
 const { AppealsRepository } = require('#repositories/appeals-repository');
@@ -99,6 +100,48 @@ async function getAppealsForUser(userId, role) {
 }
 
 /**
+ * Get an appeal draft
+ *
+ * @param {string} userId
+ * @param {string} appealId
+ * @return {Promise<UserWithAppeals|null>}
+ */
+async function getAppealDraft(userId, appealId) {
+	const user = await repo.getAppealDraft(userId, appealId);
+
+	if (!user) {
+		throw ApiError.forbidden();
+	}
+
+	if (!user.Appeals || user.Appeals.length === 0) {
+		throw ApiError.appealNotFound(appealId);
+	}
+
+	const draftSubmissionIds = user.Appeals.filter(
+		(appealToUser) =>
+			appealToUser.Appeal?.legacyAppealSubmissionId &&
+			appealToUser.Appeal?.legacyAppealSubmissionState === APPEAL_STATE.DRAFT
+	)
+		.map((appealToUser) => appealToUser.Appeal?.legacyAppealSubmissionId)
+		.filter(filterNotNull);
+
+	if (draftSubmissionIds.length) {
+		return await cosmosAppeals.getById(draftSubmissionIds[0]);
+	}
+
+	// find v2 draft submissions
+	const v2Drafts = user.Appeals.filter(
+		(appealToUser) => appealToUser.Appeal?.AppellantSubmission?.submitted === false
+	).map((appealToUser) => appealToUser.Appeal);
+
+	if (v2Drafts.length) {
+		return v2Drafts[0];
+	}
+
+	throw ApiError.appealNotFound(appealId);
+}
+
+/**
  * create an appeal
  *
  * @param {AppealCreateInput} data
@@ -110,5 +153,6 @@ async function createAppeal(data) {
 
 module.exports = {
 	getAppealsForUser,
+	getAppealDraft,
 	createAppeal
 };

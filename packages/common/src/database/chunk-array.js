@@ -17,6 +17,27 @@ const chunkArray = (myArray, chunk_size) => {
 	return tempArray;
 };
 
+/**
+ * @template T
+ * @param {T[][]} batch
+ * @param {number} concurrencyLimit
+ * @param {function(T[]): Promise<any>} fn
+ * @returns {Promise<any[]>}
+ */
+const runBatchWithPromise = async (batch, concurrencyLimit, fn) => {
+	/**@type {any[]} */
+	const results = [];
+
+	for (let i = 0; i < batch.length; i += concurrencyLimit) {
+		const concurrentBatches = batch.slice(i, i + concurrencyLimit);
+		const batchResults = await Promise.all(concurrentBatches.map(fn));
+		results.push(...batchResults.flat());
+	}
+
+	return results;
+};
+
 module.exports = {
-	chunkArray
+	chunkArray,
+	runBatchWithPromise
 };

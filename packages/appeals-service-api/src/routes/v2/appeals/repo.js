@@ -6,6 +6,8 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
  * @typedef {import('@pins/database/src/client/client').Prisma.AppealUserGetPayload<{include: {Appeals: {include: {Appeal: { include: {AppealCase: true }}}}}}>} UserWithAppeals
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  * @typedef {import('@pins/database/src/client/client').Appeal} Appeal
+ * @typedef {import('@pins/database/src/client/client').AppealCase} AppealCase
+ * @typedef {import('@pins/database/src/client/client').AppellantSubmission} AppellantSubmission
  * @typedef {import('@pins/database/src/client/client').Prisma.AppealCreateInput} AppealCreateInput
  */
 
@@ -77,16 +79,21 @@ class UserAppealsRepository {
 											siteAddressPostcode: true,
 											siteGridReferenceEasting: true,
 											siteGridReferenceNorthing: true,
-											Representations: {
-												select: {
-													id: true,
-													representationType: true,
-													serviceUserId: true,
-													source: true,
-													representationStatus: true,
-													dateReceived: true
-												}
-											}
+											// reps only needed for rule 6 ownership check
+											...(role === APPEAL_USER_ROLES.RULE_6_PARTY
+												? {
+														Representations: {
+															select: {
+																id: true,
+																representationType: true,
+																serviceUserId: true,
+																source: true,
+																representationStatus: true,
+																dateReceived: true
+															}
+														}
+													}
+												: {})
 										}
 									},
 									AppellantSubmission: {
@@ -97,6 +104,60 @@ class UserAppealsRepository {
 											applicationDecisionDate: true,
 											siteAddress: true,
 											SubmissionAddress: true,
+											enforcementEffectiveDate: true
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			});
+		} catch (e) {
+			if (e instanceof Prisma.PrismaClientKnownRequestError) {
+				if (e.code === 'P2023') {
+					// probably an invalid ID/GUID
+					return null;
+				}
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Get's a draft appeal
+	 *
+	 * @param {string} userId
+	 * @param {string} appealId
+	 * @returns {Promise<UserWithAppeals|null>}
+	 */
+	async getAppealDraft(userId, appealId) {
+		try {
+			return this.dbClient.appealUser.findUnique({
+				where: {
+					id: userId
+				},
+				select: {
+					Appeals: {
+						where: {
+							AND: {
+								appealId: appealId,
+								OR: [{ role: APPEAL_USER_ROLES.APPELLANT }, { role: APPEAL_USER_ROLES.AGENT }]
+							}
+						},
+						select: {
+							Appeal: {
+								select: {
+									id: true,
+									legacyAppealSubmissionId: true,
+									legacyAppealSubmissionDecisionDate: true,
+									legacyAppealSubmissionState: true,
+									AppellantSubmission: {
+										select: {
+											id: true,
+											submitted: true,
+											appealTypeCode: true,
+											applicationDecisionDate: true,
 											enforcementEffectiveDate: true
 										}
 									}
