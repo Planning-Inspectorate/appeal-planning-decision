@@ -1,6 +1,7 @@
 /** @type {import('jest').Config} */
 module.exports = {
 	coverageDirectory: '<rootDir>/jest-reports/coverage',
+	coverageProvider: 'v8',
 	coverageReporters: ['cobertura', 'json', 'html', 'text', 'text-summary'],
 	moduleFileExtensions: ['js', 'json'],
 	reporters: ['default', ['jest-junit', { outputDirectory: '<rootDir>/jest-reports' }]],
