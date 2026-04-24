@@ -344,6 +344,16 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {string} id
+	 * @returns {Promise<AppealSubmission>}
+	 */
+	async getAppealDraft(id) {
+		const endpoint = `${v2}/appeals/draft/${id}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * @param {string} lpaCode
 	 * @returns {Promise<AppealCase[]>}
 	 */

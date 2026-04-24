@@ -1,10 +1,26 @@
-const { getAppealsForUser } = require('./service');
+const { getAppealsForUser, getAppealDraft } = require('./service');
 const ApiError = require('#errors/apiError');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  */
+
+/**
+ * @type {import('express').Handler}
+ */
+async function getDraft(req, res) {
+	const userId = req.auth.payload.sub;
+	const appealId = req.params.id;
+
+	if (!userId) {
+		throw ApiError.invalidToken();
+	}
+
+	const draft = await getAppealDraft(userId, appealId);
+
+	res.status(200).send(draft);
+}
 
 /**
  * @type {import('express').Handler}
@@ -46,5 +62,6 @@ const permittedRole = (role) => {
 };
 
 module.exports = {
-	getUserAppeals
+	getUserAppeals,
+	getDraft
 };

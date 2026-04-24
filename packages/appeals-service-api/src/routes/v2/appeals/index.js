@@ -1,5 +1,5 @@
 const express = require('express');
-const { getUserAppeals } = require('./controller');
+const { getUserAppeals, getDraft } = require('./controller');
 const { AUTH } = require('@pins/common/src/constants');
 const config = require('../../../configuration/config');
 const { auth } = require('express-oauth2-jwt-bearer');
@@ -15,5 +15,6 @@ router.use(
 );
 
 router.get('/', openApiValidatorMiddleware(), asyncHandler(getUserAppeals));
+router.get('/draft/:id', openApiValidatorMiddleware(), asyncHandler(getDraft));
 
 module.exports = { router };

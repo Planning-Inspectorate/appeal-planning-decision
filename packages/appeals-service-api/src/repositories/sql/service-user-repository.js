@@ -2,7 +2,7 @@ const { createPrismaClient } = require('#db-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 const { AppealUserRepository } = require('#repositories/sql/appeal-user-repository');
-const { chunkArray } = require('@pins/common/src/database/chunk-array');
+const { chunkArray, runBatchWithPromise } = require('@pins/common/src/database/chunk-array');
 
 /**
  * @typedef {import('@pins/database/src/client/client').ServiceUser} ServiceUser
@@ -65,78 +65,26 @@ class ServiceUserRepository {
 	}
 
 	/**
-	 * @param {Array<{serviceUserIds: string[], caseReference: string}>} lookups
-	 * @returns {Promise<Array<{caseReference: string, users: BasicServiceUser[]}>>}
+	 * @param {string[]} caseReferences
+	 * @param {import('@pins/database/src/client/client').Prisma.ServiceUserSelect} select
+	 * @param {Array.<string>} [serviceUserTypes]
+	 * @returns {Promise<Array<Partial<import('@pins/database/src/client/client').ServiceUser>>>}
 	 */
-	async getServiceUsersForMultipleCases(lookups) {
-		if (!lookups || lookups.length === 0) {
-			return [];
-		}
+	async getServiceUsersForMultipleCases(caseReferences, select, serviceUserTypes) {
+		if (!caseReferences?.length) return [];
 
-		const BATCH_SIZE = 250;
-		const MAX_CONCURRENT = 4;
-		// batch service user lookups to avoid 2100 param limit
-		const batches = chunkArray(lookups, BATCH_SIZE);
+		const BATCH_SIZE = 100;
+		const MAX_CONCURRENT = 3;
+		const batches = chunkArray(caseReferences, BATCH_SIZE);
 
-		/** @type {Array<{id: string, emailAddress: string|null, serviceUserType: string, organisation: string|null, caseReference: string}>} */
-		const serviceUsers = [];
-
-		// limit promise.all concurrency
-		for (let i = 0; i < batches.length; i += MAX_CONCURRENT) {
-			const concurrentBatches = batches.slice(i, i + MAX_CONCURRENT);
-			const results = await Promise.all(
-				concurrentBatches.map((batch) => this._getServiceUsersBatch(batch))
-			);
-			serviceUsers.push(...results.flat());
-		}
-
-		// Group by caseReference
-		const grouped = new Map();
-		for (const user of serviceUsers) {
-			if (!grouped.has(user.caseReference)) {
-				grouped.set(user.caseReference, []);
-			}
-			grouped.get(user.caseReference).push({
-				id: user.id,
-				emailAddress: user.emailAddress,
-				serviceUserType: user.serviceUserType,
-				organisation: user.organisation
+		return runBatchWithPromise(batches, MAX_CONCURRENT, (batch) => {
+			return this.dbClient.serviceUser.findMany({
+				where: {
+					caseReference: { in: batch },
+					...(serviceUserTypes ? { serviceUserType: { in: serviceUserTypes } } : {})
+				},
+				select: select
 			});
-		}
-
-		return Array.from(grouped.entries()).map(([caseReference, users]) => ({
-			caseReference,
-			users
-		}));
-	}
-
-	/**
-	 * @param {Array<{serviceUserIds: string[], caseReference: string}>} batchLookups
-	 * @returns {Promise<Array<{id: string, emailAddress: string|null, serviceUserType: string, organisation: string|null, caseReference: string}>>}
-	 */
-	async _getServiceUsersBatch(batchLookups) {
-		if (!batchLookups || batchLookups.length === 0) {
-			return [];
-		}
-
-		return this.dbClient.serviceUser.findMany({
-			where: {
-				OR: batchLookups.map((lookup) => ({
-					AND: {
-						id: {
-							in: lookup.serviceUserIds
-						},
-						caseReference: lookup.caseReference
-					}
-				}))
-			},
-			select: {
-				id: true,
-				emailAddress: true,
-				serviceUserType: true,
-				organisation: true,
-				caseReference: true
-			}
 		});
 	}
 

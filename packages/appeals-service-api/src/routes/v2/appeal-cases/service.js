@@ -11,13 +11,13 @@ const {
 	sendSubmissionReceivedEmailToLpaV2
 } = require('#lib/notify');
 const sanitizePostcode = require('#lib/sanitize-postcode');
-const config = require('../../../configuration/config');
 
 const repo = new AppealCaseRepository();
 const serviceUserRepo = new ServiceUserRepository();
 const { SchemaValidator } = require('../../../services/back-office-v2/validate');
 const { getValidator } = new SchemaValidator();
 const logger = require('#lib/logger');
+const { chunkArray, runBatchWithPromise } = require('@pins/common/src/database/chunk-array');
 
 /**
  * @template Payload
@@ -724,7 +724,7 @@ async function listByLpaCodeWithAppellant(options) {
 	const appeals = await repo.listByLpaCode(options);
 
 	if (options.withAppellant) {
-		await Promise.all(appeals.map(appendAppellantAndAgent));
+		await appendAppellantAndAgentForMultiple(appeals);
 	}
 
 	const enhancedAppeals = await appendLinkedCasesForMultipleAppeals(appeals);
@@ -745,7 +745,7 @@ async function listByPostcodeWithAppellant(options) {
 	const appeals = await repo.listByPostCode(options);
 
 	if (options.withAppellant) {
-		await Promise.all(appeals.map(appendAppellantAndAgent));
+		await appendAppellantAndAgentForMultiple(appeals);
 	}
 
 	return appeals;
@@ -768,6 +768,46 @@ async function appendAppellantAndAgent(appeal) {
 	}
 	appeal.users = serviceUsers;
 	return appeal;
+}
+
+/**
+ * Add the service users to an appeal if there are any.
+ *
+ * @param {AppealCase[]} appeals
+ * @returns {Promise<AppealCase[] & {users?: Array.<ServiceUser>}>}
+ */
+async function appendAppellantAndAgentForMultiple(appeals) {
+	// find appeal users by roles
+	const caseReferences = appeals.map((appeal) => appeal.caseReference);
+	const allServiceUsers = await serviceUserRepo.getServiceUsersForMultipleCases(
+		caseReferences,
+		{
+			firstName: true,
+			lastName: true,
+			emailAddress: true,
+			organisation: true,
+			telephoneNumber: true,
+			serviceUserType: true,
+			id: true,
+			addressLine1: true,
+			addressLine2: true,
+			addressTown: true,
+			postcode: true
+		},
+		[ServiceUserType.Appellant, ServiceUserType.Agent]
+	);
+
+	const usersByCase = new Map(
+		allServiceUsers.map((result) => [result.caseReference, result.users])
+	);
+
+	return appeals.map((appeal) => {
+		const serviceUsers = usersByCase.get(appeal.caseReference);
+		if (serviceUsers) {
+			return { ...appeal, users: serviceUsers };
+		}
+		return appeal;
+	});
 }
 
 /**
@@ -819,10 +859,7 @@ async function appendLinkedCases(appeal) {
  */
 async function appendLinkedCasesForMultipleAppeals(appeals) {
 	const caseReferences = appeals.map((appealCase) => appealCase.caseReference);
-	const linkedCases =
-		caseReferences.length <= config.db.queryBatchSize
-			? await repo.getLinkedCases(caseReferences)
-			: await batchGetLinkedCases(caseReferences, config.db.queryBatchSize);
+	const linkedCases = await batchGetLinkedCases(caseReferences, 500);
 
 	if (!linkedCases || !linkedCases.length) {
 		return appeals;
@@ -867,16 +904,11 @@ async function appendLinkedCasesForMultipleAppeals(appeals) {
  * @returns {Promise<LinkedCase[]>}>}
  */
 async function batchGetLinkedCases(caseReferences, batchSize) {
-	let batchedCaseReferences = [];
-	for (var i = 0; i < caseReferences.length; i += batchSize) {
-		batchedCaseReferences.push(caseReferences.slice(i, i + batchSize));
-	}
-
-	const batchedLinkedCases = await Promise.all(
-		batchedCaseReferences.map(repo.getLinkedCases.bind(repo))
-	);
-
-	return batchedLinkedCases.flat().filter((linkedCase) => linkedCase !== null);
+	const MAX_CONCURRENT = 3;
+	const batches = chunkArray(caseReferences, batchSize);
+	return runBatchWithPromise(batches, MAX_CONCURRENT, (batch) => {
+		return repo.getLinkedCases(batch);
+	});
 }
 
 module.exports = {
