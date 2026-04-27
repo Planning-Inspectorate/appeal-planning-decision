@@ -155,7 +155,7 @@
 		"pino": "^10.3.1",
 		"pino-http": "^10.5.0",
 		"puppeteer-core": "^24.37.2",
-		"stream-json": "^1.8.0",
+		"stream-json": "^2.1.0",
 		"swagger-jsdoc": "^6.2.8",
 		"swagger-typescript-api": "^13.3.1",
 		"swagger-ui-express": "^5.0.1",
