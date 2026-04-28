@@ -70,11 +70,13 @@ exports.isLPAStatementOpen = (appealCaseData) =>
 /**
  * statement is open for Appellant
  * @param {AppealCaseDetailed} appealCaseData
+ * @param {Record<string, boolean>} featureFlags feature flags to check
  * @returns {boolean}
  */
-exports.isAppellantStatementOpen = (appealCaseData) =>
+exports.isAppellantStatementOpen = (appealCaseData, featureFlags) =>
 	process.env.APPELLANT_STATEMENT_ENABLED === 'true' &&
-	!!caseTypeLookup(appealCaseData.appealTypeCode, 'processCode')?.hasAppellantStatementJourney &&
+	!!caseTypeLookup(appealCaseData.appealTypeCode, 'processCode', featureFlags)
+		?.hasAppellantStatementJourney &&
 	statementsAreOpen(appealCaseData) &&
 	!appealCaseData.AppellantStatementSubmittedDate &&
 	!representationExists(appealCaseData.Representations, {

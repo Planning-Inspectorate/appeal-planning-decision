@@ -1,5 +1,8 @@
 const { JourneyResponse } = require('@pins/dynamic-forms/src/journey-response');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const { FLAG } = require('@pins/common/src/feature-flags');
+const { isFeatureActive } = require('../../featureFlag');
+
 const logger = require('#lib/logger');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const {
@@ -22,8 +25,14 @@ module.exports =
 		const referenceId = req.params.referenceId;
 		const appealOverviewUrl = `${APPEAL_OVERVIEW}/${referenceId}`;
 		let result;
+		const flags = {
+			[FLAG.ADVERT_APPELLANT_STATEMENT_ENABLED]: await isFeatureActive(
+				FLAG.ADVERT_APPELLANT_STATEMENT_ENABLED
+			)
+		};
+
 		const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
-		if (checkSubmitted && !isAppellantStatementOpen(appeal)) {
+		if (checkSubmitted && !isAppellantStatementOpen(appeal, flags)) {
 			req.session.navigationHistory.shift();
 			return res.redirect(appealOverviewUrl);
 		}

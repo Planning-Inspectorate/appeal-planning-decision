@@ -17,6 +17,8 @@ const {
 
 const { filterAppealsWithinGivenDate } = require('../../lib/filter-decided-appeals');
 const { filterTime } = require('../../config');
+const { FLAG } = require('@pins/common/src/feature-flags');
+const { isFeatureActive } = require('../../featureFlag');
 
 exports.get = async (req, res) => {
 	let viewContext = {};
@@ -28,11 +30,17 @@ exports.get = async (req, res) => {
 			return;
 		}
 
+		const flags = {
+			[FLAG.ADVERT_APPELLANT_STATEMENT_ENABLED]: await isFeatureActive(
+				FLAG.ADVERT_APPELLANT_STATEMENT_ENABLED
+			)
+		};
+
 		logger.debug({ appeals }, 'appeals');
 
 		const withdrawnAppealsCount = appeals
 			.filter((appeal) => appeal.caseWithdrawnDate)
-			.map(mapToAppellantDashboardDisplayData)
+			.map((a) => mapToAppellantDashboardDisplayData(a, flags))
 			.filter(Boolean)
 			.filter((appeal) =>
 				filterAppealsWithinGivenDate(
@@ -48,7 +56,7 @@ exports.get = async (req, res) => {
 			.filter(isNotTransferred);
 
 		const mappedAppeals = validAppeals
-			.map((a) => mapToAppellantDashboardDisplayData(a))
+			.map((a) => mapToAppellantDashboardDisplayData(a, flags))
 			.filter(Boolean);
 
 		const decidedAppealsCount = mappedAppeals

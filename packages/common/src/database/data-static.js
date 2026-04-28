@@ -1,4 +1,5 @@
 const { APPEAL_USER_ROLES } = require('../constants');
+const { FLAG } = require('../feature-flags');
 const {
 	APPEAL_CASE_PROCEDURE,
 	APPEAL_CASE_TYPE,
@@ -90,7 +91,7 @@ const CASE_TYPES = Object.freeze({
 		friendlyUrl: 'adverts', // shares appeal form with CAS_ADVERTS
 		expedited: false,
 		usesEnforcementContact: false,
-		hasAppellantStatementJourney: false
+		hasAppellantStatementJourney: true
 	},
 	CAS_ADVERTS: {
 		id: 1007,
@@ -152,9 +153,10 @@ const CASE_TYPES = Object.freeze({
 /**
  * @param {any} value value to lookup
  * @param {'processCode'|'id'|'type'} lookupProp property to check
+ * @param {Record<string, boolean>} featureFlags feature flags to check
  * @returns {CASE_TYPE|undefined} result based on the returnProp
  */
-const caseTypeLookup = (value, lookupProp) => {
+const caseTypeLookup = (value, lookupProp, featureFlags) => {
 	// ensure lookup is on a unique value
 	if (!['processCode', 'id', 'type', 'key'].includes(lookupProp)) {
 		throw new Error(`Invalid lookup property: ${lookupProp}`);
@@ -165,7 +167,24 @@ const caseTypeLookup = (value, lookupProp) => {
 		value = parseInt(value, 10);
 	}
 
-	return Object.values(CASE_TYPES).find((caseType) => caseType[lookupProp] === value);
+	const appeal = Object.values(CASE_TYPES).find((caseType) => caseType[lookupProp] === value);
+	if (!appeal) return undefined;
+
+	// modify static data based on current flags
+	if (!featureFlags) return appeal;
+
+	// if feature flag is not on, flip advert hasAppellantStatementJourney to false
+	if (
+		!featureFlags[FLAG.ADVERT_APPELLANT_STATEMENT_ENABLED] &&
+		appeal.processCode === CASE_TYPES.ADVERTS.processCode
+	) {
+		return {
+			...appeal,
+			hasAppellantStatementJourney: false
+		};
+	}
+
+	return appeal;
 };
 
 /**
