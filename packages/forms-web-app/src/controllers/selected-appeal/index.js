@@ -37,6 +37,8 @@ const config = require('../../config');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 const { formatDashboardLinkedCaseDetails } = require('@pins/common/src/lib/linked-appeals');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { FLAG } = require('@pins/common/src/feature-flags');
+const { isFeatureActive } = require('../../featureFlag');
 
 /** @type {Partial<import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict>} */
 const userSectionsDict = {
@@ -97,6 +99,12 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				);
 		}
 
+		const flags = {
+			[FLAG.ADVERT_APPELLANT_STATEMENT_ENABLED]: await isFeatureActive(
+				FLAG.ADVERT_APPELLANT_STATEMENT_ENABLED
+			)
+		};
+
 		const viewContext = {
 			layoutTemplate,
 			titleSuffix: formatTitleSuffix(userType),
@@ -111,7 +119,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				isAppellant && isAppellantProofsOfEvidenceOpen(caseData),
 			shouldDisplayFinalCommentsDueBannerAppellant:
 				isAppellant && isAppellantFinalCommentOpen(caseData),
-			shouldDisplayStatementsDueBannerAppellant: isAppellant && isAppellantStatementOpen(caseData),
+			shouldDisplayStatementsDueBannerAppellant:
+				isAppellant && isAppellantStatementOpen(caseData, flags),
 
 			shouldDisplayStatementsDueBannerRule6: isRule6 && isRule6StatementOpen(caseData),
 			shouldDisplayProofEvidenceDueBannerRule6: isRule6 && isRule6ProofsOfEvidenceOpen(caseData),

@@ -7,6 +7,8 @@ const {
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const NotifyService = require('@pins/common/src/lib/notify/notify-service');
 const config = require('../configuration/config');
+const { isFeatureActive } = require('../configuration/featureFlag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 const logger = require('./logger');
 const LpaService = require('../services/lpa.service');
 const { parseISO } = require('date-fns');
@@ -415,7 +417,11 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 			enforcementReference: enforcementReference || '',
 			isEnforcement: isEnforcement(appealTypeCode),
 			hasAppellantStatementJourney:
-				caseTypeLookup(appealTypeCode, 'processCode')?.hasAppellantStatementJourney ?? false
+				caseTypeLookup(appealTypeCode, 'processCode', {
+					[FLAG.ADVERT_APPELLANT_STATEMENT_ENABLED]: await isFeatureActive(
+						FLAG.ADVERT_APPELLANT_STATEMENT_ENABLED
+					)
+				})?.hasAppellantStatementJourney ?? false
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');

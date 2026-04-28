@@ -136,7 +136,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => {
  * @param {AppealSubmission | AppealCaseDetailed} appealData
  * @returns {DashboardDisplayData|null}
  */
-const mapToAppellantDashboardDisplayData = (appealData) => {
+const mapToAppellantDashboardDisplayData = (appealData, featureFlags) => {
 	const id = isAppealSubmission(appealData) ? appealData._id : appealData.id;
 
 	const hasAddress =
@@ -162,7 +162,7 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
 					: appealData.caseReference,
 			address: escapedAddress.replace(/\n/g, '<br>'),
 			appealType: getAppealType(appealData),
-			nextJourneyDue: determineJourneyToDisplayAppellantDashboard(appealData),
+			nextJourneyDue: determineJourneyToDisplayAppellantDashboard(appealData, featureFlags),
 			isDraft: isAppealSubmission(appealData) || isV2Submission(appealData),
 			displayInvalid: displayInvalidAppeal(appealData),
 			appealDecision: isAppealSubmission(appealData)
@@ -346,7 +346,7 @@ const determineJourneyToDisplayLPADashboard = (appealCaseData) => {
  * @param {AppealCaseDetailed | AppealSubmission} caseOrSubmission
  * @returns {DueJourneyType} object containing details of next due journey
  */
-const determineJourneyToDisplayAppellantDashboard = (caseOrSubmission) => {
+const determineJourneyToDisplayAppellantDashboard = (caseOrSubmission, featureFlags) => {
 	if (isAppealSubmission(caseOrSubmission)) {
 		const deadline = calculateAppealDueDeadline(caseOrSubmission);
 		return {
@@ -378,7 +378,7 @@ const determineJourneyToDisplayAppellantDashboard = (caseOrSubmission) => {
 			dueInDays: -100000,
 			journeyDue: SUBMISSIONS.INVALID
 		};
-	} else if (isAppellantStatementOpen(caseOrSubmission)) {
+	} else if (isAppellantStatementOpen(caseOrSubmission, featureFlags)) {
 		return {
 			deadline: caseOrSubmission.statementDueDate,
 			dueInDays: calculateDueInDays(caseOrSubmission.statementDueDate),

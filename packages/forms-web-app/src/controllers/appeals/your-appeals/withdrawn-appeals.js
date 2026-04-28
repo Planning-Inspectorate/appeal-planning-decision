@@ -5,18 +5,26 @@ const { filterAppealsWithinGivenDate } = require('../../../lib/filter-decided-ap
 const { filterTime } = require('../../../config');
 const { sortByDateFieldDesc } = require('@pins/common/src/lib/appeal-sorting');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { FLAG } = require('@pins/common/src/feature-flags');
+const { isFeatureActive } = require('../../../featureFlag');
 
 exports.get = async (req, res) => {
 	let viewContext = { withdrawnAppeals: [] };
 	try {
 		const appeals = await req.appealsApiClient.getUserAppeals(APPEAL_USER_ROLES.APPELLANT);
 
+		const flags = {
+			[FLAG.ADVERT_APPELLANT_STATEMENT_ENABLED]: await isFeatureActive(
+				FLAG.ADVERT_APPELLANT_STATEMENT_ENABLED
+			)
+		};
+
 		logger.debug('Total appeals from API:', appeals?.length);
 
 		if (appeals?.length > 0) {
 			const withdrawnAppeals = appeals
 				.filter((appeal) => appeal.caseWithdrawnDate)
-				.map(mapToAppellantDashboardDisplayData)
+				.map((a) => mapToAppellantDashboardDisplayData(a, flags))
 				.filter(Boolean)
 				.filter((appeal) =>
 					filterAppealsWithinGivenDate(
