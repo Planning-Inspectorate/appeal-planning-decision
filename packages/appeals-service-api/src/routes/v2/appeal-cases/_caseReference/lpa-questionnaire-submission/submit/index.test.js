@@ -524,7 +524,9 @@ const formattedS78 = [
 			isPublicRightOfWay: true,
 			lpaProcedurePreferenceDetails: 'Hearing details',
 			lpaProcedurePreferenceDuration: null,
-			lpaQuestionnaireSubmittedDate: expect.any(String)
+			lpaQuestionnaireSubmittedDate: expect.any(String),
+			significantChangesAffectingApplicationLpa: null,
+			listOfDocumentsBeforeDecision: undefined
 		},
 		documents: [...expectedHAS.documents]
 	})

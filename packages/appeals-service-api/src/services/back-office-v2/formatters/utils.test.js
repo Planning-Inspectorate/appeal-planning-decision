@@ -12,7 +12,8 @@ const {
 	getDesignatedSiteNames,
 	siteAddressAndGridReferenceAreMissing,
 	getAdvertsAppellantSubmissionFields,
-	getS78AppellantSubmissionFields
+	getS78AppellantSubmissionFields,
+	getS78LPAQSubmissionFields
 } = require('./utils');
 const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 const {
@@ -606,6 +607,43 @@ describe('utils.js', () => {
 				appellantProcedurePreferenceDetails: undefined,
 				appellantProcedurePreferenceDuration: null,
 				appellantProcedurePreferenceWitnessCount: null
+			});
+		});
+	});
+	describe('getS78LPAQSubmissionFields', () => {
+		it('should return S78 fields', () => {
+			const answers = {
+				treePreservationOrder: true,
+				publicRightOfWay: true,
+				statutoryConsultees: 'yes',
+				statutoryConsultees_consultedBodiesDetails: 'details',
+				consultationResponses: true,
+				emergingPlan: true,
+				supplementaryPlanningDocs: true,
+				anySignificantChanges: 'local-plan,national-policy,court-judgment,other',
+				anySignificantChanges_otherSignificantChanges: 'other text',
+				anySignificantChanges_localPlanSignificantChanges: 'local plan text',
+				anySignificantChanges_nationalPolicySignificantChanges: 'national policy text',
+				anySignificantChanges_courtJudgementSignificantChanges: 'court judgment text',
+				listOfDocumentsBeforeDecision: 'list of docs'
+			};
+			const result = getS78LPAQSubmissionFields(answers);
+			expect(result).toEqual({
+				changedListedBuildingNumbers: [],
+				hasTreePreservationOrder: true,
+				isPublicRightOfWay: true,
+				hasStatutoryConsultees: true,
+				consultedBodiesDetails: 'details',
+				hasConsultationResponses: true,
+				hasEmergingPlan: true,
+				hasSupplementaryPlanningDocs: true,
+				significantChangesAffectingApplicationLpa: [
+					{ value: 'adopted-a-new-local-plan', comment: 'local plan text' },
+					{ value: 'national-policy-change', comment: 'national policy text' },
+					{ value: 'court-judgement', comment: 'court judgment text' },
+					{ value: 'other', comment: 'other text' }
+				],
+				listOfDocumentsBeforeDecision: 'list of docs'
 			});
 		});
 	});

@@ -625,6 +625,39 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
+	uploadPlansDrawingsLPA: {
+		name: 'uploadPlansDrawingsLPA',
+		dataModelName: APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS_LPA,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	uploadDesignAccessStatementLPA: {
+		name: 'uploadDesignAccessStatementLPA',
+		dataModelName: APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT_LPA,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
+	uploadAdditionalDocumentsLPA: {
+		name: 'uploadAdditionalDocumentsLPA',
+		dataModelName: APPEAL_DOCUMENT_TYPE.ADDITIONAL_DOCUMENTS_LPA,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
+	},
 	uploadStatementCommonGround: {
 		name: 'uploadStatementCommonGround',
 		dataModelName: APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND,

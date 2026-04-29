@@ -120,7 +120,8 @@ const exampleHASDataModel = {
 	],
 	affectedListedBuildingNumbers: ['1010101', '1010102', '9000009'],
 	appellantCostsAppliedFor: true,
-	lpaCostsAppliedFor: true
+	lpaCostsAppliedFor: true,
+	listOfDocumentsBeforeDecision: null
 };
 
 module.exports = { exampleHASDataModel };

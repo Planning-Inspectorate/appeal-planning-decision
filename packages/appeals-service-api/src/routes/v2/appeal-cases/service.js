@@ -185,7 +185,8 @@ const mapCommonDataModelToAppealCase = (
 		appellantCostsAppliedFor,
 		lpaCostsAppliedFor,
 		typeOfPlanningApplication,
-		reasonForNeighbourVisits
+		reasonForNeighbourVisits,
+		listOfDocumentsBeforeDecision
 	}
 ) => ({
 	// custom mappings
@@ -280,7 +281,8 @@ const mapCommonDataModelToAppealCase = (
 	appellantCostsAppliedFor,
 	lpaCostsAppliedFor,
 	typeOfPlanningApplication,
-	reasonForNeighbourVisits
+	reasonForNeighbourVisits,
+	listOfDocumentsBeforeDecision
 });
 
 /**

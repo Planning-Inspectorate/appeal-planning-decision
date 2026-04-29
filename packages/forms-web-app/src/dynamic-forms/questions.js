@@ -2192,7 +2192,7 @@ exports.getQuestionProps = (response) => ({
 	uploadDesignAccessStatementPart1: {
 		type: 'multi-file-upload',
 		title: 'Design and access statement',
-		question: 'Upload the design and access statement submitted with the application',
+		question: 'Upload the design and access statement submitted for the application',
 		fieldName: 'uploadDesignAccessStatement',
 		url: 'design-access-statement-upload',
 		html: 'resources/plans-drawings/upload-design-access-part-1.html',
@@ -2200,7 +2200,7 @@ exports.getQuestionProps = (response) => ({
 			new RequiredFileUploadValidator('Select the design and access statement'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadDesignAccessStatement,
+		documentType: documentTypes.uploadDesignAccessStatementLPA,
 		actionHiddenText: 'the design and access statement submitted with the application'
 	},
 	additionalDocumentsPart1: {
@@ -2222,7 +2222,7 @@ exports.getQuestionProps = (response) => ({
 			new RequiredFileUploadValidator('Select any other documents'),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.uploadOtherNewDocuments,
+		documentType: documentTypes.uploadAdditionalDocumentsLPA,
 		actionHiddenText: 'any other documents submitted with the application'
 	},
 	listOfDocumentsBeforeDecision: {
@@ -4397,7 +4397,7 @@ exports.getQuestionProps = (response) => ({
 			),
 			new MultifileUploadValidator(defaultFileUploadValidatorParams)
 		],
-		documentType: documentTypes.otherRelevantMattersUpload,
+		documentType: documentTypes.uploadPlansDrawingsLPA,
 		actionHiddenText: 'plans and drawings'
 	},
 	submitEnvironmentStatementPart1: {

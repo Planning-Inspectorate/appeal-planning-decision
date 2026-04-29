@@ -67,7 +67,8 @@ const exampleS78DataModel = {
 	siteGridReferenceNorthing: null,
 	siteViewableFromRoad: null,
 	siteWithinSSSI: false,
-	typeOfPlanningApplication: null
+	typeOfPlanningApplication: null,
+	listOfDocumentsBeforeDecision: 'test documents'
 };
 
 module.exports = { exampleS78DataModel };
