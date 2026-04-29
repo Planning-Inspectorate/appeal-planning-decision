@@ -76,7 +76,12 @@ describe('formatter', () => {
 		// Appeal process
 		lpaProcedurePreference: APPEAL_LPA_PROCEDURE_PREFERENCE.INQUIRY,
 		lpaPreferInquiryDetails: 'lpaPreferInquiryDetails',
-		lpaProcedurePreference_lpaPreferInquiryDuration: '12'
+		lpaProcedurePreference_lpaPreferInquiryDuration: '12',
+
+		anySignificantChanges: 'local-plan,national-policy',
+		anySignificantChanges_localPlanSignificantChanges: 'local plan changes',
+		anySignificantChanges_nationalPolicySignificantChanges: 'national policy changes',
+		listOfDocumentsBeforeDecision: 'list of documents'
 	};
 
 	const formattedAnswers = {
@@ -135,7 +140,8 @@ describe('formatter', () => {
 			isPublicRightOfWay: undefined,
 			lpaProcedurePreference: 'written',
 			lpaProcedurePreferenceDetails: null,
-			lpaProcedurePreferenceDuration: null
+			lpaProcedurePreferenceDuration: null,
+			significantChangesAffectingApplicationLpa: null
 		},
 		documents: [1]
 	};
@@ -196,7 +202,19 @@ describe('formatter', () => {
 				lpaProcedurePreferenceDetails: s78Answers.lpaPreferInquiryDetails,
 				lpaProcedurePreferenceDuration: Number(
 					s78Answers.lpaProcedurePreference_lpaPreferInquiryDuration
-				)
+				),
+
+				significantChangesAffectingApplicationLpa: [
+					{
+						value: 'adopted-a-new-local-plan',
+						comment: 'local plan changes'
+					},
+					{
+						value: 'national-policy-change',
+						comment: 'national policy changes'
+					}
+				],
+				listOfDocumentsBeforeDecision: 'list of documents'
 			},
 			documents: [1]
 		});
@@ -315,7 +333,10 @@ describe('formatter', () => {
 				// preference
 				lpaProcedurePreference: 'written',
 				lpaProcedurePreferenceDetails: null,
-				lpaProcedurePreferenceDuration: null
+				lpaProcedurePreferenceDuration: null,
+
+				significantChangesAffectingApplicationLpa: null,
+				listOfDocumentsBeforeDecision: undefined
 			},
 			documents: [1]
 		});

@@ -10,7 +10,6 @@ const { QUESTION_VARIABLES } = require('@pins/common/src/dynamic-forms/question-
 const {
 	CASE_TYPES: { S78 }
 } = require('@pins/common/src/database/data-static');
-const config = require('../../config');
 const {
 	mapAppealTypeToDisplayText,
 	mapAppealTypeToDisplayTextWithAnOrA
@@ -105,31 +104,7 @@ const makeSections = (response) => {
 						{ logicalCombinator: 'or' }
 					)
 			)
-			.addQuestion(questions.scopingOpinion)
-			.withCondition(
-				() =>
-					questionsHaveAnswers(
-						response,
-						[
-							[questions.screeningOpinion, 'yes'],
-							[questions.screeningOpinionEnvironmentalStatement, 'yes']
-						],
-						{ logicalCombinator: 'and' }
-					) && config.featureFlag.scopingOpinionEnabled
-			)
-			.addQuestion(questions.scopingOpinionUpload)
-			.withCondition(
-				() =>
-					questionsHaveAnswers(
-						response,
-						[
-							[questions.scopingOpinion, 'yes'],
-							[questions.screeningOpinion, 'yes'],
-							[questions.screeningOpinionEnvironmentalStatement, 'yes']
-						],
-						{ logicalCombinator: 'and' }
-					) && config.featureFlag.scopingOpinionEnabled
-			)
+
 			.addQuestion(questions.submitEnvironmentalStatement)
 			.addQuestion(questions.uploadEnvironmentalStatement)
 			.withCondition(() =>
@@ -225,8 +200,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.appealsNearSite)
 			.addQuestion(questions.nearbyAppeals)
 			.withCondition(() => questionHasAnswer(response, questions.appealsNearSite, 'yes'))
-			.addQuestion(questions.anySignificantChangesLPA)
-			.addQuestion(questions.addNewConditions),
+			.addQuestion(questions.anySignificantChangesLPA),
 		new Section('Original Evidence', 'original-evidence')
 			.addQuestion(questions.designAccessStatementPart1)
 			.addQuestion(questions.uploadDesignAccessStatementPart1)

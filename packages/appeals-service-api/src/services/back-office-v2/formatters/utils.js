@@ -597,7 +597,7 @@ exports.getS78AppellantSubmissionFields = (appellantSubmission) => {
 
 /**
  * @param {FullAppellantSubmission} appellantSubmission
- * @returns {{value: string, comment?: string | null}[] | null}
+ * @returns {{value: "adopted-a-new-local-plan" | "national-policy-change" | "court-judgement" | "other" | null, comment?: string | null}[] | null}
  */
 exports.formatSignificantChanges = (appellantSubmission) => {
 	if (!appellantSubmission.anySignificantChanges) return null;
@@ -1202,6 +1202,11 @@ exports.getS78LPAQSubmissionFields = (answers) => {
 		// Planning officer’s report and supporting documents
 		hasEmergingPlan: answers.emergingPlan,
 		hasSupplementaryPlanningDocs: answers.supplementaryPlanningDocs,
+
+		// Appeal process
+		significantChangesAffectingApplicationLpa: exports.formatSignificantChanges(answers),
+
+		// Original Evidence
 		listOfDocumentsBeforeDecision: answers.listOfDocumentsBeforeDecision
 	};
 };
