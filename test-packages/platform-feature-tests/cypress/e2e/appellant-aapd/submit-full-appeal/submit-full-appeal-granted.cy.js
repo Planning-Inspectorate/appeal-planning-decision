@@ -6,13 +6,13 @@ import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementD
 import { users } from '../../../fixtures/users.js';
 const { submitAppealFlow } = require('../../../support/flows/sections/appellantAAPD/appeal');
 
-describe('Submit Full Appeal Granted Test cases',{ tags:'@S78-granted' }, () => {
+describe('Submit Full Appeal Granted Test cases', { tags: '@S78-granted' }, () => {
 	let prepareAppealData;
 	let lpaManageAppealsData;
 	before(() => {
 		cy.login(users.appeals.authUser);
 	});
-	beforeEach(() => {		
+	beforeEach(() => {
 		cy.fixture('prepareAppealData').then(data => {
 			prepareAppealData = data;
 		})
@@ -27,6 +27,7 @@ describe('Submit Full Appeal Granted Test cases',{ tags:'@S78-granted' }, () => 
 			typeOfDecisionRequested,
 			statusOfPlanningObligation,
 			typeOfPlanningApplication,
+			expeditedAppeal,
 			applicationForm
 		} = context;
 		// Define the test case
@@ -34,6 +35,7 @@ describe('Submit Full Appeal Granted Test cases',{ tags:'@S78-granted' }, () => 
 			- Should check the status of the original application,
 			- verify the status of planning obligation as "${statusOfPlanningObligation}",
 			- validate the type of planning application as "${typeOfPlanningApplication}",
+			- verify if the appeal is an expedited appeal: "${expeditedAppeal}",
 			- ensure the application form contains the correct details:
 			* is Appellant: "${applicationForm?.isAppellant}"
 			* Area Units: "${applicationForm?.areaUnits}"
@@ -57,6 +59,7 @@ describe('Submit Full Appeal Granted Test cases',{ tags:'@S78-granted' }, () => 
 				typeOfDecisionRequested,
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
+				expeditedAppeal,
 				context,
 				prepareAppealData,
 				lpaManageAppealsData,

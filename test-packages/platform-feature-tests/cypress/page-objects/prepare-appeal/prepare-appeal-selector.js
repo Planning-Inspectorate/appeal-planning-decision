@@ -10,6 +10,7 @@ export class PrepareAppealSelector {
         onApplicationDateMonth: '#onApplicationDate_month',
         onApplicationDateYear: '#onApplicationDate_year',
         developmentDescriptionOriginal: '#developmentDescriptionOriginal',
+        whyAreYouAppealing: '#whyAreYouAppealing',
         siteUseAtTimeOfApplication: '#siteUseAtTimeOfApplication',
         govukFieldsetHeading: ".govuk-fieldset__heading",
         govukLabelGovUkLabel1: "label.govuk-label.govuk-label--l",
@@ -78,7 +79,7 @@ export class PrepareAppealSelector {
         decisionDateYear: '#decision-date-year',
     }
     _houseHolderURLs = {
-        beforeYouStart: '/before-you-start',     
+        beforeYouStart: '/before-you-start',
         appealHouseholderDecison: '/appeal-householder-decision',
         appealsHouseholderAppealForm: '/appeals/householder/appeal-form',
         appealsHouseholderPrepareAppeal: '/appeals/householder/prepare-appeal',
@@ -112,7 +113,7 @@ export class PrepareAppealSelector {
         appealslistedBuildingPrepareAppeal: '/appeals/listed-building/prepare-appeal',
         appealslistedBuildingUploadDocuments: '/appeals/listed-building/upload-documents'
     }
-      _ldcAppealURLs = {
+    _ldcAppealURLs = {
         beforeYouStart: '/before-you-start',
         ldcAppealSubmit: '/ldc',
         appealsLdcAppealForm: '/appeals/ldc/appeal-form',
