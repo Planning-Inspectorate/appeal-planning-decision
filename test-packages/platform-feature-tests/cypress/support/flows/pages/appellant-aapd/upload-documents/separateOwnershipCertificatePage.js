@@ -17,8 +17,10 @@ export class SeparateOwnershipCertificatePage {
             cy.advanceToNextPage();
         }
 
-        //Upload your appeal statement
-        cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
-        cy.advanceToNextPage();
+        if (!context?.expeditedAppeal) {
+            //Upload your appeal statement
+            cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
+            cy.advanceToNextPage();
+        }
     };
 }

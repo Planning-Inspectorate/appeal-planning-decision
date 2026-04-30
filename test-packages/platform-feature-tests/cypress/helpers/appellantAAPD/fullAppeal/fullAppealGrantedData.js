@@ -12,9 +12,61 @@ const documents = {
     uploadDevelopmentDescription: 'additional-final-comments-1.pdf',
     uploadDecisionLetter: 'decision-letter.pdf',
     uploadPlanningApplConfirmLetter: 'letter-confirming-planning-application.pdf',
-    uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf'
+    uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf',
+    uploadPlanningObligation: 'planning-obligation.pdf',
+    uploadEnvironmentalStmt: 'environmental-statement.pdf',
+    uploadDescriptionOfDevelopment: 'description-of-development.pdf',
 };
 export const fullAppealGrantedTestCases = [
+    {
+        tags: ['smoke'],
+        statusOfOriginalApplication: 'granted',
+        typeOfDecisionRequested: 'written',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-full-appeal',
+        endToEndIntegration: true,
+        expeditedAppeal: true,
+        applicationForm: {
+            isAppellant: true,
+            areaUnits: 'hectare',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            // knowsAllOwners: 'yes',
+            knowsOtherOwners: 'yes',
+            isAgriculturalHolding: false,
+            // isTenantAgricultureHolding : true,
+            // anyOtherTenants: true,
+            majorMionorDevelopmentData: 'major',
+            applicationAboutData: 'householder',
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,
+            appellantProcedurePreference: 'written',
+            anySignificantChangesCondition: true,
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: false
+        },
+        uploadDocuments: {
+            submitPlanningObligation: true,
+            finalisedPlanningStatus: 'ready',
+            haveSeparateOwnershipAndLandDecl: true,
+            isApplyAwardCost: true,
+            isSubmitDesignAndAccessStmt: true,
+            isNewPlanOrDrawingAvailable: true,
+            isOtherNewDocumentAvailable: true
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }
+    },
     {
         tags: ['smoke'],
         statusOfOriginalApplication: 'granted',
@@ -39,6 +91,7 @@ export const fullAppealGrantedTestCases = [
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'written',
+            anySignificantChangesCondition: true,
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -152,7 +205,7 @@ export const fullAppealGrantedTestCases = [
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
         }
-     },
+    },
     // {
     //     statusOfOriginalApplication: 'granted',
     //     typeOfDecisionRequested: 'written',
@@ -378,7 +431,7 @@ export const fullAppealGrantedTestCases = [
     //         uploadAdditionalDocuments: false
     //     }
     // },
-     {
+    {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
