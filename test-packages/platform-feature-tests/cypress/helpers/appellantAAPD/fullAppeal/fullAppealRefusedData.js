@@ -24,7 +24,7 @@ export const fullAppealRefusedTestCases = [
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
-        endToEndIntegration: true,
+        endToEndIntegration: false,
         expeditedAppeal: true,
         applicationForm: {
             isAppellant: true,
