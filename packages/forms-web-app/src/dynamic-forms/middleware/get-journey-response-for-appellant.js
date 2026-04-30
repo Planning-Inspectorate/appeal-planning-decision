@@ -7,6 +7,7 @@ const { ApiClientError } = require('@pins/common/src/client/api-client-error.js'
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { isExpeditedPart1Eligible } = require('../../lib/is-expedited-part1-eligible');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 /**
  *
@@ -41,33 +42,33 @@ module.exports = async (request, response, next) => {
 	}
 
 	// lookup type by submission type code
-	let appealType = Object.values(JOURNEY_TYPES).find(
+	let journeyType = Object.values(JOURNEY_TYPES).find(
 		(x) => x.type === JOURNEY_TYPE.appealForm && x.caseType === submission.appealTypeCode
 	)?.id;
 
-	if (typeof appealType === 'undefined') {
+	if (typeof journeyType === 'undefined') {
 		throw new Error('appealType is undefined');
 	}
 
 	const convertedResponse = mapDBResponseToJourneyResponseFormat(submission);
-	const expeditedAppealsEnabled = await isExpeditedAppealsFlagEnabled(submission.LPACode);
+	const expeditedAppealsEnabled = await isLpaInFeatureFlag(submission.LPACode);
 
 	if (
-		appealType === JOURNEY_TYPES.S78_APPEAL_FORM.id &&
+		journeyType === JOURNEY_TYPES.S78_APPEAL_FORM.id &&
 		expeditedAppealsEnabled &&
 		isExpeditedPart1Eligible({
 			typeOfPlanningApplication: convertedResponse?.typeOfPlanningApplication,
-			applicationDate: convertedResponse?.onApplicationDate,
+			applicationDate: convertedResponse?.applicationDate,
 			eligibility: {
 				applicationDecision: convertedResponse?.applicationDecision
 			}
 		})
 	) {
-		appealType = JOURNEY_TYPES.S78_PART_1_APPEAL_FORM.id;
+		journeyType = JOURNEY_TYPES.S78_PART_1_APPEAL_FORM.id;
 	}
 
 	const journeyResponse = new JourneyResponse(
-		appealType,
+		journeyType,
 		submissionId,
 		convertedResponse,
 		submission.LPACode
@@ -107,12 +108,4 @@ const appealTypeFlagActive = async (appealTypeCode, LPACode) => {
 		default:
 			return false;
 	}
-};
-
-/**
- * @param { string | undefined } LPACode
- * @returns {Promise<boolean>}
- */
-const isExpeditedAppealsFlagEnabled = async (LPACode) => {
-	return await isFeatureActive(FLAG.EXPEDITED_APPEALS_FO_V2, LPACode);
 };
