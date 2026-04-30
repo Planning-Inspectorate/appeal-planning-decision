@@ -13,7 +13,10 @@ const {
 		LPA_DASHBOARD: { DASHBOARD }
 	}
 } = require('../../lib/views');
+const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
+const { FLAG } = require('@pins/common/src/feature-flags');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 /**
  * @param {boolean} checkSubmitted
@@ -40,18 +43,32 @@ module.exports =
 		}
 
 		// lookup type by submission type code
-		let appealType = Object.values(JOURNEY_TYPES).find(
+		let journeyType = Object.values(JOURNEY_TYPES).find(
 			(x) => x.type === JOURNEY_TYPE.questionnaire && x.caseType === appeal.appealTypeCode
 		)?.id;
 
+		const expeditedAppealsEnabled = await isLpaInFeatureFlag(
+			appeal.LPACode,
+			FLAG.EXPEDITED_APPEALS_FO_V2
+		);
+
+		const expeditedEligible = isExpeditedPart1Eligible({
+			typeOfPlanningApplication: appeal?.typeOfPlanningApplication,
+			applicationDate: appeal?.applicationDate,
+			eligibility: {
+				applicationDecision: appeal?.applicationDecision
+			}
+		});
+		const expeditedConditions = expeditedAppealsEnabled && expeditedEligible;
+
 		if (
 			appeal.appealTypeCode === CASE_TYPES.S78.processCode &&
-			appeal.caseProcedure === 'writtenPart1'
+			(appeal.caseProcedure === 'writtenPart1' || expeditedConditions)
 		) {
-			appealType = JOURNEY_TYPES.S78_QUESTIONNAIRE_PART_1.id;
+			journeyType = JOURNEY_TYPES.S78_QUESTIONNAIRE_PART_1.id;
 		}
 
-		if (typeof appealType === 'undefined') {
+		if (typeof journeyType === 'undefined') {
 			throw new Error('appealType is undefined');
 		}
 
@@ -59,7 +76,7 @@ module.exports =
 			const dbResponse = await req.appealsApiClient.getLPAQuestionnaire(referenceId);
 			const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
 			result = new JourneyResponse(
-				appealType,
+				journeyType,
 				referenceId,
 				convertedResponse,
 				dbResponse.AppealCase?.LPACode
@@ -72,7 +89,7 @@ module.exports =
 				logger.error(err);
 			}
 			// return default response
-			result = getDefaultResponse(appealType, referenceId, user.lpaCode);
+			result = getDefaultResponse(journeyType, referenceId, user.lpaCode);
 		}
 
 		if (result.LPACode !== user.lpaCode) {
