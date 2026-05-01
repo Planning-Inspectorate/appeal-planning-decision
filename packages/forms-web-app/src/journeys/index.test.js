@@ -47,6 +47,8 @@ jest.mock('lusca', () => ({
 // featureFlags
 jest.mock('../featureFlag');
 const { isFeatureActive } = require('../featureFlag');
+jest.mock('#lib/is-lpa-in-feature-flag');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 // api clients
 jest.mock('#middleware/create-api-clients', () => ({
@@ -105,8 +107,12 @@ describe('Dynamic forms journey tests', () => {
 	});
 
 	beforeEach(() => {
-		jest.clearAllMocks();
 		isFeatureActive.mockImplementation(() => true);
+		isLpaInFeatureFlag.mockImplementation(() => true);
+	});
+
+	afterEach(() => {
+		jest.clearAllMocks();
 	});
 
 	afterAll(() => {

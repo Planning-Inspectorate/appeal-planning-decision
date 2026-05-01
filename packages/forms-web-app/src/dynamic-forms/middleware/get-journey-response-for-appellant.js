@@ -6,7 +6,7 @@ const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
-const { isExpeditedPart1Eligible } = require('../../lib/is-expedited-part1-eligible');
+const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 /**
@@ -51,7 +51,10 @@ module.exports = async (request, response, next) => {
 	}
 
 	const convertedResponse = mapDBResponseToJourneyResponseFormat(submission);
-	const expeditedAppealsEnabled = await isLpaInFeatureFlag(submission.LPACode);
+	const expeditedAppealsEnabled = await isLpaInFeatureFlag(
+		submission.LPACode,
+		FLAG.EXPEDITED_APPEALS_FO_V2
+	);
 
 	if (
 		journeyType === JOURNEY_TYPES.S78_APPEAL_FORM.id &&

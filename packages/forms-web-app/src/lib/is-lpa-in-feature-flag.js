@@ -9,7 +9,12 @@ const { isFeatureActive } = require('../featureFlag');
  * @returns {Promise<boolean>}
  */
 exports.isLpaInFeatureFlag = async (lpaCode, featureFlag) => {
-	const lpa = await getDepartmentFromId(lpaCode);
-	const lpaCodePINS = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
-	return await isFeatureActive(featureFlag, lpaCodePINS);
+	let pinsCode = lpaCode;
+	// if onscode do a lookup
+	if (lpaCode.length > 5) {
+		const lpa = await getDepartmentFromId(lpaCode);
+		pinsCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
+	}
+
+	return await isFeatureActive(featureFlag, pinsCode);
 };
