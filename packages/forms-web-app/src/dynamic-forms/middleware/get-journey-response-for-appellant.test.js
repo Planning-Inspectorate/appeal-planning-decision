@@ -5,12 +5,12 @@ const { ApiClientError } = require('@pins/common/src/client/api-client-error.js'
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { FLAG } = require('@pins/common/src/feature-flags');
-const { isExpeditedPart1Eligible } = require('../../lib/is-expedited-part1-eligible');
+const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
 
 jest.mock('./utils');
-jest.mock('../../lib/is-expedited-part1-eligible');
-jest.mock('../../featureFlag', () => ({
-	isFeatureActive: jest.fn()
+jest.mock('#lib/is-expedited-part1-eligible');
+jest.mock('#lib/is-lpa-in-feature-flag', () => ({
+	isLpaInFeatureFlag: jest.fn()
 }));
 
 describe('getJourneyResponseForAppellant', () => {
@@ -39,7 +39,7 @@ describe('getJourneyResponseForAppellant', () => {
 		};
 		next = jest.fn();
 		mapDBResponseToJourneyResponseFormat.mockReturnValue(convertedResponse);
-		require('../../featureFlag').isFeatureActive.mockResolvedValue(true);
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockResolvedValue(true);
 		isExpeditedPart1Eligible.mockReturnValue(false);
 	});
 
@@ -66,7 +66,7 @@ describe('getJourneyResponseForAppellant', () => {
 		submission.appealTypeCode = CASE_TYPES.ENFORCEMENT.processCode;
 		req.appealsApiClient.getAppellantSubmission.mockResolvedValue(submission);
 
-		require('../../featureFlag').isFeatureActive.mockResolvedValue(false);
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockResolvedValue(false);
 		await getJourneyResponseForAppellant(req, res, next);
 		expect(res.status).toHaveBeenCalledWith(404);
 		expect(res.render).toHaveBeenCalledWith('error/not-found');
@@ -75,7 +75,7 @@ describe('getJourneyResponseForAppellant', () => {
 
 	it('should set journeyResponse and call next on success', async () => {
 		req.appealsApiClient.getAppellantSubmission.mockResolvedValue(mockSubmission);
-		require('../../featureFlag').isFeatureActive.mockResolvedValue(true);
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockResolvedValue(true);
 
 		await getJourneyResponseForAppellant(req, res, next);
 
@@ -87,9 +87,9 @@ describe('getJourneyResponseForAppellant', () => {
 			)
 		);
 		expect(res.locals.journeyResponse.expeditedAppealsEnabled).toBe(true);
-		expect(require('../../featureFlag').isFeatureActive).toHaveBeenCalledWith(
-			FLAG.EXPEDITED_APPEALS_FO_V2,
-			lpaCode
+		expect(require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag).toHaveBeenCalledWith(
+			lpaCode,
+			FLAG.EXPEDITED_APPEALS_FO_V2
 		);
 		expect(next).toHaveBeenCalled();
 	});
@@ -99,19 +99,14 @@ describe('getJourneyResponseForAppellant', () => {
 			...mockSubmission,
 			appealTypeCode: CASE_TYPES.S78.processCode
 		});
-		require('../../featureFlag').isFeatureActive.mockImplementation(async (flagName) => {
-			if (flagName === FLAG.EXPEDITED_APPEALS_FO_V2) {
-				return true;
-			}
-			return true;
-		});
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockResolvedValue(true);
 
 		await getJourneyResponseForAppellant(req, res, next);
 
 		expect(res.locals.journeyResponse.expeditedAppealsEnabled).toBe(true);
-		expect(require('../../featureFlag').isFeatureActive).toHaveBeenCalledWith(
-			FLAG.EXPEDITED_APPEALS_FO_V2,
-			lpaCode
+		expect(require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag).toHaveBeenCalledWith(
+			lpaCode,
+			FLAG.EXPEDITED_APPEALS_FO_V2
 		);
 		expect(next).toHaveBeenCalled();
 	});
@@ -121,7 +116,7 @@ describe('getJourneyResponseForAppellant', () => {
 			...mockSubmission,
 			appealTypeCode: CASE_TYPES.S78.processCode
 		});
-		require('../../featureFlag').isFeatureActive.mockImplementation(async () => {
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
 			return true;
 		});
 		isExpeditedPart1Eligible.mockReturnValue(true);
@@ -143,19 +138,14 @@ describe('getJourneyResponseForAppellant', () => {
 
 	it('should set expeditedAppealsEnabled false when expedited flag is inactive', async () => {
 		req.appealsApiClient.getAppellantSubmission.mockResolvedValue(mockSubmission);
-		require('../../featureFlag').isFeatureActive.mockImplementation(async (flagName) => {
-			if (flagName === FLAG.EXPEDITED_APPEALS_FO_V2) {
-				return false;
-			}
-			return true;
-		});
+		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockReturnValue(false);
 
 		await getJourneyResponseForAppellant(req, res, next);
 
 		expect(res.locals.journeyResponse.expeditedAppealsEnabled).toBe(false);
-		expect(require('../../featureFlag').isFeatureActive).toHaveBeenCalledWith(
-			FLAG.EXPEDITED_APPEALS_FO_V2,
-			lpaCode
+		expect(require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag).toHaveBeenCalledWith(
+			lpaCode,
+			FLAG.EXPEDITED_APPEALS_FO_V2
 		);
 		expect(next).toHaveBeenCalled();
 	});
