@@ -8,6 +8,9 @@ const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 jest.mock('../../services/user.service');
 jest.mock('./utils');
+jest.mock('#lib/is-lpa-in-feature-flag', () => ({
+	isLpaInFeatureFlag: jest.fn()
+}));
 
 describe('getJourneyResponse', () => {
 	let req, res, next;
