@@ -765,7 +765,8 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 						siteUseAtTimeOfApplication: data.siteUseAtTimeOfApplication ?? null,
 						appealUnderActSection: data.appealUnderActSection ?? null,
 						lpaConsiderAppealInvalid: data.lpaConsiderAppealInvalid ?? null,
-						lpaAppealInvalidReasons: data.lpaAppealInvalidReasons ?? null
+						lpaAppealInvalidReasons: data.lpaAppealInvalidReasons ?? null,
+						listOfDocumentsBeforeDecision: data.listOfDocumentsBeforeDecision ?? null
 					});
 					expectEmails(email, testCaseRef);
 				});
@@ -1021,7 +1022,8 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					siteUseAtTimeOfApplication: data.siteUseAtTimeOfApplication ?? null,
 					appealUnderActSection: data.appealUnderActSection ?? null,
 					lpaConsiderAppealInvalid: data.lpaConsiderAppealInvalid ?? null,
-					lpaAppealInvalidReasons: data.lpaAppealInvalidReasons ?? null
+					lpaAppealInvalidReasons: data.lpaAppealInvalidReasons ?? null,
+					listOfDocumentsBeforeDecision: data.listOfDocumentsBeforeDecision ?? null
 				});
 			});
 

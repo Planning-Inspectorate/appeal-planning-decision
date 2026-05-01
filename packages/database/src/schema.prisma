@@ -271,7 +271,8 @@ model AppealCase {
 
   reasonForNeighbourVisits String? /// Reason given for the need to visit neighbours
 
-  designatedSitesNames String? @db.NVarChar(MAX) /// A json array of designated site names
+  designatedSitesNames          String? @db.NVarChar(MAX) /// A json array of designated site names
+  listOfDocumentsBeforeDecision String? @db.NVarChar(MAX)
 
   //***************************************************************************
   // Environmental Impact Assesement fields
