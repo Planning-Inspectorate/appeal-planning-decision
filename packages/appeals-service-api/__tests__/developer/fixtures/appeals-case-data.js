@@ -14,10 +14,12 @@ function createTestAppealCase(
 	caseType,
 	lpaCode,
 	postCode = 'POST CODE',
-	casePublished = true
+	casePublished = true,
+	caseStarted = false
 ) {
 	const now = new Date();
 	const publishedDate = casePublished ? now : null;
+	const startedDate = caseStarted ? now : null;
 
 	return {
 		caseReference: caseRef,
@@ -37,6 +39,7 @@ function createTestAppealCase(
 		caseDecisionOutcomeDate: null,
 		caseCreatedDate: now,
 		caseSubmittedDate: now,
+		caseStartedDate: startedDate,
 		finalCommentsDueDate: new Date().toISOString(),
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
