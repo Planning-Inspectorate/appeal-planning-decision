@@ -78,6 +78,7 @@ exports.sections = [
 				url: '/other-party-statements',
 				text: 'View other party statements',
 				condition: (appealCase) =>
+					!isEnforcementChildLinkedAppeal(appealCase) &&
 					representationPublished(appealCase.Representations, {
 						type: REPRESENTATION_TYPES.STATEMENT,
 						owned: false,

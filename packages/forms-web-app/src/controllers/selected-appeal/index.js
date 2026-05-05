@@ -35,7 +35,10 @@ const { getDepartmentFromCode } = require('../../services/department.service');
 const logger = require('#lib/logger');
 const config = require('../../config');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
-const { formatDashboardLinkedCaseDetails } = require('@pins/common/src/lib/linked-appeals');
+const {
+	formatDashboardLinkedCaseDetails,
+	isChildLinkedAppeal
+} = require('@pins/common/src/lib/linked-appeals');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { isFeatureActive } = require('../../featureFlag');
@@ -85,6 +88,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 		const isEnforcement = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
 
+		const siteVisits = isChildLinkedAppeal(caseData) ? [] : formatSiteVisits(events, userType);
+
 		const linkedCaseDetails = formatDashboardLinkedCaseDetails(caseData);
 
 		const sections = userSectionsDict[userType];
@@ -128,7 +133,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			appeal: {
 				appealNumber,
 				headlineData,
-				siteVisits: formatSiteVisits(events, userType),
+				siteVisits,
 				inquiries: formatInquiries(events, userType),
 				hearings: formatHearings(events, userType),
 				sections: formatSections({ caseData, sections }),
