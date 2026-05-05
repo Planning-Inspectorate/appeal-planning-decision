@@ -771,12 +771,17 @@ async function appendAppellantAndAgent(appeal) {
 }
 
 /**
- * Add the service users to an appeal if there are any.
+ * Add the service users to an appeal if there are any
+ * side effect on data passed in
  *
  * @param {AppealCase[]} appeals
  * @returns {Promise<AppealCase[] & {users?: Array.<ServiceUser>}>}
  */
 async function appendAppellantAndAgentForMultiple(appeals) {
+	if (!appeals || !appeals.length) {
+		return appeals;
+	}
+
 	// find appeal users by roles
 	const caseReferences = appeals.map((appeal) => appeal.caseReference);
 	const allServiceUsers = await serviceUserRepo.getServiceUsersForMultipleCases(
@@ -792,22 +797,25 @@ async function appendAppellantAndAgentForMultiple(appeals) {
 			addressLine1: true,
 			addressLine2: true,
 			addressTown: true,
-			postcode: true
+			postcode: true,
+			caseReference: true
 		},
 		[ServiceUserType.Appellant, ServiceUserType.Agent]
 	);
 
-	const usersByCase = new Map(
-		allServiceUsers.map((result) => [result.caseReference, result.users])
-	);
+	const usersByCase = new Map();
 
-	return appeals.map((appeal) => {
-		const serviceUsers = usersByCase.get(appeal.caseReference);
-		if (serviceUsers) {
-			return { ...appeal, users: serviceUsers };
-		}
-		return appeal;
-	});
+	for (const user of allServiceUsers) {
+		const list = usersByCase.get(user.caseReference) || [];
+		list.push(user);
+		usersByCase.set(user.caseReference, list);
+	}
+
+	for (const appeal of appeals) {
+		appeal.users = usersByCase.get(appeal.caseReference) || [];
+	}
+
+	return appeals;
 }
 
 /**

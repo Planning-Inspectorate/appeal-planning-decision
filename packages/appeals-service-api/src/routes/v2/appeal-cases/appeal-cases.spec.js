@@ -35,6 +35,7 @@ const {
 const {
 	exampleEnforcementListedDataModel
 } = require('../../../../__tests__/developer/fixtures/appeals-enforcement-listed-data-model');
+const { SERVICE_USER_TYPE } = require('@planning-inspectorate/data-model');
 
 const { appendLinkedCasesForMultipleAppeals } = require('./service');
 const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
@@ -53,6 +54,8 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 	let appealCaseIds = [];
 	/** @type {number[]} */
 	let appealCaseRelationshipIds = [];
+	/** @type {string[]} */
+	let serviceUserIds = [];
 
 	let caseRef = 5555555;
 
@@ -62,7 +65,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 	 * @param {boolean} casePublished
 	 * @returns {import('@pins/database/src/client/client').Prisma.AppealCaseCreateInput}
 	 */
-	function appealCase(lpaCode, postCode, casePublished = true) {
+	function appealCase(lpaCode, postCode, casePublished = true, caseStarted = false) {
 		caseRef++;
 
 		const appealCase = createTestAppealCase(
@@ -70,7 +73,8 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 			'HAS',
 			lpaCode,
 			postCode,
-			casePublished
+			casePublished,
+			caseStarted
 		);
 
 		appealCase.Appeal = { create: {} };
@@ -84,7 +88,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 	/** @type {import('@pins/database/src/client/client').Prisma.AppealCaseCreateInput[]} */
 	const publishedTestCases = [
 		appealCase('LPA1', 'BS1 6PM'),
-		appealCase('LPA1', 'BS1 6AA'),
+		appealCase('LPA1', 'BS1 6AA', true, true),
 		appealCase('LPA1', 'BS1 6PO'),
 		appealCase('LPA1a', 'BS1 6PP'),
 		appealCase('LPA1', 'BS1 6PP'),
@@ -187,6 +191,45 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					});
 				}
 
+				it('returns users when with-appellant is true', async () => {
+					const testCase = publishedTestCases[0];
+					setCurrentLpa(testCase.LPACode);
+					await _createSqlServiceUser({
+						id: `usr_${testCase.caseReference}`,
+						caseReference: testCase.caseReference,
+						serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+						emailAddress: `${testCase.caseReference}@example.com`,
+						firstName: 'Case',
+						lastName: 'Owner'
+					});
+
+					const response = await appealsApi
+						.get(
+							`/api/v2/appeal-cases` +
+								buildQueryString({
+									'lpa-code': testCase.LPACode,
+									'decided-only': 'false',
+									'with-appellant': 'true'
+								})
+						)
+						.send();
+
+					expect(response.status).toBe(200);
+					const returnedCase = response.body.find(
+						(appeal) => appeal.caseReference === testCase.caseReference
+					);
+					expect(returnedCase?.users).toEqual(
+						expect.arrayContaining([
+							expect.objectContaining({
+								caseReference: testCase.caseReference,
+								serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+								firstName: 'Case',
+								lastName: 'Owner'
+							})
+						])
+					);
+				});
+
 				it(`400 if lpa code in query doesn't match token`, async () => {
 					setCurrentLpa('invalidLpa');
 
@@ -220,6 +263,45 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 						);
 					});
 				}
+
+				it('returns users when with-appellant is true', async () => {
+					const testCase = publishedTestCases[1];
+					await _createSqlServiceUser({
+						id: `usr_${testCase.caseReference}`,
+						caseReference: testCase.caseReference,
+						serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+						emailAddress: `${testCase.caseReference}@example.com`,
+						firstName: 'Post',
+						lastName: 'Code'
+					});
+
+					const response = await appealsApi
+						.get(
+							`/api/v2/appeal-cases` +
+								buildQueryString({
+									postcode: testCase.siteAddressPostcode,
+									'decided-only': 'false',
+									'with-appellant': 'true',
+									isStarted: 'true'
+								})
+						)
+						.send();
+
+					expect(response.status).toBe(200);
+					const returnedCase = response.body.find(
+						(appeal) => appeal.caseReference === testCase.caseReference
+					);
+					expect(returnedCase?.users).toEqual(
+						expect.arrayContaining([
+							expect.objectContaining({
+								caseReference: testCase.caseReference,
+								serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+								firstName: 'Post',
+								lastName: 'Code'
+							})
+						])
+					);
+				});
 			});
 		});
 
@@ -1493,6 +1575,14 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 	 * @returns {Promise.<void>}
 	 */
 	const _clearSqlData = async () => {
+		await sqlClient.serviceUser.deleteMany({
+			where: {
+				id: {
+					in: serviceUserIds
+				}
+			}
+		});
+
 		const testAppealsClause = {
 			in: appealCaseIds
 		};
@@ -1515,6 +1605,7 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 
 		appealCaseIds = [];
 		appealCaseRelationshipIds = [];
+		serviceUserIds = [];
 	};
 
 	/**
@@ -1527,6 +1618,18 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 		appealCaseIds.push(appeal.id);
 
 		return appeal;
+	}
+
+	/**
+	 * @param {import('@pins/database/src/client/client').Prisma.ServiceUserCreateInput} data
+	 * @returns {Promise.<import('@pins/database/src/client/client').ServiceUser>}
+	 */
+	async function _createSqlServiceUser(data) {
+		const serviceUser = await sqlClient.serviceUser.create({ data });
+
+		serviceUserIds.push(serviceUser.id);
+
+		return serviceUser;
 	}
 
 	/**

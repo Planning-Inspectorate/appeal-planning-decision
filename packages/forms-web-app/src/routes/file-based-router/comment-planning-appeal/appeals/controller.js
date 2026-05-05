@@ -31,7 +31,7 @@ const appeals = async (req, res) => {
 	}
 
 	postcodeSearchResults.forEach((appeal) => {
-		const appellant = appeal.users.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
+		const appellant = appeal.users?.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
 		if (appellant) {
 			appeal.appellantFirstName = appellant.firstName;
 			appeal.appellantLastName = appellant.lastName;
