@@ -23,7 +23,7 @@ export class MockedExternalApis {
 	static async setup() {
 		// support multiple instances with a random suffix
 		const instance = crypto.randomBytes(8).toString('hex');
-		const startedContainer = await new GenericContainer('mockserver/mockserver')
+		const startedContainer = await new GenericContainer('mockserver/mockserver:5.15.0')
 			.withName(`mockserver-for-appeals-api-test-${instance}`)
 			.withExposedPorts(1081)
 			.withEnvironment({ MOCKSERVER_SERVER_PORT: '1081' })
