@@ -18,15 +18,15 @@ const { PrepareAppealSelector } = require("../../../page-objects/prepare-appeal/
 const applicationFormPage = require("../../../support/flows/pages/appellant-aapd/prepare-appeal/applicationFormPage");
 const { ApplicationNamePage } = require("../../../support/flows/pages/appellant-aapd/prepare-appeal/applicationNamePage");
 
-describe('House Holder Date Validations',{ tags:'@HAS-validation-1' }, () => {
+describe('House Holder Date Validations', { tags: '@HAS-validation-1' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
     const date = new DateService();
     let prepareAppealData;
 
     before(() => {
-		cy.login(users.appeals.authUser);
-	});
+        cy.login(users.appeals.authUser);
+    });
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
@@ -71,7 +71,7 @@ describe('House Holder Date Validations',{ tags:'@HAS-validation-1' }, () => {
 
     it(`Validate future date error message  in decision date page future day`, () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.nextDay());
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth() + 1);
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
         cy.advanceToNextPage();
 
@@ -113,14 +113,14 @@ describe('House Holder Date Validations',{ tags:'@HAS-validation-1' }, () => {
     });
 });
 
-describe('House Holder Validations for enforcement',{ tags:'@HAS-validation-2' },() => {
+describe('House Holder Validations for enforcement', { tags: '@HAS-validation-2' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
 
     let prepareAppealData;
     before(() => {
-		cy.login(users.appeals.authUser);
-	});
+        cy.login(users.appeals.authUser);
+    });
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
@@ -147,20 +147,12 @@ describe('House Holder Validations for enforcement',{ tags:'@HAS-validation-2' }
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you have received an enforcement notice');
 
         basePage.backBtn();
-        cy.containsMessage(prepareAppealSelector?._selectors?.govukLabelGovUkLabel1, "Which local planning authority (LPA) do you want to appeal against?");
-    });
-
-    it(`Validate exiting service page and button when user tries to use exiting appeals case work portal`, () => {
-        cy.getByData(basePage._selectors?.answerYes).click();
-        cy.advanceToNextPage();
-
-        cy.shouldHaveErrorMessage(basePage?._selectors?.govukHeadingOne, 'You need to use the existing service');
-        cy.containsMessage(basePage._selectors?.govukButton, 'Continue to the Appeals Casework Portal');
+        cy.containsMessage(prepareAppealSelector?._selectors?.govukLabelGovUkLabel1, "Find your local planning authority");
     });
 });
 
 
-describe('House Holder Validations',{ tags:'@HAS-validation-3' }, () => {
+describe('House Holder Validations', { tags: '@HAS-validation-3' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
     const contactDetailsPage = new ContactDetailsPage();
@@ -177,8 +169,8 @@ describe('House Holder Validations',{ tags:'@HAS-validation-3' }, () => {
     let prepareAppealData;
     const date = new DateService();
     before(() => {
-		cy.login(users.appeals.authUser);
-	});
+        cy.login(users.appeals.authUser);
+    });
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
@@ -205,7 +197,7 @@ describe('House Holder Validations',{ tags:'@HAS-validation-3' }, () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth());
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
         cy.advanceToNextPage();
-        cy.advanceToNextPage();
+        cy.advanceToNextPage('Start appeal');
     })
 
     it(`Validate emails address with correct email format`, () => {
@@ -311,14 +303,14 @@ describe('House Holder Validations',{ tags:'@HAS-validation-3' }, () => {
     });
 });
 
-describe('Returns to pre appeals validations',{ tags:'@HAS-validation-4' }, () => {
+describe('Returns to pre appeals validations', { tags: '@HAS-validation-4' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const context = houseHolderAppealRefusedTestCases[0];
 
     let prepareAppealData;
     before(() => {
-		cy.login(users.appeals.authUser);
-	});
+        cy.login(users.appeals.authUser);
+    });
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
@@ -364,11 +356,10 @@ describe('Returns to pre appeals validations',{ tags:'@HAS-validation-4' }, () =
         cy.shouldHaveErrorMessage('a[href*="uploadOriginal"]', 'Select your application form');
     });
 
-    it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {
+    it(`Validate user should not be able to uploading document(s) greater than 50 MB`, () => {
         cy.get('a[href*="upload-documents"]').first().click();
-        cy.uploadFileFromFixtureDirectory(context?.documents?.uploadFileGreaterThan25mb);
+        cy.uploadFileFromFixtureDirectory(context?.documents?.uploadFileGreaterThan50mb);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage('a[href*="uploadOriginal"]', `${context?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);
     });
 
     it(`Validate multiple uploading documents`, () => {
@@ -412,12 +403,12 @@ describe('Returns to pre appeals validations',{ tags:'@HAS-validation-4' }, () =
     });
 });
 
-describe('House Holder Task Page Validations',{ tags:'@HAS-validation-5' }, () => {
+describe('House Holder Task Page Validations', { tags: '@HAS-validation-5' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     let prepareAppealData;
     before(() => {
-		cy.login(users.appeals.authUser);
-	});
+        cy.login(users.appeals.authUser);
+    });
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;

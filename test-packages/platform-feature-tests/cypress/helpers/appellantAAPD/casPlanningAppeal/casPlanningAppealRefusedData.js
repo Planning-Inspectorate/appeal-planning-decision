@@ -12,7 +12,7 @@ const documents = {
     uploadDecisionLetter: 'decision-letter.pdf',
     uploadPlanningApplConfirmLetter: 'letter-confirming-planning-application.pdf',
     uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf',
-    uploadFileGreaterThan25mb: 'greater-than-25-mb.docx',
+    uploadFileGreaterThan50mb: 'greater-than-50-mb.docx',
     uploadWrongFormatFile: 'wrongFormatFile.xps'
 };
 export const casPlanningAppealRefusedTestCases = [

@@ -1,14 +1,13 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { BasePage } from "../../page-objects/base-page";
-//import { users } from '../../fixtures/users.js';
 const { PrepareAppealSelector } = require("../../page-objects/prepare-appeal/prepare-appeal-selector");
-describe('Comment on a planning appeal validations', { tags: '@IP-Comments-Validation' },() => {
+describe('Comment on a planning appeal validations', { tags: '@IP-Comments-Validation' }, () => {
     const basePage = new BasePage();
     const prepareAppealSelector = new PrepareAppealSelector();
     let prepareAppealData;
-    let appealId;      
-    beforeEach(() => {        
+    let appealId;
+    beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
             prepareAppealData = data;
         });
@@ -165,6 +164,10 @@ describe('Comment on a planning appeal validations', { tags: '@IP-Comments-Valid
         cy.get(basePage?._selectors.govukErrorSummaryList).find('a').should('have.attr', 'href', '#comments-confirmation').and('contain.text', 'Select that you have not included any sensitive information in your comments.');
         cy.get('#comments-confirmation').check();
         cy.advanceToNextPage();
+        cy.advanceToNextPage();
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you have additional documents to support your comment');
+        cy.getByData(basePage._selectors?.answerNo).click();
+        cy.advanceToNextPage();
         basePage.verifyPageHeading('Check your answers and submit your comments');
         const expectedRows = [
             {
@@ -182,13 +185,17 @@ describe('Comment on a planning appeal validations', { tags: '@IP-Comments-Valid
             {
                 key: 'Your comments',
                 hrefContains: 'add-comments'
+            },
+            {
+                key: 'Documents to support your comment',
+                hrefContains: 'documents-to-support',
             }
         ];
         cy.get(basePage?._selectors.govukSummaryListRow).each(($row, index) => {
             const expected = expectedRows[index];
             if (!expected) return;
             const rowText = $row.text().trim();
-            if (expected.optional && !rowText.includes(expected.key)) {               
+            if (expected.optional && !rowText.includes(expected.key)) {
                 return;
             }
             expect(rowText).to.include(expected.key);

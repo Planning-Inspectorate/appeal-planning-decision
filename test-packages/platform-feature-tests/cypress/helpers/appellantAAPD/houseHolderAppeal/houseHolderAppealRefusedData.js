@@ -12,7 +12,7 @@ const documents = {
     uploadDecisionLetter: 'decision-letter.pdf',
     uploadPlanningApplConfirmLetter: 'letter-confirming-planning-application.pdf',
     uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf',
-    uploadFileGreaterThan25mb:'greater-than-25-mb.docx',
+    uploadFileGreaterThan50mb: 'generated/51mb.jpg',
     uploadWrongFormatFile: 'wrongFormatFile.xps'
 };
 export const houseHolderAppealRefusedTestCases = [
