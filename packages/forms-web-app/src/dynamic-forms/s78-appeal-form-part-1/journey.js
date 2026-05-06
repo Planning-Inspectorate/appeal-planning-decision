@@ -168,6 +168,17 @@ const makeSections = (response) => {
 			.withCondition(() =>
 				questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
 			)
+			.addQuestion(questions.uploadStatementCommonGround)
+			.withCondition(() =>
+				questionsHaveAnswers(
+					response,
+					[
+						[questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.HEARING],
+						[questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.INQUIRY]
+					],
+					{ logicalCombinator: 'or' }
+				)
+			)
 			.addQuestion(questions.submitEnvironmentStatementPart1)
 			.addQuestion(questions.uploadEnvironmentStatementPart1)
 			.withCondition(() =>
