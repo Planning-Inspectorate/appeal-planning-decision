@@ -23,12 +23,12 @@ const { MajorMinorDevelopmentPage } = require("../../../support/flows/pages/appe
 const { ApplicationAboutPage } = require("../../../support/flows/pages/appellant-aapd/prepare-appeal/applicationAboutPage");
 
 
-describe('Full Appeal Validations for enforcement',{ tags:'@S78-appeal-validation-1' }, () => {
+describe('Full Appeal Validations for enforcement', { tags: '@S78-appeal-validation-1' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
     before(() => {
-		cy.login(users.appeals.authUser);
-	});
+        cy.login(users.appeals.authUser);
+    });
 
     beforeEach(() => {
         cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
@@ -48,16 +48,10 @@ describe('Full Appeal Validations for enforcement',{ tags:'@S78-appeal-validatio
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you have received an enforcement notice');
 
         basePage.backBtn();
-        cy.containsMessage(prepareAppealSelector?._selectors?.govukLabelGovUkLabel1, "Which local planning authority (LPA) do you want to appeal against?");
-    });
-    it(`Validate exiting service page and button when user tries to use exiting appeals case work portal`, () => {
-        cy.getByData(basePage._selectors?.answerYes).click();
-        cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage(basePage._selectors?.govukHeadingOne, 'You need to use the existing service');
-        cy.containsMessage(basePage._selectors?.govukButton, 'Continue to the Appeals Casework Portal');
+        cy.containsMessage(prepareAppealSelector?._selectors?.govukLabelGovUkLabel1, "Find your local planning authority");
     });
 });
-describe('Full Appeal Validations',{ tags:'@S78-appeal-validation-2' }, () => {
+describe('Full Appeal Validations', { tags: '@S78-appeal-validation-2' }, () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
     const contactDetailsPage = new ContactDetailsPage();
@@ -79,8 +73,8 @@ describe('Full Appeal Validations',{ tags:'@S78-appeal-validation-2' }, () => {
     const date = new DateService();
 
     before(() => {
-		cy.login(users.appeals.authUser);
-	});
+        cy.login(users.appeals.authUser);
+    });
 
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
@@ -98,11 +92,22 @@ describe('Full Appeal Validations',{ tags:'@S78-appeal-validation-2' }, () => {
         cy.getByData(basePage?._selectors?.answerFullAppeal).click();
         cy.advanceToNextPage();
 
+        cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).clear()
+        cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateDay).type(date.today());
+        cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).clear();
+        cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateMonth).type(date.currentMonth() - 3);
+        cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).clear();
+        cy.get(prepareAppealSelector?._fullAppealselectors?.applicationDateYear).type(date.currentYear());
+        cy.advanceToNextPage();
+
         cy.getByData(basePage?._selectors?.answerRefused).click();
         cy.advanceToNextPage();
 
+        cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateDay).clear();
         cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateDay).type(date.today());
-        cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateMonth).type(date.currentMonth());
+        cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateMonth).clear();
+        cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateMonth).type(date.currentMonth() - 3);
+        cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateYear).clear();
         cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateYear).type(date.currentYear());
         cy.advanceToNextPage();
     })
@@ -197,8 +202,11 @@ describe('Full Appeal Validations',{ tags:'@S78-appeal-validation-2' }, () => {
             cy.advanceToNextPage();
             //What date did you submit your application?
 
+            cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).clear();
             cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(date.today());
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth());
+            cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).clear();
+            cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth() - 3);
+            cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).clear();
             cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(date.currentYear());
             cy.advanceToNextPage();
             //Was your application for a major or minor development?

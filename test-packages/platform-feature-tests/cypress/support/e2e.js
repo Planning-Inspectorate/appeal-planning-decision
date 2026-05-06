@@ -23,6 +23,11 @@ registerCypressGrep();
 
 require('cy-verify-downloads').addCustomCommand();
 
+// tasks to run once before all tests
+before(() => {
+  cy.task('generateTestJpg', { sizeInMB: 51, fileName: '51mb.jpg' });
+});
+
 // Generate a unique correlation ID for each test and expose via Cypress.env
 beforeEach(function () {
   try {

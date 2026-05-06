@@ -5,6 +5,8 @@ const {
   clearAllCookies,
   cookiesFileExists
 } = require('./cypress/support/cypressUtils');
+const { generateTestJpg } = require('./cypress/fixtures/generate-jpg.js');
+
 require('dotenv').config();
 
 module.exports = defineConfig({
@@ -35,11 +37,16 @@ module.exports = defineConfig({
       on('task', { AzureSignIn: azureSignIn });
       on('task', { ClearAllCookies: clearAllCookies });
       on('task', { CookiesFileExists: cookiesFileExists });
+      on('task', {
+        async generateTestJpg(options) {
+          await generateTestJpg(options);
+          return true;
+        }
+      });
       // cross-platform deleteFolder task
       on('task', {
         deleteFolder(folderPath) {
           const fs = require('fs');
-          const path = require('path');
           if (!folderPath) {
             folderPath = config.downloadsFolder;
           }
@@ -56,7 +63,6 @@ module.exports = defineConfig({
       require('@cypress/grep/src/plugin')(config);
       return config;
     },
-    supportFile: 'cypress/support/e2e.js',
     env: {
       AUTH_PASSWORD: process.env.AUTH_PASSWORD,
       AUTH_EMAIL: process.env.AUTH_EMAIL,
@@ -64,7 +70,7 @@ module.exports = defineConfig({
     },
     appeals_beta_base_url: process.env.CYPRESS_APPEALS_BETA_BASE_URL || 'https://appeals-service-test.planninginspectorate.gov.uk',
     back_office_base_url: process.env.CYPRESS_BACK_OFFICE_BASE_URL || 'https://back-office-appeals-test.planninginspectorate.gov.uk',
-    apiBaseUrl: process.env.API_BASE_URL || 'https://pins-app-appeals-bo-api-test.azurewebsites.net/',    
+    apiBaseUrl: process.env.API_BASE_URL || 'https://pins-app-appeals-bo-api-test.azurewebsites.net/',
     supportFile: 'cypress/support/e2e.js',
     testIsolation: false,
     experimetalSessionAndOrigin: true,

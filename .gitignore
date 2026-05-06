@@ -184,6 +184,7 @@ junit.xml
 **/cypress/downloads
 **/cypress/reports
 **/cypress/support/browserAuthData
+test-packages/platform-feature-tests/cypress/fixtures/generated/*
 
 init/mssql
 !init/mssql/mssql.conf

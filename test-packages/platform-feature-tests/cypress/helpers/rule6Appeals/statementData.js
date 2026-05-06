@@ -1,7 +1,7 @@
 const documents = {   
     uploadWitnessesStatement: 'witnesses-evidence.pdf',
     uploadStatement: 'upload-statement.pdf',
-    uploadFileGreaterThan25mb:'greater-than-25-mb.docx',
+    uploadFileGreaterThan50mb:'greater-than-50-mb.docx',
     uploadWrongFormatFile: 'wrongFormatFile.xps',
     uploadEmergingPlan: 'emerging-plan.pdf',
     uploadOtherPolicies: 'other-policies.pdf',
