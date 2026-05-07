@@ -14,7 +14,9 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 exports.formatCommentDecidedData = (appeal) => {
 	if (!appeal.caseDecisionOutcomeDate) return {};
 
-	const isEnforcement = appeal.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode;
+	const isEnforcement =
+		appeal.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
+		appeal.appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode;
 
 	return {
 		formattedCaseDecisionDate: formatDateForDisplay(appeal.caseDecisionOutcomeDate, {
@@ -22,8 +24,7 @@ exports.formatCommentDecidedData = (appeal) => {
 		}),
 		formattedDecisionColour: mapDecisionColour(appeal.caseDecisionOutcome),
 		caseDecisionOutcome:
-			mapDecisionLabel(appeal.caseDecisionOutcome, isEnforcement, false) ??
-			appeal.caseDecisionOutcome,
+			mapDecisionLabel(appeal.caseDecisionOutcome, isEnforcement) ?? appeal.caseDecisionOutcome,
 		decisionDocuments: filterDecisionDocuments(appeal.Documents)
 	};
 };

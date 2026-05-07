@@ -35,8 +35,8 @@ const decidedAppeals = async (req, res) => {
 			appeal.caseDecisionOutcome =
 				mapDecisionLabel(
 					appeal.caseDecisionOutcome,
-					appeal.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode,
-					false
+					appeal.appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode ||
+						appeal.appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode
 				) ?? appeal.caseDecisionOutcome;
 		});
 		decidedAppeals.sort(sortByCaseDecisionDate);

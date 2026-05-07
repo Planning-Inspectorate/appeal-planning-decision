@@ -138,7 +138,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				hearings: formatHearings(events, userType),
 				sections: formatSections({ caseData, sections }),
 				baseUrl: userRouteUrl,
-				decision: mapDecisionTag(caseData.caseDecisionOutcome, isEnforcement, isLPA),
+				decision: mapDecisionTag(caseData.caseDecisionOutcome, isEnforcement),
 				decisionDate: formatDateForDisplay(caseData.caseDecisionOutcomeDate, {
 					format: 'd MMMM yyyy'
 				}),
