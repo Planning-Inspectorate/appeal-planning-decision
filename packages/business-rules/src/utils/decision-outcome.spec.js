@@ -20,14 +20,9 @@ describe('utils/decision-outcome', () => {
 			}
 		);
 
-		it('should handle enforcement split decisions for non-lpa users', () => {
-			const result = mapDecisionLabel(APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION, true, false);
+		it('should handle enforcement split decisions', () => {
+			const result = mapDecisionLabel(APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION, true);
 			expect(result).toEqual('Upheld in part');
-		});
-
-		it('should handle enforcement split decisions for lpa users', () => {
-			const result = mapDecisionLabel(APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION, true, true);
-			expect(result).toEqual('Split decision');
 		});
 	});
 });

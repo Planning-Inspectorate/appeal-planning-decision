@@ -25,10 +25,9 @@ function mapDecisionColour(decision) {
  *
  * @param {string|undefined} decision
  * @param {boolean} isEnforcement
- * @param {boolean} isLpa
  * @returns {string | null}
  */
-const mapDecisionLabel = (decision, isEnforcement = false, isLpa = false) => {
+const mapDecisionLabel = (decision, isEnforcement = false) => {
 	if (!decision) return null;
 
 	const labels = {
@@ -43,7 +42,7 @@ const mapDecisionLabel = (decision, isEnforcement = false, isLpa = false) => {
 	};
 
 	if (isEnforcement && decision === APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION) {
-		return isLpa ? 'Split decision' : 'Upheld in part';
+		return 'Upheld in part';
 	}
 
 	return labels[decision];
@@ -54,15 +53,14 @@ const mapDecisionLabel = (decision, isEnforcement = false, isLpa = false) => {
  *
  * @param {string|undefined} decision
  * @param {boolean} isEnforcement
- * @param {boolean} isLpa
  * @returns {{ color: string, label: string | null } | null}
  */
-const mapDecisionTag = (decision, isEnforcement = false, isLpa = false) => {
+const mapDecisionTag = (decision, isEnforcement = false) => {
 	if (!decision) return null;
 
 	return {
 		color: mapDecisionColour(decision),
-		label: mapDecisionLabel(decision, isEnforcement, isLpa)
+		label: mapDecisionLabel(decision, isEnforcement)
 	};
 };
 
