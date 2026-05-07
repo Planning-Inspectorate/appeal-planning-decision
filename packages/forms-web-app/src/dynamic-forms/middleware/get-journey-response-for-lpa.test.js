@@ -32,8 +32,7 @@ describe('getJourneyResponse', () => {
 	const mockSubmission = {
 		id: submissionId,
 		LPACode: lpaCode,
-		appealTypeCode,
-		lpaQuestionnaireDueDate: new Date()
+		appealTypeCode
 	};
 	const convertedResponse = { foo: 'bar' };
 
@@ -60,7 +59,7 @@ describe('getJourneyResponse', () => {
 		const mockResponse = () => {
 			const res = {
 				locals: {}
-			}
+			};
 			res.status = jest.fn().mockReturnValue(res);
 			res.json = jest.fn().mockReturnValue(res);
 			res.render = jest.fn().mockReturnValue(res);
@@ -198,7 +197,7 @@ describe('getJourneyResponse', () => {
 			typeOfPlanningApplication: 'full',
 			applicationDate: '2024-01-01',
 			applicationDecision: 'granted',
-			caseProcedure: undefined // explicitly set to undefined
+			caseProcedure: undefined
 		};
 		req.appealsApiClient.getUsersAppealCase.mockResolvedValue(s78Appeal);
 		require('../../lib/is-lpa-in-feature-flag').isLpaInFeatureFlag.mockImplementation(async () => {
