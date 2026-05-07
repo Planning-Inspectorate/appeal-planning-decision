@@ -61,7 +61,7 @@ module.exports = async (request, response, next) => {
 		expeditedAppealsEnabled &&
 		isExpeditedPart1Eligible({
 			typeOfPlanningApplication: convertedResponse?.typeOfPlanningApplication,
-			applicationDate: convertedResponse?.applicationDate,
+			applicationDate: convertedResponse?.onApplicationDate,
 			eligibility: {
 				applicationDecision: convertedResponse?.applicationDecision
 			}
