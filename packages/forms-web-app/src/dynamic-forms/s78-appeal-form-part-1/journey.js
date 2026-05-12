@@ -37,7 +37,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.applicationName)
 			.addQuestion(questions.applicantName)
 			.withCondition(() => questionHasAnswer(response, questions.applicationName, 'no'))
-			.addQuestion(questions.enterApplicationReference)
 			.addQuestion(questions.contactDetails)
 			.addQuestion(questions.contactPhoneNumber)
 			.addQuestion(questions.appealSiteAddress)
@@ -104,6 +103,7 @@ const makeSections = (response) => {
 			.withCondition(() => shouldDisplayTellingTenants(response, questions))
 			.addQuestion(questions.inspectorAccess)
 			.addQuestion(questions.healthAndSafetyPart1)
+			.addQuestion(questions.enterApplicationReference)
 			.addQuestion(questions.majorMinorDevelopment)
 			.withVariables({
 				[QUESTION_VARIABLES.MAJOR_MINOR_CONTENT]:
@@ -156,6 +156,16 @@ const makeSections = (response) => {
 			.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
 		new Section('Upload documents', 'upload-documents')
 			.addQuestion(questions.uploadOriginalApplicationForm)
+			.addQuestion(questions.submitEnvironmentStatementPart1)
+			.addQuestion(questions.uploadEnvironmentStatementPart1)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.submitEnvironmentStatementPart1, 'yes')
+			)
+
+			.addQuestion(questions.uploadChangeOfDescriptionEvidence)
+			.withCondition(() =>
+				questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
+			)
 			.addQuestion(questions.uploadApplicationDecisionLetter)
 			.withCondition(() => shouldDisplayUploadDecisionLetter(response))
 			.addQuestion(questions.planningObligationPart1)
@@ -164,10 +174,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.separateOwnershipCert)
 			.addQuestion(questions.uploadSeparateOwnershipCert)
 			.withCondition(() => questionHasAnswer(response, questions.separateOwnershipCert, 'yes'))
-			.addQuestion(questions.uploadChangeOfDescriptionEvidence)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
-			)
 			.addQuestion(questions.uploadStatementCommonGround)
 			.withCondition(() =>
 				questionsHaveAnswers(
@@ -178,11 +184,6 @@ const makeSections = (response) => {
 					],
 					{ logicalCombinator: 'or' }
 				)
-			)
-			.addQuestion(questions.submitEnvironmentStatementPart1)
-			.addQuestion(questions.uploadEnvironmentStatementPart1)
-			.withCondition(() =>
-				questionHasAnswer(response, questions.submitEnvironmentStatementPart1, 'yes')
 			)
 			.addQuestion(questions.costApplication)
 			.addQuestion(questions.uploadCostApplication)
