@@ -28,6 +28,10 @@ components:
         applicationDecision:
           type: string
 
+        isListedBuilding:
+          type: boolean
+          nullable: true
+
         appealId:
           type: string
 

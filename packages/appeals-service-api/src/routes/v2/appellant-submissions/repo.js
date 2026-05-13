@@ -42,7 +42,8 @@ const { subMonths } = require('date-fns');
  *    	id: true,
  *		applicationDecisionDate: true,
  *		appealTypeCode: true,
- *		applicationDecision: true
+ *		applicationDecision: true,
+ *		isListedBuilding: true
  *   }
  * }>} AppellantSubmissionCleanupData
  */
@@ -386,7 +387,10 @@ class AppellantSubmissionRepository {
 					id: true,
 					applicationDecisionDate: true,
 					appealTypeCode: true,
-					applicationDecision: true
+					applicationDecision: true,
+					enforcementEffectiveDate: true,
+					hasContactedPlanningInspectorate: true,
+					isListedBuilding: true
 				}
 			});
 		} catch (e) {

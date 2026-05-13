@@ -1,22 +1,21 @@
 const {
 	getCannotAppeal
 } = require('../../../../src/controllers/appeal-householder-decision/cannot-appeal');
-const {
-	hasDeadlineDatePassed,
-	getDeadlinePeriod,
-	businessRulesDeadline
-} = require('../../../../src/lib/calculate-deadline');
 const { mockReq, mockRes } = require('../../mocks');
 const {
 	VIEW: {
 		APPELLANT_SUBMISSION: { CANNOT_APPEAL }
 	}
 } = require('../../../../src/lib/views');
+const {
+	calculateDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
+const { rules } = require('@pins/business-rules');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/task.service');
 jest.mock('../../../../src/lib/logger');
-jest.mock('../../../../src/lib/calculate-deadline');
+jest.mock('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
 
 describe('controllers/appeal-householder-decision/cannot-appeal', () => {
 	let req;
@@ -30,28 +29,21 @@ describe('controllers/appeal-householder-decision/cannot-appeal', () => {
 
 	describe('getCannotAppeal', () => {
 		it('should call the correct template', () => {
-			hasDeadlineDatePassed.mockResolvedValue(false);
-			getDeadlinePeriod.mockResolvedValue({
-				time: 84,
-				duration: 'days',
-				description: '12 weeks'
-			});
+			const mockDeadline = new Date('2022-01-01');
+			calculateDeadlineFromBeforeYouStart.mockReturnValue(mockDeadline);
+
 			getCannotAppeal(req, res);
+
 			const { appeal } = req.session;
-			const beforeYouStartFirstPage = '/before-you-start';
-			const deadlineDate = businessRulesDeadline(
-				appeal.decisionDate,
+			const deadlinePeriod = rules.appeal.deadlinePeriod(
 				appeal.appealType,
 				appeal.eligibility.applicationDecision
 			);
-			const deadlinePeriod = getDeadlinePeriod(
-				appeal.appealType,
-				appeal.eligibility.applicationDecision
-			);
+
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(CANNOT_APPEAL, {
-				beforeYouStartFirstPage,
-				deadlineDate,
+				beforeYouStartFirstPage: '/before-you-start',
+				deadlineDate: mockDeadline,
 				deadlinePeriod: deadlinePeriod.description
 			});
 		});

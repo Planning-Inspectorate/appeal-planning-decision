@@ -27,7 +27,7 @@ describe('middleware/check-decision-date-deadline', () => {
 	it('should redirect the user to the you cannot appeal page if the decision date is outside the expiry period for full appeal and the decision date page is not being rendered', () => {
 		req.session.appeal.appealType = FULL_APPEAL;
 		req.session.appeal.eligibility.applicationDecision = REFUSED;
-		req.session.appeal.decisionDate = subYears(new Date(), 1);
+		req.session.appeal.decisionDate = subYears(new Date(), 1).toISOString();
 
 		checkDecisionDateDeadline(req, res, next);
 
@@ -38,7 +38,7 @@ describe('middleware/check-decision-date-deadline', () => {
 	it('should redirect the user to the you cannot appeal page if the decision date is outside the expiry period for Householder and the decision date page is not being rendered', () => {
 		req.session.appeal.appealType = HOUSEHOLDER;
 		req.session.appeal.eligibility.applicationDecision = GRANTED;
-		req.session.appeal.decisionDate = subYears(new Date(), 1);
+		req.session.appeal.decisionDate = subYears(new Date(), 1).toISOString();
 
 		checkDecisionDateDeadline(req, res, next);
 
@@ -49,7 +49,7 @@ describe('middleware/check-decision-date-deadline', () => {
 	it('should check deadline for before-you-start/can-use-service', () => {
 		req.session.appeal.appealType = HOUSEHOLDER;
 		req.session.appeal.eligibility.applicationDecision = GRANTED;
-		req.session.appeal.decisionDate = subYears(new Date(), 1);
+		req.session.appeal.decisionDate = subYears(new Date(), 1).toISOString();
 		req.originalUrl = '/before-you-start/can-use-service';
 
 		checkDecisionDateDeadline(req, res, next);
@@ -61,7 +61,7 @@ describe('middleware/check-decision-date-deadline', () => {
 	it('should continue if the decision date is inside the expiry period for Full-appeal and the decision date page is being rendered', () => {
 		req.session.appeal.appealType = FULL_APPEAL;
 		req.session.appeal.eligibility.applicationDecision = REFUSED;
-		req.session.appeal.decisionDate = subMonths(new Date(), 1);
+		req.session.appeal.decisionDate = subMonths(new Date(), 1).toISOString();
 
 		checkDecisionDateDeadline(req, res, next);
 
@@ -71,7 +71,7 @@ describe('middleware/check-decision-date-deadline', () => {
 	it('should continue if the decision date is inside the expiry period for Householder and the decision date page is being rendered', () => {
 		req.session.appeal.appealType = HOUSEHOLDER;
 		req.session.appeal.eligibility.applicationDecision = REFUSED;
-		req.session.appeal.decisionDate = subMonths(new Date(), 1);
+		req.session.appeal.decisionDate = subMonths(new Date(), 1).toISOString();
 
 		checkDecisionDateDeadline(req, res, next);
 

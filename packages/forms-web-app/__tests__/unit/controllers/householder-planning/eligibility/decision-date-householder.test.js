@@ -1,10 +1,16 @@
 const { subMonths, addDays, getYear, getMonth, getDate, startOfDay } = require('date-fns');
-const sinon = require('sinon');
 const {
-	constants: { APPEAL_ID, APPLICATION_DECISION },
-	rules,
-	validation
+	constants: { APPEAL_ID, APPLICATION_DECISION }
 } = require('@pins/business-rules');
+const {
+	calculateWithinDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
+const {
+	calculateDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
+jest.mock('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
+jest.mock('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
+
 const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const decisionDateHouseholderController = require('../../../../../src/controllers/householder-planning/eligibility/decision-date-householder');
 const { mockReq, mockRes } = require('../../../mocks');
@@ -38,6 +44,8 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 		res = mockRes();
 
 		jest.resetAllMocks();
+		calculateWithinDeadlineFromBeforeYouStart.mockReturnValue(true);
+		calculateDeadlineFromBeforeYouStart.mockReturnValue(new Date());
 	});
 
 	describe('getDecisionDateHouseholder', () => {
@@ -122,6 +130,7 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 		);
 
 		it('should not save the appeal and redirect to you-cannot-appeal if application decision is granted and date is older than six months', async () => {
+			calculateWithinDeadlineFromBeforeYouStart.mockReturnValue(false);
 			const mockRequest = {
 				...req,
 				body: {
@@ -141,6 +150,7 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 		});
 
 		it('should not save the appeal and redirect to you-cannot-appeal if application decision is refused and date is older than twelve weeks', async () => {
+			calculateWithinDeadlineFromBeforeYouStart.mockReturnValue(false);
 			const mockRequest = {
 				...req,
 				body: {
@@ -186,14 +196,18 @@ describe('controllers/householder-planning/eligibility/decision-date-householder
 		});
 
 		it('should re-render the template with errors if there is any api call error', async () => {
+			const decisionDate = addDays(subMonths(startOfDay(new Date()), 1), 1);
 			const mockRequest = {
 				...req,
-				body: {}
+				body: {
+					'decision-date-householder-year': getYear(decisionDate),
+					'decision-date-householder-month': getMonth(decisionDate) + 1,
+					'decision-date-householder-day': getDate(decisionDate)
+				}
 			};
 
-			sinon.replace(rules.appeal, 'deadlineDate', () => new Date().toISOString());
-			sinon.replace(rules.appeal, 'deadlinePeriod', () => ({ time: 1, period: 'weeks' }));
-			sinon.replace(validation.appeal.decisionDate, 'isWithinDecisionDateExpiryPeriod', () => true);
+			calculateWithinDeadlineFromBeforeYouStart.mockReturnValue(true);
+			calculateDeadlineFromBeforeYouStart.mockReturnValue(new Date());
 
 			const error = 'RangeError: Invalid time value';
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));

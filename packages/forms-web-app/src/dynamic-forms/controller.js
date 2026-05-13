@@ -182,27 +182,19 @@ function buildCreateAppellantSubmissionData(lpaCode, appealTypeCode, appeal) {
 			appealId: appeal.appealSqlId,
 			LPACode: lpaCode,
 			appealTypeCode,
+			isListedBuilding: appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode,
 			enforcementIssueDate: appeal.eligibility.enforcementIssueDate,
 			enforcementEffectiveDate: appeal.eligibility.enforcementEffectiveDate,
 			hasContactedPlanningInspectorate: appeal.eligibility.hasContactedPlanningInspectorate,
 			contactPlanningInspectorateDate: appeal.eligibility.contactPlanningInspectorateDate,
 			enforcementReferenceNumber: appeal.enforcementReferenceNumber
 		};
-	} else if (
-		appealTypeCode === CASE_TYPES.LDC.processCode &&
-		!appeal.eligibility.isListedBuilding // no decision date or decision
-	) {
-		return {
-			appealId: appeal.appealSqlId,
-			LPACode: lpaCode,
-			appealTypeCode,
-			typeOfPlanningApplication: appeal.typeOfPlanningApplication
-		};
 	} else {
 		return {
 			appealId: appeal.appealSqlId,
 			LPACode: lpaCode,
 			appealTypeCode,
+			isListedBuilding: appeal.eligibility.isListedBuilding ?? null,
 			applicationDecisionDate: appeal.decisionDate,
 			applicationReference: appeal.planningApplicationNumber,
 			applicationDecision: appeal.eligibility.applicationDecision,

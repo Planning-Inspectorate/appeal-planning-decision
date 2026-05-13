@@ -16,8 +16,10 @@ const {
 	APPEAL_LPA_PROCEDURE_PREFERENCE,
 	APPEAL_DEVELOPMENT_TYPE
 } = require('@planning-inspectorate/data-model');
-const { LPA_NOTIFICATION_METHODS, CASE_TYPES } = require('@pins/common/src/database/data-static');
-const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-date');
+const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
+const {
+	calculateDeadlineFromAppellantSubmission
+} = require('@pins/business-rules/src/utils/calculate-deadline-appellant-submission');
 const { endOfDay, addDays, subDays } = require('date-fns');
 const { utcToZonedTime, zonedTimeToUtc } = require('date-fns-tz');
 const targetTimezone = 'Europe/London';
@@ -536,6 +538,8 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
 		};
 	};
 
+	const deadline = calculateDeadlineFromAppellantSubmission({ appellantSubmission });
+
 	return {
 		submissionId: appellantSubmission.appealId,
 		caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
@@ -545,14 +549,7 @@ exports.getCommonAppellantSubmissionFields = (appellantSubmission, lpa) => {
 
 		typeOfPlanningApplication: appellantSubmission.typeOfPlanningApplication ?? null,
 		caseSubmittedDate: new Date().toISOString(),
-		caseSubmissionDueDate: !appellantSubmission.applicationDecisionDate
-			? null // S191 + S192 have no deadline
-			: deadlineDate(
-					appellantSubmission.applicationDecisionDate,
-					CASE_TYPES[appellantSubmission.appealTypeCode].id.toString(),
-					appellantSubmission.applicationDecision
-				).toISOString(),
-
+		caseSubmissionDueDate: deadline ? deadline.toISOString() : null,
 		originalDevelopmentDescription: appellantSubmission.developmentDescriptionOriginal ?? null,
 		changedDevelopmentDescription: appellantSubmission.updateDevelopmentDescription ?? null,
 

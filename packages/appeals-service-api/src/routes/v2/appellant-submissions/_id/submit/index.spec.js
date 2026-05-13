@@ -495,7 +495,8 @@ module.exports = ({
 					...expectedData.planningObligation,
 					...expectedData.ldc,
 					caseType: 'X',
-					typeOfPlanningApplication: 'lawful-development-certificate'
+					typeOfPlanningApplication: 'lawful-development-certificate',
+					caseSubmissionDueDate: null
 				},
 				documents: expectedData.documents,
 				users: expectedData.appellantUsers,
