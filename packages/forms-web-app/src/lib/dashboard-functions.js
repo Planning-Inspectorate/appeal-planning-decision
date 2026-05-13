@@ -76,7 +76,13 @@ const escape = require('escape-html');
 const { calculateDueInDays } = require('@pins/common/src/lib/calculate-due-in-days');
 
 const { getAppealTypeName } = require('./full-appeal/map-planning-application');
-const { businessRulesDeadline, getDeadlineV2 } = require('./calculate-deadline');
+const {
+	calculateDeadlineFromAppellantSubmission
+} = require('@pins/business-rules/src/utils/calculate-deadline-appellant-submission');
+const {
+	calculateDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
+
 const {
 	APPEAL_CASE_STATUS,
 	APPEAL_LINKED_CASE_STATUS
@@ -283,18 +289,11 @@ const isToDoRule6Dashboard = (dashboardData) => {
  */
 const calculateAppealDueDeadline = (appealSubmission) => {
 	if (isAppealSubmission(appealSubmission)) {
-		return businessRulesDeadline(
-			appealSubmission.appeal?.decisionDate,
-			appealSubmission.appeal?.appealType,
-			null,
-			true
-		);
+		return calculateDeadlineFromBeforeYouStart({ appeal: appealSubmission.appeal });
 	} else if (isV2Submission(appealSubmission)) {
-		return getDeadlineV2(
-			appealSubmission.AppellantSubmission.appealTypeCode,
-			appealSubmission.AppellantSubmission.enforcementEffectiveDate,
-			appealSubmission.AppellantSubmission.applicationDecisionDate
-		);
+		return calculateDeadlineFromAppellantSubmission({
+			appellantSubmission: appealSubmission.AppellantSubmission
+		});
 	}
 };
 

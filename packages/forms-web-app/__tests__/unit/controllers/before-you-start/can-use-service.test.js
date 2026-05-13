@@ -7,7 +7,9 @@ const removalOrVariationOfConditionsFPAppeal = require('../../../mockData/remova
 const removalOrVariationOfConditionsHASAppeal = require('../../../mockData/removal-or-variation-of-conditions/removal-or-variation-of-conditions-has-route');
 const { getDepartmentFromId } = require('../../../../src/services/department.service');
 const { TYPE_OF_PLANNING_APPLICATION, APPEAL_ID } = require('@pins/business-rules/src/constants');
-const { validation } = require('@pins/business-rules');
+const {
+	calculateWithinDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
 const {
 	VIEW: {
 		BEFORE_YOU_START: { ENFORCEMENT_CAN_USE_SERVICE: canUseServiceEnforcementView },
@@ -32,6 +34,7 @@ const { FLAG } = require('@pins/common/src/feature-flags');
 
 jest.mock('../../../../src/services/department.service');
 jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
+jest.mock('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
 
 const { mockReq, mockRes } = require('../../mocks');
 const config = require('../../../../src/config');
@@ -58,11 +61,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 		jest.resetAllMocks();
 		res = mockRes();
 		getDepartmentFromId.mockImplementation(() => Promise.resolve({ name: 'Bradford' }));
-		validation.appeal = {
-			decisionDate: {
-				isWithinDecisionDateExpiryPeriod: jest.fn().mockReturnValue(true)
-			}
-		};
+		calculateWithinDeadlineFromBeforeYouStart.mockReturnValue(true);
 	});
 
 	describe('getCanUseService', () => {
@@ -235,8 +234,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				hideListedBuilding: true,
 				isListedBuilding: null,
-				hideGrantedRefused: false,
-				hideDecisionDate: false,
+
+				hideDeadlineDate: false,
 				bannerHtmlOverride
 			});
 		});
@@ -259,8 +258,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				hideListedBuilding: true,
 				isListedBuilding: null,
-				hideGrantedRefused: false,
-				hideDecisionDate: false,
+
+				hideDeadlineDate: false,
 				bannerHtmlOverride
 			});
 		});
@@ -286,8 +285,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				hideListedBuilding: true,
 				isListedBuilding: null,
-				hideGrantedRefused: false,
-				hideDecisionDate: false,
+
+				hideDeadlineDate: false,
 				bannerHtmlOverride
 			});
 		});
@@ -320,8 +319,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				hideListedBuilding: true,
 				isListedBuilding: null,
-				hideGrantedRefused: false,
-				hideDecisionDate: false,
+
+				hideDeadlineDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'))
@@ -356,8 +355,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				hideListedBuilding: true,
 				isListedBuilding: null,
-				hideGrantedRefused: false,
-				hideDecisionDate: false,
+
+				hideDeadlineDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S78'))
@@ -382,8 +381,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				enforcementNotice: 'No',
 				hideListedBuilding: true,
 				isListedBuilding: null,
-				hideGrantedRefused: false,
-				hideDecisionDate: false,
+
+				hideDeadlineDate: false,
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				nextPageUrl: '/full-appeal/submit-appeal/email-address',
 				bannerHtmlOverride
@@ -423,8 +422,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				nextPageUrl: '/listed-building/email-address',
 				hideListedBuilding: true,
 				isListedBuilding: null,
-				hideGrantedRefused: false,
-				hideDecisionDate: false,
+
+				hideDeadlineDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('S20'))
@@ -464,8 +463,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				hideListedBuilding: true,
 				isListedBuilding: null,
-				hideGrantedRefused: false,
-				hideDecisionDate: false,
+
+				hideDeadlineDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('CAS_PLANNING'))
@@ -505,8 +504,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				hideListedBuilding: true,
 				isListedBuilding: null,
-				hideGrantedRefused: false,
-				hideDecisionDate: false,
+
+				hideDeadlineDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('ADVERTS'))
@@ -545,8 +544,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				hideListedBuilding: true,
 				isListedBuilding: null,
-				hideGrantedRefused: false,
-				hideDecisionDate: false,
+
+				hideDeadlineDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('CAS_ADVERTS'))
@@ -680,15 +679,15 @@ describe('controllers/before-you-start/can-use-service', () => {
 				applicationDecision: '',
 				applicationType: 'Lawful development certificate',
 				deadlineDate: null,
-				decisionDate: null,
+				decisionDate: '04 May 2022',
 				dateOfDecisionLabel: 'Date of decision',
 				enforcementNotice: 'No',
 				nextPageUrl: '/ldc/email-address',
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				hideListedBuilding: false,
 				isListedBuilding: 'No',
-				hideGrantedRefused: true,
-				hideDecisionDate: true,
+
+				hideDeadlineDate: true,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('LDC'))
@@ -726,8 +725,8 @@ describe('controllers/before-you-start/can-use-service', () => {
 				changeLpaUrl: '/before-you-start/local-planning-authority',
 				hideListedBuilding: false,
 				isListedBuilding: 'Yes',
-				hideGrantedRefused: false,
-				hideDecisionDate: false,
+
+				hideDeadlineDate: false,
 				bannerHtmlOverride:
 					config.betaBannerText +
 					config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl('LDC'))
@@ -737,11 +736,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 
 	describe('getCanUseService - missed deadline', () => {
 		it('redirects to deadline page', async () => {
-			validation.appeal = {
-				decisionDate: {
-					isWithinDecisionDateExpiryPeriod: jest.fn().mockReturnValue(false)
-				}
-			};
+			calculateWithinDeadlineFromBeforeYouStart.mockReturnValue(false);
 
 			const mockAppeal = {
 				decisionDate: new Date()

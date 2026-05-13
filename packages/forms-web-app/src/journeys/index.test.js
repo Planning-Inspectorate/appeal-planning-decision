@@ -97,7 +97,6 @@ const {
 
 describe('Dynamic forms journey tests', () => {
 	let clock, today, future;
-	nock.cleanAll();
 
 	beforeAll(() => {
 		clock = fakeTimers.install({ now: new Date('2025-07-31T12:00:00Z'), toFake: ['Date'] });
@@ -107,6 +106,8 @@ describe('Dynamic forms journey tests', () => {
 	});
 
 	beforeEach(() => {
+		nock.cleanAll();
+		jest.clearAllMocks();
 		isFeatureActive.mockImplementation(() => true);
 		isLpaInFeatureFlag.mockImplementation(() => true);
 	});
@@ -333,17 +334,19 @@ describe('Dynamic forms journey tests', () => {
 							}
 						};
 
-						const saveSetup = questionTypeDetails(question);
+						const skipSaveTypes = ['ListAddMoreQuestion', 'ContentQuestion'];
 
 						// skipping enforcement save questions for now due to method overrides
 						if (
-							!saveSetup ||
+							skipSaveTypes.includes(question.constructor.name) ||
 							caseType.type == 'Enforcement notice' ||
 							caseType.type == 'Enforcement listed building and conservation area'
 						) {
 							it.skip(`${caseType.type} should save the ${question.getUrlSlug()} question`, () => {});
 						} else {
 							it(`${caseType.type} should save the ${question.getUrlSlug()} question`, async () => {
+								const saveSetup = questionTypeDetails(question);
+
 								const res = saveSetup.postOverride
 									? await saveSetup.postOverride()
 									: await defaultSaveAction(saveSetup.answer);
@@ -593,13 +596,15 @@ describe('Dynamic forms journey tests', () => {
 							}
 						};
 
-						const saveSetup = questionTypeDetails(question);
+						const skipSaveTypes = ['ListAddMoreQuestion'];
 
-						if (!saveSetup) {
+						if (skipSaveTypes.includes(question.constructor.name)) {
 							it.skip(`${caseType.type} should save the ${question.getUrlSlug()} question`, () => {});
 						} else {
 							it(`${caseType.type} should save the ${question.getUrlSlug()} question`, async () => {
 								setupQuestionNocks();
+
+								const saveSetup = questionTypeDetails(question);
 
 								const res = saveSetup.postOverride
 									? await saveSetup.postOverride()

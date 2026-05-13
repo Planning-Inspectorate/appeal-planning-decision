@@ -1,10 +1,18 @@
-const { constants, rules, validation } = require('@pins/business-rules');
+const { constants } = require('@pins/business-rules');
 const { subDays, addDays, startOfDay, getYear, getMonth, getDate } = require('date-fns');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
 
-const sinon = require('sinon');
+const {
+	calculateWithinDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
+const {
+	calculateDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
+jest.mock('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
+jest.mock('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
+
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const decisionDateController = require('../../../../src/controllers/full-appeal/decision-date');
 const { mockReq, mockRes } = require('../../mocks');
@@ -28,8 +36,9 @@ describe('controllers/full-appeal/decision-date', () => {
 		req = mockReq(appeal);
 		res = mockRes();
 
-		sinon.restore();
 		jest.resetAllMocks();
+		calculateWithinDeadlineFromBeforeYouStart.mockReturnValue(true);
+		calculateDeadlineFromBeforeYouStart.mockReturnValue(new Date());
 	});
 
 	describe('getDecisionDate', () => {
@@ -81,6 +90,7 @@ describe('controllers/full-appeal/decision-date', () => {
 		});
 
 		it('should not save the appeal and redirect to shutter page if date is not within six months', async () => {
+			calculateWithinDeadlineFromBeforeYouStart.mockReturnValue(false);
 			const mockRequest = {
 				...req,
 				body: {
@@ -126,14 +136,18 @@ describe('controllers/full-appeal/decision-date', () => {
 		});
 
 		it('should re-render the template with errors if there is any api call error', async () => {
+			const decisionDate = addDays(subDays(startOfDay(new Date()), 30), 1);
 			const mockRequest = {
 				...req,
-				body: {}
+				body: {
+					'decision-date-year': getYear(decisionDate),
+					'decision-date-month': getMonth(decisionDate) + 1,
+					'decision-date-day': getDate(decisionDate)
+				}
 			};
 
-			sinon.replace(rules.appeal, 'deadlineDate', () => new Date().toISOString());
-			sinon.replace(rules.appeal, 'deadlinePeriod', () => ({ time: 1, period: 'weeks' }));
-			sinon.replace(validation.appeal.decisionDate, 'isWithinDecisionDateExpiryPeriod', () => true);
+			calculateWithinDeadlineFromBeforeYouStart.mockReturnValue(true);
+			calculateDeadlineFromBeforeYouStart.mockReturnValue(new Date());
 
 			const error = 'RangeError: Invalid time value';
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));

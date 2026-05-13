@@ -4,7 +4,7 @@ const BusinessRulesError = require('../../../lib/business-rules-error');
 /**
  * @description a very thin wrapper over date-fns/is-valid.
  *
- * @param {Date} givenDate
+ * @param {Date|null} givenDate
  * @returns {boolean}
  */
 module.exports = (givenDate) => {

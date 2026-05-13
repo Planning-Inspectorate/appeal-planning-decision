@@ -42,11 +42,10 @@ const getAppealPropsForCanUseServicePage = async (appeal) => {
 	}
 
 	const nextPageUrl = await getNextPageFromCanUseServicePage(appeal);
-	const hideDecisionDate =
+	const hideDeadlineDate =
 		appeal.typeOfPlanningApplication ===
 			TYPE_OF_PLANNING_APPLICATION.LAWFUL_DEVELOPMENT_CERTIFICATE &&
 		!appeal.eligibility.isListedBuilding;
-	const hideGrantedRefused = hideDecisionDate; // currently only LDC S191/S192 hides decision date so also hide granted/refused
 	const hideListedBuilding =
 		appeal.typeOfPlanningApplication !==
 		TYPE_OF_PLANNING_APPLICATION.LAWFUL_DEVELOPMENT_CERTIFICATE; // currently only LDC asks the listed building question and uses this template
@@ -56,9 +55,7 @@ const getAppealPropsForCanUseServicePage = async (appeal) => {
 		isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 	}
 
-	const decisionDate = hideDecisionDate
-		? null
-		: format(parseISO(appeal.decisionDate), 'dd MMMM yyyy');
+	const decisionDate = format(parseISO(appeal.decisionDate), 'dd MMMM yyyy');
 
 	const enforcementNotice = appeal.eligibility.enforcementNotice ? 'Yes' : 'No';
 
@@ -91,8 +88,7 @@ const getAppealPropsForCanUseServicePage = async (appeal) => {
 		nextPageUrl,
 		hideListedBuilding,
 		isListedBuilding,
-		hideGrantedRefused,
-		hideDecisionDate
+		hideDeadlineDate
 	};
 };
 

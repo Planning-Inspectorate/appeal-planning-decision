@@ -1,5 +1,11 @@
 const { isValid, parseISO } = require('date-fns');
-const { rules, validation } = require('@pins/business-rules');
+const { rules } = require('@pins/business-rules');
+const {
+	calculateWithinDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
+const {
+	calculateDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
 const logger = require('../../lib/logger');
 
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
@@ -47,18 +53,17 @@ exports.postDecisionDate = async (req, res) => {
 		body['decision-date-day']
 	);
 
-	const isWithinExpiryPeriod = validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
-		enteredDate,
-		appeal.appealType,
-		appeal.eligibility.applicationDecision
-	);
+	const appealWithEnteredDate = {
+		...appeal,
+		decisionDate: enteredDate.toISOString()
+	};
+
+	const isWithinExpiryPeriod = calculateWithinDeadlineFromBeforeYouStart({
+		appeal: appealWithEnteredDate
+	});
 
 	if (!isWithinExpiryPeriod) {
-		const deadlineDate = rules.appeal.deadlineDate(
-			enteredDate,
-			appeal.appealType,
-			appeal.eligibility.applicationDecision
-		);
+		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal: appealWithEnteredDate });
 		const deadlinePeriod = rules.appeal.deadlinePeriod(
 			appeal.appealType,
 			appeal.eligibility.applicationDecision

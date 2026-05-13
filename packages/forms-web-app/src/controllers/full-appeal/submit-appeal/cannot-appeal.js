@@ -3,17 +3,16 @@ const {
 		FULL_APPEAL: { CANNOT_APPEAL }
 	}
 } = require('../../../lib/full-appeal/views');
-const { businessRulesDeadline, getDeadlinePeriod } = require('../../../lib/calculate-deadline');
+const { rules } = require('@pins/business-rules');
+const {
+	calculateDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
 
 const getCannotAppeal = (req, res) => {
 	const { appeal } = req.session;
 	const beforeYouStartFirstPage = '/before-you-start';
-	const deadlineDate = businessRulesDeadline(
-		appeal.decisionDate,
-		appeal.appealType,
-		appeal.eligibility.applicationDecision
-	);
-	const deadlinePeriod = getDeadlinePeriod(
+	const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
+	const deadlinePeriod = rules.appeal.deadlinePeriod(
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
 	);

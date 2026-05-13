@@ -704,7 +704,8 @@ describe('dynamic-form/controller', () => {
 				onApplicationDate: appeal.applicationDate,
 				applicationReference: appeal.planningApplicationNumber,
 				applicationDecision: appeal.eligibility.applicationDecision,
-				typeOfPlanningApplication: appeal.typeOfPlanningApplication
+				typeOfPlanningApplication: appeal.typeOfPlanningApplication,
+				isListedBuilding: null
 			});
 			expect(deleteAppeal).toHaveBeenCalledWith(appeal.id);
 			expect(req.session.appeal).toBeNull();
@@ -735,7 +736,8 @@ describe('dynamic-form/controller', () => {
 				onApplicationDate: planningAppeal.applicationDate,
 				applicationReference: planningAppeal.planningApplicationNumber,
 				applicationDecision: planningAppeal.eligibility.applicationDecision,
-				typeOfPlanningApplication: planningAppeal.typeOfPlanningApplication
+				typeOfPlanningApplication: planningAppeal.typeOfPlanningApplication,
+				isListedBuilding: null
 			});
 			expect(res.redirect).toHaveBeenCalledWith(
 				'/appeals/full-planning/appeal-form/your-appeal?id=some-submission-id'
@@ -763,7 +765,8 @@ describe('dynamic-form/controller', () => {
 					enforcementAppeal.eligibility.hasContactedPlanningInspectorate,
 				contactPlanningInspectorateDate:
 					enforcementAppeal.eligibility.contactPlanningInspectorateDate,
-				enforcementReferenceNumber: enforcementAppeal.enforcementReferenceNumber
+				enforcementReferenceNumber: enforcementAppeal.enforcementReferenceNumber,
+				isListedBuilding: false
 			});
 			expect(deleteAppeal).toHaveBeenCalledWith(enforcementAppeal.id);
 			expect(req.session.appeal).toBeNull();
@@ -802,7 +805,8 @@ describe('dynamic-form/controller', () => {
 					enforcementAppeal.eligibility.hasContactedPlanningInspectorate,
 				contactPlanningInspectorateDate:
 					enforcementAppeal.eligibility.contactPlanningInspectorateDate,
-				enforcementReferenceNumber: enforcementAppeal.enforcementReferenceNumber
+				enforcementReferenceNumber: enforcementAppeal.enforcementReferenceNumber,
+				isListedBuilding: true
 			});
 			expect(deleteAppeal).toHaveBeenCalledWith(enforcementAppeal.id);
 			expect(req.session.appeal).toBeNull();
@@ -819,7 +823,7 @@ describe('dynamic-form/controller', () => {
 			);
 		});
 
-		it('should generate appellant submission and redirect- LDC with no decision date', async () => {
+		it('should generate appellant submission and redirect- LDC not listed building', async () => {
 			getDepartmentFromId.mockResolvedValue(lpa);
 			req.appealsApiClient.createAppellantSubmission.mockResolvedValue({
 				id: 'some-submission-id'
@@ -834,7 +838,11 @@ describe('dynamic-form/controller', () => {
 			expect(req.appealsApiClient.createAppellantSubmission).toHaveBeenCalledWith({
 				appealId: appeal.appealSqlId,
 				LPACode: lpa.lpaCode,
-				appealTypeCode: CASE_TYPES.LDC.processCode
+				appealTypeCode: CASE_TYPES.LDC.processCode,
+				isListedBuilding: false,
+				applicationDecision: appeal.eligibility.applicationDecision,
+				applicationDecisionDate: appeal.decisionDate,
+				applicationReference: appeal.planningApplicationNumber
 			});
 			expect(deleteAppeal).toHaveBeenCalledWith(appeal.id);
 			expect(req.session.appeal).toBeNull();
@@ -868,7 +876,8 @@ describe('dynamic-form/controller', () => {
 				onApplicationDate: appeal.applicationDate,
 				applicationReference: appeal.planningApplicationNumber,
 				applicationDecision: appeal.eligibility.applicationDecision,
-				typeOfPlanningApplication: appeal.typeOfPlanningApplication
+				typeOfPlanningApplication: appeal.typeOfPlanningApplication,
+				isListedBuilding: true
 			});
 			expect(deleteAppeal).toHaveBeenCalledWith(appeal.id);
 			expect(req.session.appeal).toBeNull();
