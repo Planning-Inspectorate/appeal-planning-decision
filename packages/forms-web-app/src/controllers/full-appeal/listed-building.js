@@ -65,9 +65,7 @@ const postListedBuilding = async (req, res) => {
 	}
 
 	if (appeal.typeOfPlanningApplication === LAWFUL_DEVELOPMENT_CERTIFICATE) {
-		return isListedBuilding
-			? res.redirect(`/before-you-start/granted-or-refused`)
-			: res.redirect(`/before-you-start/can-use-service`);
+		return res.redirect(`/before-you-start/granted-or-refused`);
 	}
 
 	return appeal.appealType === APPEAL_ID.HOUSEHOLDER

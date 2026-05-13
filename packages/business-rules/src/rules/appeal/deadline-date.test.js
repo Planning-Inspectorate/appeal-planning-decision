@@ -8,51 +8,175 @@ const targetTimezone = 'Europe/London';
 
 describe('calculateAppealDeadline', () => {
 	it('throws a BusinessRulesError when the application decision is invalid', () => {
-		const decisionDate = new Date('2020-10-20');
-		const appealType = APPEAL_ID.HOUSEHOLDER;
-		const applicationDecision = 'INVALID_DECISION';
-
 		expect(() => {
-			calculateAppealDeadline(decisionDate, appealType, applicationDecision);
+			calculateAppealDeadline({
+				decisionDate: new Date('2020-10-20'),
+				appealType: APPEAL_ID.HOUSEHOLDER,
+				applicationDecision: 'INVALID_DECISION'
+			});
 		}).toThrow(BusinessRulesError);
 	});
 
 	it('throws a BusinessRulesError when the decision date is invalid', () => {
-		const decisionDate = 'abc'; // Invalid date format
-		const appealType = APPEAL_ID.HOUSEHOLDER;
-		const applicationDecision = APPLICATION_DECISION.APPROVED;
-
 		expect(() => {
-			calculateAppealDeadline(decisionDate, appealType, applicationDecision);
+			calculateAppealDeadline({
+				decisionDate: 'abc',
+				appealType: APPEAL_ID.HOUSEHOLDER,
+				applicationDecision: APPLICATION_DECISION.APPROVED
+			});
 		}).toThrow(BusinessRulesError);
 	});
 
 	it('throws a BusinessRulesError when the appeal type is invalid', () => {
-		const decisionDate = new Date('2020-10-20');
-		const appealType = 'INVALID_TYPE';
-		const applicationDecision = APPLICATION_DECISION.APPROVED;
-
 		expect(() => {
-			calculateAppealDeadline(decisionDate, appealType, applicationDecision);
+			calculateAppealDeadline({
+				decisionDate: new Date('2020-10-20'),
+				appealType: 'INVALID_TYPE',
+				applicationDecision: APPLICATION_DECISION.APPROVED
+			});
 		}).toThrow(BusinessRulesError);
 	});
 
 	it('calculates the appeal deadline for a valid decision date, appeal type, and application decision', () => {
-		const decisionDate = new Date('2020-10-20');
-		const appealType = APPEAL_ID.HOUSEHOLDER;
-		const applicationDecision = APPLICATION_DECISION.APPROVED;
-
-		const result = calculateAppealDeadline(decisionDate, appealType, applicationDecision);
+		const result = calculateAppealDeadline({
+			decisionDate: new Date('2020-10-20'),
+			appealType: APPEAL_ID.HOUSEHOLDER,
+			applicationDecision: APPLICATION_DECISION.APPROVED
+		});
 
 		expect(result.toISOString()).toEqual('2021-01-12T23:59:59.999Z');
 	});
 
-	it('calculates the appeal deadline with default values when optional arguments are not provided', () => {
-		const decisionDate = new Date('2023-10-20');
-
-		const result = calculateAppealDeadline(decisionDate);
+	it('defaults applicationDecision to refused when null', () => {
+		const result = calculateAppealDeadline({
+			decisionDate: new Date('2023-10-20'),
+			appealType: APPEAL_ID.HOUSEHOLDER,
+			applicationDecision: null
+		});
 
 		expect(result.toISOString()).toEqual('2024-01-12T23:59:59.999Z');
+	});
+
+	it('returns null when appealType is null', () => {
+		const result = calculateAppealDeadline({
+			decisionDate: new Date('2020-10-20'),
+			appealType: null,
+			applicationDecision: APPLICATION_DECISION.REFUSED
+		});
+
+		expect(result).toBeNull();
+	});
+
+	it('returns null when decisionDate is null', () => {
+		const result = calculateAppealDeadline({
+			decisionDate: null,
+			appealType: APPEAL_ID.HOUSEHOLDER,
+			applicationDecision: APPLICATION_DECISION.REFUSED
+		});
+
+		expect(result).toBeNull();
+	});
+
+	it('parses string decisionDate via parseISO', () => {
+		const result = calculateAppealDeadline({
+			decisionDate: '2020-10-20',
+			appealType: APPEAL_ID.HOUSEHOLDER,
+			applicationDecision: APPLICATION_DECISION.REFUSED
+		});
+
+		expect(result).toBeInstanceOf(Date);
+		expect(result.toISOString()).toEqual('2021-01-12T23:59:59.999Z');
+	});
+
+	describe('LDC appeal type', () => {
+		it('returns null when isListedBuilding is undefined (non-listed LDC)', () => {
+			const result = calculateAppealDeadline({
+				decisionDate: new Date('2020-10-20'),
+				appealType: APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE,
+				applicationDecision: APPLICATION_DECISION.REFUSED
+			});
+
+			expect(result).toBeNull();
+		});
+
+		it('returns null when isListedBuilding is false', () => {
+			const result = calculateAppealDeadline({
+				decisionDate: new Date('2020-10-20'),
+				appealType: APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE,
+				applicationDecision: APPLICATION_DECISION.REFUSED,
+				isListedBuilding: false
+			});
+
+			expect(result).toBeNull();
+		});
+
+		it('calculates deadline when isListedBuilding is true', () => {
+			const result = calculateAppealDeadline({
+				decisionDate: new Date('2020-10-20'),
+				appealType: APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE,
+				applicationDecision: APPLICATION_DECISION.REFUSED,
+				isListedBuilding: true
+			});
+
+			expect(result).toBeInstanceOf(Date);
+			expect(result.toISOString()).toEqual('2021-04-20T22:59:59.999Z');
+		});
+	});
+
+	describe('enforcement appeal types', () => {
+		it('returns null for enforcement notice when no effective date', () => {
+			const result = calculateAppealDeadline({
+				appealType: APPEAL_ID.ENFORCEMENT_NOTICE,
+				enforcementEffectiveDate: null
+			});
+
+			expect(result).toBeNull();
+		});
+
+		it('returns deadline +6 days for enforcement notice when contacted PINs', () => {
+			const result = calculateAppealDeadline({
+				appealType: APPEAL_ID.ENFORCEMENT_NOTICE,
+				enforcementEffectiveDate: '2020-10-20T00:00:00.000Z',
+				hasContactedPlanningInspectorate: true
+			});
+
+			expect(result).toBeInstanceOf(Date);
+			expect(formatInTimeZone(result, targetTimezone, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+				'2020-10-26 23:59:59'
+			);
+		});
+
+		it('returns deadline -1 day for enforcement notice when not contacted PINs', () => {
+			const result = calculateAppealDeadline({
+				appealType: APPEAL_ID.ENFORCEMENT_NOTICE,
+				enforcementEffectiveDate: '2020-10-20T00:00:00.000Z',
+				hasContactedPlanningInspectorate: false
+			});
+
+			expect(result).toBeInstanceOf(Date);
+			expect(formatInTimeZone(result, targetTimezone, 'yyyy-MM-dd HH:mm:ss')).toEqual(
+				'2020-10-19 23:59:59'
+			);
+		});
+
+		it('returns null for enforcement listed building when no effective date', () => {
+			const result = calculateAppealDeadline({
+				appealType: APPEAL_ID.ENFORCEMENT_LISTED_BUILDING,
+				enforcementEffectiveDate: null
+			});
+
+			expect(result).toBeNull();
+		});
+
+		it('handles enforcement with Date object for effective date', () => {
+			const result = calculateAppealDeadline({
+				appealType: APPEAL_ID.ENFORCEMENT_NOTICE,
+				enforcementEffectiveDate: new Date('2020-10-20T00:00:00.000Z'),
+				hasContactedPlanningInspectorate: true
+			});
+
+			expect(result).toBeInstanceOf(Date);
+		});
 	});
 
 	const s78TestCases = [
@@ -72,7 +196,10 @@ describe('calculateAppealDeadline', () => {
 	it.each(s78TestCases)(
 		'PLANNING_SECTION_78 should add 6 months: $input should return $expected',
 		({ input, expected }) => {
-			const result = calculateAppealDeadline(input, APPEAL_ID.PLANNING_SECTION_78);
+			const result = calculateAppealDeadline({
+				decisionDate: input,
+				appealType: APPEAL_ID.PLANNING_SECTION_78
+			});
 			expect(result.toISOString()).toEqual(expected);
 			expect(formatInTimeZone(result, targetTimezone, 'HH:mm:ss')).toEqual('23:59:59');
 		}
@@ -86,7 +213,10 @@ describe('calculateAppealDeadline', () => {
 	it.each(s78RolloverTestCases)(
 		'PLANNING_SECTION_78 would add 6 months and potentially rollover if times passed through are already at end of day: $input should return $expected',
 		({ input, expected }) => {
-			const result = calculateAppealDeadline(input, APPEAL_ID.PLANNING_SECTION_78);
+			const result = calculateAppealDeadline({
+				decisionDate: input,
+				appealType: APPEAL_ID.PLANNING_SECTION_78
+			});
 			expect(result.toISOString()).toEqual(expected);
 			expect(formatInTimeZone(result, targetTimezone, 'HH:mm:ss')).toEqual('23:59:59');
 		}

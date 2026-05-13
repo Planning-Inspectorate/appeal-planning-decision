@@ -2,7 +2,12 @@ const {
 	getAppealPropsForCanUseServicePage
 } = require('../../lib/get-appeal-props-for-can-use-service-page');
 const { getEnforcementNoticeProps } = require('../../lib/get-enforcement-notice-props');
-const { businessRulesDeadline } = require('../../lib/calculate-deadline');
+const {
+	calculateDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
+const {
+	calculateWithinDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
 const {
 	VIEW: {
 		BEFORE_YOU_START: { ENFORCEMENT_CAN_USE_SERVICE: canUseServiceEnforcementView },
@@ -35,10 +40,10 @@ const {
 		LAWFUL_DEVELOPMENT_CERTIFICATE
 	}
 } = require('@pins/business-rules/src/constants');
-const { validation } = require('@pins/business-rules');
 const config = require('../../config');
 const changeLpaUrl = '/before-you-start/local-planning-authority';
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
+const formatDate = require('#lib/format-date-check-your-answers');
 
 const canUseServiceHouseholderPlanning = async (req, res) => {
 	const { appeal } = req.session;
@@ -54,16 +59,12 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 		nextPageUrl
 	} = await getAppealPropsForCanUseServicePage(appeal);
 
-	const deadlineDate = businessRulesDeadline(
-		appeal.decisionDate,
-		appeal.appealType,
-		appeal.eligibility.applicationDecision
-	);
+	const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	res.render(canUseServiceHouseholder, {
-		deadlineDate,
+		deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 		appealLPD,
 		planningApplicationNumber,
 		applicationType,
@@ -93,22 +94,16 @@ const canUseServiceFullAppeal = async (req, res) => {
 		nextPageUrl,
 		hideListedBuilding,
 		isListedBuilding,
-		hideGrantedRefused,
-		hideDecisionDate
+		hideDeadlineDate
 	} = await getAppealPropsForCanUseServicePage(appeal);
 
-	const deadlineDate = hideDecisionDate
-		? null
-		: businessRulesDeadline(
-				appeal.decisionDate,
-				appeal.appealType,
-				appeal.eligibility.applicationDecision
-			);
+	const deadlineDate = hideDeadlineDate ? null : calculateDeadlineFromBeforeYouStart({ appeal });
 
 	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
 	res.render(canUseServiceFullAppealView, {
-		deadlineDate,
+		deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
+		hideDeadlineDate,
 		appealLPD,
 		planningApplicationNumber,
 		applicationType,
@@ -121,8 +116,6 @@ const canUseServiceFullAppeal = async (req, res) => {
 		changeLpaUrl,
 		hideListedBuilding,
 		isListedBuilding,
-		hideGrantedRefused,
-		hideDecisionDate,
 		bannerHtmlOverride:
 			config.betaBannerText +
 			config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType))
@@ -147,14 +140,10 @@ const canUseServicePriorApproval = async (req, res) => {
 		: 'No';
 
 	if (appeal.eligibility.hasPriorApprovalForExistingHome) {
-		const deadlineDate = businessRulesDeadline(
-			appeal.decisionDate,
-			appeal.appealType,
-			appeal.eligibility.applicationDecision
-		);
+		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		res.render(canUseServicePriorApprovalHouseholder, {
-			deadlineDate,
+			deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 			appealLPD,
 			planningApplicationNumber,
 			applicationType,
@@ -167,14 +156,10 @@ const canUseServicePriorApproval = async (req, res) => {
 			nextPageUrl
 		});
 	} else {
-		const deadlineDate = businessRulesDeadline(
-			appeal.decisionDate,
-			appeal.appealType,
-			appeal.eligibility.applicationDecision
-		);
+		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		res.render(canUseServicePriorApprovalFull, {
-			deadlineDate,
+			deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 			appealLPD,
 			planningApplicationNumber,
 			applicationType,
@@ -209,14 +194,10 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
 	if (appeal.eligibility.hasHouseholderPermissionConditions) {
-		const deadlineDate = businessRulesDeadline(
-			appeal.decisionDate,
-			appeal.appealType,
-			appeal.eligibility.applicationDecision
-		);
+		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
-			deadlineDate,
+			deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 			appealLPD,
 			planningApplicationNumber,
 			applicationType,
@@ -230,14 +211,10 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			nextPageUrl
 		});
 	} else {
-		const deadlineDate = businessRulesDeadline(
-			appeal.decisionDate,
-			appeal.appealType,
-			appeal.eligibility.applicationDecision
-		);
+		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
-			deadlineDate,
+			deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 			appealLPD,
 			planningApplicationNumber,
 			applicationType,
@@ -299,14 +276,7 @@ exports.getCanUseService = async (req, res) => {
 	const applicationType = appeal.typeOfPlanningApplication;
 
 	// check deadline if a decisionDate exists
-	if (
-		appeal.decisionDate &&
-		!validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
-			new Date(appeal.decisionDate),
-			appeal.appealType,
-			appeal.eligibility?.applicationDecision
-		)
-	) {
+	if (appeal.decisionDate && !calculateWithinDeadlineFromBeforeYouStart({ appeal })) {
 		return res.redirect('/before-you-start/you-cannot-appeal');
 	}
 

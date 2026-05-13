@@ -1,5 +1,11 @@
 const { isValid, parseISO } = require('date-fns');
-const { rules, validation } = require('@pins/business-rules');
+const { rules } = require('@pins/business-rules');
+const {
+	calculateWithinDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
+const {
+	calculateDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const {
@@ -86,12 +92,7 @@ exports.postDateDecisionDue = async (req, res) => {
 		return;
 	}
 
-	const isWithinExpiryPeriod = validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
-		appeal.decisionDate,
-		appeal.appealType,
-		appeal.eligibility.applicationDecision
-	);
-
+	const isWithinExpiryPeriod = calculateWithinDeadlineFromBeforeYouStart({ appeal });
 	const redirectTo = isWithinExpiryPeriod ? navigationPage.nextPage : navigationPage.shutterPage;
 	const deadlinePeriod = rules.appeal.deadlinePeriod(
 		appeal.appealType,
@@ -99,12 +100,7 @@ exports.postDateDecisionDue = async (req, res) => {
 	);
 
 	req.session.appeal.eligibility.appealDeadline =
-		decisionDate &&
-		rules.appeal.deadlineDate(
-			parseISO(decisionDate),
-			appeal.appealType,
-			appeal.eligibility.applicationDecision
-		);
+		decisionDate && calculateDeadlineFromBeforeYouStart({ appeal });
 
 	req.session.appeal.eligibility.appealPeriod = deadlinePeriod.description;
 	res.redirect(redirectTo);

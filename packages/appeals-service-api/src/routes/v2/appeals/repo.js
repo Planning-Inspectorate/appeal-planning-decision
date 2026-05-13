@@ -102,9 +102,12 @@ class UserAppealsRepository {
 											submitted: true,
 											appealTypeCode: true,
 											applicationDecisionDate: true,
+											applicationDecision: true,
 											siteAddress: true,
 											SubmissionAddress: true,
-											enforcementEffectiveDate: true
+											enforcementEffectiveDate: true,
+											hasContactedPlanningInspectorate: true,
+											isListedBuilding: true
 										}
 									}
 								}

@@ -4,6 +4,8 @@ const { constants } = require('@pins/business-rules');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
+jest.mock('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
+jest.mock('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
 jest.mock('../../../../src/config', () => ({
 	logger: {
 		level: 'info'
@@ -18,6 +20,12 @@ jest.mock('../../../../src/config', () => ({
 const dateDecisionDueController = require('../../../../src/controllers/full-appeal/date-decision-due');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
+const {
+	calculateWithinDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
+const {
+	calculateDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
 const {
 	VIEW: {
 		FULL_APPEAL: { DATE_DECISION_DUE }
@@ -44,6 +52,8 @@ describe('controllers/full-appeal/date-decision-due', () => {
 		res = mockRes();
 
 		createOrUpdateAppeal.mockResolvedValueOnce({ eligibility: {} });
+		calculateWithinDeadlineFromBeforeYouStart.mockReturnValue(true);
+		calculateDeadlineFromBeforeYouStart.mockReturnValue(new Date());
 	});
 
 	afterEach(() => {
@@ -80,6 +90,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 
 	describe('postDateDecisionDue', () => {
 		it('should display the out of time shutter page template if the date decision due is passed the threshold', async () => {
+			calculateWithinDeadlineFromBeforeYouStart.mockReturnValue(false);
 			const mockRequest = {
 				...req,
 				body: {
@@ -343,6 +354,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 		});
 
 		it('should redirect to out of time as deadline date is passed', async () => {
+			calculateWithinDeadlineFromBeforeYouStart.mockReturnValue(false);
 			const decisionDate = subDays(subMonths(endOfDay(new Date()), 6), 1);
 			createOrUpdateAppeal.mockResolvedValueOnce({
 				decisionDate: new Date(`${decisionDate}T12:00:00.000Z`),

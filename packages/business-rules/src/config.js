@@ -7,6 +7,16 @@ const {
 
 const formatAddress = require('./utils/format-address');
 
+/**
+ * @type {{appeal: { type: Record<string, {
+ * id: string,
+ * name: string,
+ * procedureType: string[],
+ * appealDue: Record<string, {time: number, duration: string}|{time: number, duration: string}>,
+ * questionnaireDue: {time: number, duration: string},
+ * email?: Record<string, function>
+ * }>}}}
+ */
 const config = {
 	appeal: {
 		type: {

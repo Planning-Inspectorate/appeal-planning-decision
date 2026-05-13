@@ -10,38 +10,59 @@ describe('validation/appeal/decision-date/is-within-decision-date-expiry-period'
 		currentDate = new Date();
 	});
 
-	[
-		{ givenDate: null, now: currentDate },
-		{ givenDate: currentDate, now: null },
-		{ givenDate: null, now: null }
-	].forEach(({ givenDate, now }) => {
-		it('should throw if given invalid parameters', () => {
-			expect(() => isWithinDecisionDateExpiryPeriod(givenDate, now)).toThrow(
-				'The given date must be a valid Date instance'
-			);
-		});
+	it('should throw if now is invalid', () => {
+		expect(() =>
+			isWithinDecisionDateExpiryPeriod({
+				givenDate: new Date(),
+				appealType: APPEAL_ID.HOUSEHOLDER,
+				applicationDecision: APPLICATION_DECISION.REFUSED,
+				now: null
+			})
+		).toThrow('The given date must be a valid Date instance');
 	});
 
 	it('should return true if the current date is before the deadline date', () => {
 		expect(
-			isWithinDecisionDateExpiryPeriod(
-				currentDate,
-				APPEAL_ID.HOUSEHOLDER,
-				APPLICATION_DECISION.REFUSED,
-				currentDate
-			)
+			isWithinDecisionDateExpiryPeriod({
+				givenDate: currentDate,
+				appealType: APPEAL_ID.HOUSEHOLDER,
+				applicationDecision: APPLICATION_DECISION.REFUSED,
+				now: currentDate
+			})
 		).toBeTruthy();
 	});
 
 	it('should return false if the current date is after the deadline date', () => {
 		expect(
-			isWithinDecisionDateExpiryPeriod(
-				subWeeks(currentDate, 15),
-				APPEAL_ID.HOUSEHOLDER,
-				APPLICATION_DECISION.REFUSED,
-				currentDate
-			)
+			isWithinDecisionDateExpiryPeriod({
+				givenDate: subWeeks(currentDate, 15),
+				appealType: APPEAL_ID.HOUSEHOLDER,
+				applicationDecision: APPLICATION_DECISION.REFUSED,
+				now: currentDate
+			})
 		).toBeFalsy();
+	});
+
+	it('should return true when deadlineDate is null (no deadline)', () => {
+		expect(
+			isWithinDecisionDateExpiryPeriod({
+				givenDate: null,
+				appealType: APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE,
+				applicationDecision: APPLICATION_DECISION.REFUSED,
+				now: currentDate
+			})
+		).toBeTruthy();
+	});
+
+	it('should return true when appealType is null (no deadline)', () => {
+		expect(
+			isWithinDecisionDateExpiryPeriod({
+				givenDate: currentDate,
+				appealType: null,
+				applicationDecision: APPLICATION_DECISION.REFUSED,
+				now: currentDate
+			})
+		).toBeTruthy();
 	});
 
 	describe('if decision date is 12 weeks ago from today then it...', () => {
@@ -52,11 +73,11 @@ describe('validation/appeal/decision-date/is-within-decision-date-expiry-period'
 
 		it('should return true if today is before deadline date', () => {
 			expect(
-				isWithinDecisionDateExpiryPeriod(
-					decisionDate,
-					APPEAL_ID.HOUSEHOLDER,
-					APPLICATION_DECISION.REFUSED
-				)
+				isWithinDecisionDateExpiryPeriod({
+					givenDate: decisionDate,
+					appealType: APPEAL_ID.HOUSEHOLDER,
+					applicationDecision: APPLICATION_DECISION.REFUSED
+				})
 			).toBeTruthy();
 		});
 
@@ -65,12 +86,12 @@ describe('validation/appeal/decision-date/is-within-decision-date-expiry-period'
 				days: 1
 			});
 			expect(
-				isWithinDecisionDateExpiryPeriod(
-					decisionDate,
-					APPEAL_ID.HOUSEHOLDER,
-					APPLICATION_DECISION.REFUSED,
-					tomorrow
-				)
+				isWithinDecisionDateExpiryPeriod({
+					givenDate: decisionDate,
+					appealType: APPEAL_ID.HOUSEHOLDER,
+					applicationDecision: APPLICATION_DECISION.REFUSED,
+					now: tomorrow
+				})
 			).toBeFalsy();
 		});
 	});

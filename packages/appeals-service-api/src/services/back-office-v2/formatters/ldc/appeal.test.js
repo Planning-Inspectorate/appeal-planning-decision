@@ -54,6 +54,7 @@ describe('LDC formatter', () => {
 			appealTypeCode: 'LDC',
 			onApplicationDate: new Date(),
 			applicationDecision: APPEAL_APPLICATION_DECISION.GRANTED,
+			isListedBuilding: true,
 			applicationDecisionDate: new Date(),
 			applicationReference: 'abc',
 			appellantSiteAccess_appellantSiteAccessDetails: 'Access details',
