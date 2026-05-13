@@ -78,7 +78,7 @@ exports.isAppellantStatementOpen = (appealCaseData, featureFlags) =>
 	!!caseTypeLookup(appealCaseData.appealTypeCode, 'processCode', featureFlags)
 		?.hasAppellantStatementJourney &&
 	statementsAreOpen(appealCaseData) &&
-	!appealCaseData.AppellantStatementSubmittedDate &&
+	!appealCaseData.appellantStatementSubmittedDate &&
 	!representationExists(appealCaseData.Representations, {
 		type: APPEAL_REPRESENTATION_TYPE.STATEMENT,
 		owned: true,

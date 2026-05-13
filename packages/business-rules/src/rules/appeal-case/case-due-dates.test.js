@@ -245,25 +245,27 @@ describe('case-due-dates', () => {
 			});
 
 			it('should return false if statements are not open', () => {
-				expect(isLPAStatementOpen(appealCaseData)).toBe(false);
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(false);
 			});
 
 			it('should return false if the case status is INVALID', () => {
-				// as seen in test above the first three attributes would lead to return of true
+				// as seen in test above the first four attributes would lead to return of true
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
 				appealCaseData.statementDueDate = '2025-03-01';
 				deadlineHasPassed.mockReturnValueOnce(false);
 				appealCaseData.lpaQuestionnaireValidationOutcomeDate = '2025-03-01';
 				// case status set to invalid
 				appealCaseData.caseStatus = APPEAL_CASE_STATUS.INVALID;
-				expect(isLPAStatementOpen(appealCaseData)).toBe(false);
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(false);
 			});
 
-			it('should return false if AppellantStatementSubmittedDate is set', () => {
+			it('should return false if appellantStatementSubmittedDate is set', () => {
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
 				appealCaseData.statementDueDate = '2025-03-01';
 				deadlineHasPassed.mockReturnValue(false);
 				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
-				appealCaseData.LPAStatementSubmittedDate = '2025-03-02';
-				expect(isLPAStatementOpen(appealCaseData)).toBe(false);
+				appealCaseData.appellantStatementSubmittedDate = '2025-03-02';
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(false);
 			});
 
 			it('should return false if representation exists for appellant statement', () => {
@@ -294,7 +296,7 @@ describe('case-due-dates', () => {
 						leadCaseReference: 'testLeadReference'
 					}
 				];
-				expect(isLPAStatementOpen(appealCaseData)).toBe(false);
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(false);
 			});
 		});
 
