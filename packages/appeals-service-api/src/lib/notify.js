@@ -1,8 +1,7 @@
 const {
 	config: {
 		appeal: { type: appealTypeConfig }
-	},
-	rules
+	}
 } = require('@pins/business-rules');
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const NotifyService = require('@pins/common/src/lib/notify/notify-service');
@@ -11,7 +10,9 @@ const { isFeatureActive } = require('../configuration/featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const logger = require('./logger');
 const LpaService = require('../services/lpa.service');
-const { parseISO } = require('date-fns');
+const {
+	calculateDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
 const { formatInTimeZone } = require('date-fns-tz');
 const ukTimeZone = 'Europe/London';
 const constants = require('@pins/business-rules/src/constants');
@@ -1092,11 +1093,7 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 	try {
 		const { baseUrl } = config.apps.appeals;
-		const deadlineDate = rules.appeal.deadlineDate(
-			parseISO(appeal.decisionDate),
-			appeal.appealType,
-			appeal.eligibility.applicationDecision
-		);
+		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		const {
 			recipientEmail,

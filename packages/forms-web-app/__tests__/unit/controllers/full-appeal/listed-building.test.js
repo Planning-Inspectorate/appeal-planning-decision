@@ -222,7 +222,7 @@ describe('controllers/full-appeal/listed-building', () => {
 					eligibility: { ...fullAppeal.eligibility, isListedBuilding: false }
 				});
 
-				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/can-use-service');
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
 			});
 		});
 	});

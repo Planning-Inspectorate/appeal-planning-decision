@@ -1,5 +1,11 @@
 const { isValid, parseISO } = require('date-fns');
-const { rules, validation } = require('@pins/business-rules');
+const { rules } = require('@pins/business-rules');
+const {
+	calculateWithinDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
+const {
+	calculateDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
 
 const logger = require('../../../lib/logger');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
@@ -56,17 +62,16 @@ exports.postDecisionDateHouseholder = async (req, res) => {
 		body['decision-date-householder-day']
 	);
 
-	const refusedDeadlineDate = rules.appeal.deadlineDate(
-		enteredDate,
-		appeal.appealType,
-		appeal.eligibility.applicationDecision
-	);
-
-	const isWithinExpiryPeriod = validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
-		enteredDate,
-		appeal.appealType,
-		appeal.eligibility.applicationDecision
-	);
+	const appealWithEnteredDate = {
+		...appeal,
+		decisionDate: enteredDate.toISOString()
+	};
+	const refusedDeadlineDate = calculateDeadlineFromBeforeYouStart({
+		appeal: appealWithEnteredDate
+	});
+	const isWithinExpiryPeriod = calculateWithinDeadlineFromBeforeYouStart({
+		appeal: appealWithEnteredDate
+	});
 
 	if (!isWithinExpiryPeriod) {
 		const deadline = rules.appeal.deadlinePeriod(

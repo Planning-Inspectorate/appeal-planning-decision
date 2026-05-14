@@ -1,4 +1,11 @@
-const { rules, validation } = require('@pins/business-rules');
+const { rules, constants } = require('@pins/business-rules');
+const {
+	calculateWithinDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-is-within-deadline-before-you-start');
+const {
+	calculateDeadlineFromBeforeYouStart
+} = require('@pins/business-rules/src/utils/calculate-deadline-before-you-start');
+
 const {
 	VIEW: {
 		FULL_APPEAL: { CANNOT_APPEAL: cannotAppealFP }
@@ -14,26 +21,13 @@ const validationExclusionPages = ['/before-you-start', `/${cannotAppealFP}`, `/$
 const setShutterPageProps = (req) => {
 	const { appeal } = req.session;
 	req.session.appeal.eligibility.appealDeadline =
-		appeal.decisionDate &&
-		rules.appeal.deadlineDate(
-			new Date(appeal.decisionDate),
-			appeal.appealType,
-			appeal.eligibility.applicationDecision
-		);
+		appeal.decisionDate && calculateDeadlineFromBeforeYouStart({ appeal });
 
 	const deadlinePeriod = rules.appeal.deadlinePeriod(
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
 	);
 	req.session.appeal.eligibility.appealPeriod = deadlinePeriod.description;
-};
-
-const isWithinExpiryPeriod = (appeal) => {
-	return validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(
-		new Date(appeal.decisionDate),
-		appeal.appealType,
-		appeal.eligibility?.applicationDecision
-	);
 };
 
 const checkDecisionDateDeadline = (req, res, next) => {
@@ -45,9 +39,9 @@ const checkDecisionDateDeadline = (req, res, next) => {
 			!req.originalUrl.startsWith('/before-you-start/can-use-service');
 
 		if (appeal.appealType && !isInAllowList) {
-			if (!isWithinExpiryPeriod(appeal)) {
+			if (!calculateWithinDeadlineFromBeforeYouStart({ appeal })) {
 				setShutterPageProps(req);
-				if (appeal.appealType === '1001') {
+				if (appeal.appealType === constants.APPEAL_ID.HOUSEHOLDER) {
 					res.redirect(`/${cannotAppealHAS}`);
 				} else {
 					res.redirect(`/${cannotAppealFP}`);

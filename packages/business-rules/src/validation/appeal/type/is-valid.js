@@ -3,7 +3,7 @@ const { appeal } = require('../../../config');
 /**
  * @description Determine if a given appeal type (appealType) is valid.
  *
- * @param {Date} appealType
+ * @param {string} appealType
  * @returns {boolean}
  */
 module.exports = (appealType) => {

@@ -1,6 +1,7 @@
 const { AppellantSubmissionRepository } = require('./repo');
-const { rules } = require('@pins/business-rules');
-const { mapTypeCodeToAppealId } = require('@pins/common');
+const {
+	calculateDeadlineFromAppellantSubmission
+} = require('@pins/business-rules/src/utils/calculate-deadline-appellant-submission');
 const repo = new AppellantSubmissionRepository();
 const { docsApiClient } = require('../../../doc-client/docs-api-client');
 const ApiError = require('#errors/apiError');
@@ -36,14 +37,15 @@ exports.deleteOldSubmissions = async () => {
 
 		await Promise.all(
 			nonSubmittedSubmissions.map(async (submission) => {
-				const deadlineDate = rules.appeal.deadlineDate(
-					submission.applicationDecisionDate,
-					mapTypeCodeToAppealId(submission.appealTypeCode),
-					submission.applicationDecision
-				);
+				const deadline = calculateDeadlineFromAppellantSubmission({
+					appellantSubmission: submission
+				});
+
+				// no deadline - skip cleanup
+				if (!deadline) return;
 
 				const currentDate = new Date();
-				const threeMonthsPastDeadline = new Date(deadlineDate);
+				const threeMonthsPastDeadline = new Date(deadline);
 				threeMonthsPastDeadline.setMonth(threeMonthsPastDeadline.getMonth() + 3);
 
 				if (currentDate > threeMonthsPastDeadline) {
