@@ -1,6 +1,13 @@
 /** @type {import('express').RequestHandler} */
 const enterAppealReferenceGet = (req, res) => {
-	res.render(`comment-planning-appeal/enter-appeal-reference/index`);
+	const previousUrl = req?.session?.navigationHistory[1]?.trim();
+	const backLink =
+		!previousUrl || previousUrl === '/comment-planning-appeal'
+			? 'https://www.gov.uk/'
+			: previousUrl;
+	res.render(`comment-planning-appeal/enter-appeal-reference/index`, {
+		backLink: backLink
+	});
 };
 
 /** @type {import('express').RequestHandler} */

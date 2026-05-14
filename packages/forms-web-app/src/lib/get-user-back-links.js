@@ -15,6 +15,8 @@ const getUserDashboardLink = (baseUrl) => {
 		return `/${VIEW.LPA_DASHBOARD.DASHBOARD}`;
 	} else if (baseUrl.startsWith('/rule-6/')) {
 		return `/${VIEW.RULE_6.DASHBOARD}`;
+	} else if (baseUrl.startsWith('/comment-planning-appeal/')) {
+		return `/${VIEW.INTERESTED_PARTY_COMMENTS.ENTER_APPEAL_REFERENCE}`;
 	} else {
 		throw new Error(`unknown baseUrl: ${baseUrl}`);
 	}

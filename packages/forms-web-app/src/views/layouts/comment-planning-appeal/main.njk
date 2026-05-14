@@ -43,7 +43,7 @@
     {% block backButton %}
       {{ govukBackLink({
           text: "Back",
-          href: navigation[1],
+          href: backLink or navigation[1],
           attributes: {
             'data-cy': 'back'
           }
