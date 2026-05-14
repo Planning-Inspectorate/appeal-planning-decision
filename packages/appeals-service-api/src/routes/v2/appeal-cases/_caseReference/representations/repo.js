@@ -145,7 +145,10 @@ class RepresentationsRepository {
 				...mappedData,
 				AppealCase: { connect: { caseReference: data.caseReference } }
 			},
-			update: mappedData,
+			update: {
+				...mappedData,
+				AppealCase: { connect: { caseReference: data.caseReference } }
+			},
 			where: {
 				representationId
 			}
