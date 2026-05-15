@@ -235,7 +235,7 @@ Cypress.Commands.add('loginWithPuppeteer', (user) => {
 				secure: cookie.secure,
 				log: false
 			});
-			if (cookiesToSet.includes(cookie.name)) {				
+			if (cookiesToSet.includes(cookie.name)) {
 				cy.getCookie(cookie.name).should('not.be.empty');
 			}
 		});
@@ -285,7 +285,12 @@ Cypress.Commands.add('updateAppealDetailsViaApi', (caseObj, caseDetails) => {
 
 Cypress.Commands.add('startAppeal', (caseObj) => {
 	return appealsApiClient.startAppeal(caseObj).then(() => {
-		
+
+	});
+});
+
+Cypress.Commands.add('startAppealWithPreference', (caseObj, preference) => {
+	return appealsApiClient.startAppealWithPreference(caseObj, preference).then(() => {
 	});
 });
 
@@ -376,5 +381,33 @@ Cypress.Commands.add('issueDecisionViaApi', (caseObj) => {
 		await appealsApiClient.issueDecision(caseObj);
 		cy.log('Issue allowed decision for case ref ' + caseObj);
 		cy.reload();
+	});
+});
+
+Cypress.Commands.add('setupHearingViaApi', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.setupHearing(caseObj);
+		cy.log('Setup hearing for case ref' + caseObj);
+		cy.reload();
+	});
+});
+
+Cypress.Commands.add('addEstimateViaApi', (procedureType, caseObj, estimate = null) => {
+	return cy.wrap(null).then(async () => {
+		const details = await appealsApiClient.loadCaseDetails(caseObj);
+		if (!details) {
+			throw new Error(`Failed to load case details for ${caseObj}`);
+		}
+		const appealId = details.appealId;
+		console.log(estimate);
+		return await appealsApiClient.addEstimate(procedureType, appealId, estimate);
+	});
+});
+
+Cypress.Commands.add('simulateHearingElapsed', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		return appealsApiClient.simulateHearingElapsed(caseObj).then(() => {
+			cy.log(`Simulated hearing elapsed for case ref ${caseObj}`);
+		});
 	});
 });

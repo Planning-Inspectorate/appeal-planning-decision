@@ -63,6 +63,53 @@ export const listedBuildingRefusedTestCases = [
         }
     },
     {
+        tags: ['smoke'],
+        statusOfOriginalApplication: 'refused',
+        typeOfDecisionRequested: 'hearing',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-listed-building',
+        endToEndIntegration: true,
+        applicationForm: {
+            isAppellant: true,
+            areaUnits: 'hectare',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            // knowsAllOwners: 'yes',
+            knowsOtherOwners: 'yes',
+            isAgriculturalHolding: false,
+            // isTenantAgricultureHolding : true,
+            // anyOtherTenants: true,
+            majorMionorDevelopmentData: 'major',
+            applicationAboutData: 'householder',
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,
+            appellantProcedurePreference: 'hearing',
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: false
+        },
+        uploadDocuments: {
+            submitPlanningObligation: true,
+            finalisedPlanningStatus: 'ready',
+            haveSeparateOwnershipAndLandDecl: true,
+            isApplyAwardCost: true,
+            isSubmitDesignAndAccessStmt: true,
+            isNewPlanOrDrawingAvailable: true,
+            isOtherNewDocumentAvailable: true
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }
+    },
+    {
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',

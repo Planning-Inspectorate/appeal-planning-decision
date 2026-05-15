@@ -1,20 +1,20 @@
 
 const documents = {
-    uploadAppealStmt:'appeal-statement-valid.pdf',
-    uploadApplicationForAppealCost:'other-supporting-docs.pdf',
-    uploadNewPlanOrDrawing:'plans-drawings.jpeg',
-    uploadOtherNewSupportDoc:'other-supporting-docs.pdf',
-    uploadSeparateOwnershipCertAndAgricultureDoc:'draft-planning-obligation.pdf',
-    uploadDesignAndAccessStmt:'design-and-access-statement.pdf',
-    uploadPlansDrawingAndSupportingDocs:'plans-drawings-and-supporting-documents.pdf',
-    uploadFinalisingDocReady:'additional-final-comments-2.pdf',
-    uploadFinalisingDocDraft:'additional-final-comments-2.pdf',
-    uploadDevelopmentDescription:'additional-final-comments-1.pdf',
-    uploadDecisionLetter:'decision-letter.pdf', 
-    uploadPlanningApplConfirmLetter:'letter-confirming-planning-application.pdf',
-    uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf'        
+    uploadAppealStmt: 'appeal-statement-valid.pdf',
+    uploadApplicationForAppealCost: 'other-supporting-docs.pdf',
+    uploadNewPlanOrDrawing: 'plans-drawings.jpeg',
+    uploadOtherNewSupportDoc: 'other-supporting-docs.pdf',
+    uploadSeparateOwnershipCertAndAgricultureDoc: 'draft-planning-obligation.pdf',
+    uploadDesignAndAccessStmt: 'design-and-access-statement.pdf',
+    uploadPlansDrawingAndSupportingDocs: 'plans-drawings-and-supporting-documents.pdf',
+    uploadFinalisingDocReady: 'additional-final-comments-2.pdf',
+    uploadFinalisingDocDraft: 'additional-final-comments-2.pdf',
+    uploadDevelopmentDescription: 'additional-final-comments-1.pdf',
+    uploadDecisionLetter: 'decision-letter.pdf',
+    uploadPlanningApplConfirmLetter: 'letter-confirming-planning-application.pdf',
+    uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf'
 };
-export const listedBuildingNoDecisionTestCases = 	[
+export const listedBuildingNoDecisionTestCases = [
     {
         tags: ['smoke'],
         statusOfOriginalApplication: 'no decision',
@@ -24,12 +24,12 @@ export const listedBuildingNoDecisionTestCases = 	[
         endToEndIntegration: true,
         applicationForm: {
             isAppellant: true,
-            areaUnits:'hectare',
+            areaUnits: 'hectare',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
-           // knowsAllOwners: 'yes',
-            knowsOtherOwners: 'yes',            
+            // knowsAllOwners: 'yes',
+            knowsOtherOwners: 'yes',
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             majorMionorDevelopmentData: 'major',
@@ -37,7 +37,7 @@ export const listedBuildingNoDecisionTestCases = 	[
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'written',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -57,21 +57,65 @@ export const listedBuildingNoDecisionTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
+        tags: ['smoke'],
+        statusOfOriginalApplication: 'no decision',
+        typeOfDecisionRequested: 'hearing',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-listed-building',
+        endToEndIntegration: true,
+        applicationForm: {
+            isAppellant: true,
+            areaUnits: 'hectare',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            // knowsAllOwners: 'yes',
+            knowsOtherOwners: 'yes',
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            majorMionorDevelopmentData: 'major',
+            applicationAboutData: 'householder',
+            iaUpdateDevelopmentDescription: true,
+            appellantProcedurePreference: 'hearing',
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: false
+        },
+        uploadDocuments: {
+            submitPlanningObligation: true,
+            finalisedPlanningStatus: 'ready',
+            haveSeparateOwnershipAndLandDecl: true,
+            isApplyAwardCost: true,
+            isSubmitDesignAndAccessStmt: true,
+            isNewPlanOrDrawingAvailable: true,
+            isOtherNewDocumentAvailable: true
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }
+    },
+    {
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-listed-building',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
-           // knowsAllOwners: 'yes',
-            knowsOtherOwners: 'some',            
+            // knowsAllOwners: 'yes',
+            knowsOtherOwners: 'some',
             majorMionorDevelopmentData: 'minor',
             applicationAboutData: 'changeofuse',
             isInspectorNeedAccess: true,
@@ -79,7 +123,7 @@ export const listedBuildingNoDecisionTestCases = 	[
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'hearing',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -99,21 +143,21 @@ export const listedBuildingNoDecisionTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-listed-building',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
-           // knowsAllOwners: 'yes',
-            knowsOtherOwners: 'no',           
+            // knowsAllOwners: 'yes',
+            knowsOtherOwners: 'no',
             majorMionorDevelopmentData: 'other',
             applicationAboutData: 'mineralworkings',
             isInspectorNeedAccess: true,
@@ -121,7 +165,7 @@ export const listedBuildingNoDecisionTestCases = 	[
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -141,21 +185,21 @@ export const listedBuildingNoDecisionTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },    
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-listed-building',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: false,
             knowsAllOwners: 'some',
-           // knowsOtherOwners: 'no',           
+            // knowsOtherOwners: 'no',           
             majorMionorDevelopmentData: 'major',
             applicationAboutData: 'dwellings',
             isInspectorNeedAccess: true,
@@ -163,7 +207,7 @@ export const listedBuildingNoDecisionTestCases = 	[
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'written',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -183,21 +227,21 @@ export const listedBuildingNoDecisionTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-listed-building',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: false,
             knowsAllOwners: 'no',
-           // knowsOtherOwners: 'no',           
+            // knowsOtherOwners: 'no',           
             majorMionorDevelopmentData: 'minor',
             applicationAboutData: 'industrystorage',
             isInspectorNeedAccess: true,
@@ -205,7 +249,7 @@ export const listedBuildingNoDecisionTestCases = 	[
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'hearing',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -225,21 +269,21 @@ export const listedBuildingNoDecisionTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-listed-building',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: true,
             //isOwnsSomeLand: false,
             //knowsAllOwners: 'no',
-           // knowsOtherOwners: 'no',           
+            // knowsOtherOwners: 'no',           
             majorMionorDevelopmentData: 'other',
             applicationAboutData: 'offices',
             isInspectorNeedAccess: true,
@@ -247,7 +291,7 @@ export const listedBuildingNoDecisionTestCases = 	[
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -267,21 +311,21 @@ export const listedBuildingNoDecisionTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-listed-building',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: true,
             //isOwnsSomeLand: false,
             //knowsAllOwners: 'no',
-           // knowsOtherOwners: 'no',         
+            // knowsOtherOwners: 'no',         
             majorMionorDevelopmentData: 'major',
             applicationAboutData: 'retailservices',
             isInspectorNeedAccess: true,
@@ -289,7 +333,7 @@ export const listedBuildingNoDecisionTestCases = 	[
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'written',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -309,21 +353,21 @@ export const listedBuildingNoDecisionTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-listed-building',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: true,
             //isOwnsSomeLand: false,
             //knowsAllOwners: 'no',
-           // knowsOtherOwners: 'no',            
+            // knowsOtherOwners: 'no',            
             majorMionorDevelopmentData: 'minor',
             applicationAboutData: 'travellercaravan',
             isInspectorNeedAccess: true,
@@ -331,7 +375,7 @@ export const listedBuildingNoDecisionTestCases = 	[
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'hearing',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -348,20 +392,20 @@ export const listedBuildingNoDecisionTestCases = 	[
         }, {
             appealReferenceNumber: '7654321'
         }]
-     },
-     {
+    },
+    {
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-listed-building',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: true,
             //isOwnsSomeLand: false,
             //knowsAllOwners: 'no',
-           // knowsOtherOwners: 'no',            
+            // knowsOtherOwners: 'no',            
             majorMionorDevelopmentData: 'other',
             applicationAboutData: 'other',
             isInspectorNeedAccess: true,
@@ -369,7 +413,7 @@ export const listedBuildingNoDecisionTestCases = 	[
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -389,21 +433,21 @@ export const listedBuildingNoDecisionTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-listed-building',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
             //knowsAllOwners: 'no',
-            knowsOtherOwners: 'no',            
+            knowsOtherOwners: 'no',
             majorMionorDevelopmentData: 'major',
             applicationAboutData: 'householder',
             isInspectorNeedAccess: false,
@@ -411,7 +455,7 @@ export const listedBuildingNoDecisionTestCases = 	[
             iaUpdateDevelopmentDescription: false,
             appellantProcedurePreference: 'written',
             anyOtherAppeals: false,
-          //  isAppellantLinkedCaseAdd: true            
+            //  isAppellantLinkedCaseAdd: true            
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -428,5 +472,5 @@ export const listedBuildingNoDecisionTestCases = 	[
         }, {
             appealReferenceNumber: '7654321'
         }],
-     }    
+    }
 ]

@@ -63,6 +63,53 @@ export const listedBuildingGrantedTestCases = [
         }
     },
     {
+        tags: ['smoke'],
+        statusOfOriginalApplication: 'granted',
+        typeOfDecisionRequested: 'hearing',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-listed-building',
+        endToEndIntegration: true,
+        applicationForm: {
+            isAppellant: true,
+            areaUnits: 'squaremeter',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            // knowsAllOwners: 'yes',
+            knowsOtherOwners: 'no',
+            isAgriculturalHolding: false,
+            // isTenantAgricultureHolding : true,
+            // anyOtherTenants: true,
+            majorMionorDevelopmentData: 'other',
+            applicationAboutData: 'mineralworkings',
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,
+            appellantProcedurePreference: 'hearing',
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: false
+        },
+        uploadDocuments: {
+            submitPlanningObligation: true,
+            finalisedPlanningStatus: 'ready',
+            haveSeparateOwnershipAndLandDecl: true,
+            isApplyAwardCost: true,
+            isSubmitDesignAndAccessStmt: true,
+            isNewPlanOrDrawingAvailable: true,
+            isOtherNewDocumentAvailable: true
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }
+    },
+    {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
@@ -466,7 +513,5 @@ export const listedBuildingGrantedTestCases = [
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
         }
-
     }
-
 ]
