@@ -49,23 +49,23 @@ export const appealsApiClient = {
 		}
 	},
 
-	// async simulateHearingElapsed(reference) {
-	// 	try {
-	// 		const url = `${baseUrl}appeals/${reference}/hearing-elapsed`;
-	// 		const response = await fetch(url, {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-	// 			}
-	// 		});
+	async simulateHearingElapsed(reference) {
+		try {
+			const url = `${baseUrl}appeals/${reference}/hearing-elapsed`;
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				}
+			});
 
-	// 		expect(response.status).eq(200);
-	// 		return await response.json();
-	// 	} catch {
-	// 		return false;
-	// 	}
-	// },
+			expect(response.status).eq(200);
+			return await response.json();
+		} catch {
+			return false;
+		}
+	},
 
 	async simulateStatementsElapsed(reference) {
 		try {
@@ -102,19 +102,21 @@ export const appealsApiClient = {
 		}
 	},
 	async loadCaseDetails(reference) {
-		// Use Cypress request so the test runner controls timing/cleanup
-		return cy.request({
-			method: 'GET',
-			url: `${baseUrl}appeals/case-reference/${reference}`,
-			headers: {
-				'Content-Type': 'application/json',
-				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-			},
-			failOnStatusCode: false
-		}).then(({ status, body }) => {
-			expect(status).to.eq(200);
-			return body;
-		});
+		try {
+			const url = `${baseUrl}appeals/case-reference/${reference}`;
+			const response = await fetch(url, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				}
+			});
+			expect(response.status).to.eq(200);
+			return await response.json();
+		} catch (error) {
+			cy.log(`Error loading case details for ${reference}: ${error}`);
+			return null;
+		}
 	},
 	getBusinessDate(date, days = 7) {
 		return cy.request({
@@ -413,45 +415,52 @@ export const appealsApiClient = {
 		}
 	},
 
-	// async setupHearing(reference) {
-	// 	try {
-	// 		const url = `${baseUrl}appeals/${reference}/set-up-hearing`;
-	// 		const response = await fetch(url, {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-	// 			}
-	// 		});
-	// 		expect(response.status).eq(201);
-	// 	} catch {
-	// 		return false;
-	// 	}
-	// },
+	async setupHearing(reference) {
+		try {
+			const url = `${baseUrl}appeals/${reference}/set-up-hearing`;
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				}
+			});
+			expect(response.status).eq(201);
 
-	// async addEstimate(procedureType, appealId, estimate = null) {
-	// 	try {
-	// 		let requestBody;
-	// 		if (estimate) {
-	// 			requestBody = estimate;
-	// 		} else requestBody = createApiSubmission(appealsApiRequests.estimateDetails);
+			const responseBody = await response.json();
 
-	// 		const url = `${baseUrl}appeals/${appealId}/${procedureType}-estimates`;
-	// 		const response = await fetch(url, {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
-	// 			},
-	// 			body: JSON.stringify(requestBody)
-	// 		});
+			expect(responseBody).to.be.an('object');
+			expect(responseBody).to.have.keys(['appealId', 'hearingStartTime', 'hearingEndTime']);
+		} catch (error) {
+			cy.log(`Error setting up hearing for appeal ${reference}: ${error}`);
+			return false;
+		}
+	},
 
-	// 		expect(response.status).eq(201);
-	// 		return await response.json();
-	// 	} catch {
-	// 		return false;
-	// 	}
-	// },
+	async addEstimate(procedureType, appealId, estimate = null) {
+		try {
+			let requestBody;
+			if (estimate) {
+				requestBody = estimate;
+			} else requestBody = {};
+
+			const url = `${baseUrl}appeals/${appealId}/${procedureType}-estimates`;
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				},
+				body: JSON.stringify(requestBody)
+			});
+
+			expect(response.status).to.eq(201);
+			return await response.json();
+		} catch (error) {
+			cy.log(`Error adding estimate for appeal ${appealId}: ${error}`);
+			return false;
+		}
+	},
 
 	// async deleteEstimate(procedureType, appealId) {
 	// 	try {
@@ -521,6 +530,25 @@ export const appealsApiClient = {
 			return true;
 		});
 	},
+
+	startAppealWithPreference(appealReference, preference) {
+		return cy.request({
+			method: 'POST',
+			url: `${baseUrl}appeals/${appealReference}/start-appeal`,
+			headers: {
+				'Content-Type': 'application/json',
+				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+			},
+			body: {
+				procedureType: preference
+			},
+			failOnStatusCode: false
+		}).then(({ status }) => {
+			expect(status).to.eq(201);
+			return true;
+		});
+	},
+
 
 	// reviewLpaq(appealReference) {
 	// 	return cy.request({
