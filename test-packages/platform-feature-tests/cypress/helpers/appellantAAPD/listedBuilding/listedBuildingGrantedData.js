@@ -63,7 +63,7 @@ export const listedBuildingGrantedTestCases = [
         }
     },
     {
-        tags: ['smoke'],
+        tags: ['hearing'],
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
