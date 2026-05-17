@@ -19,7 +19,7 @@ const documents = {
 };
 export const fullAppealRefusedTestCases = [
     {
-        tags: ['smoke'],
+        tags: ['expedited'],
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',

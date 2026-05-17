@@ -63,7 +63,7 @@ export const listedBuildingRefusedTestCases = [
         }
     },
     {
-        tags: ['smoke'],
+        tags: ['hearing'],
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
