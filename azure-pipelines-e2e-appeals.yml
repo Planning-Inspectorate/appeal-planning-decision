@@ -9,6 +9,9 @@ parameters:
   - name: SmokeOnly
     type: boolean
     default: true
+  - name: TestTag
+    type: string
+    default: ''
 
 variables:
   - name: APP
@@ -92,7 +95,10 @@ jobs:
           cd test-packages/platform-feature-tests
           echo "Running specs for group $(GROUP_NAME): $(SPEC)"
           SMOKE_ONLY_NORMALIZED=$(echo "${SMOKE_ONLY:-}" | tr '[:upper:]' '[:lower:]')
-          if [ "$SMOKE_ONLY_NORMALIZED" = "true" ]; then
+          if [ -n "${TEST_TAG:-}" ]; then
+            echo "Running tests with tag: $TEST_TAG"
+            TAG_ARGS="--env grepTags=$TEST_TAG,grepFilterSpecs=true,grepOmitFiltered=true"
+          elif [ "$SMOKE_ONLY_NORMALIZED" = "true" ]; then
             echo "SmokeOnly enabled: running @smoke tagged tests only"
             TAG_ARGS="--env grepTags=smoke,grepFilterSpecs=true,grepOmitFiltered=true"
           else
@@ -108,6 +114,7 @@ jobs:
           GROUP_NAME: $(GROUP_NAME)
           SPEC: $(SPEC)
           SMOKE_ONLY: ${{ parameters.SmokeOnly }}
+          TEST_TAG: ${{ parameters.TestTag }}
         displayName: 'Run Cypress Tests'
 
       - task: PublishBuildArtifacts@1
