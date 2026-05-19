@@ -5,7 +5,6 @@ const VIEW = {
 	YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal',
 
 	BEFORE_YOU_START: {
-		FIRST_PAGE: 'before-you-start/first-page',
 		LOCAL_PLANNING: 'before-you-start/local-planning-authority',
 		USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
 			'before-you-start/use-existing-service-enforcement-notice',
