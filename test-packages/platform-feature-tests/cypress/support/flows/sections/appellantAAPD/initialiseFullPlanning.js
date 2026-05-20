@@ -111,12 +111,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 		//Contact details
 		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/application-name`);
 		applicationNamePage.addApplicationNameData(context?.applicationForm?.isAppellant, prepareAppealData);
-		if (expeditedAppeal) {
-			const applicationNumber = `TEST-${Date.now()}`;
-			cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/reference-number`);
-			cy.get(prepareAppealSelector?._selectors?.applicationReference).type(applicationNumber);
-			cy.advanceToNextPage();
-		}
+
 
 		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/contact-details`);
 		contactDetailsPage.addContactDetailsData(context, prepareAppealSelector?._selectors?.fullPlanningApplicaitonType, prepareAppealData);
@@ -149,12 +144,12 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 		//Health and safety issues
 		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/health-safety-issues`);
 		healthSafetyIssuesPage.addHealthSafetyIssuesData(context, prepareAppealData);
+		//What is the application reference number?
+		const applicationNumber = `TEST-${Date.now()}`;
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/reference-number`);
+		cy.get(prepareAppealSelector?._selectors?.applicationReference).type(applicationNumber);
+		cy.advanceToNextPage();
 		if (!expeditedAppeal) {
-			//What is the application reference number?
-			const applicationNumber = `TEST-${Date.now()}`;
-			cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/reference-number`);
-			cy.get(prepareAppealSelector?._selectors?.applicationReference).type(applicationNumber);
-			cy.advanceToNextPage();
 			//What date did you submit your application?
 			cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/application-date`);
 			cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).clear()
@@ -210,25 +205,10 @@ module.exports = (planning, grantedOrRefusedId, applicationType, expeditedAppeal
 
 		separateOwnershipCertificatePage.addSeparateOwnershipCertificateData(context);
 
-		// Agreement to change the description of development		
-		if (expeditedAppeal) {
-			if (context?.applicationForm?.iaUpdateDevelopmentDescription) {
-				//Upload evidence of your agreement to change the description of development
-				cy.uploadFileFromFixtureDirectory(context?.documents?.uploadDevelopmentDescription);
-				cy.advanceToNextPage();
-			}
-			// Did you submit an environmental statement with the application?
-			cy.getByData(basePage?._selectors.answerYes).click();
+		if (context?.applicationForm?.appellantProcedurePreference !== prepareAppealSelector?._selectors?.statusOfOriginalApplicationWritten) {
+			//Upload your draft statement of common ground			
+			cy.uploadFileFromFixtureDirectory(context?.documents?.uploadDraftStatementOfCommonGround);
 			cy.advanceToNextPage();
-			// Upload your environmental statement
-			cy.uploadFileFromFixtureDirectory(context?.documents?.uploadEnvironmentalStmt);
-			cy.advanceToNextPage();
-		} else {
-			if (context?.applicationForm?.appellantProcedurePreference !== prepareAppealSelector?._selectors?.statusOfOriginalApplicationWritten) {
-				//Upload your draft statement of common ground			
-				cy.uploadFileFromFixtureDirectory(context?.documents?.uploadDraftStatementOfCommonGround);
-				cy.advanceToNextPage();
-			}
 		}
 
 		applyAppealCostsPage.addApplyAppealCostsData(context);
