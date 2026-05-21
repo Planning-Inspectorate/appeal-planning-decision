@@ -67,6 +67,7 @@ class UserAppealsRepository {
 											caseReference: true,
 											appellantCommentsSubmittedDate: true,
 											appellantProofsSubmittedDate: true,
+											appellantStatementSubmittedDate: true,
 											finalCommentsDueDate: true,
 											proofsOfEvidenceDueDate: true,
 											statementDueDate: true,
