@@ -11,8 +11,12 @@ const {
 const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 
-exports.getEnforcementNotice = (req, res) => {
+exports.getEnforcementNotice = async (req, res) => {
 	const { appeal } = req.session;
+	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
+
+	if (isNewBYSFlow) return res.redirect(`/before-you-start/type-of-planning-application`);
+
 	res.render(ENFORCEMENT_NOTICE, {
 		appeal
 	});

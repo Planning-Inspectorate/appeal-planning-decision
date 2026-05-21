@@ -35,6 +35,8 @@ const TYPE_OF_PLANNING_APPLICATION = {
 	FULL_APPEAL: 'full-appeal',
 	HOUSEHOLDER_PLANNING: 'householder-planning',
 	LISTED_BUILDING: 'listed-building',
+	ENFORCEMENT_NOTICE: 'enforcement-notice',
+	ENFORCEMENT_LISTED_BUILDING: 'enforcement-listed-building',
 	OUTLINE_PLANNING: 'outline-planning',
 	PRIOR_APPROVAL: 'prior-approval',
 	RESERVED_MATTERS: 'reserved-matters',

@@ -9,6 +9,8 @@ const {
 	departmentsToNunjucksItems
 } = require('../../lib/planning-departments-to-nunjucks-list-items');
 const { VIEW } = require('../../lib/views');
+const { FLAG } = require('@pins/common/src/feature-flags');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 exports.getPlanningDepartment = async (req, res) => {
 	const { eligibleDepartments } = await getRefreshedDepartmentData();
@@ -59,6 +61,10 @@ exports.postPlanningDepartment = async (req, res) => {
 			errorSummary: [{ text: e.toString(), href: 'local-planning-department' }]
 		});
 	}
+
+	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
+
+	if (isNewBYSFlow) return res.redirect(`/before-you-start/type-of-planning-application`);
 
 	return res.redirect(`/before-you-start/enforcement-notice`);
 };

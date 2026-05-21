@@ -42,13 +42,20 @@ describe('controllers/before-you-start/enforcement-notice', () => {
 	});
 
 	describe('getEnforcementNotice', () => {
-		it('should call the correct template', () => {
-			req.session.appeal.eligibility.applicationDecision = 'granted';
-			getEnforcementNotice(req, res);
+		it('should call the correct template - new bys flow flag is off', async () => {
+			isLpaInFeatureFlag.mockResolvedValueOnce(false);
+			await getEnforcementNotice(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE, {
 				appeal: req.session.appeal
 			});
+		});
+
+		it('should call the correct redirect - new bys flow flag is on', async () => {
+			isLpaInFeatureFlag.mockResolvedValueOnce(true);
+			await getEnforcementNotice(req, res);
+
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/type-of-planning-application');
 		});
 	});
 

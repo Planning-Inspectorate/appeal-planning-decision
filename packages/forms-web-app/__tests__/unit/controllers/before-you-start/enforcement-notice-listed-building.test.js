@@ -40,13 +40,20 @@ describe('controllers/before-you-start/enforcement-notice-listed-building', () =
 	});
 
 	describe('getEnforcementNoticeListedBuilding', () => {
-		it('should call the correct template', () => {
-			req.session.appeal.eligibility.applicationDecision = 'granted';
-			getEnforcementNoticeListedBuilding(req, res);
+		it('should call the correct template- new bys flow flag off', async () => {
+			isLpaInFeatureFlag.mockResolvedValueOnce(false);
+			await getEnforcementNoticeListedBuilding(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE_LISTED_BUILDING, {
 				appeal: req.session.appeal
 			});
+		});
+
+		it('should call the correct redirect - new bys flow flag is on', async () => {
+			isLpaInFeatureFlag.mockResolvedValueOnce(true);
+			await getEnforcementNoticeListedBuilding(req, res);
+
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/type-of-planning-application');
 		});
 	});
 

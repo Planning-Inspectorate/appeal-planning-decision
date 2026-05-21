@@ -30,7 +30,9 @@ const {
 			ADVERTISEMENT,
 			LAWFUL_DEVELOPMENT_CERTIFICATE,
 			PRIOR_APPROVAL,
-			REMOVAL_OR_VARIATION_OF_CONDITIONS
+			REMOVAL_OR_VARIATION_OF_CONDITIONS,
+			ENFORCEMENT_LISTED_BUILDING,
+			ENFORCEMENT_NOTICE
 		}
 	}
 } = require('@pins/business-rules');
@@ -61,20 +63,47 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 	});
 
 	describe('Type of Planning Application Controller Tests', () => {
-		it('should call the correct template on getTypeOfPlanningApplication - v2', async () => {
-			isLpaInFeatureFlag.mockReturnValue(true);
+		it('should call the correct template on getTypeOfPlanningApplication - v2, isNewBYSFlow === false', async () => {
+			// v2 for LDC
+			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			// new bys flow
+			isLpaInFeatureFlag.mockReturnValueOnce(false);
 			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
 			await getTypeOfPlanningApplication(req, res);
 
-			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, 'full-appeal');
+			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, false, 'full-appeal');
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				typeOfPlanningApplication: 'full-appeal',
+				titleText: 'What type of application is your appeal about?',
+				hint: {
+					text: 'You can check this on your application form.'
+				},
 				radioItems: mockRadioItems
 			});
 		});
 
-		it('should redirect to the listed building page if HAS - v2 (s20 flag)', async () => {
-			isLpaInFeatureFlag.mockReturnValueOnce(true); //s20
+		it('should call the correct template on getTypeOfPlanningApplication - isNewBYSFlow === true', async () => {
+			// v2 for LDC
+			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			// new bys flow
+			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			typeOfPlanningApplicationRadioItems.mockReturnValueOnce(mockRadioItems);
+			await getTypeOfPlanningApplication(req, res);
+
+			expect(typeOfPlanningApplicationRadioItems).toHaveBeenCalledWith(true, true, 'full-appeal');
+			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
+				typeOfPlanningApplication: 'full-appeal',
+				titleText: 'What is your appeal about?',
+				hint: {},
+				radioItems: mockRadioItems
+			});
+		});
+
+		it('should redirect to the listed building page if HAS - v2, isNewBYSFlow === false', async () => {
+			// v2 for LDC
+			isLpaInFeatureFlag.mockReturnValueOnce(true);
+			// new bys flow
+			isLpaInFeatureFlag.mockReturnValueOnce(false);
 
 			const planningApplication = 'householder-planning';
 			const mockRequest = {
@@ -88,6 +117,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
 			updatedAppeal.eligibility.isListedBuilding = false;
+			updatedAppeal.eligibility.enforcementNoticeListedBuilding = false;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal
@@ -109,6 +139,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			const updatedAppeal = appeal;
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
+			updatedAppeal.eligibility.enforcementNoticeListedBuilding = false;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal
@@ -130,6 +161,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			const updatedAppeal = appeal;
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
+			updatedAppeal.eligibility.enforcementNoticeListedBuilding = false;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal
@@ -137,6 +169,36 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/cannot-use-this-service');
 		});
+
+		const enforcementTypes = [ENFORCEMENT_NOTICE, ENFORCEMENT_LISTED_BUILDING];
+
+		it.each(enforcementTypes)(
+			'should redirect to the enforcement notice received page if type %s',
+			async (type) => {
+				const planningApplication = type;
+
+				const mockRequest = {
+					...req,
+					body: { 'type-of-planning-application': planningApplication }
+				};
+
+				await postTypeOfPlanningApplication(mockRequest, res);
+
+				const updatedAppeal = appeal;
+				updatedAppeal.appealType = mapPlanningApplication(planningApplication);
+				updatedAppeal.typeOfPlanningApplication = planningApplication;
+				updatedAppeal.eligibility.isListedBuilding = type === LISTED_BUILDING;
+				updatedAppeal.eligibility.enforcementNotice = true;
+				updatedAppeal.eligibility.enforcementNoticeListedBuilding =
+					type === ENFORCEMENT_LISTED_BUILDING;
+
+				expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+					...updatedAppeal
+				});
+
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/enforcement-issue-date');
+			}
+		);
 
 		const defaultTypes = [LISTED_BUILDING];
 
@@ -155,6 +217,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
 			updatedAppeal.eligibility.isListedBuilding = type === LISTED_BUILDING;
+			updatedAppeal.eligibility.enforcementNoticeListedBuilding = false;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal
@@ -179,6 +242,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			const updatedAppeal = appeal;
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
+			updatedAppeal.eligibility.enforcementNoticeListedBuilding = false;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal
@@ -208,6 +272,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 				updatedAppeal.typeOfPlanningApplication = planningApplication;
 				updatedAppeal.eligibility.isListedBuilding = false;
+				updatedAppeal.eligibility.enforcementNoticeListedBuilding = false;
 
 				expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 					...updatedAppeal
@@ -230,6 +295,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			const updatedAppeal = appeal;
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
+			updatedAppeal.eligibility.enforcementNoticeListedBuilding = false;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal
@@ -254,6 +320,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
 			updatedAppeal.eligibility.isListedBuilding = true;
+			updatedAppeal.eligibility.enforcementNoticeListedBuilding = false;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal
@@ -282,6 +349,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
 			updatedAppeal.eligibility.isListedBuilding = false;
+			updatedAppeal.eligibility.enforcementNoticeListedBuilding = false;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal
@@ -310,6 +378,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			updatedAppeal.appealType = mapPlanningApplication(planningApplication);
 			updatedAppeal.typeOfPlanningApplication = planningApplication;
 			updatedAppeal.eligibility.isListedBuilding = true;
+			updatedAppeal.eligibility.enforcementNoticeListedBuilding = false;
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...updatedAppeal
@@ -338,6 +407,10 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				typeOfPlanningApplication: undefined,
+				hint: {
+					text: 'You can check this on your application form.'
+				},
+				titleText: 'What type of application is your appeal about?',
 				radioItems: mockRadioItems,
 				errors: {
 					'type-of-planning-application': {

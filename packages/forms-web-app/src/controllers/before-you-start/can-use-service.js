@@ -37,7 +37,9 @@ const {
 		LISTED_BUILDING,
 		MINOR_COMMERCIAL_DEVELOPMENT,
 		ADVERTISEMENT,
-		LAWFUL_DEVELOPMENT_CERTIFICATE
+		LAWFUL_DEVELOPMENT_CERTIFICATE,
+		ENFORCEMENT_NOTICE,
+		ENFORCEMENT_LISTED_BUILDING
 	}
 } = require('@pins/business-rules/src/constants');
 const config = require('../../config');
@@ -251,6 +253,8 @@ const canUseServiceEnforcement = async (req, res) => {
 		deadlineDate
 	} = await getEnforcementNoticeProps(appeal);
 
+	// Note, once NEW_BYS_ENFORCEMENT flag is on for all LPAs will be able to use
+	// typeOfPlanningApplication prop from appeal
 	const appealType = appeal.eligibility.enforcementNoticeListedBuilding
 		? 'ENFORCEMENT_LISTED_BUILDING'
 		: 'ENFORCEMENT';
@@ -284,6 +288,7 @@ const canUseServiceEnforcement = async (req, res) => {
 exports.getCanUseService = async (req, res) => {
 	const { appeal } = req.session;
 
+	// NOTE - this clause can be removed once NEW_BYS_ENFORCEMENT flag on for all
 	if (appeal.eligibility?.enforcementNotice) {
 		return await canUseServiceEnforcement(req, res);
 	}
@@ -310,6 +315,10 @@ exports.getCanUseService = async (req, res) => {
 			break;
 		case REMOVAL_OR_VARIATION_OF_CONDITIONS:
 			await canUseServiceRemovalOrVariationOfConditions(req, res);
+			break;
+		case ENFORCEMENT_NOTICE:
+		case ENFORCEMENT_LISTED_BUILDING:
+			await canUseServiceEnforcement(req, res);
 			break;
 		default:
 			await canUseServiceHouseholderPlanning(req, res);
