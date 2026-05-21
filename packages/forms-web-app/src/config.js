@@ -98,7 +98,7 @@ module.exports = {
 		defaultDisplayDateFormat: 'DD MMMM YYYY'
 	},
 	appeals: {
-		startingPoint: '/before-you-start',
+		startingPoint: '/before-you-start/local-planning-authority',
 		startingPointEnrolUsersActive: '/appeal/new-saved-appeal',
 		timeout: numberWithDefault(process.env.APPEALS_SERVICE_API_TIMEOUT, 10000),
 		url: process.env.APPEALS_SERVICE_API_URL

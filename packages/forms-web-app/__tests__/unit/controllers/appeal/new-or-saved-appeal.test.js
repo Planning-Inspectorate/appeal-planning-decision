@@ -58,7 +58,7 @@ describe('controllers/appeal/new-or-saved-appeal', () => {
 		await post(req, res);
 
 		expect(req.session.loginRedirect).toBeUndefined();
-		expect(res.redirect).toHaveBeenCalledWith('/before-you-start');
+		expect(res.redirect).toHaveBeenCalledWith('/before-you-start/local-planning-authority');
 	});
 
 	it('Test post method redirects to correct page when user chose to return to an existing appeal', async () => {

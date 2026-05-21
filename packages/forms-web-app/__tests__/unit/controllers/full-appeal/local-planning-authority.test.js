@@ -14,10 +14,12 @@ const {
 	}
 } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 jest.mock('../../../../src/services/department.service');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
+jest.mock('../../../../src/lib/is-lpa-in-feature-flag');
 
 describe('controllers/full-appeal/local-planning-authority', () => {
 	let req;
@@ -97,7 +99,8 @@ describe('controllers/full-appeal/local-planning-authority', () => {
 			});
 		});
 		describe('postPlanningDepartment', () => {
-			it('updates appeal when request body valid and redirects correctly', async () => {
+			it('updates appeal when request body valid and redirects correctly - newBYSFLow flag off', async () => {
+				isLpaInFeatureFlag.mockReturnValueOnce(false);
 				getRefreshedDepartmentData.mockResolvedValue(departmentsData);
 				getDepartmentFromName.mockResolvedValue({ id: 'lpaCode1', name: 'lpa1' });
 
@@ -113,6 +116,25 @@ describe('controllers/full-appeal/local-planning-authority', () => {
 					lpaCode: 'lpaCode1'
 				});
 				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/enforcement-notice');
+			});
+
+			it('updates appeal when request body valid and redirects correctly - new bys flow flag on', async () => {
+				isLpaInFeatureFlag.mockReturnValueOnce(true);
+				getRefreshedDepartmentData.mockResolvedValue(departmentsData);
+				getDepartmentFromName.mockResolvedValue({ id: 'lpaCode1', name: 'lpa1' });
+
+				const mockRequest = {
+					...req,
+					body: { 'local-planning-department': 'lpa1' }
+				};
+
+				await postPlanningDepartment(mockRequest, res);
+
+				expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+					...appeal,
+					lpaCode: 'lpaCode1'
+				});
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/type-of-planning-application');
 			});
 
 			it('re-renders page with error when errors in request body', async () => {

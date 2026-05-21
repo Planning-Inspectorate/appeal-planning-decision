@@ -4,6 +4,8 @@ const {
 			FULL_APPEAL,
 			HOUSEHOLDER_PLANNING,
 			LISTED_BUILDING,
+			ENFORCEMENT_NOTICE,
+			ENFORCEMENT_LISTED_BUILDING,
 			I_HAVE_NOT_MADE_A_PLANNING_APPLICATION,
 			ADVERTISEMENT,
 			LAWFUL_DEVELOPMENT_CERTIFICATE,
@@ -19,10 +21,15 @@ const {
 
 /**
  * @param {boolean} isLDCFeatureFlag
+ * @param {boolean} isNewBYSFlow
  * @param {string} [typeOfPlanningApplication]
  * @returns {Array<object>} an array of objects representing govuk radio items
  */
-exports.typeOfPlanningApplicationRadioItems = (isLDCFeatureFlag, typeOfPlanningApplication) => {
+exports.typeOfPlanningApplicationRadioItems = (
+	isLDCFeatureFlag,
+	isNewBYSFlow,
+	typeOfPlanningApplication
+) => {
 	const items = [
 		{
 			value: FULL_APPEAL,
@@ -50,6 +57,18 @@ exports.typeOfPlanningApplicationRadioItems = (isLDCFeatureFlag, typeOfPlanningA
 			hint: {
 				text: 'Applications involving a listed building.'
 			}
+		},
+		{
+			value: ENFORCEMENT_NOTICE,
+			text: 'Enforcement notice',
+			attributes: { 'data-cy': 'answer-enforcement' },
+			checked: typeOfPlanningApplication === ENFORCEMENT_NOTICE
+		},
+		{
+			value: ENFORCEMENT_LISTED_BUILDING,
+			text: 'Enforcement notice for a listed building',
+			attributes: { 'data-cy': 'answer-enforcement-listed-building' },
+			checked: typeOfPlanningApplication === ENFORCEMENT_LISTED_BUILDING
 		},
 		{
 			value: ADVERTISEMENT,
@@ -135,5 +154,16 @@ exports.typeOfPlanningApplicationRadioItems = (isLDCFeatureFlag, typeOfPlanningA
 		? filteredItems
 		: filteredItems.filter((item) => item.value !== LAWFUL_DEVELOPMENT_CERTIFICATE);
 
+	filteredItems = isNewBYSFlow
+		? filteredItems
+		: filteredItems.filter((item) => !isEnforcementType(item.value));
+
 	return filteredItems;
 };
+
+/**
+ * @param {string | undefined} value
+ * @returns {boolean}
+ */
+const isEnforcementType = (value) =>
+	value === ENFORCEMENT_NOTICE || value === ENFORCEMENT_LISTED_BUILDING;
