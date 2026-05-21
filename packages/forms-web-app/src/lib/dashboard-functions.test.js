@@ -617,7 +617,7 @@ describe('lib/dashboard-functions', () => {
 					caseReference: testCaseRef,
 					appealTypeCode: processCode,
 					caseStatus: APPEAL_CASE_STATUS.STATEMENTS,
-					AppellantStatementSubmittedDate: null
+					appellantStatementSubmittedDate: null
 				};
 
 				calculateDueInDays.mockReturnValue(5);
