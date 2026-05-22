@@ -15,7 +15,18 @@ our current engineering team are skilled in Javascript, this means we do not nee
 to ensure features are complete. It also reduces the impedence to us as engineers since we're using 
 Javascript for everything.
 
-## What's the context for these texts?
+## Tests structure 
+
+The tests in this suite cover several applications that comprise the front office: 
+
+|                            |                                                                |
+|--------------------------- |----------------------------------------------------------------|
+| **appeals service**        | the main application used to submit a planning appeal          |
+| **appellant front office** | application used by an appellant to track their appeal         |
+| **lpa front office**       | application used by the LPA to track appeals                   |
+| **rule 6 front office**    | application used by rule 6 parties to track an application     | 
+
+These are localed within the `cypress/e2e` folder
 
 The tests here are intended to check behaviours exhibited by the whole platform i.e. if I upload an 
 appeal via the appeals web interface, does the correct information appear in Horizon? They're not 
@@ -26,8 +37,6 @@ These tests will always be the first ones to see a new feature: the "System Test
 local planning authority is used as a user in these tests, and this is always the first local 
 planning authority that a new feature is exposed to (see feature flag set-up on Azure and our 
 general process flow).
-
-## Can you explain your structure?
 
 Sure! Start off looking in the `e2e` directory, this directory contains the main test driver functions.
 Then, if you want to dig into details, check out `support/flows`, the files in here are flows through the
@@ -49,9 +58,48 @@ sections can contain somewhat repetitive actions, which are defined in `support/
 - We organize tests around user flows, rather than features since a user flow may contain 
 multiple features, so this results in less tests (more efficient tests, essentially).
 
-## How do I run these tests?
+## Running the tests 
 
-TL;DR
+The front office tests can be run in two different modes 
+
+
+### Headless 
+
+This will run all tests in a headless browser    
+
+This mode is good for 
+- speed compared to headed browser 
+- if want quick feedback on if tests are passing 
+
+You can use the following commands from the package.json for different environments 
+
+|         |                  |
+|---------|------------------|
+| local   | `cy:run`         |
+| dev     | `cy:run:dev`     |
+| test    | `cy:run:test`    |
+| staging | `cy:run:staging` | 
+
+
+### Interactive (or headed) mode 
+
+This will launch the cypress test explorer, from which you can browse and run the various tests 
+
+This mode is good for 
+- writing new tests to observe browser flow 
+- investigating and debugging failing tests 
+
+You can use the following commands from the package.json for different environments 
+
+|         |                   |
+|---------|-------------------|
+| local   | `cy:open`         |
+| dev     | `cy:open:dev`     |
+| test    | `cy:open:test`    |
+| staging | `cy:open:staging` | 
+
+
+## Installa and setup  
 
 - `npm install `
 - `npx cypress open`
