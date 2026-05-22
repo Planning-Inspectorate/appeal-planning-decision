@@ -6,10 +6,20 @@
 	"scripts": {
 		"cy:ci": "npx cypress run --spec \"cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-nodecision.cy.js\" --env grepTags=\"-smoke\"",
 		"cy:ci-smoke": "npx cypress run --spec \"cypress/e2e/appellant-aapd/submit-householder-appeal/submit-householder-appeal-nodecision.cy.js\" --env grepTags=\"smoke\"",
-		"cy:open": "npx cypress open --browser chrome --e2e",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"merge-reports": "mochawesome-merge cypress/reports/*.json > cypress/reports/reports.json",
-		"generate-report": "merge cypress/reports/report.json -f report -o cypress/reports"
+		"generate-report": "merge cypress/reports/report.json -f report -o cypress/reports",
+
+		"cy:open": "npx cypress open --browser chrome --e2e --config-file cypress.config.local.env.js",
+		"cy:open:dev": "npx cypress open --browser chrome --e2e --config-file cypress.config.dev.env.js",
+		"cy:open:test": "npx cypress open --browser chrome --e2e --config-file cypress.config.test.env.js",
+		"cy:open:staging": "npx cypress open --browser chrome --e2e --config-file cypress.config.staging.env.js", 
+
+		"cy:run": "npx cypress run --config-file cypress.config.local.env.js",
+		"cy:run:dev": "npx cypress run --config-file cypress.config.dev.env.js",
+		"cy:run:test": "npx cypress run --config-file cypress.config.test.env.js",
+		"cy:run:staging": "npx cypress run --config-file cypress.config.staging.env.js"
+
 	},
 	"author": "",
 	"license": "ISC",
