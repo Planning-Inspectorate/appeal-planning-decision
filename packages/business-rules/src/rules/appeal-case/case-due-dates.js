@@ -78,12 +78,7 @@ exports.isAppellantStatementOpen = (appealCaseData, featureFlags) =>
 	!!caseTypeLookup(appealCaseData.appealTypeCode, 'processCode', featureFlags)
 		?.hasAppellantStatementJourney &&
 	statementsAreOpen(appealCaseData) &&
-	!appealCaseData.appellantStatementSubmittedDate &&
-	!representationExists(appealCaseData.Representations, {
-		type: APPEAL_REPRESENTATION_TYPE.STATEMENT,
-		owned: true,
-		submitter: APPEAL_USER_ROLES.APPELLANT
-	});
+	!appealCaseData.appellantStatementSubmittedDate;
 
 /**
  * Checks if statements are open for all rule 6 parties

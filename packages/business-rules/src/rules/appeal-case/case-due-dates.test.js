@@ -268,15 +268,6 @@ describe('case-due-dates', () => {
 				expect(isAppellantStatementOpen(appealCaseData)).toBe(false);
 			});
 
-			it('should return false if representation exists for appellant statement', () => {
-				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
-				appealCaseData.statementDueDate = '2025-03-01';
-				deadlineHasPassed.mockReturnValue(false);
-				appealCaseData.caseStatus = APPEAL_CASE_STATUS.STATEMENTS;
-				representationExists.mockReturnValue(true);
-				expect(isAppellantStatementOpen(appealCaseData)).toBe(false);
-			});
-
 			it('should return false if appeal type is not allowed (e.g. S78)', () => {
 				appealCaseData.appealTypeCode = CASE_TYPES.S78.processCode;
 				appealCaseData.statementDueDate = '2025-03-01';
