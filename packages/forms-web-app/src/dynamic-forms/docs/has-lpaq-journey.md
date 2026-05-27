@@ -47,7 +47,7 @@ condition: () => questionHasAnswer(response, questions.howYouNotifiedPeople, 'ad
 
 ## Consultation responses and representations
 
-- boolean `/representations/` Did you receive representations from members of the public or other parties?
+- boolean `/representations/` Did you receive representations from members of the public or other parties about the original application?
 - multi-file-upload `/upload-representations/` Upload the representations
 
 ```js
