@@ -110,6 +110,7 @@ const {
 } = require('./questions-utils');
 const { capitalize } = require('../lib/string-functions');
 const WordValidator = require('@pins/dynamic-forms/src/validator/word-validator');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 const defaultFileUploadValidatorParams = {
 	allowedFileTypes: Object.values(allowedFileTypes),
@@ -389,7 +390,11 @@ exports.getQuestionProps = (response) => ({
 	representationsFromOthers: {
 		type: 'boolean',
 		title: 'Representations from other parties',
-		question: 'Did you receive representations from members of the public or other parties?',
+		question:
+			response.journeyId === JOURNEY_TYPES.S78_QUESTIONNAIRE_PART_1.id ||
+			response.journeyId === JOURNEY_TYPES.HAS_QUESTIONNAIRE.id
+				? 'Did you receive representations from members of the public or other parties about the original application?'
+				: 'Did you receive representations from members of the public or other parties?',
 		url: 'representations',
 		fieldName: 'otherPartyRepresentations',
 		validators: [

@@ -36715,7 +36715,7 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                 <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset" aria-describedby="otherPartyRepresentations-hint">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> Did you receive representations from members of the public or other parties?</h1>
+                            <h1 class="govuk-fieldset__heading"> Did you receive representations from members of the public or other parties about the original application?</h1>
                         </legend>
                         <div id="otherPartyRepresentations-hint" class="govuk-hint"></div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
@@ -37433,7 +37433,7 @@ exports[`Dynamic forms journey tests lpa Householder renders listing page 1`] = 
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Representations from other parties</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/consultation/representations">Answer<span class="govuk-visually-hidden"> Did you receive representations from members of the public or other parties?</span></a>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/consultation/representations">Answer<span class="govuk-visually-hidden"> Did you receive representations from members of the public or other parties about the original application?</span></a>
                                 </dd>
                         </div>
                     </dl>
