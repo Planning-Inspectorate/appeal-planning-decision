@@ -5,7 +5,7 @@ const { parseISO } = require('date-fns');
  * @param {Object} params
  * @param {{
  * 	appealType: string,
- *  decisionDate: string|null,
+ *  decisionDate: string|Date|null,
  *  eligibility: {
  *   applicationDecision: string|null,
  *   isListedBuilding: boolean|undefined,
@@ -17,8 +17,12 @@ const { parseISO } = require('date-fns');
  * @throws {BusinessRulesError}
  */
 const calculateDeadlineFromBeforeYouStart = ({ appeal }) => {
+	let date = null;
+	if (typeof appeal.decisionDate === 'string') date = parseISO(appeal.decisionDate);
+	else if (appeal.decisionDate instanceof Date) date = appeal.decisionDate;
+
 	return deadlineDate({
-		decisionDate: appeal.decisionDate ? parseISO(appeal.decisionDate) : null,
+		decisionDate: date,
 		appealType: appeal.appealType,
 		applicationDecision: appeal.eligibility?.applicationDecision,
 		isListedBuilding: appeal.eligibility?.isListedBuilding,

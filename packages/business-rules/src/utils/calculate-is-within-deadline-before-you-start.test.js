@@ -7,11 +7,28 @@ const { subWeeks } = require('date-fns');
 describe('calculateWithinDeadlineFromBeforeYouStart', () => {
 	const now = new Date();
 
-	it('returns true when within deadline period', () => {
+	it('returns true when within deadline period with iso string', () => {
 		const result = calculateWithinDeadlineFromBeforeYouStart({
 			appeal: {
 				appealType: APPEAL_ID.HOUSEHOLDER,
 				decisionDate: now.toISOString(),
+				eligibility: {
+					applicationDecision: APPLICATION_DECISION.REFUSED,
+					isListedBuilding: undefined,
+					enforcementEffectiveDate: null,
+					hasContactedPlanningInspectorate: null
+				}
+			}
+		});
+
+		expect(result).toBe(true);
+	});
+
+	it('returns true when within deadline period with date', () => {
+		const result = calculateWithinDeadlineFromBeforeYouStart({
+			appeal: {
+				appealType: APPEAL_ID.HOUSEHOLDER,
+				decisionDate: now,
 				eligibility: {
 					applicationDecision: APPLICATION_DECISION.REFUSED,
 					isListedBuilding: undefined,

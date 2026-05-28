@@ -3,11 +3,29 @@ const { APPEAL_ID, APPLICATION_DECISION } = require('../constants');
 
 describe('calculateDeadlineFromBeforeYouStart', () => {
 	describe('householder appeal', () => {
-		it('calculates deadline from before-you-start appeal data', () => {
+		it('calculates deadline from before-you-start appeal data with iso string', () => {
 			const result = calculateDeadlineFromBeforeYouStart({
 				appeal: {
 					appealType: APPEAL_ID.HOUSEHOLDER,
 					decisionDate: '2020-10-20T00:00:00.000Z',
+					eligibility: {
+						applicationDecision: APPLICATION_DECISION.REFUSED,
+						isListedBuilding: undefined,
+						enforcementEffectiveDate: null,
+						hasContactedPlanningInspectorate: null
+					}
+				}
+			});
+
+			expect(result).toBeInstanceOf(Date);
+			expect(result.toISOString()).toEqual('2021-01-12T23:59:59.999Z');
+		});
+
+		it('calculates deadline from before-you-start appeal data with date object', () => {
+			const result = calculateDeadlineFromBeforeYouStart({
+				appeal: {
+					appealType: APPEAL_ID.HOUSEHOLDER,
+					decisionDate: new Date('2020-10-20T00:00:00.000Z'),
 					eligibility: {
 						applicationDecision: APPLICATION_DECISION.REFUSED,
 						isListedBuilding: undefined,
