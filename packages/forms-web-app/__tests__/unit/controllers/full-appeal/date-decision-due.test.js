@@ -104,7 +104,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
-				decisionDate: new Date('2019-10-10T12:00:00.000Z')
+				decisionDate: new Date('2019-10-10T12:00:00.000Z').toISOString()
 			});
 
 			expect(res.redirect).toHaveBeenCalledWith(navigationPage.shutterPage);

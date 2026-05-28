@@ -73,7 +73,7 @@ exports.postDateDecisionDue = async (req, res) => {
 
 	const decisionDate = body['decision-date'];
 
-	appeal.decisionDate = new Date(`${decisionDate}T12:00:00.000Z`);
+	appeal.decisionDate = new Date(`${decisionDate}T12:00:00.000Z`).toISOString();
 
 	try {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
