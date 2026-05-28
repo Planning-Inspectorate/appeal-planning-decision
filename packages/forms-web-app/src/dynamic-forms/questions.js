@@ -396,6 +396,10 @@ exports.getQuestionProps = (response) => ({
 				? 'Did you receive representations from members of the public or other parties about the original application?'
 				: 'Did you receive representations from members of the public or other parties?',
 		url: 'representations',
+		html:
+			response.journeyId === JOURNEY_TYPES.S78_QUESTIONNAIRE_PART_1.id
+				? 'resources/other-representations/content.html'
+				: '',
 		fieldName: 'otherPartyRepresentations',
 		validators: [
 			new RequiredValidator(
