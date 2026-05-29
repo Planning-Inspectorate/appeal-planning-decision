@@ -19,7 +19,7 @@ const documents = {
 };
 export const fullAppealGrantedTestCases = [
     {
-        tags: ['expedited'],
+        tags: ['smoke','expedited'],
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',

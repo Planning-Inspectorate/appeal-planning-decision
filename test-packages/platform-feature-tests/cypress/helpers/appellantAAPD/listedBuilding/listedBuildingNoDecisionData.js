@@ -60,7 +60,7 @@ export const listedBuildingNoDecisionTestCases = [
         }
     },
     {
-        tags: ['hearing'],
+        tags: ['smoke','hearing'],
         statusOfOriginalApplication: 'no decision',
         typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
