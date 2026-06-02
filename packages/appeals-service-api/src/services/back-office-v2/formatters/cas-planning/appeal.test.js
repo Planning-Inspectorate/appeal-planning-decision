@@ -68,7 +68,13 @@ describe('CAS planning formatter', () => {
 			SubmissionLinkedCase: [{ caseReference: 'case123' }],
 			costApplication: true,
 			isAppellant: true,
-			typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
+			typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
+			whyAreYouAppealing: 'Reason for appeal',
+			anySignificantChanges: 'local-plan,national-policy,court-judgment,other',
+			anySignificantChanges_otherSignificantChanges: 'other text obj',
+			anySignificantChanges_localPlanSignificantChanges: 'local plan text obj',
+			anySignificantChanges_nationalPolicySignificantChanges: 'national policy text obj',
+			anySignificantChanges_courtJudgementSignificantChanges: 'court judgment text obj'
 		};
 	});
 
@@ -108,7 +114,14 @@ describe('CAS planning formatter', () => {
 				changedDevelopmentDescription: true,
 				nearbyCaseReferences: ['case123'],
 				appellantCostsAppliedFor: true,
-				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
+				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
+				reasonForAppealAppellant: 'Reason for appeal',
+				significantChangesAffectingApplicationAppellant: [
+					{ value: 'adopted-a-new-local-plan', comment: 'local plan text obj' },
+					{ value: 'national-policy-change', comment: 'national policy text obj' },
+					{ value: 'court-judgement', comment: 'court judgment text obj' },
+					{ value: 'other', comment: 'other text obj' }
+				]
 			},
 			documents: testDocuments,
 			users: [
@@ -170,7 +183,14 @@ describe('CAS planning formatter', () => {
 				changedDevelopmentDescription: true,
 				nearbyCaseReferences: ['case123'],
 				appellantCostsAppliedFor: true,
-				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING
+				typeOfPlanningApplication: APPEAL_TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
+				reasonForAppealAppellant: 'Reason for appeal',
+				significantChangesAffectingApplicationAppellant: [
+					{ value: 'adopted-a-new-local-plan', comment: 'local plan text obj' },
+					{ value: 'national-policy-change', comment: 'national policy text obj' },
+					{ value: 'court-judgement', comment: 'court judgment text obj' },
+					{ value: 'other', comment: 'other text obj' }
+				]
 			},
 			documents: testDocuments,
 			users: [

@@ -258,6 +258,10 @@ module.exports = ({
 				APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION.PROPOSED_USE_OF_A_DEVELOPMENT,
 			siteUseAtTimeOfApplication: 'lorum ipsum'
 		},
+		hasCas: {
+			reasonForAppealAppellant: null,
+			significantChangesAffectingApplicationAppellant: null
+		},
 		s78: {
 			reasonForAppealAppellant: null,
 			significantChangesAffectingApplicationAppellant: null,
@@ -295,6 +299,7 @@ module.exports = ({
 					...expectedData.address,
 					...expectedData.site,
 					...expectedData.common,
+					...expectedData.hasCas,
 					caseType: 'D',
 					typeOfPlanningApplication: 'householder-planning'
 				},
@@ -323,6 +328,7 @@ module.exports = ({
 					...expectedData.address,
 					...expectedData.site,
 					...expectedData.common,
+					...expectedData.hasCas,
 					caseType: 'D',
 					typeOfPlanningApplication: 'householder-planning'
 				},
