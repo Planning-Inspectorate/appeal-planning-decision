@@ -68,6 +68,37 @@ describe('calculateDeadlineFromAppellantSubmission', () => {
 			expect(result).toBeNull();
 		});
 
+		it('calculates deadline for listed building LDC when isListedBuilding is yes string', () => {
+			const result = calculateDeadlineFromAppellantSubmission({
+				appellantSubmission: {
+					appealTypeCode: 'LDC',
+					applicationDecisionDate: new Date('2020-10-20'),
+					applicationDecision: APPLICATION_DECISION.REFUSED,
+					isListedBuilding: 'yes',
+					enforcementEffectiveDate: null,
+					hasContactedPlanningInspectorate: null
+				}
+			});
+
+			expect(result).toBeInstanceOf(Date);
+			expect(result.toISOString()).toEqual('2021-04-20T22:59:59.999Z');
+		});
+
+		it('calculates deadline for listed building LDC when isListedBuilding is no string', () => {
+			const result = calculateDeadlineFromAppellantSubmission({
+				appellantSubmission: {
+					appealTypeCode: 'LDC',
+					applicationDecisionDate: new Date('2020-10-20'),
+					applicationDecision: APPLICATION_DECISION.REFUSED,
+					isListedBuilding: 'no',
+					enforcementEffectiveDate: null,
+					hasContactedPlanningInspectorate: null
+				}
+			});
+
+			expect(result).toEqual(null);
+		});
+
 		it('calculates deadline for listed building LDC (S26H)', () => {
 			const result = calculateDeadlineFromAppellantSubmission({
 				appellantSubmission: {

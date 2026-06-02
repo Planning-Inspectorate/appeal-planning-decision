@@ -6,7 +6,7 @@ const deadlineDate = require('../rules/appeal/deadline-date');
  * @param {{
  * 	appealTypeCode: string,
  *  applicationDecisionDate: Date|null,
- *  isListedBuilding: boolean|null,
+ *  isListedBuilding: boolean|string|null,
  *  applicationDecision: string|null,
  *  enforcementEffectiveDate: string|null,
  *  hasContactedPlanningInspectorate: boolean|null
@@ -19,7 +19,10 @@ const calculateDeadlineFromAppellantSubmission = ({ appellantSubmission }) => {
 		decisionDate: appellantSubmission.applicationDecisionDate,
 		appealType: CASE_TYPES[appellantSubmission.appealTypeCode].id.toString(),
 		applicationDecision: appellantSubmission.applicationDecision,
-		isListedBuilding: appellantSubmission.isListedBuilding,
+		isListedBuilding:
+			typeof appellantSubmission.isListedBuilding === 'string'
+				? appellantSubmission.isListedBuilding === 'yes'
+				: appellantSubmission.isListedBuilding,
 		enforcementEffectiveDate: appellantSubmission.enforcementEffectiveDate,
 		hasContactedPlanningInspectorate: appellantSubmission.hasContactedPlanningInspectorate
 	});
