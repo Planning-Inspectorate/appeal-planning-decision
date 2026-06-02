@@ -113,6 +113,23 @@ describe('schemas/householder-appeal/insert', () => {
 			});
 		});
 
+		describe('applicationDate', () => {
+			it('should throw an error when given a value which is in an incorrect format', async () => {
+				appeal.applicationDate = '03/07/2021';
+
+				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
+					'Invalid Date or string not ISO format'
+				);
+			});
+
+			it('should not throw an error when not given a value', async () => {
+				delete appeal.applicationDate;
+
+				const result = await insert.validate(appeal, config);
+				expect(result).toEqual(appeal);
+			});
+		});
+
 		describe('decisionDate', () => {
 			it('should throw an error when given a value which is in an incorrect format', async () => {
 				appeal.decisionDate = '03/07/2021';

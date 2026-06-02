@@ -93,7 +93,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				...updatedAppeal
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused-householder');
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
 		});
 
 		it('should redirect to the shutter page if something-else', async () => {
@@ -213,7 +213,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 					...updatedAppeal
 				});
 
-				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
 			}
 		);
 
@@ -287,7 +287,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				...updatedAppeal
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/planning-application-about');
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
 		});
 
 		it('should redirect to the listed building page and not change the listedBuilding response - ldc', async () => {

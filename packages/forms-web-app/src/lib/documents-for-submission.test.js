@@ -150,4 +150,14 @@ describe('optional documents-for-submission', () => {
 			'an environment statement'
 		]);
 	});
+
+	it('should return correct required documents for expedited Householder appeal', () => {
+		const result = generateOptionalDocuments(APPEAL_ID.HOUSEHOLDER, true);
+		expect(result).toEqual(['decision letter from the local planning authority']);
+	});
+
+	it('should return correct required documents for expedited Minor Commercial appeal', () => {
+		const result = generateOptionalDocuments(APPEAL_ID.MINOR_COMMERCIAL, true);
+		expect(result).toEqual(['decision letter from the local planning authority']);
+	});
 });

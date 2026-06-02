@@ -2,7 +2,8 @@ const { APPLICATION_DECISION, TYPE_OF_PLANNING_APPLICATION } =
 	require('@pins/business-rules').constants;
 const {
 	EXPEDITED_PART_1_CUTOFF_DATE,
-	isExpeditedPart1Eligible
+	isExpeditedPart1Eligible,
+	isExpeditedAppealDate
 } = require('./is-expedited-part1-eligible');
 
 describe('isExpeditedPart1Eligible', () => {
@@ -82,6 +83,27 @@ describe('isExpeditedPart1Eligible', () => {
 					}
 				})
 			).toBe(false);
+		}
+	);
+});
+
+describe('isExpeditedAppealDate', () => {
+	it('returns true when the date is on the cutoff', () => {
+		expect(isExpeditedAppealDate('2026-04-01T00:00:00.000Z')).toBe(true);
+	});
+
+	it('returns true when the date is after the cutoff', () => {
+		expect(isExpeditedAppealDate('2026-04-02T10:30:00.000Z')).toBe(true);
+	});
+
+	it('returns false when the date is before the cutoff', () => {
+		expect(isExpeditedAppealDate('2026-03-30T12:00:00.000Z')).toBe(false);
+	});
+
+	it.each([undefined, null, 'not-a-date'])(
+		'returns false when the application date is %p',
+		(applicationDate) => {
+			expect(isExpeditedAppealDate(applicationDate)).toBe(false);
 		}
 	);
 });

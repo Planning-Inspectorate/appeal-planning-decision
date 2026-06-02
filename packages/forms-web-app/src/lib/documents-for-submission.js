@@ -35,6 +35,9 @@ const generateRequiredDocuments = (appealType) => {
 const generateOptionalDocuments = (appealType, isExpeditedAppeal) => {
 	switch (appealType) {
 		case APPEAL_ID.HOUSEHOLDER:
+			if (isExpeditedAppeal) {
+				return ['decision letter from the local planning authority'];
+			}
 			return [
 				'decision letter from the local planning authority',
 				'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
@@ -68,6 +71,9 @@ const generateOptionalDocuments = (appealType, isExpeditedAppeal) => {
 				'appeal statement (including the reason for your appeal and the reasons why you think the local planning authority’s decision is wrong)'
 			];
 		case APPEAL_ID.MINOR_COMMERCIAL:
+			if (isExpeditedAppeal) {
+				return ['decision letter from the local planning authority'];
+			}
 			return [
 				'decision letter from the local planning authority',
 				'design and access statement',

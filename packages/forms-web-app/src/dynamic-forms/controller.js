@@ -30,6 +30,7 @@ const {
 	generateRequiredDocuments,
 	generateOptionalDocuments
 } = require('#lib/documents-for-submission');
+const { isExpeditedAppealDate } = require('#lib/is-expedited-part1-eligible');
 const {
 	VIEW: {
 		FULL_APPEAL: { LIST_OF_DOCUMENTS_V2 }
@@ -518,11 +519,14 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 		config.generateBetaBannerFeedbackLink(config.getAppealTypeFeedbackUrl(appealType));
 
 	const isExpeditedAppeal =
-		appeal.appealType === APPEAL_ID.PLANNING_SECTION_78 &&
-		[APPLICATION_DECISION.GRANTED, APPLICATION_DECISION.REFUSED].includes(
-			appeal.eligibility?.applicationDecision
-		) &&
-		new Date(appeal.applicationDate) >= new Date(2026, 3, 1);
+		(appeal.appealType === APPEAL_ID.PLANNING_SECTION_78 &&
+			[APPLICATION_DECISION.GRANTED, APPLICATION_DECISION.REFUSED].includes(
+				appeal.eligibility?.applicationDecision
+			) &&
+			isExpeditedAppealDate(appeal.applicationDate)) ||
+		((appeal.appealType === APPEAL_ID.HOUSEHOLDER ||
+			appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL) &&
+			isExpeditedAppealDate(appeal.applicationDate));
 
 	const optionalDocuments = generateOptionalDocuments(appeal.appealType, isExpeditedAppeal);
 

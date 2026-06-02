@@ -53,7 +53,23 @@ const isExpeditedPart1Eligible = (appeal) => {
 	);
 };
 
+/**
+ * @param {string|Date|undefined|null} value
+ * @returns {boolean}
+ */
+const isExpeditedAppealDate = (value) => {
+	const applicationDate = parseApplicationDate(value);
+	if (!applicationDate) {
+		return false;
+	}
+
+	return (
+		formatInTimeZone(applicationDate, UK_TIME_ZONE, 'yyyy-MM-dd') >= EXPEDITED_PART_1_CUTOFF_DATE
+	);
+};
+
 module.exports = {
 	EXPEDITED_PART_1_CUTOFF_DATE,
-	isExpeditedPart1Eligible
+	isExpeditedPart1Eligible,
+	isExpeditedAppealDate
 };

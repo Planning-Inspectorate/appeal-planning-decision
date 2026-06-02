@@ -16,6 +16,7 @@ const update = pinsYup
 		horizonId: pinsYup.string().trim().max(20).nullable(),
 		lpaCode: pinsYup.string().trim().max(20).required(),
 		planningApplicationNumber: pinsYup.string().max(30).required(),
+		applicationDate: pinsYup.date().transform(parseDateString).nullable(),
 		appealType: pinsYup.lazy((appealType) => {
 			if (appealType) {
 				return pinsYup.string().oneOf(Object.values(APPEAL_ID));

@@ -11,13 +11,14 @@ const {
 const config = require('../../config');
 const {
 	shouldDisplayTellingLandowners,
-	shouldDisplayIdentifyingLandowners
+	shouldDisplayIdentifyingLandowners,
+	shouldDisplayAppellantStatement
 } = require('../display-questions');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  * @typedef {Omit<ConstructorParameters<typeof import('@pins/dynamic-forms/src/journey').Journey>[0], 'response'>} JourneyParameters
-` */
+ */
 
 /**
  * @param {JourneyResponse} response
@@ -73,7 +74,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.inspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterApplicationReference)
-			.addQuestion(questions.planningApplicationDate)
 			.addQuestion(questions.enterDevelopmentDescription)
 			.addQuestion(questions.updateDevelopmentDescription)
 			.addQuestion(questions.whyAreYouAppealingPart1)
@@ -89,6 +89,7 @@ const makeSections = (response) => {
 			)
 			.addQuestion(questions.uploadApplicationDecisionLetter)
 			.addQuestion(questions.uploadAppellantStatement)
+			.withCondition(() => shouldDisplayAppellantStatement(response))
 			.addQuestion(questions.costApplication)
 			.addQuestion(questions.uploadCostApplication)
 			.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))
