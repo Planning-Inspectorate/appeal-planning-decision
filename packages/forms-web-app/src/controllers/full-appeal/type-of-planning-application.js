@@ -91,17 +91,15 @@ const postTypeOfPlanningApplication = async (req, res) => {
 
 	switch (typeOfPlanningApplication) {
 		case HOUSEHOLDER_PLANNING:
-			return res.redirect('/before-you-start/granted-or-refused-householder');
+		case MINOR_COMMERCIAL_DEVELOPMENT:
+		case ADVERTISEMENT:
+			return res.redirect('/before-you-start/application-date');
 		case LISTED_BUILDING:
 			return res.redirect('/before-you-start/granted-or-refused');
-		case MINOR_COMMERCIAL_DEVELOPMENT:
-			return res.redirect('/before-you-start/planning-application-about');
 		case LAWFUL_DEVELOPMENT_CERTIFICATE:
 			return isV2forLDC
 				? res.redirect('/before-you-start/listed-building')
 				: res.redirect('/before-you-start/use-existing-service-application-type');
-		case ADVERTISEMENT:
-			return res.redirect('/before-you-start/granted-or-refused');
 		case PRIOR_APPROVAL:
 			return res.redirect('/before-you-start/prior-approval-existing-home');
 		case REMOVAL_OR_VARIATION_OF_CONDITIONS:

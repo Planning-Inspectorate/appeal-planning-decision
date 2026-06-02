@@ -6,6 +6,9 @@ const {
 } = require('#lib/views');
 const { parseISO, isValid } = require('date-fns');
 const logger = require('#lib/logger');
+const {
+	constants: { TYPE_OF_PLANNING_APPLICATION }
+} = require('@pins/business-rules');
 
 const getApplicationDate = async (req, res) => {
 	const { appeal } = req.session;
@@ -50,6 +53,16 @@ const postApplicationDate = async (req, res) => {
 			...appeal,
 			applicationDate: enteredDate.toISOString()
 		});
+
+		if (appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING) {
+			return res.redirect('/before-you-start/granted-or-refused-householder');
+		}
+
+		if (
+			appeal.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT
+		) {
+			return res.redirect('/before-you-start/planning-application-about');
+		}
 
 		return res.redirect(`/before-you-start/granted-or-refused`);
 	} catch (e) {

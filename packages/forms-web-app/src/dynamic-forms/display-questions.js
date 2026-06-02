@@ -5,6 +5,7 @@ const {
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer.js');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 const { fieldValues } = require('@pins/common/src/dynamic-forms/field-values');
+const { isExpeditedAppealDate } = require('#lib/is-expedited-part1-eligible');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
@@ -100,6 +101,15 @@ exports.shouldDisplayUploadDecisionLetter = (response) => {
  */
 exports.shouldDisplayAdvertsQuestions = (response) => {
 	return response.answers.applicationDecision !== APPLICATION_DECISION.REFUSED;
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {boolean}
+ */
+exports.shouldDisplayAppellantStatement = (response) => {
+	const applicationDate = response.answers.onApplicationDate;
+	return !isExpeditedAppealDate(applicationDate);
 };
 
 /**

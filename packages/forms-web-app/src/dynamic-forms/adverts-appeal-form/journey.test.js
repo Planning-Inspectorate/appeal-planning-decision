@@ -218,4 +218,54 @@ describe('ADVERTS Appeal Form Journey', () => {
 				})
 		).toBe(true);
 	});
+
+	describe('uploadAppellantStatement condition', () => {
+		it('should include uploadAppellantStatement for non-CAS adverts appeals (application decision: GRANTED)', () => {
+			const answers = {
+				applicationDecision: APPLICATION_DECISION.GRANTED,
+				onApplicationDate: '2026-04-01T00:00:00.000Z'
+			};
+			const journey = new Journey({
+				...params,
+				response: { ...mockResponse, answers }
+			});
+			const uploadSection = journey.getSection('upload-documents');
+			const statementQuestion = uploadSection.questions.find(
+				(q) => q.fieldName === 'uploadAppellantStatement'
+			);
+			expect(statementQuestion.shouldDisplay(journey.response)).toBe(true);
+		});
+
+		it('should include uploadAppellantStatement for CAS adverts appeals if onApplicationDate is before April 1st 2026', () => {
+			const answers = {
+				applicationDecision: APPLICATION_DECISION.REFUSED,
+				onApplicationDate: '2026-03-30T12:00:00.000Z'
+			};
+			const journey = new Journey({
+				...params,
+				response: { ...mockResponse, answers }
+			});
+			const uploadSection = journey.getSection('upload-documents');
+			const statementQuestion = uploadSection.questions.find(
+				(q) => q.fieldName === 'uploadAppellantStatement'
+			);
+			expect(statementQuestion.shouldDisplay(journey.response)).toBe(true);
+		});
+
+		it('should not include uploadAppellantStatement for CAS adverts appeals if onApplicationDate is on or after April 1st 2026', () => {
+			const answers = {
+				applicationDecision: APPLICATION_DECISION.REFUSED,
+				onApplicationDate: '2026-04-01T00:00:00.000Z'
+			};
+			const journey = new Journey({
+				...params,
+				response: { ...mockResponse, answers }
+			});
+			const uploadSection = journey.getSection('upload-documents');
+			const statementQuestion = uploadSection.questions.find(
+				(q) => q.fieldName === 'uploadAppellantStatement'
+			);
+			expect(statementQuestion.shouldDisplay(journey.response)).toBe(false);
+		});
+	});
 });

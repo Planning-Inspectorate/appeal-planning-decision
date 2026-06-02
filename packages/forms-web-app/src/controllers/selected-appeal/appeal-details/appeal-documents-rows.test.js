@@ -357,3 +357,51 @@ describe('appeal-documents-rows - expedited part 1', () => {
 		expect(rows[6].condition(minimalCaseData)).toEqual(false);
 	});
 });
+
+describe('appeal-documents-rows - HAS and CAS conditional appeal statement', () => {
+	it('should display appeal statement for HAS and CAS if applicationDate is before April 1st 2026', () => {
+		const hasRows = documentsRows({
+			appealTypeCode: CASE_TYPES.HAS.processCode,
+			applicationDate: '2026-03-30T12:00:00.000Z'
+		});
+		const hasRow = hasRows.find((row) => row.keyText === 'Appeal statement');
+		expect(hasRow.condition()).toBe(true);
+
+		const casRows = documentsRows({
+			appealTypeCode: CASE_TYPES.CAS_PLANNING.processCode,
+			applicationDate: '2026-03-30T12:00:00.000Z'
+		});
+		const casRow = casRows.find((row) => row.keyText === 'Appeal statement');
+		expect(casRow.condition()).toBe(true);
+	});
+
+	it('should not display appeal statement for HAS and CAS if applicationDate is on or after April 1st 2026', () => {
+		const hasRows = documentsRows({
+			appealTypeCode: CASE_TYPES.HAS.processCode,
+			applicationDate: '2026-04-01T00:00:00.000Z'
+		});
+		const hasRow = hasRows.find((row) => row.keyText === 'Appeal statement');
+		expect(hasRow.condition()).toBe(false);
+
+		const casRows = documentsRows({
+			appealTypeCode: CASE_TYPES.CAS_PLANNING.processCode,
+			applicationDate: '2026-04-01T00:00:00.000Z'
+		});
+		const casRow = casRows.find((row) => row.keyText === 'Appeal statement');
+		expect(casRow.condition()).toBe(false);
+	});
+
+	it('should display appeal statement for HAS and CAS if applicationDate is not set', () => {
+		const hasRows = documentsRows({
+			appealTypeCode: CASE_TYPES.HAS.processCode
+		});
+		const hasRow = hasRows.find((row) => row.keyText === 'Appeal statement');
+		expect(hasRow.condition()).toBe(true);
+
+		const casRows = documentsRows({
+			appealTypeCode: CASE_TYPES.CAS_PLANNING.processCode
+		});
+		const casRow = casRows.find((row) => row.keyText === 'Appeal statement');
+		expect(casRow.condition()).toBe(true);
+	});
+});

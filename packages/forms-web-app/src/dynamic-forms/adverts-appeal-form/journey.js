@@ -17,13 +17,25 @@ const {
 	shouldDisplayTellingLandowners,
 	shouldDisplayUploadDecisionLetter,
 	shouldDisplayGridReference,
-	shouldDisplayAdvertsQuestions
+	shouldDisplayAdvertsQuestions,
+	shouldDisplayAppellantStatement: displayAppellantStatement
 } = require('../display-questions');
 
 /**
  * @typedef {import('@pins/dynamic-forms/src/journey-response').JourneyResponse} JourneyResponse
  * @typedef {Omit<ConstructorParameters<typeof import('@pins/dynamic-forms/src/journey').Journey>[0], 'response'>} JourneyParameters
  */
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {boolean}
+ */
+const shouldDisplayAppellantStatement = (response) => {
+	if (shouldDisplayAdvertsQuestions(response)) {
+		return true;
+	}
+	return displayAppellantStatement(response);
+};
 
 /**
  * @param {JourneyResponse} response
@@ -85,7 +97,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.inspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterApplicationReference)
-			.addQuestion(questions.planningApplicationDate)
 			.addQuestion(questions.enterAdvertisementDescription)
 			.addQuestion(questions.updateAdvertisementDescription)
 			.addQuestion(questions.uploadChangeOfAdvertisementEvidence)
@@ -138,6 +149,7 @@ const makeSections = (response) => {
 			.addQuestion(questions.uploadApplicationDecisionLetter)
 			.withCondition(() => shouldDisplayUploadDecisionLetter(response))
 			.addQuestion(questions.uploadAppellantStatement)
+			.withCondition(() => shouldDisplayAppellantStatement(response))
 			.addQuestion(questions.costApplication)
 			.addQuestion(questions.uploadCostApplication)
 			.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))

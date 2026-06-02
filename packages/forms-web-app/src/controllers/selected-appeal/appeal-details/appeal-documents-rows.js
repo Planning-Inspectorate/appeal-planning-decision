@@ -7,7 +7,10 @@ const {
 	APPEAL_APPLICATION_MADE_UNDER_ACT_SECTION
 } = require('@planning-inspectorate/data-model');
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
-const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
+const {
+	isExpeditedPart1Eligible,
+	isExpeditedAppealDate
+} = require('#lib/is-expedited-part1-eligible');
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import("@pins/common/src/view-model-maps/rows/def").Rows} Rows
@@ -79,7 +82,16 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'Appeal statement',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT),
-			condition: () => true,
+			condition: () => {
+				if (
+					caseData &&
+					(caseData.appealTypeCode === CASE_TYPES.HAS.processCode ||
+						caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode)
+				) {
+					return !isExpeditedAppealDate(caseData.applicationDate);
+				}
+				return true;
+			},
 			isEscaped: true
 		},
 		{
