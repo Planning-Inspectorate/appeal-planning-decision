@@ -46,6 +46,70 @@
 	{% set contactPlanningInspectorateDateRow = null %}
 {% endif %}
 
+{% if isNewBYSFlow %}
+	{% set whatIsYourAppealAboutRow = {
+		key: {
+			text: "What is your appeal about?"
+		},
+		value: {
+			text: summaryField(appealTypeText, { 'data-cy': "what-is-appeal-about" })
+		},
+		actions: {
+			items: [
+				{
+					href: "/before-you-start/type-of-planning-application",
+					text: "Change",
+					visuallyHiddenText: "What is your appeal about?",
+					attributes: { "data-cy":"appealType"}
+				}
+			]
+		}
+	}
+	%}
+	{% set enforcementNoticeRow = null %}
+	{% set enforcementNoticeListedBuildingRow = null %}
+{% else %}
+	{% set whatIsYourAppealAboutRow = null %}
+	{% set enforcementNoticeRow = {
+		key: {
+			text: "Have you received an enforcement notice?"
+		},
+		value: {
+				text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+		},
+		actions: {
+			items: [
+				{
+					href: "/before-you-start/enforcement-notice",
+					text: "Change",
+					visuallyHiddenText: "Have you received an enforcement notice?",
+					attributes: { "data-cy":"enforcementNotice"}
+				}
+			]
+		}
+	}
+	%}
+	{% set enforcementNoticeListedBuildingRow = {
+		key: {
+			text: "Is your enforcement notice about a listed building?"
+		},
+		value: {
+			text: summaryField(enforcementNoticeListedBuilding, { 'data-cy': "application-type" })
+		},
+		actions: {
+			items: [
+				{
+					href: "/before-you-start/enforcement-notice-listed-building",
+					text: "Change",
+					visuallyHiddenText: "Is your enforcement notice about a listed building?",
+					attributes: { "data-cy":"enforcementNoticeListedBuilding"}
+				}
+			]
+		}
+	}
+	%}
+{% endif %}
+
 {% block canUseServiceSummaryList %}
 	{{ govukSummaryList({
 		classes: "govuk-summary-list govuk-!-margin-bottom-9",
@@ -68,42 +132,9 @@
 				]
 			}
 			},
-			{
-				key: {
-				text: "Have you received an enforcement notice?"
-			},
-				value: {
-				text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
-			},
-				actions: {
-				items: [
-					{
-						href: "/before-you-start/enforcement-notice",
-						text: "Change",
-						visuallyHiddenText: "Have you received an enforcement notice?",
-						attributes: { "data-cy":"enforcementNotice"}
-					}
-				]
-			}
-			},
-			{
-				key: {
-				text: "Is your enforcement notice about a listed building?"
-			},
-				value: {
-				text: summaryField(enforcementNoticeListedBuilding, { 'data-cy': "application-type" })
-			},
-				actions: {
-				items: [
-					{
-						href: "/before-you-start/enforcement-notice-listed-building",
-						text: "Change",
-						visuallyHiddenText: "Is your enforcement notice about a listed building?",
-						attributes: { "data-cy":"enforcementNoticeListedBuilding"}
-					}
-				]
-			}
-			},
+			whatIsYourAppealAboutRow,
+			enforcementNoticeRow,
+			enforcementNoticeListedBuildingRow,
 			{
 				key: {
 				text: "What is the issue date on your enforcement notice?"
