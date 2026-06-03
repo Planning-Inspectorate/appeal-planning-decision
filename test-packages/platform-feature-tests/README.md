@@ -26,7 +26,7 @@ The tests in this suite cover several applications that comprise the front offic
 | **lpa front office**       | application used by the LPA to track appeals                   |
 | **rule 6 front office**    | application used by rule 6 parties to track an application     | 
 
-These are localed within the `cypress/e2e` folder
+These are located within the `cypress/e2e` folder
 
 The tests here are intended to check behaviours exhibited by the whole platform i.e. if I upload an 
 appeal via the appeals web interface, does the correct information appear in Horizon? They're not 
@@ -38,17 +38,19 @@ local planning authority is used as a user in these tests, and this is always th
 planning authority that a new feature is exposed to (see feature flag set-up on Azure and our 
 general process flow).
 
-Sure! Start off looking in the `e2e` directory, this directory contains the main test driver functions.
-Then, if you want to dig into details, check out `support/flows`, the files in here are flows through the
-platform. These flows are composed of sections, which can be found in `support/flows/sections`.
-The helper functions can be found in `support/flows/pages`.
-The dummy json data can be found in `fixtures`  
-The testcase flows can be found in `helpers`
-Utility files can be found in `utils`
-Test cases selector constants canbe be found in `page-obejcts` 
-Generated test reports can be found in `reports`
-Failure test screenshots can be found in `screenshots` folder, and
-Downloaded files can be verify in `downloads`
+Test structure 
+- Start off looking in the `e2e` directory, this directory contains the main test driver functions.
+- Then, if you want to dig into details, check out `support/flows`, the files in here are flows through the
+platform. 
+- These flows are composed of sections, which can be found in `support/flows/sections`.
+- The helper functions can be found in `support/flows/pages`.
+- The dummy json data can be found in `fixtures`  
+- The testcase flows can be found in `helpers`
+- Utility files can be found in `utils`
+- Test cases selector constants canbe be found in `page-obejcts` 
+- Generated test reports can be found in `reports`
+- Failure test screenshots can be found in `screenshots` folder, and
+- Downloaded files can be verify in `downloads`
 
 Finally,
 sections can contain somewhat repetitive actions, which are defined in `support/commands.js`.
@@ -56,7 +58,19 @@ sections can contain somewhat repetitive actions, which are defined in `support/
 ## What conventions are used here?
 
 - We organize tests around user flows, rather than features since a user flow may contain 
-multiple features, so this results in less tests (more efficient tests, essentially).
+multiple features, so this results in less tests (more efficient tests, essentially). 
+
+## Install and setup  
+
+To install and setup the e2e tests you can run the following command from within the `test-packages/platform-feature-tests` folder 
+
+`npm install `
+
+This should install the various dependencies and tools required to run the cypress tests 
+
+You will also need to ensure that a `.env` file is setup in the root of the test folder. This can be a copy of the `.env.example` file, though will need to reach out to one of the devs/QAs who can supply the actual values to use 
+
+It should now be possible to run the e2e tests, this can be done using commands listed in the next section  
 
 ## Running the tests 
 
@@ -98,12 +112,6 @@ You can use the following commands from the package.json for different environme
 | test    | `cy:open:test`    |
 | staging | `cy:open:staging` | 
 
-
-## Installa and setup  
-
-- `npm install `
-- `npx cypress open`
-- `select browser` 
 
 ## How to generate HTML reports?
 
