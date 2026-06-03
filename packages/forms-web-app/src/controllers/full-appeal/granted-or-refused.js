@@ -83,5 +83,9 @@ exports.postGrantedOrRefused = async (req, res) => {
 		return;
 	}
 
+	if (appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT) {
+		return res.redirect('/before-you-start/application-date');
+	}
+
 	res.redirect(`${this.forwardPage(selectedApplicationStatus)}`);
 };

@@ -90,6 +90,12 @@ condition: () => shouldDisplayTellingLandowners(response, questions);
 - radio `/inspector-need-access/` Will an inspector need to access your land or property?
 - radio `/health-safety-issues/` Health and safety issues
 - single-line-input `/reference-number/` What is the application reference number?
+- date `/application-date/` What date did you submit your application?
+
+```js
+condition: () => shouldDisplayAdvertsQuestions(response);
+```
+
 - text-entry `/description-advertisement/` Enter the description of the advertisement that you submitted in your application
 - boolean `/description-advertisement-correct/` Did the local planning authority change the description of the advertisement?
 - multi-file-upload `/upload-description-evidence/` Upload evidence of your agreement to change the description of the advertisement

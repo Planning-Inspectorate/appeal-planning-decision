@@ -230,10 +230,10 @@ describe('ADVERTS Appeal Form Journey', () => {
 				response: { ...mockResponse, answers }
 			});
 			const uploadSection = journey.getSection('upload-documents');
-			const statementQuestion = uploadSection.questions.find(
+			const statementQuestion = uploadSection?.questions?.find(
 				(q) => q.fieldName === 'uploadAppellantStatement'
 			);
-			expect(statementQuestion.shouldDisplay(journey.response)).toBe(true);
+			expect(statementQuestion?.shouldDisplay(journey.response)).toBe(true);
 		});
 
 		it('should include uploadAppellantStatement for CAS adverts appeals if onApplicationDate is before April 1st 2026', () => {
@@ -246,10 +246,10 @@ describe('ADVERTS Appeal Form Journey', () => {
 				response: { ...mockResponse, answers }
 			});
 			const uploadSection = journey.getSection('upload-documents');
-			const statementQuestion = uploadSection.questions.find(
+			const statementQuestion = uploadSection?.questions?.find(
 				(q) => q.fieldName === 'uploadAppellantStatement'
 			);
-			expect(statementQuestion.shouldDisplay(journey.response)).toBe(true);
+			expect(statementQuestion?.shouldDisplay(journey.response)).toBe(true);
 		});
 
 		it('should not include uploadAppellantStatement for CAS adverts appeals if onApplicationDate is on or after April 1st 2026', () => {
@@ -262,10 +262,42 @@ describe('ADVERTS Appeal Form Journey', () => {
 				response: { ...mockResponse, answers }
 			});
 			const uploadSection = journey.getSection('upload-documents');
-			const statementQuestion = uploadSection.questions.find(
+			const statementQuestion = uploadSection?.questions?.find(
 				(q) => q.fieldName === 'uploadAppellantStatement'
 			);
-			expect(statementQuestion.shouldDisplay(journey.response)).toBe(false);
+			expect(statementQuestion?.shouldDisplay(journey.response)).toBe(false);
+		});
+	});
+
+	describe('planningApplicationDate condition', () => {
+		it('should include planningApplicationDate for non-CAS adverts appeals (application decision: GRANTED)', () => {
+			const answers = {
+				applicationDecision: APPLICATION_DECISION.GRANTED
+			};
+			const journey = new Journey({
+				...params,
+				response: { ...mockResponse, answers }
+			});
+			const prepareSection = journey.getSection('prepare-appeal');
+			const dateQuestion = prepareSection?.questions?.find(
+				(q) => q.fieldName === 'onApplicationDate'
+			);
+			expect(dateQuestion?.shouldDisplay(journey.response)).toBe(true);
+		});
+
+		it('should not include planningApplicationDate for CAS adverts appeals (application decision: REFUSED)', () => {
+			const answers = {
+				applicationDecision: APPLICATION_DECISION.REFUSED
+			};
+			const journey = new Journey({
+				...params,
+				response: { ...mockResponse, answers }
+			});
+			const prepareSection = journey.getSection('prepare-appeal');
+			const dateQuestion = prepareSection?.questions?.find(
+				(q) => q.fieldName === 'onApplicationDate'
+			);
+			expect(dateQuestion?.shouldDisplay(journey.response)).toBe(false);
 		});
 	});
 });

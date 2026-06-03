@@ -78,6 +78,52 @@ describe('controllers/full-appeal/application-date', () => {
 			expect(res.redirect).toHaveBeenCalledWith(`/before-you-start/granted-or-refused`);
 		});
 
+		it('should save the appeal and redirect to decision-date if appealType is MINOR_COMMERCIAL_ADVERTISEMENT', async () => {
+			const applicationDate = addDays(subDays(startOfDay(new Date()), 181), 1);
+			const mockRequest = {
+				...req,
+				body: {
+					'application-date-year': getYear(applicationDate),
+					'application-date-month': getMonth(applicationDate) + 1,
+					'application-date-day': getDate(applicationDate)
+				},
+				session: {
+					appeal: {
+						...appeal,
+						appealType: constants.APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT,
+						typeOfPlanningApplication: constants.TYPE_OF_PLANNING_APPLICATION.ADVERTISEMENT
+					}
+				}
+			};
+
+			await postApplicationDate(mockRequest, res);
+
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
+		});
+
+		it('should save the appeal and redirect to granted-or-refused if typeOfPlanningApplication is MINOR_COMMERCIAL_DEVELOPMENT', async () => {
+			const applicationDate = addDays(subDays(startOfDay(new Date()), 181), 1);
+			const mockRequest = {
+				...req,
+				body: {
+					'application-date-year': getYear(applicationDate),
+					'application-date-month': getMonth(applicationDate) + 1,
+					'application-date-day': getDate(applicationDate)
+				},
+				session: {
+					appeal: {
+						...appeal,
+						typeOfPlanningApplication:
+							constants.TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT
+					}
+				}
+			};
+
+			await postApplicationDate(mockRequest, res);
+
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
+		});
+
 		it('should display the application date template with errors if any field is invalid', async () => {
 			const mockRequest = {
 				...req,

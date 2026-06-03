@@ -525,7 +525,8 @@ exports.appellantBYSListOfDocuments = (req, res) => {
 			) &&
 			isExpeditedAppealDate(appeal.applicationDate)) ||
 		((appeal.appealType === APPEAL_ID.HOUSEHOLDER ||
-			appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL) &&
+			appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL ||
+			appeal.appealType === APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT) &&
 			isExpeditedAppealDate(appeal.applicationDate));
 
 	const optionalDocuments = generateOptionalDocuments(appeal.appealType, isExpeditedAppeal);

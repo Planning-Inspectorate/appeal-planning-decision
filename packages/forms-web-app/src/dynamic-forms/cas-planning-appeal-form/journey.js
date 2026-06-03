@@ -12,7 +12,8 @@ const {
 } = require('@pins/dynamic-forms/src/dynamic-components/utils/question-has-answer');
 const {
 	shouldDisplayIdentifyingLandowners,
-	shouldDisplayTellingLandowners
+	shouldDisplayTellingLandowners,
+	shouldDisplayAppellantStatement
 } = require('../display-questions');
 
 /**
@@ -74,7 +75,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.inspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterApplicationReference)
-			.addQuestion(questions.planningApplicationDate)
 			.addQuestion(questions.enterDevelopmentDescription)
 			.addQuestion(questions.updateDevelopmentDescription)
 			.addQuestion(questions.whyAreYouAppealingPart1)
@@ -90,6 +90,7 @@ const makeSections = (response) => {
 			)
 			.addQuestion(questions.uploadApplicationDecisionLetter)
 			.addQuestion(questions.uploadAppellantStatement)
+			.withCondition(() => shouldDisplayAppellantStatement(response))
 			.addQuestion(questions.costApplication)
 			.addQuestion(questions.uploadCostApplication)
 			.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))

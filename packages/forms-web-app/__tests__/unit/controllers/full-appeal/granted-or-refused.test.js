@@ -196,7 +196,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 
 				expect(createOrUpdateAppeal).toHaveBeenCalledWith(advertisementApplicationAppeal);
 
-				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
 			});
 
 			it(`'should redirect to '/${DECISION_DATE}' with appeal type ADVERTISEMENT if 'applicationDecision' is 'granted'`, async () => {

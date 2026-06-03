@@ -213,7 +213,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 					...updatedAppeal
 				});
 
-				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
 			}
 		);
 
@@ -287,7 +287,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 				...updatedAppeal
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/planning-application-about');
 		});
 
 		it('should redirect to the listed building page and not change the listedBuilding response - ldc', async () => {

@@ -207,6 +207,65 @@ exports[`Dynamic forms journey tests appellant Advertisement Advertisement shoul
 </main>"
 `;
 
+exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the application-date question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="/appeals/adverts/prepare-appeal/application-date?id=appeal-ref"
+            method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" role="group" aria-describedby="onApplicationDate-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> What date did you submit your application?</h1>
+                        </legend>
+                        <div id="onApplicationDate-hint" class="govuk-hint">For example, 5 6 2025</div>
+                        <div class="govuk-date-input" id="onApplicationDate">
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="onApplicationDate_day">Day</label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                    id="onApplicationDate_day" name="onApplicationDate_day" type="text" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="onApplicationDate_month">Month</label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                    id="onApplicationDate_month" name="onApplicationDate_month" type="text"
+                                    inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="onApplicationDate_year">Year</label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-4"
+                                    id="onApplicationDate_year" name="onApplicationDate_year" type="text" inputmode="numeric">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
 exports[`Dynamic forms journey tests appellant Advertisement Advertisement should render the application-name question 1`] = `
 "<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
     <div class="govuk-grid-row">
@@ -1867,6 +1926,12 @@ exports[`Dynamic forms journey tests appellant Advertisement renders listing pag
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/reference-number?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the application reference number?</span></a>
                                 </dd>
                         </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What date did you submit your application?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/application-date?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What date did you submit your application?</span></a>
+                                </dd>
+                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the description of the advertisement</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
@@ -2137,6 +2202,65 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement Commerci
                         id="appellantCompanyName" name="appellantCompanyName" type="text" spellcheck="false">
                     </div>
                 </fieldset>
+                <button type="submit" class="govuk-button" data-module="govuk-button"
+                data-cy="button-save-and-continue">Continue</button>
+            </form>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body"><a href="/appeals/adverts/appeal-form/your-appeal?id=appeal-ref" class="govuk-link">Return to your appeal</a>
+            </p>
+        </div>
+    </div>
+</main>"
+`;
+
+exports[`Dynamic forms journey tests appellant Commercial advertisement Commercial advertisement should render the application-date question 1`] = `
+"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"></div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="/appeals/adverts/prepare-appeal/application-date?id=appeal-ref"
+            method="post" novalidate=null>
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" role="group" aria-describedby="onApplicationDate-hint">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                            <h1 class="govuk-fieldset__heading"> What date did you submit your application?</h1>
+                        </legend>
+                        <div id="onApplicationDate-hint" class="govuk-hint">For example, 5 6 2025</div>
+                        <div class="govuk-date-input" id="onApplicationDate">
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="onApplicationDate_day">Day</label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                    id="onApplicationDate_day" name="onApplicationDate_day" type="text" inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="onApplicationDate_month">Month</label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
+                                    id="onApplicationDate_month" name="onApplicationDate_month" type="text"
+                                    inputmode="numeric">
+                                </div>
+                            </div>
+                            <div class="govuk-date-input__item">
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label govuk-date-input__label" for="onApplicationDate_year">Year</label>
+                                    <input class="govuk-input govuk-date-input__input govuk-input--width-4"
+                                    id="onApplicationDate_year" name="onApplicationDate_year" type="text" inputmode="numeric">
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
             </form>
@@ -3811,6 +3935,12 @@ exports[`Dynamic forms journey tests appellant Commercial advertisement renders 
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/reference-number?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the application reference number?</span></a>
                                 </dd>
                         </div>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What date did you submit your application?</dt>
+                            <dd
+                            class="govuk-summary-list__value">Not started</dd>
+                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/adverts/prepare-appeal/application-date?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What date did you submit your application?</span></a>
+                                </dd>
+                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the description of the advertisement</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
@@ -4151,66 +4281,6 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commerc
                         id="appellantCompanyName" name="appellantCompanyName" type="text" spellcheck="false">
                     </div>
                 </fieldset>
-                <button type="submit" class="govuk-button" data-module="govuk-button"
-                data-cy="button-save-and-continue">Continue</button>
-            </form>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body"><a href="/appeals/cas-planning/appeal-form/your-appeal?id=appeal-ref"
-                class="govuk-link">Return to your appeal</a>
-            </p>
-        </div>
-    </div>
-</main>"
-`;
-
-exports[`Dynamic forms journey tests appellant Commercial planning (CAS) Commercial planning (CAS) should render the application-date question 1`] = `
-"<main id="main-content" role="main" class="govuk-main-wrapper govuk-main-wrapper--auto-spacing">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"></div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds"><span class="govuk-caption-l"> Prepare appeal</span>
-        </div>
-    </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="/appeals/cas-planning/prepare-appeal/application-date?id=appeal-ref"
-            method="post" novalidate=null>
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" role="group" aria-describedby="onApplicationDate-hint">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                            <h1 class="govuk-fieldset__heading"> What date did you submit your application?</h1>
-                        </legend>
-                        <div id="onApplicationDate-hint" class="govuk-hint">For example, 5 6 2025</div>
-                        <div class="govuk-date-input" id="onApplicationDate">
-                            <div class="govuk-date-input__item">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label govuk-date-input__label" for="onApplicationDate_day">Day</label>
-                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                    id="onApplicationDate_day" name="onApplicationDate_day" type="text" inputmode="numeric">
-                                </div>
-                            </div>
-                            <div class="govuk-date-input__item">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label govuk-date-input__label" for="onApplicationDate_month">Month</label>
-                                    <input class="govuk-input govuk-date-input__input govuk-input--width-2"
-                                    id="onApplicationDate_month" name="onApplicationDate_month" type="text"
-                                    inputmode="numeric">
-                                </div>
-                            </div>
-                            <div class="govuk-date-input__item">
-                                <div class="govuk-form-group">
-                                    <label class="govuk-label govuk-date-input__label" for="onApplicationDate_year">Year</label>
-                                    <input class="govuk-input govuk-date-input__input govuk-input--width-4"
-                                    id="onApplicationDate_year" name="onApplicationDate_year" type="text" inputmode="numeric">
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
-                </div>
                 <button type="submit" class="govuk-button" data-module="govuk-button"
                 data-cy="button-save-and-continue">Continue</button>
             </form>
@@ -5772,12 +5842,6 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) renders
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/cas-planning/prepare-appeal/reference-number?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What is the application reference number?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> What date did you submit your application?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/cas-planning/prepare-appeal/application-date?id=appeal-ref">Answer<span class="govuk-visually-hidden"> What date did you submit your application?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Enter the description of development that you submitted in your application</dt>

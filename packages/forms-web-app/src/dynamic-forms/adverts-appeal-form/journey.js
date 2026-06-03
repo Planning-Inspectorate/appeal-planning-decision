@@ -97,6 +97,8 @@ const makeSections = (response) => {
 			.addQuestion(questions.inspectorAccess)
 			.addQuestion(questions.healthAndSafety)
 			.addQuestion(questions.enterApplicationReference)
+			.addQuestion(questions.planningApplicationDate)
+			.withCondition(() => shouldDisplayAdvertsQuestions(response))
 			.addQuestion(questions.enterAdvertisementDescription)
 			.addQuestion(questions.updateAdvertisementDescription)
 			.addQuestion(questions.uploadChangeOfAdvertisementEvidence)
