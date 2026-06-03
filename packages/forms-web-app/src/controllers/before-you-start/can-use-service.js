@@ -44,6 +44,8 @@ const config = require('../../config');
 const changeLpaUrl = '/before-you-start/local-planning-authority';
 const { caseTypeLookup } = require('@pins/common/src/database/data-static');
 const formatDate = require('#lib/format-date-check-your-answers');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 const canUseServiceHouseholderPlanning = async (req, res) => {
 	const { appeal } = req.session;
@@ -249,7 +251,16 @@ const canUseServiceEnforcement = async (req, res) => {
 		? 'ENFORCEMENT_LISTED_BUILDING'
 		: 'ENFORCEMENT';
 
+	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
+
+	const appealTypeText =
+		appealType === 'ENFORCEMENT_LISTED_BUILDING'
+			? 'Enforcement listed building and conservation area'
+			: 'Enforcement notice';
+
 	res.render(canUseServiceEnforcementView, {
+		isNewBYSFlow,
+		appealTypeText,
 		deadlineDate,
 		appealLPD,
 		enforcementNotice,
