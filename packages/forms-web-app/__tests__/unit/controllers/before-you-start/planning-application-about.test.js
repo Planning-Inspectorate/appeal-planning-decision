@@ -140,7 +140,7 @@ describe('Planning Application About Controller', () => {
 					})
 				})
 			);
-			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/application-date');
 		});
 
 		it('handles array input for planningApplicationAbout', async () => {

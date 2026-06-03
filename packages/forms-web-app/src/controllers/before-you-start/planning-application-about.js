@@ -71,6 +71,10 @@ exports.postApplicationAbout = async (req, res) => {
 		return;
 	}
 
+	if (isCASPlanning) {
+		return res.redirect('/before-you-start/application-date');
+	}
+
 	res.redirect('/before-you-start/granted-or-refused');
 };
 
