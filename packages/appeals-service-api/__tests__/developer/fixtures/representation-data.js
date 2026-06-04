@@ -23,7 +23,7 @@ function createTestRepresentationPayload(
 		invalidOrIncompleteDetails: null,
 		otherInvalidOrIncompleteDetails: null,
 		source,
-		serviceUserId: null,
+		serviceUserId: source === 'lpa' ? null : 'test-service-user-id',
 		representationType,
 		dateReceived: new Date(),
 		documentIds: ['01956ca1-1213-7107-a4ab-be56f597485d']

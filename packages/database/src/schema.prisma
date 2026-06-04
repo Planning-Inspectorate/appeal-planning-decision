@@ -715,11 +715,12 @@ model Document {
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 
   // indexes
-  // additional filtered index added manually, as include not supported by Prisma https://www.prisma.io/docs/orm/prisma-schema/data-model/indexes
+  // additional covering/filtered indexes added manually, as include not supported by Prisma https://www.prisma.io/docs/orm/prisma-schema/data-model/indexes
   // NONCLUSTERED INDEX (caseReference) INCLUDE (id, publishedDocumentURI, filename, documentType, datePublished, redacted, virusCheckStatus, published) WHERE published = 1
-  @@index([caseReference])
+  // NONCLUSTERED INDEX ([caseReference], [documentType]) INCLUDE (id, publishedDocumentURI, filename, datePublished, redacted, virusCheckStatus, published)
+  @@index([caseReference, published])
   @@index([documentURI]) // for documentsApi lookups
-  @@index([caseReference, stage, documentType]) // for documentsApi zip generation
+  @@index([caseReference, stage, published]) // for documentsApi zip generation
 }
 
 // This table stores unedited IP submissions at the point of submission to BO

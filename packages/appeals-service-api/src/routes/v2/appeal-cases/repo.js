@@ -1,10 +1,10 @@
 const { createPrismaClient } = require('#db-client');
 const {
+	CASE_TYPES,
 	CASE_RELATION_TYPES,
 	LISTED_RELATION_TYPES
 } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { subYears } = require('date-fns');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
@@ -92,11 +92,8 @@ const dashboardSelect = {
 };
 
 /** @type {import('@pins/database/src/client/client').Prisma.AppealCase$DocumentsArgs} */
-const DocumentsArgsPublishedOnly = {
+const DocumentsArgs = {
 	// Important, changes made here should be reflected in the Document_caseRef_published_filter index
-	where: {
-		published: true
-	},
 	select: {
 		id: true,
 		publishedDocumentURI: true,
@@ -105,6 +102,15 @@ const DocumentsArgsPublishedOnly = {
 		datePublished: true,
 		redacted: true,
 		virusCheckStatus: true,
+		published: true
+	}
+};
+
+/** @type {import('@pins/database/src/client/client').Prisma.AppealCase$DocumentsArgs} */
+const DocumentsArgsPublishedOnly = {
+	// Important, changes made here should be reflected in the Document_caseRef_published_filter index
+	...DocumentsArgs,
+	where: {
 		published: true
 	}
 };
@@ -869,4 +875,9 @@ function addCaseStatusToQuery(whereArray, caseStatus) {
 	whereArray.push({ caseStatus: caseStatus });
 }
 
-module.exports = { AppealCaseRepository, DocumentsArgsPublishedOnly, dashboardSelect };
+module.exports = {
+	AppealCaseRepository,
+	DocumentsArgs,
+	DocumentsArgsPublishedOnly,
+	dashboardSelect
+};

@@ -6,6 +6,7 @@ const {
 	APPEAL_USER_ROLES,
 	REPRESENTATION_TYPES
 } = require('@pins/common/src/constants');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
 
 const selectedAppealController = require('../../controllers/selected-appeal');
 const appealDetailsController = require('../../controllers/selected-appeal/appeal-details');
@@ -13,6 +14,7 @@ const questionnaireDetailsController = require('../../controllers/selected-appea
 const planningObligationDetailsController = require('../../controllers/selected-appeal/planning-obligation-details');
 const downloadDocumentsController = require('../../controllers/selected-appeal/downloads/documents');
 const representationsController = require('../../controllers/selected-appeal/representations');
+const costsController = require('../../controllers/selected-appeal/costs/');
 
 const userType = LPA_USER_ROLE;
 
@@ -128,6 +130,24 @@ router.get(
 router.get(
 	'/:appealNumber/appellant-planning-obligation',
 	planningObligationDetailsController.get('layouts/lpa-dashboard/main.njk')
+);
+
+// costs
+router.get(
+	'/:appealNumber/appellant-cost-application',
+	costsController.get({ userType, costsType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION })
+);
+router.get(
+	'/:appealNumber/lpa-cost-application',
+	costsController.get({ userType, costsType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_APPLICATION })
+);
+router.get(
+	'/:appealNumber/appellant-cost-comments',
+	costsController.get({ userType, costsType: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_CORRESPONDENCE })
+);
+router.get(
+	'/:appealNumber/lpa-cost-comments',
+	costsController.get({ userType, costsType: APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE })
 );
 
 module.exports = router;

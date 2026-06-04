@@ -1,6 +1,11 @@
 const { createPrismaClient } = require('#db-client');
 const { Prisma } = require('@pins/database/src/client/client');
-const { dashboardSelect, DocumentsArgsPublishedOnly } = require('../../repo');
+const { dashboardSelect, DocumentsArgsPublishedOnly, DocumentsArgs } = require('../../repo');
+const {
+	APPEAL_REPRESENTATION_TYPE,
+	APPEAL_DOCUMENT_TYPE
+} = require('@planning-inspectorate/data-model');
+
 const ApiError = require('#errors/apiError');
 
 /**
@@ -65,20 +70,58 @@ class RepresentationsRepository {
 	 */
 	async getAppealCaseWithAllRepresentations(caseReference) {
 		try {
-			return await this.dbClient.appealCase.findUnique({
-				where: {
-					caseReference
-				},
-				select: {
-					...dashboardSelect,
-					Documents: { ...DocumentsArgsPublishedOnly },
-					Representations: {
-						include: {
-							RepresentationDocuments: true
+			const [appealCase, documents] = await Promise.all([
+				this.dbClient.appealCase.findUnique({
+					where: {
+						caseReference
+					},
+					select: {
+						...dashboardSelect,
+						Representations: {
+							select: {
+								source: true,
+								serviceUserId: true,
+								representationType: true,
+								representationStatus: true,
+								dateReceived: true
+							}
 						}
 					}
-				}
-			});
+				}),
+				this.dbClient.document.findMany({
+					...DocumentsArgs,
+					where: {
+						caseReference: caseReference,
+						documentType: {
+							in: [
+								// decision
+								APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER,
+
+								// lpa costs
+								APPEAL_DOCUMENT_TYPE.LPA_COSTS_APPLICATION,
+								APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE,
+								APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER,
+								// APPEAL_DOCUMENT_TYPE.LPA_COSTS_WITHDRAWAL,
+
+								// appellant costs
+								APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION,
+								APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_CORRESPONDENCE,
+								APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_DECISION_LETTER
+								// APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_WITHDRAWAL
+							]
+						}
+					}
+				})
+			]);
+
+			if (!appealCase) {
+				return null;
+			}
+
+			return {
+				...appealCase,
+				Documents: documents
+			};
 		} catch (e) {
 			if (e instanceof Prisma.PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
@@ -98,6 +141,37 @@ class RepresentationsRepository {
 	 * @returns {Promise<AppealCase|null>}
 	 */
 	async getAppealCaseWithRepresentationsByType(caseReference, type) {
+		/** @type {string[]} */
+		let documentTypes = [];
+
+		switch (type) {
+			case APPEAL_REPRESENTATION_TYPE.FINAL_COMMENT:
+				documentTypes.push(
+					APPEAL_DOCUMENT_TYPE.APPELLANT_FINAL_COMMENT,
+					APPEAL_DOCUMENT_TYPE.LPA_FINAL_COMMENT
+				);
+				break;
+			case APPEAL_REPRESENTATION_TYPE.STATEMENT:
+				documentTypes.push(
+					APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT,
+					APPEAL_DOCUMENT_TYPE.LPA_STATEMENT,
+					APPEAL_DOCUMENT_TYPE.RULE_6_STATEMENT
+				);
+				break;
+			case APPEAL_REPRESENTATION_TYPE.PROOFS_EVIDENCE:
+				documentTypes.push(
+					APPEAL_DOCUMENT_TYPE.APPELLANT_PROOF_OF_EVIDENCE,
+					APPEAL_DOCUMENT_TYPE.LPA_PROOF_OF_EVIDENCE,
+					APPEAL_DOCUMENT_TYPE.RULE_6_PROOF_OF_EVIDENCE
+				);
+				break;
+			case APPEAL_REPRESENTATION_TYPE.COMMENT:
+				documentTypes.push(APPEAL_DOCUMENT_TYPE.INTERESTED_PARTY_COMMENT);
+				break;
+			default:
+				throw new Error('unknown doc type for representation type');
+		}
+
 		try {
 			return await this.dbClient.appealCase.findUnique({
 				where: {
@@ -105,13 +179,25 @@ class RepresentationsRepository {
 				},
 				select: {
 					...dashboardSelect,
-					Documents: { ...DocumentsArgsPublishedOnly },
+					Documents: {
+						...DocumentsArgsPublishedOnly,
+						where: {
+							...DocumentsArgsPublishedOnly.where,
+							documentType: {
+								in: documentTypes
+							}
+						}
+					},
 					Representations: {
 						where: {
 							representationType: type
 						},
 						include: {
-							RepresentationDocuments: true
+							RepresentationDocuments: {
+								select: {
+									documentId: true
+								}
+							}
 						}
 					}
 				}

@@ -611,6 +611,19 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
+	 * @param {string[]|string} types
+	 * @returns {Promise<AppealCaseDetailed>}
+	 */
+	async getAppealCaseWithCostsByType(caseReference, types) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('types', Array.isArray(types) ? types.join(',') : types);
+		const endpoint = `${v2}/appeal-cases/${caseReference}/costs?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
 	 * @returns {Promise<(AppellantFinalCommentSubmission)>}
 	 */
 	async getAppellantFinalCommentSubmission(caseReference) {

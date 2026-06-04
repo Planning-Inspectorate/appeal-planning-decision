@@ -181,6 +181,10 @@ const filterDecisionDocuments = (documents) => {
 	};
 
 	const decisionDocuments = documents.filter((document) => {
+		if (!document.published) {
+			return false;
+		}
+
 		if (
 			document.documentType === APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER ||
 			document.documentType === APPEAL_DOCUMENT_TYPE.LPA_COSTS_DECISION_LETTER ||

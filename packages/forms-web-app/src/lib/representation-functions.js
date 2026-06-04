@@ -356,5 +356,6 @@ const isProofsDocument = (document) => {
 module.exports = {
 	filterRepresentationsForDisplay,
 	formatRepresentationHeading,
-	formatRepresentations
+	formatRepresentations,
+	formatDocumentLink
 };

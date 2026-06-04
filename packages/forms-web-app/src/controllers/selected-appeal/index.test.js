@@ -89,6 +89,16 @@ describe('get', () => {
 					redacted: true,
 					virusCheckStatus: 'scanned',
 					published: true
+				},
+				{
+					id: '41c354b1-287b-4492-92d7-4e23e3aa211e',
+					publishedDocumentURI: 'https://example.com/published/doc_001',
+					filename: 'cost-decision-doc.txt',
+					documentType: 'appellantCostsDecisionLetter',
+					datePublished: null,
+					redacted: true,
+					virusCheckStatus: 'scanned',
+					published: false
 				}
 			]
 		});
@@ -107,13 +117,26 @@ describe('get', () => {
 					baseUrl: '/appeals/123',
 					decisionDocuments: expect.arrayContaining([
 						expect.objectContaining({
-							documentType: expect.stringMatching(
-								/^(lpaCostsDecisionLetter|appellantCostsDecisionLetter)$/
-							)
+							id: '31c354b1-287b-4492-92d7-4e23e3aa211c',
+							documentType: 'lpaCostsDecisionLetter'
+						}),
+						expect.objectContaining({
+							id: '31c354b1-287b-4492-92d7-4e23e3aa211e',
+							documentType: 'appellantCostsDecisionLetter'
 						})
 					])
 				})
 			})
+		);
+
+		const renderContext = res.render.mock.calls[0][1];
+		expect(renderContext.appeal.decisionDocuments).toHaveLength(2);
+		expect(renderContext.appeal.decisionDocuments).not.toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({
+					id: '41c354b1-287b-4492-92d7-4e23e3aa211e'
+				})
+			])
 		);
 	});
 });
