@@ -78,7 +78,9 @@ const makeSections = (response) => {
 			.addQuestion(questions.enterDevelopmentDescription)
 			.addQuestion(questions.updateDevelopmentDescription)
 			.addQuestion(questions.whyAreYouAppealingPart1)
+			.withCondition(() => !shouldDisplayAppellantStatement(response))
 			.addQuestion(questions.anySignificantChanges)
+			.withCondition(() => !shouldDisplayAppellantStatement(response))
 			.addQuestion(questions.anyOtherAppeals)
 			.addQuestion(questions.linkAppeals)
 			.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),

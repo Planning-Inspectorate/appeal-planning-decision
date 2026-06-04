@@ -82,5 +82,43 @@ describe('CAS Appeal Form Journey', () => {
 			);
 			expect(statementQuestion?.shouldDisplay(journey.response)).toBe(true);
 		});
+
+		it('should display the anySignificantChanges and WhyAreYouAppealing if application date is on or after April 1st 2026', () => {
+			const journey = new Journey({
+				...params,
+				response: {
+					...mockResponse,
+					answers: {
+						onApplicationDate: '2026-04-30T12:00:00.000Z'
+					}
+				}
+			});
+
+			expect(
+				journey.sections[0].questions
+					.find((question) => question.title.includes('Why are you appealing?'))
+					?.shouldDisplay({
+						...mockResponse,
+						answers: {
+							onApplicationDate: '2026-04-30T12:00:00.000Z'
+						}
+					})
+			).toBe(true);
+
+			expect(
+				journey.sections[0].questions
+					.find((question) =>
+						question.title.includes(
+							'Have there been any significant changes that would affect the application?'
+						)
+					)
+					?.shouldDisplay({
+						...mockResponse,
+						answers: {
+							onApplicationDate: '2026-04-30T12:00:00.000Z'
+						}
+					})
+			).toBe(true);
+		});
 	});
 });
