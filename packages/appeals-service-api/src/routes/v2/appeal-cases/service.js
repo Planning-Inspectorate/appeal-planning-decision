@@ -462,6 +462,7 @@ const mapLDCDataModelToAppealCase = (caseProcessCode, dataModel) => ({
 const getEnforcementListedAppealFormFields = (dataModel) => {
 	return {
 		ownerOccupancyStatus: dataModel.ownerOccupancyStatus,
+		occupancyConditionsMet: dataModel.occupancyConditionsMet,
 		issueDateOfEnforcementNotice: dataModel.issueDateOfEnforcementNotice,
 		effectiveDateOfEnforcementNotice: dataModel.effectiveDateOfEnforcementNotice,
 		enforcementReference: dataModel.enforcementNoticeReference,
