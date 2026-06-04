@@ -12,6 +12,9 @@ const {
 const { formatSubmissionDate } = require('@pins/common/src/lib/format-appeal-details');
 const config = require('../../config');
 const { isEnforcementChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
+
+/** @typedef {function({documentType: string, published: boolean}): boolean} CostsCondition */
 
 /**
  * @type {import("@pins/common/src/view-model-maps/sections/def").Sections}
@@ -181,6 +184,49 @@ exports.sections = [
 						owned: false,
 						submitter: APPEAL_USER_ROLES.RULE_6_PARTY
 					})
+			}
+		]
+	},
+	{
+		heading: 'Costs',
+		links: [
+			{
+				url: '/appellant-cost-application',
+				text: 'View your costs applications',
+				condition: (appealCase) =>
+					appealCase.Documents.some(
+						/** @type {CostsCondition} */
+						(doc) => doc.documentType === APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION
+					)
+			},
+			{
+				url: '/lpa-cost-application',
+				text: 'View local planning authority cost applications',
+				condition: (appealCase) =>
+					appealCase.Documents.some(
+						/** @type {CostsCondition} */
+						(doc) =>
+							doc.documentType === APPEAL_DOCUMENT_TYPE.LPA_COSTS_APPLICATION && doc.published
+					)
+			},
+			{
+				url: '/appellant-cost-comments',
+				text: 'View your costs comments',
+				condition: (appealCase) =>
+					appealCase.Documents.some(
+						/** @type {CostsCondition} */
+						(doc) => doc.documentType === APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_CORRESPONDENCE
+					)
+			},
+			{
+				url: '/lpa-cost-comments',
+				text: 'View local planning authority costs comments',
+				condition: (appealCase) =>
+					appealCase.Documents.some(
+						/** @type {CostsCondition} */
+						(doc) =>
+							doc.documentType === APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE && doc.published
+					)
 			}
 		]
 	}

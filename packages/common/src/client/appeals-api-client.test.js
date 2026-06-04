@@ -378,6 +378,25 @@ describe('appeals-api-client', () => {
 		});
 	});
 
+	describe('getAppealCaseWithCostsByType', () => {
+		it('should get document details by id', async () => {
+			const testCaseReference = 'abc';
+			fetch.mockResponseOnce(JSON.stringify({ a: 1 }));
+			const createResponse = await apiClient.getAppealCaseWithCostsByType(testCaseReference, [
+				'a',
+				'b'
+			]);
+
+			expect(fetch).toHaveBeenCalledWith(
+				`${TEST_BASEURL}${v2}/appeal-cases/${testCaseReference}/costs?types=a%2Cb`,
+				expect.objectContaining({
+					method: 'GET'
+				})
+			);
+			expect(createResponse).toEqual({ a: 1 });
+		});
+	});
+
 	describe('getAppealCaseWithRepresentationsByType', () => {
 		it('should handle type', async () => {
 			const testCaseReference = 'abc';

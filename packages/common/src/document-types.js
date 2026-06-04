@@ -567,6 +567,39 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
+	appellantCostsCorrespondence: {
+		name: 'appellantCostsCorrespondence',
+		dataModelName: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_CORRESPONDENCE,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	lpaCostsApplication: {
+		name: 'lpaCostsApplication',
+		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_COSTS_APPLICATION,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	lpaCostsCorrespondence: {
+		name: 'lpaCostsCorrespondence',
+		dataModelName: APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: (_appealTypeCode) => lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
 	uploadPlanningObligation: {
 		name: 'uploadPlanningObligation',
 		dataModelName: APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION,

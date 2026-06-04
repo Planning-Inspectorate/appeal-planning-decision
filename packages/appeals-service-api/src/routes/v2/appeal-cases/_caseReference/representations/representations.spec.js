@@ -156,16 +156,18 @@ module.exports = ({ getSqlClient, setCurrentSub, setCurrentLpa, appealsApi }) =>
 				expect(response.body.Representations).toEqual(
 					expect.arrayContaining([
 						expect.objectContaining({
-							caseReference: testCase2,
-							representationId: testRepId1,
 							source: 'lpa',
-							representationType: REPRESENTATION_TYPES.STATEMENT
+							serviceUserId: null,
+							representationType: REPRESENTATION_TYPES.STATEMENT,
+							representationStatus: 'published',
+							dateReceived: expect.any(String)
 						}),
 						expect.objectContaining({
-							caseReference: testCase2,
-							representationId: testRepId2,
 							source: 'citizen',
-							representationType: REPRESENTATION_TYPES.FINAL_COMMENT
+							serviceUserId: expect.any(String),
+							representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+							representationStatus: 'published',
+							dateReceived: expect.any(String)
 						})
 					])
 				);

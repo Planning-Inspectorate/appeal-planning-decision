@@ -225,6 +225,7 @@ const VIEW = {
 	SELECTED_APPEAL: {
 		APPEAL_OVERVIEW: '/appeals',
 		APPEAL: 'selected-appeal/appeal',
+		APPEAL_COSTS: 'selected-appeal/costs',
 		APPEAL_DETAILS: 'selected-appeal/appeal-details',
 		APPEAL_QUESTIONNAIRE: 'selected-appeal/questionnaire-details',
 		APPEAL_IP_COMMENTS: 'selected-appeal/ip-comment-details',
