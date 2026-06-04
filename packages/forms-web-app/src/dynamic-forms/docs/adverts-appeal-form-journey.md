@@ -92,6 +92,18 @@ condition: () => shouldDisplayTellingLandowners(response, questions);
 - single-line-input `/reference-number/` What is the application reference number?
 - text-entry `/description-advertisement/` Enter the description of the advertisement that you submitted in your application
 - boolean `/description-advertisement-correct/` Did the local planning authority change the description of the advertisement?
+- text-entry `/why-are-you-appealing/` Why are you appealing?
+
+```js
+condition: () => !shouldDisplayAppellantStatement(response);
+```
+
+- checkbox `/any-significant-changes/` Have there been any significant changes that would affect the application?
+
+```js
+condition: () => !shouldDisplayAppellantStatement(response);
+```
+
 - multi-file-upload `/upload-description-evidence/` Upload evidence of your agreement to change the description of the advertisement
 
 ```js
