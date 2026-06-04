@@ -6218,17 +6218,6 @@ exports[`Dynamic forms journey tests appellant Commercial planning (CAS) renders
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/cas-planning/prepare-appeal/description-development-correct?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Did the local planning authority change the description of development?</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Why are you appealing?</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/cas-planning/prepare-appeal/why-are-you-appealing?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Why are you appealing?</span></a>
-                            </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Have there been any significant changes that would affect the application?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/cas-planning/prepare-appeal/any-significant-changes?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Have there been any significant changes that would affect the application?</span></a>
-                                </dd>
-                        </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there other appeals linked to your development?</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
@@ -14369,17 +14358,6 @@ exports[`Dynamic forms journey tests appellant Householder renders listing page 
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/householder/prepare-appeal/description-development-correct?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Did the local planning authority change the description of development?</span></a>
-                                </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Why are you appealing?</dt>
-                            <dd class="govuk-summary-list__value">Not started</dd>
-                            <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/householder/prepare-appeal/why-are-you-appealing?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Why are you appealing?</span></a>
-                            </dd>
-                        </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Have there been any significant changes that would affect the application?</dt>
-                            <dd
-                            class="govuk-summary-list__value">Not started</dd>
-                                <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/appeals/householder/prepare-appeal/any-significant-changes?id=appeal-ref">Answer<span class="govuk-visually-hidden"> Have there been any significant changes that would affect the application?</span></a>
                                 </dd>
                         </div>
                         <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Are there other appeals linked to your development?</dt>
