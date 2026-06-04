@@ -1,50 +1,59 @@
 const blobClient = require('#lib/back-office-storage-client');
 const archiver = require('archiver');
-const { DocumentsRepository } = require('../../../../../../db/repos/repository');
+const { APPEAL_DOCUMENT_TYPE } = require('@planning-inspectorate/data-model');
+const { DocumentsRepository } = require('../../../../../db/repos/repository');
 const repo = new DocumentsRepository();
 const logger = require('#lib/logger');
 const { mapDocumentToBlobInfo } = require('#lib/document-utils');
-const {
-	checkDocumentAccessByRepresentationOwner
-} = require('@pins/common/src/access/representation-ownership');
 const { checkDocAccess } = require('@pins/common/src/access/document-access');
 
+// limit which doc types can be accessed to avoid accidentally allowing access beyond what was designed for
+// if adding representation docs ensure a rep ownership/publish check is added (@pins/common/src/access/representation-ownership)
+const allowedDocTypes = new Set([
+	APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION,
+	APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_CORRESPONDENCE,
+	APPEAL_DOCUMENT_TYPE.LPA_COSTS_APPLICATION,
+	APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE
+]);
+
 /**
- * @param {string} caseStage
  * @param {string} caseReference
  * @param {import('@pins/database/src/client/client').AppealCase} appealCase
  * @param {import('@pins/database/src/client/client').AppealToUser[]} appealUserRoles
  * @param {import('express-oauth2-jwt-bearer').JWTPayload|undefined} access_token
  * @param {object} id_token
+ * @param {string} filter
  * @returns {Promise<Array<{fullName: string, blobStorageContainer: string | undefined, blobStoragePath: string, documentURI: string}>>}
  */
 async function getBlobCollection(
-	caseStage,
 	caseReference,
 	appealCase,
 	appealUserRoles,
 	access_token,
-	id_token
+	id_token,
+	filter = ''
 ) {
-	const { email, lpaCode } = id_token;
-	const isLpa = !!lpaCode;
+	const docTypeFilters = filter.split(',') || [];
 
-	const [representations, allDocuments] = await Promise.all([
-		repo.getRepresentationDocsByCaseReference({
-			caseReference,
-			email,
-			isLpa
-		}),
-		repo.getDocumentsByStage({
-			caseReference,
-			stage: caseStage
-		})
-	]);
+	// ensure only allowed doc type filters
+	if (docTypeFilters.length) {
+		const hasInvalidDocType = docTypeFilters.some((docType) => !allowedDocTypes.has(docType));
+		if (hasInvalidDocType) {
+			logger.error(`Invalid document type filter: ${filter}`);
+			throw new Error(`Invalid document type filter: ${filter}`);
+		}
+	}
 
-	const representationMap = new Map(representations.map((rep) => [rep.documentId, rep]));
+	if (!docTypeFilters.length) {
+		throw new Error('At least one document type filter must be provided');
+	}
+
+	const allDocuments = await repo.getDocumentsByTypes({
+		documentTypes: docTypeFilters,
+		caseReference
+	});
 
 	return allDocuments
-		.filter((document) => checkDocumentAccessByRepresentationOwner(document, representationMap))
 		.filter((document) =>
 			checkDocAccess({
 				logger,
@@ -96,24 +105,25 @@ async function createBlobDownloadStream(blobStorageContainer, blobStoragePath) {
 /**
  * @type {import('express').Handler}
  */
-async function getDocumentsByCaseReferenceAndCaseStage(req, res) {
-	const { caseReference, caseStage } = req.params ?? {};
+async function getDocumentsByCaseReference(req, res) {
+	const { caseReference } = req.params ?? {};
+	const { filter } = req.query ?? {};
 	const { appealCase, appealUserRoles } = res.locals;
 	const access_token = req.auth?.payload;
 	const id_token = req.id_token;
 
-	if (!caseStage || !appealCase || !caseReference) {
+	if (!appealCase || !caseReference || !filter) {
 		res.sendStatus(400);
 		return;
 	}
 
 	const blobCollection = await getBlobCollection(
-		caseStage,
 		caseReference,
 		appealCase,
 		appealUserRoles,
 		access_token,
-		id_token
+		id_token,
+		filter
 	);
 
 	const archive = archiver('zip', {
@@ -152,5 +162,5 @@ async function getDocumentsByCaseReferenceAndCaseStage(req, res) {
 }
 
 module.exports = {
-	getDocumentsByCaseReferenceAndCaseStage
+	getDocumentsByCaseReference
 };

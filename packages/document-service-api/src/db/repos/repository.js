@@ -119,21 +119,49 @@ class DocumentsRepository {
 	/**
 	 * Get documents by multiple types for a single caseReference
 	 * @param {object} params
+	 * @param {string} params.caseReference
+	 * @param {string} params.stage
+	 * @returns {Promise<DocumentSelect[]>}
+	 */
+	async getDocumentsByStage({ caseReference, stage }) {
+		if (!caseReference) throw new Error('caseReference required');
+
+		return await this.dbClient.document.findMany({
+			where: {
+				caseReference: caseReference,
+				stage: stage,
+				published: true
+			},
+			select: {
+				id: true,
+				filename: true,
+				documentURI: true,
+				documentType: true,
+				virusCheckStatus: true,
+				published: true,
+				redacted: true
+			}
+		});
+	}
+
+	/**
+	 * Get documents by multiple types for a single caseReference
+	 * @param {object} params
 	 * @param {string[]} params.documentTypes
 	 * @param {string} params.caseReference
 	 * @param {string} params.stage
 	 * @returns {Promise<DocumentSelect[]>}
 	 */
-	async getDocumentsByTypes({ documentTypes, caseReference, stage }) {
+	async getDocumentsByTypes({ documentTypes, caseReference }) {
 		if (!caseReference) throw new Error('caseReference required');
 		if (!Array.isArray(documentTypes) || !documentTypes.length)
 			throw new Error('documentTypes required');
 
+		// can't filter by published for costs docs
 		return await this.dbClient.document.findMany({
 			where: {
 				documentType: { in: documentTypes },
-				caseReference: caseReference,
-				stage: stage
+				caseReference: caseReference
 			},
 			select: {
 				id: true,

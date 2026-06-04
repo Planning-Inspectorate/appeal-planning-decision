@@ -45,32 +45,32 @@ const documentURI = 'https://some-url.com/document.pdf';
 
 jest.mock('../../../../../../db/repos/repository', () => ({
 	DocumentsRepository: jest.fn().mockImplementation(() => ({
-		getDocumentsByTypes: jest.fn().mockImplementation(async ({ documentTypes }) => [
+		getDocumentsByStage: jest.fn().mockImplementation(async () => [
 			{
 				id: 'doc1',
 				documentURI,
-				documentType: documentTypes[0],
+				documentType: testDocumentTypes[0],
 				filename: 'document.pdf',
 				redacted: true
 			},
 			{
 				id: 'doc2',
 				documentURI,
-				documentType: documentTypes[0],
+				documentType: testDocumentTypes[0],
 				filename: 'document2.pdf',
 				redacted: false
 			},
 			{
 				id: 'doc3',
 				documentURI,
-				documentType: documentTypes[0],
+				documentType: testDocumentTypes[0],
 				filename: 'document3.pdf',
 				redacted: true
 			},
 			{
 				id: 'doc4',
 				documentURI,
-				documentType: documentTypes[0],
+				documentType: testDocumentTypes[0],
 				filename: 'document4.pdf',
 				redacted: true
 			}

@@ -125,7 +125,39 @@ describe('DocumentsRepository', () => {
 		});
 	});
 
-	describe('getDocumentsByTypes', () => {
+	describe('getDocumentsByStage', () => {
+		it('should throw if caseReference missing', async () => {
+			await expect(repo.getDocumentsByStage({})).rejects.toThrow('caseReference required');
+		});
+
+		it('should call findMany with correct params', async () => {
+			const params = { caseReference: 'ref', stage: 'stage' };
+			const expected = [{ id: 1 }];
+			mockDbClient.document.findMany.mockResolvedValue(expected);
+
+			const result = await repo.getDocumentsByStage(params);
+
+			expect(mockDbClient.document.findMany).toHaveBeenCalledWith({
+				where: {
+					caseReference: params.caseReference,
+					stage: params.stage,
+					published: true
+				},
+				select: {
+					id: true,
+					filename: true,
+					documentURI: true,
+					documentType: true,
+					virusCheckStatus: true,
+					published: true,
+					redacted: true
+				}
+			});
+			expect(result).toBe(expected);
+		});
+	});
+
+	describe('getDocumentsByType', () => {
 		it('should throw if caseReference missing', async () => {
 			await expect(repo.getDocumentsByTypes({ documentTypes: ['t'] })).rejects.toThrow(
 				'caseReference required'
