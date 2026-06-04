@@ -50,29 +50,45 @@ exports.get = (costsParams, layoutTemplate = 'layouts/no-banner-link/main.njk') 
 			return res.status(404).render('error/not-found');
 		}
 
+		const zipDownloadUrl =
+			req.originalUrl.substring(0, req.originalUrl.lastIndexOf('/')) +
+			`/download/back-office/documents?filter=${costsType}`;
 		const backToAppealOverviewLink = getParentPathLink(req.originalUrl);
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData({ caseData, lpaName: lpa.name, role: userType });
 
 		/** @type {string} */
 		let costsTypeName = '';
+		let zipDownloadText = '';
 
 		const isLpa = userType === LPA_USER_ROLE;
 
 		switch (costsType) {
 			case APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION:
 				costsTypeName = isLpa ? 'Appellant costs applications' : 'Your costs applications';
+				zipDownloadText = isLpa
+					? 'Download all appellant costs applications (ZIP)'
+					: 'Download all of your costs applications (ZIP)';
 				break;
 			case APPEAL_DOCUMENT_TYPE.LPA_COSTS_APPLICATION:
 				costsTypeName = isLpa
 					? 'Your costs applications'
 					: 'Local planning authority costs applications';
+				zipDownloadText = isLpa
+					? 'Download all of your costs applications (ZIP)'
+					: 'Download all local planning authority costs applications (ZIP)';
 				break;
 			case APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_CORRESPONDENCE:
 				costsTypeName = isLpa ? 'Appellant costs comments' : 'Your costs comments';
+				zipDownloadText = isLpa
+					? 'Download all appellant costs comments (ZIP)'
+					: 'Download all of your costs comments (ZIP)';
 				break;
 			case APPEAL_DOCUMENT_TYPE.LPA_COSTS_CORRESPONDENCE:
 				costsTypeName = isLpa ? 'Your costs comments' : 'Local planning authority costs comments';
+				zipDownloadText = isLpa
+					? 'Download all of your costs comments (ZIP)'
+					: 'Download all local planning authority costs comments (ZIP)';
 				break;
 			default:
 				throw new Error(`Unknown costs type: ${costsType}`);
@@ -89,7 +105,9 @@ exports.get = (costsParams, layoutTemplate = 'layouts/no-banner-link/main.njk') 
 				appealNumber,
 				headlineData,
 				documents: formattedDocumentLinks
-			}
+			},
+			zipDownloadUrl,
+			zipDownloadText
 		};
 
 		res.render(costsView, viewContext);

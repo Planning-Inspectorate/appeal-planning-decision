@@ -99,7 +99,10 @@ describe('controllers/selected-appeal/costs', () => {
 				appealNumber,
 				headlineData,
 				documents: [formattedDocumentLink]
-			}
+			},
+			zipDownloadUrl:
+				'/appeals/ABC123/download/back-office/documents?filter=appellantCostsApplication',
+			zipDownloadText: 'Download all of your costs applications (ZIP)'
 		});
 	});
 
@@ -127,7 +130,10 @@ describe('controllers/selected-appeal/costs', () => {
 				appealNumber,
 				headlineData,
 				documents: [formattedDocumentLink]
-			}
+			},
+			zipDownloadUrl:
+				'/manage-appeals/ABC123/download/back-office/documents?filter=lpaCostsCorrespondence',
+			zipDownloadText: 'Download all of your costs comments (ZIP)'
 		});
 	});
 

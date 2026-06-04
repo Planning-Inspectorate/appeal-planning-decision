@@ -81,7 +81,7 @@ async function getDocumentsByCaseReferenceAndCaseStage(req, res) {
 	const blobCollection = await getBlobCollection(caseStage, caseReference);
 
 	const archive = archiver('zip', {
-		zlib: { level: 9 } // Sets the compression level.
+		zlib: { level: 1 } // Sets the compression level.
 	});
 
 	archive.pipe(res);

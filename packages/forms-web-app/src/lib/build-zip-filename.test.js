@@ -23,4 +23,12 @@ describe('buildZipFilename', () => {
 		const result = buildZipFilename('A1B2C3', 'FINAL');
 		expect(result).toBe('appeal_A1B2C3_FINAL_20250102030405.zip');
 	});
+
+	it('should handle no stages', () => {
+		const isoString = '2025-01-02T03:04:05.000Z';
+		jest.spyOn(Date.prototype, 'toISOString').mockReturnValue(isoString);
+
+		const result = buildZipFilename('A1B2C3');
+		expect(result).toBe('appeal_A1B2C3_20250102030405.zip');
+	});
 });

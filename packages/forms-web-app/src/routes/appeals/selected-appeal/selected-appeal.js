@@ -130,5 +130,9 @@ router.get(
 	`/:appealNumber/download/:documentsLocation/documents/:appealCaseStage`,
 	downloadDocumentsController.get()
 );
+router.get(
+	`/:appealNumber/download/:documentsLocation/documents`,
+	downloadDocumentsController.getByType()
+);
 
 module.exports = router;
