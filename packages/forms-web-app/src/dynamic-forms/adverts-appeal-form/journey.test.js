@@ -159,6 +159,46 @@ describe('ADVERTS Appeal Form Journey', () => {
 		).toBe(false);
 	});
 
+	it('should display the anySignificantChanges and WhyAreYouAppealing for CAS adverts appeals', () => {
+		const journey = new Journey({
+			...params,
+			response: {
+				...mockResponse,
+				answers: {
+					applicationDecision: APPLICATION_DECISION.REFUSED,
+					onApplicationDate: '2026-04-30T12:00:00.000Z'
+				}
+			}
+		});
+
+		expect(
+			journey.sections[0].questions
+				.find((question) => question.title.includes('Why are you appealing?'))
+				?.shouldDisplay({
+					...mockResponse,
+					answers: {
+						applicationDecision: APPLICATION_DECISION.REFUSED,
+						onApplicationDate: '2026-04-30T12:00:00.000Z'
+					}
+				})
+		).toBe(true);
+
+		expect(
+			journey.sections[0].questions
+				.find((question) =>
+					question.title.includes(
+						'Have there been any significant changes that would affect the application?'
+					)
+				)
+				?.shouldDisplay({
+					...mockResponse,
+					answers: {
+						applicationDecision: APPLICATION_DECISION.REFUSED,
+						onApplicationDate: '2026-04-30T12:00:00.000Z'
+					}
+				})
+		).toBe(true);
+	});
 	it('should not display the appellantProcedurePreference for CAS adverts appeals', () => {
 		const journey = new Journey({
 			...params,

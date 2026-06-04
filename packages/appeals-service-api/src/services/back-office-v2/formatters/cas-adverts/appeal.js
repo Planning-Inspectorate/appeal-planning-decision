@@ -7,7 +7,8 @@ const {
 	getDocuments,
 	getCommonAppellantSubmissionFields,
 	getAdvertsAppellantSubmissionFields,
-	formatApplicationSubmissionUsers
+	formatApplicationSubmissionUsers,
+	formatSignificantChanges
 } = require('../utils');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const CAS_ADVERTS = CASE_TYPES.CAS_ADVERTS;
@@ -23,7 +24,9 @@ exports.formatter = async (appellantSubmission, lpa) => {
 			// Common
 			...getCommonAppellantSubmissionFields(appellantSubmission, lpa),
 			// Adverts specific
-			...getAdvertsAppellantSubmissionFields(appellantSubmission)
+			...getAdvertsAppellantSubmissionFields(appellantSubmission),
+			reasonForAppealAppellant: appellantSubmission.whyAreYouAppealing || null,
+			significantChangesAffectingApplicationAppellant: formatSignificantChanges(appellantSubmission)
 		},
 		documents: await getDocuments(appellantSubmission),
 		users: formatApplicationSubmissionUsers(appellantSubmission)

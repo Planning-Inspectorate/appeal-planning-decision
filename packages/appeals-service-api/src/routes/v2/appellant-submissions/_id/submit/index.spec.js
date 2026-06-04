@@ -432,6 +432,8 @@ module.exports = ({
 					...expectedData.site,
 					...expectedData.common,
 					...expectedData.adverts,
+					...expectedData.hasCas,
+
 					caseType: 'ZA',
 					typeOfPlanningApplication: 'advertisement'
 				},

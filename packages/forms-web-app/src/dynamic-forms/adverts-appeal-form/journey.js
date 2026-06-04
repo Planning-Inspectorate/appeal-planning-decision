@@ -99,6 +99,10 @@ const makeSections = (response) => {
 			.addQuestion(questions.enterApplicationReference)
 			.addQuestion(questions.enterAdvertisementDescription)
 			.addQuestion(questions.updateAdvertisementDescription)
+			.addQuestion(questions.whyAreYouAppealingPart1)
+			.withCondition(() => !shouldDisplayAppellantStatement(response))
+			.addQuestion(questions.anySignificantChanges)
+			.withCondition(() => !shouldDisplayAppellantStatement(response))
 			.addQuestion(questions.uploadChangeOfAdvertisementEvidence)
 			.withCondition(() =>
 				questionHasAnswer(response, questions.updateAdvertisementDescription, 'yes')
