@@ -75,7 +75,17 @@ condition: () => shouldDisplayTellingLandowners(response, questions);
 - text-entry `/enter-description-of-development/` Enter the description of development that you submitted in your application
 - boolean `/description-development-correct/` Did the local planning authority change the description of development?
 - text-entry `/why-are-you-appealing/` Why are you appealing?
+
+```js
+condition: () => !shouldDisplayAppellantStatement(response);
+```
+
 - checkbox `/any-significant-changes/` Have there been any significant changes that would affect the application?
+
+```js
+condition: () => !shouldDisplayAppellantStatement(response);
+```
+
 - boolean `/other-appeals/` Are there other appeals linked to your development?
 - list-add-more `/enter-appeal-reference/` Add another appeal?
 
