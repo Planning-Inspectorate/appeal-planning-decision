@@ -56,6 +56,9 @@ const getAppealPropsForCanUseServicePage = async (appeal) => {
 	}
 
 	const decisionDate = format(parseISO(appeal.decisionDate), 'dd MMMM yyyy');
+	const applicationDate = appeal.applicationDate
+		? format(parseISO(appeal.applicationDate), 'dd MMMM yyyy')
+		: undefined;
 
 	const enforcementNotice = appeal.eligibility.enforcementNotice ? 'Yes' : 'No';
 
@@ -83,6 +86,7 @@ const getAppealPropsForCanUseServicePage = async (appeal) => {
 		applicationAbout,
 		applicationDecision,
 		decisionDate,
+		applicationDate,
 		enforcementNotice,
 		dateOfDecisionLabel,
 		nextPageUrl,

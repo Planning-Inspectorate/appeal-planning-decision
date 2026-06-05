@@ -2,6 +2,7 @@ const appeal = {
 	id: 'fc7cb757-fe21-46dd-b3fd-121c385cd884',
 	horizonId: 'HORIZON123',
 	lpaCode: 'E69999999',
+	applicationDate: '2022-05-04T10:55:46.164Z',
 	decisionDate: '2022-05-04T10:55:46.164Z',
 	createdAt: '2022-05-04T10:55:46.164Z',
 	updatedAt: '2022-05-04T10:55:46.164Z',
