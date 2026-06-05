@@ -74,6 +74,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceHouseholder, {
 				appealLPD: 'Bradford',
+				applicationDate: '04 May 2022',
 				applicationDecision: 'No decision received',
 				applicationType: 'Householder planning',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
@@ -93,6 +94,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceHouseholder, {
 				appealLPD: 'Bradford',
+				applicationDate: '04 May 2022',
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Householder planning',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
@@ -224,30 +226,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
 				appealLPD: 'Bradford',
 				applicationAbout: null,
-				applicationDecision: 'Granted with conditions',
-				applicationType: 'Full appeal',
-				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
-				decisionDate: '04 May 2022',
-				dateOfDecisionLabel: 'Date of decision',
-				enforcementNotice: 'No',
-				changeLpaUrl: '/before-you-start/local-planning-authority',
-				nextPageUrl: '/full-appeal/submit-appeal/email-address',
-				hideListedBuilding: true,
-				isListedBuilding: null,
-
-				hideDeadlineDate: false,
-				bannerHtmlOverride
-			});
-		});
-
-		it('renders page - s78 - date of decision - v2', async () => {
-			req = mockReq(fullAppeal);
-
-			await getCanUseService(req, res);
-
-			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
-				appealLPD: 'Bradford',
-				applicationAbout: null,
+				applicationDate: '04 May 2022',
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Full appeal',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
@@ -275,6 +254,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
 				appealLPD: 'Bradford',
 				applicationAbout: null,
+				applicationDate: '04 May 2022',
 				applicationDecision: 'No decision received',
 				applicationType: 'Full appeal',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
@@ -296,6 +276,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
 				appealType: APPEAL_ID.PLANNING_SECTION_78,
 				lpaCode: 'E60000068',
+				applicationDate: fullAppeal.applicationDate,
 				decisionDate: fullAppeal.decisionDate,
 				eligibility: {
 					applicationDecision: 'granted',
@@ -309,6 +290,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
 				appealLPD: 'Bradford',
 				applicationAbout: ['None of these'],
+				applicationDate: '04 May 2022',
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Minor commercial development',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
@@ -332,6 +314,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
 				appealType: APPEAL_ID.PLANNING_SECTION_78,
 				lpaCode: 'E60000068',
+				applicationDate: fullAppeal.applicationDate,
 				decisionDate: fullAppeal.decisionDate,
 				eligibility: {
 					applicationDecision: 'nodecisionreceived',
@@ -345,6 +328,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
 				appealLPD: 'Bradford',
 				applicationAbout: ['None of these'],
+				applicationDate: '04 May 2022',
 				applicationDecision: 'No decision received',
 				applicationType: 'Minor commercial development',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
@@ -373,6 +357,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
 				appealLPD: 'Bradford',
 				applicationAbout: null,
+				applicationDate: '04 May 2022',
 				applicationDecision: 'No decision received',
 				applicationType: 'Full appeal',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },

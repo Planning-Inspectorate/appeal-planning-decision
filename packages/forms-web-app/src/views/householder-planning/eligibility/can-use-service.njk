@@ -77,6 +77,24 @@
 		},
 		{
 			key: {
+				text: "What date did you submit your application?"
+			},
+			value: {
+				text: summaryField(applicationDate, { 'data-cy': "application-date" })
+			},
+			actions: {
+				items: [
+					{
+						href: "/before-you-start/application-date",
+						text: "Change",
+						visuallyHiddenText: "What date did you submit your application?",
+						attributes: { "data-cy":"applicationDate"}
+					}
+				]
+			}
+		} if applicationDate,
+		{
+			key: {
 				text: "Was your application granted or refused?"
 			},
 			value: {
