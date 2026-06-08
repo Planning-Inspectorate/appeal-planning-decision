@@ -969,6 +969,9 @@ exports.getEnforcementListedAppellantSubmissionFields = (appellantSubmission) =>
 		namedIndividuals: getNamedIndividuals(),
 		planningObligation: appellantSubmission.planningObligation ?? null,
 		statusPlanningObligation: planningObligationStatus ?? null,
+		writtenOrVerbalPermission: appellantSubmission.hasPermissionToUseLand
+			? exports.boolToYesNo(appellantSubmission.hasPermissionToUseLand)
+			: null,
 		...getInterestInLand()
 	};
 };
