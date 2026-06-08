@@ -766,7 +766,12 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 						appealUnderActSection: data.appealUnderActSection ?? null,
 						lpaConsiderAppealInvalid: data.lpaConsiderAppealInvalid ?? null,
 						lpaAppealInvalidReasons: data.lpaAppealInvalidReasons ?? null,
-						listOfDocumentsBeforeDecision: data.listOfDocumentsBeforeDecision ?? null
+						listOfDocumentsBeforeDecision: data.listOfDocumentsBeforeDecision ?? null,
+						anySignificantChangesLpa: null,
+						anySignificantChangesLpa_courtJudgementSignificantChanges: null,
+						anySignificantChangesLpa_localPlanSignificantChanges: null,
+						anySignificantChangesLpa_nationalPolicySignificantChanges: null,
+						anySignificantChangesLpa_otherSignificantChanges: null
 					});
 					expectEmails(email, testCaseRef);
 				});
@@ -1023,7 +1028,12 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 					appealUnderActSection: data.appealUnderActSection ?? null,
 					lpaConsiderAppealInvalid: data.lpaConsiderAppealInvalid ?? null,
 					lpaAppealInvalidReasons: data.lpaAppealInvalidReasons ?? null,
-					listOfDocumentsBeforeDecision: data.listOfDocumentsBeforeDecision ?? null
+					listOfDocumentsBeforeDecision: data.listOfDocumentsBeforeDecision ?? null,
+					anySignificantChangesLpa: null,
+					anySignificantChangesLpa_courtJudgementSignificantChanges: null,
+					anySignificantChangesLpa_localPlanSignificantChanges: null,
+					anySignificantChangesLpa_nationalPolicySignificantChanges: null,
+					anySignificantChangesLpa_otherSignificantChanges: null
 				});
 			});
 
