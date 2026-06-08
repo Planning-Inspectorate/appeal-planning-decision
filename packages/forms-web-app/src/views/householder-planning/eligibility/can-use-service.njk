@@ -1,6 +1,31 @@
 {% extends "../../layouts/can-use-service/main.njk" %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../../macros/summary-field.njk" import summaryField %}
+
+{% if isNewBYSFlow %}
+	{% set enforcementNoticeRow = null %}
+{% else %}
+	{% set enforcementNoticeRow = {
+		key: {
+			text: "Have you received an enforcement notice?"
+		},
+		value: {
+			text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+		},
+		actions: {
+			items: [
+				{
+					href: "/before-you-start/enforcement-notice",
+					text: "Change",
+					visuallyHiddenText: "Have you received an enforcement notice?",
+					attributes: { "data-cy":"enforcementNotice"}
+				}
+			]
+		}
+	}
+	%}
+{% endif %}
+
 {% block canUseServiceSummaryList %}
     {% set summaryRows = [
 		{
@@ -21,24 +46,7 @@
 				]
 			}
 		},
-		{
-			key: {
-				text: "Have you received an enforcement notice?"
-			},
-			value: {
-				text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
-			},
-			actions: {
-				items: [
-					{
-						href: "/before-you-start/enforcement-notice",
-						text: "Change",
-						visuallyHiddenText: "Have you received an enforcement notice?",
-						attributes: { "data-cy":"enforcementNotice"}
-					}
-				]
-			}
-		},
+	  enforcementNoticeRow,
 		{
 			key: {
 				text: "Application number"

@@ -12,6 +12,7 @@ const { VIEW } = require('#lib/views');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { bysRows } = require('./appeal-before-you-start-rows');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 jest.mock('#lib/determine-user');
 jest.mock('../../../services/user.service');
@@ -22,6 +23,7 @@ jest.mock('./appeal-before-you-start-rows');
 jest.mock('@pins/common');
 jest.mock('#lib/pdf-api-wrapper');
 jest.mock('#lib/add-css-to-html');
+jest.mock('#lib/is-lpa-in-feature-flag');
 
 const date = new Date();
 const caseData = { LPACode: 'Q9999', caseValidDate: date };
@@ -87,10 +89,12 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 	describe('LPA User', () => {
 		beforeEach(() => {
 			determineUser.mockReturnValue(LPA_USER_ROLE);
+			isLpaInFeatureFlag.mockResolvedValue(false);
 		});
 
 		it('renders page if URL does not have PDF query', async () => {
 			const indexGetController = indexController.get();
+
 			await indexGetController(req, res);
 
 			expect(determineUser).toHaveBeenCalledWith('a/fake/url');
@@ -103,7 +107,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			});
 			expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
 			expect(detailsRows).toHaveBeenCalledWith(caseData, LPA_USER_ROLE);
-			expect(bysRows).toHaveBeenCalledWith(caseData, 'Test LPA');
+			expect(bysRows).toHaveBeenCalledWith(caseData, 'Test LPA', false);
 			expect(documentsRows).toHaveBeenCalledWith(caseData);
 			expect(formatRows).toHaveBeenCalledWith('returned bys rows', caseData);
 			expect(formatRows).toHaveBeenCalledWith('returned details rows', caseData);
@@ -146,7 +150,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			expect(getDepartmentFromCode).toHaveBeenCalledWith('Q9999');
 			expect(detailsRows).toHaveBeenCalledWith(caseData, LPA_USER_ROLE);
 			expect(documentsRows).toHaveBeenCalledWith(caseData);
-			expect(bysRows).toHaveBeenCalledWith(caseData, 'Test LPA');
+			expect(bysRows).toHaveBeenCalledWith(caseData, 'Test LPA', false);
 			expect(formatRows).toHaveBeenCalledWith('returned bys rows', caseData);
 			expect(formatRows).toHaveBeenCalledWith('returned details rows', caseData);
 			expect(formatHeadlineData).toHaveBeenCalledWith({ caseData, role: LPA_USER_ROLE });

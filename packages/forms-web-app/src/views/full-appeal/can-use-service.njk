@@ -96,6 +96,31 @@
         {{ super() }}
     {% endif %}
 {% endblock %}
+
+{% if isNewBYSFlow %}
+	{% set enforcementNoticeRow = null %}
+{% else %}
+	{% set enforcementNoticeRow = {
+		key: {
+			text: "Have you received an enforcement notice?"
+		},
+		value: {
+			text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+		},
+		actions: {
+			items: [
+				{
+					href: "/before-you-start/enforcement-notice",
+					text: "Change",
+					visuallyHiddenText: "Have you received an enforcement notice?",
+					attributes: { "data-cy":"enforcementNotice"}
+				}
+			]
+		}
+	}
+	%}
+{% endif %}
+
 {% block canUseServiceSummaryList %}
     {{ govukSummaryList({
 		classes: "govuk-summary-list govuk-!-margin-bottom-9",
@@ -118,24 +143,7 @@
 					]
 				}
 			},
-			{
-				key: {
-					text: "Have you received an enforcement notice?"
-				},
-				value: {
-					text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
-				},
-				actions: {
-					items: [
-						{
-							href: "/before-you-start/enforcement-notice",
-							text: "Change",
-							visuallyHiddenText: "Have you received an enforcement notice?",
-							attributes: { "data-cy":"enforcementNotice"}
-						}
-					]
-				}
-			},
+			enforcementNoticeRow,
 			{
               key: {
                 text: "Application number"

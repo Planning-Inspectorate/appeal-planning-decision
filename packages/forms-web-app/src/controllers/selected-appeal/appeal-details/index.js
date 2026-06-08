@@ -15,6 +15,8 @@ const logger = require('#lib/logger');
 const config = require('../..//../config');
 const { bysRows } = require('./appeal-before-you-start-rows');
 const { appealAdditionalDocumentsRows } = require('./appeal-additional-documents-rows');
+const { FLAG } = require('@pins/common/src/feature-flags');
+const { isLpaInFeatureFlag } = require('#lib/is-lpa-in-feature-flag');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -64,10 +66,12 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 		logger.debug({ caseData }, 'caseData');
 
+		const isNewBYSFlow = await isLpaInFeatureFlag(caseData.LPACode, FLAG.NEW_BYS_ENFORCEMENT);
+
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData({ caseData, role: userType });
 
-		const beforeYouStartRows = bysRows(caseData, lpa.name);
+		const beforeYouStartRows = bysRows(caseData, lpa.name, isNewBYSFlow);
 		const beforeYouStart = formatRows(beforeYouStartRows, caseData);
 
 		const appealDetailsRows = detailsRows(caseData, userType);

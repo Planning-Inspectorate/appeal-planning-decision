@@ -68,7 +68,10 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 
 	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
+	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
+
 	res.render(canUseServiceHouseholder, {
+		isNewBYSFlow,
 		deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 		appealLPD,
 		planningApplicationNumber,
@@ -108,7 +111,10 @@ const canUseServiceFullAppeal = async (req, res) => {
 
 	const appealType = caseTypeLookup(appeal.appealType, 'id')?.processCode;
 
+	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
+
 	res.render(canUseServiceFullAppealView, {
+		isNewBYSFlow,
 		deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 		hideDeadlineDate,
 		appealLPD,
@@ -147,10 +153,13 @@ const canUseServicePriorApproval = async (req, res) => {
 		? 'Yes'
 		: 'No';
 
+	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
+
 	if (appeal.eligibility.hasPriorApprovalForExistingHome) {
 		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		res.render(canUseServicePriorApprovalHouseholder, {
+			isNewBYSFlow,
 			deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 			appealLPD,
 			planningApplicationNumber,
@@ -167,6 +176,7 @@ const canUseServicePriorApproval = async (req, res) => {
 		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		res.render(canUseServicePriorApprovalFull, {
+			isNewBYSFlow,
 			deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 			appealLPD,
 			planningApplicationNumber,
@@ -201,10 +211,13 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 
 	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
+	const isNewBYSFlow = await isLpaInFeatureFlag(appeal.lpaCode, FLAG.NEW_BYS_ENFORCEMENT);
+
 	if (appeal.eligibility.hasHouseholderPermissionConditions) {
 		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
+			isNewBYSFlow,
 			deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 			appealLPD,
 			planningApplicationNumber,
@@ -222,6 +235,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 		const deadlineDate = calculateDeadlineFromBeforeYouStart({ appeal });
 
 		res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
+			isNewBYSFlow,
 			deadlineDate: deadlineDate ? formatDate(deadlineDate) : null,
 			appealLPD,
 			planningApplicationNumber,

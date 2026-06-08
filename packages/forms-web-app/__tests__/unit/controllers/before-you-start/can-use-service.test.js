@@ -224,9 +224,10 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
-				applicationAbout: null,
 				applicationDate: '04 May 2022',
+				applicationAbout: null,
 				applicationDecision: 'Granted with conditions',
 				applicationType: 'Full appeal',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
@@ -252,6 +253,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDate: '04 May 2022',
@@ -288,6 +290,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: ['None of these'],
 				applicationDate: '04 May 2022',
@@ -326,6 +329,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: ['None of these'],
 				applicationDate: '04 May 2022',
@@ -355,6 +359,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDate: '04 May 2022',
@@ -395,6 +400,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDecision: 'Granted with conditions',
@@ -436,6 +442,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: ['None of these'],
 				applicationDecision: 'Refused',
@@ -477,6 +484,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDecision: 'Granted with conditions',
@@ -517,6 +525,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDecision: 'Refused',
@@ -675,6 +684,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDecision: '',
@@ -714,6 +724,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			await getCanUseService(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(canUseServiceFullAppealUrl, {
+				isNewBYSFlow: false,
 				appealLPD: 'Bradford',
 				applicationAbout: null,
 				applicationDecision: 'Refused',
