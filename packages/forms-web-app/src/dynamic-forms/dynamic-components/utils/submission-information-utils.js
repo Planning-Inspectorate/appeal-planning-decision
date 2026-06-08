@@ -87,8 +87,6 @@ const formatEnforcementBeforeYouStartSection = (appellantSubmission, lpa) => {
 
 	const appealType = CASE_TYPES[appealTypeCode].type;
 
-	const isEnforcementListed = appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode;
-
 	const issueDate = formatDateForDisplay(enforcementIssueDate, { format: 'd MMMM yyyy' });
 
 	const effectiveDate = formatDateForDisplay(enforcementEffectiveDate, { format: 'd MMMM yyyy' });
@@ -114,15 +112,6 @@ const formatEnforcementBeforeYouStartSection = (appellantSubmission, lpa) => {
 			},
 			value: {
 				html: appealType
-			}
-		},
-		{
-			key: {
-				text: 'Is your enforcement notice about a listed building?',
-				classes: 'govuk-!-width-one-half'
-			},
-			value: {
-				html: isEnforcementListed ? 'Yes' : 'No'
 			}
 		},
 		{
