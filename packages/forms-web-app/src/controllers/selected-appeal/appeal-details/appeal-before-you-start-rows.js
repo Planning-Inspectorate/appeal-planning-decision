@@ -9,9 +9,10 @@ const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 /**
  * @param {AppealCaseDetailed} caseData
  * @param {string} lpaName
+ * @param {boolean} [isNewBYSFlow]
  * @returns {Rows}
  */
-exports.bysRows = (caseData, lpaName) => {
+exports.bysRows = (caseData, lpaName, isNewBYSFlow = false) => {
 	const isEnforcementListed = caseData.appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode;
 
 	const isEnforcement =
@@ -26,14 +27,14 @@ exports.bysRows = (caseData, lpaName) => {
 		{
 			keyText: 'Have you received an enforcement notice?',
 			valueText: caseData.enforcementNotice ? 'Yes' : 'No',
-			condition: () => true
+			condition: () => !isNewBYSFlow
 		},
 		{
-			keyText: 'What type of application is your appeal about?',
-			valueText: caseData.typeOfPlanningApplication
-				? applicationTypeMappings[caseData.typeOfPlanningApplication]
-				: '',
-			condition: () => !isEnforcement
+			keyText: isNewBYSFlow
+				? 'What is your appeal about?'
+				: 'What type of application is your appeal about?',
+			valueText: mapAppealTypeText(caseData.appealTypeCode, caseData.typeOfPlanningApplication),
+			condition: () => isNewBYSFlow || !isEnforcement
 		},
 		{
 			keyText: 'What date did you submit your application?',
@@ -59,7 +60,7 @@ exports.bysRows = (caseData, lpaName) => {
 		{
 			keyText: 'Is your enforcement notice about a listed building?',
 			valueText: isEnforcementListed ? 'Yes' : 'No',
-			condition: () => isEnforcement
+			condition: () => isEnforcement && !isNewBYSFlow
 		},
 		{
 			keyText: 'What is the issue date on your enforcement notice?',
@@ -110,4 +111,19 @@ const mapApplicationDecision = (/** @type {string | null | undefined} */ decisio
 	if (!decision) return;
 	if (decision === 'not_received') return 'I have not received a decision';
 	return decision.replace(/^\w/, (c) => c.toUpperCase());
+};
+
+/**
+ * @param {string} appealTypeCode
+ * @param {AppealCaseDetailed["typeOfPlanningApplication"] | undefined | null} typeOfPlanningApplication
+ * @returns {string}
+ */
+const mapAppealTypeText = (appealTypeCode, typeOfPlanningApplication) => {
+	if (appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode)
+		return 'Enforcement listed building and conservation area';
+	if (appealTypeCode === CASE_TYPES.ENFORCEMENT.processCode) return 'Enforcement notice';
+
+	if (typeOfPlanningApplication) return applicationTypeMappings[typeOfPlanningApplication];
+
+	return '';
 };

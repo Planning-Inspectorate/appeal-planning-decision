@@ -1,6 +1,31 @@
 {% extends "../../layouts/can-use-service/main.njk" %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../../macros/summary-field.njk" import summaryField %}
+
+{% if isNewBYSFlow %}
+	{% set enforcementNoticeRow = null %}
+{% else %}
+	{% set enforcementNoticeRow = {
+		key: {
+			text: "Have you received an enforcement notice?"
+		},
+		value: {
+			text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
+		},
+		actions: {
+			items: [
+				{
+					href: "/before-you-start/enforcement-notice",
+					text: "Change",
+					visuallyHiddenText: "Have you received an enforcement notice?",
+					attributes: { "data-cy":"enforcementNotice"}
+				}
+			]
+		}
+	}
+	%}
+{% endif %}
+
 {% block canUseServiceSummaryList %}
     {{ govukSummaryList({
 		classes: "govuk-summary-list govuk-!-margin-bottom-9",
@@ -23,42 +48,25 @@
 					]
 				}
 			},
-			{
-				key: {
-					text: "Have you received an enforcement notice?"
-				},
-				value: {
-					text: summaryField(enforcementNotice, { 'data-cy': "enforcement-notice" })
-				},
-				actions: {
-					items: [
-						{
-							href: "/before-you-start/enforcement-notice",
-							text: "Change",
-							visuallyHiddenText: "Have you received an enforcement notice?",
-							attributes: { "data-cy":"enforcementNotice"}
-						}
-					]
-				}
-			},
-      		{
-              key: {
-                text: "Application number"
-              },
-              value: {
-                text: summaryField(planningApplicationNumber, { 'data-cy': "application-number" })
-              },
-              actions: {
-                items: [
-                  {
-                    href: "/before-you-start/application-number",
-                    text: "Change",
-                    visuallyHiddenText: "Application number",
-                    attributes: { "data-cy":"applicationNumber"}
-                  }
-                ]
-              }
-            } if planningApplicationNumber,
+			enforcementNoticeRow,
+      {
+        key: {
+          text: "Application number"
+        },
+        value: {
+          text: summaryField(planningApplicationNumber, { 'data-cy': "application-number" })
+        },
+        actions: {
+          items: [
+            {
+              href: "/before-you-start/application-number",
+              text: "Change",
+              visuallyHiddenText: "Application number",
+              attributes: { "data-cy":"applicationNumber"}
+            }
+          ]
+        }
+      } if planningApplicationNumber,
 			{
 				key: {
 					text: "Type of application"
