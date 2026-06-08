@@ -141,13 +141,6 @@ describe('formatBeforeYouStartSection', () => {
 					},
 					{
 						key: {
-							text: 'Is your enforcement notice about a listed building?',
-							classes: 'govuk-!-width-one-half'
-						},
-						value: { html: 'No' }
-					},
-					{
-						key: {
 							text: 'What is the issue date on your enforcement notice?',
 							classes: 'govuk-!-width-one-half'
 						},
@@ -190,13 +183,6 @@ describe('formatBeforeYouStartSection', () => {
 					{
 						key: { text: 'Appeal type', classes: 'govuk-!-width-one-half' },
 						value: { html: CASE_TYPES.ENFORCEMENT.type }
-					},
-					{
-						key: {
-							text: 'Is your enforcement notice about a listed building?',
-							classes: 'govuk-!-width-one-half'
-						},
-						value: { html: 'No' }
 					},
 					{
 						key: {
@@ -254,13 +240,6 @@ describe('formatBeforeYouStartSection', () => {
 					{
 						key: { text: 'Appeal type', classes: 'govuk-!-width-one-half' },
 						value: { html: CASE_TYPES.ENFORCEMENT_LISTED.type }
-					},
-					{
-						key: {
-							text: 'Is your enforcement notice about a listed building?',
-							classes: 'govuk-!-width-one-half'
-						},
-						value: { html: 'Yes' }
 					},
 					{
 						key: {
