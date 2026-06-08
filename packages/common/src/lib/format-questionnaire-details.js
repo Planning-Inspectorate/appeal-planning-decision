@@ -136,3 +136,13 @@ exports.formatProcedurePreference = (caseData) => {
  */
 exports.formatConditions = (caseData) =>
 	(caseData.newConditionDetails && `Yes\n${caseData.newConditionDetails ?? ''}`) || 'No';
+
+/**
+ * @param {AppealCaseDetailed} caseData
+ */
+exports.formatListOfDocumentsBeforeDecision = (caseData) => {
+	if (caseData.listOfDocumentsBeforeDecision && caseData.listOfDocumentsBeforeDecision.length > 0) {
+		return caseData.listOfDocumentsBeforeDecision.join('\n');
+	}
+	return 'No';
+};

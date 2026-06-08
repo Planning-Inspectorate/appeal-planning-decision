@@ -425,27 +425,31 @@ model AppealCase {
   contactPlanningInspectorateDate   DateTime?
 
   // LPAQ fields
-  noticeRelatesToBuildingEngineeringMiningOther Boolean?
-  areaOfAllegedBreachInSquareMetres             Decimal?
-  floorSpaceCreatedByBreachInSquareMetres       Decimal?
-  changeOfUseRefuseOrWaste                      Boolean?
-  changeOfUseMineralExtraction                  Boolean?
-  changeOfUseMineralStorage                     Boolean?
-  relatesToErectionOfBuildingOrBuildings        Boolean?
-  relatesToBuildingWithAgriculturalPurpose      Boolean?
-  relatesToBuildingSingleDwellingHouse          Boolean?
-  affectedTrunkRoadName                         String?
-  isSiteOnCrownLand                             Boolean?
-  article4AffectedDevelopmentRights             String?
-
+  noticeRelatesToBuildingEngineeringMiningOther             Boolean?
+  areaOfAllegedBreachInSquareMetres                         Decimal?
+  floorSpaceCreatedByBreachInSquareMetres                   Decimal?
+  changeOfUseRefuseOrWaste                                  Boolean?
+  changeOfUseMineralExtraction                              Boolean?
+  changeOfUseMineralStorage                                 Boolean?
+  relatesToErectionOfBuildingOrBuildings                    Boolean?
+  relatesToBuildingWithAgriculturalPurpose                  Boolean?
+  relatesToBuildingSingleDwellingHouse                      Boolean?
+  affectedTrunkRoadName                                     String?
+  isSiteOnCrownLand                                         Boolean?
+  article4AffectedDevelopmentRights                         String?
+  anySignificantChangesLpa                                  String?
+  anySignificantChangesLpa_otherSignificantChanges          String?  @db.NVarChar(MAX)
+  anySignificantChangesLpa_localPlanSignificantChanges      String?  @db.NVarChar(MAX)
+  anySignificantChangesLpa_nationalPolicySignificantChanges String?  @db.NVarChar(MAX)
+  anySignificantChangesLpa_courtJudgementSignificantChanges String?  @db.NVarChar(MAX)
   //***************************************************************************
   // LDC fields
   //***************************************************************************
-  applicationMadeUnderActSection String? /// appellant - lawful development certificate type
-  siteUseAtTimeOfApplication     String? /// Site use at time of application
-  appealUnderActSection          String? /// lpa - lawful development certificate type
-  lpaConsiderAppealInvalid       Boolean? /// Does LPA consider the appeal invalid
-  lpaAppealInvalidReasons        String?  @db.NVarChar(MAX) /// Reason(s) why LPA consider the appeal invalid
+  applicationMadeUnderActSection                            String? /// appellant - lawful development certificate type
+  siteUseAtTimeOfApplication                                String? /// Site use at time of application
+  appealUnderActSection                                     String? /// lpa - lawful development certificate type
+  lpaConsiderAppealInvalid                                  Boolean? /// Does LPA consider the appeal invalid
+  lpaAppealInvalidReasons                                   String?  @db.NVarChar(MAX) /// Reason(s) why LPA consider the appeal invalid
 
   //***************************************************************************
   // Relations
