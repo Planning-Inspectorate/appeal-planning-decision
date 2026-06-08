@@ -586,6 +586,26 @@ const mapS78DataModelToAppealCase = (caseProcessCode, dataModel) => ({
 		dataModel.significantChangesAffectingApplicationAppellant?.find(
 			(/** @type {any} */ c) => c.value === 'court-judgement'
 		)?.comment || null,
+	anySignificantChangesLpa:
+		dataModel.significantChangesAffectingApplicationLpa
+			?.map((/** @type {any} */ c) => c.value)
+			.join(',') || null,
+	anySignificantChangesLpa_otherSignificantChanges:
+		dataModel.significantChangesAffectingApplicationLpa?.find(
+			(/** @type {any} */ c) => c.value === 'other'
+		)?.comment || null,
+	anySignificantChangesLpa_localPlanSignificantChanges:
+		dataModel.significantChangesAffectingApplicationLpa?.find(
+			(/** @type {any} */ c) => c.value === 'adopted-a-new-local-plan'
+		)?.comment || null,
+	anySignificantChangesLpa_nationalPolicySignificantChanges:
+		dataModel.significantChangesAffectingApplicationLpa?.find(
+			(/** @type {any} */ c) => c.value === 'national-policy-change'
+		)?.comment || null,
+	anySignificantChangesLpa_courtJudgementSignificantChanges:
+		dataModel.significantChangesAffectingApplicationLpa?.find(
+			(/** @type {any} */ c) => c.value === 'court-judgement'
+		)?.comment || null,
 	// s20 specific fields
 	preserveGrantLoan: dataModel.preserveGrantLoan,
 	consultHistoricEngland: dataModel.consultHistoricEngland

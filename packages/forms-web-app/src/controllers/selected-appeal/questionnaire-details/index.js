@@ -16,11 +16,13 @@ const { notifiedRows } = require('./notified-details-rows');
 const { planningOfficerReportRows } = require('./planning-officer-details-rows');
 const { siteAccessRows } = require('./site-access-details-rows');
 const { additionalDocumentsRows } = require('./additional-documents-details-rows');
+const { originalEvidenceRows } = require('./original-evidence-details-rows');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
 const { APPEAL_CASE_STAGE } = require('@planning-inspectorate/data-model');
+const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -95,6 +97,19 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		// appeal process rows
 		const appealProcessDetailsRows = appealProcessRows(caseData);
 		const appealProcessDetails = formatQuestionnaireRows(appealProcessDetailsRows, caseData);
+		// original evidence rows
+		const originalEvidenceDetailsRows = isExpeditedPart1Eligible({
+			...caseData,
+			eligibility: { applicationDecision: caseData.applicationDecision }
+		})
+			? originalEvidenceRows({ caseData, userType })
+			: [];
+		const originalEvidenceDetails = isExpeditedPart1Eligible({
+			...caseData,
+			eligibility: { applicationDecision: caseData.applicationDecision }
+		})
+			? formatQuestionnaireRows(originalEvidenceDetailsRows, caseData)
+			: [];
 		// additional documents row
 		const additionalDocumentsDetailsRows = additionalDocumentsRows({
 			caseData,
@@ -126,6 +141,13 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			zipDownloadUrl
 		};
 
+		isExpeditedPart1Eligible({
+			...caseData,
+			eligibility: { applicationDecision: caseData.applicationDecision }
+		})
+			? // @ts-ignore
+				(viewContext.appeal.originalEvidenceDetails = originalEvidenceDetails)
+			: null;
 		await res.render(VIEW.SELECTED_APPEAL.APPEAL_QUESTIONNAIRE, viewContext, async (_, html) => {
 			if (!isPagePdfDownload) return res.send(html);
 			const pdfHtml = await addCSStoHtml(html);

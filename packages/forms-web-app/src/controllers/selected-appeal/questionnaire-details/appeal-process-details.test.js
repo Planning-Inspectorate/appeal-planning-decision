@@ -8,6 +8,14 @@ const casPlanningLPAQData = caseTypeLPAQFactory(
 	'appealProcess'
 );
 const s78LPAQData = caseTypeLPAQFactory(CASE_TYPES.S78.processCode, 'appealProcess');
+const s78ExpeditedLPAQData = {
+	...caseTypeLPAQFactory(CASE_TYPES.S78.processCode, 'appealProcess'),
+	typeOfPlanningApplication: 'full-appeal',
+	applicationDate: '2026-04-01',
+	eligibility: { applicationDecision: 'granted' },
+	anySignificantChangesLpa: 'no',
+	anySignificantChangesLpa_otherSignificantChanges: ''
+};
 const s20LPAQData = caseTypeLPAQFactory(CASE_TYPES.S20.processCode, 'appealProcess');
 const advertLPAQData = caseTypeLPAQFactory(CASE_TYPES.ADVERTS.processCode, 'appealProcess');
 const casAdvertLPAQData = caseTypeLPAQFactory(CASE_TYPES.CAS_ADVERTS.processCode, 'appealProcess');
@@ -28,7 +36,10 @@ const expectedRowsS78 = [
 	{ title: 'Appeal references', value: '00000001' },
 	{ title: 'Are there any proposed conditions?', value: 'Yes\nexample new conditions' }
 ];
-
+const expectedRowsS78Expedited = [
+	...expectedRowsS78,
+	{ title: 'Significant changes since application', value: '' }
+];
 const expectedRowsLDC = [{ title: 'Appeals near the site', value: 'No' }];
 
 describe('appealProcessRows', () => {
@@ -36,6 +47,7 @@ describe('appealProcessRows', () => {
 		['HAS', hasLPAQData, expectedRowsHas],
 		['CAS Planning', casPlanningLPAQData, expectedRowsHas],
 		['S78', s78LPAQData, expectedRowsS78],
+		['S78Expedited', s78ExpeditedLPAQData, expectedRowsS78Expedited],
 		['S20', s20LPAQData, expectedRowsS78],
 		['ADVERTS', advertLPAQData, expectedRowsS78],
 		['CAS_ADVERTS', casAdvertLPAQData, expectedRowsHas],
