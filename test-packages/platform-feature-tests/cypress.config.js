@@ -66,7 +66,8 @@ module.exports = defineConfig({
     env: {
       AUTH_PASSWORD: process.env.AUTH_PASSWORD,
       AUTH_EMAIL: process.env.AUTH_EMAIL,
-      CASE_ADMIN_EMAIL: process.env.CASE_ADMIN_EMAIL
+      CASE_ADMIN_EMAIL: process.env.CASE_ADMIN_EMAIL,
+      azureAdUserId: process.env.AZURE_AD_USER_ID || '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
     },
     appeals_beta_base_url: process.env.CYPRESS_APPEALS_BETA_BASE_URL || 'https://appeals-service-test.planninginspectorate.gov.uk',
     back_office_base_url: process.env.CYPRESS_BACK_OFFICE_BASE_URL || 'https://back-office-appeals-test.planninginspectorate.gov.uk',
