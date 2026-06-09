@@ -29,6 +29,7 @@
 import { BrowserAuthData } from '../fixtures/browser-auth-data';
 import { appealsApiClient } from './appealsApiClient';
 const cookiesToSet = ['domain', 'expiry', 'httpOnly', 'path', 'secure'];
+const AZURE_AD_USER_ID = Cypress.env('azureAdUserId');
 
 Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
 	cy.get('.govuk-button').contains(text).click();
@@ -259,7 +260,7 @@ Cypress.Commands.add('updateAppealDetailsViaApi', (caseObj, caseDetails) => {
 		url: `${Cypress.config('apiBaseUrl')}appeals/case-reference/${caseObj}`,
 		headers: {
 			'Content-Type': 'application/json',
-			azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+			azureAdUserId: AZURE_AD_USER_ID
 		},
 		failOnStatusCode: false
 	}).then(({ status, body }) => {
@@ -272,7 +273,7 @@ Cypress.Commands.add('updateAppealDetailsViaApi', (caseObj, caseDetails) => {
 			url: `${Cypress.config('apiBaseUrl')}appeals/${appealId}/appellant-cases/${appellantCaseId}`,
 			headers: {
 				'Content-Type': 'application/json',
-				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				azureAdUserId: AZURE_AD_USER_ID
 			},
 			body: caseDetails,
 			failOnStatusCode: false

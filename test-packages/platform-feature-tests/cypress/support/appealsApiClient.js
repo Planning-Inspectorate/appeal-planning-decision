@@ -3,6 +3,7 @@
 //import { apiPaths } from './apiPaths.js';
 
 const baseUrl = Cypress.config('apiBaseUrl');
+const AZURE_AD_USER_ID = Cypress.env('azureAdUserId');
 
 // export const createApiSubmission = (submission, type) => {
 // 	const env = baseUrl.indexOf('test') > -1 ? 'test' : 'dev';
@@ -39,7 +40,7 @@ export const appealsApiClient = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+					azureAdUserId: AZURE_AD_USER_ID
 				}
 			});
 			expect(response.status).eq(200);
@@ -56,7 +57,7 @@ export const appealsApiClient = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+					azureAdUserId: AZURE_AD_USER_ID
 				}
 			});
 
@@ -74,7 +75,7 @@ export const appealsApiClient = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+					azureAdUserId: AZURE_AD_USER_ID
 				}
 			});
 
@@ -91,7 +92,7 @@ export const appealsApiClient = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+					azureAdUserId: AZURE_AD_USER_ID
 				}
 			});
 
@@ -108,7 +109,7 @@ export const appealsApiClient = {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+					azureAdUserId: AZURE_AD_USER_ID
 				}
 			});
 			expect(response.status).to.eq(200);
@@ -142,7 +143,7 @@ export const appealsApiClient = {
 	// 			method: 'GET',
 	// 			headers: {
 	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 				azureAdUserId: AZURE_AD_USER_ID
 	// 			}
 	// 		});
 	// 		expect(response.status).eq(200);
@@ -163,7 +164,7 @@ export const appealsApiClient = {
 	// 			method: 'PATCH',
 	// 			headers: {
 	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 				azureAdUserId: AZURE_AD_USER_ID
 	// 			},
 	// 			body: JSON.stringify({
 	// 				level: 'A',
@@ -187,7 +188,7 @@ export const appealsApiClient = {
 	// 			method: 'POST',
 	// 			headers: {
 	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 				azureAdUserId: AZURE_AD_USER_ID
 	// 			},
 	// 			body: JSON.stringify(requestBody)
 	// 		});
@@ -206,7 +207,7 @@ export const appealsApiClient = {
 	// 			method: 'DELETE',
 	// 			headers: {
 	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 				azureAdUserId: AZURE_AD_USER_ID
 	// 			}
 	// 		});
 	// 		expect(response.status).eq(200);
@@ -223,7 +224,7 @@ export const appealsApiClient = {
 	// 			method: 'GET',
 	// 			headers: {
 	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 				azureAdUserId: AZURE_AD_USER_ID
 	// 			}
 	// 		});
 	// 		expect(response.status).to.eq(200);
@@ -239,7 +240,7 @@ export const appealsApiClient = {
 			url: `${baseUrl}appeals/${appealId}/appellant-cases/${appellantCaseId}`,
 			headers: {
 				'Content-Type': 'application/json',
-				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				azureAdUserId: AZURE_AD_USER_ID
 			},
 			body: requestBody,
 			failOnStatusCode: false
@@ -256,7 +257,7 @@ export const appealsApiClient = {
 	// 			method: 'PATCH',
 	// 			headers: {
 	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 				azureAdUserId: AZURE_AD_USER_ID
 	// 			},
 	// 			body: JSON.stringify(requestBody)
 	// 		});
@@ -294,7 +295,7 @@ export const appealsApiClient = {
 	// 			method: 'POST',
 	// 			headers: {
 	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 				azureAdUserId: AZURE_AD_USER_ID
 	// 			},
 	// 			body: JSON.stringify(requestBodyWithOverrides)
 	// 		});
@@ -312,7 +313,7 @@ export const appealsApiClient = {
 			url: `${baseUrl}appeals/${reference}/review-lpa-statement`,
 			headers: {
 				'Content-Type': 'application/json',
-				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				azureAdUserId: AZURE_AD_USER_ID
 			},
 			failOnStatusCode: false
 		}).then(({ status }) => {
@@ -327,7 +328,7 @@ export const appealsApiClient = {
 			url: `${baseUrl}appeals/${reference}/review-ip-comment`,
 			headers: {
 				'Content-Type': 'application/json',
-				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				azureAdUserId: AZURE_AD_USER_ID
 			},
 			failOnStatusCode: false
 		}).then(({ status }) => {
@@ -342,7 +343,7 @@ export const appealsApiClient = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+					azureAdUserId: AZURE_AD_USER_ID
 				}
 			});
 			expect(response.status).eq(200);
@@ -358,7 +359,7 @@ export const appealsApiClient = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+					azureAdUserId: AZURE_AD_USER_ID
 				}
 			});
 			expect(response.status).eq(200);
@@ -374,7 +375,7 @@ export const appealsApiClient = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+					azureAdUserId: AZURE_AD_USER_ID
 				}
 			});
 			expect(response.status).eq(200);
@@ -390,7 +391,7 @@ export const appealsApiClient = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+					azureAdUserId: AZURE_AD_USER_ID
 				}
 			});
 			expect(response.status).eq(201);
@@ -406,7 +407,7 @@ export const appealsApiClient = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+					azureAdUserId: AZURE_AD_USER_ID
 				}
 			});
 			expect(response.status).eq(201);
@@ -422,7 +423,7 @@ export const appealsApiClient = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+					azureAdUserId: AZURE_AD_USER_ID
 				}
 			});
 			expect(response.status).eq(201);
@@ -449,7 +450,7 @@ export const appealsApiClient = {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+					azureAdUserId: AZURE_AD_USER_ID
 				},
 				body: JSON.stringify(requestBody)
 			});
@@ -469,7 +470,7 @@ export const appealsApiClient = {
 	// 			method: 'DELETE',
 	// 			headers: {
 	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 				azureAdUserId: AZURE_AD_USER_ID
 	// 			}
 	// 		});
 	// 		expect(response.status).eq(200);
@@ -485,7 +486,7 @@ export const appealsApiClient = {
 			url: `${baseUrl}appeals/${appealId}`,
 			headers: {
 				'Content-Type': 'application/json',
-				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				azureAdUserId: AZURE_AD_USER_ID
 			},
 			body: {
 				caseOfficerId: '544f5029-e660-4bc3-81b1-adc19d47e970'
@@ -504,7 +505,7 @@ export const appealsApiClient = {
 	// 			method: 'DELETE',
 	// 			headers: {
 	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 				azureAdUserId: AZURE_AD_USER_ID
 	// 			},
 	// 			body: JSON.stringify({
 	// 				appealIds: appealId
@@ -522,7 +523,7 @@ export const appealsApiClient = {
 			url: `${baseUrl}appeals/${appealReference}/start-appeal`,
 			headers: {
 				'Content-Type': 'application/json',
-				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				azureAdUserId: AZURE_AD_USER_ID
 			},
 			failOnStatusCode: false
 		}).then(({ status }) => {
@@ -537,7 +538,7 @@ export const appealsApiClient = {
 			url: `${baseUrl}appeals/${appealReference}/start-appeal`,
 			headers: {
 				'Content-Type': 'application/json',
-				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				azureAdUserId: AZURE_AD_USER_ID
 			},
 			body: {
 				procedureType: preference
@@ -556,7 +557,7 @@ export const appealsApiClient = {
 	// 		url: `${baseUrl}appeals/${appealReference}/review-lpaq`,
 	// 		headers: {
 	// 			'Content-Type': 'application/json',
-	// 			azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 			azureAdUserId: AZURE_AD_USER_ID
 	// 		},
 	// 		failOnStatusCode: false
 	// 	}).then(({ status, body }) => {			
@@ -571,7 +572,7 @@ export const appealsApiClient = {
 			url: `${baseUrl}appeals/${appealReference}/review-lpaq`,
 			headers: {
 				'Content-Type': 'application/json',
-				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				azureAdUserId: AZURE_AD_USER_ID
 			},
 			failOnStatusCode: false
 		}).then(({ status, body }) => {
@@ -588,7 +589,7 @@ export const appealsApiClient = {
 	// 			method: 'POST',
 	// 			headers: {
 	// 				'Content-Type': 'application/json',
-	// 				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+	// 				azureAdUserId: AZURE_AD_USER_ID
 	// 			}
 	// 		});
 	// 		expect(response.status).eq(200);
