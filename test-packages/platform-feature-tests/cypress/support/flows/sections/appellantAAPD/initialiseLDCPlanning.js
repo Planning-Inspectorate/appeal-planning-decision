@@ -37,7 +37,7 @@ const { ApplicationAboutPage } = require("../../pages/appellant-aapd/prepare-app
 const { PrepareAppealSelector } = require("../../../../page-objects/prepare-appeal/prepare-appeal-selector");
 const { LawfulDevelopmentCertificateTypePage } = require("../../pages/appellant-aapd/prepare-appeal/lawfulDevelopmentCertificateTypePage");
 
-module.exports = (planning, grantedOrRefusedId, applicationType, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
+module.exports = (planning, grantedOrRefusedId, applicationType, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = [], appellantStatementTestCases = []) => {
 	const basePage = new BasePage();
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const applicationNamePage = new ApplicationNamePage();
@@ -197,6 +197,6 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 		});
 	});
 	if (context?.endToEndIntegration) {
-		appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+		appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases);
 	}
 };

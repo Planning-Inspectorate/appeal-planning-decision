@@ -10,7 +10,7 @@ const initialiseCasPlanning = require("./initialiseCasPlanning");
 const initialiseAdvertPlanning = require("./initialiseAdvertPlanning");
 const initialiseLDCPlanning = require("./initialiseLDCPlanning");
 const date = new DateService();
-module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
+module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = [], appellantStatementTestCases = []) => {
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const basePage = new BasePage();
 	// Visit the "Before You Start" page 
@@ -85,26 +85,26 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 		grantedOrRefusedId = basePage._selectors?.answerGranted;
 	}
 	if (planning === prepareAppealSelector?._selectors?.answerFullAppeal) {
-		initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.fullAppealText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+		initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.fullAppealText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerListedBuilding) {
-		initialiseListedBuilding(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.listedBuildingText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+		initialiseListedBuilding(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.listedBuildingText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {
 		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ?
-			initialiseHouseHolderPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+			initialiseHouseHolderPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialDevelopment) {
 		if (context?.selectAllPlanningApplicationAbout) {
 			//s78 route
-			initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+			initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases);
 		} else {
 			//cas planning route
 			statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ?
-				initialiseCasPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) :
-				initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+				initialiseCasPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases) :
+				initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.casPlanningText, expeditedAppeal, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases);
 		}
 	} else if (planning === prepareAppealSelector?._selectors?.answerMinorCommercialAdvertisement) {
 		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ?
-			initialiseAdvertPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.advertText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases) : initialiseAdvertPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.advertText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+			initialiseAdvertPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.advertText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases) : initialiseAdvertPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.advertText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases);
 	} else if (planning === prepareAppealSelector?._selectors?.answerLawfulDevelopmentCertificate) {
-		initialiseLDCPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.ldcText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+		initialiseLDCPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.ldcText, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases);
 	}
 };

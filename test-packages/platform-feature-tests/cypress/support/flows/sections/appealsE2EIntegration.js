@@ -7,10 +7,11 @@ import { finalCommnetForCaseRef } from "./lpaManageAppeals/finalComment";
 import { finalCommnetForCaseRef as finalCommnetForCaseRefAAPD } from "./appellantAAPD/finalComment";
 import { householderQuestionnaire } from "./lpaManageAppeals/houseHolderQuestionnaire";
 import { questionnaire } from "./lpaManageAppeals/questionnaire";
-import { statementForCaseRef } from "./lpaManageAppeals/statement";
+import { lpaStatementForCaseRef } from "./lpaManageAppeals/statement";
+import { appellantStatementForCaseRef } from "./appellantAAPD/statement";
 import { viewValidatedAppealDetailsLPA } from "./lpaManageAppeals/viewValidatedAppealDetailsLPA";
 
-export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, questionnaireTestCases, statementTestCases) => {
+export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases) => {
     if (context?.endToEndIntegration) {
         // Get the Case Reference and validate submitted appeal details
         cy.get(`a[href="/appeals/your-appeals"]`).click();
@@ -49,9 +50,18 @@ export const appealsE2EIntegration = (context, planning, lpaManageAppealsData, q
             if (appealType === lpaManageAppealsData?.s78AppealType || appealType === lpaManageAppealsData?.s20AppealType || appealType === lpaManageAppealsData?.advertAppealType || appealType === lpaManageAppealsData?.ldcAppealType) {
 
                 viewValidatedAppealDetailsLPA(caseRef);
-                statementForCaseRef(statementTestCases[1], caseRef);
+                lpaStatementForCaseRef(statementTestCases[1], caseRef);
+                cy.log('LPA statement submitted for case reference:', caseRef);
 
                 cy.reviewStatementViaApi(caseRef);
+
+                // Submit the Appellant statement in Appellant dash board   
+                if (appealType === lpaManageAppealsData?.advertAppealType || appealType === lpaManageAppealsData?.ldcAppealType) {
+                    viewValidatedAppealDetailsAppellant(caseRef);
+                    appellantStatementForCaseRef(appellantStatementTestCases[1], caseRef);
+
+                    //cy.reviewStatementViaApi(caseRef);
+                }
 
                 // Add IP Comments from FO
                 ipCommentsForAppealRef(caseRef);

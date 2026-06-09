@@ -9,7 +9,7 @@ import { ipCommentsForAppealRef } from "./../ipComments/ipComments";
 import { questionnaire } from "./../lpaManageAppeals/questionnaire";
 import { statementForCaseRef } from "./../lpaManageAppeals/statement";
 import { viewValidatedAppealDetailsLPA } from "./../lpaManageAppeals/viewValidatedAppealDetailsLPA";
-import { appealsApiClient} from "./../../../../support/appealsApiClient";
+import { appealsApiClient } from "./../../../../support/appealsApiClient";
 import { appealsE2EIntegration } from "../appealsE2EIntegration";
 const applicationFormPage = require("../../pages/appellant-aapd/prepare-appeal/applicationFormPage");
 const { ApplicationNamePage } = require("../../pages/appellant-aapd/prepare-appeal/applicationNamePage");
@@ -30,7 +30,7 @@ const { ApplyAppealCostsPage } = require("../../pages/appellant-aapd/upload-docu
 const { HealthSafetyIssuesPage } = require("../../pages/appellant-aapd/prepare-appeal/healthSafetyIssuesPage");
 const { PrepareAppealSelector } = require("../../../../page-objects/prepare-appeal/prepare-appeal-selector");
 const { NewPlansDrawingsPage } = require("../../pages/appellant-aapd/upload-documents/newPlansDrawingsPage");
-module.exports = (planning, grantedOrRefusedId, applicationType, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = []) => {
+module.exports = (planning, grantedOrRefusedId, applicationType, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = [], appellantStatementTestCases = []) => {
     const basePage = new BasePage();
     const prepareAppealSelector = new PrepareAppealSelector();
     const applicationNamePage = new ApplicationNamePage();
@@ -203,7 +203,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
             expect(text.trim()).to.equal(prepareAppealData?.appealSubmitted);
         });
     });
-    if (context?.endToEndIntegration){
-        appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
-    }    
+    if (context?.endToEndIntegration) {
+        appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases);
+    }
 };

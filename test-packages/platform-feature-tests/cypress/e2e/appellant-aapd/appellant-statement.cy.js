@@ -30,7 +30,7 @@ describe('Appellant Statement Test Cases', { tags: '@appellant-statement-Submiss
                 it(`
             Should validate appeal Statement ${context.proofsOfEvidence?.isAddWitness}
              `, () => {
-                        statement(context, prepareAppealData, context?.appealType);
+                        statement(context, prepareAppealData, prepareAppealData?.LdcAppealType);
                 });
         });
 });

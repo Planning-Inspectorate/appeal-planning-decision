@@ -1,5 +1,6 @@
 {
     "FullAppealType": "Planning",
+    "LdcAppealType": "Lawful development certificate",
     "todoProofsOfEvidence": "Proofs of evidence",
     "todoFinalComments": "Final comments",
     "todoStatement": "Statement",

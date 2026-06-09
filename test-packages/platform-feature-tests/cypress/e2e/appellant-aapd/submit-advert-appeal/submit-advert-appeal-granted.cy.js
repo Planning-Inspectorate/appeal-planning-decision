@@ -4,6 +4,7 @@
 import { advertAppealGrantedTestCases } from "../../../helpers/appellantAAPD/advertAppeal/advertAppealGrantedData";
 import { advertQuestionnaireTestCases as questionnaireTestCases } from "../../../helpers/lpaManageAppeals/advertQuestionnaireData";
 import { statementTestCases } from "../../../helpers/lpaManageAppeals/statementData";
+import { statementTestCases as appellantStatementTestCases } from "../../../helpers/appellantAAPD/statementData";
 import { users } from "../../../fixtures/users.js";
 const { submitAppealFlow } = require("../../../support/flows/sections/appellantAAPD/appeal");
 
@@ -32,8 +33,9 @@ describe('Submit Advert Appeal Granted Test Cases', { tags: '@Advert-granted' },
                 context, //: { ...context, advertAppeal: true },
                 prepareAppealData,
                 lpaManageAppealsData,
-				questionnaireTestCases,
-				statementTestCases
+                questionnaireTestCases,
+                statementTestCases,
+                appellantStatementTestCases
             });
         });
     });

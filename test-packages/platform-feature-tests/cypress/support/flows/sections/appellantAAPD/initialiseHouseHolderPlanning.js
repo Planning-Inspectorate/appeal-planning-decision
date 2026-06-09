@@ -18,7 +18,7 @@ const { ApplyAppealCostsPage } = require("../../pages/appellant-aapd/upload-docu
 const { HealthSafetyIssuesPage } = require("../../pages/appellant-aapd/prepare-appeal/healthSafetyIssuesPage");
 const { PrepareAppealSelector } = require("../../../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-module.exports = (planning, grantedOrRefusedId, applicationType, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [] , statementTestCases = []) => {
+module.exports = (planning, grantedOrRefusedId, applicationType, context, prepareAppealData, lpaManageAppealsData, questionnaireTestCases = [], statementTestCases = [], appellantStatementTestCases = []) => {
 	const basePage = new BasePage();
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const applicationNamePage = new ApplicationNamePage();
@@ -115,7 +115,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 		//What is the application reference number?
 
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/reference-number`);
-		const applicationNumber = `TEST-${Date.now()}`;	
+		const applicationNumber = `TEST-${Date.now()}`;
 		cy.get(prepareAppealSelector?._selectors?.applicationReference).type(applicationNumber);
 		cy.advanceToNextPage();
 		//What date did you submit your application?
@@ -164,7 +164,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 			expect(text.trim()).to.equal(prepareAppealData?.appealSubmitted);
 		});
 	});
-	if (context?.endToEndIntegration){
-		appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases);
+	if (context?.endToEndIntegration) {
+		appealsE2EIntegration(context, applicationType, lpaManageAppealsData, questionnaireTestCases, statementTestCases, appellantStatementTestCases);
 	}
 };
