@@ -1,6 +1,11 @@
 const { getAppealStatus } = require('./appeal-status');
 
 describe('getAppealStatus', () => {
+	beforeAll(() => {
+		jest.useFakeTimers('modern');
+		jest.setSystemTime(new Date('2023-06-01T00:10:00.000Z').getTime());
+	});
+
 	it('should return "decided" when caseDecisionOutcomeDate is present', () => {
 		const appeal = { caseDecisionOutcomeDate: '2023-01-01' };
 		const result = getAppealStatus(appeal);
@@ -11,6 +16,23 @@ describe('getAppealStatus', () => {
 		const futureDate = new Date();
 		futureDate.setDate(futureDate.getDate() + 10);
 		const appeal = { interestedPartyRepsDueDate: futureDate.toISOString() };
+		const result = getAppealStatus(appeal);
+		expect(result).toBe('open');
+	});
+
+	it('should return "open" when interestedPartyRepsDueDate is current date - BST', () => {
+		const currentDate = new Date();
+		currentDate.setHours(22, 59);
+		const appeal = { interestedPartyRepsDueDate: currentDate.toISOString() };
+		const result = getAppealStatus(appeal);
+		expect(result).toBe('open');
+	});
+
+	it('should return "open" when interestedPartyRepsDueDate is current date - non-BST', () => {
+		jest.setSystemTime(new Date('2023-12-01T00:10:00.000Z').getTime());
+		const currentDate = new Date();
+		currentDate.setHours(23, 59);
+		const appeal = { interestedPartyRepsDueDate: currentDate.toISOString() };
 		const result = getAppealStatus(appeal);
 		expect(result).toBe('open');
 	});

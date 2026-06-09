@@ -1,4 +1,6 @@
 const { isEnforcementChildLinkedAppeal } = require('@pins/common/src/lib/linked-appeals');
+const { utcToZonedTime } = require('date-fns-tz');
+const targetTimezone = 'Europe/London';
 
 /**
  * @typedef {import("./appeals-view").AppealViewModel} AppealViewModel
@@ -6,11 +8,14 @@ const { isEnforcementChildLinkedAppeal } = require('@pins/common/src/lib/linked-
  * @returns {AppealViewModel["status"]}
  */
 exports.getAppealStatus = (appeal) => {
-	if (appeal.caseDecisionOutcomeDate) {
+	const { caseDecisionOutcomeDate, interestedPartyRepsDueDate } = appeal;
+
+	if (caseDecisionOutcomeDate) {
 		return 'decided';
 	} else if (
-		appeal.interestedPartyRepsDueDate &&
-		new Date(appeal.interestedPartyRepsDueDate) > new Date() &&
+		interestedPartyRepsDueDate &&
+		utcToZonedTime(new Date(interestedPartyRepsDueDate), targetTimezone) >
+			utcToZonedTime(new Date(), targetTimezone) &&
 		!isEnforcementChildLinkedAppeal(appeal)
 	) {
 		return 'open';
