@@ -90,18 +90,6 @@ describe('appeal-document', () => {
 		expect(mockClient.putAppealDocument).not.toHaveBeenCalled();
 	});
 
-	it('should ignore unpublished documents', async () => {
-		const invalidMessage = {
-			...testData,
-			datePublished: null
-		};
-
-		await handler(invalidMessage, ctx);
-
-		expect(ctx.log).toHaveBeenCalledWith('Invalid message status, skipping');
-		expect(mockClient.putAppealDocument).not.toHaveBeenCalled();
-	});
-
 	const invalidVirusStatuses = ['not_scanned', 'affected', 'unknown'];
 
 	it.each(invalidVirusStatuses)(
@@ -153,7 +141,7 @@ describe('appeal-document', () => {
 
 	it('Should ignore invalid delete documents requests as they wont exist in the database', async () => {
 		const result = await handler(
-			{ ...testData, datePublished: null },
+			{ ...testData, virusCheckStatus: 'not_scanned' },
 			{
 				...ctx,
 				triggerMetadata: { applicationProperties: { type: 'Delete' } }

@@ -3,7 +3,7 @@
  * service bus topic trigger
  * consumes document metadata messages from BO
  * document metadata represent files attached to appeal cases
- * ignore messages if not published/scanned/redacted
+ * ignore messages if not scanned
  * currently this is assuming that all docs meeting this criteria will be publicly available and so FO can just link users to the storage account uri directly
  */
 
@@ -67,10 +67,7 @@ function checkMessageIsValid(documentMessage, context) {
 		throw new Error('Invalid message schema');
 	}
 
-	return (
-		!!documentMessage.datePublished &&
-		VALID_SCAN_STATUSES.includes(documentMessage.virusCheckStatus)
-	);
+	return VALID_SCAN_STATUSES.includes(documentMessage.virusCheckStatus);
 }
 
 /**
