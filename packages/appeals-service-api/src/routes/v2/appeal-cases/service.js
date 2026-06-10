@@ -186,7 +186,10 @@ const mapCommonDataModelToAppealCase = (
 		lpaCostsAppliedFor,
 		typeOfPlanningApplication,
 		reasonForNeighbourVisits,
-		listOfDocumentsBeforeDecision
+		listOfDocumentsBeforeDecision,
+		reasonForAppealAppellant,
+		significantChangesAffectingApplicationAppellant,
+		significantChangesAffectingApplicationLpa
 	}
 ) => ({
 	// custom mappings
@@ -282,7 +285,46 @@ const mapCommonDataModelToAppealCase = (
 	lpaCostsAppliedFor,
 	typeOfPlanningApplication,
 	reasonForNeighbourVisits,
-	listOfDocumentsBeforeDecision
+	listOfDocumentsBeforeDecision,
+	reasonForAppealAppellant: reasonForAppealAppellant ?? null,
+	anySignificantChanges:
+		significantChangesAffectingApplicationAppellant
+			?.map((/** @type {any} */ c) => c.value)
+			.join(',') || null,
+	anySignificantChanges_otherSignificantChanges:
+		significantChangesAffectingApplicationAppellant?.find(
+			(/** @type {any} */ c) => c.value === 'other'
+		)?.comment || null,
+	anySignificantChanges_localPlanSignificantChanges:
+		significantChangesAffectingApplicationAppellant?.find(
+			(/** @type {any} */ c) => c.value === 'adopted-a-new-local-plan'
+		)?.comment || null,
+	anySignificantChanges_nationalPolicySignificantChanges:
+		significantChangesAffectingApplicationAppellant?.find(
+			(/** @type {any} */ c) => c.value === 'national-policy-change'
+		)?.comment || null,
+	anySignificantChanges_courtJudgementSignificantChanges:
+		significantChangesAffectingApplicationAppellant?.find(
+			(/** @type {any} */ c) => c.value === 'court-judgement'
+		)?.comment || null,
+	anySignificantChangesLpa:
+		significantChangesAffectingApplicationLpa?.map((/** @type {any} */ c) => c.value).join(',') ||
+		null,
+	anySignificantChangesLpa_otherSignificantChanges:
+		significantChangesAffectingApplicationLpa?.find((/** @type {any} */ c) => c.value === 'other')
+			?.comment || null,
+	anySignificantChangesLpa_localPlanSignificantChanges:
+		significantChangesAffectingApplicationLpa?.find(
+			(/** @type {any} */ c) => c.value === 'adopted-a-new-local-plan'
+		)?.comment || null,
+	anySignificantChangesLpa_nationalPolicySignificantChanges:
+		significantChangesAffectingApplicationLpa?.find(
+			(/** @type {any} */ c) => c.value === 'national-policy-change'
+		)?.comment || null,
+	anySignificantChangesLpa_courtJudgementSignificantChanges:
+		significantChangesAffectingApplicationLpa?.find(
+			(/** @type {any} */ c) => c.value === 'court-judgement'
+		)?.comment || null
 });
 
 /**
@@ -564,48 +606,7 @@ const mapS78DataModelToAppealCase = (caseProcessCode, dataModel) => ({
 	siteViewableFromRoad: dataModel.siteViewableFromRoad,
 	siteWithinSSSI: dataModel.siteWithinSSSI,
 	//s78 expedited fields
-	reasonForAppealAppellant: dataModel.reasonForAppealAppellant,
 	screeningOpinionIndicatesEiaRequired: dataModel.screeningOpinionIndicatesEiaRequired,
-	anySignificantChanges:
-		dataModel.significantChangesAffectingApplicationAppellant
-			?.map((/** @type {any} */ c) => c.value)
-			.join(',') || null,
-	anySignificantChanges_otherSignificantChanges:
-		dataModel.significantChangesAffectingApplicationAppellant?.find(
-			(/** @type {any} */ c) => c.value === 'other'
-		)?.comment || null,
-	anySignificantChanges_localPlanSignificantChanges:
-		dataModel.significantChangesAffectingApplicationAppellant?.find(
-			(/** @type {any} */ c) => c.value === 'adopted-a-new-local-plan'
-		)?.comment || null,
-	anySignificantChanges_nationalPolicySignificantChanges:
-		dataModel.significantChangesAffectingApplicationAppellant?.find(
-			(/** @type {any} */ c) => c.value === 'national-policy-change'
-		)?.comment || null,
-	anySignificantChanges_courtJudgementSignificantChanges:
-		dataModel.significantChangesAffectingApplicationAppellant?.find(
-			(/** @type {any} */ c) => c.value === 'court-judgement'
-		)?.comment || null,
-	anySignificantChangesLpa:
-		dataModel.significantChangesAffectingApplicationLpa
-			?.map((/** @type {any} */ c) => c.value)
-			.join(',') || null,
-	anySignificantChangesLpa_otherSignificantChanges:
-		dataModel.significantChangesAffectingApplicationLpa?.find(
-			(/** @type {any} */ c) => c.value === 'other'
-		)?.comment || null,
-	anySignificantChangesLpa_localPlanSignificantChanges:
-		dataModel.significantChangesAffectingApplicationLpa?.find(
-			(/** @type {any} */ c) => c.value === 'adopted-a-new-local-plan'
-		)?.comment || null,
-	anySignificantChangesLpa_nationalPolicySignificantChanges:
-		dataModel.significantChangesAffectingApplicationLpa?.find(
-			(/** @type {any} */ c) => c.value === 'national-policy-change'
-		)?.comment || null,
-	anySignificantChangesLpa_courtJudgementSignificantChanges:
-		dataModel.significantChangesAffectingApplicationLpa?.find(
-			(/** @type {any} */ c) => c.value === 'court-judgement'
-		)?.comment || null,
 	// s20 specific fields
 	preserveGrantLoan: dataModel.preserveGrantLoan,
 	consultHistoricEngland: dataModel.consultHistoricEngland

@@ -184,10 +184,10 @@ function buildCreateAppellantSubmissionData(lpaCode, appealTypeCode, appeal) {
 			LPACode: lpaCode,
 			appealTypeCode,
 			isListedBuilding: appealTypeCode === CASE_TYPES.ENFORCEMENT_LISTED.processCode,
-			enforcementIssueDate: appeal.eligibility.enforcementIssueDate,
-			enforcementEffectiveDate: appeal.eligibility.enforcementEffectiveDate,
-			hasContactedPlanningInspectorate: appeal.eligibility.hasContactedPlanningInspectorate,
-			contactPlanningInspectorateDate: appeal.eligibility.contactPlanningInspectorateDate,
+			enforcementIssueDate: appeal.eligibility?.enforcementIssueDate,
+			enforcementEffectiveDate: appeal.eligibility?.enforcementEffectiveDate,
+			hasContactedPlanningInspectorate: appeal.eligibility?.hasContactedPlanningInspectorate,
+			contactPlanningInspectorateDate: appeal.eligibility?.contactPlanningInspectorateDate,
 			enforcementReferenceNumber: appeal.enforcementReferenceNumber
 		};
 	} else {
@@ -195,10 +195,10 @@ function buildCreateAppellantSubmissionData(lpaCode, appealTypeCode, appeal) {
 			appealId: appeal.appealSqlId,
 			LPACode: lpaCode,
 			appealTypeCode,
-			isListedBuilding: appeal.eligibility.isListedBuilding ?? null,
+			isListedBuilding: appeal.eligibility?.isListedBuilding ?? null,
 			applicationDecisionDate: appeal.decisionDate,
 			applicationReference: appeal.planningApplicationNumber,
-			applicationDecision: appeal.eligibility.applicationDecision,
+			applicationDecision: appeal.eligibility?.applicationDecision,
 			typeOfPlanningApplication: appeal.typeOfPlanningApplication,
 			onApplicationDate: appeal.applicationDate
 		};
