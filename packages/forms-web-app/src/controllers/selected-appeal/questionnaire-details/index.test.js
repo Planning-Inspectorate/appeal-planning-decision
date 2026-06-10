@@ -75,6 +75,7 @@ const expectedViewContext = {
 		planningOfficerDetails: 'some formatted row data',
 		siteAccessDetails: 'some formatted row data',
 		appealProcessDetails: 'some formatted row data',
+		originalEvidenceDetails: [],
 		additionalDocumentsDetails: 'some formatted row data'
 	},
 	pdfDownloadUrl: 'a/fake/url?pdf=true',
