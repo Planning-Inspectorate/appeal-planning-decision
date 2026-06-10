@@ -326,6 +326,18 @@ const getStandardDetailsRows = (caseData, context) => {
 			isEscaped: true
 		},
 		{
+			keyText: 'Why are you appealing?',
+			valueText: caseData.reasonForAppealAppellant ?? '',
+			condition: (caseData) => isNotUndefinedOrNull(caseData.reasonForAppealAppellant),
+			isEscaped: true
+		},
+		{
+			keyText: 'Significant changes since application',
+			valueText: formatSignificantChanges(caseData),
+			condition: (caseData) => isNotUndefinedOrNull(caseData.anySignificantChanges),
+			isEscaped: true
+		},
+		{
 			keyText: 'Preferred procedure',
 			valueText: formatProcedure(caseData),
 			condition: (caseData) => !isExpeditedAppealType && caseData.appellantProcedurePreference

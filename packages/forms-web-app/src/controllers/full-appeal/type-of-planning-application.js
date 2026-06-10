@@ -100,7 +100,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 	try {
 		appeal.eligibility = {
 			...appeal.eligibility,
-			isListedBuilding: isListedBuilding ? isListedBuilding : appeal.eligibility.isListedBuilding,
+			isListedBuilding: isListedBuilding ? isListedBuilding : appeal.eligibility?.isListedBuilding,
 			enforcementNotice: isEnforcementOrELB,
 			enforcementNoticeListedBuilding: typeOfPlanningApplication === ENFORCEMENT_LISTED_BUILDING
 		};

@@ -1178,6 +1178,32 @@ module.exports = ({ getSqlClient, setCurrentLpa, mockNotifyClient, appealsApi })
 				expect(appealRelations.length).toBe(5); // nearbyCaseReferences (linked bi-directional) + leadCaseReference (one-directional)
 			});
 
+			it('maps reasonForAppealAppellant and significant changes for HAS', async () => {
+				const hasWithExpedited = {
+					...hasExample,
+					caseReference: testCase1.caseReference,
+					reasonForAppealAppellant: 'My appeal reason is very strong',
+					significantChangesAffectingApplicationAppellant: [
+						{ value: 'adopted-a-new-local-plan', comment: 'local plan comment' },
+						{ value: 'other', comment: 'other comment' }
+					]
+				};
+				await appealsApi
+					.put(`/api/v2/appeal-cases/` + testCase1.caseReference)
+					.send(hasWithExpedited);
+
+				const appealCase = await sqlClient.appealCase.findFirst({
+					where: { caseReference: testCase1.caseReference }
+				});
+
+				expect(appealCase?.reasonForAppealAppellant).toBe('My appeal reason is very strong');
+				expect(appealCase?.anySignificantChanges).toBe('adopted-a-new-local-plan,other');
+				expect(appealCase?.anySignificantChanges_localPlanSignificantChanges).toBe(
+					'local plan comment'
+				);
+				expect(appealCase?.anySignificantChanges_otherSignificantChanges).toBe('other comment');
+			});
+
 			it('upserts all relational data for S78', async () => {
 				s78Example.caseReference = testCase1.caseReference;
 				await appealsApi.put(`/api/v2/appeal-cases/` + testCase1.caseReference).send(s78Example);
