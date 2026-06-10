@@ -204,6 +204,30 @@ components:
         originalDevelopmentDescription:
           type: string
           description: The original description of the development, as provided by the appellant
+        reasonForAppealAppellant:
+          type: string
+          nullable: true
+          description: The reason for the appeal, as provided by the appellant
+        anySignificantChanges:
+          type: string
+          nullable: true
+          description: Whether there have been significant changes since the application
+        anySignificantChanges_localPlanSignificantChanges:
+          type: string
+          nullable: true
+          description: Local plan significant changes details
+        anySignificantChanges_nationalPolicySignificantChanges:
+          type: string
+          nullable: true
+          description: National policy significant changes details
+        anySignificantChanges_courtJudgementSignificantChanges:
+          type: string
+          nullable: true
+          description: Court judgement significant changes details
+        anySignificantChanges_otherSignificantChanges:
+          type: string
+          nullable: true
+          description: Other significant changes details
         developmentType:
           type: string
           enum:

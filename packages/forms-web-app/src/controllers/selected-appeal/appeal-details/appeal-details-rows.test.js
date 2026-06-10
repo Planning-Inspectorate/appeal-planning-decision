@@ -860,8 +860,49 @@ describe('appeal-details-rows', () => {
 		});
 	});
 
+	describe('Why are you appealing?', () => {
+		const reasonForAppealIndex = 30;
+
+		it('should display the reason for appeal if set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.reasonForAppealAppellant = 'Some reason';
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[reasonForAppealIndex].condition(testCase)).toBeTruthy();
+			expect(rows[reasonForAppealIndex].keyText).toEqual('Why are you appealing?');
+			expect(rows[reasonForAppealIndex].valueText).toEqual('Some reason');
+		});
+
+		it('should not display the reason for appeal if not set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[reasonForAppealIndex].condition(testCase)).toBeFalsy();
+		});
+	});
+
+	describe('Significant changes since application', () => {
+		const significantChangesIndex = 31;
+
+		it('should display the significant changes if set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			testCase.anySignificantChanges = 'adopted-a-new-local-plan';
+			testCase.anySignificantChanges_localPlanSignificantChanges = 'Details';
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[significantChangesIndex].condition(testCase)).toBeTruthy();
+			expect(rows[significantChangesIndex].keyText).toEqual(
+				'Significant changes since application'
+			);
+			expect(rows[significantChangesIndex].valueText).toContain('Adopted a new local plan');
+		});
+
+		it('should not display the significant changes if not set', () => {
+			const testCase = structuredClone(caseWithAppellant);
+			const rows = detailsRows(testCase, APPEAL_USER_ROLES.APPELLANT);
+			expect(rows[significantChangesIndex].condition(testCase)).toBeFalsy();
+		});
+	});
+
 	describe('Preferred procedure', () => {
-		const lpaChangedDescriptionIndex = 30;
+		const lpaChangedDescriptionIndex = 32;
 
 		it('should display the appellant preferred procedure if set', () => {
 			const testCase = structuredClone(caseWithAppellant);
@@ -883,7 +924,7 @@ describe('appeal-details-rows', () => {
 	});
 
 	describe('Cost application', () => {
-		const costsApplicationIndex = 34;
+		const costsApplicationIndex = 36;
 
 		it('should display Yes if applicant applied for costs', () => {
 			const testCase = structuredClone(caseWithAppellant);
