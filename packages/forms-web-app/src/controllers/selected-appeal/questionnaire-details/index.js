@@ -98,18 +98,17 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const appealProcessDetailsRows = appealProcessRows(caseData);
 		const appealProcessDetails = formatQuestionnaireRows(appealProcessDetailsRows, caseData);
 		// original evidence rows
-		const originalEvidenceDetailsRows = isExpeditedPart1Eligible({
+		const isExpeditedPart1 = isExpeditedPart1Eligible({
 			...caseData,
 			eligibility: { applicationDecision: caseData.applicationDecision }
-		})
+		});
+		const originalEvidenceDetailsRows = isExpeditedPart1
 			? originalEvidenceRows({ caseData, userType })
 			: [];
-		const originalEvidenceDetails = isExpeditedPart1Eligible({
-			...caseData,
-			eligibility: { applicationDecision: caseData.applicationDecision }
-		})
+		const originalEvidenceDetails = isExpeditedPart1
 			? formatQuestionnaireRows(originalEvidenceDetailsRows, caseData)
 			: [];
+
 		// additional documents row
 		const additionalDocumentsDetailsRows = additionalDocumentsRows({
 			caseData,
@@ -135,19 +134,12 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				planningOfficerDetails,
 				siteAccessDetails,
 				appealProcessDetails,
+				originalEvidenceDetails,
 				additionalDocumentsDetails
 			},
 			pdfDownloadUrl,
 			zipDownloadUrl
 		};
-
-		isExpeditedPart1Eligible({
-			...caseData,
-			eligibility: { applicationDecision: caseData.applicationDecision }
-		})
-			? // @ts-ignore
-				(viewContext.appeal.originalEvidenceDetails = originalEvidenceDetails)
-			: null;
 		await res.render(VIEW.SELECTED_APPEAL.APPEAL_QUESTIONNAIRE, viewContext, async (_, html) => {
 			if (!isPagePdfDownload) return res.send(html);
 			const pdfHtml = await addCSStoHtml(html);
