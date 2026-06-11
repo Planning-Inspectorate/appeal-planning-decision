@@ -397,7 +397,8 @@ exports.getQuestionProps = (response) => ({
 				: 'Did you receive representations from members of the public or other parties?',
 		url: 'representations',
 		html:
-			response.journeyId === JOURNEY_TYPES.S78_QUESTIONNAIRE_PART_1.id
+			response.journeyId === JOURNEY_TYPES.S78_QUESTIONNAIRE_PART_1.id ||
+			response.journeyId === JOURNEY_TYPES.HAS_QUESTIONNAIRE.id
 				? 'resources/other-representations/content.html'
 				: '',
 		fieldName: 'otherPartyRepresentations',
