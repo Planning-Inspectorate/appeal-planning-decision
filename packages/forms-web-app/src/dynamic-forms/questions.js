@@ -374,7 +374,7 @@ exports.getQuestionProps = (response) => ({
 	},
 	appealNotification: {
 		type: 'multi-file-upload',
-		title: 'Appeal notification letter',
+		title: 'Upload the appeal notification letter and the list of people that you notified',
 		question: 'Upload the appeal notification letter and the list of people that you notified',
 		fieldName: 'appealNotification',
 		url: 'appeal-notification-letter',

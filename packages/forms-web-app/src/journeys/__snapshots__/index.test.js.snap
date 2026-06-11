@@ -24248,7 +24248,7 @@ exports[`Dynamic forms journey tests lpa Advertisement renders listing page 1`] 
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/notification-type">Answer<span class="govuk-visually-hidden"> How did you notify relevant parties about the planning application?</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the appeal notification letter and the list of people that you notified</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/appeal-notification-letter">Upload<span class="govuk-visually-hidden"> the appeal notification letter and the list of people that you notified</span></a>
@@ -26676,7 +26676,7 @@ exports[`Dynamic forms journey tests lpa Commercial advertisement renders listin
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/notification-type">Answer<span class="govuk-visually-hidden"> How did you notify relevant parties about the planning application?</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the appeal notification letter and the list of people that you notified</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/appeal-notification-letter">Upload<span class="govuk-visually-hidden"> the appeal notification letter and the list of people that you notified</span></a>
@@ -28346,7 +28346,7 @@ exports[`Dynamic forms journey tests lpa Commercial planning (CAS) renders listi
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/notification-type">Answer<span class="govuk-visually-hidden"> How did you notify relevant parties about the planning application?</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the appeal notification letter and the list of people that you notified</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/appeal-notification-letter">Upload<span class="govuk-visually-hidden"> the appeal notification letter and the list of people that you notified</span></a>
@@ -32095,7 +32095,7 @@ exports[`Dynamic forms journey tests lpa Enforcement listed building and conserv
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-enforcement-list">Upload<span class="govuk-visually-hidden"> the list of people that you served the enforcement notice to</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the appeal notification letter and the list of people that you notified</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/appeal-notification-letter">Upload<span class="govuk-visually-hidden"> the appeal notification letter and the list of people that you notified</span></a>
@@ -36302,7 +36302,7 @@ exports[`Dynamic forms journey tests lpa Enforcement notice renders listing page
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/upload-enforcement-list">Upload<span class="govuk-visually-hidden"> the list of people that you served the enforcement notice to</span></a>
                                 </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the appeal notification letter and the list of people that you notified</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/appeal-notification-letter">Upload<span class="govuk-visually-hidden"> the appeal notification letter and the list of people that you notified</span></a>
@@ -38015,7 +38015,7 @@ exports[`Dynamic forms journey tests lpa Householder renders listing page 1`] = 
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/notification-type">Answer<span class="govuk-visually-hidden"> How did you notify relevant parties about the planning application?</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the appeal notification letter and the list of people that you notified</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/appeal-notification-letter">Upload<span class="govuk-visually-hidden"> the appeal notification letter and the list of people that you notified</span></a>
@@ -46429,7 +46429,7 @@ exports[`Dynamic forms journey tests lpa Planning listed building and conservati
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/notification-type">Answer<span class="govuk-visually-hidden"> How did you notify relevant parties about the planning application?</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the appeal notification letter and the list of people that you notified</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/appeal-notification-letter">Upload<span class="govuk-visually-hidden"> the appeal notification letter and the list of people that you notified</span></a>
@@ -46733,7 +46733,7 @@ exports[`Dynamic forms journey tests lpa Planning renders listing page 1`] = `
                             <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/notification-type">Answer<span class="govuk-visually-hidden"> How did you notify relevant parties about the planning application?</span></a>
                             </dd>
                         </div>
-                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Appeal notification letter</dt>
+                        <div class="govuk-summary-list__row"><dt class="govuk-summary-list__key"> Upload the appeal notification letter and the list of people that you notified</dt>
                             <dd
                             class="govuk-summary-list__value">Not started</dd>
                                 <dd class="govuk-summary-list__actions"><a class="govuk-link" href="/manage-appeals/questionnaire/appeal-ref/notified/appeal-notification-letter">Upload<span class="govuk-visually-hidden"> the appeal notification letter and the list of people that you notified</span></a>

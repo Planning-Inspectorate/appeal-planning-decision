@@ -47,7 +47,7 @@ exports.notifiedRows = (caseData) => {
 			isEscaped: true
 		},
 		{
-			keyText: 'Appeal notification letter',
+			keyText: 'Appeal notification letter and the list of people that you notified',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION),
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.APPEAL_NOTIFICATION),
 			isEscaped: true
