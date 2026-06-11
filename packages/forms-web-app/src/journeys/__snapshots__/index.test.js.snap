@@ -37312,7 +37312,10 @@ exports[`Dynamic forms journey tests lpa Householder Householder should render t
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                             <h1 class="govuk-fieldset__heading"> Did you receive representations from members of the public or other parties about the original application?</h1>
                         </legend>
-                        <div id="otherPartyRepresentations-hint" class="govuk-hint"></div>
+                        <div id="otherPartyRepresentations-hint" class="govuk-hint">
+                            <p class="govuk-body">We can’t accept representations submitted after the application has been
+                                received</p>
+                        </div>
                         <div class="govuk-radios govuk-radios" data-module="govuk-radios">
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="otherPartyRepresentations" name="otherPartyRepresentations"
