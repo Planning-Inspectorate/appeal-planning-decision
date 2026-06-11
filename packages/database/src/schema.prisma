@@ -721,7 +721,7 @@ model Document {
   // indexes
   // additional covering/filtered indexes added manually, as include not supported by Prisma https://www.prisma.io/docs/orm/prisma-schema/data-model/indexes
   // NONCLUSTERED INDEX (caseReference) INCLUDE (id, publishedDocumentURI, filename, documentType, datePublished, redacted, virusCheckStatus, published) WHERE published = 1
-  // NONCLUSTERED INDEX ([caseReference], [documentType]) INCLUDE (id, publishedDocumentURI, filename, datePublished, redacted, virusCheckStatus, published)
+  @@index([caseReference, documentType], map: "Document_caseRef_type_idx")
   @@index([caseReference, published])
   @@index([documentURI]) // for documentsApi lookups
   @@index([caseReference, stage, published]) // for documentsApi zip generation

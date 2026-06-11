@@ -2,7 +2,7 @@ const { InvocationContext } = require('@azure/functions');
 const handler = require('../../src/functions/appeal-document');
 const createApiClient = require('../../src/common/api-client');
 const config = require('../../src/common/config');
-const { APPEAL_REDACTED_STATUS } = require('@planning-inspectorate/data-model');
+const { APPEAL_CASE_STAGE, APPEAL_REDACTED_STATUS } = require('@planning-inspectorate/data-model');
 
 jest.mock('../../src/common/api-client');
 
@@ -147,6 +147,15 @@ describe('appeal-document', () => {
 				triggerMetadata: { applicationProperties: { type: 'Delete' } }
 			}
 		);
+
+		expect(mockClient.deleteAppealDocument).not.toHaveBeenCalled();
+		expect(mockClient.putAppealDocument).not.toHaveBeenCalled();
+		expect(ctx.log).toHaveBeenCalledWith(`Invalid message status, skipping`);
+		expect(result).toEqual({});
+	});
+
+	it('Should ignore internal documents', async () => {
+		const result = await handler({ ...testData, stage: APPEAL_CASE_STAGE.INTERNAL }, ctx);
 
 		expect(mockClient.deleteAppealDocument).not.toHaveBeenCalled();
 		expect(mockClient.putAppealDocument).not.toHaveBeenCalled();
