@@ -10,6 +10,7 @@
 const { app } = require('@azure/functions');
 const config = require('../common/config');
 const {
+	APPEAL_CASE_STAGE,
 	APPEAL_VIRUS_CHECK_STATUS,
 	MESSAGE_EVENT_TYPE
 } = require('@planning-inspectorate/data-model');
@@ -67,7 +68,10 @@ function checkMessageIsValid(documentMessage, context) {
 		throw new Error('Invalid message schema');
 	}
 
-	return VALID_SCAN_STATUSES.includes(documentMessage.virusCheckStatus);
+	return (
+		VALID_SCAN_STATUSES.includes(documentMessage.virusCheckStatus) &&
+		documentMessage.stage !== APPEAL_CASE_STAGE.INTERNAL
+	);
 }
 
 /**
