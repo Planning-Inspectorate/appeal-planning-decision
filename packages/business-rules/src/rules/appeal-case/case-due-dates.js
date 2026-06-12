@@ -1,6 +1,7 @@
 const {
 	APPEAL_CASE_STATUS,
-	APPEAL_REPRESENTATION_TYPE
+	APPEAL_REPRESENTATION_TYPE,
+	APPEAL_CASE_PROCEDURE
 } = require('@planning-inspectorate/data-model');
 const { deadlineHasPassed } = require('@pins/common/src/lib/deadline-has-passed');
 const {
@@ -47,6 +48,7 @@ exports.isLPAQuestionnaireDue = (appealCaseData) =>
  * the deadline has not passed
  * we are in statement stage | the lpaq due date has already gone | the lpaq has been published
  * more than APPEAL_CASE_STATUS.STATEMENTS as there are internal stages in-between lpaq and statements
+ * written part 1 procedure relates to expedited appeals, who do no submit statements
  * @param {AppealCaseDetailed} appealCaseData
  * @returns {boolean}
  */
@@ -55,6 +57,7 @@ const statementsAreOpen = (appealCaseData) =>
 	!!appealCaseData.statementDueDate &&
 	!deadlineHasPassed(appealCaseData.statementDueDate) &&
 	appealCaseData.caseStatus !== APPEAL_CASE_STATUS.INVALID &&
+	appealCaseData.caseProcedure !== APPEAL_CASE_PROCEDURE.WRITTEN_PART_1 &&
 	(appealCaseData.caseStatus === APPEAL_CASE_STATUS.STATEMENTS ||
 		deadlineHasPassed(appealCaseData.lpaQuestionnaireDueDate) ||
 		!!appealCaseData.lpaQuestionnaireValidationOutcomeDate);

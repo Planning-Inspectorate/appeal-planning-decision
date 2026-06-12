@@ -11,7 +11,7 @@ const {
 	isAppellantFinalCommentOpen,
 	isLPAFinalCommentOpen
 } = require('./case-due-dates');
-const { APPEAL_CASE_STATUS } = require('@planning-inspectorate/data-model');
+const { APPEAL_CASE_STATUS, APPEAL_CASE_PROCEDURE } = require('@planning-inspectorate/data-model');
 const { deadlineHasPassed } = require('@pins/common/src/lib/deadline-has-passed');
 const { representationExists } = require('@pins/common/src/lib/representations');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
@@ -37,7 +37,8 @@ describe('case-due-dates', () => {
 			LPACommentsSubmittedDate: null,
 			finalCommentsDueDate: null,
 			appellantCommentsSubmittedDate: null,
-			Representations: []
+			Representations: [],
+			caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN
 		};
 	});
 
@@ -195,6 +196,16 @@ describe('case-due-dates', () => {
 				];
 				expect(isLPAStatementOpen(appealCaseData)).toBe(false);
 			});
+
+			it('should return false if case is written part 1 aka expedited', () => {
+				// as seen in test above the first three attributes would lead to return of true
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValueOnce(false);
+				appealCaseData.lpaQuestionnaireValidationOutcomeDate = '2025-03-01';
+				// case procedure to written part 1
+				appealCaseData.caseProcedure = APPEAL_CASE_PROCEDURE.WRITTEN_PART_1;
+				expect(isLPAStatementOpen(appealCaseData)).toBe(false);
+			});
 		});
 
 		describe('isAppellantStatementOpen', () => {
@@ -287,6 +298,17 @@ describe('case-due-dates', () => {
 						leadCaseReference: 'testLeadReference'
 					}
 				];
+				expect(isAppellantStatementOpen(appealCaseData)).toBe(false);
+			});
+
+			it('should return false if case is written part 1 aka expedited', () => {
+				// as seen in test above the first four attributes would lead to return of true
+				appealCaseData.appealTypeCode = CASE_TYPES.LDC.processCode;
+				appealCaseData.statementDueDate = '2025-03-01';
+				deadlineHasPassed.mockReturnValueOnce(false);
+				appealCaseData.lpaQuestionnaireValidationOutcomeDate = '2025-03-01';
+				// case procedure to written part 1
+				appealCaseData.caseProcedure = APPEAL_CASE_PROCEDURE.WRITTEN_PART_1;
 				expect(isAppellantStatementOpen(appealCaseData)).toBe(false);
 			});
 		});
