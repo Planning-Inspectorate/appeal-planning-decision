@@ -44,6 +44,7 @@ const dashboardSelect = {
 	applicationDate: true,
 	applicationDecisionDate: true,
 	enforcementReference: true,
+	typeOfPlanningApplication: true,
 
 	// site address
 	siteAddressLine1: true,

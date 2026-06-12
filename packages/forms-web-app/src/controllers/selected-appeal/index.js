@@ -42,6 +42,7 @@ const {
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { isFeatureActive } = require('../../featureFlag');
+const { isExpeditedPart1Eligible } = require('#lib/is-expedited-part1-eligible');
 
 /** @type {Partial<import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict>} */
 const userSectionsDict = {
@@ -109,6 +110,10 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				FLAG.ADVERT_APPELLANT_STATEMENT_ENABLED
 			)
 		};
+		const isPart1ExpeditedEligible = isExpeditedPart1Eligible({
+			...caseData,
+			eligibility: { applicationDecision: caseData.applicationDecision }
+		});
 
 		const viewContext = {
 			layoutTemplate,
@@ -116,14 +121,16 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			backLinkToDashboard,
 
 			shouldDisplayQuestionnaireDueNotification: isLPA && isLPAQuestionnaireDue(caseData),
-			shouldDisplayStatementsDueBannerLPA: isLPA && isLPAStatementOpen(caseData),
+			shouldDisplayStatementsDueBannerLPA:
+				isLPA && isLPAStatementOpen(caseData) && !isPart1ExpeditedEligible,
 			shouldDisplayProofEvidenceDueBannerLPA: isLPA && isLPAProofsOfEvidenceOpen(caseData),
-			shouldDisplayFinalCommentsDueBannerLPA: isLPA && isLPAFinalCommentOpen(caseData),
+			shouldDisplayFinalCommentsDueBannerLPA:
+				isLPA && isLPAFinalCommentOpen(caseData) && !isPart1ExpeditedEligible,
 
 			shouldDisplayProofEvidenceDueBannerAppellant:
 				isAppellant && isAppellantProofsOfEvidenceOpen(caseData),
 			shouldDisplayFinalCommentsDueBannerAppellant:
-				isAppellant && isAppellantFinalCommentOpen(caseData),
+				isAppellant && isAppellantFinalCommentOpen(caseData) && !isPart1ExpeditedEligible,
 			shouldDisplayStatementsDueBannerAppellant:
 				isAppellant && isAppellantStatementOpen(caseData, flags),
 
