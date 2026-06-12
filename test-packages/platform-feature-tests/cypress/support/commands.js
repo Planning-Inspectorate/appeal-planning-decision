@@ -29,6 +29,7 @@
 import { BrowserAuthData } from '../fixtures/browser-auth-data';
 import { appealsApiClient } from './appealsApiClient';
 const cookiesToSet = ['domain', 'expiry', 'httpOnly', 'path', 'secure'];
+const AZURE_AD_USER_ID = Cypress.env('azureAdUserId');
 
 Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
 	cy.get('.govuk-button').contains(text).click();
@@ -235,7 +236,7 @@ Cypress.Commands.add('loginWithPuppeteer', (user) => {
 				secure: cookie.secure,
 				log: false
 			});
-			if (cookiesToSet.includes(cookie.name)) {				
+			if (cookiesToSet.includes(cookie.name)) {
 				cy.getCookie(cookie.name).should('not.be.empty');
 			}
 		});
@@ -259,7 +260,7 @@ Cypress.Commands.add('updateAppealDetailsViaApi', (caseObj, caseDetails) => {
 		url: `${Cypress.config('apiBaseUrl')}appeals/case-reference/${caseObj}`,
 		headers: {
 			'Content-Type': 'application/json',
-			azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+			azureAdUserId: AZURE_AD_USER_ID
 		},
 		failOnStatusCode: false
 	}).then(({ status, body }) => {
@@ -272,7 +273,7 @@ Cypress.Commands.add('updateAppealDetailsViaApi', (caseObj, caseDetails) => {
 			url: `${Cypress.config('apiBaseUrl')}appeals/${appealId}/appellant-cases/${appellantCaseId}`,
 			headers: {
 				'Content-Type': 'application/json',
-				azureAdUserId: '434bff4e-8191-4ce0-9a0a-91e5d6cdd882'
+				azureAdUserId: AZURE_AD_USER_ID
 			},
 			body: caseDetails,
 			failOnStatusCode: false
@@ -285,7 +286,12 @@ Cypress.Commands.add('updateAppealDetailsViaApi', (caseObj, caseDetails) => {
 
 Cypress.Commands.add('startAppeal', (caseObj) => {
 	return appealsApiClient.startAppeal(caseObj).then(() => {
-		
+
+	});
+});
+
+Cypress.Commands.add('startAppealWithPreference', (caseObj, preference) => {
+	return appealsApiClient.startAppealWithPreference(caseObj, preference).then(() => {
 	});
 });
 
@@ -376,5 +382,33 @@ Cypress.Commands.add('issueDecisionViaApi', (caseObj) => {
 		await appealsApiClient.issueDecision(caseObj);
 		cy.log('Issue allowed decision for case ref ' + caseObj);
 		cy.reload();
+	});
+});
+
+Cypress.Commands.add('setupHearingViaApi', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		await appealsApiClient.setupHearing(caseObj);
+		cy.log('Setup hearing for case ref' + caseObj);
+		cy.reload();
+	});
+});
+
+Cypress.Commands.add('addEstimateViaApi', (procedureType, caseObj, estimate = null) => {
+	return cy.wrap(null).then(async () => {
+		const details = await appealsApiClient.loadCaseDetails(caseObj);
+		if (!details) {
+			throw new Error(`Failed to load case details for ${caseObj}`);
+		}
+		const appealId = details.appealId;
+		console.log(estimate);
+		return await appealsApiClient.addEstimate(procedureType, appealId, estimate);
+	});
+});
+
+Cypress.Commands.add('simulateHearingElapsed', (caseObj) => {
+	return cy.wrap(null).then(async () => {
+		return appealsApiClient.simulateHearingElapsed(caseObj).then(() => {
+			cy.log(`Simulated hearing elapsed for case ref ${caseObj}`);
+		});
 	});
 });
