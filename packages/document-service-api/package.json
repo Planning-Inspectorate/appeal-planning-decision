@@ -28,7 +28,6 @@
 		"express": "*",
 		"express-async-errors": "*",
 		"express-oauth2-jwt-bearer": "*",
-		"js-yaml": "*",
 		"lodash.kebabcase": "*",
 		"multer": "*",
 		"pino": "*",
