@@ -69,8 +69,12 @@ exports.documentsRows = (caseData) => {
 		{
 			keyText: 'Design and access statement in application',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT),
-			condition: () =>
-				isS20orS78 || caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode,
+			condition: () => {
+				if (caseData.appealTypeCode === CASE_TYPES.CAS_PLANNING.processCode) {
+					return !isExpeditedAppealDate(caseData.applicationDate);
+				}
+				return isS20orS78;
+			},
 			isEscaped: true
 		},
 		{

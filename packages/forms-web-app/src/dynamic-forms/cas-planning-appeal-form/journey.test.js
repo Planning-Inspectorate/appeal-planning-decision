@@ -1,5 +1,6 @@
 const { Journey } = require('@pins/dynamic-forms/src/journey');
-const { baseCASPlanningSubmissionUrl, ...params } = require('./journey');
+const journeyModule = require('./journey');
+const { baseCASPlanningSubmissionUrl, ...params } = journeyModule;
 
 const mockResponse = {
 	journeyId: 'CAS',
@@ -119,6 +120,113 @@ describe('CAS Appeal Form Journey', () => {
 						}
 					})
 			).toBe(true);
+		});
+	});
+
+	describe('designAccessStatement condition', () => {
+		it('should include designAccessStatement if application date is before April 1st 2026', () => {
+			const answers = { onApplicationDate: '2026-03-30T12:00:00.000Z' };
+			const journey = new Journey({
+				...params,
+				response: {
+					...mockResponse,
+					answers
+				}
+			});
+			const uploadSection = journey.getSection('upload-documents');
+			const designAccessQuestion = uploadSection?.questions?.find(
+				(q) => q.fieldName === 'designAccessStatement'
+			);
+			expect(designAccessQuestion?.shouldDisplay(journey.response)).toBe(true);
+		});
+
+		it('should not include designAccessStatement if application date is on or after April 1st 2026', () => {
+			const answers = { onApplicationDate: '2026-04-01T00:00:00.000Z' };
+			const journey = new Journey({
+				...params,
+				response: {
+					...mockResponse,
+					answers
+				}
+			});
+			const uploadSection = journey.getSection('upload-documents');
+			const designAccessQuestion = uploadSection?.questions?.find(
+				(q) => q.fieldName === 'designAccessStatement'
+			);
+			expect(designAccessQuestion?.shouldDisplay(journey.response)).toBe(false);
+		});
+
+		it('should include designAccessStatement if application date is not set', () => {
+			const answers = {};
+			const journey = new Journey({
+				...params,
+				response: {
+					...mockResponse,
+					answers
+				}
+			});
+			const uploadSection = journey.getSection('upload-documents');
+			const designAccessQuestion = uploadSection?.questions?.find(
+				(q) => q.fieldName === 'designAccessStatement'
+			);
+			expect(designAccessQuestion?.shouldDisplay(journey.response)).toBe(true);
+		});
+
+		it('should include uploadDesignAccessStatement if designAccessStatement is yes and application date is before April 1st 2026', () => {
+			const answers = {
+				onApplicationDate: '2026-03-30T12:00:00.000Z',
+				designAccessStatement: 'yes'
+			};
+			const journey = new Journey({
+				...params,
+				response: {
+					...mockResponse,
+					answers
+				}
+			});
+			const uploadSection = journey.getSection('upload-documents');
+			const uploadDesignAccessQuestion = uploadSection?.questions?.find(
+				(q) => q.fieldName === 'uploadDesignAccessStatement'
+			);
+			expect(uploadDesignAccessQuestion?.shouldDisplay(journey.response)).toBe(true);
+		});
+
+		it('should not include uploadDesignAccessStatement if designAccessStatement is no and application date is before April 1st 2026', () => {
+			const answers = {
+				onApplicationDate: '2026-03-30T12:00:00.000Z',
+				designAccessStatement: 'no'
+			};
+			const journey = new Journey({
+				...params,
+				response: {
+					...mockResponse,
+					answers
+				}
+			});
+			const uploadSection = journey.getSection('upload-documents');
+			const uploadDesignAccessQuestion = uploadSection?.questions?.find(
+				(q) => q.fieldName === 'uploadDesignAccessStatement'
+			);
+			expect(uploadDesignAccessQuestion?.shouldDisplay(journey.response)).toBe(false);
+		});
+
+		it('should not include uploadDesignAccessStatement if application date is on or after April 1st 2026 even if designAccessStatement is yes', () => {
+			const answers = {
+				onApplicationDate: '2026-04-01T00:00:00.000Z',
+				designAccessStatement: 'yes'
+			};
+			const journey = new Journey({
+				...params,
+				response: {
+					...mockResponse,
+					answers
+				}
+			});
+			const uploadSection = journey.getSection('upload-documents');
+			const uploadDesignAccessQuestion = uploadSection?.questions?.find(
+				(q) => q.fieldName === 'uploadDesignAccessStatement'
+			);
+			expect(uploadDesignAccessQuestion?.shouldDisplay(journey.response)).toBe(false);
 		});
 	});
 });

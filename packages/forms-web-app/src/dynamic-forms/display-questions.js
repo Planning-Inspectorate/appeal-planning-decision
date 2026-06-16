@@ -107,8 +107,8 @@ exports.shouldDisplayAdvertsQuestions = (response) => {
  * @param {JourneyResponse} response
  * @returns {boolean}
  */
-exports.shouldDisplayAppellantStatement = (response) => {
-	const applicationDate = response.answers.onApplicationDate;
+exports.isBeforeExpeditedCutoff = (response) => {
+	const applicationDate = /** @type {any} */ (response.answers.onApplicationDate);
 	return !isExpeditedAppealDate(applicationDate);
 };
 

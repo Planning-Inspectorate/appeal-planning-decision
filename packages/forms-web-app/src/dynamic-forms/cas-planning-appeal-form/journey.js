@@ -13,7 +13,7 @@ const {
 const {
 	shouldDisplayIdentifyingLandowners,
 	shouldDisplayTellingLandowners,
-	shouldDisplayAppellantStatement
+	isBeforeExpeditedCutoff
 } = require('../display-questions');
 
 /**
@@ -78,9 +78,9 @@ const makeSections = (response) => {
 			.addQuestion(questions.enterDevelopmentDescription)
 			.addQuestion(questions.updateDevelopmentDescription)
 			.addQuestion(questions.whyAreYouAppealingPart1)
-			.withCondition(() => !shouldDisplayAppellantStatement(response))
+			.withCondition(() => !isBeforeExpeditedCutoff(response))
 			.addQuestion(questions.anySignificantChanges)
-			.withCondition(() => !shouldDisplayAppellantStatement(response))
+			.withCondition(() => !isBeforeExpeditedCutoff(response))
 			.addQuestion(questions.anyOtherAppeals)
 			.addQuestion(questions.linkAppeals)
 			.withCondition(() => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
@@ -92,13 +92,18 @@ const makeSections = (response) => {
 			)
 			.addQuestion(questions.uploadApplicationDecisionLetter)
 			.addQuestion(questions.uploadAppellantStatement)
-			.withCondition(() => shouldDisplayAppellantStatement(response))
+			.withCondition(() => isBeforeExpeditedCutoff(response))
 			.addQuestion(questions.costApplication)
 			.addQuestion(questions.uploadCostApplication)
 			.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))
 			.addQuestion(questions.designAccessStatement)
+			.withCondition(() => isBeforeExpeditedCutoff(response))
 			.addQuestion(questions.uploadDesignAccessStatement)
-			.withCondition(() => questionHasAnswer(response, questions.designAccessStatement, 'yes'))
+			.withCondition(
+				() =>
+					isBeforeExpeditedCutoff(response) &&
+					questionHasAnswer(response, questions.designAccessStatement, 'yes')
+			)
 			.addQuestion(questions.uploadPlansDrawingsDocuments)
 	];
 };

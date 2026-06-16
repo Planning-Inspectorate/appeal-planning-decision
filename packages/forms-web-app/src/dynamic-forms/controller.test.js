@@ -1056,6 +1056,25 @@ describe('dynamic-form/controller', () => {
 					'If you have any of the following documents, you’ll also need to upload your:'
 			});
 		});
+		it('renders correct page for CAS Planning after expedited date (on/after 2026-04-01)', () => {
+			req.session.appeal = {
+				appealType: APPEAL_ID.MINOR_COMMERCIAL,
+				applicationDate: '2026-04-01T09:00:00.000Z'
+			};
+			appellantBYSListOfDocuments(req, res);
+			expect(res.render).toHaveBeenCalledWith('full-appeal/submit-appeal/list-of-documents-v2', {
+				bannerHtmlOverride:
+					config.betaBannerText +
+					config.generateBetaBannerFeedbackLink(
+						config.getAppealTypeFeedbackUrl(CASE_TYPES.CAS_PLANNING.processCode)
+					),
+				optionalDocuments: ['decision letter from the local planning authority'],
+				requiredDocuments: [],
+				requiredDocumentsSubheading: 'You’ll need your planning application form.',
+				optionalDocumentsSubheading:
+					'If you have any of the following documents, you’ll also need to upload your:'
+			});
+		});
 		it('renders correct page for CAS Adverts', () => {
 			req.session.appeal = { appealType: APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT };
 			appellantBYSListOfDocuments(req, res);
