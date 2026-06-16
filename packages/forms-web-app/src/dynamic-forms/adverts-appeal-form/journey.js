@@ -18,7 +18,7 @@ const {
 	shouldDisplayUploadDecisionLetter,
 	shouldDisplayGridReference,
 	shouldDisplayAdvertsQuestions,
-	shouldDisplayAppellantStatement: displayAppellantStatement
+	isBeforeExpeditedCutoff
 } = require('../display-questions');
 
 /**
@@ -34,7 +34,7 @@ const shouldDisplayAppellantStatement = (response) => {
 	if (shouldDisplayAdvertsQuestions(response)) {
 		return true;
 	}
-	return displayAppellantStatement(response);
+	return isBeforeExpeditedCutoff(response);
 };
 
 /**

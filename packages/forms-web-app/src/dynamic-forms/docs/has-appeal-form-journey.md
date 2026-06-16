@@ -77,13 +77,13 @@ condition: () => shouldDisplayTellingLandowners(response, questions);
 - text-entry `/why-are-you-appealing/` Why are you appealing?
 
 ```js
-condition: () => !shouldDisplayAppellantStatement(response);
+condition: () => !isBeforeExpeditedCutoff(response);
 ```
 
 - checkbox `/any-significant-changes/` Have there been any significant changes that would affect the application?
 
 ```js
-condition: () => !shouldDisplayAppellantStatement(response);
+condition: () => !isBeforeExpeditedCutoff(response);
 ```
 
 - boolean `/other-appeals/` Are there other appeals linked to your development?
@@ -106,7 +106,7 @@ condition: () => questionHasAnswer(response, questions.updateDevelopmentDescript
 - multi-file-upload `/upload-appeal-statement/` Upload your appeal statement
 
 ```js
-condition: () => shouldDisplayAppellantStatement(response);
+condition: () => isBeforeExpeditedCutoff(response);
 ```
 
 - boolean `/apply-appeal-costs/` Do you want to apply for an award of appeal costs?

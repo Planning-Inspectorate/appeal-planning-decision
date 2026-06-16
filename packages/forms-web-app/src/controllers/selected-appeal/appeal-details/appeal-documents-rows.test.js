@@ -405,3 +405,37 @@ describe('appeal-documents-rows - HAS and CAS conditional appeal statement', () 
 		expect(casRow.condition()).toBe(true);
 	});
 });
+
+describe('appeal-documents-rows - CAS Planning conditional design and access statement', () => {
+	it('should display design and access statement for CAS Planning if applicationDate is before April 1st 2026', () => {
+		const caseData = {
+			appealTypeCode: CASE_TYPES.CAS_PLANNING.processCode,
+			applicationDate: '2026-03-30T12:00:00.000Z'
+		};
+		const casRows = documentsRows(caseData);
+		const row = casRows.find((r) => r.keyText === 'Design and access statement in application');
+		expect(row).toBeDefined();
+		expect(row?.condition(caseData)).toBe(true);
+	});
+
+	it('should not display design and access statement for CAS Planning if applicationDate is on or after April 1st 2026', () => {
+		const caseData = {
+			appealTypeCode: CASE_TYPES.CAS_PLANNING.processCode,
+			applicationDate: '2026-04-01T00:00:00.000Z'
+		};
+		const casRows = documentsRows(caseData);
+		const row = casRows.find((r) => r.keyText === 'Design and access statement in application');
+		expect(row).toBeDefined();
+		expect(row?.condition(caseData)).toBe(false);
+	});
+
+	it('should display design and access statement for CAS Planning if applicationDate is not set', () => {
+		const caseData = {
+			appealTypeCode: CASE_TYPES.CAS_PLANNING.processCode
+		};
+		const casRows = documentsRows(caseData);
+		const row = casRows.find((r) => r.keyText === 'Design and access statement in application');
+		expect(row).toBeDefined();
+		expect(row?.condition(caseData)).toBe(true);
+	});
+});

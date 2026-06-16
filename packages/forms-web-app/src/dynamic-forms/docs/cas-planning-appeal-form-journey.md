@@ -77,13 +77,13 @@ condition: () => shouldDisplayTellingLandowners(response, questions);
 - text-entry `/why-are-you-appealing/` Why are you appealing?
 
 ```js
-condition: () => !shouldDisplayAppellantStatement(response);
+condition: () => !isBeforeExpeditedCutoff(response);
 ```
 
 - checkbox `/any-significant-changes/` Have there been any significant changes that would affect the application?
 
 ```js
-condition: () => !shouldDisplayAppellantStatement(response);
+condition: () => !isBeforeExpeditedCutoff(response);
 ```
 
 - boolean `/other-appeals/` Are there other appeals linked to your development?
@@ -106,7 +106,7 @@ condition: () => questionHasAnswer(response, questions.updateDevelopmentDescript
 - multi-file-upload `/upload-appeal-statement/` Upload your appeal statement
 
 ```js
-condition: () => shouldDisplayAppellantStatement(response);
+condition: () => isBeforeExpeditedCutoff(response);
 ```
 
 - boolean `/apply-appeal-costs/` Do you want to apply for an award of appeal costs?
@@ -117,10 +117,17 @@ condition: () => questionHasAnswer(response, questions.costApplication, 'yes');
 ```
 
 - boolean `/submit-design-access-statement/` Did you submit a design and access statement with your application?
+
+```js
+condition: () => isBeforeExpeditedCutoff(response);
+```
+
 - multi-file-upload `/upload-design-access-statement/` Upload your design and access statement
 
 ```js
-condition: () => questionHasAnswer(response, questions.designAccessStatement, 'yes');
+condition: () =>
+	isBeforeExpeditedCutoff(response) &&
+	questionHasAnswer(response, questions.designAccessStatement, 'yes');
 ```
 
 - multi-file-upload `/upload-plans-drawings-documents/` Upload your plans, drawings and supporting documents you submitted with your application
