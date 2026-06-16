@@ -19,10 +19,7 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 	// Select the local planning authority
 	cy.get(basePage?._selectors?.localPlanningDepartment).type(prepareAppealSelector?._selectors?.systemTest2BoroughCouncil);
 	cy.get(basePage?._selectors?.localPlanningDepartmentOptionZero).click();
-	cy.advanceToNextPage();
-	// Select the enforcement notice as 'No'
-	//cy.getByData(basePage?._selectors.answerNo).click();
-	//cy.advanceToNextPage();
+	cy.advanceToNextPage();	
 	// Select the application type
 	cy.get(`[data-cy="${planning}"]`).click();
 	cy.advanceToNextPage();
