@@ -174,17 +174,6 @@ const makeSections = (response) => {
 			.addQuestion(questions.separateOwnershipCert)
 			.addQuestion(questions.uploadSeparateOwnershipCert)
 			.withCondition(() => questionHasAnswer(response, questions.separateOwnershipCert, 'yes'))
-			.addQuestion(questions.uploadStatementCommonGround)
-			.withCondition(() =>
-				questionsHaveAnswers(
-					response,
-					[
-						[questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.HEARING],
-						[questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.INQUIRY]
-					],
-					{ logicalCombinator: 'or' }
-				)
-			)
 			.addQuestion(questions.costApplication)
 			.addQuestion(questions.uploadCostApplication)
 			.withCondition(() => questionHasAnswer(response, questions.costApplication, 'yes'))

@@ -49,4 +49,17 @@ describe('S78 Appeal Form Part 1 Journey', () => {
 		expect(whyAreYouAppealing).toBeDefined();
 		expect(anySignificantChanges).toBeDefined();
 	});
+	it('should not display uploadStatementCommonGround question', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+		const uploadSection = journey.sections.find((s) => s.segment === 'upload-documents');
+		if (!uploadSection) {
+			throw new Error('upload-documents section not found');
+		}
+
+		const uploadStatementCommonGround = uploadSection.questions.find(
+			(q) => q.fieldName === 'uploadStatementCommonGround'
+		);
+
+		expect(uploadStatementCommonGround).toBeUndefined();
+	});
 });
