@@ -153,6 +153,19 @@ describe('appeal-documents-rows', () => {
 			expect(rows[draftRow].condition()).toEqual(false);
 			expect(rows[draftRow].isEscaped).toEqual(true);
 		});
+
+		it('should not display field if expedited part 1 eligible', () => {
+			const rows = documentsRows({
+				appealTypeCode: CASE_TYPES.S78.processCode,
+				typeOfPlanningApplication: 'full-appeal',
+				eligibility: { applicationDecision: 'refused' },
+				applicationDate: '2026-04-10'
+			});
+			expect(rows[draftRow].keyText).toEqual('Draft statement of common ground');
+			expect(rows[draftRow].valueText).toEqual('No');
+			expect(rows[draftRow].condition()).toEqual(false);
+			expect(rows[draftRow].isEscaped).toEqual(true);
+		});
 	});
 
 	// text varies based on appeal type

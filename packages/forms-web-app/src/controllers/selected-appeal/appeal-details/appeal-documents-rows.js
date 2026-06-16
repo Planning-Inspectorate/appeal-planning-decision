@@ -123,7 +123,8 @@ exports.documentsRows = (caseData) => {
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND),
 			condition: () =>
 				(isS20orS78 || isLDC) &&
-				caseData.appellantProcedurePreference !== APPEAL_APPELLANT_PROCEDURE_PREFERENCE.WRITTEN,
+				caseData.appellantProcedurePreference !== APPEAL_APPELLANT_PROCEDURE_PREFERENCE.WRITTEN &&
+				!isExpeditedPart1Eligible(caseData),
 			isEscaped: true
 		},
 		{
