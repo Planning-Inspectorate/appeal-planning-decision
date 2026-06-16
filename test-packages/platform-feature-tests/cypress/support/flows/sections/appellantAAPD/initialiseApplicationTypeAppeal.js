@@ -21,8 +21,8 @@ module.exports = (statusOfOriginalApplication, planning, expeditedAppeal, contex
 	cy.get(basePage?._selectors?.localPlanningDepartmentOptionZero).click();
 	cy.advanceToNextPage();
 	// Select the enforcement notice as 'No'
-	cy.getByData(basePage?._selectors.answerNo).click();
-	cy.advanceToNextPage();
+	//cy.getByData(basePage?._selectors.answerNo).click();
+	//cy.advanceToNextPage();
 	// Select the application type
 	cy.get(`[data-cy="${planning}"]`).click();
 	cy.advanceToNextPage();
