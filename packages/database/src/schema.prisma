@@ -1174,9 +1174,6 @@ model AppellantStatementSubmission {
   // Uploaded documents and details linked to this statement
   uploadAppellantStatementDocuments Boolean?
   SubmissionDocumentUpload          SubmissionDocumentUpload[]
-
-  // indexes
-  @@index([appealCaseReference])
 }
 
 model Rule6StatementSubmission {
@@ -1229,9 +1226,6 @@ model AppellantProofOfEvidenceSubmission {
 
   // Uploaded documents and details linked to this proof of evidence
   SubmissionDocumentUpload SubmissionDocumentUpload[]
-
-  // indexes
-  @@index([caseReference])
 }
 
 model Rule6ProofOfEvidenceSubmission {
@@ -1332,9 +1326,6 @@ model AppellantFinalCommentSubmission {
 
   // Uploaded documents and details linked to this final comment
   SubmissionDocumentUpload SubmissionDocumentUpload[]
-
-  // indexes
-  @@index([caseReference])
 }
 
 model SubmissionDocumentUpload {
