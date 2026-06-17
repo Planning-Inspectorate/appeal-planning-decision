@@ -53,6 +53,7 @@ describe('required documents-for-submission', () => {
 			APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE,
 			[
 				'application form',
+				'your appeal statement',
 				'plans, drawings and supporting documents for your application',
 				'decision letter from the local planning authority',
 				'any other relevant correspondence with the local planning authority'
