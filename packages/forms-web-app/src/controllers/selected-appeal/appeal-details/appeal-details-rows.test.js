@@ -660,7 +660,7 @@ describe('appeal-details-rows', () => {
 				'Was your application for the existing or proposed use of a development?'
 			);
 			expect(rows[applicationReferenceIndex].valueText).toEqual(
-				'Existing development (section 191)'
+				'Existing development or use of a site (section 191)'
 			);
 		});
 

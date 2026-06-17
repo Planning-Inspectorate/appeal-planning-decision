@@ -15269,13 +15269,13 @@ exports[`Dynamic forms journey tests appellant Lawful development certificate La
                                 <input class="govuk-radios__input" id="applicationMadeUnderActSection"
                                 name="applicationMadeUnderActSection" type="radio" value="existing-development"
                                 data-cy="answer-existing-development">
-                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection">Existing development (section 191)</label>
+                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection">Existing development or use of a site (section 191)</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="applicationMadeUnderActSection-2"
                                 name="applicationMadeUnderActSection" type="radio" value="proposed-use-of-a-development"
                                 data-cy="answer-proposed-use-of-a-development">
-                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection-2">Proposed use of a development (section 192)</label>
+                                <label class="govuk-label govuk-radios__label" for="applicationMadeUnderActSection-2">Proposed development or use of a site (section 192)</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="applicationMadeUnderActSection-3"
@@ -38238,12 +38238,12 @@ exports[`Dynamic forms journey tests lpa Lawful development certificate Lawful d
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="appealUnderActSection" name="appealUnderActSection"
                                 type="radio" value="existing-development" data-cy="answer-existing-development">
-                                <label class="govuk-label govuk-radios__label" for="appealUnderActSection">Existing development (section 191)</label>
+                                <label class="govuk-label govuk-radios__label" for="appealUnderActSection">Existing development or use of a site (section 191)</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="appealUnderActSection-2" name="appealUnderActSection"
                                 type="radio" value="proposed-use-of-a-development" data-cy="answer-proposed-use-of-a-development">
-                                <label class="govuk-label govuk-radios__label" for="appealUnderActSection-2">Proposed use of a development (section 192)</label>
+                                <label class="govuk-label govuk-radios__label" for="appealUnderActSection-2">Proposed development or use of a site (section 192)</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input class="govuk-radios__input" id="appealUnderActSection-3" name="appealUnderActSection"
