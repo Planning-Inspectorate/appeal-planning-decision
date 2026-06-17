@@ -19,9 +19,16 @@ const generateRequiredDocuments = (appealType) => {
 			];
 		case APPEAL_ID.MINOR_COMMERCIAL_ADVERTISEMENT:
 		case APPEAL_ID.ADVERTISEMENT:
+			return [
+				'application form',
+				'plans, drawings and supporting documents for your application',
+				'decision letter from the local planning authority',
+				'any other relevant correspondence with the local planning authority'
+			];
 		case APPEAL_ID.LAWFUL_DEVELOPMENT_CERTIFICATE:
 			return [
 				'application form',
+				'your appeal statement',
 				'plans, drawings and supporting documents for your application',
 				'decision letter from the local planning authority',
 				'any other relevant correspondence with the local planning authority'

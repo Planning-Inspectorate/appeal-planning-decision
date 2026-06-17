@@ -1171,6 +1171,7 @@ describe('dynamic-form/controller', () => {
 				optionalDocuments: undefined,
 				requiredDocuments: [
 					'application form',
+					'your appeal statement',
 					'plans, drawings and supporting documents for your application',
 					'decision letter from the local planning authority',
 					'any other relevant correspondence with the local planning authority'
