@@ -57,7 +57,8 @@ module.exports =
 			applicationDate: appeal?.applicationDate,
 			eligibility: {
 				applicationDecision: appeal?.applicationDecision
-			}
+			},
+			appealTypeCode: appeal?.appealTypeCode
 		});
 		const expeditedConditions = expeditedAppealsEnabled && expeditedEligible;
 

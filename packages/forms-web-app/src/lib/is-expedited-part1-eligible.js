@@ -3,6 +3,7 @@ const { formatInTimeZone } = require('date-fns-tz');
 const {
 	constants: { TYPE_OF_PLANNING_APPLICATION, APPLICATION_DECISION }
 } = require('@pins/business-rules');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const EXPEDITED_PART_1_CUTOFF_DATE = '2026-04-01';
 const UK_TIME_ZONE = 'Europe/London';
@@ -10,8 +11,13 @@ const UK_TIME_ZONE = 'Europe/London';
 const eligiblePlanningApplicationTypes = new Set([
 	TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL,
 	TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
-	TYPE_OF_PLANNING_APPLICATION.RESERVED_MATTERS
+	TYPE_OF_PLANNING_APPLICATION.RESERVED_MATTERS,
+	TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
+	TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT
 ]);
+
+/** @type {Set<string>} */
+const eligibleAppealTypesForPart1 = new Set([CASE_TYPES.S78.processCode]);
 
 const eligibleApplicationDecisions = new Set([
 	APPLICATION_DECISION.GRANTED,
@@ -32,13 +38,14 @@ const parseApplicationDate = (value) => {
 };
 
 /**
- * @param {{ applicationDate?: string|Date|null, typeOfPlanningApplication?: string|null, eligibility?: { applicationDecision?: string|null } } | undefined | null} appeal
+ * @param {{ applicationDate?: string|Date|null, typeOfPlanningApplication?: string|null, eligibility?: { applicationDecision?: string|null }, appealTypeCode?: string |null } | undefined | null} appeal
  * @returns {boolean}
  */
 const isExpeditedPart1Eligible = (appeal) => {
 	if (
 		!eligiblePlanningApplicationTypes.has(appeal?.typeOfPlanningApplication || '') ||
-		!eligibleApplicationDecisions.has(appeal?.eligibility?.applicationDecision || '')
+		!eligibleApplicationDecisions.has(appeal?.eligibility?.applicationDecision || '') ||
+		!eligibleAppealTypesForPart1.has(appeal?.appealTypeCode || '')
 	) {
 		return false;
 	}
