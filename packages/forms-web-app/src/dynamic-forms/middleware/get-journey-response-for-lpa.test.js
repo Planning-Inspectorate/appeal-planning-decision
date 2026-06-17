@@ -213,7 +213,8 @@ describe('getJourneyResponse', () => {
 			applicationDate: s78Appeal.applicationDate,
 			eligibility: {
 				applicationDecision: s78Appeal.applicationDecision
-			}
+			},
+			appealTypeCode: s78Appeal.appealTypeCode
 		});
 		expect(next).toHaveBeenCalled();
 	});

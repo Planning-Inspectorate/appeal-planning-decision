@@ -64,7 +64,8 @@ module.exports = async (request, response, next) => {
 			applicationDate: convertedResponse?.onApplicationDate,
 			eligibility: {
 				applicationDecision: convertedResponse?.applicationDecision
-			}
+			},
+			appealTypeCode: convertedResponse?.appealTypeCode
 		})
 	) {
 		journeyType = JOURNEY_TYPES.S78_PART_1_APPEAL_FORM.id;
