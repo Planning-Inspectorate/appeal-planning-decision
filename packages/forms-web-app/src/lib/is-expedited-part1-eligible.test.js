@@ -10,7 +10,9 @@ describe('isExpeditedPart1Eligible', () => {
 	it.each([
 		TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL,
 		TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
-		TYPE_OF_PLANNING_APPLICATION.RESERVED_MATTERS
+		TYPE_OF_PLANNING_APPLICATION.RESERVED_MATTERS,
+		TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
+		TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT
 	])('returns true for %s when the date is on the cutoff and the decision is granted', (type) => {
 		expect(
 			isExpeditedPart1Eligible({
@@ -18,7 +20,8 @@ describe('isExpeditedPart1Eligible', () => {
 				applicationDate: `${EXPEDITED_PART_1_CUTOFF_DATE}T00:00:00.000Z`,
 				eligibility: {
 					applicationDecision: APPLICATION_DECISION.GRANTED
-				}
+				},
+				appealTypeCode: 'S78'
 			})
 		).toBe(true);
 	});
@@ -30,7 +33,8 @@ describe('isExpeditedPart1Eligible', () => {
 				applicationDate: '2026-04-02T10:30:00.000Z',
 				eligibility: {
 					applicationDecision: APPLICATION_DECISION.REFUSED
-				}
+				},
+				appealTypeCode: 'S78'
 			})
 		).toBe(true);
 	});
@@ -62,7 +66,7 @@ describe('isExpeditedPart1Eligible', () => {
 	it('returns false for unsupported planning application types', () => {
 		expect(
 			isExpeditedPart1Eligible({
-				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
+				typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.PRIOR_APPROVAL,
 				applicationDate: '2026-04-01T00:00:00.000Z',
 				eligibility: {
 					applicationDecision: APPLICATION_DECISION.GRANTED
