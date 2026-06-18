@@ -4,6 +4,7 @@
 
 {% if isNewBYSFlow %}
 	{% set enforcementNoticeRow = null %}
+	{% set appealAboutText = "What is your appeal about?" %}
 {% else %}
 	{% set enforcementNoticeRow = {
 		key: {
@@ -24,6 +25,7 @@
 		}
 	}
 	%}
+	{% set appealAboutText = "Type of application" %}
 {% endif %}
 
 {% block canUseServiceSummaryList %}
@@ -69,7 +71,7 @@
 			} if planningApplicationNumber,
 			{
 				key: {
-					text: "Type of application"
+					text: appealAboutText
 				},
 				value: {
 					text: summaryField(applicationType, { 'data-cy': "application-type" })
@@ -79,7 +81,7 @@
 						{
 							href: "/before-you-start/type-of-planning-application",
 							text: "Change",
-							visuallyHiddenText: "Type of application",
+							visuallyHiddenText: appealAboutText,
 							attributes: { "data-cy":"applicationType"}
 						}
 					]
