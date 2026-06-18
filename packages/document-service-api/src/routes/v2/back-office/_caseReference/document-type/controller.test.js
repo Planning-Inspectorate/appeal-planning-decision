@@ -136,7 +136,7 @@ describe('/v2/back-office/{caseReference}/document-type', () => {
 	it('should return status of 200', async () => {
 		checkDocAccess.mockImplementation(() => true);
 		await getDocumentsByCaseReference(req, res);
-		expect(mockAppend).toHaveBeenCalledTimes(4);
+		expect(mockAppend).toHaveBeenCalledTimes(3);
 		expect(res.status).toHaveBeenCalledWith(200);
 	});
 

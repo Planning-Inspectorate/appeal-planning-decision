@@ -168,7 +168,7 @@ describe('/v2/back-office/{caseReference}/case_stage/{caseStage}', () => {
 		expect(res.status).toHaveBeenCalledWith(200);
 	});
 
-	it('should expect 2 blob streams to be appended, 4 not included due to access rules', async () => {
+	it('should expect 1 blob stream to be appended, 5 not included due to access rules', async () => {
 		checkDocAccess.mockImplementation(
 			(params) => params.documentWithAppeal.documentType === testDocumentTypes[0]
 		);
@@ -176,7 +176,7 @@ describe('/v2/back-office/{caseReference}/case_stage/{caseStage}', () => {
 		await getDocumentsByCaseReferenceAndCaseStage(req, res);
 
 		// only adds
-		expect(mockAppend).toHaveBeenCalledTimes(2);
+		expect(mockAppend).toHaveBeenCalledTimes(1);
 
 		testDocumentTypes
 			.filter((x) => x === testDocumentTypes[0])
