@@ -143,7 +143,7 @@
 		"lodash.kebabcase": "^4.1.1",
 		"lusca": "^1.6.1",
 		"mongodb": "^3.7.3",
-		"multer": "2.1.1",
+		"multer": "2.2.0",
 		"node-cron": "^4.2.1",
 		"node-fetch": "^2.6.7",
 		"notifications-node-client": "^8.2.1",
