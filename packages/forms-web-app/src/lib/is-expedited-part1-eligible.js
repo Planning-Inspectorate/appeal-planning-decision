@@ -11,9 +11,7 @@ const UK_TIME_ZONE = 'Europe/London';
 const eligiblePlanningApplicationTypes = new Set([
 	TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL,
 	TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
-	TYPE_OF_PLANNING_APPLICATION.RESERVED_MATTERS,
-	TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
-	TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT
+	TYPE_OF_PLANNING_APPLICATION.RESERVED_MATTERS
 ]);
 
 /** @type {Set<string>} */
@@ -38,16 +36,29 @@ const parseApplicationDate = (value) => {
 };
 
 /**
- * @param {{ applicationDate?: string|Date|null, typeOfPlanningApplication?: string|null, eligibility?: { applicationDecision?: string|null }, appealTypeCode?: string |null } | undefined | null} appeal
+ * @param {{ applicationDate?: string|Date|null, typeOfPlanningApplication?: string|null, eligibility?: { applicationDecision?: string|null }, appealTypeCode?: string |null, typeDevelopment?: string|null, developmentType?: string|null } | undefined | null} appeal
  * @returns {boolean}
  */
 const isExpeditedPart1Eligible = (appeal) => {
-	if (
-		!eligiblePlanningApplicationTypes.has(appeal?.typeOfPlanningApplication || '') ||
-		!eligibleApplicationDecisions.has(appeal?.eligibility?.applicationDecision || '') ||
-		!eligibleAppealTypesForPart1.has(appeal?.appealTypeCode || '')
-	) {
+	if (!eligibleAppealTypesForPart1.has(appeal?.appealTypeCode || '')) {
 		return false;
+	}
+
+	if (
+		appeal?.typeOfPlanningApplication ===
+			TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT ||
+		appeal?.typeOfPlanningApplication === TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING
+	) {
+		if (appeal?.eligibility?.applicationDecision !== APPLICATION_DECISION.GRANTED) {
+			return false;
+		}
+	} else {
+		if (
+			!eligiblePlanningApplicationTypes.has(appeal?.typeOfPlanningApplication || '') ||
+			!eligibleApplicationDecisions.has(appeal?.eligibility?.applicationDecision || '')
+		) {
+			return false;
+		}
 	}
 
 	const applicationDate = parseApplicationDate(appeal?.applicationDate);

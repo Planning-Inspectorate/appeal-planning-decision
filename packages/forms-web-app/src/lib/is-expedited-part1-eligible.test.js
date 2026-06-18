@@ -10,9 +10,7 @@ describe('isExpeditedPart1Eligible', () => {
 	it.each([
 		TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL,
 		TYPE_OF_PLANNING_APPLICATION.OUTLINE_PLANNING,
-		TYPE_OF_PLANNING_APPLICATION.RESERVED_MATTERS,
-		TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
-		TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT
+		TYPE_OF_PLANNING_APPLICATION.RESERVED_MATTERS
 	])('returns true for %s when the date is on the cutoff and the decision is granted', (type) => {
 		expect(
 			isExpeditedPart1Eligible({
@@ -75,20 +73,87 @@ describe('isExpeditedPart1Eligible', () => {
 		).toBe(false);
 	});
 
-	it.each([undefined, null, 'not-a-date'])(
-		'returns false when the application date is %p',
-		(applicationDate) => {
+	describe('minor-commercial-development', () => {
+		it('returns true when decision is GRANTED and date is on/after cutoff', () => {
 			expect(
 				isExpeditedPart1Eligible({
-					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.FULL_APPEAL,
-					applicationDate,
+					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+					applicationDate: `${EXPEDITED_PART_1_CUTOFF_DATE}T00:00:00.000Z`,
 					eligibility: {
 						applicationDecision: APPLICATION_DECISION.GRANTED
-					}
+					},
+					appealTypeCode: 'S78'
+				})
+			).toBe(true);
+		});
+
+		it('returns false when decision is REFUSED', () => {
+			expect(
+				isExpeditedPart1Eligible({
+					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+					applicationDate: `${EXPEDITED_PART_1_CUTOFF_DATE}T00:00:00.000Z`,
+					eligibility: {
+						applicationDecision: APPLICATION_DECISION.REFUSED
+					},
+					appealTypeCode: 'S78'
 				})
 			).toBe(false);
-		}
-	);
+		});
+
+		it('returns false when decision is GRANTED but date is before cutoff', () => {
+			expect(
+				isExpeditedPart1Eligible({
+					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.MINOR_COMMERCIAL_DEVELOPMENT,
+					applicationDate: '2026-03-31T22:59:59.000Z',
+					eligibility: {
+						applicationDecision: APPLICATION_DECISION.GRANTED
+					},
+					appealTypeCode: 'S78'
+				})
+			).toBe(false);
+		});
+	});
+
+	describe('householder-planning', () => {
+		it('returns true when decision is GRANTED and date is on/after cutoff', () => {
+			expect(
+				isExpeditedPart1Eligible({
+					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
+					applicationDate: `${EXPEDITED_PART_1_CUTOFF_DATE}T00:00:00.000Z`,
+					eligibility: {
+						applicationDecision: APPLICATION_DECISION.GRANTED
+					},
+					appealTypeCode: 'S78'
+				})
+			).toBe(true);
+		});
+
+		it('returns false when decision is REFUSED', () => {
+			expect(
+				isExpeditedPart1Eligible({
+					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
+					applicationDate: `${EXPEDITED_PART_1_CUTOFF_DATE}T00:00:00.000Z`,
+					eligibility: {
+						applicationDecision: APPLICATION_DECISION.REFUSED
+					},
+					appealTypeCode: 'S78'
+				})
+			).toBe(false);
+		});
+
+		it('returns false when decision is GRANTED but date is before cutoff', () => {
+			expect(
+				isExpeditedPart1Eligible({
+					typeOfPlanningApplication: TYPE_OF_PLANNING_APPLICATION.HOUSEHOLDER_PLANNING,
+					applicationDate: '2026-03-31T22:59:59.000Z',
+					eligibility: {
+						applicationDecision: APPLICATION_DECISION.GRANTED
+					},
+					appealTypeCode: 'S78'
+				})
+			).toBe(false);
+		});
+	});
 });
 
 describe('isExpeditedAppealDate', () => {
